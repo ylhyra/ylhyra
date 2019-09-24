@@ -1,0 +1,49 @@
+
+.writing-container
+  display flex
+  flex-direction column
+  height: 100%;
+  > .top
+    flex 1
+    display flex
+    align-items: center;
+    justify-content: center;
+
+
+.small-instructions
+    color: #868686
+    font-size 11px
+    line-height 1.2
+    font-weight normal
+    &.center
+      text-align center
+
+  .write-textbox
+    font-size inherit
+    font-weight inherit
+    background none
+    outline none
+    border none
+    border-bottom 2px solid #afbfd0
+    text-align center
+    &:active, &:focus
+      border-color #2673c3
+    &[readonly]
+      border none
+  small
+    font-size 12px
+    font-weight normal
+    &.correct
+      color #38a250
+
+.card.write, .card.listen-and-write
+  &.correct
+    border-color #70e746
+    box-shadow 0 0 0px 2px #70e746
+    border-radius 3px
+    background #f3faf0
+  &.incorrect
+    border-color #d6221f
+    box-shadow 0 0 0px 2px #d6221f
+    border-radius 3px
+    background #f5dfd9

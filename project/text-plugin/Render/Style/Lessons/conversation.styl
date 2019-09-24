@@ -1,0 +1,100 @@
+.card
+  background white
+  background #fdfdfd
+  color black
+  display flex
+  flex-direction column
+  // min-height 440px
+  width 100%
+  box-shadow 0 0 0px 1px rgba(0,0,0,0.13), 0 1px 1px 0 rgba(0,0,0,0.17)
+  border-radius 5px
+  overflow hidden
+  transition all 1s
+  max-width 400px
+  margin auto
+  margin-bottom 20px
+  // position relative
+
+.conversation
+  sans-serif()
+  flex 1
+  overflow hidden
+  font-size 14px
+  background white
+  > div
+    padding 12px 9px
+  .bubbles
+    flex 1
+    margin-bottom 6px
+  .bubble-container
+    display flex
+  .me, .them
+    padding 3px 0
+  .them
+    // display flex
+    .img
+      width 40px
+      height 40px
+      border-radius 30px
+      overflow hidden
+      background-position center
+      background-size cover
+    .bubbles
+      margin-left 6px
+    .bubble-container
+      .bubble
+        border-top-right-radius 16px
+        border-bottom-right-radius 16px
+      &:first-of-type
+        .bubble
+          border-top-left-radius 16px
+      &:last-of-type
+        .bubble
+          border-bottom-left-radius 16px
+  .me
+    .bubble-container
+      flex-direction row-reverse
+      .bubble
+        border-top-left-radius 16px
+        border-bottom-left-radius 16px
+      &:first-of-type
+        .bubble
+          border-top-right-radius 16px
+      &:last-of-type
+        .bubble
+          border-bottom-right-radius 16px
+    .bubble
+      xbackground #4a90e2
+      background #407FFF
+      color white
+      // text-align right
+  .bubble
+    max-width 80%
+    background #eee
+    padding 6px 11px
+    margin-bottom 1px
+    line-height 16px
+
+
+.response
+  text-align center
+  border-top 1px solid #d6d6d6
+  background #f9f9f9
+  padding 30px
+  padding-top 18px
+  height 200px
+  display flex
+  // justify-content: center;
+  // align-items: center;
+  > div
+    width 100%
+  .answers-container
+    flex 1
+    display flex
+    flex-direction column
+
+
+
+.conversation.interactive
+  > div
+    flex 1

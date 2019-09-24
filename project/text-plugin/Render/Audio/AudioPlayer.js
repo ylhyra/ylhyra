@@ -1,0 +1,174 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { connect, Provider } from 'react-redux'
+import { ReadAlong, ReadAlongSetup } from './ReadAlong'
+import SmoothScroll from './Scroll/SmoothScroll'
+import store from 'App/store'
+require('./KeyboardListener')
+let timer
+
+/*
+  INITIALIZE
+*/
+export const initAudio = () => {
+  const elements = document.querySelectorAll('[audio-id] .audioContainer:not([initialized])')
+  elements && elements.forEach((e) => {
+    const audioId = e.dataset.id
+    const inline = e.dataset.inline
+    const src = e.dataset.src
+    if (e.dataset.synchronizationList) {
+      const syncList = JSON.parse(e.dataset.synchronizationList)
+      ReadAlongSetup(audioId, syncList)
+    }
+    ReactDOM.render(<Provider store={store}><AudioPlayer audioId={audioId} inline={inline} src={src}/></Provider>, e)
+    e.setAttribute('data-synchronization-list', '')
+    e.setAttribute('initialized', 'true')
+    e.classList.add((inline ? 'small' : 'large'))
+  })
+}
+
+@connect(state => ({
+  audio: state.audio,
+}))
+export class AudioPlayer extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.audio = React.createRef()
+    this.state = {
+      playing: null,
+      currentTimePercentage: 0,
+    }
+  }
+  componentDidMount = () => {}
+  componentDidUpdate = (prevProps) => {
+    const { audio } = this.refs
+    /* Pause if another audio element has taken over */
+    if (this.props.audio.currentlyPlaying !== this.props.audioId) {
+      this.setState({ playing: false })
+      audio.pause()
+    } else if (this.props.audio.begin !== prevProps.audio.begin) {
+      if (this.props.audio.end === null) {
+        timer && clearTimeout(timer)
+        this.setState({ stopAt: null })
+      } else {
+        console.log(this.props.audio.begin)
+        audio.currentTime = this.props.audio.begin
+        audio.play()
+        this.setState({ stopAt: this.props.audio.end - 0.05 })
+      }
+    }
+  }
+  pausePlayButton = () => {
+    const { audio } = this.refs
+    if(audio.duration - audio.currentTime < 0.3) {
+      audio.currentTime = 0
+    }
+    if (audio.paused || audio.currentTime === 0) {
+      audio.play()
+      this.setState({
+        playing: true,
+        stopAt: null,
+      })
+      this.updateStore()
+    } else {
+      audio.pause()
+      this.setState({
+        playing: false,
+        stopAt: null,
+      })
+    }
+  }
+  playing = (event) => {
+    const { audio } = this.refs
+    event.persist()
+    ReadAlong(audio, 'play', this.props.audioId)
+    if (audio.duration - audio.currentTime > 0.2) { // More than 0.1 seconds left
+      this.setState({
+        currentTimePercentage: (audio.currentTime / audio.duration) * 100
+      })
+    } else {
+      this.setState({
+        currentTimePercentage: 0
+      })
+    }
+    this.updateStore()
+    this.setState({ playing: true })
+    if (this.state.stopAt) {
+      timer && clearTimeout(timer)
+      timer = setTimeout(() => {
+        audio.pause()
+        this.setState({
+          playing: false,
+          stopAt: null,
+        })
+      }, (this.state.stopAt - audio.currentTime) * 1000)
+    }
+  }
+  play = (event) => {
+    event.persist()
+    SmoothScroll.allow()
+    ReadAlong(this.refs.audio, 'play', this.props.audioId)
+    this.updateStore()
+    this.setState({ playing: true })
+  }
+  pause = (event) => {
+    event.persist()
+    SmoothScroll.stop()
+    ReadAlong(this.refs.audio, 'pause', this.props.audioId)
+    this.setState({ playing: false })
+  }
+  ended = () => {
+    // const { audio } = this.refs
+    // audio.pause()
+    this.setState({
+      currentTimePercentage: 0,
+      playing: false
+    })
+    this.setState({ playing: false })
+  }
+  updateStore = () => {
+    this.props.audio.currentlyPlaying !== this.props.audioId && store.dispatch({
+      type: 'CURRENTLY_PLAYING',
+      content: this.props.audioId,
+    })
+  }
+  error = () => {
+    console.warn(`Audio file missing: ${this.props.src}`)
+    this.setState({
+      error: true,
+    })
+  }
+  render() {
+    const { playing, error, currentTimePercentage } = this.state
+    const { hidden } = this.props
+    return (
+      <div className={`${hidden ?'audioPlayer':'audioPlayer'} ${playing ? playing : ''} ${error ? 'error' : ''}`}>
+        <audio // controls
+          ref="audio"
+          onPlaying={this.playing}
+          onTimeUpdate={this.playing}
+          onPlay={this.play}
+          onPause={this.pause}
+          onCanPlay={this.canplay}
+          onError={this.error}
+          onEnded={this.ended}
+          onStalled={this.error}
+          >
+          <source
+            // src="asdf"
+            src={this.props.src}
+            type="audio/mp3"/>
+        </audio>
+        <div className={`button small playButton ${playing ? playing : ''}`} onClick={this.pausePlayButton}>
+          <span>{playing ? '❚❚ Pause' : '▶ Play'}</span>
+          <span className="percentage" style={{width:currentTimePercentage+'%'}}/>
+        </div>
+        {/* {(playing || currentTimePercentage !== 0) && (
+          <div className="button small" onClick={this.ended}>Reset</div>
+        )} */}
+        {this.state.loading && <div className="loader"/>}
+        {!this.props.inline && this.state.error && <div className="error"><span>Audio file missing.</span></div>}
+      </div>
+    )
+  }
+}

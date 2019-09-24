@@ -1,0 +1,21 @@
+.audioPlayer
+  display flex
+  &.error
+    display none
+  .playButton
+    position relative
+    .percentage
+      background rgba(#f4796c,0.25)
+      height 100%
+      left 0
+      top 0
+      position absolute
+
+.audioContainer.small
+  display inline-block
+  margin-right 6px
+  margin-left -4px
+
+.audioContainer
+  &[data-inline]
+    display none

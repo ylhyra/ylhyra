@@ -1,0 +1,59 @@
+{
+  "_from": "html2json",
+  "_id": "html2json@1.0.2",
+  "_inBundle": false,
+  "_integrity": "sha1-ydbSAvplQCOGwgKzRc9RvOgO0e8=",
+  "_location": "/html2json",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "html2json",
+    "name": "html2json",
+    "escapedName": "html2json",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/html2json/-/html2json-1.0.2.tgz",
+  "_shasum": "c9d6d202fa65402386c202b345cf51bce80ed1ef",
+  "_spec": "html2json",
+  "_where": "/Users/egill/Desktop/Punktur",
+  "author": {
+    "name": "Jxck"
+  },
+  "bugs": {
+    "url": "https://github.com/jxck/html2json/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "html to json & json to html",
+  "devDependencies": {
+    "eslint": "^2.6.0",
+    "mocha": "^2.4.5"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "homepage": "https://github.com/jxck/html2json#readme",
+  "keywords": [
+    "html",
+    "json"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "html2json",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jxck/html2json.git"
+  },
+  "scripts": {
+    "lint": "eslint -c .eslintrc.js src test bench",
+    "test": "mocha"
+  },
+  "version": "1.0.2"
+}
