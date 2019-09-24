@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 import query from 'common/database/tagger'
-import DownloadFromGithub from 'tagger/server/api/projects/DownloadFromGithub'
+import DownloadFromGithub from 'server/api/projects/DownloadFromGithub'
 
 // // Read all
 // router.get('/documents', (req, res) => {

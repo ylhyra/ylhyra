@@ -14,13 +14,13 @@ NO_COLOR="\033[0m"
 DOES_DATABASE_EXIST=`mysqlshow -u root | grep punktur`
 if [ "$DOES_DATABASE_EXIST" == "" ]; then
   mysql -u root -p --execute "CREATE DATABASE IF NOT EXISTS punktur;"
-  mysql -u root -p -D punktur < ${BASH_SOURCE%/*}/../../../project/tagger/server/settings/database.sql
+  mysql -u root -p -D punktur < ${BASH_SOURCE%/*}/../../../project/server/settings/database.sql
   echo -e "${RED}Created database 'punktur'.${RED}"
 else
   echo -e "${YELLOW}The database 'punktur' already exists. Do you want to reset it?${NO_COLOR}"
   read -p "[y/n] " input
   if [[ $input == "Y" || $input == "y" ]]; then
-    mysql -u root -p -D punktur < ${BASH_SOURCE%/*}/../../../project/tagger/server/settings/database.sql
+    mysql -u root -p -D punktur < ${BASH_SOURCE%/*}/../../../project/server/settings/database.sql
   fi
 fi
 

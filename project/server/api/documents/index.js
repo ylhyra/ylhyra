@@ -4,7 +4,7 @@ import query from 'common/database/tagger'
 import getParameters from 'common/database/functions/getParameters'
 // const LZUTF8 = require('lzutf8')
 // console.log(LZUTF8.compress(``, { outputEncoding: 'Base64' }))
-import SaveTranslator from 'tagger/server/api/translate/translator/SaveTranslations'
+import SaveTranslator from 'server/api/translate/translator/SaveTranslations'
 
 // Read all
 router.get('/documents', (req, res) => {

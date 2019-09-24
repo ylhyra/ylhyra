@@ -6,7 +6,7 @@ import zip from 'express-zip'
 // import TextCompiler, { WrapInHTML } from 'Editor/5-Compiler/'
 import YAML from 'yamljs'
 import { minify } from 'html-minifier'
-import UploadFileToGit from 'tagger/server/api/projects/UploadFileToGit'
+import UploadFileToGit from 'server/api/projects/UploadFileToGit'
 import WrapInHTML from 'Editor/5-Compiler/WrapInHTML'
 
 router.get([

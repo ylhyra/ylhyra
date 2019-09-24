@@ -1,7 +1,7 @@
 import store from 'App/store'
 import { getText } from 'Editor/2-Parse/2.1-Parse/RawText'
 import { getTextFromTokenized } from 'Editor/2-Parse/2.3-WrapInTags/1-InsertSplit.js'
-import hash from 'project/tagger/frontend/src/App/functions/hash'
+import hash from 'project/text-plugin/App/functions/hash'
 
 /*
   Finds the IDs of audio sections and

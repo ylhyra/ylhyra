@@ -1,8 +1,8 @@
-import default_tokenizer from 'tagger/server/api/translate/tokenizer/default-tokenizer'
-// import icelandic from 'tagger/server/api/translate/tokenizer/icelandic'
+import default_tokenizer from 'server/api/translate/tokenizer/default-tokenizer'
+// import icelandic from 'server/api/translate/tokenizer/icelandic'
 // import CreateIDs from './create-ids'
 // import List from './list'
-require('project/tagger/frontend/src/App/functions/array-foreach-async')
+require('project/text-plugin/App/functions/array-foreach-async')
 
 const Tokenize = async ({ lang, paragraphs }, callback) => {
   let output_paragraphs = []

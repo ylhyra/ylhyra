@@ -46,19 +46,19 @@ app.use(session({
   },
 }))
 
-app.use('/api', require('tagger/server/api/projects').default)
-app.use('/api', require('tagger/server/api/documents').default)
-app.use('/api', require('tagger/server/api/documents/Embed').default)
-app.use('/api', require('tagger/server/api/translate').default)
-app.use('/api', require('tagger/server/api/audio').default)
-app.use('/api', require('tagger/server/api/audio/recorder').default)
-app.use('/api', require('tagger/server/api/audio/Upload').default)
-app.use('/api', require('tagger/server/api/audio/Synchronize').default)
-app.use('/api', require('tagger/server/api/users').default)
+app.use('/api', require('server/api/projects').default)
+app.use('/api', require('server/api/documents').default)
+app.use('/api', require('server/api/documents/Embed').default)
+app.use('/api', require('server/api/translate').default)
+app.use('/api', require('server/api/audio').default)
+app.use('/api', require('server/api/audio/recorder').default)
+app.use('/api', require('server/api/audio/Upload').default)
+app.use('/api', require('server/api/audio/Synchronize').default)
+app.use('/api', require('server/api/users').default)
 
 // app.use('/mp3', express.static(path.resolve(__dirname + '/../../assets/audio')))
 app.use('/media', express.static(upload_path))
-app.use('/static', express.static(path.resolve(__dirname + '/../../project/tagger/frontend/build/static')))
+app.use('/static', express.static(path.resolve(__dirname + '/../../project/text-plugin/build/static')))
 
 
 // get the intended host and port number, use localhost and port 3000 if not provided

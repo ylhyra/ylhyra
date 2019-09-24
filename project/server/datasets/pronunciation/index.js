@@ -11,7 +11,7 @@
 import query from 'common/database/tagger'
 import _ from 'underscore'
 const wordRegex = /([A-zÀ-ÿ·-]+)/g
-require('project/tagger/frontend/src/App/functions/array-foreach-async')
+require('project/text-plugin/App/functions/array-foreach-async')
 
 const IPA_to_English = [
   ['ji', 'yi'],

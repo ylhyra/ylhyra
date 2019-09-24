@@ -37,6 +37,6 @@ DOES_DATABASE_EXIST=`mysqlshow -u root -p | grep punktur`
 if [ "$DOES_DATABASE_EXIST" == "" ]; then
   echo -e "${YELLOW}Creating database${NO_COLOR}"
   mysql -u root -p --execute "CREATE DATABASE IF NOT EXISTS punktur;"
-  mysql -u root -p -D punktur < ${BASH_SOURCE%/*}/../../../project/tagger/server/settings/database.sql
+  mysql -u root -p -D punktur < ${BASH_SOURCE%/*}/../../../project/server/settings/database.sql
   echo -e "${RED}Created database 'punktur'.${RED}"
 fi

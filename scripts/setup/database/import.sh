@@ -22,4 +22,4 @@
 
 
 
-# source /home/egill/punktur/project/tagger/server/datasets/sounds/icelandic/islex_sound_library.sql
+# source /home/egill/punktur/project/server/datasets/sounds/icelandic/islex_sound_library.sql
