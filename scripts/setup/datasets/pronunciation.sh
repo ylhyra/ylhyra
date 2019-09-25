@@ -7,4 +7,4 @@
 #
 #
 
-# curl -o ${BASH_SOURCE%/*}/Pronunciation.csv.zip https://punktur.is/files/datasets/Pronunciation.csv.zip
+# curl -o ${BASH_SOURCE%/*}/Pronunciation.csv.zip https://ylhyra.is/files/datasets/Pronunciation.csv.zip

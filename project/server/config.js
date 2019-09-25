@@ -1,6 +1,6 @@
 import path from 'path'
 
-export const url = process.env.NODE_ENV === 'production' ? 'https://punktur.egill.xyz/' : 'http://localhost:8000/'
+export const url = process.env.NODE_ENV === 'production' ? 'https://ylhyra.egill.xyz/' : 'http://localhost:8000/'
 export const login_url = url + 'login'
 
 export const upload_path = path.resolve(__dirname, 'uploads')

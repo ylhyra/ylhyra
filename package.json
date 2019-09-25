@@ -1,27 +1,27 @@
 {
-  "name": "punktur",
+  "name": "ylhyra",
   "version": "0.1.3",
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git://github.com/egilll/punktur.git"
+    "url": "git://github.com/egilll/ylhyra.git"
   },
   "license": "MIT",
   "private": false,
   "homepage": "",
   "scripts": {
-    "analyze": "source-map-explorer build/punktur/static/js/punktur.js",
+    "analyze": "source-map-explorer build/ylhyra/static/js/ylhyra.js",
     "setup": "./scripts/setup/development.sh",
     "setup:production": "./scripts/setup/production.sh",
     "database": "./scripts/setup/database/create.sh",
     "database:import": "./scripts/setup/database/import.sh",
     "database:start": "./scripts/setup/database/start.sh",
     "start": "export PORT=8000 && node ./scripts/webpack/utils/start.js",
-    "build": "export NODE_ENV=production && ./scripts/webpack/utils/build.js",
+    "build": "export NODE_ENV=production && node ./scripts/webpack/utils/build.js",
     "populate_database": "node project/server/datasets/pronunciation/data/InsertToDatabase.js",
     "update-packages": "npm-check-updates -u && npm update",
     "server:build": "webpack --config scripts/webpack/server.config.js --color",
-    "server:tagger": "nodemon --watch 'project/server/' --watch 'project/common/' --ignore 'project/server/sessions/'  --ignore 'project/server/uploads/'  --verbose --exec 'npm run server:build && (killall -SIGINT punktur || true && node ./build/tagger_server.js punktur)'"
+    "server:tagger": "nodemon --watch 'project/server/' --watch 'project/common/' --ignore 'project/server/sessions/'  --ignore 'project/server/uploads/'  --verbose --exec 'npm run server:build && (killall -SIGINT ylhyra || true && node ./build/tagger_server.js ylhyra)'"
   },
   "dependencies": {
     "@babel/core": "^7.1.5",

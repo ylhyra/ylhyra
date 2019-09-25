@@ -22,7 +22,7 @@ export default function showWord(id) {
   }
 
   const { top, left } = FindAGoodPositionForTooltip({
-    relative: tooltip.closest('.punktur-text').getBoundingClientRect(), // The text container will have "position:relative"
+    relative: tooltip.closest('.ylhyra-text').getBoundingClientRect(), // The text container will have "position:relative"
     tooltip: tooltip.getBoundingClientRect(),
     sentence: element.getBoundingClientRect(),
     // sentence_multiple_lines: this.props.clientRects || null

@@ -7,7 +7,7 @@ import { getScrollingElement } from 'helpers.js'
 
 export const showSentence = (id) => {
   document.body.classList && document.body.classList.add('sentence-shown')
-  const relative = document.querySelector('.punktur-text').getBoundingClientRect()
+  const relative = document.querySelector('.ylhyra-text').getBoundingClientRect()
   // ReadAlongSingleSentence(id)
 
   /*

@@ -24,7 +24,7 @@ module.exports = {
   babelPaths: resolve('project/'),
   entry: {
     /*
-      Punktur - text-plugin
+      ylhyra - text-plugin
     */
     app: [
       ...DevelopmentOnly,

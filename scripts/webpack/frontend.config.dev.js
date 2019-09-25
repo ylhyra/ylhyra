@@ -21,8 +21,8 @@ module.exports = {
   entry: paths.entry,
   output: {
     pathinfo: true,
-    filename: 'static/js/[name].js',
-    chunkFilename: 'static/js/[name].chunk.js',
+    filename: '[name].js',
+    chunkFilename: '[name].chunk.js',
     publicPath: publicPath,
     devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
@@ -122,7 +122,7 @@ module.exports = {
     // new HtmlWebpackPlugin({
     //   inject: true,
     //   template: paths.htmlFile,
-    //   excludeAssets: [/punktur.js/],
+    //   excludeAssets: [/ylhyra.js/],
     // }),
     // new HtmlWebpackExcludeAssetsPlugin(),
     new webpack.NamedModulesPlugin(),

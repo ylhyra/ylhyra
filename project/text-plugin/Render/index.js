@@ -7,7 +7,7 @@ import Traverse from './Traverse'
 const Render = (parsed) => {
   ReactDOM.render(
     <Provider store={store}>
-      <div className="punktur-text">
+      <div className="ylhyra-text">
         {Traverse(parsed)}
         <div id="overlay"></div>
       </div>

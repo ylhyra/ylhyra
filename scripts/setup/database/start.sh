@@ -32,11 +32,11 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   fi
 fi
 
-# Create database: punktur
-DOES_DATABASE_EXIST=`mysqlshow -u root -p | grep punktur`
+# Create database: ylhyra
+DOES_DATABASE_EXIST=`mysqlshow -u root -p | grep ylhyra`
 if [ "$DOES_DATABASE_EXIST" == "" ]; then
   echo -e "${YELLOW}Creating database${NO_COLOR}"
-  mysql -u root -p --execute "CREATE DATABASE IF NOT EXISTS punktur;"
-  mysql -u root -p -D punktur < ${BASH_SOURCE%/*}/../../../project/server/settings/database.sql
-  echo -e "${RED}Created database 'punktur'.${RED}"
+  mysql -u root -p --execute "CREATE DATABASE IF NOT EXISTS ylhyra;"
+  mysql -u root -p -D ylhyra < ${BASH_SOURCE%/*}/../../../project/server/settings/database.sql
+  echo -e "${RED}Created database 'ylhyra'.${RED}"
 fi

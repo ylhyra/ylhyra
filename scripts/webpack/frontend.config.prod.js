@@ -35,7 +35,7 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 }
 
 // Note: defined here because it will be used more than once.
-const cssFilename = 'static/css/[name].[contenthash:8].css'
+const cssFilename = '[name].[contenthash:8].css'
 
 // // ExtractTextPlugin expects the build output to be flat.
 // // (See https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/27)
@@ -51,8 +51,8 @@ module.exports = {
   entry: paths.entry,
   output: {
     path: paths.buildFolder,
-    filename: `static/js/[name].js`,
-    chunkFilename: `static/js/[name].[chunkhash:8].chunk.js`,
+    filename: `[name].js`,
+    chunkFilename: `[name].[chunkhash:8].chunk.js`,
     publicPath: publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
@@ -225,26 +225,26 @@ module.exports = {
     ],
   },
   plugins: [
-    new InterpolateHtmlPlugin(env.raw),
-    new HtmlWebpackPlugin({
-      inject: true,
-      hash: true,
-      template: paths.htmlFile,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true,
-      },
-      excludeAssets: [/punktur.js/],
-    }),
-    new HtmlWebpackExcludeAssetsPlugin(),
+    // new InterpolateHtmlPlugin(env.raw),
+    // new HtmlWebpackPlugin({
+    //   inject: true,
+    //   hash: true,
+    //   template: paths.htmlFile,
+    //   minify: {
+    //     removeComments: true,
+    //     collapseWhitespace: true,
+    //     removeRedundantAttributes: true,
+    //     useShortDoctype: true,
+    //     removeEmptyAttributes: true,
+    //     removeStyleLinkTypeAttributes: true,
+    //     keepClosingSlash: true,
+    //     minifyJS: true,
+    //     minifyCSS: true,
+    //     minifyURLs: true,
+    //   },
+    //   excludeAssets: [/ylhyra.js/],
+    // }),
+    // new HtmlWebpackExcludeAssetsPlugin(),
     new webpack.DefinePlugin(env.stringified),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -263,32 +263,32 @@ module.exports = {
     new ExtractTextPlugin({
       filename: cssFilename,
     }),
-    new ManifestPlugin({
-      fileName: 'asset-manifest.json',
-    }),
-    new SWPrecacheWebpackPlugin({
-      dontCacheBustUrlsMatching: /\.\w{8}\./,
-      filename: 'service-worker.js',
-      logger(message) {
-        if (message.indexOf('Total precache size is') === 0) {
-          return
-        }
-        if (message.indexOf('Skipping static resource') === 0) {
-          // This message obscures real errors so we ignore it.
-          // https://github.com/facebookincubator/create-react-app/issues/2612
-          return
-        }
-        console.log(message)
-      },
-      minify: true,
-      // For unknown URLs, fallback to the index page
-      navigateFallback: publicUrl + '/index.html',
-      // Ignores URLs starting from /__ (useful for Firebase):
-      // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
-      navigateFallbackWhitelist: [/^(?!\/__).*/],
-      // Don't precache sourcemaps (they're large) and build asset manifest:
-      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
-    }),
+    // new ManifestPlugin({
+    //   fileName: 'asset-manifest.json',
+    // }),
+    // new SWPrecacheWebpackPlugin({
+    //   dontCacheBustUrlsMatching: /\.\w{8}\./,
+    //   filename: 'service-worker.js',
+    //   logger(message) {
+    //     if (message && message.indexOf('Total precache size is') === 0) {
+    //       return
+    //     }
+    //     if (message && message.indexOf('Skipping static resource') === 0) {
+    //       // This message obscures real errors so we ignore it.
+    //       // https://github.com/facebookincubator/create-react-app/issues/2612
+    //       return
+    //     }
+    //     console.log(message)
+    //   },
+    //   minify: true,
+    //   // // For unknown URLs, fallback to the index page
+    //   // navigateFallback: publicUrl + '/index.html',
+    //   // Ignores URLs starting from /__ (useful for Firebase):
+    //   // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
+    //   navigateFallbackWhitelist: [/^(?!\/__).*/],
+    //   // Don't precache sourcemaps (they're large) and build asset manifest:
+    //   staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+    // }),
 
 
 

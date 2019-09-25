@@ -10,17 +10,17 @@ NO_COLOR="\033[0m"
 # ${BASH_SOURCE%/*}/start.sh
 
 
-# Create database: punktur
-DOES_DATABASE_EXIST=`mysqlshow -u root | grep punktur`
+# Create database: ylhyra
+DOES_DATABASE_EXIST=`mysqlshow -u root | grep ylhyra`
 if [ "$DOES_DATABASE_EXIST" == "" ]; then
-  mysql -u root -p --execute "CREATE DATABASE IF NOT EXISTS punktur;"
-  mysql -u root -p -D punktur < ${BASH_SOURCE%/*}/../../../project/server/settings/database.sql
-  echo -e "${RED}Created database 'punktur'.${RED}"
+  mysql -u root -p --execute "CREATE DATABASE IF NOT EXISTS ylhyra;"
+  mysql -u root -p -D ylhyra < ${BASH_SOURCE%/*}/../../../project/server/settings/database.sql
+  echo -e "${RED}Created database 'ylhyra'.${RED}"
 else
-  echo -e "${YELLOW}The database 'punktur' already exists. Do you want to reset it?${NO_COLOR}"
+  echo -e "${YELLOW}The database 'ylhyra' already exists. Do you want to reset it?${NO_COLOR}"
   read -p "[y/n] " input
   if [[ $input == "Y" || $input == "y" ]]; then
-    mysql -u root -p -D punktur < ${BASH_SOURCE%/*}/../../../project/server/settings/database.sql
+    mysql -u root -p -D ylhyra < ${BASH_SOURCE%/*}/../../../project/server/settings/database.sql
   fi
 fi
 

@@ -1,37 +1,83 @@
+$max-width = 560px
 #container
   display flex
-  flex-direction row-reverse
+  // flex-direction row-reverse
+  flex-direction column
   min-height 100vh
-  #sidebar
-    background #0A1029
-    color white
-    font-size small
-    padding 1em 2em
-    a
-      color white
-    h5
-      font inherit
-      font-size normal
-      font-weight bold
-      margin 1em 0 0 0
-    .portal
-      list-style none
-      margin 0
-      padding 0
-  #content
-    flex 1
+
+#sidebar
+  background: #efefef;
+  border-top: 1px solid gainsboro;
+  font-size: small;
+  padding: 1em 2em;
+  font-size small
+  padding 1em 2em
+  > div
     display flex
-    flex-direction column
-    #mw-content-text
+    max-width $max-width
+    margin auto
+    > div
       flex 1
+  // a
+  //   color white
+  h5
+    font inherit
+    font-size normal
+    font-weight bold
+    margin 1em 0 0 0
+  .portal
+    list-style none
+    margin 0
+    padding 0
 
 #content
-  font-size: 17px;
+  // font-size: 17px;
   line-height: 1.37;
-  max-width 520px
+  width 100%
+  max-width $max-width
   padding 0 30px
   margin auto
-  min-height: 100vh;
-  .mw-parser-output
-    > *:not(h2):not(h3):not(h4):not(h5):not(h6)
-      font-family: Times New Roman;
+  flex 1
+  display flex
+  flex-direction column
+  #mw-content-text
+    flex 1
+
+#actions
+  position: absolute;
+  right: 0;
+  font-size small
+  list-style none
+  margin 0 10px
+  li
+    margin-bottom 0
+    text-align right
+    &.selected
+      a
+        color #333
+
+
+header
+  background #0A1029
+  height 60px
+  > div
+    max-width $max-width
+    margin auto
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding 0 30px
+    height: 100%;
+    #logo
+      background url("https://ylhyra.is/images/5/5c/Ylhyra_logo.svg")
+      background-size 89px 29px
+      width 89px
+      height 29px
+      display: block;
+    ul
+      li
+        display inline-block
+        margin 0
+        margin-left 20px
+        a
+          color white

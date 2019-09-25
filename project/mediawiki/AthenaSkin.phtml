@@ -5,27 +5,26 @@
 ?>
 <?php $this->html( 'headelement' ); ?>
 
+<header>
+	<div>
+		<a href="/" id="logo"></a>
+		<ul>
+			<li><a href="/Ylhýra">Course</a></li>
+			<li><a href="/Project:Ylhýra">Project</a></li>
+		</ul>
+	</div>
+</header>
+
+
 <div id="mw-js-message"></div>
 <?php if ( $this->data['newtalk'] ): ?><div class="usermessage"><?php $this->html( 'newtalk' ); ?></div><?php endif; ?>
 <?php if ( $this->data['sitenotice'] ): ?><div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div><?php endif; ?>
 
 <div id="container">
 <div id="content">
-
-	<ul id="actions">
-
-		<?php
-		foreach ( $this->data['content_navigation']['namespaces'] as $key => $item ) {
-			echo $this->makeListItem( $key, $item, [
-				'vector-wrap' => true,
-			] );
-		}
-		?>
-
-	<?php foreach ( $this->getActions() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
-	</ul>
-
-	<h1 id="title"><?php $this->html( 'title' ); ?></h1>
+	<h1 id="title">
+		<?php $this->html( 'title' ); ?>
+	</h1>
 
 	<?php if ( $this->data['subtitle'] ): ?>
 	<div id="subtitle"><?php $this->html( 'subtitle' ) ?></div>
@@ -49,35 +48,46 @@
 
 	<?php /*echo $this->getFooter();*/ ?>
 
+	<ul id="actions">
+		<?php
+		foreach ( $this->data['content_navigation']['namespaces'] as $key => $item ) {
+			echo $this->makeListItem( $key, $item, [
+				'vector-wrap' => true,
+			] );
+		}
+		?>
+		<?php foreach ( $this->getActions() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
+	</ul>
+
 	<?php $this->html( 'debughtml' ); ?>
 
 </div>
 
 <div id="sidebar">
+	<div>
+		<div>
+			<form id="search-form" action="<?php $this->text( 'wgScript' ); ?>">
+				<?php echo $this->makeSearchInput( array( 'type' => 'text', 'id' => 'search-field', 'placeholder' => wfMessage( 'athena-search' ), 'autofocus' => false ) ); ?><button><img src="<?php global $wgStylePath; echo $wgStylePath; ?>/Athena/images/lens.png"></button>
+				<input type="hidden" name="title" value="<?php $this->text( 'searchtitle' ) ?>" />
+			</form>
 
-	<a href="<?php echo htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ); ?>" <?php echo Xml::expandAttributes( Linker::tooltipAndAccesskeyAttribs( 'p-logo' ) ); ?>>
-		<img src="<?php $this->text( 'logopath' ); ?>" alt="<?php $this->text( 'sitename' ) ?>">
-	</a>
-
-	<form id="search-form" action="<?php $this->text( 'wgScript' ); ?>">
-		<?php echo $this->makeSearchInput( array( 'type' => 'text', 'id' => 'search-field', 'placeholder' => wfMessage( 'athena-search' ), 'autofocus' => false ) ); ?><button><img src="<?php global $wgStylePath; echo $wgStylePath; ?>/Athena/images/lens.png"></button>
-		<input type="hidden" name="title" value="<?php $this->text( 'searchtitle' ) ?>" />
-	</form>
-
-	<ul class="portal">
-	<?php foreach ( $this->data['sidebar']['navigation'] as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
-	</ul>
-
-	<h5><?php echo wfMessage( 'athena-personal' ); ?></h5>
-	<ul class="portal">
-	<?php foreach ( $this->getPersonalTools() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
-	</ul>
-
-	<h5><?php echo wfMessage( 'athena-tools' ); ?></h5>
-	<ul class="portal">
-	<?php foreach ( $this->getToolbox() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
-	</ul>
-
+			<ul class="portal">
+			<?php foreach ( $this->data['sidebar']['navigation'] as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
+			</ul>
+		</div>
+		<div>
+			<h5><?php echo wfMessage( 'athena-personal' ); ?></h5>
+			<ul class="portal">
+			<?php foreach ( $this->getPersonalTools() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
+			</ul>
+		</div>
+		<div>
+			<h5><?php echo wfMessage( 'athena-tools' ); ?></h5>
+			<ul class="portal">
+			<?php foreach ( $this->getToolbox() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
+			</ul>
+		</div>
+	</div>
 </div>
 </div>
 

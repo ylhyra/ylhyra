@@ -154,6 +154,6 @@ router.get([
     })
 })
 
-const WithVersion = (input) => input.replace(/\/punktur\.js/g, '/punktur.js?v=' + (process.env.npm_package_version || ''))
+const WithVersion = (input) => input.replace(/\/ylhyra\.js/g, '/ylhyra.js?v=' + (process.env.npm_package_version || ''))
 
 export default router;

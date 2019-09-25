@@ -1,5 +1,5 @@
 // /*
-//   PUNKTUR - Plugin for reading annotated texts
+//   ylhyra - Plugin for reading annotated texts
 // */
 //
 // import Render from 'text-plugin/Render'
