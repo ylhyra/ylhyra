@@ -41,7 +41,7 @@ export const title = mw.config.get('wgTitle')
 export const namespaceNumber = mw.config.get('wgNamespaceNumber')
 export const shouldRender = (title && namespaceNumber === 0)
 
-import Editor from 'Editor'
+// import Editor from 'Editor'
 import Parse from 'text-plugin/Parse'
 import Render from 'text-plugin/Render'
 
@@ -55,7 +55,7 @@ $(document).ready(() => {
     Render(parsed)
     console.timeEnd('parsing')
     window.initialized = true
-    Editor()
+    // Editor()
     setTimeout(()=>{
       fix_inline_translations()
     },200)

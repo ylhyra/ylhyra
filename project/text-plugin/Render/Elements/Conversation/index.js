@@ -2,110 +2,26 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import store from 'App/store'
-import Answers from './Answers'
-import { AudioPlayer } from 'text-plugin/Audio/AudioPlayer'
-import { ReadAlongSetup, ReadAlongMessage } from 'text-plugin/Audio/ReadAlong'
+// import Answers from './Answers'
+// import { AudioPlayer } from 'text-plugin/Audio/AudioPlayer'
+// import { ReadAlongSetup, ReadAlongMessage } from 'text-plugin/Audio/ReadAlong'
 require('array-sugar')
 
 class Conversation extends React.Component {
   constructor(props) {
     super(props);
-    /*
-      TEMP
-      TODO:
-      Merge this init step with the general Audio-init
-    */
-    let audioId, inline, src
-    const e = this.props.audio
-    if (e) {
-      audioId = e.dataset.id
-      inline = e.dataset.inline
-      src = e.dataset.src
-      if (e.dataset.synchronizationList) {
-        const syncList = JSON.parse(e.dataset.synchronizationList)
-        ReadAlongSetup(audioId, syncList)
-      }
-      this.audioId= audioId
-    }
-
-    const isInteractive = this.props.conversation.findIndex(i => i.type === 'answers') > -1
-
-    //TEMP
     this.state = {
-      answers: null,
-      howManyToShow: isInteractive ? 0 : 1000,
-      audioId,
-      inline,
-      isInteractive,
-      src,
     }
-  }
-  componentDidMount = () => {
-    if (this.state.isInteractive) {
-      console.log('DID MOUNT')
-      this.next()
-    }
-  }
-  componentDidUpdate = (prevProps, prevState, snapshot) => {
-    if (!this.state.isInteractive) return;
-    if (prevState.howManyToShow !== this.state.howManyToShow) {
-      const last = this.props.conversation.slice(0, this.state.howManyToShow).last || {}
-      if (last.type === 'answers') {
-        this.setState({
-          answers: last,
-        })
-      } else {
-        setTimeout(() => {
-          this.checkIfWeShouldGoToTheNext()
-        }, 1000)
-        if(this.audioId) {
-          ReadAlongMessage(last.message, this.audioId)
-        }
-      }
-    }
-  }
-  checkIfWeShouldGoToTheNext = () => {
-    /* Need to check again outside of "componentDidUpdate" since it may have been updated since last time */
-    const last = this.props.conversation.slice(0, this.state.howManyToShow).last || {}
-    if (last.type !== 'answers' && this.state.howManyToShow < this.props.conversation.length) {
-      this.next()
-    }
-  }
-  submit = () => {
-    setTimeout(() => {
-      this.next()
-    }, 1000)
-    setTimeout(() => {
-      this.setState({ answers: null })
-    }, 1800)
-  }
-  next = () => {
-    this.setState({
-      howManyToShow: this.state.howManyToShow + 1,
-      done: this.state.howManyToShow + 1 >= this.props.conversation.length,
-    })
-  }
-  reset = () => {
-    this.setState({
-      howManyToShow: 0,
-      done: false,
-      answers: null,
-    })
-    setTimeout(() => {
-      this.next()
-    }, 200)
+    console.log(props.children)
   }
   render() {
-    // console.log(this.props.conversation)
-    // console.log(this.state.howManyToShow)
     const { conversation, id, section_id } = this.props
     const { audioId, inline, src, isInteractive, done } = this.state
-    // console.log(this.state.answers)
-    return <div className={`conversation ${isInteractive?'interactive':''}`} data-initialized>
+    return <div className={`conversation ${isInteractive?'interactive':''}`}>
       <div className={`conversationWindow`} data-initialized>
-        {audioId && <AudioPlayer audioId={audioId} inline={inline} src={src} hidden={isInteractive}/>}
+        {/* {audioId && <AudioPlayer audioId={audioId} inline={inline} src={src} hidden={isInteractive}/>} */}
 
-        {conversation.slice(0,this.state.howManyToShow)
+        {/* {conversation.slice(0,this.state.howManyToShow)
           .filter(element => element.type==='message')
           .map((element, index) => (
           <div key={index}>
@@ -117,7 +33,7 @@ class Conversation extends React.Component {
               </div>
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
 
       {/* Answers */}
