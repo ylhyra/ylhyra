@@ -41,6 +41,8 @@ export default function(html) {
     // console.log(json2html(json))
     // console.log(json)
     // console.log(JSON.stringify(json,null,2))
+    console.log(html)
+    console.log(json2html(json))
 
     /*
       Is data already saved?

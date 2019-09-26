@@ -1,1 +1,0 @@
-scp -P 2805 AthenaSkin.phtml root@ssh.egill.xyz:/home/egill/mediawiki/skins/Athena/Athena.phtml
