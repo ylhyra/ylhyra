@@ -34,16 +34,21 @@ export const ParseHTMLtoArray = (children) => {
     } else if (typeof input === 'object' || typeof input === 'function') {
       const name = input.props['data-name']
       const childrenType = input.props['data-children']
+      const from = input.props['data-from']
       if (childrenType === 'array') {
-        output.push(ParseHTMLtoArray(input.props.children))
+        output.push({
+          name,
+          children: ParseHTMLtoArray(input.props.children)
+        })
       } else if (childrenType === 'object') {
         output.push(ParseHTMLtoObject(input.props.children))
       } else if (name) {
-        output.push(input.props.children)
-        // output.push({
-        //   name,
-        //   children: input.props.children,
-        // })
+        // output.push(input.props.children)
+        output.push({
+          name,
+          from,
+          children: input.props.children,
+        })
       } else {
         Traverse(input.props.children)
       }

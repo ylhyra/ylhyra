@@ -9,12 +9,11 @@ import Prompt from 'Render/Elements/Vocabulary/elements/Prompt'
 class Element extends Component {
   render() {
     const { card, answer } = this.props
-    // console.log(card)
     return (
       <div>
         <Prompt card={card}/>
 
-        <Answers answer={answer} card={card} id={this.props.id} >
+        <Answers answer={answer} card={card} id={this.props.id} submitAnswer={this.props.submitAnswer}>
           {card.options && card.options.map(({icelandic, english}, index) => (
             <div key={index}>
               {card.from === 'en' && (

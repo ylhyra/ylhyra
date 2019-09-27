@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { submitAnswer } from 'Render/Elements/Vocabulary/actions'
 
 class Answers extends Component {
   render() {
-    const { children, vertical, answer, card } = this.props
+    const { children, vertical, answer, card, submitAnswer} = this.props
     const direction = vertical ? 'vertical' : 'horizontal'
     return (
       <div className={`answers ${direction}`}>
@@ -14,16 +13,15 @@ class Answers extends Component {
           const className = [
             'button-answer',
             direction,
-            // answer.answered && 'answered',
-            // answer.selected_index === index && 'selected',
-            // answer.answered && isThisTheCorrectAnswer ? 'correct' : 'incorrect'
+            answer.answered && 'answered',
+            answer.selected_index === index && 'selected',
+            answer.answered && isThisTheCorrectAnswer ? 'correct' : 'incorrect'
           ].filter(Boolean).join(' ')
 
           return (
             <div className={className} key={index} onClick={()=>submitAnswer({
               index,
               correct: isThisTheCorrectAnswer,
-              section_id: this.props.id,
              }) }>
               {choice}
             </div>

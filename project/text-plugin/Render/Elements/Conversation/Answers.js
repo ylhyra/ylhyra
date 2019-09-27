@@ -1,39 +1,33 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import store from 'App/store'
 
-@connect(state => ({
-  conversations: state.conversations,
-}))
 class Answers extends React.PureComponent {
   state = {}
   render() {
-    const { element } = this.props
-    if(!element || !element.answers) return null;
-    // console.log(element)
+    const { options, answer } = this.props
+    if(!options || !options.children) return null;
+    // console.log(options)
     return (
       <div className="answers-container">
-        {element.instructions && <div className="instructions">{element.instructions}</div>}
+        {options.instructions && <div className="instructions">{options.instructions}</div>}
         <div className="answers horizontal">
-          {element.answers.map((answer,index)=> {
+          {options.children.map((answer,index)=> {
 
             const className = [
               'button-answer',
               'horizontal',
-              this.state.answered && 'answered',
-              this.state.selected_index === index && 'selected',
-              this.state.answered && element.correctIndex === index ? 'correct' : 'incorrect'
+              answer.answered && 'answered',
+              answer.selected_index === index && 'selected',
+              answer.answered && options.correctIndex === index ? 'correct' : 'incorrect'
             ].filter(Boolean).join(' ')
 
             return (
               <div className={className} key={index} onClick={()=>{
-                if(this.state.answered) return;
-                this.setState({
-                  answered: true,
-                  selected_index: index,
+                if(this.props.answered) return;
+                this.props.submitAnswer({
+                  index,
                 })
-                this.props.submit()
               }}>
                 {answer}
               </div>
