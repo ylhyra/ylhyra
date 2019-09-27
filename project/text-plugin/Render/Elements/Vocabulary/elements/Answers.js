@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { submitAnswer } from 'text-plugin/Vocabulary/actions'
+import { submitAnswer } from 'Render/Elements/Vocabulary/actions'
 
 class Answers extends Component {
   render() {

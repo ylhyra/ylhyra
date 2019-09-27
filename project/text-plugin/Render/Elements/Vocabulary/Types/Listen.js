@@ -5,10 +5,10 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Answers from 'text-plugin/Vocabulary/elements/Answers';
+import Answers from 'Render/Elements/Vocabulary/elements/Answers';
 import styled from 'styled-components'
-import clean from 'text-plugin/Vocabulary/functions/clean'
-import Write from 'text-plugin/Vocabulary/functions/Write'
+import clean from 'Render/Elements/Vocabulary/functions/clean'
+import Write from 'Render/Elements/Vocabulary/functions/Write'
 
 const AudioIcon = styled.div `
   text-align: center;

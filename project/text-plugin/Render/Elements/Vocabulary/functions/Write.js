@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { submitAnswer } from 'text-plugin/Vocabulary/actions'
+import { submitAnswer } from 'Render/Elements/Vocabulary/actions'
 import store from 'App/store'
 let timer
 

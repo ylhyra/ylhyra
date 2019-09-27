@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import clean from 'text-plugin/Vocabulary/functions/clean'
-import Emoji from 'text-plugin/Vocabulary/Types/Gender'
+import clean from 'Render/Elements/Vocabulary/functions/clean'
+import Emoji from 'Render/Elements/Vocabulary/Types/Gender'
 
 export default ({ card, no_pronunciation, no_icons }) => {
   if (card.table) {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Answers from 'text-plugin/Vocabulary/elements/Answers'
-import Emoji from 'text-plugin/Vocabulary/elements/emoji'
-import Table from 'text-plugin/Vocabulary/elements/table'
-import clean from 'text-plugin/Vocabulary/functions/clean'
-import Prompt from 'text-plugin/Vocabulary/elements/Prompt'
+import Answers from 'Render/Elements/Vocabulary/elements/Answers'
+import Emoji from 'Render/Elements/Vocabulary/elements/emoji'
+import Table from 'Render/Elements/Vocabulary/elements/table'
+import clean from 'Render/Elements/Vocabulary/functions/clean'
+import Prompt from 'Render/Elements/Vocabulary/elements/Prompt'
 
 class Element extends Component {
   render() {

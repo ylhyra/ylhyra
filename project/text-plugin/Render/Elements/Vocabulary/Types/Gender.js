@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Answers from 'text-plugin/Vocabulary/elements/Answers';
-import { Word } from 'text-plugin/Vocabulary/Types/Multiple'
+import Answers from 'Render/Elements/Vocabulary/elements/Answers';
+import { Word } from 'Render/Elements/Vocabulary/Types/Multiple'
 import styled from 'styled-components'
-import Emoji from 'text-plugin/Vocabulary/elements/emoji'
+import Emoji from 'Render/Elements/Vocabulary/elements/emoji'
 
 const Button = styled.div `
   display: flex;

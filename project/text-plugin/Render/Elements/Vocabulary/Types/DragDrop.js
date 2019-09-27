@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore'
-import clean from 'text-plugin/Vocabulary/functions/clean'
-import { submitAnswer } from 'text-plugin/Vocabulary/actions'
+import clean from 'Render/Elements/Vocabulary/functions/clean'
+import { submitAnswer } from 'Render/Elements/Vocabulary/actions'
 
 class Element extends Component {
   state = {}

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Gender from 'text-plugin/Vocabulary/Types/Gender'
-import Multiple from 'text-plugin/Vocabulary/Types/Multiple'
-import Flashcard from 'text-plugin/Vocabulary/Types/Flashcard'
-import Write from 'text-plugin/Vocabulary/Types/Write'
-import DragDrop from 'text-plugin/Vocabulary/Types/DragDrop'
-import Listen from 'text-plugin/Vocabulary/Types/Listen'
+import Gender from 'Render/Elements/Vocabulary/Types/Gender'
+import Multiple from 'Render/Elements/Vocabulary/Types/Multiple'
+import Flashcard from 'Render/Elements/Vocabulary/Types/Flashcard'
+import Write from 'Render/Elements/Vocabulary/Types/Write'
+import DragDrop from 'Render/Elements/Vocabulary/Types/DragDrop'
+import Listen from 'Render/Elements/Vocabulary/Types/Listen'
 // import { sound } from 'vocabulary/frontend/src/Elements/Sound/actions'
-import { submitAnswer } from 'text-plugin/Vocabulary/actions'
+import { submitAnswer } from 'Render/Elements/Vocabulary/actions'
 
 class Card extends Component {
   state = {

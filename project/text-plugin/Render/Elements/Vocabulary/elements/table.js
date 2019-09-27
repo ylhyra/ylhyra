@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Emoji from 'text-plugin/Vocabulary/Types/Gender'
+import Emoji from 'Render/Elements/Vocabulary/Types/Gender'
 
 const border = '1px solid #dedede;'
 const radius = '3px'

@@ -6,38 +6,38 @@ import Card from './Card'
 import { start, close } from './actions'
 import Progress from './Progress'
 require('array-sugar')
-import { ParseConversationAndReturnElement } from 'text-plugin/Conversation/initialize.js'
 import _ from 'underscore'
+import { randomizeOptions } from './randomize'
 
-@connect(state => ({
-  open: state.vocabulary.open,
-}))
-export class VocabularyButton extends React.Component {
-  render() {
-    return (
-      <div className="vocabulary-container">
-        {/* <div className="button-container">
-          <div className="button blue" onClick={start}>Learn vocabulary</div>
-        </div>
-        {this.props.open && <Vocabulary id={this.props.id}/>} */}
-        <Vocabulary id={this.props.id}/>
-      </div>
-    )
-  }
-}
+// @connect(state => ({
+//   open: state.vocabulary.open,
+// }))
+// export class VocabularyButton extends React.Component {
+//   render() {
+//     return (
+//       <div className="vocabulary-container">
+//         {/* <div className="button-container">
+//           <div className="button blue" onClick={start}>Learn vocabulary</div>
+//         </div>
+//         {this.props.open && <Vocabulary id={this.props.id}/>} */}
+//         <Vocabulary id={this.props.id}/>
+//       </div>
+//     )
+//   }
+// }
 
 @connect((state, props) => {
-  const { id } = props
-  const { sections, progress, answers } = state.vocabulary
-  const cards = sections[id] || []
-  const currentCard = cards[progress[id] || 0]
-  // console.log({id,progress,currentCard})
-  return {
-    card: currentCard,
-    cardIndex: progress[id] || 0,
-    answer: answers[id] || {},
-    progress: progress[id]
-  }
+  // const { id } = props
+  // const { sections, progress, answers } = state.vocabulary
+  // const cards = sections[id] || []
+  // const currentCard = cards[progress[id] || 0]
+  // // console.log({id,progress,currentCard})
+  // return {
+  //   card: currentCard,
+  //   cardIndex: progress[id] || 0,
+  //   answer: answers[id] || {},
+  //   progress: progress[id]
+  // }
 })
 class Vocabulary extends React.Component {
   state = {}
@@ -59,15 +59,15 @@ class Vocabulary extends React.Component {
   }
   render() {
     const { id, cardIndex } = this.props
-    const { card } = this.state
+    // const { card } = this.state
     // console.log(card)
     // card && card.content && console.log(ParseConversationAndReturnElement(card.content))
     return (
       <div className="card-outer-container">
         <div className="card-container">
 
-          {card && card.type==='vocabulary' && <div className="vocabulary-card no-padding">{ParseConversationAndReturnElement(card.content, id, cardIndex)}</div> }
-          {card && card.type!=='vocabulary' && <Card key={id+'_'+(this.props.progress||0)} id={id} card={card} answer={this.props.answer}/>}
+          {/* {card && card.type==='vocabulary' && <div className="vocabulary-card no-padding">{ParseConversationAndReturnElement(card.content, id, cardIndex)}</div> } */}
+          {/* {card && card.type!=='vocabulary' && <Card key={id+'_'+(this.props.progress||0)} id={id} card={card} answer={this.props.answer}/>}
           {!card && (
             <div className="button-container center">
               <div className="button blue" onClick={()=>{
@@ -79,7 +79,7 @@ class Vocabulary extends React.Component {
                 Replay
               </div>
             </div>
-          )}
+          )} */}
         </div>
         <Progress id={id}/>
       </div>
@@ -89,31 +89,33 @@ class Vocabulary extends React.Component {
 export default Vocabulary
 
 /*
-  Randomizes the options for multiple choice cards.
-  On the input, the correct value is the first value.
+  Find .me & .them
 */
-const randomizeOptions = (card) => {
-  if (card && card.options && (['multiple choice', 'listen'].includes(card.type))) {
-    const numberOfOptions = Math.random() > 0.6 ? 2 : 3
-    const correct_index = randomInt(0, numberOfOptions - 1)
-    const options = [
-      card.options[0],
-      ..._.shuffle(card.options.slice(1)).slice(0, numberOfOptions - 1),
-    ]
-    return {
-      ...card,
-      correct_index,
-      options: [
-        ...options.slice(-correct_index),
-        ...options.slice(0, -correct_index),
-      ]
+const Parse = (children) => {
+  let output = []
+  const Traverse = (input) => {
+    if (Array.isArray(input)) {
+      input.forEach(Traverse)
+    } else if (typeof input === 'object' || typeof input === 'function') {
+      if (input.type === 'ul' || input.type === 'li') {
+        Traverse(input.props.children)
+      } else if (input.props.className === 'them' || input.props.className === 'me') {
+        output.push({
+          type: 'message',
+          from: input.props.className,
+          message: input.props.children
+        })
+      } else {
+        console.warn({
+          message: 'Unused in Parse()',
+          input
+        })
+      }
     }
   }
-  return card
-}
-
-function randomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+  Traverse(children)
+  // console.log(output)
+  return output
 }
 
 

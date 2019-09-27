@@ -1,4 +1,4 @@
-import store from 'text-plugin/store'
+import store from 'App/store'
 
 let timers = {}
 
