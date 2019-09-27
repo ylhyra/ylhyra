@@ -14,9 +14,9 @@ class Answers extends Component {
           const className = [
             'button-answer',
             direction,
-            answer.answered && 'answered',
-            answer.selected_index === index && 'selected',
-            answer.answered && isThisTheCorrectAnswer ? 'correct' : 'incorrect'
+            // answer.answered && 'answered',
+            // answer.selected_index === index && 'selected',
+            // answer.answered && isThisTheCorrectAnswer ? 'correct' : 'incorrect'
           ].filter(Boolean).join(' ')
 
           return (

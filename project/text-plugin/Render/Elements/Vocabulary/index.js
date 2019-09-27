@@ -8,6 +8,7 @@ import Progress from './Progress'
 require('array-sugar')
 import _ from 'underscore'
 import { randomizeOptions } from './randomize'
+import { ParseHTMLtoObject } from 'Render/Elements/parse'
 
 // @connect(state => ({
 //   open: state.vocabulary.open,
@@ -40,28 +41,26 @@ import { randomizeOptions } from './randomize'
   // }
 })
 class Vocabulary extends React.Component {
-  state = {}
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log('---')
-  //   console.log(this.props.card)
-  //   console.log(nextProps.card)
-  //   return this.props.card !== nextProps.card || (this.props.card === nextProps.card && this.props.answer !== nextProps.answer)
-  // }
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { card } = this.props
-    if (prevProps.card !== card && !card) {
-      this.setState({ card: null })
-    } else if (prevProps.card !== card) {
-      this.setState({
-        card: randomizeOptions(card)
-      })
+  constructor(props) {
+    super(props);
+    // console.log(this.props['data-name'] === "multiple choice is en")
+    let card = ParseHTMLtoObject(props.children)
+    card.type = this.props['data-game']
+    card['full-name'] = this.props['data-game-full-name']
+    card = randomizeOptions(card)
+    this.state = {
+      card,
     }
+    // console.log(JSON.stringify(ParseHTMLtoObject(props.children),null,2))
   }
   render() {
     const { id, cardIndex } = this.props
-    // const { card } = this.state
+    const { card } = this.state
     // console.log(card)
     // card && card.content && console.log(ParseConversationAndReturnElement(card.content))
+    return (
+      <Card card={card}/>
+    )
     return (
       <div className="card-outer-container">
         <div className="card-container">
@@ -81,43 +80,12 @@ class Vocabulary extends React.Component {
             </div>
           )} */}
         </div>
-        <Progress id={id}/>
+        {/* <Progress id={id}/> */}
       </div>
     )
   }
 }
 export default Vocabulary
-
-/*
-  Find .me & .them
-*/
-const Parse = (children) => {
-  let output = []
-  const Traverse = (input) => {
-    if (Array.isArray(input)) {
-      input.forEach(Traverse)
-    } else if (typeof input === 'object' || typeof input === 'function') {
-      if (input.type === 'ul' || input.type === 'li') {
-        Traverse(input.props.children)
-      } else if (input.props.className === 'them' || input.props.className === 'me') {
-        output.push({
-          type: 'message',
-          from: input.props.className,
-          message: input.props.children
-        })
-      } else {
-        console.warn({
-          message: 'Unused in Parse()',
-          input
-        })
-      }
-    }
-  }
-  Traverse(children)
-  // console.log(output)
-  return output
-}
-
 
 // const cards = [
 //

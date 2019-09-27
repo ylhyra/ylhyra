@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 @connect((state, props) => {
-  const { id } = props
-  const { sections, progress, answers } = state.vocabulary
-  const cards = sections[id] || []
-  const answer = answers[id] || {}
-  const total = cards.length
-  const done = (progress[id] || 0) + (answer.answered ? 1 : 0)
-  return {
-    done: done,
-    remaining: total - done,
-  }
+  // const { id } = props
+  // const { sections, progress, answers } = state.vocabulary
+  // const cards = sections[id] || []
+  // const answer = answers[id] || {}
+  // const total = cards.length
+  // const done = (progress[id] || 0) + (answer.answered ? 1 : 0)
+  // return {
+  //   done: done,
+  //   remaining: total - done,
+  // }
 })
 class Progress extends Component {
   render() {

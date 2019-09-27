@@ -75,17 +75,17 @@ class Card extends Component {
     const { card, answer } = this.props
     if (card) {
       let Type = null
-      if (card.type === 'multiple choice') {
+      if (card.type.startsWith('multiple choice')) {
         Type = Multiple
-      } else if (card.type === 'gender') {
+      } else if (card.type.startsWith('gender')) {
         Type = Gender
-      } else if (card.type === 'flashcard') {
+      } else if (card.type.startsWith('flashcard')) {
         Type = Flashcard
-      } else if (card.type === 'listen') {
+      } else if (card.type.startsWith('listen')) {
         Type = Listen
-      } else if (card.type === 'write') {
+      } else if (card.type.startsWith('write')) {
         Type = Write
-      } else if (card.type === 'drag and drop words') {
+      } else if (card.type.startsWith('drag and drop words')) {
         Type = DragDrop
       } else {
         console.error(card.type + ' - unknown type')
@@ -96,8 +96,8 @@ class Card extends Component {
         'vocabulary-card',
         card.type?.replace(/( )/g, '-'),
         card.game?.replace(/( )/g, '-'),
-        answer.correct && 'correct',
-        answer.correct === false && 'incorrect',
+        // answer.correct && 'correct',
+        // answer.correct === false && 'incorrect',
       ].filter(Boolean).join(' ')
       return (
         <div className={className} onClick={this.sound}>
