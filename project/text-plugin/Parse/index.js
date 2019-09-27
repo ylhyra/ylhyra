@@ -41,8 +41,8 @@ export default function(html) {
     // console.log(json2html(json))
     // console.log(json)
     // console.log(JSON.stringify(json,null,2))
-    console.log(html)
-    console.log(json2html(json))
+    // console.log(html)
+    // console.log(json2html(json))
 
     /*
       Is data already saved?
@@ -56,8 +56,9 @@ export default function(html) {
     const text = ExtractText(json)
     // console.log(text)
     if(isEmpty(text)) {
-      console.log('No text to tokenize.')
+      console.warn('No text to tokenize.')
       return json
+      // return html2json(Compiler({ json: wrapped, data: data, }))
     }
     const tokenized = Tokenizer(text, data)
     // console.log(tokenized)

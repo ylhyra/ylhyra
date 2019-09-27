@@ -64,6 +64,8 @@ const Traverse = (input, index = 0, editor, parentTag) => {
       return <Tag {...attrs} key={(attr && attr.id) || index}/>
     }
 
+    // console.log(child)
+
     return (
       <Tag {...attrs} key={(attr && attr.id) || index}>
         {/* {Audio} */}
@@ -75,6 +77,8 @@ const Traverse = (input, index = 0, editor, parentTag) => {
       return null
     }
     return text
+    // console.log(text)
+    // return <span dangerouslySetInnerHTML={{__html: text}}/>
   }
 }
 

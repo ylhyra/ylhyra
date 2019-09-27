@@ -28,7 +28,7 @@ const Traverse = (input, index = 0, editor) => {
     for (const property in attr) {
       // Converts HTML attribute into React attribute
       if (attr.hasOwnProperty(property) && !property.startsWith('data-temp')) {
-        if(property === 'style') {
+        if (property === 'style') {
           attrs[convert(property)] = inlineStyle2Json(attr[property])
         } else {
           attrs[convert(property)] = attr[property]
@@ -50,7 +50,7 @@ const Traverse = (input, index = 0, editor) => {
     /*
       Always open links in a new window
     */
-    if (tag === 'a' && attrs.href.startsWith('http')) {
+    if (tag === 'a' && attrs.href && attrs.href.startsWith('http')) {
       attrs.target = "_blank"
       attrs.rel = "noopener"
     }
@@ -61,9 +61,16 @@ const Traverse = (input, index = 0, editor) => {
     // }
 
     /* IMG and HR tags are void tags */
-    if(voidElementTags.includes(Tag)) {
+    if (voidElementTags.includes(Tag)) {
       return <Tag {...attrs} key={(attr && attr.id) || index}/>
     }
+
+
+    // console.log(attrs.className)
+    // if (shouldSkip(attrs.className)) {
+    //
+    //   return null
+    // }
 
     return (
       <Tag {...attrs} key={(attr && attr.id) || index}>
@@ -97,3 +104,7 @@ const getCustomTag = (tag, className, callback) => {
 }
 
 const voidElementTags = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr']
+
+// const shouldSkip = (className) => {
+//   if(className === 'mw-empty-elt') return true
+// }

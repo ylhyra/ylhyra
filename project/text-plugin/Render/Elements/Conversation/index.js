@@ -28,7 +28,8 @@ class Conversation extends React.Component {
             <div className={element.from}>
               <div className="bubble-container">
                 <div className="bubble">
-                  <div dangerouslySetInnerHTML={{__html: element.message}}/>
+                  {element.message}
+                  {/* <div dangerouslySetInnerHTML={{__html: element.message}}/> */}
                 </div>
               </div>
             </div>

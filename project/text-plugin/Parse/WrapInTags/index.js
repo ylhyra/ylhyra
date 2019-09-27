@@ -63,6 +63,9 @@ export default function({ json, tokenized }) {
     input: json,
     paragraphFunction: (paragraph, documentTitle) => {
       const text = getText(paragraph, true, true)
+      if (documentTitle === undefined) {
+        return paragraph
+      }
       if (text) {
         return Sentences(paragraph, tokenizedFlattened[index++].sentences)
       }
@@ -120,7 +123,7 @@ const RemoveData = (input) => {
   const { node, tag, attr, child, text } = input
   if (node === 'element' || node === 'root') {
     if (attr && (attr["data-document-start"] || attr["data-document-end"])) {
-      return {node: "text", text: ""} // Hlýtur að vera betri leið til að henda út greinum...
+      return { node: "text", text: "" } // Hlýtur að vera betri leið til að henda út greinum...
     }
     if (child) {
       return {

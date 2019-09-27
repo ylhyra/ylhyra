@@ -11,7 +11,7 @@ export default (paragraphs) => {
   let words = {}
   let arrayOfAllWordIDs = []
 
-  paragraphs.forEach(paragraph => {
+  paragraphs && paragraphs.forEach(paragraph => {
     paragraph.sentences.forEach(sentence => {
       sentences[sentence.id] = sentence
       items[sentence.id] = sentence
@@ -30,6 +30,10 @@ export default (paragraphs) => {
       })
     })
   })
+
+  if(!paragraphs) {
+    console.error('Missing "paragraphs" in List.js"')
+  }
 
   return {
     items, // Object containing all words and all sentences
