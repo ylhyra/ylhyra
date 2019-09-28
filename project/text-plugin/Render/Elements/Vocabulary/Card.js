@@ -14,7 +14,7 @@ class Card extends Component {
     hasAnswered: false,
   }
   render() {
-    const { card, answer } = this.props
+    const { card, answer, insideConversation } = this.props
     if (card) {
       let Type = null
       if (card.type.startsWith('multiple choice')) {
@@ -35,11 +35,11 @@ class Card extends Component {
       }
       // console.log(answer)
       const className = [
-        'vocabulary-card',
+        !insideConversation && 'vocabulary-card',
         card.type?.replace(/( )/g, '-'),
         card.game?.replace(/( )/g, '-'),
-        answer.correct && 'correct',
-        answer.correct === false && 'incorrect',
+        answer && answer.correct && 'correct',
+        answer && answer.correct === false && 'incorrect',
       ].filter(Boolean).join(' ')
       return (
         <div className={className} onClick={this.sound}>

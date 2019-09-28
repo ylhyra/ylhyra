@@ -2,53 +2,103 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import store from 'App/store'
-import Answers from './Answers'
+// import Answers from './Answers'
 // import { AudioPlayer } from 'text-plugin/Audio/AudioPlayer'
 // import { ReadAlongSetup, ReadAlongMessage } from 'text-plugin/Audio/ReadAlong'
 require('array-sugar')
 import { ParseHTMLtoObject, ParseHTMLtoArray } from 'Render/Elements/parse'
+import Card from 'Render/Elements/Vocabulary/Card'
+import { randomizeOptions } from 'Render/Elements/Vocabulary/randomize'
 
 class Conversation extends React.Component {
   constructor(props) {
     super(props);
     const conversation = ParseHTMLtoArray(props.children)
+    console.log(conversation)
+    console.log(props.children)
+    const isInteractive = conversation.find(x => x.type !== 'message')
     this.state = {
       conversation,
-      isInteractive: conversation.find(x => x.name === 'options'),
-      answers: {},
+      isInteractive,
+      card: null,
+      answers: null,
+      howManyToShow: isInteractive ? 0 : 1000,
     }
-    console.log(JSON.stringify(ParseHTMLtoArray(props.children), null, 2))
+    // console.log(JSON.stringify(ParseHTMLtoArray(props.children), null, 2))
   }
 
+  componentDidMount = () => {
+    if (this.state.isInteractive) {
+      this.next()
+    }
+  }
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    if (!this.state.isInteractive) return;
+    if (prevState.howManyToShow !== this.state.howManyToShow) {
+      const last = this.state.conversation.slice(0, this.state.howManyToShow).last || {}
+      if (last.type !== 'message') {
+        console.log({last})
+        this.setState({
+          card: randomizeOptions(last),
+        })
+      } else {
+        setTimeout(() => {
+          this.checkIfWeShouldGoToTheNext()
+        }, 1000)
+        // if(this.audioId) {
+        //   ReadAlongMessage(last.message, this.audioId)
+        // }
+      }
+    }
+  }
+  checkIfWeShouldGoToTheNext = () => {
+    /* Need to check again outside of "componentDidUpdate" since it may have been updated since last time */
+    const last = this.state.conversation.slice(0, this.state.howManyToShow).last || {}
+    if (last.type === 'message' && this.state.howManyToShow < this.state.conversation.length) {
+      this.next()
+    }
+  }
   submitAnswer = ({ correct, index }) => {
-    // const { card, answer } = this.state
-    // if (answer.answered) {
-    //   return null
-    // }
-    // this.setState({
-    //   answer: {
-    //     correct,
-    //     selected_index: index,
-    //     answered: true,
-    //   }
-    // })
+    setTimeout(() => {
+      this.next()
+    }, 1000)
+    setTimeout(() => {
+      this.setState({ card:null,answers: null })
+    }, 1800)
+  }
+  next = () => {
+    this.setState({
+      howManyToShow: this.state.howManyToShow + 1,
+      done: this.state.howManyToShow + 1 >= this.state.conversation.length,
+    })
+  }
+  reset = () => {
+    this.setState({
+      howManyToShow: 0,
+      done: false,
+      card: null,
+      answers: null,
+    })
+    setTimeout(() => {
+      this.next()
+    }, 200)
   }
 
   render() {
-    const { id, section_id } = this.props
-    const { conversation, audioId, inline, src, isInteractive, done, answer } = this.state
+    const { conversation, isInteractive, done, answer, card, howManyToShow } = this.state
+    // console.log(card)
     return <div className={`conversation ${isInteractive?'interactive':''}`}>
       <div className={`conversationWindow`} data-initialized>
         {/* {audioId && <AudioPlayer audioId={audioId} inline={inline} src={src} hidden={isInteractive}/>} */}
 
-        {conversation.slice(0,this.state.howManyToShow)
-          .filter(element => element.name==='message')
+        {conversation.slice(0, howManyToShow)
+          .filter(element => element.type==='message')
           .map((element, index) => (
           <div key={index}>
             <div className={element.from}>
               <div className="bubble-container">
                 <div className="bubble">
-                  {element.children}
+                  {element.message}
                   {/* <div dangerouslySetInnerHTML={{__html: element.message}}/> */}
                 </div>
               </div>
@@ -59,7 +109,9 @@ class Conversation extends React.Component {
 
       {/* Answers */}
       {isInteractive && <div className="response" key="response">
-        {!done && <Answers options={this.state.answers} answer={answer} submitAnswer={this.submitAnswer}/>}
+        {!done && card && <Card card={card} answer={answer} submitAnswer={this.submitAnswer} insideConversation/> }
+
+        {/* {!done && <Answers card={card} answer={answer} submitAnswer={this.submitAnswer}/>} */}
         {done && <div>
           <div className="button-container center">
             <div className="button blue" onClick={this.reset}>Repeat</div>{' '}

@@ -16,6 +16,8 @@ export const ParseHTMLtoObject = (children) => {
         output[name] = ParseHTMLtoArray(input.props.children)
       } else if (childrenType === 'object') {
         output[name] = ParseHTMLtoObject(input.props.children)
+      } else if (childrenType === 'string') {
+        output[name] = getString(input.props.children)
       } else if (name) {
         output[name] = input.props.children
       } else {
@@ -34,7 +36,6 @@ export const ParseHTMLtoArray = (children) => {
     } else if (typeof input === 'object' || typeof input === 'function') {
       const name = input.props['data-name']
       const childrenType = input.props['data-children']
-      const from = input.props['data-from']
       if (childrenType === 'array') {
         output.push({
           name,
@@ -42,11 +43,12 @@ export const ParseHTMLtoArray = (children) => {
         })
       } else if (childrenType === 'object') {
         output.push(ParseHTMLtoObject(input.props.children))
+      } else if (childrenType === 'string') {
+        output[name] = getString(input.props.children)
       } else if (name) {
         // output.push(input.props.children)
         output.push({
           name,
-          from,
           children: input.props.children,
         })
       } else {
@@ -56,4 +58,18 @@ export const ParseHTMLtoArray = (children) => {
   }
   Traverse(children)
   return output
+}
+const getString = (input) => {
+  let output = ''
+  const Traverse = (input) => {
+    if (Array.isArray(input)) {
+      input.forEach(Traverse)
+    } else if (typeof input === 'object' || typeof input === 'function') {
+      Traverse(input.props.children)
+    } else {
+      output += input
+    }
+  }
+  Traverse(input)
+  return output.trim()
 }

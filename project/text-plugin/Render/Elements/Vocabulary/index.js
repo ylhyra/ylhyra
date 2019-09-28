@@ -14,15 +14,12 @@ class Vocabulary extends React.Component {
   constructor(props) {
     super(props);
     let card = ParseHTMLtoObject(props.children)
-    card.type = this.props['data-game']
-    card.from = this.props['data-from']
-    card.to = this.props['data-to']
     card = randomizeOptions(card)
     this.state = {
       card: card,
       answer: {},
     }
-    console.log(card)
+    // console.log(card)
   }
   submitAnswer = ({ correct, index }) => {
     const { card, answer } = this.state

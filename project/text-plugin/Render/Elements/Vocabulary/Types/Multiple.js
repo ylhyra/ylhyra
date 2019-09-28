@@ -19,7 +19,7 @@ class Element extends Component {
               {card.from === 'en' && (
                 <div>
                   <div className="icelandic">{clean(icelandic)}</div>
-                  {answer.answered && card.correct_index !== index && english && (
+                  {answer && answer.answered && card.correct_index !== index && english && (
                     <div className="english small">{clean(english)}</div>
                   )}
                 </div>
@@ -27,7 +27,7 @@ class Element extends Component {
               {card.from === 'is' && (
                 <div>
                   <div className="english">{clean(english)}</div>
-                  {answer.answered && card.correct_index !== index && icelandic && (
+                  {answer && answer.answered && card.correct_index !== index && icelandic && (
                     <div className="icelandic small">{clean(icelandic)}</div>
                   )}
                 </div>

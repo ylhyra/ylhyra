@@ -20,8 +20,9 @@ export default ({ card, no_pronunciation, no_icons }) => {
             <div>{clean(card.icelandic)}</div>
           </div>
         </div>
-
       )}
+
+      {card.instructions && <div className="instructions">{card.instructions}</div>}
     </div>
   )
 }
