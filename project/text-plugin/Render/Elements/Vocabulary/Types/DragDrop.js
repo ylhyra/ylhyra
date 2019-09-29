@@ -9,16 +9,15 @@ class Element extends Component {
   componentDidMount() {
     const { card } = this.props
     const correctAnswers = ParseHTMLtoArray(card.icelandic).filter(Boolean).map(x => x.children)
-    const otherAnswers = ParseHTMLtoArray(card.other_answers).filter(Boolean).map(x => x.children)
-
-    // console.log(correctAnswers)
+    const otherOptions = ParseHTMLtoArray(card.other_options).filter(Boolean).map(x => x.children)
 
     this.setState({
       options: _.shuffle([
         ...correctAnswers,
-        ...otherAnswers,
+        ...otherOptions,
       ]),
-      correctAnswersText: correctAnswers.map(getText),
+      correctAnswers: correctAnswers.map(getText),
+      answers: [],
     })
   }
   componentDidUpdate(prevProps) {
@@ -26,13 +25,13 @@ class Element extends Component {
       this.componentDidMount()
     }
   }
-  click = (value) => {
+  click = (text) => {
     let answers = this.state.answers || []
     let index = answers.findIndex(i => !i)
     if (index < 0) {
       index = answers.length
     }
-    answers.splice(index, 1, value)
+    answers.splice(index, 1, text)
     answers = answers.slice(0, this.state.correctAnswers.length) // Don't overflow allowed slots
     this.setState({ answers })
 
@@ -64,15 +63,17 @@ class Element extends Component {
     const { options, answers } = this.state
     return (
       <div>
-        <div className="small gray">Click the missing words in the correct order</div>
+        {/* <div className="top-instructions">Click the missing words in the correct order</div> */}
         <div className="drag-drop-prompt">
+          <div className="english">"{card.english}"</div>
           <div className="image">{card.image}</div>
-          <div className="english small gray">{card.english}</div>
 
           <div className="flex-center">
             <div>
-              {answer.answered && card.icelandic}
-              {!answer.answered && renderDropTarget(card.icelandic, answers, this.remove)}
+              {renderDropTarget(card.icelandic, answers, this.remove)}
+
+              {/* {answer.answered && card.icelandic} */}
+              {/* {!answer.answered && renderDropTarget(card.icelandic, answers, this.remove)} */}
             </div>
           </div>
         </div>
@@ -92,6 +93,13 @@ class Element extends Component {
                   )
                 }
               })}
+              {answer.answered && answer.correct && (<div class="green">Correct</div>)}
+              {answer.answered && !answer.correct && (
+                <div>
+                  <div>The correct answer is:</div>
+                  {card.icelandic}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -106,19 +114,18 @@ export default Element
   Renders drop targets as blank spaces unless someone has answered it
 */
 const renderDropTarget = (children, answers, remove) => {
-  let key = 0
-  const Traverse = (input) => {
-    key++
-    console.log(key)
+  let index = 0
+  const Traverse = (input, key = 0) => {
     if (Array.isArray(input)) {
-      return input.map(x => Traverse(x))
+      return input.map((element, index) => Traverse(element, index))
     } else if (typeof input === 'object' || typeof input === 'function') {
       const name = input.props['data-name']
       if (name === 'drag') {
-        const text = getText(input)
-        if (answers && answers.includes(text)) {
+        index++
+        if (answers && answers[index-1]) {
+          const text = getText(input)
           return <span key={key} className="drag-drop-target-answered" onClick={()=>remove(text)}>
-            {input}
+            {answers[index-1]}
           </span>
         } else {
           return <span key={key} className="drag-drop-target"><span/></span>

@@ -5,6 +5,7 @@
   align-items center
   justify-content center
   flex-direction column
+  margin-bottom: 20px;
   .card-container
     flex 1
     margin auto
@@ -12,7 +13,7 @@
     width 100%
     min-height 330px
     height 60vh
-    max-height 420px
+    // max-height 420px
     max-width: 400px;
     display flex
     flex-direction column
@@ -24,6 +25,11 @@
     //   min-height @min-height
     //   height @height
     //   max-height @max-height
+
+  .image
+    img
+      max-height 300px
+      width auto
 
 .vocabulary-card
   display flex
@@ -126,3 +132,10 @@
     transform: translate(5px,0px) rotate(0.5deg);
   }
 }
+
+.flex-center
+  flex 1
+  display flex
+  flex-direction column
+  align-items center
+  justify-content center

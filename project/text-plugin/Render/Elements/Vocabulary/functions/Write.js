@@ -57,10 +57,10 @@ class Write extends Component {
       answered: true,
       isCorrect,
     })
-    submitAnswer({
-      correct: isCorrect === 'yes' || isCorrect === 'kind of',
-      section_id: this.props.id
-    })
+    // submitAnswer({
+    //   correct: isCorrect === 'yes' || isCorrect === 'kind of',
+    //   section_id: this.props.id
+    // })
   }
 
   render() {
