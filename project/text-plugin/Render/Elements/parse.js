@@ -17,7 +17,7 @@ export const ParseHTMLtoObject = (children) => {
       } else if (childrenType === 'object') {
         output[name] = ParseHTMLtoObject(input.props.children)
       } else if (childrenType === 'string') {
-        output[name] = getString(input.props.children)
+        output[name] = getText(input.props.children)
       } else if (name) {
         output[name] = input.props.children
       } else {
@@ -44,7 +44,7 @@ export const ParseHTMLtoArray = (children) => {
       } else if (childrenType === 'object') {
         output.push(ParseHTMLtoObject(input.props.children))
       } else if (childrenType === 'string') {
-        output[name] = getString(input.props.children)
+        output[name] = getText(input.props.children)
       } else if (name) {
         // output.push(input.props.children)
         output.push({
@@ -59,7 +59,7 @@ export const ParseHTMLtoArray = (children) => {
   Traverse(children)
   return output
 }
-const getString = (input) => {
+export const getText = (input) => {
   let output = ''
   const Traverse = (input) => {
     if (Array.isArray(input)) {

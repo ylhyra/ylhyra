@@ -7,7 +7,7 @@ import Write from 'Render/Elements/Vocabulary/Types/Write'
 import DragDrop from 'Render/Elements/Vocabulary/Types/DragDrop'
 import Listen from 'Render/Elements/Vocabulary/Types/Listen'
 // import { sound } from 'vocabulary/frontend/src/Elements/Sound/actions'
-import { submitAnswer } from 'Render/Elements/Vocabulary/actions'
+
 
 class Card extends Component {
   state = {

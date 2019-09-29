@@ -2,22 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore'
 import clean from 'Render/Elements/Vocabulary/functions/clean'
-import { submitAnswer } from 'Render/Elements/Vocabulary/actions'
+import { ParseHTMLtoObject, ParseHTMLtoArray, getText } from 'Render/Elements/parse'
 
 class Element extends Component {
   state = {}
   componentDidMount() {
-    const correctAnswers = this.props.card.icelandic.split(/\[(.*?)\]/g).map((part, index) => {
-      if (index % 2 !== 0) {
-        return part
-      } else {
-        return null
-      }
-    }).filter(Boolean)
+    const { card } = this.props
+    const correctAnswers = ParseHTMLtoArray(card.icelandic).filter(Boolean).map(x => x.children)
+    const otherAnswers = ParseHTMLtoArray(card.other_answers).filter(Boolean).map(x => x.children)
+
+    // console.log(correctAnswers)
 
     this.setState({
-      options: _.shuffle(this.props.card.options),
-      correctAnswers,
+      options: _.shuffle([
+        ...correctAnswers,
+        ...otherAnswers,
+      ]),
+      correctAnswersText: correctAnswers.map(getText),
     })
   }
   componentDidUpdate(prevProps) {
@@ -46,9 +47,8 @@ class Element extends Component {
       }
     })
     if (allAnswered) {
-      submitAnswer({
+      this.props.submitAnswer({
         correct,
-        section_id: this.props.id
       })
     }
   }
@@ -64,28 +64,15 @@ class Element extends Component {
     const { options, answers } = this.state
     return (
       <div>
+        <div className="small gray">Click the missing words in the correct order</div>
         <div className="drag-drop-prompt">
+          <div className="image">{card.image}</div>
           <div className="english small gray">{card.english}</div>
 
           <div className="flex-center">
             <div>
-              {answer.answered && card.icelandic.replace(/[[\]]/g,'')}
-              {!answer.answered && card.icelandic.split(/\[(.*?)\]/g).map((part,index) => {
-                if (index % 2 !== 0) {
-                  const i = Math.floor(index/2)
-                  if(answers && answers[i]) {
-                    return (
-                      <span key={index} className="drag-drop-target-answered" onClick={()=>this.remove(i)}>
-                        {answers[i]}
-                      </span>
-                    )
-                  } else {
-                    return <span key={index} className="drag-drop-target"><span/></span>
-                  }
-                } else {
-                  return part
-                }
-              })}
+              {answer.answered && card.icelandic}
+              {!answer.answered && renderDropTarget(card.icelandic, answers, this.remove)}
             </div>
           </div>
         </div>
@@ -93,13 +80,14 @@ class Element extends Component {
         <div className="drag-drop-answers">
           <div className="flex-center">
             <div>
-              {options && options.map(({icelandic, english}, index) => {
-                if(answers&&answers.includes(icelandic)) {
+              {options && options.map((option, index) => {
+                const text = getText(option)
+                if(answers&&answers.includes(text)) {
                   return null
                 } else {
                   return (
-                    <div key={index} className="drag-drop-object" onClick={()=>this.click(icelandic)}>
-                      {icelandic}
+                    <div key={index} className="drag-drop-object" onClick={()=>this.click(text)}>
+                      {option}
                     </div>
                   )
                 }
@@ -113,3 +101,40 @@ class Element extends Component {
 }
 
 export default Element
+
+/*
+  Renders drop targets as blank spaces unless someone has answered it
+*/
+const renderDropTarget = (children, answers, remove) => {
+  let key = 0
+  const Traverse = (input) => {
+    key++
+    console.log(key)
+    if (Array.isArray(input)) {
+      return input.map(x => Traverse(x))
+    } else if (typeof input === 'object' || typeof input === 'function') {
+      const name = input.props['data-name']
+      if (name === 'drag') {
+        const text = getText(input)
+        if (answers && answers.includes(text)) {
+          return <span key={key} className="drag-drop-target-answered" onClick={()=>remove(text)}>
+            {input}
+          </span>
+        } else {
+          return <span key={key} className="drag-drop-target"><span/></span>
+        }
+      } else {
+        return {
+          ...input,
+          props: {
+            ...input.props,
+            children: Traverse(input.props.children)
+          }
+        }
+      }
+    } else {
+      return input
+    }
+  }
+  return Traverse(children)
+}

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Prompt from 'Render/Elements/Vocabulary/elements/Prompt'
 import clean from 'Render/Elements/Vocabulary/functions/clean'
-import { submitAnswer } from 'Render/Elements/Vocabulary/actions'
 
 class Element extends Component {
   render() {
