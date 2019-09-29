@@ -22,7 +22,7 @@ class Vocabulary extends React.Component {
     // console.log(card)
   }
   submitAnswer = ({ correct, index }) => {
-    const { card, answer } = this.state
+    const { answer } = this.state
     if (answer.answered) {
       return null
     }

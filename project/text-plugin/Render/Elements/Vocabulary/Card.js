@@ -17,17 +17,17 @@ class Card extends Component {
     const { card, answer, insideConversation } = this.props
     if (card) {
       let Type = null
-      if (card.type.startsWith('multiple choice')) {
+      if (card.type === 'multiple choice') {
         Type = Multiple
-      } else if (card.type.startsWith('gender')) {
+      } else if (card.type === 'gender') {
         Type = Gender
-      } else if (card.type.startsWith('flashcard')) {
+      } else if (card.type === 'flashcard') {
         Type = Flashcard
-      } else if (card.type.startsWith('listen')) {
+      } else if (card.type === 'listen') {
         Type = Listen
-      } else if (card.type.startsWith('write')) {
+      } else if (card.type === 'write') {
         Type = Write
-      } else if (card.type.startsWith('drag and drop words')) {
+      } else if (card.type === 'drag and drop') {
         Type = DragDrop
       } else {
         console.error(card.type + ' - unknown type')
