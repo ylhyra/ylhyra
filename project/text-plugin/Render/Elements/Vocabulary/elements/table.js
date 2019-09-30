@@ -201,7 +201,7 @@ const checkForBrackets = (input) => {
     <span dangerouslySetInnerHTML={{
       __html: input
         // .trim()
-        .replace(/\[(.*?)\]/g, '<span class="helper">$1</span>')
+        .replace(/\[(.*?)\]/g, '<span className="helper">$1</span>')
         // .replace(/^að /g, '<span class="helper">að</span> ')
         // TEMP
         .replace('hann/hún/það','hann')

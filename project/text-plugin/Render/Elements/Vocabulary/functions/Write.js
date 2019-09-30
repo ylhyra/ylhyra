@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import store from 'App/store'
+import { getText } from 'Render/Elements/parse'
 let timer
 
 class Write extends Component {
@@ -10,9 +9,9 @@ class Write extends Component {
     const { card } = this.props
     let correctAnswer
     if (card.from !== 'is') {
-      correctAnswer = RawText(card.icelandic)
+      correctAnswer = getText(card.icelandic)
     } else {
-      correctAnswer = RawText(card.english)
+      correctAnswer = getText(card.english)
     }
     this.state = {
       value: getFirstLetters(correctAnswer, card),
@@ -57,10 +56,7 @@ class Write extends Component {
       answered: true,
       isCorrect,
     })
-    // submitAnswer({
-    //   correct: isCorrect === 'yes' || isCorrect === 'kind of',
-    //   section_id: this.props.id
-    // })
+    this.props.submitAnswer({ correct: isCorrect })
   }
 
   render() {
@@ -112,12 +108,6 @@ class Write extends Component {
 }
 export default Write
 
-
-const RawText = (input) => {
-  if (!input) return ''
-  return removeTags(input)
-    .replace(/¹/g, '') // TODO!!!! HVAÐ Á AÐ GERA MEÐ ÞETTA??
-}
 
 export const removeTags = (input) => removeInvisible(input).replace(/<.*?>/g, '')
 export const removeInvisible = (input) => input.replace(/<span[^>]*?display: ?none[^>]*?>[^<>]*?<\/span>/g, '')

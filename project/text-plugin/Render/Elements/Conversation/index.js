@@ -73,18 +73,22 @@ class Conversation extends React.Component {
 
     setTimeout(() => {
       this.next()
-    }, 0)
-    setTimeout(() => {
-      this.setState({
-        card: null,
-        answer: null,
-        done: this.state.howManyToShow + 1 >= this.state.conversation.length,
-      })
     }, 3300)
+    // setTimeout(() => {
+    //   this.setState({
+    //     card: null,
+    //     answer: null,
+    //     done: this.state.howManyToShow + 1 >= this.state.conversation.length,
+    //   })
+    // }, 3300)
   }
   next = () => {
     this.setState({
       howManyToShow: this.state.howManyToShow + 1,
+      answer:null,
+      card: null,
+      selected_index: null,
+      done: this.state.howManyToShow + 1 >= this.state.conversation.length,
     })
   }
   reset = () => {
@@ -114,7 +118,6 @@ class Conversation extends React.Component {
               <div className="bubble-container">
                 <div className="bubble">
                   {element.message}
-                  {/* <div dangerouslySetInnerHTML={{__html: element.message}}/> */}
                 </div>
               </div>
             </div>
@@ -122,20 +125,11 @@ class Conversation extends React.Component {
         ))}
       </div>
 
-      {/* answer */}
       {isInteractive && <div className="response" key="response">
         {!done && card && <Card card={card} answer={answer} submitAnswer={this.submitAnswer} insideConversation/> }
-
-        {/* {!done && <answer card={card} answer={answer} submitAnswer={this.submitAnswer}/>} */}
         {done && <div>
           <div className="button-container center">
             <div className="button blue" onClick={this.reset}>Repeat</div>{' '}
-            {/* <div className="button blue" onClick={()=>{
-              store.dispatch({
-                type: 'NEXT',
-                section_id
-              })
-            }}>Next card</div> */}
           </div>
         </div>}
       </div>}
@@ -143,33 +137,3 @@ class Conversation extends React.Component {
   }
 }
 export default Conversation
-
-// /*
-//   Find .me & .them
-// */
-// const Parse = (children) => {
-//   let output = []
-//   const Traverse = (input) => {
-//     if (Array.isArray(input)) {
-//       input.forEach(Traverse)
-//     } else if (typeof input === 'object' || typeof input === 'function') {
-//       if (input.type === 'ul' || input.type === 'li') {
-//         Traverse(input.props.children)
-//       } else if (input.props.className === 'them' || input.props.className === 'me') {
-//         output.push({
-//           type: 'message',
-//           from: input.props.className,
-//           message: input.props.children
-//         })
-//       } else {
-//         console.warn({
-//           message: 'Unused in Parse()',
-//           input
-//         })
-//       }
-//     }
-//   }
-//   Traverse(children)
-//   // console.log(output)
-//   return output
-// }

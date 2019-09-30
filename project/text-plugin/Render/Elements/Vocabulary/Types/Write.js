@@ -23,7 +23,7 @@ class Element extends Component {
             </div>
           )}
 
-          <Write card={card} ref="write" id={this.props.id} />
+          <Write card={card} ref="write" submitAnswer={this.props.submitAnswer}/>
         </div>
       </div>
     )

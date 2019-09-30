@@ -52,6 +52,7 @@ class Element extends Component {
     }
   }
   remove = (index) => {
+    console.warn(index)
     let answers = this.state.answers || []
     answers[index] = null
     this.setState({
@@ -93,8 +94,8 @@ class Element extends Component {
                   )
                 }
               })}
-              {answer.answered && answer.correct && (<div class="green">Correct</div>)}
-              {answer.answered && !answer.correct && (
+              {answer && answer.answered && answer.correct && (<div className="green">Correct</div>)}
+              {answer && answer.answered && !answer.correct && (
                 <div>
                   <div>The correct answer is:</div>
                   {card.icelandic}
@@ -121,11 +122,11 @@ const renderDropTarget = (children, answers, remove) => {
     } else if (typeof input === 'object' || typeof input === 'function') {
       const name = input.props['data-name']
       if (name === 'drag') {
-        index++
-        if (answers && answers[index-1]) {
+        let currentIndex = index++;
+        if (answers && answers[currentIndex]) {
           const text = getText(input)
-          return <span key={key} className="drag-drop-target-answered" onClick={()=>remove(text)}>
-            {answers[index-1]}
+          return <span key={key} className="drag-drop-target-answered" onClick={()=>remove(currentIndex)}>
+            {answers[currentIndex]}
           </span>
         } else {
           return <span key={key} className="drag-drop-target"><span/></span>

@@ -15,6 +15,7 @@ Sometime in the future:
 <!--
 Dæmi um útlit:
   - https://www.notion.so/
+	- https://volst.nl/
 	- http://deeplearning.ai/ai-notes/initialization/
 	- https://emotion.sh/
 	- https://developers.facebook.com/docs/
