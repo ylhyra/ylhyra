@@ -16,6 +16,8 @@ This project aims to allow any text to be made accessible to language learners b
 
 * [Getting started](https://ylhyra.is/Manual:Getting_started)
 
+<!-- chrome://flags/#allow-insecure-localhost--> 
+
 ## Authors
 
 - [**Egill**](https://github.com/egilll/) - [Contact](mailto:egillsigurdur@gmail.com)

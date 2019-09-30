@@ -2,29 +2,34 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import store from 'App/store'
-// require('Editor/Style/index.styl')
+import style from 'Editor/Style/index.styl'
 import Translator from 'Editor/Translator'
-const title = mw.config.get('wgTitle')
+import root from 'react-shadow'
 let timer
+
+console.log(style)
 
 @connect(state => ({
   editor: state.editor,
 }))
 class Editor extends React.PureComponent {
   render() {
-    if (this.props.editor.open) {
-      return <div id="editor">
-        <Translator/>
-      </div>
+    if (true || this.props.editor.open) {
+      return <root.div className="quote">
+        <style type="text/css">{style}</style>
+        <div id="editor">
+          <Translator/>
+        </div>
+      </root.div>
     } else {
       return null
     }
   }
 }
-
+console.log(style)
 
 const Render = (parsed) => {
-  $('#firstHeading').prepend('<div id="editor-button-container"></div>')
+  $('#catlinks').append('<div id="editor-button-container">asdf</div>')
   ReactDOM.render(
     <Provider store={store}>
       <div>
@@ -42,6 +47,7 @@ const Render = (parsed) => {
     document.querySelector('#editor-button-container')
   )
 }
+
 export default Render
 
 const start = () => {

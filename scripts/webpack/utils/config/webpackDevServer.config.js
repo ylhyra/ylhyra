@@ -71,7 +71,7 @@ module.exports = function(proxy, allowedHost) {
       ignored: ignoredFiles(paths.src),
     },
     // Enable HTTPS if the HTTPS environment variable is set to 'true'
-    https: protocol === 'https',
+    https: true,//protocol === 'https',
     host: host,
     overlay: false,
     historyApiFallback: {
@@ -79,7 +79,8 @@ module.exports = function(proxy, allowedHost) {
       // See https://github.com/facebookincubator/create-react-app/issues/387.
       disableDotRule: true,
     },
-    public: allowedHost,
+    // public: allowedHost,
+    public: 'https://localhost:8000/',
 
     // proxy: {
     //   '*': {

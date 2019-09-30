@@ -2,10 +2,10 @@ import axios from 'axios'
 import store from 'App/store'
 import { push, replace } from 'react-router-redux'
 import error from 'App/Error'
-import { title } from 'text-plugin/index.js'
 import stable_stringify from 'json-stable-stringify'
 
 export const save = async () => {
+  const title = mw.config.get('wgTitle')
   try {
     if (!store.getState().editor.isSaved) {
       const data = store.getState().editor

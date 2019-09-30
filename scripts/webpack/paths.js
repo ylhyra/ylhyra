@@ -7,7 +7,7 @@ const resolveModules = [
   'node_modules',
 ]
 
-let DevelopmentOnly = [require.resolve('react-dev-utils/webpackHotDevClient')]
+let DevelopmentOnly = ['./scripts/webpack/webpackHotDevClient'] // I've added some hardcoded values there :(
 if (process.env.NODE_ENV === 'production') {
   DevelopmentOnly = []
 }

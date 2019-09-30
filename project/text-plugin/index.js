@@ -1,35 +1,13 @@
-// /*
-//   ylhyra - Plugin for reading annotated texts
-// */
-//
-// import Render from 'text-plugin/Render'
-//
-// // require('Text/InlineTranslations/AssistOnOff')
-// require('Text/Touch/')
-// require('Style/index.styl')
+/*
+  .  . .  .    ,
+  |  | |  |-. . . ,-. ,-.
+  |  | |  | | | | |   ,-|
+  `--| `' ' ' `-| '   `-^
+  .- |         /|
+  `--'        `-'
+  YLhýra - Plugin for reading annotated texts
+*/
 import { fix_inline_translations } from 'Render/Text/InlineTranslations/InlineTranslations/'
-// // import { initAudio } from 'Audio/AudioPlayer'
-// // import { initConversation } from 'Conversation/initialize'
-// // import { initVocabulary } from 'Vocabulary/initialize'
-//
-//
-//
-//
-// /*
-//   Initialize
-// */
-// window.init = () => {
-//   if (window.initialized) return; //Temp
-//   const html = $('.mw-parser-output').html()
-//   const parsed = Parser(html)
-//   // console.log(parsed)
-//   Render(parsed)
-//   window.initialized = true
-// }
-//
-// $(document).ready(() => {
-//   window.init()
-// })
 
 import "core-js/stable";
 import "regenerator-runtime/runtime";
@@ -37,15 +15,39 @@ import "regenerator-runtime/runtime";
 require('Render/Text/Touch/')
 require('Render/Style/index.styl')
 
-export const title = mw.config.get('wgTitle')
-export const namespaceNumber = mw.config.get('wgNamespaceNumber')
-export const shouldRender = (title && namespaceNumber === 0)
-
-// import Editor from 'Editor'
 import Parse from 'text-plugin/Parse'
 import Render from 'text-plugin/Render'
+import Editor from 'Editor'
 
-$(document).ready(() => {
+
+/*
+  Temporary silly way of waiting until jQuery is ready
+*/
+const documentReady = (fn) => {
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    setTimeout(() => checkIfjQueryIsReady(fn), 1);
+  } else {
+    document.addEventListener("DOMContentLoaded", () => checkIfjQueryIsReady(fn))
+  }
+}
+function checkIfjQueryIsReady(fn) {
+  if (!window.jQuery) return setTimeout(() => checkIfjQueryIsReady(fn), 50);
+  fn()
+}
+
+
+
+documentReady(() => {
+  /*
+    Temporary button for removing styling
+  */
+  var original = $('.mw-parser-output').first().html()
+  window.showRaw = () => {
+    $('.mw-parser-output').html(original)
+  }
+
+  const namespaceNumber = mw.config.get('wgNamespaceNumber')
+  const shouldRender = namespaceNumber === 0 || namespaceNumber === 3004
   if (window.initialized) return; //Temp
   if (!shouldRender) return;
   if ($('.mw-parser-output').length > 0) {
@@ -53,20 +55,11 @@ $(document).ready(() => {
     const parsed = Parse(html)
     console.time('parsing')
     Render(parsed)
+    Editor(parsed)
     console.timeEnd('parsing')
     window.initialized = true
-    // Editor()
-    setTimeout(()=>{
+    setTimeout(() => {
       fix_inline_translations()
-    },200)
+    }, 200)
   }
 })
-
-
-/*
-  Temporary button for removing styling
-*/
-var original = $('.mw-parser-output').first().html()
-window.showRaw = () => {
-  $('.mw-parser-output').html(original)
-}

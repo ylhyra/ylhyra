@@ -68,7 +68,13 @@ module.exports = {
           // Stylus stylesheet
           {
             test: /\.styl$/,
-            loader: 'style-loader!css-loader!stylus-loader'
+            loader: 'style-loader!css-loader!stylus-loader',
+            // use: [{
+            //     loader: 'stylus-loader',
+            //     options: { injectType: 'singletonStyleTag' },
+            //   },
+            //   'css-loader',
+            // ],
           },
 
           // "postcss" loader applies autoprefixer to our CSS.
