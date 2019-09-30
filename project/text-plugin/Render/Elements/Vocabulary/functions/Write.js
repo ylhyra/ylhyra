@@ -95,7 +95,7 @@ class Write extends Component {
         </div>
 
         <div className="bottom">
-          <div className="small-instructions">
+          <div className="small-instructions gray">
             {card.to === 'is' && (
               <div>If you don't have an Icelandic keyboard, you can skip the accent marks and substitue the following: þ = th, ð = d, æ = ae, ö = o.</div>
             )}
