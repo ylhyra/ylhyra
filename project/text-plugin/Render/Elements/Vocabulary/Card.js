@@ -5,17 +5,34 @@ import Multiple from 'Render/Elements/Vocabulary/Types/Multiple'
 import Flashcard from 'Render/Elements/Vocabulary/Types/Flashcard'
 import Write from 'Render/Elements/Vocabulary/Types/Write'
 import DragDrop from 'Render/Elements/Vocabulary/Types/DragDrop'
-import Listen from 'Render/Elements/Vocabulary/Types/Listen'
-// import { sound } from 'vocabulary/frontend/src/Elements/Sound/actions'
-
+import AudioClip from 'Render/Audio/AudioClip'
 
 class Card extends Component {
   state = {
     hasAnswered: false,
   }
+  componentDidMount() {
+    this.sound()
+  }
+  componentDidUpdate = () => {
+    this.sound()
+  }
+  sound = () => {
+    const { card, answer } = this.props
+    if (/*!volume ||*/ !card.audio) return
+    console.log(card)
+    console.log('hahahaha')
+    if (card.play_sound_immediately || answer.answered) {
+      try {
+        AudioClip.play(card.audio)
+      } catch (e) {
+        console.warn(e)
+      }
+    }
+  }
   render() {
     const { card, answer, insideConversation } = this.props
-    console.log({card,answer})
+    // console.log({card,answer})
     if (card) {
       let Type = null
       if (card.type === 'multiple choice') {
@@ -24,8 +41,6 @@ class Card extends Component {
         Type = Gender
       } else if (card.type === 'flashcard') {
         Type = Flashcard
-      } else if (card.type === 'listen') {
-        Type = Listen
       } else if (card.type === 'write') {
         Type = Write
       } else if (card.type === 'drag and drop') {
@@ -70,7 +85,7 @@ export default Card
 // sound = () => {
 //   const { card, sound, answer, index, volume } = this.props
 //   if (!volume || !card.sound || index !== 0) return
-//   if (card.playSound || answer.answered) {
+//   if (card.AudioClip || answer.answered) {
 //     try {
 //       sound(card.sound.trim())
 //     } catch (e) {

@@ -18,8 +18,8 @@ export const ParseHTMLtoObject = (children) => {
         output[name] = ParseHTMLtoObject(input.props.children)
       } else if (childrenType === 'string') {
         output[name] = getText(input.props.children)
-      } else if (childrenType === 'link') {
-        output[name] = getURL(input.props.children)
+      } else if (childrenType === 'boolean') {
+        output[name] = getText(input.props.children)
       } else if (name) {
         output[name] = input.props.children
       } else {
@@ -47,6 +47,8 @@ export const ParseHTMLtoArray = (children) => {
         output.push(ParseHTMLtoObject(input.props.children))
       } else if (childrenType === 'string') {
         output[name] = getText(input.props.children)
+      } else if (childrenType === 'boolean') {
+        output[name] = getText(input.props.children)
       } else if (name) {
         // output.push(input.props.children)
         output.push({
@@ -70,22 +72,6 @@ export const getText = (input) => {
       Traverse(input.props.children)
     } else {
       output += input
-    }
-  }
-  Traverse(input)
-  return output.trim()
-}
-export const getURL = (input) => {
-  let output = ''
-  const Traverse = (input) => {
-    if (Array.isArray(input)) {
-      input.forEach(Traverse)
-    } else if (typeof input === 'object' || typeof input === 'function') {
-      if(input.props.href) {
-        output = input.props.href
-      } else {
-        Traverse(input.props.children)
-      }
     }
   }
   Traverse(input)

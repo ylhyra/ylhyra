@@ -1,15 +1,24 @@
+/*
+  Short audio clips, like words on hover, that do not require an audio player interface
+*/
+
 let audio
 
 const AudioClip = {
   play: (sound_files) => {
     audio && audio.pause()
-    audio = new Audio(sound_files[0])
+    audio = new Audio(sound_files)
     const promise = audio.play()
     if (promise) {
       promise.catch(() => {
         // console.warn('Audio not played since user has not yet interacted with document')
       })
     }
+
+    // store.dispatch({
+    //   type: 'CURRENTLY_PLAYING',
+    //   content: this.state.data.file,
+    // })
   },
   pause: () => {
     audio && audio.pause()
@@ -18,20 +27,3 @@ const AudioClip = {
 }
 
 export default AudioClip
-
-
-/*
-  Needed if we put loading animations in:
-*/
-// var playPromise = video.play();
-//
-// if (playPromise !== undefined) {
-//   playPromise.then(_ => {
-//     // Automatic playback started!
-//     // Show playing UI.
-//   })
-//   .catch(error => {
-//     // Auto-play was prevented
-//     // Show paused UI.
-//   });
-// }

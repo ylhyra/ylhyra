@@ -4,7 +4,7 @@ import Answers from 'Render/Elements/Vocabulary/elements/Answers'
 import Emoji from 'Render/Elements/Vocabulary/elements/emoji'
 import Table from 'Render/Elements/Vocabulary/elements/table'
 import clean from 'Render/Elements/Vocabulary/functions/clean'
-import Prompt from 'Render/Elements/Vocabulary/elements/Prompt'
+import Prompt from 'Render/Elements/Vocabulary/Prompt'
 
 class Element extends Component {
   render() {

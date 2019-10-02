@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Prompt from 'Render/Elements/Vocabulary/elements/Prompt'
+import Prompt from 'Render/Elements/Vocabulary/Prompt'
 import Write from 'Render/Elements/Vocabulary/functions/Write'
 
 class Element extends Component {

@@ -112,7 +112,7 @@ class Audio extends React.PureComponent {
   updateStore = () => {
     this.props.audio.currentlyPlaying !== this.props.audioId && store.dispatch({
       type: 'CURRENTLY_PLAYING',
-      content: this.props.audioId,
+      content: this.state.data.file,
     })
   }
   error = () => {
