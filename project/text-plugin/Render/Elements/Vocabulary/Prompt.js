@@ -3,13 +3,14 @@ import clean from 'Render/Elements/Vocabulary/functions/clean'
 import Emoji from 'Render/Elements/Vocabulary/Types/Gender'
 
 export default ({ card, no_pronunciation, no_icons }) => {
-  // console.log(card)
+  console.log(card)
   return (
     <div className="prompt-word">
       {card.prompt && (
         <div>
           <div>{'🔈'}</div>
           <small className="small-instructions center">Click to play sound</small>
+          {card.prompt}
         </div>
       )}
 

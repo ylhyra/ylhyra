@@ -7,8 +7,6 @@ import Translator from 'Editor/Translator'
 import { openEditor, purgeCurrentPage } from './actions'
 let timer
 
-console.log(style)
-
 @connect(state => ({
   editor: state.editor,
 }))
@@ -23,7 +21,6 @@ class Editor extends React.PureComponent {
     }
   }
 }
-console.log(style)
 
 const Render = (parsed) => {
   $('#catlinks').append('<div id="editor-button-container"></div>')

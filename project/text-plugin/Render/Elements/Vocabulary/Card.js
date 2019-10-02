@@ -20,8 +20,7 @@ class Card extends Component {
   sound = () => {
     const { card, answer } = this.props
     if (/*!volume ||*/ !card.audio) return
-    console.log(card)
-    console.log('hahahaha')
+    // console.log(card)
     if (card.play_sound_immediately || answer.answered) {
       try {
         AudioClip.play(card.audio)
