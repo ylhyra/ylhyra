@@ -14,6 +14,7 @@ import "regenerator-runtime/runtime";
 
 require('Render/Text/Touch/')
 require('Render/Style/index.styl')
+require('./DevelopmentMode')
 
 import Parse from 'text-plugin/Parse'
 import Render from 'text-plugin/Render'

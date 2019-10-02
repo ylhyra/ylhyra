@@ -4,8 +4,9 @@ import { ConnectedRouter, routerReducer as routing, routerMiddleware } from 'rea
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 
-import { translations } from 'Render/reducers'
 import { editor } from 'Editor/reducers'
+import { translations } from 'Render/reducers'
+import { audio } from 'Render/Audio/reducers'
 
 /*
   Logger
@@ -24,6 +25,7 @@ const store = createStore(
     editor,
     /* Reader */
     translations,
+    audio,
   }),
   applyMiddleware(
     // routerMiddleware(history),

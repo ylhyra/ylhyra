@@ -4,7 +4,7 @@ import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 import style from 'Editor/Style/index.styl'
 import Translator from 'Editor/Translator'
-import root from 'react-shadow'
+import { openEditor, purgeCurrentPage } from './actions'
 let timer
 
 console.log(style)
@@ -14,13 +14,10 @@ console.log(style)
 }))
 class Editor extends React.PureComponent {
   render() {
-    if (true || this.props.editor.open) {
-      return <root.div className="quote">
-        <style type="text/css">{style}</style>
-        <div id="editor">
+    if (this.props.editor.open) {
+      return <div id="editor">
           <Translator/>
         </div>
-      </root.div>
     } else {
       return null
     }
@@ -29,16 +26,19 @@ class Editor extends React.PureComponent {
 console.log(style)
 
 const Render = (parsed) => {
-  $('#catlinks').append('<div id="editor-button-container">asdf</div>')
+  $('#catlinks').append('<div id="editor-button-container"></div>')
   ReactDOM.render(
     <Provider store={store}>
       <div>
         <div>
-          <button className="editor-button" onClick={start}>
-            Translate
+          <button className="editor-button" onClick={purgeCurrentPage}>
+            Purge cache
           </button>
           <button className="editor-button" onClick={window.showRaw}>
             Show raw
+          </button>
+          <button className="editor-button" onClick={openEditor}>
+            Translate
           </button>
           <Editor/>
         </div>
@@ -49,9 +49,3 @@ const Render = (parsed) => {
 }
 
 export default Render
-
-const start = () => {
-  store.dispatch({
-    type: 'OPEN_EDITOR',
-  })
-}

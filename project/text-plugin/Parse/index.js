@@ -59,7 +59,7 @@ export default function(html) {
       console.warn('No text to tokenize.')
       return json
       // return html2json(Compiler({ json: wrapped, data: data, }))
-    }
+    } 
     const tokenized = Tokenizer(text, data)
     // console.log(tokenized)
     const flattenedData = flattenData(data)

@@ -3,7 +3,8 @@ import { translation, selected } from 'Editor/Translator/reducers'
 import suggestions from 'Editor/Translator/Suggestions/reducers'
 import MakeList from 'Parse/Tokenize/List'
 
-const open = (state = false, action) => {
+const isOpen = window.location.hash.substr(1) === 'editor'
+const open = (state = isOpen, action) => {
   switch (action.type) {
     case 'OPEN_EDITOR':
       return true

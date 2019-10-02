@@ -1,29 +1,34 @@
-serif()
-  font-family Georgia, serif
-sans-serif()
-  font-family Inter UI, Helvetica Neue, -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
+serif() {
+	font-family: Georgia, serif;
+}
 
-.editor-button
-  font-size 14px
-  float right
-  padding 3px 5px
+sans-serif() {
+	font-family: Inter UI, Helvetica Neue, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
 
-#editor
-  position absolute
-  background #f7edf3
-  top 0
-  left 0
-  bottom 0
-  right 0
-  z-index 1000
-  display: flex;
-  sans-serif()
-  font-weight normal
-  font-size 12px
+.editor-button {
+	font-size: 14px;
+	float: right;
+	padding: 3px 5px;
+}
 
-  @import 'header'
-  @import 'input'
-  @import 'recorder'
-  @import 'translator'
-  @import 'tutorial'
-  @import 'form'
+#editor {
+	position: fixed;
+	background: #f7edf3;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 1000;
+	display: flex;
+	sans-serif();
+	font-weight: normal;
+	font-size: 12px;
+
+	@import 'header';
+	@import 'input';
+	@import 'recorder';
+	@import 'translator';
+	@import 'tutorial';
+	@import 'form';
+}

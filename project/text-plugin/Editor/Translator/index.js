@@ -6,7 +6,7 @@ import SentenceTranslation from 'Editor/Translator/Views/Document/SentenceTransl
 import Word from 'Editor/Translator/Views/Document/Word'
 import WordSidebar, { isMacintosh } from 'Editor/Translator/Views/Sidebar/Sidebar'
 import Suggestions from 'Editor/Translator/Suggestions/List'
-import { save } from 'Editor/actions'
+import { save, closeEditor } from 'Editor/actions'
 import store from 'App/store'
 
 class TranslatingEditor extends React.Component {
@@ -29,31 +29,29 @@ class TranslatingEditor extends React.Component {
       <div className="translator-container">
         <div className="translator-content">
           <div>
-            <button onClick={()=>store.dispatch({type: 'CLOSE_EDITOR'})}>Close</button>
             <div className="translator-header">
-              {ready && (
+              <div>
+                {!editor.isSaved && <button onClick={save}>Save document</button>}
+                <br/>
+                <button onClick={closeEditor}>Close</button>
+                <label><b>Shortcuts:</b></label>
+                <table>
+                  <tbody>
+                    <tr><td><kbd>Click</kbd></td><td>Select word</td></tr>
+                    <tr><td><kbd>Alt</kbd>+<kbd>Click</kbd></td><td>Add word</td></tr>
+                    <tr><td><kbd>{isMacintosh() ? 'Cmd' : 'Ctrl'}</kbd>+<kbd>Click</kbd></td><td>Delete word</td></tr>
+                    <tr><td colSpan="2"></td></tr>
+                    <tr><td><kbd>Enter</kbd></td><td>Next word</td></tr>
+                    <tr><td><kbd>Shift</kbd>+<kbd>Enter</kbd></td><td>Add next word</td></tr>
+                    <tr><td><kbd>Alt+Enter</kbd></td><td>Previous word</td></tr>
+                    <tr><td><kbd>Alt+Shift</kbd>+<kbd>Enter</kbd></td><td>Add previous word</td></tr>
+                  </tbody>
+                </table>
+                <br/>
                 <div>
-                  {!editor.isSaved && <button onClick={save}>Save document</button>}
-                  <br/>
-                  <label><b>Shortcuts:</b></label>
-                  <table>
-                    <tbody>
-                      <tr><td><kbd>Click</kbd></td><td>Select word</td></tr>
-                      <tr><td><kbd>Alt</kbd>+<kbd>Click</kbd></td><td>Add word</td></tr>
-                      <tr><td><kbd>{isMacintosh() ? 'Cmd' : 'Ctrl'}</kbd>+<kbd>Click</kbd></td><td>Delete word</td></tr>
-                      <tr><td colSpan="2"></td></tr>
-                      <tr><td><kbd>Enter</kbd></td><td>Next word</td></tr>
-                      <tr><td><kbd>Shift</kbd>+<kbd>Enter</kbd></td><td>Add next word</td></tr>
-                      <tr><td><kbd>Alt+Enter</kbd></td><td>Previous word</td></tr>
-                      <tr><td><kbd>Alt+Shift</kbd>+<kbd>Enter</kbd></td><td>Add previous word</td></tr>
-                    </tbody>
-                  </table>
-                  <br/>
-                  <div>
-                    <button onClick={requestSuggestion}>Get suggestions</button> <button onClick={applySuggestions}>Apply suggestions</button>
-                  </div>
+                  <button onClick={requestSuggestion}>Get suggestions</button> <button onClick={applySuggestions}>Apply suggestions</button>
                 </div>
-              )}
+              </div>
             </div>
 
             {editor.tokenized.map((paragraph, index) => (

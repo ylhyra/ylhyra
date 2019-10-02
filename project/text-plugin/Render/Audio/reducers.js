@@ -1,4 +1,4 @@
-export default (state = {}, action) => {
+export const audio = (state = {}, action) => {
   switch (action.type) {
     case 'CURRENTLY_PLAYING':
       return {

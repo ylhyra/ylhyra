@@ -4,6 +4,23 @@ import { push, replace } from 'react-router-redux'
 import error from 'App/Error'
 import stable_stringify from 'json-stable-stringify'
 
+
+export const openEditor = () => {
+  window.history.replaceState({}, '', window.location.href + '#editor')
+  store.dispatch({
+    type: 'OPEN_EDITOR',
+  })
+}
+export const closeEditor = () => {
+  window.history.replaceState({}, '', window.location.href.split('#')[0])
+  purgeCurrentPage()
+  store.dispatch({
+    type: 'CLOSE_EDITOR',
+  })
+}
+
+
+
 export const save = async () => {
   const title = mw.config.get('wgTitle')
   try {
@@ -19,10 +36,10 @@ export const save = async () => {
 
       editPage({
         title: `Data:${title}`,
-        text: stable_stringify(data_to_save, {space:2}),
+        text: stable_stringify(data_to_save, { space: 2 }),
         summary: 'Saving data',
       }, saved => {
-        if(saved) {
+        if (saved) {
           store.dispatch({
             type: 'SAVED',
           })
@@ -47,7 +64,7 @@ export const save = async () => {
 /*
   Edit a MediaWiki page
 */
-function editPage(info, callback) {
+export const editPage = (info, callback) => {
   $.ajax({
       url: mw.util.wikiScript('api'),
       type: 'POST',
@@ -74,6 +91,31 @@ function editPage(info, callback) {
     .fail(function() {
       console.warn('The ajax request failed.');
       callback(false)
+    })
+}
+export const purgeCurrentPage = () => {
+  $.ajax({
+      url: mw.util.wikiScript('api'),
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        format: 'json',
+        action: 'purge',
+        titles: mw.config.get('wgTitle'),
+        // token: mw.user.tokens.get('editToken')
+      }
+    })
+    .done(function(data) {
+      if (data && !data.warnings) {
+        console.log('Page purged!');
+        location.reload()
+      } else {
+        console.warn('The purge query returned an error. =(');
+        console.log(data)
+      }
+    })
+    .fail(function() {
+      console.warn('The ajax request failed.');
     })
 }
 

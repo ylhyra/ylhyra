@@ -2,8 +2,9 @@ import React from 'react'
 import convert from 'react-attr-converter';
 import Test from './Test'
 import inlineStyle2Json from 'App/functions/inline-style-2-json'
-import Conversation from 'Elements/Conversation'
-import Vocabulary from 'Elements/Vocabulary'
+import Conversation from 'Render/Elements/Conversation'
+import Vocabulary from 'Render/Elements/Vocabulary'
+import Audio from 'Render/Audio'
 
 const Traverse = (input, index = 0, editor, parentTag) => {
   if (!input) return null
@@ -22,6 +23,9 @@ const Traverse = (input, index = 0, editor, parentTag) => {
         break;
       case 'vocabulary':
         Tag = Vocabulary;
+        break;
+      case 'audio':
+        Tag = Audio;
         break;
     }
 
