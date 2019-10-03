@@ -6,18 +6,19 @@
 	display flex
 	&.error
 		display none
+	&.inline
+		display inline-block
+		margin-right 6px
+		margin-left 1px
 	.playButton
 		position relative
+		padding 0 3px
 		.percentage
 			position absolute
 			top 0
 			left 0
 			height 100%
 			background rgba(#f4796c, .25)
-	&.inline
-		display inline-block
-		margin-right 6px
-		margin-left -4px
 
 .audioContainer
 	&[data-inline]

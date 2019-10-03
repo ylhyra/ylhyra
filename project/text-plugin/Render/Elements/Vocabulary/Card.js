@@ -21,7 +21,7 @@ class Card extends Component {
     const { card, answer } = this.props
     if (/*!volume ||*/ !card.audio) return
     // console.log(card)
-    if (card.play_sound_immediately || answer.answered) {
+    if (card.from === 'is' || card.play_sound_immediately || answer.answered) {
       try {
         AudioClip.play(card.audio)
       } catch (e) {

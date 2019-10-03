@@ -85,7 +85,7 @@ class Conversation extends React.Component {
   next = () => {
     this.setState({
       howManyToShow: this.state.howManyToShow + 1,
-      answer:null,
+      answer: null,
       card: null,
       selected_index: null,
       done: this.state.howManyToShow + 1 >= this.state.conversation.length,
@@ -112,14 +112,17 @@ class Conversation extends React.Component {
 
         {conversation.slice(0, howManyToShow)
           .filter(element => element.type==='message')
+          .reduce(mergeMessages, [])
           .map((element, index) => (
           <div key={index}>
             <div className={element.from}>
-              <div className="bubble-container">
-                <div className="bubble">
-                  {element.message}
+              {element.messages.map((message,index2) =>
+                <div className="bubble-container" key={index2}>
+                  <div className="bubble">
+                    {message}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         ))}
@@ -137,3 +140,17 @@ class Conversation extends React.Component {
   }
 }
 export default Conversation
+
+
+const mergeMessages = (accumulator, currentValue) => {
+  console.log({ accumulator, currentValue })
+  if (accumulator.length === 0 || accumulator.last.from !== currentValue.from) {
+    accumulator.push({
+      ...currentValue,
+      messages: [currentValue.message]
+    })
+  } else {
+    accumulator.last.messages.push(currentValue.message)
+  }
+  return accumulator
+}

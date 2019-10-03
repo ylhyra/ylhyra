@@ -2,26 +2,25 @@ import React, { Component } from 'react';
 import clean from 'Render/Elements/Vocabulary/functions/clean'
 import Emoji from 'Render/Elements/Vocabulary/Types/Gender'
 
-export default ({ card, no_pronunciation, no_icons }) => {
+export default ({ card, answer }) => {
   console.log(card)
   return (
     <div className="prompt-word">
-      {card.prompt && (
+      {card.listen && (
         <div>
           <div>{'🔈'}</div>
           <small className="small-instructions center">Click to play sound</small>
-          {card.prompt}
         </div>
       )}
 
-      {card.from === 'en' ? (
-        <span className="english">{clean(card.english)}</span>
+      {card.hint && <div>
+        {answer&&answer.answered ? card.icelandic : card.hint}
+      </div>}
+
+      {(card.from === 'en' || card.show_english) ? (
+        <span className={`english ${card.hint ?'small':''}`}>{clean(card.english)}</span>
       ) : (
         <div className="flexWord">
-          <div className="top">
-            {!no_icons && <Emoji inline very_small {...card.icelandic}/>}
-            {/* {!no_pronunciation && <Pronunciation pronunciation={card.pronunciation} brackets/>} */}
-          </div>
           <div className="icelandic bottom">
             <div>{clean(card.icelandic)}</div>
           </div>
@@ -32,3 +31,9 @@ export default ({ card, no_pronunciation, no_icons }) => {
     </div>
   )
 }
+
+
+// <div className="top">
+//   {/* {!no_icons && <Emoji inli ne very_small {...card.icelandic}/>} */}
+//   {/* {!no_pronunciation && <Pronunciation pronunciation={card.pronunciation} brackets/>} */}
+// </div>

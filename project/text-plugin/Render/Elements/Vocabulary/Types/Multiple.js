@@ -11,12 +11,12 @@ class Element extends Component {
     const { card, answer } = this.props
     return (
       <div>
-        <Prompt card={card}/>
+        <Prompt card={card} answer={answer}/>
 
         <Answers answer={answer} card={card} id={this.props.id} submitAnswer={this.props.submitAnswer}>
           {card.options && card.options.map(({icelandic, english}, index) => (
             <div key={index}>
-              {card.from === 'en' && (
+              {card.to === 'is' && (
                 <div>
                   <div className="icelandic">{clean(icelandic)}</div>
                   {answer && answer.answered && card.correct_index !== index && english && (
@@ -24,7 +24,7 @@ class Element extends Component {
                   )}
                 </div>
               )}
-              {card.from === 'is' && (
+              {card.to === 'en' && (
                 <div>
                   <div className="english">{clean(english)}</div>
                   {answer && answer.answered && card.correct_index !== index && icelandic && (

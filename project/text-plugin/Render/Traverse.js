@@ -103,6 +103,7 @@ const customTags = {
   'small-box': 'span',
   'word': 'span',
   'sentence': 'span',
+  'p': 'div',
 }
 const getCustomTag = (tag, className, callback) => {
   if (tag in customTags) {
