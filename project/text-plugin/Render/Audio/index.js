@@ -129,6 +129,8 @@ class Audio extends React.PureComponent {
     if (inline) {
       Tag = 'span'
     }
+    console.log(file)
+    console.log(typeof file)
     return (
       <Tag className={`audioPlayer ${playing ? playing : ''} ${error ? 'error' : ''} ${inline ? 'inline' : ''}`}>
         <audio // controls

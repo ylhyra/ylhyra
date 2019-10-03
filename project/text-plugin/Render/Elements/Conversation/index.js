@@ -143,7 +143,6 @@ export default Conversation
 
 
 const mergeMessages = (accumulator, currentValue) => {
-  console.log({ accumulator, currentValue })
   if (accumulator.length === 0 || accumulator.last.from !== currentValue.from) {
     accumulator.push({
       ...currentValue,

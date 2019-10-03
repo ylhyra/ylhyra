@@ -70,7 +70,7 @@ export const getText = (input) => {
       input.forEach(Traverse)
     } else if (typeof input === 'object' || typeof input === 'function') {
       Traverse(input.props.children)
-    } else {
+    } else if(input)  {
       output += input
     }
   }

@@ -11,3 +11,4 @@ package-lock.json
 npm-debug.log*
 *OLD*
 project/mediawiki/backup/*/*
+project/mediawiki/LocalSettings.php
