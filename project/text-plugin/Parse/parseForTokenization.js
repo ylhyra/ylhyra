@@ -29,7 +29,7 @@ import isEmpty from 'is-empty-object'
 /*
   Parser
 */
-export default function(html, title) {
+export default function(html) {
   if (!html) return null
   // console.log(html)
   try {
@@ -44,19 +44,50 @@ export default function(html, title) {
     // console.log(html)
     // console.log(json2html(json))
 
+    const title = mw.config.get('wgPageName').replace(/_/g, ' ') // TODO! Find better way of coordinating title used here and in {{start}}
+
     /*
       Is data already saved?
     */
     let data = ExtractData(json)
+    // console.log(data)
+
+    /*
+      Extract text, group by documents
+    */
+    const text = ExtractText(json)
+    if (isEmpty(text)) {
+      console.warn('No text to tokenize.')
+      return json
+      // return html2json(Compiler({ json: wrapped, data: data, }))
+    }
+    const tokenized = Tokenizer(text, data)
+    const flattenedData = flattenData(data)
+    console.log({
+      text,
+      tokenized,
+      data,
+      flattenedData,
+    })
+    if (tokenized[title]) {
+      store.dispatch({
+        type: 'TOKENIZED',
+        currentDocument: tokenized[title],
+        // allDocuments: tokenized,
+        data: flattenedData,
+        currentDocumentData: data[title],
+      })
+    } else {
+      console.log('Stopped tokenization, there is no {{start}} for the current document')
+    }
 
     /*
       Merge tokenization and HTML (does not include data).
       Returns wrapped HTML without data
     */
-    const wrapped = WrapInTags({ json, data })
+    const wrapped = WrapInTags({ json, tokenized })
     // console.log(json2html(wrapped))
-    return json
-    const compiled = Compiler({ json: wrapped, data: flattenData(data) })
+    const compiled = Compiler({ json: wrapped, data: flattenedData })
     return html2json(compiled)
     // return compiled
   } catch (e) {

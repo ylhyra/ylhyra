@@ -42,7 +42,8 @@ documentReady(() => {
   /*
     Temporary button for removing styling
   */
-  var html = $('.mw-parser-output').first().html()
+  const html = $('.mw-parser-output').first().html()
+  const title = mw.config.get('wgPageName').replace(/_/g, ' ') // TODO? Find better way of coordinating title used here and in {{start}}
   window.showRaw = () => {
     $('.mw-parser-output').html(html)
   }
@@ -52,7 +53,7 @@ documentReady(() => {
   if (window.initialized) return; //Temp
   if (!shouldRender) return;
   if ($('.mw-parser-output').length > 0) {
-    const parsed = Parse(html)
+    const parsed = Parse(html, title)
     console.time('parsing')
     Render(parsed)
     // Editor(parsed)

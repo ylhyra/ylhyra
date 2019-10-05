@@ -42,41 +42,28 @@ import GroupParagraphs from 'text-plugin/Parse/ExtractText/Paragraphs'
 /*
   Parse input and split paragraphs
 */
-export default function({ json, tokenized }) {
-
-  /*
-    Flatten tokenized
-  */
-  let tokenizedFlattened = []
-  for (const documentTitle of Object.keys(tokenized)) {
-    tokenized[documentTitle].forEach(d => {
-      tokenizedFlattened.push({
-        documentTitle,
-        ...d,
-      })
-    })
-  }
-  tokenizedFlattened = tokenizedFlattened.sort((a, b) => a.index - b.index)
-
+export default function({ json, data }) {
+  console.log(data)
+  return;
   let index = 0
-  let wrapped = GroupParagraphs({
-    input: json,
-    paragraphFunction: (paragraph, documentTitle) => {
-      const text = getText(paragraph, true, true)
-      if (documentTitle === undefined) {
-        return paragraph
-      }
-      if (text) {
-        return Sentences(paragraph, tokenizedFlattened[index++].sentences)
-      }
-    },
-  })
-  // console.log(wrapped)
-  wrapped = RemoveData(wrapped)
-  // console.log(wrapped)
-  wrapped = html2json(json2html(wrapped))
-
-  return wrapped
+  // let wrapped = GroupParagraphs({
+  //   input: json,
+  //   paragraphFunction: (paragraph, documentTitle) => {
+  //     const text = getText(paragraph, true, true)
+  //     if (documentTitle === undefined) {
+  //       return paragraph
+  //     }
+  //     if (text) {
+  //       return Sentences(paragraph, tokenizedFlattened[index++].sentences)
+  //     }
+  //   },
+  // })
+  // // console.log(wrapped)
+  // wrapped = RemoveData(wrapped)
+  // // console.log(wrapped)
+  // wrapped = html2json(json2html(wrapped))
+  //
+  // return wrapped
 }
 
 /*
