@@ -51,7 +51,7 @@ const Traverse = (input, index = 0, editor) => {
       Always open links in a new window
     */
     if (tag === 'a' && attrs.href && attrs.href.startsWith('http')) {
-      attrs.target = "_blank"
+      // attrs.target = "_blank"
       attrs.rel = "noopener"
     }
 

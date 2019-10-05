@@ -43,6 +43,8 @@ class WordElement extends React.Component {
           .join(',')
       }
 
+    } else {
+      classes.push('missing')
     }
 
     // console.log(definition)

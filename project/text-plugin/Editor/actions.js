@@ -22,7 +22,7 @@ export const closeEditor = () => {
 
 
 export const save = async () => {
-  const title = mw.config.get('wgTitle')
+  const title = mw.config.get('wgPageName')
   try {
     if (!store.getState().editor.isSaved) {
       const data = store.getState().editor
@@ -101,7 +101,7 @@ export const purgeCurrentPage = () => {
       data: {
         format: 'json',
         action: 'purge',
-        titles: mw.config.get('wgTitle'),
+        titles: mw.config.get('wgPageName'),
         // token: mw.user.tokens.get('editToken')
       }
     })

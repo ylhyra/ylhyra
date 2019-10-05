@@ -7,6 +7,7 @@ class Sentence extends React.Component {
     const { selected } = this.props
     const { id, definition } = this.props
     let attrs = {}
+    let classes = []
     if (exists(definition) && definition.meaning.trim())  {
       /*
         All sentences have "id" but only sentences
@@ -15,11 +16,13 @@ class Sentence extends React.Component {
       attrs = {
         'data-sentence-id': id,
       }
+    } else {
+      classes.push('missing')
     }
     // console.log(this.props.children)
     return [
       <Box id={id} definition={definition} sentence/>,
-      <span className="sentence" {...attrs} id={id}>
+      <span className={`sentence ${classes.join(' ')}`} {...attrs} id={id}>
         {this.props.children}
       </span>,
     ]

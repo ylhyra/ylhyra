@@ -3,7 +3,7 @@ import clean from 'Render/Elements/Vocabulary/functions/clean'
 import Emoji from 'Render/Elements/Vocabulary/Types/Gender'
 
 export default ({ card, answer }) => {
-  console.log(card)
+  // console.log(card)
   return (
     <div className="prompt-word">
       {card.listen && (

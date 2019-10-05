@@ -44,6 +44,8 @@ export default function(html) {
     // console.log(html)
     // console.log(json2html(json))
 
+    const title = mw.config.get('wgPageName').replace(/_/g, ' ') // TODO! Find better way of coordinating title used here and in {{start}}
+
     /*
       Is data already saved?
     */
@@ -54,23 +56,30 @@ export default function(html) {
       Extract text, group by documents
     */
     const text = ExtractText(json)
-    // console.log(text)
-    if(isEmpty(text)) {
+    if (isEmpty(text)) {
       console.warn('No text to tokenize.')
       return json
       // return html2json(Compiler({ json: wrapped, data: data, }))
-    } 
+    }
     const tokenized = Tokenizer(text, data)
-    // console.log(tokenized)
     const flattenedData = flattenData(data)
-    // console.log(tokenized)
-    store.dispatch({
-      type: 'TOKENIZED',
-      currentDocument: tokenized[mw.config.get( 'wgTitle' )],
-      // allDocuments: tokenized,
-      data: flattenedData,
-      currentDocumentData: data[mw.config.get( 'wgTitle' )],
-    })
+    console.log(JSON.stringify({
+      text,
+      tokenized,
+      data,
+      flattenedData,
+    },null,2))
+    if (tokenized[title]) {
+      store.dispatch({
+        type: 'TOKENIZED',
+        currentDocument: tokenized[title],
+        // allDocuments: tokenized,
+        data: flattenedData,
+        currentDocumentData: data[title],
+      })
+    } else {
+      console.log('Stopped tokenization, there is no {{start}} for the current document')
+    }
 
     /*
       Merge tokenization and HTML (does not include data).
@@ -114,7 +123,7 @@ const flattenData = (input) => {
       words: { ...translation.words, ...currentTranslation.words },
     }
     list = {
-      arrayOfAllItemIDs: [...list.arrayOfAllItemIDs,...currentList.arrayOfAllItemIDs],
+      arrayOfAllItemIDs: [...list.arrayOfAllItemIDs, ...currentList.arrayOfAllItemIDs],
       arrayOfAllWordIDs: [...list.arrayOfAllWordIDs, ...currentList.arrayOfAllWordIDs],
       items: { ...list.items, ...currentList.items },
       sentences: { ...list.sentences, ...currentList.sentences },

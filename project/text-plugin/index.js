@@ -42,9 +42,9 @@ documentReady(() => {
   /*
     Temporary button for removing styling
   */
-  var original = $('.mw-parser-output').first().html()
+  var html = $('.mw-parser-output').first().html()
   window.showRaw = () => {
-    $('.mw-parser-output').html(original)
+    $('.mw-parser-output').html(html)
   }
 
   const namespaceNumber = mw.config.get('wgNamespaceNumber')
@@ -52,11 +52,10 @@ documentReady(() => {
   if (window.initialized) return; //Temp
   if (!shouldRender) return;
   if ($('.mw-parser-output').length > 0) {
-    const html = $('.mw-parser-output').first().html()
     const parsed = Parse(html)
     console.time('parsing')
     Render(parsed)
-    Editor(parsed)
+    // Editor(parsed)
     console.timeEnd('parsing')
     window.initialized = true
     setTimeout(() => {
