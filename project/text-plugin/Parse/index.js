@@ -86,8 +86,7 @@ export default function(html, title) {
       Returns wrapped HTML without data
     */
     const wrapped = WrapInTags({ json, tokenized })
-    console.log(json2html(wrapped))
-    // return wrapped
+    // console.log(json2html(wrapped))
     const compiled = Compiler({ json: wrapped, data: flattenedData })
     return html2json(compiled)
     // return compiled
