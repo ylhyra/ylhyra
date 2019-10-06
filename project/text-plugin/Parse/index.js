@@ -44,19 +44,49 @@ export default function(html, title) {
     // console.log(html)
     // console.log(json2html(json))
 
+
     /*
       Is data already saved?
     */
     let data = ExtractData(json)
+    // console.log(data)
+
+    /*
+      Extract text, group by documents
+    */
+    const text = ExtractText(json)
+    if (isEmpty(text)) {
+      console.warn('No text to tokenize.')
+      return json
+      // return html2json(Compiler({ json: wrapped, data: data, }))
+    }
+    const tokenized = Tokenizer(text, data)
+    const flattenedData = flattenData(data)
+    console.log({
+      text,
+      tokenized,
+      data,
+      flattenedData,
+    })
+    if (tokenized[title]) {
+      store.dispatch({
+        type: 'TOKENIZED',
+        currentDocument: tokenized[title],
+        // allDocuments: tokenized,
+        data: flattenedData,
+        currentDocumentData: data[title],
+      })
+    } else {
+      console.log('Stopped tokenization, there is no {{start}} for the current document')
+    }
 
     /*
       Merge tokenization and HTML (does not include data).
       Returns wrapped HTML without data
     */
-    const wrapped = WrapInTags({ json, data })
+    const wrapped = WrapInTags({ json, tokenized })
     // console.log(json2html(wrapped))
-    return json
-    const compiled = Compiler({ json: wrapped, data: flattenData(data) })
+    const compiled = Compiler({ json: wrapped, data: flattenedData })
     return html2json(compiled)
     // return compiled
   } catch (e) {
@@ -102,5 +132,21 @@ const flattenData = (input) => {
   return {
     translation,
     list,
+  }
+}
+
+
+/*
+  Prevent clashes if the same document is transcluded twice
+*/
+export class newTitle {
+  index = 0;
+  array = [];
+  get(title) {
+    if(this.array.includes(title)) {
+      title = this.get(title + '1')
+    }
+    this.array.push(title)
+    return title
   }
 }

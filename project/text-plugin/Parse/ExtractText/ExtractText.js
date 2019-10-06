@@ -15,6 +15,7 @@
 import GroupParagraphs from './Paragraphs'
 import hash from 'App/functions/hash'
 import emoji_strip from 'emoji-strip'
+import { newTitle } from 'Parse/index.js'
 
 /*
   Convert document into raw text
@@ -25,6 +26,7 @@ export default function(json, /*onlyRetrieveEntireDocuments*/ ) {
   let index = 0
   GroupParagraphs({
     input: json,
+    getNewTitle: new newTitle(),
     paragraphFunction: (paragraph, documentTitle) => {
       const text = getText(paragraph, true, true)
       if (documentTitle === undefined) {

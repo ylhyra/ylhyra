@@ -1,3 +1,5 @@
+import { newTitle } from 'Parse/index.js'
+
 /*
   Extract the data which is stored in the Data: namespace (is encoded in [[Template:Start]])
 
@@ -6,8 +8,10 @@
 */
 const ExtractData = (input) => {
   let data = {}
+  const getNewTitle = new newTitle()
   Traverse(input, (output) => {
-    data[output.documentTitle] = output.data
+    const title = getNewTitle.get(output.documentTitle)
+    data[title] = updateIDs(output.data, title)
   })
   return data
 }
@@ -31,3 +35,12 @@ const Traverse = (input, callback) => {
   }
 }
 export default ExtractData
+
+/*
+  //TODO!
+  Prepend title to all IDs to prevent clashing
+*/
+const updateIDs = (data,title) => {
+  // console.log(data)
+  return data
+}

@@ -20,7 +20,7 @@ let documents = []
   - This allows us to split sentences without giving a thought about how HTML tags affect it.
   - Block elements make us switch to a new paragraph.
 */
-const GroupParagraphs = ({ input, paragraphFunction, isTranslating, onlyRetrieveEntireDocuments }) => {
+const GroupParagraphs = ({ input, paragraphFunction, isTranslating, getNewTitle }) => {
   if (!input || shouldSkip(input)) return input
   if (input.child) {
     /*
@@ -42,7 +42,7 @@ const GroupParagraphs = ({ input, paragraphFunction, isTranslating, onlyRetrieve
 
       if (element.attr) {
         if (element.attr['data-document-start']) {
-          documents.push(element.attr['data-document-start'])
+          documents.push(getNewTitle.get(element.attr['data-document-start']))
           isNewDocument = true
         } else if (element.attr['data-document-end'] && documents.length > 0) {
           documents.pop()
@@ -64,7 +64,7 @@ const GroupParagraphs = ({ input, paragraphFunction, isTranslating, onlyRetrieve
         returns = [
           ...returns,
           ...isTranslating ? (paragraphFunction(group, documents.last) || []) : group,
-          GroupParagraphs({ input: element, paragraphFunction, isTranslating: shouldTranslate, onlyRetrieveEntireDocuments }) || {},
+          GroupParagraphs({ input: element, paragraphFunction, isTranslating: shouldTranslate, getNewTitle }) || {},
         ]
         group = []
       }
