@@ -29,7 +29,7 @@ import isEmpty from 'is-empty-object'
 /*
   Parser
 */
-export default function(html) {
+export default function(html, title) {
   if (!html) return null
   // console.log(html)
   try {
@@ -44,7 +44,6 @@ export default function(html) {
     // console.log(html)
     // console.log(json2html(json))
 
-    const title = mw.config.get('wgPageName').replace(/_/g, ' ') // TODO! Find better way of coordinating title used here and in {{start}}
 
     /*
       Is data already saved?
@@ -63,12 +62,12 @@ export default function(html) {
     }
     const tokenized = Tokenizer(text, data)
     const flattenedData = flattenData(data)
-    console.log(JSON.stringify({
+    console.log({
       text,
       tokenized,
       data,
       flattenedData,
-    },null,2))
+    })
     if (tokenized[title]) {
       store.dispatch({
         type: 'TOKENIZED',
@@ -133,5 +132,21 @@ const flattenData = (input) => {
   return {
     translation,
     list,
+  }
+}
+
+
+/*
+  Prevent clashes if the same document is transcluded twice
+*/
+export class newTitle {
+  index = 0;
+  array = [];
+  get(title) {
+    if(this.array.includes(title)) {
+      title = this.get(title + '1')
+    }
+    this.array.push(title)
+    return title
   }
 }

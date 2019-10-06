@@ -38,6 +38,7 @@ import SplitAndWrap from './2-SplitAndWrap'
 import InvertElementsThatOnlyContainOneThing from './3-Invert'
 import MergeElementsThatHaveBeenSplitUnnecessarily from './4-Merge'
 import GroupParagraphs from 'text-plugin/Parse/ExtractText/Paragraphs'
+import { newTitle } from 'Parse/index.js'
 
 /*
   Parse input and split paragraphs
@@ -61,6 +62,7 @@ export default function({ json, tokenized }) {
   let index = 0
   let wrapped = GroupParagraphs({
     input: json,
+    getNewTitle: new newTitle(),
     paragraphFunction: (paragraph, documentTitle) => {
       const text = getText(paragraph, true, true)
       if (documentTitle === undefined) {

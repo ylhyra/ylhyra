@@ -43,6 +43,7 @@ documentReady(() => {
     Temporary button for removing styling
   */
   var html = $('.mw-parser-output').first().html()
+  const title = mw.config.get('wgPageName').replace(/_/g, ' ') // TODO! Find better way of coordinating title used here and in {{start}}
   window.showRaw = () => {
     $('.mw-parser-output').html(html)
   }
