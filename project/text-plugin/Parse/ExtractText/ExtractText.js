@@ -41,6 +41,7 @@ export default function(json, /*onlyRetrieveEntireDocuments*/ ) {
           hash: hash(text),
           text: text,
         })
+        // console.log(index)
       }
     },
     // onlyRetrieveEntireDocuments

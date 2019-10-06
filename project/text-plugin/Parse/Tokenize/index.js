@@ -46,8 +46,8 @@ const tokenize = ({ paragraphs, previousData }) => {
   ]
   tokenized = paragraphs.map(p => {
     return {
+      ...arrayOfNewAndOldTokenizations.find(i => i.hash === p.hash),
       index: p.index,
-      ...arrayOfNewAndOldTokenizations.find(i => i.hash === p.hash)
     }
   })
   // console.log(tokenized)
@@ -55,6 +55,7 @@ const tokenize = ({ paragraphs, previousData }) => {
   if(previousData.tokenized) {
     tokenized = PreserveIDs(previousData.tokenized, tokenized)
   }
+
   /*
     "Paragraph" currently only contains a hash of the text.
     Here we add a hash of the IDs
@@ -64,7 +65,6 @@ const tokenize = ({ paragraphs, previousData }) => {
     hashOfIds: hashOfIds(paragraph),
   }))
 
-  // console.log(tokenized)
   return tokenized
 }
 

@@ -62,12 +62,13 @@ export default function(html, title) {
     }
     const tokenized = Tokenizer(text, data)
     const flattenedData = flattenData(data)
-    console.log({
-      text,
-      tokenized,
-      data,
-      flattenedData,
-    })
+    // console.log(text)
+    // console.log({
+    //   text,
+    //   tokenized,
+    //   data,
+    //   flattenedData,
+    // })
     if (tokenized[title]) {
       store.dispatch({
         type: 'TOKENIZED',
@@ -85,7 +86,8 @@ export default function(html, title) {
       Returns wrapped HTML without data
     */
     const wrapped = WrapInTags({ json, tokenized })
-    // console.log(json2html(wrapped))
+    console.log(json2html(wrapped))
+    // return wrapped
     const compiled = Compiler({ json: wrapped, data: flattenedData })
     return html2json(compiled)
     // return compiled

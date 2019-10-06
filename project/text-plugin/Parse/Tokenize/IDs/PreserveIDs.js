@@ -21,10 +21,9 @@ import flattenArray from 'App/functions/flattenArray'
 // import stringSimilarity from 'string-similarity'
 // var similarity = stringSimilarity.compareTwoStrings('healed', 'sealed');
 // var matches = stringSimilarity.findBestMatch('healed', ['edward', 'sealed', 'theatre']);
+const JOINING_CHARACTER = '�' // Random joining character
 
-
-export default (first, second) => {
-
+const Preserve = (first, second) => {
   /*
     Map from new IDs to preserved IDs
   */
@@ -38,6 +37,14 @@ export default (first, second) => {
     */
     ...DiffAndPreserveIDs(WordsArray(first), WordsArray(second))
   }
+  // console.log({PreservedIDs})
+
+  // console.error(SentencesArray(first))
+  // console.error(SentencesArray(second))
+  // console.error(JSON.stringify(WordsArray(first)))
+  // console.error(JSON.stringify(WordsArray(second)))
+
+  // DiffAndPreserveIDs(SentencesArray(first), SentencesArray(second))
 
   /*
     Return with preserved IDs
@@ -57,6 +64,8 @@ export default (first, second) => {
     }))
   }))
 }
+export default Preserve
+
 
 
 /*
@@ -67,17 +76,19 @@ const DiffAndPreserveIDs = (first, second) => {
   let ids = {}
   let first_index = 0
   let second_index = 0
-
+  // console.log(first)
   const diff = diffArrays(
     first.map(i => i.text),
     second.map(i => i.text),
   )
-  // console.log(JSON.stringify(diff,null,2))
+  // console.log(JSON.stringify(diff, null, 2))
   diff.forEach((part, index) => {
     part.value.forEach(value => {
       if (part.removed) {
+        // console.log(first[first_index].text + ' removed')
         first_index++
       } else if (part.added) {
+        // console.log(second[second_index].text + ' added')
         second_index++
       } else {
         /*
@@ -99,7 +110,7 @@ const DiffAndPreserveIDs = (first, second) => {
     //   console.log(part)
     // }
   })
-
+  // console.log(ids)
   return ids
 }
 
@@ -124,7 +135,7 @@ const SentencesArray = (paragraphs) => {
           id: sentence.id,
           text: sentence.words.map(word => {
             return word.text
-          }).filter(Boolean).join('/') // Random joining character
+          }).filter(Boolean).join(JOINING_CHARACTER)
         }
       })
     }))
@@ -146,267 +157,81 @@ const WordsArray = (paragraphs) => {
 
 
 
-// setTimeout(() => {
-//   TESTING()
-// }, 100)
 //
-// const One = [{
-//     "hash": "1a545us",
-//     "sentences": [{
-//       "id": "s_1a545_preserved",
-//       "text": "Þetta er dæmi um texta.",
-//       "words": [{
-//           "0": "Þ",
-//           "1": "e",
-//           "2": "t",
-//           "3": "t",
-//           "4": "a",
-//           "id": "w_2ya30_preserved",
-//           "text": "Þetta"
-//         },
-//         " ",
-//         {
-//           "0": "e",
-//           "1": "r",
-//           "id": "w_leyzt_preserved",
-//           "text": "er"
-//         },
-//         " ",
-//         {
-//           "0": "d",
-//           "1": "æ",
-//           "2": "m",
-//           "3": "i",
-//           "id": "w_11omt_preserved",
-//           "text": "dæmi"
-//         },
-//         " ",
-//         {
-//           "0": "u",
-//           "1": "m",
-//           "id": "w_vd9nq_preserved",
-//           "text": "um"
-//         },
-//         " ",
-//         {
-//           "0": "t",
-//           "1": "e",
-//           "2": "x",
-//           "3": "t",
-//           "4": "a",
-//           "id": "w_w3cfr_preserved",
-//           "text": "texta"
-//         }
-//       ]
-//     }]
+// const ONE = [{
+//     "id": "w__Eiríkur",
+//     "text": "Eiríkur"
 //   },
 //   {
-//     "hash": "zrhs5d",
-//     "sentences": [{
-//       "id": "s_zrhs5_preserved",
-//       "text": "Hér er meiri texti.",
-//       "words": [{
-//           "0": "H",
-//           "1": "é",
-//           "2": "r",
-//           "id": "w_r09qh_preserved",
-//           "text": "Hér"
-//         },
-//         " ",
-//         {
-//           "0": "e",
-//           "1": "r",
-//           "id": "w_lgaou_preserved",
-//           "text": "er"
-//         },
-//         " ",
-//         {
-//           "0": "m",
-//           "1": "e",
-//           "2": "i",
-//           "3": "r",
-//           "4": "i",
-//           "id": "w_1ox2q_preserved",
-//           "text": "meiri"
-//         },
-//         " ",
-//         {
-//           "0": "t",
-//           "1": "e",
-//           "2": "x",
-//           "3": "t",
-//           "4": "i",
-//           "id": "w_1ln62_preserved",
-//           "text": "texti"
-//         }
-//       ]
-//     }]
+//     "id": "w__dansar",
+//     "text": "dansar"
+//   },
+//   {
+//     "id": "w__svo",
+//     "text": "svo"
+//   },
+//   {
+//     "id": "w__vel",
+//     "text": "vel"
+//   }, {
+//     "id": "w__Hann",
+//     "text": "Hann"
+//   }, {
+//     "id": "w__dansar",
+//     "text": "dansar"
+//   }, {
+//     "id": "w__betur",
+//     "text": "betur"
+//   }, {
+//     "id": "w__en",
+//     "text": "en"
+//   }, {
+//     "id": "w__ég",
+//     "text": "ég"
 //   }
 // ]
+// const TWO = [{
+//   "id": "NEW_w__Test",
+//   "text": "Test"
+// }, {
+//   "id": "NEW_w__test",
+//   "text": "test"
+// }, {
+//   "id": "NEW_w__test",
+//   "text": "test"
+// }, {
+//   "id": "NEW_w__Haha",
+//   "text": "Haha"
+// }, {
+//   "id": "NEW_w__Haha",
+//   "text": "Haha"
+// }, {
+//   "id": "NEW_w__Eiríkur",
+//   "text": "Eiríkur"
+// }, {
+//   "id": "NEW_w__dansar",
+//   "text": "dansar"
+// }, {
+//   "id": "NEW_w__svo",
+//   "text": "svo"
+// }, {
+//   "id": "NEW_w__vel",
+//   "text": "vel"
+// }, {
+//   "id": "NEW_w__Hann",
+//   "text": "Hann"
+// }, {
+//   "id": "NEW_w__dansar",
+//   "text": "dansar"
+// }, {
+//   "id": "NEW_w_0_betur",
+//   "text": "betur"
+// }, {
+//   "id": "NEW_w_7_en",
+//   "text": "en"
+// }, {
+//   "id": "NEW_w_O_ég",
+//   "text": "ég"
+// }]
 //
-// const Two = [{
-//     "hash": "1hkjp5k",
-//     "sentences": [{
-//       "id": "s_1hkjp_NEW",
-//       "text": "Þetta hérna er dæmi um texta.",
-//       "words": [{
-//           "0": "Þ",
-//           "1": "e",
-//           "2": "t",
-//           "3": "t",
-//           "4": "a",
-//           "id": "w_1pavt_NEW",
-//           "text": "Þetta"
-//         },
-//         " ",
-//         {
-//           "0": "h",
-//           "1": "é",
-//           "2": "r",
-//           "3": "n",
-//           "4": "a",
-//           "id": "w_tcpm2_NEW",
-//           "text": "hérna"
-//         },
-//         " ",
-//         {
-//           "0": "e",
-//           "1": "r",
-//           "id": "w_mkgw6_NEW",
-//           "text": "er"
-//         },
-//         " ",
-//         {
-//           "0": "d",
-//           "1": "æ",
-//           "2": "m",
-//           "3": "i",
-//           "id": "w_10gna_NEW",
-//           "text": "dæmi"
-//         },
-//         " ",
-//         {
-//           "0": "u",
-//           "1": "m",
-//           "id": "w_u73v0_NEW",
-//           "text": "um"
-//         },
-//         " ",
-//         {
-//           "0": "t",
-//           "1": "e",
-//           "2": "x",
-//           "3": "t",
-//           "4": "a",
-//           "id": "w_urp9o_NEW",
-//           "text": "texta"
-//         }
-//       ]
-//     }]
-//   },
-//   {
-//     "hash": "1bsuioi",
-//     "sentences": [{
-//         "id": "s_104gi_NEW",
-//         "text": "Viðbót.",
-//         "words": [{
-//           "0": "V",
-//           "1": "i",
-//           "2": "ð",
-//           "3": "b",
-//           "4": "ó",
-//           "5": "t",
-//           "id": "w_sr0a5_NEW",
-//           "text": "Viðbót"
-//         }]
-//       },
-//       {
-//         "id": "s_zrhs5_NEW",
-//         "text": "Hér er meiri texti.",
-//         "words": [{
-//             "0": "H",
-//             "1": "é",
-//             "2": "r",
-//             "id": "w_r09qh_NEW",
-//             "text": "Hér"
-//           },
-//           " ",
-//           {
-//             "0": "e",
-//             "1": "r",
-//             "id": "w_lgaou_NEW",
-//             "text": "er"
-//           },
-//           " ",
-//           {
-//             "0": "m",
-//             "1": "e",
-//             "2": "i",
-//             "3": "r",
-//             "4": "i",
-//             "id": "w_1ox2q_NEW",
-//             "text": "meiri"
-//           },
-//           " ",
-//           {
-//             "0": "t",
-//             "1": "e",
-//             "2": "x",
-//             "3": "t",
-//             "4": "i",
-//             "id": "w_1ln62_NEW",
-//             "text": "texti"
-//           }
-//         ]
-//       },
-//       {
-//         "id": "s_kc61n_NEW",
-//         "text": "Og þetta líka.",
-//         "words": [{
-//             "0": "O",
-//             "1": "g",
-//             "id": "w_rm1kg_NEW",
-//             "text": "Og"
-//           },
-//           " ",
-//           {
-//             "0": "þ",
-//             "1": "e",
-//             "2": "t",
-//             "3": "t",
-//             "4": "a",
-//             "id": "w_qaft8_NEW",
-//             "text": "þetta"
-//           },
-//           " ",
-//           {
-//             "0": "l",
-//             "1": "í",
-//             "2": "k",
-//             "3": "a",
-//             "id": "w_12eq5_NEW",
-//             "text": "líka"
-//           }
-//         ]
-//       }
-//     ]
-//   },
-//   {
-//     "hash": "1ji8d5c",
-//     "sentences": [{
-//       "id": "s_1ji8d_NEW",
-//       "text": "Aukabót.",
-//       "words": [{
-//         "0": "A",
-//         "1": "u",
-//         "2": "k",
-//         "3": "a",
-//         "4": "b",
-//         "5": "ó",
-//         "6": "t",
-//         "id": "w_1g3iy_NEW",
-//         "text": "Aukabót"
-//       }]
-//     }]
-//   }
-// ]
+// console.log({ DiffAndPreserveIDs: DiffAndPreserveIDs(ONE, TWO) })

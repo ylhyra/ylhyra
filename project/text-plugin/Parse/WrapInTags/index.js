@@ -59,6 +59,8 @@ export default function({ json, tokenized }) {
   }
   tokenizedFlattened = tokenizedFlattened.sort((a, b) => a.index - b.index)
 
+  console.log(tokenized)
+
   let index = 0
   let wrapped = GroupParagraphs({
     input: json,
