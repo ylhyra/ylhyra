@@ -19,6 +19,7 @@ require('./DevelopmentMode')
 import Parse from 'text-plugin/Parse'
 import Render from 'text-plugin/Render'
 import Editor from 'Editor'
+import Source_editor from 'Source_editor'
 
 
 /*
@@ -32,7 +33,7 @@ const documentReady = (fn) => {
   }
 }
 function checkIfjQueryIsReady(fn) {
-  if (!window.jQuery) return setTimeout(() => checkIfjQueryIsReady(fn), 50);
+  if (!window.jQuery || !mw || !mw.util) return setTimeout(() => checkIfjQueryIsReady(fn), 50);
   fn()
 }
 
@@ -47,7 +48,7 @@ documentReady(() => {
   window.showRaw = () => {
     $('.mw-parser-output').html(html)
   }
-
+  Source_editor()
   const namespaceNumber = mw.config.get('wgNamespaceNumber')
   const shouldRender = namespaceNumber === 0 || namespaceNumber === 3004
   if (window.initialized) return; //Temp
@@ -56,7 +57,7 @@ documentReady(() => {
     const parsed = Parse(html, title)
     console.time('parsing')
     Render(parsed)
-    // Editor(parsed)
+    Editor(parsed)
     console.timeEnd('parsing')
     window.initialized = true
     setTimeout(() => {

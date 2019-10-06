@@ -42,6 +42,7 @@ const GroupParagraphs = ({ input, paragraphFunction, isTranslating, getNewTitle 
 
       if (element.attr) {
         if (element.attr['data-document-start']) {
+          // console.error('HAHHAAHA'+element.attr['data-document-start'])
           documents.push(getNewTitle.get(element.attr['data-document-start']))
           isNewDocument = true
         } else if (element.attr['data-document-end'] && documents.length > 0) {
@@ -54,13 +55,14 @@ const GroupParagraphs = ({ input, paragraphFunction, isTranslating, getNewTitle 
         If we see an inline element or text, we group
         it together before sending to sentence()
       */
-      if (isTranslating === shouldTranslate && (isInlineElement(element.tag) || element.node === 'text') && !isNewDocument) {
+      if (/*isTranslating === shouldTranslate &&*/ isTranslating && shouldTranslate && (isInlineElement(element.tag) || element.node === 'text') && !isNewDocument) {
         group.push(element)
       }
       /*
         Else, our grouping is finished
       */
       else {
+        // console.log(documents.last)
         returns = [
           ...returns,
           ...isTranslating ? (paragraphFunction(group, documents.last) || []) : group,
