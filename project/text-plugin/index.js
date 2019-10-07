@@ -32,11 +32,11 @@ const documentReady = (fn) => {
     document.addEventListener("DOMContentLoaded", () => checkIfjQueryIsReady(fn))
   }
 }
+
 function checkIfjQueryIsReady(fn) {
   if (!window.jQuery || !mw || !mw.util) return setTimeout(() => checkIfjQueryIsReady(fn), 50);
   fn()
 }
-
 
 
 documentReady(() => {
@@ -50,7 +50,7 @@ documentReady(() => {
   }
   Source_editor()
   const namespaceNumber = mw.config.get('wgNamespaceNumber')
-  const shouldRender = namespaceNumber === 0 || namespaceNumber === 3004
+  const shouldRender = [0, 2, 3002, 3004].includes(namespaceNumber)
   if (window.initialized) return; //Temp
   if (!shouldRender) return;
   if ($('.mw-parser-output').length > 0) {

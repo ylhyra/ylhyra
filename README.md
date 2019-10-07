@@ -14,9 +14,9 @@ This project aims to allow any text to be made accessible to language learners b
 
 ## Documentation
 
-* [Getting started](https://ylhyra.is/Manual:Getting_started)
+* [Getting started](https://ylhyra.is/Manual:Development)
 
-<!-- chrome://flags/#allow-insecure-localhost--> 
+<!-- chrome://flags/#allow-insecure-localhost-->
 
 ## Authors
 

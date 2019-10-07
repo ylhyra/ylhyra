@@ -1,10 +1,12 @@
 import React from 'react'
 import convert from 'react-attr-converter';
-import Test from './Test'
 import inlineStyle2Json from 'App/functions/inline-style-2-json'
 import Conversation from 'Render/Elements/Conversation'
 import Vocabulary from 'Render/Elements/Vocabulary'
 import Audio from 'Render/Audio'
+import { html2json, json2html } from 'text-plugin/App/functions/html2json'
+import { AllHtmlEntities as Entities } from 'html-entities'
+const entities = new Entities()
 
 const Traverse = (input, index = 0, editor, parentTag) => {
   if (!input) return null
@@ -15,9 +17,6 @@ const Traverse = (input, index = 0, editor, parentTag) => {
       return child.map((e, i) => Traverse(e, i))
     }
     switch (attr && attr['data-type']) {
-      case 'game':
-        Tag = Test;
-        break;
       case 'conversation':
         Tag = Conversation;
         break;
@@ -49,6 +48,10 @@ const Traverse = (input, index = 0, editor, parentTag) => {
           attrs[convert(property)] = attr[property]
         }
       }
+      // if(property === 'value') {
+      //   attrs['value'] = undefined
+      //   // attrs['defaultValue'] = attr[property]
+      // }
     }
 
     /*
@@ -72,6 +75,9 @@ const Traverse = (input, index = 0, editor, parentTag) => {
       return <Tag {...attrs} key={(attr && attr.id) || index}/>
     }
 
+    // if(Tag === 'form') {
+    //   return <div dangerouslySetInnerHTML={{__html: json2html(input)}}/>
+    // }
     // console.log(child)
 
     return (
@@ -84,7 +90,7 @@ const Traverse = (input, index = 0, editor, parentTag) => {
     if (CannotIncludeWhitespaceChildren.includes(parentTag)) {
       return null
     }
-    return text
+    return entities.decode(text)
     // console.log(text)
     // return <span dangerouslySetInnerHTML={{__html: text}}/>
   }

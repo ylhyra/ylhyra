@@ -34,8 +34,8 @@ export default function(html, title) {
   // console.log(html)
   try {
     html = html.replace(/<!--[\s\S]*?-->/g, '') // Remove comments
-    html = entities.decode(html)
-    html = html.replace(/[\s\n\r]+/g, ' ')
+    // html = entities.decode(html)
+    // html = html.replace(/[\s\n\r]+/g, ' ')
     let json = html2json(html)
     /* Debug: */
     // console.log(json2html(json))
