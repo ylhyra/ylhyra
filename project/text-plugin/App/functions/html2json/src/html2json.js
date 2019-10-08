@@ -163,7 +163,8 @@
     }
 
     if (json.node === 'comment') {
-      return '<!--' + json.text + '-->';
+      return ''
+      // return '<!--' + json.text + '-->';
     }
 
     if (json.node === 'root') {

@@ -5,6 +5,7 @@ export default () => {
   var txt = document.editform.wpTextbox1
   var value = txt.value
   if (value.match(/{{start\|/)) return;
+  if(mw.util.getParamValue('section')) return;
   // if (!value.match(/{{/)) return;
   value = `{{start|{{subst:FULLPAGENAME}}}}\n${value}\n{{end}}`
   txt.value = value

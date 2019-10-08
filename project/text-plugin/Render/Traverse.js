@@ -40,12 +40,16 @@ const Traverse = (input, index = 0, editor, parentTag) => {
     */
     let attrs = {}
     for (const property in attr) {
+      // console.log(JSON.stringify({property,value:entities.decode(attr[property])}))
       // Converts HTML attribute into React attribute
       if (attr.hasOwnProperty(property) && !property.startsWith('data-temp')) {
+        const value = entities.decode(entities.decode(attr[property])) // TODO! WHAT??
+        // console.log(attr[property])
+        // console.log(value)
         if (property === 'style') {
-          attrs[convert(property)] = inlineStyle2Json(attr[property])
+          attrs[convert(property)] = inlineStyle2Json(value)
         } else {
-          attrs[convert(property)] = attr[property]
+          attrs[convert(property)] = value
         }
       }
       // if(property === 'value') {
@@ -90,6 +94,7 @@ const Traverse = (input, index = 0, editor, parentTag) => {
     if (CannotIncludeWhitespaceChildren.includes(parentTag)) {
       return null
     }
+    // return text
     return entities.decode(text)
     // console.log(text)
     // return <span dangerouslySetInnerHTML={{__html: text}}/>

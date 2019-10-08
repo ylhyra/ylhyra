@@ -11,7 +11,7 @@ const TextCompiler = ({ json, data }) => {
   output = Precompile({ json, data })
   // console.log(json2html(output))
   output = CompileToHTML({ json: output, data })
-  output = entities.decode(output)
+  // output = entities.decode(output)
   // console.log(output)
   return output
 }

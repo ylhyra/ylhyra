@@ -50,7 +50,7 @@ documentReady(() => {
   }
   Source_editor()
   const namespaceNumber = mw.config.get('wgNamespaceNumber')
-  const shouldRender = [0, 2, 3002, 3004].includes(namespaceNumber)
+  const shouldRender = [0, 2, 4, 3002, 3004].includes(namespaceNumber)
   if (window.initialized) return; //Temp
   if (!shouldRender) return;
   if ($('.mw-parser-output').length > 0) {

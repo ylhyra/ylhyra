@@ -33,7 +33,6 @@ export default function(html, title) {
   if (!html) return null
   // console.log(html)
   try {
-    html = html.replace(/<!--[\s\S]*?-->/g, '') // Remove comments
     // html = entities.decode(html)
     // html = html.replace(/[\s\n\r]+/g, ' ')
     let json = html2json(html)
@@ -57,6 +56,7 @@ export default function(html, title) {
     const text = ExtractText(json)
     if (isEmpty(text)) {
       console.warn('No text to tokenize.')
+      // json = html2json(entities.decode(json2html(json)))
       return json
       // return html2json(Compiler({ json: wrapped, data: data, }))
     }
@@ -87,10 +87,14 @@ export default function(html, title) {
     */
     const wrapped = WrapInTags({ json, tokenized })
     // console.log(json2html(wrapped))
-    const compiled = Compiler({ json: wrapped, data: flattenedData })
+    let compiled = Compiler({ json: wrapped, data: flattenedData })
+    // compiled = entities.decode(compiled)
+    // console.log(compiled)
+    // console.log(compiled)
     return html2json(compiled)
     // return compiled
   } catch (e) {
+    console.error('Error in parse step')
     console.error(e)
   }
 }
