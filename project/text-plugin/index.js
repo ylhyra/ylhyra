@@ -57,7 +57,7 @@ documentReady(() => {
     const parsed = Parse(html, title)
     console.time('parsing')
     Render(parsed)
-    Editor(parsed)
+    $('body').hasClass('mw-editable') && Editor(parsed)
     console.timeEnd('parsing')
     window.initialized = true
     setTimeout(() => {
