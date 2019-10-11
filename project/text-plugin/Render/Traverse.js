@@ -43,6 +43,7 @@ const Traverse = (input, index = 0, editor, parentTag) => {
       // console.log(JSON.stringify({property,value:entities.decode(attr[property])}))
       // Converts HTML attribute into React attribute
       if (attr.hasOwnProperty(property) && !property.startsWith('data-temp')) {
+        // const value = attr[property]
         const value = entities.decode(entities.decode(attr[property])) // TODO! WHAT??
         // console.log(attr[property])
         // console.log(value)
@@ -94,8 +95,8 @@ const Traverse = (input, index = 0, editor, parentTag) => {
     if (CannotIncludeWhitespaceChildren.includes(parentTag)) {
       return null
     }
+    return entities.decode(entities.decode(text)) //TODO?
     // return text
-    return entities.decode(text)
     // console.log(text)
     // return <span dangerouslySetInnerHTML={{__html: text}}/>
   }

@@ -34,8 +34,12 @@ export default function(html, title) {
   // console.log(html)
   try {
     // html = entities.decode(html)
-    // html = html.replace(/[\s\n\r]+/g, ' ')
+    html = html.replace(/[\s\n\r]+/g, ' ') // Ef þetta er fjarlægt virkar WrapInTags/SplitAndWrap ekki
     let json = html2json(html)
+    // json = json2html(html)
+    // json = html2json(html)
+    // console.log(json)
+    // return json
     /* Debug: */
     // console.log(json2html(json))
     // console.log(json)
