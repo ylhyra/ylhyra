@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
 import { clearSelection } from './actions'
-import { request as requestSuggestion, applySuggestions } from 'Editor/Translator/Suggestions'
+import { request as requestSuggestion, applySuggestions } from 'Editor/Suggestions'
 import React from 'react'
 import SentenceTranslation from 'Editor/Translator/Views/Document/SentenceTranslation'
 import Word from 'Editor/Translator/Views/Document/Word'
 import WordSidebar, { isMacintosh } from 'Editor/Translator/Views/Sidebar/Sidebar'
-import Suggestions from 'Editor/Translator/Suggestions/List'
+import Suggestions from 'Editor/Suggestions/List'
 import { save, closeEditor } from 'Editor/actions'
 import store from 'App/store'
 

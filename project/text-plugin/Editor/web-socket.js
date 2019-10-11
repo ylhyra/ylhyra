@@ -7,7 +7,7 @@
 
 */
 
-import { receiveSuggestions } from 'Editor/Translator/Suggestions'
+import { receiveSuggestions } from 'Editor/Suggestions'
 import error from 'App/Error'
 const protocol = process.env.NODE_ENV === 'production' ? 'wss' : 'ws'
 const host = process.env.NODE_ENV === 'production' ? location.host : 'localhost:9090'

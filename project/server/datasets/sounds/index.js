@@ -1,4 +1,4 @@
-import query from 'common/database/tagger'
+import query from 'server/database/tagger'
 
 export default (input) => {
   input = input.toLowerCase().trim()

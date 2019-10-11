@@ -20,12 +20,12 @@ export const request = () => {
   console.log('%c [Requesting suggestions...]', 'color: RoyalBlue')
   send({
     type: 'REQUEST_SUGGESTIONS',
-    from: metadata.from,
-    to: metadata.to,
     list: list,
+    // from: metadata.from,
+    // to: metadata.to,
   })
 
-  GoogleTranslate()
+  // GoogleTranslate()
 }
 
 /*

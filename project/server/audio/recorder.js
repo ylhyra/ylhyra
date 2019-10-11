@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
-import query from 'common/database/tagger'
-import getParameters from 'common/database/functions/getParameters'
+import query from 'server/database/tagger'
+import getParameters from 'server/database/functions/getParameters'
 import fs from 'fs'
 import multer from 'multer'
 var upload = multer({ dest: 'uploads/' })

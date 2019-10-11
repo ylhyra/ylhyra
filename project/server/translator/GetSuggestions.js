@@ -1,4 +1,4 @@
-import query from 'common/database/tagger'
+import query from 'server/database/tagger'
 import string_hash from 'App/functions/hash'
 import flattenArray from 'project/text-plugin/App/functions/flattenArray'
 import { GetTranslationFrame, simplifyString, SQL_helper } from './SaveTranslations'

@@ -14,6 +14,8 @@ class Editor extends React.PureComponent {
   render() {
     if (this.props.editor.open) {
       return <div id="editor">
+          {/* <div className="header">
+          </div> */}
           <Translator/>
         </div>
     } else {

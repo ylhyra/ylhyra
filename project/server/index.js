@@ -1,65 +1,34 @@
 // import 'source-map-support/register'
 require('source-map-support').install()
 
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
 require('dotenv').config()
 import express from 'express'
-import logger from 'common/logger'
+import logger from './logger'
 import bodyParser from 'body-parser'
-import cookieParser from 'cookie-parser'
 import path from 'path'
-import { upload_path, session_path } from 'config.js'
 import argvFactory from 'minimist'
 const argv = argvFactory(process.argv.slice(2))
 const isDev = process.env.NODE_ENV !== 'production'
-const session = require('express-session')
-const FileStore = require('session-file-store')(session);
 const shortid = require('shortid')
 const app = express()
 const expressWs = require('express-ws')(app)
-import query from 'common/database/tagger'
+import query from './database/tagger'
 
-app.use(bodyParser.json({ limit: '100mb' }))
-app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }))
-
-// app.use(cookieParser({
-//   expires: new Date(Date.now() + (60 * 60 * 24 * 7 * 1000)),
-// }))
+app.use(bodyParser.json({ limit: '5mb' }))
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))
 
 query(`SET sql_mode = ''`,()=>{}) // TODO Þetta er til bráðabirgða og á að gerast í gagnagrunninum sjálfum
 
-app.use(session({
-  store: new FileStore({
-    path: session_path,
-    logFn: ()=>{},
-   }),
-  secret: process.env.COOKIE_SECRET || 'secret',
-  resave: false,
-  saveUninitialized: true,
-  unset: 'destroy',
-  name: 'session',
-  genid: () => {
-    return shortid.generate()
-  },
-  cookie: {
-    // secure: true, // TODO
-    maxAge: 3 * 365 * 24 * 60 * 60 * 1000
-  },
-}))
+require('./mediawiki')
 
-app.use('/api', require('server/api/projects').default)
-app.use('/api', require('server/api/documents').default)
-app.use('/api', require('server/api/documents/Embed').default)
-app.use('/api', require('server/api/translate').default)
-app.use('/api', require('server/api/audio').default)
-app.use('/api', require('server/api/audio/recorder').default)
-app.use('/api', require('server/api/audio/Upload').default)
-app.use('/api', require('server/api/audio/Synchronize').default)
-app.use('/api', require('server/api/users').default)
-
-// app.use('/mp3', express.static(path.resolve(__dirname + '/../../assets/audio')))
-app.use('/media', express.static(upload_path))
-app.use('/static', express.static(path.resolve(__dirname + '/../../project/text-plugin/build/static')))
-
+app.use('/api', require('server/web-socket').default)
+// app.use('/api', require('server/api/audio').default)
+// app.use('/api', require('server/api/audio/recorder').default)
+// app.use('/api', require('server/api/audio/Upload').default)
+// app.use('/api', require('server/api/audio/Synchronize').default)
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST

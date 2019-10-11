@@ -82,26 +82,9 @@ module.exports = function(proxy, allowedHost) {
     // public: allowedHost,
     public: 'https://localhost:8000/',
 
-    // proxy: {
-    //   '*': {
-    //     // target: 'https://ylhyra.is/',
-    //     target: 'https://cloudflare.com/',
-    //     secure: false,
-    //     changeOrigin: true,
-    //     xfwd: false,
-    //     followRedirects: false,
-    //     headers: {
-    //       // host: 'ylhyra.is',
-    //       // ':authority:': 'ylhyra.is',
-    //       // ':scheme:': 'https',
-    //     },
-    //   },
-    //   // 'Manual:Plugin': {target: 'https://mediawiki.egill.xyz/Manual:Plugin'},
-    //   // '/mp3/**': { target: process.env.PROXY },
-    //   // '/media/**': { target: process.env.PROXY },
-    //   // // '/assets/**': { target: process.env.PROXY },
-    //   // '/api/**': { target: process.env.PROXY },
-    // },
+    proxy: {
+      '/api/**': { target: process.env.PROXY },
+    },
     before(app) {
       // This lets us open files from the runtime error overlay.
       app.use(errorOverlayMiddleware())

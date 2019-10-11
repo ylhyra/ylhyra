@@ -8,7 +8,7 @@
 
 */
 
-import query from 'common/database/tagger'
+import query from 'server/database/tagger'
 import _ from 'underscore'
 const wordRegex = /([A-zÀ-ÿ·-]+)/g
 require('project/text-plugin/App/functions/array-foreach-async')

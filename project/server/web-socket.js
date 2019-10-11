@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 // import Tokenize from './tokenizer'
-import GetSuggestions from 'server/api/translate/translator/GetSuggestions'
+import GetSuggestions from 'server/translator/GetSuggestions'
 
 router.ws('/', (websocket, req) => {
   const send = (message) => websocket.send(JSON.stringify(message))
@@ -10,6 +10,7 @@ router.ws('/', (websocket, req) => {
     if (message.type === 'TOKENIZE') {
       // Tokenize(message, send)
     } else if (message.type === 'REQUEST_SUGGESTIONS') {
+      // console.log(message)
       GetSuggestions(message, send)
     }
   })

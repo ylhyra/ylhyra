@@ -5,7 +5,7 @@
 //   by Vilhjálmur Þorsteinsson.
 // */
 //
-// import query from 'common/database/tagger'
+// import query from 'server/database/tagger'
 // import hash from 'string-hash'
 // import request from 'request'
 // const lang = 'isl'

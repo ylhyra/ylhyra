@@ -3,7 +3,7 @@ node project/server/datasets/pronunciation/data/InsertToDatabase.js
 */
 import LineByLineReader from 'line-by-line'
 import path from 'path'
-import query from 'common/database/tagger'
+import query from 'server/database/tagger'
 
 
 query(`TRUNCATE TABLE pronunciation`, () => {

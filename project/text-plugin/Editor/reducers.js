@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { translation, selected } from 'Editor/Translator/reducers'
-import suggestions from 'Editor/Translator/Suggestions/reducers'
+import suggestions from 'Editor/Suggestions/reducers'
 import MakeList from 'Parse/Tokenize/List'
 
 const isOpen = window.location.hash.substr(1) === 'editor'

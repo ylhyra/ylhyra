@@ -7,10 +7,12 @@ require('App/functions/array-foreach-async')
 export default async () => {
   const { suggestions, list, translation } = store.getState().editor
   const { items, arrayOfAllItemIDs } = list
-  const { from, to } = store.getState().editor.metadata
-  const sourceLang = get_ISO_639_1(from)
-  const targetLang = get_ISO_639_1(to)
-  if (!IsAvailableOnGoogleTranslate(from, to)) return;
+  // const { from, to } = store.getState().editor.metadata
+  // const sourceLang = get_ISO_639_1(from)
+  // const targetLang = get_ISO_639_1(to)
+  // if (!IsAvailableOnGoogleTranslate(from, to)) return;
+  const sourceLang = 'is'
+  const targetLang = 'en'
   // return;
   /*
     Loop over all items (words & wentences)

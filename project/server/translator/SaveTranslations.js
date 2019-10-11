@@ -1,4 +1,4 @@
-import query from 'common/database/tagger'
+import query from 'server/database/tagger'
 import string_hash from 'App/functions/hash'
 require('App/functions/sortByArray')
 
