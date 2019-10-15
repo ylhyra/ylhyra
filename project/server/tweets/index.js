@@ -1,6 +1,3 @@
-import express from 'express'
-const router = express.Router()
-import request from 'request'
 var Twitter = require('twitter')
 
 var client = new Twitter({
@@ -10,16 +7,17 @@ var client = new Twitter({
   access_token_secret: process.env.TWITTER_API_TOKEN_SECRET,
 })
 
-router.get('/tweet/:id', function(req, res) {
-  var id = req.params.id
+const Tweet = (id, send)=>{
   client.get('statuses/show', { id }, function(error, tweets, response) {
     if (!error) {
-      res.send(parseTweet(tweets))
+      send({
+        type: 'TWEET',
+        data: parseTweet(tweets)
+      })
     } else {
-      res.sendStatus(500)
     }
   })
-})
+}
 
 const parseTweet = (tweet) => {
   // console.log(JSON.stringify(tweet,null,2))
@@ -53,4 +51,4 @@ const parseTweet = (tweet) => {
     favorites: tweet.favorite_count,
   }
 }
-export default router;
+export default Tweet;

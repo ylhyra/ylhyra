@@ -15,12 +15,13 @@ import "regenerator-runtime/runtime";
 require('Render/Text/Touch/')
 require('Render/Style/index.styl')
 require('./DevelopmentMode')
+require('Source_editor/Tweets')
 
 import Parse from 'text-plugin/Parse'
 import Render from 'text-plugin/Render'
 import Editor from 'Editor'
 import Source_editor from 'Source_editor'
-
+export const host = process.env.NODE_ENV === 'production' ? location.host : 'localhost:9090'
 
 /*
   Temporary silly way of waiting until jQuery is ready
