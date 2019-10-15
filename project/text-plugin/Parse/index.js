@@ -33,8 +33,11 @@ export default function(html, title) {
   if (!html) return null
   // console.log(html)
   try {
-    // html = entities.decode(html)
-    html = html.replace(/[\s\n\r]+/g, ' ') // Ef þetta er fjarlægt virkar WrapInTags/SplitAndWrap ekki
+    html = entities.decode(html)
+    html = html
+      .replace(/[\s\n\r]+/g, ' ') // Ef þetta er fjarlægt virkar WrapInTags/SplitAndWrap ekki
+      // .replace(/\u00AD/g,' ') //Soft-hyphens
+      // .replace(/\u00A0/g,' ') //Non-breaking spaces
     let json = html2json(html)
     // json = json2html(html)
     // json = html2json(html)
@@ -89,6 +92,7 @@ export default function(html, title) {
       Merge tokenization and HTML (does not include data).
       Returns wrapped HTML without data
     */
+    // console.log(json2html(json))
     const wrapped = WrapInTags({ json, tokenized })
     // console.log(json2html(wrapped))
     let compiled = Compiler({ json: wrapped, data: flattenedData })

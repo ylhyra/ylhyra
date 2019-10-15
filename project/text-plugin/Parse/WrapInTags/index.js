@@ -67,6 +67,7 @@ export default function({ json, tokenized }) {
     getNewTitle: new newTitle(),
     paragraphFunction: (paragraph, documentTitle) => {
       const text = getText(paragraph, true, true)
+      // console.log(text)
       if (documentTitle === undefined) {
         return paragraph
       }

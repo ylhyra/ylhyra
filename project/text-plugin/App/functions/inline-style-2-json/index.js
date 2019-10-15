@@ -22,10 +22,10 @@ module.exports = function (str, opts) {
       var attrName
       if (attr.length > 2) {
         attrName = attr.shift()
-        attrName = addDash(attrName)
+        attrName = addDash(attrName).trim()
         obj[attrName] = attr.join(':')
       } else {
-        attrName = addDash(attr[0])
+        attrName = addDash(attr[0]).trim()
         obj[attrName] = attr[1]
       }
     }

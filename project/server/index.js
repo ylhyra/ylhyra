@@ -25,7 +25,7 @@ query(`SET sql_mode = ''`,()=>{}) // TODO Þetta er til bráðabirgða og á að
 require('./mediawiki')
 
 app.use('/api', require('server/web-socket').default)
-// app.use('/api', require('server/api/audio').default)
+app.use('/api', require('server/tweets').default)
 // app.use('/api', require('server/api/audio/recorder').default)
 // app.use('/api', require('server/api/audio/Upload').default)
 // app.use('/api', require('server/api/audio/Synchronize').default)
