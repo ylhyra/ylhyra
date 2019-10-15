@@ -25,7 +25,7 @@ export const request = () => {
     // to: metadata.to,
   })
 
-  // GoogleTranslate()
+  GoogleTranslate()
 }
 
 /*
