@@ -1,7 +1,7 @@
 import React from 'react'
 const router = (require('express')).Router()
 import Parse from 'text-plugin/Parse'
-import Traverse from 'text-plugin/Render/Traverse'
+import Render from 'text-plugin/Render'
 // import Render from 'text-plugin/Render'
 import ReactDOMServer from 'react-dom/server'
 var now = require("performance-now")
@@ -12,12 +12,7 @@ router.post('/render', async (req, res) => {
   try {
     var t0 = now()
     const { parsed } = Parse({ html })
-    output = ReactDOMServer.renderToStaticMarkup(
-      <div className="ylhyra-text">
-        {Traverse(parsed)}
-        <div id="overlay"></div>
-      </div>
-    )
+    output = ReactDOMServer.renderToStaticMarkup(parsed, true)
     var t1 = now()
     output += `<!-- Ylhýra parsed in ${(t1 - t0)} milliseconds -->`
   } catch(e){
