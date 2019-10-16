@@ -23,6 +23,7 @@ import Editor from 'Editor'
 import Source_editor from 'Source_editor'
 export const host = process.env.NODE_ENV === 'production' ? location.host : 'localhost:9123'
 import store from 'App/store'
+import ReactDOMServer from 'react-dom/server'
 
 /*
   Temporary silly way of waiting until jQuery is ready
@@ -72,6 +73,8 @@ documentReady(() => {
     }
 
     Render(parsed)
+    // console.log(ReactDOMServer.renderToStaticMarkup(Render(parsed, true))) //Test for server-side-rendering
+
     $('body').hasClass('mw-editable') && Editor(parsed)
     console.timeEnd('parsing')
     window.initialized = true
