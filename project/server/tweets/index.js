@@ -39,7 +39,7 @@ const parseTweet = (tweet) => {
     user: {
       name: tweet.user.name,
       handle: tweet.user.screen_name,
-      picture: tweet.user.profile_image_url_https,
+      picture: tweet.user.profile_image_url_https.replace('_normal',''),
       verified: tweet.user.verified,
       id: tweet.user.id_str,
     },
