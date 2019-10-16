@@ -74,7 +74,7 @@ const Traverse = (input, index = 0, editor) => {
 
     return (
       <Tag {...attrs} key={(attr && attr.id) || index}>
-        {Audio}
+        {/* {Audio} */}
         {child && child.map((e,i) => Traverse(e,i,editor))}
       </Tag>
     )

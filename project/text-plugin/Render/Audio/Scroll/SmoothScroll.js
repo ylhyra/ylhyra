@@ -1,4 +1,4 @@
-import { getScrollingElement } from 'helpers.js'
+import { getScrollingElement } from 'text-plugin/Render/helpers.js'
 
 let allowed = true
 let temporaryStop
@@ -34,7 +34,7 @@ const SmoothScroll = {
   We don't want to interrupt it and so stop
   all auto-scrolling for a few seconds afterwards.
 */
-window.addEventListener('mousewheel', () => SmoothScroll.stop(), false)
+typeof window !== 'undefined' && window.addEventListener('mousewheel', () => SmoothScroll.stop(), false)
 
 export default SmoothScroll
 

@@ -96,6 +96,9 @@ export const shouldTranslate_ = ({ tag, attr }, isTranslating) => {
   if (attr && ('no-translate' in attr || 'ignore' in attr)) {
     return false
   }
+  if(tag === 'sup') {
+    return false
+  }
   return isTranslating
 }
 
@@ -115,7 +118,7 @@ export const shouldSkip = ({ tag, attr }) => {
   if ((attr && attr.class === 'instructions') || tag === 'answers') {
     return true
   }
-  return ['script', 'style', 'head', ]
+  return ['script', 'style', 'head',/* 'sup'*/]
     .includes(tag.toLowerCase())
 }
 

@@ -23,13 +23,13 @@ import Tokenizer from './Tokenize'
 import WrapInTags from './WrapInTags'
 import Compiler from './Compiler'
 const entities = new Entities()
-import store from 'App/store'
+// import store from 'App/store'
 import isEmpty from 'is-empty-object'
 
 /*
   Parser
 */
-export default function(html, title) {
+export default function({html, title, returns}) {
   if (!html) return null
   // console.log(html)
   try {
@@ -62,9 +62,13 @@ export default function(html, title) {
     */
     const text = ExtractText(json)
     if (isEmpty(text)) {
-      console.warn('No text to tokenize.')
+      // console.warn('No text to tokenize.')
       // json = html2json(entities.decode(json2html(json)))
-      return json
+      if(returns ==='html') {
+        return html
+      } else {
+        return {parsed:json}
+      }
       // return html2json(Compiler({ json: wrapped, data: data, }))
     }
     const tokenized = Tokenizer(text, data)
@@ -76,17 +80,9 @@ export default function(html, title) {
     //   data,
     //   flattenedData,
     // })
-    if (tokenized[title]) {
-      store.dispatch({
-        type: 'TOKENIZED',
-        currentDocument: tokenized[title],
-        // allDocuments: tokenized,
-        data: flattenedData,
-        currentDocumentData: data[title],
-      })
-    } else {
-      console.log('Stopped tokenization, there is no {{start}} for the current document')
-    }
+
+
+
 
     /*
       Merge tokenization and HTML (does not include data).
@@ -99,7 +95,11 @@ export default function(html, title) {
     // compiled = entities.decode(compiled)
     // console.log(compiled)
     // console.log(compiled)
-    return html2json(compiled)
+    if(returns ==='html') {
+      return compiled
+    } else {
+      return {parsed: html2json(compiled), tokenized, data, flattenedData}
+    }
     // return compiled
   } catch (e) {
     console.error('Error in parse step')

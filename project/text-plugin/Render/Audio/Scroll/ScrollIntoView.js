@@ -1,6 +1,6 @@
 import SmoothScroll from './SmoothScroll'
 const ControlsHeight = 45
-import {getScrollingElement} from 'helpers.js'
+import {getScrollingElement} from 'text-plugin/Render/helpers.js'
 
 /*
   Calculates ideal position for element.
