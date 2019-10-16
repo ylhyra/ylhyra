@@ -18,7 +18,7 @@ router.post('/render', async (req, res) => {
       </div>
     )
     var t1 = performance.now()
-    output += `<!-- Ylhýra parsed in ${(t1 - t0)} milliseconds -->`
+    output += `HAHAH<!-- Ylhýra parsed in ${(t1 - t0)} milliseconds -->`
   } catch(e){
     console.error(e)
     output = html
