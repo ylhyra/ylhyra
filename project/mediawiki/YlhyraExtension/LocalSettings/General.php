@@ -13,17 +13,7 @@ $wgGroupPermissions['sysop']['interwiki'] = true;
 $wgUseInstantCommons = true;
 
 wfLoadExtension('ParserFunctions');
-
-
-$wgScriptPath	    = "";
-$wgArticlePath      = "/$1";
-$wgUsePathInfo      = true;
-$wgScriptExtension  = ".php";
-
-
 wfLoadExtension('Cite');
-
-
 //wfLoadExtension( 'TemplateStyles' );
 
 $wgDebugLogGroups = array(
