@@ -7,13 +7,19 @@ import ReactDOMServer from 'react-dom/server'
 
 router.post('/render', async (req, res) => {
   const html = req.body.html || req.query.html
-  const { parsed } = Parse({ html })
-  const output = ReactDOMServer.renderToStaticMarkup(
-    <div className="ylhyra-text">
-      {Traverse(parsed)}
-      <div id="overlay"></div>
-    </div>
-  )
+  let output
+  try {
+    const { parsed } = Parse({ html })
+    output = ReactDOMServer.renderToStaticMarkup(
+      <div className="ylhyra-text">
+        {Traverse(parsed)}
+        <div id="overlay"></div>
+      </div>
+    )
+  } catch(e){
+    console.error(e)
+    output = html
+  }
   res.send(output)
 })
 
