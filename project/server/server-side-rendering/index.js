@@ -17,4 +17,8 @@ router.post('/render', async (req, res) => {
   res.send(output)
 })
 
+router.get('/render', async (req, res) => {
+  res.send('ok')
+})
+
 export default router
