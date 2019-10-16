@@ -21,7 +21,7 @@ import Parse from 'text-plugin/Parse'
 import Render from 'text-plugin/Render'
 import Editor from 'Editor'
 import Source_editor from 'Source_editor'
-export const host = process.env.NODE_ENV === 'production' ? location.host : 'localhost:9090'
+export const host = process.env.NODE_ENV === 'production' ? location.host : 'localhost:9123'
 import store from 'App/store'
 
 /*
