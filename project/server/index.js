@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))
 
 query(`SET sql_mode = ''`,()=>{}) // TODO Þetta er til bráðabirgða og á að gerast í gagnagrunninum sjálfum
 
-require('./mediawiki')
+require('./mediawiki') 
 
 app.use('/api', require('server/web-socket').default)
 // app.use('/api', require('server/tweets').default)

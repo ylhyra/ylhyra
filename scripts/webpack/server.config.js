@@ -18,7 +18,7 @@ module.exports = {
     __filename: false,
   },
   entry: {
-    tagger_server: [polyfills, resolve('project/server/index.js')],
+    ylhyra_server: [polyfills, resolve('project/server/index.js')],
     // vocabulary_server: [polyfills, resolve('project/vocabulary/server/index.js')],
     // vocabulary_compiler: [polyfills, resolve('project/vocabulary/compiler/index.js')],
     // vocabulary_notifications_schedule: [polyfills, resolve('project/vocabulary/server/notifications/schedule/ScheduleAll.js')],
