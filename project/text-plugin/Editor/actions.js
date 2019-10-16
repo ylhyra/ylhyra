@@ -79,18 +79,19 @@ export const editPage = (info, callback) => {
       }
     })
     .done(function(data) {
+      // console.log(data)
       if (data && data.edit && data.edit.result && data.edit.result == 'Success') {
-        console.log('Page edited!');
-        callback(true)
+        console.log(`Page edited! https://ylhyra.is/Special:Redirect/page/${data.edit.pageid}`);
+        callback && callback(true)
       } else {
         console.warn('The edit query returned an error. =(');
         console.log(data)
-        callback(false)
+        callback && callback(false)
       }
     })
     .fail(function() {
       console.warn('The ajax request failed.');
-      callback(false)
+      callback && callback(false)
     })
 }
 export const purgeCurrentPage = () => {

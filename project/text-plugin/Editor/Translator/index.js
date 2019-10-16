@@ -49,7 +49,8 @@ class TranslatingEditor extends React.Component {
                 </table>
                 <br/>
                 <div>
-                  <button onClick={requestSuggestion}>Get suggestions</button> <button onClick={applySuggestions}>Apply suggestions</button>
+                  <button onClick={requestSuggestion}>Get suggestions</button>
+                  <button onClick={applySuggestions}>Apply suggestions</button>
                 </div>
               </div>
             </div>
