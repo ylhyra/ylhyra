@@ -33,6 +33,7 @@ module.exports = {
     "no-duplicate-imports": 2,
     "no-useless-rename": 1,
     "react/jsx-uses-vars": 1,
+    // "no-irregular-whitespace":0,
     // "prefer-arrow-callback": 1,
     "no-case-declarations": 0,
     "no-constant-condition": 0,

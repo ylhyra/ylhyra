@@ -48,6 +48,8 @@ const Traverse = (input, index = 0, editor, parentTag) => {
         // console.log(attr[property])
         // console.log(value)
         if (property === 'style') {
+          // console.log(value)
+          // console.log(inlineStyle2Json(value))
           attrs[convert(property)] = inlineStyle2Json(value)
         } else {
           attrs[convert(property)] = value

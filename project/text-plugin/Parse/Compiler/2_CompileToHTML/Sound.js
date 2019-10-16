@@ -1,6 +1,6 @@
 import _ from 'underscore'
 import { getPreviousID } from 'Parse/Compiler/1_Precompile/UpdateID'
-import store from 'App/store'
+// import store from 'App/store'
 
 export default (updatedID) => {
   // const { audio } = store.getState().editor

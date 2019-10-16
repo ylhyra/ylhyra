@@ -25,7 +25,8 @@ query(`SET sql_mode = ''`,()=>{}) // TODO Þetta er til bráðabirgða og á að
 require('./mediawiki')
 
 app.use('/api', require('server/web-socket').default)
-// app.use('/api', require('server/api/audio').default)
+app.use('/api', require('server/server-side-rendering').default)
+// app.use('/api', require('server/tweets').default)
 // app.use('/api', require('server/api/audio/recorder').default)
 // app.use('/api', require('server/api/audio/Upload').default)
 // app.use('/api', require('server/api/audio/Synchronize').default)
@@ -34,7 +35,7 @@ app.use('/api', require('server/web-socket').default)
 const customHost = argv.host || process.env.HOST
 const host = customHost || null; // Let http.Server use its default IPv6/4 host
 const prettyHost = customHost || 'localhost'
-const port = argv.port || process.env.PORT || 9090
+const port = argv.port || process.env.PORT || 9123
 
 // Start your app.
 app.listen(port, host, (err) => {

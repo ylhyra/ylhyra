@@ -3,7 +3,7 @@ import { translation, selected } from 'Editor/Translator/reducers'
 import suggestions from 'Editor/Suggestions/reducers'
 import MakeList from 'Parse/Tokenize/List'
 
-const isOpen = window.location.hash.substr(1) === 'editor'
+const isOpen = typeof window !== 'undefined' ? window.location.hash.substr(1) === 'editor' : false
 const open = (state = isOpen, action) => {
   switch (action.type) {
     case 'OPEN_EDITOR':

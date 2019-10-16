@@ -21,7 +21,7 @@
     "populate_database": "node project/server/datasets/pronunciation/data/InsertToDatabase.js",
     "update-packages": "npm-check-updates -u && npm update",
     "server:build": "webpack --config scripts/webpack/server.config.js --color",
-    "server": "nodemon --watch 'project/server/' --watch 'project/common/' --ignore 'project/server/sessions/'  --ignore 'project/server/uploads/'  --verbose --exec 'npm run server:build && (killall -SIGINT ylhyra || true && node ./build/tagger_server.js ylhyra)'"
+    "server": "nodemon --watch 'project/server/' --watch 'project/common/' --ignore 'project/server/sessions/'  --ignore 'project/server/uploads/'  --verbose --exec 'npm run server:build && (killall -SIGINT ylhyra || true && node ./build/ylhyra_server.js ylhyra)'"
   },
   "dependencies": {
     "@babel/core": "^7.1.5",
@@ -108,6 +108,7 @@
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
     "sw-precache-webpack-plugin": "0.11.4",
+    "twitter": "^1.7.1",
     "underscore": "^1.8.3",
     "url-loader": "0.6.2",
     "url-slug": "^2.0.0",

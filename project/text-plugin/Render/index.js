@@ -5,8 +5,11 @@ import store from 'App/store'
 import Traverse from './Traverse'
 import { html2json, json2html } from 'text-plugin/App/functions/html2json'
 
-const Render = (parsed) => {
+const Render = (parsed, /*shouldReturn*/) => {
   // console.log(json2html(parsed))
+  // if(shouldReturn) {
+  //   return Traverse(parsed)
+  // }
   if($('.mw-parser-output')) {
     ReactDOM.render(
       <Provider store={store}>

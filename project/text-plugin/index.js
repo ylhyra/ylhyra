@@ -15,12 +15,14 @@ import "regenerator-runtime/runtime";
 require('Render/Text/Touch/')
 require('Render/Style/index.styl')
 require('./DevelopmentMode')
+require('Source_editor/Tweets')
 
 import Parse from 'text-plugin/Parse'
 import Render from 'text-plugin/Render'
 import Editor from 'Editor'
 import Source_editor from 'Source_editor'
-
+export const host = process.env.NODE_ENV === 'production' ? location.host : 'localhost:9123'
+import store from 'App/store'
 
 /*
   Temporary silly way of waiting until jQuery is ready
@@ -54,8 +56,21 @@ documentReady(() => {
   if (window.initialized) return; //Temp
   if (!shouldRender) return;
   if ($('.mw-parser-output').length > 0) {
-    const parsed = Parse(html, title)
     console.time('parsing')
+    const { parsed, tokenized, data, flattenedData } = Parse({html, title})
+
+    if (tokenized[title]) {
+      store.dispatch({
+        type: 'TOKENIZED',
+        currentDocument: tokenized[title],
+        // allDocuments: tokenized,
+        data: flattenedData,
+        currentDocumentData: data[title],
+      })
+    } else {
+      console.log('Stopped tokenization, there is no {{start}} for the current document')
+    }
+
     Render(parsed)
     $('body').hasClass('mw-editable') && Editor(parsed)
     console.timeEnd('parsing')

@@ -9,8 +9,10 @@
 
 import { receiveSuggestions } from 'Editor/Suggestions'
 import error from 'App/Error'
+import tweet from 'Source_editor/Tweets'
 const protocol = process.env.NODE_ENV === 'production' ? 'wss' : 'ws'
-const host = process.env.NODE_ENV === 'production' ? location.host : 'localhost:9090'
+// import {host} from 'text-plugin/index.js'
+const host = process.env.NODE_ENV === 'production' ? location.host : 'localhost:9123'
 let socket
 let queued = []
 
@@ -61,6 +63,8 @@ const handle = (action) => {
   // } else
   if (action.type === 'REQUEST_SUGGESTIONS') {
     receiveSuggestions(action)
+  } else if (action.type === 'TWEET') {
+    tweet(action.data)
   } else {
     console.warn(`Unknown message from WebSocket: "${action.type}"`)
   }

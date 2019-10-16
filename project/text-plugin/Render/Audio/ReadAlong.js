@@ -1,5 +1,5 @@
-import ScrollIntoView from 'Audio/Scroll/ScrollIntoView'
-import { addClass, removeClass } from 'helpers.js'
+import ScrollIntoView from 'text-plugin/Render/Audio/Scroll/ScrollIntoView'
+import { addClass, removeClass } from 'text-plugin/Render/helpers.js'
 import store from 'App/store'
 import _ from 'underscore'
 
