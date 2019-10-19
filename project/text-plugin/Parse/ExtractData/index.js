@@ -1,4 +1,6 @@
 import { newTitle } from 'Parse/index.js'
+import { AllHtmlEntities as Entities } from 'html-entities'
+const entities = new Entities()
 
 /*
   Extract the data which is stored in the Data: namespace (is encoded in [[Template:Start]])
@@ -26,10 +28,10 @@ const Traverse = (input, callback) => {
   if (input.child) {
     input.child.map(i => Traverse(i, callback))
   }
-  if (attr && attr['data-document-start'] && child && child[0] && child[0].node === 'text') {
-    console.log(child[0].text)
+  if (attr && attr['data-document-start'] && attr['data-data']) {
     try {
-      const data = JSON.parse(child[0].text)
+      const encodedData = attr['data-data']
+      const data = JSON.parse(entities.decode(decodeURIComponent(encodedData)))
       data && callback({
         documentTitle: attr['data-document-start'],
         data,
