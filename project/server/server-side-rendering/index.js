@@ -9,14 +9,15 @@ router.post('/render', async (req, res) => {
   const html = req.body.html || req.query.html
   let output
   try {
-    const { parsed } = Parse({ html })
+    const { parsed, tokenized, data, flattenedData } = Parse({ html })
     output = ReactDOMServer.renderToStaticMarkup(
       <div className="ylhyra-text">
         {Traverse(parsed)}
         <div id="overlay"></div>
       </div>
     )
-  } catch(e){
+    output += `<script type="text/javascript">window.ylhyra_data=${JSON.stringify({ parsed, tokenized, data, flattenedData })}</script>`
+  } catch (e) {
     console.error(e)
     output = html
   }

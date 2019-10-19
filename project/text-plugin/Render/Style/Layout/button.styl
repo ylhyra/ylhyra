@@ -4,25 +4,27 @@
     align-items center
     justify-content center
     height 100%
-.button
+a.button, .button > a
   background: #FFF5F2;
   border: 1px solid #FCC6C4;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.03);
   border-radius: 4px;
   color #EB5757
-  padding 5px 14px
+  padding 9px 15px
   font-weight 600
   cursor pointer
   font-size 14px
   position relative
   sans-serif()
+  display: inline-block;
   &:hover
     background: #FDEAE8;
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.06);
+    text-decoration none
   &.small
     font-size 12px
     padding 3px 6px
-  &.blue
+  &.blue, .blue&
     border-color #C4C9FC
     background: #F2F3FF;
     color: #7791FE

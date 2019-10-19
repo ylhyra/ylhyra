@@ -1,4 +1,17 @@
-.grid 
+.grid
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 1rem
+
+.grid-ul > ul
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 1rem
+  list-style-type none
+  margin 0
+  grid-template-rows: auto;
+  > li
+    display flex
+    > *
+      flex 1
+      height 100%
