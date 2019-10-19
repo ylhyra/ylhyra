@@ -23,6 +23,8 @@ import Editor from 'Editor'
 import Source_editor from 'Source_editor'
 export const host = process.env.NODE_ENV === 'production' ? location.host : 'localhost:9123'
 import store from 'App/store'
+import ReactDOMServer from 'react-dom/server'
+var now = require("performance-now")
 
 /*
   Temporary silly way of waiting until jQuery is ready
@@ -56,10 +58,11 @@ documentReady(() => {
   if (window.initialized) return; //Temp
   if (!shouldRender) return;
   if ($('.mw-parser-output').length > 0) {
-    console.time('parsing')
+    var t0 = now()
     const { parsed, tokenized, data, flattenedData } = Parse({html, title})
+    var t1 = now()
 
-    if (tokenized[title]) {
+    if (tokenized && tokenized[title]) {
       store.dispatch({
         type: 'TOKENIZED',
         currentDocument: tokenized[title],
@@ -72,8 +75,11 @@ documentReady(() => {
     }
 
     Render(parsed)
+    // const serverside = ReactDOMServer.renderToStaticMarkup(Render(parsed, true)) //Test for server-side-rendering
+    var t2 = now()
+    console.log(`Parsing took ${Math.round(t1 - t0)} ms, rendering ${Math.round(t2 - t1)} ms`)
+
     $('body').hasClass('mw-editable') && Editor(parsed)
-    console.timeEnd('parsing')
     window.initialized = true
     setTimeout(() => {
       fix_inline_translations()
