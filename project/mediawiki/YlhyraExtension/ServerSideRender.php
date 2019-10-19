@@ -13,7 +13,7 @@ $wgExtensionCredits['ylhyra_backend_parse'][] = array(
 // Register hooks
 $wgHooks['ParserAfterTidy'][] = function( Parser &$parser, &$text ) {
   if (strpos($text, 'data-document-start') !== false) {
-    function_exists('curl_version') { // Check if CURL is installed
+    if(function_exists('curl_version')) { // Check if CURL is installed
       $url = 'http://localhost:9123/api/render';
       $timeout=2;
       $payload = json_encode(array(
