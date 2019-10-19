@@ -27,11 +27,16 @@ const Traverse = (input, callback) => {
     input.child.map(i => Traverse(i, callback))
   }
   if (attr && attr['data-document-start'] && child && child[0] && child[0].node === 'text') {
-    callback({
-      documentTitle: attr['data-document-start'],
-      data: JSON.parse(child[0].text)
-    })
-
+    console.log(child[0].text)
+    try {
+      const data = JSON.parse(child[0].text)
+      data && callback({
+        documentTitle: attr['data-document-start'],
+        data,
+      })
+    } catch (e) {
+      console.error(child[0].text + ' is not parseable JSON')
+    }
   }
 }
 export default ExtractData
@@ -40,7 +45,7 @@ export default ExtractData
   //TODO!
   Prepend title to all IDs to prevent clashing
 */
-const updateIDs = (data,title) => {
+const updateIDs = (data, title) => {
   // console.log(data)
   return data
 }
