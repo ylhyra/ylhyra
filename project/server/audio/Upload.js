@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import query from 'server/database/tagger'
+import query from 'server/database'
 import getParameters from 'server/database/functions/getParameters'
 import multer from 'multer'
 import shortid from 'shortid'

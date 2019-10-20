@@ -15,7 +15,7 @@ const isDev = process.env.NODE_ENV !== 'production'
 const shortid = require('shortid')
 const app = express()
 const expressWs = require('express-ws')(app)
-import query from './database/tagger'
+import query from './database'
 
 app.use(bodyParser.json({ limit: '5mb' }))
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))

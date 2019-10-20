@@ -13,7 +13,7 @@
     "analyze": "source-map-explorer build/ylhyra/static/js/ylhyra.js",
     "setup": "./scripts/setup/development.sh",
     "setup:production": "./scripts/setup/production.sh",
-    "database": "./scripts/setup/database/create.sh",
+    "database:create": "./scripts/setup/database/create.sh",
     "database:import": "./scripts/setup/database/import.sh",
     "database:start": "./scripts/setup/database/start.sh",
     "start": "export PORT=8000 && node ./scripts/webpack/utils/start.js",
