@@ -22,4 +22,4 @@
 
 
 
-# source /home/egill/ylhyra/project/server/datasets/sounds/icelandic/islex_sound_library.sql
+# source /home/egill/assets/audio/islex_sound_library.sql
