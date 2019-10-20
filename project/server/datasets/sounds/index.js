@@ -9,9 +9,9 @@ export default (input) => {
         const files = results.map(i => i.file).map(i => {
           if (i.startsWith('islex/')) {
             return 'https://media.egill.xyz/audio/' + i
+          } else {
+            return 'https://ylhyra.is/Special:Redirect/file/' + i
           }
-          // TODO We must find appropiate URLs for the others.
-          return i
         })
         resolve(files)
       })

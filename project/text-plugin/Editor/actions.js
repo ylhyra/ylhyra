@@ -6,7 +6,7 @@ import stable_stringify from 'json-stable-stringify'
 
 
 export const openEditor = () => {
-  window.history.replaceState({}, '', window.location.href + '#editor')
+  window.history.replaceState({}, '', window.location.href.split('#')[0] + '#editor')
   store.dispatch({
     type: 'OPEN_EDITOR',
   })

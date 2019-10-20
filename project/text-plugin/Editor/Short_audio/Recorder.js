@@ -6,7 +6,7 @@ import Sound from 'react-sound'
 import axios from 'axios'
 import store from 'App/store'
 import { findSoundBites } from './actions'
-import { saveEditor } from 'Editor/actions'
+// import { saveEditor } from 'Editor/actions'
 
 export default class RecorderElement extends React.Component {
   state = {
@@ -51,7 +51,7 @@ export default class RecorderElement extends React.Component {
         word: this.props.word,
         filename: filename,
       })
-      saveEditor()
+      // saveEditor()
     }
   }
   cancel = () => {

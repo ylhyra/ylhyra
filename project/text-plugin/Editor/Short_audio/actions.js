@@ -3,10 +3,10 @@ import axios from 'axios'
 require('App/functions/sortByArray')
 import store from 'App/store'
 import isEmpty from 'is-empty-object'
-import { saveEditor } from 'Editor/actions'
+// import { saveEditor } from 'Editor/actions'
 
 export const findSoundBites = async () => {
-  const { tokenized, translation, list, audio } = store.getState().editor
+  const { tokenized, translation, list, short_audio } = store.getState().editor
 
   // console.log(tokenized)
 
@@ -59,7 +59,7 @@ export const findSoundBites = async () => {
     content: soundFiles,
   })
 
-  saveEditor()
+  // saveEditor()
 }
 
 const getTextFromIDs = (ids, list) => {

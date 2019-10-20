@@ -1,7 +1,10 @@
-a
+a:not(.selflink)
   color blue
   text-decoration none
   &:hover
    text-decoration underline
   &.new, li.new &
    color #ba0000
+a.selflink
+  color inherit
+  text-decoration none

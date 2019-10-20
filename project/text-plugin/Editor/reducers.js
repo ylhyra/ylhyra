@@ -2,12 +2,15 @@ import { combineReducers } from 'redux'
 import { translation, selected } from 'Editor/Translator/reducers'
 import suggestions from 'Editor/Suggestions/reducers'
 import MakeList from 'Parse/Tokenize/List'
+import short_audio from 'Editor/Short_audio/reducers'
 
 const isOpen = typeof window !== 'undefined' ? window.location.hash.substr(1) === 'editor' : false
 const open = (state = isOpen, action) => {
   switch (action.type) {
     case 'OPEN_EDITOR':
       return true
+    case 'OPEN_SOUND':
+      return 'sound'
     case 'CLOSE_EDITOR':
       return false
     default:
@@ -66,6 +69,7 @@ export const editor = combineReducers({
   translation,
   suggestions,
   selected, // Selected words in the Editor
+  short_audio,
   // audio,
   // pronunciation,
 })

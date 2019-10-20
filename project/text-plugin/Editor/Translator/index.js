@@ -6,7 +6,6 @@ import SentenceTranslation from 'Editor/Translator/Views/Document/SentenceTransl
 import Word from 'Editor/Translator/Views/Document/Word'
 import WordSidebar, { isMacintosh } from 'Editor/Translator/Views/Sidebar/Sidebar'
 import Suggestions from 'Editor/Suggestions/List'
-import { save, closeEditor } from 'Editor/actions'
 import store from 'App/store'
 
 class TranslatingEditor extends React.Component {
@@ -31,9 +30,6 @@ class TranslatingEditor extends React.Component {
           <div>
             <div className="translator-header">
               <div>
-                {!editor.isSaved && <button onClick={save}>Save document</button>}
-                <br/>
-                <button onClick={closeEditor}>Close</button>
                 <label><b>Shortcuts:</b></label>
                 <table>
                   <tbody>
