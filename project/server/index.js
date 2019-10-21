@@ -28,7 +28,7 @@ app.use('/api', require('server/web-socket').default)
 app.use('/api', require('server/server-side-rendering').default)
 // app.use('/api', require('server/tweets').default)
 // app.use('/api', require('server/audio').default)
-// app.use('/api', require('server/api/audio/recorder').default)
+app.use('/api', require('server/audio/recorder').default)
 // app.use('/api', require('server/api/audio/Upload').default)
 // app.use('/api', require('server/api/audio/Synchronize').default)
 

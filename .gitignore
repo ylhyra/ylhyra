@@ -13,3 +13,4 @@ npm-debug.log*
 project/mediawiki/backup/*/*
 project/mediawiki/LocalSettings.php
 .env
+/uploads

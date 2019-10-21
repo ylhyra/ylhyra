@@ -10,17 +10,21 @@ import path from 'path'
 import { exec } from 'child_process'
 import urlSlug from 'url-slug'
 
-export default ({base64_data,word}, callback) => {
+/*
+  TODO! Access control
+*/
+router.post('/recorder/save', (req, res) => {
+  const { base64_data, word, speaker } = req.body
   var buffer = Buffer.from(base64_data, 'base64')
 
-  const name    = urlSlug(word).slice(0, 30) + '_' + shortid.generate().slice(0,4)
+  const name = urlSlug(word).slice(0, 30) + '_' + shortid.generate().slice(0, 4)
   const wavPath = path.resolve(__dirname, `../../../uploads/${name}.wav`)
-  const m4a     = `/media/${name}.m4a`
-  const m4aPath = path.resolve(__dirname, `../../../uploads/${name}.m4a`)
+  const mp3 = `${name}.mp3` // Af hverju var ég að nota MP3 áður?
+  const mp3Path = path.resolve(__dirname, `../../../uploads/${name}.mp3`)
   fs.writeFile(wavPath, buffer, (err) => {
     if (err) {
       console.error(err);
-      // return res.status(500)
+      return res.status(500)
     }
     // console.log("The file was saved!")
     // // console.log(`
@@ -28,32 +32,33 @@ export default ({base64_data,word}, callback) => {
     // //     # -vn -af
     // //     # acompressor=threshold=-21dB:ratio=9:attack=200:release=1000
     // //     # silenceremove=1:0:0:1:1:-50dB:1
-    // //     ${m4a}
+    // //     ${mp3}
     // //   # &&
-    // //   # rm ${m4aPath}
+    // //   # rm ${mp3Path}
     // // `)
     exec(`
-      ffmpeg -i ${wavPath} ${m4aPath}
+      ffmpeg -i ${wavPath} ${mp3Path}
     `, (err) => {
       if (err) {
         console.error(err);
-        return;
-        // return res.sendStatus(500)
+        return res.sendStatus(500)
       }
 
-      query(
-        `INSERT INTO sounds SET text = ?, file = ?, speaker = ?`, [word, m4a, 'Egill'], (err2, results) => {
-          if (err2) {
-            console.error(err2)
-            // res.sendStatus(500)
-          } else {
-            // callback({type:m4a)
-          }
-        })
+      /* TEMPORARY FOR DEVELOPMENT; DON'T SAVE */
+      return res.send(mp3)
+      // query(
+      //   `INSERT INTO sounds SET text = ?, file = ?, speaker = ?`, [word, mp3, speaker], (err2, results) => {
+      //     if (err2) {
+      //       res.sendStatus(500)
+      //     } else {
+      //       res.send(mp3)
+      //     }
+      //   })
 
     })
   })
-}
+})
+export default router;
 
 /*
   TODO
