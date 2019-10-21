@@ -5,14 +5,17 @@ import error from 'App/Error'
 import stable_stringify from 'json-stable-stringify'
 
 
-export const openEditor = () => {
-  window.history.replaceState({}, '', window.location.href.split('#')[0] + '#editor')
+export const openEditor = (page) => {
+  const newUrl = mw.util.getUrl(mw.config.get('wgPageName'), { editor: page });
+  window.history.replaceState({}, '', newUrl)
   store.dispatch({
     type: 'OPEN_EDITOR',
+    page,
   })
 }
 export const closeEditor = () => {
-  window.history.replaceState({}, '', window.location.href.split('#')[0])
+  const newUrl = mw.util.getUrl(mw.config.get('wgPageName'));
+  window.history.replaceState({}, '', newUrl)
   purgeCurrentPage()
   store.dispatch({
     type: 'CLOSE_EDITOR',

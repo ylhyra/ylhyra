@@ -3,14 +3,13 @@ import { translation, selected } from 'Editor/Translator/reducers'
 import suggestions from 'Editor/Suggestions/reducers'
 import MakeList from 'Parse/Tokenize/List'
 import short_audio from 'Editor/Short_audio/reducers'
+import getParameter from 'get-parameter'
 
-const isOpen = typeof window !== 'undefined' ? window.location.hash.substr(1) === 'editor' : false
+const isOpen = typeof window !== 'undefined' ? getParameter('editor') : false
 const open = (state = isOpen, action) => {
   switch (action.type) {
     case 'OPEN_EDITOR':
-      return true
-    case 'OPEN_SOUND':
-      return 'sound'
+      return action.page
     case 'CLOSE_EDITOR':
       return false
     default:

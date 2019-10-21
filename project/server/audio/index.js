@@ -5,9 +5,7 @@ const router = (require('express')).Router()
 /*
   Finds PRONUNCIATION and SOUND
 */
-router.post('/audio/pronunciation_and_sound', async (req, res) => {
-  const { missingPronunciation, missingSound } = req.body
-
+export default async ({ missingPronunciation, missingSound }, callback) => {
   let pronunciation = {}
   // await Promise.all(missingPronunciation.map(text => (
   //   new Promise(async resolve => {
@@ -24,7 +22,5 @@ router.post('/audio/pronunciation_and_sound', async (req, res) => {
     })
   )))
 
-  res.send({ pronunciation, sound })
-})
-
-export default router
+  callback({ type: 'SOUND', pronunciation, sound })
+}

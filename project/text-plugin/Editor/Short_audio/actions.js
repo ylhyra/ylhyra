@@ -3,6 +3,7 @@ import axios from 'axios'
 require('App/functions/sortByArray')
 import store from 'App/store'
 import isEmpty from 'is-empty-object'
+import { send } from 'Editor/web-socket'
 // import { saveEditor } from 'Editor/actions'
 
 export const findSoundBites = async () => {
@@ -38,28 +39,22 @@ export const findSoundBites = async () => {
   // sentences = _.uniq(sentences).filter(Boolean)
 
   // console.log(words)
-  if(words.length > 0) {
+  if (words.length > 0) {
     store.dispatch({
       type: 'SOUND_BITE_LIST',
       soundList: words,
       wordID_to_text,
     })
+    words.length && send({
+      type: 'SOUND',
+      missingSound: words,
+    })
   } else {
+    console.log('No sounds to update')
     store.dispatch({
       type: 'SOUND_BITE_IS_UPDATED',
     })
   }
-
-  const soundFiles = (await axios.post('/api/audio/pronunciation_and_sound', {
-    missingSound: words,
-  })).data
-
-  store.dispatch({
-    type: 'SOUND_BITE_FILES',
-    content: soundFiles,
-  })
-
-  // saveEditor()
 }
 
 const getTextFromIDs = (ids, list) => {

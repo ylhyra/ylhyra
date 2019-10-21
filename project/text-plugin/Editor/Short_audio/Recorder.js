@@ -35,22 +35,36 @@ export default class RecorderElement extends React.Component {
   }
   save = () => {
     var reader = new window.FileReader()
+    var api = new mw.Api();
     reader.readAsDataURL(this.state.blob.blob)
     reader.onloadend = async () => {
-      this.setState({
-        saved: true,
-        blob: null,
-      })
-      const filename = (await axios.post('/api/recorder/save', {
-        word: this.props.word,
-        data: reader.result,
-      })).data
+      console.log(this.state.blob.blob)
+      api.upload(this.state.blob.blob, {
+        filename: 'File_1',
+        format: 'json',
+        ignorewarnings: 1
+      }).done(function(data) {
+        console.log(data.upload.filename + ' has sucessfully uploaded.');
+      }).fail(function(data) {
+        console.error(data);
+      });
 
-      store.dispatch({
-        type: 'SOUND_BITE_FILE',
-        word: this.props.word,
-        filename: filename,
-      })
+        this.setState({
+          saved: true,
+          blob: null,
+        })
+
+
+      // const filename = (await axios.post('/api/recorder/save', {
+      //   word: this.props.word,
+      //   data: reader.result,
+      // })).data
+      //
+      // store.dispatch({
+      //   type: 'SOUND_BITE_FILE',
+      //   word: this.props.word,
+      //   filename: filename,
+      // })
       // saveEditor()
     }
   }

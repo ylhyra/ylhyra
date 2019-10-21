@@ -39,7 +39,7 @@ const Render = (parsed) => {
           <button className="editor-button" onClick={window.showRaw}>
             Show raw
           </button>
-          <button className="editor-button" onClick={openEditor}>
+          <button className="editor-button" onClick={()=>openEditor('translate')}>
             Translate
           </button>
           <Editor/>

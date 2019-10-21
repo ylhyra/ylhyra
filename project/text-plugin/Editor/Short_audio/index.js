@@ -18,12 +18,6 @@ class Sounds extends React.Component {
   }
   render() {
     const { short_audio, editor, match } = this.props
-    if (!editor.input) {
-      return null
-    }
-    if (!editor.parsed) {
-      return 'Loading...'
-    }
     return (
       <div className="center">
         <table>

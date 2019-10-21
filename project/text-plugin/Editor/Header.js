@@ -14,10 +14,8 @@ class App extends React.Component {
         <br/>
         <button onClick={closeEditor}>Close</button>
 
-        <button onClick={openEditor}>Translate</button>
-        <button onClick={()=>{store.dispatch({
-          type: 'OPEN_SOUND',
-        })}}>Sound</button>
+        <button onClick={()=>openEditor('translate')}>Translate</button>
+        <button onClick={()=>openEditor('sound')}>Sound</button>
 
         {/* <div className="small">
           <div>
