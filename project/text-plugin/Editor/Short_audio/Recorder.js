@@ -7,6 +7,8 @@ import axios from 'axios'
 import store from 'App/store'
 import { findSoundBites } from './actions'
 // import { saveEditor } from 'Editor/actions'
+import { send } from 'Editor/web-socket'
+var FormData = require('form-data');
 
 export default class RecorderElement extends React.Component {
   state = {
@@ -37,22 +39,54 @@ export default class RecorderElement extends React.Component {
     var reader = new window.FileReader()
     var api = new mw.Api();
     reader.readAsDataURL(this.state.blob.blob)
+    // reader.readAsArrayBuffer(this.state.blob.blob)
+    // reader.readAsBinaryString(this.state.blob.blob)
     reader.onloadend = async () => {
-      console.log(this.state.blob.blob)
-      api.upload(this.state.blob.blob, {
-        filename: 'File_1',
-        format: 'json',
-        ignorewarnings: 1
-      }).done(function(data) {
-        console.log(data.upload.filename + ' has sucessfully uploaded.');
-      }).fail(function(data) {
-        console.error(data);
-      });
+      //       console.log(this.state.blob)
+      // return;
+      //
+      var base64_data = reader.result.match(/^data:.+\/(.+);base64,(.*)$/)[2]
+      // var buffer = Buffer.from(base64_data, 'base64')
 
-        this.setState({
-          saved: true,
-          blob: null,
-        })
+
+      // console.log(buffer)
+      // var form = new FormData()
+      // form.append('file', this.state.blob.blob)
+
+      // let blob = this.state.blob.blob
+      // // blob.lastModifiedDate = new Date();
+      // // blob.name = 'LOL.wav';
+      // const file = new File([this.state.blob.blob], "LOL.wav", {type:'audio/wav',lastModified: new Date()});
+      // // return console.log(file)
+      // api.upload(file, {
+      //   filename: 'File_1.wav',
+      //   format: 'json',
+      //   // ignorewarnings: 1
+      // }).done(function(data) {
+      //   console.log(data.upload.filename + ' has sucessfully uploaded.');
+      // }).fail(function(data) {
+      //   console.error(data);
+      // });
+      // return;
+
+      // const filename = (await axios.post('/api/recorder/save', {
+      //   word: this.props.word,
+      //   data: reader.result,
+      // })).data
+
+      send({
+        type: 'RECORDER',
+        word: this.props.word,
+        base64_data,
+      })
+
+
+
+
+      this.setState({
+        saved: true,
+        blob: null,
+      })
 
 
       // const filename = (await axios.post('/api/recorder/save', {

@@ -40,7 +40,7 @@ export const save = async () => {
       editPage({
         title: `Data:${title}`,
         text: stable_stringify(data_to_save, { space: 2 }),
-        summary: 'Saving data',
+        summary: '✏️',
       }, saved => {
         if (saved) {
           store.dispatch({
