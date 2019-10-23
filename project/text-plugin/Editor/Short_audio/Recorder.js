@@ -10,6 +10,9 @@ import { findSoundBites } from './actions'
 import { send } from 'Editor/web-socket'
 var FormData = require('form-data');
 
+const TESTING_WITH_LOCALHOST = false
+const url = TESTING_WITH_LOCALHOST ? 'ttps://localhost:8000' : ''
+
 export default class RecorderElement extends React.Component {
   state = {
     recording: false,
@@ -40,6 +43,10 @@ export default class RecorderElement extends React.Component {
     var api = new mw.Api();
     reader.readAsDataURL(this.state.blob.blob)
     reader.onloadend = async () => {
+      if (!reader.result) {
+        return console.error('Could not read')
+      }
+      const base64_data = reader.result.match(/^data:.+\/(.+);base64,(.*)$/)[2]
       // send({
       //   type: 'RECORDER',
       //   word: this.props.word,
@@ -50,13 +57,32 @@ export default class RecorderElement extends React.Component {
         saved: true,
         blob: null,
       })
-      const filename = (await axios.post('/api/recorder/save', {
+      const filename = (await axios.post(url + '/api/recorder/save', {
         type: 'RECORDER',
         word: this.props.word,
         speaker: mw.config.get('wgUserName'),
-        base64_data: reader.result.match(/^data:.+\/(.+);base64,(.*)$/)[2],
+        base64_data,
       })).data
       console.log(filename)
+
+      if (TESTING_WITH_LOCALHOST) {
+        return;
+      }
+      var api = new mw.Api()
+      api.postWithToken('csrf', {
+        filename,
+        text: `{{spoken|${this.props.word}}}`,
+        url: `https://ylhyra.is/api/temp_files/${filename}`,
+        action: 'upload',
+        ignorewarnings: '1',
+        format: 'json'
+      }).done(function(data) {
+        console.log(data);
+      }).fail(function(error) {
+        if (error === 'fileexists-no-change') return;
+        console.error(error)
+      })
+
       //
       // store.dispatch({
       //   type: 'SOUND_BITE_FILE',

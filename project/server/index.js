@@ -16,6 +16,7 @@ const shortid = require('shortid')
 const app = express()
 const expressWs = require('express-ws')(app)
 import query from './database'
+export const upload_path = path.resolve(__dirname, 'uploads')
 
 app.use(bodyParser.json({ limit: '5mb' }))
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))
@@ -31,6 +32,8 @@ app.use('/api', require('server/server-side-rendering').default)
 app.use('/api', require('server/audio/recorder').default)
 // app.use('/api', require('server/api/audio/Upload').default)
 // app.use('/api', require('server/api/audio/Synchronize').default)
+app.use('/api/temp_files/', express.static(upload_path))
+
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST

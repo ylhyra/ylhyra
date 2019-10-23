@@ -70,8 +70,13 @@ module.exports = function(proxy, allowedHost) {
     watchOptions: {
       ignored: ignoredFiles(paths.src),
     },
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    },
     // Enable HTTPS if the HTTPS environment variable is set to 'true'
-    https: true,//protocol === 'https',
+    https: true, //protocol === 'https',
     host: host,
     overlay: false,
     historyApiFallback: {
@@ -83,7 +88,7 @@ module.exports = function(proxy, allowedHost) {
     public: 'https://localhost:8000/',
 
     proxy: {
-      '/api/**': { target: process.env.PROXY },
+      '/api/**': { target: process.env.PROXY || 'http://localhost:9123' },
     },
     before(app) {
       // This lets us open files from the runtime error overlay.
