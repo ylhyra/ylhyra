@@ -14,10 +14,11 @@ import urlSlug from 'url-slug'
   TODO! Access control
 */
 router.post('/recorder/save', (req, res) => {
-  const { base64_data, word, speaker } = req.body
+  const { base64_data, word, speaker, should_save } = req.body
   var buffer = Buffer.from(base64_data, 'base64')
 
-  const name = urlSlug(word).slice(0, 30) + '_' + shortid.generate().slice(0, 4)
+  const name = 'Pronunciation_' + urlSlug(word).slice(0, 30) + '_' + shortid.generate().slice(0, 4)
+
   const wavPath = path.resolve(__dirname, `../../../uploads/${name}.wav`)
   const mp3 = `${name}.mp3` // Af hverju var ég að nota MP3 áður?
   const mp3Path = path.resolve(__dirname, `../../../uploads/${name}.mp3`)
@@ -45,16 +46,18 @@ router.post('/recorder/save', (req, res) => {
       }
 
       /* TEMPORARY FOR DEVELOPMENT; DON'T SAVE */
-      return res.send(mp3)
-      // query(
-      //   `INSERT INTO sounds SET text = ?, file = ?, speaker = ?`, [word, mp3, speaker], (err2, results) => {
-      //     if (err2) {
-      //       res.sendStatus(500)
-      //     } else {
-      //       res.send(mp3)
-      //     }
-      //   })
-
+      if (should_save) {
+        query(
+          `INSERT INTO sounds SET text = ?, file = ?, speaker = ?`, [word, mp3, speaker], (err2, results) => {
+            if (err2) {
+              res.sendStatus(500)
+            } else {
+              res.send(mp3)
+            }
+          })
+      } else {
+        return res.send(mp3)
+      }
     })
   })
 })

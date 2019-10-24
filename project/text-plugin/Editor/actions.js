@@ -33,8 +33,11 @@ export const save = async () => {
       const data_to_save = {
         tokenized: data.tokenized,
         list: data.list,
-        // suggestions: data.suggestions,
         translation: data.translation,
+        suggestions: data.suggestions,
+        short_audio: data.short_audio,
+        // audio: data.audio,
+        // pronunciation: data.pronunciation,
       }
 
       editPage({

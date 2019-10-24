@@ -54,6 +54,7 @@ const isSaved = (state = true, action) => {
     case 'UPDATE_SENTENCE_VALUE':
     case 'SOUND_BITE_FILES':
     case 'SOUND_BITE_FILE':
+    case 'SOUND':
       return false
     default:
       return state
