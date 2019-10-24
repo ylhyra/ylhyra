@@ -1,13 +1,15 @@
 .book {
   font-size: 18px;
-  line-height: 1.9em;
+  line-height: 1.9;
+  max-width 400px
+  margin auto
 
   /* NYTIMES STYLE */
-  &.ny-times {
+  &, &.ny-times {
     font-size: 20px;
-    -webkit-font-smoothing: antialiased;
+    // -webkit-font-smoothing: antialiased;
     color: #111;
-    line-height: 1.7;
+    // line-height: 1.7;
     font-family: Georgia, serif;
     letter-spacing: 0.1px;
     font-size: 16px;
@@ -16,14 +18,17 @@
   h1 {
     text-align: center;
     margin: 25px;
+    margin-bottom: 0px
   }
   h2 {
     text-align: center;
-    font-size: 20px;
+    font-size: 15px;
     margin: 10px;
     font-family: sans-serif;
   }
-  > div > div {
-    margin-bottom: 10px;
+  .subtitle{
+    margin-bottom 20px
+    text-align: center;
+    font-size 14px
   }
 }
