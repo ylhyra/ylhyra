@@ -104,7 +104,7 @@ export default class RecorderElement extends React.Component {
     if (!this.props.word) return null
     return (
       <div>
-        <div onMouseDown={this.start} onMouseUp={this.stop} className={`recorder ${this.state.recording ? 'recording': ''}`}>
+        <div onMouseEnter={this.start} onMouseLeave={this.stop} className={`recorder ${this.state.recording ? 'recording': ''}`}>
           Record
         </div>
 
