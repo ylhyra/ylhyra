@@ -87,9 +87,17 @@ export const shouldTranslate_ = ({ tag, attr }, isTranslating) => {
   if (tag === 'translate' || tag === 'blockquote' || tag === 'isl' || tag === 'listen' || tag === 'is') {
     return true
   }
-  if (attr && ('data-translate' in attr && attr['data-translate'] !== 'no' && attr['data-translate'] !== 'false')) {
+  if (attr && (attr['data-translate'] === 'no' || attr['data-translate'] === 'false')) {
+    return false
+  }
+  if (attr && (attr['data-children'] === 'string')) {
+    return false
+  }
+  if (attr && ('data-translate' in attr)) {
     return true
   }
+
+
   if (attr && attr.class === 'icelandic') {
     return true
   }

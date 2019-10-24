@@ -11,9 +11,5 @@ export default (updatedID, editor) => {
   //   text,
   //   sounds:  audio.sounds[text]
   // })
-  console.log({
-    text,
-    audio: short_audio.sounds[text]
-  })
   return short_audio.sounds[text]
 }

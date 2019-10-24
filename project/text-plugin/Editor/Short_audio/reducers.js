@@ -3,6 +3,8 @@ export default (state = {
   sounds: {}, // Shorter sound bites
 }, action) => {
   switch (action.type) {
+    case 'TOKENIZED':
+      return action.currentDocumentData.short_audio
     case 'UPDATE_DEFINITION':
       return {
         ...state,

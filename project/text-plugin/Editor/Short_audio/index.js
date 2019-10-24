@@ -20,7 +20,7 @@ class Sounds extends React.Component {
     const { short_audio, editor, match } = this.props
     return (
       <div className="center">
-        <table>
+        <table className="wikitable">
           <tbody>
             {short_audio.soundList && (short_audio.soundList.map((sound,index) => (
               <tr key={index}>
