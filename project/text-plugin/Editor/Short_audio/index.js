@@ -13,7 +13,7 @@ class Sounds extends React.Component {
   }
   load = () => {
     if (!this.props.short_audio.areSoundsUpdated) {
-      findSoundBites()
+      findSoundBites() 
     }
   }
   render() {

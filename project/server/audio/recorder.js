@@ -8,7 +8,7 @@ var upload = multer({ dest: 'uploads/' })
 import shortid from 'shortid'
 import path from 'path'
 import { exec } from 'child_process'
-import urlSlug from 'url-slug'
+import urlSlug from 'App/functions/url-slug'
 
 /*
   TODO! Access control
