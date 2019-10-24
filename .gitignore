@@ -14,3 +14,4 @@ project/mediawiki/backup/*/*
 project/mediawiki/LocalSettings.php
 .env
 /uploads
+google_translation_api.json

@@ -19,7 +19,7 @@ export const closeEditor = () => {
   purgeCurrentPage()
   store.dispatch({
     type: 'CLOSE_EDITOR',
-  })
+  }) 
 }
 
 
