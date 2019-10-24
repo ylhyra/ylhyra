@@ -21,7 +21,7 @@ class Editor extends React.PureComponent {
           <Header/>
           {this.props.editor.open === 'sound' ? <Sound/> : <Translator/>}
         </div>
-    } else {
+    } else { 
       return null
     }
   }
