@@ -30,7 +30,7 @@ export default AudioXML
 //   if (!input) return null
 //   const { node, tag, attr, child, text } = input
 //   if (node === 'element' || node === 'root') {
-//     if (attr.hasOwnProperty('no-audio')) return null;
+//     if (attr.hasOwnProperty('data-no-audio')) return null;
 //     if (includesAny(skipTags, tag)) return null;
 //     // if (attr && includesAny(skipClasses, attr.class)) return null;
 //
@@ -58,10 +58,10 @@ export default AudioXML
 //
 //
 // // const skipClasses = [
-// //   'no-audio',
+// //   'data-no-audio',
 // // ]
 // const skipTags = [
-//   'no-audio',
+//   'data-no-audio',
 //   'answers',
 // ]
 

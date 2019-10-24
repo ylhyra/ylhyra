@@ -128,6 +128,7 @@ export default function({html, title, returns}) {
 
 
 const flattenData = (input) => {
+  // console.log(input)
   let translation = {
     definitions: {},
     sentences: {},
@@ -140,10 +141,16 @@ const flattenData = (input) => {
     sentences: {},
     words: {},
   }
+  let short_audio = {
+    soundList: [],
+    sounds: {},
+    wordID_to_text: {},
+  }
 
   for (const documentTitle of Object.keys(input)) {
     const currentTranslation = input[documentTitle].translation
     const currentList = input[documentTitle].list
+    const currentShortaudio = input[documentTitle].short_audio
     // console.log(input[documentTitle])
     translation = {
       definitions: { ...translation.definitions, ...currentTranslation.definitions },
@@ -157,10 +164,16 @@ const flattenData = (input) => {
       sentences: { ...list.sentences, ...currentList.sentences },
       words: { ...list.words, ...currentList.words },
     }
+    short_audio = {
+      soundList: [...short_audio.soundList,...currentShortaudio.soundList],
+      sounds: {...short_audio.sounds,...currentShortaudio.sounds},
+      wordID_to_text: {...short_audio.wordID_to_text,...currentShortaudio.wordID_to_text},
+    }
   }
   return {
     translation,
     list,
+    short_audio,
   }
 }
 

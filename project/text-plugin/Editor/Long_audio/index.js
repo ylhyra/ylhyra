@@ -32,7 +32,7 @@ class TranslatingEditor extends React.Component {
     // console.log(audio.sections)
     return (
       <div className="center">
-        Here you can upload audio files. If there is anything in the document that isn't part of the audio track, add the attribute <code>"no-audio"</code> to the text tag.
+        Here you can upload audio files. If there is anything in the document that isn't part of the audio track, add the attribute <code>"data-no-audio"</code> to the text tag.
         <br/>
         <br/>
         This functionality is still in beta.

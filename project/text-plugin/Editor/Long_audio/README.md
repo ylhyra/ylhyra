@@ -11,7 +11,7 @@ We use [Aeneas](https://github.com/readbeyond/aeneas/) to synchronize audio and 
 
 ### Input
 
-- **Aeneas** requires text to match audio. We strip out elements with the `[no-audio]` attribute.
+- **Aeneas** requires text to match audio. We strip out elements with the `[data-no-audio]` attribute.
 - We strip out IDs except for <word/> and <sentence/>.
 - We are using the **`munparsed`** option of Aeneas and will send it the XML.
 - Aeneas expects <word/> IDs to start with a `w`, and <sentence/> IDs to start with a `s`. (This can be altered).
