@@ -12,5 +12,6 @@ export default (updatedID, editor) => {
   //   text,
   //   sounds:  short_audio.sounds[text]
   // })
+  if(!text) return '';
   return short_audio.sounds[text].join(',')
 }

@@ -30,7 +30,7 @@ var now = require("performance-now")
 /*
   Parser
 */
-export default function({html, title, returns}) {
+export default function({ html, title, returns }) {
   if (!html) return null
   // console.log(html)
   try {
@@ -38,8 +38,8 @@ export default function({html, title, returns}) {
     html = entities.decode(html)
     html = html
       .replace(/[\s\n\r]+/g, ' ') // Ef þetta er fjarlægt virkar WrapInTags/SplitAndWrap ekki
-      // .replace(/\u00AD/g,' ') //Soft-hyphens
-      // .replace(/\u00A0/g,' ') //Non-breaking spaces
+    // .replace(/\u00AD/g,' ') //Soft-hyphens
+    // .replace(/\u00A0/g,' ') //Non-breaking spaces
     let json = html2json(html)
 
     var t1 = now()
@@ -74,10 +74,10 @@ export default function({html, title, returns}) {
     if (isEmpty(text)) {
       // console.warn('No text to tokenize.')
       // json = html2json(entities.decode(json2html(json)))
-      if(returns ==='html') {
+      if (returns === 'html') {
         return html
       } else {
-        return {parsed:json}
+        return { parsed: json }
       }
       // return html2json(Compiler({ json: wrapped, data: data, }))
     }
@@ -111,15 +111,15 @@ export default function({html, title, returns}) {
     // compiled = entities.decode(compiled)
     // console.log(compiled)
     // console.log(compiled)
-    if(returns ==='html') {
+    if (returns === 'html') {
       return compiled
     } else {
-      return {parsed: html2json(compiled), tokenized, data, flattenedData}
+      return { parsed: html2json(compiled), tokenized, data, flattenedData }
     }
     // return compiled
   } catch (e) {
-    console.error('Error in parse step')
     console.error(e)
+    console.error('Error in parse step')
   }
 }
 
@@ -164,10 +164,12 @@ const flattenData = (input) => {
       sentences: { ...list.sentences, ...currentList.sentences },
       words: { ...list.words, ...currentList.words },
     }
-    short_audio = {
-      soundList: [...short_audio.soundList,...currentShortaudio.soundList],
-      sounds: {...short_audio.sounds,...currentShortaudio.sounds},
-      wordID_to_text: {...short_audio.wordID_to_text,...currentShortaudio.wordID_to_text},
+    if (currentShortaudio) {
+      short_audio = {
+        soundList: [...short_audio.soundList, ...currentShortaudio.soundList],
+        sounds: { ...short_audio.sounds, ...currentShortaudio.sounds },
+        wordID_to_text: { ...short_audio.wordID_to_text, ...currentShortaudio.wordID_to_text },
+      }
     }
   }
   return {
@@ -185,7 +187,7 @@ export class newTitle {
   index = 0;
   array = [];
   get(title) {
-    if(this.array.includes(title)) {
+    if (this.array.includes(title)) {
       title = this.get(title + '1')
     }
     this.array.push(title)

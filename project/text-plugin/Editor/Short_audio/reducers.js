@@ -4,7 +4,10 @@ export default (state = {
 }, action) => {
   switch (action.type) {
     case 'TOKENIZED':
-      return action.currentDocumentData.short_audio
+      if (action.currentDocumentData?.short_audio) {
+        return action.currentDocumentData.short_audio
+      }
+      return state;
     case 'UPDATE_DEFINITION':
       return {
         ...state,

@@ -75,7 +75,7 @@ documentReady(() => {
       console.log('Stopped tokenization, there is no {{start}} for the current document')
     }
 
-    Render(parsed)
+    Render(parsed, {})
     // const serverside = ReactDOMServer.renderToStaticMarkup(Render(parsed, true)) //Test for server-side-rendering
     var t2 = now()
     console.log(`Parsing took ${Math.round(t1 - t0)} ms, rendering ${Math.round(t2 - t1)} ms`)
