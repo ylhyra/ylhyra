@@ -14,7 +14,7 @@ $wgExtensionCredits['ylhyra_backend_parse'][] = array(
 $wgHooks['ParserAfterTidy'][] = function( Parser &$parser, &$text ) {
   if (strpos($text, 'data-document-start') !== false) {
     if(function_exists('curl_version')) { // Check if CURL is installed
-      if ($_COOKIE and $_COOKIE['development']=='true') { // Development mode?
+      if ($_COOKIE and $_COOKIE['server-side-rendering']=='false') { // Development mode?
         return true;
       } else {
         $url = 'http://localhost:9123/api/render';
