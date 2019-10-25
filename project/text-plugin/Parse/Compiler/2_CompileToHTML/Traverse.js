@@ -6,13 +6,13 @@ import inlineStyle2Json from 'App/functions/inline-style-2-json'
 // import Controls from './Controls/Controls'
 // import AudioPlayer from './Controls/Audio'
 
-const Traverse = ({json, data, index}) => {
+const Traverse = ({ json, data, index }) => {
   if (!json) return null
   const { node, tag, attr, child, text } = json
   if (node === 'element' || node === 'root') {
     let Tag = tag || 'span'
     if (node === 'root') {
-      return child.map((e, i) => Traverse({json:e, index:i, data}))
+      return child.map((e, i) => Traverse({ json: e, index: i, data }))
     }
     if (tag === 'word') {
       Tag = Word;
@@ -72,8 +72,13 @@ const Traverse = ({json, data, index}) => {
     //   return null
     // }
 
+    let extraAttributes = {}
+    if (tag === 'word') {
+      extraAttributes = { editor: data }
+    }
+
     return (
-      <Tag {...attrs} key={(attr && attr.id) || index} editor={data}>
+      <Tag {...attrs} key={(attr && attr.id) || index} {...extraAttributes}>
         {/* {Audio} */}
         {child && child.map((e,i) => Traverse({json:e, data, index:i}))}
       </Tag>
