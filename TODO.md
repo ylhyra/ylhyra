@@ -28,3 +28,6 @@ Dæmi um útlit:
 	- http://levitan-eng.jewish-museum.ru/
 	- https://www.aristidebenoist.com/
 -->
+
+
+- https://github.com/lucianodato/speech-denoiser

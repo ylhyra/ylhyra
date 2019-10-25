@@ -93,7 +93,7 @@ documentReady(() => {
         currentDocumentData: data[title],
       })
     }
-    // Render(parsed, { hydrate: true })
+    Render(parsed, { hydrate: true })
     $('body').hasClass('mw-editable') && Editor(parsed)
   }
 

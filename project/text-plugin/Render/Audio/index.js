@@ -7,6 +7,7 @@ import store from 'App/store'
 require('./KeyboardListener')
 require('array-sugar')
 import { ParseHTMLtoObject, ParseHTMLtoArray } from 'Render/Elements/parse'
+import tapOrClick from 'react-tap-or-click'
 let timer
 
 @connect(state => ({
@@ -129,6 +130,7 @@ class Audio extends React.PureComponent {
     if (inline) {
       Tag = 'span'
     }
+
     return (
       <Tag className={`audioPlayer ${playing ? playing : ''} ${error ? 'error' : ''} ${inline ? 'inline' : ''}`}>
         <audio // controls
