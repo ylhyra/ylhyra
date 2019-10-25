@@ -12,7 +12,7 @@ const Traverse = (input, index = 0, editor, parentTag) => {
   if (!input) return null
   const { node, tag, attr, child, text } = input
   if (node === 'element' || node === 'root') {
-    let Tag = tag || 'span'
+    let Tag = tag || 'div'
     if (tag === 'root') {
       return child.map((e, i) => Traverse(e, i))
     }
