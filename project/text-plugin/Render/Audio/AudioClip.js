@@ -13,7 +13,7 @@ const AudioClip = {
       audio = new Audio(sound_files)
     }
     const promise = audio.play()
-    if (promise) {
+    if (promise) { 
       promise.catch(() => {
         // console.warn('Audio not played since user has not yet interacted with document')
       })
