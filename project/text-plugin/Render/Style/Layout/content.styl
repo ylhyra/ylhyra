@@ -17,8 +17,10 @@
     margin auto
     > div
       flex 1
-  // a
-  //   color white
+  @media screen and (max-width: 600px)
+    padding 5px
+    > div
+      display block
   h5
     font inherit
     font-size normal
@@ -42,6 +44,9 @@
   flex-direction column
   #mw-content-text
     flex 1
+  @media screen and (max-width: 600px)
+    padding 0 5px
+
 
 #actions
   position: absolute;

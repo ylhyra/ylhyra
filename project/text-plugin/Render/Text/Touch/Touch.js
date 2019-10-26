@@ -115,7 +115,7 @@ const FindElements = (e, doubleClick = false, moving = false) => {
 
 
   const target = document.elementFromPoint(x, y)
-  console.log({x,y})
+  // console.log({x,y})
   if (!target) {
     return reset()
   }
@@ -124,7 +124,7 @@ const FindElements = (e, doubleClick = false, moving = false) => {
   let element = target.closest(`[data-${kind}-id]`)
   if (!element) {
     kind = 'word'
-    console.log('Finding closest')
+    // console.log('Finding closest')
     element = findClosestElement(x, y) // Find elements in a 20 pixel radius (TODO Needs optimizing)
   }
   if (!element) {

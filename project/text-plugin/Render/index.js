@@ -6,7 +6,7 @@ import Traverse from './Traverse'
 import { html2json, json2html } from 'text-plugin/App/functions/html2json'
 
 const Render = (parsed, { shouldReturnElement, hydrate }) => {
-  // console.log(json2html(parsed))
+  console.log(json2html(parsed))
   const element = (
     <Provider store={store}>
       <div className="ylhyra-text">

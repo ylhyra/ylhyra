@@ -107,5 +107,5 @@ export const getText = (data, clean = false, trim = false) => {
 const IgnoredCharacters = /\u00AD/g
 
 const shouldIgnore = (i) => {
-  return (i.attr && i.attr.class === 'instructions') || i.tag === 'answers'
+  return (i.attr && i.attr.class === 'instructions') || i.tag === 'answers' 
 }
