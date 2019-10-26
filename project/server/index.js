@@ -15,7 +15,7 @@ const isDev = process.env.NODE_ENV !== 'production'
 const shortid = require('shortid')
 const app = express()
 const expressWs = require('express-ws')(app)
-import query from './database'
+import query from './database' 
 export const upload_path = path.resolve(__dirname, './../../uploads')
 
 app.use(bodyParser.json({ limit: '5mb' }))
