@@ -1,22 +1,19 @@
-
-
-export default async (req, res) => {
-  // [START translate_quickstart]
-  // Imports the Google Cloud client library
-  const {Translate} = require('@google-cloud/translate');
-
-  // Instantiates a client
-  const translate = new Translate({projectId:process.env:GOOGLE_API_PROJECT_ID});
-
-  // The text to translate
-  const text = 'Hello, world!';
-
-  // The target language
-  const target = 'ru';
-
-  // Translates some text into Russian
-  const [translation] = await translate.translate(text, target);
-  console.log(`Text: ${text}`);
-  console.log(`Translation: ${translation}`);
-  // [END translate_quickstart]
+const { TranslationServiceClient } = require('@google-cloud/translate').v3beta1;
+const { GOOGLE_API_PROJECT_ID } = process.env
+const translationClient = new TranslationServiceClient();
+async function translateText() {
+  if (!GOOGLE_API_PROJECT_ID) return console.error('No Google API project ID')
+  const request = {
+    parent: translationClient.locationPath(GOOGLE_API_PROJECT_ID, 'global'),
+    contents: ["Hvað er þetta eiginlega?"],
+    mimeType: 'text/plain', // mime types: text/plain, text/html
+    sourceLanguageCode: 'is-IS',
+    targetLanguageCode: 'en-US',
+  };
+  const [response] = await translationClient.translateText(request);
+  for (const translation of response.translations) {
+    console.log(`Translation: ${translation.translatedText}`);
+  }
 }
+
+translateText();
