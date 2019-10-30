@@ -111,6 +111,7 @@ checkBrowsers(paths.appPath, isInteractive)
         ));
         printBuildError(err);
       } else {
+        console.log(err)
         console.log(chalk.red('Failed to compile.\n'));
         printBuildError(err);
         process.exit(1);

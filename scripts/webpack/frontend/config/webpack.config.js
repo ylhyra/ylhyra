@@ -13,7 +13,6 @@ const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const safePostCssParser = require('postcss-safe-parser');
-const ManifestPlugin = require('webpack-manifest-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
@@ -144,11 +143,11 @@ module.exports = function(webpackEnv) {
       false : isEnvDevelopment && 'cheap-module-source-map',
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
-    entry: {
-      /*
-        ylhyra - text-plugin
-      */
-      app: [
+    entry: [
+      // /*
+      //   ylhyra - text-plugin
+      // */
+      // app: [
         // Include an alternative client for WebpackDevServer. A client's job is to
         // connect to WebpackDevServer by a socket and get notified about changes.
         // When you save a file, the client will either apply hot updates (in case
@@ -167,7 +166,7 @@ module.exports = function(webpackEnv) {
         // initialization, it doesn't blow up the WebpackDevServer client, and
         // changing JS code would still trigger a refresh.
       ].filter(Boolean),
-    },
+    // },
     output: {
       // The build folder.
       path: isEnvProduction ? paths.appBuild : undefined,
@@ -176,7 +175,8 @@ module.exports = function(webpackEnv) {
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
       filename: isEnvProduction ?
-        'static/js/[name].[contenthash:8].js' : isEnvDevelopment && 'static/js/bundle.js',
+        'app.js' : isEnvDevelopment && 'app.js',
+        // '[name].js' : isEnvDevelopment && 'static/js/bundle.js',
       // TODO: remove this when upgrading to webpack 5
       futureEmitAssets: true,
       // There are also additional JS chunk files if you use code splitting.
@@ -184,7 +184,7 @@ module.exports = function(webpackEnv) {
         'static/js/[name].[contenthash:8].chunk.js' : isEnvDevelopment && 'static/js/[name].chunk.js',
       // We inferred the "public path" (such as / or /my-project) from homepage.
       // We use "/" in development.
-      publicPath: publicPath,
+      publicPath: 'build',//publicPath,
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction ?
         info =>
@@ -268,16 +268,16 @@ module.exports = function(webpackEnv) {
       // Automatically split vendor and commons
       // https://twitter.com/wSokra/status/969633336732905474
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
-      splitChunks: {
-        chunks: 'all',
-        name: false,
-      },
+      // splitChunks: {
+      //   chunks: 'all',
+      //   name: false,
+      // },
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
       // https://github.com/facebook/create-react-app/issues/5358
-      runtimeChunk: {
-        name: entrypoint => `runtime-${entrypoint.name}`,
-      },
+      // runtimeChunk: {
+      //   name: entrypoint => `runtime-${entrypoint.name}`,
+      // },
     },
     resolve: {
       // This allows you to set a fallback for where Webpack should look for modules.
@@ -474,37 +474,6 @@ module.exports = function(webpackEnv) {
                 getLocalIdent: getCSSModuleLocalIdent,
               }),
             },
-            // Opt-in support for SASS (using .scss or .sass extensions).
-            // By default we support SASS Modules with the
-            // extensions .module.scss or .module.sass
-            {
-              test: sassRegex,
-              exclude: sassModuleRegex,
-              use: getStyleLoaders({
-                  importLoaders: 2,
-                  sourceMap: isEnvProduction && shouldUseSourceMap,
-                },
-                'sass-loader'
-              ),
-              // Don't consider CSS imports dead code even if the
-              // containing package claims to have no side effects.
-              // Remove this when webpack adds a warning or an error for this.
-              // See https://github.com/webpack/webpack/issues/6571
-              sideEffects: true,
-            },
-            // Adds support for CSS Modules, but using SASS
-            // using the extension .module.scss or .module.sass
-            {
-              test: sassModuleRegex,
-              use: getStyleLoaders({
-                  importLoaders: 2,
-                  sourceMap: isEnvProduction && shouldUseSourceMap,
-                  modules: true,
-                  getLocalIdent: getCSSModuleLocalIdent,
-                },
-                'sass-loader'
-              ),
-            },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
             // In production, they would get copied to the `build` folder.
@@ -533,14 +502,14 @@ module.exports = function(webpackEnv) {
       // https://github.com/facebook/create-react-app/issues/5358
       isEnvProduction &&
       shouldInlineRuntimeChunk &&
-      new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
+      // new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
       // Makes some environment variables available in index.html.
       // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
       // <link rel="icon" href="%PUBLIC_URL%/favicon.ico">
       // In production, it will be an empty string unless you specify "homepage"
       // in `package.json`, in which case it will be the pathname of that URL.
       // In development, this will be an empty string.
-      new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+      // new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
       // This gives some necessary context to module not found errors, such as
       // the requesting resource.
       new ModuleNotFoundPlugin(paths.appPath),
@@ -569,30 +538,30 @@ module.exports = function(webpackEnv) {
         filename: 'static/css/[name].[contenthash:8].css',
         chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
       }),
-      // Generate an asset manifest file with the following content:
-      // - "files" key: Mapping of all asset filenames to their corresponding
-      //   output file so that tools can pick it up without having to parse
-      //   `index.html`
-      // - "entrypoints" key: Array of files which are included in `index.html`,
-      //   can be used to reconstruct the HTML if necessary
-      new ManifestPlugin({
-        fileName: 'asset-manifest.json',
-        publicPath: publicPath,
-        generate: (seed, files, entrypoints) => {
-          const manifestFiles = files.reduce((manifest, file) => {
-            manifest[file.name] = file.path;
-            return manifest;
-          }, seed);
-          const entrypointFiles = entrypoints.main.filter(
-            fileName => !fileName.endsWith('.map')
-          );
-
-          return {
-            files: manifestFiles,
-            entrypoints: entrypointFiles,
-          };
-        },
-      }),
+      // // Generate an asset manifest file with the following content:
+      // // - "files" key: Mapping of all asset filenames to their corresponding
+      // //   output file so that tools can pick it up without having to parse
+      // //   `index.html`
+      // // - "entrypoints" key: Array of files which are included in `index.html`,
+      // //   can be used to reconstruct the HTML if necessary
+      // new ManifestPlugin({
+      //   fileName: 'asset-manifest.json',
+      //   publicPath: publicPath,
+      //   generate: (seed, files, entrypoints) => {
+      //     const manifestFiles = files.reduce((manifest, file) => {
+      //       manifest[file.name] = file.path;
+      //       return manifest;
+      //     }, seed);
+      //     const entrypointFiles = entrypoints.main.filter(
+      //       fileName => !fileName.endsWith('.map')
+      //     );
+      //
+      //     return {
+      //       files: manifestFiles,
+      //       entrypoints: entrypointFiles,
+      //     };
+      //   },
+      // }),
       // Moment.js is an extremely popular library that bundles large locale files
       // by default due to how Webpack interprets its code. This is a practical
       // solution that requires the user to opt into importing specific locales.
@@ -601,47 +570,47 @@ module.exports = function(webpackEnv) {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       // Generate a service worker script that will precache, and keep up to date,
       // the HTML & assets that are part of the Webpack build.
-      isEnvProduction &&
-      new WorkboxWebpackPlugin.GenerateSW({
-        clientsClaim: true,
-        exclude: [/\.map$/, /asset-manifest\.json$/],
-        importWorkboxFrom: 'cdn',
-        navigateFallback: publicUrl + '/index.html',
-        navigateFallbackBlacklist: [
-          // Exclude URLs starting with /_, as they're likely an API call
-          new RegExp('^/_'),
-          // Exclude any URLs whose last part seems to be a file extension
-          // as they're likely a resource and not a SPA route.
-          // URLs containing a "?" character won't be blacklisted as they're likely
-          // a route with query params (e.g. auth callbacks).
-          new RegExp('/[^/?]+\\.[^/]+$'),
-        ],
-      }),
-      // TypeScript type checking
-      useTypeScript &&
-      new ForkTsCheckerWebpackPlugin({
-        typescript: resolve.sync('typescript', {
-          basedir: paths.appNodeModules,
-        }),
-        async: isEnvDevelopment,
-        useTypescriptIncrementalApi: true,
-        checkSyntacticErrors: true,
-        resolveModuleNameModule: process.versions.pnp ?
-          `${__dirname}/pnpTs.js` : undefined,
-        resolveTypeReferenceDirectiveModule: process.versions.pnp ?
-          `${__dirname}/pnpTs.js` : undefined,
-        tsconfig: paths.appTsConfig,
-        reportFiles: [
-          '**',
-          '!**/__tests__/**',
-          '!**/?(*.)(spec|test).*',
-          '!**/src/setupProxy.*',
-          '!**/src/setupTests.*',
-        ],
-        silent: true,
-        // The formatter is invoked directly in WebpackDevServerUtils during development
-        formatter: isEnvProduction ? typescriptFormatter : undefined,
-      }),
+      // isEnvProduction &&
+      // new WorkboxWebpackPlugin.GenerateSW({
+      //   clientsClaim: true,
+      //   exclude: [/\.map$/, /asset-manifest\.json$/],
+      //   importWorkboxFrom: 'cdn',
+      //   navigateFallback: publicUrl + '/index.html',
+      //   navigateFallbackBlacklist: [
+      //     // Exclude URLs starting with /_, as they're likely an API call
+      //     new RegExp('^/_'),
+      //     // Exclude any URLs whose last part seems to be a file extension
+      //     // as they're likely a resource and not a SPA route.
+      //     // URLs containing a "?" character won't be blacklisted as they're likely
+      //     // a route with query params (e.g. auth callbacks).
+      //     new RegExp('/[^/?]+\\.[^/]+$'),
+      //   ],
+      // }),
+      // // TypeScript type checking
+      // useTypeScript &&
+      // new ForkTsCheckerWebpackPlugin({
+      //   typescript: resolve.sync('typescript', {
+      //     basedir: paths.appNodeModules,
+      //   }),
+      //   async: isEnvDevelopment,
+      //   useTypescriptIncrementalApi: true,
+      //   checkSyntacticErrors: true,
+      //   resolveModuleNameModule: process.versions.pnp ?
+      //     `${__dirname}/pnpTs.js` : undefined,
+      //   resolveTypeReferenceDirectiveModule: process.versions.pnp ?
+      //     `${__dirname}/pnpTs.js` : undefined,
+      //   tsconfig: paths.appTsConfig,
+      //   reportFiles: [
+      //     '**',
+      //     '!**/__tests__/**',
+      //     '!**/?(*.)(spec|test).*',
+      //     '!**/src/setupProxy.*',
+      //     '!**/src/setupTests.*',
+      //   ],
+      //   silent: true,
+      //   // The formatter is invoked directly in WebpackDevServerUtils during development
+      //   formatter: isEnvProduction ? typescriptFormatter : undefined,
+      // }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
