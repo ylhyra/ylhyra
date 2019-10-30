@@ -27,7 +27,7 @@ const Traverse = ({ json, data, index }) => {
     let attrs = {}
     for (const property in attr) {
       // Converts HTML attribute into React attribute
-      if (attr.hasOwnProperty(property) && !property.startsWith('data-temp')) {
+      if (property in attr && !property.startsWith('data-temp')) {
         if (property === 'style') {
           attrs[convert(property)] = inlineStyle2Json(attr[property])
         } else {

@@ -42,7 +42,7 @@ const Traverse = (input, index = 0, editor, parentTag) => {
     for (const property in attr) {
       // console.log(JSON.stringify({property,value:entities.decode(attr[property])}))
       // Converts HTML attribute into React attribute
-      if (attr.hasOwnProperty(property) && !property.startsWith('data-temp')) {
+      if (property in attr && !property.startsWith('data-temp')) {
         // const value = attr[property]
         const value = entities.decode(entities.decode(attr[property])) // TODO! WHAT??
         // console.log(attr[property])
