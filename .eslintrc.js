@@ -40,6 +40,7 @@ module.exports = {
     "no-unneeded-ternary": 0,
     "no-empty": 0,
     "no-lonely-if": 0,
+    "no-useless-catch": 0
   },
   globals: {
     process: true,

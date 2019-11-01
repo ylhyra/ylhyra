@@ -15,7 +15,7 @@ const isDev = process.env.NODE_ENV !== 'production'
 const shortid = require('shortid')
 const app = express()
 const expressWs = require('express-ws')(app)
-import query from './database' 
+import query from './database'
 export const upload_path = path.resolve(__dirname, './../../uploads')
 
 app.use(bodyParser.json({ limit: '5mb' }))
@@ -30,6 +30,7 @@ app.use('/api', require('server/server-side-rendering').default)
 // app.use('/api', require('server/tweets').default)
 // app.use('/api', require('server/audio').default)
 app.use('/api', require('server/audio/recorder').default)
+// app.use('/api', require('server/translator/Google').default)
 // app.use('/api', require('server/api/audio/Upload').default)
 // app.use('/api', require('server/api/audio/Synchronize').default)
 app.use('/api/temp_files/', express.static(upload_path))

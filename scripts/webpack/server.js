@@ -2,7 +2,7 @@ const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 const webpack = require('webpack');
 const resolve = (input) => path.resolve(__dirname, './../../' + input)
-const polyfills = resolve('scripts/webpack/utils/config/polyfills.js')
+// const polyfills = resolve('scripts/webpack/utils/config/polyfills.js')
 const modules = [
   resolve('project/'),
   resolve('project/server/'),
@@ -18,7 +18,7 @@ module.exports = {
     __filename: false,
   },
   entry: {
-    ylhyra_server: [polyfills, resolve('project/server/index.js')],
+    ylhyra_server: [/*polyfills,*/ resolve('project/server/index.js')],
     // vocabulary_server: [polyfills, resolve('project/vocabulary/server/index.js')],
     // vocabulary_compiler: [polyfills, resolve('project/vocabulary/compiler/index.js')],
     // vocabulary_notifications_schedule: [polyfills, resolve('project/vocabulary/server/notifications/schedule/ScheduleAll.js')],
