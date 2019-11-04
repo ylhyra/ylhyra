@@ -1,5 +1,6 @@
 import { newTitle } from 'Parse/index.js'
 import { AllHtmlEntities as Entities } from 'html-entities'
+import axios from 'axios'
 const entities = new Entities()
 
 /*
@@ -11,9 +12,11 @@ const entities = new Entities()
 const ExtractData = (input) => {
   let data = {}
   const getNewTitle = new newTitle()
-  Traverse(input, (output) => {
-    const title = getNewTitle.get(output.documentTitle)
-    data[title] = updateIDs(output.data, title)
+  Traverse(input, async ({ documentTitle, url }) => {
+    const title = getNewTitle.get(documentTitle)
+    const { data } = await axios.get(`https://ylhyra.is/index.php?title=${url}&action=raw&ctype=text/json`)
+    console.log(data)
+    // data[title] = updateIDs(output.data, title)
   })
   return data
 }
@@ -30,11 +33,14 @@ const Traverse = (input, callback) => {
   }
   if (attr && attr['data-document-start'] && attr['data-data']) {
     try {
-      const encodedData = attr['data-data']
-      const data = JSON.parse(entities.decode(decodeURIComponent(encodedData)))
-      data && callback({
+      const url = attr['data-data']
+      console.warn(url)
+      // const encodedData = attr['data-data']
+      // const data = JSON.parse(entities.decode(decodeURIComponent(encodedData)))
+      url && callback({
         documentTitle: attr['data-document-start'],
-        data,
+        // data,
+        url,
       })
     } catch (e) {
       console.error(child[0].text + ' is not parseable JSON')
