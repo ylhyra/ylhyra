@@ -2,6 +2,7 @@ import { newTitle } from 'Parse/index.js'
 import { AllHtmlEntities as Entities } from 'html-entities'
 import axios from 'axios'
 const entities = new Entities()
+require('project/text-plugin/App/functions/array-foreach-async')
 
 /*
   Extract the data which is stored in the Data: namespace (is encoded in [[Template:Start]])
@@ -9,16 +10,20 @@ const entities = new Entities()
   Returns an object containing:
     DocumentTitle => Data
 */
-const ExtractData = (input) => {
-  let data = {}
+const ExtractData = async (input) => {
+  let output = {}
   const getNewTitle = new newTitle()
-  Traverse(input, async ({ documentTitle, url }) => {
+  let temp = []
+  Traverse(input, ({ documentTitle, url }) => {
+    temp.push({ documentTitle, url })
+  })
+  await temp.forEachAsync(async ({ documentTitle, url }) => {
     const title = getNewTitle.get(documentTitle)
     const { data } = await axios.get(`https://ylhyra.is/index.php?title=${url}&action=raw&ctype=text/json`)
-    console.log(data)
-    // data[title] = updateIDs(output.data, title)
+    // console.log(data)
+    output[title] = updateIDs(data, title)
   })
-  return data
+  return output
 }
 
 const Traverse = (input, callback) => {

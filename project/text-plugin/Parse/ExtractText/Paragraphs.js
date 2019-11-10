@@ -84,7 +84,7 @@ const GroupParagraphs = ({ input, paragraphFunction, isTranslating, getNewTitle 
 
 
 export const shouldTranslate_ = ({ tag, attr }, isTranslating) => {
-  if (tag === 'translate' || tag === 'blockquote' || tag === 'isl' || tag === 'listen' || tag === 'is') {
+  if (tag === 'translate' /*|| tag === 'blockquote'*/ || tag === 'isl' || tag === 'listen' || tag === 'is') {
     return true
   }
   if (attr && (attr['data-translate'] === 'no' || attr['data-translate'] === 'false')) {
@@ -115,7 +115,7 @@ export const isInlineElement = (tag) => {
   if (!tag || typeof tag !== 'string') {
     return false
   }
-  return ['span', 'b', 'big', 'i', 'small', 'tt', 'abbr', 'acronym', 'cite', 'code', 'dfn', 'em', 'kbd', 'strong', 'samp', 'var', 'a', 'bdo', 'br', 'img', 'map', 'object', 'q', 'sub', 'sup', ]
+  return ['span', 'b', 'big', 'i', 'small', 'tt', 'abbr', 'acronym', 'cite', 'code', 'dfn', 'em', 'kbd', 'strong', 'samp', 'var', 'a', 'bdo', 'br', 'map', 'object', 'q', 'sub', 'sup', ]
     .includes(tag.toLowerCase())
 }
 

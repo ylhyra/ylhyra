@@ -1,9 +1,9 @@
 const suggestions = (state = {}, action) => {
+  let update = {}
   switch (action.type) {
     case 'LOAD_EDITOR':
       return action.content.suggestions || {}
     case 'SUGGEST':
-      let update = {}
       Object.keys(action.content).forEach(id => {
         update[id] = [
           ...state[id] || [],
@@ -14,9 +14,25 @@ const suggestions = (state = {}, action) => {
         ...state,
         ...update,
       }
+    case 'GOOGLE_TRANSLATE':
+      Object.keys(action.translation).forEach(id => {
+        update[id] = [
+          ...state[id] || [],
+          {
+            definition: {
+              meaning: action.translation[id],
+            }
+          }
+        ]
+      })
+      return {
+        ...state,
+        ...update,
+      }
     default:
       return state
   }
 }
+
 
 export default suggestions

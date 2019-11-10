@@ -43,7 +43,7 @@ function checkIfjQueryIsReady(fn) {
 }
 
 
-documentReady(() => {
+documentReady(async () => {
   /*
     Temporary button for removing styling
   */
@@ -55,12 +55,11 @@ documentReady(() => {
   Source_editor()
   const namespaceNumber = mw.config.get('wgNamespaceNumber')
   const shouldRender = [0, 2, 4, 12, 3002, 3004].includes(namespaceNumber)
-  if (window.initialized) return; //Temp
   if (!shouldRender) return;
 
   if ($('.mw-parser-output').length && $('.ylhyra-text').length === 0) {
     var t0 = now()
-    const { parsed, tokenized, data, flattenedData } = Parse({ html, title })
+    const { parsed, tokenized, data, flattenedData } = await Parse({ html, title })
     var t1 = now()
 
     if (tokenized && tokenized[title]) {
@@ -97,7 +96,6 @@ documentReady(() => {
     $('body').hasClass('mw-editable') && Editor(parsed)
   }
 
-  window.initialized = true
   setTimeout(() => {
     fix_inline_translations()
   }, 200)

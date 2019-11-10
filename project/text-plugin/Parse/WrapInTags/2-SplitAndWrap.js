@@ -89,7 +89,8 @@ export default function(html, tokenizedSplit, elementName, innerFunction, temp_a
     */
     return space_at_beginning + `<${elementName} id="${id}" data-${elementName}-id="${id}">` + content + `</${elementName}>` + space_at_end
   })
-
+  // console.log('\n\n~~~~~~~~~~~~~~~~~~~~~~~~\n')
+  // console.log(html.join(''))
   // let json = html2json(html.join(''))
   return html2json(html.join(''))
 }

@@ -5,13 +5,18 @@
   by Vilhjálmur Þorsteinsson.
 */
 
-import default_tokenizer from 'server/api/translate/tokenizer/default-tokenizer'
+// import default_tokenizer from 'server/api/translate/tokenizer/default-tokenizer'
 require('array-sugar')
 
 
 export default function(text, analysis, callback) {
   if (!analysis.valid) {
-    return default_tokenizer(text, callback)
+    if (process.env.NODE_ENV !== 'production') {
+      console.error('Invalid analysis')
+      console.log(analysis)
+    }
+    return;
+    // return default_tokenizer(text, callback)
   }
 
   let Sentences = []
@@ -45,7 +50,6 @@ export default function(text, analysis, callback) {
       remaining = remaining.slice(word[TEXT].length + index)
     })
   })
-  // console.log(returns)
   callback(Sentences)
 }
 

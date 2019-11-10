@@ -36,6 +36,11 @@ const Traverse = ({ json, data, index }) => {
       }
     }
 
+    /* IMG and HR tags are void tags */
+    if (voidElementTags.includes(Tag)) {
+      return <Tag {...attrs} key={(attr && attr.id) || index}/>
+    }
+
     /*
       Convert custom elements to 'span' or 'div'
       and add their name as a className
@@ -60,10 +65,6 @@ const Traverse = ({ json, data, index }) => {
     //   Audio = AudioPlayer(attrs['audio-id'], attrs['inline-audio-player'], editor)
     // }
 
-    /* IMG and HR tags are void tags */
-    if (voidElementTags.includes(Tag)) {
-      return <Tag {...attrs} key={(attr && attr.id) || index}/>
-    }
 
 
     // console.log(attrs.className)

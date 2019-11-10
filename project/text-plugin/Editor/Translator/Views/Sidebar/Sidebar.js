@@ -15,7 +15,7 @@ class WordSidebar extends React.Component {
     }, 0);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     window.addEventListener('keydown', this.checkKey);
     this.focus()
     // this.analysis()

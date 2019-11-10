@@ -42,7 +42,7 @@ const Traverse = (input, index = 0, editor, parentTag) => {
     for (const property in attr) {
       // console.log(JSON.stringify({property,value:entities.decode(attr[property])}))
       // Converts HTML attribute into React attribute
-      if (property in attr && !property.startsWith('data-temp')) {
+      if (!property.startsWith('data-temp')) {
         // const value = attr[property]
         const value = entities.decode(entities.decode(attr[property])) // TODO! WHAT??
         // console.log(attr[property])
@@ -55,22 +55,15 @@ const Traverse = (input, index = 0, editor, parentTag) => {
           attrs[convert(property)] = value
         }
       }
+      // if (property === 'muted') {
+      //   attrs[property] = JSON.parse(attr[property] || 'false')
+      // }
       // if(property === 'value') {
       //   attrs['value'] = undefined
       //   // attrs['defaultValue'] = attr[property]
       // }
     }
 
-    /*
-      Convert custom elements to 'span' or 'div'
-      and add their name as a className
-    */
-    if (typeof Tag === 'string') {
-      getCustomTag(Tag, attrs.className, (output) => {
-        Tag = output.tag
-        attrs.className = output.className
-      })
-    }
 
     // let Audio
     // if (attrs['audio-id']) {
@@ -78,8 +71,21 @@ const Traverse = (input, index = 0, editor, parentTag) => {
     // }
 
     /* IMG and HR tags are void tags */
+    // console.log(tag)
     if (voidElementTags.includes(Tag)) {
+      console.log(attr)
       return <Tag {...attrs} key={(attr && attr.id) || index}/>
+    }
+
+    /*
+      Convert custom elements to 'span' or 'div'
+      and add their name as a className
+    */
+    else if (typeof Tag === 'string') {
+      getCustomTag(Tag, attrs.className, (output) => {
+        Tag = output.tag
+        attrs.className = output.className
+      })
     }
 
     // if(Tag === 'form') {

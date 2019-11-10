@@ -9,7 +9,7 @@ import Suggestions from 'Editor/Suggestions/List'
 import store from 'App/store'
 
 class TranslatingEditor extends React.Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     window.addEventListener('keydown', this.checkKey);
   }
   componentWillUnmount() {

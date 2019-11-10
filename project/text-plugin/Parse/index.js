@@ -30,7 +30,7 @@ var now = require("performance-now")
 /*
   Parser
 */
-export default function({ html, title, returns }) {
+export default async ({ html, title, returns }) => {
   if (!html) return null
   // console.log(html)
   try {
@@ -62,8 +62,9 @@ export default function({ html, title, returns }) {
     /*
       Is data already saved?
     */
-    let data = ExtractData(json)
-    // console.log(data)
+    let data = await ExtractData(json)
+    // console.warn('----->-->>>>>>>>>>>>>>>>>>>>>>>>>\n>>>>>>>>>>>>>>>>>>>>-')
+    // console.warn(data)
     // var t2 = now()
     // console.log(`Extracting data took ${Math.round(t2 - t1)} ms`)
 
@@ -77,9 +78,9 @@ export default function({ html, title, returns }) {
       // console.warn('No text to tokenize.')
       // json = html2json(entities.decode(json2html(json)))
       if (returns === 'html') {
-        return html
+        return (html)
       } else {
-        return { parsed: json }
+        return ({ parsed: json })
       }
       // return html2json(Compiler({ json: wrapped, data: data, }))
     }
@@ -130,57 +131,73 @@ export default function({ html, title, returns }) {
 
 
 const flattenData = (input) => {
-  // console.log(input)
-  let translation = {
-    definitions: {},
-    sentences: {},
-    words: {},
-  }
-  let list = {
-    arrayOfAllItemIDs: [],
-    arrayOfAllWordIDs: [],
-    items: {},
-    sentences: {},
-    words: {},
-  }
-  let short_audio = {
-    soundList: [],
-    sounds: {},
-    wordID_to_text: {},
+  let output = {
+    translation: {
+      definitions: {},
+      sentences: {},
+      words: {},
+    },
+    list: {
+      arrayOfAllItemIDs: [],
+      arrayOfAllWordIDs: [],
+      items: {},
+      sentences: {},
+      words: {},
+    },
+    short_audio: {
+      soundList: [],
+      sounds: {},
+      wordID_to_text: {},
+    }
   }
 
   for (const documentTitle of Object.keys(input)) {
-    const currentTranslation = input[documentTitle].translation
-    const currentList = input[documentTitle].list
-    const currentShortaudio = input[documentTitle].short_audio
-    // console.log(input[documentTitle])
-    translation = {
-      definitions: { ...translation.definitions, ...currentTranslation.definitions },
-      sentences: { ...translation.sentences, ...currentTranslation.sentences },
-      words: { ...translation.words, ...currentTranslation.words },
-    }
-    list = {
-      arrayOfAllItemIDs: [...list.arrayOfAllItemIDs, ...currentList.arrayOfAllItemIDs],
-      arrayOfAllWordIDs: [...list.arrayOfAllWordIDs, ...currentList.arrayOfAllWordIDs],
-      items: { ...list.items, ...currentList.items },
-      sentences: { ...list.sentences, ...currentList.sentences },
-      words: { ...list.words, ...currentList.words },
-    }
-    if (currentShortaudio) {
-      short_audio = {
-        soundList: [...short_audio.soundList, ...currentShortaudio.soundList],
-        sounds: { ...short_audio.sounds, ...currentShortaudio.sounds },
-        wordID_to_text: { ...short_audio.wordID_to_text, ...currentShortaudio.wordID_to_text },
+    output = merge(output, input[documentTitle])
+  }
+  return output
+}
+const merge = (first, second) => {
+  if (Array.isArray(first)) {
+    return [...first, ...second]
+  } else if (typeof first === 'object') {
+    let output = first
+    if (second && typeof second === 'object') {
+      for (const key of Object.keys(second)) {
+        if (output[key]) {
+          output[key] = merge(output[key], second[key])
+        } else {
+          output[key] = second[key]
+        }
       }
     }
-  }
-  return {
-    translation,
-    list,
-    short_audio,
+    return output
   }
 }
 
+
+// const currentTranslation = input[documentTitle].translation
+// const currentList = input[documentTitle].list
+// const currentShortaudio = input[documentTitle].short_audio
+// // console.log(input[documentTitle])
+// translation = {
+//   definitions: { ...translation.definitions, ...currentTranslation.definitions },
+//   sentences: { ...translation.sentences, ...currentTranslation.sentences },
+//   words: { ...translation.words, ...currentTranslation.words },
+// }
+// list = {
+//   arrayOfAllItemIDs: [...list.arrayOfAllItemIDs, ...currentList.arrayOfAllItemIDs],
+//   arrayOfAllWordIDs: [...list.arrayOfAllWordIDs, ...currentList.arrayOfAllWordIDs],
+//   items: { ...list.items, ...currentList.items },
+//   sentences: { ...list.sentences, ...currentList.sentences },
+//   words: { ...list.words, ...currentList.words },
+// }
+// if (currentShortaudio) {
+//   short_audio = {
+//     soundList: [...short_audio.soundList, ...currentShortaudio.soundList],
+//     sounds: { ...short_audio.sounds, ...currentShortaudio.sounds },
+//     wordID_to_text: { ...short_audio.wordID_to_text, ...currentShortaudio.wordID_to_text },
+//   }
+// }
 
 /*
   Prevent clashes if the same document is transcluded twice
