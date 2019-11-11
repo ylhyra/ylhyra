@@ -13,7 +13,7 @@ import { wordRegex } from 'project/text-plugin/Parse/Tokenize/IDs/CreateIDs.js'
 const Tokenize = async ({ tokenized }, callback) => {
   let Tokenizer = icelandic
   let input_sentences = []
-  let output_sentences = []
+  let output_sentences = {}
 
   tokenized.forEach(paragraph => {
     paragraph.sentences.forEach(sentence => {
@@ -21,8 +21,10 @@ const Tokenize = async ({ tokenized }, callback) => {
         input_sentences.push({
           id: sentence.id,
           text: sentence.text,
-          tokenization: sentence.words,
         })
+        output_sentences[sentence.id] = {
+          tokenization: sentence.words,
+        }
       }
     })
   })
@@ -31,18 +33,13 @@ const Tokenize = async ({ tokenized }, callback) => {
     await new Promise(resolve => {
       Tokenizer(text, (output) => {
         console.log(output)
-        output_sentences.push({
-          id,
-          words: output,
-        })
+        output_sentences[id].analysis = output
         resolve()
       })
     })
   })
 
-  output_sentences = merge(input_sentences, output_sentences)
-
-  // output_sentences = CreateIDs(output_sentences)
+  output_sentences = merge(output_sentences)
 
   callback({
     type: 'ANALYSIS',
@@ -53,6 +50,13 @@ const Tokenize = async ({ tokenized }, callback) => {
 
 export default Tokenize
 
-const merge = (input_sentences, output_sentences) => {
-  return output_sentences
+const merge = (sentences) => {
+  Object.keys(sentences).forEach(id => {
+    const sentence = sentences[id]
+    const { tokenization, analysis } = sentence
+    tokenization.forEach(word => {
+      
+    })
+  })
+  return sentences
 }
