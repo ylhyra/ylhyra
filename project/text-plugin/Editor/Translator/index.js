@@ -43,11 +43,11 @@ class TranslatingEditor extends React.Component {
                     <tr><td><kbd>Alt+Shift</kbd>+<kbd>Enter</kbd></td><td>Add previous word</td></tr>
                   </tbody>
                 </table>
-                <br/>
+                {/* <br/>
                 <div>
                   <button onClick={requestSuggestion}>Get suggestions</button>
                   <button onClick={applySuggestions}>Apply suggestions</button>
-                </div>
+                </div> */}
               </div>
             </div>
 

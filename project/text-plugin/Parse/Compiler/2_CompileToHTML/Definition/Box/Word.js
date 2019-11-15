@@ -48,6 +48,14 @@ export default class WordBox extends React.PureComponent {
               <span dangerouslySetInnerHTML={{__html: ItalicsAndBold(definition.note)}}/>
             </span>
           }
+
+          {definition.grammatical_analysis && definition.grammatical_analysis.trim() &&
+            <span className="small">
+              {/* <label>Note</label> */}
+              {definition.grammatical_analysis}
+            </span>
+          }
+
         </span>
         {definition.sound && definition.sound.length > 0 &&
           <span>🔈</span>

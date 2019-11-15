@@ -39,24 +39,79 @@ const Tokenize = async ({ tokenized }, callback) => {
     })
   })
 
-  output_sentences = merge(output_sentences)
-
-  callback({
-    type: 'ANALYSIS',
-    tokenized: output_sentences,
-    // list: List(output_sentences),
-  })
+  // callback({
+  //   type: 'SUGGEST_ANALYSIS',
+  //   suggestions: merge_tokenization_and_analysis_to_create_suggestions(output_sentences),
+  // })
 }
 
 export default Tokenize
 
-const merge = (sentences) => {
-  Object.keys(sentences).forEach(id => {
-    const sentence = sentences[id]
-    const { tokenization, analysis } = sentence
-    tokenization.forEach(word => {
-      
-    })
-  })
-  return sentences
-}
+// merge_tokenization_and_analysis_to_create_suggestions2 = (sentences) => {
+//   let suggestions = []
+//   // console.log(JSON.stringify(sentences))
+//   Object.keys(sentences).forEach(sentence_id => {
+//     const sentence = sentences[sentence_id]
+//     const { tokenization } = sentence
+//     const analysis = sentence.analysis[0]
+//     const w_text_array = tokenization.map(word => word.text || word)
+//     const a_text_array = analysis.map(x => x.text || x)
+//     let w_index = 0
+//     let a_index = 0
+//     console.log(w_text_array)
+//     console.log(a_text_array)
+//     let done = false
+//     while (!done) {
+//       if (w_text_array[w_index] === a_text_array[a_index]) {
+//
+//       } else if (w_text_array[w_index].length > a_text_array[a_index].length) {
+//
+//       } else if (w_text_array[w_index].length < a_text_array[a_index].length) {
+//
+//       }
+//       console.log(w_text_array[w_index])
+//       console.log(a_text_array[a_index])
+//       done = true;
+//     }
+//
+//
+//     //
+//     //
+//     //
+//     //
+//     // tokenization.forEach(word => {
+//     //   if (word.id) {
+//     //     console.log(word.text)
+//     //     if (word.text === analysis[currentPositionInAnalysis].text) {
+//     //
+//     //     }
+//     //     // suggestions.push({
+//     //     //   selected: [word.id],
+//     //     //   definition: {
+//     //     //     meaning: 'test',
+//     //     //   }
+//     //     // })
+//     //   }
+//     // })
+//   })
+//   // return suggestions
+// }
+// merge_tokenization_and_analysis_to_create_suggestions2(x)
+
+
+
+
+
+// /*
+//   When we have finished looping through each character in the current array string
+//   we insert a delimeter, here the text "{{SPLIT HERE}}".
+//   (Assumes empty strings have been filtered out)
+// */
+// if (locationInString + character.length === array[currentIndex].length && currentIndex + 1 < array.length) {
+//   locationInString = 0
+//   currentIndex++
+//   return character + '{{SPLIT HERE}}'
+// } else {
+//   locationInString += character.length
+//   return character
+// }

@@ -70,7 +70,7 @@ class Word extends React.Component {
     const { id, translation, selected, } = this.props
     const { words, definitions } = translation
     // console.log(this.props.suggestions[id])
-    console.log(id)
+    // console.log(id)
 
     if (words[id] !== nextProps.translation.words[id]) {
       return true
