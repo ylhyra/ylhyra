@@ -30,7 +30,7 @@ var now = require("performance-now")
 /*
   Parser
 */
-export default async ({ html, title, returns }) => {
+export default async ({ html, title }) => {
   if (!html) return null
   // console.log(html)
   try {
@@ -75,13 +75,10 @@ export default async ({ html, title, returns }) => {
     // var t3 = now()
     // console.log(`Extracting text took ${Math.round(t3 - t2)} ms`)
     if (isEmpty(text)) {
+
       // console.warn('No text to tokenize.')
       // json = html2json(entities.decode(json2html(json)))
-      if (returns === 'html') {
-        return (html)
-      } else {
-        return ({ parsed: json })
-      }
+      return ({ parsed: json })
       // return html2json(Compiler({ json: wrapped, data: data, }))
     }
     const tokenized = Tokenizer(text, data)
@@ -105,20 +102,18 @@ export default async ({ html, title, returns }) => {
     */
     // console.log(json2html(json))
     const wrapped = WrapInTags({ json, tokenized })
+    // console.log({wrapped})
     // var t5 = now()
     // console.log(`Wrapping took ${Math.round(t5 - t4)} ms`)
     // console.log(json2html(wrapped))
     let compiled = Compiler({ json: wrapped, data: flattenedData })
+    // console.log({compiled})
     // var t6 = now()
     // console.log(`Tokenization took ${Math.round(t6 - t5)} ms`)
     // compiled = entities.decode(compiled)
     // console.log(compiled)
     // console.log(compiled)
-    if (returns === 'html') {
-      return compiled
-    } else {
-      return { parsed: html2json(compiled), tokenized, data, flattenedData }
-    }
+    return { parsed: html2json(compiled), tokenized, data, flattenedData }
     // return compiled
   } catch (e) {
     console.error(e)

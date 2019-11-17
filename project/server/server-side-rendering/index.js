@@ -11,7 +11,8 @@ router.post('/render', async (req, res) => {
   let output
   try {
     var t0 = now()
-    const { parsed, tokenized, data, flattenedData } = Parse({ html })
+    const { parsed, tokenized, data, flattenedData } = await Parse({ html })
+    if(!parsed) return res.sendStatus(500);
     output = ReactDOMServer.renderToStaticMarkup(Render(parsed, { shouldReturnElement: true }))
     var t1 = now()
     output += `<script type="text/javascript">window.ylhyra_data=${JSON.stringify({ parsed, tokenized, data, flattenedData })}</script>`
