@@ -77,7 +77,7 @@ export default function({ json, tokenized }) {
       }
     },
   })
-  console.log(wrapped)
+  // console.log(wrapped)
   wrapped = RemoveData(wrapped)
   // console.log(wrapped)
   wrapped = html2json(json2html(wrapped))
