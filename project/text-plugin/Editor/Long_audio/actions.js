@@ -1,6 +1,6 @@
 import store from 'App/store'
-import { getText } from 'Editor/2-Parse/2.1-Parse/RawText'
-import { getTextFromTokenized } from 'Editor/2-Parse/2.3-WrapInTags/1-InsertSplit.js'
+import { getText } from 'Render/Elements/parse'
+import { getTextFromTokenized } from 'project/text-plugin/Parse/WrapInTags/1-InsertSplit.js'
 import hash from 'project/text-plugin/App/functions/hash'
 
 /*

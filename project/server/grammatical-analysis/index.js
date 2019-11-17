@@ -3,6 +3,7 @@ import icelandic from 'server/grammatical-analysis/icelandic'
 // import List from './list'
 require('project/text-plugin/App/functions/array-foreach-async')
 import { wordRegex } from 'project/text-plugin/Parse/Tokenize/IDs/CreateIDs.js'
+// import { diffArrays } from 'diff'
 
 /*
   Input: Regex based tokenization
@@ -39,6 +40,8 @@ const Tokenize = async ({ tokenized }, callback) => {
     })
   })
 
+  console.log(JSON.stringify(output_sentences))
+
   // callback({
   //   type: 'SUGGEST_ANALYSIS',
   //   suggestions: merge_tokenization_and_analysis_to_create_suggestions(output_sentences),
@@ -47,58 +50,60 @@ const Tokenize = async ({ tokenized }, callback) => {
 
 export default Tokenize
 
-// merge_tokenization_and_analysis_to_create_suggestions2 = (sentences) => {
-//   let suggestions = []
-//   // console.log(JSON.stringify(sentences))
-//   Object.keys(sentences).forEach(sentence_id => {
-//     const sentence = sentences[sentence_id]
-//     const { tokenization } = sentence
-//     const analysis = sentence.analysis[0]
-//     const w_text_array = tokenization.map(word => word.text || word)
-//     const a_text_array = analysis.map(x => x.text || x)
-//     let w_index = 0
-//     let a_index = 0
-//     console.log(w_text_array)
-//     console.log(a_text_array)
-//     let done = false
-//     while (!done) {
-//       if (w_text_array[w_index] === a_text_array[a_index]) {
-//
-//       } else if (w_text_array[w_index].length > a_text_array[a_index].length) {
-//
-//       } else if (w_text_array[w_index].length < a_text_array[a_index].length) {
-//
-//       }
-//       console.log(w_text_array[w_index])
-//       console.log(a_text_array[a_index])
-//       done = true;
-//     }
-//
-//
-//     //
-//     //
-//     //
-//     //
-//     // tokenization.forEach(word => {
-//     //   if (word.id) {
-//     //     console.log(word.text)
-//     //     if (word.text === analysis[currentPositionInAnalysis].text) {
-//     //
-//     //     }
-//     //     // suggestions.push({
-//     //     //   selected: [word.id],
-//     //     //   definition: {
-//     //     //     meaning: 'test',
-//     //     //   }
-//     //     // })
-//     //   }
-//     // })
-//   })
-//   // return suggestions
-// }
-// merge_tokenization_and_analysis_to_create_suggestions2(x)
+
+const merge_tokenization_and_analysis_to_create_suggestions = (sentences) => {
+  let suggestions = []
+  // console.log(JSON.stringify(sentences))
+  Object.keys(sentences).forEach(sentence_id => {
+    const sentence = sentences[sentence_id]
+    const { tokenization } = sentence
+    const analysis = sentence.analysis[0]
+    const w_text_array = tokenization.map(word => (word.text || word).trim())
+    const a_text_array = analysis.map(x => (x.text || x).trim())
+    let w_index = 0
+    // let a_index = 0
+    // console.log(w_text_array)
+    // console.log(a_text_array)
+    // let done = false
+    let groups = []
+    // /*
+    //   Assumes our tokenization is less greedy than the analysis
+    // */
+    // a_text_array.forEach((a_word, index) => {
+    //   if (a_word === w_text_array[w_index]) {
+    //
+    //   } else if (a_word.startsWith(w_text_array[w_index])) {
+    //     let w_word = w_text_array[w_index]
+    //     for (; w_word.length < a_word.length; w_index++) {
+    //       w_word += w_text_array[w_index]
+    //     }
+    //     console.log(w_word)
+    //   }
+    //   w_index++
+    // })
 
 
+    //
+    //
+    //
+    //
+    // tokenization.forEach(word => {
+    //   if (word.id) {
+    //     console.log(word.text)
+    //     if (word.text === analysis[currentPositionInAnalysis].text) {
+    //
+    //     }
+    //     // suggestions.push({
+    //     //   selected: [word.id],
+    //     //   definition: {
+    //     //     meaning: 'test',
+    //     //   }
+    //     // })
+    //   }
+    // })
+  })
+  // return suggestions
+}
 
 
 

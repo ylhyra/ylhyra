@@ -122,7 +122,9 @@ export default async ({ html, title, returns }) => {
     // return compiled
   } catch (e) {
     console.error(e)
-    mw && mw.notify('Error in parse step', { type: 'error', autoHide: false })
+    if (typeof mw !== 'undefined') {
+      mw.notify('Error in parse step', { type: 'error', autoHide: false })
+    }
   }
 }
 

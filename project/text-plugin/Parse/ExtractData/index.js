@@ -39,7 +39,7 @@ const Traverse = (input, callback) => {
   if (attr && attr['data-document-start'] && attr['data-data']) {
     try {
       const url = attr['data-data']
-      console.warn(url)
+      // console.warn(url)
       // const encodedData = attr['data-data']
       // const data = JSON.parse(entities.decode(decodeURIComponent(encodedData)))
       url && callback({
@@ -48,7 +48,8 @@ const Traverse = (input, callback) => {
         url,
       })
     } catch (e) {
-      console.error(child[0].text + ' is not parseable JSON')
+      // console.error(child[0].text + ' is not parseable JSON')
+      console.error(e)
     }
   }
 }

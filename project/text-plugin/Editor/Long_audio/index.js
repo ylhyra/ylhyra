@@ -1,9 +1,8 @@
 import { connect } from 'react-redux'
-import tokenize from 'Editor/2-Parse/2.2-Tokenize'
-import { synchronize } from 'Editor/4-Audio/Synchronize'
+import { synchronize } from 'Editor/Long_audio/Synchronize'
 import React from 'react'
 import store from 'App/store'
-import Upload from './Upload'
+// import Upload from './Upload'
 import { findAudioSections, deleteAudio } from './actions'
 
 class TranslatingEditor extends React.Component {
@@ -14,9 +13,7 @@ class TranslatingEditor extends React.Component {
     this.load()
   }
   load = () => {
-    if (!this.props.editor.parsed) {
-      tokenize()
-    } else if (!this.props.audio.areSectionsUpdated) {
+    if (!this.props.audio.areSectionsUpdated) {
       findAudioSections()
     }
   }
@@ -51,7 +48,7 @@ class TranslatingEditor extends React.Component {
                       <button onClick={()=>synchronize(section.hash)}>Synchronize</button> (can take some time, please be patient after clicking)
                     </div>)}
                   </div>)}
-                  <Upload hash={section.hash}/>
+                  {/* <Upload hash={section.hash}/> */}
                 </td>
                 <td>
                   {audio.files[section.hash] && <div className="button" onClick={()=>deleteAudio(section.hash)}>Delete</div>}
