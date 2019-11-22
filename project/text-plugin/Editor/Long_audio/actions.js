@@ -1,7 +1,12 @@
 import store from 'App/store'
-import { getText } from 'Render/Elements/parse'
+import { getText } from 'project/text-plugin/Parse/ExtractText/ExtractText'
 import { getTextFromTokenized } from 'project/text-plugin/Parse/WrapInTags/1-InsertSplit.js'
 import hash from 'project/text-plugin/App/functions/hash'
+
+
+
+
+// data - audio - file = "Ánamaðkar.mp3"
 
 /*
   Finds the IDs of audio sections and
@@ -15,8 +20,9 @@ export const findAudioSections = () => {
   }))
   let currentIndex = 0
   let locationInString = 0
-  let output = []
-  findAreasWithAudioId(parsed, (node, audioElementId) => {
+  let output = null
+  console.log(parsed)
+  findAreasWithAudioId(parsed, (node, fileName) => {
     let coversParagraphs = []
     const text = getText(node, true, true)
     text.split('').forEach(character => {
@@ -40,21 +46,18 @@ export const findAudioSections = () => {
         locationInString += character.length
       }
     })
-    output.push({
-      audioElementId, // Random each time
+    output = {
+      audioElementId: fileName, // Random each time
       hash: hash(coversParagraphs), // Relatively stable
       coversParagraphs,
       text,
-    })
-    // console.log({coversParagraphs,
-    //   hash: hash(coversParagraphs), // Relatively stable
-    //
-    // })
+    }
   })
-  store.dispatch({
-    type: 'AUDIO_SECTIONS',
-    content: output,
-  })
+  console.log(output)
+  // store.dispatch({
+  //   type: 'AUDIO_SECTIONS',
+  //   content: output,
+  // })
 }
 
 const findAreasWithAudioId = (i, callback) => {
@@ -64,8 +67,10 @@ const findAreasWithAudioId = (i, callback) => {
   } else {
     let { node, tag, attr, child, text } = i
     if (child) {
-      if (attr && attr['audio-id']) {
-        callback(child, attr['audio-id'])
+      if (attr && attr['data-audio-file']) {
+        console.warn('------')
+        console.warn(child)
+        callback(child, attr['data-audio-file'])
       } else {
         child.forEach(x => findAreasWithAudioId(x, callback))
       }
@@ -76,6 +81,6 @@ const findAreasWithAudioId = (i, callback) => {
 export const deleteAudio = (sectionHash) => {
   store.dispatch({
     type: 'DELETE_AUDIO_FILE',
-    content: {sectionHash},
+    content: { sectionHash },
   })
 }

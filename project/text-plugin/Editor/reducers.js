@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import { translation, selected } from 'Editor/Translator/reducers'
 import suggestions from 'Editor/Suggestions/reducers'
 import MakeList from 'Parse/Tokenize/List'
+import long_audio from 'Editor/Long_audio/reducers'
 import short_audio from 'Editor/Short_audio/reducers'
 import getParameter from 'get-parameter'
 
@@ -12,6 +13,15 @@ const open = (state = isOpen, action) => {
       return action.page
     case 'CLOSE_EDITOR':
       return false
+    default:
+      return state
+  }
+}
+
+const parsed = (state = null, action) => {
+  switch (action.type) {
+    case 'TOKENIZED':
+      return action.parsed || state
     default:
       return state
   }
@@ -69,7 +79,9 @@ export const editor = combineReducers({
   translation,
   suggestions,
   selected, // Selected words in the Editor
+  long_audio,
   short_audio,
+  parsed,
   // audio,
   // pronunciation,
 })

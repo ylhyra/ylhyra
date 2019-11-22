@@ -113,7 +113,12 @@ export default async ({ html, title }) => {
     // compiled = entities.decode(compiled)
     // console.log(compiled)
     // console.log(compiled)
-    return { parsed: html2json(compiled), tokenized, data, flattenedData }
+    return {
+      parsed: html2json(compiled),
+      tokenized,
+      data,
+      flattenedData
+    }
     // return compiled
   } catch (e) {
     console.error(e)

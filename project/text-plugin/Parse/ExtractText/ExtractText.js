@@ -63,6 +63,7 @@ export default function(json, /*onlyRetrieveEntireDocuments*/ ) {
   Turns a JSON representation of HTML into raw text
 */
 export const getText = (data, clean = false, trim = false) => {
+// console.log(data)
   const getTextFromJson = input => {
     if (typeof input === 'string') {
       return input
@@ -107,5 +108,5 @@ export const getText = (data, clean = false, trim = false) => {
 const IgnoredCharacters = /\u00AD/g
 
 const shouldIgnore = (i) => {
-  return (i.attr && i.attr.class === 'instructions') || i.tag === 'answers' 
+  return (i.attr && (i.attr['data-not-text'] || i.attr['data-children']))
 }

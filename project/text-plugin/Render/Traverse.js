@@ -73,7 +73,7 @@ const Traverse = (input, index = 0, editor, parentTag) => {
     /* IMG and HR tags are void tags */
     // console.log(tag)
     if (voidElementTags.includes(Tag)) {
-      console.log(attr)
+      // console.log(attr)
       return <Tag {...attrs} key={(attr && attr.id) || index}/>
     }
 

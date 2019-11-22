@@ -69,6 +69,7 @@ documentReady(async () => {
         // allDocuments: tokenized,
         data: flattenedData,
         currentDocumentData: data[title],
+        parsed: parsed,
       })
     } else {
       console.log('Stopped tokenization, there is no {{start}} for the current document')
