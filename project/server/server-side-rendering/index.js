@@ -14,7 +14,7 @@ router.post('/render', async (req, res) => {
     const { parsed } = Parse({ html })
     output = ReactDOMServer.renderToStaticMarkup(Render(parsed, true))
     var t1 = now()
-    output += `<!-- Ylhýra parsed in ${(t1 - t0)} milliseconds -->`
+    output += `<!-- Ylhýra parsed in ${Math.round(t1 - t0)} milliseconds -->`
   } catch(e){
     console.error(e)
     output = html
