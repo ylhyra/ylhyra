@@ -4,7 +4,7 @@ $wgEnableUploads = true; # Enable uploads
 
 $wgFileExtensions = array( 'png', 'gif', 'jpg', 'jpeg', 'doc',
     'xls', 'mpp', 'pdf', 'ppt', 'tiff', 'bmp', 'docx', 'xlsx',
-    'pptx', 'ps', 'odt', 'ods', 'odp', 'odg', 'svg','mp3','mpga',
+    'pptx', 'ps', 'odt', 'ods', 'odp', 'odg', 'svg','mp3','mpga','wav'
 );
 
 ini_set('post_max_size', '50M');

@@ -17,7 +17,7 @@ class InlineTranslation extends React.PureComponent {
     }
     const text = definition.inline_translation || definition.meaning
     return (
-      <sup className="inline_translation">
+      <sup className="inline_translation" data-not-text="true">
         <span dangerouslySetInnerHTML={{__html: ItalicsAndBold(text)}}/>
       </sup>
     )

@@ -31,6 +31,8 @@ $wgRestrictDisplayTitle = false;
 $wgDefaultRobotPolicy = 'noindex,nofollow';
 
 $wgRawHtml = true;
+$wgAllowImageTag = true;
+$wgAllowExternalImages = true;
 $wgPFEnableStringFunctions = true;
 
 wfLoadExtension('WikiEditor');

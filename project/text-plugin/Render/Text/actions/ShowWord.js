@@ -1,5 +1,5 @@
 import FindAGoodPositionForTooltip from 'Text/actions/TooltipPosition'
-// import AudioClip from 'Audio/AudioClip'
+import AudioClip from 'Audio/AudioClip'
 
 /*
   Show word
@@ -13,6 +13,11 @@ export default function showWord(id) {
   const element = document.querySelector(`[data-word-id="${id}"]`)
   if (!element) return;
   element.classList.add('hover')
+
+  let sound_files = element.getAttribute('data-sound')
+  if (sound_files) {
+    AudioClip.play(sound_files.split(','))
+  }
 
   const connected = element.getAttribute('data-connected-words')
   if (connected) {

@@ -11,6 +11,7 @@ export default class Definition extends React.PureComponent {
       <small
         className="tooltip"
         // style={{display:'none'}}
+        data-not-text="true"
         data-tooltip-id={id}>
         {definition.meaning &&
           <span className="meaning">
@@ -26,5 +27,5 @@ export const ItalicsAndBold = (input) => {
   return input
     .replace(/\*\*([^ ].+?[^ ])\*\*/g, '<b>$1</b>')
     .replace(/\*([^ ].+?[^ ])\*/g, '<i>$1</i>')
-    .replace(/_([^ ].+?[^ ])_/g, '<i>$1</i>') 
+    .replace(/_([^ ].+?[^ ])_/g, '<i>$1</i>')
 }

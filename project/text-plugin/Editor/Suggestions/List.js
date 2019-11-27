@@ -31,7 +31,7 @@ class Suggestions extends React.Component {
     // suggestion.definition_hash = translation.words[selected[0]]
 
     return (
-      <section className="suggestions">
+      <section className="ylhyra-suggestions">
         <h4>Suggestions</h4>
         <ul>
           {suggestions.map((suggestion,index) => {

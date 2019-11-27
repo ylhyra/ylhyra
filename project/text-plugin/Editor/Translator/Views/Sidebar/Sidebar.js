@@ -15,7 +15,7 @@ class WordSidebar extends React.Component {
     }, 0);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     window.addEventListener('keydown', this.checkKey);
     this.focus()
     // this.analysis()
@@ -131,6 +131,10 @@ class WordSidebar extends React.Component {
         <label>
           <b>Note</b>
           <Field name="base_note" component="input" type="text"/>
+        </label>
+        <label>
+          <b>Grammatical analysis</b>
+          <Field name="grammatical_analysis" component="input" type="text" placeholder={definition.grammatical_analysis}/>
         </label>
       </section>,
     ]

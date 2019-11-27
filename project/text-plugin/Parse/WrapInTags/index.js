@@ -44,7 +44,7 @@ import { newTitle } from 'Parse/index.js'
   Parse input and split paragraphs
 */
 export default function({ json, tokenized }) {
-
+  // console.log(json2html(json))
   /*
     Flatten tokenized
   */
@@ -71,6 +71,7 @@ export default function({ json, tokenized }) {
       if (documentTitle === undefined) {
         return paragraph
       }
+      // console.log((paragraph))
       if (text) {
         return Sentences(paragraph, tokenizedFlattened[index++].sentences)
       }
@@ -111,6 +112,7 @@ const WrapInTags = (input, tokenizedSplit, elementName, innerFunction) => {
 
   html = InsertSplit(input, tokenizedSplit)
   json = SplitAndWrap(html, tokenizedSplit, elementName, innerFunction, temp_attribute_name)
+  // console.error(json2html(json))
   json = InvertElementsThatOnlyContainOneThing(json)
   json = MergeElementsThatHaveBeenSplitUnnecessarily(json, temp_attribute_name)
 

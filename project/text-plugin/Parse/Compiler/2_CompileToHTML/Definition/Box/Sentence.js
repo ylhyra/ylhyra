@@ -7,7 +7,7 @@ export default class SentenceBox extends React.PureComponent {
     const { definition } = this.props;
     if (!exists(definition) || !(definition.meaning || definition.direct || definition.note)) return null
     return [
-      <span className="box" data-box-id={this.props.id} data-ignore="true">
+      <span className="box" data-box-id={this.props.id} data-ignore="true" data-not-text="true">
         {definition.meaning &&
           <span className="meaning">
             <span dangerouslySetInnerHTML={{__html: ItalicsAndBold(definition.meaning)}}/>

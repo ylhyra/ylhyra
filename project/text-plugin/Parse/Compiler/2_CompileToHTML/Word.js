@@ -9,7 +9,7 @@ import GetSound from 'Parse/Compiler/2_CompileToHTML/Sound'
 
 class WordElement extends React.Component {
   render() {
-    const { id, definition, audio, appendText } = this.props
+    const { id, definition, appendText, editor } = this.props
     const hasTooltip = exists(definition)
     let attrs = {}
     let classes = []
@@ -21,7 +21,7 @@ class WordElement extends React.Component {
       */
       attrs = {
         'data-word-id': id,
-        'data-sound': GetSound(id),
+        'data-sound': GetSound(id, editor),
       }
 
       /*

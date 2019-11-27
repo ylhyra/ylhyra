@@ -1,0 +1,33 @@
+.instructions
+  font-size: 11px
+  margin: auto
+  line-height: 1.3em
+  color: #636363
+  display: flex
+  justify-content: center
+  margin-bottom: 10px
+  ul
+    list-style-type: none
+    li
+      display: flex
+      margin-bottom: 3px
+      > :first-child
+        width: 20px
+        padding: 0 5px
+        text-align: right
+      > :last-child
+        flex: 1
+      &.gray
+        opacity: .8
+  .touch
+    display: none
+
+/* Desktop computer */
+body:not(.supports-touch)
+  // .only-desktop
+  .only-mobile
+    display none
+/* Mobile device */
+body.supports-touch
+  .only-desktop
+    display none

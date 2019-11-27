@@ -7,6 +7,9 @@
       <b></b><b><word>blabla</word></b>
   into:
       <b><word>blabla</word></b>
+
+  TODO:
+  Links don't seem to merge correctly.
 */
 const MergeElementsThatHaveBeenSplitUnnecessarily = (i, temp_attribute_name) => {
   if (!i) return;

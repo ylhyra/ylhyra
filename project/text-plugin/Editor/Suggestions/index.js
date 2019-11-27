@@ -1,6 +1,6 @@
 import { send } from 'Editor/web-socket'
 import store from 'App/store'
-import GoogleTranslate from './GoogleTranslate'
+// import GoogleTranslate from './GoogleTranslate'
 
 /*
 
@@ -15,17 +15,18 @@ export const request = () => {
   if (started) return // TEMP!
   started = true // TEMP!
 
-  const { list, metadata } = store.getState().editor
+  const { list, tokenized } = store.getState().editor
   // Information is sent through a WebSocket
   console.log('%c [Requesting suggestions...]', 'color: RoyalBlue')
   send({
     type: 'REQUEST_SUGGESTIONS',
     list: list,
+    tokenized: tokenized,
     // from: metadata.from,
     // to: metadata.to,
   })
 
-  GoogleTranslate()
+  // GoogleTranslate()
 }
 
 /*

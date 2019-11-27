@@ -69,6 +69,8 @@ class Word extends React.Component {
   shouldComponentUpdate = (nextProps, nextState) => {
     const { id, translation, selected, } = this.props
     const { words, definitions } = translation
+    // console.log(this.props.suggestions[id])
+    // console.log(id)
 
     if (words[id] !== nextProps.translation.words[id]) {
       return true
@@ -100,6 +102,8 @@ class Word extends React.Component {
     let definition = null
     let inline_translation = null
     let suggested = false
+
+    // console.log(suggestions)
 
     if (id in words) {
       definition = definitions[words[id]] || {}

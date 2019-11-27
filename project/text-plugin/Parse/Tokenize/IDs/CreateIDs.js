@@ -5,7 +5,7 @@ require('array-sugar')
   TODO
   Only tests for Latin text
 */
-const wordRegex = /[A-zÀ-ÿ0-9]/
+export const wordRegex = /[A-zÀ-ÿ0-9]/
 
 const CreateIDs = (paragraphs) => {
   return paragraphs.map(paragraph => {

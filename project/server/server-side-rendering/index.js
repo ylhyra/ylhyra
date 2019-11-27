@@ -11,11 +11,13 @@ router.post('/render', async (req, res) => {
   let output
   try {
     var t0 = now()
-    const { parsed } = Parse({ html })
-    output = ReactDOMServer.renderToStaticMarkup(Render(parsed, true))
+    const { parsed, tokenized, data, flattenedData } = await Parse({ html })
+    if(!parsed) return res.sendStatus(500);
+    output = ReactDOMServer.renderToStaticMarkup(Render(parsed, { shouldReturnElement: true }))
     var t1 = now()
-    output += `<!-- Ylhýra parsed in ${Math.round(t1 - t0)} milliseconds -->`
-  } catch(e){
+    output += `<script type="text/javascript">window.ylhyra_data=${JSON.stringify({ parsed, tokenized, data, flattenedData })}</script>`
+    output += `<!-- Ylhýra parsed in ${(t1 - t0)} milliseconds -->`
+  } catch (e) {
     console.error(e)
     output = html
   }

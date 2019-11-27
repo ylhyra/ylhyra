@@ -5,14 +5,17 @@ import error from 'App/Error'
 import stable_stringify from 'json-stable-stringify'
 
 
-export const openEditor = () => {
-  window.history.replaceState({}, '', window.location.href + '#editor')
+export const openEditor = (page) => {
+  const newUrl = mw.util.getUrl(mw.config.get('wgPageName'), { editor: page });
+  window.history.replaceState({}, '', newUrl)
   store.dispatch({
     type: 'OPEN_EDITOR',
+    page,
   })
 }
 export const closeEditor = () => {
-  window.history.replaceState({}, '', window.location.href.split('#')[0])
+  const newUrl = mw.util.getUrl(mw.config.get('wgPageName'));
+  window.history.replaceState({}, '', newUrl)
   purgeCurrentPage()
   store.dispatch({
     type: 'CLOSE_EDITOR',
@@ -30,14 +33,17 @@ export const save = async () => {
       const data_to_save = {
         tokenized: data.tokenized,
         list: data.list,
-        // suggestions: data.suggestions,
         translation: data.translation,
+        suggestions: data.suggestions,
+        short_audio: data.short_audio,
+        // audio: data.audio,
+        // pronunciation: data.pronunciation,
       }
 
       editPage({
         title: `Data:${title}`,
         text: stable_stringify(data_to_save, { space: 2 }),
-        summary: 'Saving data',
+        summary: '✏️',
       }, saved => {
         if (saved) {
           store.dispatch({

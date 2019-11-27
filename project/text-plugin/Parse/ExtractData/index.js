@@ -1,4 +1,8 @@
 import { newTitle } from 'Parse/index.js'
+import { AllHtmlEntities as Entities } from 'html-entities'
+import axios from 'axios'
+const entities = new Entities()
+require('project/text-plugin/App/functions/array-foreach-async')
 
 /*
   Extract the data which is stored in the Data: namespace (is encoded in [[Template:Start]])
@@ -6,14 +10,20 @@ import { newTitle } from 'Parse/index.js'
   Returns an object containing:
     DocumentTitle => Data
 */
-const ExtractData = (input) => {
-  let data = {}
+const ExtractData = async (input) => {
+  let output = {}
   const getNewTitle = new newTitle()
-  Traverse(input, (output) => {
-    const title = getNewTitle.get(output.documentTitle)
-    data[title] = updateIDs(output.data, title)
+  let temp = []
+  Traverse(input, ({ documentTitle, url }) => {
+    temp.push({ documentTitle, url })
   })
-  return data
+  await temp.forEachAsync(async ({ documentTitle, url }) => {
+    const title = getNewTitle.get(documentTitle)
+    const { data } = await axios.get(`https://ylhyra.is/index.php?title=${url}&action=raw&ctype=text/json`)
+    // console.log(data)
+    output[title] = updateIDs(data, title)
+  })
+  return output
 }
 
 const Traverse = (input, callback) => {
@@ -26,12 +36,21 @@ const Traverse = (input, callback) => {
   if (input.child) {
     input.child.map(i => Traverse(i, callback))
   }
-  if (attr && attr['data-document-start'] && child && child[0] && child[0].node === 'text') {
-    callback({
-      documentTitle: attr['data-document-start'],
-      data: JSON.parse(child[0].text)
-    })
-
+  if (attr && attr['data-document-start'] && attr['data-data']) {
+    try {
+      const url = attr['data-data']
+      // console.warn(url)
+      // const encodedData = attr['data-data']
+      // const data = JSON.parse(entities.decode(decodeURIComponent(encodedData)))
+      url && callback({
+        documentTitle: attr['data-document-start'],
+        // data,
+        url,
+      })
+    } catch (e) {
+      // console.error(child[0].text + ' is not parseable JSON')
+      console.error(e)
+    }
   }
 }
 export default ExtractData
@@ -40,7 +59,7 @@ export default ExtractData
   //TODO!
   Prepend title to all IDs to prevent clashing
 */
-const updateIDs = (data,title) => {
+const updateIDs = (data, title) => {
   // console.log(data)
   return data
 }

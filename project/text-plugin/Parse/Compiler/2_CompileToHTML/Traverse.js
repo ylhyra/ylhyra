@@ -6,13 +6,13 @@ import inlineStyle2Json from 'App/functions/inline-style-2-json'
 // import Controls from './Controls/Controls'
 // import AudioPlayer from './Controls/Audio'
 
-const Traverse = (input, index = 0, editor) => {
-  if (!input) return null
-  const { node, tag, attr, child, text } = input
+const Traverse = ({ json, data, index }) => {
+  if (!json) return null
+  const { node, tag, attr, child, text } = json
   if (node === 'element' || node === 'root') {
     let Tag = tag || 'span'
     if (node === 'root') {
-      return child.map((e, i) => Traverse(e, i))
+      return child.map((e, i) => Traverse({ json: e, index: i, data }))
     }
     if (tag === 'word') {
       Tag = Word;
@@ -27,13 +27,18 @@ const Traverse = (input, index = 0, editor) => {
     let attrs = {}
     for (const property in attr) {
       // Converts HTML attribute into React attribute
-      if (attr.hasOwnProperty(property) && !property.startsWith('data-temp')) {
+      if (property in attr && !property.startsWith('data-temp')) {
         if (property === 'style') {
           attrs[convert(property)] = inlineStyle2Json(attr[property])
         } else {
           attrs[convert(property)] = attr[property]
         }
       }
+    }
+
+    /* IMG and HR tags are void tags */
+    if (voidElementTags.includes(Tag)) {
+      return <Tag {...attrs} key={(attr && attr.id) || index}/>
     }
 
     /*
@@ -60,10 +65,6 @@ const Traverse = (input, index = 0, editor) => {
     //   Audio = AudioPlayer(attrs['audio-id'], attrs['inline-audio-player'], editor)
     // }
 
-    /* IMG and HR tags are void tags */
-    if (voidElementTags.includes(Tag)) {
-      return <Tag {...attrs} key={(attr && attr.id) || index}/>
-    }
 
 
     // console.log(attrs.className)
@@ -72,10 +73,15 @@ const Traverse = (input, index = 0, editor) => {
     //   return null
     // }
 
+    let extraAttributes = {}
+    if (tag === 'word') {
+      extraAttributes = { editor: data }
+    }
+
     return (
-      <Tag {...attrs} key={(attr && attr.id) || index}>
+      <Tag {...attrs} key={(attr && attr.id) || index} {...extraAttributes}>
         {/* {Audio} */}
-        {child && child.map((e,i) => Traverse(e,i,editor))}
+        {child && child.map((e,i) => Traverse({json:e, data, index:i}))}
       </Tag>
     )
   } else if (node === 'text') {

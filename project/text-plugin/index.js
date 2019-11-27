@@ -43,7 +43,7 @@ function checkIfjQueryIsReady(fn) {
 }
 
 
-documentReady(() => {
+documentReady(async () => {
   /*
     Temporary button for removing styling
   */
@@ -55,11 +55,11 @@ documentReady(() => {
   Source_editor()
   const namespaceNumber = mw.config.get('wgNamespaceNumber')
   const shouldRender = [0, 2, 4, 12, 3002, 3004].includes(namespaceNumber)
-  if (window.initialized) return; //Temp
   if (!shouldRender) return;
-  if ($('.mw-parser-output').length > 0) {
+
+  if ($('.mw-parser-output').length && $('.ylhyra-text').length === 0) {
     var t0 = now()
-    const { parsed, tokenized, data, flattenedData } = Parse({html, title})
+    const { parsed, tokenized, data, flattenedData } = await Parse({ html, title })
     var t1 = now()
 
     if (tokenized && tokenized[title]) {
@@ -69,20 +69,35 @@ documentReady(() => {
         // allDocuments: tokenized,
         data: flattenedData,
         currentDocumentData: data[title],
+        parsed: parsed,
       })
     } else {
       console.log('Stopped tokenization, there is no {{start}} for the current document')
     }
 
-    Render(parsed)
+    Render(parsed, {})
     // const serverside = ReactDOMServer.renderToStaticMarkup(Render(parsed, true)) //Test for server-side-rendering
     var t2 = now()
     console.log(`Parsing took ${Math.round(t1 - t0)} ms, rendering ${Math.round(t2 - t1)} ms`)
-
     $('body').hasClass('mw-editable') && Editor(parsed)
-    window.initialized = true
-    setTimeout(() => {
-      fix_inline_translations()
-    }, 200)
+
+  } else if ($('.ylhyra-text').length) {
+    if (!window.ylhyra_data) return;
+    const { parsed, tokenized, data, flattenedData } = window.ylhyra_data
+    if (tokenized && tokenized[title]) {
+      store.dispatch({
+        type: 'TOKENIZED',
+        currentDocument: tokenized[title],
+        // allDocuments: tokenized,
+        data: flattenedData,
+        currentDocumentData: data[title],
+      })
+    }
+    Render(parsed, { hydrate: true })
+    $('body').hasClass('mw-editable') && Editor(parsed)
   }
+
+  setTimeout(() => {
+    fix_inline_translations()
+  }, 200)
 })

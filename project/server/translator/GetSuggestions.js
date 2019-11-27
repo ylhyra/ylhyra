@@ -1,4 +1,4 @@
-import query from 'server/database/tagger'
+import query from 'server/database'
 import string_hash from 'App/functions/hash'
 import flattenArray from 'project/text-plugin/App/functions/flattenArray'
 import { GetTranslationFrame, simplifyString, SQL_helper } from './SaveTranslations'
@@ -59,7 +59,7 @@ const request = ({ list, from, to }, callback) => {
     /*
       Search words
     */
-    sentence.words.slice(0, 30).forEach((word, index) => {
+    sentence.words.slice(0, 30).forEach((word, index) => { // TODO ?? Af hverju geri ég "slice"???
       if (typeof word === 'string' || !word.id) return;
 
       /*

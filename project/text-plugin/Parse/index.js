@@ -30,7 +30,7 @@ var now = require("performance-now")
 /*
   Parser
 */
-export default function({html, title, returns}) {
+export default async ({ html, title }) => {
   if (!html) return null
   // console.log(html)
   try {
@@ -40,10 +40,12 @@ export default function({html, title, returns}) {
       .replace(/[\s\n\r]+/g, ' ') // Ef þetta er fjarlægt virkar WrapInTags/SplitAndWrap ekki
       // .replace(/\u00AD/g,' ') //Soft-hyphens
       // .replace(/\u00A0/g,' ') //Non-breaking spaces
+      .replace(/<\/?mw:toc>/g, '') //Mediawiki clutter
+      .replace(/<mw:editsection.*?<\/mw:editsection>/g, '') //Mediawiki clutter
     let json = html2json(html)
 
-    var t1 = now()
-    console.log(`html2json took ${Math.round(t1 - t0)} ms`)
+    // var t1 = now()
+    // console.log(`html2json took ${Math.round(t1 - t0)} ms`)
 
     // json = json2html(html)
     // json = html2json(html)
@@ -60,30 +62,28 @@ export default function({html, title, returns}) {
     /*
       Is data already saved?
     */
-    let data = ExtractData(json)
-    // console.log(data)
-    var t2 = now()
-    console.log(`Extracting data took ${Math.round(t2 - t1)} ms`)
+    let data = await ExtractData(json)
+    // console.warn('----->-->>>>>>>>>>>>>>>>>>>>>>>>>\n>>>>>>>>>>>>>>>>>>>>-')
+    // console.warn(data)
+    // var t2 = now()
+    // console.log(`Extracting data took ${Math.round(t2 - t1)} ms`)
 
     /*
       Extract text, group by documents
     */
     const text = ExtractText(json)
-    var t3 = now()
-    console.log(`Extracting text took ${Math.round(t3 - t2)} ms`)
+    // var t3 = now()
+    // console.log(`Extracting text took ${Math.round(t3 - t2)} ms`)
     if (isEmpty(text)) {
+
       // console.warn('No text to tokenize.')
       // json = html2json(entities.decode(json2html(json)))
-      if(returns ==='html') {
-        return html
-      } else {
-        return {parsed:json}
-      }
+      return ({ parsed: json })
       // return html2json(Compiler({ json: wrapped, data: data, }))
     }
     const tokenized = Tokenizer(text, data)
-    var t4 = now()
-    console.log(`Tokenization took ${Math.round(t4 - t3)} ms`)
+    // var t4 = now()
+    // console.log(`Tokenization took ${Math.round(t4 - t3)} ms`)
     const flattenedData = flattenData(data)
     // console.log(text)
     // console.log({
@@ -102,24 +102,29 @@ export default function({html, title, returns}) {
     */
     // console.log(json2html(json))
     const wrapped = WrapInTags({ json, tokenized })
-    var t5 = now()
-    console.log(`Wrapping took ${Math.round(t5 - t4)} ms`)
+    // console.log({wrapped})
+    // var t5 = now()
+    // console.log(`Wrapping took ${Math.round(t5 - t4)} ms`)
     // console.log(json2html(wrapped))
     let compiled = Compiler({ json: wrapped, data: flattenedData })
-    var t6 = now()
-    console.log(`Tokenization took ${Math.round(t6 - t5)} ms`)
+    // console.log({compiled})
+    // var t6 = now()
+    // console.log(`Tokenization took ${Math.round(t6 - t5)} ms`)
     // compiled = entities.decode(compiled)
     // console.log(compiled)
     // console.log(compiled)
-    if(returns ==='html') {
-      return compiled
-    } else {
-      return {parsed: html2json(compiled), tokenized, data, flattenedData}
+    return {
+      parsed: html2json(compiled),
+      tokenized,
+      data,
+      flattenedData
     }
     // return compiled
   } catch (e) {
-    console.error('Error in parse step')
     console.error(e)
+    if (typeof mw !== 'undefined') {
+      mw.notify('Error in parse step', { type: 'error', autoHide: false })
+    }
   }
 }
 
@@ -128,42 +133,73 @@ export default function({html, title, returns}) {
 
 
 const flattenData = (input) => {
-  let translation = {
-    definitions: {},
-    sentences: {},
-    words: {},
-  }
-  let list = {
-    arrayOfAllItemIDs: [],
-    arrayOfAllWordIDs: [],
-    items: {},
-    sentences: {},
-    words: {},
+  let output = {
+    translation: {
+      definitions: {},
+      sentences: {},
+      words: {},
+    },
+    list: {
+      arrayOfAllItemIDs: [],
+      arrayOfAllWordIDs: [],
+      items: {},
+      sentences: {},
+      words: {},
+    },
+    short_audio: {
+      soundList: [],
+      sounds: {},
+      wordID_to_text: {},
+    }
   }
 
   for (const documentTitle of Object.keys(input)) {
-    const currentTranslation = input[documentTitle].translation
-    const currentList = input[documentTitle].list
-    // console.log(input[documentTitle])
-    translation = {
-      definitions: { ...translation.definitions, ...currentTranslation.definitions },
-      sentences: { ...translation.sentences, ...currentTranslation.sentences },
-      words: { ...translation.words, ...currentTranslation.words },
-    }
-    list = {
-      arrayOfAllItemIDs: [...list.arrayOfAllItemIDs, ...currentList.arrayOfAllItemIDs],
-      arrayOfAllWordIDs: [...list.arrayOfAllWordIDs, ...currentList.arrayOfAllWordIDs],
-      items: { ...list.items, ...currentList.items },
-      sentences: { ...list.sentences, ...currentList.sentences },
-      words: { ...list.words, ...currentList.words },
-    }
+    output = merge(output, input[documentTitle])
   }
-  return {
-    translation,
-    list,
+  return output
+}
+const merge = (first, second) => {
+  if (Array.isArray(first)) {
+    return [...first, ...second]
+  } else if (typeof first === 'object') {
+    let output = first
+    if (second && typeof second === 'object') {
+      for (const key of Object.keys(second)) {
+        if (output[key]) {
+          output[key] = merge(output[key], second[key])
+        } else {
+          output[key] = second[key]
+        }
+      }
+    }
+    return output
   }
 }
 
+
+// const currentTranslation = input[documentTitle].translation
+// const currentList = input[documentTitle].list
+// const currentShortaudio = input[documentTitle].short_audio
+// // console.log(input[documentTitle])
+// translation = {
+//   definitions: { ...translation.definitions, ...currentTranslation.definitions },
+//   sentences: { ...translation.sentences, ...currentTranslation.sentences },
+//   words: { ...translation.words, ...currentTranslation.words },
+// }
+// list = {
+//   arrayOfAllItemIDs: [...list.arrayOfAllItemIDs, ...currentList.arrayOfAllItemIDs],
+//   arrayOfAllWordIDs: [...list.arrayOfAllWordIDs, ...currentList.arrayOfAllWordIDs],
+//   items: { ...list.items, ...currentList.items },
+//   sentences: { ...list.sentences, ...currentList.sentences },
+//   words: { ...list.words, ...currentList.words },
+// }
+// if (currentShortaudio) {
+//   short_audio = {
+//     soundList: [...short_audio.soundList, ...currentShortaudio.soundList],
+//     sounds: { ...short_audio.sounds, ...currentShortaudio.sounds },
+//     wordID_to_text: { ...short_audio.wordID_to_text, ...currentShortaudio.wordID_to_text },
+//   }
+// }
 
 /*
   Prevent clashes if the same document is transcluded twice
@@ -172,7 +208,7 @@ export class newTitle {
   index = 0;
   array = [];
   get(title) {
-    if(this.array.includes(title)) {
+    if (this.array.includes(title)) {
       title = this.get(title + '1')
     }
     this.array.push(title)

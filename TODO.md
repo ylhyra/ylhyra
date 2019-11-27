@@ -30,8 +30,4 @@ Dæmi um útlit:
 -->
 
 
-
-# Vocabulary
-
-- Never show "sæll" with "daginn" or "góðan dag"
-- Never show "sæll" with "halló"
+- https://github.com/lucianodato/speech-denoiser
