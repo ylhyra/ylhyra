@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getText } from 'Render/Elements/parse'
+import { getTextFromReactElement as getText} from 'Render/Elements/parse'
 let timer
 
 class Write extends Component {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore'
 import clean from 'Render/Elements/Vocabulary/functions/clean'
-import { ParseHTMLtoObject, ParseHTMLtoArray, getText } from 'Render/Elements/parse'
+import { ParseHTMLtoObject, ParseHTMLtoArray, getTextFromReactElement as getText } from 'Render/Elements/parse'
 
 class Element extends Component {
   state = {}
