@@ -1,7 +1,7 @@
 <?php
 
 wfLoadExtension('VisualEditor');
-$wgDefaultUserOptions['visualeditor-enable'] = 0;
+$wgDefaultUserOptions['visualeditor-enable'] = 1;
 $wgVirtualRestConfig['modules']['parsoid'] = array(
   // URL to the Parsoid instance
   // Use port 8142 if you use the Debian package
