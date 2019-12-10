@@ -3,7 +3,7 @@ import { synchronize } from 'Editor/Long_audio/Synchronize'
 import React from 'react'
 import store from 'App/store'
 // import Upload from './Upload'
-import { findAudioSections } from './actions'
+import findAudioSections from './actions'
 
 class LongAudio extends React.Component {
   componentDidMount = () => {

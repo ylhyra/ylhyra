@@ -54,7 +54,7 @@ documentReady(async () => {
   }
   Source_editor()
   const namespaceNumber = mw.config.get('wgNamespaceNumber')
-  const shouldRender = [0, 2, 4, 12, 3002, 3004].includes(namespaceNumber)
+  const shouldRender = [0, 2, 4, 12, /*3002,*/ 3004].includes(namespaceNumber)
   if (!shouldRender) return;
 
   if ($('.mw-parser-output').length && $('.ylhyra-text').length === 0) {

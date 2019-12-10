@@ -23,6 +23,7 @@ import Tokenizer from './Tokenize'
 import WrapInTags from './WrapInTags'
 import Compiler from './Compiler'
 const entities = new Entities()
+import NotifyError from 'App/Error'
 // import store from 'App/store'
 import isEmpty from 'is-empty-object'
 var now = require("performance-now")
@@ -123,7 +124,7 @@ export default async ({ html, title }) => {
   } catch (e) {
     console.error(e)
     if (typeof mw !== 'undefined') {
-      mw.notify('Error in parse step', { type: 'error', autoHide: false })
+      NotifyError('Error in parse step')
     }
   }
 }

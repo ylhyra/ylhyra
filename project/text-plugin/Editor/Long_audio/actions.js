@@ -2,85 +2,113 @@ import store from 'App/store'
 import { getText } from 'project/text-plugin/Parse/ExtractText/ExtractText'
 import { getTextFromTokenized } from 'project/text-plugin/Parse/WrapInTags/1-InsertSplit.js'
 import hash from 'project/text-plugin/App/functions/hash'
-
-
-
-
-// data - audio - file = "Ánamaðkar.mp3"
+import NotifyError from 'App/Error'
+import { html2json, json2html } from 'text-plugin/App/functions/html2json'
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
 
 /*
-  Finds the IDs of audio sections and
-  matches them up with the tokenized paragraph IDs
+  Allows just a single audio file
 */
-export const findAudioSections = () => {
+export default () => {
   const { parsed, tokenized } = store.getState().editor
-  const tokenizedParagraphs = tokenized.map(({ hashOfIds, sentences }) => ({
-    hashOfIds,
-    text: getTextFromTokenized(sentences)
-  }))
-  let currentIndex = 0
-  let locationInString = 0
-  let output = null
-  console.log(parsed)
-  findAreasWithAudioId(parsed, (node, fileName) => {
-    let coversParagraphs = []
-    const text = getText(node, true, true)
-    text.split('').forEach(character => {
-      if (currentIndex >= tokenizedParagraphs.length) {
-        return
+  let done;
+  // console.log(json2html(parsed))
+  findAreasWithAudioFile(parsed, (node, filename) => {
+    if (done) {
+      NotifyError('Only one audio area can be used at a time, for multiple uses you must transclude them.')
+    } else {
+      done = true
+      const XML = AudioXML(node)
+      if (XML) {
+        store.dispatch({
+          type: 'AUDIO_AREA',
+          filename,
+          content: ReactDOMServer.renderToStaticMarkup(XML),
+        })
       }
-      /*
-        Surrounding spaces may have been stripped away.
-        Here we just return characters until we see the one we are looking for.
-      */
-      if (character !== tokenizedParagraphs[currentIndex].text[locationInString]) return;
-
-      /* Fits */
-      if (locationInString + character.length === tokenizedParagraphs[currentIndex].text.length) {
-        locationInString = 0
-        coversParagraphs.push(tokenizedParagraphs[currentIndex].hashOfIds)
-        currentIndex++
-      }
-      /* Continue */
-      else {
-        locationInString += character.length
-      }
-    })
-    output = {
-      audioElementId: fileName, // Random each time
-      hash: hash(coversParagraphs), // Relatively stable
-      coversParagraphs,
-      text,
     }
   })
-  console.log(output)
-  // store.dispatch({
-  //   type: 'AUDIO_SECTIONS',
-  //   content: output,
-  // })
 }
 
-const findAreasWithAudioId = (i, callback) => {
+const findAreasWithAudioFile = (i, callback) => {
   if (!i) return;
   if (Array.isArray(i)) {
-    return i.map(x => findAreasWithAudioId(x, callback))
+    return i.map(x => findAreasWithAudioFile(x, callback))
   } else {
     let { node, tag, attr, child, text } = i
     if (child) {
       if (attr && attr['data-audio-file']) {
-        console.warn('------')
-        console.warn(child)
+        // console.warn('------')
+        // console.warn(child)
         callback(child, attr['data-audio-file'])
       } else {
-        child.forEach(x => findAreasWithAudioId(x, callback))
+        child.forEach(x => findAreasWithAudioFile(x, callback))
       }
     }
   }
 }
 
-export const deleteAudio = (sectionHash) => {
-  store.dispatch({
-    type: 'DELETE_AUDIO_FILE',
-    content: { sectionHash },
+/*
+  Prepare an XML file for audio synchronization.
+  Only leaves id tags on sentences and words.
+*/
+const AudioXML = (input, index = 0) => {
+  //   console.log((input))
+  // return
+
+  if (!input) return null
+  if (Array.isArray(input)) {
+    return input.map(x => AudioXML(x))
+  } else {
+    const { node, tag, attr, child, text } = input
+    if (node === 'element' || node === 'root') {
+      if (attr && ('data-no-audio' in attr || 'data-type' in attr || 'data-children' in attr || 'data-not-text' in attr)) return null;
+      if (includesAny(skipTags, tag)) return null;
+      // if (attr && includesAny(skipClasses, attr.class)) return null;
+
+      let attrs = {}
+      let Tag = tag || 'span'
+      if (attr && ('data-sentence-id' in attr || 'data-word-id' in attr)) {
+        // console.log(input)
+        Tag = 'span'
+        attrs = {
+          id: (attr && attr.id),
+        }
+      }
+      if (tag === 'root') {
+        return child.map((e, i) => AudioXML(e, i))
+      }
+      if (!child || child.length === 0) return null;
+      if (attrs.id) {
+        return (
+          <Tag {...attrs} key={index}>
+            {child && child.map((e,i) => AudioXML(e,i))}
+          </Tag>
+        )
+      } else {
+        return child && child.map((e, i) => AudioXML(e, i))
+      }
+    } else if (node === 'text') {
+      return text
+    }
+  }
+}
+
+// const skipClasses = [
+//   'data-sou',
+// ]
+const skipTags = [
+  'data-no-audio',
+  'data-ignore',
+]
+
+export const includesAny = (haystack, arr) => {
+  if (!arr) return false;
+  if (typeof arr === 'string') {
+    arr = [arr]
+  }
+  return arr.some((v) => {
+    return haystack.indexOf(v) >= 0;
   })
 }
