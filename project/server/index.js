@@ -32,7 +32,7 @@ app.use('/api', require('server/server-side-rendering').default)
 app.use('/api', require('server/audio/recorder').default)
 // app.use('/api', require('server/translator/Google').default)
 // app.use('/api', require('server/api/audio/Upload').default)
-// app.use('/api', require('server/api/audio/Synchronize').default)
+app.use('/api', require('server/audio/Synchronize').default)
 app.use('/api/temp_files/', express.static(upload_path))
 
 

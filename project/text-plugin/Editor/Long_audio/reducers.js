@@ -5,15 +5,19 @@ const defaultState = {
   xml: null,
   sync: null,
 }
+
+
+
 /*
   Long audio
 */
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case 'LOAD_EDITOR':
-      return {
-        ...state,
-        ...(action.content.long_audio || {}),
+    case 'TOKENIZED':
+      if (action.currentDocumentData) {
+        return action.currentDocumentData.long_audio
+      } else {
+        return state
       }
     case 'AUDIO_AREA':
       const xml_hash = hash(action.content)

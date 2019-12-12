@@ -8,8 +8,8 @@ import MergeShortWords from './2-Merge-short-words'
 import Flatten from './3-Flatten'
 import MakeList from './4-Make-list'
 
-const TESTING_WITH_LOCALHOST = false
-const url = TESTING_WITH_LOCALHOST ? 'https://localhost:8000' : ''
+// const TESTING_WITH_LOCALHOST = true
+const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
 
 /*
   We use [Aeneas](https://github.com/readbeyond/aeneas/) to synchronize audio and text.
@@ -23,19 +23,18 @@ export const synchronize = async () => {
       Switch to web-socket
     */
     const data = (await axios.post(`${url}/api/audio/synchronize`, long_audio)).data
-    console.log(data)
-    // if (data.fragments) {
-    //   const list = MakeList(Flatten(MergeShortWords(data.fragments)))
-    //   console.log(list)
-    //   store.dispatch({
-    //     type: 'SYNC',
-    //     content: {
-    //       sectionHash,
-    //       original_sync_data: data,
-    //       list,
-    //     }
-    //   })
-    // }
+    if (data.fragments) {
+      const list = MakeList(Flatten(MergeShortWords(data.fragments)))
+      // console.log(list)
+      store.dispatch({
+        type: 'SYNC',
+        content: {
+          // sectionHash,
+          original_sync_data: data,
+          list,
+        }
+      })
+    }
   } catch (e) {
     error('Could not synchronize audio')
     console.error(e)

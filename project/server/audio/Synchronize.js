@@ -26,10 +26,11 @@ router.post('/audio/synchronize', (req, res) => {
 const DownloadFile = (filename, res, callback) => {
   const url = `https://ylhyra.is/index.php?title=Special:Filepath/${encodeURIComponent(filename)}`
   const tmp_filepath = path.resolve(upload_path, `tmp_${shortid.generate()}.${fileExtension(filename)}`)
-  exec(` curl -L "${url}" --output ${tmp_filepath} `, (err, stdout, stderr) => {
+  exec(` curl -sS -L "${url}" --output ${tmp_filepath} `, (err, stdout, stderr) => {
     if (err || stderr) {
       console.error(err || stderr)
-      res.setStatus(500)
+
+      res.status(500)
       res.send({ error: err || stderr })
     } else if (stderr) {} else {
       callback(tmp_filepath)
@@ -87,8 +88,8 @@ const synchronize = async ({ lang, filepath, xml }, res) => {
         })
     })
   } catch (e) {
-    res.status(400)
-    res.send(e)
+    res.status(500)
+    return res.send(e)
   }
 
   const json = await new Promise((resolve, reject) => {

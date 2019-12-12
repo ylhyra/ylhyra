@@ -14,8 +14,8 @@ class LongAudio extends React.Component {
     const { filename, xml, sync } = long_audio
     if (!filename) return 'No audio sections';
     return (
-      <div className="center">
-        {long_audio.filename}
+      <div className="xcenter">
+        {long_audio.filename} &nbsp;
         {sync ? 'Synced!' : <div>
           <button onClick={synchronize}>Synchronize</button> (can take some time, please be patient after clicking)
         </div>}

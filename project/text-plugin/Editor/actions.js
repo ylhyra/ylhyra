@@ -36,7 +36,7 @@ export const save = async () => {
         translation: data.translation,
         suggestions: data.suggestions,
         short_audio: data.short_audio,
-        // audio: data.audio,
+        long_audio: data.long_audio,
         // pronunciation: data.pronunciation,
       }
 
