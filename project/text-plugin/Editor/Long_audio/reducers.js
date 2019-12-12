@@ -1,14 +1,14 @@
 import string_hash from 'App/functions/hash'
-
+const defaultState = {
+  filename: null,
+  xml_hash: null,
+  xml: null,
+  sync: null,
+}
 /*
   Long audio
 */
-export default (state = {
-  filename: null,
-  text_hash: null,
-  text: null,
-  sync: {},
-}, action) => {
+export default (state = defaultState, action) => {
   switch (action.type) {
     case 'LOAD_EDITOR':
       return {
@@ -16,15 +16,16 @@ export default (state = {
         ...(action.content.long_audio || {}),
       }
     case 'AUDIO_AREA':
-      const text_hash = hash(action.content)
-      if (text_hash === state.text_hash && action.filename === state.filename) {
+      const xml_hash = hash(action.content)
+      if (!action.content) return defaultState;
+      if (xml_hash === state.xml_hash && action.filename === state.filename) {
         return state;
       } else {
         return {
           filename: action.filename,
-          text_hash: text_hash,
-          text: action.content,
-          sync: {},
+          xml_hash: xml_hash,
+          xml: action.content,
+          sync: null,
         }
       }
     case 'SYNC':

@@ -7,25 +7,18 @@ import findAudioSections from './actions'
 
 class LongAudio extends React.Component {
   componentDidMount = () => {
-    // this.load()
     findAudioSections()
   }
-  // componentDidUpdate(prevProps, prevState) {
-  //   this.load()
-  // }
-  // load = () => {
-  //   if (!this.props.long_audio.areSectionsUpdated) {
-  //     findAudioSections()
-  //   }
-  // }
   render() {
-    const { audio, editor, match } = this.props
-    // console.log(audio.sections)
+    const { long_audio } = this.props
+    const { filename, xml, sync } = long_audio
+    if (!filename) return 'No audio sections';
     return (
       <div className="center">
-
-        {/* <button onClick={()=>synchronize(section.hash)}>Synchronize</button> (can take some time, please be patient after clicking) */}
-
+        {long_audio.filename}
+        {sync ? 'Synced!' : <div>
+          <button onClick={synchronize}>Synchronize</button> (can take some time, please be patient after clicking)
+        </div>}
       </div>
     )
   }
