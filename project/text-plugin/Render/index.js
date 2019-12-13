@@ -4,6 +4,7 @@ import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 import Traverse from './Traverse'
 import { html2json, json2html } from 'text-plugin/App/functions/html2json'
+import { ReadAlongSetup } from 'text-plugin/Render/Audio/ReadAlong'
 
 const Render = (parsed, { shouldReturnElement, hydrate }) => {
   // console.log(json2html(parsed))
@@ -15,6 +16,8 @@ const Render = (parsed, { shouldReturnElement, hydrate }) => {
       </div>
     </Provider>
   )
+
+  ReadAlongSetup() // Temporary, needs a better solution
 
   if (shouldReturnElement) {
     return element

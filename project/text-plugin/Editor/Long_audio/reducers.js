@@ -1,41 +1,47 @@
 import string_hash from 'App/functions/hash'
-const defaultState = {
-  filename: null,
-  xml_hash: null,
-  xml: null,
-  sync: null,
-}
-
-
 
 /*
   Long audio
 */
-export default (state = defaultState, action) => {
+export default (state = {}, action) => {
+  const { filename } = action
   switch (action.type) {
     case 'TOKENIZED':
       if (action.currentDocumentData) {
-        return action.currentDocumentData.long_audio
+        return action.currentDocumentData.long_audio || {}
       } else {
         return state
       }
     case 'AUDIO_AREA':
       const xml_hash = hash(action.content)
-      if (!action.content) return defaultState;
+      if (!filename) {
+        return console.error('No filename!')
+      }
+      if (!action.content) {
+        return {
+          ...state,
+          [filename]: {},
+        }
+      }
       if (xml_hash === state.xml_hash && action.filename === state.filename) {
         return state;
       } else {
         return {
-          filename: action.filename,
-          xml_hash: xml_hash,
-          xml: action.content,
-          sync: null,
+          ...state,
+          [filename]: {
+            xml_hash: xml_hash,
+            xml: action.content,
+            sync: null,
+          }
         }
       }
     case 'SYNC':
       return {
         ...state,
-        sync: action.content,
+        [filename]: {
+          ...state[filename] || {},
+          sync: action.content,
+        }
       }
     default:
       return state

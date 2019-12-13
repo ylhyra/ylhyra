@@ -80,7 +80,7 @@ documentReady(async () => {
     var t2 = now()
     console.log(`Parsing took ${Math.round(t1 - t0)} ms, rendering ${Math.round(t2 - t1)} ms`)
     $('body').hasClass('mw-editable') && Editor(parsed)
-
+    // console.log(flattenedData)
   } else if ($('.ylhyra-text').length) {
     if (!window.ylhyra_data) return;
     const { parsed, tokenized, data, flattenedData } = window.ylhyra_data
@@ -93,7 +93,7 @@ documentReady(async () => {
         currentDocumentData: data[title],
       })
     }
-    Render(parsed, { hydrate: true })
+    Render(parsed, { hydrate: true },/* { data: flattenedData, }*/)
     $('body').hasClass('mw-editable') && Editor(parsed)
   }
 

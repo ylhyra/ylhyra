@@ -1,5 +1,5 @@
 import { getScrollingElement } from 'helpers.js'
-// import { ReadAlongSingleSentence } from 'Audio/ReadAlong'
+import { ReadAlongSingleSentence } from 'Audio/ReadAlong'
 
 /*
   Show sentence
@@ -8,7 +8,7 @@ import { getScrollingElement } from 'helpers.js'
 export const showSentence = (id) => {
   document.body.classList && document.body.classList.add('sentence-shown')
   const relative = document.querySelector('.ylhyra-text').getBoundingClientRect()
-  // ReadAlongSingleSentence(id)
+  ReadAlongSingleSentence(id)
 
   /*
     SENTENCE

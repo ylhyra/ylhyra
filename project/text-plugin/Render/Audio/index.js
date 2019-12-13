@@ -27,7 +27,7 @@ class Audio extends React.PureComponent {
   componentDidUpdate = (prevProps) => {
     const { audio } = this.refs
     /* Pause if another audio element has taken over */
-    if (this.props.audio.currentlyPlaying !== this.props.audioId) {
+    if (this.props.audio.currentlyPlaying !== this.state.data.filename) {
       this.setState({ playing: false })
       audio.pause()
     } else if (this.props.audio.begin !== prevProps.audio.begin) {
@@ -65,7 +65,7 @@ class Audio extends React.PureComponent {
   playing = (event) => {
     const { audio } = this.refs
     event.persist()
-    ReadAlong(audio, 'play', this.props.audioId)
+    ReadAlong(audio, 'play', this.state.data.filename)
     if (audio.duration - audio.currentTime > 0.2) { // More than 0.1 seconds left
       this.setState({
         currentTimePercentage: (audio.currentTime / audio.duration) * 100
@@ -91,14 +91,14 @@ class Audio extends React.PureComponent {
   play = (event) => {
     event.persist()
     SmoothScroll.allow()
-    ReadAlong(this.refs.audio, 'play', this.props.audioId)
+    ReadAlong(this.refs.audio, 'play', this.state.data.filename)
     this.updateStore()
     this.setState({ playing: true })
   }
   pause = (event) => {
     event.persist()
     SmoothScroll.stop()
-    ReadAlong(this.refs.audio, 'pause', this.props.audioId)
+    ReadAlong(this.refs.audio, 'pause', this.state.data.filename)
     this.setState({ playing: false })
   }
   ended = () => {
@@ -111,9 +111,9 @@ class Audio extends React.PureComponent {
     this.setState({ playing: false })
   }
   updateStore = () => {
-    this.props.audio.currentlyPlaying !== this.props.audioId && store.dispatch({
+    this.props.audio.currentlyPlaying !== this.state.data.filename && store.dispatch({
       type: 'CURRENTLY_PLAYING',
-      content: this.state.data.file,
+      content: this.state.data.filename,
     })
   }
   error = () => {
@@ -124,8 +124,8 @@ class Audio extends React.PureComponent {
   }
   render() {
     const { playing, error, currentTimePercentage } = this.state
-    const { file, inline } = this.state.data
-    if (!file) return null;
+    const { filepath, inline } = this.state.data
+    if (!filepath) return null;
     let Tag = 'div'
     if (inline) {
       Tag = 'span'
@@ -144,7 +144,7 @@ class Audio extends React.PureComponent {
         onEnded={this.ended}
         onStalled={this.error}
         >
-          <source src={file} type="audio/mp3"/>
+          <source src={filepath} type="audio/mp3"/>
         </audio>
         <div className={`button small playButton ${playing ? playing : ''}`} onClick={this.pausePlayButton}>
           <span>{playing ? '❚❚ Pause' : '▶ Play'}</span>

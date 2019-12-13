@@ -39,8 +39,9 @@ let currentAudioId
   - audio: Will be the audio element
   - type: Can be [play, pause]
 */
-export const ReadAlong = (audio, type, audioId) => {
-  currentAudioId = audioId
+export const ReadAlong = (audio, type, filename) => {
+  // console.log(filename)
+  currentAudioId = filename
   if (!list[currentAudioId]) return;
 
   // Play
@@ -60,22 +61,26 @@ export const ReadAlong = (audio, type, audioId) => {
   }
 }
 
-export const ReadAlongSetup = (audioId, syncList) => {
-  list[audioId] = syncList
-  /* Temp solution, would be better to do this in the audio synchronization step */
-  syncList.forEach(section => {
-    section.elements.forEach(element => {
-      if(!sentences[element]) {
-        sentences[element] = {
-          audioId,
-          begin: section.begin,
-          end: section.end
+export const ReadAlongSetup = () => {
+  const { long_audio } = store.getState().data
+  for (const filename in long_audio) {
+    const synclist = long_audio[filename].sync.list
+    list[filename] = synclist
+    /* Temp solution, would be better to do this in the audio synchronization step */
+    synclist.forEach(section => {
+      section.elements.forEach(element => {
+        if (!sentences[element]) {
+          sentences[element] = {
+            filename,
+            begin: section.begin,
+            end: section.end
+          }
+        } else {
+          sentences[element]['end'] = section.end
         }
-      } else {
-        sentences[element]['end'] = section.end
-      }
+      })
     })
-  })
+  }
 }
 
 /*
@@ -125,7 +130,7 @@ export const reset = () => {
   Play audio for a single sentence
 */
 export const ReadAlongSingleSentence = (id) => {
-  if(sentences[id]) {
+  if (sentences[id]) {
     store.dispatch({
       type: 'PLAY_SENTENCE',
       audioId: sentences[id].audioId,
@@ -147,7 +152,7 @@ export const ReadAlongMessage = (message, audioId) => {
   let begins = []
   let ends = []
   ids.forEach(id => {
-    if(sentences[id]) {
+    if (sentences[id]) {
       begins.push(sentences[id].begin)
       ends.push(sentences[id].end)
     }
@@ -161,8 +166,8 @@ export const ReadAlongMessage = (message, audioId) => {
   store.dispatch({
     type: 'PLAY_SENTENCE',
     audioId,
-    begin: begins.sort((a,b)=>a-b)[0],
-    end: ends.sort((a,b)=>b-a)[0],
+    begin: begins.sort((a, b) => a - b)[0],
+    end: ends.sort((a, b) => b - a)[0],
   })
 }
 

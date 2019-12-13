@@ -5,7 +5,7 @@ import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 
 import { editor } from 'Editor/reducers'
-import { translations } from 'Render/reducers'
+import { data } from 'Render/reducers'
 import { audio } from 'Render/Audio/reducers'
 
 /*
@@ -23,8 +23,9 @@ const store = createStore(
   combineReducers({
     /* Editor */
     editor,
+    /* Data storage for the renderer */
+    data,
     /* Reader */
-    translations,
     audio,
   }),
   applyMiddleware(

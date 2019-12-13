@@ -104,6 +104,7 @@ const synchronize = async ({ lang, filepath, xml }, res) => {
 
   fs.unlink(OUTPUT_JSON, (err) => {})
   fs.unlink(INPUT_XML, (err) => {})
+  fs.unlink(AUDIO_FILE_PATH, (err) => {})
 }
 
 

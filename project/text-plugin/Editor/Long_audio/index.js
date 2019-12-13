@@ -11,14 +11,16 @@ class LongAudio extends React.Component {
   }
   render() {
     const { long_audio } = this.props
-    const { filename, xml, sync } = long_audio
-    if (!filename) return 'No audio sections';
     return (
       <div className="xcenter">
-        {long_audio.filename} &nbsp;
-        {sync ? 'Synced!' : <div>
-          <button onClick={synchronize}>Synchronize</button> (can take some time, please be patient after clicking)
-        </div>}
+        {Object.keys(long_audio).map(filename => (
+          <div key={filename}>
+            {filename} &nbsp;
+            {long_audio[filename].sync ? 'Synced!' : <div>
+              <button onClick={()=>synchronize(filename)}>Synchronize</button> (can take some time, please be patient after clicking)
+            </div>}
+          </div>
+        ))}
       </div>
     )
   }

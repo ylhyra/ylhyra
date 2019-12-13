@@ -151,7 +151,8 @@ const flattenData = (input) => {
       soundList: [],
       sounds: {},
       wordID_to_text: {},
-    }
+    },
+    long_audio: {},
   }
 
   for (const documentTitle of Object.keys(input)) {
@@ -176,31 +177,6 @@ const merge = (first, second) => {
     return output
   }
 }
-
-
-// const currentTranslation = input[documentTitle].translation
-// const currentList = input[documentTitle].list
-// const currentShortaudio = input[documentTitle].short_audio
-// // console.log(input[documentTitle])
-// translation = {
-//   definitions: { ...translation.definitions, ...currentTranslation.definitions },
-//   sentences: { ...translation.sentences, ...currentTranslation.sentences },
-//   words: { ...translation.words, ...currentTranslation.words },
-// }
-// list = {
-//   arrayOfAllItemIDs: [...list.arrayOfAllItemIDs, ...currentList.arrayOfAllItemIDs],
-//   arrayOfAllWordIDs: [...list.arrayOfAllWordIDs, ...currentList.arrayOfAllWordIDs],
-//   items: { ...list.items, ...currentList.items },
-//   sentences: { ...list.sentences, ...currentList.sentences },
-//   words: { ...list.words, ...currentList.words },
-// }
-// if (currentShortaudio) {
-//   short_audio = {
-//     soundList: [...short_audio.soundList, ...currentShortaudio.soundList],
-//     sounds: { ...short_audio.sounds, ...currentShortaudio.sounds },
-//     wordID_to_text: { ...short_audio.wordID_to_text, ...currentShortaudio.wordID_to_text },
-//   }
-// }
 
 /*
   Prevent clashes if the same document is transcluded twice
