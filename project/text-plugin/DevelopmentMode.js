@@ -36,6 +36,6 @@ window.serverSideRendering = (value) => {
   setCookie('server-side-rendering', value);
 }
 
-if(getCookie('server-side-rendering')==='false') {
+if (getCookie('server-side-rendering') === 'false') {
   console.warn('Server side rendering off')
 }
