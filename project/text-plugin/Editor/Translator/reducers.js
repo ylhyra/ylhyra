@@ -140,26 +140,28 @@ export const translation = (state = init, action) => {
 
     case 'SUGGEST_ANALYSIS':
       {
-        let words = state.words
-        let definitions = state.definitions
-        const {suggestions} = action
-        suggestions.forEach(suggestion => {
-          const {definition, selected } = suggestion
-          const hash = wordsHash(selected)
-          for (let id of selected) {
-            words[id] = hash
-          }
-          definitions[hash] = {
-            ...definitions[hash],
-            contains: selected,
-            ...definition,
-          }
-        })
-        return {
-          ...state,
-          words,
-          definitions,
-        }
+        console.log(action.suggestions)
+        return state
+        // let words = state.words
+        // let definitions = state.definitions
+        // const {suggestions} = action
+        // suggestions.forEach(suggestion => {
+        //   const {definition, selected } = suggestion
+        //   const hash = wordsHash(selected)
+        //   for (let id of selected) {
+        //     words[id] = hash
+        //   }
+        //   definitions[hash] = {
+        //     ...definitions[hash],
+        //     contains: selected,
+        //     ...definition,
+        //   }
+        // })
+        // return {
+        //   ...state,
+        //   words,
+        //   definitions,
+        // }
       }
 
     case 'DELETE_WORD':
