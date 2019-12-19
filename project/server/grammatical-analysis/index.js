@@ -84,7 +84,6 @@ const merge_tokenization_and_analysis_to_create_suggestions = (sentences) => {
           temp_word += w_text_array[w_index]
           temp_output_ids.push(tokenization[w_index].id)
           w_index++
-          // console.log({ temp_word, a_word })
         }
         if (temp_word === a_word) {
           output_ids.push(...temp_output_ids)
@@ -103,7 +102,6 @@ const merge_tokenization_and_analysis_to_create_suggestions = (sentences) => {
     })
     // console.log(JSON.stringify(output, null, 2))
   })
-  console.log(output)
   return output
 }
 
