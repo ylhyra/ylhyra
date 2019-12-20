@@ -8,8 +8,9 @@ $wgExtraNamespaces[NS_DATA_TALK] = "Data_talk"; // Note underscores in the names
 
 define("NS_MANUAL", 3002); // This MUST be even.
 define("NS_MANUAL_TALK", 3003); // This MUST be the following odd integer.
-$wgExtraNamespaces[NS_MANUAL] = "Manual";
-$wgExtraNamespaces[NS_MANUAL_TALK] = "Manual_talk"; // Note underscores in the namespace name.
+$wgExtraNamespaces[NS_MANUAL] = "Software";
+$wgExtraNamespaces[NS_MANUAL_TALK] = "Software_talk"; // Note underscores in the namespace name.
+$wgNamespaceAliases['Manual'] = NS_MANUAL;
 
 define("NS_TEXT", 3004); // This MUST be even.
 define("NS_TEXT_TALK", 3005); // This MUST be the following odd integer.
