@@ -108,5 +108,6 @@ export const getText = (data, clean = false, trim = false) => {
 const IgnoredCharacters = /\u00AD/g
 
 const shouldIgnore = (i) => {
+  if(i.tag === 'sup') return true;
   return (i.attr && (i.attr['data-not-text'] || i.attr['data-children']))
 }

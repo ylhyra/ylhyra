@@ -55,6 +55,7 @@ const GroupParagraphs = ({ input, paragraphFunction, isTranslating, getNewTitle 
         If we see an inline element or text, we group
         it together before sending to sentence()
       */
+      console.log({isTranslating, shouldTranslate, element})
       if (/*isTranslating === shouldTranslate &&*/ isTranslating && shouldTranslate && (isInlineElement(element.tag) || element.node === 'text') && !isNewDocument) {
         group.push(element)
       }
@@ -97,6 +98,9 @@ export const shouldTranslate_ = ({ tag, attr }, isTranslating) => {
     return true
   }
 
+  // if (attr && attr.class === 'reference') {
+  //   return false
+  // }
 
   if (attr && attr.class === 'icelandic') {
     return true

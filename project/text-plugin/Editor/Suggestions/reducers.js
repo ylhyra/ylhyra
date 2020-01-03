@@ -19,15 +19,15 @@ const suggestions = (state = {}, action) => {
         ...state,
         ...update,
       }
-    case 'SUGGEST_ANALYSIS':
-      /* Suggest analysis */
-      action.suggestions.forEach(item => {
-
-      })
-      return {
-        ...state,
-        ...update,
-      }
+    // case 'SUGGEST_ANALYSIS':
+    //   /* Suggest analysis */
+    //   action.suggestions.forEach(item => {
+    //
+    //   })
+    //   return {
+    //     ...state,
+    //     ...update,
+    //   }
     case 'GOOGLE_TRANSLATE':
       Object.keys(action.translation).forEach(id => {
         update[id] = [
