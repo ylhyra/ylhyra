@@ -20,7 +20,7 @@ const ExtractData = async (input) => {
   await temp.forEachAsync(async ({ documentTitle, url }) => {
     const title = getNewTitle.get(documentTitle)
     const { data } = await axios.get(`https://ylhyra.is/index.php?title=${url}&action=raw&ctype=text/json`)
-    // console.log(data)
+    console.log(data)
     output[title] = updateIDs(data, title)
   })
   return output

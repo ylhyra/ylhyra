@@ -156,8 +156,10 @@ const flattenData = (input) => {
   }
 
   for (const documentTitle of Object.keys(input)) {
+    // console.log(input[documentTitle])
     output = merge(output, input[documentTitle])
   }
+  // console.log(output)
   return output
 }
 const merge = (first, second) => {

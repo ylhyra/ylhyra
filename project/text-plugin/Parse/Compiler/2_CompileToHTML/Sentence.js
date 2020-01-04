@@ -22,7 +22,7 @@ class Sentence extends React.Component {
     // console.log(this.props.children)
     return [
       <Box id={id} definition={definition} sentence/>,
-      <span className={`sentence ${classes.join(' ')}`} {...attrs} id={id}>
+      <span className={`sentence ${classes.join(' ')}`} {...attrs} id={id} data-sentence-id={id}>
         {this.props.children}
       </span>,
     ]

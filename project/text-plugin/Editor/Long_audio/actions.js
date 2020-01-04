@@ -12,6 +12,7 @@ import ReactDOMServer from 'react-dom/server'
 */
 export default () => {
   const { parsed, tokenized } = store.getState().editor
+  // console.log(parsed)
   let done;
   // console.log(json2html(parsed))
   findAreasWithAudioFile(parsed, (node, filename) => {
@@ -20,6 +21,9 @@ export default () => {
     } else {
       done = true
       const XML = AudioXML(node)
+      // console.log(done)
+      // console.log(XML)
+      console.log(ReactDOMServer.renderToStaticMarkup(XML))
       if (XML) {
         store.dispatch({
           type: 'AUDIO_AREA',
@@ -62,14 +66,16 @@ const AudioXML = (input, index = 0) => {
     return input.map(x => AudioXML(x))
   } else {
     const { node, tag, attr, child, text } = input
+    console.log(input)
     if (node === 'element' || node === 'root') {
       if (attr && ('data-no-audio' in attr || 'data-type' in attr || 'data-children' in attr || 'data-not-text' in attr)) return null;
       if (includesAny(skipTags, tag)) return null;
+      if (tag === 'sup') return null;
       // if (attr && includesAny(skipClasses, attr.class)) return null;
 
       let attrs = {}
       let Tag = tag || 'span'
-      if (attr && ('data-sentence-id' in attr || 'data-word-id' in attr)) {
+      if (attr && (('data-sentence-id' in attr || 'data-word-id' in attr) /*|| (attr.class==='word'||attr.class==='sentence')*/)) { // TODO: Non-standardizes use of "data-sentence-id" vs "id"
         // console.log(input)
         Tag = 'span'
         attrs = {
@@ -80,6 +86,7 @@ const AudioXML = (input, index = 0) => {
         return child.map((e, i) => AudioXML(e, i))
       }
       if (!child || child.length === 0) return null;
+      // console.log(attrs)
       if (attrs.id) {
         return (
           <Tag {...attrs} key={index}>
