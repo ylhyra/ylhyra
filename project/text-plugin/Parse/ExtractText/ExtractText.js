@@ -29,6 +29,7 @@ export default function(json, /*onlyRetrieveEntireDocuments*/ ) {
     getNewTitle: new newTitle(),
     paragraphFunction: (paragraph, documentTitle) => {
       const text = getText(paragraph, true, true)
+      console.log(text)
       // console.log(documentTitle)
       if (documentTitle === undefined) {
         /* TODO!! */
@@ -63,7 +64,7 @@ export default function(json, /*onlyRetrieveEntireDocuments*/ ) {
   Turns a JSON representation of HTML into raw text
 */
 export const getText = (data, clean = false, trim = false) => {
-// console.log(data)
+  // console.log(data)
   const getTextFromJson = input => {
     if (typeof input === 'string') {
       return input
@@ -78,9 +79,10 @@ export const getText = (data, clean = false, trim = false) => {
       }).join('')
     }
     if (Array.isArray(input)) {
-      return input.map(i =>
-        getTextFromJson(i)
-      ).join('')
+      return input.map(i => {
+        if (shouldIgnore(i)) return ' '
+        return getTextFromJson(i)
+      }).join('')
     }
     return ''
   }
@@ -108,6 +110,6 @@ export const getText = (data, clean = false, trim = false) => {
 const IgnoredCharacters = /\u00AD/g
 
 const shouldIgnore = (i) => {
-  if(i.tag === 'sup') return true;
+  if (i.tag === 'sup') return true;
   return (i.attr && (i.attr['data-not-text'] || i.attr['data-children']))
 }

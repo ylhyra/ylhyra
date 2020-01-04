@@ -56,7 +56,7 @@ const GroupParagraphs = ({ input, paragraphFunction, isTranslating, getNewTitle 
         it together before sending to sentence()
       */
       // console.log({isTranslating, shouldTranslate, element})
-      if (/*isTranslating === shouldTranslate &&*/ isTranslating && shouldTranslate && (isInlineElement(element.tag) || element.node === 'text') && !isNewDocument) {
+      if ( /*isTranslating === shouldTranslate &&*/ isTranslating && shouldTranslate && (isInlineElement(element.tag) || element.node === 'text') && !isNewDocument) {
         group.push(element)
       }
       /*
@@ -97,18 +97,10 @@ export const shouldTranslate_ = ({ tag, attr }, isTranslating) => {
   if (attr && ('data-translate' in attr)) {
     return true
   }
-
-  // if (attr && attr.class === 'reference') {
-  //   return false
-  // }
-
   if (attr && attr.class === 'icelandic') {
     return true
   }
   if (attr && ('no-translate' in attr || 'ignore' in attr)) {
-    return false
-  }
-  if(tag === 'sup') {
     return false
   }
   return isTranslating
@@ -123,6 +115,7 @@ export const isInlineElement = (tag) => {
     .includes(tag.toLowerCase())
 }
 
+/* Block elements to skip */
 export const shouldSkip = ({ tag, attr }) => {
   if (!tag || typeof tag !== 'string') {
     return false
@@ -130,7 +123,7 @@ export const shouldSkip = ({ tag, attr }) => {
   if ((attr && attr.class === 'instructions') || tag === 'answers') {
     return true
   }
-  return ['script', 'style', 'head',/* 'sup'*/]
+  return ['script', 'style', 'head', /* 'sup'*/ ]
     .includes(tag.toLowerCase())
 }
 
