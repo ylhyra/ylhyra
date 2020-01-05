@@ -54,7 +54,7 @@ class WordElement extends React.Component {
       <Tooltip  id={id}  definition={definition}/>,
       <span className={`word-container ${classes.join(' ')}`}>
         <InlineTranslation definition={definition}/>
-        <span className="word" {...attrs} id={id}  data-type="word">
+        <span className="word" {...attrs} id={id} data-will-have-audio="true">
           {this.props.children}
         </span>
         {appendText}

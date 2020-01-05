@@ -20,10 +20,16 @@ export default () => {
       NotifyError('Only one audio area can be used at a time, for multiple uses you must transclude them.')
     } else {
       done = true
+      // console.log(JSON.stringify(node, null, 2))
+      // return
       const XML = AudioXML(node)
       // console.log(done)
       // console.log(XML)
-      console.log(ReactDOMServer.renderToStaticMarkup(XML))
+      const output = ReactDOMServer.renderToStaticMarkup(XML)
+      console.log({ output })
+      if (!output || !/<span/.test(output)) {
+        return NotifyError('Could not create audio XML, no <spans/> found. Check Long_audio/actions.js')
+      }
       if (XML) {
         store.dispatch({
           type: 'AUDIO_AREA',
@@ -66,16 +72,17 @@ const AudioXML = (input, index = 0) => {
     return input.map(x => AudioXML(x))
   } else {
     const { node, tag, attr, child, text } = input
-    console.log(input)
+    // console.log(input)
+    // console.log(JSON.stringify(input))
     if (node === 'element' || node === 'root') {
       if (attr && ('data-no-audio' in attr || 'data-type' in attr || 'data-children' in attr || 'data-not-text' in attr)) return null;
       if (includesAny(skipTags, tag)) return null;
       if (tag === 'sup') return null;
       // if (attr && includesAny(skipClasses, attr.class)) return null;
-
+      // console.log(attr)
       let attrs = {}
       let Tag = tag || 'span'
-      if (attr && (attr['data-type'] ==='sentence' || attr['data-type'] ==='word') ){
+      if (attr && 'data-will-have-audio' in attr) {
         // console.log(input)
         Tag = 'span'
         attrs = {
