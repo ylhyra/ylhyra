@@ -63,6 +63,7 @@ export const ReadAlong = (audio, type, filename) => {
 
 export const ReadAlongSetup = () => {
   const { long_audio } = store.getState().data
+console.log(long_audio)
   for (const filename in long_audio) {
     const synclist = long_audio[filename].sync.list
     list[filename] = synclist
@@ -81,6 +82,7 @@ export const ReadAlongSetup = () => {
       })
     })
   }
+console.log({list,})
 }
 
 /*
@@ -107,6 +109,7 @@ const FindIndexRangeFromID = (id) => {
   Set timer to repeat the process.
 */
 const Show = (index, time, auto = true) => {
+console.log(index)
   const current = list[currentAudioId][index] || { elements: [] }
   ScrollIntoView(current.elements.filter(i => previous.elements.indexOf(i) === -1))
   addClass(current.elements.filter(i => previous.elements.indexOf(i) === -1), 'audioPlaying')

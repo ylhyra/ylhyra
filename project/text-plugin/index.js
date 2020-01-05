@@ -61,19 +61,19 @@ documentReady(async () => {
     var t0 = now()
     const { parsed, tokenized, data, flattenedData } = await Parse({ html, title })
     var t1 = now()
-
-    if (tokenized && tokenized[title]) {
-      store.dispatch({
-        type: 'TOKENIZED',
-        currentDocument: tokenized[title],
-        // allDocuments: tokenized,
-        data: flattenedData,
-        currentDocumentData: data[title],
-        parsed: parsed,
-      })
-    } else {
-      console.log('Stopped tokenization, there is no {{start}} for the current document')
-    }
+    // console.log(flattenedData)
+    // if (tokenized && tokenized[title]) {
+    store.dispatch({
+      type: 'TOKENIZED',
+      currentDocument: tokenized[title],
+      // allDocuments: tokenized,
+      data: flattenedData,
+      currentDocumentData: data[title],
+      parsed: parsed,
+    })
+    // } else {
+    //   console.warn('Stopped tokenization, there is no {{start}} for the current document')
+    // }
 
     Render(parsed, {})
     // const serverside = ReactDOMServer.renderToStaticMarkup(Render(parsed, true)) //Test for server-side-rendering
@@ -84,7 +84,7 @@ documentReady(async () => {
   } else if ($('.ylhyra-text').length) {
     if (!window.ylhyra_data) return;
     const { parsed, tokenized, data, flattenedData } = window.ylhyra_data
-    if (tokenized && tokenized[title]) {
+    // if (tokenized && tokenized[title]) {
       store.dispatch({
         type: 'TOKENIZED',
         currentDocument: tokenized[title],
@@ -92,8 +92,8 @@ documentReady(async () => {
         data: flattenedData,
         currentDocumentData: data[title],
       })
-    }
-    Render(parsed, { hydrate: true },/* { data: flattenedData, }*/)
+    // }
+    Render(parsed, { hydrate: true }, /* { data: flattenedData, }*/ )
     $('body').hasClass('mw-editable') && Editor(parsed)
   }
 

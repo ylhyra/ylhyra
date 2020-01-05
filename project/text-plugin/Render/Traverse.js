@@ -44,7 +44,8 @@ const Traverse = (input, index = 0, editor, parentTag) => {
       // Converts HTML attribute into React attribute
       if (!property.startsWith('data-temp')) {
         // const value = attr[property]
-        const value = entities.decode(entities.decode(attr[property])) // TODO! WHAT??
+        // const value = entities.decode(entities.decode(attr[property])) // TODO! WHAT??
+        const value = entities.decode(attr[property]) // TODO! WHAT??
         // console.log(attr[property])
         // console.log(value)
         if (property === 'style') {

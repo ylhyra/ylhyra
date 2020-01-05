@@ -16,8 +16,9 @@ const Render = (parsed, { shouldReturnElement, hydrate }) => {
       </div>
     </Provider>
   )
-
-  ReadAlongSetup() // Temporary, needs a better solution
+  setTimeout(function(){
+    ReadAlongSetup() // Temporary, needs a better solution
+  }, 200)
 
   if (shouldReturnElement) {
     return element
