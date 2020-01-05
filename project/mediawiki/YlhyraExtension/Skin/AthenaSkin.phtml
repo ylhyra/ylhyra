@@ -25,12 +25,8 @@
 <div id="container">
 <div id="content">
 	<h1 id="title">
-ha?
-<? print("lol");?>
-		<?php
-print json_encode($this->data);
-			print preg_replace('/(roj)/','HAHA', $this->data[ 'title' ]);
-		?>
+		<span class="namespace"><?=$this->getSkin()->getTitle()->getNsText();?><span>  ~~~ 
+		<?=$this->data[ 'titletext' ];?>
 	</h1>
 
 	<?php if ( $this->data['subtitle'] ): ?>
