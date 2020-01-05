@@ -12,7 +12,9 @@ import ReactDOMServer from 'react-dom/server'
 */
 export default () => {
   const { parsed, tokenized } = store.getState().editor
-  // console.log(parsed)
+  if(!parsed) {
+    return NotifyError('There is no {parsed} for Long audio. Consider turning off server-side rendering.')
+}
   let done;
   // console.log(json2html(parsed))
   findAreasWithAudioFile(parsed, (node, filename) => {
