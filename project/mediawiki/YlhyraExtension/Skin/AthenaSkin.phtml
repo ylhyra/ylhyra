@@ -26,8 +26,10 @@
 <div id="content">
 	<h1 id="title">
 ha?
-<? echo("lol");?>
-		<?php echo(preg_replace('/(roj)/','HAHA', $this->html( 'title' ))); ?>
+<? print("lol");?>
+		<?php
+				print preg_replace('/(roj)/','HAHA', $this->data[ 'title' ]);
+		?>
 	</h1>
 
 	<?php if ( $this->data['subtitle'] ): ?>
