@@ -29,7 +29,7 @@ class Audio extends React.PureComponent {
     /* Pause if another audio element has taken over */
     if (this.props.audio.currentlyPlaying !== this.state.data.filename) {
       this.setState({ playing: false })
-      audio.pause()
+      audio && audio.pause()
     } else if (this.props.audio.begin !== prevProps.audio.begin) {
       if (this.props.audio.end === null) {
         timer && clearTimeout(timer)
@@ -37,7 +37,7 @@ class Audio extends React.PureComponent {
       } else {
         console.log(this.props.audio.begin)
         audio.currentTime = this.props.audio.begin
-        audio.play()
+        audio && audio.play()
         this.setState({ stopAt: this.props.audio.end - 0.05 })
       }
     }
@@ -48,14 +48,14 @@ class Audio extends React.PureComponent {
       audio.currentTime = 0
     }
     if (audio.paused || audio.currentTime === 0) {
-      audio.play()
+      audio && audio.play()
       this.setState({
         playing: true,
         stopAt: null,
       })
       this.updateStore()
     } else {
-      audio.pause()
+      audio && audio.pause()
       this.setState({
         playing: false,
         stopAt: null,
