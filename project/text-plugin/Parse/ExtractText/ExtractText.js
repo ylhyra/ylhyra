@@ -29,7 +29,7 @@ export default function(json, /*onlyRetrieveEntireDocuments*/ ) {
     getNewTitle: new newTitle(),
     paragraphFunction: (paragraph, documentTitle) => {
       const text = getText(paragraph, true, true)
-      console.log(text)
+      // console.log(text)
       // console.log(documentTitle)
       if (documentTitle === undefined) {
         /* TODO!! */

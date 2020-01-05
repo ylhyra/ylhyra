@@ -14,6 +14,10 @@ export const openEditor = (page) => {
   })
 }
 export const closeEditor = () => {
+  if (!store.getState().editor.isSaved) {
+    let ok = confirm("Are you sure you want to discard changes?");
+    if (!ok) return;
+  }
   const newUrl = mw.util.getUrl(mw.config.get('wgPageName'));
   window.history.replaceState({}, '', newUrl)
   purgeCurrentPage()

@@ -75,7 +75,7 @@ const AudioXML = (input, index = 0) => {
 
       let attrs = {}
       let Tag = tag || 'span'
-      if (attr && (('data-sentence-id' in attr || 'data-word-id' in attr) /*|| (attr.class==='word'||attr.class==='sentence')*/)) { // TODO: Non-standardizes use of "data-sentence-id" vs "id"
+      if (attr && (attr['data-type'] ==='sentence' || attr['data-type'] ==='word') ){
         // console.log(input)
         Tag = 'span'
         attrs = {

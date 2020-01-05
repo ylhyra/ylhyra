@@ -23,7 +23,7 @@ const mousemove = (e) => {
     let x = e.clientX
     let y = e.clientY
     const target = document.elementFromPoint(x, y)
-    const target_10px_below = document.elementFromPoint(x, y - 10)
+    const target_10px_below = document.elementFromPoint(x, y /*- 10*/)
     if (!target) return
     const ignore = target.closest('[data-ignore]')
     if (ignore) return;
