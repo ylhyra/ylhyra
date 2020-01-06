@@ -39,7 +39,11 @@ const tokenized = (state = [], action) => {
 const list = (state = {}, action) => {
   switch (action.type) {
     case 'TOKENIZED':
-      return MakeList(action.currentDocument)
+      if (action.currentDocument) {
+        return MakeList(action.currentDocument)
+      } else {
+        return state
+      }
     default:
       return state
   }

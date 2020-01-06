@@ -65,10 +65,10 @@ documentReady(async () => {
     // if (tokenized && tokenized[title]) {
     store.dispatch({
       type: 'TOKENIZED',
-      currentDocument: tokenized[title],
+      currentDocument: tokenized && tokenized[title],
       // allDocuments: tokenized,
       data: flattenedData,
-      currentDocumentData: data[title],
+      currentDocumentData: data && data[title],
       parsed: parsed,
     })
     // } else {
@@ -87,10 +87,10 @@ documentReady(async () => {
     // if (tokenized && tokenized[title]) {
       store.dispatch({
         type: 'TOKENIZED',
-        currentDocument: tokenized[title],
+        currentDocument: tokenized && tokenized[title],
         // allDocuments: tokenized,
         data: flattenedData,
-        currentDocumentData: data[title],
+        currentDocumentData: data && data[title],
       })
     // }
     Render(parsed, { hydrate: true }, /* { data: flattenedData, }*/ )

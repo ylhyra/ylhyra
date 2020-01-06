@@ -36,7 +36,7 @@ export default async ({ html, title }) => {
   // console.log(html)
   try {
     var t0 = now()
-    html = entities.decode(html)
+    // html = entities.decode(html)
     html = html
       .replace(/[\s\n\r]+/g, ' ') // Ef þetta er fjarlægt virkar WrapInTags/SplitAndWrap ekki
       // .replace(/\u00AD/g,' ') //Soft-hyphens
