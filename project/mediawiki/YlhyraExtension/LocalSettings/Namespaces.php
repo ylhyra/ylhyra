@@ -20,8 +20,8 @@ $wgNamespaceAliases['Snippet'] = NS_TEXT;
 
 define("NS_GAME", 3006); // This MUST be even.
 define("NS_GAME_TALK", 3007); // This MUST be the following odd integer.
-$wgExtraNamespaces[NS_PRIVATE] = "Game";
-$wgExtraNamespaces[NS_PRIVATE_TALK] = "Games_talk"; // Note underscores in the namespace name.
+$wgExtraNamespaces[NS_GAME] = "Game";
+$wgExtraNamespaces[NS_GAME_TALK] = "Games_talk"; // Note underscores in the namespace name.
 
 define("NS_PRIVATE", 3100); // This MUST be even.
 define("NS_PRIVATE_TALK", 3101); // This MUST be the following odd integer.
