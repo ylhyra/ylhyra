@@ -48,6 +48,14 @@
   @media screen and (max-width: 600px)
     padding 0 5px
 
+// Articles
+body
+  margin auto
+  max-width $max-width
+  &.ns-0.action-view
+    max-width 570px + 30px + 30px
+    .ve-active &
+      max-width $max-width
 
 #actions
   position: absolute;

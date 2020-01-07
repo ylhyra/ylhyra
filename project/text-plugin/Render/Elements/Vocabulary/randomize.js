@@ -6,8 +6,8 @@ import _ from 'underscore'
 */
 export const randomizeOptions = (card) => {
   if (card && card.options && (['multiple choice', 'listen'].includes(card.type))) {
-    if(correct_index !== undefined) return card;
-    const numberOfOptions = card.options.length//Math.random() > 0.6 ? 2 : 3
+    // if (correct_index !== undefined) return card;
+    const numberOfOptions = card.options.length //Math.random() > 0.6 ? 2 : 3
     const correct_index = randomInt(0, numberOfOptions - 1)
     const options = [
       card.options[0],
