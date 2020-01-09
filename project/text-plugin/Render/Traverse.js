@@ -3,6 +3,7 @@ import convert from 'react-attr-converter';
 import inlineStyle2Json from 'App/functions/inline-style-2-json'
 import Conversation from 'Render/Elements/Conversation'
 import Vocabulary from 'Render/Elements/Vocabulary'
+import GameContainer from 'Render/Elements/Vocabulary/GameContainer'
 import Audio from 'Render/Audio'
 import { html2json, json2html } from 'text-plugin/App/functions/html2json'
 import { AllHtmlEntities as Entities } from 'html-entities'
@@ -25,6 +26,9 @@ const Traverse = (input, index = 0, editor, parentTag) => {
         break;
       case 'audio':
         Tag = Audio;
+        break;
+      case 'game-container':
+        Tag = GameContainer;
         break;
     }
 

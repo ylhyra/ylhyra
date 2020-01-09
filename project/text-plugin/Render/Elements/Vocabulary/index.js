@@ -13,7 +13,7 @@ import { ParseHTMLtoObject } from 'Render/Elements/parse'
 class Vocabulary extends React.Component {
   constructor(props) {
     super(props);
-    let card = ParseHTMLtoObject(props.children)
+    let card = this.props.card || ParseHTMLtoObject(props.children)
     card = randomizeOptions(card)
     this.state = {
       card: card,
@@ -23,6 +23,7 @@ class Vocabulary extends React.Component {
   }
   submitAnswer = ({ correct, index }) => {
     const { answer } = this.state
+    const { continueGameContainer } = this.props
     if (answer.answered) {
       return null
     }
@@ -33,6 +34,7 @@ class Vocabulary extends React.Component {
         answered: true,
       }
     })
+    continueGameContainer && continueGameContainer(correct)
   }
   render() {
     const { card, answer } = this.state
