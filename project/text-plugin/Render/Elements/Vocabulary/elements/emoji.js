@@ -3,6 +3,7 @@ export default (props) => {
   const className = [
     'emoji',
     props.gender,
+    props.large && 'large',
     props.smaller && 'smaller',
     props.article && 'article',
     props.small && 'small',

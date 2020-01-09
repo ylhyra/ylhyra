@@ -10,6 +10,9 @@
   display: inline-block
   &:before
     white-space: nowrap
+  &.large
+    height: 50px
+    width: 50px
   &.small
     height: 35px
     width: 35px
@@ -19,21 +22,23 @@
   &.very_small
     height: 17px
     width: 17px
-  &.masculine.singular
+  &.masculine.singular, &.masculine:not(.plural)
     background-image: url("https://media.egill.xyz/emoji/kket.png")
   &.masculine.plural
     background-image: url("https://media.egill.xyz/emoji/kkft.png")
-  &.feminine.singular
+  &.feminine.singular, &.feminine:not(.plural)
     background-image: url("https://media.egill.xyz/emoji/kvket.png")
   &.feminine.plural
     background-image: url("https://media.egill.xyz/emoji/kvkft.png")
-  &.neuter.singular
+  &.neuter.singular, &.neuter:not(.plural)
     background-image: url("https://media.egill.xyz/emoji/hket.png")
   &.neuter.plural
     background-image: url("https://media.egill.xyz/emoji/hkft.png")
   &.plural
     width: 86px
     margin: 0 -20px
+  &.plural.large
+    width: 100px
   &.plural.small
     width: 66px
     margin: 0px

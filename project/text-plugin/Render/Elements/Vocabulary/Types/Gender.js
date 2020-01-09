@@ -13,39 +13,46 @@ const Button = styled.div `
 
 class Element extends Component {
   render() {
-    const { card, answer } = this.props
-    if(!card) return null;
-    const { icelandic, english } = card
+    let { card, answer } = this.props
+    if (!card) return null;
+    let { word, word_with_article, english, gender, plural } = card
+
+    /* Temporary, should be moved into template */
+    gender = gender.slice(0, 1)
+
+    card.correct_index = ['m', 'f', 'n'].indexOf(gender)
+    // console.log(english)
+    // console.log(english.replace(/^(a|an|the) /,''))
     return (
       <div>
-        {/* <Pronunciation pronunciation={card.pronunciation} brackets/> */}
+        {/* <Pronunciation pronunciation={pronunciation} brackets/> */}
         <div className="prompt-word">
           <div>
             {answer.answered ? (
               <div>
-                {icelandic.word_with_article}
-                {icelandic.gender === 'm' && (!icelandic.plural ? ' minn' : ' mínir')}
-                {icelandic.gender === 'f' && (!icelandic.plural ? ' mín' : ' mínar')}
-                {icelandic.gender === 'n' && (!icelandic.plural ? ' mitt' : ' mín')}
+                {addMy(word_with_article, plural, gender)}
               </div>
             ) : (
-              icelandic
+              word
             )}
-            <div className="translation">{english}</div>
+            <div className="translation">
+              {!answer.answered && english}
+              {answer.answered && `my ${english.replace(/^(a|an|the) /,'')}`}
+          </div>
           </div>
         </div>
-        <Answers vertical answer={answer} card={card}>
+        <Answers vertical submitAnswer={this.props.submitAnswer} answer={answer} card={card}>
           <Button>
-            <Emoji gender="m" plural={icelandic.plural}/>
-            {!icelandic.plural ? 'minn' : 'mínir'}
+            <Emoji gender="masculine" plural={plural} large/>
+            {!plural ? 'minn' : 'mínir'}
           </Button>
           <Button>
-            <Emoji gender="f" plural={icelandic.plural}/>
-            {!icelandic.plural ? 'mín' : 'mínar'}
+            <Emoji gender="feminine" plural={plural} large/>
+            {!plural ? 'mín' : 'mínar'}
           </Button>
           <Button>
-            <Emoji gender="n" plural={icelandic.plural}/>
-            {!icelandic.plural ? 'mitt' : 'mín'}
+            <Emoji gender="neuter" plural={plural} large/>
+            {!plural ? 'mitt' : 'mín'}
           </Button>
         </Answers>
       </div>
@@ -54,3 +61,31 @@ class Element extends Component {
 }
 
 export default Element
+
+const addMy = (word_with_article, plural, gender) => {
+  if (/ (minn|mín|minn|mínir|mínar|mín)$/.test(word_with_article)) {
+    return word_with_article
+  } else {
+    let my
+    if (gender === 'm') {
+      if (!plural) {
+        my = 'minn'
+      } else {
+        my = 'mínir'
+      }
+    } else if (gender === 'f') {
+      if (!plural) {
+        my = 'mín'
+      } else {
+        my = 'mínar'
+      }
+    } else if (gender === 'n') {
+      if (!plural) {
+        my = 'mitt'
+      } else {
+        my = 'mín'
+      }
+    }
+    return `${word_with_article} ${my}`
+  }
+}
