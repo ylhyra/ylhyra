@@ -21,7 +21,8 @@ $wgNamespaceAliases['Snippet'] = NS_TEXT;
 define("NS_GAME", 3006); // This MUST be even.
 define("NS_GAME_TALK", 3007); // This MUST be the following odd integer.
 $wgExtraNamespaces[NS_GAME] = "Game";
-$wgExtraNamespaces[NS_GAME_TALK] = "Games_talk"; // Note underscores in the namespace name.
+$wgExtraNamespaces[NS_GAME_TALK] = "Game_talk"; // Note underscores in the namespace name.
+$wgNamespaceAliases['Games'] = NS_GAME;
 
 define("NS_PRIVATE", 3100); // This MUST be even.
 define("NS_PRIVATE_TALK", 3101); // This MUST be the following odd integer.
@@ -41,3 +42,6 @@ $wgNonincludableNamespaces[] = NS_PRIVATE_TALK;
 $wgNamespaceContentModels[NS_DATA] = CONTENT_MODEL_JSON;
 
 $wgNamespacesWithSubpages[NS_MAIN] = true;
+$wgNamespacesWithSubpages[NS_GAME] = true;
+$wgNamespacesWithSubpages[NS_MANUAL] = true;
+$wgNamespacesWithSubpages[NS_PRIVATE] = true;
