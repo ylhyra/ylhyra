@@ -31,7 +31,7 @@ class GameContainer extends Component {
       this.setState({
         currentIndex: this.state.currentIndex + 1
       })
-    }, 1500)
+    }, 2000)
   }
   render() {
     const { cards, currentIndex, correctCount, incorrectCount } = this.state
@@ -42,7 +42,7 @@ class GameContainer extends Component {
       <div>
         {cards[currentIndex]
           ? <Vocabulary key={currentIndex} card={cards[currentIndex]} continueGameContainer={this.continueGameContainer}/>
-          : 'Done :)'
+          : <div className="card-outer-container">Done :)</div>
         }
         <Progress correctCount={correctCount} incorrectCount={incorrectCount} total={cards.length}/>
       </div>

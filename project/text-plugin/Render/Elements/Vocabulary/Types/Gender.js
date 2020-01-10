@@ -19,7 +19,7 @@ class Element extends Component {
 
     /* Temporary, should be moved into template */
     gender = gender.slice(0, 1)
-
+    plural = Boolean(plural)
     card.correct_index = ['m', 'f', 'n'].indexOf(gender)
     // console.log(english)
     // console.log(english.replace(/^(a|an|the) /,''))

@@ -4,6 +4,7 @@ export default (props) => {
     'emoji',
     props.gender,
     props.large && 'large',
+    props.plural && 'plural',
     props.smaller && 'smaller',
     props.article && 'article',
     props.small && 'small',
