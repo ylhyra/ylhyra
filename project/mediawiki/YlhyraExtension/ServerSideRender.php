@@ -12,6 +12,10 @@ $wgExtensionCredits['ylhyra_backend_parse'][] = array(
 
 // Register hooks
 $wgHooks['ParserAfterTidy'][] = function( Parser &$parser, &$text ) {
+  /*
+    It is necessary to check for this string because not only
+    articles are sent to ParserAfterTidy, almost all strings are.
+  */
   if (strpos($text, 'data-document-start') !== false) {
     if(function_exists('curl_version')) { // Check if CURL is installed
       if ($_COOKIE and $_COOKIE['server-side-rendering']=='false') { // Development mode?
