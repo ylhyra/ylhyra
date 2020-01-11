@@ -17,7 +17,7 @@
     "database:import": "./scripts/setup/database/import.sh",
     "database:start": "./scripts/setup/database/start.sh",
     "start": "export PORT=8000 && node ./scripts/webpack/frontend/start.js",
-    "build": "export NODE_ENV=production && node ./scripts/webpack/frontend/build.js",
+    "build": "./scripts/build.sh",
     "populate_database": "node project/server/datasets/pronunciation/data/InsertToDatabase.js",
     "update-packages": "npm-check-updates -u && npm update",
     "server:build": "webpack --config scripts/webpack/server.js --color",

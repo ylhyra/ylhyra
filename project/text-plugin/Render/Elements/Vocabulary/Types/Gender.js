@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import Emoji from 'Render/Elements/Vocabulary/elements/emoji'
 
 const Button = styled.div `
-  display: flex; 
+  display: flex;
   flex-direction: column;
   align-items: center;
 `

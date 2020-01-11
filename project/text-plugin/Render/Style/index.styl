@@ -21,7 +21,6 @@ card-shadow()
   @import 'Audio/*'
   @import 'Text/*'
   @import 'Lessons/*'
-  @import 'Text/*'
   @import 'Vocabulary/*'
   @import 'Vocabulary/Types/*'
 @import 'Templates/*'
@@ -36,9 +35,12 @@ card-shadow()
 .gray
   color #6b6b6b
 
-.p
+.p, p
   margin-block-start: 8px;
   margin-block-end: @margin-block-start;
 
 img
   max-width 100%
+
+[data-children]
+  display none
