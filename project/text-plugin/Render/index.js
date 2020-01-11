@@ -26,7 +26,7 @@ const Render = (parsed, { shouldReturnElement, hydrate }) => {
   } else {
     try {
       if ($('.mw-parser-output')) {
-        if (hydrate) {
+        if (hydrate /*&& $('.mw-parser-output > #hydrate').length > 0*/) {
           ReactDOM.hydrate(
             element,
             document.querySelector('.mw-parser-output > #hydrate')

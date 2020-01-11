@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Progress extends Component {
   render() {
     const { correctCount, incorrectCount, total } = this.props
-    const remaining = total - (correctCount < incorrectCount)
+    const remaining = total - (correctCount + incorrectCount)
     return (
       <div className="progress">
         <div className="bar">
