@@ -12,6 +12,7 @@ class GameContainer extends Component {
     // console.log(cards[0])
     this.state = {
       cards: _.shuffle(cards),
+      cardsUnshuffled: cards,
       currentIndex: 0,
       correctCount: 0,
       incorrectCount: 0,
@@ -33,16 +34,29 @@ class GameContainer extends Component {
       })
     }, 2000)
   }
+  restart = () => {
+    this.setState({
+      cards: _.shuffle(this.state.cards),
+      currentIndex: 0,
+      correctCount: 0,
+      incorrectCount: 0,
+    })
+  }
   render() {
     const { cards, currentIndex, correctCount, incorrectCount } = this.state
     if (!cards) return null;
     // console.log(this.state)
     // console.log(cards[currentIndex])
+
     return (
       <div>
         {cards[currentIndex]
           ? <Vocabulary key={currentIndex} card={cards[currentIndex]} continueGameContainer={this.continueGameContainer}/>
-          : <div className="card-outer-container">Done :)</div>
+          : <div className="card-outer-container">
+              <div>Done {'☺️'}</div>
+              <ul><li>{correctCount} correct</li><li>{incorrectCount} incorrect</li></ul>
+              <button className="button" onClick={this.restart}>Repeat</button>
+            </div>
         }
         <Progress correctCount={correctCount} incorrectCount={incorrectCount} total={cards.length}/>
       </div>
