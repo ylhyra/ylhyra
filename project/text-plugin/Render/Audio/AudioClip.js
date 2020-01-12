@@ -7,14 +7,17 @@ let audio
 const AudioClip = {
   play: (sound_files) => {
     audio && audio.pause()
-    if (Array.isArray) {
-      audio = new Audio(sound_files[0]) 
+    if (Array.isArray(sound_files)) {
+      audio = new Audio(sound_files[0])
+    } else if (/, /.test(sound_files)) {
+      audio = new Audio(sound_files.split(', ')[0])
     } else {
       audio = new Audio(sound_files)
     }
     const promise = audio.play()
     if (promise) {
-      promise.catch(() => {
+      promise.catch((e) => {
+        console.warn(e)
         // console.warn('Audio not played since user has not yet interacted with document')
       })
     }
