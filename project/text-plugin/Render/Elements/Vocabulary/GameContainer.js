@@ -16,6 +16,7 @@ class GameContainer extends Component {
       currentIndex: 0,
       correctCount: 0,
       incorrectCount: 0,
+      incorrectArray: [],
     }
   }
   continueGameContainer = (correct) => {
@@ -30,7 +31,8 @@ class GameContainer extends Component {
     }
     setTimeout(() => {
       this.setState({
-        currentIndex: this.state.currentIndex + 1
+        currentIndex: this.state.currentIndex + 1,
+        incorrectArray: [...this.state.incorrectArray, this.state.card[this.state.currentIndex]],
       })
     }, 2000)
   }
@@ -40,6 +42,7 @@ class GameContainer extends Component {
       currentIndex: 0,
       correctCount: 0,
       incorrectCount: 0,
+      incorrectArray: [],
     })
   }
   render() {

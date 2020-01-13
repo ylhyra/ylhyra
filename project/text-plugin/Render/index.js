@@ -8,6 +8,11 @@ import { ReadAlongSetup } from 'text-plugin/Render/Audio/ReadAlong'
 import error from 'App/Error'
 
 const Render = (parsed, { shouldReturnElement, hydrate }) => {
+
+// return;
+
+
+
   // console.log(json2html(parsed))
   const element = (
     <Provider store={store}>
