@@ -3,6 +3,8 @@ import Sentence from './Sentence'
 import Word from './Word'
 import convert from 'react-attr-converter';
 import inlineStyle2Json from 'App/functions/inline-style-2-json'
+import isBooleanAttribute from 'is-boolean-attribute'
+
 // import Controls from './Controls/Controls'
 // import AudioPlayer from './Controls/Audio'
 
@@ -28,10 +30,17 @@ const Traverse = ({ json, data, index }) => {
     for (const property in attr) {
       // Converts HTML attribute into React attribute
       if (property in attr && !property.startsWith('data-temp')) {
+        const value = attr[property]
         if (property === 'style') {
-          attrs[convert(property)] = inlineStyle2Json(attr[property])
+          attrs[convert(property)] = inlineStyle2Json(value)
         } else {
-          attrs[convert(property)] = attr[property]
+          attrs[convert(property)] = value
+          if (value === 'true' || value === 'false') {
+            attrs[convert(property)] = value === 'true' ? true : false;
+          }
+          if (value === '' && (isBooleanAttribute(property) || ['autoplay', 'loop'].includes(property))) {
+            attrs[convert(property)] = true;
+          }
         }
       }
     }

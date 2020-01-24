@@ -8,6 +8,7 @@ import Audio from 'Render/Audio'
 import { html2json, json2html } from 'text-plugin/App/functions/html2json'
 import { AllHtmlEntities as Entities } from 'html-entities'
 const entities = new Entities()
+import isBooleanAttribute from 'is-boolean-attribute'
 
 const Traverse = (input, index = 0, editor, parentTag) => {
   if (!input) return null
@@ -41,6 +42,7 @@ const Traverse = (input, index = 0, editor, parentTag) => {
     /*
       Attribute values can be arrays (from html2json).
       Here we merge them together with spaces
+      NOTE: ALL CHANGES HERE SHOULD BE ADDED TO "Parse/Compiler/2_CompileToHTML/Traverse.js" AS WELL
     */
     let attrs = {}
     for (const property in attr) {
@@ -58,6 +60,12 @@ const Traverse = (input, index = 0, editor, parentTag) => {
           attrs[convert(property)] = inlineStyle2Json(value)
         } else {
           attrs[convert(property)] = value
+          if (value === 'true' || value === 'false') {
+            attrs[convert(property)] = value === 'true' ? true : false;
+          }
+          if (value === '' && (isBooleanAttribute(property) || ['autoplay','loop'].includes(property))) {
+            attrs[convert(property)] = true;
+          }
         }
       }
       // if (property === 'muted') {

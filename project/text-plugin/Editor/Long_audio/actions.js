@@ -26,17 +26,18 @@ export default () => {
       // return
       const XML = AudioXML(node)
       // console.log(done)
-      // console.log(XML)
-      const output = ReactDOMServer.renderToStaticMarkup(XML)
+      //       console.log(XML)
+      // return
+      const output = ReactDOMServer.renderToStaticMarkup(XML).replace(/(<\/div>)/g, '</div>\n')
       console.log({ output })
-      if (!output || !/<span/.test(output)) {
+      if (!output || !/<(span|div)/.test(output)) {
         return NotifyError('Could not create audio XML, no <spans/> found. Check Long_audio/actions.js')
       }
       if (XML) {
         store.dispatch({
           type: 'AUDIO_AREA',
           filename,
-          content: ReactDOMServer.renderToStaticMarkup(XML),
+          content: output
         })
       }
     }
@@ -89,6 +90,13 @@ const AudioXML = (input, index = 0) => {
         Tag = 'span'
         attrs = {
           id: (attr && attr.id),
+        }
+        if (attrs.id.startsWith('s')) {
+          Tag = 'div'
+        }
+        // TEMPORARY; TURNING OFF WORDS!
+        else {
+          attrs.id = null
         }
       }
       if (tag === 'root') {

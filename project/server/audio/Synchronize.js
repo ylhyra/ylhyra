@@ -63,25 +63,42 @@ const synchronize = async ({ lang, filepath, xml }, res) => {
 
   try {
     await new Promise((resolve, reject) => {
-      exec(
-        ` python -m aeneas.tools.execute_task ` +
-        `  ${AUDIO_FILE_PATH} ` +
-        `  ${INPUT_XML} ` +
-        `  "task_language=${LANGUAGE}|` +
-        `os_task_file_format=json|` +
-        `is_text_type=munparsed|` +
-        `is_text_munparsed_l1_id_regex=root|` +
-        `is_text_munparsed_l2_id_regex=s[A-Za-z0-9_\\-]+|` +
-        `is_text_munparsed_l3_id_regex=w[A-Za-z0-9_\\-]+" ` +
-        ` ${OUTPUT_JSON} ` +
-        ` --presets-word
-    `, (err, stdout, stderr) => {
-          if (err) {
-            console.error(err)
-            reject(err)
-          } else if (stderr) {
+      let command = ''
+      /* SENTENCE LEVEL */
+      if (true) {
+        command =
+          ` python -m aeneas.tools.execute_task ` +
+          `  ${AUDIO_FILE_PATH} ` +
+          `  ${INPUT_XML} ` +
+          `  "task_language=${LANGUAGE}|` +
+          `os_task_file_format=json|` +
+          `is_text_type=unparsed|` +
+          `is_text_unparsed_id_sort=unsorted|` +
+          `is_text_unparsed_id_regex=s[A-Za-z0-9_\\-]+"` +
+          ` ${OUTPUT_JSON} `
+      }
+      /* WORD LEVEL */
+      else {
+        command =
+          ` python -m aeneas.tools.execute_task ` +
+          `  ${AUDIO_FILE_PATH} ` +
+          `  ${INPUT_XML} ` +
+          `  "task_language=${LANGUAGE}|` +
+          `os_task_file_format=json|` +
+          `is_text_type=munparsed|` +
+          `is_text_munparsed_l1_id_regex=root|` +
+          `is_text_munparsed_l2_id_regex=s[A-Za-z0-9_\\-]+|` +
+          `is_text_munparsed_l3_id_regex=w[A-Za-z0-9_\\-]+"` +
+          ` ${OUTPUT_JSON} ` +
+          ` --presets-word`
+      }
+      exec(command, (err, stdout, stderr) => {
+          if (stderr) {
             console.error(stderr)
             reject(stderr)
+          } else if (err) {
+            console.error(err)
+            reject(err)
           } else {
             resolve()
           }

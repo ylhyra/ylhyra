@@ -5,6 +5,10 @@ import MakeList from 'Parse/Tokenize/List'
 import long_audio from 'Editor/Long_audio/reducers'
 import short_audio from 'Editor/Short_audio/reducers'
 import getParameter from 'get-parameter'
+let autosave
+if (typeof window !== 'undefined') {
+  autosave = require('./actions').autosave
+}
 
 const isOpen = typeof window !== 'undefined' ? getParameter('editor') : false
 const open = (state = isOpen, action) => {
@@ -69,6 +73,7 @@ const isSaved = (state = true, action) => {
     case 'SOUND_BITE_FILES':
     case 'SOUND_BITE_FILE':
     case 'SOUND':
+      autosave && autosave.on()
       return false
     default:
       return state
