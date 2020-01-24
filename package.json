@@ -72,6 +72,7 @@
     "html-entities": "^1.2.1",
     "html-webpack-exclude-assets-plugin": "0.0.7",
     "html-webpack-plugin": "4.0.0-beta.5",
+    "is-boolean-attribute": "0.0.1",
     "is-empty-object": "^1.1.1",
     "is-wsl": "^1.1.0",
     "json-stable-stringify": "^1.0.1",
