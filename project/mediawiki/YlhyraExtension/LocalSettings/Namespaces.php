@@ -51,3 +51,5 @@ $wgNamespacesWithSubpages[NS_OTHER] = true;
 //$wgContentNamespaces[] = NS_PROJECT;
 
 $wgNamespaceContentModels[NS_DATA] = CONTENT_MODEL_JSON;
+
+$wgSitemapNamespaces = array( NS_MAIN );
