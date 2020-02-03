@@ -77,22 +77,32 @@
 				<input type="hidden" name="title" value="<?php $this->text( 'searchtitle' ) ?>" />
 			</form>
 
-			<ul class="portal">
+			<div class="anonymous-show">
+				<div class="button blue"><a href="/Project:Become_a_collaborator" title="Project:Become a collaborator">Become a collaborator</a></div>
+				<ul class="anonymous-show portal">
+					<?php foreach ( $this->getPersonalTools() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
+				</ul>
+			</div>
+
+			<ul class="portal user-show">
 			<?php foreach ( $this->data['sidebar']['navigation'] as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
 			</ul>
 		</div>
 		<div>
 			<h5><?php echo wfMessage( 'athena-personal' ); ?></h5>
-			<ul class="portal">
+			<ul class="portal user-show">
 			<?php foreach ( $this->getPersonalTools() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
 			</ul>
 		</div>
 		<div>
 			<h5><?php echo wfMessage( 'athena-tools' ); ?></h5>
-			<ul class="portal">
+			<ul class="portal user-show">
 			<?php foreach ( $this->getToolbox() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
 			</ul>
 		</div>
+	</div>
+	<div id="free">
+		Text may be freely copied under the <a href="/Project:License">CC-BY-SA-4.0</a> license unless otherwise specified.
 	</div>
 </div>
 </div>
