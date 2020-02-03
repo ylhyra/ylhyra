@@ -78,8 +78,8 @@
 			</form>
 
 			<div class="anonymous-show">
-				<div class="button blue"><a href="/Project:Become_a_collaborator" title="Project:Become a collaborator">Become a collaborator</a></div>
 				<ul class="anonymous-show portal">
+					<li><a href="/Project:Become_a_collaborator" title="Project:Become a collaborator">Become a collaborator</a></li>
 					<?php foreach ( $this->getPersonalTools() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
 				</ul>
 			</div>
@@ -88,13 +88,13 @@
 			<?php foreach ( $this->data['sidebar']['navigation'] as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
 			</ul>
 		</div>
-		<div>
+		<div class="user-show">
 			<h5><?php echo wfMessage( 'athena-personal' ); ?></h5>
-			<ul class="portal user-show">
+			<ul class="portal">
 			<?php foreach ( $this->getPersonalTools() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
 			</ul>
 		</div>
-		<div>
+		<div class="user-show">
 			<h5><?php echo wfMessage( 'athena-tools' ); ?></h5>
 			<ul class="portal user-show">
 			<?php foreach ( $this->getToolbox() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
