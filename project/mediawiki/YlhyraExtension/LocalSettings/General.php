@@ -28,8 +28,9 @@ unset($wgFooterIcons['poweredby']['mediawiki']);
 
 
 $wgRestrictDisplayTitle = false;
-$wgDefaultRobotPolicy = 'noindex,nofollow';
-$wgNamespaceRobotPolicies = array( NS_MAIN => 'index,follow' );
+// $wgDefaultRobotPolicy = 'noindex,nofollow';
+$wgDefaultRobotPolicy = 'noindex,follow';
+// $wgNamespaceRobotPolicies = array( NS_MAIN => 'index,follow' );
 
 $wgRawHtml = true;
 $wgAllowImageTag = true;
