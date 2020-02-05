@@ -1,0 +1,1 @@
+php maintenance/fixDoubleRedirects.php
