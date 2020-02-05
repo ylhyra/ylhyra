@@ -32,7 +32,7 @@ class GameContainer extends Component {
     setTimeout(() => {
       this.setState({
         currentIndex: this.state.currentIndex + 1,
-        incorrectArray: [...this.state.incorrectArray, this.state.card[this.state.currentIndex]],
+        // incorrectArray: [...this.state.incorrectArray, this.state.card[this.state.currentIndex]],
       })
     }, 2000)
   }
