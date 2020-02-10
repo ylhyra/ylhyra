@@ -12,6 +12,7 @@ import isBooleanAttribute from 'is-boolean-attribute'
 
 const Traverse = (input, index = 0) => {
   if (!input) return null
+  // console.log(input)
   if (typeof input === 'string') {
     return input
   } else if (Array.isArray(input)) {
@@ -47,6 +48,14 @@ const Traverse = (input, index = 0) => {
         props: {
           ...input.props,
           children: input.props.children.map((e, i) => Traverse(e, i))
+        }
+      }
+    } else if (input.props.children && typeof input.props.children === 'object') {
+      return {
+        ...input,
+        props: {
+          ...input.props,
+          children: Traverse(input.props.children)
         }
       }
     } else {
