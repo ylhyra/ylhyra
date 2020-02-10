@@ -41,7 +41,7 @@ const Traverse = (input, index = 0) => {
       } else {
         return <Tag {...input.props}/>
       }
-    } else if (input.props.children) {
+    } else if (input.props.children && Array.isArray(input.props.children)) {
       return {
         ...input,
         props: {

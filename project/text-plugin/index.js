@@ -91,6 +91,7 @@ documentReady(async () => {
     Server side rendering
   */
   else if ($('.ylhyra-text').length) {
+    var t3 = now()
     if (!window.ylhyra_data) return;
     const { parsedHTML, tokenized, data, flattenedData } = window.ylhyra_data
     store.dispatch({
@@ -104,6 +105,8 @@ documentReady(async () => {
     Render(htmlToReactParser.parse(parsedHTML), { hydrate: true }, /* { data: flattenedData, }*/ )
     $('body').hasClass('mw-editable') && Editor()
     $('body').addClass('initialized')
+    var t4 = now()
+    console.log(`Rendering took ${Math.round(t4 - t3)} ms`)
   }
 
   setTimeout(() => {
