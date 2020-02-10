@@ -25,6 +25,7 @@ export const host = process.env.NODE_ENV === 'production' ? location.host : 'loc
 import store from 'App/store'
 import ReactDOMServer from 'react-dom/server'
 var now = require("performance-now")
+var HtmlToReactParser = require('html-to-react').Parser // TODO: Remove this dependency
 
 /*
   Temporary silly way of waiting until jQuery is ready
@@ -57,6 +58,9 @@ documentReady(async () => {
   const shouldRender = [0, 2, 4, 12, /*3002,*/ 3004, 3006].includes(namespaceNumber)
   if (!shouldRender) return;
 
+  /*
+    Frontend-side parsing
+  */
   if ($('.mw-parser-output').length && $('.ylhyra-text').length === 0) {
     var t0 = now()
     const { parsed, tokenized, data, flattenedData } = await Parse({ html, title })
@@ -82,8 +86,11 @@ documentReady(async () => {
     $('body').hasClass('mw-editable') && Editor(parsed)
     // console.log(flattenedData)
     $('body').addClass('initialized')
-  } else if ($('.ylhyra-text').length) {
-    /* TODO!!! */
+  }
+  /*
+    Server side rendering
+  */
+  else if ($('.ylhyra-text').length) {
     if (!window.ylhyra_data) return;
     const { parsedHTML, tokenized, data, flattenedData } = window.ylhyra_data
     store.dispatch({
@@ -93,8 +100,9 @@ documentReady(async () => {
       data: flattenedData,
       currentDocumentData: data && data[title],
     })
-    Render(parsedHTML, { hydrate: true }, /* { data: flattenedData, }*/ )
-    $('body').hasClass('mw-editable') && Editor(parsedHTML)
+    var htmlToReactParser = new HtmlToReactParser();
+    Render(htmlToReactParser.parse(parsedHTML), { hydrate: true }, /* { data: flattenedData, }*/ )
+    $('body').hasClass('mw-editable') && Editor()
     $('body').addClass('initialized')
   }
 

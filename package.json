@@ -70,6 +70,7 @@
     "fs-extra": "7.0.1",
     "get-parameter": "^1.0.8",
     "html-entities": "^1.2.1",
+    "html-to-react": "^1.4.2",
     "html-webpack-exclude-assets-plugin": "0.0.7",
     "html-webpack-plugin": "4.0.0-beta.5",
     "is-boolean-attribute": "0.0.1",

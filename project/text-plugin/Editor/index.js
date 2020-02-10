@@ -32,7 +32,7 @@ class Editor extends React.PureComponent {
   }
 }
 
-const Render = (parsed) => {
+const RenderEditor = () => {
   $('#catlinks').append('<div id="editor-button-container"></div>')
   ReactDOM.render(
     <Provider store={store}>
@@ -55,4 +55,4 @@ const Render = (parsed) => {
   )
 }
 
-export default Render
+export default RenderEditor
