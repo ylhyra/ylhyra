@@ -13,7 +13,7 @@ const CreateIDs = (documentTitle, paragraphs) => {
   const seed = (hash(shortid.generate() + '' + documentTitle)).slice(0,4)
   let i = 0
   const makeID = () => {
-    return `${hash}${i++}`
+    return `${seed}${i++}`
   }
 
   return paragraphs.map(paragraph => {

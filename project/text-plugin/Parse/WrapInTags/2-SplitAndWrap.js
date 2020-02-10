@@ -8,7 +8,7 @@ import { html2json, json2html } from 'text-plugin/App/functions/html2json'
 */
 
 export default function(html, tokenizedSplit, elementName, innerFunction, temp_attribute_name) {
-
+console.log(html)
   let count = 0
   let openTags = []
   html = html.split(/{{SPLIT HERE}}/g).map((part, index) => {
@@ -80,6 +80,7 @@ export default function(html, tokenizedSplit, elementName, innerFunction, temp_a
     if (!returns) { returns = '' }
     const r = returns.match(/^( +)?(.*?)( +)?$/) // Takes the surrounding spaces
     // console.log({returns,r})
+
     const space_at_beginning = r[1] || ''
     const content = r[2] || ''
     const space_at_end = r[3] || ''
