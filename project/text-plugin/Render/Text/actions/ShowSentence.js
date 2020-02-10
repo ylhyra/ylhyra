@@ -1,5 +1,6 @@
 import { getScrollingElement } from 'helpers.js'
 import { ReadAlongSingleSentence } from 'Audio/ReadAlong'
+import { logShown } from './Reset'
 
 /*
   Show sentence
@@ -16,6 +17,7 @@ export const showSentence = (id) => {
   const sentence = document.querySelector(`[data-sentence-id="${id}"]`)
   if (!sentence) return;
   sentence.classList.add('shown')
+  logShown(sentence)
   const sentenceRect = sentence.getBoundingClientRect()
 
   /*
@@ -23,6 +25,7 @@ export const showSentence = (id) => {
   */
   const sentenceOverlay = document.querySelector(`[data-sentence-overlay-id="${id}"]`)
   sentenceOverlay.classList.add('shown')
+  logShown(`[data-sentence-overlay-id="${id}"]`)
   const paddingTop = 8
   const paddingLeft = 12
   let sentenceOverlayDimensions = {
@@ -37,6 +40,7 @@ export const showSentence = (id) => {
   */
   const box = document.querySelector(`[data-box-id="${id}"]`)
   box.classList.add('shown')
+  logShown(`[data-box-id="${id}"]`)
   box.style.cssText = `
     left: ${sentenceOverlayDimensions.left}px;
     width: ${sentenceOverlayDimensions.width}px;

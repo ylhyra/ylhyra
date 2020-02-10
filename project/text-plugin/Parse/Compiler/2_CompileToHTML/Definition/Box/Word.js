@@ -9,12 +9,8 @@ export default class WordBox extends React.PureComponent {
       (!definition.base &&
         !definition.base_meaning &&
         !definition.base_direct &&
-        !definition.direct &&
-        !definition.meaning
-        // &&
-        // !definition.meaning
+        !definition.direct
       )) return null
-    // console.log(definition)
     return (
       <span className="word-box" data-box-id={this.props.id} data-not-text="true">
         <span>

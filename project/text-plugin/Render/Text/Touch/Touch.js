@@ -144,7 +144,7 @@ const FindElements = (e, doubleClick = false, moving = false) => {
     } else {
       reset()
       showSentence(id)
-    }9
+    }
     isShowingSomething = kind
     lastId = id
   } else if (isShowingSomething === 'word' && !moving) {

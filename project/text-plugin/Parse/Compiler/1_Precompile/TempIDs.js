@@ -1,4 +1,6 @@
 import shortid from 'shortid'
+const seed = shortid.generate()
+let i = 0
 
 export const TempIDs = (input) => {
   if (!input) return input
@@ -9,7 +11,7 @@ export const TempIDs = (input) => {
     child: child && child.map(e => TempIDs(e)),
     attr: {
       ...attr,
-      id: (id || `temp__${shortid.generate()}`)
+      id: (id || `temp__${seed}${i++}`)
     },
   }
 }

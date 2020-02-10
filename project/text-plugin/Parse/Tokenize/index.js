@@ -19,6 +19,7 @@ export default function(documents, data) {
   let tokenized = {}
   for (const documentTitle of Object.keys(documents)) {
     tokenized[documentTitle] = tokenize({
+      documentTitle,
       paragraphs: documents[documentTitle],
       previousData: data[documentTitle] || {}
     })
@@ -26,7 +27,7 @@ export default function(documents, data) {
   return tokenized
 }
 
-const tokenize = ({ paragraphs, previousData }) => {
+const tokenize = ({ documentTitle, paragraphs, previousData }) => {
   const oldHashes = previousData.tokenized?.map(p => p.hash) || []
 
   /*
@@ -51,7 +52,7 @@ const tokenize = ({ paragraphs, previousData }) => {
     }
   })
   // console.log(tokenized)
-  tokenized = CreateIDs(tokenized)
+  tokenized = CreateIDs(documentTitle, tokenized)
   if(previousData.tokenized) {
     tokenized = PreserveIDs(previousData.tokenized, tokenized)
   }

@@ -5,7 +5,8 @@ const entities = new Entities()
 require('project/text-plugin/App/functions/array-foreach-async')
 
 /*
-  Extract the data which is stored in the Data: namespace (is encoded in [[Template:Start]])
+  Makes an HTTP request to fetch the relevant data in the Data: namespace (link encoded in in [[Template:Start]])
+  It is only possible to transclude the data for small documents.
 
   Returns an object containing:
     DocumentTitle => Data

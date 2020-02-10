@@ -9,11 +9,10 @@ const TextCompiler = ({ json, data }) => {
   reset() // TEMP
   let output
   // console.log(json2html(json))
-  output = Precompile({ json, data })
+  output = data ? Precompile({ json, data }) : json
   // console.log((output))
   output = CompileToHTML({ json: output, data })
   // output = entities.decode(output)
-  // console.log(output)
   return output
 }
 

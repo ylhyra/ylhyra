@@ -81,20 +81,21 @@ documentReady(async () => {
     console.log(`Parsing took ${Math.round(t1 - t0)} ms, rendering ${Math.round(t2 - t1)} ms`)
     $('body').hasClass('mw-editable') && Editor(parsed)
     // console.log(flattenedData)
+    $('body').addClass('initialized')
   } else if ($('.ylhyra-text').length) {
+    /* TODO!!! */
     if (!window.ylhyra_data) return;
-    const { parsed, tokenized, data, flattenedData } = window.ylhyra_data
-    // if (tokenized && tokenized[title]) {
-      store.dispatch({
-        type: 'TOKENIZED',
-        currentDocument: tokenized && tokenized[title],
-        // allDocuments: tokenized,
-        data: flattenedData,
-        currentDocumentData: data && data[title],
-      })
-    // }
-    Render(parsed, { hydrate: true }, /* { data: flattenedData, }*/ )
-    $('body').hasClass('mw-editable') && Editor(parsed)
+    const { parsedHTML, tokenized, data, flattenedData } = window.ylhyra_data
+    store.dispatch({
+      type: 'TOKENIZED',
+      currentDocument: tokenized && tokenized[title],
+      // allDocuments: tokenized,
+      data: flattenedData,
+      currentDocumentData: data && data[title],
+    })
+    Render(parsedHTML, { hydrate: true }, /* { data: flattenedData, }*/ )
+    $('body').hasClass('mw-editable') && Editor(parsedHTML)
+    $('body').addClass('initialized')
   }
 
   setTimeout(() => {

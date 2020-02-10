@@ -50,9 +50,9 @@ class WordElement extends React.Component {
     // console.log(definition)
 
     return [
-      <Box      id={id}  definition={definition}/>,
-      <Tooltip  id={id}  definition={definition}/>,
-      <span className={`word-container ${classes.join(' ')}`}>
+      <Box      id={id}  definition={definition} key={1}/>,
+      <Tooltip  id={id}  definition={definition} key={2}/>,
+      <span className={`word-container ${classes.join(' ')}`} key={3}>
         <InlineTranslation definition={definition}/>
         <span className="word" {...attrs} id={id} data-will-have-audio="true">
           {this.props.children}

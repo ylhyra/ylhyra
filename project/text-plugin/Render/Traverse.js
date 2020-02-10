@@ -10,120 +10,54 @@ import { AllHtmlEntities as Entities } from 'html-entities'
 const entities = new Entities()
 import isBooleanAttribute from 'is-boolean-attribute'
 
-const Traverse = (input, index = 0, editor, parentTag) => {
+const Traverse = (input, index = 0) => {
   if (!input) return null
-  const { node, tag, attr, child, text } = input
-  if (node === 'element' || node === 'root') {
-    let Tag = tag || 'div'
-    if (tag === 'root') {
-      return child.map((e, i) => Traverse(e, i))
-    }
-    switch (attr && attr['data-type']) {
-      case 'conversation':
-        Tag = Conversation;
-        break;
-      case 'vocabulary':
-        Tag = Vocabulary;
-        break;
-      case 'audio':
-        Tag = Audio;
-        break;
-      case 'game-container':
-        Tag = GameContainer;
-        break;
-    }
-
-    // if (tag === 'word') {
-    //   Tag = Word;
-    // } else if (tag === 'sentence') {
-    //   Tag = Sentence;
-    // }
-
-    /*
-      Attribute values can be arrays (from html2json).
-      Here we merge them together with spaces
-      NOTE: ALL CHANGES HERE SHOULD BE ADDED TO "Parse/Compiler/2_CompileToHTML/Traverse.js" AS WELL
-    */
-    let attrs = {}
-    for (const property in attr) {
-      // console.log(JSON.stringify({property,value:entities.decode(attr[property])}))
-      // Converts HTML attribute into React attribute
-      if (!property.startsWith('data-temp')) {
-        // const value = attr[property]
-        // const value = entities.decode(entities.decode(attr[property])) // TODO! WHAT??
-        const value = entities.decode(attr[property]) // TODO! WHAT??
-        // console.log(attr[property])
-        // console.log(value)
-        if (property === 'style') {
-          // console.log(value)
-          // console.log(inlineStyle2Json(value))
-          attrs[convert(property)] = inlineStyle2Json(value)
-        } else {
-          attrs[convert(property)] = value
-          if (value === 'true' || value === 'false') {
-            attrs[convert(property)] = value === 'true' ? true : false;
-          }
-          if (value === '' && (isBooleanAttribute(property) || ['autoplay','loop'].includes(property))) {
-            attrs[convert(property)] = true;
-          }
+  if (typeof input === 'string') {
+    return input
+  } else if (Array.isArray(input)) {
+    return input.map(i => Traverse(i))
+  } else if (input.props) {
+    if (input.props['data-type']) {
+      let Tag;
+      switch (input.props['data-type']) {
+        case 'conversation':
+          Tag = Conversation;
+          break;
+        case 'vocabulary':
+          Tag = Vocabulary;
+          break;
+        case 'audio':
+          Tag = Audio;
+          break;
+        case 'game-container':
+          Tag = GameContainer;
+          break;
+      }
+      if (input.props.children) {
+        const { children, ...props } = input.props
+        return <Tag {...props} key={index}>
+          {children.map((e,i) => Traverse(e,i))}
+        </Tag>
+      } else {
+        return <Tag {...input.props}/>
+      }
+    } else if (input.props.children) {
+      return {
+        ...input,
+        props: {
+          ...input.props,
+          children: input.props.children.map((e, i) => Traverse(e, i))
         }
       }
-      // if (property === 'muted') {
-      //   attrs[property] = JSON.parse(attr[property] || 'false')
-      // }
-      // if(property === 'value') {
-      //   attrs['value'] = undefined
-      //   // attrs['defaultValue'] = attr[property]
-      // }
+    } else {
+      return input
     }
-
-
-    // let Audio
-    // if (attrs['audio-id']) {
-    //   Audio = AudioPlayer(attrs['audio-id'], attrs['inline-audio-player'], editor)
-    // }
-
-    /* IMG and HR tags are void tags */
-    // console.log(tag)
-    if (voidElementTags.includes(Tag)) {
-      // console.log(attr)
-      return <Tag {...attrs} key={(attr && attr.id) || index}/>
-    }
-
-    /*
-      Convert custom elements to 'span' or 'div'
-      and add their name as a className
-    */
-    else if (typeof Tag === 'string') {
-      getCustomTag(Tag, attrs.className, (output) => {
-        Tag = output.tag
-        attrs.className = output.className
-      })
-    }
-
-    // if(Tag === 'form') {
-    //   return <div dangerouslySetInnerHTML={{__html: json2html(input)}}/>
-    // }
-    // console.log(child)
-
-    return (
-      <Tag {...attrs} key={(attr && attr.id) || index}>
-        {/* {Audio} */}
-        {child && child.map((e,i) => Traverse(e,i,editor,tag))}
-      </Tag>
-    )
-  } else if (node === 'text') {
-    if (CannotIncludeWhitespaceChildren.includes(parentTag)) {
-      return null
-    }
-    return entities.decode(entities.decode(text)) //TODO?
-    // return text
-    // console.log(text)
-    // return <span dangerouslySetInnerHTML={{__html: text}}/>
   }
 }
 
 export default Traverse
+
+
 
 
 /*

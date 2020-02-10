@@ -1,5 +1,6 @@
 import FindAGoodPositionForTooltip from 'Text/actions/TooltipPosition'
 import AudioClip from 'Audio/AudioClip'
+import { logShown } from './Reset'
 
 /*
   Show word
@@ -9,10 +10,12 @@ export default function showWord(id) {
   const tooltip = document.querySelector(`[data-tooltip-id="${id}"]`)
   if (!tooltip) return;
   tooltip.classList.add('shown')
+  logShown(tooltip)
 
   const element = document.querySelector(`[data-word-id="${id}"]`)
   if (!element) return;
   element.classList.add('hover')
+  logShown(element)
 
   let sound_files = element.getAttribute('data-sound')
   if (sound_files) {
@@ -23,6 +26,7 @@ export default function showWord(id) {
   if (connected) {
     connected.split(',').forEach(i => {
       addClass(`[data-word-id="${i}"]`, 'hover')
+      logShown(`[data-word-id="${i}"]`)
     })
   }
 
@@ -37,6 +41,7 @@ export default function showWord(id) {
   tooltip.style.left = Math.round(left) + 'px'
 
   addClass(`[data-box-id="${id}"]`, 'shown')
+  logShown(`[data-box-id="${id}"]`)
 }
 
 

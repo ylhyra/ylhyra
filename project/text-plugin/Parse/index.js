@@ -17,7 +17,7 @@
 import { html2json, json2html } from 'text-plugin/App/functions/html2json'
 import markdown from 'marked'
 import { AllHtmlEntities as Entities } from 'html-entities'
-import ExtractData from './ExtractData'
+import RequestData from './RequestData'
 import ExtractText from './ExtractText/ExtractText'
 import Tokenizer from './Tokenize'
 import WrapInTags from './WrapInTags'
@@ -45,8 +45,8 @@ export default async ({ html, title }) => {
       .replace(/<mw:editsection.*?<\/mw:editsection>/g, '') //Mediawiki clutter
     let json = html2json(html)
 
-    // var t1 = now()
-    // console.log(`html2json took ${Math.round(t1 - t0)} ms`)
+    var t1 = now()
+    console.log(`html2json took ${Math.round(t1 - t0)} ms`)
 
     // json = json2html(html)
     // json = html2json(html)
@@ -63,28 +63,28 @@ export default async ({ html, title }) => {
     /*
       Is data already saved?
     */
-    let data = await ExtractData(json)
+    let data = await RequestData(json)
     // console.warn('----->-->>>>>>>>>>>>>>>>>>>>>>>>>\n>>>>>>>>>>>>>>>>>>>>-')
     // console.warn(data)
-    // var t2 = now()
-    // console.log(`Extracting data took ${Math.round(t2 - t1)} ms`)
+    var t2 = now()
+    console.log(`Requesting data took ${Math.round(t2 - t1)} ms`)
 
     /*
       Extract text, group by documents
     */
     const text = ExtractText(json)
-    // var t3 = now()
-    // console.log(`Extracting text took ${Math.round(t3 - t2)} ms`)
+    var t3 = now()
+    console.log(`Extracting text took ${Math.round(t3 - t2)} ms`)
     if (isEmpty(text)) {
 
       // console.warn('No text to tokenize.')
       // json = html2json(entities.decode(json2html(json)))
-      return ({ parsed: json })
+      return ({ parsed: Compiler({ json }) })
       // return html2json(Compiler({ json: wrapped, data: data, }))
     }
     const tokenized = Tokenizer(text, data)
-    // var t4 = now()
-    // console.log(`Tokenization took ${Math.round(t4 - t3)} ms`)
+    var t4 = now()
+    console.log(`Tokenization took ${Math.round(t4 - t3)} ms`)
     const flattenedData = flattenData(data)
     // console.log(text)
     // console.log({
@@ -96,7 +96,6 @@ export default async ({ html, title }) => {
 
 
 
-
     /*
       Merge tokenization and HTML (does not include data).
       Returns wrapped HTML without data
@@ -104,18 +103,19 @@ export default async ({ html, title }) => {
     // console.log(json2html(json))
     const wrapped = WrapInTags({ json, tokenized })
     // console.log({wrapped})
-    // var t5 = now()
-    // console.log(`Wrapping took ${Math.round(t5 - t4)} ms`)
+    var t5 = now()
+    console.log(`Wrapping took ${Math.round(t5 - t4)} ms`)
     // console.log(json2html(wrapped))
     let compiled = Compiler({ json: wrapped, data: flattenedData })
     // console.log({compiled})
-    // var t6 = now()
-    // console.log(`Tokenization took ${Math.round(t6 - t5)} ms`)
+    var t6 = now()
+    console.log(`Compilation took ${Math.round(t6 - t5)} ms`)
+    console.log(`total ${Math.round(t6 - t0)} ms`)
     // compiled = entities.decode(compiled)
     // console.log(compiled)
-    // console.log(compiled)
     return {
-      parsed: html2json(compiled),
+      parsed: (compiled),
+      // parsed: html2json(compiled),
       tokenized,
       data,
       flattenedData

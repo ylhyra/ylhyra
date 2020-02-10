@@ -1,4 +1,5 @@
 import shortid from 'shortid'
+import hash from 'project/text-plugin/App/functions/hash'
 require('array-sugar')
 
 /*
@@ -7,7 +8,14 @@ require('array-sugar')
 */
 export const wordRegex = /[A-zÀ-ÿ0-9]/
 
-const CreateIDs = (paragraphs) => {
+const CreateIDs = (documentTitle, paragraphs) => {
+
+  const seed = (hash(shortid.generate() + '' + documentTitle)).slice(0,4)
+  let i = 0
+  const makeID = () => {
+    return `${hash}${i++}`
+  }
+
   return paragraphs.map(paragraph => {
     /*
       Paragraph
@@ -20,7 +28,7 @@ const CreateIDs = (paragraphs) => {
           Sentence
         */
         const sentenceText = getTextFromTokenized(sentence).trim()
-        const sentenceId = shortid.generate()
+        const sentenceId = makeID()
         const words = sentence.words || sentence // Sentence can either be an object or just an array of strings
         return {
           id: 's_' + sentenceId,
@@ -31,7 +39,7 @@ const CreateIDs = (paragraphs) => {
             */
             const wordText = getTextFromTokenized(word).trim()
             if (!wordRegex.test(wordText)) return word;
-            const wordId = shortid.generate()
+            const wordId = makeID()
             return {
               id: 'w_' + wordId,
               text: wordText,

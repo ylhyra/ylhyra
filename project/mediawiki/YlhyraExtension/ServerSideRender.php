@@ -22,7 +22,7 @@ $wgHooks['ParserAfterTidy'][] = function( Parser &$parser, &$text ) {
         return true;
       } else {
         $url = 'http://localhost:9123/api/render';
-        $timeout=6;
+        $timeout=3;
         $payload = json_encode(array(
           'html' => $text
         ));

@@ -15,7 +15,7 @@ router.post('/render', async (req, res) => {
     if (!parsed) return res.sendStatus(500);
     output = ReactDOMServer.renderToStaticMarkup(Render(parsed, { shouldReturnElement: true }))
     var t1 = now()
-    output += `<script type="text/javascript">window.ylhyra_data=${JSON.stringify({ parsed, tokenized, data, flattenedData })}</script>`
+    output += `<script type="text/javascript">window.ylhyra_data=${JSON.stringify({ parsedHTML: ReactDOMServer.renderToStaticMarkup(parsed), tokenized, data, flattenedData })}</script>`
     output += `<!-- Ylhýra parsed in ${(t1 - t0)} milliseconds -->`
   } catch (e) {
     console.error(e)

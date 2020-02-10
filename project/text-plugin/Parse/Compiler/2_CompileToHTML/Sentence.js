@@ -21,8 +21,8 @@ class Sentence extends React.Component {
     }
     // console.log(this.props.children)
     return [
-      <Box id={id} definition={definition} sentence/>,
-      <span className={`sentence ${classes.join(' ')}`} {...attrs} id={id} data-will-have-audio="true">
+      <Box id={id} definition={definition} sentence key={1}/>,
+      <span className={`sentence ${classes.join(' ')}`} {...attrs} id={id} data-will-have-audio="true" key={2}>
         {this.props.children}
       </span>,
     ]
