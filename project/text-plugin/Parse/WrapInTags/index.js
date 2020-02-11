@@ -59,7 +59,7 @@ export default function({ json, tokenized }) {
   }
   tokenizedFlattened = tokenizedFlattened.sort((a, b) => a.index - b.index)
 
-  console.log(tokenized)
+  // console.log(tokenized)
 
 
   let index = 0

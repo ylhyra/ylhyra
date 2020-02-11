@@ -19,7 +19,7 @@ const Traverse = (input, index = 0, parentTag) => {
     }
     return input
   } else if (Array.isArray(input)) {
-    return input.map(i => Traverse(i))
+    return input.map((e,i) => Traverse(e,i))
   } else if (input.props) {
     if (input.props['data-type']) {
       let Tag;
@@ -43,11 +43,12 @@ const Traverse = (input, index = 0, parentTag) => {
           {children.map((e,i) => Traverse(e,i,input.type))}
         </Tag>
       } else {
-        return <Tag {...input.props}/>
+        return <Tag {...input.props} key={index}/>
       }
     } else if (input.props.children && Array.isArray(input.props.children)) {
       return {
         ...input,
+        // key: index,
         props: {
           ...input.props,
           children: input.props.children.map((e, i) => Traverse(e, i, input.type))
@@ -56,6 +57,7 @@ const Traverse = (input, index = 0, parentTag) => {
     } else if (input.props.children && typeof input.props.children === 'object') {
       return {
         ...input,
+        // key: index,
         props: {
           ...input.props,
           children: Traverse(input.props.children)
