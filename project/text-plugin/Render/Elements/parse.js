@@ -7,7 +7,9 @@
 export const ParseHTMLtoObject = (children) => {
   let output = {}
   const Traverse = (input) => {
-    if (Array.isArray(input)) {
+    if (input === null) {
+      return;
+    } else if (Array.isArray(input)) {
       input.forEach(Traverse)
     } else if (typeof input === 'object' || typeof input === 'function') {
       const name = input.props['data-name']
@@ -33,7 +35,9 @@ export const ParseHTMLtoObject = (children) => {
 export const ParseHTMLtoArray = (children) => {
   let output = []
   const Traverse = (input) => {
-    if (Array.isArray(input)) {
+    if (input === null) {
+      return
+    } else if (Array.isArray(input)) {
       input.forEach(Traverse)
     } else if (typeof input === 'object' || typeof input === 'function') {
       const name = input.props['data-name']
@@ -68,9 +72,9 @@ export const getTextFromReactElement = (input) => {
   const Traverse = (input) => {
     if (Array.isArray(input)) {
       input.forEach(Traverse)
-    } else if (typeof input === 'object' || typeof input === 'function') {
+    } else if (input !== null && (typeof input === 'object' || typeof input === 'function')) {
       input.props && Traverse(input.props.children)
-    } else if(input)  {
+    } else if (input) {
       output += input
     }
   }

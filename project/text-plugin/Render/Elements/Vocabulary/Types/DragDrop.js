@@ -117,7 +117,9 @@ export default Element
 const renderDropTarget = (children, answers, remove) => {
   let index = 0
   const Traverse = (input, key = 0) => {
-    if (Array.isArray(input)) {
+    if (input === null) {
+      return;
+    } else if (Array.isArray(input)) {
       return input.map((element, index) => Traverse(element, index))
     } else if (typeof input === 'object' || typeof input === 'function') {
       const name = input.props['data-name']

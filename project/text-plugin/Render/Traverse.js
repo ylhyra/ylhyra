@@ -10,10 +10,13 @@ import { AllHtmlEntities as Entities } from 'html-entities'
 const entities = new Entities()
 import isBooleanAttribute from 'is-boolean-attribute'
 
-const Traverse = (input, index = 0) => {
+const Traverse = (input, index = 0, parentTag) => {
   if (!input) return null
   // console.log(input)
   if (typeof input === 'string') {
+    if (CannotIncludeWhitespaceChildren.includes(parentTag)) {
+      return null
+    }
     return input
   } else if (Array.isArray(input)) {
     return input.map(i => Traverse(i))
@@ -37,7 +40,7 @@ const Traverse = (input, index = 0) => {
       if (input.props.children) {
         const { children, ...props } = input.props
         return <Tag {...props} key={index}>
-          {children.map((e,i) => Traverse(e,i))}
+          {children.map((e,i) => Traverse(e,i,input.type))}
         </Tag>
       } else {
         return <Tag {...input.props}/>
@@ -47,7 +50,7 @@ const Traverse = (input, index = 0) => {
         ...input,
         props: {
           ...input.props,
-          children: input.props.children.map((e, i) => Traverse(e, i))
+          children: input.props.children.map((e, i) => Traverse(e, i, input.type))
         }
       }
     } else if (input.props.children && typeof input.props.children === 'object') {
