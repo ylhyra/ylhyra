@@ -4,9 +4,9 @@ import _ from 'underscore'
 import clean from 'Render/Elements/Vocabulary/functions/clean'
 import { ParseHTMLtoObject, ParseHTMLtoArray, getTextFromReactElement as getText } from 'Render/Elements/parse'
 import ReactDOM from 'react-dom'
-import isServer from 'isserver'
+const isBrowser = typeof process === 'undefined' || process.type === 'renderer' || process.browser === true || process.__nwjs
 let Hammer
-if (!isServer()) {
+if (isBrowser) {
   Hammer = require('hammerjs')
 }
 
