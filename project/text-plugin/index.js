@@ -26,6 +26,7 @@ import store from 'App/store'
 import ReactDOMServer from 'react-dom/server'
 var now = require("performance-now")
 var HtmlToReactParser = require('html-to-react').Parser // TODO: Remove this dependency
+import RenderRecorder from 'text-plugin/Editor/Short_audio/SOURCE EDITOR RECORDER (TEMP).js'
 
 /*
   Temporary silly way of waiting until jQuery is ready
@@ -56,6 +57,7 @@ documentReady(async () => {
   Source_editor()
   const namespaceNumber = mw.config.get('wgNamespaceNumber')
   const shouldRender = [0, 2, 4, 12, /*3002,*/ 3004, 3006].includes(namespaceNumber)
+  RenderRecorder()
   if (!shouldRender) return;
 
   /*

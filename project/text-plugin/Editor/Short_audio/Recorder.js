@@ -11,7 +11,7 @@ import { send } from 'Editor/web-socket'
 var FormData = require('form-data');
 
 const TESTING_WITH_LOCALHOST = false
-const url = TESTING_WITH_LOCALHOST ? 'ttps://localhost:8000' : ''
+const url = TESTING_WITH_LOCALHOST ? 'https://localhost:8000' : ''
 
 export default class RecorderElement extends React.Component {
   state = {
@@ -75,18 +75,22 @@ export default class RecorderElement extends React.Component {
       var api = new mw.Api()
       api.postWithToken('csrf', {
         filename,
-        text: `{{spoken|${this.props.word}}}`,
+        text: word && `{{spoken|${word}}}`,
         url: `https://ylhyra.is/api/temp_files/${filename}`,
         action: 'upload',
         ignorewarnings: '1',
         format: 'json'
       }).done(function(data) {
-        console.log(data);
-        store.dispatch({
-          type: 'SOUND_BITE_FILE',
-          word,
-          filename: 'https://ylhyra.is/Special:Redirect/file/' + filename,
-        })
+        if (this.props.onFinish) {
+          this.props.onFinish(filename)
+        } else {
+          console.log(data);
+          store.dispatch({
+            type: 'SOUND_BITE_FILE',
+            word,
+            filename: 'https://ylhyra.is/Special:Redirect/file/' + filename,
+          })
+        }
         // saveEditor()
       }).fail(function(error) {
         if (error === 'fileexists-no-change') return;
@@ -101,7 +105,7 @@ export default class RecorderElement extends React.Component {
     })
   }
   render() {
-    if (!this.props.word) return null
+    // if (!this.props.word) return null
     return (
       <div>
         <div onMouseEnter={this.start} onMouseLeave={this.stop} className={`recorder ${this.state.recording ? 'recording': ''}`}>
