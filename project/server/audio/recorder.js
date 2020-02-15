@@ -17,12 +17,13 @@ router.post('/recorder/save', (req, res) => {
   const { base64_data, word, speaker, should_save } = req.body
   var buffer = Buffer.from(base64_data, 'base64')
 
-  const name = word.slice(0, 15).trim() + ' ' + shortid.generate().slice(0, 4)
-  const safename = `pron_${urlSlug(name)}`
-  const wikiFilename = `${name}.mp3` // Af hverju var ég að nota MP3 áður?
-  const wavPath = path.resolve(__dirname, `../../../uploads/${safename}.wav`)
-  const mp3Filename = `${safename}.mp3` // Af hverju var ég að nota MP3 áður?
-  const mp3Path = path.resolve(__dirname, `../../../uploads/${safename}.mp3`)
+  // Audio name that will be returned to user
+  const unsafeName = word.slice(0, 15).trim() + ' ' + shortid.generate().slice(0, 4)
+  const safeName = `pron_${urlSlug(unsafeName)}`.trim()
+  const wikiFilename = `${unsafeName}.mp3` // Af hverju var ég að nota MP3 áður?
+  const wavPath = path.resolve(__dirname, `../../../uploads/${safeName}.wav`)
+  const mp3Filename = `${safeName}.mp3` // Af hverju var ég að nota MP3 áður?
+  const mp3Path = path.resolve(__dirname, `../../../uploads/${safeName}.mp3`)
   fs.writeFile(wavPath, buffer, (err) => {
     if (err) {
       console.error(err);
