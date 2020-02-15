@@ -52,6 +52,7 @@ function insertAtCaret(text) {
     return;
   }
 
+  txtarea.focus();
   var scrollPos = txtarea.scrollTop;
   var strPos = 0;
   var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?

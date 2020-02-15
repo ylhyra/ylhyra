@@ -18,11 +18,11 @@ router.post('/recorder/save', (req, res) => {
   var buffer = Buffer.from(base64_data, 'base64')
 
   const name = word.slice(0, 15).trim() + ' ' + shortid.generate().slice(0, 4)
-
-  const wavPath = path.resolve(__dirname, `../../../uploads/${name}.wav`)
+  const safename = `pron_${urlSlug(name)}`
   const wikiFilename = `${name}.mp3` // Af hverju var ég að nota MP3 áður?
-  const mp3Filename = `pron_${urlSlug(name)}.mp3` // Af hverju var ég að nota MP3 áður?
-  const mp3Path = path.resolve(__dirname, `../../../uploads/${mp3Filename}`)
+  const wavPath = path.resolve(__dirname, `../../../uploads/${safename}.wav`)
+  const mp3Filename = `${safename}.mp3` // Af hverju var ég að nota MP3 áður?
+  const mp3Path = path.resolve(__dirname, `../../../uploads/${safename}.mp3`)
   fs.writeFile(wavPath, buffer, (err) => {
     if (err) {
       console.error(err);
@@ -53,11 +53,11 @@ router.post('/recorder/save', (req, res) => {
             if (err2) {
               res.sendStatus(500)
             } else {
-              res.send({wikiFilename, mp3Filename})
+              res.send({ wikiFilename, mp3Filename })
             }
           })
       } else {
-        return res.send({wikiFilename, mp3Filename})
+        return res.send({ wikiFilename, mp3Filename })
       }
     })
   })

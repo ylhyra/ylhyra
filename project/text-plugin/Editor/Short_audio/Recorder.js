@@ -62,14 +62,14 @@ export default class RecorderElement extends React.Component {
         saved: true,
         blob: null,
       })
-      const {wikiFilename, mp3Filename} = (await axios.post(url + '/api/recorder/save', {
+      const { wikiFilename, mp3Filename } = (await axios.post(url + '/api/recorder/save', {
         type: 'RECORDER',
         word,
         speaker: mw.config.get('wgUserName'),
         should_save: process.env.NODE_ENV === 'production',
         base64_data,
       })).data
-      console.log({wikiFilename, mp3Filename})
+      console.log({ wikiFilename, mp3Filename })
       if (process.env.NODE_ENV !== 'production') {
         console.warn('Not saving in database since we\'re in development mode')
       }
@@ -135,7 +135,7 @@ export default class RecorderElement extends React.Component {
             // onPlaying={this.handleSongPlaying}
             // onFinishedPlaying={()=>this.setState({blob: { ...this.state.blob, blobURL: null }})}
           />
-          <div onClick={this.save} onMouseEnter={this.save} className="recorder">
+          <div onClick={this.save} /*onMouseEnter={this.save}*/ className="recorder">
             Save
           </div>
           <div onClick={this.cancel} className="recorder">
