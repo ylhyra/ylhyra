@@ -80,7 +80,7 @@ export default class RecorderElement extends React.Component {
       api.postWithToken('csrf', {
         filename: mp3Filename,
         text: word && `{{spoken|${word}}}`,
-        url: `https://ylhyra.is/api/temp_files/${wikiFilename}`,
+        url: `https://ylhyra.is/api/temp_files/${mp3Filename}`,
         action: 'upload',
         ignorewarnings: '1',
         format: 'json'
