@@ -47,7 +47,11 @@ export default class RecorderElement extends React.Component {
         return console.error('Could not read')
       }
       const base64_data = reader.result.match(/^data:.+\/(.+);base64,(.*)$/)[2]
-      const word = this.props.word
+      let { word, onFinish } = this.props
+      if (!word) {
+        word = window.getSelection().toString()
+        console.log(word)
+      }
       // send({
       //   type: 'RECORDER',
       //   word: this.props.word,
@@ -58,14 +62,14 @@ export default class RecorderElement extends React.Component {
         saved: true,
         blob: null,
       })
-      const filename = (await axios.post(url + '/api/recorder/save', {
+      const {wikiFilename, mp3Filename} = (await axios.post(url + '/api/recorder/save', {
         type: 'RECORDER',
         word,
         speaker: mw.config.get('wgUserName'),
         should_save: process.env.NODE_ENV === 'production',
         base64_data,
       })).data
-      console.log(filename)
+      console.log({wikiFilename, mp3Filename})
       if (process.env.NODE_ENV !== 'production') {
         console.warn('Not saving in database since we\'re in development mode')
       }
@@ -74,21 +78,21 @@ export default class RecorderElement extends React.Component {
       }
       var api = new mw.Api()
       api.postWithToken('csrf', {
-        filename,
+        filename: mp3Filename,
         text: word && `{{spoken|${word}}}`,
-        url: `https://ylhyra.is/api/temp_files/${filename}`,
+        url: `https://ylhyra.is/api/temp_files/${wikiFilename}`,
         action: 'upload',
         ignorewarnings: '1',
         format: 'json'
       }).done(function(data) {
-        if (this.props.onFinish) {
-          this.props.onFinish(filename)
+        if (onFinish) {
+          onFinish(wikiFilename)
         } else {
           console.log(data);
           store.dispatch({
             type: 'SOUND_BITE_FILE',
             word,
-            filename: 'https://ylhyra.is/Special:Redirect/file/' + filename,
+            filename: 'https://ylhyra.is/Special:Redirect/file/' + wikiFilename,
           })
         }
         // saveEditor()
@@ -131,7 +135,7 @@ export default class RecorderElement extends React.Component {
             // onPlaying={this.handleSongPlaying}
             // onFinishedPlaying={()=>this.setState({blob: { ...this.state.blob, blobURL: null }})}
           />
-          <div onClick={this.save} className="recorder">
+          <div onClick={this.save} onMouseEnter={this.save} className="recorder">
             Save
           </div>
           <div onClick={this.cancel} className="recorder">
