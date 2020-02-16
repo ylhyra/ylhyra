@@ -1,16 +1,5 @@
 <?php
-// require_once "$IP/extensions/YlhyraBackendParse.php";
 
-// Register as an extention
-$wgExtensionCredits['ylhyra_backend_parse'][] = array(
-  'name' => 'YlhyraServerSideRendering',
-  'version' => '1.0',
-  'url' => '',
-  'author' => 'Egill',
-  'description' => '',
-);
-
-// Register hooks
 $wgHooks['ParserAfterTidy'][] = function( Parser &$parser, &$text ) {
   /*
     It is necessary to check for this string because not only
