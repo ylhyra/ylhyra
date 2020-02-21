@@ -17,8 +17,8 @@ export default ({ card, answer }) => {
         {answer&&answer.answered ? card.icelandic : card.hint}
       </div>}
 
-      {card.listen ? null : (
-        (card.from === 'en' || card.show_english) ? (
+      {/* {card.listen ? null : ( */}
+        {(card.from === 'en' || card.show_english) ? (
           <span className={`english ${card.hint ?'small':''}`}>{clean(card.english)}</span>
         ) : (
           <div className="flexWord">
@@ -26,8 +26,8 @@ export default ({ card, answer }) => {
               <div>{clean(card.icelandic)}</div>
             </div>
           </div>
-        )
-      )}
+        )}
+      {/* )} */}
 
       {card.instructions && <div className="instructions">{card.instructions}</div>}
     </div>
