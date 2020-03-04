@@ -146,10 +146,10 @@ class Audio extends React.PureComponent {
         >
           <source src={filepath} type="audio/mp3"/>
         </audio>
-        <div className={`button small playButton ${playing ? playing : ''}`} onClick={this.pausePlayButton}>
+        <span className={`button small playButton ${playing ? playing : ''}`} onClick={this.pausePlayButton}>
           <span>{playing ? '❚❚ Pause' : '▶ Play'}</span>
           <span className="percentage" style={{width:currentTimePercentage+'%'}}/>
-        </div>
+        </span>
         {/* {(playing || currentTimePercentage !== 0) && (
           <div className="button small" onClick={this.ended}>Reset</div>
         )} */}

@@ -21,16 +21,20 @@ export default class RecorderElement extends React.Component {
     blob: null,
   }
   start = () => {
-    this.setState({
-      recording: true,
-      saved: false,
-      blob: false,
-    })
+    setTimeout(() => {
+      this.setState({
+        recording: true,
+        saved: false,
+        blob: false,
+      })
+    }, 100)
   }
   stop = () => {
-    this.setState({
-      recording: false,
-    })
+    setTimeout(() => {
+      this.setState({
+        recording: false,
+      })
+    }, 300)
   }
   recordingDone = (blob) => {
     blob && this.setState({
@@ -52,6 +56,7 @@ export default class RecorderElement extends React.Component {
         word = window.getSelection().toString()
         console.log(word)
       }
+      console.log(word)
       // send({
       //   type: 'RECORDER',
       //   word: this.props.word,
@@ -78,13 +83,14 @@ export default class RecorderElement extends React.Component {
       }
       var api = new mw.Api()
       api.postWithToken('csrf', {
-        filename: mp3Filename,
+        filename: wikiFilename,
         text: word && `{{spoken|${word}}}`,
         url: `https://ylhyra.is/api/temp_files/${mp3Filename}`,
         action: 'upload',
         ignorewarnings: '1',
         format: 'json'
       }).done(function(data) {
+        console.log(data);
         if (onFinish) {
           onFinish(wikiFilename)
         } else {
@@ -142,6 +148,8 @@ export default class RecorderElement extends React.Component {
             Cancel
           </div>
         </div>
+        ) || (
+          <div><br/><br/></div>
         )}
       </div>
     )

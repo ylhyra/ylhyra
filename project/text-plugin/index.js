@@ -26,7 +26,7 @@ import store from 'App/store'
 import ReactDOMServer from 'react-dom/server'
 var now = require("performance-now")
 var HtmlToReactParser = require('html-to-react').Parser // TODO: Remove this dependency
-import RenderRecorder from 'text-plugin/Editor/Short_audio/SOURCE EDITOR RECORDER (TEMP).js'
+import RenderRecorder from 'text-plugin/Editor/Short_audio/Inline recorder.js'
 
 /*
   Temporary silly way of waiting until jQuery is ready

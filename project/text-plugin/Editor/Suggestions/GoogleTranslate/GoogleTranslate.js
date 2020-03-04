@@ -10,7 +10,8 @@ export default async function({ input, sentenceSuggestions, sourceLang, targetLa
     Single word
   */
   const suggestions = await GoogleTranslate(input, sourceLang, targetLang)
-
+//   console.log(suggestions)
+// return;
   /*
     Find translation in context
     (done by surrounding word by brackets)

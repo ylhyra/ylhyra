@@ -1,6 +1,6 @@
-.listen
-	border-radius 3px
-	background #f4f4f4
+// .listen
+// 	border-radius 3px
+// 	background #f4f4f4
 
 .audioPlayer
 	display flex
@@ -8,11 +8,12 @@
 		display none
 	&.inline
 		display inline-block
-		margin-right 6px
-		margin-left 1px
+		// margin-right 6px
+		// margin-left 1px
+		.playButton
+			padding 0 3px;
 	.playButton
 		position relative
-		padding 0 3px
 		padding 4px 10px
 		.percentage
 			position absolute
@@ -20,6 +21,7 @@
 			left 0
 			height 100%
 			background rgba(#f4796c, .25)
+
 
 .audioContainer
 	&[data-inline]

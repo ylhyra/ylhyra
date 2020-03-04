@@ -40,7 +40,7 @@ export default (state = {
           ...state.sounds,
           [action.word]: [
             action.filename,
-            ...state.sounds[action.word],
+            ...(state.sounds[action.word] || []),
           ]
         },
       }
