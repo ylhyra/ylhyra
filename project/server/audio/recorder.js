@@ -18,7 +18,7 @@ router.post('/recorder/save', (req, res) => {
   var buffer = Buffer.from(base64_data, 'base64')
 
   // Audio name that will be returned to user
-  const unsafeName = 'pron ' + (word.slice(0, 15).trim() + ' ' + shortid.generate().slice(0, 4)).trim()
+  const unsafeName = '' + (word.slice(0, 15).trim() + ' ' + shortid.generate().slice(0, 4)).trim()
   const safeName = `${urlSlug(unsafeName)}`.trim()
   const wikiFilename = `${unsafeName}.mp3` // Af hverju var ég að nota MP3 áður?
   const wavPath = path.resolve(__dirname, `../../../uploads/${safeName}.wav`)
