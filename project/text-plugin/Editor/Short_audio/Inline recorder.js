@@ -5,7 +5,6 @@ import store from 'App/store'
 import Recorder from './Recorder'
 
 const RenderRecorder = () => {
-  console.log('haha')
   if (mw.util.getParamValue('action') !== 'edit') return;
   $('#actions').append('<div id="recorder-button-container"></div>')
   ReactDOM.render(

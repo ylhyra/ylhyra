@@ -70,7 +70,7 @@ export const save = async () => {
           autosave.off()
         } else {
           // error('Could not save! Edit token probably old')
-          console.log(stable_stringify(data_to_save, { space: 2 }))
+          console.log(stable_stringify(data_to_save, { space: 0 }))
           /* TODO Error */
         }
       })
