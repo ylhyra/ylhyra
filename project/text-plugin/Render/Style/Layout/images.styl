@@ -1,0 +1,29 @@
+/*
+  Images
+  Derived from the Athena skin.
+  License: GPL-3.0+
+*/
+.thumb
+  sans-serif()
+  line-height 1.2
+  // background #f5f5f5
+  // border 1px solid #ddd
+  .thumbinner
+    box-sizing content-box
+    // padding 4px
+    .thumbcaption
+      padding 1px 0 3px 0
+      font-size small
+  &.tright
+    margin 0 0 10px 10px
+    // margin-right -200px
+    // margin-right: calc( -1 * (100vw - 700px) / 2);
+  &.tleft
+    margin 0 10px 10px 0
+  image
+    border-radius: 2px;
+  @media (max-width: 600px)
+    &, &.tright, &.tleft
+      float none!important
+      clear both!important
+      margin 0

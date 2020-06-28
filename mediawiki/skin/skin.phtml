@@ -1,0 +1,140 @@
+<?php
+//  Derived from the Athena skin by Felipe Schenone
+//  https://www.mediawiki.org/wiki/Skin:Athena
+//  License: GPL-3.0
+//  With changes by Egill
+
+require_once (__DIR__.'/title.php');
+
+?>
+<?php $this->html( 'headelement' ); ?>
+
+<header>
+	<div>
+		<a href="/" id="logo"></a>
+		<ul>
+			<li><a href="/Texts">Texts</a></li>
+			<li><a href="/Explanations">Explanations</a></li>
+			<!--<li><a href="/Course">Course</a></li>-->
+			<li><a href="/Project:About">About</a></li>
+			<li class="user-show"><a href="/Project:Ylhýra">Project</a></li>
+		</ul>
+	</div>
+	<div class="hidden">
+    <div style="font-size:45px;font-family:sans-serif;border:1px solid gray; padding: 20px;">Could not load JavaScript file. <a href=" mailto:egill@egill.xyz">Report this error.</a></div>
+  <br/><br/><br/><br/>
+	</div>
+</header>
+
+
+<div id="mw-js-message"></div>
+<?php if ( $this->data['newtalk'] ): ?><div class="usermessage"><?php $this->html( 'newtalk' ); ?></div><?php endif; ?>
+<?php if ( $this->data['sitenotice'] ): ?><div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div><?php endif; ?>
+
+<div id="container">
+<div id="content">
+	<h1 id="title">
+		<!-- <span class="namespace"><?=$this->getSkin()->getTitle()->getNsText();?></span>
+		<?=$this->data[ 'titletext' ];?> -->
+
+    <?=YlhyraTitle($this)?>
+
+	</h1>
+
+	<?php if ( $this->data['subtitle'] ): ?>
+	<div id="subtitle"><?php $this->html( 'subtitle' ) ?></div>
+	<?php endif; ?>
+
+	<?php if ( $this->data['undelete'] ): ?>
+	<div id="undelete"><?php $this->html( 'undelete' ) ?></div>
+	<?php endif; ?>
+
+	<?php if ( $this->data['newtalk'] ): ?>
+	<div class="newtalk"><?php $this->html( 'newtalk' )  ?></div>
+	<?php endif; ?>
+
+	<?php $this->html( 'bodytext' ) ?>
+
+	<?php $this->html( 'catlinks' ); ?>
+
+	<?php $this->html( 'dataAfterContent' ); ?>
+
+	<div class="printfooter"><?php $this->html( 'printfooter' ); ?></div>
+
+	<?php /*echo $this->getFooter();*/ ?>
+
+	<ul id="actions" class="user-show">
+		<?php
+		foreach ( $this->data['content_navigation']['namespaces'] as $key => $item ) {
+			echo $this->makeListItem( $key, $item, [
+				'vector-wrap' => true,
+			] );
+		}
+		?>
+		<?php foreach ( $this->getActions() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
+	</ul>
+
+	<?php $this->html( 'debughtml' ); ?>
+
+</div>
+
+<div id="footer">
+	<div>
+		<div>
+			<form id="search-form" action="<?php $this->text( 'wgScript' ); ?>">
+				<?php echo $this->makeSearchInput( array( 'type' => 'text', 'id' => 'search-field', 'placeholder' => 'Search...', 'autofocus' => false ) ); ?><button><img src="https://mediawiki.org/w/skins/Vector/resources/skins.vector.styles/images/search.svg"></button>
+				<input type="hidden" name="title" value="<?php $this->text( 'searchtitle' ) ?>" />
+			</form>
+
+			<ul class="portal user-show">
+			<?php foreach ( $this->data['sidebar']['navigation'] as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
+			</ul>
+
+		</div>
+		<div class="user-show">
+			<h5>Personal</h5>
+			<ul class="portal">
+			<?php foreach ( $this->getPersonalTools() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
+			</ul>
+		</div>
+		<div class="user-show">
+			<h5>Tools</h5>
+			<ul class="portal user-show">
+			<?php foreach ( $this->getToolbox() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
+			</ul>
+		</div>
+
+
+		<!--<div class="anonymous-show">
+			<ul class="anonymous-show portal">
+				<li><a href="/Project:Contact">Contact</a>
+				<li><a href="/Project:Become_a_collaborator" title="Project:Become a collaborator">Become a collaborator</a></li>
+				<?php foreach ( $this->getPersonalTools() as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
+			</ul>
+		</div>-->
+	</div>
+
+  <div id="footer-info">
+    <span class="footer-gray">
+      <span id="footer-logo"><span>Ylhýra</span></span>
+    </span> • <!--ehf.,
+      kt. 480520-0170,-->
+    <span class="footer-gray">
+      <a href="mailto:ylhyra@ylhyra.is">Contact</a>
+    </span> •
+    <!--<a href="/Project:License">Licensing</a> •-->
+    <a href="/Project:Become_a_collaborator">Collaborate</a>
+    <span class="anonymous-show">• <a href="/Special:UserLogin">Log in</a></span>
+  </div>
+	<!--<div id="free">
+		<div>
+			Text may be freely copied under the <a href="/Project:License">CC-BY-SA-4.0</a> license unless otherwise specified.
+		</div>
+	</div>-->
+</div>
+</div>
+
+<?php $this->printTrail(); ?>
+
+</body>
+</html>

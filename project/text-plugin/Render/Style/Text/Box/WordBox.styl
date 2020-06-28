@@ -1,0 +1,12 @@
+.word-box
+  @extends .box
+  &.shown
+    display: flex
+  flex-direction: row
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+  border-radius: 0
+  > :first-child
+    flex: 1

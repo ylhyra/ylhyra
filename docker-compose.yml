@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  nginx:
+    container_name: nginx
+    hostname: nginx
+    image: nginx
+    ports:
+      - 80:80
+      # - 443:443
+    volumes:
+      - ./mediawiki/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - ylhyra-network
+    depends_on:
+      - mediawiki
+    links:
+      - mediawiki
+  mediawiki:
+    build: ./mediawiki
+    container_name: mediawiki
+    # ports:
+    #   - 80:80
+    # mem_limit: 4g
+    volumes:
+      - ./mediawiki:/var/www/ylhyra
+      - ./mediawiki/skin:/var/www/html/skins/Athena
+    environment:
+      - MEDIAWIKI_DB_NAME=
+      - MEDIAWIKI_DB_HOST=
+      - MEDIAWIKI_DB_USER=
+      - MEDIAWIKI_DB_PASSWORD=
+      - VIRTUAL_HOST=wiki.example.com
+      - TERM=xterm
+    restart: always
+    # network_mode: bridge
+    networks:
+      - ylhyra-network
+    depends_on:
+      - database
+    # command: ./mediawiki/setup.sh
+  database:
+    container_name: database
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'mediawiki'
+      MYSQL_USER: 'mediawiki'
+      MYSQL_PASSWORD: 'mediawiki'
+      MYSQL_ROOT_PASSWORD: 'mediawiki'
+    ports:
+      - '8378:3306'
+    expose:
+      - '8378'
+    volumes:
+      - ./database_local:/var/lib/mysql
+    networks:
+      - ylhyra-network
+
+networks:
+  ylhyra-network:
+
+# docker run -p 49167:80                                   ⏎

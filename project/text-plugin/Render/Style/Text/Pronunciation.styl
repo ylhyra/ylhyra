@@ -1,0 +1,48 @@
+.pronunciation
+  font-size 16px
+  line-height 1.4em
+  word-spacing 2px
+  text-align center
+  > span
+    word-break keep-all
+  .punctuation
+    color #9a9a9a
+    font-weight 300
+  .thorn
+    font-weight bold
+  .h
+    color #939393
+  .eth
+    color #939393
+    font-weight 300
+  .voiceless-velar-fricative /* Sjúkt */
+    color #d66319
+    &:before
+      content "("
+    &:after
+      content ")"
+  .voiced-velar-fricative /* og */
+    color #009ec1
+    font-weight bold
+  .voiceless-palatal-fricative /* hjá */
+    font-weight bold
+  .close-front-unrounded-vowel /* Ís */
+    color #2268e0
+  .close-back-rounded-vowel /* ú */
+    color #2268e0
+  .open-mid-front-rounded-vowel /* ö */
+    font-style italic
+
+  &[brackets="true"]
+    &:empty
+      display none
+    color #4a4a4a
+    font-size 12px
+    &:before, &:after
+      color #818181
+      margin 0 1px
+      font-weight 300
+    &:before
+      content '['
+    &:after
+      content ']'

@@ -1,0 +1,56 @@
+$max-width = 760px
+gray = #6b6b6b
+blue = #1161d9
+
+@font-face {
+  font-family: "tabular-numbers";
+  src: local("Helvetica"), local("charter"), local("cambria"), local("Times New Roman");
+  unicode-range: U+0030-0039;
+}
+serif()
+  font-family /*tabular-numbers,*/ Georgia, serif
+
+sans-serif()
+  // font-family /*Inter UI, Helvetica Neue,*/ -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
+  font-family /*-apple-system,BlinkMacSystemFont,"Segoe UI",*/Helvetica Neue,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
+
+// span.icelandic
+//   serif()
+
+card-shadow()
+  box-shadow 0 0 0px 1px rgba(0,0,0,0.13), 0 1px 1px 0 rgba(0,0,0,0.17)
+  overflow: hidden;
+
+@import 'Front page/*'
+@import 'Layout/*'
+@import 'Text/Box/*'
+@import 'Templates/table'
+@import 'AudioVideo/*'
+
+#content .ylhyra-text // .mw-parser-output
+  @import 'Text/*'
+  @import 'Lessons/*'
+  @import 'Vocabulary/*'
+  @import 'Vocabulary/Types/*'
+@import 'Templates/*'
+
+@import 'Templates/Publishers/*'
+
+
+.mw-editsection ~ *
+  font-size 12px
+  sans-serif()
+
+.gray
+  color #6b6b6b
+
+.p, p
+  margin-block-start: 8px;
+  margin-block-end: @margin-block-start;
+
+img, video
+  max-width 100%
+  height auto
+
+[data-children]
+  display none

@@ -1,0 +1,32 @@
+/*
+  Flashcard
+*/
+.flashcard-container
+  display: flex
+  flex-direction: column
+  cursor: pointer
+  text-align: center
+  > *
+    flex: 1
+    padding: 30px
+    display: flex
+    align-items: center
+    justify-content: center
+.flashcard-top
+  display: flex
+  flex-direction: column
+.flashcard-bottom
+  display: flex
+  flex-direction: column
+  background: #f2ecec
+  border-top: 1px solid #d2d2d2
+  transition: all 0.3s ease
+  font-size: 20px
+  font-weight: 500
+  &.not-answered
+    background: #e6e6e6
+    font-size: 14px
+    color: #868686
+    font-weight: 400
+  .english
+    font-family: Georgia, serif

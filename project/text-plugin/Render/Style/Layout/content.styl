@@ -1,0 +1,181 @@
+#container
+  display flex
+  // flex-direction row-reverse
+  flex-direction column
+  min-height 100vh
+  // margin-top: 10px;
+
+#footer
+  // background: #efefef;
+  // background: #fbfaf8;
+  // border-top: 1px solid gainsboro;
+  background: #f0f3f3;
+  border-top: 1px solid #e8e8e8;
+  font-size: small;
+  padding 10px 30px
+  margin-top: 21px;
+  > div
+    display flex
+    max-width $max-width
+    margin auto
+    &:first-child
+      margin-bottom: 11px;
+    > div
+      flex 1
+  @media screen and (max-width: 600px)
+    padding 5px
+    > div
+      display block
+  h5
+    font inherit
+    font-size normal
+    font-weight bold
+    margin 1em 0 0 0
+  .portal
+    list-style none
+    margin 0
+    padding 0
+  #free
+    font-size 11px
+    color: #848484;
+
+
+  #footer-info
+    font-size: 11px;
+    line-height: 1em;
+    display: block;
+    .footer-gray
+      &:not(:hover)
+        color #7d7d7d
+      a:not(:hover)
+        color inherit
+      &:not(:hover)
+        #footer-logo
+          -webkit-filter: grayscale(100%);
+          filter: gray;
+    #footer-logo
+      // background url("https://ylhyra.is/images/5/5c/Ylhyra_logo.svg")
+      background url("https://ylhyra.is/images/c/c8/Ylhyra_logo_dark.svg")
+      width 70px
+      height (@width * 29 / 89) // 29 / 89 is the image's ratio
+      background-size @width @height
+      display: inline-block;;
+      top: -8px;
+      position: relative;
+      margin-right: 1px;
+
+
+      /* Serif */
+      background-size: contain;
+      background-repeat no-repeat
+      // background url("https://ylhyra.is/images/5/5c/Ylhyra_logo.svg")
+      background-image url("https://ylhyra.is/images/d/d3/Logo_serif.svg")
+      width 70px
+      height (@width * 36 / 112) // 36 / 112 is the image's ratio
+
+
+      > span /* Text inside */
+        opacity 0
+
+    // #footer-links
+
+#footer-info-lastmod /* "Last modified:" */
+  display none
+
+
+#content
+  // font-size: 17px;
+  // position relative
+  line-height: 1.37;
+  width 100%
+  max-width $max-width
+  padding 0 30px
+  margin auto
+  flex 1
+  display flex
+  flex-direction column
+  #mw-content-text
+    flex 1
+  @media screen and (max-width: 600px)
+    padding 0 5px
+
+
+body
+  margin 0
+  // margin auto
+  // max-width $max-width
+  // &.ns-0.action-view
+  //   max-width 570px + 30px + 30px
+  //   .ve-active &
+  //     max-width $max-width
+
+#actions
+
+  position: absolute;
+  right: 0;
+  font-size small
+  list-style none
+  margin 0
+  padding 0
+  li
+    // display inline-block
+    margin 0 6px 0 0
+    &.selected
+      // display none
+      a
+        color #333
+
+
+header
+  // background #0A1029
+  // background #211B37
+  // background linear-gradient(to right, #5c77f7, #7654dd)
+  // background linear-gradient(to right, #5c77f7, #7654dd)
+  height 60px
+  // border-bottom: 1px solid #ececec;
+  margin-top: 14px;
+  > div
+    max-width $max-width
+    margin auto
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding 0 30px
+    height: 100%;
+    #logo
+      background-size: contain;
+      background-repeat no-repeat
+      // background url("https://ylhyra.is/images/5/5c/Ylhyra_logo.svg")
+      /* Sans serif */
+      background-image url("https://ylhyra.is/images/c/c8/Ylhyra_logo_dark.svg")
+      width 100px
+      height (@width * 29 / 89) // 29 / 89 is the image's ratio
+      /* Serif */
+      background-image url("https://ylhyra.is/images/d/d3/Logo_serif.svg")
+      width 105px
+      height (@width * 36 / 112) // 36 / 112 is the image's ratio
+      display: block;
+      top: -5px;
+      position: relative;
+    ul
+      li
+        display inline-block
+        margin 0
+        margin-left 20px
+        a
+          // color white
+          color black
+
+.blue
+  color blue
+
+
+
+.columns
+  display flex
+  .columns-1
+    flex 1
+  .columns-2
+    flex 1
+  .columns-3
+    flex 1
