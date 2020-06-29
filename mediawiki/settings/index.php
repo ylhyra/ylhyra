@@ -37,5 +37,5 @@ require_once(__DIR__.'/../ylhyra-extensions/Backticks.php');
 
 $wgExtensionDirectoryOLD = $wgExtensionDirectory;
 $wgExtensionDirectory = __DIR__.'/../ylhyra-extensions/';
-wfLoadExtension( 'VerifySession' );
+wfLoadExtension( 'ThirdPartySessionVerification' );
 $wgExtensionDirectory = $wgExtensionDirectoryOLD;

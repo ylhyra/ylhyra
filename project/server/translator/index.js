@@ -2,13 +2,18 @@ import string_hash from 'App/functions/hash'
 import GoogleTranslate from './GoogleTranslate'
 import GetSuggestions from './GetSuggestions'
 import GrammaticalAnalysis from 'server/grammatical-analysis'
+import verifySession from 'server/VerifyMediawikiSession'
 
-const request = async ({ list, tokenized, translation, suggestions }, send) => {
+const request = async ({ list, tokenized, translation, suggestions, session_verification_token }, send) => {
   if (!list /*|| !to || !from*/ ) return;
 
   if (!list || !list.arrayOfAllWordIDs) return;
   let output = {}
 
+    const user = await verifySession(session_verification_token)
+    if(!user) {
+      return; //TODO: Error message
+    }
   /*
     Grammatical analysis
   */
@@ -32,8 +37,7 @@ const request = async ({ list, tokenized, translation, suggestions }, send) => {
   /*
     Google Translate
   */
-  /* Temporarily turn off Google Translate except for local development until authentication is solved*/
-  if (process.env.TESTING) {
+  if (user.groups.includes('sysop')) {
     /* Collect words needing translation */
     let translation_hashes = {}
     list.arrayOfAllWordIDs.forEach(id => {

@@ -5,7 +5,7 @@
 import React from 'react'
 import store from 'App/store'
 import { send } from 'Editor/web-socket'
-import Cookies from 'js-cookie'
+import error from 'App/Error'
 
 /*
 
@@ -17,18 +17,27 @@ const MakeSuggestions = () => {
   // Information is sent through a WebSocket
   console.log('%c [Requesting suggestions...]', 'color: RoyalBlue')
   // console.log(Cookies.get())
-  send({
-    type: 'REQUEST_SUGGESTIONS',
-    list: list,
-    tokenized,
-    suggestions,
-    translation,
-    cookie: {
-
+  var api = new mw.Api();
+  api.get({
+    action: 'session_verification',
+    format: 'json'
+  }).done(function (data) {
+    const session_verification_token = data.session_verification.token
+    if(!session_verification_token) {
+      error('Server could not verify that you are logged in')
+      return console.log(data)
     }
-    // from: metadata.from,
-    // to: metadata.to,
-  })
+    send({
+      type: 'REQUEST_SUGGESTIONS',
+      list: list,
+      tokenized,
+      suggestions,
+      translation,
+      session_verification_token,
+      // from: metadata.from,
+      // to: metadata.to,
+    })
+  });
 }
 
 class SuggestionsStatus extends React.PureComponent {
