@@ -24,9 +24,9 @@ export const showSentence = (id) => {
   /*
     SENTENCE OVERLAY
   */
-  const sentenceOverlay = document.querySelector(`[data-sentence-overlay-id="${id}"]`)
+  const sentenceOverlay = document.querySelector(`${id}-sentence-overlay`)
   sentenceOverlay.classList.add('shown')
-  logShown(`[data-sentence-overlay-id="${id}"]`)
+  logShown(`${id}-sentence-overlay`)
   const paddingTop = 8
   const paddingLeft = 12
   let sentenceOverlayDimensions = {
@@ -39,9 +39,9 @@ export const showSentence = (id) => {
   /*
     BOX
   */
-  const box = document.querySelector(`[data-box-id="${id}"]`)
+  const box = document.getElementById(`${id}-box`)
   box.classList.add('shown')
-  logShown(`[data-box-id="${id}"]`)
+  logShown(`${id}-box`)
   box.style.cssText = `
     left: ${sentenceOverlayDimensions.left}px;
     width: ${sentenceOverlayDimensions.width}px;

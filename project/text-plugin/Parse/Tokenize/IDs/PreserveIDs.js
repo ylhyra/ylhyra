@@ -9,46 +9,22 @@
   Output:
     1. New tokenized text with preserved IDs when possible
 
-
-  TODO sometime in the future:
-  - Compare string similarity and thus preserve
-    items which have only changed a little
 */
 
 import { diffArrays } from 'diff'
 import flattenArray from 'App/functions/flattenArray'
-// import store from 'App/store'
-// import stringSimilarity from 'string-similarity'
-// var similarity = stringSimilarity.compareTwoStrings('healed', 'sealed');
-// var matches = stringSimilarity.findBestMatch('healed', ['edward', 'sealed', 'theatre']);
-const JOINING_CHARACTER = '�' // Random joining character
+import { findBestMatch } from 'string-similarity'
 
 const Preserve = (first, second) => {
-  /*
-    Map from new IDs to preserved IDs
-  */
+  /* Map from new IDs to preserved IDs */
   const PreservedIDs = {
-    /*
-      Compares old and new sentences
-    */
+    /* Compares old and new sentences */
     ...DiffAndPreserveIDs(SentencesArray(first), SentencesArray(second)),
-    /*
-      Compares old and new words
-    */
+    /* Compares old and new words */
     ...DiffAndPreserveIDs(WordsArray(first), WordsArray(second))
   }
-  // console.log({PreservedIDs})
 
-  // console.error(SentencesArray(first))
-  // console.error(SentencesArray(second))
-  // console.error(JSON.stringify(WordsArray(first)))
-  // console.error(JSON.stringify(WordsArray(second)))
-
-  // DiffAndPreserveIDs(SentencesArray(first), SentencesArray(second))
-
-  /*
-    Return with preserved IDs
-  */
+  /* Return with preserved IDs */
   return second.map(paragraph => ({
     ...paragraph,
     sentences: paragraph.sentences.map(sentence => ({
@@ -76,41 +52,54 @@ const DiffAndPreserveIDs = (first, second) => {
   let ids = {}
   let first_index = 0
   let second_index = 0
-  // console.log(first)
   const diff = diffArrays(
     first.map(i => i.text),
     second.map(i => i.text),
   )
-  // console.log(JSON.stringify(diff, null, 2))
-  diff.forEach((part, index) => {
-    part.value.forEach(value => {
+
+  /* Keeps track of removed and added parts */
+  let unmatched_ids = {}
+
+  /* Find perfect matches */
+  diff.forEach((part, part_index) => {
+    part.value.forEach((value, value_index) => {
       if (part.removed) {
-        // console.log(first[first_index].text + ' removed')
+        /* Save id in `diff` to find closest match later */
+        unmatched_ids[`${part_index}_${value_index}`] = first[first_index].id
         first_index++
       } else if (part.added) {
-        // console.log(second[second_index].text + ' added')
+        /* Save id in `diff` to find closest match later */
+        unmatched_ids[`${part_index}_${value_index}`] = second[second_index].id
         second_index++
       } else {
-        /*
-          Map new ID to preserved ID
-        */
+        /* Map new ID to preserved ID */
         ids[second[second_index].id] = first[first_index].id
         first_index++
         second_index++
       }
     })
-
-    /*
-      TODO: Attempt to find the closest match
-    */
-    // if (diff[index + 1] && (
-    //     (diff[index].removed && diff[index + 1].added) ||
-    //     (diff[index].added && diff[index + 1].removed)
-    //   )) {
-    //   console.log(part)
-    // }
   })
-  // console.log(ids)
+
+  /* Attempt to find the closest match */
+  diff.forEach((part, part_index) => {
+    if (diff[part_index + 1] && (
+        (diff[part_index].removed && diff[part_index + 1].added) // || (diff[index].added && diff[index + 1].removed)
+      )) {
+      const removed = diff[part_index]
+      const added = diff[part_index + 1]
+      let remaining_possible_added_values = added.value;
+      removed.value.forEach((removed_value, removed_index) => {
+        if (remaining_possible_added_values.length < 1) return;
+        const { bestMatch, bestMatchIndex } = findBestMatch(removed_value, remaining_possible_added_values)
+        if (bestMatch.rating < 0.3) return;
+        const removed_id = unmatched_ids[`${part_index}_${removed_index}`]
+        const added_id = unmatched_ids[`${part_index+1}_${bestMatchIndex}`]
+        ids[added_id] = removed_id
+        remaining_possible_added_values.splice(bestMatchIndex, 1)
+      })
+    }
+  })
+
   return ids
 }
 
@@ -135,7 +124,7 @@ const SentencesArray = (paragraphs) => {
           id: sentence.id,
           text: sentence.words.map(word => {
             return word.text
-          }).filter(Boolean).join(JOINING_CHARACTER)
+          }).filter(Boolean).join(' ').toLowerCase()
         }
       })
     }))
@@ -148,7 +137,7 @@ const WordsArray = (paragraphs) => {
           if (!word.id) return null
           return {
             id: word.id,
-            text: word.text,
+            text: word.text.toLowerCase(),
           }
         }).filter(Boolean)
       })

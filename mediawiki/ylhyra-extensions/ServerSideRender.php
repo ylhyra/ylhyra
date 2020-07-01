@@ -7,7 +7,7 @@ $wgHooks['ParserAfterTidy'][] = function( Parser &$parser, &$text ) {
   */
   if (strpos($text, 'data-document-start') !== false) {
     if(function_exists('curl_version')) { // Check if CURL is installed
-      if ($_COOKIE and is_object($_COOKIE) and $_COOKIE['server-side-rendering']=='false') { // Development mode?
+      if (isset($_COOKIE['server-side-rendering']) and $_COOKIE['server-side-rendering']=='false') { // Development mode?
         return true;
       } else {
         $url = 'http://localhost:9123/api/render';

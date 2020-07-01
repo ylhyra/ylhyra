@@ -13,6 +13,7 @@ define("NS_DATA", 3000); // This MUST be even.
 define("NS_DATA_TALK", 3001); // This MUST be the following odd integer.
 $wgExtraNamespaces[NS_DATA] = "Data";
 $wgExtraNamespaces[NS_DATA_TALK] = "Data_talk"; // Note underscores in the namespace name.
+$wgNamespaceContentModels[NS_DATA] = CONTENT_MODEL_JSON;
 
 define("NS_MANUAL", 3002); // This MUST be even.
 define("NS_MANUAL_TALK", 3003); // This MUST be the following odd integer.
@@ -55,7 +56,5 @@ $wgNamespacesWithSubpages[NS_OTHER] = true;
 
 //$wgContentNamespaces[] = NS_MANUAL;
 //$wgContentNamespaces[] = NS_PROJECT;
-
-$wgNamespaceContentModels[NS_DATA] = CONTENT_MODEL_JSON;
 
 $wgSitemapNamespaces = array( NS_MAIN );

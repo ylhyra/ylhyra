@@ -69,6 +69,15 @@ const UploadTwitterImage = (tweet, url) => {
   return filename
 }
 
+window.BatchImport = (tweet, url) => {
+  // .map(i=>{
+  //   var url = i.urls.full
+  //   var title = 'Unsplash_' + i.description.split(' ').slice(0,4)
+  //   var description = `Image by ${i.user.name} at [${i.links.html} Unsplash].\n\n${i.description}\n\n[[Category:Unsplash]]`
+  //
+  // })
+}
+
 
 
 

@@ -66,3 +66,6 @@ $wgMaxShellMemory = 300000;
 wfLoadExtension('ExternalData');
 $edgCacheTable = 'ed_url_cache';
 $edgAllowExternalDataFrom = 'https://ylhyra.is';
+
+
+// wfLoadExtension( 'RandomImageByCategory' );

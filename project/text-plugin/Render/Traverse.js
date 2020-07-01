@@ -75,7 +75,7 @@ const Traverse = (input, index = 0, parentTag) => {
         }
       }
     } else {
-      console.log(input)
+      // console.log(input)
       return input
     }
   }

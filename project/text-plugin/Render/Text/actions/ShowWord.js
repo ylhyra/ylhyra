@@ -8,12 +8,12 @@ import Analytics from 'text-plugin/Analytics/TextInteractions'
 */
 export default function showWord(id) {
   // console.log(id)
-  const tooltip = document.querySelector(`[data-tooltip-id="${id}"]`)
+  const tooltip = document.getElementById(`${id}-tooltip`)
   if (!tooltip) return;
   tooltip.classList.add('shown')
   logShown(tooltip)
 
-  const element = document.querySelector(`[data-word-id="${id}"]`)
+  const element = document.getElementById(id)
   if (!element) return;
   element.classList.add('hover')
   logShown(element)
@@ -41,8 +41,8 @@ export default function showWord(id) {
   tooltip.style.top = Math.round(top) + 'px'
   tooltip.style.left = Math.round(left) + 'px'
 
-  addClass(`[data-box-id="${id}"]`, 'shown')
-  logShown(`[data-box-id="${id}"]`)
+  addClass(`${id}-box`, 'shown')
+  logShown(`${id}-box`)
 
   Analytics.show({ type: 'word', id })
 }
