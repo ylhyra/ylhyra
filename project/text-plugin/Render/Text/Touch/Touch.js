@@ -138,7 +138,7 @@ const FindElements = (e, doubleClick = false, moving = false) => {
       showWord(id)
       const sentence = element.closest(`[data-sentence-id]`)
       if (sentence) {
-        const sentenceId = sentence.getAttribute(`data-sentence-id`)
+        const sentenceId = sentence.getAttribute(`id`)
         highlightSentence(sentenceId)
       }
     } else {
@@ -172,7 +172,7 @@ const time = () => {
 */
 const limit = 20 // Minimum pixel distance
 const findClosestElement = (x, y) => {
-  const els = document.querySelectorAll(`[data-word-id]`)
+  const els = document.querySelectorAll(`[data-word-has-definition]`)
   let distances = []
   els.forEach(el => {
     const rects = Array.from(el.getClientRects())

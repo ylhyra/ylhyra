@@ -3,8 +3,8 @@ import store from 'App/store'
 import Analytics from 'text-plugin/Analytics/TextInteractions'
 
 var shownElements = []
-export const logShown = (element) => {
-  shownElements.push(element)
+export const logShown = (id) => {
+  shownElements.push(id)
 }
 
 /*
@@ -15,8 +15,13 @@ export default function reset(id) {
 
   Analytics.reset()
 
-  shownElements.forEach(element => {
-    $(element).removeClass('shown highlighted hover')
+  shownElements.forEach(id => {
+    // console.log(id)
+    const el = document.getElementById(id)
+    if(!el) return;
+    el.classList.remove('shown')
+    el.classList.remove('highlighted')
+    el.classList.remove('hover')
   })
   shownElements = []
 

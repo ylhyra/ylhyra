@@ -29,15 +29,15 @@ const mousemove = (e) => {
     if (ignore) return;
 
     if (isSentenceBeingShown) {
-      const element = target_10px_below?.closest('[data-sentence-id]') || target.closest('[data-sentence-id]')
-      if (element && lastId === element.getAttribute('data-sentence-id')) {
+      const element = target_10px_below?.closest('[data-sentence-has-definition]') || target.closest('[data-sentence-has-definition]')
+      if (element && lastId === element.getAttribute('id')) {
         return
       }
     }
 
     isSentenceBeingShown = false
-    const word = target_10px_below?.closest('[data-word-id]') || target.closest('[data-word-id]')
-    const sentence = target_10px_below?.closest('[data-sentence-id]') || target.closest('[data-sentence-id]')
+    const word = target_10px_below?.closest('[data-word-has-definition]') || target.closest('[data-word-has-definition]')
+    const sentence = target_10px_below?.closest('[data-sentence-has-definition]') || target.closest('[data-sentence-has-definition]')
     if (!word && !sentence) {
       if (lastId !== null) {
         reset()
@@ -47,9 +47,9 @@ const mousemove = (e) => {
     }
     e.preventDefault()
     if (word) {
-      const id = word.getAttribute('data-word-id')
+      const id = word.getAttribute('id')
       if (lastId !== id) {
-        const sentenceId = sentence ? sentence.getAttribute('data-sentence-id') : null
+        const sentenceId = sentence ? sentence.getAttribute('id') : null
         reset()
         showWord(id)
         highlightSentence(sentenceId)
@@ -57,7 +57,7 @@ const mousemove = (e) => {
       lastId = id
     } else if (sentence) {
       // No translatable word, instead just highlight sentence
-      const sentenceId = sentence.getAttribute('data-sentence-id')
+      const sentenceId = sentence.getAttribute('id')
       reset()
       highlightSentence(sentenceId)
       lastId = 0
@@ -90,11 +90,11 @@ const mousedown = (e) => {
     if (!target) return
     const ignore = target.closest('[data-ignore]')
     if (ignore) return
-    const element = target_10px_below?.closest('[data-sentence-id]') || target.closest('[data-sentence-id]')
+    const element = target_10px_below?.closest('[data-sentence-has-definition]') || target.closest('[data-sentence-has-definition]')
     if (!element) return
     e.preventDefault()
     isSentenceBeingShown = true
-    const id = element.getAttribute('data-sentence-id')
+    const id = element.getAttribute('id')
     reset()
     showSentence(id)
     lastId = id

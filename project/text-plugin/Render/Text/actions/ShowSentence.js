@@ -15,16 +15,16 @@ export const showSentence = (id) => {
   /*
     SENTENCE
   */
-  const sentence = document.querySelector(`[data-sentence-id="${id}"]`)
+  const sentence = document.getElementById(id)
   if (!sentence) return;
   sentence.classList.add('shown')
-  logShown(sentence)
+  logShown(id)
   const sentenceRect = sentence.getBoundingClientRect()
 
   /*
     SENTENCE OVERLAY
   */
-  const sentenceOverlay = document.querySelector(`${id}-sentence-overlay`)
+  const sentenceOverlay = document.getElementById(`${id}-sentence-overlay`)
   sentenceOverlay.classList.add('shown')
   logShown(`${id}-sentence-overlay`)
   const paddingTop = 8
@@ -71,12 +71,4 @@ export const showSentence = (id) => {
   `
 
   Analytics.show({ type: 'sentence', id })
-}
-
-
-
-const addClass = (selector, css) => {
-  const element = document.querySelector(selector)
-  if (!element) return;
-  element.classList.add(css)
 }

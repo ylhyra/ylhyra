@@ -9,12 +9,8 @@ class Sentence extends React.Component {
     let attrs = {}
     let classes = []
     if (exists(definition) && definition.meaning.trim())  {
-      /*
-        All sentences have "id" but only sentences
-        with a definition get "data-sentence-id"
-      */
       attrs = {
-        'data-sentence-id': id,
+        'data-sentence-has-definition': true,
       }
     } else {
       classes.push('missing')

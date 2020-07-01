@@ -4,14 +4,8 @@ import { logShown } from './Reset'
   Hightlight sentence
 */
 export const highlightSentence = (id) => {
-  const element = $(`[data-sentence-id="${id}"]`)
-  element.addClass('highlighted')
-  logShown(element)
-}
-
-
-const addClass = (selector, css) => {
-  const element = document.querySelector(selector)
+  const element =document.getElementById(id)
   if (!element) return;
-  element.classList.add(css)
+  element.classList.add('highlighted')
+  logShown(id)
 }

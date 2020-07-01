@@ -11,12 +11,12 @@ export default function showWord(id) {
   const tooltip = document.getElementById(`${id}-tooltip`)
   if (!tooltip) return;
   tooltip.classList.add('shown')
-  logShown(tooltip)
+  logShown(`${id}-tooltip`)
 
   const element = document.getElementById(id)
   if (!element) return;
   element.classList.add('hover')
-  logShown(element)
+  logShown(id)
 
   let sound_files = element.getAttribute('data-sound')
   if (sound_files) {
@@ -26,8 +26,8 @@ export default function showWord(id) {
   const connected = element.getAttribute('data-connected-words')
   if (connected) {
     connected.split(',').forEach(i => {
-      addClass(`[data-word-id="${i}"]`, 'hover')
-      logShown(`[data-word-id="${i}"]`)
+      addClass(i, 'hover')
+      logShown(i)
     })
   }
 
@@ -51,11 +51,8 @@ export default function showWord(id) {
 
 
 
-
-
-
-const addClass = (selector, css) => {
-  const element = document.querySelector(selector)
+const addClass = (id, css) => {
+  const element = document.getElementById(id)
   if (!element) return;
   element.classList.add(css)
 }

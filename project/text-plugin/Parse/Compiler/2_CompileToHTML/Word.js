@@ -15,12 +15,8 @@ class WordElement extends React.Component {
     let classes = []
     if (exists(definition)) {
 
-      /*
-        All words have "id" but only words with a
-        definition get "data-sentence-id"
-      */
       attrs = omitEmpty({
-        'data-word-id': id,
+        'data-word-has-definition': true,
         'data-sound': GetSound(id, editor),
       })
 
