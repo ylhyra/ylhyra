@@ -1,4 +1,4 @@
-import linebreak from './src/linebreak'
+import linebreak from './lib/linebreak'
 
 export default () => {
   var lineLength = 0,
@@ -15,7 +15,7 @@ export default () => {
     return cache[str];
   }
 
-  lineLength = $('#book').width();
+  lineLength = $('.ylhyra-text').width();
 
   ruler = $('<div class="ruler">&nbsp;</div>').css({
     visibility: 'hidden',
@@ -26,7 +26,7 @@ export default () => {
     left: '-8000px'
   });
 
-  $('body').append(ruler);
+  $('.ylhyra-text').append(ruler);
 
   var space = {
       width: 0,
@@ -43,7 +43,7 @@ export default () => {
 
   lineHeight = parseFloat(ruler.html('Hello World').css('lineHeight'));
 
-  $('.book p').each(function (index, element) {
+  $('.ylhyra-text p').each(function (index, element) {
     var paragraph,
       nodes = [],
       breaks = [],
@@ -62,9 +62,10 @@ export default () => {
         // nodes.push(linebreak.box(30, ''));
       }
 
-      words = paragraph.find('.word').text().split(/\s/);
+      words = paragraph.text().split(/\s/)
+      // find('.word').map(function(){ return $(this).text().split(/\s/)})
 
-      return console.log(words);
+      // return console.log(words);
       words.forEach(function (word, index, array) {
         var hyphenated = [];
         if (word.length > 6) {

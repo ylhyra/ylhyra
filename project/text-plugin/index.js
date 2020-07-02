@@ -7,8 +7,8 @@
   `--'        `-'
   YLhýra - Plugin for reading annotated texts
 */
-import { fix_inline_translations } from 'Render/Text/InlineTranslations/InlineTranslations/'
-import Typeset from './Render/Typeset'
+// import { fix_inline_translations } from 'Render/Text/InlineTranslations/InlineTranslations/'
+// import Typeset from './Render/Typeset'
 
 import "core-js/stable";
 import "regenerator-runtime/runtime";
@@ -118,7 +118,7 @@ documentReady(async () => {
 
   setTimeout(() => {
     // fix_inline_translations()
-    Typeset()
+    // Typeset()
   }, 200)
 
   Attribution()

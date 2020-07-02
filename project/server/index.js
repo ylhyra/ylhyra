@@ -43,8 +43,11 @@ app.use(require('cookie-session')({
 }))
 
 
-
-// query(`SET sql_mode = ''`, () => {}) // TODO Þetta er til bráðabirgða og á að gerast í gagnagrunninum sjálfum, t.d. með "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
+// TODO Þetta er til bráðabirgða og á að gerast í gagnagrunninum sjálfum, t.d. með "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
+query(`SET sql_mode = ''`, () => {})
+setTimeout(()=>{
+  query(`SET sql_mode = ''`, () => {})
+}, 10000)
 
 app.use('/api', require('server/web-socket').default)
 app.use('/api', require('server/server-side-rendering').default)
