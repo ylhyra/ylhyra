@@ -96,6 +96,6 @@ $wgAllowUserJs = true;
 
 $wgExemptFromUserRobotsControl = array();
 
-$wgInvalidateCacheOnLocalSettingsChange = true;
+// $wgInvalidateCacheOnLocalSettingsChange = true;
 
 $wgAllowUserCss = true;

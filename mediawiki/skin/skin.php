@@ -30,8 +30,10 @@ class AthenaTemplate extends BaseTemplate {
       $this->data['content_navigation']['actions'],
       $this->data['content_navigation']['variants']
     );
-    $action = $mediaWiki->getAction();
-    unset( $actions[ $action ] ); // Remove the current action (doesn't work with Move)
+    if(isset($mediaWiki)) {
+      $action = $mediaWiki->getAction();
+      unset( $actions[ $action ] ); // Remove the current action (doesn't work with Move)
+    }
     return $actions;
   }
 
