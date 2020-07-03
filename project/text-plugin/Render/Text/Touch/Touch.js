@@ -121,7 +121,7 @@ const FindElements = (e, doubleClick = false, moving = false) => {
   }
   const ignore = target.closest('[data-ignore]')
   if (ignore) return;
-  let element = target.closest(`[data-${kind}-id]`)
+  let element = target.closest(`[data-${kind}-has-definition]`)
   if (!element) {
     kind = 'word'
     // console.log('Finding closest')
@@ -130,15 +130,15 @@ const FindElements = (e, doubleClick = false, moving = false) => {
   if (!element) {
     return reset()
   }
-  const id = element.getAttribute(`data-${kind}-id`)
+  const id = element.getAttribute('id')
 
   if (id !== lastId) {
     if (kind === 'word') {
       reset()
       showWord(id)
-      const sentence = element.closest(`[data-sentence-id]`)
+      const sentence = element.closest(`[data-sentence-has-definition]`)
       if (sentence) {
-        const sentenceId = sentence.getAttribute(`id`)
+        const sentenceId = sentence.getAttribute('id')
         highlightSentence(sentenceId)
       }
     } else {
@@ -148,9 +148,9 @@ const FindElements = (e, doubleClick = false, moving = false) => {
     isShowingSomething = kind
     lastId = id
   } else if (isShowingSomething === 'word' && !moving) {
-    const sentence = element.closest(`[data-sentence-id]`)
+    const sentence = element.closest(`[data-sentence-has-definition]`)
     if (!sentence) { return reset() }
-    const sentenceId = sentence.getAttribute(`data-sentence-id`)
+    const sentenceId = sentence.getAttribute('id')
     reset()
     isShowingSomething = true
     showSentence(sentenceId)

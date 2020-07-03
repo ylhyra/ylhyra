@@ -10,7 +10,7 @@ export const logShown = (id) => {
 /*
   Reset
 */
-export default function reset(id) {
+export default function reset() {
   AudioClip.pause()
 
   Analytics.reset()

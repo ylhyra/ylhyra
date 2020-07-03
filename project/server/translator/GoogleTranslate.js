@@ -16,11 +16,11 @@ export default async (translation_hashes) => {
     }
   })
   // console.log({done,missing_html})
-  if (missing_html) {
-    console.log('Sending to Google Translate')
-    const results = await GetGoogleTranslate(missing_html)
-    done = { ...done, ...results }
-  }
+  // if (missing_html) {
+  //   console.log('Sending to Google Translate')
+  //   const results = await GetGoogleTranslate(missing_html)
+  //   done = { ...done, ...results }
+  // }
   // console.log(GOOGLE_API_PROJECT_ID)
   return Promise.resolve(done)
 }

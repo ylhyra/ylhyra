@@ -4,24 +4,39 @@ import { logShown } from './Reset'
 import Analytics from 'text-plugin/Analytics/TextInteractions'
 
 /*
+  Keep track of which ID is currently shown.
+  If the user is moving his curser too rapidly,
+  main funciton may still be working on an old word.
+*/
+let currentId
+
+/*
   Show word
 */
 export default function showWord(id) {
+  currentId = id
+
   // console.log(id)
   const tooltip = document.getElementById(`${id}-tooltip`)
   if (!tooltip) return;
   tooltip.classList.add('shown')
   logShown(`${id}-tooltip`)
 
+  if(id !== currentId) return; /* Exit if we're behind schedule */
+
   const element = document.getElementById(id)
   if (!element) return;
   element.classList.add('hover')
   logShown(id)
 
+  if(id !== currentId) return; /* Exit if we're behind schedule */
+
   let sound_files = element.getAttribute('data-sound')
   if (sound_files) {
     AudioClip.play(sound_files.split(','))
   }
+
+  if(id !== currentId) return; /* Exit if we're behind schedule */
 
   const connected = element.getAttribute('data-connected-words')
   if (connected) {
@@ -30,6 +45,8 @@ export default function showWord(id) {
       logShown(i)
     })
   }
+
+  if(id !== currentId) return; /* Exit if we're behind schedule */
 
   const { top, left } = FindAGoodPositionForTooltip({
     relative: tooltip.closest('.ylhyra-text').getBoundingClientRect(), // The text container will have "position:relative"

@@ -25,7 +25,7 @@ class Write extends Component {
   }
 
   focus = () => {
-    this.textInput.focus()
+    this.textInput?.focus()
   }
 
   checkForSubmit = (event) => {
