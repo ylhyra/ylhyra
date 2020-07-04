@@ -6,10 +6,17 @@ $wgHooks['ParserAfterTidy'][] = function( Parser &$parser, &$text ) {
     articles are sent to ParserAfterTidy, almost all strings are.
   */
   if (strpos($text, 'data-document-start') !== false) {
-    if(function_exists('curl_version')) { // Check if CURL is installed
-      if (isset($_COOKIE['server-side-rendering']) and $_COOKIE['server-side-rendering']=='false') { // Development mode?
+    /* Check if CURL is installed */
+    if(function_exists('curl_version')) {
+      /* Development mode, server side rendering off */
+      if (isset($_COOKIE['server-side-rendering']) and $_COOKIE['server-side-rendering']=='false') {
+        global $wgOut;
+        $parser->getOutput()->updateCacheExpiry( 0 );
+        $wgOut->enableClientCache( false );
         return true;
-      } else {
+      }
+      /* Normal mode, server side rendering on */
+      else {
         $url = 'http://localhost:9123/api/render';
         $timeout=3;
         $payload = json_encode(array(
