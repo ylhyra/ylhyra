@@ -58,3 +58,20 @@ $wgNamespacesWithSubpages[NS_OTHER] = true;
 //$wgContentNamespaces[] = NS_PROJECT;
 
 $wgSitemapNamespaces = array( NS_MAIN );
+
+
+
+$wgDefaultRobotPolicy = 'noindex,nofollow';
+// $wgNamespaceRobotPolicies = array( NS_MAIN => 'index,follow' );
+$wgExemptFromUserRobotsControl = array(
+  NS_TALK,
+  NS_PROJECT,
+  NS_PROJECT_TALK,
+  NS_TEMPLATE,
+  NS_TEMPLATE_TALK,
+  NS_MEDIAWIKI,
+  NS_MEDIAWIKI_TALK,
+  NS_USER,
+  NS_USER_TALK,
+  NS_MANUAL,
+ );
