@@ -47,6 +47,7 @@ class TranslatingEditor extends React.Component {
                 <br/>
                 <div>
                   {/* <button onClick={requestSuggestion}>Get suggestions</button> */}
+                  <div><small className="editor-hide sysop-hide">Note: Machine translations are currently only available for verified editors</small></div>
                   <button onClick={applySuggestions}>Apply suggestions</button>
                 </div>
               </div>
