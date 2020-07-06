@@ -1,6 +1,7 @@
 import query from 'server/database'
 const router = (require('express')).Router()
 import shortid from 'shortid'
+import sql from 'server/database/functions/SQL-template-literal'
 // var cors = require('cors')
 // app.use(cors({
 //   origin: 'https://ylhyra.is',
@@ -50,7 +51,8 @@ router.post('/a', (req, res) => {
       is_mobile = ?,
       user_session = ?,
       page_name = ?,
-      type = "view"
+      type = "view",
+      country = ?
       `, [
         req.clientIp,
         req.useragent.browser,
@@ -60,6 +62,7 @@ router.post('/a', (req, res) => {
         req.useragent.isMobile,
         req.session.user_id,
         req.body.pageName,
+        req.get('CF-IPCountry'),
     ], (err, results) => {
       if (err) {
         console.error(err)
@@ -74,7 +77,7 @@ router.post('/a', (req, res) => {
   List most popular pages by unique visitors
 */
 router.get('/a', (req, res) => {
-  query(`
+  query(sql`
     SELECT
       page_name,
       SUM(total_views) as total_views,
@@ -90,8 +93,10 @@ router.get('/a', (req, res) => {
     ) AS table2
     ON table1.id = table2.id
     WHERE type = "view"
-    GROUP BY page_name;
-  `, [], (err, results) => {
+    GROUP BY page_name
+    ORDER BY unique_views DESC
+    LIMIT 20;
+  `, (err, results) => {
     if (err) {
       console.error(err)
       res.sendStatus(500)

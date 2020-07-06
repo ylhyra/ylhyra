@@ -148,24 +148,24 @@ module.exports = function(webpackEnv) {
       //   ylhyra - text-plugin
       // */
       // app: [
-        // Include an alternative client for WebpackDevServer. A client's job is to
-        // connect to WebpackDevServer by a socket and get notified about changes.
-        // When you save a file, the client will either apply hot updates (in case
-        // of CSS changes), or refresh the page (in case of JS changes). When you
-        // make a syntax error, this client will display a syntax error overlay.
-        // Note: instead of the default WebpackDevServer client, we use a custom one
-        // to bring better experience for Create React App users. You can replace
-        // the line below with these two lines if you prefer the stock client:
-        // require.resolve('webpack-dev-server/client') + '?/',
-        // require.resolve('webpack/hot/dev-server'),
-        isEnvDevelopment &&
-        require.resolve('react-dev-utils/webpackHotDevClient'),
-        // Finally, this is your app's code:
-        paths.appIndexJs,
-        // We include the app code last so that if there is a runtime error during
-        // initialization, it doesn't blow up the WebpackDevServer client, and
-        // changing JS code would still trigger a refresh.
-      ].filter(Boolean),
+      // Include an alternative client for WebpackDevServer. A client's job is to
+      // connect to WebpackDevServer by a socket and get notified about changes.
+      // When you save a file, the client will either apply hot updates (in case
+      // of CSS changes), or refresh the page (in case of JS changes). When you
+      // make a syntax error, this client will display a syntax error overlay.
+      // Note: instead of the default WebpackDevServer client, we use a custom one
+      // to bring better experience for Create React App users. You can replace
+      // the line below with these two lines if you prefer the stock client:
+      // require.resolve('webpack-dev-server/client') + '?/',
+      // require.resolve('webpack/hot/dev-server'),
+      isEnvDevelopment &&
+      require.resolve('react-dev-utils/webpackHotDevClient'),
+      // Finally, this is your app's code:
+      paths.appIndexJs,
+      // We include the app code last so that if there is a runtime error during
+      // initialization, it doesn't blow up the WebpackDevServer client, and
+      // changing JS code would still trigger a refresh.
+    ].filter(Boolean),
     // },
     output: {
       // The build folder.
@@ -174,9 +174,12 @@ module.exports = function(webpackEnv) {
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
-      filename: isEnvProduction ?
-        'app.js' : isEnvDevelopment && 'app.js',
-        // '[name].js' : isEnvDevelopment && 'static/js/bundle.js',
+      filename: (pathData) => {
+        // console.log(pathData)
+        // return pathData.chunk.name === 'main' ? '[name].js' : '[name]/[name].js';
+        return 'app.js'
+      },
+      // '[name].js' : isEnvDevelopment && 'static/js/bundle.js',
       // TODO: remove this when upgrading to webpack 5
       futureEmitAssets: true,
       // There are also additional JS chunk files if you use code splitting.
@@ -184,7 +187,7 @@ module.exports = function(webpackEnv) {
         'static/js/[name].[contenthash:8].chunk.js' : isEnvDevelopment && 'static/js/[name].chunk.js',
       // We inferred the "public path" (such as / or /my-project) from homepage.
       // We use "/" in development.
-      publicPath: 'build',//publicPath,
+      publicPath: 'build', //publicPath,
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction ?
         info =>
@@ -434,13 +437,33 @@ module.exports = function(webpackEnv) {
             // Stylus stylesheet
             {
               test: /\.styl$/,
-              loader: 'style-loader!css-loader!stylus-loader',
-              // use: [{
-              //     loader: 'stylus-loader',
-              //     options: { injectType: 'singletonStyleTag' },
-              //   },
-              //   'css-loader',
-              // ],
+              // loader: 'style-loader!css-loader!stylus-loader',
+              // loader: 'style-loader!file-loader!stylus-loader',
+              use: [
+                'style-loader',
+                {
+                  loader: 'file-loader',
+                  options: {
+                    name: 'app.css',
+                  },
+                },
+                {
+                  loader: 'stylus-loader',
+                },
+              ],
+              // // use: [
+              // //   // { loader: 'style-loader', options: { injectType: 'linkTag' } },
+              // //   { loader: 'file-loader' },
+              // // ],
+              // // use: [{
+              // //     loader: 'stylus-loader',
+              // //     options: { injectType: 'singletonStyleTag' },
+              // //   },
+              // //   'css-loader',
+              // // ],
+              // options: {
+              //   name: '[path][name].css',
+              // },
             },
 
             // "postcss" loader applies autoprefixer to our CSS.

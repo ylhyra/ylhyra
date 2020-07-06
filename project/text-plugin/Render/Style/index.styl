@@ -2,11 +2,11 @@ $max-width = 760px
 gray = #6b6b6b
 blue = #1161d9
 
-@font-face {
-  font-family: "tabular-numbers";
-  src: local("Helvetica"), local("charter"), local("cambria"), local("Times New Roman");
-  unicode-range: U+0030-0039;
-}
+// @font-face {
+//   font-family: "tabular-numbers";
+//   src: local("Helvetica"), local("charter"), local("cambria"), local("Times New Roman");
+//   unicode-range: U+0030-0039;
+// }
 serif()
   font-family /*tabular-numbers,*/ Georgia, serif
 
@@ -35,6 +35,8 @@ card-shadow()
 @import 'Templates/*'
 
 @import 'Templates/Publishers/*'
+
+@import './../../Editor/Style/index.styl'
 
 
 .mw-editsection ~ *
