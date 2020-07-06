@@ -99,3 +99,17 @@ $wgExemptFromUserRobotsControl = array();
 // $wgInvalidateCacheOnLocalSettingsChange = true;
 
 $wgAllowUserCss = true;
+
+
+// $wgCacheEpoch = 20200702184051;
+// $wgUseFileCache = true;
+// $wgUseGzip = true;
+$wgUseCdn = true;
+$wgEnableSidebarCache = true;
+$wgDisableCounters = true;
+$wgMiserMode = true;
+$wgUseLocalMessageCache = true;
+$wgCompressRevisions = true;
+// $wgJobRunRate = 0;
+$wgShowArchiveThumbnails = false;
+$wgInvalidateCacheOnLocalSettingsChange = false;

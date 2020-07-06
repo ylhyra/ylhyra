@@ -5,11 +5,22 @@
 //  With changes by Egill
 
 require_once (__DIR__.'/title.php');
+// use MediaWiki\MediaWikiServices;
 
 ?>
 <?php $this->html( 'headelement' ); ?>
 
 <header>
+
+	<?php
+	/*// setMaxIncludeSize
+		echo MediaWikiServices::getInstance()->getParser()->parse(
+			"{{:MediaWiki:Header}}",
+			$this->getSkin()->getTitle(),
+			(new WikiPage($this->getSkin()->getTitle()))->makeParserOptions(null),
+		)->getText();*/
+	?>
+
 	<div>
 		<a href="/" id="logo"></a>
 		<ul>
