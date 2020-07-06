@@ -21,21 +21,25 @@ class Editor extends React.PureComponent {
 
 const RenderEditor = async () => {
   if (!mw.config.get('wgUserGroups').includes('sysop')) return;
-  $('#catlinks').append('<div id="analytics-container"></div>')
+  $('#content').append('<div id="analytics-container"></div>')
 
   const { data } = await axios.get(`${url}/api/a`, {
     pageName: mw.config.get('wgPageName'),
   })
   console.log(data)
 
-  // ReactDOM.render(
-  //   <div>
-  //     asdf
-  //   </div>,
-  //   document.querySelector('#analytics-container')
-  // )
+  ReactDOM.render(
+    <div>
+      {data.map(row => (
+        <div>
+          {row.page_name} – {row.unique_views} unique views
+        </div>
+      ))}
+    </div>,
+    document.querySelector('#analytics-container')
+  )
 }
 
 // RenderEditor()
 
-window.RenderEditor = RenderEditor
+// window.RenderEditor = RenderEditor

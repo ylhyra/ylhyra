@@ -26,7 +26,7 @@ $wgResourceBasePath = $wgScriptPath;
 ## or else you'll overwrite your logo when you upgrade!
 $wgLogo = "$wgResourceBasePath/resources/assets/wiki.png";
 
-# (Temporary, allowing overriding elsewhere)
+# Development mode inside Docker, must be overridden on production
 if(!isset($IS_PRODUCTION)) {
   ## Database settings
   $wgDBtype = "mysql";
@@ -82,20 +82,11 @@ $wgArticlePath      = "/$1";
 $wgUsePathInfo      = true;
 $wgScriptExtension  = ".php";
 
-// require_once "$IP/extensions/YlhyraExtension/YlhyraBackendParse.php";
-
-
-
 $wgRestrictDisplayTitle = false;
 $wgAllowDisplayTitle = true;
 //wfLoadExtension( 'Echo' );
 
-
 $wgAllowUserJs = true;
-
-
-$wgExemptFromUserRobotsControl = array();
+$wgAllowUserCss = true;
 
 // $wgInvalidateCacheOnLocalSettingsChange = true;
-
-$wgAllowUserCss = true;

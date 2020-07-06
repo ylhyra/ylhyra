@@ -126,6 +126,7 @@ CREATE TABLE interactions (
   item_id VARCHAR(40),
   item_seen_at DATETIME,
   item_time_seen INT UNSIGNED, -- Milliseconds
+  country VARCHAR(2),
 
   type VARCHAR(40) -- "text" for text interaction, "view" for a page view
 );
