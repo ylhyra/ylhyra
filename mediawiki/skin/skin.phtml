@@ -31,10 +31,13 @@ require_once (__DIR__.'/title.php');
 			<li class="user-show"><a href="/Project:Ylhýra">Project</a></li>
 		</ul>
 	</div>
-	<div class="hidden">
-    <div style="font-size:45px;font-family:sans-serif;border:1px solid gray; padding: 20px;">Could not load JavaScript file. <a href=" mailto:egill@egill.xyz">Report this error.</a></div>
+	<!-- <div id="failed-to-load-javascript">
+    <div style="font-size:45px;font-family:sans-serif;border:1px solid gray; padding: 20px;">
+      The JavaScript file couldn't be loaded.
+      <a href=" mailto:egill@egill.xyz">Report this error.</a>
+    </div>
   <br/><br/><br/><br/>
-	</div>
+	</div> -->
 </header>
 
 
@@ -128,15 +131,19 @@ require_once (__DIR__.'/title.php');
   <div id="footer-info">
     <span class="footer-gray">
       <span id="footer-logo"><span>Ylhýra</span></span>
-    </span> • <!--ehf.,
+    </span>  <!--ehf.,
       kt. 480520-0170,-->
+    •
+    <a href="/Project:Become_a_collaborator">Collaborate</a>
+    •
     <span class="footer-gray">
       <a href="mailto:ylhyra@ylhyra.is">Contact</a>
-    </span> •
+      •
+      <a href="/Special:UserLogin" class="anonymous-show">Log in</a>
+      •
+      <a href="/Project:Subscribe" class="anonymous-show">Subscribe to updates</a>
+    </span>
     <!--<a href="/Project:License">Licensing</a> •-->
-    <a href="/Project:Become_a_collaborator">Collaborate</a> •
-    <span class="footer-gray"><a href="/Project:Subscribe">Subscribe to updates</a></span>
-    <span class="anonymous-show">• <span class="footer-gray"><a href="/Special:UserLogin">Log in</a></span></span>
   </div>
 	<?php /*<!--<div id="free">
 		<div>
