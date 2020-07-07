@@ -12,7 +12,7 @@ function LoadScriptInHeader(OutputPage &$out, Skin &$skin) {
   }
 
   $out->addHeadItem('viewport', '<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-  $out->addHeadItem('ylhyra_js', '<script type="text/javascript" src="'.$url.'/app.js"></script>');
-	$out->addHeadItem('ylhyra_css', '<link rel="stylesheet" href="'.$url.'/app.css">');
+  $out->addHeadItem('ylhyra_js', '<script type="text/javascript" src="'.$url.'/app.js?build=000000"></script>');
+	$out->addHeadItem('ylhyra_css', '<link rel="stylesheet" href="'.$url.'/app.css?build=000000">');
 	return true;
 }
