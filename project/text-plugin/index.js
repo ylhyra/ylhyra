@@ -89,7 +89,7 @@ documentReady(async () => {
     // const serverside = ReactDOMServer.renderToStaticMarkup(Render(parsed, true)) //Test for server-side-rendering
     var t2 = now()
     console.log(`Parsing took ${Math.round(t1 - t0)} ms, rendering ${Math.round(t2 - t1)} ms`)
-    $('body').hasClass('mw-editable') && Editor({currentDocument: tokenized && tokenized[title]})
+    $('body').hasClass('mw-editable') && Editor({ currentDocument: tokenized && tokenized[title] })
     // console.log(flattenedData)
     $('body').addClass('initialized')
   }
@@ -109,7 +109,7 @@ documentReady(async () => {
     })
     var htmlToReactParser = new HtmlToReactParser();
     Render(htmlToReactParser.parse(parsedHTML), { hydrate: true }, /* { data: flattenedData, }*/ )
-    $('body').hasClass('mw-editable') && Editor({currentDocument: tokenized && tokenized[title]})
+    $('body').hasClass('mw-editable') && Editor({ currentDocument: tokenized && tokenized[title] })
     $('body').addClass('initialized')
     var t4 = now()
     console.log(`👨‍💻 Rendered server side. Client side hydration took ${Math.round(t4 - t3)} ms`)
@@ -123,3 +123,8 @@ documentReady(async () => {
 
   Attribution()
 })
+
+/*
+  If the JS file isn't loaded, the user will see an error message
+*/
+document.documentElement.className += ' ylhyra-loaded'

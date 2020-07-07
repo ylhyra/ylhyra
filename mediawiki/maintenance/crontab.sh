@@ -1,4 +1,5 @@
 php maintenance/fixDoubleRedirects.php
-php maintenance/rebuildFileCache.php --overwrite
+rm -rf mediawiki/images/cache/
+# php maintenance/rebuildFileCache.php
 php maintenance/runJobs.php --maxtime=3600
-# php maintenance/storage/compressOld.php 
+# php maintenance/storage/compressOld.php

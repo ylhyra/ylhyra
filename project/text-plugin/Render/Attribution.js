@@ -3,12 +3,17 @@
 */
 
 export default () => {
+  $('#catlinks').prepend('<div id="license" class="license"></div>')
+
   /* CC0 */
   if(mw.config.get('wgCategories').includes('CC0')) {
-    $('#footer-info').append(' • The text of this page may be freely republished under <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode">CC0</a>.')
+    $('#license').append('<div>You are free to republish this article. <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode" class="license-link" rel="noopener">CC0</a></div>')
+  }
+  /* CC BY-SA */
+  if(mw.config.get('wgCategories').includes('CC BY-SA')) {
+    $('#license').append('<div>You are free to republish this article. <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" class="license-link" rel="noopener">CC BY-SA</a></div>')
   }
 }
-
 
 
 /*
@@ -18,7 +23,7 @@ let done = []
 export const soundAttribution = ({ filename }) => {
   /* Attribution for ISLEX audio recordings */
   if(filename && filename.match(/islex/) && !done.includes('islex')) {
-    $('#footer-info').append(' • Short audio recordings from the <a rel="noopener" class="external text" href="http://malfong.is/?pg=islexrecordings&amp;lang=en">ISLEX project</a> (<a rel="noopener" class="external text" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC-BY-NC-ND</a>)')
+    $('#license').append('<div>Short audio recordings from the <a rel="noopener" href="http://malfong.is/?pg=islexrecordings&amp;lang=en">ISLEX project</a>. <a rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" class="license-link">CC-BY-NC-ND</a>')
     done.push('islex')
   }
 }
