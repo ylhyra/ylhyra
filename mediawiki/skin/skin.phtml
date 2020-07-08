@@ -5,11 +5,22 @@
 //  With changes by Egill
 
 require_once (__DIR__.'/title.php');
+// use MediaWiki\MediaWikiServices;
 
 ?>
 <?php $this->html( 'headelement' ); ?>
 
 <header>
+
+	<?php
+	/*// setMaxIncludeSize
+		echo MediaWikiServices::getInstance()->getParser()->parse(
+			"{{:MediaWiki:Header}}",
+			$this->getSkin()->getTitle(),
+			(new WikiPage($this->getSkin()->getTitle()))->makeParserOptions(null),
+		)->getText();*/
+	?>
+
 	<div>
 		<a href="/" id="logo"></a>
 		<ul>
@@ -125,10 +136,12 @@ require_once (__DIR__.'/title.php');
     •
     <span class="footer-gray">
       <a href="mailto:ylhyra@ylhyra.is">Contact</a>
-      •
-      <a href="/Special:UserLogin" class="anonymous-show">Log in</a>
-      •
-      <a href="/Project:Subscribe" class="anonymous-show">Subscribe to updates</a>
+			<span class="anonymous-show">
+	      •
+	      <a href="/Special:UserLogin">Log in</a>
+	      •
+	      <a href="/Project:Subscribe">Subscribe to updates</a>
+			</span>
     </span>
     •
     <a href="/Project:Become_a_collaborator">Collaborate</a>

@@ -200,7 +200,7 @@ if (process.env.NODE_ENV === 'production' && window) {
   }
 }
 
-const getNewEditToken = (callback) => {
+export const getNewEditToken = (callback) => {
   var api = new mw.Api();
   api.get({
     action: 'query',

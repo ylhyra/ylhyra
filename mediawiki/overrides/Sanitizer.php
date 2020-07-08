@@ -837,7 +837,7 @@ class Sanitizer {
 				&& !isset( $whitelist[$attribute] )
 				|| self::isReservedDataAttribute( $attribute )
 			) {
-				continue;
+				//continue;
 			}
 
 			# Strip javascript "expression" from stylesheets.

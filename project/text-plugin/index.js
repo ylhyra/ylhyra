@@ -128,3 +128,5 @@ documentReady(async () => {
   If the JS file isn't loaded, the user will see an error message
 */
 document.documentElement.className += ' ylhyra-loaded'
+
+// require('text-plugin/BatchRename')

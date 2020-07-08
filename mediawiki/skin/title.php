@@ -1,18 +1,8 @@
 <?php
-// use MediaWiki\MediaWikiServices;// MW 1.34
-
 /*
   Derived from MediaWiki's "includes/skins/Skin.php"
   GPLv2+
 */
-
-// $wgHooks['SkinSubPageSubtitle'][] = function( &$output, $skin, $out) {
-//   $output = 'HAHAH';
-//   $out = 'HAHAHA'.$out;
-//   die('lol');
-//   return false;
-// };
-
 function YlhyraTitle ($object) {
   // $linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();// MW.134
 
