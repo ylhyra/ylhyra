@@ -132,7 +132,6 @@ const FindElements = (e, doubleClick = false, moving = false) => {
     return reset()
   }
   const id = element.getAttribute('id')
-  turnOffDemonstration()
 
   if (id !== lastId) {
     if (kind === 'word') {
@@ -149,6 +148,7 @@ const FindElements = (e, doubleClick = false, moving = false) => {
     }
     isShowingSomething = kind
     lastId = id
+    turnOffDemonstration()
   } else if (isShowingSomething === 'word' && !moving) {
     const sentence = element.closest(`[data-sentence-has-definition]`)
     if (!sentence) { return reset() }
