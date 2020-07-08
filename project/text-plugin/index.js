@@ -29,6 +29,7 @@ var now = require("performance-now")
 var HtmlToReactParser = require('html-to-react').Parser // TODO: Remove this dependency
 import RenderRecorder from 'text-plugin/Editor/Short_audio/Inline recorder.js'
 import Attribution from 'Render/Attribution'
+import FrontpageDemo from 'Render/Frontpage/demo'
 // import ImageLayout from 'Render/ImageLayout'
 
 /*
@@ -122,11 +123,13 @@ documentReady(async () => {
   }, 200)
 
   Attribution()
+  FrontpageDemo()
 })
 
 /*
   If the JS file isn't loaded, the user will see an error message
 */
 document.documentElement.className += ' ylhyra-loaded'
+
 
 // require('text-plugin/BatchRename')

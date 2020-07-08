@@ -3,7 +3,7 @@ const suggestions = (state = {}, action) => {
   switch (action.type) {
     case 'TOKENIZED':
       // console.warn(action)
-      return action.currentDocumentData.suggestions || {}
+      return action.currentDocumentData?.suggestions || {}
     case 'SUGGEST':
       /* Suggest translation */
       Object.keys(action.definitions).forEach(id => {

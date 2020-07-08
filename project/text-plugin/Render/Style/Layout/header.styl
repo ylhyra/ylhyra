@@ -33,10 +33,16 @@ header
       li
         display inline-block
         margin 0
-        margin-left 20px
+        margin-left: 15px;
+        font-size: 15px;
         a, a:visited
           // color white
-          color black
+          color #404040
+          border-bottom: 1px solid #e4e4e4;
+          &:hover
+            text-decoration none
+            border-bottom-color: #a7a7a7;
+            color black
         @media screen and (max-width: 550px)
           margin-left 9px
           font-size: 13px

@@ -12,7 +12,17 @@ serif()
 
 sans-serif()
   // font-family /*Inter UI, Helvetica Neue,*/ -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
-  font-family /*-apple-system,BlinkMacSystemFont,"Segoe UI",*/Helvetica Neue,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
+  font-family -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica Neue,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
+
+underline-links()
+  a
+    border-bottom: 1px solid #e4e4e4;
+    color black
+    &:hover
+      text-decoration none
+      border-bottom-color: #a7a7a7;
+      color black
+
 
 // span.icelandic
 //   serif()

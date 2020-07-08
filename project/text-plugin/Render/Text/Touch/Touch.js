@@ -8,6 +8,7 @@ import showWord from 'Text/actions/ShowWord'
 import _reset from 'Text/actions/Reset'
 import { highlightSentence } from 'Text/actions/HighlightSentence'
 import { showSentence } from 'Text/actions/ShowSentence'
+import { turnOffDemonstration } from 'Render/Frontpage/demo'
 
 let startClickTime = null
 let lastClickTime = null
@@ -131,6 +132,7 @@ const FindElements = (e, doubleClick = false, moving = false) => {
     return reset()
   }
   const id = element.getAttribute('id')
+  turnOffDemonstration()
 
   if (id !== lastId) {
     if (kind === 'word') {

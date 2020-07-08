@@ -7,6 +7,7 @@ export default () => {
   var value = txt.value
   // if (!value.match(/({{|`)/)) return;
   if (mw.util.getParamValue('section')) return;
+  if (value.match(/<!-- No start -->/)) return;
   if (value.match(/{{start\|/)) {
     value = value.replace(/{{start\|.+?}}/, `{{start|{{subst:FULLPAGENAME}}}}`)
   } else {

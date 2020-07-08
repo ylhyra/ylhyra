@@ -8,6 +8,7 @@ import showWord from 'Text/actions/ShowWord'
 import reset from 'Text/actions/Reset'
 import { highlightSentence } from 'Text/actions/HighlightSentence'
 import { showSentence } from 'Text/actions/ShowSentence'
+import { turnOffDemonstration } from 'Render/Frontpage/demo'
 
 let lastId = null
 let isSentenceBeingShown = false
@@ -46,6 +47,7 @@ const mousemove = (e) => {
       return
     }
     e.preventDefault()
+    turnOffDemonstration()
     if (word) {
       const id = word.getAttribute('id')
       if (lastId !== id) {

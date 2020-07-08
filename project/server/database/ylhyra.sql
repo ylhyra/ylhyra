@@ -149,3 +149,30 @@ CREATE TABLE interactions (
 --   platform VARCHAR(120),
 --   is_mobile BOOLEAN
 -- );
+
+
+
+
+
+
+DROP TABLE IF EXISTS beyging;
+CREATE TABLE beyging (
+  -- id VARCHAR(20) PRIMARY KEY,
+  hash VARCHAR(20),
+  old_hash VARCHAR(20),
+  base VARCHAR(120),
+  entry MEDIUMTEXT
+);
+CREATE INDEX _hash ON beyging (hash);
+CREATE INDEX _old_hash ON beyging (old_hash);
+
+DROP TABLE IF EXISTS beygjanleg_ord;
+CREATE TABLE beygjanleg_ord (
+  id INT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  lowercase VARCHAR(120) COLLATE utf8_bin,
+  word VARCHAR(120) COLLATE utf8_bin,
+  classification VARCHAR(120),
+  beyging_hash VARCHAR(20)
+);
+CREATE INDEX _lowercase ON beygjanleg_ord (lowercase);
+CREATE INDEX _beyging_hash ON beygjanleg_ord (beyging_hash);
