@@ -12,7 +12,9 @@ export default class Definition extends React.PureComponent {
         className="tooltip"
         // style={{display:'none'}}
         data-not-text="true"
-        id={`${id}-tooltip`}>
+        id={`${id}-tooltip`}
+        hidden={true}
+        >
         {definition.meaning &&
           <span className="meaning">
             <span dangerouslySetInnerHTML={{__html: ItalicsAndBold(definition.meaning)}}/>

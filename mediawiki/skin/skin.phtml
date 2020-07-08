@@ -37,8 +37,8 @@ require_once (__DIR__.'/title.php');
 <div id="container">
 <div id="content">
 	<h1 id="title">
-		<!-- <span class="namespace"><?=$this->getSkin()->getTitle()->getNsText();?></span>
-		<?=$this->data[ 'titletext' ];?> -->
+		<?php /* <span class="namespace"><?=$this->getSkin()->getTitle()->getNsText();?></span>
+		<?=$this->data[ 'titletext' ];?> */ ?>
 
     <?=YlhyraTitle($this)?>
 
@@ -123,8 +123,6 @@ require_once (__DIR__.'/title.php');
     </span>  <!--ehf.,
       kt. 480520-0170,-->
     •
-    <a href="/Project:Become_a_collaborator">Collaborate</a>
-    •
     <span class="footer-gray">
       <a href="mailto:ylhyra@ylhyra.is">Contact</a>
       •
@@ -132,6 +130,8 @@ require_once (__DIR__.'/title.php');
       •
       <a href="/Project:Subscribe" class="anonymous-show">Subscribe to updates</a>
     </span>
+    •
+    <a href="/Project:Become_a_collaborator">Collaborate</a>
     <!--<a href="/Project:License">Licensing</a> •-->
   </div>
 	<?php /*<!--<div id="free">
