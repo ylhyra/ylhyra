@@ -1,5 +1,4 @@
-.page-Text_Frontpage.action-view
-  background #fffffe
+
 
 #frontpage-splash-screen
   margin-top 20px
@@ -68,5 +67,12 @@
       max-width 200px
 
 
-.page-Ylhýra #catlinks
-  display none
+.page-Text_Frontpage, .page-Ylhýra
+  &.action-view
+    background #fffffe
+    #mw-content-text
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+  #catlinks
+    display none
