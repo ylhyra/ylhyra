@@ -36,6 +36,10 @@
       font-size 13px
       text-align: right;
 
+  @media screen and (max-width: 600px)
+    display block
+    #frontpage-splash-screen-english
+      padding 0 0 19px 0
 
 #latest-articles
   sans-serif()
@@ -55,6 +59,10 @@
     display block
     font-size: 13px;
     color: #545454;
+  @media screen and (max-width: 600px)
+    grid-template-columns: repeat( auto-fit, minmax(140px, 200px) );
+    > div
+      max-width 200px
 
 
 .page-Ylhýra #catlinks
