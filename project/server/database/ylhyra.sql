@@ -175,6 +175,7 @@ CREATE TABLE inflection (
 );
 CREATE INDEX _BIN_id ON inflection (BIN_id);
 CREATE INDEX _inflectional_form ON inflection (inflectional_form);
+CREATE INDEX _descriptive ON inflection (descriptive);
 
 -- DROP TABLE IF EXISTS words_to_inflection;
 -- CREATE TABLE words_to_inflection (

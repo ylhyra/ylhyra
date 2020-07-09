@@ -9,6 +9,7 @@ import { html2json, json2html } from 'frontend/App/functions/html2json'
 import { AllHtmlEntities as Entities } from 'html-entities'
 const entities = new Entities()
 import isBooleanAttribute from 'is-boolean-attribute'
+import Inflection from 'frontend/Render/Elements/Inflection'
 
 const Traverse = (input, index = 0, parentTag) => {
   if (!input) return null
@@ -35,6 +36,9 @@ const Traverse = (input, index = 0, parentTag) => {
           break;
         case 'game-container':
           Tag = GameContainer;
+          break;
+        case 'inflection':
+          Tag = Inflection;
           break;
       }
       if (input.props.children) {

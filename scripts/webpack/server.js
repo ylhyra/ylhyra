@@ -13,6 +13,8 @@ const modules = [
   resolve('.'),
 ]
 
+new webpack.WatchIgnorePlugin(['project/frontend/.+']);
+
 module.exports = {
   target: 'node',
   node: {
@@ -58,7 +60,7 @@ module.exports = {
   },
   bail: true,
   watchOptions: {
-    ignored: ['node_modules/**','mediawiki/**','project/frontend/**']
+    ignored: ['node_modules/**','mediawiki/**','project/frontend/**','project/frontend/**/*.js']
   },
   module: {
     strictExportPresence: true,

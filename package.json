@@ -22,7 +22,8 @@
     "update-packages": "npm-check-updates -u && npm update",
     "server:build": "export NODE_ENV=production && webpack --config scripts/webpack/server.js",
     "serverOLD": "export NODE_ENV=development && nodemon --watch 'project/server/' --verbose --exec 'npm run server:build && (killall -SIGINT ylhyra || true && node ./build/ylhyra_server.js ylhyra)'",
-    "server": "export NODE_ENV=development && webpack --config scripts/webpack/server.js --color --watch"
+    "server-watch": "export NODE_ENV=development && webpack --config scripts/webpack/server.js --color --watch",
+    "server": "export NODE_ENV=development && webpack --config scripts/webpack/server.js --color && node ./build/ylhyra_server.js ylhyra"
   },
   "dependencies": {
     "@babel/core": "7.9.0",
