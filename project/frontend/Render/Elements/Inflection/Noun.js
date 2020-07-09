@@ -1,29 +1,22 @@
-export const Noun = (word) => {
+const Noun = (word) => {
   if (word.is('masculine')) {
     'Masculine'
   }
   let table = [
-    word.getCases('singular', 'without-article'),
-    word.getCases('singular', 'with-article'),
-    word.getCases('plural', 'without-article'),
-    word.getCases('plural', 'with-article'),
+    word.get('singular', 'without-article').getCases(),
+    word.get('singular', 'with-article').getCases(),
+    word.get('plural', 'without-article').getCases(),
+    word.get('plural', 'with-article').getCases(),
   ]
+  console.log(table)
 }
 
+export default Noun
 
-getCases = () => {
-  return [
-    word.get('nominative'),
-    word.get('accusative'),
-    word.get('dative'),
-    word.get('genitive'),
-  ]
-}
-
-{
-  this.state.rows.map(row => (
-    <tr>
-    <td>{row.inflectional_form}</td>
-  </tr>
-  ))
-}
+// {
+//   this.state.rows.map(row => (
+//     <tr>
+//     <td>{row.inflectional_form}</td>
+//   </tr>
+//   ))
+// }
