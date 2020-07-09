@@ -18,3 +18,7 @@ CC BY-SA 4.0
 mode.
 
 https://notendur.hi.is/~kristinb/NFL2019_kb-kih-6jun.pdf
+
+
+Todo:
+* Lowercase

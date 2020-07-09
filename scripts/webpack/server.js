@@ -2,6 +2,8 @@ const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 const webpack = require('webpack');
 const resolve = (input) => path.resolve(__dirname, './../../' + input)
+const NodemonPlugin = require('nodemon-webpack-plugin')
+
 // const polyfills = resolve('scripts/webpack/utils/config/polyfills.js')
 const modules = [
   resolve('project/'),
@@ -17,6 +19,7 @@ module.exports = {
     __dirname: true,
     __filename: false,
   },
+  mode: process.env.NODE_ENV,
   entry: {
     ylhyra_server: [/*polyfills,*/ resolve('project/server/index.js')],
     // vocabulary_server: [polyfills, resolve('project/vocabulary/server/index.js')],
@@ -54,6 +57,9 @@ module.exports = {
     publicPath: false
   },
   bail: true,
+  watchOptions: {
+    ignored: ['node_modules/**','mediawiki/**','text-plugin/**']
+  },
   module: {
     strictExportPresence: true,
     rules: [{
@@ -67,6 +73,7 @@ module.exports = {
       }, ],
     }, ],
   },
+  plugins: [new NodemonPlugin()],
   // plugins: [
   //   new webpack.optimize.UglifyJsPlugin({
   //     compress: {

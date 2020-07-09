@@ -20,8 +20,9 @@
     "build": "./scripts/build.sh",
     "populate_database": "node project/server/datasets/pronunciation/data/InsertToDatabase.js",
     "update-packages": "npm-check-updates -u && npm update",
-    "server:build": "webpack --config scripts/webpack/server.js --color",
-    "server": "nodemon --watch 'project/server/' --verbose --exec 'npm run server:build && (killall -SIGINT ylhyra || true && node ./build/ylhyra_server.js ylhyra)'"
+    "server:build": "export NODE_ENV=production && webpack --config scripts/webpack/server.js",
+    "serverOLD": "export NODE_ENV=development && nodemon --watch 'project/server/' --verbose --exec 'npm run server:build && (killall -SIGINT ylhyra || true && node ./build/ylhyra_server.js ylhyra)'",
+    "server": "export NODE_ENV=development && webpack --config scripts/webpack/server.js --color --watch"
   },
   "dependencies": {
     "@babel/core": "7.9.0",
@@ -89,6 +90,7 @@
     "minimist": "1.2.5",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",
+    "nodemon-webpack-plugin": "^4.3.2",
     "omit-empty": "^1.0.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "performance-now": "^2.1.0",

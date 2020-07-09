@@ -158,22 +158,31 @@ CREATE TABLE interactions (
 */
 DROP TABLE IF EXISTS inflection;
 CREATE TABLE inflection (
-  -- id VARCHAR(20) PRIMARY KEY,
-  hash VARCHAR(20),
-  old_hash VARCHAR(20),
-  base VARCHAR(120),
-  entry MEDIUMTEXT
+  BIN_id INT(8),
+  base_word VARCHAR(60),
+  inflectional_form VARCHAR(60),
+  word_class VARCHAR(5),
+  correctness_grade_of_base_word INT(1),
+  register_of_base_word VARCHAR(5),
+  grammar_group VARCHAR(5),
+  cross_reference INT(8),
+  descriptive BOOLEAN,
+  grammatical_tag VARCHAR(8),
+  correctness_grade_of_word_form INT(1),
+  register_of_word_form VARCHAR(5),
+  only_found_in_idioms VARCHAR(5),
+  alternative_entry VARCHAR(60)
 );
-CREATE INDEX _hash ON inflection (hash);
-CREATE INDEX _old_hash ON inflection (old_hash);
+CREATE INDEX _BIN_id ON inflection (BIN_id);
+CREATE INDEX _inflectional_form ON inflection (inflectional_form);
 
-DROP TABLE IF EXISTS words_to_inflection;
-CREATE TABLE words_to_inflection (
-  id INT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  lowercase VARCHAR(120) COLLATE utf8_bin,
-  word VARCHAR(120) COLLATE utf8_bin,
-  classification VARCHAR(120),
-  inflection_hash VARCHAR(20)
-);
-CREATE INDEX _lowercase ON words_to_inflection (lowercase);
-CREATE INDEX _inflection_hash ON words_to_inflection (inflection_hash);
+-- DROP TABLE IF EXISTS words_to_inflection;
+-- CREATE TABLE words_to_inflection (
+--   id INT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+--   lowercase VARCHAR(120) COLLATE utf8_bin,
+--   word VARCHAR(120) COLLATE utf8_bin,
+--   classification VARCHAR(120),
+--   inflection_hash VARCHAR(20)
+-- );
+-- CREATE INDEX _lowercase ON words_to_inflection (lowercase);
+-- CREATE INDEX _inflection_hash ON words_to_inflection (inflection_hash);

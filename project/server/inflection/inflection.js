@@ -1,30 +1,52 @@
 const express = require('express')
 const router = express.Router()
-const query = require('./../database/functions/query')
-const getParameters = require('./../database/functions/getParameters')
+import query from 'server/database'
+import sql from 'server/database/functions/SQL-template-literal'
 
-router.post('/beyging', (req, res) => {
-  const listOfWords = req.body.listOfWords
-  let where = []
-  let words = []
-  listOfWords.forEach(word => {
-    where.push('lowercase = ?')
-    words.push(word.word.toLowerCase())
-  })
-  if (words.length == 0) {
-    res.sendStatus(400)
-    return
-  }
-  query(`SELECT id, word, classification, base, beyging.hash as hash, entry FROM beygjanleg_ord
-    JOIN beyging ON beyging_hash = beyging.hash
-    WHERE ${where.join(' OR ')}
-    ORDER BY word, beyging_hash, classification
-    `, words, (err, results) => {
+router.get('/inflection/:id', (req, res) => {
+  const { id } = req.params
+  console.log
+  // const { word } = req.body
+
+
+  // const listOfWords = req.body.listOfWords
+  // let where = []
+  // let words = []
+  // listOfWords.forEach(word => {
+  //   where.push('lowercase = ?')
+  //   words.push(word.word.toLowerCase())
+  // })
+  // if (words.length == 0) {
+  //   res.sendStatus(400)
+  //   return
+  // }
+  query(sql `
+    SELECT * FROM inflection
+    WHERE BIN_id = ${id}
+  `, (err, results) => {
     if (err) {
       res.send(err)
     } else {
-      res.send(JSON.stringify(results, null, 2))
+      let tags = {}
+      results.forEach(row => {
+        if (!tags[row.grammatical_tag]) {
+          tags[row.grammatical_tag] = []
+        }
+        tags[row.grammatical_tag].push(row)
+      })
+      const output = `
+      <table>
+        ${Object.keys(tags).map(tag => {
+          return `<td>${tags[tag].map(i => i.inflectional_form).join('')}</td>`
+        }).join('')}
+
+      </table>`
+
+      res.send(output)
+      // res.send(JSON.stringify(results, null, 2))
+
+
     }
   })
 })
-module.exports = router
+export default router;
