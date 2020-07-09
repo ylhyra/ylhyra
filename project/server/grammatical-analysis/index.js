@@ -1,8 +1,8 @@
 import Greynir from 'server/grammatical-analysis/icelandic'
 // import CreateIDs from './create-ids'
 // import List from './list'
-require('project/text-plugin/App/functions/array-foreach-async')
-import { wordRegex } from 'project/text-plugin/Parse/Tokenize/IDs/CreateIDs.js'
+require('project/frontend/App/functions/array-foreach-async')
+import { wordRegex } from 'project/frontend/Parse/Tokenize/IDs/CreateIDs.js'
 // import { diffArrays } from 'diff'
 
 /*

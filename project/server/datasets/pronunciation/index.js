@@ -11,7 +11,7 @@
 import query from 'server/database'
 import _ from 'underscore'
 const wordRegex = /([A-zÀ-ÿ·-]+)/g
-require('project/text-plugin/App/functions/array-foreach-async')
+require('project/frontend/App/functions/array-foreach-async')
 
 const IPA_to_English = [
   ['ji', 'yi'],

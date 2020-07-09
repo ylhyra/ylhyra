@@ -145,7 +145,7 @@ module.exports = function(webpackEnv) {
     // This means they will be the "root" imports that are included in JS bundle.
     entry: [
       // /*
-      //   ylhyra - text-plugin
+      //   ylhyra - frontend
       // */
       // app: [
       // Include an alternative client for WebpackDevServer. A client's job is to
@@ -292,7 +292,7 @@ module.exports = function(webpackEnv) {
         paths.appNodeModules,
         './',
         'project/',
-        'project/text-plugin/',
+        'project/frontend/',
       ].concat(
         modules.additionalModulePaths || []
       ),

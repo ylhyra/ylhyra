@@ -1,11 +1,11 @@
 import query from 'server/database'
 import string_hash from 'App/functions/hash'
-import flattenArray from 'project/text-plugin/App/functions/flattenArray'
+import flattenArray from 'project/frontend/App/functions/flattenArray'
 import simplifyString from './helpers/simplifyString'
 import GetTranslationFrame from './helpers/TranslationFrame'
 import sql from 'server/database/functions/SQL-template-literal'
 import { escape } from 'sqlstring'
-require('project/text-plugin/App/functions/array-foreach-async')
+require('project/frontend/App/functions/array-foreach-async')
 
 /*
 

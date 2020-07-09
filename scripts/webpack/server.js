@@ -8,7 +8,7 @@ const NodemonPlugin = require('nodemon-webpack-plugin')
 const modules = [
   resolve('project/'),
   resolve('project/server/'),
-  resolve('project/text-plugin/'),
+  resolve('project/frontend/'),
   resolve('project/vocabulary/'),
   resolve('.'),
 ]
@@ -58,7 +58,7 @@ module.exports = {
   },
   bail: true,
   watchOptions: {
-    ignored: ['node_modules/**','mediawiki/**','text-plugin/**']
+    ignored: ['node_modules/**','mediawiki/**','project/frontend/**']
   },
   module: {
     strictExportPresence: true,

@@ -73,9 +73,9 @@ module.exports = {
   appBuild: resolveApp('build_temp'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveModule(resolveApp, 'project/text-plugin/index'),
+  appIndexJs: resolveModule(resolveApp, 'project/frontend/index'),
   appPackageJson: resolveApp('package.json'),
-  appSrc: resolveApp('project/text-plugin'),
+  appSrc: resolveApp('project/frontend'),
   appTsConfig: resolveApp('tsconfig.json'),
   appJsConfig: resolveApp('jsconfig.json'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -87,7 +87,7 @@ module.exports = {
   // resolveModules: [
   //   './',
   //   'project/',
-  //   'project/text-plugin/',
+  //   'project/frontend/',
   //   'node_modules',
   // ],
 };
