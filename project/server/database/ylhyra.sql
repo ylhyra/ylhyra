@@ -153,26 +153,27 @@ CREATE TABLE interactions (
 
 
 
-
-
-DROP TABLE IF EXISTS beyging;
-CREATE TABLE beyging (
+/*
+  Inflection
+*/
+DROP TABLE IF EXISTS inflection;
+CREATE TABLE inflection (
   -- id VARCHAR(20) PRIMARY KEY,
   hash VARCHAR(20),
   old_hash VARCHAR(20),
   base VARCHAR(120),
   entry MEDIUMTEXT
 );
-CREATE INDEX _hash ON beyging (hash);
-CREATE INDEX _old_hash ON beyging (old_hash);
+CREATE INDEX _hash ON inflection (hash);
+CREATE INDEX _old_hash ON inflection (old_hash);
 
-DROP TABLE IF EXISTS beygjanleg_ord;
-CREATE TABLE beygjanleg_ord (
+DROP TABLE IF EXISTS words_to_inflection;
+CREATE TABLE words_to_inflection (
   id INT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   lowercase VARCHAR(120) COLLATE utf8_bin,
   word VARCHAR(120) COLLATE utf8_bin,
   classification VARCHAR(120),
-  beyging_hash VARCHAR(20)
+  inflection_hash VARCHAR(20)
 );
-CREATE INDEX _lowercase ON beygjanleg_ord (lowercase);
-CREATE INDEX _beyging_hash ON beygjanleg_ord (beyging_hash);
+CREATE INDEX _lowercase ON words_to_inflection (lowercase);
+CREATE INDEX _inflection_hash ON words_to_inflection (inflection_hash);

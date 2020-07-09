@@ -5,6 +5,7 @@
 .env.production.local
 .env.test.local
 .pnp.js
+*.csv
 *OL[D]*
 /.pnp
 /build

@@ -45,7 +45,7 @@ app.use(require('cookie-session')({
 
 // TODO Þetta er til bráðabirgða og á að gerast í gagnagrunninum sjálfum, t.d. með "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
 query(`SET sql_mode = ''`, () => {})
-setTimeout(()=>{
+setTimeout(() => {
   query(`SET sql_mode = ''`, () => {})
 }, 10000)
 
@@ -64,21 +64,28 @@ app.use('/api/temp_files/', express.static(upload_path))
 
 
 
-
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST
 const host = customHost || null; // Let http.Server use its default IPv6/4 host
 const prettyHost = customHost || 'localhost'
 const port = argv.port || process.env.PORT || 9123
 
-// Start your app.
-app.listen(port, host, (err) => {
-  if (err) {
-    return logger.error(err.message)
-  }
 
-  logger.appStarted(port, prettyHost)
-})
+/* Import steps */
+if (process.argv[2] === '--import-inflections') {
+  require('server/inflection/ImportToDatabase')
+}
+/* Or, start the app */
+else {
+  app.listen(port, host, (err) => {
+    if (err) {
+      return logger.error(err.message)
+    }
+
+    logger.appStarted(port, prettyHost)
+  })
+}
+
 
 
 // /*
