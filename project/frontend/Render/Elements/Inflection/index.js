@@ -23,20 +23,20 @@ class Inflection extends React.Component {
   }
   render() {
     if (!this.state.rows) return null;
-
+    let word_object = {}
     this.state.rows.forEach(row => {
       console.log(classify(row))
     })
+    let table;
+    if(word_object.is('noun')) {
+      table = Noun(word_object)
+    }
     return (
       <div className="inflection">
         Masculine noun
         <table className="wikitable">
           <tbody>
-            {this.state.rows.map(row => (
-              <tr>
-                <td>{row.inflectional_form}</td>
-              </tr>
-            ))}
+            {table}
           </tbody>
         </table>
         <div className="license">
