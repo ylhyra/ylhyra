@@ -1,1 +1,1 @@
-npm install --only=production
+npm install 
