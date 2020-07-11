@@ -42,4 +42,16 @@ let tags = [
   ['ÞF', 'accusative'],
   ['ÞGF', 'dative'],
   ['EF', 'genitive'],
+  // /* genders */
+  // "kk", "kvk", "hk"
+  // /* persons */
+  // "p1", "p2", "p3"
+  // /* tense */
+  // "þt", "nt"
+  // /* degree */
+  // "mst", "esb", "evb"
+  // /* voice */
+  // "mm", "gm"
+  // /* mood */
+  // "fh", "lhþt", "lhnt", "vh", "bh"
 ]

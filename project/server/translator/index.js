@@ -10,15 +10,16 @@ const request = async ({ list, tokenized, translation, suggestions, session_veri
   if (!list || !list.arrayOfAllWordIDs) return;
   let output = {}
 
-    const user = await verifySession(session_verification_token)
-    if(!user) {
-      return; //TODO: Error message
-    }
+  const user = await verifySession(session_verification_token)
+  if (!user) {
+    return; //TODO: Error message
+  }
+  
   /*
     Grammatical analysis
   */
-  // const analysis = await GrammaticalAnalysis(tokenized)
-  // console.log(JSON.stringify(analysis))
+  const analysis = await GrammaticalAnalysis(tokenized)
+  console.log(JSON.stringify(analysis))
 
   /*
     Our translations
