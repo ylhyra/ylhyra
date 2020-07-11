@@ -14,12 +14,12 @@ const request = async ({ list, tokenized, translation, suggestions, session_veri
   if (!user) {
     return; //TODO: Error message
   }
-  
+
   /*
     Grammatical analysis
   */
-  const analysis = await GrammaticalAnalysis(tokenized)
-  console.log(JSON.stringify(analysis))
+  // const analysis = await GrammaticalAnalysis(tokenized)
+  // console.log(JSON.stringify(analysis))
 
   /*
     Our translations
