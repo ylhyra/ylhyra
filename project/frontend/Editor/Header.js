@@ -1,13 +1,13 @@
 import { save, closeEditor, openEditor } from 'Editor/actions'
 import store from 'App/store'
-import MakeSuggestions from 'Editor/Suggestions'
+// import MakeSuggestions from 'Editor/Suggestions'
 
 import React from 'react'
 import { connect } from 'react-redux'
 class App extends React.Component {
   componentDidMount = () => {
     console.log('Editor header mounted')
-    MakeSuggestions()
+    // MakeSuggestions()
   }
   render() {
     const {editor} = this.props

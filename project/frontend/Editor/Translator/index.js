@@ -6,7 +6,7 @@ import Word from 'Editor/Translator/Views/Document/Word'
 import WordSidebar, { isMacintosh } from 'Editor/Translator/Views/Sidebar/Sidebar'
 import Suggestions from 'Editor/Suggestions/Views/List'
 import store from 'App/store'
-import { SuggestionsStatus, applySuggestions } from 'Editor/Suggestions'
+import { MakeSuggestions, applySuggestions } from 'Editor/Suggestions'
 
 class TranslatingEditor extends React.Component {
   UNSAFE_componentWillMount() {
@@ -43,10 +43,9 @@ class TranslatingEditor extends React.Component {
                     <tr><td><kbd>Alt+Shift</kbd>+<kbd>Enter</kbd></td><td>Add previous word</td></tr>
                   </tbody>
                 </table>
-                <SuggestionsStatus/>
                 <br/>
                 <div>
-                  {/* <button onClick={requestSuggestion}>Get suggestions</button> */}
+                  <button onClick={MakeSuggestions}>Get suggestions</button>
                   <div><small className="editor-hide sysop-hide">Note: Machine translations are currently only available for verified editors</small></div>
                   <button onClick={applySuggestions}>Apply suggestions</button>
                 </div>

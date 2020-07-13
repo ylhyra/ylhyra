@@ -18,7 +18,7 @@ const request = async ({ list, tokenized, translation, suggestions, session_veri
   /*
     Grammatical analysis
   */
-  // const analysis = await GrammaticalAnalysis(tokenized)
+  const analysis = await GrammaticalAnalysis(tokenized)
   // console.log(JSON.stringify(analysis))
 
   /*
@@ -88,7 +88,7 @@ const request = async ({ list, tokenized, translation, suggestions, session_veri
   send({
     type: 'SUGGEST',
     definitions: output,
-    // analysis,
+    analysis,
   })
 }
 

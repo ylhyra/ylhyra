@@ -75,7 +75,7 @@ documentReady(async () => {
     // console.log(flattenedData)
     // if (tokenized && tokenized[title]) {
     store.dispatch({
-      type: 'TOKENIZED',
+      type: 'INITIALIZE_WITH_TOKENIZED_AND_DATA',
       currentDocument: tokenized && tokenized[title],
       // allDocuments: tokenized,
       data: flattenedData,
@@ -102,7 +102,7 @@ documentReady(async () => {
     if (!window.ylhyra_data) return;
     const { parsedHTML, tokenized, data, flattenedData } = window.ylhyra_data
     store.dispatch({
-      type: 'TOKENIZED',
+      type: 'INITIALIZE_WITH_TOKENIZED_AND_DATA',
       currentDocument: tokenized && tokenized[title],
       // allDocuments: tokenized,
       data: flattenedData,

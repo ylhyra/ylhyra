@@ -3,7 +3,7 @@ export default (state = {
   sounds: {}, // Shorter sound bites
 }, action) => {
   switch (action.type) {
-    case 'TOKENIZED':
+    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
       if (action.currentDocumentData?.short_audio) {
         return action.currentDocumentData.short_audio
       }

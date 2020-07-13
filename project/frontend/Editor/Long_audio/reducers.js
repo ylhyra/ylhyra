@@ -6,7 +6,7 @@ import string_hash from 'App/functions/hash'
 export default (state = {}, action) => {
   const { filename } = action
   switch (action.type) {
-    case 'TOKENIZED':
+    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
       if (action.currentDocumentData) {
         return action.currentDocumentData.long_audio || {}
       } else {

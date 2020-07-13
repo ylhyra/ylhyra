@@ -12,40 +12,34 @@ import error from 'App/Error'
   TODO Check if suggestions are needed before sending
 
 */
-const MakeSuggestions = () => {
+export const MakeSuggestions = () => {
   const { list, tokenized, suggestions, translation } = store.getState().editor
   // Information is sent through a WebSocket
   console.log('%c [Requesting suggestions...]', 'color: RoyalBlue')
-  // console.log(Cookies.get())
-  return;
-  // var api = new mw.Api();
-  // api.get({
-  //   action: 'session_verification',
-  //   format: 'json'
-  // }).done(function (data) {
-  //   const session_verification_token = data.session_verification.token
-  //   if(!session_verification_token) {
-  //     error('Server could not verify that you are logged in')
-  //     return console.log(data)
-  //   }
-  //   send({
-  //     type: 'REQUEST_SUGGESTIONS',
-  //     list: list,
-  //     tokenized,
-  //     suggestions,
-  //     translation,
-  //     session_verification_token,
-  //     // from: metadata.from,
-  //     // to: metadata.to,
-  //   })
-  // });
+  var api = new mw.Api();
+  api.get({
+    action: 'session_verification',
+    format: 'json'
+  }).done(function (data) {
+    const session_verification_token = data.session_verification.token
+    if(!session_verification_token) {
+      error('Server could not verify that you are logged in')
+      return console.log(data)
+    }
+    send({
+      type: 'REQUEST_SUGGESTIONS',
+      list: list,
+      tokenized,
+      suggestions,
+      translation,
+      session_verification_token,
+      // from: metadata.from,
+      // to: metadata.to,
+    })
+  });
 }
 
-class SuggestionsStatus extends React.PureComponent {
-  render() {
-    return null
-  }
-}
+// export const SuggestionsStatus = () => {}
 
 export const receiveSuggestions = (action) => {}
 
@@ -69,6 +63,3 @@ export const applySuggestions = () => {
     }
   }
 }
-
-export default MakeSuggestions
-export { SuggestionsStatus }

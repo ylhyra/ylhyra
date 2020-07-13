@@ -59,10 +59,11 @@ const status = (name) => {
 }
 
 const handle = (action) => {
-  // if (action.type === 'TOKENIZED') {
+  // if (action.type === 'INITIALIZE_WITH_TOKENIZED_AND_DATA') {
   //   // handleTokenized(action)
   // } else
   if (action.type === 'SUGGEST') {
+    receiveSuggestions(action)
     store.dispatch(action)
   } else if (action.type === 'TWEET') {
     tweet(action.data)

@@ -60,6 +60,7 @@ export const save = async () => {
         list: data.list,
         translation: data.translation,
         suggestions: data.suggestions,
+        analysis: data.analysis,
         short_audio: data.short_audio,
         long_audio: data.long_audio,
         // pronunciation: data.pronunciation,

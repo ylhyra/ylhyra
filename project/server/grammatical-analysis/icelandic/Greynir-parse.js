@@ -40,8 +40,8 @@ export default function(text, analysis, callback) {
       Sentences.last.push({
         text: word[TEXT],
         analysis: {
-          part_of_speech: word[PART_OF_SPEECH],
-          inflection_form: word[INFLECTION_FORM],
+          word_class: word[WORD_CLASS],
+          grammatical_tag: word[GRAMMATICAL_TAG],
           context_free_grammar: word[CONTEXT_FREE_GRAMMAR],
           base_word: word[BASE_WORD],
           type: word[TYPE],
@@ -55,7 +55,7 @@ export default function(text, analysis, callback) {
 
 const TEXT = 'x'
 const BASE_WORD = 's' // Inniheldur bandstrik ef orðið er samsett
-const PART_OF_SPEECH = 'c' // kk/kvk/hk, so, lo, ao, fs, st
-const INFLECTION_FORM = 'b' // Í BÍN.
+const WORD_CLASS = 'c' // kk/kvk/hk, so, lo, ao, fs, st
+const GRAMMATICAL_TAG = 'b' // Í BÍN.
 const CONTEXT_FREE_GRAMMAR = 't' // "fn_et_þgf_hk"
 const TYPE = 'k' // WORD, PERSON, PUNCTUATION, YEAR, AMOUNT

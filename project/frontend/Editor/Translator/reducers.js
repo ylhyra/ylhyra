@@ -49,7 +49,7 @@ const init = {
 export const translation = (state = init, action) => {
   switch (action.type) {
 
-    case 'TOKENIZED':
+    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
       if (action.currentDocumentData) {
         return action.currentDocumentData.translation
       } else {

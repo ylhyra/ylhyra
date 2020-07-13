@@ -160,7 +160,9 @@ DROP TABLE IF EXISTS inflection;
 CREATE TABLE inflection (
   BIN_id INT(8),
   base_word VARCHAR(60),
+  base_word_lowercase VARCHAR(60),
   inflectional_form VARCHAR(60),
+  inflectional_form_lowercase VARCHAR(60),
   word_class VARCHAR(5),
   correctness_grade_of_base_word INT(1),
   register_of_base_word VARCHAR(5),
@@ -174,7 +176,8 @@ CREATE TABLE inflection (
   alternative_entry VARCHAR(60)
 );
 CREATE INDEX _BIN_id ON inflection (BIN_id);
-CREATE INDEX _inflectional_form ON inflection (inflectional_form);
+CREATE INDEX _base_word_lowercase ON inflection (base_word_lowercase);
+CREATE INDEX _inflectional_form_lowercase ON inflection (inflectional_form_lowercase);
 CREATE INDEX _descriptive ON inflection (descriptive);
 
 -- DROP TABLE IF EXISTS words_to_inflection;

@@ -1,6 +1,6 @@
 /*
   To run:
-  > node build/ylhyra_server.js --import-inflections
+  node build/ylhyra_server.js --import-inflections
 */
 var LineByLineReader = require('line-by-line')
 // var inflections = require('./inflections.js')
@@ -51,6 +51,7 @@ query(`TRUNCATE TABLE inflection;`, (err, res) => {
       query(sql `
         INSERT INTO inflection SET
           base_word = ${base_word},
+          base_word_lowercase = ${base_word.toLowerCase()},
           BIN_id = ${BIN_id},
           word_class = ${word_class},
           correctness_grade_of_base_word = ${correctness_grade_of_base_word},
@@ -59,6 +60,7 @@ query(`TRUNCATE TABLE inflection;`, (err, res) => {
           cross_reference = ${cross_reference},
           descriptive = ${descriptive},
           inflectional_form = ${inflectional_form},
+          inflectional_form_lowercase = ${inflectional_form.toLowerCase()},
           grammatical_tag = ${grammatical_tag},
           correctness_grade_of_word_form = ${correctness_grade_of_word_form},
           register_of_word_form = ${register_of_word_form},
@@ -72,8 +74,8 @@ query(`TRUNCATE TABLE inflection;`, (err, res) => {
       })
 
       count++
-      if (count % 1000 === 0) {
-        console.log(`${(count / CSV_FILE_LINES * 100).toFixed(1)}% ${base_word}`)
+      if (count % 1000 === 1) {
+        process.stdout.write(`\x1Bc\r${(count / CSV_FILE_LINES * 100).toFixed(1)}% ${base_word}`)
       }
 
 

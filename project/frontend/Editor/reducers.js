@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { translation, selected } from 'Editor/Translator/reducers'
-import suggestions from 'Editor/Suggestions/reducers'
+import { suggestions, analysis } from 'Editor/Suggestions/reducers'
 import MakeList from 'Parse/Tokenize/List'
 import long_audio from 'Editor/Long_audio/reducers'
 import short_audio from 'Editor/Short_audio/reducers'
@@ -24,7 +24,7 @@ const open = (state = isOpen, action) => {
 
 const parsed = (state = null, action) => {
   switch (action.type) {
-    case 'TOKENIZED':
+    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
       return action.parsed || state
     default:
       return state
@@ -33,7 +33,7 @@ const parsed = (state = null, action) => {
 
 const tokenized = (state = [], action) => {
   switch (action.type) {
-    case 'TOKENIZED':
+    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
       return action.currentDocument || state
     default:
       return state
@@ -42,7 +42,7 @@ const tokenized = (state = [], action) => {
 
 const list = (state = {}, action) => {
   switch (action.type) {
-    case 'TOKENIZED':
+    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
       if (action.currentDocument) {
         return MakeList(action.currentDocument)
       } else {
@@ -87,6 +87,7 @@ export const editor = combineReducers({
   list, // List of words and sentences
   translation,
   suggestions,
+  analysis,
   selected, // Selected words in the Editor
   long_audio,
   short_audio,
