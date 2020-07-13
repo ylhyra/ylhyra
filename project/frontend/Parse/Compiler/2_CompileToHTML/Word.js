@@ -3,10 +3,11 @@ import Tooltip from './Definition/Tooltip'
 import InlineTranslation from './Definition/InlineTranslation'
 import exists from 'App/functions/exists'
 import Box from './Definition/Box/Word'
-import { getUpdatedID } from 'Parse/Compiler/1_Precompile/UpdateID'
+import { getUpdatedID, getPreviousID } from 'Parse/Compiler/1_Precompile/UpdateID'
 import _ from 'underscore'
 import GetSound from 'Parse/Compiler/2_CompileToHTML/Sound'
 import omitEmpty from 'omit-empty'
+
 class WordElement extends React.Component {
   render() {
     const { id, definition, appendText, editor } = this.props
@@ -18,6 +19,7 @@ class WordElement extends React.Component {
       attrs = omitEmpty({
         'data-word-has-definition': true,
         'data-sound': GetSound(id, editor),
+        'data-analysis': get_analysis(id, editor), // Temporarily just BIN id
       })
 
       /*
@@ -57,6 +59,11 @@ class WordElement extends React.Component {
       </span>,
     ]
   }
+}
+
+const get_analysis = (updatedID, editor) => {
+  const id = getPreviousID(updatedID) || updatedID
+  return editor.analysis[id]?.BIN_id || null
 }
 
 export default WordElement

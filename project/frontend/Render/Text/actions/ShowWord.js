@@ -2,6 +2,7 @@ import FindAGoodPositionForTooltip from 'Text/actions/TooltipPosition'
 import AudioClip from 'Audio/AudioClip'
 import { logShown } from './Reset'
 import Analytics from 'frontend/Analytics/TextInteractions'
+import { ShowInflectionTable } from 'Render/Elements/Inflection/actions'
 
 /*
   Keep track of which ID is currently shown.
@@ -22,21 +23,21 @@ export default function showWord(id) {
   tooltip.classList.add('shown')
   logShown(`${id}-tooltip`)
 
-  if(id !== currentId) return; /* Exit if we're behind schedule */
+  if (id !== currentId) return; /* Exit if we're behind schedule */
 
   const element = document.getElementById(id)
   if (!element) return;
   element.classList.add('hover')
   logShown(id)
 
-  if(id !== currentId) return; /* Exit if we're behind schedule */
+  if (id !== currentId) return; /* Exit if we're behind schedule */
 
   let sound_files = element.getAttribute('data-sound')
   if (sound_files) {
     AudioClip.play(sound_files.split(','))
   }
 
-  if(id !== currentId) return; /* Exit if we're behind schedule */
+  if (id !== currentId) return; /* Exit if we're behind schedule */
 
   const connected = element.getAttribute('data-connected-words')
   if (connected) {
@@ -46,7 +47,16 @@ export default function showWord(id) {
     })
   }
 
-  if(id !== currentId) return; /* Exit if we're behind schedule */
+  /*
+    Temporary: Inflection tables. Need to be moved into the compilation step.
+  */
+  const BIN_id = element.getAttribute('data-analysis')
+  if (BIN_id) {
+    ShowInflectionTable(BIN_id)
+  }
+
+
+  if (id !== currentId) return; /* Exit if we're behind schedule */
 
   const { top, left } = FindAGoodPositionForTooltip({
     relative: tooltip.closest('.ylhyra-text').getBoundingClientRect(), // The text container will have "position:relative"

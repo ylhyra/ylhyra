@@ -25,6 +25,7 @@ const Traverse = (input, siblings = []) => {
       // console.log(translation.words[id])
       // console.log(translation.definitions['175uoye'])
       // console.log(definition)
+      
       let addSiblings = []
       if (definition && definition.contains.length > 1) {
         addSiblings = readSiblings(siblings, id, definition.contains)

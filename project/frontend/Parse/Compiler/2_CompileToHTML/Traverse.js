@@ -69,19 +69,6 @@ const Traverse = ({ json, data, index }) => {
       attrs.rel = "noopener"
     }
 
-    // let Audio
-    // if (attrs['audio-id']) {
-    //   Audio = AudioPlayer(attrs['audio-id'], attrs['inline-audio-player'], editor)
-    // }
-
-
-
-    // console.log(attrs.className)
-    // if (shouldSkip(attrs.className)) {
-    //
-    //   return null
-    // }
-
     let extraAttributes = {}
     if (tag === 'word') {
       extraAttributes = { editor: data }
@@ -119,7 +106,3 @@ const getCustomTag = (tag, className, callback) => {
 }
 
 const voidElementTags = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr']
-
-// const shouldSkip = (className) => {
-//   if(className === 'mw-empty-elt') return true
-// }
