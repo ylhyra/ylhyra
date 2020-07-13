@@ -1,12 +1,13 @@
 import React from 'react'
 import { Word } from './object'
+import link from './link'
 
 const Noun = (word) => {
   return [
     table(FlipColumnsAndRows([
-      [<th colSpan="3">Singular</th>, null, <th>Nominative</th>, <th>Accusative</th>, <th>Dative</th>, <th>Genitive</th>,],
-      [null, <th>Without article</th>, ...word.get('singular', 'without-article').getCases(),],
-      [null,                               <th>With article</th>, ...word.get('singular', 'with-article').getCases(),],
+      [<th colSpan="3">{link('Singular')}</th>, null, <th>{link('Nominative')}</th>, <th>{link('Accusative')}</th>, <th>{link('Dative')}</th>, <th>{link('Genitive')}</th>,],
+      [null, <th>{link('Without article')}</th>, ...word.get('singular', 'without-article').getCases(),],
+      [null,                               <th>{link('With article')}</th>, ...word.get('singular', 'with-article').getCases(),],
     ])),
     table(FlipColumnsAndRows([
       [null, null, <th>Nominative</th>, <th>Accusative</th>, <th>Dative</th>, <th>Genitive</th>,],
@@ -20,14 +21,14 @@ const Noun = (word) => {
 const table = (input) => (
   <table className="wikitable">
     <tbody>
-      {input.map(row => (
-        <tr>
-          {row.map(cell => {
+      {input.map((row, index) => (
+        <tr key={index}>
+          {row.map((cell, index2) => {
             if(cell instanceof Word) {
-              return <td>{cell.renderCell()}</td>
+              return <td key={index2}>{cell.renderCell()}</td>
             } else if (cell === null) {
-              return <th/>
-            }else {
+              return <th key={index2}/>
+            } else {
               return cell
             }
           })}

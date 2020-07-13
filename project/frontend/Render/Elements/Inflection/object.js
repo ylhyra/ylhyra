@@ -1,5 +1,6 @@
 import React from 'react'
 import { classify } from './classify'
+import link from './link'
 
 export class Word {
   classification = []
@@ -39,62 +40,67 @@ export class Word {
     }
   }
   renderCell = () => {
-    const value = this.rows.map(row => {
-      return row.inflectional_form
-    }).join(', ')
+    const value = this.rows.map((row, index) => {
+      return <span>
+        {row.inflectional_form}
+        {index+1<this.rows.length && <span className="light-gray"> / </span>}
+      </span>
+    })
     return <div>
       <span className="gray">{this.getHelperWordsBefore()}</span> {value} <span className="gray">{this.getHelperWordsAfter()}</span>
     </div>
   }
   getHelperWordsBefore = () => {
+    let text = ''
     if (this.is('nominative') && this.is('singular')) {
-      return 'hér er'
+      text = 'hér er'
     }
     if (this.is('nominative') && this.is('plural')) {
-      return 'hér eru'
+      text = 'hér eru'
     }
     if (this.is('accusative')) {
-      return 'um'
+      text = 'um'
     }
     if (this.is('dative')) {
-      return 'frá'
+      text = 'frá'
     }
     if (this.is('genitive')) {
-      return 'til'
+      text = 'til'
     }
-    return ''
+    return link('helper words for declension', text)
   }
   getHelperWordsAfter = () => {
+    let text = ''
     if (this.is('with-article')) {
       if (this.is('singular')) {
         if (this.is('nominative')) {
-          return this.dependingOnGender('minn', 'mín', 'mitt')
+          text = this.dependingOnGender('minn', 'mín', 'mitt')
         }
         if (this.is('accusative')) {
-          return this.dependingOnGender('minn', 'mína', 'mitt')
+          text = this.dependingOnGender('minn', 'mína', 'mitt')
         }
         if (this.is('dative')) {
-          return this.dependingOnGender('mínum', 'minni', 'mínu')
+          text = this.dependingOnGender('mínum', 'minni', 'mínu')
         }
         if (this.is('genitive')) {
-          return this.dependingOnGender('minns', 'minnar', 'míns')
+          text = this.dependingOnGender('minns', 'minnar', 'míns')
         }
       } else if (this.is('plural')) {
         if (this.is('nominative')) {
-          return this.dependingOnGender('mínir', 'mínar', 'mín')
+          text = this.dependingOnGender('mínir', 'mínar', 'mín')
         }
         if (this.is('accusative')) {
-          return this.dependingOnGender('mína', 'mínar', 'mín')
+          text = this.dependingOnGender('mína', 'mínar', 'mín')
         }
         if (this.is('dative')) {
-          return this.dependingOnGender('mínum', 'mínum', 'mínum')
+          text = this.dependingOnGender('mínum', 'mínum', 'mínum')
         }
         if (this.is('genitive')) {
-          return this.dependingOnGender('minna', 'minna', 'minna')
+          text = this.dependingOnGender('minna', 'minna', 'minna')
         }
       }
     }
-    return ''
+    return link('helper words for the article',text)
   }
   dependingOnGender = (...values) => {
     return values[['masculine', 'feminine', 'neuter'].indexOf(this.getType('gender'))]
