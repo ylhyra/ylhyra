@@ -6,6 +6,10 @@ import React from 'react'
 import store from 'App/store'
 import { send } from 'Editor/web-socket'
 import error from 'App/Error'
+import axios from 'axios'
+const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
+require('App/functions/array-foreach-async')
+
 
 /*
 
@@ -20,9 +24,9 @@ export const MakeSuggestions = () => {
   api.get({
     action: 'session_verification',
     format: 'json'
-  }).done(function (data) {
+  }).done(function(data) {
     const session_verification_token = data.session_verification.token
-    if(!session_verification_token) {
+    if (!session_verification_token) {
       error('Server could not verify that you are logged in')
       return console.log(data)
     }
@@ -41,7 +45,43 @@ export const MakeSuggestions = () => {
 
 // export const SuggestionsStatus = () => {}
 
-export const receiveSuggestions = (action) => {}
+export const receiveSuggestions = async (action) => {
+  /* Suggest analysis */
+  let grammatical_analysis = {}
+  await action.analysis.forEachAsync((item, index) => {
+    return new Promise(async resolve => {
+
+      /* Temporary, only allow one word at a time */
+      if (!item.ids || item.ids.length > 1) return resolve();
+      const id = item.ids[0]
+      if (!id) return resolve();
+      const analysis = item.analysis[0].analysis
+
+      // if (index < 2) {
+      const data = (await axios.post(`${url}/api/inflection/find_inflection_id`, {
+        analysis: item.analysis[0]
+      })).data
+
+      /*
+        TODO: Currently only fetches one match.
+        Should show more bin leaf matches and ALSO more options inside each word
+      */
+
+      const BIN_id = data.length > 0 && data[0].BIN_id
+      grammatical_analysis[id] = {
+        // ...(state[id] || {}),
+        ...analysis,
+        BIN_id,
+      }
+      resolve()
+    })
+  })
+
+  store.dispatch({
+    type: 'GRAMMATICAL_ANALYSIS',
+    grammatical_analysis,
+  })
+}
 
 export const applySuggestions = () => {
   const { list, translation, suggestions } = store.getState().editor

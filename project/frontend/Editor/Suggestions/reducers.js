@@ -1,5 +1,3 @@
-import axios from 'axios'
-const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
 
 export const suggestions = (state = {}, action) => {
   let update = {}
@@ -29,36 +27,10 @@ export const analysis = (state = {}, action) => {
   switch (action.type) {
     case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
       return action.currentDocumentData?.analysis || {}
-    case 'SUGGEST':
-      /* Suggest analysis */
-      action.analysis.forEach(async (item, index) => {
-        /* Temporary, only allow one word at a time */
-        if (!item.ids || item.ids.length > 1) return;
-        const id = item.ids[0]
-        if(!id) return;
-        const analysis = item.analysis[0].analysis
-
-        // if (index < 2) {
-        const data = (await axios.post(`${url}/api/inflection/find_inflection_id`, {
-          analysis: item.analysis[0]
-        })).data
-
-        /*
-          TODO: Currently only fetches one match.
-          Should show more bin leaf matches and ALSO more options inside each word
-        */
-
-        const BIN_id = data.length > 0 && data[0].BIN_id
-
-        update[id] = {
-          ...(state[id] || {}),
-          ...analysis,
-          BIN_id,
-        }
-      })
+    case 'GRAMMATICAL_ANALYSIS':
       return {
         ...state,
-        ...update,
+        ...action.grammatical_analysis,
       }
     default:
       return state
