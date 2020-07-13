@@ -1,3 +1,4 @@
+#!/bin/bash
 php maintenance/fixDoubleRedirects.php
 rm -rf images/cache/
 # php maintenance/rebuildFileCache.php

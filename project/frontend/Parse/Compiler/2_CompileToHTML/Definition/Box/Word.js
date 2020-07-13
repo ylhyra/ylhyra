@@ -17,24 +17,26 @@ export default class WordBox extends React.PureComponent {
         <span>
           {definition.base && definition.base.trim() &&
             <span className="base">
+              <label>Base word</label>
               <span dangerouslySetInnerHTML={{__html: ItalicsAndBold(definition.base)}}/>
             </span>
           }
           {definition.base_meaning && definition.base_meaning.trim() &&
             <span className="base_meaning">
+              <label>Meaning of base word</label>
               <span dangerouslySetInnerHTML={{__html: ItalicsAndBold(definition.base_meaning)}}/>
             </span>
           }
           {definition.base_direct && definition.base_direct.trim() &&
             <span className="base_direct">
-              {/* <label>Literally</label> */}
+              <label>Literal meaning of base word</label>
               “<span dangerouslySetInnerHTML={{__html: ItalicsAndBold(definition.base_direct)}}/>”
             </span>
           }
 
           {definition.direct && definition.direct.trim() &&
             <span className="">
-              <label>Literally</label>
+              <label>Literal meaning of word</label>
               “<span dangerouslySetInnerHTML={{__html: ItalicsAndBold(definition.direct)}}/>”
             </span>
           }
@@ -48,7 +50,7 @@ export default class WordBox extends React.PureComponent {
 
           {definition.grammatical_analysis && definition.grammatical_analysis.trim() &&
             <span className="small">
-              {/* <label>Note</label> */}
+              <label>Note</label>
               {definition.grammatical_analysis}
             </span>
           }
