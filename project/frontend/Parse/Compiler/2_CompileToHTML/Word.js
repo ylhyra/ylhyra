@@ -12,8 +12,8 @@ class WordElement extends React.Component {
   render() {
     const { id, definition, appendText, editor } = this.props
     const hasTooltip = exists(definition)
-    let attrs = {}
     let classes = []
+    let attrs = {}
     if (exists(definition)) {
 
       attrs = omitEmpty({

@@ -12,10 +12,11 @@ class Inflection extends React.Component {
   constructor(props) {
     super(props);
     const parameters = ParseHTMLtoObject(props.children)
+    const id = parameters.id || props.id
     this.state = {}
-    this.load(parameters)
+    this.load(id)
   }
-  load = async ({ id }) => {
+  load = async (id) => {
     const data = (await axios.get(`${url}/api/inflection/${id}`, {})).data
     this.setState({
       rows: data,

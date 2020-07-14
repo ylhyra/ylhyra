@@ -55,7 +55,6 @@ export default function showWord(id) {
     ShowInflectionTable(BIN_id)
   }
 
-
   if (id !== currentId) return; /* Exit if we're behind schedule */
 
   const { top, left } = FindAGoodPositionForTooltip({
