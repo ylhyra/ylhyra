@@ -1,31 +1,47 @@
 import React from 'react'
 import { Word } from './object'
 import link from './link'
+import { without } from 'underscore'
 
-const Noun = (word) => {
-  return [
-    table(FlipColumnsAndRows([
-      [<th colSpan="3">{link('Singular')}</th>, null, <th>{link('Nominative')}</th>, <th>{link('Accusative')}</th>, <th>{link('Dative')}</th>, <th>{link('Genitive')}</th>,],
-      [null, <th>{link('Without article')}</th>, ...word.get('singular', 'without-article').getCases(),],
-      [null,                               <th>{link('With article')}</th>, ...word.get('singular', 'with-article').getCases(),],
-    ])),
-    table(FlipColumnsAndRows([
-      [null, null, <th>Nominative</th>, <th>Accusative</th>, <th>Dative</th>, <th>Genitive</th>,],
-      [<th colSpan="2">Plural</th>, <th>Without article</th>,...word.get('plural', 'without-article').getCases(),],
-      [null,                               <th>Without article</th>, ...word.get('plural', 'with-article').getCases(),],
-    ]))
-  ]
+const Noun = (word, { relevantCellValues }) => {
+  if (relevantCellValues) {
+    const relevantCell = word.get(...relevantCellValues)
+    const relevantRowValues = without(relevantCellValues, 'nominative', 'accusative', 'dative', 'genitive')
+    const relevantRow = word.get(...relevantRowValues).getCases()
+
+
+    return table(FlipColumnsAndRows([
+      [null, null, <th>{link('Nominative')}</th>, <th>{link('Accusative')}</th>, <th>{link('Dative')}</th>, <th>{link('Genitive')}</th>, ],
+      [<th colSpan="1">{link(relevantCell.getType('plurality'))}</th>, <th>{link(relevantCell.getType('article'))}</th>, ...relevantRow],
+    ]), {
+      highlight: relevantCellValues
+    })
+
+  } else {
+    return [
+      table(FlipColumnsAndRows([
+        [<th colSpan="3">{link('Singular')}</th>, null, <th>{link('Nominative')}</th>, <th>{link('Accusative')}</th>, <th>{link('Dative')}</th>, <th>{link('Genitive')}</th>, ],
+        [null, <th>{link('Without article')}</th>, ...word.get('singular', 'without article').getCases(), ],
+        [null, <th>{link('With article')}</th>, ...word.get('singular', 'with article').getCases(), ],
+      ])),
+      table(FlipColumnsAndRows([
+        [null, null, <th>Nominative</th>, <th>Accusative</th>, <th>Dative</th>, <th>Genitive</th>, ],
+        [<th colSpan="2">Plural</th>, <th>Without article</th>, ...word.get('plural', 'without article').getCases(), ],
+        [null, <th>Without article</th>, ...word.get('plural', 'with article').getCases(), ],
+      ]))
+    ]
+  }
 }
 
-
-const table = (input) => (
+const table = (input, { highlight }) => (
   <table className="wikitable">
     <tbody>
       {input.map((row, index) => (
         <tr key={index}>
           {row.map((cell, index2) => {
             if(cell instanceof Word) {
-              return <td key={index2}>{cell.renderCell()}</td>
+              const shouldHighlight = cell.is(...highlight)
+              return <td className={shouldHighlight?'highlight':''} key={index2}>{cell.renderCell()}</td>
             } else if (cell === null) {
               return <th key={index2}/>
             } else {
@@ -38,7 +54,20 @@ const table = (input) => (
   </table>
 )
 
+
 export default Noun
+
+
+// class Table {
+//
+// }
+
+
+
+
+
+
+
 
 
 /* Chuan Sun https://stackoverflow.com/questions/17428587/transposing-a-2d-array-in-javascript */

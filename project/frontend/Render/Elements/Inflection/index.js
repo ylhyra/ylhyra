@@ -7,13 +7,18 @@ import store from 'App/store'
 import { ParseHTMLtoObject } from 'Render/Elements/parse'
 import Noun from './Noun'
 import { Word } from './object'
+import { classify } from './classify'
+import { without } from 'underscore'
 
 class Inflection extends React.Component {
   constructor(props) {
     super(props);
     const parameters = ParseHTMLtoObject(props.children)
     const id = parameters.id || props.id
-    this.state = {}
+    const grammatical_tag = parameters.grammatical_tag || props.grammatical_tag
+    this.state = {
+      relevantCellValues: without(classify({ grammatical_tag }), '1', '2', '3'),
+    }
     this.load(id)
   }
   load = async (id) => {
@@ -27,7 +32,9 @@ class Inflection extends React.Component {
     let word = new Word(this.state.rows)
     let tables
     if (word.is('noun')) {
-      tables = Noun(word)
+      tables = Noun(word, {
+        relevantCellValues: this.state.relevantCellValues,
+      })
     }
     return (
       <div className="inflection">

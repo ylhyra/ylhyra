@@ -19,7 +19,7 @@ class WordElement extends React.Component {
       attrs = omitEmpty({
         'data-word-has-definition': true,
         'data-sound': GetSound(id, editor),
-        'data-analysis': get_analysis(id, editor), // Temporarily just BIN id
+        'data-analysis': get_analysis(id, editor),
       })
 
       /*
@@ -63,7 +63,14 @@ class WordElement extends React.Component {
 
 const get_analysis = (updatedID, editor) => {
   const id = getPreviousID(updatedID) || updatedID
-  return editor.analysis[id]?.BIN_id || null
+  const analysis = editor.analysis[id]
+  if(!analysis) return null;
+console.log(analysis)
+  return JSON.stringify({
+    BIN_id: analysis.BIN_id,
+    word_class: analysis.word_class,
+    grammatical_tag: analysis.grammatical_tag,
+  })
 }
 
 export default WordElement

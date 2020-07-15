@@ -5,8 +5,9 @@ import link from './link'
 export class Word {
   classification = []
   rows = []
-  constructor(props) {
-    props.forEach(row => {
+  original = []
+  constructor(rows, original) {
+    rows.forEach(row => {
       let classification = row.classification || classify(row) // Previously classified or not
       this.rows.push({
         classification,
@@ -14,14 +15,15 @@ export class Word {
       })
       this.classification = classification // Temporary
     })
+    this.original = original || rows
   }
-  is = (value) => {
-    return this.classification.includes(value)
+  is = (...values) => {
+    return values.every(value => this.classification.includes(value))
   }
   get = (...values) => (
     new Word(this.rows.filter(row => (
       values.every(value => row.classification.includes(value))
-    )))
+    )), this.original)
   )
   getCases = () => {
     return [
@@ -37,6 +39,10 @@ export class Word {
         return this.classification.find(i => ['masculine', 'feminine', 'neuter'].includes(i))
       case 'class':
         return this.classification.find(i => ['noun', 'verb', 'adjective'].includes(i))
+      case 'plurality':
+        return this.classification.find(i => ['singular', 'plural'].includes(i))
+      case 'article':
+        return this.classification.find(i => ['with article', 'without article'].includes(i))
     }
   }
   renderCell = () => {
@@ -71,7 +77,7 @@ export class Word {
   }
   getHelperWordsAfter = () => {
     let text = ''
-    if (this.is('with-article')) {
+    if (this.is('with article')) {
       if (this.is('singular')) {
         if (this.is('nominative')) {
           text = this.dependingOnGender('minn', 'mín', 'mitt')
