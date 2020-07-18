@@ -4,14 +4,26 @@
   background: #fdfdfd;
   card-shadow()
   border-radius: 3px;
+  padding: 10px;
+  max-width: 270px;
+  color #494949
+  table
+    margin: 10px auto!important
+  hr
+    margin: 7px 0;
   .gray
     font-size 12px
     font-weight normal
   .light-gray
     color #b0b0b0
     font-weight normal
-  a
-    // text-decoration underline
+  a:not(table a)
+    &.plainlink
+      text-decoration underline!important
     // border-bottom 1px solid rgba(#c8c8c8, 0.2)
   td.highlight
     background white
+  h4
+    margin: 0;
+    font-size: 17px;
+    color black

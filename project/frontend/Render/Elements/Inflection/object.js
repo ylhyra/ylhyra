@@ -45,16 +45,17 @@ export class Word {
         return this.classification.find(i => ['with article', 'without article'].includes(i))
     }
   }
-  renderCell = () => {
+  renderCell = (shouldHighlight) => {
     const value = this.rows.map((row, index) => {
       return <span>
         {row.inflectional_form}
         {index+1<this.rows.length && <span className="light-gray"> / </span>}
       </span>
     })
-    return <div>
-      <span className="gray">{this.getHelperWordsBefore()}</span> {value} <span className="gray">{this.getHelperWordsAfter()}</span>
-    </div>
+    return [
+      <td className={`right ${shouldHighlight ? 'highlight' : ''}`}><span className="gray">{this.getHelperWordsBefore()}</span></td>,
+      <td className={`left ${shouldHighlight ? 'highlight' : ''}`}>{value} <span className="gray">{this.getHelperWordsAfter()}</span></td>
+    ]
   }
   getHelperWordsBefore = () => {
     let text = ''
@@ -113,5 +114,8 @@ export class Word {
   }
   getId = () => (
     this.rows[0].BIN_id
+  )
+  getBaseWord = () => (
+    this.rows[0].base_word
   )
 }

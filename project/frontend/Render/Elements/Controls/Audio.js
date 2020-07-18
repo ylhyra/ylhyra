@@ -35,7 +35,7 @@ export default (audioId, inlineAudioPlayer, editor) => {
       data-src={`/media/${file}?v=1`}
       {...props}
     />
-    // <div class="audioPlayer">
+    // <div className="audioPlayer">
     //   <audio
     //     data-id={audioId}
     //     data-synchronization-list={sync && JSON.stringify(updateIDs(sync.list))}
@@ -46,19 +46,19 @@ export default (audioId, inlineAudioPlayer, editor) => {
     //     >
     //     <source onError="window.audioLoadError()" src={`/media/${file}?v=1`} type="audio/mp3"/>
     //   </audio>
-    //   <div class="playButton"></div>
-    //   <div class="loader"></div>
-    //   <div class="error"><span>Audio file missing.</span></div>
-    //   <div class="time-wrapper">
-    //     <span class="currentTime">-:--</span>
-    //     <div class="slider-wrapper">
-    //       <div class="slider-background"></div>
-    //       <div class="slider-progress-indicator"></div>
-    //       <div class="slider-playhead-container">
-    //         <div class="slider-playhead"></div>
+    //   <div className="playButton"></div>
+    //   <div className="loader"></div>
+    //   <div className="error"><span>Audio file missing.</span></div>
+    //   <div className="time-wrapper">
+    //     <span className="currentTime">-:--</span>
+    //     <div className="slider-wrapper">
+    //       <div className="slider-background"></div>
+    //       <div className="slider-progress-indicator"></div>
+    //       <div className="slider-playhead-container">
+    //         <div className="slider-playhead"></div>
     //       </div>
     //     </div>
-    //     <span class="duration">-:--</span>
+    //     <span className="duration">-:--</span>
     //   </div>
     // </div>
 

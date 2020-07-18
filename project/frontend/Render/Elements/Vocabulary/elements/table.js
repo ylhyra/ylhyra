@@ -202,7 +202,7 @@ const checkForBrackets = (input) => {
       __html: input
         // .trim()
         .replace(/\[(.*?)\]/g, '<span className="helper">$1</span>')
-        // .replace(/^að /g, '<span class="helper">að</span> ')
+        // .replace(/^að /g, '<span className="helper">að</span> ')
         // TEMP
         .replace('hann/hún/það','hann')
         .replace('þeir/þær/þau','þeir')

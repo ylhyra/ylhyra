@@ -24,10 +24,9 @@ class Inflection extends React.Component {
     }
     return (
       <div className="inflection">
-        {word.getType('gender')} {word.getType('class')}
         {tables}
         <div className="license">
-          <a href={`https://bin.arnastofnun.is/beyging/${word.getId()}`}>See full table on BÍN</a> <a href="/Project:Inflections" class="info">About</a>
+          <a href={`https://bin.arnastofnun.is/beyging/${word.getId()}`}>See the full table on BÍN</a> <a href="/Project:Inflections" className="info">About</a>
         </div>
       </div>
     )

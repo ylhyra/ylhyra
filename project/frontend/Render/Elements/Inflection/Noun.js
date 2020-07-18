@@ -10,13 +10,16 @@ const Noun = (word, { relevantCellValues }) => {
     const relevantRow = word.get(...relevantRowValues).getCases()
 
     return [
-      <div>Declension in {link(relevantCell.getType('plurality'))}, {link(relevantCell.getType('article'))}</div>,
+      <h4>{(relevantCell.getBaseWord())}</h4>,
+      <div>{link((relevantCell.getType('gender')))} {link(word.getType('class'))}</div>,
+      <hr/>,
+      <div>{link('Declension')} in {link(relevantCell.getType('plurality'))}, {link(relevantCell.getType('article'))}:</div>,
       table(FlipColumnsAndRows([
         [
-          <th>{link('Nominative', <span class="emoji nominative"/>)}</th>,
-          <th>{link('Accusative', <span class="emoji accusative"/>)}</th>,
-          <th>{link('Dative', <span class="emoji dative"/>)}</th>,
-          <th>{link('Genitive', <span class="emoji genitive"/>)}</th>,
+          <th>{link('Nominative', <span className="emoji nominative"/>)}</th>,
+          <th>{link('Accusative', <span className="emoji accusative"/>)}</th>,
+          <th>{link('Dative', <span className="emoji dative"/>)}</th>,
+          <th>{link('Genitive', <span className="emoji genitive"/>)}</th>,
         ],
         [...relevantRow],
       ]), {
@@ -48,7 +51,7 @@ const table = (input, { highlight }) => (
           {row.map((cell, index2) => {
             if(cell instanceof Word) {
               const shouldHighlight = cell.is(...highlight)
-              return <td className={shouldHighlight?'highlight':''} key={index2}>{cell.renderCell()}</td>
+              return cell.renderCell(shouldHighlight)
             } else if (cell === null) {
               return <th key={index2}/>
             } else {
@@ -76,4 +79,8 @@ const FlipColumnsAndRows = (input) => {
     newMat.push(temp); // then just push every column in newMat
   }
   return newMat;
+}
+
+const capitalize = (word) => {
+  return word[0].toUpperCase() + word.slice(1).toLowerCase();
 }

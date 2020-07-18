@@ -10,6 +10,9 @@ import { without } from 'underscore'
 export const ShowInflectionTable = async (input) => {
   input = JSON.parse(input)
   const { BIN_id, grammatical_tag } = input
+  if(!BIN_id) {
+    return console.log('No BIN id')
+  }
   const relevantCellValues = without(classify({ grammatical_tag }), '1', '2', '3')
   const rows = (await axios.get(`${url}/api/inflection/${BIN_id}`, {})).data
   if (!rows) return;
