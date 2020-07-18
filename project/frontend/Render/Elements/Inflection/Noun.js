@@ -9,13 +9,20 @@ const Noun = (word, { relevantCellValues }) => {
     const relevantRowValues = without(relevantCellValues, 'nominative', 'accusative', 'dative', 'genitive')
     const relevantRow = word.get(...relevantRowValues).getCases()
 
-
-    return table(FlipColumnsAndRows([
-      [null, null, <th>{link('Nominative')}</th>, <th>{link('Accusative')}</th>, <th>{link('Dative')}</th>, <th>{link('Genitive')}</th>, ],
-      [<th colSpan="1">{link(relevantCell.getType('plurality'))}</th>, <th>{link(relevantCell.getType('article'))}</th>, ...relevantRow],
-    ]), {
-      highlight: relevantCellValues
-    })
+    return [
+      <div>Declension in {link(relevantCell.getType('plurality'))}, {link(relevantCell.getType('article'))}</div>,
+      table(FlipColumnsAndRows([
+        [
+          <th>{link('Nominative', <span class="emoji nominative"/>)}</th>,
+          <th>{link('Accusative', <span class="emoji accusative"/>)}</th>,
+          <th>{link('Dative', <span class="emoji dative"/>)}</th>,
+          <th>{link('Genitive', <span class="emoji genitive"/>)}</th>,
+        ],
+        [...relevantRow],
+      ]), {
+        highlight: relevantCellValues
+      })
+    ]
 
   } else {
     return [
@@ -56,18 +63,6 @@ const table = (input, { highlight }) => (
 
 
 export default Noun
-
-
-// class Table {
-//
-// }
-
-
-
-
-
-
-
 
 
 /* Chuan Sun https://stackoverflow.com/questions/17428587/transposing-a-2d-array-in-javascript */

@@ -7,6 +7,7 @@ import createLogger from 'redux-logger'
 import { editor } from 'Editor/reducers'
 import { data } from 'Render/reducers'
 import { audio } from 'Render/Audio/reducers'
+import { inflection } from 'Render/Elements/Inflection/reducers'
 
 /*
   Logger
@@ -27,6 +28,7 @@ const store = createStore(
     data,
     /* Reader */
     audio,
+    inflection,
   }),
   applyMiddleware(
     // routerMiddleware(history),

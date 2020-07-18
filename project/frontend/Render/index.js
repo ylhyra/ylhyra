@@ -6,20 +6,16 @@ import Traverse from './Traverse'
 import { html2json, json2html } from 'frontend/App/functions/html2json'
 import { ReadAlongSetup } from 'frontend/Render/Audio/ReadAlong'
 import error from 'App/Error'
+import Inflection from 'Render/Elements/Inflection'
 
 const Render = (parsed, { shouldReturnElement, hydrate }) => {
-
-// return;
-
-
-
-  // console.log(json2html(parsed))
   const element = (
     <Provider store={store}>
       <div className="ylhyra-text">
         {Traverse(parsed)}
         <div id="overlay"></div>
       </div>
+      <Inflection/>
     </Provider>
   )
   setTimeout(function() {
