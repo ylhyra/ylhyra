@@ -20,9 +20,9 @@ export const classify = (input) => {
     }
   })
   if (grammatical_tag.match(/gr/)) {
-    classification.push('with article')
+    classification.push('with definite article')
   } else {
-    classification.push('without article')
+    classification.push('without definite article')
   }
 
   /* If it ends in a number it is an alternative version */

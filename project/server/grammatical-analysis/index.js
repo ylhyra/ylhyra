@@ -21,7 +21,7 @@ export default (tokenized) => {
         if (wordRegex.test(sentence.text)) {
           input_sentences.push({
             id: sentence.id,
-            text: sentence.text.replace(/[,:;-–]$/,''), // Remove final commas
+            text: sentence.text.replace(/[,:;\-–]$/,''), // Remove final commas
           })
           output_sentences[sentence.id] = {
             tokenization: RemoveSpaces(sentence.words),
@@ -68,6 +68,8 @@ const merge_tokenization_and_analysis_to_create_suggestions = (sentences) => {
     /*
       TODO: Assumes our tokenization is less greedy than the analysis
     */
+    // console.log(tokenization.map(word => (word.text || word)))
+    // console.log(analysis)
     a_text_array.forEach((a_word, a_index) => {
       let output_ids = []
       let output_analysis = []
@@ -80,6 +82,7 @@ const merge_tokenization_and_analysis_to_create_suggestions = (sentences) => {
         let temp_output_ids = []
         while (temp_word !== a_word && w_index <= w_text_array.length && w_index <= tokenization.length) {
           temp_word += w_text_array[w_index]
+          if(!tokenization[w_index]) continue; /* Failed to match */
           temp_output_ids.push(tokenization[w_index].id)
           w_index++
         }
@@ -88,7 +91,7 @@ const merge_tokenization_and_analysis_to_create_suggestions = (sentences) => {
           output_analysis.push(analysis[a_index])
         }
       } else {
-        console.warn('COULD NOT MATCH: ' + a_word)
+        console.warn('ANALYSIS COULD NOT MATCH: ' + a_word)
         w_index++
       }
       if (true || output_ids.length > 0) {

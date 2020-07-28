@@ -36,7 +36,7 @@ class WordElement extends React.Component {
       */
       if (definition.contains.length > 1) {
         attrs['data-connected-words'] = _.uniq(definition.contains
-          .map(id => getUpdatedID(id)))
+            .map(id => getUpdatedID(id)))
           .filter(i => i !== id)
           .join(',')
       }
@@ -63,9 +63,10 @@ class WordElement extends React.Component {
 
 const get_analysis = (updatedID, editor) => {
   const id = getPreviousID(updatedID) || updatedID
+  if (!editor.analysis) return null;
   const analysis = editor.analysis[id]
-  if(!analysis) return null;
-console.log(analysis)
+  if (!analysis) return null;
+  // console.log(analysis)
   return JSON.stringify({
     BIN_id: analysis.BIN_id,
     word_class: analysis.word_class,

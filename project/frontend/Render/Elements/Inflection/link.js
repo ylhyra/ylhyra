@@ -9,5 +9,5 @@ export default (link, label) => {
     return null;
   }
   const url = '/' + mw.util.wikiUrlencode(link)
-  return <a className="plainlink" href={url}>{label}</a>
+  return <a className="plainlink" target="_blank" href={url}>{label}</a>
 }

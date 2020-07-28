@@ -33,13 +33,16 @@ router.post('/inflection/find_inflection_id', (req, res) => {
 
   query(sql `
     SELECT * FROM inflection
-    WHERE base_word_lowercase = ${analysis.analysis.base_word.toLowerCase()}
-    AND inflectional_form_lowercase = ${analysis.text.toLowerCase()}
-    AND word_class = ${word_class}
-    AND grammatical_tag = ${grammatical_tag}
+    WHERE inflectional_form_lowercase = ${analysis.text.toLowerCase()}
+    -- AND base_word_lowercase = ${analysis.analysis.base_word.toLowerCase()}
+    -- AND word_class = ${word_class}
+    -- AND grammatical_tag = ${grammatical_tag}
     ORDER BY
     correctness_grade_of_word_form DESC,
-    descriptive DESC
+    descriptive DESC,
+    base_word_lowercase = ${analysis.analysis.base_word.toLowerCase()} DESC,
+    word_class = ${word_class} DESC,
+    grammatical_tag = ${grammatical_tag} DESC
   `, (err, results) => {
     if (err) {
       res.send(err)

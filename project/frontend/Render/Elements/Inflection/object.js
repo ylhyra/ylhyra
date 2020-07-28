@@ -42,7 +42,7 @@ export class Word {
       case 'plurality':
         return this.classification.find(i => ['singular', 'plural'].includes(i))
       case 'article':
-        return this.classification.find(i => ['with article', 'without article'].includes(i))
+        return this.classification.find(i => ['with definite article', 'without definite article'].includes(i))
     }
   }
   renderCell = (shouldHighlight) => {
@@ -78,7 +78,7 @@ export class Word {
   }
   getHelperWordsAfter = () => {
     let text = ''
-    if (this.is('with article')) {
+    if (this.is('with definite article')) {
       if (this.is('singular')) {
         if (this.is('nominative')) {
           text = this.dependingOnGender('minn', 'mín', 'mitt')

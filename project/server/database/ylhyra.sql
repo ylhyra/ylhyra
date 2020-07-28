@@ -3,7 +3,7 @@
 DROP DATABASE IF EXISTS ylhyra;
 CREATE DATABASE ylhyra
   DEFAULT CHARACTER SET utf8mb4
-  DEFAULT COLLATE utf8mb4_general_ci;
+  DEFAULT COLLATE utf8mb4_icelandic_ci; -- Case insensitive
 
 USE ylhyra;
 SET sql_mode = '';
@@ -160,9 +160,9 @@ DROP TABLE IF EXISTS inflection;
 CREATE TABLE inflection (
   BIN_id INT(8),
   base_word VARCHAR(60),
-  base_word_lowercase VARCHAR(60),
+  base_word_lowercase VARCHAR(60) COLLATE utf8mb4_bin,
   inflectional_form VARCHAR(60),
-  inflectional_form_lowercase VARCHAR(60),
+  inflectional_form_lowercase VARCHAR(60) COLLATE utf8mb4_bin,
   word_class VARCHAR(5),
   correctness_grade_of_base_word INT(1),
   register_of_base_word VARCHAR(5),

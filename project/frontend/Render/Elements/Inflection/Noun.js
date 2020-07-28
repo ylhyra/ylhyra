@@ -13,7 +13,12 @@ const Noun = (word, { relevantCellValues }) => {
       <h4>{(relevantCell.getBaseWord())}</h4>,
       <div>{link((relevantCell.getType('gender')))} {link(word.getType('class'))}</div>,
       <hr/>,
-      <div>{link('Declension')} in {link(relevantCell.getType('plurality'))}, {link(relevantCell.getType('article'))}:</div>,
+      <div>
+        {link('Declension')} in {link(relevantCell.getType('plurality'))}
+        {relevantCell.getType('article') === 'with definite article' &&
+          <span>, {link(relevantCell.getType('article'))}</span>
+        }:
+      </div>,
       table(FlipColumnsAndRows([
         [
           <th>{link('Nominative', <span className="emoji nominative"/>)}</th>,
@@ -31,13 +36,13 @@ const Noun = (word, { relevantCellValues }) => {
     return [
       table(FlipColumnsAndRows([
         [<th colSpan="3">{link('Singular')}</th>, null, <th>{link('Nominative')}</th>, <th>{link('Accusative')}</th>, <th>{link('Dative')}</th>, <th>{link('Genitive')}</th>, ],
-        [null, <th>{link('Without article')}</th>, ...word.get('singular', 'without article').getCases(), ],
-        [null, <th>{link('With article')}</th>, ...word.get('singular', 'with article').getCases(), ],
+        [null, <th>{link('without definite article')}</th>, ...word.get('singular', 'without definite article').getCases(), ],
+        [null, <th>{link('with definite article')}</th>, ...word.get('singular', 'with definite article').getCases(), ],
       ])),
       table(FlipColumnsAndRows([
         [null, null, <th>Nominative</th>, <th>Accusative</th>, <th>Dative</th>, <th>Genitive</th>, ],
-        [<th colSpan="2">Plural</th>, <th>Without article</th>, ...word.get('plural', 'without article').getCases(), ],
-        [null, <th>Without article</th>, ...word.get('plural', 'with article').getCases(), ],
+        [<th colSpan="2">Plural</th>, <th>without definite article</th>, ...word.get('plural', 'without definite article').getCases(), ],
+        [null, <th>without definite article</th>, ...word.get('plural', 'with definite article').getCases(), ],
       ]))
     ]
   }

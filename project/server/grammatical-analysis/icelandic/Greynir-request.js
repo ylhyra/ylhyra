@@ -41,7 +41,7 @@ export default function(text, callback) {
                 console.error(err)
                 callback(null)
               } else {
-                callback(body)
+                callback(JSON.parse(body))
               }
             })
           }

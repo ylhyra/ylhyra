@@ -6,6 +6,7 @@ import store from 'App/store'
 import Translator from 'Editor/Translator'
 import Header from 'Editor/Header'
 import LongAudio from 'Editor/Long_audio'
+import Inflections from 'Editor/Inflections'
 import Sound from 'Editor/Short_audio'
 import { openEditor, purgeCurrentPage } from './actions'
 let timer
@@ -21,6 +22,8 @@ class Editor extends React.PureComponent {
         View = Sound
       } else if (this.props.editor.open === 'long_audio') {
         View = LongAudio
+      }else if (this.props.editor.open === 'inflections') {
+        View = Inflections
       }
       return <div id="editor">
           <Header/>

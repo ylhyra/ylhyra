@@ -21,6 +21,7 @@ class App extends React.Component {
         <button onClick={()=>openEditor('translate')}>Translate</button>
         <button onClick={()=>openEditor('long_audio')}>Long audio</button>
         <button onClick={()=>openEditor('sound')}>Sound</button>
+        <button onClick={()=>openEditor('inflections')}>Inflections</button>
       </div>
     );
   }
