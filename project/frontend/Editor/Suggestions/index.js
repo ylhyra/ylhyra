@@ -43,7 +43,6 @@ export const MakeSuggestions = () => {
   });
 }
 
-// export const SuggestionsStatus = () => {}
 
 export const receiveSuggestions = async (action) => {
   /* Suggest analysis */
@@ -57,7 +56,6 @@ export const receiveSuggestions = async (action) => {
       if (!id) return resolve();
       const analysis = item.analysis[0].analysis
 
-      // if (index < 2) {
       const data = (await axios.post(`${url}/api/inflection/find_inflection_id`, {
         analysis: item.analysis[0]
       })).data
