@@ -47,6 +47,14 @@ export const MakeSuggestions = () => {
 export const receiveSuggestions = async (action) => {
   /* Suggest analysis */
   let grammatical_analysis = {}
+  store.getState().list.arrayOfAllWordIDs.forEachAsync(id => {
+    return new Promise(async resolve => {
+
+    })
+  })
+
+
+
   await action.analysis.forEachAsync((item, index) => {
     return new Promise(async resolve => {
 
