@@ -46,7 +46,7 @@ query(`TRUNCATE TABLE inflection;`, (err, res) => {
       ] = line.split(';')
 
       /* Only the words marked with "K" (meaning "Core") are descriptive and should be taught */
-      descriptive = (descriptive === 'K')
+      descriptive = (descriptive === 'K') ? true : false
 
       query(sql `
         INSERT INTO inflection SET
