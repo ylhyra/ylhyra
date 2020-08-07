@@ -8,6 +8,9 @@ import { escape } from 'sqlstring'
 export default (strings, ...values) => strings
   .map((string, index) => {
     let value = values[index] || ''
+    if(typeof values[index] === undefined || values[index] === null) {
+      value = null
+    }
     if(index !== strings.length - 1) {
       value = escape(value)
     }
