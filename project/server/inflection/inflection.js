@@ -2,13 +2,14 @@ const express = require('express')
 const router = express.Router()
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
+var cors = require('cors')
 
 /*
   Find possible base words and tags for a given word
 */
 router.post('/inflection/search', (req, res) => {
   const { word } = req.body
-  if(!word) {
+  if (!word) {
     return res.sendStatus(400)
   }
   query(sql `
@@ -27,7 +28,7 @@ router.post('/inflection/search', (req, res) => {
 /*
   Full table for id
 */
-router.get('/inflection/:id', (req, res) => {
+router.get('/inflection/:id', cors({ origin: '*' }), (req, res) => {
   const { id } = req.params
   query(sql `
     SELECT * FROM inflection

@@ -25,9 +25,7 @@ export const session_path = path.resolve(__dirname, './../../sessions')
 
 app.use(bodyParser.json({ limit: '5mb' }))
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))
-app.use(cors({
-  origin: 'https://ylhyra.is',
-}))
+
 
 app.use(requestIp.mw())
 app.use(require('express-useragent').express())
@@ -64,6 +62,9 @@ app.use('/api', require('server/inflection/FindInflectionFromAnalysis').default)
 app.use('/api', require('server/inflection/inflection').default)
 app.use('/api/temp_files/', express.static(upload_path))
 
+app.use(cors({
+  origin: 'https://ylhyra.is',
+}))
 
 
 // get the intended host and port number, use localhost and port 3000 if not provided
