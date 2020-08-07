@@ -7,7 +7,8 @@ export class Word {
   rows = []
   original = []
   constructor(rows, original) {
-    rows.forEach(row => {
+    console.log(rows)
+    Array.isArray(rows) && rows.forEach(row => {
       let classification = row.classification || classify(row) // Previously classified or not
       this.rows.push({
         classification,
@@ -115,7 +116,7 @@ export class Word {
   getId = () => (
     this.rows[0].BIN_id
   )
-  getBaseWord = () => (
-    this.rows[0].base_word
-  )
+  getBaseWord = () => {
+    return this.rows[0] ? this.rows[0].base_word : null
+  }
 }

@@ -8,7 +8,8 @@ CREATE DATABASE ylhyra
 USE ylhyra;
 SET sql_mode = '';
 
--- GRANT ALL ON `ylhyra`.* TO 'example_user'@'localhost' IDENTIFIED BY 'example_password';
+-- CREATE USER 'example_user'@'localhost' IDENTIFIED BY 'example_password';
+-- GRANT ALL ON `ylhyra`.* TO 'example_user'@'localhost';
 
 -- Sentence analysis from Greinir
 DROP TABLE IF EXISTS analysis;

@@ -1,16 +1,17 @@
 .inflection
   sans-serif()
   font-size 13px
-  background: #fdfdfd;
-  card-shadow()
-  border-radius: 3px;
   padding: 10px;
-  max-width: 270px;
   color #494949
-  position: fixed;
-  bottom: 10px;
-  z-index: 100;
-  right: 10px;
+  &.small
+    card-shadow()
+    background: #fdfdfd;
+    border-radius: 3px;
+    max-width: 270px;
+    position: fixed;
+    bottom: 10px;
+    z-index: 100;
+    right: 10px;
   table
     margin: 10px auto!important
   hr

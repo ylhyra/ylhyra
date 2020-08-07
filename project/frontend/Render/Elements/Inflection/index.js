@@ -8,13 +8,25 @@ import { Word } from './object'
 import { classify } from './classify'
 import { without } from 'underscore'
 import link from './link'
+import { ShowInflectionTable } from './actions'
 
 @connect(state => ({
   inflection: state.inflection,
 }))
 class Inflection extends React.Component {
   state = {
-    // small: true
+    small: true
+  }
+  componentDidMount = () => {
+    /* Inflectional search engine */
+    if (!this.props.inflection.rows) {
+      if(mw.config.get('wgPageName') !== 'Inflection') return;
+      const id = mw.util.getParamValue('id')
+      id && ShowInflectionTable({ BIN_id: id })
+      this.setState({
+        small: false,
+      })
+    }
   }
   render() {
     if (!this.props.inflection.rows) return null;
@@ -36,7 +48,7 @@ class Inflection extends React.Component {
       </div>
     }
     return (
-      <div className="inflection">
+      <div className={`${this.state.small ? 'small' : ''} inflection`}>
         {tables}
         <div className="license">
           <a href={`https://bin.arnastofnun.is/beyging/${word.getId()}`} target="_blank">See the full table on BÍN</a> <a href="/Project:Inflections" className="info" target="_blank">About</a>

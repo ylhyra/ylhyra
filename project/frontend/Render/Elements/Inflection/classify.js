@@ -1,6 +1,7 @@
 export const classify = (input) => {
   // console.log(input)
   const { word_class, grammatical_tag } = input
+  if(!grammatical_tag && !word_class) return input;
   let classification = []
   if (word_class === 'kk') {
     classification.push('noun')

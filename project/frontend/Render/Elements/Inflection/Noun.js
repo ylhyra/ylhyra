@@ -34,40 +34,51 @@ const Noun = (word, { relevantCellValues }) => {
 
   } else {
     return [
+      <br/>,
+      <h4>{(word.getBaseWord())}</h4>,
+      <div>{link((word.getType('gender')))} {link(word.getType('class'))}</div>,
+      <hr/>,
+      link('Singular'),
       table(FlipColumnsAndRows([
-        [<th colSpan="3">{link('Singular')}</th>, null, <th>{link('Nominative')}</th>, <th>{link('Accusative')}</th>, <th>{link('Dative')}</th>, <th>{link('Genitive')}</th>, ],
-        [null, <th>{link('without definite article')}</th>, ...word.get('singular', 'without definite article').getCases(), ],
-        [null, <th>{link('with definite article')}</th>, ...word.get('singular', 'with definite article').getCases(), ],
+        [null, <th>{link('Nominative')}</th>, <th>{link('Accusative')}</th>, <th>{link('Dative')}</th>, <th>{link('Genitive')}</th>, ],
+        [<th colSpan="2">{link('Without definite article')}</th>, ...word.get('singular', 'without definite article').getCases(), ],
+        [<th colSpan="2">{link('With definite article')}</th>, ...word.get('singular', 'with definite article').getCases(), ],
       ])),
+      <hr/>,
+      link('Plural'),
       table(FlipColumnsAndRows([
-        [null, null, <th>Nominative</th>, <th>Accusative</th>, <th>Dative</th>, <th>Genitive</th>, ],
-        [<th colSpan="2">Plural</th>, <th>without definite article</th>, ...word.get('plural', 'without definite article').getCases(), ],
-        [null, <th>without definite article</th>, ...word.get('plural', 'with definite article').getCases(), ],
-      ]))
+        [null, <th>{link('Nominative')}</th>, <th>{link('Accusative')}</th>, <th>{link('Dative')}</th>, <th>{link('Genitive')}</th>, ],
+        [<th colSpan="2">{link('Without definite article')}</th>, ...word.get('plural', 'without definite article').getCases(), ],
+        [<th colSpan="2">{link('With definite article')}</th>, ...word.get('plural', 'with definite article').getCases(), ],
+      ])),
     ]
   }
 }
 
-const table = (input, { highlight }) => (
-  <table className="wikitable">
-    <tbody>
-      {input.map((row, index) => (
-        <tr key={index}>
-          {row.map((cell, index2) => {
-            if(cell instanceof Word) {
-              const shouldHighlight = cell.is(...highlight)
-              return cell.renderCell(shouldHighlight)
-            } else if (cell === null) {
-              return <th key={index2}/>
-            } else {
-              return cell
-            }
-          })}
-        </tr>
-      ))}
-    </tbody>
-  </table>
-)
+const table = (input, properties) => {
+  let highlight = (properties && properties.highlight) || []
+  return (
+    <table className="wikitable">
+      <tbody>
+        {input.map((row, index) => (
+          <tr key={index}>
+            {row.map((cell, index2) => {
+              if(cell instanceof Word) {
+                const shouldHighlight = cell.is(...highlight)
+                return cell.renderCell(shouldHighlight)
+              } else if (cell === null) {
+                return <th key={index2}/>
+              } else {
+                return cell
+              }
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+
+}
 
 
 export default Noun
