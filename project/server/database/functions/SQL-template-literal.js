@@ -7,11 +7,15 @@ import { escape } from 'sqlstring'
 */
 export default (strings, ...values) => strings
   .map((string, index) => {
-    let value = values[index] || ''
-    if(typeof values[index] === undefined || values[index] === null) {
+    let value = values[index]
+    if (value === '') {
+      
+    } else if (typeof values[index] === undefined || values[index] === null) {
       value = null
+    } else if (value === false) {
+      value = 0
     }
-    if(index !== strings.length - 1) {
+    if (index !== strings.length - 1) {
       value = escape(value)
     }
     return string.replace(/--.+?\n/g, '\n') /*Removing comments*/ + value
