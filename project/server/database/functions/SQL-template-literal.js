@@ -9,11 +9,13 @@ export default (strings, ...values) => strings
   .map((string, index) => {
     let value = values[index]
     if (value === '') {
-      
-    } else if (typeof values[index] === undefined || values[index] === null) {
+
+    } else if (values[index] === null) {
       value = null
     } else if (value === false) {
       value = 0
+    } else {
+      value = '' // ?
     }
     if (index !== strings.length - 1) {
       value = escape(value)
