@@ -4,7 +4,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Inflection from 'frontend/Render/Elements/Inflection'
 import store from 'App/store'
-import { classify } from './classify'
 import { without } from 'underscore'
 
 export const ShowInflectionTable = async (input) => {
@@ -13,18 +12,18 @@ export const ShowInflectionTable = async (input) => {
   if (!BIN_id) {
     return console.log('No BIN id')
   }
-  let relevantCellValues = without(classify({ grammatical_tag }), '1', '2', '3').filter(Boolean)
-  if (relevantCellValues.length < 1) {
-    relevantCellValues = null
-  }
+  // let relevantCellValues = without(classify({ grammatical_tag }), '1', '2', '3').filter(Boolean)
+  // if (relevantCellValues.length < 1) {
+  //   relevantCellValues = null
+  // }
   const rows = (await axios.get(`${url}/api/inflection/id/${BIN_id}`, {})).data.results
-  console.log(rows)
+  // console.log(rows)
   if (!rows) return;
   store.dispatch({
     type: 'LOAD_INFLECTION',
     content: {
       rows,
-      relevantCellValues,
+      // relevantCellValues,
     }
   })
 }

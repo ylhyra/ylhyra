@@ -5,7 +5,6 @@ import store from 'App/store'
 import { ParseHTMLtoObject } from 'Render/Elements/parse'
 import Noun from './Types/Noun'
 import Word from './WordObject'
-import { classify } from './classify'
 import { without } from 'underscore'
 import link from './link'
 import { ShowInflectionTable } from './actions'
@@ -39,14 +38,14 @@ class Inflection extends React.Component {
     } else {
       return null
     }
-    if (this.state.small) {
-      const relevantCellValues = this.props.inflection.relevantCellValues
-      const relevantCell = word.get(...relevantCellValues)
-      return <div className="inflection">
-        <h4>{(relevantCell.getBaseWord())}</h4>
-        <div>{link((relevantCell.getType('gender')))} {link(word.getType('class'))}</div>
-      </div>
-    }
+    // if (this.state.small) {
+    //   const relevantCellValues = this.props.inflection.relevantCellValues
+    //   const relevantCell = word.get(...relevantCellValues)
+    //   return <div className="inflection">
+    //     <h4>{(relevantCell.getBaseWord())}</h4>
+    //     <div>{link((relevantCell.getType('gender')))} {link(word.getType('class'))}</div>
+    //   </div>
+    // }
     return (
       <div className={`${this.state.small ? 'small' : ''} inflection`}>
         {tables}

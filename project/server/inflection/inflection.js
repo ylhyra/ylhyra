@@ -4,7 +4,6 @@ import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
 import cors from 'cors'
 import classify from './classify'
-
 const IcelandicCharacters = /^[a-záéíóúýðþæö]+$/i
 
 /*
@@ -41,14 +40,14 @@ router.get('/inflection/search/:word', cors(), (req, res) => {
             BIN_id: row.BIN_id,
             api_url: `https://ylhyra.is/api/inflection/id/${row.BIN_id}`,
             base_word: row.base_word,
-            word_class: row.word_class,
+            word_class: classify(row, 'word_class'),
             matches: [],
           })
           index = grouped.length - 1
         }
         grouped[index].matches.push({
           inflectional_form: row.inflectional_form,
-          // classification: classify(row),
+          form_classification: classify(row, 'form_classification'),
           descriptive: row.descriptive,
         })
       })
@@ -78,7 +77,7 @@ router.get(['/inflection/id/:id', '/inflection/:id'], cors(), (req, res) => {
       correctness_grade_of_word_form,
       register_of_word_form,
       only_found_in_idioms,
-      alternative_entry,
+      alternative_entry
     FROM inflection
     WHERE BIN_id = ${id}
     -- AND descriptive = 1
@@ -88,8 +87,9 @@ router.get(['/inflection/id/:id', '/inflection/:id'], cors(), (req, res) => {
     } else if (results.length < 1) {
       return res.status(404).send({ error: 'No results' })
     } else {
+      let output = results.map(i => classify(i))
       res.setHeader("Content-Type", "application/json");
-      res.send(withLicense(results.map(classify)))
+      res.send(withLicense(output))
     }
   })
 })

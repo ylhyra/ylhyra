@@ -1,5 +1,4 @@
 import React from 'react'
-import { classify } from './classify'
 import link from './link'
 import Table from './TableObject'
 
@@ -8,15 +7,15 @@ class Word {
   rows = []
   original = []
   constructor(rows, original) {
-    // console.log(rows)
-    Array.isArray(rows) && rows.forEach(row => {
-      let classification = row.classification || classify(row) // Previously classified or not
-      this.rows.push({
-        classification,
-        ...row,
-      })
-      this.classification = classification // Temporary
-    })
+    console.log(rows)
+    // Array.isArray(rows) && rows.forEach(row => {
+    //   let classification = row.classification || classify(row) // Previously classified or not
+    //   this.rows.push({
+    //     classification,
+    //     ...row,
+    //   })
+    //   this.classification = classification // Temporary
+    // })
     this.original = original || rows
   }
   is = (...values) => {

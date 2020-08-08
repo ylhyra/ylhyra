@@ -1,5 +1,4 @@
 import React from 'react'
-import { classify } from './classify'
 import link from './link'
 import Word from './WordObject'
 
