@@ -35,18 +35,18 @@ router.get('/inflection/search/:word', cors(), (req, res) => {
       let grouped = []
       results.forEach(row => {
         let index = grouped.findIndex(i => i.BIN_id === row.BIN_id)
-        if(index < 0) {
+        if (index < 0) {
           grouped.push({
             BIN_id: row.BIN_id,
-            url: `https://ylhyra.is/api/inflection/id/${row.BIN_id}`,
+            api_url: `https://ylhyra.is/api/inflection/id/${row.BIN_id}`,
             base_word: row.base_word,
             word_class: row.word_class,
-            rows: [],
+            matches: [],
           })
           index = grouped.length - 1
         }
-        grouped[index].rows.push({
-          inflectional_form : row.inflectional_form,
+        grouped[index].matches.push({
+          inflectional_form: row.inflectional_form,
           word_class: row.word_class,
           grammatical_tag: row.grammatical_tag,
           descriptive: row.descriptive,
