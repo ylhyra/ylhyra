@@ -40,6 +40,11 @@ app.use(require('cookie-session')({
   maxAge: 3 * 365 * 24 * 60 * 60 * 1000 // 3 years
 }))
 
+/* Set Unicode header on all responses */
+app.use(function(req, res, next) {
+  res.setHeader('charset', 'utf-8')
+  next();
+});
 
 // TODO Þetta er til bráðabirgða og á að gerast í gagnagrunninum sjálfum, t.d. með "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
 query(`SET sql_mode = ''`, () => {})
