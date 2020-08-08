@@ -24,7 +24,7 @@ router.get('/inflection/search/:word', cors(), (req, res) => {
     ORDER BY
     descriptive DESC,
     correctness_grade_of_word_form DESC
-    LIMIT 20
+    LIMIT 100
   `, (err, results) => {
     if (err) {
       res.send(err)

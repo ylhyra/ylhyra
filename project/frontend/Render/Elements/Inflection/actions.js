@@ -17,7 +17,7 @@ export const ShowInflectionTable = async (input) => {
   if (relevantCellValues.length < 1) {
     relevantCellValues = null
   }
-  const rows = (await axios.get(`${url}/api/inflection/${BIN_id}`, {})).data
+  const rows = (await axios.get(`${url}/api/inflection/id/${BIN_id}`, {})).data.results
   console.log(rows)
   if (!rows) return;
   store.dispatch({

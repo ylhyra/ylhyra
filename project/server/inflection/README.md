@@ -10,7 +10,7 @@ CC BY-SA 4.0
 
 
 0 - Not applicable, dependent on style.
-1 - Correct, default value, most words and inflec5on forms.
+1 - Correct, default value, most words and inflection forms.
 2 - Used, not as good
 3 - Not good
 4 - Very bad
