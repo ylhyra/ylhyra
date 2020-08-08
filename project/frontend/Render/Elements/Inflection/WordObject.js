@@ -1,13 +1,14 @@
 import React from 'react'
 import { classify } from './classify'
 import link from './link'
+import Table from './TableObject'
 
-export class Word {
+class Word {
   classification = []
   rows = []
   original = []
   constructor(rows, original) {
-    console.log(rows)
+    // console.log(rows)
     Array.isArray(rows) && rows.forEach(row => {
       let classification = row.classification || classify(row) // Previously classified or not
       this.rows.push({
@@ -119,4 +120,9 @@ export class Word {
   getBaseWord = () => {
     return this.rows[0] ? this.rows[0].base_word : null
   }
+  getTable = () => {
+    return Table(this)
+  }
 }
+
+export default Word

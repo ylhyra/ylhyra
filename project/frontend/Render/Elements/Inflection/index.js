@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 import { ParseHTMLtoObject } from 'Render/Elements/parse'
-import Noun from './Noun'
-import { Word } from './object'
+import Noun from './Types/Noun'
+import Word from './WordObject'
 import { classify } from './classify'
 import { without } from 'underscore'
 import link from './link'
@@ -20,7 +20,7 @@ class Inflection extends React.Component {
   componentDidMount = () => {
     /* Inflectional search engine */
     if (!this.props.inflection.rows) {
-      if(mw.config.get('wgPageName') !== 'Inflection') return;
+      if (mw.config.get('wgPageName') !== 'Inflection') return;
       const id = mw.util.getParamValue('id')
       id && ShowInflectionTable({ BIN_id: id })
       this.setState({
