@@ -1,5 +1,9 @@
-export const classify = (input) => {
-  const { word_class, grammatical_tag } = input
+/*
+  Turns BÍN classification into English
+  Descriptions from https://bin.arnastofnun.is/gogn/k-snid
+*/
+export default (input) => {
+  const { word_class, grammatical_tag, ...rest } = input
   if(!grammatical_tag && !word_class) return input;
   let classification = []
   if (word_class === 'kk') {
@@ -30,23 +34,57 @@ export const classify = (input) => {
   classification.push(variantNumber)
 
   // console.warn(classification)
-  return classification
+  return {
+    classification,
+    ...rest,
+  }
 }
 
-let tags = [
+const word_classes = {
+  kk: 'noun-masculine',
+  kvk: 'noun-feminine',
+  hk: 'noun-neuter',
+  fs: 'preposition',
+  ao: 'adverb',
+  gr: 'article',
+  lo: 'adjective',
+  nhm: 'infinitive particle',
+  so: 'verb',
+  st: 'conjunction',
+  uh: 'interjection',
+  to: 'numeral',
+  rt: 'ordinal number',
+
+  /* Pronouns */
+  fn: 'pronoun',
+  afn: 'reflexive pronoun',
+  pfn: 'personal pronoun',
+}
+
+
+let tags = {
   /* Plurality */
-  ['ET', 'singular'],
-  ['FT', 'plural'],
+  ET: 'singular',
+  FT: 'plural',
+
   /* Cases */
-  ['NF', 'nominative'],
-  ['ÞF', 'accusative'],
-  ['ÞGF', 'dative'],
-  ['EF', 'genitive'],
+  NF: 'nominative',
+  ÞF: 'accusative',
+  ÞGF: 'dative',
+  EF: 'genitive',
+
+  /* Persons */
+  1P: 'first person',
+  2P: 'second person',
+  3P: 'third person',
+
+  /* Genders */
+    kk: 'noun-masculine',
+    kvk: 'noun-feminine',
+    hk: 'noun-neuter',
 
     // /* genders */
     // "kk", "kvk", "hk"
-    // /* persons */
-    // "p1", "p2", "p3"
     // /* tense */
     // "þt", "nt"
     // /* degree */
@@ -57,9 +95,9 @@ let tags = [
     // "fh", "lhþt", "lhnt", "vh", "bh"
 
 
-  1P
-  2P
-  3P
+
+
+
   BH
   EF
   EFET
@@ -112,4 +150,4 @@ let tags = [
   það
 
 
-]
+}

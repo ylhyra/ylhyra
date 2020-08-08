@@ -1,10 +1,10 @@
 import React from 'react'
-import Word from './WordObject'
-import Table from './TableObject'
-import link from './link'
+import Word from 'frontend/Render/Elements/Inflection/WordObject'
+import Table from 'frontend/Render/Elements/Inflection/TableObject'
+import link from 'frontend/Render/Elements/Inflection//link'
 import { without } from 'underscore'
 
-const Noun = (word, { relevantCellValues }) => {
+export default (word, { relevantCellValues }) => {
   if (relevantCellValues) {
     // const relevantCell = word.get(...relevantCellValues)
     // const relevantRowValues = without(relevantCellValues, 'nominative', 'accusative', 'dative', 'genitive')
@@ -47,13 +47,3 @@ const Noun = (word, { relevantCellValues }) => {
     ]
   }
 }
-
-
-
-
-
-
-const capitalize = (word) => {
-  return word[0].toUpperCase() + word.slice(1).toLowerCase();
-}
-export default Noun

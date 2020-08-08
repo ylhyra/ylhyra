@@ -3,6 +3,7 @@ const router = express.Router()
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
 import cors from 'cors'
+import classify from './classify'
 
 const IcelandicCharacters = /^[a-záéíóúýðþæö]+$/i
 
@@ -47,8 +48,7 @@ router.get('/inflection/search/:word', cors(), (req, res) => {
         }
         grouped[index].matches.push({
           inflectional_form: row.inflectional_form,
-          word_class: row.word_class,
-          grammatical_tag: row.grammatical_tag,
+          // classification: classify(row),
           descriptive: row.descriptive,
         })
       })
@@ -64,7 +64,22 @@ router.get('/inflection/search/:word', cors(), (req, res) => {
 router.get(['/inflection/id/:id', '/inflection/:id'], cors(), (req, res) => {
   const { id } = req.params
   query(sql `
-    SELECT * FROM inflection
+    SELECT
+      BIN_id,
+      base_word,
+      inflectional_form,
+      word_class,
+      correctness_grade_of_base_word,
+      register_of_base_word,
+      grammar_group,
+      cross_reference,
+      descriptive,
+      grammatical_tag,
+      correctness_grade_of_word_form,
+      register_of_word_form,
+      only_found_in_idioms,
+      alternative_entry,
+    FROM inflection
     WHERE BIN_id = ${id}
     -- AND descriptive = 1
   `, (err, results) => {
@@ -74,7 +89,7 @@ router.get(['/inflection/id/:id', '/inflection/:id'], cors(), (req, res) => {
       return res.status(404).send({ error: 'No results' })
     } else {
       res.setHeader("Content-Type", "application/json");
-      res.send(withLicense(results))
+      res.send(withLicense(results.map(classify)))
     }
   })
 })
