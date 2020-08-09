@@ -31,8 +31,23 @@ const GenerateTable = (input, structure) => {
   let word = (new Word()).importTree(input)
   let table = []
   row_names.forEach((row_name, row_index) => {
+    /* Add column names */
+    if (row_index === 0) {
+      let column = []
+      column.push(null)
+      column_names.forEach((column_name, column_index) => {
+        column.push(column_name)
+      })
+      table.push(column)
+    }
+
+    /* Loop over data */
     let column = []
     column_names.forEach((column_name, column_index) => {
+      /* Add row names */
+      if (column_index === 0) {
+        column.push(row_name)
+      }
       column.push(word.get(column_name, row_name))
     })
     table.push(column)
@@ -50,10 +65,8 @@ const TableHTML = (input, highlight = []) => {
               if(cell instanceof Word) {
                 const shouldHighlight = cell.is(...highlight)
                 return cell.renderCell(shouldHighlight)
-              } else if (cell === null) {
-                return <th key={index2}/>
               } else {
-                return cell
+                return <th colSpan={3}>{cell}</th>
               }
             })}
           </tr>

@@ -3,8 +3,6 @@
 */
 require('array-sugar')
 export default (rows) => {
-
-  // console.log(rows)
   let output = []
 
   rows.forEach(row => {
@@ -23,6 +21,7 @@ export default (rows) => {
         /* Tag is number, indicating variant */
         currentArray.push({
           form_classification: row.form_classification,
+          word_class: row.word_class,
           variant_number: parseInt(tag),
           inflectional_form: row.inflectional_form,
           descriptive: row.descriptive,

@@ -56,7 +56,8 @@ class Word {
     })
     return [
       <td className={`right ${shouldHighlight ? 'highlight' : ''}`}><span className="gray">{this.getHelperWordsBefore()}</span></td>,
-      <td className={`left ${shouldHighlight ? 'highlight' : ''}`}>{value} <span className="gray">{this.getHelperWordsAfter()}</span></td>
+      <td className={`left ${shouldHighlight ? 'highlight' : ''}`}>{value}</td>,
+      <td className={`left ${shouldHighlight ? 'highlight' : ''}`}><span className="gray">{this.getHelperWordsAfter()}</span></td>,
     ]
   }
   getHelperWordsBefore = () => {
@@ -80,7 +81,8 @@ class Word {
   }
   getHelperWordsAfter = () => {
     let text = ''
-    if (this.is('with definite article')) {
+    /* Nouns */
+    if (this.is('noun') && this.is('with definite article')) {
       if (this.is('singular')) {
         if (this.is('nominative')) {
           text = this.dependingOnGender('minn', 'mín', 'mitt')
@@ -108,8 +110,69 @@ class Word {
           text = this.dependingOnGender('minna', 'minna', 'minna')
         }
       }
+      text = link('helper words for the article', text)
     }
-    return link('helper words for the article', text)
+    /* Adjectives & past participle */
+    else if (this.is('adjective') || this.is('past participle')) {
+      if (!this.is('weak declension')) {
+        if (this.is('singular')) {
+          if (this.is('nominative')) {
+            text = this.dependingOnGender('maður', 'kona', 'barn')
+          }
+          if (this.is('accusative')) {
+            text = this.dependingOnGender('mann', 'konu', 'barn')
+          }
+          if (this.is('dative')) {
+            text = this.dependingOnGender('manni', 'konu', 'barni')
+          }
+          if (this.is('genitive')) {
+            text = this.dependingOnGender('manns', 'konu', 'barns')
+          }
+        } else if (this.is('plural')) {
+          if (this.is('nominative')) {
+            text = this.dependingOnGender('menn', 'konur', 'börn')
+          }
+          if (this.is('accusative')) {
+            text = this.dependingOnGender('menn', 'konur', 'börn')
+          }
+          if (this.is('dative')) {
+            text = this.dependingOnGender('mönnum', 'konum', 'börnum')
+          }
+          if (this.is('genitive')) {
+            text = this.dependingOnGender('manna', 'kvenna', 'barna')
+          }
+        }
+      } else if (this.is('weak declension')) {
+        if (this.is('singular')) {
+          if (this.is('nominative')) {
+            text = this.dependingOnGender('maðurinn', 'konan', 'barnið')
+          }
+          if (this.is('accusative')) {
+            text = this.dependingOnGender('manninn', 'konuna', 'barnið')
+          }
+          if (this.is('dative')) {
+            text = this.dependingOnGender('manninum', 'konunni', 'barninu')
+          }
+          if (this.is('genitive')) {
+            text = this.dependingOnGender('mannsins', 'konunnar', 'barnsins')
+          }
+        } else if (this.is('plural')) {
+          if (this.is('nominative')) {
+            text = this.dependingOnGender('mennirnir', 'konurnar', 'börnin')
+          }
+          if (this.is('accusative')) {
+            text = this.dependingOnGender('mennina', 'konurnar', 'börnin')
+          }
+          if (this.is('dative')) {
+            text = this.dependingOnGender('mönnunum', 'konunum', 'börnunum')
+          }
+          if (this.is('genitive')) {
+            text = this.dependingOnGender('mannanna', 'kvennanna', 'barnanna')
+          }
+        }
+      }
+    }
+    return text
   }
   dependingOnGender = (...values) => {
     return values[['masculine', 'feminine', 'neuter'].indexOf(this.getType('gender'))]
