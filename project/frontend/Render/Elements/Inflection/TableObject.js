@@ -3,14 +3,15 @@ import link from './link'
 import Word from './WordObject'
 
 export default (word) => {
+
+  // return word.get('impersonal with dative subject').getTree().map(row => IterateOver(row, word))
+
   return word.getTree().map(row => IterateOver(row, word))
 }
 
 const IterateOver = (row, word) => {
   let table = null
   word = (new Word()).importTree(row)
-  console.log(word)
-
   if (word.is('noun') && ['singular', 'plural'].includes(row.tag)) {
     table = GenerateTable(row.values, {
       column_names: ['without definite article', 'with definite article'],
@@ -24,10 +25,13 @@ const IterateOver = (row, word) => {
       column_names: ['masculine', 'feminine', 'neuter'],
       row_names: ['nominative', 'accusative', 'dative', 'genitive']
     })
-  } else if (word.is('verb') && ['present tense', 'past tense'].includes(row.tag)) {
+  } else if (
+    word.is('verb') && ['present tense', 'past tense'].includes(row.tag) &&
+    !word.is('question form')
+  ) {
     table = GenerateTable(row.values, {
       column_names: ['singular', 'plural'],
-      row_names: ['1st person','2nd person','3rd person']
+      row_names: ['1st person', '2nd person', '3rd person']
     })
   }
 

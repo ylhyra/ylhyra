@@ -2,6 +2,7 @@
   Turns rows into nested tree
 */
 require('array-sugar')
+import { sorted_tags } from 'server/inflection/classify'
 export default (rows) => {
   let output = []
 
@@ -29,18 +30,54 @@ export default (rows) => {
           register_of_word_form: row.register_of_word_form,
           only_found_in_idioms: row.only_found_in_idioms,
         })
-        /* Sort in case variants are out of order (should also be done for other items) */
-        currentArray = currentArray.sort((a, b) => (a.variant_number - b.variant_number))
       }
     })
   })
 
+  output = TraverseAndSort(output)
+
+  console.log(output)
   return output
 }
 
 const isNumber = (string) => {
   return /^\d+$/.test(string + '')
 }
+
+
+const TraverseAndSort = (input) => {
+  if (Array.isArray(input)) {
+    return input.sort(sort_by_classification).map(TraverseAndSort)
+  } else if (input.values) {
+    return {
+      tag: input.tag,
+      values: input.values.sort(sort_by_classification).map(TraverseAndSort)
+    }
+  } else {
+    return input
+  }
+}
+
+export const sort_by_classification = (a, b) => {
+  /* Sort by single tag */
+  if (a.tag) {
+    return sorted_tags.indexOf(a.tag) - sorted_tags.indexOf(b.tag)
+  }
+
+  /* Sort by full array of classification */
+  for (let i = 0; i < a.form_classification.length; i++) {
+    if (!b.form_classification[i])
+      break;
+    if (a.form_classification[i] === b.form_classification[i])
+      continue;
+    return sorted_tags.indexOf(a.form_classification[i]) - sorted_tags.indexOf(b.form_classification[i]) 
+  }
+
+  /* Sort by variant number */
+  return a.variant_number - b.variant_number
+}
+
+
 
 // let output = {
 //   BIN_id: rows[0].BIN_id,

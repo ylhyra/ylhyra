@@ -45,10 +45,15 @@ query(`TRUNCATE TABLE inflection;`, (err, res) => {
         alternative_entry, // 15
       ] = line.split(';')
 
+      // if(BIN_id != 433568) {
+      //   return  lr.resume()
+      // }
+
       /* Only the words marked with "K" (meaning "Core") are descriptive and should be taught */
       descriptive = (descriptive === 'K') ? true : false
 
       query(sql `
+        SET sql_mode="TRADITIONAL";
         INSERT INTO inflection SET
           base_word = ${base_word},
           base_word_lowercase = ${base_word.toLowerCase()},

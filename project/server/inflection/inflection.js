@@ -4,6 +4,7 @@ import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
 import cors from 'cors'
 import classify from './classify'
+import { sort_by_classification } from 'frontend/Render/Elements/Inflection/tree'
 const IcelandicCharacters = /^[a-záéíóúýðþæö]+$/i
 
 /*
@@ -85,7 +86,7 @@ router.get(['/inflection/id/:id', '/inflection/:id'], cors(), (req, res) => {
     } else if (results.length < 1) {
       return res.status(404).send({ error: 'No results' })
     } else {
-      let output = results.map(i => classify(i))
+      let output = results.map(i => classify(i)).sort(sort_by_classification)
       res.json(withLicense(output))
     }
   })
