@@ -10,8 +10,8 @@ class Word {
   original = []
   constructor(rows, original) {
     Array.isArray(rows) && rows.forEach(({ word_class, form_classification }) => {
-      this.form_classification = form_classification
-      this.word_class = word_class
+      this.form_classification = form_classification || []
+      this.word_class = word_class || []
     })
     this.rows = rows
     this.original = original || rows
@@ -22,11 +22,11 @@ class Word {
       this.word_class.includes(value)
     ))
   }
-  get = (...values) => (
-    new Word(this.rows.filter(row => (
+  get = (...values) => {
+    return new Word(this.rows.filter(row => (
       values.every(value => row.form_classification.includes(value))
     )), this.original)
-  )
+  }
   getCases = () => {
     return [
       this.get('nominative'),
@@ -131,26 +131,23 @@ class Word {
   }
   importTree = (input) => {
     let rows = []
-    IterateToImportTree(input, [], (row) => {
-      rows.push(row)
-    })
+    const traverse = (x) => {
+      if (Array.isArray(x)) {
+        x.map(traverse)
+      } else if (x.values) {
+        x.values.map(traverse)
+      } else {
+        rows.push(x)
+      }
+    }
+    traverse(input)
     this.rows = rows
+    this.original = rows
     return this
   }
 }
 
-const IterateToImportTree = (input, form_classification, callback) => {
-  if (Array.isArray(input)) {
-    input.map(i => IterateToImportTree(i, form_classification, callback))
-  } else if (input.values) {
-    form_classification.push(input.tag)
-    input.values.map(i => IterateToImportTree(i, form_classification, callback))
-  } else {
-    callback({
-      ...input,
-      form_classification,
-    })
-  }
-}
+
+
 
 export default Word

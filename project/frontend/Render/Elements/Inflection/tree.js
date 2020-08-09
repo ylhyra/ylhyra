@@ -22,6 +22,7 @@ export default (rows) => {
       } else {
         /* Tag is number, indicating variant */
         currentArray.push({
+          form_classification: row.form_classification,
           variant_number: parseInt(tag),
           inflectional_form: row.inflectional_form,
           descriptive: row.descriptive,

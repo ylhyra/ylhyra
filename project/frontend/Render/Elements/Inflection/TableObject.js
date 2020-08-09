@@ -30,13 +30,18 @@ const GenerateTable = (input, structure) => {
   const { columns, rows } = structure
   let word = (new Word()).importTree(input)
   let table = new Table()
+  //
+  // console.warn(input)
+  // console.log(word)
+  // word.get('masculine')
+  // return;
 
   let t = []
   columns.forEach((column, column_index) => {
     let c = []
     rows.forEach((row, row_index) => {
-      // console.log({column, row})
-      c.push(word.get([column, row]))
+      // console.log(word.get(column, row))
+      c.push(word.get(column, row))
     })
     t.push(c)
   })
