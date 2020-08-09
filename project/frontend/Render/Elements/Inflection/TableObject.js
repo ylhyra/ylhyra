@@ -26,28 +26,33 @@ const IterateOver = (row, word) => {
 }
 
 /* Expects nested array of Columns -> Rows -> Values */
-const GenerateTable = (column_array) => {
+const GenerateTable = (input, structure) => {
+  const { columns, rows } = structure
+  let word = (new Word()).importTree(input)
   let table = new Table()
-  column_array.forEach(i => {
-    table.addColumn({
-      title: i.tag
+
+  let t = []
+  columns.forEach((column, column_index) => {
+    let c = []
+    rows.forEach((row, row_index) => {
+      // console.log({column, row})
+      c.push(word.get([column, row]))
     })
+    t.push(c)
   })
-  TableHTML(column_array)
-  // console.log(item)
-  // return null
+  console.log(t)
+  return TableHTML(t)
+
+  // column_array.forEach(i => {
+  //   table.addColumn({
+  //     title: i.tag
+  //   })
+  // })
+  // TableHTML(column_array)
 }
 
 class Table {
-  constructor(rows, original) {
-    // console.log(rows)
-    Array.isArray(rows) && rows.forEach(({ word_class, form_classification }) => {
-      this.form_classification = form_classification
-      this.word_class = word_class
-    })
-    this.rows = rows
-    this.original = original || rows
-  }
+  constructor() {}
 }
 
 

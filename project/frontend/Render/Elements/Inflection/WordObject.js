@@ -9,7 +9,6 @@ class Word {
   rows = []
   original = []
   constructor(rows, original) {
-    // console.log(rows)
     Array.isArray(rows) && rows.forEach(({ word_class, form_classification }) => {
       this.form_classification = form_classification
       this.word_class = word_class
@@ -129,6 +128,28 @@ class Word {
   }
   getTree = () => {
     return tree(this.rows)
+  }
+  importTree = (input) => {
+    let rows = []
+    IterateToImportTree(input, [], (row) => {
+      rows.push(row)
+    })
+    this.rows = rows
+    return this
+  }
+}
+
+const IterateToImportTree = (input, form_classification, callback) => {
+  if (Array.isArray(input)) {
+    input.map(i => IterateToImportTree(i, form_classification, callback))
+  } else if (input.values) {
+    form_classification.push(input.tag)
+    input.values.map(i => IterateToImportTree(i, form_classification, callback))
+  } else {
+    callback({
+      ...input,
+      form_classification,
+    })
   }
 }
 
