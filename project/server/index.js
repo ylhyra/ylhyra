@@ -52,6 +52,11 @@ setTimeout(() => {
   query(`SET sql_mode = ''`, () => {})
 }, 10000)
 
+
+/*
+  Private APIs
+*/
+app.use(cors({ origin: 'https://ylhyra.is' }))
 app.use('/api', require('server/web-socket').default)
 app.use('/api', require('server/server-side-rendering').default)
 // app.use('/api', require('server/tweets').default)
@@ -64,12 +69,16 @@ app.use('/api', require('server/audio/Synchronize').default)
 app.use('/api', require('server/analytics').default)
 app.use('/api', require('server/translator/save').default)
 app.use('/api', require('server/inflection/FindInflectionFromAnalysis').default)
-app.use('/api', require('server/inflection/inflection').default)
+
 app.use('/api/temp_files/', express.static(upload_path))
 
-app.use(cors({
-  origin: 'https://ylhyra.is',
-}))
+/*
+  Public APIs
+*/
+app.use(cors({ origin: '*' }))
+app.set('json spaces', 2)
+app.use('/api', require('server/inflection/inflection').default)
+
 
 
 // get the intended host and port number, use localhost and port 3000 if not provided

@@ -31,7 +31,6 @@ router.get('/inflection/search/:word', cors(), (req, res) => {
     } else if (results.length < 1) {
       return res.status(404).send({ error: 'No results' })
     } else {
-      res.setHeader("Content-Type", "application/json");
       let grouped = []
       results.forEach(row => {
         let index = grouped.findIndex(i => i.BIN_id === row.BIN_id)
@@ -51,8 +50,7 @@ router.get('/inflection/search/:word', cors(), (req, res) => {
           descriptive: row.descriptive,
         })
       })
-
-      res.send(withLicense(grouped))
+      res.json(withLicense(grouped))
     }
   })
 })
@@ -88,8 +86,7 @@ router.get(['/inflection/id/:id', '/inflection/:id'], cors(), (req, res) => {
       return res.status(404).send({ error: 'No results' })
     } else {
       let output = results.map(i => classify(i))
-      res.setHeader("Content-Type", "application/json");
-      res.send(withLicense(output))
+      res.json(withLicense(output))
     }
   })
 })
@@ -97,8 +94,8 @@ export default router;
 
 
 const withLicense = (input) => {
-  return JSON.stringify({
+  return {
     results: input,
     license: "CC BY-SA 4.0; https://ylhyra.is/Project:Inflections; © Árni Magnússon Institute for Icelandic Studies",
-  }, null, 2)
+  }
 }

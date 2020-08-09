@@ -4,7 +4,7 @@
 require('array-sugar')
 export default (rows) => {
 
-  console.log(rows)
+  // console.log(rows)
   let output = []
 
   rows.forEach(row => {

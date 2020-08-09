@@ -7,19 +7,50 @@ export default (word) => {
 }
 
 const IterateOver = (row, word) => {
+  let table = null
+  if (word.is('adjective') && ['singular', 'plural'].includes(row.tag)) {
+    table = GenerateTable(row.values, {
+      columns: ['masculine', 'feminine', 'neuter'],
+      rows: ['nominative', 'accusative', 'dative', 'genitive']
+    })
+  }
   return <div className="indent">
     {row.tag}
-
-    {row.values
-      ? row.values.map(i => IterateOver(i, word))
-      : <b>{row.inflectional_form}</b>
+    {table ? table :
+      (row.values
+        ? row.values.map(i => IterateOver(i, word))
+        : <b>{row.inflectional_form}</b>
+      )
     }
   </div>
 }
 
-const Table = (item) => {
-
+/* Expects nested array of Columns -> Rows -> Values */
+const GenerateTable = (column_array) => {
+  let table = new Table()
+  column_array.forEach(i => {
+    table.addColumn({
+      title: i.tag
+    })
+  })
+  TableHTML(column_array)
+  // console.log(item)
+  // return null
 }
+
+class Table {
+  constructor(rows, original) {
+    // console.log(rows)
+    Array.isArray(rows) && rows.forEach(({ word_class, form_classification }) => {
+      this.form_classification = form_classification
+      this.word_class = word_class
+    })
+    this.rows = rows
+    this.original = original || rows
+  }
+}
+
+
 
 const TableHTML = (input, highlight = []) => {
   return (
