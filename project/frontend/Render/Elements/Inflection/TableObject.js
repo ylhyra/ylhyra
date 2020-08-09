@@ -2,16 +2,26 @@ import React from 'react'
 import link from './link'
 import Word from './WordObject'
 
-const Table = (word) => {
-  return TableHTML(FlipColumnsAndRows([
-    [null, <th>{link('Nominative')}</th>, <th>{link('Accusative')}</th>, <th>{link('Dative')}</th>, <th>{link('Genitive')}</th>, ],
-    [<th colSpan="2">{link('Without definite article')}</th>, ...word.get('without definite article').getCases(), ],
-    [<th colSpan="2">{link('With definite article')}</th>, ...word.get('with definite article').getCases(), ],
-  ]))
+export default (word) => {
+  return word.getTree().map(row => IterateOver(row, word))
 }
 
-const TableHTML = (input, properties) => {
-  let highlight = (properties && properties.highlight) || []
+const IterateOver = (row, word) => {
+  return <div className="indent">
+    {row.tag}
+
+    {row.values
+      ? row.values.map(i => IterateOver(i, word))
+      : <b>{row.inflectional_form}</b>
+    }
+  </div>
+}
+
+const Table = (item) => {
+
+}
+
+const TableHTML = (input, highlight = []) => {
   return (
     <table className="wikitable">
       <tbody>
@@ -47,4 +57,8 @@ const FlipColumnsAndRows = (input) => {
   return newMat;
 }
 
-export default Table
+// return TableHTML(FlipColumnsAndRows([
+//   [null, <th>{link('Nominative')}</th>, <th>{link('Accusative')}</th>, <th>{link('Dative')}</th>, <th>{link('Genitive')}</th>, ],
+//   [<th colSpan="2">{link('Without definite article')}</th>, ...word.get('without definite article').getCases(), ],
+//   [<th colSpan="2">{link('With definite article')}</th>, ...word.get('with definite article').getCases(), ],
+// ]))

@@ -1,29 +1,31 @@
 import React from 'react'
 import link from './link'
 import Table from './TableObject'
+import tree from './tree'
 
 class Word {
-  classification = []
+  form_classification = []
+  word_class = []
   rows = []
   original = []
   constructor(rows, original) {
-    console.log(rows)
-    // Array.isArray(rows) && rows.forEach(row => {
-    //   let classification = row.classification || classify(row) // Previously classified or not
-    //   this.rows.push({
-    //     classification,
-    //     ...row,
-    //   })
-    //   this.classification = classification // Temporary
-    // })
+    // console.log(rows)
+    Array.isArray(rows) && rows.forEach(({ word_class, form_classification }) => {
+      this.form_classification = form_classification
+      this.word_class = word_class
+    })
+    this.rows = rows
     this.original = original || rows
   }
   is = (...values) => {
-    return values.every(value => this.classification.includes(value))
+    return values.every(value => (
+      this.form_classification.includes(value) ||
+      this.word_class.includes(value)
+    ))
   }
   get = (...values) => (
     new Word(this.rows.filter(row => (
-      values.every(value => row.classification.includes(value))
+      values.every(value => row.form_classification.includes(value))
     )), this.original)
   )
   getCases = () => {
@@ -37,13 +39,13 @@ class Word {
   getType = (type) => {
     switch (type) {
       case 'gender':
-        return this.classification.find(i => ['masculine', 'feminine', 'neuter'].includes(i))
+        return this.form_classification.find(i => ['masculine', 'feminine', 'neuter'].includes(i))
       case 'class':
-        return this.classification.find(i => ['noun', 'verb', 'adjective'].includes(i))
+        return this.form_classification.find(i => ['noun', 'verb', 'adjective'].includes(i))
       case 'plurality':
-        return this.classification.find(i => ['singular', 'plural'].includes(i))
+        return this.form_classification.find(i => ['singular', 'plural'].includes(i))
       case 'article':
-        return this.classification.find(i => ['with definite article', 'without definite article'].includes(i))
+        return this.form_classification.find(i => ['with definite article', 'without definite article'].includes(i))
     }
   }
   renderCell = (shouldHighlight) => {
@@ -108,19 +110,25 @@ class Word {
         }
       }
     }
-    return link('helper words for the article',text)
+    return link('helper words for the article', text)
   }
   dependingOnGender = (...values) => {
     return values[['masculine', 'feminine', 'neuter'].indexOf(this.getType('gender'))]
   }
   getId = () => (
-    this.rows[0].BIN_id
+    this.original[0].BIN_id
   )
   getBaseWord = () => {
     return this.rows[0] ? this.rows[0].base_word : null
   }
   getTable = () => {
     return Table(this)
+  }
+  getRows = () => {
+    return this.rows
+  }
+  getTree = () => {
+    return tree(this.rows)
   }
 }
 

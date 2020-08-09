@@ -9,13 +9,15 @@ export default (input, give_me) => {
   let { word_class, grammatical_tag, ...rest } = input
   if (!word_class && !grammatical_tag) return input;
 
-  const word_class_output = word_classes[word_class]
-  // let word_class_output = []
+  let word_class_output = (word_classes[word_class]).split('-')
   // word_class_output.push(word_classes[word_class])
-  // word_class_output = word_class_output.join('-').split('-')
+  // word_class_output = .split('-')
 
   let form_classification = []
-  grammatical_tag = grammatical_tag.replace(/(NF|ÞF|ÞGF|EF)(ET|FT)/, '$2-$1') // Arrange plurality before case
+  /* Adjectives: Arrange plurality before gender */
+  grammatical_tag = grammatical_tag.replace(/(KK|KVK|HK)-(NF|ÞF|ÞGF|EF)(ET|FT)/, '$3-$1-$2') 
+  /* Nouns: Arrange plurality before case */
+  grammatical_tag = grammatical_tag.replace(/(NF|ÞF|ÞGF|EF)(ET|FT)/, '$2-$1')
   const regex = Object.keys(tags).sort((a, b) => (b.length - a.length)).join('|')
   grammatical_tag.split((new RegExp(`(${regex})`, 'g'))).filter(Boolean).forEach(tag => {
     if (tag !== '-' && tags[tag]) {
@@ -51,9 +53,9 @@ export default (input, give_me) => {
 }
 
 const word_classes = {
-  kk: 'noun, masculine',
-  kvk: 'noun, feminine',
-  hk: 'noun, neuter',
+  kk: 'noun-masculine',
+  kvk: 'noun-feminine',
+  hk: 'noun-neuter',
   fs: 'preposition',
   ao: 'adverb',
   gr: 'article',

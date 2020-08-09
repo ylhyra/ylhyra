@@ -31,24 +31,18 @@ class Inflection extends React.Component {
     if (!this.props.inflection.rows) return null;
     let word = new Word(this.props.inflection.rows)
     let tables
-    if (word.is('noun')) {
-      tables = Noun(word, {
-        relevantCellValues: this.props.inflection.relevantCellValues,
-      })
-    } else {
-      return null
-    }
-    // if (this.state.small) {
-    //   const relevantCellValues = this.props.inflection.relevantCellValues
-    //   const relevantCell = word.get(...relevantCellValues)
-    //   return <div className="inflection">
-    //     <h4>{(relevantCell.getBaseWord())}</h4>
-    //     <div>{link((relevantCell.getType('gender')))} {link(word.getType('class'))}</div>
-    //   </div>
+    // if (word.is('noun')) {
+    //   // tables = Noun(word, {
+    //   //   relevantCellValues: this.props.inflection.relevantCellValues,
+    //   // })
+    // } else {
+    //   return null
     // }
     return (
       <div className={`${this.state.small ? 'small' : ''} inflection`}>
-        {tables}
+        <h4>{(word.getBaseWord())}</h4>
+        <div>{link(word.getType('class'))}</div>
+        {word.getTable()}
         <div className="license">
           <a href={`https://bin.arnastofnun.is/beyging/${word.getId()}`} target="_blank">See the full table on BÍN</a> <a href="/Project:Inflections" className="info" target="_blank">About</a>
         </div>
@@ -58,3 +52,12 @@ class Inflection extends React.Component {
 }
 
 export default Inflection
+
+// if (this.state.small) {
+//   const relevantCellValues = this.props.inflection.relevantCellValues
+//   const relevantCell = word.get(...relevantCellValues)
+//   return <div className="inflection">
+//     <h4>{(relevantCell.getBaseWord())}</h4>
+//     <div>{link((relevantCell.getType('gender')))} {link(word.getType('class'))}</div>
+//   </div>
+// }
