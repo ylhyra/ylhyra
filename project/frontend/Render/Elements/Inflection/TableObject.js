@@ -37,7 +37,7 @@ const IterateOver = (row, word) => {
     {table ? table :
       (row.values
         ? row.values.map(i => IterateOver(i, word))
-        : <table className="wikitable"><tbody><tr>{(new Word([row])).renderCell()}</tr></tbody></table>
+        : <table className="wikitable"><tbody><tr>{(new Word([row])).renderCell(true)}</tr></tbody></table>
       )
     }
   </div>
@@ -81,7 +81,7 @@ const TableHTML = (input, highlight = []) => {
           <tr key={index}>
             {row.map((cell, index2) => {
               if(cell instanceof Word) {
-                const shouldHighlight = highlight.length > 0 && cell.is(...highlight)
+                const shouldHighlight = true //highlight.length > 0 && cell.is(...highlight)
                 return cell.renderCell(shouldHighlight)
               } else {
                 return <th colSpan={3}>{cell}</th>
