@@ -15,7 +15,7 @@ export default (input, give_me) => {
 
   let form_classification = []
   /* Adjectives: Arrange plurality before gender */
-  grammatical_tag = grammatical_tag.replace(/(KK|KVK|HK)-(NF|ÞF|ÞGF|EF)(ET|FT)/, '$3-$1-$2') 
+  grammatical_tag = grammatical_tag.replace(/(KK|KVK|HK)-(NF|ÞF|ÞGF|EF)(ET|FT)/, '$3-$1-$2')
   /* Nouns: Arrange plurality before case */
   grammatical_tag = grammatical_tag.replace(/(NF|ÞF|ÞGF|EF)(ET|FT)/, '$2-$1')
   const regex = Object.keys(tags).sort((a, b) => (b.length - a.length)).join('|')
@@ -28,7 +28,7 @@ export default (input, give_me) => {
   form_classification = form_classification.join('-').split('-')
 
   // Add "without definite article" to nouns
-  if (form_classification.includes('noun') && !form_classification.includes('with definite article')) {
+  if (word_class_output.includes('noun') && !form_classification.includes('with definite article')) {
     form_classification.push('without definite article')
   }
 

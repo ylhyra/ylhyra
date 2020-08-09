@@ -8,18 +8,36 @@ export default (word) => {
 
 const IterateOver = (row, word) => {
   let table = null
-  if (word.is('adjective') && ['singular', 'plural'].includes(row.tag)) {
+  word = (new Word()).importTree(row)
+  console.log(word)
+
+  if (word.is('noun') && ['singular', 'plural'].includes(row.tag)) {
+    table = GenerateTable(row.values, {
+      column_names: ['without definite article', 'with definite article'],
+      row_names: ['nominative', 'accusative', 'dative', 'genitive']
+    })
+  } else if (
+    (word.is('adjective') && ['singular', 'plural'].includes(row.tag)) ||
+    (word.is('past participle') && ['singular', 'plural'].includes(row.tag))
+  ) {
     table = GenerateTable(row.values, {
       column_names: ['masculine', 'feminine', 'neuter'],
       row_names: ['nominative', 'accusative', 'dative', 'genitive']
     })
+  } else if (word.is('verb') && ['present tense', 'past tense'].includes(row.tag)) {
+    table = GenerateTable(row.values, {
+      column_names: ['singular', 'plural'],
+      row_names: ['1st person','2nd person','3rd person']
+    })
   }
+
+
   return <div className="indent">
     {row.tag}
     {table ? table :
       (row.values
         ? row.values.map(i => IterateOver(i, word))
-        : <b>{row.inflectional_form}</b>
+        : <table className="wikitable"><tbody><tr>{(new Word([row])).renderCell()}</tr></tbody></table>
       )
     }
   </div>
@@ -63,7 +81,7 @@ const TableHTML = (input, highlight = []) => {
           <tr key={index}>
             {row.map((cell, index2) => {
               if(cell instanceof Word) {
-                const shouldHighlight = cell.is(...highlight)
+                const shouldHighlight = highlight.length > 0 && cell.is(...highlight)
                 return cell.renderCell(shouldHighlight)
               } else {
                 return <th colSpan={3}>{cell}</th>

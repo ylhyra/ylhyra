@@ -36,15 +36,16 @@ class Word {
     ]
   }
   getType = (type) => {
+    const classification = [...this.word_class, ...this.form_classification]
     switch (type) {
       case 'gender':
-        return this.form_classification.find(i => ['masculine', 'feminine', 'neuter'].includes(i))
+        return classification.find(i => ['masculine', 'feminine', 'neuter'].includes(i))
       case 'class':
-        return this.form_classification.find(i => ['noun', 'verb', 'adjective'].includes(i))
+        return classification.find(i => ['noun', 'verb', 'adjective'].includes(i))
       case 'plurality':
-        return this.form_classification.find(i => ['singular', 'plural'].includes(i))
+        return classification.find(i => ['singular', 'plural'].includes(i))
       case 'article':
-        return this.form_classification.find(i => ['with definite article', 'without definite article'].includes(i))
+        return classification.find(i => ['with definite article', 'without definite article'].includes(i))
     }
   }
   renderCell = (shouldHighlight) => {
@@ -62,30 +63,78 @@ class Word {
   }
   getHelperWordsBefore = () => {
     let text = ''
-    if (this.is('nominative') && this.is('singular')) {
-      text = 'hér er'
+    /* Nouns et al. */
+    if (this.is('noun') || this.is('adjective') || this.is('past participle')) {
+      if (this.is('nominative') && this.is('singular')) {
+        text = 'hér er'
+      }
+      if (this.is('nominative') && this.is('plural')) {
+        text = 'hér eru'
+      }
+      if (this.is('accusative')) {
+        text = 'um'
+      }
+      if (this.is('dative')) {
+        text = 'frá'
+      }
+      if (this.is('genitive')) {
+        text = 'til'
+      }
+      text = link('helper words for declension', text)
     }
-    if (this.is('nominative') && this.is('plural')) {
-      text = 'hér eru'
+    /* Verbs */
+    else if (this.is('verb')) {
+      if (this.is('infinitive')) {
+        text = 'að'
+      }
+      if (this.is('supine')) {
+        text = 'ég hef'
+      }
+      if (this.is('present participle')) {
+        text = 'hann er'
+      }
+      if (this.is('subjunctive')) {
+        if (this.is('present tense')) {
+          text = 'ég held að '
+        }
+        if (this.is('past tense')) {
+          text = 'ég hélt að '
+        }
+      }
+      if (this.is('singular')) {
+        if (this.is('1st person')) {
+          text += 'ég'
+        }
+        if (this.is('2nd person')) {
+          text += 'þú'
+        }
+        if (this.is('3rd person')) {
+          text += 'hún'
+        }
+      }
+      if (this.is('plural')) {
+        if (this.is('1st person')) {
+          text += 'við'
+        }
+        if (this.is('2nd person')) {
+          text += 'þið'
+        }
+        if (this.is('3rd person')) {
+          text += 'þær'
+        }
+      }
     }
-    if (this.is('accusative')) {
-      text = 'um'
-    }
-    if (this.is('dative')) {
-      text = 'frá'
-    }
-    if (this.is('genitive')) {
-      text = 'til'
-    }
-    return link('helper words for declension', text)
+    return text
   }
   getHelperWordsAfter = () => {
     let text = ''
+
     /* Nouns */
     if (this.is('noun') && this.is('with definite article')) {
       if (this.is('singular')) {
         if (this.is('nominative')) {
           text = this.dependingOnGender('minn', 'mín', 'mitt')
+          console.log(text)
         }
         if (this.is('accusative')) {
           text = this.dependingOnGender('minn', 'mína', 'mitt')
@@ -112,6 +161,7 @@ class Word {
       }
       text = link('helper words for the article', text)
     }
+
     /* Adjectives & past participle */
     else if (this.is('adjective') || this.is('past participle')) {
       if (!this.is('weak declension')) {
@@ -142,7 +192,7 @@ class Word {
             text = this.dependingOnGender('manna', 'kvenna', 'barna')
           }
         }
-      } else if (this.is('weak declension')) {
+      } else {
         if (this.is('singular')) {
           if (this.is('nominative')) {
             text = this.dependingOnGender('maðurinn', 'konan', 'barnið')
@@ -172,6 +222,20 @@ class Word {
         }
       }
     }
+
+    /* Verbs */
+    else if (this.is('verb')) {
+      if (this.is('present tense')) {
+        text = '(í dag)'
+      }
+      if (this.is('past tense')) {
+        text = '(í gær)'
+      }
+      if (this.is('imperative')) {
+        text = '!'
+      }
+    }
+
     return text
   }
   dependingOnGender = (...values) => {
@@ -206,6 +270,9 @@ class Word {
     traverse(input)
     this.rows = rows
     this.original = rows
+    // Does not make sense, needs restructuring
+    this.form_classification = rows[0].form_classification
+    this.word_class = rows[0].word_class
     return this
   }
 }
