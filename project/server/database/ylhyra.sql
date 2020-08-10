@@ -150,3 +150,8 @@ CREATE TABLE interactions (
 --   platform VARCHAR(120),
 --   is_mobile BOOLEAN
 -- );
+
+
+
+-- Other data:
+-- inflection/database.sql
