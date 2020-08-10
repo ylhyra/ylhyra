@@ -68,7 +68,7 @@ app.use('/api', require('server/audio/GetOneAudioFile').default)
 app.use('/api', require('server/audio/Synchronize').default)
 app.use('/api', require('server/analytics').default)
 app.use('/api', require('server/translator/save').default)
-app.use('/api', require('server/inflection/FindInflectionFromAnalysis').default)
+// app.use('/api', require('server/inflection/FindInflectionFromAnalysis').default)
 
 app.use('/api/temp_files/', express.static(upload_path))
 
@@ -77,7 +77,7 @@ app.use('/api/temp_files/', express.static(upload_path))
 */
 app.use(cors({ origin: '*' }))
 app.set('json spaces', 2)
-app.use('/api', require('server/inflection/inflection').default)
+// app.use('/api', require('server/inflection/inflection').default)
 
 
 

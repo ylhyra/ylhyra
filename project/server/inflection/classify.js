@@ -9,7 +9,7 @@ export default (input, give_me) => {
   let { word_class, grammatical_tag, ...rest } = input
   if (!word_class && !grammatical_tag) return input;
 
-  let word_class_output = (word_classes[word_class]).split('-')
+  let word_class_output = (word_classes[word_class]).split(', ')
   // word_class_output.push(word_classes[word_class])
   // word_class_output = .split('-')
 
@@ -30,7 +30,7 @@ export default (input, give_me) => {
     }
   })
 
-  form_classification = form_classification.join('-').split('-')
+  form_classification = form_classification.join(', ').split(', ')
 
   /* Add "without definite article" to nouns */
   if (word_class_output.includes('noun') && !form_classification.includes('with definite article')) {
@@ -64,9 +64,9 @@ export default (input, give_me) => {
 }
 
 const word_classes = {
-  kk: 'noun-masculine',
-  kvk: 'noun-feminine',
-  hk: 'noun-neuter',
+  kk: 'noun, masculine',
+  kvk: 'noun, feminine',
+  hk: 'noun, neuter',
   fs: 'preposition',
   ao: 'adverb',
   gr: 'article',
@@ -95,12 +95,12 @@ const tags = {
   'FH': 'indicative',
 
   'FST': 'positive degree', // frumstig
-  'FSB': 'positive degree-strong declension',
-  'FVB': 'positive degree-weak declension',
+  'FSB': 'positive degree, strong declension',
+  'FVB': 'positive degree, weak declension',
   'MST': 'comparative degree', // miðstig
   'EST': 'superlative degree', // efsta stig
-  'EVB': 'superlative degree-weak declension',
-  'ESB': 'superlative degree-strong declension',
+  'EVB': 'superlative degree, weak declension',
+  'ESB': 'superlative degree, strong declension',
 
   'FT': 'plural',
   'GM': 'active voice',
@@ -125,10 +125,10 @@ const tags = {
   'ÞF': 'accusative',
   'ÞGF': 'dative',
   'ÞT': 'past tense',
-  'OP-ÞF': 'impersonal with accusative subject',
-  'OP-ÞGF': 'impersonal with dative subject',
-  'OP-EF': 'impersonal with genitive subject',
-  'OP-það': 'impersonal with dummy subject',
+  'OP, ÞF': 'impersonal with accusative subject',
+  'OP, ÞGF': 'impersonal with dative subject',
+  'OP, EF': 'impersonal with genitive subject',
+  'OP, það': 'impersonal with dummy subject',
   'OP': 'impersonal',
   'OBEYGJANLEGT': 'indeclinable',
 }
@@ -161,12 +161,8 @@ export const sorted_tags = [
   'past participle',
   'question form',
 
-
-
   'present tense',
   'past tense',
-
-
 
   'singular',
   'plural',
