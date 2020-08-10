@@ -22,7 +22,7 @@ module.exports = {
       "error",
       "unix"
     ],
-    "no-unused-vars": 0,
+    "no-unused-vars": 1,
     "no-console": 0,
     "array-callback-return": 1,
     "no-lonely-if": 1,

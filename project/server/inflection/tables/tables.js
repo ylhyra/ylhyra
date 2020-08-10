@@ -1,11 +1,8 @@
 import React from 'react'
-import link from './link'
-import Word from './WordObject'
+import link from 'server/inflection/tables/link'
+import Word from 'server/inflection/tables/WordObject'
 
 export default (word) => {
-
-  // return word.get('impersonal with dative subject').getTree().map(row => IterateOver(row, word))
-
   return word.getTree().map(row => IterateOver(row, word))
 }
 

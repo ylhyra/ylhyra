@@ -2,7 +2,7 @@
   Turns rows into nested tree
 */
 require('array-sugar')
-import { sorted_tags } from 'server/inflection/classify'
+import { sort_by_classification } from 'server/inflection/tables/classify'
 export default (rows) => {
   let output = []
 
@@ -36,7 +36,7 @@ export default (rows) => {
 
   output = TraverseAndSort(output)
 
-  console.log(output)
+  // console.log(output)
   return output
 }
 
@@ -56,25 +56,6 @@ const TraverseAndSort = (input) => {
   } else {
     return input
   }
-}
-
-export const sort_by_classification = (a, b) => {
-  /* Sort by single tag */
-  if (a.tag) {
-    return sorted_tags.indexOf(a.tag) - sorted_tags.indexOf(b.tag)
-  }
-
-  /* Sort by full array of classification */
-  for (let i = 0; i < a.form_classification.length; i++) {
-    if (!b.form_classification[i])
-      break;
-    if (a.form_classification[i] === b.form_classification[i])
-      continue;
-    return sorted_tags.indexOf(a.form_classification[i]) - sorted_tags.indexOf(b.form_classification[i]) 
-  }
-
-  /* Sort by variant number */
-  return a.variant_number - b.variant_number
 }
 
 

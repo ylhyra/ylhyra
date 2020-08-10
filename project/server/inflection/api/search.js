@@ -1,18 +1,13 @@
-const express = require('express')
-const router = express.Router()
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
-import cors from 'cors'
-import classify from './classify'
-import { sort_by_classification } from 'frontend/Render/Elements/Inflection/tree'
-import { withLicense } from './get_by_id'
+import classify from 'inflection/tables/classify'
+import { withLicense } from './index'
 const IcelandicCharacters = /^[a-záéíóúýðþæö]+$/i
 
 /*
   Find possible base words and tags for a given word
 */
-router.get('/inflection/search/:word', cors(), (req, res) => {
-  let { word } = req.params
+export default (word, res) => {
   if (!word ||
     word.length > 100 ||
     !IcelandicCharacters.test(word) // No spaces
@@ -39,7 +34,11 @@ router.get('/inflection/search/:word', cors(), (req, res) => {
         if (index < 0) {
           grouped.push({
             BIN_id: row.BIN_id,
-            api_url: `https://ylhyra.is/api/inflection/id/${row.BIN_id}`,
+            urls: {
+              nested: `https://ylhyra.is/api/inflection?id=${row.BIN_id}`,
+              flat: `https://ylhyra.is/api/inflection?id=${row.BIN_id}&type=flat`,
+              html: `https://ylhyra.is/api/inflection?id=${row.BIN_id}&type=html`,
+            },
             base_word: row.base_word,
             word_class: classify(row, 'word_class'),
             matches: [],
@@ -55,4 +54,4 @@ router.get('/inflection/search/:word', cors(), (req, res) => {
       res.json(withLicense(grouped))
     }
   })
-})
+}

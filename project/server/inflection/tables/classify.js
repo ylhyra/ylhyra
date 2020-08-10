@@ -3,15 +3,13 @@
   Descriptions from:
   - https://bin.arnastofnun.is/gogn/k-snid and
   - https://bin.arnastofnun.is/gogn/greiningarstrengir/
-  © Árni Magnússon Institute for Icelandic Studies
+  © Árni Magnússon Institute for Icelandic Studies, CC BY-SA 4.0
 */
 export default (input, give_me) => {
   let { word_class, grammatical_tag, ...rest } = input
   if (!word_class && !grammatical_tag) return input;
 
   let word_class_output = (word_classes[word_class]).split(', ')
-  // word_class_output.push(word_classes[word_class])
-  // word_class_output = .split('-')
 
   let form_classification = []
   /* Adjectives: Arrange plurality before gender */
@@ -25,7 +23,7 @@ export default (input, give_me) => {
       form_classification.push(tags[tag])
     } else {
       if (process.env.NODE_ENV === 'development') {
-        console.error('Unknown: ' + tags[tag])
+        console.error('Unknown tag in classify.js: ' + tag)
       }
     }
   })
@@ -125,10 +123,10 @@ const tags = {
   'ÞF': 'accusative',
   'ÞGF': 'dative',
   'ÞT': 'past tense',
-  'OP, ÞF': 'impersonal with accusative subject',
-  'OP, ÞGF': 'impersonal with dative subject',
-  'OP, EF': 'impersonal with genitive subject',
-  'OP, það': 'impersonal with dummy subject',
+  'OP-ÞF': 'impersonal with accusative subject',
+  'OP-ÞGF': 'impersonal with dative subject',
+  'OP-EF': 'impersonal with genitive subject',
+  'OP-það': 'impersonal with dummy subject',
   'OP': 'impersonal',
   'OBEYGJANLEGT': 'indeclinable',
 }
@@ -193,3 +191,22 @@ export const sorted_tags = [
 
   'indeclinable',
 ]
+
+export const sort_by_classification = (a, b) => {
+  /* Sort by single tag */
+  if (a.tag) {
+    return sorted_tags.indexOf(a.tag) - sorted_tags.indexOf(b.tag)
+  }
+
+  /* Sort by full array of classification */
+  for (let i = 0; i < a.form_classification.length; i++) {
+    if (!b.form_classification[i])
+      break;
+    if (a.form_classification[i] === b.form_classification[i])
+      continue;
+    return sorted_tags.indexOf(a.form_classification[i]) - sorted_tags.indexOf(b.form_classification[i])
+  }
+
+  /* Sort by variant number */
+  return a.variant_number - b.variant_number
+}

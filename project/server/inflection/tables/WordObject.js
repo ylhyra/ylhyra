@@ -1,7 +1,7 @@
 import React from 'react'
-import link from './link'
-import Table from './TableObject'
-import tree from './tree'
+import link from 'server/inflection/tables/link'
+import Table from 'server/inflection/tables/tables'
+import tree from 'server/inflection/tables/tree'
 
 class Word {
   form_classification = []
