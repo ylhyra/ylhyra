@@ -25,7 +25,7 @@ class Word {
   }
   get = (...values) => {
     return new Word(this.rows.filter(row => (
-      values.every(value => row.form_classification.includes(value))
+      values.filter(Boolean).every(value => row.form_classification.includes(value))
     )), this.original)
   }
   getCases = () => {
@@ -59,8 +59,8 @@ class Word {
     return [
       <td className={`right ${shouldHighlight ? 'highlight' : ''}`}><span className="gray">{this.getHelperWordsBefore()}</span></td>,
       <td className={`left ${shouldHighlight ? 'highlight' : ''}`}>
-        <span>{value}</span>
-        <span className="gray"> {this.getHelperWordsAfter()}</span>
+        <b>{value}</b>
+        <span className="gray">{this.getHelperWordsAfter()}</span>
       </td>,
     ]
   }
@@ -72,6 +72,20 @@ class Word {
   }
   dependingOnGender = (...values) => {
     return values[['masculine', 'feminine', 'neuter'].indexOf(this.getType('gender'))]
+  }
+  dependingOnSubject = (...values) => {
+    /* Input is a list of [nom, acc, dat, get, dummy] */
+    if (this.is('impersonal with accusative subject')) {
+      return values[1]
+    } else if (this.is('impersonal with dative subject')) {
+      return values[2]
+    } else if (this.is('impersonal with genitive subject')) {
+      return values[3]
+    } else if (this.is('impersonal with dummy subject')) {
+      return values[4]
+    } else {
+      return values[0]
+    }
   }
   getId = () => (
     this.original[0].BIN_id

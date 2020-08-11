@@ -5,7 +5,7 @@ import search from './search'
 import get_by_id from './get_by_id'
 import tree from 'server/inflection/tables/tree'
 import render from 'server/inflection/tables'
-// import path from 'path'
+import path from 'path'
 
 /*
   Find possible base words and tags for a given word
@@ -30,8 +30,8 @@ router.get('/inflection', cors(), (req, res) => {
       }
     })
   } else {
-    return res.status(400).send({ error: 'Parameters needed' })
-    // return res.sendFile(path.resolve(__dirname, `./../README.md`))
+    // return res.status(400).send({ error: 'Parameters needed' })
+    return res.sendFile(path.resolve(__dirname, `./../docs/README.md`))
   }
 })
 export default router

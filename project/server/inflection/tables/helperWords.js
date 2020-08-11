@@ -25,7 +25,7 @@ export const getHelperWordsBefore = (word) => {
     text = link('helper words for declension', text)
   }
   /* Verbs */
-  else if (word.is('verb')) {
+  else if (word.is('verb') && !word.is('question form')) {
     if (word.is('infinitive')) {
       text = 'að'
     }
@@ -45,24 +45,24 @@ export const getHelperWordsBefore = (word) => {
     }
     if (word.is('singular')) {
       if (word.is('1st person')) {
-        text += 'ég'
+        text += word.dependingOnSubject('ég', 'mig', 'mér', 'mín', 'það')
       }
       if (word.is('2nd person')) {
-        text += 'þú'
+        text += word.dependingOnSubject('þú', 'þig', 'þér', 'þín', 'það')
       }
       if (word.is('3rd person')) {
-        text += 'hún'
+        text += word.dependingOnSubject('hún', 'hana', 'henni', 'hennar', 'það')
       }
     }
     if (word.is('plural')) {
       if (word.is('1st person')) {
-        text += 'við'
+        text += word.dependingOnSubject('við', 'okkur', 'okkur', 'okkur', 'það')
       }
       if (word.is('2nd person')) {
-        text += 'þið'
+        text += word.dependingOnSubject('þið', 'ykkur', 'ykkur', 'ykkur', 'það')
       }
       if (word.is('3rd person')) {
-        text += 'þær'
+        text += word.dependingOnSubject('þær', 'þær', 'þeim', 'þeirra', 'það')
       }
     }
   }
@@ -74,6 +74,7 @@ export const getHelperWordsBefore = (word) => {
 */
 export const getHelperWordsAfter = (word) => {
   let text = ''
+  let addSpace = true
 
   /* Nouns */
   if (word.is('noun') && word.is('with definite article')) {
@@ -178,8 +179,18 @@ export const getHelperWordsAfter = (word) => {
     }
     if (word.is('imperative')) {
       text = '!'
+      addSpace = false
+    }
+    if (word.is('question form')) {
+      text = '?'
+      addSpace = false
     }
   }
 
-  return text
+  /* Add space between word, except for exclamation marks */
+  if (addSpace) {
+    return ' ' + text
+  } else {
+    return text
+  }
 }
