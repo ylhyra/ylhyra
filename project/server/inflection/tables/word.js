@@ -49,21 +49,6 @@ class Word {
         return classification.find(i => ['with definite article', 'without definite article'].includes(i))
     }
   }
-  renderCell = (shouldHighlight) => {
-    const value = this.rows.map((row, index) => {
-      return <span>
-        {row.inflectional_form}
-        {index+1<this.rows.length && <span className="light-gray"> / </span>}
-      </span>
-    })
-    return [
-      <td className={`right ${shouldHighlight ? 'highlight' : ''}`}><span className="gray">{this.getHelperWordsBefore()}</span></td>,
-      <td className={`left ${shouldHighlight ? 'highlight' : ''}`}>
-        <b>{value}</b>
-        <span className="gray">{this.getHelperWordsAfter()}</span>
-      </td>,
-    ]
-  }
   getHelperWordsBefore = () => {
     return getHelperWordsBefore(this)
   }

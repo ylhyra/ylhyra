@@ -61,7 +61,7 @@ const IterateOver = (row, word) => {
     <dd>{table ? table :
       (row.values
         ? row.values.map(i => IterateOver(i, word))
-        : <table className="wikitable" border={1}><tbody><tr>{(new Word([row])).renderCell(true)}</tr></tbody></table>
+        : <table className="wikitable"><tbody><tr>{renderCell(new Word([row]))}</tr></tbody></table>
       )
     }</dd>
   </dl>
@@ -99,14 +99,14 @@ const GenerateTable = (input, structure) => {
 
 const TableHTML = (input, highlight = []) => {
   return (
-    <table className="wikitable" border={1}>
+    <table className="wikitable">
       <tbody>
         {input.map((row, index) => (
           <tr key={index}>
             {row.map((cell, index2) => {
               if(cell instanceof Word) {
                 const shouldHighlight = true //highlight.length > 0 && cell.is(...highlight)
-                return cell.renderCell(shouldHighlight)
+                return renderCell(cell, shouldHighlight)
               } else {
                 return <th key={index2} colSpan={2}>{cell}</th>
               }
@@ -116,4 +116,19 @@ const TableHTML = (input, highlight = []) => {
       </tbody>
     </table>
   )
+}
+
+export const renderCell = (word, shouldHighlight) => {
+  const value = word.rows.map((row, index) => {
+    return <span>
+      {row.inflectional_form}
+      {index+1<word.rows.length && <span className="light-gray"> / </span>}
+    </span>
+  })
+  return [
+    <td className={`right ${shouldHighlight ? 'highlight' : ''}`}><span className="gray">{word.getHelperWordsBefore()}</span></td>,
+    <td className={`left ${shouldHighlight ? 'highlight' : ''}`}>
+      <b>{value}</b><span className="gray">{word.getHelperWordsAfter()}</span>
+    </td>,
+  ]
 }

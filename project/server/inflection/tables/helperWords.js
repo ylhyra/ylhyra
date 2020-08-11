@@ -189,7 +189,7 @@ export const getHelperWordsAfter = (word) => {
 
   /* Add space between word, except for exclamation marks */
   if (addSpace) {
-    return ' ' + text
+    return '\u202F\u202F' + text
   } else {
     return text
   }
