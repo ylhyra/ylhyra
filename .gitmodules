@@ -1,6 +1,6 @@
 [submodule "mediawiki/ylhyra-extensions/ThirdPartySessionVerification"]
 	path = mediawiki/ylhyra-extensions/ThirdPartySessionVerification
 	url = https://github.com/ylhyra/mediawiki-third-party-session-verification.git
-[submodule "project/server/inflections"]
-	path = project/server/inflections
+[submodule "project/server/inflection"]
+	path = project/server/inflection
 	url = https://github.com/ylhyra/icelandic-inflections.git
