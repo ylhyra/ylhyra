@@ -89,7 +89,7 @@ const port = argv.port || process.env.PORT || 9123
 
 /* Import steps */
 if (process.argv[2] === '--import-inflections') {
-  require('server/inflection/setup/ImportToDatabase')
+  require('server/inflection/database/ImportToDatabase')
 }
 /* Or, start the app */
 else {
