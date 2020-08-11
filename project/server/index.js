@@ -76,8 +76,7 @@ app.use('/api/temp_files/', express.static(upload_path))
 */
 app.use(cors({ origin: '*' }))
 app.set('json spaces', 2)
-app.use('/api', require('server/inflection/api').default)
-
+app.use('/api', require('server/inflection/server/server-with-database').default)
 
 
 // get the intended host and port number, use localhost and port 3000 if not provided
@@ -89,7 +88,7 @@ const port = argv.port || process.env.PORT || 9123
 
 /* Import steps */
 if (process.argv[2] === '--import-inflections') {
-  require('server/inflection/database/ImportToDatabase')
+  require('project/server/inflection/server/server-with-database/database/ImportToDatabase.js')
 }
 /* Or, start the app */
 else {
