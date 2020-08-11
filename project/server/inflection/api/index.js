@@ -18,7 +18,7 @@ router.get('/inflection', cors(), (req, res) => {
     get_by_id(id, res, (rows) => {
       /* Flat */
       if (type === 'flat') {
-        return res.json(withLicense(rows))
+        return res.json(withLicense(rows, id))
       }
       /* HTML */
       else if (type === 'html') {
@@ -26,7 +26,7 @@ router.get('/inflection', cors(), (req, res) => {
       }
       /* Nested */
       else {
-        return res.send(withLicense(tree(rows)))
+        return res.send(withLicense(tree(rows), id))
       }
     })
   } else {
@@ -36,8 +36,13 @@ router.get('/inflection', cors(), (req, res) => {
 })
 export default router
 
-export const withLicense = (input) => {
+export const withLicense = (input, id) => {
   return {
+    urls: {
+      nested: `https://ylhyra.is/api/inflection?id=${id}`,
+      flat: `https://ylhyra.is/api/inflection?id=${id}&type=flat`,
+      html: `https://ylhyra.is/api/inflection?id=${id}&type=html`,
+    },
     results: input,
     license: "CC BY-SA 4.0; https://ylhyra.is/Project:Inflections; © Árni Magnússon Institute for Icelandic Studies",
   }

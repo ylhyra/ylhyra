@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
-import Word from 'server/inflection/tables/WordObject'
+import Word from 'server/inflection/tables/word'
 import link from 'server/inflection/tables/link'
 
 export default (rows) => {

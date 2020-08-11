@@ -1,9 +1,9 @@
 import React from 'react'
 import link from 'server/inflection/tables/link'
-import Word from 'server/inflection/tables/WordObject'
+import Word from 'server/inflection/tables/word'
 
 export default (word) => {
-  return word.getTree().map(row => IterateOver(row, word))
+  return word.getTree().values.map(row => IterateOver(row, word))
 }
 
 const IterateOver = (row, word) => {
@@ -31,7 +31,6 @@ const IterateOver = (row, word) => {
       row_names: ['1st person', '2nd person', '3rd person']
     })
   }
-
 
   return <div className="indent">
     {row.tag}
@@ -85,7 +84,7 @@ const TableHTML = (input, highlight = []) => {
                 const shouldHighlight = true //highlight.length > 0 && cell.is(...highlight)
                 return cell.renderCell(shouldHighlight)
               } else {
-                return <th colSpan={3}>{cell}</th>
+                return <th key={index2} colSpan={3}>{cell}</th>
               }
             })}
           </tr>

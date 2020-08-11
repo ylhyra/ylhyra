@@ -4,10 +4,18 @@
 require('array-sugar')
 import { sort_by_classification } from 'server/inflection/tables/classify'
 export default (rows) => {
-  let output = []
+  // let output = []
+  let output = {
+    BIN_id: rows[0].BIN_id,
+    base_word: rows[0].base_word,
+    correctness_grade_of_base_word: rows[0].correctness_grade_of_base_word,
+    register_of_base_word: rows[0].register_of_base_word,
+    word_class: rows[0].word_class,
+    values: [],
+  }
 
   rows.forEach(row => {
-    let currentArray = output
+    let currentArray = output.values
     row.form_classification.forEach(tag => {
       const alreadyExists = currentArray.find(i => i.tag === tag)
       if (alreadyExists) {
@@ -50,21 +58,10 @@ const TraverseAndSort = (input) => {
     return input.sort(sort_by_classification).map(TraverseAndSort)
   } else if (input.values) {
     return {
-      tag: input.tag,
+      ...input,
       values: input.values.sort(sort_by_classification).map(TraverseAndSort)
     }
   } else {
     return input
   }
 }
-
-
-
-// let output = {
-//   BIN_id: rows[0].BIN_id,
-//   base_word: rows[0].base_word,
-//   correctness_grade_of_base_word: rows[0].correctness_grade_of_base_word,
-//   register_of_base_word: rows[0].register_of_base_word,
-//   word_class: rows[0].word_class,
-//   table_values: [],
-// }
