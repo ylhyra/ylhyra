@@ -90,6 +90,9 @@ const port = argv.port || process.env.PORT || 9123
 if (process.argv[2] === '--import-inflections') {
   require('project/server/inflection/server/server-with-database/database/ImportToDatabase.js')
 }
+else if (process.argv[2] === '--generate-autocomplete-index') {
+  require('project/server/inflection/server/server-with-database/database/generateAutocompleteIndex.js')
+}
 /* Or, start the app */
 else {
   app.listen(port, host, (err) => {
