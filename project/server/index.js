@@ -1,9 +1,7 @@
 // import 'source-map-support/register'
 require('source-map-support').install()
-
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-
 require('dotenv').config()
 import express from 'express'
 import logger from './logger'
@@ -11,17 +9,12 @@ import bodyParser from 'body-parser'
 import path from 'path'
 import argvFactory from 'minimist'
 const argv = argvFactory(process.argv.slice(2))
-const isDev = process.env.NODE_ENV !== 'production'
-const shortid = require('shortid')
 const app = express()
-const expressWs = require('express-ws')(app)
+require('express-ws')(app)
 import query from './database'
 export const upload_path = path.resolve(__dirname, './../../uploads')
 var cors = require('cors')
 import requestIp from 'request-ip';
-var session = require('express-session')
-const FileStore = require('session-file-store')(session);
-export const session_path = path.resolve(__dirname, './../../sessions')
 
 app.use(bodyParser.json({ limit: '5mb' }))
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))
@@ -76,8 +69,13 @@ app.use('/api/temp_files/', express.static(upload_path))
 */
 app.use(cors({ origin: '*' }))
 app.set('json spaces', 2)
-app.use('/api', require('server/inflection/server/server-with-database').default)
-
+/*
+  When running on subdomains,
+  serve up inflections.
+  If other services are needed later, go by "request.headers.host"
+*/
+app.use('/', require('project/server/inflection/server/server-with-database/route_loader').default)
+app.use('/inflection_styles', express.static(path.join(__dirname, '/inflection/styles')))
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST
@@ -89,9 +87,8 @@ const port = argv.port || process.env.PORT || 9123
 /* Import steps */
 if (process.argv[2] === '--import-inflections') {
   require('project/server/inflection/server/server-with-database/database/ImportToDatabase.js')
-}
-else if (process.argv[2] === '--generate-autocomplete-index') {
-  require('project/server/inflection/server/server-with-database/database/generateAutocompleteIndex.js')
+} else if (process.argv[2] === '--generate-search-index') {
+  require('project/server/inflection/server/server-with-database/database/generateSearchIndex.js')
 }
 /* Or, start the app */
 else {
@@ -99,7 +96,6 @@ else {
     if (err) {
       return logger.error(err.message)
     }
-
     logger.appStarted(port, prettyHost)
   })
 }
