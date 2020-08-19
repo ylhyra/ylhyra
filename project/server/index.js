@@ -74,8 +74,8 @@ app.set('json spaces', 2)
   serve up inflections.
   If other services are needed later, go by "request.headers.host"
 */
-app.use('/', require('project/server/inflection/server/server-with-database/route_loader').default)
 app.use('/inflection_styles', express.static(path.join(__dirname, '/inflection/styles')))
+app.use('/', require('project/server/inflection/server/server-with-database/route_loader').default)
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST
