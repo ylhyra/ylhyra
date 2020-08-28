@@ -9,6 +9,10 @@ export default () => {
   if(mw.config.get('wgCategories').includes('CC0')) {
     $('#license').append('<div>You are free to republish this article. <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode" class="license-link" rel="noopener">CC0</a></div>')
   }
+  /* CC BY */
+  if(mw.config.get('wgCategories').includes('CC BY')) {
+    $('#license').append('<div>You are free to republish this article. <a href="https://creativecommons.org/licenses/by/4.0/legalcode" class="license-link" rel="noopener">CC BY</a></div>')
+  }
   /* CC BY-SA */
   if(mw.config.get('wgCategories').includes('CC BY-SA')) {
     $('#license').append('<div>You are free to republish this article. <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" class="license-link" rel="noopener">CC BY-SA</a></div>')

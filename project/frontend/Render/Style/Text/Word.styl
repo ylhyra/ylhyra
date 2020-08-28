@@ -1,6 +1,6 @@
 .word-container
   position: relative
-  user-select: none
+  // user-select: none
   -webkit-tap-highlight-color: transparent
   -webkit-backface-visibility: hidden
   .word
@@ -31,7 +31,7 @@
     display: inline-block
     .word
       white-space: nowrap
-  .mw-editable &.missing
+  html:active .mw-editable &.missing
     border-bottom 1px dotted rgba(#d70041, 0.3)
     background rgba(#ff0000, 0.05)
 
