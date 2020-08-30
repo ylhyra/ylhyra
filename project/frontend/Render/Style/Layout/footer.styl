@@ -29,11 +29,15 @@
     font-size 11px
     color: #848484;
 
+  /* Bottom  */
   #footer-info
     font-size: 11px;
     line-height: 1em;
     display: block;
     color: #848484;
+    // > .footer-item
+    //   &:not(:last-child)
+    //     &:after
     .footer-gray
       &:not(:hover)
         color #7d7d7d
@@ -44,6 +48,10 @@
           -webkit-filter: grayscale(100%);
           filter: gray;
     #footer-logo
+      font-family: serif;
+      font-style: italic;
+      font-size: 12px;
+      font-weight: bold
       // background url("https://ylhyra.is/images/c/c8/Ylhyra_logo_dark.svg")
       // width 70px
       // height (@width * 29 / 89) /* 29 / 89 is the image's ratio */
@@ -59,14 +67,9 @@
       // background-image url("https://ylhyra.is/images/d/d3/Logo_serif.svg")
       // width 70px
       // height (@width * 36 / 112) /* 36 / 112 is the image's ratio */
-
       // > span /* Text inside */
       //   opacity 0
 
-      font-family: serif;
-      font-style: italic;
-      font-size: 12px;
-      font-weight: bold
 
 #footer-info-lastmod /* "Last modified:" */
   display none
