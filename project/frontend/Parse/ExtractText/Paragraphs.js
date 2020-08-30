@@ -90,7 +90,7 @@ const GroupParagraphs = ({ input, paragraphFunction, isTranslating, getNewTitle 
 
 
 export const shouldTranslate_ = ({ tag, attr }, isTranslating) => {
-  if (tag === 'translate' /*|| tag === 'blockquote'*/ || tag === 'isl' || tag === 'listen' || tag === 'is') {
+  if (tag === 'translate' || tag === 'isl' || tag === 'listen' || tag === 'is') {
     return true
   }
   if (attr && (attr['data-translate'] === 'no' || attr['data-translate'] === 'false')) {
@@ -100,9 +100,6 @@ export const shouldTranslate_ = ({ tag, attr }, isTranslating) => {
     return false
   }
   if (attr && ('data-translate' in attr)) {
-    return true
-  }
-  if (attr && attr.class === 'icelandic') {
     return true
   }
   if (attr && ('no-translate' in attr || 'data-no-translate' in attr || 'ignore' in attr)) {

@@ -7,7 +7,7 @@ $wgHooks['InternalParseBeforeLinks'][] = function( &$parser, &$text, &$stripStat
   $fixsuffix = preg_replace('/`/', '~', Parser::MARKER_SUFFIX);
   $text = str_replace(Parser::MARKER_PREFIX, $fixprefix, $text);
   $text = str_replace(Parser::MARKER_SUFFIX, $fixsuffix, $text);
-  $text = preg_replace('/([^\\\\]|^)`([^`\x7f]*)`/', '$1<span class="icelandic">$2</span>', $text);
+  $text = preg_replace('/([^\\\\]|^)`([^`\x7f]*)`/', '$1<span class="short-translated-text" data-translate="true">$2</span>', $text);
   $text = preg_replace('/\\\\\`/', '`', $text);
   $text = str_replace($fixprefix, Parser::MARKER_PREFIX, $text);
   $text = str_replace($fixsuffix, Parser::MARKER_SUFFIX, $text);

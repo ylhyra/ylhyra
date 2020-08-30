@@ -70,5 +70,7 @@ $edgAllowExternalDataFrom = 'https://ylhyra.is';
 
 
 
-
+/* Other necessary items */
 // require_once "$IP/extensions/AddBodyClass/AddBodyClass.php";
+
+// https://github.com/Wikifab/VeForceReload
