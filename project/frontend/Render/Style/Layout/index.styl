@@ -5,42 +5,6 @@ body
   background: rgb(255, 254, 252);
   font-size 14px
 
-.rootpage-Ylhýra
-  #title
-    display none
-    margin-bottom: 20px;
-
-#title
-  font-size 13px
-  margin-bottom: 10px;
-  .title-part
-    border-radius: 12px;
-    font-family:sans-serif;
-    font-weight normal
-    &:after
-      content ' › '
-      padding: 2px 1px;
-      color: #b9b9b9;
-    &.namespace
-      color:gray;
-    &.last
-      color black
-      font-weight bold
-      &:after
-        content ''
-  .title-seperator
-    font-size 0
-    opacity 0
-
-.subpages
-  display none
-
-.mw-redirectedfrom
-  color: gray;
-  font-size: 12px;
-  body:not(.mw-editable) &
-    display none
-
 hr
   margin 40px 20px
   border none
@@ -68,15 +32,17 @@ hr
   sans-serif()
   letter-spacing: 0.1px;
   line-height: 1.5;
-  font-size 16px
+  font-size: 15px;
+  // font-size 16px
   h1,h2,h3,h4,h5,h6
     sans-serif()
-  .ns-0.action-view &
-    font-size: 15px;
+  // .ns-0.action-view &
+  //   font-size: 15px;
 
 .ylhyra-text
   position: relative
 
+/* Used to reset styles on tooltips */
 .text-reset
   color: black;
   font-size: 14px;

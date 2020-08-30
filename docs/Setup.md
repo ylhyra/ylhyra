@@ -27,7 +27,7 @@ In Chrome, turn on the flag `chrome://flags/#allow-insecure-localhost` and resta
 
 **Set the website to development mode**
 
-* Open the console on this site and write: `ylhyraDevelopment(true)`. This will set a cookie that makes the site load the local script. 
+* Open the console on this site and write: `ylhyraDevelopment(true)`. This will set a cookie that makes the site load the local script.
 
 * To turn off server side rendering, write: `serverSideRendering('false')`.
 
@@ -39,3 +39,9 @@ You can either develop using a live MediaWiki instance, or use Docker to run Med
 docker-compose build
 docker-compose up -d
 ```
+
+
+----
+
+To update git submodules:
+> git submodule update --recursive --remote

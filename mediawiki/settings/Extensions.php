@@ -67,3 +67,8 @@ $edgAllowExternalDataFrom = 'https://ylhyra.is';
 
 
 // wfLoadExtension( 'RandomImageByCategory' );
+
+
+
+
+// require_once "$IP/extensions/AddBodyClass/AddBodyClass.php";
