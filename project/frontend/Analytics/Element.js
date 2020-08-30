@@ -21,7 +21,7 @@ class Editor extends React.PureComponent {
 
 const RenderEditor = async () => {
   if (!mw.config.get('wgUserGroups').includes('sysop')) return;
-  $('#content').append('<div id="analytics-container"></div>')
+  $('#main').append('<div id="analytics-container"></div>')
 
   const { data } = await axios.get(`${url}/api/a`, {
     pageName: mw.config.get('wgPageName'),

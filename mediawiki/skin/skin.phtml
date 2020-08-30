@@ -46,7 +46,7 @@ require_once (__DIR__.'/title.php');
 <?php if ( $this->data['sitenotice'] ): ?><div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div><?php endif; ?>
 
 <div id="container">
-<div id="content">
+<div id="main">
 	<h1 id="title">
 		<?php /* <span class="namespace"><?=$this->getSkin()->getTitle()->getNsText();?></span>
 		<?=$this->data[ 'titletext' ];?> */ ?>
@@ -130,12 +130,11 @@ require_once (__DIR__.'/title.php');
 
   <div id="footer-info">
     <span class="footer-gray">
-      <span id="footer-logo"><span>Ylhýra</span></span>
-    </span>  <!--ehf.,
-      kt. 480520-0170,-->
+      <a id="footer-logo" title="Kennitala: 480520-0170" href="/Project:About">Ylhýra</a>
+    </span>
     •
     <span class="footer-gray">
-      <a href="mailto:ylhyra@ylhyra.is">Contact</a>
+      <a href="mailto:ylhyra@ylhyra.is">Report errors</a>
 			<span class="anonymous-show">
 	      •
 	      <a href="/Special:UserLogin">Log in</a>

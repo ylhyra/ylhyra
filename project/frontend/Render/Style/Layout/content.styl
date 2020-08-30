@@ -1,9 +1,10 @@
+/* Container to keep footer at bottom on large screens */
 #container
   display flex
   flex-direction column
   min-height 100vh
 
-#content
+#main
   line-height: 1.37;
   width 100%
   max-width $max-width
@@ -16,32 +17,3 @@
     flex 1
   @media screen and (max-width: 600px)
     padding 0 5px
-
-body
-  margin 0
-
-#actions
-
-  position: absolute;
-  right: 0;
-  font-size small
-  list-style none
-  margin 0
-  padding 0
-  li
-    margin 0 6px 0 0
-    &.selected
-      a
-        color #333
-
-.blue
-  color blue
-
-.columns
-  display flex
-  .columns-1
-    flex 1
-  .columns-2
-    flex 1
-  .columns-3
-    flex 1
