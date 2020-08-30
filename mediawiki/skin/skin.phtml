@@ -93,12 +93,12 @@ require_once (__DIR__.'/title.php');
 </div>
 
 <div id="footer">
-	<div>
+	<div class="user-show">
 		<div>
-			<form id="search-form" action="<?php $this->text( 'wgScript' ); ?>">
+			<?php /*<form id="search-form" action="<?php $this->text( 'wgScript' ); ?>">
 				<?php echo $this->makeSearchInput( array( 'type' => 'text', 'id' => 'search-field', 'placeholder' => 'Search...', 'autofocus' => false ) ); ?><button><img src="https://mediawiki.org/w/skins/Vector/resources/skins.vector.styles/images/search.svg"></button>
 				<input type="hidden" name="title" value="<?php $this->text( 'searchtitle' ) ?>" />
-			</form>
+			</form>*/ ?>
 
 			<ul class="portal user-show">
 			<?php foreach ( $this->data['sidebar']['navigation'] as $key => $value ) echo $this->makeListItem( $key, $value ); ?>
@@ -144,6 +144,10 @@ require_once (__DIR__.'/title.php');
     <!-- <span class="anonymous-show"> -->
     <span class="footer-gray">
     <a href="/Project:Become_a_collaborator">Collaborate</a>
+    </span>
+    •
+    <span class="footer-gray">
+    <a href="/Special:Search">Search</a>
     </span>
   </div>
 
