@@ -37,7 +37,7 @@ class Editor extends React.PureComponent {
 
 const RenderEditor = ({currentDocument}) => {
   // console.log(currentDocument)
-  $('#main').append('<div id="editor-button-container"></div>')
+  $('#content').append('<div id="editor-button-container"></div>')
   ReactDOM.render(
     <Provider store={store}>
       <div>

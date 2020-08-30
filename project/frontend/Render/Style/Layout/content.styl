@@ -4,7 +4,8 @@
   flex-direction column
   min-height 100vh
 
-#main
+/* Wrapper for content and footer */
+#content
   line-height: 1.37;
   width 100%
   max-width $max-width
@@ -17,3 +18,33 @@
     flex 1
   @media screen and (max-width: 600px)
     padding 0 5px
+
+/* Parser output */
+#mw-content-text
+  line-height 1.7
+  letter-spacing 0.1px
+  margin: 0;
+  sans-serif()
+  // letter-spacing: 0.1px;
+  line-height: 1.5;
+  font-size: 15px;
+  h1,h2,h3,h4,h5,h6
+    sans-serif()
+  // .ns-0.action-view &
+  //   font-size: 15px;
+
+.ylhyra-text
+  position: relative
+
+/* Used to reset styles on tooltips */
+.text-reset
+  color: black;
+  font-size: 14px;
+  line-height: 1.3em;
+  letter-spacing: 0px;
+  text-transform: initial;
+  font-style: initial;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  text-align: left;

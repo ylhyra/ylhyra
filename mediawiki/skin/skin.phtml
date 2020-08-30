@@ -46,7 +46,7 @@ require_once (__DIR__.'/title.php');
 <?php if ( $this->data['sitenotice'] ): ?><div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div><?php endif; ?>
 
 <div id="container">
-<div id="main">
+<div id="content"><?php /*  Note: Required id for VisualEditor */ ?>
 	<h1 id="title">
 		<?php /* <span class="namespace"><?=$this->getSkin()->getTitle()->getNsText();?></span>
 		<?=$this->data[ 'titletext' ];?> */ ?>
@@ -93,7 +93,7 @@ require_once (__DIR__.'/title.php');
 </div>
 
 <div id="footer">
-	<div class="user-show">
+	<div>
 		<div>
 			<?php /*<form id="search-form" action="<?php $this->text( 'wgScript' ); ?>">
 				<?php echo $this->makeSearchInput( array( 'type' => 'text', 'id' => 'search-field', 'placeholder' => 'Search...', 'autofocus' => false ) ); ?><button><img src="https://mediawiki.org/w/skins/Vector/resources/skins.vector.styles/images/search.svg"></button>
