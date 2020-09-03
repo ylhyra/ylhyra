@@ -418,7 +418,7 @@ class Sanitizer {
 				'strike', 'strong', 'tt', 'var', 'div', 'center',
 				'blockquote', 'ol', 'ul', 'dl', 'table', 'caption', 'pre',
 				'ruby', 'rb', 'rp', 'rt', 'rtc', 'p', 'span', 'abbr', 'dfn',
-				'kbd', 'samp', 'data', 'time', 'mark', 'a', 'translate'
+				'kbd', 'samp', 'data', 'time', 'mark', 'a', 'translate','picture','source'
 			];
 			$htmlsingle = [
 				'br', 'wbr', 'hr', 'li', 'dt', 'dd', 'meta', 'link'
