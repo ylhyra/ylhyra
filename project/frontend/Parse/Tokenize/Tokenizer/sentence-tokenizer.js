@@ -7,6 +7,10 @@
 
   @returns An array of sentences
 
+
+  To prevent an inter-sentence break, add &#8192 (En Quad)
+  To force an inter-sentence break, add &#8193 (Em Quad)
+
 */
 
 import r from 'xregexp'
