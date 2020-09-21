@@ -1,7 +1,9 @@
 <?php
 
 /*
-Replacement for /includes/parser/Sanitizer.php
+	Replacement for /includes/parser/Sanitizer.php
+	GPLv2+ (c) Wikimedia and contributors
+	With alterations by Ylhýra
 */
 
 /**

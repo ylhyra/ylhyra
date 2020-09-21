@@ -24,4 +24,4 @@ This project aims to allow any text to be made accessible to language learners b
 
 ## License
 
-[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3))
+[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)). "/Project" subdirectory dual-licensed as [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT).
