@@ -1,16 +1,11 @@
-<h1 align="center">Ylhýra</h1>
-
+#Ylhýra
 **[Ylhýra](https://ylhyra.is/)** is a web app for annotating texts for language learning. It is built upon [MediaWiki](http://mediawiki.org/) and [React](https://reactjs.org/).
 
 <p align="center">
-	<a href="https://ylhyra.is/">
-		<img width="548" src="https://ylhyra.is/images/c/c0/Ylhyra_demo.gif">
+<a href="https://ylhyra.is/Magn%C3%BAs_Jochum_P%C3%A1lsson/%C3%81nama%C3%B0kar">
+	<img width="312" src="https://ylhyra.is/images/f/f3/Ylhyra_demo_Magnus.gif">
 	</a>
 </p>
-
-## Goal of this project
-
-This project aims to allow any text to be made accessible to language learners by showing translations for every word & sentence. Tagging large amounts of text should be easy and relatively quick with automatic translation suggestions.
 
 ## Documentation
 
