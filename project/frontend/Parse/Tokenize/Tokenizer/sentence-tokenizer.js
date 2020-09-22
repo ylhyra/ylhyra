@@ -8,8 +8,9 @@
   @returns An array of sentences
 
 
-  To prevent an inter-sentence break, add &#8192 (En Quad)
-  To force an inter-sentence break, add &#8193 (Em Quad)
+  // TODO! NOT DONE! Should be done through spans instead of Unicode whitespaces!
+  To prevent an inter-sentence break, add &#8203; (zero width space)
+  To force an inter-sentence break, add &#8232; (line seperator) // TODO! NOT DONE
 
 */
 
