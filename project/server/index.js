@@ -96,6 +96,9 @@ else {
     if (err) {
       return logger.error(err.message)
     }
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Running on port ${port}`)
+    }
     logger.appStarted(port, prettyHost)
   })
 }
