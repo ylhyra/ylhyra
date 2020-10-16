@@ -10,6 +10,7 @@ const modules = [
   resolve('project/server/'),
   resolve('project/frontend/'),
   resolve('project/vocabulary/'),
+  resolve('project/server/inflection/'),
   resolve('.'),
 ]
 
