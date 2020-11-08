@@ -1,4 +1,6 @@
-https://github.com/Git-Mediawiki/Git-Mediawiki/blob/master/docs/User-manual.md
+MediaWiki can be backed up to a git instance with [Git-Mediawiki](https://github.com/Git-Mediawiki/Git-Mediawiki/blob/master/docs/User-manual.md).
+
+## Setup
 
 
 ```sh
