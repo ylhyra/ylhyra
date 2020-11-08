@@ -11,7 +11,7 @@
 ## Documentation
 
 - [Setup](Setup.md)
-- [Development](https://ylhyra.is/Software:Development)
+- [Code overview](Development.md)
 - [Acknowledgments](Acknowledgments.md)
 
 ## Authors

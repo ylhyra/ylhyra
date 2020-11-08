@@ -8,7 +8,6 @@ git clone https://github.com/ylhyra/ylhyra.git \
   --remote-submodules
 cd ylhyra
 npm install
-npm run database:create
 ```
 
 **Start**
@@ -22,6 +21,8 @@ npm run server
 ```
 
 **Configure Chrome to accept self-signed scripts**
+
+This will start a script at `https://localhost:8000/app.js`, a [self-signed](https://en.wikipedia.org/wiki/Self-signed_certificate) script so that it can be loaded from this page, which is HTTPS.
 
 In Chrome, turn on the flag `chrome://flags/#allow-insecure-localhost` and restart Chrome. This will alow self-signed scripts on localhost.
 
@@ -45,3 +46,4 @@ docker-compose up -d
 
 To update git submodules:
 > git submodule update --recursive --remote
+

@@ -1,0 +1,3 @@
+**Card games** such as "multiple choice", "drag and drop", and "write" are created with the use of templates like {{[multiple choice](https://ylhyra.is/Template:Multiple_choice)}}.
+
+The templates generate HTML on the form `<div data-name="from">icelandic</div>` so that the [plugin](Plugin.md) can convert it to a JavaScript object, `{ from: "icelandic" }`. We don't directly output a JavaScript object because some of the text may need to be tagged.

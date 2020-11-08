@@ -11,6 +11,6 @@ git config remote.origin.mwLogin ''
 git config remote.origin.mwPassword ''
 ```
 
-```
+```sh
 git pull origin master --rebase
 ```
