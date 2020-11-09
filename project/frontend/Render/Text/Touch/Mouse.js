@@ -18,11 +18,60 @@ export default function EventListener() {
   document.addEventListener('mousedown', mousedown)
 }
 
+let lastX_seen
+let lastY_seen
+let lastX_processed
+let lastY_processed
+let lastTime = 0
+let lastTime_processed = 0
+
+const SAMPLE_EVERY_X_MILLISECONDS = 30
+const MAX_SPEED = 100 /* Pixels per second */
+let timer
+
 const mousemove = (e) => {
-  if (isSentenceBeingShown) return;
   if (window.listenerCount > 0) {
-    let x = e.clientX
-    let y = e.clientY
+    let x = e?.clientX || lastX_seen
+    let y = e?.clientY || lastY_seen
+    lastX_seen = x
+    lastY_seen = y
+    let time = new Date().getTime()
+    lastTime = time
+
+    /* Limit sampling rate */
+    if (lastTime_processed && (time-lastTime_processed) < SAMPLE_EVERY_X_MILLISECONDS) {
+      if(!timer){
+        timer = setTimeout(() => {
+          mousemove()
+        }, SAMPLE_EVERY_X_MILLISECONDS - (time - lastTime) )
+      }
+      return
+    }
+
+    // Testing speed
+    let speed
+    if (lastX_processed) {
+      let distance = Math.sqrt((x - lastX_processed) ** 2 + (y - lastY_processed) ** 2)
+      /* Pixels per second */
+      speed = distance / ((time - lastTime_processed) / 1000)
+    }
+
+    lastX_processed = x
+    lastY_processed = y
+    lastTime_processed = time
+    if (speed && speed > MAX_SPEED) {
+      timer && clearTimeout(timer)
+      timer = setTimeout(() => {
+        mousemove()
+      }, SAMPLE_EVERY_X_MILLISECONDS)
+      // console.log(speed)
+      return
+    }
+    // console.log('RUN')
+    timer = null
+
+
+
     const target = document.elementFromPoint(x, y)
     const target_10px_below = document.elementFromPoint(x, y /*- 10*/)
     if (!target) return
@@ -46,7 +95,7 @@ const mousemove = (e) => {
       }
       return
     }
-    e.preventDefault()
+    // e && e.preventDefault()
     turnOffDemonstration()
     if (word) {
       const id = word.getAttribute('id')
