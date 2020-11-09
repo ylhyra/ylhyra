@@ -6,7 +6,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 class App extends React.Component {
   componentDidMount = () => {
-    console.log('Editor header mounted')
     // MakeSuggestions()
   }
   render() {
