@@ -15,6 +15,9 @@ let timer
   editor: state.editor,
 }))
 class Editor extends React.PureComponent {
+  // componentDidMount = () => {
+  //
+  // }
   render() {
     if (this.props.editor.open) {
       let View = Translator
