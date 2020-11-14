@@ -30,7 +30,7 @@ In Chrome, turn on the flag `chrome://flags/#allow-insecure-localhost` and resta
 
 * Open the console on this site and write: `ylhyraDevelopment(true)`. This will set a cookie that makes the site load the local script.
 
-* To turn off server side rendering, write: `serverSideRendering('false')`.
+* To turn off server side rendering, write: `serverSideRendering(false)`.
 
 **MediaWiki on localhost**
 

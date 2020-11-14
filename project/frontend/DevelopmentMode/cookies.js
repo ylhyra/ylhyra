@@ -1,6 +1,6 @@
 /*
 
-  window.ylhyraDevelopment('true')
+  window.ylhyraDevelopment(true)
 
 */
 function setCookie(name, value, days) {
@@ -29,11 +29,11 @@ function eraseCookie(name) {
 }
 
 window.ylhyraDevelopment = (value) => {
-  setCookie('development', value);
+  setCookie('development', value.toString());
 }
 
 window.serverSideRendering = (value) => {
-  setCookie('server-side-rendering', value);
+  setCookie('server-side-rendering', value.toString());
 }
 
 if (getCookie('server-side-rendering') === 'false') {

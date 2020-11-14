@@ -10,6 +10,7 @@ import { AllHtmlEntities as Entities } from 'html-entities'
 const entities = new Entities()
 import isBooleanAttribute from 'is-boolean-attribute'
 import Inflection from 'frontend/Render/Elements/Inflection'
+import Hide from 'frontend/Render/Elements/Hide'
 
 const Traverse = (input, index = 0, parentTag) => {
   if (!input) return null
@@ -40,7 +41,14 @@ const Traverse = (input, index = 0, parentTag) => {
         case 'inflection':
           Tag = Inflection;
           break;
+        case 'collapse':
+          Tag = Hide;
+          break;
       }
+      // if(input.props['data-type'] === 'collapse'){
+      //   return <Tag key={index}>{input.props.children}</Tag>
+      // }
+      // else
       if (input.props.children) {
         const { children, ...props } = input.props
         return <Tag {...props} key={index}>
