@@ -1,5 +1,14 @@
 <?php
 
+
+// Creates answer boxes
+$wgHooks['InternalParseBeforeLinks'][] = function( &$parser, &$text, &$stripState ) {
+  $text = preg_replace('/\$cot\$/', '<div data-type="collapse" class="collapse">', $text);
+  $text = preg_replace('/\$cob\$/', '</div>', $text);
+  return true;
+};
+
+
 // Converts text inside backticks to "<span class=icelandic></span>".
 // Author: User:Sk4p on https://www.mediawiki.org/wiki/Extension_talk:BacktickCode
 $wgHooks['InternalParseBeforeLinks'][] = function( &$parser, &$text, &$stripState ) {

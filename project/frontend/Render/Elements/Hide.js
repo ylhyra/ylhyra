@@ -10,10 +10,10 @@ state = {}
     return <div className="collapse">
 
       <div className="button" onClick={()=>this.setState({open:!this.state.open})}>
-        {this.state.open ? 'Close':'Open'}
+        {this.state.open ? 'Hide answer':'Show answer'}
       </div>
 
-      {this.state.open && this.props.children}
+      {this.state.open && <div>{this.props.children}</div>}
     </div>
   }
 }
