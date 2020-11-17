@@ -1,3 +1,6 @@
+import { editPage } from 'Editor/actions'
+
+
 export default () => {
   if (mw.util.getParamValue('action') !== 'edit') return;
   if (mw.config.get('wgPageContentModel') !== 'wikitext') return;
@@ -15,4 +18,13 @@ export default () => {
     value = `{{start|{{subst:FULLPAGENAME}}}}\n${value}\n{{end}}`
   }
   txt.value = value
+}
+
+window.createIncomingRedirects = (...array) => {
+  array.forEach(title => {
+    editPage({
+      title: title,
+      text: `#REDIRECT[[${mw.config.get('wgPageName')}]]`,
+    })
+  })
 }

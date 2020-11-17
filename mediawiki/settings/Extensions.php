@@ -5,6 +5,13 @@ wfLoadSkin('Athena');
 
 wfLoadExtension('StopForumSpam');
 wfLoadExtension('ConfirmEdit');
+// wfLoadExtension( 'ConfirmEdit/ReCaptchaNoCaptcha');
+// $wgCaptchaClass = 'ReCaptchaNoCaptcha';
+// $wgReCaptchaSiteKey = '';
+// $wgReCaptchaSecretKey = '';
+// $wgGroupPermissions['editor']['skipcaptcha'] = true;
+$wgCookieSetOnAutoblock = true;
+
 
 wfLoadExtension('Interwiki');
 $wgGroupPermissions['sysop']['interwiki'] = true;
