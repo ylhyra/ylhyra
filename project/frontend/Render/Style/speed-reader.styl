@@ -1,0 +1,106 @@
+#speed-reader
+  position fixed
+  top 0
+  left 0
+  right 0
+  bottom 0
+  background #fffced
+  z-index 3000
+
+  &.blackonwhite
+    background white
+
+  &.whiteonblack
+    color white
+    background black
+    #output
+      color white
+
+  &.yellowonblack
+    color white
+    background black
+    #output
+      color #ffdb41
+
+
+
+
+
+
+
+
+
+
+
+  body
+    display flex
+    min-height 100vh
+    justify-content center
+    font-family Georgia
+    padding 5px
+    box-sizing border-box
+    margin 0
+    cursor pointer
+    &:not([data-running])
+      main
+        display flex
+        flex-direction column
+
+  body[data-running]
+    align-items center
+    cursor none
+    #setup
+      display none
+
+  body[data-showcursor]
+    cursor pointer!important
+
+  textarea
+    width 100%
+    height 200px
+    font-family sans-serif
+
+  h1
+    margin-bottom 50px
+    font-family sans-serif
+    text-align center
+    font-size 26px
+    span
+      border-bottom 1px solid rgba(134, 134, 134, .3)
+
+  main
+    max-width 400px
+    width 100%
+
+  #output
+    font-size 26px
+    margin auto
+    padding 10px 0
+    max-width inherit
+    width 100%
+    #word
+      hyphens auto
+      max-width inherit
+      text-align center
+      flex 1.2
+      word-spacing 1px
+
+  #status
+    background #b9dbf6
+    height 3px
+    position fixed
+    bottom 0
+    left 0
+    right 0
+
+
+  #tutorial
+    padding 10px 0
+
+  .gray
+    opacity 0.7
+    font-family sans-serif
+    font-size 13px
+
+  #noclick
+    cursor initial
