@@ -90,3 +90,5 @@ $wgAllowUserJs = true;
 $wgAllowUserCss = true;
 
 // $wgInvalidateCacheOnLocalSettingsChange = true;
+
+$wgFixDoubleRedirects = true;

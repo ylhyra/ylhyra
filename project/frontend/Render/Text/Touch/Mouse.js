@@ -70,7 +70,7 @@ const mousemove = (e) => {
     }
     timer = null
 
-
+    if(!document) return;
 
     const target = document.elementFromPoint(x, y)
     const target_10px_below = document.elementFromPoint(x, y /*- 10*/)

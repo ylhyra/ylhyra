@@ -7,12 +7,14 @@ import { html2json, json2html } from 'frontend/App/functions/html2json'
 import { ReadAlongSetup } from 'frontend/Render/Audio/ReadAlong'
 import error from 'App/Error'
 import Inflection from 'Render/Elements/Inflection'
+import SpeedReader from 'Render/Elements/Speed_reading'
 
 const Render = (parsed, { shouldReturnElement, hydrate }) => {
   const element = (
     <Provider store={store}>
       <div className="ylhyra-text">
         {Traverse(parsed)}
+        <SpeedReader/>
         <div id="overlay"></div>
       </div>
       <Inflection/>
