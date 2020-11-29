@@ -3,12 +3,12 @@ export const speed_reader = (state = {
   skin: 'Black on light',
   words: [],
   cur: 0,
-}, action) => {
-  switch (action.type) {
+}, { type, ...props }) => {
+  switch (type) {
     case 'SPEED_READER_UPDATE':
       return {
         ...state,
-        [action.prop]: action.value
+        ...props,
       }
     default:
       return state

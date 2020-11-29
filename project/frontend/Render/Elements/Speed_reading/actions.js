@@ -1,12 +1,13 @@
 let timer;
-let cur = 0;
-let last_cur = 0;
 let average_word_length = 6;
 import store from 'App/store'
 
 const reset = () => {
-  cur = 0
-  last_cur = cur
+  store.dispatch({
+    type: 'SPEED_READER_UPDATE',
+    prop: 'cur',
+    value: 0,
+  })
 }
 
 export const start = () => {
@@ -17,8 +18,7 @@ export const start = () => {
 
   store.dispatch({
     type: 'SPEED_READER_UPDATE',
-    prop: 'running',
-    value: true,
+    running: true,
   })
   // cur = last_cur /* Go one back to start on the same word */
   timeoutAndNext(0, 150)
@@ -30,8 +30,7 @@ const stop = () => {
 
   store.dispatch({
     type: 'SPEED_READER_UPDATE',
-    prop: 'running',
-    value: false,
+    running: false,
   })
 }
 
@@ -58,17 +57,14 @@ export const next = (add) => {
   if (words[cur].length) {
     multiplier = words[cur].length
   }
-  console.log({word,multiplier})
-  last_cur = cur
 
   store.dispatch({
     type: 'SPEED_READER_UPDATE',
-    prop: 'cur',
-    value: cur + 1,
+    cur: cur + 1,
   })
   timeoutAndNext(multiplier, add)
 }
 
 const clamp = function (input, min, max) {
   return Math.min(Math.max(input, min), max);
-};
+}
