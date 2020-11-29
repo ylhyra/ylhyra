@@ -16,6 +16,32 @@ class SpeedReader extends React.Component {
     })
   }
   render() {
+
+
+    // {editor.tokenized.map((paragraph, index) => (
+    //   // Paragraph
+    //   <div className="paragraph" key={index}>
+    //     {paragraph.sentences.map(sentence => (
+    //       // Sentence
+    //       <div className="sentence-container" key={sentence.id}>
+    //         <div>
+    //           {sentence.words.map(word => {
+    //             // Word
+    //             if(typeof word === 'string') {
+    //               return word
+    //             } else {
+    //               return <Word id={word.id} key={word.id}>{word.text}</Word>
+    //             }
+    //           })}
+    //         </div>
+    //         <SentenceTranslation id={sentence.id}/>
+    //       </div>
+    //     ))}
+    //   </div>
+    // ))}
+
+
+
     /* Render WPM dropdown */
     let available_speeds = []
     for (let i = 25; i <= 600; i += 25) {
@@ -27,10 +53,13 @@ class SpeedReader extends React.Component {
     // }
     //
     let classes = []
-    classes.push(this.props.speed_reader.skin.replace(/ /g,'').toLowerCase())
+    classes.push(this.props.speed_reader.skin.replace(/ /g, '').toLowerCase())
     return <div id="speed-reader" className={classes.join(' ')}>
       <h1>Speed reading mode</h1>
       <p>
+        This exercise aims to teach you to immediately recognize words just from their shapes instead of having to read each letter.
+
+         {/* <a href="https://speedreader.ylhyra.is/">here</a> */}
       </p>
       <div id="noclick">
         <div>
