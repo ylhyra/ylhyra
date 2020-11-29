@@ -7,7 +7,33 @@ import store from 'App/store'
   speed_reader: state.speed_reader,
 }))
 class SpeedReader extends React.Component {
-  componentDidMount = () => {}
+  componentDidMount = () => {
+    let book = $('.book').clone()
+    book.find('.box, .word-box, .tooltip').remove()
+    book.find('p').each((pi, paragraphEl) => {
+      $(paragraphEl).find('.sentence').each((si, sentenceEl) => {
+        const sentenceId = $(sentenceEl).attr('id')
+        console.log(sentenceId)
+        const sentenceTranslation = $('.book').find(`#${sentenceId}-box .meaning`).text()
+
+        $(sentenceEl).contents()
+          .each((ii, item) => {
+            if (item.nodeType === Node.TEXT_NODE) {
+              if ($(item).text().trim() === '') return;
+
+            } else {
+              const text = $(item).text()
+              const itemId = $(item).find('.word[data-word-has-definition]').attr('id')
+              const translation = $('.book').find(`#${itemId}-tooltip .meaning`).text()
+              console.log({ text, translation, sentenceTranslation })
+            }
+          })
+
+
+
+      })
+    })
+  }
   handleChange(prop, event) {
     store.dispatch({
       type: 'SPEED_READER_UPDATE',
@@ -16,7 +42,7 @@ class SpeedReader extends React.Component {
     })
   }
   render() {
-
+    return null;
 
     // {editor.tokenized.map((paragraph, index) => (
     //   // Paragraph
