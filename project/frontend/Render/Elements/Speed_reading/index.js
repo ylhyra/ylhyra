@@ -86,7 +86,6 @@ class SpeedReader extends React.Component {
 
     this.handleChange('words', words)
 
-    start()
   }
   handleChange(prop, value) {
     store.dispatch({
@@ -148,7 +147,7 @@ class SpeedReader extends React.Component {
             </div>
             <div>
               <button id="start" onClick={()=>{
-                this.handleChange('running',true)
+                start()
               }}>Start</button>
               {/* <button id="reset">Restart</button> */}
             </div>

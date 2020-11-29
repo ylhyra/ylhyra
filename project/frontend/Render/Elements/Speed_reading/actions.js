@@ -14,14 +14,25 @@ export const start = () => {
   if (cur >= words.length) {
     reset()
   }
+
+  store.dispatch({
+    type: 'SPEED_READER_UPDATE',
+    prop: 'running',
+    value: true,
+  })
   // cur = last_cur /* Go one back to start on the same word */
-  next(150)
+  timeoutAndNext(0, 150)
 }
 
 const stop = () => {
   // running = false
   timer && clearTimeout(timer)
-  document.body.removeAttribute('data-running')
+
+  store.dispatch({
+    type: 'SPEED_READER_UPDATE',
+    prop: 'running',
+    value: false,
+  })
 }
 
 const timeoutAndNext = (multiplier, add) => {
@@ -37,48 +48,25 @@ export const next = (add) => {
   if (!document.hasFocus() || cur >= words.length) {
     return stop()
   }
-  const word = words[cur]
+  const word = words[cur].text || ''
   const minMultiplier = 0.65
   let multiplier = minMultiplier + (1 - minMultiplier) * (word.length / average_word_length)
   if (multiplier > 1) {
     multiplier = multiplier ** 1.4
   }
   multiplier = clamp(multiplier, minMultiplier, 1.8)
+  if (words[cur].length) {
+    multiplier = words[cur].length
+  }
+  console.log({word,multiplier})
   last_cur = cur
-  // cur = cur + word.split(' ').length
-  // if (word === PARAGRAPH_BREAK) {
-  //   word = ''
-  //   multiplier = 2
-  // } else if (word === SENTENCE_BREAK) {
-  //   word = ''
-  //   multiplier = 1
-  // }
-  // // else if (MAJOR_BREAK.test(word) && words[cur + 1] !== PARAGRAPH_BREAK) {
-  // //   multiplier = 2
-  // // }
-  // else if (MINOR_BREAK.test(word)) {
-  //   multiplier = 1.4
-  // }
-  //
-  //
-  // output.innerHTML = `<span id="word" style="opacity:0">${word}</span>`
-  // const outputWidth = output.getBoundingClientRect().width
-  // const w = document.getElementById('word')
-  // const wordWidth = w.getBoundingClientRect().width
-  // let leftpad = (outputWidth - wordWidth * 0.6) / 2 - 10
-  // if (wordWidth >= leftpad / 2) {
-  //   leftpad = Math.min(leftpad, (outputWidth - wordWidth))
-  // }
-  // w.setAttribute('style', `display:block;width:${Math.ceil(wordWidth)}px;margin-left:${Math.floor(Math.max(0,leftpad))}px`)
-  //
-  // timeoutAndNext(multiplier, add)
-  //
-  //
+
   store.dispatch({
     type: 'SPEED_READER_UPDATE',
     prop: 'cur',
     value: cur + 1,
   })
+  timeoutAndNext(multiplier, add)
 }
 
 const clamp = function (input, min, max) {
