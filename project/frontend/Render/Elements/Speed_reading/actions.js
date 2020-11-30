@@ -138,3 +138,17 @@ export const mouseListener = () => {
     }, 700)
   }
 }
+
+
+export const prev = () => {
+  const { words, cur } = store.getState().speed_reader
+  for (let i = Math.max(0, cur - 1); i >= 0; i--) {
+    if (words[i].text || i === 0) {
+      store.dispatch({
+        type: 'SPEED_READER_UPDATE',
+        cur: i,
+      })
+      break;
+    }
+  }
+}

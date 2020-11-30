@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 // require('array-sugar')
-import { start, checkKey, mouseListener } from './actions'
+import { start, checkKey, mouseListener, prev } from './actions'
 import { load } from './load'
 
 const close = () => {
@@ -41,7 +41,7 @@ class SpeedReader extends React.Component {
     let classes = []
     classes.push(skin)
     running && classes.push('running')
-    mouse_hidden && classes.push('mouse_hidden')
+    mouse_hidden && running && classes.push('mouse_hidden')
     return <div id="speed-reader" className={classes.join(' ')}>
       <div id="speed-reader-inner">
 
@@ -49,7 +49,28 @@ class SpeedReader extends React.Component {
 
 
       {started ? (
-        <Output key={cur} speed_reader={this.props.speed_reader}/>
+        <div id="speedreader_output">
+          <div className="speedreader_translation">
+            <div className="speedreader_spacer"/>
+            {!running && (words[cur].translation||'')}
+
+          </div>
+          <div>
+            <Word word={words[cur].text||''} key={cur}/>
+          </div>
+          <div className="speedreader_translation">
+            <div className="speedreader_spacer"/>
+            {!running && (
+              <div>
+                <button className="small" onClick={prev}>Previous word</button>{' '}
+                <button className="small" onClick={start}>Play</button>
+              </div>
+            )}
+
+            <div className="speedreader_spacer"/>
+            {!running && (words[cur].sentenceTranslation||'')}
+          </div>
+        </div>
       ) : (
         <div>
           <div id="speed-reader-logo" onClick={close}>Ylhýra</div>
@@ -102,8 +123,9 @@ export default SpeedReader
 
 
 
-class Output extends React.Component {
+class Word extends React.Component {
   componentDidMount = () => {
+    if (!this.props.word) return null;
     const el = document.getElementById('speedreader_output')
     if (!el) return;
     const outputWidth = el.getBoundingClientRect().width
@@ -119,20 +141,6 @@ class Output extends React.Component {
     return false
   }
   render() {
-    const { words, cur } = this.props.speed_reader
-    if (!words[cur]) return null;
-    return <div id="speedreader_output">
-      <div className="speedreader_translation">
-        <div className="speedreader_spacer"/>
-        {words[cur].translation||''}
-      </div>
-      <div>
-        <span id="speedreader_word">{words[cur].text||''}</span>
-      </div>
-      <div className="speedreader_translation">
-        <div className="speedreader_spacer"/>
-        {words[cur].sentenceTranslation||''}
-      </div>
-    </div>
+    return <span id="speedreader_word">{this.props.word}</span>
   }
 }
