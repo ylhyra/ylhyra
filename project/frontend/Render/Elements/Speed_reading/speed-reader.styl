@@ -19,10 +19,15 @@
 
   &.mouse_hidden
     cursor none
+    #speed-reader-header
+      opacity 0
+  .noclick
+    cursor default
+  button, a
+    cursor pointer
   // &.running
   //   .speedreader_section
   //     opacity 0
-
 
   #speed-reader-close-button
     float right
@@ -54,7 +59,6 @@
   //   display flex
   //   flex-direction column
   .speedreader_section
-    opacity 0.7
     font-family sans-serif
     font-size 13px
     text-align center
@@ -64,6 +68,8 @@
     flex 1
     .speedreader_spacer
       flex 1
+  #speedreader_translation
+    opacity 0.7
   #speedreader_word
     hyphens auto
     font-size 26px
@@ -81,8 +87,29 @@
     font-family sans-serif
     font-size 13px
 
-  #noclick
-    cursor initial
+  #speed-reader-status
+    background: #b9dbf6;
+    height: 3px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+  #speed-reader-header
+    display flex
+    > a + a
+      padding-left 10px
+    a
+      font-size 13px
+      color #545454
+      text-decoration underline
+      &:hover:not(.inactive)
+        color blue
+    .spacer
+      flex 1
+    .inactive
+      text-decoration none
+      cursor default
 
 
 /* Skins */
