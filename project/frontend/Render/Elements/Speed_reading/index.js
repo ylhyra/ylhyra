@@ -25,12 +25,70 @@ class SpeedReader extends React.Component {
     document.removeEventListener('keydown', checkKey);
     document.removeEventListener('mousemove', mouseListener);
   }
-  handleChange(prop, value) {
-    store.dispatch({
-      type: 'SPEED_READER_UPDATE',
-      [prop]: value,
-    })
+  render() {
+    const { started, wpm, cur, words, running, skin, mouse_hidden } = this.props.speed_reader
+
+    let classes = []
+    classes.push(skin)
+    running && classes.push('running')
+    mouse_hidden && running && classes.push('mouse_hidden')
+    return <div id="speed-reader" className={classes.join(' ')}>
+      {started ? <PlayScreen/> : <AboutScreen/>}
+    </div>
   }
+}
+
+export default SpeedReader
+
+const Header = () => (
+  <div id="speed-reader-header">
+    <a onClick={()=>{
+      stop()
+      store.dispatch({
+        type: 'SPEED_READER_UPDATE',
+        started: false,
+      })
+    }}>About</a>
+    <a onClick={start}>Play</a>
+    <a onClick={close}>Exit</a>
+  </div>
+)
+
+@connect(state => ({
+  speed_reader: state.speed_reader,
+}))
+class PlayScreen extends React.Component {
+  render() {
+    const { started, wpm, cur, words, running, skin, mouse_hidden } = this.props.speed_reader
+    return (
+      <div id="speed-reader-inner">
+        <div className="speedreader_section">
+          <Header/>
+          {!running && (
+            <div>
+              <button className="small" onClick={prev}>Previous word</button>{' '}
+              <button className="small" onClick={start}>Play</button>
+            </div>
+          )}
+          <div className="speedreader_spacer"/>
+          {!running && (words[cur].translation||'')}
+        </div>
+        <div id="speedreader_output">
+          <Word word={words[cur].text||''} key={cur}/>
+        </div>
+        <div className="speedreader_section">
+          <div className="speedreader_spacer"/>
+          {!running && (words[cur].sentenceTranslation||'')}
+        </div>
+      </div>
+    )
+  }
+}
+
+@connect(state => ({
+  speed_reader: state.speed_reader,
+}))
+class AboutScreen extends React.Component {
   render() {
     const { started, wpm, cur, words, running, skin, mouse_hidden } = this.props.speed_reader
 
@@ -39,48 +97,43 @@ class SpeedReader extends React.Component {
       available_speeds.push(i)
     }
 
-    let classes = []
-    classes.push(skin)
-    running && classes.push('running')
-    mouse_hidden && running && classes.push('mouse_hidden')
-    return <div id="speed-reader" className={classes.join(' ')}>
+    return (
       <div id="speed-reader-inner">
-
-        <button id="speed-reader-close-button" onClick={close}>Exit</button>
-
-
-      {started ? (
-        <div id="speedreader_output">
-          <div className="speedreader_translation">
-            <div className="speedreader_spacer"/>
-            {!running && (words[cur].translation||'')}
-
-          </div>
-          <div>
-            <Word word={words[cur].text||''} key={cur}/>
-          </div>
-          <div className="speedreader_translation">
-            <div className="speedreader_spacer"/>
-            {!running && (
-              <div>
-                <button className="small" onClick={prev}>Previous word</button>{' '}
-                <button className="small" onClick={start}>Play</button>
-              </div>
-            )}
-
-            <div className="speedreader_spacer"/>
-            {!running && (words[cur].sentenceTranslation||'')}
-          </div>
-        </div>
-      ) : (
+        <Header/>
+        <div id="speed-reader-logo" onClick={close}>Ylhýra</div>
+        <h1>Speed reading mode</h1>
         <div>
-          <div id="speed-reader-logo" onClick={close}>Ylhýra</div>
-          <h1>Speed reading mode</h1>
+          <p>This is an exercise that trains you to immediately recognize words just from their shapes instead of having to read each letter. Being able to immediately recognize words makes reading faster, more enjoyable, and allows you to comprehend longer text with more ease. </p>
+          <p>This exercise also trains you to read without giving up half-way through.</p>
+          <p>We recommend starting with a low speed (75 words per minute). When you can comfortably read at that speed, increase the speed by +25 and read the same text again. Repeat the process until you’re able to comfortaby read the text at 200 words per minute.</p>
+          <p>To use this tool with other text, click <a href="https://speedreader.ylhyra.is/">here</a>.</p>
+        </div>
+        <div id="noclick">
           <div>
-            <p>This is an exercise that trains you to immediately recognize words just from their shapes instead of having to read each letter. Being able to immediately recognize words makes reading faster, more enjoyable, and allows you to comprehend longer text with more ease. </p>
-            <p>This exercise also trains you to read without giving up half-way through.</p>
-            <p>We recommend starting with a low speed (75 words per minute). When you can comfortably read at that speed, increase the speed by +25 and read the same text again. Repeat the process until you’re able to comfortaby read the text at 200 words per minute.</p>
-            <p>To use this tool with other text, click <a href="https://speedreader.ylhyra.is/">here</a>.</p>
+            <label htmlFor="wpm">Speed: </label>
+            <select id="wpm" value={wpm} onChange={(e)=>handleChange('wpm',e.target.value)}>
+              {available_speeds.map(j => (
+                <option value={j} key={j}>
+                  {j} words per minute
+                </option>
+              ))}
+            </select>
+            <span id="time" className="gray"></span>
+          </div>
+          <div>
+            <label htmlFor="skin">Colors: </label>
+            <select id="skin" value={skin} onChange={(e)=>handleChange('skin',e.target.value)}>
+              <option value="blackonwhite">Black text on a white background</option>
+              <option value="blackonlight">Black text on an orange background</option>
+              <option value="whiteonblack">White text on a black background</option>
+              <option value="yellowonblack">Yellow text on a black background</option>
+            </select>
+          </div>
+          <div>
+            <button id="start" onClick={()=>{
+              start()
+            }}>Start</button>
+            {/* <button id="reset">Restart</button> */}
           </div>
           <div id="noclick">
             <div>
@@ -114,14 +167,10 @@ class SpeedReader extends React.Component {
             </div> */}
           </div>
         </div>
-      )}
-    </div>
-    </div>
+      </div>
+    )
   }
 }
-
-export default SpeedReader
-
 
 
 class Word extends React.Component {
@@ -144,4 +193,12 @@ class Word extends React.Component {
   render() {
     return <span id="speedreader_word">{this.props.word}</span>
   }
+}
+
+
+const handleChange = (prop, value) => {
+  store.dispatch({
+    type: 'SPEED_READER_UPDATE',
+    [prop]: value,
+  })
 }
