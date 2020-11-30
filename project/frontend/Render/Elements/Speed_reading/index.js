@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 // require('array-sugar')
-import { start, checkKey, mouseListener, prev } from './actions'
+import { start, startStop, checkKey, mouseListener, prev } from './actions'
 import { load } from './load'
 
 const close = () => {
@@ -16,6 +16,7 @@ class SpeedReader extends React.Component {
   componentDidMount = () => {
     load()
     $('body').addClass('unscrollable')
+    $('#speed-reader').on('click', startStop)
     document.addEventListener('keydown', checkKey);
     document.addEventListener('mousemove', mouseListener);
   }
@@ -108,9 +109,9 @@ class SpeedReader extends React.Component {
               }}>Start</button>
               {/* <button id="reset">Restart</button> */}
             </div>
-            <div id="tutorial" className="gray">
+            {/* <div id="tutorial" className="gray">
               Click "space" to pause and start, <br/> "left" and "right" arrow buttons to go backwards and forwards,<br/> "up" and "down" arrow buttons to change speed.
-            </div>
+            </div> */}
           </div>
         </div>
       )}

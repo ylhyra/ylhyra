@@ -28,12 +28,14 @@ export const start = () => {
 
 const stop = () => {
   // running = false
+  const { words, cur } = store.getState().speed_reader
   timer && clearTimeout(timer)
 
   store.dispatch({
     type: 'SPEED_READER_UPDATE',
     running: false,
     mouse_hidden: false,
+    cur: words[cur].text ? cur : Math.max(0, cur - 1)
   })
 }
 
@@ -68,22 +70,25 @@ export const next = (add) => {
   timeoutAndNext(multiplier, add)
 }
 
-const clamp = function(input, min, max) {
+const clamp = function (input, min, max) {
   return Math.min(Math.max(input, min), max);
 }
 
+export const startStop = () => {
+  const { running } = store.getState().speed_reader
+  if (running) {
+    stop()
+  } else {
+    start()
+  }
+}
 
 export const checkKey = (e) => {
-  console.log((e.keyCode))
-  const { running } = store.getState().speed_reader
+  // console.log((e.keyCode))
   /* Space */
   if (e.keyCode === 32) {
     e.preventDefault()
-    if (running) {
-      stop()
-    } else {
-      start()
-    }
+    startStop()
   }
   /* Escape */
   else if (e.keyCode === 27) {
