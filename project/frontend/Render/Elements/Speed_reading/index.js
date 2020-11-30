@@ -104,9 +104,9 @@ class Output extends React.Component {
     const { words, cur } = this.props.speed_reader
     if(!words[cur])return null;
     return <div id="speedreader_output">
-      <div id="">{words[cur].translation||''}</div>
+      <div className="speedreader_translation">{words[cur].translation||''}</div>
       <div id="speedreader_word">{words[cur].text||''}</div>
-      <div id="">{words[cur].sentenceTranslation||''}</div>
+      <div className="speedreader_translation">{words[cur].sentenceTranslation||''}</div>
     </div>
   }
 }
