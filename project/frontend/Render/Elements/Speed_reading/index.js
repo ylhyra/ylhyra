@@ -53,9 +53,9 @@ class Header extends React.Component {
           started: false,
         })
       }} className={started?'':'inactive'}>Settings</a>
-      <a onClick={startStop}>{running ? <b>Pause</b>:'Play'}</a>
       {started&&<a onClick={prevWord} className={cur>0?'':'inactive'}>Previous word</a>}
       {(started||cur>0)&&<a onClick={reset}>Restart</a>}
+      <b><a onClick={startStop}>{running ? 'Pause':'Play'}</a></b>
 
       <div className="spacer"/>
       <a onClick={close}>Exit</a>
