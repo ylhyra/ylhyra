@@ -1,0 +1,100 @@
+#speed-reader
+  position fixed
+  top 0
+  left 0
+  right 0
+  bottom 0
+  z-index 3000
+  padding 14px
+  overflow: auto;
+  line-height: 1.4;
+  #speed-reader-inner
+    max-width 400px
+    margin auto
+    min-height 100vh
+
+  &.mouse_hidden
+    cursor none
+  // &.running
+  //   .speedreader_translation
+  //     opacity 0
+
+
+  #speed-reader-close-button
+    float right
+    display none
+  #speed-reader-logo
+    margin-top 20px
+    font-family: Times;
+    font-style: italic
+    font-size: 15px;
+    color: #3D3D3D;
+  h1
+    font-family: Helvetica Neue, sans-serif;
+    font-size: 20px;
+    color: #252525;
+    margin-top: 0;
+  p
+    font-size: 13px;
+    line-height: 1.4;
+  label
+    font-size: 13px;
+
+
+  #speedreader_output
+    font-size 26px
+    margin auto
+    padding 10px 0
+    max-width 400px
+    width 100%
+    display flex
+    flex-direction column
+  .speedreader_translation
+    opacity 0.7
+    font-family sans-serif
+    font-size 13px
+    text-align center
+    min-height 100px
+    display flex
+    flex-direction column
+    flex 1
+    .speedreader_spacer
+      flex 1
+  #speedreader_word
+    hyphens auto
+    max-width inherit
+    text-align left
+    flex 1.2
+    word-spacing 1px
+    font-family Georgia, serif;
+
+  #tutorial
+    padding 10px 0
+
+  .gray
+    opacity 0.7
+    font-family sans-serif
+    font-size 13px
+
+  #noclick
+    cursor initial
+
+
+/* Skins */
+#speed-reader
+  background #FFF0E6
+
+  &.blackonwhite
+    background white
+
+  &.whiteonblack
+    color white
+    background black
+    #output
+      color white
+
+  &.yellowonblack
+    color white
+    background black
+    #output
+      color #ffdb41

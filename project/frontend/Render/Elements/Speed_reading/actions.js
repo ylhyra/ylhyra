@@ -19,6 +19,8 @@ export const start = () => {
   store.dispatch({
     type: 'SPEED_READER_UPDATE',
     running: true,
+    started: true,
+    mouse_hidden: true,
   })
   // cur = last_cur /* Go one back to start on the same word */
   timeoutAndNext(0, 150)
@@ -31,6 +33,7 @@ const stop = () => {
   store.dispatch({
     type: 'SPEED_READER_UPDATE',
     running: false,
+    mouse_hidden: false,
   })
 }
 
@@ -65,6 +68,73 @@ export const next = (add) => {
   timeoutAndNext(multiplier, add)
 }
 
-const clamp = function (input, min, max) {
+const clamp = function(input, min, max) {
   return Math.min(Math.max(input, min), max);
+}
+
+
+export const checkKey = (e) => {
+  console.log((e.keyCode))
+  const { running } = store.getState().speed_reader
+  /* Space */
+  if (e.keyCode === 32) {
+    e.preventDefault()
+    if (running) {
+      stop()
+    } else {
+      start()
+    }
+  }
+  /* Escape */
+  else if (e.keyCode === 27) {
+    //
+  }
+  // /* Left */
+  // else if (e.keyCode === 37) {
+  //   goToLastSentence()
+  // }
+  // /* Right */
+  // else if (e.keyCode === 39) {
+  //   for (let i = cur + 1; i < words.length; i++) {
+  //     if (words[i] === PARAGRAPH_BREAK || words[i] === SENTENCE_BREAK) {
+  //       cur = i + 1;
+  //       next(200)
+  //       break;
+  //     }
+  //   }
+  // }
+  // /* Up */
+  // else if (e.keyCode === 38 && wpm < 1000) {
+  //   wpm += 25
+  //   render()
+  //   // wpm = wpm * 1.03 + 5
+  //   // wpm = Math.round(wpm / 5) * 5
+  // }
+  // /* Down */
+  // else if (e.keyCode === 40 && wpm > 25) {
+  //   wpm -= 25
+  //   render()
+  //   // wpm = wpm / 1.03 - 5
+  //   // wpm = Math.round(wpm / 5) * 5
+  // }
+}
+
+
+
+let mouseTimer;
+export const mouseListener = () => {
+  const { running, mouse_hidden } = store.getState().speed_reader
+  if (running) {
+    mouseTimer && clearTimeout(mouseTimer)
+    mouse_hidden && store.dispatch({
+      type: 'SPEED_READER_UPDATE',
+      mouse_hidden: false,
+    })
+    mouseTimer = setTimeout(() => {
+      store.dispatch({
+        type: 'SPEED_READER_UPDATE',
+        mouse_hidden: true,
+      })
+    }, 700)
+  }
 }
