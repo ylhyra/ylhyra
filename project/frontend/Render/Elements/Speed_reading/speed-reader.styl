@@ -25,9 +25,6 @@
     cursor default
   button, a
     cursor pointer
-  // &.running
-  //   .speedreader_section
-  //     opacity 0
 
   #speed-reader-close-button
     float right
@@ -37,11 +34,9 @@
     font-family: Times;
     font-style: italic
     font-size: 15px;
-    color: #3D3D3D;
   h1
     font-family: Helvetica Neue, sans-serif;
     font-size: 20px;
-    color: #252525;
     margin-top: 0;
   p
     font-size: 13px;
@@ -60,7 +55,7 @@
   //   flex-direction column
   .speedreader_section
     font-family sans-serif
-    font-size 13px
+    font-size 14px
     text-align center
     min-height 100px
     display flex
@@ -68,8 +63,8 @@
     flex 1
     .speedreader_spacer
       flex 1
-  #speedreader_translation
-    opacity 0.7
+  .speedreader_translation
+    opacity 0.95
   #speedreader_word
     hyphens auto
     font-size 26px
@@ -101,7 +96,7 @@
       padding-left 10px
     a
       font-size 13px
-      color #545454
+      color inherit
       text-decoration underline
       &:hover:not(.inactive)
         color blue
@@ -121,12 +116,13 @@
 
   &.whiteonblack
     color white
-    background black
-    #output
-      color white
 
   &.yellowonblack
-    color white
+    color #ffea5c
+
+  &.whiteonblack, &.yellowonblack
     background black
-    #output
-      color #ffdb41
+    #speed-reader-header
+      a
+        &:hover:not(.inactive)
+          color #b5d7ff

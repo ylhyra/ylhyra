@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 // require('array-sugar')
-import { start, startStop, checkKey, mouseListener, prevWord, close, reset } from './actions'
-import { load } from './load'
-
+import { checkKey, mouseListener } from './actions/eventListeners'
+import { start, startStop, prevWord, close, reset } from './actions/start'
+import { load } from './actions/load'
 
 @connect(state => ({
   speed_reader: state.speed_reader,
@@ -55,7 +55,7 @@ class Header extends React.Component {
       }} className={started?'':'inactive'}>Settings</a>
       {started&&<a onClick={prevWord} className={cur>0?'':'inactive'}>Previous word</a>}
       {(started||cur>0)&&<a onClick={reset}>Restart</a>}
-      <b><a onClick={startStop}>{running ? 'Pause':'Play'}</a></b>
+      <a onClick={startStop}><b>{running ? 'Pause':'Play'}</b></a>
 
       <div className="spacer"/>
       <a onClick={close}>Exit</a>
@@ -108,11 +108,11 @@ class AboutScreen extends React.Component {
         </div>
         <div>
           <Settings/>
-          <div>
+          <div className="noclick" onClick={(e)=>e.stopPropagation()}>
             <button id="start" onClick={start}>Start</button>
             {/* <div id="tutorial" className="gray">
               Click "space" to pause and start, <br/> "left" and "right" arrow buttons to go backwards and forwards,<br/> "up" and "down" arrow buttons to change speed.
-            </div> */}
+            </div>  */}
           </div>
         </div>
       </div>
