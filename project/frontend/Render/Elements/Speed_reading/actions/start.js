@@ -23,7 +23,7 @@ export const start = () => {
       mouse_hidden: true,
     })
     // cur = last_cur /* Go one back to start on the same word */
-    timeoutAndNext(0, 350)
+    timeoutAndNext(0, 150)
   }
 }
 
