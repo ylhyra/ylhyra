@@ -68,13 +68,13 @@ class Header extends React.Component {
 }))
 class PlayScreen extends React.Component {
   render() {
-    const { started, wpm, cur, words, running, skin, mouse_hidden } = this.props.speed_reader
+    const { started, wpm, cur, words, running, skin, mouse_hidden, showTranslation } = this.props.speed_reader
     return (
       <div id="speed-reader-inner">
         <div className="speedreader_section">
           <Header/>
           <div className="speedreader_spacer"/>
-          <div className="speedreader_translation">{!running && (words[cur].translation||'')}</div>
+          <div className="speedreader_translation">{(!running || showTranslation) && (words[cur].translation||'')}</div>
         </div>
         <div id="speedreader_output">
           <Word word={words[cur].text||''} key={cur}/>

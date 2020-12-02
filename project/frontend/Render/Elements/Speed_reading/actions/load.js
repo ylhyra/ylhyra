@@ -2,7 +2,7 @@ import store from 'App/store'
 export const load = () => {
   let words = []
   let book = $('.book').clone()
-  book.find('.box, .word-box, .tooltip').remove()
+  book.find('.box, .word-box, .tooltip,.inline_translation').remove()
   book.find('p').each((pi, paragraphEl) => {
     words.last && words.push({
       length: 2,
@@ -27,11 +27,13 @@ export const load = () => {
         } else {
           const text = $(item).text()
           const itemId = $(item).find('.word[data-word-has-definition]').attr('id')
+          const difficult = $('.book').find(`#${itemId}`).closest('.word-container').is('.has-inline-translation')
           const translation = $('.book').find(`#${itemId}-tooltip .meaning`).text()
           words.push({
             text,
             translation,
             sentenceTranslation,
+            difficult,
           })
         }
       })

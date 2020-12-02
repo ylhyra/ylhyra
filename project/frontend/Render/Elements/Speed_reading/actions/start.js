@@ -80,7 +80,11 @@ export const nextWord = () => {
 
 
 export const close = () => {
-
+  store.dispatch({
+    type: 'SPEED_READER_UPDATE',
+    open: false,
+    running: false,
+  })
 }
 
 
@@ -99,9 +103,13 @@ export const next = (add) => {
   if (!document.hasFocus() || cur >= words.length) {
     return stop()
   }
+  if (!running) {
+    return;
+  }
   const word = words[cur].text || ''
   const minMultiplier = 0.65
 
+  let showTranslation = false
   let multiplier;
   if (words[cur].length) {
     multiplier = words[cur].length
@@ -114,16 +122,21 @@ export const next = (add) => {
     if (MINOR_BREAK.test(word)) {
       multiplier = 1.4
     }
+    if (words[cur].difficult) {
+      multiplier = 4.2
+      showTranslation = true
+    }
   }
 
 
   store.dispatch({
     type: 'SPEED_READER_UPDATE',
     cur: cur + 1,
+    showTranslation,
   })
   timeoutAndNext(multiplier, add)
 }
 
-const clamp = function (input, min, max) {
+const clamp = function(input, min, max) {
   return Math.min(Math.max(input, min), max);
 }
