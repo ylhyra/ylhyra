@@ -16,6 +16,8 @@ class Inflection extends React.Component {
   //   small: true
   // }
   componentDidMount = () => {
+    if (process.env.NODE_ENV === 'production') return; // TEMP!
+
     /* Inflectional search engine */
     if (!this.props.inflection.rows) {
       if (mw.config.get('wgPageName') !== 'Inflection') return;
