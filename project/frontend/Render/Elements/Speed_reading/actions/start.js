@@ -100,38 +100,41 @@ const timeoutAndNext = (multiplier, add) => {
 
 export const next = (add) => {
   const { words, cur, running } = store.getState().speed_reader
-  if (!document.hasFocus() || cur >= words.length) {
+  let next_index = cur + 1
+  if (!document.hasFocus() || next_index >= words.length) {
     return stop()
   }
   if (!running) {
     return;
   }
-  const word = words[cur].text || ''
+  const word = words[next_index].text || ''
   const minMultiplier = 0.65
-
   let showTranslation = false
   let multiplier;
-  if (words[cur].length) {
-    multiplier = words[cur].length
+  if (words[next_index].length) {
+    multiplier = words[next_index].length
   } else {
-    minMultiplier + (1 - minMultiplier) * (word.length / average_word_length)
-    if (multiplier > 1) {
-      multiplier = multiplier ** 1.4
+    const ratio = (word.length / average_word_length)
+    if (ratio > 1) {
+      multiplier = 1 + (ratio - 1) ** 1.7
+    } else {
+      multiplier = minMultiplier + (1 - minMultiplier) * ratio
     }
     multiplier = clamp(multiplier, minMultiplier, 1.8)
     if (MINOR_BREAK.test(word)) {
-      multiplier = 1.4
+      multiplier = Math.max(1.3, multiplier)
     }
-    if (words[cur].difficult) {
-      multiplier = 4.2
+    if (words[next_index].difficult) {
+      multiplier = Math.max(1.6, multiplier)
       showTranslation = true
     }
   }
+  console.log({ multiplier, t: words[next_index].text })
 
 
   store.dispatch({
     type: 'SPEED_READER_UPDATE',
-    cur: cur + 1,
+    cur: next_index,
     showTranslation,
   })
   timeoutAndNext(multiplier, add)
