@@ -17,12 +17,12 @@ class SpeedReader extends React.Component {
     $('body').addClass('unscrollable')
     // $('#speed-reader').on('click', startStop)
     document.addEventListener('keydown', checkKey);
-    supportsTouch && document.addEventListener('mousemove', mouseListener);
+    !supportsTouch && document.addEventListener('mousemove', mouseListener);
   }
   componentWillUnmount = () => {
     $('body').removeClass('unscrollable')
     document.removeEventListener('keydown', checkKey);
-    supportsTouch && document.removeEventListener('mousemove', mouseListener);
+    !supportsTouch && document.removeEventListener('mousemove', mouseListener);
   }
   render() {
     const { started, wpm, cur, words, running, skin, mouse_hidden } = this.props.speed_reader
@@ -33,7 +33,7 @@ class SpeedReader extends React.Component {
     mouse_hidden && running && classes.push('mouse_hidden')
     return <div id="speed-reader" className={classes.join(' ')}
 
-       onClick={startStop} 
+       onClick={startStop}
        // onClick={supportsTouch?undefined:startStop}
        // onTouchStart={startStop}
        >
