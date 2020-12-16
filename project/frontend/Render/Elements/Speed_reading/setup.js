@@ -8,7 +8,7 @@ export const SpeedReaderSetup = () => {
   /* Book not found */
   if ($('.book').length === 0 && mw.config.get('wgPageName') === 'Ylhýra' || mw.config.get('wgPageName') === 'Text:Frontpage') return;
   if ($('.book').length !== 1) return;
-  $('.book').after('<div id="speed-reader-button-container"></div>')
+  $('#catlinks').before('<div id="speed-reader-button-container"></div>')
 
   ReactDOM.render(
     <Provider store={store}>
@@ -30,11 +30,16 @@ class SpeedReaderButton extends React.Component {
       return <SpeedReader/>
     } else {
       window.listenerCount = 1
-      return <button className="small" onClick={()=>
-      store.dispatch({
-        type: 'SPEED_READER_UPDATE',
-        open: true,
-      })}>Speed read</button>
+      return <button className="small" onClick={()=>{
+        store.dispatch({
+          type: 'SPEED_READER_UPDATE',
+          open: true,
+        })
+        store.dispatch({
+          type: 'CURRENTLY_PLAYING',
+          currentlyPlaying: null
+        })
+      }}>Speed read</button>
     }
   }
 }

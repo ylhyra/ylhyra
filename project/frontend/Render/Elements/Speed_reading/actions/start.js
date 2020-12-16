@@ -129,8 +129,6 @@ export const next = (add) => {
       showTranslation = true
     }
   }
-  console.log({ multiplier, t: words[next_index].text })
-
 
   store.dispatch({
     type: 'SPEED_READER_UPDATE',

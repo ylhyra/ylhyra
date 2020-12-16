@@ -36,7 +36,7 @@ class Audio extends React.PureComponent {
     }
   }
   componentDidMount = () => {
-    const {video } = this.state.data
+    const { video } = this.state.data
     // /* Autoplay video */
     // if(video) {
     //   this.pausePlayButton()
@@ -149,11 +149,11 @@ class Audio extends React.PureComponent {
   error = (e) => {
     console.log(e)
     console.warn(`File missing: ${this.state.data.filepath}`)
-    if(this.errorCount++ > 1) {
+    if (this.errorCount++ > 1) {
       return NotifyError('Could not load file.', undefined, true)
     } else {
       this.setState({
-        key: this.state.key+1,
+        key: this.state.key + 1,
       })
       console.warn(`Attempted to remount file: ${this.state.data.filepath}`)
     }
@@ -166,7 +166,7 @@ class Audio extends React.PureComponent {
     if (inline) {
       ContainerTag = 'span'
     }
-    let Tag = video? 'video': 'audio'
+    let Tag = video ? 'video' : 'audio'
 
     return (
       <ContainerTag className={`audioPlayer ${playing ? playing : ''} ${error ? 'error' : ''} ${inline ? 'inline' : ''} ${video ? 'video' : ''}`} data-ignore key={this.state.key}>

@@ -8,6 +8,8 @@ let audio
 
 const AudioClip = {
   play: (sound_files) => {
+    if(store.getState().speed_reader.started) return;
+
     audio && audio.pause()
     let file
     if (Array.isArray(sound_files)) {
