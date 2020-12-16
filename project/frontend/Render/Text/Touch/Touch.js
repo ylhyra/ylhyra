@@ -37,6 +37,8 @@ export default function EventListener() {
   TOUCH START
 */
 const touchstart = (e) => {
+  if(!window.listenerCount)return;
+
   lastEvent = e
   startClickTime = time()
   startLocation = {
@@ -58,6 +60,7 @@ const touchstart = (e) => {
   TOUCH MOVE
 */
 const touchmove = (e) => {
+  if(!window.listenerCount)return;
   lastEvent = e
   lastKnownLocation = {
     x: e.touches[0].clientX,

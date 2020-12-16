@@ -31,7 +31,12 @@ class SpeedReader extends React.Component {
     classes.push(skin)
     running && classes.push('running')
     mouse_hidden && running && classes.push('mouse_hidden')
-    return <div id="speed-reader" className={classes.join(' ')} onClick={supportsTouch?undefined:startStop} onTouchStart={startStop}>
+    return <div id="speed-reader" className={classes.join(' ')}
+
+       onClick={startStop} 
+       // onClick={supportsTouch?undefined:startStop}
+       // onTouchStart={startStop}
+       >
       {started ? <PlayScreen/> : <AboutScreen/>}
       {words.length > 0 && <div id="speed-reader-status" style={{width:(cur/words.length*100)+'%'}}></div>}
     </div>
