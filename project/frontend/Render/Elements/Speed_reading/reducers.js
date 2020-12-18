@@ -9,11 +9,13 @@ export const speed_reader = (state = {
 }, { type, ...props }) => {
   switch (type) {
     case 'SPEED_READER_UPDATE':
-      if (props.skin) {
-        localStorage.setItem("skin", props.skin)
-      }
-      if (props.wpm) {
-        localStorage.setItem("wpm", props.wpm)
+      if (isBrowser) {
+        if (props.skin) {
+          localStorage.setItem("skin", props.skin)
+        }
+        if (props.wpm) {
+          localStorage.setItem("wpm", props.wpm)
+        }
       }
       return {
         ...state,
