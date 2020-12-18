@@ -6,7 +6,8 @@ import store from 'App/store'
 import { checkKey, mouseListener } from './actions/eventListeners'
 import { start, startStop, prevWord, close, reset } from './actions/start'
 import { load } from './actions/load'
-const supportsTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
+const isBrowser = (typeof window !== 'undefined') && localStorage
+const supportsTouch = isBrowser && ('ontouchstart' in window || navigator.msMaxTouchPoints);
 
 @connect(state => ({
   speed_reader: state.speed_reader,
