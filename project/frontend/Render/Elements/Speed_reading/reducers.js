@@ -1,6 +1,8 @@
+const isBrowser = (typeof window !== 'undefined') && localStorage
+
 export const speed_reader = (state = {
-  wpm: parseInt(localStorage.getItem("wpm")) || 75,
-  skin: localStorage.getItem("skin") || 'blackonlight',
+  wpm: (isBrowser && parseInt(localStorage.getItem("wpm"))) || 75,
+  skin: (isBrowser && localStorage.getItem("skin")) || 'blackonlight',
   words: [],
   cur: 0,
   started: false,

@@ -8,6 +8,7 @@ import { ReadAlongSetup } from 'frontend/Render/Audio/ReadAlong'
 import error from 'App/Error'
 import Inflection from 'Render/Elements/Inflection'
 import SpeedReaderSetup from 'Render/Elements/Speed_reading/setup'
+const isBrowser = (typeof window !== 'undefined')
 
 const Render = (parsed, { shouldReturnElement, hydrate }) => {
   const element = (
@@ -24,7 +25,7 @@ const Render = (parsed, { shouldReturnElement, hydrate }) => {
   } else {
     try {
       if ($('.mw-parser-output')) {
-        if (hydrate /*&& $('.mw-parser-output > #hydrate').length > 0*/) {
+        if (hydrate /*&& $('.mw-parser-output > #hydrate').length > 0*/ ) {
           ReactDOM.render(
             element,
             document.querySelector('.mw-parser-output')
@@ -41,10 +42,12 @@ const Render = (parsed, { shouldReturnElement, hydrate }) => {
       error('Could not initialize')
     }
 
-    setTimeout(function() {
-      ReadAlongSetup() // Temporary, needs a better solution
-      SpeedReaderSetup()
-    }, 200)
+    if (isBrowser) {
+      setTimeout(function () {
+        ReadAlongSetup() // Temporary, needs a better solution
+        SpeedReaderSetup()
+      }, 200)
+    }
   }
 }
 export default Render
