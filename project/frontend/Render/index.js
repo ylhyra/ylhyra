@@ -7,7 +7,7 @@ import { html2json, json2html } from 'frontend/App/functions/html2json'
 import { ReadAlongSetup } from 'frontend/Render/Audio/ReadAlong'
 import error from 'App/Error'
 import Inflection from 'Render/Elements/Inflection'
-// import SpeedReaderSetup from 'Render/Elements/Speed_reading/setup'
+import SpeedReaderSetup from 'Render/Elements/Speed_reading/setup'
 const isBrowser = (typeof window !== 'undefined')
 
 const Render = (parsed, { shouldReturnElement, hydrate }) => {
@@ -45,7 +45,7 @@ const Render = (parsed, { shouldReturnElement, hydrate }) => {
     if (isBrowser) {
       setTimeout(function () {
         ReadAlongSetup() // Temporary, needs a better solution
-        // SpeedReaderSetup()
+        SpeedReaderSetup()
       }, 200)
     }
   }

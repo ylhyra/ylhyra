@@ -8,7 +8,7 @@ import { editor } from 'Editor/reducers'
 import { data } from 'Render/reducers'
 import { audio } from 'Render/Audio/reducers'
 import { inflection } from 'Render/Elements/Inflection/reducers'
-// import { speed_reader } from 'Render/Elements/Speed_reading/reducers'
+import { speed_reader } from 'Render/Elements/Speed_reading/reducers'
 
 /*
   Logger
@@ -30,7 +30,7 @@ const store = createStore(
     /* Reader */
     audio,
     inflection,
-    // speed_reader,
+    speed_reader,
   }),
   applyMiddleware(
     // routerMiddleware(history),

@@ -7,7 +7,7 @@ export default () => {
 
   /* CC0 */
   if(mw.config.get('wgCategories').includes('CC0')) {
-    $('#license').append('<div>You are free to republish this article. <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode" class="license-link" rel="noopener">CC0</a></div>')
+    $('#license').append('<div>You are free to republish this article. <a href="https://creativecommons.org/publicdomain/zero/1.0/" class="license-link" rel="noopener">CC0</a></div>')
   }
   /* CC BY */
   if(mw.config.get('wgCategories').includes('CC BY')) {
