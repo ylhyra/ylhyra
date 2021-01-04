@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 import SpeedReader from 'Render/Elements/Speed_reading'
+import { open } from './actions/start'
 
 export const SpeedReaderSetup = () => {
   /* Book not found */
   if ($('.book').length === 0 && mw.config.get('wgPageName') === 'Ylhýra' || mw.config.get('wgPageName') === 'Text:Frontpage') return;
   if ($('.book').length !== 1) return;
-  $('#catlinks').before('<div id="speed-reader-button-container"></div>')
+  $('#container').after('<div id="speed-reader-button-container"></div>')
 
   ReactDOM.render(
     <Provider store={store}>
@@ -16,6 +17,7 @@ export const SpeedReaderSetup = () => {
     </Provider>,
     document.getElementById('speed-reader-button-container')
   )
+
 }
 export default SpeedReaderSetup
 
@@ -30,16 +32,10 @@ class SpeedReaderButton extends React.Component {
       return <SpeedReader/>
     } else {
       window.listenerCount = 1
-      return <button className="small" onClick={()=>{
-        store.dispatch({
-          type: 'SPEED_READER_UPDATE',
-          open: true,
-        })
-        store.dispatch({
-          type: 'CURRENTLY_PLAYING',
-          currentlyPlaying: null
-        })
-      }}>Speed read</button>
+      return <button className="small" onClick={open}>Speed read</button>
     }
   }
 }
+// setTimeout(()=>{
+//   SpeedReaderSetup() // TEMP!!
+// },100)

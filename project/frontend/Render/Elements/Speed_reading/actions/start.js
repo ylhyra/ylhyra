@@ -79,7 +79,20 @@ export const nextWord = () => {
 }
 
 
+export const open = ()=>{
+  $('#container').hide()
+  store.dispatch({
+    type: 'SPEED_READER_UPDATE',
+    open: true,
+  })
+  store.dispatch({
+    type: 'CURRENTLY_PLAYING',
+    currentlyPlaying: null
+  })
+}
 export const close = () => {
+  $('#container').show()
+
   store.dispatch({
     type: 'SPEED_READER_UPDATE',
     open: false,
