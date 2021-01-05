@@ -47,6 +47,8 @@ $wgMainCacheType = CACHE_NONE;
 $wgMemCachedServers = [];
 
 $wgUseFileCache = true;
+$wgFileCacheDirectory = "{$wgUploadDirectory}/file_cache";
+$wgFileCacheDepth = 0;
 $wgUseGzip = true;
 
 
