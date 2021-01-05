@@ -46,6 +46,8 @@ $wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
 $wgMainCacheType = CACHE_NONE;
 $wgMemCachedServers = [];
 
+$wgUseFileCache = true;
+$wgUseGzip = true;
 
 
 ## If you use ImageMagick (or any other shell command) on a

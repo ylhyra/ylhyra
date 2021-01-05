@@ -37,6 +37,8 @@ $wgHooks['ParserAfterTidy'][] = function( Parser &$parser, &$text ) {
             'Content-Length: ' . strlen($payload))
           );
           $result = curl_exec($ch);
+          //   $http_status = curl_getinfo($http, CURLINFO_HTTP_CODE);
+          // if(!empty($result) && $http_status == 200) {
           curl_close($ch);
         if(!empty($result) && $result != 'Internal Server Error') {
             $text = $result;
