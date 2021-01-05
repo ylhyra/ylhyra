@@ -13,7 +13,8 @@ export const reset = () => {
 
 export const start = () => {
   const { words, cur } = store.getState().speed_reader
-  if (cur >= words.length) {
+  if(words.length < 1) return;
+  if (cur + 1 >= words.length) {
     reset()
   } else {
     store.dispatch({
@@ -21,6 +22,7 @@ export const start = () => {
       running: true,
       started: true,
       mouse_hidden: true,
+      done: false,
     })
     // cur = last_cur /* Go one back to start on the same word */
     timeoutAndNext(0, 150)
@@ -39,6 +41,17 @@ const stop = () => {
     cur: words[cur].text ? cur : Math.max(0, cur - 1)
   })
 }
+
+const done = () => {
+  timer && clearTimeout(timer)
+  store.dispatch({
+    type: 'SPEED_READER_UPDATE',
+    running: false,
+    mouse_hidden: false,
+    done: true,
+  })
+}
+
 
 export const startStop = () => {
   const { running } = store.getState().speed_reader
@@ -114,8 +127,11 @@ const timeoutAndNext = (multiplier, add) => {
 export const next = (add) => {
   const { words, cur, running } = store.getState().speed_reader
   let next_index = cur + 1
-  if (!document.hasFocus() || next_index >= words.length) {
+  if (!document.hasFocus()) {
     return stop()
+  }
+  if (next_index >= words.length) {
+    return done()
   }
   if (!running) {
     return;

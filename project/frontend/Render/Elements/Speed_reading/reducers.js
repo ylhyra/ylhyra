@@ -17,7 +17,7 @@ export const speed_reader = (state = {
         localStorage.setItem("skin", props.skin)
       }
       if (props.wpm) {
-        localStorage.setItem("wpm", props.wpm)
+        localStorage.setItem("wpm", parseInt(props.wpm))
       }
       return {
         ...state,

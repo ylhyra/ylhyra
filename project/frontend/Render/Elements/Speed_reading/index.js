@@ -34,7 +34,7 @@ class SpeedReader extends React.Component {
       return null
     }
 
-    const { started, wpm, cur, words, running, skin, mouse_hidden } = this.props.speed_reader
+    const { started, wpm, cur, words, running, skin, mouse_hidden, done } = this.props.speed_reader
 
     let classes = []
     classes.push(skin)
@@ -46,7 +46,7 @@ class SpeedReader extends React.Component {
        // onClick={supportsTouch?undefined:startStop}
        // onTouchStart={startStop}
        >
-      {started ? <PlayScreen/> : <AboutScreen/>}
+      {started ? done ? <DoneScreen/> : <PlayScreen/> : <AboutScreen/>}
       {words.length > 0 && <div id="speed-reader-status" style={{width:(cur/words.length*100)+'%'}}></div>}
     </div>
   }
@@ -83,7 +83,7 @@ class Header extends React.Component {
 }))
 class PlayScreen extends React.Component {
   render() {
-    const { started, wpm, cur, words, running, skin, mouse_hidden, showTranslation } = this.props.speed_reader
+    const { started, wpm, cur, words, running, skin, mouse_hidden, showTranslation, done } = this.props.speed_reader
     return (
       <div id="speed-reader-inner">
         <div className="speedreader_section">
@@ -97,6 +97,49 @@ class PlayScreen extends React.Component {
         <div className="speedreader_section">
           <div className="speedreader_spacer"/>
           <div className="speedreader_translation">{!running && (words[cur].sentenceTranslation||'')}</div>
+        </div>
+      </div>
+    )
+  }
+}
+
+@connect(state => ({
+  speed_reader: state.speed_reader,
+}))
+class DoneScreen extends React.Component {
+  render() {
+    const { started, wpm, cur, words, running, skin, mouse_hidden, showTranslation, done } = this.props.speed_reader
+    return (
+      <div id="speed-reader-inner">
+        <div className="speedreader_section">
+          <Header/>
+        </div>
+        <div id="speedreader_output" style={{textAlign:'center'}} onClick={(e)=>e.stopPropagation()}>
+          <h2>Done!</h2>
+          <p>
+            You read this text at {wpm} words per minute.
+            {wpm < 700 && 'Try to slowly increase your speed until you can no longer read any faster:'}
+          </p>
+          {wpm < 700 && <div><button onClick={()=>{
+            store.dispatch({
+              type: 'SPEED_READER_UPDATE',
+              wpm: wpm + 25,
+            })
+            start()
+          }}>Go faster ({wpm + 25} words per minute)</button></div>}
+
+          <div><button onClick={start}>Repeat ({wpm} words per minute)</button></div>
+
+          {wpm > 25 && <div><button onClick={()=>{
+            store.dispatch({
+              type: 'SPEED_READER_UPDATE',
+              wpm: wpm - 25,
+            })
+            start()
+          }}>Go slower ({wpm - 25} words per minute)</button></div>}
+
+        </div>
+        <div className="speedreader_section">
         </div>
       </div>
     )
