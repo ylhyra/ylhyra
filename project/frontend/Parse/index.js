@@ -31,7 +31,7 @@ var now = require("performance-now")
 /*
   Parser
 */
-export default async ({ html, title }) => {
+export default async({ html, title }) => {
   if (!html) return null
   // console.log(html)
   try {
@@ -126,6 +126,7 @@ export default async ({ html, title }) => {
     if (typeof mw !== 'undefined') {
       NotifyError('Error in parse step')
     }
+    return { parsed: null }
   }
 }
 
