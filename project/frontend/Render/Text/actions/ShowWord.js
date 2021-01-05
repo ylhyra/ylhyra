@@ -1,5 +1,5 @@
-import FindAGoodPositionForTooltip from 'Text/actions/TooltipPosition'
-import AudioClip from 'Audio/AudioClip'
+import FindAGoodPositionForTooltip from 'Render/Text/actions/TooltipPosition'
+import AudioClip from 'Render/Audio/AudioClip'
 import { logShown } from './Reset'
 import Analytics from 'frontend/Analytics/TextInteractions'
 import { ShowInflectionTable } from 'Render/Elements/Inflection/actions'

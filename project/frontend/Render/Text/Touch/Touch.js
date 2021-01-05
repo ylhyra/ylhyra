@@ -4,10 +4,10 @@
      | | (_) | |_| | (__| | | |
      |_|\___/ \__,_|\___|_| |_| */
 
-import showWord from 'Text/actions/ShowWord'
-import _reset from 'Text/actions/Reset'
-import { highlightSentence } from 'Text/actions/HighlightSentence'
-import { showSentence } from 'Text/actions/ShowSentence'
+import showWord from 'Render/Text/actions/ShowWord'
+import ResetTooltips from 'Render/Text/actions/Reset'
+import { highlightSentence } from 'Render/Text/actions/HighlightSentence'
+import { showSentence } from 'Render/Text/actions/ShowSentence'
 import { turnOffDemonstration } from 'Render/Frontpage/demo'
 
 let startClickTime = null
@@ -23,7 +23,7 @@ let isShowingSomething = false
 const reset = () => {
   lastId = null
   isShowingSomething = false
-  _reset()
+  ResetTooltips()
 }
 
 export const TouchEventListenerOn = () => {
@@ -33,7 +33,7 @@ export const TouchEventListenerOn = () => {
   document.addEventListener('touchmove', touchmove, { passive: false })
 }
 
-export const TouchMouseEventListenerOff = () => {
+export const TouchEventListenerOff = () => {
   document.removeEventListener('touchstart', touchstart, { passive: false })
   document.removeEventListener('touchend', touchend, { passive: false })
   document.removeEventListener('touchcancel', touchend, { passive: false })

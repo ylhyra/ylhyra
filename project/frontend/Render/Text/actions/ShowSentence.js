@@ -1,5 +1,5 @@
-import { getScrollingElement } from 'helpers.js'
-import { ReadAlongSingleSentence } from 'Audio/ReadAlong'
+import { getScrollingElement } from 'Render/helpers.js'
+import { ReadAlongSingleSentence } from 'Render/Audio/ReadAlong'
 import { logShown } from './Reset'
 import Analytics from 'frontend/Analytics/TextInteractions'
 

@@ -117,8 +117,7 @@ class DoneScreen extends React.Component {
         <div id="speedreader_output" style={{textAlign:'center'}} onClick={(e)=>e.stopPropagation()}>
           <h2>Done!</h2>
           <p>
-            You read this text at {wpm} words per minute.
-            {wpm < 700 && 'Try to slowly increase your speed until you can no longer read any faster:'}
+            You read this text at {wpm} words per minute. {wpm < 700 && 'Try to slowly increase your speed until you can no longer read any faster:'}
           </p>
           {wpm < 700 && <div><button onClick={()=>{
             store.dispatch({

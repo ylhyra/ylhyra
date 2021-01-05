@@ -1,5 +1,5 @@
-import showWord from 'Text/actions/ShowWord'
-import reset from 'Text/actions/Reset'
+import showWord from 'Render/Text/actions/ShowWord'
+import reset from 'Render/Text/actions/Reset'
 /*
   Front page demo
 */

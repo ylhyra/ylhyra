@@ -19,3 +19,4 @@ project/mediawiki/LocalSettings.php
 database_local
 *.zip
 *.txt
+test.html

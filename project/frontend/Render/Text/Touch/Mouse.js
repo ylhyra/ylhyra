@@ -4,10 +4,10 @@
    | |  | | (_) | |_| \__ \  __/
    |_|  |_|\___/ \__,_|___/\___| */
 
-import showWord from 'Text/actions/ShowWord'
-import reset from 'Text/actions/Reset'
-import { highlightSentence } from 'Text/actions/HighlightSentence'
-import { showSentence } from 'Text/actions/ShowSentence'
+import showWord from 'Render/Text/actions/ShowWord'
+import reset from 'Render/Text/actions/Reset'
+import { highlightSentence } from 'Render/Text/actions/HighlightSentence'
+import { showSentence } from 'Render/Text/actions/ShowSentence'
 import { turnOffDemonstration } from 'Render/Frontpage/demo'
 
 let lastId = null
