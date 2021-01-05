@@ -2,5 +2,5 @@
 
 export default function(message, type = 'error', autoHide = false) {
   console.error(message)
-  mw.notify(message, { type, autoHide });
+  mw.notify($('<span data-nosnippet=true>'+message+'</span>'), { type, autoHide });
 }
