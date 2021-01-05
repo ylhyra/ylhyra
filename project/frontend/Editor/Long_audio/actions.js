@@ -38,7 +38,7 @@ export default () => {
       const output = ReactDOMServer.renderToStaticMarkup(XML).replace(/(<\/div>)/g, '</div>\n')
       console.log({ output })
       if (!output || !/<(span|div)/.test(output)) {
-        return NotifyError('Could not create audio XML, no <spans/> found. Check Long_audio/actions.js')
+        return NotifyError('Could not create audio XML, no spans found. Check Long_audio/actions.js')
       }
       if (XML) {
         store.dispatch({
