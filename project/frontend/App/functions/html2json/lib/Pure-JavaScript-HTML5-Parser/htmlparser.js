@@ -169,7 +169,7 @@
 			}
 
 			if (html == last)
-				throw "html2json Parse Error: " + html;
+				throw "html2json Parse Error: " + html.slice(0,120);
 			last = html;
 		}
 

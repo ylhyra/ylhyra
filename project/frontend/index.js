@@ -70,28 +70,32 @@ documentReady(async () => {
   */
   if ($('.mw-parser-output').length && $('.ylhyra-text').length === 0) {
     var t0 = now()
-    const { parsed, tokenized, data, flattenedData } = await Parse({ html, title })
-    var t1 = now()
-    // console.log(flattenedData)
-    // if (tokenized && tokenized[title]) {
-    store.dispatch({
-      type: 'INITIALIZE_WITH_TOKENIZED_AND_DATA',
-      currentDocument: tokenized && tokenized[title],
-      // allDocuments: tokenized,
-      data: flattenedData,
-      currentDocumentData: data && data[title],
-      parsed: parsed,
-    })
-    // } else {
-    //   console.warn('Stopped tokenization, there is no {{start}} for the current document')
-    // }
+    const out = await Parse({ html, title })
+    if(out) {
+      const { parsed, tokenized, data, flattenedData } = out
+      var t1 = now()
+      // console.log(flattenedData)
+      // if (tokenized && tokenized[title]) {
+      store.dispatch({
+        type: 'INITIALIZE_WITH_TOKENIZED_AND_DATA',
+        currentDocument: tokenized && tokenized[title],
+        // allDocuments: tokenized,
+        data: flattenedData,
+        currentDocumentData: data && data[title],
+        parsed: parsed,
+      })
+      // } else {
+      //   console.warn('Stopped tokenization, there is no {{start}} for the current document')
+      // }
 
-    Render(parsed, {})
-    // const serverside = ReactDOMServer.renderToStaticMarkup(Render(parsed, true)) //Test for server-side-rendering
-    var t2 = now()
-    console.log(`Parsing took ${Math.round(t1 - t0)} ms, rendering ${Math.round(t2 - t1)} ms`)
-    $('body').hasClass('mw-editable') && Editor({ currentDocument: tokenized && tokenized[title] })
-    // console.log(flattenedData)
+      Render(parsed, {})
+      // const serverside = ReactDOMServer.renderToStaticMarkup(Render(parsed, true)) //Test for server-side-rendering
+      var t2 = now()
+
+      console.log(`Parsing took ${Math.round(t1 - t0)} ms, rendering ${Math.round(t2 - t1)} ms`)
+      $('body').hasClass('mw-editable') && Editor({ currentDocument: tokenized && tokenized[title] })
+      // console.log(flattenedData)
+    }
     $('body').addClass('initialized')
   }
   /*
