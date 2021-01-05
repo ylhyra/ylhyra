@@ -32,7 +32,7 @@ class Card extends Component {
   }
   render() {
     const { card, answer, insideConversation } = this.props
-    console.log({card,answer})
+    // console.log({card,answer})
     if (card) {
       let Type = null
       if (card.type === 'multiple choice') {
