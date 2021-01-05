@@ -17,7 +17,9 @@ router.all('/render', async(req, res) => {
   if (html) {
     try {
       var t0 = now()
-      const { parsed, tokenized, data, flattenedData } = await Parse({ html })
+      const out = await Parse({ html })
+      if (!out) return res.sendStatus(500);
+      const { parsed, tokenized, data, flattenedData } = out;
       if (!parsed) return res.sendStatus(500);
       output = ReactDOMServer.renderToStaticMarkup(Render(parsed, { shouldReturnElement: true }))
       var t1 = now()

@@ -126,7 +126,6 @@ export default async({ html, title }) => {
     if (typeof mw !== 'undefined') {
       NotifyError('Error in parse step')
     }
-    return { parsed: null }
   }
 }
 

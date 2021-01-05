@@ -36,7 +36,7 @@ $wgHooks['ParserAfterTidy'][] = function( Parser &$parser, &$text ) {
         );
         $result = curl_exec($ch);
         curl_close($ch);
-        if($result && !curl_errno($ch)) {
+      if($result /*&& !curl_errno($ch)*/) {
           $text = $result;
         }
       }
