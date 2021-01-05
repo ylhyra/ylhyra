@@ -8,7 +8,7 @@ import { ReadAlongSetup } from 'frontend/Render/Audio/ReadAlong'
 import error from 'App/Error'
 import Inflection from 'Render/Elements/Inflection'
 import SpeedReaderSetup from 'Render/Elements/Speed_reading/setup'
-const isBrowser = (typeof window !== 'undefined')
+import { isBrowser } from 'project/frontend/App/functions/isBrowser'
 
 const Render = (parsed, { shouldReturnElement, hydrate }) => {
   const element = (

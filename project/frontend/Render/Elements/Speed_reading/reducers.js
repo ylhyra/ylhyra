@@ -6,6 +6,7 @@ export const speed_reader = (state = {
   words: [],
   cur: 0,
   started: false,
+  open: false,
 }, { type, ...props }) => {
   if (!isBrowser) {
     return state

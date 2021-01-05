@@ -26,12 +26,20 @@ const reset = () => {
   _reset()
 }
 
-export default function EventListener() {
+export const TouchEventListenerOn = () => {
   document.addEventListener('touchstart', touchstart, { passive: false })
   document.addEventListener('touchend', touchend, { passive: false })
   document.addEventListener('touchcancel', touchend, { passive: false })
   document.addEventListener('touchmove', touchmove, { passive: false })
 }
+
+export const TouchMouseEventListenerOff = () => {
+  document.removeEventListener('touchstart', touchstart, { passive: false })
+  document.removeEventListener('touchend', touchend, { passive: false })
+  document.removeEventListener('touchcancel', touchend, { passive: false })
+  document.removeEventListener('touchmove', touchmove, { passive: false })
+}
+
 
 /*
   TOUCH START

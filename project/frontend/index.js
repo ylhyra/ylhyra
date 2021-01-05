@@ -13,7 +13,7 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
-require('Render/Text/Touch/')
+import {TextEventListenersOn} from 'Render/Text/Touch/'
 require('Render/Style/index.styl')
 require('./DevelopmentMode')
 require('Source_editor/Tweets')
@@ -122,6 +122,7 @@ documentReady(async () => {
     // Typeset()
   }, 200)
 
+  TextEventListenersOn()
   Attribution()
   FrontpageDemo()
 })

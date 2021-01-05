@@ -80,7 +80,7 @@ export const nextWord = () => {
 
 
 export const open = ()=>{
-  $('#container').hide()
+  $('#container, header').hide()
   store.dispatch({
     type: 'SPEED_READER_UPDATE',
     open: true,
@@ -91,7 +91,7 @@ export const open = ()=>{
   })
 }
 export const close = () => {
-  $('#container').show()
+  $('#container, header').show()
 
   store.dispatch({
     type: 'SPEED_READER_UPDATE',

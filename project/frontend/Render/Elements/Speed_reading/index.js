@@ -4,10 +4,10 @@ import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 // require('array-sugar')
 import { checkKey, mouseListener } from './actions/eventListeners'
-import { start, startStop, prevWord, close, reset } from './actions/start'
+import { start, startStop, prevWord, close, reset } from './actions/actions'
 import { load } from './actions/load'
-const isBrowser = (typeof window !== 'undefined') && localStorage
-const supportsTouch = isBrowser && ('ontouchstart' in window || navigator.msMaxTouchPoints);
+import { isBrowser, hasLocalStorage, supportsTouch } from 'project/frontend/App/functions/isBrowser'
+import { TextEventListenersOn, TextEventListenersOff } from 'Render/Text/Touch/'
 
 @connect(state => ({
   speed_reader: state.speed_reader,
@@ -19,13 +19,21 @@ class SpeedReader extends React.Component {
     // $('#speed-reader').on('click', startStop)
     document.addEventListener('keydown', checkKey);
     !supportsTouch && document.addEventListener('mousemove', mouseListener);
+    TextEventListenersOn()
   }
   componentWillUnmount = () => {
     $('body').removeClass('unscrollable')
     document.removeEventListener('keydown', checkKey);
     !supportsTouch && document.removeEventListener('mousemove', mouseListener);
+    TextEventListenersOn()
   }
   render() {
+
+    if (!this.props.speed_reader.open) {
+      // window.listenerCount = 0 /* Turn off mousemove listener for text popups */
+      return null
+    }
+
     const { started, wpm, cur, words, running, skin, mouse_hidden } = this.props.speed_reader
 
     let classes = []
@@ -108,18 +116,25 @@ class AboutScreen extends React.Component {
         <div id="speed-reader-logo" onClick={close}>Ylhýra</div>
         <h1>Speed reading mode</h1>
         <div>
+          <Settings/>
+          <br/>
+          <div className="noclick" onClick={(e)=>e.stopPropagation()}>
+            <button id="start" onClick={start}>Start</button>
+          </div>
+        </div>
+        <br/>
+        <br/>
+        <div>
           <p>This is an exercise that trains you to immediately recognize words just from their shapes instead of having to read each letter. Being able to immediately recognize words makes reading faster, more enjoyable, and allows you to comprehend longer text with more ease. </p>
           <p>This exercise also trains you to read without giving up half-way through.</p>
           <p>We recommend starting with a low speed (75 words per minute). When you can comfortably read at that speed, increase the speed by +25 and read the same text again. Repeat the process until you’re able to comfortaby read the text at 200 words per minute.</p>
           <p>To use this tool with other text, click <a href="https://speedreader.ylhyra.is/">here</a>.</p>
         </div>
+        <br/>
         <div>
-          <Settings/>
-          <div className="noclick" onClick={(e)=>e.stopPropagation()}>
-            <button id="start" onClick={start}>Start</button>
-            {/* <div id="tutorial" className="gray">
-              Click "space" to pause and start, <br/> "left" and "right" arrow buttons to go backwards and forwards,<br/> "up" and "down" arrow buttons to change speed.
-            </div>  */}
+          <div id="tutorial" className="gray">
+            <div className="only-desktop">Click "space" to pause and start, <br/> "left" and "right" arrow buttons to go backwards and forwards,<br/> "up" and "down" arrow buttons to change speed.</div>
+            <div className="only-mobile">Click anywhere to start and stop</div>
           </div>
         </div>
       </div>

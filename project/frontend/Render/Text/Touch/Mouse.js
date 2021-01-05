@@ -13,9 +13,14 @@ import { turnOffDemonstration } from 'Render/Frontpage/demo'
 let lastId = null
 let isSentenceBeingShown = false
 
-export default function EventListener() {
+export const MouseEventListenerOn = () => {
   document.addEventListener('mousemove', mousemove)
   document.addEventListener('mousedown', mousedown)
+}
+
+export const MouseEventListenerOff = () => {
+  document.removeEventListener('mousemove', mousemove)
+  document.removeEventListener('mousedown', mousedown)
 }
 
 let lastX_seen
@@ -27,8 +32,8 @@ let lastTime_processed = 0
 let lastTime_quick_movement_seen = 0
 
 const SAMPLE_EVERY_X_MILLISECONDS = 30
-const MAX_SPEED = 50 /* Pixels per second */
-const TIMOUT_UNTIL_DISAPPEARS = 900
+const MAX_SPEED = 300 /* Pixels per second */
+const TIMOUT_UNTIL_DISAPPEARS = 100
 let timer
 
 const mousemove = (e) => {

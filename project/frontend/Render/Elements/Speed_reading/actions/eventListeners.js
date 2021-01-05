@@ -1,5 +1,5 @@
 import store from 'App/store'
-import { startStop, prevWord, nextWord } from './start'
+import { startStop, prevWord, nextWord } from './actions'
 export const checkKey = (e) => {
   // console.log((e.keyCode))
   /* Space */
