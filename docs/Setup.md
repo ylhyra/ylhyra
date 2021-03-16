@@ -20,11 +20,14 @@ npm start
 npm run server
 ```
 
-**Configure Chrome to accept self-signed scripts**
+**Open Chrome in un-safe mode**
 
+<!--
 This will start a script at `https://localhost:8000/app.js`, a [self-signed](https://en.wikipedia.org/wiki/Self-signed_certificate) script so that it can be loaded from this page, which is HTTPS.
 
 In Chrome, turn on the flag `chrome://flags/#allow-insecure-localhost` and restart Chrome. This will alow self-signed scripts on localhost.
+-->
+open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security --ignore-certificate-errors
 
 **Set the website to development mode**
 
@@ -46,4 +49,3 @@ docker-compose up -d
 
 To update git submodules:
 > git submodule update --recursive --remote
-
