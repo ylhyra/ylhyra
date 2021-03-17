@@ -40,6 +40,7 @@ const mousemove = (e) => {
   if (window.listenerCount > 0) {
     let x = e?.clientX || lastX_seen
     let y = e?.clientY || lastY_seen
+    if(!x || !y) return; /* Prevents "The provided double value is non-finite" */
     lastX_seen = x
     lastY_seen = y
     let time = new Date().getTime()

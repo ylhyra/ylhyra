@@ -124,6 +124,8 @@ const FindElements = (e, doubleClick = false, moving = false) => {
   } else {
     return reset()
   }
+  
+  if(!x || !y) return; /* Prevents "The provided double value is non-finite" */
 
 
   const target = document.elementFromPoint(x, y)

@@ -28,3 +28,10 @@ window.createIncomingRedirects = (...array) => {
     })
   })
 }
+
+//
+// $('a.new ').each(function () {
+//   $(this).replaceWith(function () {
+//     return $("<span/>", { html: $(this).html() });
+//   });
+// })
