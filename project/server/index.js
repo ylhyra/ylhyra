@@ -10,7 +10,7 @@ import path from 'path'
 import argvFactory from 'minimist'
 const argv = argvFactory(process.argv.slice(2))
 const app = express()
-require('express-ws')(app)
+require('express-ws')(app)  
 import query from './database'
 export const upload_path = path.resolve(__dirname, './../../uploads')
 var cors = require('cors')
