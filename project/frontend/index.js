@@ -18,6 +18,9 @@ require('Render/Style/index.styl')
 require('./DevelopmentMode')
 require('Source_editor/Tweets')
 
+/* Test */
+require('project/vocabulary')
+
 import Parse from 'frontend/Parse'
 import Render from 'frontend/Render'
 import Editor from 'Editor'
