@@ -5,8 +5,10 @@ import store from 'App/store'
 import error from 'App/Error'
 import { isBrowser } from 'project/frontend/App/functions/isBrowser'
 import hash from 'project/frontend/App/functions/hash'
-import test from './test'
 
+/*
+  Test render container
+*/
 const Render = () => {
   if (!isBrowser) return;
   if (mw && mw.config.get('wgPageName') !== 'User:Egill/test2') return;
@@ -15,7 +17,8 @@ const Render = () => {
     <Provider store={store}>
       <div className="">
         <div id="overlay"></div>
-        <Table/>
+        {/* <Table/> */}
+        <GameContainer/>
       </div>
     </Provider>
   )
@@ -25,19 +28,6 @@ const Render = () => {
     document.querySelector('#hehe')
   )
 }
-
-const Table = () => {
-  return <table>
-    <tbody>
-      {test.map(({ is, en }) => (
-        <tr><td><b>{is}</b></td><td>{en}</td></tr>
-      ))}
-    </tbody>
-  </table>
-
-}
-
-
 
 
 
