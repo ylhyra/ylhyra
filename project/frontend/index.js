@@ -19,7 +19,7 @@ require('./DevelopmentMode')
 require('Source_editor/Tweets')
 
 /* Test */
-require('project/vocabulary')
+require('project/frontend/Vocabulary')
 
 import Parse from 'frontend/Parse'
 import Render from 'frontend/Render'
