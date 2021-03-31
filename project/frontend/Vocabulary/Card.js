@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import clean from 'Render/Elements/Vocabulary/functions/clean'
+import { answer, BAD, OK, PERFECT } from './actions'
 
+@connect(state => ({
+  vocabulary: state.vocabulary,
+}))
 class Card extends Component {
-  state = {
-    hasAnswered: false,
-  }
+  state = {}
   // componentDidMount() {
   //   this.sound()
   // }
@@ -23,36 +26,57 @@ class Card extends Component {
   //     }
   //   }
   // }
+  show = () => {
+    if (this.state.answered) return;
+    this.setState({
+      answered: true,
+    })
+  }
   render() {
-    const { card, answer, insideConversation } = this.props
+    const { card } = this.props.vocabulary
+    const answered = this.state.answered
     // console.log({card,answer})
-    if (card) {
-      let Type = null
-      return (
-        <div className="flashcard-container" onClick={this.props.submitAnswer}>
+    if (!card) return null;
+    let Type = null
+    return (
+      <div className="vocabularynew-vocabulary-card">
+        <div className="vocabularynew-flashcard-container" onClick={this.show}>
           <div className="flashcard-top">
-            <Prompt card={card}/>
+            {card.from === 'is' && (<div>
+              <span>{clean(card.is)}</span>
+            </div>
+            )}
+            {card.from === 'en' && (
+              <span className="english">{clean(card.en)}</span>
+            )}
           </div>
-          {!answer.answered && (
-            <div className="flashcard-bottom not-answered">
+          <div className="flashcard-bottom">
+            {answered && (
+              <div>
+                {card.from !== 'is' && (<div>
+                  <span>{clean(card.is)}</span>
+                </div>
+                )}
+                {card.from !== 'en' && (
+                  <span className="english">{clean(card.en)}</span>
+                )}
+              </div>
+            )}
+          </div>
+          {!answered ? (
+            <button className="flashcard-bottom not-answered">
               Click to show answer
+            </button>
+          ) : (
+            <div>
+              <button onClick={()=>answer(BAD)}>Bad</button>
+              <button onClick={()=>answer(OK)}>OK</button>
+              <button onClick={()=>answer(PERFECT)}>Perfect</button>
             </div>
           )}
-          {/* {answer.answered && (
-            <div className="flashcard-bottom">
-              {card.from !== 'is' && (<div>
-                <span>{clean(card.icelandic)}</span>
-              </div>
-              )}
-              {card.from !== 'en' && (
-                <span className="english">{clean(card.english)}</span>
-              )}
-            </div>
-          )} */}
         </div>
-      )
-    }
-    return null
+      </div>
+    )
   }
 }
 export default Card

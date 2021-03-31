@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
+@connect(state => ({
+  vocabulary: state.vocabulary,
+}))
 class Progress extends Component {
   render() {
-    const { correctCount, incorrectCount, total, currentIndex } = this.props
-    const remaining = total - (correctCount + incorrectCount)
-    const position = total - currentIndex
+    const { good, ok, bad, remaining } = this.props.vocabulary.status
     return (
-      <div className="progress">
-        <div className="bar">
-          <div className="part good" style={{flex:correctCount}}/>
-          <div className="part bad" style={{flex:incorrectCount}}/>
-          <div className="part remaining" style={{flex:remaining}}/>
-        </div>
+      <div className="vocabularynew-progress">
         <div className="name">
-          <span className="remaining"><b>{position}</b> cards remaining</span>
+          <span className="remaining"><b>{remaining}</b> {remaining===1?'card':'cards'} remaining</span>
+        </div>
+        <div className="bar">
+          <div className="part good" style={{flex:good}}/>
+          <div className="part mediocre" style={{flex:ok}}/>
+          <div className="part bad" style={{flex:bad}}/>
+          <div className="part remaining" style={{flex:remaining}}/>
         </div>
       </div>
     )

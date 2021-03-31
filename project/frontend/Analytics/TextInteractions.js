@@ -38,6 +38,7 @@ const setTouchMode = () => {
   mode = 'touch'
 }
 const send = () => {
+  if(window.developmentMode) return;
   axios.post(`${url}/api/a`, {
     pageName: mw.config.get('wgPageName'),
     seen,

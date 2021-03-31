@@ -4,8 +4,7 @@ import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 import error from 'App/Error'
 import { isBrowser } from 'project/frontend/App/functions/isBrowser'
-import hash from 'project/frontend/App/functions/hash'
-
+import GameContainer from './GameContainer'
 /*
   Test render container
 */
@@ -22,10 +21,10 @@ const Render = () => {
       </div>
     </Provider>
   )
-  $('#mw-content-text').before('<div id="hehe"></div>')
+  // $('#mw-content-text').before('<div id="hehe"></div>')
   ReactDOM.render(
     element,
-    document.querySelector('#hehe')
+    document.querySelector('#mw-content-text')
   )
 }
 

@@ -14,6 +14,7 @@ require('./Element')
 
 const send = () => {
   if (mw.config.get('wgUserGroups').includes('sysop') || mw.config.get('wgUserGroups').includes('editor')) return;
+  if(window.developmentMode) return;
   axios.post(`${url}/api/a`, {
     pageName: mw.config.get('wgPageName'),
   })

@@ -1,11 +1,18 @@
-import test from './TestData'
 import React, { Component } from 'react';
+import { load } from './actions'
+import Card from './Card'
+import Progress from './Progress'
 
 class GameContainer extends Component {
+  componentDidMount() {
+    load()
+  }
   render() {
     return (
       <div>
-        <Card/>
+        <div className="vocabularynew-card-outer-container">
+          <Card/>
+        </div>
         <Progress/>
       </div>
     )

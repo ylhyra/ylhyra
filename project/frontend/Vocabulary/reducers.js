@@ -1,24 +1,35 @@
 import { combineReducers } from 'redux'
 
-const cards = (state = {}, action) => {
+const card = (state = {
+  counter: 0,
+}, action) => {
   switch (action.type) {
-    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
+    case 'LOAD_CARD':
+      return {
+        ...action.content,
+        counter: state.counter + 1
+      }
+    default:
+      return state
+  }
+}
+
+const status = (state = {
+  good: 0,
+  ok: 0,
+  bad: 0,
+  total: 30,
+}, action) => {
+  switch (action.type) {
+    case 'asdf':
       return action.data || state
       // return flattenData(action.data)
     default:
       return state
   }
 }
-const status = (state = {}, action) => {
-  switch (action.type) {
-    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
-      return action.data || state
-      // return flattenData(action.data)
-    default:
-      return state
-  }
-}
+
 export const vocabulary = combineReducers({
-  cards,
+  card,
   status,
 })
