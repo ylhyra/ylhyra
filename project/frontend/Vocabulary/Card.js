@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import clean from 'Render/Elements/Vocabulary/functions/clean'
 import { answer, BAD, OK, PERFECT } from './actions'
+import store from 'App/store'
 
 @connect(state => ({
   vocabulary: state.vocabulary,
@@ -16,27 +17,28 @@ class Card extends Component {
     window.removeEventListener('keydown', this.checkKey);
   }
   checkKey = (e) => {
+    const { answered } = this.props.vocabulary.card
     if (e.keyCode === 32 /* Space */ ) {
-      if (this.state.answered) {
+      if (answered) {
         answer(OK)
       } else {
         this.show()
       }
       e.preventDefault()
     } else if (e.keyCode === 49 /* One */ ) {
-      if (this.state.answered) {
+      if (answered) {
         answer(BAD)
       } else {
         this.show()
       }
     } else if (e.keyCode === 50 /* Two */ ) {
-      if (this.state.answered) {
+      if (answered) {
         answer(OK)
       } else {
         this.show()
       }
     } else if (e.keyCode === 51 /* Three */ ) {
-      if (this.state.answered) {
+      if (answered) {
         answer(PERFECT)
       } else {
         this.show()
@@ -63,14 +65,14 @@ class Card extends Component {
   //   }
   // }
   show = () => {
-    if (this.state.answered) return;
-    this.setState({
-      answered: true,
+    if (this.props.vocabulary.card.answered) return;
+    store.dispatch({
+      type: 'ANSWER_CARD',
     })
   }
   render() {
     const { card } = this.props.vocabulary
-    const answered = this.state.answered
+    const answered = card.answered
     // console.log({card,answer})
     if (!card) return null;
     let Type = null

@@ -1,13 +1,16 @@
 import { combineReducers } from 'redux'
 
-const card = (state = {
-  counter: 0,
-}, action) => {
+const card = (state = {}, action) => {
   switch (action.type) {
     case 'LOAD_CARD':
       return {
         ...action.content,
-        counter: state.counter + 1
+        answered: false,
+      }
+    case 'ANSWER_CARD':
+      return {
+        ...state,
+        answered: true,
       }
     default:
       return state

@@ -1,4 +1,5 @@
-export default [
+import _hash from 'project/frontend/App/functions/hash'
+const data = [
   { is: `heima`, en: `at home` },
   { is: `að búa`, en: `to live somewhere, to reside` },
   { is: `ég bý`, en: `I live somewhere, I reside` },
@@ -33,3 +34,12 @@ export default [
   { is: `heimsókn`, en: `a visit` },
   { is: `allt í lagi`, en: `all okay` },
 ]
+
+let cards_data = []
+data.forEach(({ is, en }) => {
+  const hash = _hash(is.trim())
+  cards_data.push({ is, en, from: 'is', belongs_to: hash, id: hash + '_is' })
+  cards_data.push({ is, en, from: 'en', belongs_to: hash, id: hash + '_en' })
+})
+
+export default cards_data
