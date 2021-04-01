@@ -10,7 +10,7 @@ import GameContainer from './GameContainer'
 */
 const Render = () => {
   if (!isBrowser) return;
-  if (mw && mw.config.get('wgPageName') !== 'User:Egill/test2') return;
+  if (typeof mw !== 'undefined' && mw.config.get('wgPageName') !== 'User:Egill/test2') return;
 
   const element = (
     <Provider store={store}>

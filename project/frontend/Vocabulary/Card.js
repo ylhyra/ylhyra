@@ -76,29 +76,17 @@ class Card extends Component {
     // console.log({card,answer})
     if (!card) return null;
     let Type = null
+    const is = <div className="icelandic">{clean(card.is)}</div>
+    const en = <div className="english">{clean(card.en)}</div>
     return (
       <div className="vocabularynew-vocabulary-card" key={card.id}>
         <div className="vocabularynew-flashcard-container" onClick={this.show}>
           <div className="flashcard-top">
-            {card.from === 'is' && (<div>
-              <span>{clean(card.is)}</span>
-            </div>
-            )}
-            {card.from === 'en' && (
-              <span className="english">{clean(card.en)}</span>
-            )}
+            {card.from === 'is' ? is : en}
           </div>
           <div className="flashcard-bottom">
             {answered && (
-              <div>
-                {card.from !== 'is' && (<div>
-                  <span>{clean(card.is)}</span>
-                </div>
-                )}
-                {card.from !== 'en' && (
-                  <span className="english">{clean(card.en)}</span>
-                )}
-              </div>
+              card.from !== 'is' ? is : en
             )}
           </div>
           {!answered ? (
