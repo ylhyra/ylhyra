@@ -16,10 +16,33 @@ class Card extends Component {
     window.removeEventListener('keydown', this.checkKey);
   }
   checkKey = (e) => {
-    // Escape
-    if (e.keyCode === 27) {
-      // this.props.clearSelection()
+    if (e.keyCode === 32 /* Space */ ) {
+      if (this.state.answered) {
+        answer(OK)
+      } else {
+        this.show()
+      }
+      e.preventDefault()
+    } else if (e.keyCode === 49 /* One */ ) {
+      if (this.state.answered) {
+        answer(BAD)
+      } else {
+        this.show()
+      }
+    } else if (e.keyCode === 50 /* Two */ ) {
+      if (this.state.answered) {
+        answer(OK)
+      } else {
+        this.show()
+      }
+    } else if (e.keyCode === 51 /* Three */ ) {
+      if (this.state.answered) {
+        answer(PERFECT)
+      } else {
+        this.show()
+      }
     }
+    // console.log(e.keyCode)
   }
   // componentDidMount() {
   //   this.sound()
@@ -52,7 +75,7 @@ class Card extends Component {
     if (!card) return null;
     let Type = null
     return (
-      <div className="vocabularynew-vocabulary-card">
+      <div className="vocabularynew-vocabulary-card" key={card.id}>
         <div className="vocabularynew-flashcard-container" onClick={this.show}>
           <div className="flashcard-top">
             {card.from === 'is' && (<div>
