@@ -6,7 +6,8 @@ import { connect } from 'react-redux'
 }))
 class Progress extends Component {
   render() {
-    const { good, ok, bad, remaining } = this.props.vocabulary.status
+    const { good, ok, bad, total } = this.props.vocabulary.status
+    const remaining = total - good - ok - bad
     return (
       <div className="vocabularynew-progress">
         <div className="name">

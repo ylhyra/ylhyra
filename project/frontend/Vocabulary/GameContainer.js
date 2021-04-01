@@ -24,10 +24,10 @@ export default GameContainer
 
 const Table = () => {
   return <table>
-    <tbody>
+    {/* <tbody>
       {test.map(({ is, en }) => (
         <tr><td><b>{is}</b></td><td>{en}</td></tr>
       ))}
-    </tbody>
+    </tbody> */}
   </table>
 }

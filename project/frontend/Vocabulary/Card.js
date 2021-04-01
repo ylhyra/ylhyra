@@ -8,6 +8,19 @@ import { answer, BAD, OK, PERFECT } from './actions'
 }))
 class Card extends Component {
   state = {}
+
+  UNSAFE_componentWillMount() {
+    window.addEventListener('keydown', this.checkKey);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.checkKey);
+  }
+  checkKey = (e) => {
+    // Escape
+    if (e.keyCode === 27) {
+      // this.props.clearSelection()
+    }
+  }
   // componentDidMount() {
   //   this.sound()
   // }
