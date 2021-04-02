@@ -5,8 +5,11 @@ export const OK = 2
 export const PERFECT = 3
 
 class Card {
-  constructor(data) {
-    this.data = data
+  constructor(data, _deck) {
+    Object.assign(this, data)
+    this.rating = this.rating || OK
+    this.ratingHistory = this.ratingHistory || []
+    this.deck = _deck
   }
   get() {
     return this.data
@@ -16,21 +19,32 @@ class Card {
   }
   rate(rating) {
     this.rating = rating
+    this.lastSeen = this.deck.counter
+  }
+  getRating() {
+    // const ticksSinceSeen = this.deck.counter - this.lastSeen
+    const ticksSinceSeen = this.deck.counter - this.deck.lastSeenBelongsTo[this.belongs_to]
+    if (ticksSinceSeen < 4) {
+      return 100;
+    }
+    return this.rating
   }
 }
 
 class Deck {
   constructor(cards) {
-    this.currentId = null
+    this.currentCard = null
     this.history = []
     this.counter = 0
     this.cards = {}
+    this.lastSeenBelongsTo = {}
     // let id_to_card = {}
     // cards_input.forEach(card => {
     //   id_to_card[card.id] = card
     // })
-    this.cards = cards.map(card => Card(card))
-
+    const _deck = this
+    this.cards = cards.map(card => new Card(card, _deck))
+    this.next()
     // /* New cards must be studied in the correct order */
     // this.newCards = this.cards.filter(card => card.isNew())
     //
@@ -38,13 +52,20 @@ class Deck {
     // this.intensiveStudy = []
   }
   getCard() {
-    return this.cards[this.counter]
+    return this.currentCard
   }
-  // rateCard(rating) {
-  //   this.currentCard.rate(rating)
-  // }
+  rateCard(rating) {
+    this.currentCard.rate(rating, this.counter)
+  }
   next() {
+    this.currentCard = this.cards.sort((a, b) => a.getRating() - b.getRating())[0]
     this.counter++;
+    this.lastSeenBelongsTo[this.currentCard.belongs_to] = this.counter
+    // console.log(this.currentCard)
+    console.log(JSON.stringify(this.cards
+      .sort((a, b) => a.getRating() - b.getRating())
+      .map(i => ({ en:i.en, is:i.is, from:i.from, rating:i.getRating() })
+    ),null,2))
   }
 }
 
@@ -62,7 +83,7 @@ export const load = () => {
 }
 
 export const answer = (rating) => {
-  deck.getCard().rate(rating)
+  deck.rateCard(rating)
   deck.next()
   load()
 }
