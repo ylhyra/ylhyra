@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 class Progress extends Component {
   render() {
     const { good, ok, bad, total } = this.props.vocabulary.status
+    if(!total) return null;
     const remaining = total - good - ok - bad
     return (
       <div className="vocabularynew-progress">
@@ -14,8 +15,8 @@ class Progress extends Component {
           <span className="remaining"><b>{remaining}</b> {remaining===1?'card':'cards'} remaining</span>
         </div>
         <div className="bar">
-          <div className="part good" style={{flex:good}}/>
-          <div className="part mediocre" style={{flex:ok}}/>
+          <div className="part mediocre" style={{flex:good}}/>
+          <div className="part good" style={{flex:ok}}/>
           <div className="part bad" style={{flex:bad}}/>
           <div className="part remaining" style={{flex:remaining}}/>
         </div>

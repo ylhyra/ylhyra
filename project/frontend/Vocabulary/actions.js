@@ -1,8 +1,10 @@
 import store from 'App/store'
 import cards_data from './TestData'
+
 export const BAD = 1
 export const OK = 2
 export const PERFECT = 3
+
 
 class Card {
   constructor(data, _deck) {
@@ -27,7 +29,14 @@ class Card {
     if (ticksSinceSeen < 4) {
       return 100;
     }
+    if(this.done) {
+      return 30
+    }
     return this.rating
+  }
+  getStatus() {
+    if (!this.lastSeen) return null;
+    return BAD
   }
 }
 
@@ -62,10 +71,19 @@ class Deck {
     this.counter++;
     this.lastSeenBelongsTo[this.currentCard.belongs_to] = this.counter
     // console.log(this.currentCard)
-    console.log(JSON.stringify(this.cards
+    console.log(this.cards
       .sort((a, b) => a.getRating() - b.getRating())
-      .map(i => ({ en:i.en, is:i.is, from:i.from, rating:i.getRating() })
-    ),null,2))
+      .map(i => `${i.getRating()}\t${i.from==='is'?i.is:i.en}`)
+      .join('\n')
+    )
+  }
+  getStatus() {
+    return {
+      bad: this.cards.filter(card => card.getStatus() === BAD).length,
+      ok: this.cards.filter(card => card.getStatus() === OK).length,
+      good: this.cards.filter(card => card.getStatus() === PERFECT).length,
+      total: 30,
+    }
   }
 }
 
@@ -78,6 +96,7 @@ export const load = () => {
     content: {
       ...deck.getCard(),
       counter: deck.counter,
+      status: deck.getStatus(),
     }
   })
 }

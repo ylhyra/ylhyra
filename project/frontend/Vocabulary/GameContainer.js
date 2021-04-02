@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { load } from './actions'
 import Card from './Card'
 import Progress from './Progress'
+import { connect } from 'react-redux';
 
 class GameContainer extends Component {
   componentDidMount() {
@@ -14,11 +15,33 @@ class GameContainer extends Component {
           <Card/>
         </div>
         <Progress/>
+
+        {/* <TempStatus/> */}
       </div>
     )
   }
 }
 export default GameContainer
+
+
+
+// @connect(state => ({
+//   vocabulary: state.vocabulary,
+// }))
+// class TempStatus extends Component {
+//   render() {
+//     return (
+//       <div>
+//         <div className="vocabularynew-card-outer-container">
+//           <Card/>
+//         </div>
+//         <Progress/>
+//
+//         <TempStatus/>
+//       </div>
+//     )
+//   }
+// }
 
 
 

@@ -17,15 +17,10 @@ const card = (state = {}, action) => {
   }
 }
 
-const status = (state = {
-  good: 0,
-  ok: 0,
-  bad: 0,
-  total: 30,
-}, action) => {
+const status = (state = {}, action) => {
   switch (action.type) {
-    case 'asdf':
-      return action.data || state
+    case 'LOAD_CARD':
+      return action.content.status || state
       // return flattenData(action.data)
     default:
       return state
