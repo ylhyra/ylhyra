@@ -5,54 +5,67 @@ export const BAD = 1
 export const OK = 2
 export const PERFECT = 3
 
+let counter = 0
+let lastSeenBelongsTo = {}
+let currentCard = null
 
+/*
+
+  status - Status of card in the current study session, shown in progress bar
+*/
 class Card {
-  constructor(data, _deck) {
+  constructor(data) {
     Object.assign(this, data)
-    this.rating = this.rating || OK
-    this.ratingHistory = this.ratingHistory || []
-    this.deck = _deck
+    this.rating = null
+    this.ratingHistoryForSession = []
   }
   get() {
     return this.data
   }
-  isNew() {
-    return true // temp
-  }
   rate(rating) {
-    this.rating = rating
-    this.lastSeen = this.deck.counter
+    this.ratingHistoryForSession.unshift(rating)
+    this.lastSeen = counter
+
+    this.status = rating
+    this.rating = average(this.ratingHistoryForSession.slice(0, 2))
+
+    let next;
+    if (rating === BAD) {
+      next = 3
+    } else if (rating === OK) {
+      next = 8
+    } else if (rating === PERFECT) {
+      next = 16
+    }
+    this.nextShow = counter + next
+    // if(this.ratingHistoryForSession.slice(0, 2))
   }
-  getRating() {
-    // const ticksSinceSeen = this.deck.counter - this.lastSeen
-    const ticksSinceSeen = this.deck.counter - this.deck.lastSeenBelongsTo[this.belongs_to]
+  getRanking() {
+    let ranking = this.rating || OK
+    const ticksSinceSeen = counter - lastSeenBelongsTo[this.belongs_to]
     if (ticksSinceSeen < 4) {
-      return 100;
+      return ranking + 100;
     }
-    if(this.done) {
-      return 30
+    if (this.done) {
+      return ranking + 30
     }
-    return this.rating
+    return ranking
   }
   getStatus() {
     if (!this.lastSeen) return null;
-    return BAD
+    return this.status
   }
 }
 
 class Deck {
   constructor(cards) {
-    this.currentCard = null
     this.history = []
-    this.counter = 0
     this.cards = {}
-    this.lastSeenBelongsTo = {}
     // let id_to_card = {}
     // cards_input.forEach(card => {
     //   id_to_card[card.id] = card
     // })
-    const _deck = this
-    this.cards = cards.map(card => new Card(card, _deck))
+    this.cards = cards.map(card => new Card(card))
     this.next()
     // /* New cards must be studied in the correct order */
     // this.newCards = this.cards.filter(card => card.isNew())
@@ -61,19 +74,19 @@ class Deck {
     // this.intensiveStudy = []
   }
   getCard() {
-    return this.currentCard
+    return currentCard
   }
   rateCard(rating) {
-    this.currentCard.rate(rating, this.counter)
+    currentCard.rate(rating, counter)
   }
   next() {
-    this.currentCard = this.cards.sort((a, b) => a.getRating() - b.getRating())[0]
-    this.counter++;
-    this.lastSeenBelongsTo[this.currentCard.belongs_to] = this.counter
-    // console.log(this.currentCard)
+    currentCard = this.cards.sort((a, b) => a.getRanking() - b.getRanking())[0]
+    counter++;
+    lastSeenBelongsTo[currentCard.belongs_to] = counter
+    // console.log(currentCard)
     console.log(this.cards
-      .sort((a, b) => a.getRating() - b.getRating())
-      .map(i => `${i.getRating()}\t${i.from==='is'?i.is:i.en}`)
+      .sort((a, b) => a.rating - b.rating)
+      .map(i => `${i.rating}\t${i.from==='is'?i.is:i.en}`)
       .join('\n')
     )
   }
@@ -82,7 +95,7 @@ class Deck {
       bad: this.cards.filter(card => card.getStatus() === BAD).length,
       ok: this.cards.filter(card => card.getStatus() === OK).length,
       good: this.cards.filter(card => card.getStatus() === PERFECT).length,
-      total: 30,
+      total: this.cards.filter(card => card.done).length,
     }
   }
 }
@@ -113,3 +126,9 @@ export const answer = (rating) => {
 //     content: test_data[1]
 //   })
 // }
+
+
+const average = (arr) => {
+  if (arr.length === 0) return 0;
+  return arr.reduce((a, b) => a + b, 0) / arr.length
+}
