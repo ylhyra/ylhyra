@@ -5,28 +5,24 @@ export const BAD = 1
 export const OK = 2
 export const PERFECT = 3
 
-let numberOfCardsSeen = 0
-let positionInQueue = 0
+let counter = 0
+let queueCounter = 0
 let lastSeenBelongsTo = {}
 let currentCard = null
 
-/*
-
-  status - Status of card in the current study session, shown in progress bar
-*/
 class Card {
   constructor(data, index) {
     Object.assign(this, data)
     this.rating = null
     this.ratingHistoryForSession = []
-    this.nextShow = index + numberOfCardsSeen
+    this.queuePosition = index + counter
   }
   get() {
     return this.data
   }
   rate(rating) {
     this.ratingHistoryForSession.unshift(rating)
-    this.lastSeen = numberOfCardsSeen
+    this.lastSeen = counter
 
     this.status = rating
     this.rating = average(this.ratingHistoryForSession.slice(0, 2))
@@ -39,15 +35,17 @@ class Card {
     } else if (rating === PERFECT) {
       next = 16
     }
-    this.nextShow = numberOfCardsSeen + next
+    this.queuePosition = counter + next
     // if(this.ratingHistoryForSession.slice(0, 2))
+    //
+    // if(this.ratingHistoryForSession.slice(0,5).some(i=>i===BAD)
   }
-  getRawRanking(){
-    return this.nextShow - positionInQueue
+  getRawRanking() {
+    return this.queuePosition - queueCounter
   }
   getRanking() {
     let ranking = this.getRawRanking()
-    const ticksSinceSeen = positionInQueue - lastSeenBelongsTo[this.belongs_to]
+    const ticksSinceSeen = counter - lastSeenBelongsTo[this.belongs_to]
     if (ticksSinceSeen < 4) {
       return ranking + 100;
     }
@@ -85,20 +83,24 @@ class Deck {
     currentCard.rate(rating)
   }
   next() {
-    const ranked = this.cards.sort((a, b) => a.getRanking() - b.getRanking())
-    console.log(this.cards.sort((a, b) => a.getRawRanking() - b.getRawRanking())
-      .map(i => `${i.getRawRanking()}\t${i.getRanking()}\t${i.from==='is'?i.is:i.en}`)
+    const ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
+    console.log(this.cards.slice().sort((a, b) => a.getRawRanking() - b.getRawRanking())
+      .map(i => `${i.getRawRanking()}\t${i.getRanking()}\t${i.status}\t${i.from==='is'?i.is:i.en}`)
       .join('\n')
     )
-    console.log(ranked.slice(0,4))
+    // console.log(this.cards.sort((a, b) => a.getRanking() - b.getRanking())
+    //   .map(i => `${i.getRawRanking()}\t${i.getRanking()}\t${i.from==='is'?i.is:i.en}`)
+    //   .join('\n')
+    // )
+    // console.log(ranked.slice(0,4))
     currentCard = ranked[0]
-    numberOfCardsSeen++;
+    counter++;
     let shouldIncreaseAdjustedCounter = this.cards.filter(i => i.getRawRanking() < 5).length < 5
-    console.log({ shouldIncreaseAdjustedCounter })
+    // console.log({ shouldIncreaseAdjustedCounter })
     if (shouldIncreaseAdjustedCounter) {
-      positionInQueue++;
+      queueCounter++;
     }
-    lastSeenBelongsTo[currentCard.belongs_to] = numberOfCardsSeen
+    lastSeenBelongsTo[currentCard.belongs_to] = counter
     // console.log(currentCard)
   }
   getStatus() {
@@ -119,7 +121,7 @@ export const load = () => {
     type: 'LOAD_CARD',
     content: {
       ...deck.getCard(),
-      numberOfCardsSeen: deck.numberOfCardsSeen,
+      counter: deck.counter,
       status: deck.getStatus(),
     }
   })
