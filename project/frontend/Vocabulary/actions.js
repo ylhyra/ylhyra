@@ -1,9 +1,9 @@
 import store from 'App/store'
 import cards_data from './TestData'
 
-export const BAD = 1
-export const OK = 2
-export const PERFECT = 3
+export const BAD = 0.1
+export const OK = 0.5
+export const PERFECT = 1
 
 let counter = 0
 let queueCounter = 0
@@ -13,44 +13,68 @@ let currentCard = null
 class Card {
   constructor(data, index) {
     Object.assign(this, data)
-    this.score = null
-    this.ratingHistoryForSession = []
+
+    /*  */
+    this.progress = 0
+    this.easiness = 0
+    this.history = []
+    this.goodRepetitions = 0
     this.queuePosition = index + counter
   }
   rate(rating) {
-    this.ratingHistoryForSession.unshift(rating)
+    this.history.unshift(rating)
     this.lastSeen = counter
 
     /* Score */
-    this.score = average(this.ratingHistoryForSession.slice(0, 2))
+    const lastTwoAverage = average(this.history.slice(0, 2))
+
+    /* Derived from SuperMemo2 */
+    this.easiness = this.easiness + 0.1 - (PERFECT - rating) * (0.08 + (PERFECT - rating) * 0.02)
 
     /* Schedule */
-    let next;
+    let interval;
     if (rating === BAD) {
-      next = 3
+      interval = 3
+      this.done = false
+      /* User is getting annoyed */
+      if (this.history.length > 4 && average(this.history.slice(0, 4) < 0.3)) {
+        interval = 10
+      }
     } else if (rating === OK) {
-      next = 8
+      interval = 8
+      if (this.history[1] >= OK) {
+        interval = 28
+        this.done = true
+      }
     } else if (rating === PERFECT) {
-      next = 16
+      interval = 16
+      if (this.history[1] >= OK) {
+        interval = 100
+        this.done = true
+      }
     }
-    this.queuePosition = queueCounter + next
-    // if(this.ratingHistoryForSession.slice(0, 2))
+    if (rating !== BAD) {
+      this.goodRepetitions++
+    }
+    this.queuePosition = queueCounter + interval
+    this.lastInterval = interval
+    // if(this.history.slice(0, 2))
     //
-    // if(this.ratingHistoryForSession.slice(0,5).some(i=>i===BAD)
+    // if(this.history.slice(0,5).some(i=>i===BAD)
   }
-  getRawRanking() {
+  getQueuePosition() {
     return this.queuePosition - queueCounter
   }
   getRanking() {
-    let ranking = this.getRawRanking()
+    let q = this.getQueuePosition() + this.easiness
     const ticksSinceSeen = counter - lastSeenBelongsTo[this.belongs_to]
     if (ticksSinceSeen <= 3) {
-      return ranking + 100;
+      return q + 100;
     }
     if (this.done) {
-      return ranking + 30
+      return q + 30
     }
-    return ranking
+    return q
   }
   getStatus() {
     if (!this.lastSeen) return null;
@@ -79,18 +103,18 @@ class Deck {
   }
   next() {
     const ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
-    console.log(this.cards.slice().sort((a, b) => a.getRawRanking() - b.getRawRanking())
-      .map(i => `${i.getRawRanking()}\t${i.getRanking()}\t${i.score||0}\t${i.from==='is'?i.is:i.en}`)
+    console.log(this.cards.slice().sort((a, b) => a.getQueuePosition() - b.getQueuePosition())
+      .map(i => `${i.getQueuePosition()}\t${i.getRanking()}\te: ${i.easiness||0}\t${i.from==='is'?i.is:i.en}`)
       .join('\n')
     )
     // console.log(this.cards.sort((a, b) => a.getRanking() - b.getRanking())
-    //   .map(i => `${i.getRawRanking()}\t${i.getRanking()}\t${i.from==='is'?i.is:i.en}`)
+    //   .map(i => `${i.getQueuePosition()}\t${i.getRanking()}\t${i.from==='is'?i.is:i.en}`)
     //   .join('\n')
     // )
     // console.log(ranked.slice(0,4))
     currentCard = ranked[0]
     counter++;
-    let shouldIncreaseAdjustedCounter = this.cards.filter(i => i.getRawRanking() < 5).length < 5
+    let shouldIncreaseAdjustedCounter = this.cards.filter(i => i.getQueuePosition() < 5).length < 5
     // console.log({ shouldIncreaseAdjustedCounter })
     if (shouldIncreaseAdjustedCounter) {
       queueCounter++;
