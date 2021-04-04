@@ -13,20 +13,18 @@ let currentCard = null
 class Card {
   constructor(data, index) {
     Object.assign(this, data)
-    this.rating = null
+    this.score = null
     this.ratingHistoryForSession = []
     this.queuePosition = index + counter
-  }
-  get() {
-    return this.data
   }
   rate(rating) {
     this.ratingHistoryForSession.unshift(rating)
     this.lastSeen = counter
 
-    this.status = rating
-    this.rating = average(this.ratingHistoryForSession.slice(0, 2))
+    /* Score */
+    this.score = average(this.ratingHistoryForSession.slice(0, 2))
 
+    /* Schedule */
     let next;
     if (rating === BAD) {
       next = 3
@@ -35,7 +33,7 @@ class Card {
     } else if (rating === PERFECT) {
       next = 16
     }
-    this.queuePosition = counter + next
+    this.queuePosition = queueCounter + next
     // if(this.ratingHistoryForSession.slice(0, 2))
     //
     // if(this.ratingHistoryForSession.slice(0,5).some(i=>i===BAD)
@@ -46,7 +44,7 @@ class Card {
   getRanking() {
     let ranking = this.getRawRanking()
     const ticksSinceSeen = counter - lastSeenBelongsTo[this.belongs_to]
-    if (ticksSinceSeen < 4) {
+    if (ticksSinceSeen <= 3) {
       return ranking + 100;
     }
     if (this.done) {
@@ -79,13 +77,10 @@ class Deck {
   getCard() {
     return currentCard
   }
-  rateCard(rating) {
-    currentCard.rate(rating)
-  }
   next() {
     const ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
     console.log(this.cards.slice().sort((a, b) => a.getRawRanking() - b.getRawRanking())
-      .map(i => `${i.getRawRanking()}\t${i.getRanking()}\t${i.status}\t${i.from==='is'?i.is:i.en}`)
+      .map(i => `${i.getRawRanking()}\t${i.getRanking()}\t${i.score||0}\t${i.from==='is'?i.is:i.en}`)
       .join('\n')
     )
     // console.log(this.cards.sort((a, b) => a.getRanking() - b.getRanking())
@@ -128,7 +123,7 @@ export const load = () => {
 }
 
 export const answer = (rating) => {
-  deck.rateCard(rating)
+  currentCard.rate(rating)
   deck.next()
   load()
 }
