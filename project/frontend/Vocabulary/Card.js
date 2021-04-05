@@ -74,20 +74,21 @@ class Card extends Component {
     const { card } = this.props.vocabulary
     const answered = card.answered
     // console.log({card,answer})
-    if (!card) return null;
+    if (!card || !card.is) return null;
     let Type = null
-    const is = <div className="icelandic">{clean(card.is)}</div>
-    const en = <div className="english">{clean(card.en)}</div>
+    const is = clean(card.is)
+    const en = clean(card.en)
+    const hint = hide(card.from !== 'is' ? card.is : card.en)
     return (
       <div className="vocabularynew-vocabulary-card" key={card.id}>
         <div className="vocabularynew-flashcard-container" onClick={this.show}>
-          <div className="flashcard-top">
+          <div className={`flashcard-top ${card.from === 'is' ? 'icelandic' : 'english'}`}>
             {card.from === 'is' ? is : en}
           </div>
-          <div className="flashcard-bottom">
-            {answered && (
+          <div className={`flashcard-bottom ${card.from !== 'is' ? 'icelandic' : 'english'}`}>
+            {answered ? (
               card.from !== 'is' ? is : en
-            )}
+            ) : hint}
           </div>
           {!answered ? (
             <button className="flashcard-bottom not-answered">
@@ -106,3 +107,20 @@ class Card extends Component {
   }
 }
 export default Card
+
+
+const hide = (input) => {
+  if (!input) return null
+  const output = input.split(/([,; ])/g).map(i => {
+    if (i.match(/[,; ]/)) return i;
+    let hintsToShow = Math.min(Math.ceil(Math.random() * 3), i.length - 2)
+    // if(i.length <= 2) hintsToShow = 0;
+    return i.split('').map((j, index) => {
+      if (index >= hintsToShow) return `<span class="occulted"><span>${j}</span></span>`;
+      return j;
+    }).join('')
+  }).join('')
+
+  //.replace(/\(/g, '<span className="parentheses">(').replace(/\)/g, ')</span>')
+  return (<span dangerouslySetInnerHTML={{__html: output}}/>)
+}

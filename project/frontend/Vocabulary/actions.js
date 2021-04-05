@@ -1,9 +1,12 @@
 import store from 'App/store'
 import cards_data from './TestData'
 
-export const BAD = 0.1
-export const OK = 0.5
-export const PERFECT = 1
+export const BAD = 1
+export const OK = 2
+export const PERFECT = 3
+
+const MIN_E_FACTOR = 1.2
+const DEFAULT_E_FACTOR = 2.5
 
 let counter = 0
 let queueCounter = 0
@@ -16,7 +19,7 @@ class Card {
 
     /*  */
     this.progress = 0
-    this.easiness = 0
+    this.easiness = DEFAULT_E_FACTOR
     this.history = []
     this.goodRepetitions = 0
     this.queuePosition = index + counter
@@ -27,9 +30,15 @@ class Card {
 
     /* Score */
     const lastTwoAverage = average(this.history.slice(0, 2))
+    this.score = Math.floor(lastTwoAverage)
 
-    /* Derived from SuperMemo2 */
-    this.easiness = this.easiness + 0.1 - (PERFECT - rating) * (0.08 + (PERFECT - rating) * 0.02)
+    if (rating !== BAD) {
+      this.goodRepetitions++
+      /* Derived from SuperMemo2 */
+      const diff = 2 - rating
+      this.easiness = Math.max(MIN_E_FACTOR, this.easiness + 0.1 - diff * (0.08 + diff * 0.02))
+    }
+
 
     /* Schedule */
     let interval;
@@ -38,7 +47,7 @@ class Card {
       this.done = false
       /* User is getting annoyed */
       if (this.history.length > 4 && average(this.history.slice(0, 4) < 0.3)) {
-        interval = 10
+        interval = 30
       }
     } else if (rating === OK) {
       interval = 8
@@ -49,18 +58,17 @@ class Card {
     } else if (rating === PERFECT) {
       interval = 16
       if (this.history[1] >= OK) {
-        interval = 100
+        interval = deck.cards.length + 100
         this.done = true
       }
-    }
-    if (rating !== BAD) {
-      this.goodRepetitions++
     }
     this.queuePosition = queueCounter + interval
     this.lastInterval = interval
     // if(this.history.slice(0, 2))
     //
     // if(this.history.slice(0,5).some(i=>i===BAD)
+    //
+    this.status = Math.round(lastTwoAverage)
   }
   getQueuePosition() {
     return this.queuePosition - queueCounter
@@ -115,7 +123,6 @@ class Deck {
     currentCard = ranked[0]
     counter++;
     let shouldIncreaseAdjustedCounter = this.cards.filter(i => i.getQueuePosition() < 5).length < 5
-    // console.log({ shouldIncreaseAdjustedCounter })
     if (shouldIncreaseAdjustedCounter) {
       queueCounter++;
     }
@@ -163,4 +170,8 @@ export const answer = (rating) => {
 const average = (arr) => {
   if (arr.length === 0) return 0;
   return arr.reduce((a, b) => a + b, 0) / arr.length
+}
+
+const clamp = function (input, min, max) {
+  return Math.min(Math.max(input, min), max);
 }
