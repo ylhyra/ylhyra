@@ -40,9 +40,9 @@ const data = [
   { is: `erfaring`, en: `reynsla, lífsreynsla` },
   { is: `betryggende`, en: `tilhraustandi` },
   { is: `erhvervsliv`, en: `einkageirinn, atvinnulíf` },
-  { is: `blot`, en: `bara, aðeins` },
-  { is: `bolig`, en: `híbýli` },
-  { is: `foretage`, en: `aðhafast` },
+  // { is: `blot`, en: `bara, aðeins` },
+  // { is: `bolig`, en: `híbýli` },
+  // { is: `foretage`, en: `aðhafast` },
 ]
 
 let cards_data = []

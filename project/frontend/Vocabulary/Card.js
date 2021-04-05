@@ -12,17 +12,29 @@ class Card extends Component {
 
   UNSAFE_componentWillMount() {
     window.addEventListener('keydown', this.checkKey);
+    window.addEventListener('keyup', this.keyUp);
   }
   componentWillUnmount() {
     window.removeEventListener('keydown', this.checkKey);
+    window.addEventListener('keyup', this.keyUp);
   }
   componentDidUpdate(prevProps) {
     if (this.props.vocabulary.card.id !== prevProps.vocabulary.card.id) {
-      this.answered = false
+      this.setState({
+        answer: null,
+        clickingOnShowButton: null,
+      })
     }
   }
+  keyUp = () => {
+    this.isKeyDown = false
+  }
   checkKey = (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (this.isKeyDown) return;
     const { answered } = this.props.vocabulary.card
+    // console.log(e.keyCode)
+    this.isKeyDown = true
     if (e.keyCode === 32 /* Space */ ) {
       if (answered) {
         this.answer(OK)
@@ -30,33 +42,42 @@ class Card extends Component {
         this.show()
       }
       e.preventDefault()
-    } else if (e.keyCode === 49 /* One */ ) {
+    } else if ([49 /* One */ , 74 /* J */ , 65 /* A */ , 37 /* Left */ ].includes(e.keyCode)) {
       if (answered) {
         this.answer(BAD)
       } else {
         this.show()
       }
-    } else if (e.keyCode === 50 /* Two */ ) {
+      e.preventDefault()
+    } else if ([50 /* Two */ , 75 /* K */ , 83 /* S */ , 40 /* Down */ ].includes(e.keyCode)) {
       if (answered) {
         this.answer(OK)
       } else {
         this.show()
       }
-    } else if (e.keyCode === 51 /* Three */ ) {
+      e.preventDefault()
+    } else if ([51 /* Three */ , 76 /* L */ , 68 /* D */ , 39 /* Right */ ].includes(e.keyCode)) {
       if (answered) {
         this.answer(PERFECT)
       } else {
         this.show()
       }
+      e.preventDefault()
     }
     // console.log(e.keyCode)
   }
-  answer = (i) => {
-    // if (this.answered) return;
-    this.answered = true
-    setTimeout(() => {
+  answer = (i, timeout) => {
+    if (this.state.answer) return;
+    if (timeout === false) {
       answer(i)
-    }, 130)
+    } else {
+      this.setState({
+        answer: i,
+      })
+      setTimeout(() => {
+        answer(i)
+      }, 200)
+    }
   }
   // componentDidMount() {
   //   this.sound()
@@ -76,11 +97,22 @@ class Card extends Component {
   //     }
   //   }
   // }
-  show = () => {
+  show = (timeout) => {
     if (this.props.vocabulary.card.answered) return;
-    store.dispatch({
-      type: 'ANSWER_CARD',
-    })
+    if (timeout === false) {
+      store.dispatch({
+        type: 'ANSWER_CARD',
+      })
+    } else {
+      this.setState({
+        clickingOnShowButton: true,
+      })
+      setTimeout(() => {
+        store.dispatch({
+          type: 'ANSWER_CARD',
+        })
+      }, 200)
+    }
   }
   render() {
     const { card } = this.props.vocabulary
@@ -93,7 +125,7 @@ class Card extends Component {
     const hint = hide(card.from !== 'is' ? card.is : card.en)
     return (
       <div className="vocabularynew-vocabulary-card" key={card.id}>
-        <div className="vocabularynew-flashcard-container" onClick={this.show}>
+        <div className="vocabularynew-flashcard-container" onClick={()=>this.show(false)}>
           <div className={`flashcard-top ${card.from === 'is' ? 'icelandic' : 'english'}`}>
             {card.from === 'is' ? is : en}
           </div>
@@ -105,14 +137,14 @@ class Card extends Component {
             )}
           </div>
           {!answered ? (
-            <button className="flashcard-bottom not-answered">
+            <button className={`flashcard-bottom not-answered ${this.state.clickingOnShowButton ? 'selected':''}`}>
               Click to show answer
             </button>
           ) : (
             <div>
-              <button onClick={()=>this.answer(BAD)}>Bad</button>
-              <button onClick={()=>this.answer(OK)}>OK</button>
-              <button onClick={()=>this.answer(PERFECT)}>Perfect</button>
+              <button className={this.state.answer === BAD ? 'selected':''} onClick={()=>this.answer(BAD,false)}>Bad</button>
+              <button className={this.state.answer === OK ? 'selected':''} onClick={()=>this.answer(OK,false)}>OK</button>
+              <button className={this.state.answer === PERFECT ? 'selected':''} onClick={()=>this.answer(PERFECT,false)}>Perfect</button>
             </div>
           )}
         </div>
@@ -125,8 +157,8 @@ export default Card
 
 const hide = (input) => {
   if (!input) return null
-  const output = input.split(/([,; ])/g).map(i => {
-    if (i.match(/[,; ]/)) return i;
+  const output = input.split(/([,;/ ])/g).map(i => {
+    if (i.match(/[,;/ ]/)) return i;
     let hintsToShow = Math.min(Math.ceil(Math.random() * 3), i.length - 2)
     // if(i.length <= 2) hintsToShow = 0;
     return i.split('').map((j, index) => {

@@ -37,7 +37,7 @@ class Card {
     }
 
     /* Derived from SuperMemo2 */
-    const diff = 2 - rating
+    const diff = 1.9 - rating
     this.easiness = Math.max(MIN_E_FACTOR, this.easiness + 0.1 - diff * (0.08 + diff * 0.02))
 
     /* Schedule */
@@ -54,6 +54,8 @@ class Card {
       if (this.history[1] >= OK) {
         interval = 28
         this.done = true
+      } else if (this.history[1] === BAD) {
+        interval = 4
       }
     } else if (rating === PERFECT) {
       interval = 16
@@ -66,13 +68,8 @@ class Card {
     }
     this.queuePosition = queueCounter + interval
     this.lastInterval = interval
-    // if(this.history.slice(0, 2))
-    //
-    // if(this.history.slice(0,5).some(i=>i===BAD)
-    //
+
     this.status = Math.round(lastTwoAverage)
-    // console.log('haha')
-    // console.log(this.status)
 
     if (
       this.history.length >= 6 ||
@@ -86,10 +83,18 @@ class Card {
   getQueuePosition() {
     return this.queuePosition - queueCounter
   }
+  getLastSeen() {
+    if(lastSeenBelongsTo[this.belongs_to]){
+      return counter - lastSeenBelongsTo[this.belongs_to]
+    } else {
+      return deck.cards.length
+    }
+  }
   getRanking() {
-    let q = this.getQueuePosition() + this.easiness
-    const ticksSinceSeen = counter - lastSeenBelongsTo[this.belongs_to]
-    if (ticksSinceSeen <= 3) {
+    let q = this.getQueuePosition() +
+      this.easiness * 0.001 +
+      (deck.cards.length - this.getLastSeen()) / deck.cards.length * 0.01
+    if (this.getLastSeen() <= 3) {
       return q + 100;
     }
     if (this.done) {
@@ -198,6 +203,6 @@ const average = (arr = []) => {
   return arr.reduce((a, b) => a + b, 0) / arr.length
 }
 
-const clamp = function(input, min, max) {
+const clamp = function (input, min, max) {
   return Math.min(Math.max(input, min), max);
 }
