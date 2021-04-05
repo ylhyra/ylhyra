@@ -16,35 +16,47 @@ class Card extends Component {
   componentWillUnmount() {
     window.removeEventListener('keydown', this.checkKey);
   }
+  componentDidUpdate(prevProps) {
+    if (this.props.vocabulary.card.id !== prevProps.vocabulary.card.id) {
+      this.answered = false
+    }
+  }
   checkKey = (e) => {
     const { answered } = this.props.vocabulary.card
     if (e.keyCode === 32 /* Space */ ) {
       if (answered) {
-        answer(OK)
+        this.answer(OK)
       } else {
         this.show()
       }
       e.preventDefault()
     } else if (e.keyCode === 49 /* One */ ) {
       if (answered) {
-        answer(BAD)
+        this.answer(BAD)
       } else {
         this.show()
       }
     } else if (e.keyCode === 50 /* Two */ ) {
       if (answered) {
-        answer(OK)
+        this.answer(OK)
       } else {
         this.show()
       }
     } else if (e.keyCode === 51 /* Three */ ) {
       if (answered) {
-        answer(PERFECT)
+        this.answer(PERFECT)
       } else {
         this.show()
       }
     }
     // console.log(e.keyCode)
+  }
+  answer = (i) => {
+    // if (this.answered) return;
+    this.answered = true
+    setTimeout(() => {
+      answer(i)
+    }, 130)
   }
   // componentDidMount() {
   //   this.sound()
@@ -98,9 +110,9 @@ class Card extends Component {
             </button>
           ) : (
             <div>
-              <button onClick={()=>answer(BAD)}>Bad</button>
-              <button onClick={()=>answer(OK)}>OK</button>
-              <button onClick={()=>answer(PERFECT)}>Perfect</button>
+              <button onClick={()=>this.answer(BAD)}>Bad</button>
+              <button onClick={()=>this.answer(OK)}>OK</button>
+              <button onClick={()=>this.answer(PERFECT)}>Perfect</button>
             </div>
           )}
         </div>
