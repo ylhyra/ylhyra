@@ -4,15 +4,19 @@ import Card from './Card'
 import Progress from './Progress'
 import { connect } from 'react-redux';
 
+@connect(state => ({
+  vocabulary: state.vocabulary,
+}))
 class GameContainer extends Component {
   componentDidMount() {
     load()
   }
   render() {
+    const { status } = this.props.vocabulary
     return (
       <div>
         <div className="vocabularynew-card-outer-container">
-          <Card/>
+          {status.deckDone ? 'Done :)' : <Card/>}
         </div>
         <Progress/>
 

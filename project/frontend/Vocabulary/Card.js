@@ -88,7 +88,9 @@ class Card extends Component {
           <div className={`flashcard-bottom ${card.from !== 'is' ? 'icelandic' : 'english'}`}>
             {answered ? (
               card.from !== 'is' ? is : en
-            ) : hint}
+            ) : (
+              card.showHint && hint
+            )}
           </div>
           {!answered ? (
             <button className="flashcard-bottom not-answered">

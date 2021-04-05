@@ -34,11 +34,11 @@ class Card {
 
     if (rating !== BAD) {
       this.goodRepetitions++
-      /* Derived from SuperMemo2 */
-      const diff = 2 - rating
-      this.easiness = Math.max(MIN_E_FACTOR, this.easiness + 0.1 - diff * (0.08 + diff * 0.02))
     }
 
+    /* Derived from SuperMemo2 */
+    const diff = 2 - rating
+    this.easiness = Math.max(MIN_E_FACTOR, this.easiness + 0.1 - diff * (0.08 + diff * 0.02))
 
     /* Schedule */
     let interval;
@@ -46,7 +46,7 @@ class Card {
       interval = 3
       this.done = false
       /* User is getting annoyed */
-      if (this.history.length > 4 && average(this.history.slice(0, 4) < 0.3)) {
+      if (this.history.length > 4 && average(this.history.slice(0, 4)) < 0.3) {
         interval = 30
       }
     } else if (rating === OK) {
@@ -60,6 +60,8 @@ class Card {
       if (this.history[1] >= OK) {
         interval = deck.cards.length + 100
         this.done = true
+      } else if (this.history.length === 1) {
+        interval = deck.cards.length
       }
     }
     this.queuePosition = queueCounter + interval
@@ -69,6 +71,17 @@ class Card {
     // if(this.history.slice(0,5).some(i=>i===BAD)
     //
     this.status = Math.round(lastTwoAverage)
+    // console.log('haha')
+    // console.log(this.status)
+
+    if (
+      this.history.length >= 6 ||
+      this.history.length >= 2 && lastTwoAverage >= OK ||
+      lastTwoAverage === PERFECT) {
+      this.done = true
+    } else {
+      this.done = false
+    }
   }
   getQueuePosition() {
     return this.queuePosition - queueCounter
@@ -87,6 +100,13 @@ class Card {
   getStatus() {
     if (!this.lastSeen) return null;
     return this.status
+  }
+  shouldShowHint() {
+    const lastTwoAverage = average(this.history.slice(0, 2))
+    return !(
+      this.history[0] === PERFECT ||
+      this.history.length >= 2 && lastTwoAverage >= OK
+    )
   }
 }
 
@@ -107,7 +127,10 @@ class Deck {
     // this.intensiveStudy = []
   }
   getCard() {
-    return currentCard
+    return {
+      ...currentCard,
+      showHint: currentCard.shouldShowHint()
+    }
   }
   next() {
     const ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
@@ -134,7 +157,10 @@ class Deck {
       bad: this.cards.filter(card => card.getStatus() === BAD).length,
       ok: this.cards.filter(card => card.getStatus() === OK).length,
       good: this.cards.filter(card => card.getStatus() === PERFECT).length,
-      total: this.cards.filter(card => card.done).length,
+      total: this.cards.length,
+      cardsDone: this.cards.filter(card => card.done).length,
+      deckDone: (this.cards.length - this.cards.filter(card => card.done).length) === 0,
+      // total: this.cards.filter(card => card.done).length,
     }
   }
 }
@@ -167,11 +193,11 @@ export const answer = (rating) => {
 // }
 
 
-const average = (arr) => {
+const average = (arr = []) => {
   if (arr.length === 0) return 0;
   return arr.reduce((a, b) => a + b, 0) / arr.length
 }
 
-const clamp = function (input, min, max) {
+const clamp = function(input, min, max) {
   return Math.min(Math.max(input, min), max);
 }
