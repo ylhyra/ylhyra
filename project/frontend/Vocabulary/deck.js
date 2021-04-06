@@ -1,6 +1,7 @@
 import store from 'App/store'
 import _ from 'underscore'
 import axios from 'axios'
+const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
 
 export const BAD = 1
 export const OK = 2
@@ -209,7 +210,12 @@ const clamp = function(input, min, max) {
 
 
 export const loadDeck = async () => {
-  const { data } = await axios.get(`/api/vocabulary`)
-  deck = new Deck(data)
-  deck.next()
+  const { data } = await axios.get(`${url}/api/vocabulary`)
+  if (Array.isArray(data)) {
+    deck = new Deck(data)
+    deck.next()
+  } else {
+    // TODO!!
+    // ERROR
+  }
 }
