@@ -168,17 +168,16 @@ CREATE TABLE interactions (
 */
 DROP TABLE IF EXISTS vocabulary_cards;
 CREATE TABLE vocabulary_cards (
-  card_id VARCHAR(20) PRIMARY KEY,
+  id VARCHAR(20) PRIMARY KEY,
+  hash VARCHAR(20),
   level INT,
   difficulty TINYINT,
-  card TEXT,
-  random INT
+  card TEXT
 );
 CREATE INDEX _variation_id ON vocabulary_cards (variation_id);
 CREATE INDEX _word_id ON vocabulary_cards (word_id);
 CREATE INDEX _level ON vocabulary_cards (level);
 CREATE INDEX _type ON vocabulary_cards (type);
-CREATE INDEX _random ON vocabulary_cards (random);
 
 DROP TABLE IF EXISTS vocabulary_log;
 CREATE TABLE vocabulary_log (

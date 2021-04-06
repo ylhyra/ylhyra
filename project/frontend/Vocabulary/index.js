@@ -4,7 +4,8 @@ import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 import error from 'App/Error'
 import { isBrowser } from 'project/frontend/App/functions/isBrowser'
-import GameContainer from './GameContainer'
+import GameContainer from './Elements/GameContainer'
+
 /*
   Test render container
 */
@@ -27,12 +28,6 @@ const Render = () => {
     document.querySelector('#mw-content-text')
   )
 }
-
-
-
-
-
-
 
 // export default Render
 Render()

@@ -1,5 +1,14 @@
 import { combineReducers } from 'redux'
 
+// const deck = (state = {}, action) => {
+//   switch (action.type) {
+//     case 'LOAD_DECK':
+//       return action.content
+//     default:
+//       return state
+//   }
+// }
+
 const card = (state = {}, action) => {
   switch (action.type) {
     case 'LOAD_CARD':

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { load } from './actions'
+import { loadDeck } from 'Vocabulary/deck'
 import Card from './Card'
 import Progress from './Progress'
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 }))
 class GameContainer extends Component {
   componentDidMount() {
-    load()
+    loadDeck()
   }
   render() {
     const { status } = this.props.vocabulary

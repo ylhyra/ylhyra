@@ -1,5 +1,6 @@
 import store from 'App/store'
-import cards_data from './TestData'
+import _ from 'underscore'
+import axios from 'axios'
 
 export const BAD = 1
 export const OK = 2
@@ -8,6 +9,7 @@ export const PERFECT = 3
 const MIN_E_FACTOR = 1.2
 const DEFAULT_E_FACTOR = 2.5
 
+let deck;
 let counter = 0
 let queueCounter = 0
 let lastSeenBelongsTo = {}
@@ -84,7 +86,7 @@ class Card {
     return this.queuePosition - queueCounter
   }
   getLastSeen() {
-    if(lastSeenBelongsTo[this.belongs_to]){
+    if (lastSeenBelongsTo[this.belongs_to]) {
       return counter - lastSeenBelongsTo[this.belongs_to]
     } else {
       return deck.cards.length
@@ -163,17 +165,15 @@ class Deck {
       good: this.cards.filter(card => card.getStatus() === PERFECT).length,
       total: this.cards.length,
       cardsDone: this.cards.filter(card => card.done).length,
+      wordsTotal: _.uniq(this.cards.map(i => i.belongs_to)).length,
+      wordsDone: _.uniq(this.cards.filter(card => card.done).map(i => i.belongs_to)).length,
       deckDone: (this.cards.length - this.cards.filter(card => card.done).length) === 0,
       // total: this.cards.filter(card => card.done).length,
     }
   }
 }
 
-const deck = new Deck(cards_data)
-deck.next()
-
-
-export const load = () => {
+export const loadCard = () => {
   store.dispatch({
     type: 'LOAD_CARD',
     content: {
@@ -187,7 +187,7 @@ export const load = () => {
 export const answer = (rating) => {
   currentCard.rate(rating)
   deck.next()
-  load()
+  loadCard()
 }
 
 // export const next = (input) => {
@@ -203,6 +203,13 @@ const average = (arr = []) => {
   return arr.reduce((a, b) => a + b, 0) / arr.length
 }
 
-const clamp = function (input, min, max) {
+const clamp = function(input, min, max) {
   return Math.min(Math.max(input, min), max);
+}
+
+
+export const loadDeck = async () => {
+  const { data } = await axios.get(`/api/vocabulary`)
+  deck = new Deck(data)
+  deck.next()
 }
