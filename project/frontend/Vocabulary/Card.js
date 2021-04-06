@@ -9,7 +9,12 @@ import store from 'App/store'
 }))
 class Card extends Component {
   state = {}
-
+  componentDidMount(){
+    const { card } = this.props.vocabulary
+    this.setState({
+      hint: hide(card.from !== 'is' ? card.is : card.en)
+    })
+  }
   UNSAFE_componentWillMount() {
     window.addEventListener('keydown', this.checkKey);
     window.addEventListener('keyup', this.keyUp);
@@ -76,7 +81,7 @@ class Card extends Component {
       })
       setTimeout(() => {
         answer(i)
-      }, 200)
+      }, 100)
     }
   }
   // componentDidMount() {
@@ -111,7 +116,7 @@ class Card extends Component {
         store.dispatch({
           type: 'ANSWER_CARD',
         })
-      }, 200)
+      }, 50)
     }
   }
   render() {
@@ -122,7 +127,6 @@ class Card extends Component {
     let Type = null
     const is = clean(card.is)
     const en = clean(card.en)
-    const hint = hide(card.from !== 'is' ? card.is : card.en)
     return (
       <div className="vocabularynew-vocabulary-card" key={card.id}>
         <div className="vocabularynew-flashcard-container" onClick={()=>this.show(false)}>
@@ -133,7 +137,7 @@ class Card extends Component {
             {answered ? (
               card.from !== 'is' ? is : en
             ) : (
-              card.showHint && hint
+              card.showHint && this.state.hint
             )}
           </div>
           {!answered ? (
@@ -143,7 +147,7 @@ class Card extends Component {
           ) : (
             <div>
               <button className={this.state.answer === BAD ? 'selected':''} onClick={()=>this.answer(BAD,false)}>Bad</button>
-              <button className={this.state.answer === OK ? 'selected':''} onClick={()=>this.answer(OK,false)}>OK</button>
+              <button className={this.state.answer === OK || !this.state.answer ? 'selected':''} onClick={()=>this.answer(OK,false)}>OK</button>
               <button className={this.state.answer === PERFECT ? 'selected':''} onClick={()=>this.answer(PERFECT,false)}>Perfect</button>
             </div>
           )}

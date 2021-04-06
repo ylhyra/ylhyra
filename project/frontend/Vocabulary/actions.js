@@ -124,7 +124,6 @@ class Deck {
     //   id_to_card[card.id] = card
     // })
     this.cards = cards.map((card, index) => new Card(card, index))
-    this.next()
     // /* New cards must be studied in the correct order */
     // this.newCards = this.cards.filter(card => card.isNew())
     //
@@ -171,6 +170,7 @@ class Deck {
 }
 
 const deck = new Deck(cards_data)
+deck.next()
 
 
 export const load = () => {
