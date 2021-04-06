@@ -97,10 +97,10 @@ class Card {
       this.easiness * 0.001 +
       (deck.cards.length - this.getLastSeen()) / deck.cards.length * 0.01
     if (this.getLastSeen() <= 3) {
-      return q + 100;
+      return q + deck.cards.length + 100;
     }
     if (this.done) {
-      return q + 30
+      return q + deck.cards.length + 30
     }
     return q
   }

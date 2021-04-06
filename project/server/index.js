@@ -10,7 +10,7 @@ import path from 'path'
 import argvFactory from 'minimist'
 const argv = argvFactory(process.argv.slice(2))
 const app = express()
-require('express-ws')(app)  
+require('express-ws')(app)
 import query from './database'
 export const upload_path = path.resolve(__dirname, './../../uploads')
 var cors = require('cors')
@@ -61,6 +61,7 @@ app.use('/api', require('server/audio/GetOneAudioFile').default)
 app.use('/api', require('server/audio/Synchronize').default)
 app.use('/api', require('server/analytics').default)
 app.use('/api', require('server/translator/save').default)
+app.use('/api', require('server/vocabulary').default)
 
 app.use('/api/temp_files/', express.static(upload_path))
 
