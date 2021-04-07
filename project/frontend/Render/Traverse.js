@@ -53,7 +53,7 @@ const Traverse = (input, index = 0, parentTag) => {
       //   return <Tag key={index}>{input.props.children}</Tag>
       // }
       // else
-      if (input.props.children) {
+      if (input.props.children /*&& input.props['data-children'] !== 'string'*/) {
         const { children, ...props } = input.props
         return <Tag {...props} key={index}>
           {children.map((e,i) => Traverse(e,i,input.type))}

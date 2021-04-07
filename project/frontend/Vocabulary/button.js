@@ -6,7 +6,7 @@ import error from 'App/Error'
 import { isBrowser } from 'project/frontend/App/functions/isBrowser'
 import GameContainer from './Elements/GameContainer'
 
-export default () => {
-  return <button>haha</button>
-
+export default (props) => {
+  console.log(props)
+  return <button onClick={()=>store.dispatch({ type: 'LOAD_CARD' })}>Learn vocabulary</button>
 }
