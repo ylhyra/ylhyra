@@ -209,10 +209,13 @@ const clamp = function(input, min, max) {
 }
 
 
-export const loadDeck = async () => {
-  const { data } = await axios.get(`${url}/api/vocabulary`)
-  if (Array.isArray(data)) {
-    deck = new Deck(data)
+export const loadDeck = async (input) => {
+  if(!input) {
+    const { data } = await axios.get(`${url}/api/vocabulary`)
+    input = input || data
+  }
+  if (Array.isArray(input)) {
+    deck = new Deck(input)
     deck.next()
   } else {
     // TODO!!
