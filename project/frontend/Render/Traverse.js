@@ -11,6 +11,7 @@ const entities = new Entities()
 import isBooleanAttribute from 'is-boolean-attribute'
 import Inflection from 'frontend/Render/Elements/Inflection'
 import Hide from 'frontend/Render/Elements/Hide'
+import VocabularyFlashcards from 'Vocabulary/button'
 
 const Traverse = (input, index = 0, parentTag) => {
   if (!input) return null
@@ -43,6 +44,9 @@ const Traverse = (input, index = 0, parentTag) => {
           break;
         case 'collapse':
           Tag = Hide;
+          break;
+        case 'vocabulary-flashcards':
+          Tag = VocabularyFlashcards;
           break;
       }
       // if(input.props['data-type'] === 'collapse'){
