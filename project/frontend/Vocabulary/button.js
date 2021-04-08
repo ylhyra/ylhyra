@@ -12,8 +12,9 @@ export default (props) => {
   const data = props.children[0]
 
   let tmp_deck = []
-  data.split(/(\*.+?)/g).forEach(line => {
-    const x = line.match(/\*(.+) = (.+)/)
+  data.split('*').forEach(line => {
+    // console.log(line)
+    const x = line.match(/(.+) = (.+)/)
     if (!x) return;
     const front = x[0]
     const back = x[1]
@@ -27,7 +28,8 @@ export default (props) => {
     cards_data.push({ is, en, from: 'is', belongs_to: hash, id: hash + '_is' })
     cards_data.push({ is, en, from: 'en', belongs_to: hash, id: hash + '_en' })
   })
-
+  console.log({cards_data,tmp_deck,data})
+  return;
 
 
   return <button onClick={()=>loadDeck(cards_data)}>Learn vocabulary</button>
