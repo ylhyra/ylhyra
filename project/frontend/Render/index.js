@@ -20,6 +20,7 @@ const Render = (parsed, { shouldReturnElement, hydrate }) => {
       <Inflection/>
     </Provider>
   )
+  if (!element) return;
   if (shouldReturnElement) {
     return element
   } else {

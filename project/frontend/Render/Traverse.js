@@ -49,6 +49,7 @@ const Traverse = (input, index = 0, parentTag) => {
           Tag = VocabularyFlashcards;
           break;
       }
+      if(!Tag) return null;
       // if(input.props['data-type'] === 'collapse'){
       //   return <Tag key={index}>{input.props.children}</Tag>
       // }

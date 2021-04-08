@@ -29,7 +29,7 @@ export default (props) => {
     cards_data.push({ is, en, from: 'en', belongs_to: hash, id: hash + '_en' })
   })
   console.log({cards_data,tmp_deck,data})
-  return;
+  return null;
 
 
   return <button onClick={()=>loadDeck(cards_data)}>Learn vocabulary</button>

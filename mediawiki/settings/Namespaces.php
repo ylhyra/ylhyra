@@ -54,6 +54,13 @@ $wgExtraNamespaces[NS_OTHER] = "Other";
 $wgExtraNamespaces[NS_OTHER_TALK] = "Other_talk"; // Note underscores in the namespace name.
 $wgNamespacesWithSubpages[NS_OTHER] = true;
 
+define("NS_VOCABULARY", 3010); // This MUST be even.
+define("NS_VOCABULARY_TALK", 3011); // This MUST be the following odd integer.
+$wgExtraNamespaces[NS_VOCABULARY] = "Vocabulary";
+$wgExtraNamespaces[NS_VOCABULARY_TALK] = "Vocabulary_talk"; // Note underscores in the namespace name.
+$wgNamespaceContentModels[NS_VOCABULARY] = CONTENT_MODEL_TEXT;
+
+
 //$wgContentNamespaces[] = NS_MANUAL;
 //$wgContentNamespaces[] = NS_PROJECT;
 
@@ -74,4 +81,7 @@ $wgExemptFromUserRobotsControl = array(
   NS_USER,
   NS_USER_TALK,
   NS_MANUAL,
+  NS_MANUAL_TALK,
+  NS_VOCABULARY,
+  NS_VOCABULARY_TALK,
  );
