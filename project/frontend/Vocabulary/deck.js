@@ -218,6 +218,7 @@ export const loadDeck = async (input) => {
   if (Array.isArray(input)) {
     deck = new Deck(input)
     deck.next()
+    loadCard()
   } else {
     // TODO!!
     // ERROR
