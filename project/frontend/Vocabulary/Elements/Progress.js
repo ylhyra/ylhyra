@@ -19,14 +19,14 @@ class Progress extends Component {
         <div className="name">
           {/* <span className="remaining">Approximately {Math.floor(secondsLeft/60)}:{(Math.floor(secondsLeft%60) < 10 ? '0':'') + Math.floor(secondsLeft%60).toString()} left</span> */}
           <span className="remaining">
-            <b>{newCardsRemaining}</b> new card{needToStudy===1?'':'s'} left, <b>{wordsToStudy}</b> word{wordsToStudy===1?'':'s'} left to memorize
+            {/* <b>{newCardsRemaining}</b> new card{needToStudy===1?'':'s'} left, <b>{wordsToStudy}</b> word{wordsToStudy===1?'':'s'} left to memorize */}
           </span>
         </div>
         <div className="bar">
           <div className="part bad" style={{flex:bad}}/>
           <div className="part good" style={{flex:ok}}/>
           <div className="part excellent" style={{flex:good}}/>
-          <div className="part remaining" style={{flex:newCardsRemaining}}/>
+          <div className="part remaining" style={{flex:needToStudy}}/>
         </div>
       </div>
     )
