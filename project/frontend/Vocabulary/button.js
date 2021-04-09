@@ -23,12 +23,14 @@ export default (props) => {
   Convert vocabulary data into a JavaScrip object
 */
 export const tmp_load = async (title) => {
+  // console.log(mw.util.wikiUrlencode(title))
+  // return;
   const { data } = await axios.get(`https://ylhyra.is/index.php?title=Vocabulary:${mw.util.wikiUrlencode(title)}&action=raw`)
 
   let tmp_deck = []
   data.split('\n').forEach(line => {
     if (!line.trim()) return;
-    const x = line.match(/(.+) = (.+)/)
+    const x = line.match(/(.+)(?: = |\t)(.+)/)
     if (!x) return;
     const front = x[1]
     const back = x[2]
@@ -44,6 +46,8 @@ export const tmp_load = async (title) => {
   // console.log({ cards_data, tmp_deck, data })
   // return null;
 
+  // if(cards_data.length > 0)
+  console.log(data)
   loadDeck(cards_data)
 
   // return <button onClick={()=>loadDeck(cards_data)}>Learn vocabulary</button>

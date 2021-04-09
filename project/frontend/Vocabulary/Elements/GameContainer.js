@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 }))
 class GameContainer extends Component {
   componentDidMount() {
-    loadDeck()
+    // loadDeck()
   }
   render() {
     const { status } = this.props.vocabulary

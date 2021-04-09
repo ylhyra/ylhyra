@@ -140,6 +140,9 @@ class Deck {
     }
   }
   next() {
+    if(this.cards.length === 0) {
+      return console.error('No cards')
+    }
     const ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
     console.log(this.cards.slice().sort((a, b) => a.getQueuePosition() - b.getQueuePosition())
       .map(i => `${i.getQueuePosition()}\t${i.getRanking()}\te: ${i.easiness||0}\t${i.from==='is'?i.is:i.en}`)
@@ -175,6 +178,7 @@ class Deck {
 }
 
 export const loadCard = () => {
+  if(!currentCard) return console.error('no cards')
   store.dispatch({
     type: 'LOAD_CARD',
     content: {
