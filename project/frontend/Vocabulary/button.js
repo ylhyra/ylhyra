@@ -72,8 +72,10 @@ export const tmp_load = async(title) => {
       alternative_id,
     ] = line.split('\t')
     console.log(icelandic)
+
+    icelandic.split(';')
   })
 }
-setTimeout(()=>{
-  tmp_load()
-},1000)
+// setTimeout(()=>{
+//   tmp_load()
+// },1000)
