@@ -53,7 +53,7 @@ export const tmp_load = async(title) => {
   // // return <button onClick={()=>loadDeck(cards_data)}>Learn vocabulary</button>
 
   const { data } = await axios.get(file_url)
-  data.split('\n').slice(1).slice(0,30).forEach(line => {
+  data.split('\n').slice(1).slice(0, 30).forEach(line => {
     const [
       icelandic,
       english,
@@ -73,7 +73,10 @@ export const tmp_load = async(title) => {
     ] = line.split('\t')
     console.log(icelandic)
 
-    icelandic.split(';')
+    icelandic.split(/(.+?[^\\])([,;])/g).forEach(i => {
+      i = i.trim()
+      if (!i) return;
+    })
   })
 }
 // setTimeout(()=>{
