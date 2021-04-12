@@ -24,7 +24,7 @@ const file_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT
 /*
   Convert vocabulary data into a JavaScrip object
 */
-export const tmp_load = async(title) => {
+export const tmp_load = async (title) => {
   // const { data } = await axios.get(`https://ylhyra.is/index.php?title=Vocabulary:${mw.util.wikiUrlencode(title)}&action=raw`)
   //
   // let tmp_deck = []
@@ -53,8 +53,9 @@ export const tmp_load = async(title) => {
   // // return <button onClick={()=>loadDeck(cards_data)}>Learn vocabulary</button>
 
   const { data } = await axios.get(file_url)
+  let cards = []
   data.split('\n').slice(1).slice(0, 30).forEach(line => {
-    const [
+    let [
       icelandic,
       english,
       depends_on,
@@ -71,14 +72,58 @@ export const tmp_load = async(title) => {
       importance,
       alternative_id,
     ] = line.split('\t')
-    console.log(icelandic)
+    // console.log(icelandic)
+    //
+    // const card_id = _hash([icelandic, english])
+    //
+    english = clean_string(english)
+    if (!english) return;
 
+    /* Can have multiple */
+    let icelandic_strings = []
     icelandic.split(/(.+?[^\\])([,;])/g).forEach(i => {
       i = i.trim()
       if (!i) return;
+      if (i === ',' || i === ';') return;
+      i = clean_string(i)
+      // console.log(i)
+      // const hash = _hash(i)
+      icelandic_strings.push(i)
     })
+    let hash = icelandic_strings.map(i => _hash(i))
+
+    /* Icelandic to English */
+    if (direction !== '<-') {
+      icelandic_strings.forEach(i => {
+        cards.push({
+          is: i,
+          en: english,
+          from: 'is',
+          id: _hash([i, english]) + '_is',
+          belongs_to: hash,
+          level,
+        })
+      })
+    }
+    /* English to Icelandic */
+    if (direction !== '->') {
+      cards.push({
+        is: clean_string(icelandic),
+        en: english,
+        from: 'en',
+        id: _hash([icelandic, english]) + '_en',
+        belongs_to: hash,
+        level,
+      })
+    }
   })
+  // console.log(cards)
+  loadDeck(cards)
 }
-// setTimeout(()=>{
-//   tmp_load()
-// },1000)
+setTimeout(() => {
+  tmp_load()
+}, 500)
+
+
+
+const clean_string = (i) => i.replace(/\\,/g, ',').trim()
