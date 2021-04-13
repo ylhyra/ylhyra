@@ -195,14 +195,6 @@ export const answer = (rating) => {
   loadCard()
 }
 
-// export const next = (input) => {
-//   store.dispatch({
-//     type: 'LOAD_CARD',
-//     content: test_data[1]
-//   })
-// }
-
-
 const average = (arr = []) => {
   if (arr.length === 0) return 0;
   return arr.reduce((a, b) => a + b, 0) / arr.length
@@ -210,21 +202,4 @@ const average = (arr = []) => {
 
 const clamp = function(input, min, max) {
   return Math.min(Math.max(input, min), max);
-}
-
-
-export const loadDeck = async (input) => {
-  if(!input) {
-    const { data } = await axios.get(`${url}/api/vocabulary`)
-    input = input || data
-  }
-  console.log(input)
-  if (Array.isArray(input)) {
-    deck = new Deck(input)
-    deck.next()
-    loadCard()
-  } else {
-    // TODO!!
-    // ERROR
-  }
 }
