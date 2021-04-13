@@ -4,10 +4,10 @@ import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 import error from 'App/Error'
 import { isBrowser } from 'project/frontend/App/functions/isBrowser'
-import GameContainer from './Elements/GameContainer'
+import MainScreen from './Elements/MainScreen'
 
 /*
-  Test render container
+  Render container
 */
 const Render = () => {
   if (!isBrowser) return;
@@ -19,8 +19,7 @@ const Render = () => {
     <Provider store={store}>
       <div className="">
         <div id="overlay"></div>
-        {/* <Table/> */}
-        <GameContainer/>
+        <MainScreen/>
       </div>
     </Provider>
   )
