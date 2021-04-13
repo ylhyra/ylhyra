@@ -18,9 +18,6 @@ require('Render/Style/index.styl')
 require('./DevelopmentMode')
 require('Source_editor/Tweets')
 
-/* Test */
-require('project/frontend/Vocabulary')
-
 import Parse from 'frontend/Parse'
 import Render from 'frontend/Render'
 import Editor from 'Editor'
@@ -54,6 +51,10 @@ function checkIfjQueryIsReady(fn) {
 
 
 documentReady(async () => {
+
+  /* Load vocabulary game */
+  require('project/frontend/Vocabulary')
+
   /*
     Temporary button for removing styling
   */

@@ -10,10 +10,11 @@ import GameContainer from './Elements/GameContainer'
   Test render container
 */
 const Render = () => {
-  return;
   if (!isBrowser) return;
-  // if (typeof mw !== 'undefined' || mw.config.get('wgPageName') !== 'User:Egill/test2') return;
-
+  if (
+    typeof mw === 'undefined' ||
+    mw.config.get('wgPageName') !== 'Text:Vocabulary'
+  ) return;
   const element = (
     <Provider store={store}>
       <div className="">

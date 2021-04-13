@@ -90,18 +90,21 @@ export const tmp_load = async (title) => {
       // const hash = _hash(i)
       icelandic_strings.push(i)
     })
-    let hash = icelandic_strings.map(i => _hash(i))
+
+    let card_skeleton = {
+      en: english,
+      belongs_to: icelandic_strings.map(i => _hash(i)),
+      level,
+    }
 
     /* Icelandic to English */
     if (direction !== '<-') {
       icelandic_strings.forEach(i => {
         cards.push({
           is: i,
-          en: english,
           from: 'is',
           id: _hash([i, english]) + '_is',
-          belongs_to: hash,
-          level,
+          ...card_skeleton,
         })
       })
     }
@@ -109,20 +112,18 @@ export const tmp_load = async (title) => {
     if (direction !== '->') {
       cards.push({
         is: clean_string(icelandic),
-        en: english,
         from: 'en',
         id: _hash([icelandic, english]) + '_en',
-        belongs_to: hash,
-        level,
+        ...card_skeleton,
       })
     }
   })
   // console.log(cards)
   loadDeck(cards)
 }
-setTimeout(() => {
-  tmp_load()
-}, 500)
+// setTimeout(() => {
+//   tmp_load()
+// }, 500)
 
 
 
