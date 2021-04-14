@@ -1,6 +1,6 @@
 import GameContainer from 'Vocabulary/Elements/GameContainer'
 import React, { Component } from 'react';
-import { loadDeck } from 'Vocabulary/deck'
+import load from 'Vocabulary/actions/load'
 import { connect } from 'react-redux';
 
 @connect(state => ({
@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 }))
 class MainScreen extends Component {
   componentDidMount() {
-    // loadDeck()
+    load()
   }
   render() {
     const { status } = this.props.vocabulary

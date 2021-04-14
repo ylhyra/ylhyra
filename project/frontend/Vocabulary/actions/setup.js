@@ -13,7 +13,7 @@ const file_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT
 /*
   Convert vocabulary data into a JavaScrip object
 */
-export const tmp_load = async(title) => {
+export default async(title) => {
   const { data } = await axios.get(file_url)
   let cards = []
   data.split('\n').slice(1).slice(0, 30).forEach(line => {
@@ -77,7 +77,7 @@ export const tmp_load = async(title) => {
     }
   })
 
-  loadDeck(cards)
+  return cards
 }
 
 const clean_string = (i) => i

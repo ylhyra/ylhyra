@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { loadDeck } from 'Vocabulary/deck'
+import { loadDeck } from 'Vocabulary/actions/deck'
 import Card from './Card'
 import Progress from './Progress'
 import { connect } from 'react-redux';

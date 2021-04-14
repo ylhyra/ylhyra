@@ -1,7 +1,6 @@
 import store from 'App/store'
 import _ from 'underscore'
 import axios from 'axios'
-const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
 
 export const BAD = 1
 export const OK = 2
@@ -140,7 +139,7 @@ class Deck {
     }
   }
   next() {
-    if(this.cards.length === 0) {
+    if (this.cards.length === 0) {
       return console.error('No cards')
     }
     const ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
@@ -178,7 +177,7 @@ class Deck {
 }
 
 export const loadCard = () => {
-  if(!currentCard) return console.error('no cards')
+  if (!currentCard) return console.error('no cards')
   store.dispatch({
     type: 'LOAD_CARD',
     content: {
@@ -200,6 +199,17 @@ const average = (arr = []) => {
   return arr.reduce((a, b) => a + b, 0) / arr.length
 }
 
-const clamp = function(input, min, max) {
+const clamp = function (input, min, max) {
   return Math.min(Math.max(input, min), max);
+}
+
+export const loadDeck = (input) => {
+  if (Array.isArray(input)) {
+    deck = new Deck(input)
+    deck.next()
+    loadCard()
+  } else {
+    // TODO!!
+    // ERROR
+  }
 }
