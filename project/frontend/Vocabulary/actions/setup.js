@@ -13,71 +13,75 @@ const file_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT
 /*
   Convert vocabulary data into a JavaScrip object
 */
-export default async(title) => {
+export default async (title) => {
   const { data } = await axios.get(file_url)
   let cards = []
   data.split('\n').slice(1)
-  // .slice(0, 30)
-  .forEach(line => {
-    let [
-      icelandic,
-      english,
-      depends_on,
-      level,
-      not_to_be_confused_with,
-      basic_form,
-      direction,
-      note_before_show,
-      note_after_show,
-      literally,
-      should_be_taught,
-      categories,
-      grammar_items,
-      importance,
-      alternative_id,
-    ] = line.split('\t')
+    // .slice(0, 30)
+    .forEach(line => {
+      let [
+        icelandic,
+        english,
+        depends_on,
+        level,
+        not_to_be_confused_with,
+        basic_form,
+        direction,
+        note_before_show,
+        note_after_show,
+        literally,
+        should_be_taught,
+        categories,
+        grammar_items,
+        importance,
+        alternative_id,
+      ] = line.split('\t')
 
-    english = clean_string(english)
-    if (!english) return;
+      english = clean_string(english)
+      if (!english) return;
 
-    /* Can have multiple */
-    let icelandic_strings = []
-    icelandic.split(/(.+?[^\\])([,;])/g).forEach(i => {
-      i = i.trim()
-      if (!i) return;
-      if (i === ',' || i === ';') return;
-      i = clean_string(i)
-      icelandic_strings.push(i)
-    })
+      /* Can have multiple */
+      let icelandic_strings = []
+      icelandic.split(/(.+?[^\\])([,;])/g).forEach(i => {
+        i = i.trim()
+        if (!i) return;
+        if (i === ',' || i === ';') return;
+        i = clean_string(i)
+        icelandic_strings.push(i)
+      })
 
-    let card_skeleton = {
-      en: english,
-      belongs_to: icelandic_strings.map(i => _hash(i)),
-      level,
-    }
+      let card_skeleton = {
+        en: english,
+        associated_ids: [
+          ...icelandic_strings.map(getHash),
+          ...getHashesFromCommaSeperated(alternative_id),
+        ],
+        depends_on: getHashesFromCommaSeperated(depends_on),
+        level,
+      }
 
-    /* Icelandic to English */
-    if (direction !== '<-') {
-      icelandic_strings.forEach(i => {
+      /* Icelandic to English */
+      if (direction !== '<-') {
+        icelandic_strings.forEach(i => {
+          cards.push({
+            is: i,
+            from: 'is',
+            id: [i, english].map(getHash) + '_is',
+            ...card_skeleton,
+          })
+        })
+      }
+
+      /* English to Icelandic */
+      if (direction !== '->') {
         cards.push({
-          is: i,
-          from: 'is',
-          id: _hash([i, english]) + '_is',
+          is: clean_string(icelandic),
+          from: 'en',
+          id: [icelandic, english].map(getHash) + '_en',
           ...card_skeleton,
         })
-      })
-    }
-
-    /* English to Icelandic */
-    if (direction !== '->') {
-      cards.push({
-        is: clean_string(icelandic),
-        from: 'en',
-        id: _hash([icelandic, english]) + '_en',
-        ...card_skeleton,
-      })
-    }
-  })
+      }
+    })
 
   return cards
 }
@@ -86,7 +90,22 @@ const clean_string = (i) => i
   .replace(/\*/g, '')
   .replace(/\\,/g, ',')
   .replace(/'{2,}/g, '')
+  .replace(/\s+/g, ' ')
   .trim()
+
+const getHash = (i) => {
+  return _hash(
+    clean_string(i)
+    .replace(/\.$/,'')
+    .toLowerCase()
+  )
+}
+
+const getHashesFromCommaSeperated = (i) => {
+  return i.split(',').map(getHash)
+}
+
+// const get
 
 // const format_string = (i) => i
 // .replace(/\\,/g, ',')
