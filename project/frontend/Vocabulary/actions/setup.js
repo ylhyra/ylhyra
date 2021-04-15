@@ -8,7 +8,7 @@ import { loadDeck } from './deck'
 import _hash from 'project/frontend/App/functions/hash'
 import axios from 'axios'
 
-const file_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?gid=0&single=true&output=tsv`
+const file_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?output=tsv&sdf=1`
 
 /*
   Convert vocabulary data into a JavaScrip object
@@ -16,7 +16,9 @@ const file_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT
 export default async(title) => {
   const { data } = await axios.get(file_url)
   let cards = []
-  data.split('\n').slice(1).slice(0, 30).forEach(line => {
+  data.split('\n').slice(1)
+  // .slice(0, 30)
+  .forEach(line => {
     let [
       icelandic,
       english,
@@ -81,6 +83,7 @@ export default async(title) => {
 }
 
 const clean_string = (i) => i
+  .replace(/\*/g, '')
   .replace(/\\,/g, ',')
   .replace(/'{2,}/g, '')
   .trim()
