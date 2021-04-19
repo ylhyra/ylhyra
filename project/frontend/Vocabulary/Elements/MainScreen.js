@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import load from 'Vocabulary/actions/load'
 import { connect } from 'react-redux';
 import store from 'App/store'
-export const SCREEN_VOCABULARY = 1
+export const SCREEN_MAIN = 1
+export const SCREEN_VOCABULARY = 2
 
 @connect(state => ({
   vocabulary: state.vocabulary,
@@ -17,7 +18,15 @@ class MainScreen extends Component {
     let Element;
     switch (screen) {
       case SCREEN_VOCABULARY:
-        return <GameContainer/>
+        return <div>
+          <button onClick={()=>{
+            store.dispatch({
+              type: 'VOCABULARY_SCREEN',
+              content: SCREEN_MAIN,
+            })
+          }}>Back</button>
+          <GameContainer/>
+        </div>
       default:
         return <div>
           To study today: 15 new words, review 40
