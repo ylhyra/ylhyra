@@ -143,15 +143,10 @@ class Deck {
       return console.error('No cards')
     }
     const ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
-    console.log(this.cards.slice().sort((a, b) => a.getQueuePosition() - b.getQueuePosition())
-      .map(i => `${i.getQueuePosition()}\t${i.getRanking()}\te: ${i.easiness||0}\t${i.from==='is'?i.is:i.en}`)
-      .join('\n')
-    )
-    // console.log(this.cards.sort((a, b) => a.getRanking() - b.getRanking())
-    //   .map(i => `${i.getQueuePosition()}\t${i.getRanking()}\t${i.from==='is'?i.is:i.en}`)
+    // console.log(this.cards.slice().sort((a, b) => a.getQueuePosition() - b.getQueuePosition())
+    //   .map(i => `${i.getQueuePosition()}\t${i.getRanking()}\te: ${i.easiness||0}\t${i.from==='is'?i.is:i.en}`)
     //   .join('\n')
     // )
-    // console.log(ranked.slice(0,4))
     currentCard = ranked[0]
     counter++;
     let shouldIncreaseAdjustedCounter = this.cards.filter(i => i.getQueuePosition() < 5).length < 5
