@@ -18,7 +18,7 @@ const Render = () => {
   const element = (
     <Provider store={store}>
       <div className="">
-        <div id="overlay"></div>
+        {/* <div id="overlay"></div> */}
         <MainScreen/>
       </div>
     </Provider>

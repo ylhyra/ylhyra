@@ -14,11 +14,11 @@ class MainScreen extends Component {
     load()
   }
   render() {
-    const { screen } = this.props.vocabulary
+    const { screen, status } = this.props.vocabulary
     let Element;
     switch (screen) {
       case SCREEN_VOCABULARY:
-        return <div>
+        return <div id="vocabulary">
           <button onClick={()=>{
             store.dispatch({
               type: 'VOCABULARY_SCREEN',
@@ -28,15 +28,17 @@ class MainScreen extends Component {
           <GameContainer/>
         </div>
       default:
-        return <div>
-          To study today: 15 new words, review 40
-          <br/>
-          <button onClick={()=>{
-            store.dispatch({
-              type: 'VOCABULARY_SCREEN',
-              content: SCREEN_VOCABULARY,
-            })
-          }}>Start</button>
+        return <div id="vocabulary">
+          {status && status.total > 0 ? <div>
+            {status.wordsTotal} items to study
+            <br/>
+            <button onClick={()=>{
+              store.dispatch({
+                type: 'VOCABULARY_SCREEN',
+                content: SCREEN_VOCABULARY,
+              })
+            }}>Start</button>
+          </div> : `Loading...`}
         </div>
     }
   }
