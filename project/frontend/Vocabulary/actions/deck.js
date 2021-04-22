@@ -86,8 +86,8 @@ class Card {
     return this.queuePosition - queueCounter
   }
   getLastSeen() {
-    if (lastSeenBelongsTo[this.belongs_to]) {
-      return counter - lastSeenBelongsTo[this.belongs_to]
+    if (this.belongs_to.find(i=>lastSeenBelongsTo[i])) {
+      return counter - this.belongs_to.find(i=>lastSeenBelongsTo[i])
     } else {
       return deck.cards.length
     }

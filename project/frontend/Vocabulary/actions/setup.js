@@ -1,6 +1,3 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 import error from 'App/Error'
 import { isBrowser } from 'project/frontend/App/functions/isBrowser'
@@ -9,7 +6,6 @@ import _hash from 'project/frontend/App/functions/hash'
 import axios from 'axios'
 
 const file_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?output=tsv&sdf=1`
-
 
 let dependencyGraph = {}
 
