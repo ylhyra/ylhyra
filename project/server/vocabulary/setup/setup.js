@@ -1,6 +1,3 @@
-import store from 'App/store'
-import error from 'App/Error'
-import { isBrowser } from 'project/frontend/App/functions/isBrowser'
 import { loadDeck } from './deck'
 import _hash from 'project/frontend/App/functions/hash'
 import axios from 'axios'
@@ -16,35 +13,31 @@ export default async(title) => {
   const { data } = await axios.get(file_url)
   let cards = []
   let s = ''
+
+  /* Read the table header to get the names of columns */
+  let column_indexes_to_name = {}
+  data[1].split('\t').forEach((name, index) => {
+    column_indexes_to_name[index] = name
+  })
+
   data.split('\n').slice(1)
     .slice(0, 100) // TEMP!!!
     .forEach(line => {
-      let [
-        icelandic,
-        english,
-        _depends_on,
-        level,
-        not_to_be_confused_with,
-        basic_form,
-        direction,
-        note_before_show,
-        note_after_show,
-        literally,
-        should_be_taught,
-        categories,
-        grammar_items,
-        importance,
-        alternative_id,
-      ] = line.split('\t')
 
-      english = clean_string(english)
-      if (!icelandic) return;
+      /* Assing names to columns */
+      let columns = {}
+      line.split('\t').forEach((string, index) => {
+        columns[column_indexes_to_name[index]] = string.trim() || null
+      })
+
+      const english = clean_string(columns.english)
+      if (!columns.icelandic) return;
       if (!english) return;
-      if (should_be_taught == 'no') return;
+      if (columns.should_be_taught == 'no') return;
 
       /* Can have multiple */
       let icelandic_strings = []
-      icelandic.split(/(.+?[^\\])([,;])/g).forEach(i => {
+      columns.icelandic.split(/(.+?[^\\])([,;])/g).forEach(i => {
         i = i.trim()
         if (!i) return;
         if (i === ',' || i === ';') return;
@@ -54,11 +47,11 @@ export default async(title) => {
       // const line_id = getHash(icelandic_strings)
       const ids_contained_in_this_entry = [
         ...icelandic_strings.map(getHash),
-        ...getHashesFromCommaSeperated(alternative_id),
+        ...getHashesFromCommaSeperated(columns.alternative_id),
       ]
       const depends_on = [
-        ...getHashesFromCommaSeperated(_depends_on),
-        ...getHashesFromCommaSeperated(basic_form),
+        ...getHashesFromCommaSeperated(columns.depends_on),
+        ...getHashesFromCommaSeperated(columns.basic_form),
       ]
       if (depends_on.length > 0) {
         ids_contained_in_this_entry.forEach(id => {
@@ -70,11 +63,11 @@ export default async(title) => {
         en: english,
         ids_contained_in_this_entry,
         depends_on,
-        level,
+        level:columns.level,
       }
 
       /* Icelandic to English */
-      if (direction !== '<-') {
+      if (columns.direction !== '<-') {
         icelandic_strings.forEach(i => {
           cards.push({
             is: i,
@@ -87,11 +80,11 @@ export default async(title) => {
       }
 
       /* English to Icelandic */
-      if (direction !== '->') {
+      if (columns.direction !== '->') {
         cards.push({
-          is: clean_string(icelandic),
+          is: clean_string(columns.icelandic),
           from: 'en',
-          id: getHash(icelandic) + '_en',
+          id: getHash(columns.icelandic) + '_en',
           ...card_skeleton,
         })
         // s+=`${english}\t${ clean_string(icelandic)}\t${level}\n`
