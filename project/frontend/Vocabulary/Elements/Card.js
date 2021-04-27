@@ -10,11 +10,8 @@ import store from 'App/store'
 }))
 class Card extends Component {
   state = {}
-  componentDidMount(){
-    const { card } = this.props.vocabulary
-    this.setState({
-      hint: hide(card.from !== 'is' ? card.is : card.en)
-    })
+  componentDidMount() {
+    this.componentDidUpdate()
   }
   UNSAFE_componentWillMount() {
     window.addEventListener('keydown', this.checkKey);
@@ -25,10 +22,12 @@ class Card extends Component {
     window.addEventListener('keyup', this.keyUp);
   }
   componentDidUpdate(prevProps) {
-    if (this.props.vocabulary.card.id !== prevProps.vocabulary.card.id) {
+    const { card } = this.props.vocabulary
+    if (!prevProps || card.id !== prevProps.vocabulary.card.id) {
       this.setState({
         answer: null,
         clickingOnShowButton: null,
+        hint: hide(card.from !== 'is' ? card.is : card.en)
       })
     }
   }
@@ -123,6 +122,7 @@ class Card extends Component {
   render() {
     const { card } = this.props.vocabulary
     const answered = card.answered
+    // console.log(card)
     // console.log({card,answer})
     if (!card || !card.is) return null;
     let Type = null
@@ -167,7 +167,7 @@ const hide = (input) => {
     let hintsToShow = Math.min(Math.ceil(Math.random() * 3), i.length - 2)
     // if(i.length <= 2) hintsToShow = 0;
     return i.split('').map((j, index) => {
-      if (index >= hintsToShow) return `<span class="occulted"><span>${j}</span></span>`;
+      if (index >= hintsToShow && !/[.?!:;,]/.test(j)) return `<span class="occulted"><span>${j}</span></span>`;
       return j;
     }).join('')
   }).join('')
