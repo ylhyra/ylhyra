@@ -1,32 +1,23 @@
 /**
- * A single study session. 
+ * A single study session.
  */
 import store from 'App/store'
 import _ from 'underscore'
-import axios from 'axios'
+import Card, { BAD, OK, PERFECT } from './card'
 
-export const BAD = 1
-export const OK = 2
-export const PERFECT = 3
-
-const MIN_E_FACTOR = 1.2
-const DEFAULT_E_FACTOR = 2.5
-
-let deck;
-let counter = 0
-let queueCounter = 0
-let lastSeenBelongsTo = {}
-let currentCard = null
-
-class Deck {
+class Session {
   constructor(cards) {
     this.history = []
     this.cards = {}
+    this.counter = 0
+    this.queueCounter = 0
+    this.lastSeenBelongsTo = {}
+    this.currentCard = null
     // let id_to_card = {}
     // cards_input.forEach(card => {
     //   id_to_card[card.id] = card
     // })
-    this.cards = cards.map((card, index) => new Card(card, index))
+    this.cards = cards.map((card, index) => new Card(card, index, this))
     // /* New cards must be studied in the correct order */
     // this.newCards = this.cards.filter(card => card.isNew())
     //
@@ -35,8 +26,8 @@ class Deck {
   }
   getCard() {
     return {
-      ...currentCard,
-      showHint: currentCard.shouldShowHint()
+      ...this.currentCard,
+      showHint: this.currentCard.shouldShowHint()
     }
   }
   next() {
@@ -48,13 +39,13 @@ class Deck {
     //   .map(i => `${i.getQueuePosition()}\t${i.getRanking()}\te: ${i.easiness||0}\t${i.from==='is'?i.is:i.en}`)
     //   .join('\n')
     // )
-    currentCard = ranked[0]
-    counter++;
+    this.currentCard = ranked[0]
+    this.counter++;
     let shouldIncreaseAdjustedCounter = this.cards.filter(i => i.getQueuePosition() < 5).length < 5
     if (shouldIncreaseAdjustedCounter) {
-      queueCounter++;
+      this.queueCounter++;
     }
-    lastSeenBelongsTo[currentCard.belongs_to] = counter
+    this.lastSeenBelongsTo[this.currentCard.belongs_to] = this.counter
     // console.log(currentCard)
   }
   getStatus() {
@@ -66,46 +57,42 @@ class Deck {
       cardsDone: this.cards.filter(card => card.done).length,
       wordsTotal: _.uniq(this.cards.map(i => i.belongs_to)).length,
       wordsDone: _.uniq(this.cards.filter(card => card.done).map(i => i.belongs_to)).length,
-      deckDone: (this.cards.length - this.cards.filter(card => card.done).length) === 0,
+      sessionDone: (this.cards.length - this.cards.filter(card => card.done).length) === 0,
       // total: this.cards.filter(card => card.done).length,
     }
   }
 }
 
 export const loadCard = () => {
-  if (!currentCard) return console.error('no cards')
+  const session = store.getState().vocabulary.session
+  if (!session.currentCard) return console.error('no cards')
   store.dispatch({
     type: 'LOAD_CARD',
     content: {
-      ...deck.getCard(),
-      counter: deck.counter,
-      status: deck.getStatus(),
+      ...session.getCard(),
+      counter: session.counter,
+      status: session.getStatus(),
     }
   })
 }
 
 export const answer = (rating) => {
-  currentCard.rate(rating)
-  deck.next()
+  const session = store.getState().vocabulary.session
+  session.currentCard.rate(rating)
+  session.next()
   loadCard()
 }
 
-const average = (arr = []) => {
-  if (arr.length === 0) return 0;
-  return arr.reduce((a, b) => a + b, 0) / arr.length
-}
-
-const clamp = function (input, min, max) {
-  return Math.min(Math.max(input, min), max);
-}
-
-export const loadDeck = (input) => {
+export const InitializeSession = (input) => {
   if (Array.isArray(input)) {
-    deck = new Deck(input)
-    deck.next()
+    const session = new Session(input)
+    session.next()
+    store.dispatch({
+      type: 'LOAD_SESSION',
+      content: session,
+    })
     loadCard()
   } else {
-    // TODO!!
     // ERROR
   }
 }

@@ -33,3 +33,35 @@ Cards have the following attributes:
 
 
 
+# Tmp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

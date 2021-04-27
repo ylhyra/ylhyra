@@ -15,7 +15,6 @@ class MainScreen extends Component {
   }
   render() {
     const { screen, status } = this.props.vocabulary
-    let Element;
     switch (screen) {
       case SCREEN_VOCABULARY:
         return <div id="vocabulary">

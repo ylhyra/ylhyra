@@ -61,7 +61,8 @@ app.use('/api', require('server/audio/GetOneAudioFile').default)
 app.use('/api', require('server/audio/Synchronize').default)
 app.use('/api', require('server/analytics').default)
 app.use('/api', require('server/translator/save').default)
-app.use('/api', require('server/vocabulary').default)
+app.use('/api', require('server/vocabulary/get').default)
+app.use('/api', require('server/vocabulary/save').default)
 
 app.use('/api/temp_files/', express.static(upload_path))
 
@@ -90,6 +91,8 @@ if (process.argv[2] === '--import-inflections') {
   require('project/server/inflection/server/server-with-database/database/ImportToDatabase.js')
 } else if (process.argv[2] === '--generate-search-index') {
   require('project/server/inflection/server/server-with-database/database/generateSearchIndex.js')
+} else if (process.argv[2] === '--import-vocabulary') {
+  require('project/server/vocabulary/setup/setup')
 }
 /* Or, start the app */
 else {

@@ -1,18 +1,24 @@
+export const BAD = 1
+export const OK = 2
+export const PERFECT = 3
+
+const MIN_E_FACTOR = 1.2
+const DEFAULT_E_FACTOR = 2.5
 
 class Card {
-  constructor(data, index) {
+  constructor(data, index, session) {
     Object.assign(this, data)
 
-    /*  */
+    this.session = session
     this.progress = 0
     this.easiness = DEFAULT_E_FACTOR
     this.history = []
     this.goodRepetitions = 0
-    this.queuePosition = index + counter
+    this.queuePosition = index + this.session.counter
   }
   rate(rating) {
     this.history.unshift(rating)
-    this.lastSeen = counter
+    this.lastSeen = this.session.counter
 
     /* Score */
     const lastTwoAverage = average(this.history.slice(0, 2))
@@ -46,13 +52,13 @@ class Card {
     } else if (rating === PERFECT) {
       interval = 16
       if (this.history[1] >= OK) {
-        interval = deck.cards.length + 100
+        interval = this.session.cards.length + 100
         this.done = true
       } else if (this.history.length === 1) {
-        interval = deck.cards.length
+        interval = this.session.cards.length
       }
     }
-    this.queuePosition = queueCounter + interval
+    this.queuePosition = this.session.queueCounter + interval
     this.lastInterval = interval
 
     this.status = Math.round(lastTwoAverage)
@@ -67,24 +73,25 @@ class Card {
     }
   }
   getQueuePosition() {
-    return this.queuePosition - queueCounter
+    return this.queuePosition - this.session.queueCounter
   }
   getLastSeen() {
-    if (this.belongs_to.find(i=>lastSeenBelongsTo[i])) {
-      return counter - this.belongs_to.find(i=>lastSeenBelongsTo[i])
-    } else {
-      return deck.cards.length
-    }
+    return this.session.cards.length
+    // if (this.belongs_to.find(i => this.session.lastSeenBelongsTo[i])) {
+    //   return this.session.counter - this.belongs_to.find(i => this.session.lastSeenBelongsTo[i])
+    // } else {
+    //   return this.session.cards.length
+    // }
   }
   getRanking() {
     let q = this.getQueuePosition() +
       this.easiness * 0.001 +
-      (deck.cards.length - this.getLastSeen()) / deck.cards.length * 0.01
+      (this.session.cards.length - this.getLastSeen()) / this.session.cards.length * 0.01
     if (this.getLastSeen() <= 3) {
-      return q + deck.cards.length + 100;
+      return q + this.session.cards.length + 100;
     }
     if (this.done) {
-      return q + deck.cards.length + 30
+      return q + this.session.cards.length + 30
     }
     return q
   }
@@ -100,3 +107,14 @@ class Card {
     )
   }
 }
+
+
+const average = (arr = []) => {
+  if (arr.length === 0) return 0;
+  return arr.reduce((a, b) => a + b, 0) / arr.length
+}
+
+const clamp = function(input, min, max) {
+  return Math.min(Math.max(input, min), max);
+}
+export default Card
