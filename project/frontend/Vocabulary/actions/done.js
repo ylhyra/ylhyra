@@ -13,6 +13,7 @@ export default async (input) => {
         id: card.id,
         history: card.history,
       }
-    })
+    }),
+    withCredentials: true,
   })
 }

@@ -8,7 +8,7 @@ import { InitializeSession } from 'Vocabulary/actions/session'
 const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
 
 export default async (input) => {
-  const data = (await axios.post(`${url}/api/vocabulary/get`)).data
+  const data = (await axios.post(`${url}/api/vocabulary/get`, /*null, { withCredentials: true }*/)).data
   InitializeSession(data.map(
     ({ data, ...other }) => ({ ...other, ...JSON.parse(data) })
   ))

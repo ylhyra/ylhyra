@@ -5,8 +5,9 @@ import query from 'server/database'
 const router = (require('express')).Router()
 import shortid from 'shortid'
 import sql from 'server/database/functions/SQL-template-literal'
+import cors from 'cors'
 
-router.post('/vocabulary/save', (req, res) => {
+router.post('/vocabulary/save', cors(), (req, res) => {
   if (!req.session.user_id) {
     // return res.status(400).send('No user')
   }
@@ -20,14 +21,13 @@ router.post('/vocabulary/save', (req, res) => {
     return sql `
       DELETE FROM vocabulary_schedule
         WHERE card_id = ${i.id}
-        -- AND user_id = ''
+        AND user_id = ${req.session.user_id}
         ;
       INSERT INTO vocabulary_schedule SET
         card_id = ${i.id},
-        user_id = ${req.session.user_id},
         due_date = '1234',
-        status = 'learning'
-        -- user_id = ''
+        status = 'learning',
+        user_id = ${req.session.user_id}
         ;
     `
   })

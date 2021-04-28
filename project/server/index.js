@@ -71,6 +71,7 @@ app.use('/api/temp_files/', express.static(upload_path))
 */
 app.use(cors({ origin: '*' }))
 app.set('json spaces', 2)
+
 /*
   When running on subdomains,
   serve up inflections.
