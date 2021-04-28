@@ -4,6 +4,7 @@
 import store from 'App/store'
 import _ from 'underscore'
 import Card, { BAD, OK, PERFECT } from './card'
+import done from './done'
 
 class Session {
   constructor(cards) {
@@ -48,7 +49,13 @@ class Session {
     this.currentCard.word_ids.forEach(id => {
       this.lastSeenWordIds[id] = this.counter
     })
-    // console.log(currentCard)
+
+    /* Done */
+    const isDone = (this.cards.length - this.cards.filter(card => card.done).length) === 0
+    if (isDone) {
+      this.done = true
+      done()
+    }
   }
   getStatus() {
     return {
@@ -59,7 +66,7 @@ class Session {
       cardsDone: this.cards.filter(card => card.done).length,
       wordsTotal: _.uniq(_.flatten(this.cards.map(i => i.word_ids))).length,
       wordsDone: _.uniq(_.flatten(this.cards.filter(card => card.done).map(i => i.word_ids))).length,
-      sessionDone: (this.cards.length - this.cards.filter(card => card.done).length) === 0,
+      sessionDone: this.done,
       // total: this.cards.filter(card => card.done).length,
     }
   }
@@ -67,6 +74,7 @@ class Session {
 
 export const loadCard = () => {
   const session = store.getState().vocabulary.session
+  // if (session.done) return;
   if (!session.currentCard) return console.error('no cards')
   store.dispatch({
     type: 'LOAD_CARD',

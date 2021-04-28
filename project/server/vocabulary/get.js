@@ -3,7 +3,7 @@ const router = (require('express')).Router()
 import shortid from 'shortid'
 import sql from 'server/database/functions/SQL-template-literal'
 
-router.post('/get_vocabulary_cards', (req, res) => {
+router.post('/vocabulary/get', (req, res) => {
   if(!req.session.user_id) {
     req.session.user_id = shortid.generate()
   }

@@ -29,7 +29,7 @@ class GameContainer extends Component {
     return (
       <div>
         <div className="vocabularynew-card-outer-container">
-          {status.deckDone ? 'Done :)' : <Card/>}
+          {status.sessionDone ? 'Done :)' : <Card/>}
         </div>
         <Progress/>
 
