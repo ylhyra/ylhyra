@@ -10,7 +10,7 @@ router.post('/get_vocabulary_cards', (req, res) => {
   query(sql`
     SELECT * FROM vocabulary_cards
     ORDER BY level
-    LIMIT 30
+    LIMIT 1
   `, (err, results) => {
     if (err) {
       console.error(err)

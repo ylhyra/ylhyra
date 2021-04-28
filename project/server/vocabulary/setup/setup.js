@@ -49,6 +49,7 @@ const run = async () => {
       if (!columns.icelandic) return;
       if (!english) return;
       if (columns.should_be_taught == 'no') return;
+      if (!columns.level) return;
 
       /* Can have multiple */
       let icelandic_strings = []
@@ -79,6 +80,7 @@ const run = async () => {
         ids_contained_in_this_entry,
         depends_on,
         level: columns.level,
+        word_ids: icelandic_strings.map(getHash),
       }
 
       if (columns.direction && columns.direction !== '<-' && columns.direction !== '->') {
@@ -125,12 +127,13 @@ const run = async () => {
     id,
     from,
     level,
+    word_ids,
   }) => {
     await new Promise((resolve) => {
       query(sql `INSERT INTO vocabulary_cards SET
         id = ${id},
-        level = ${Math.floor(level)},
-        data = ${stable_stringify({is,en,from})}
+        level = ${Math.floor(level) || null},
+        data = ${stable_stringify({is,en,from,word_ids})}
         `, (err) => {
         if (err) {
           console.error(err)

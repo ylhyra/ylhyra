@@ -11,7 +11,7 @@ class Session {
     this.cards = {}
     this.counter = 0
     this.queueCounter = 0
-    this.lastSeenBelongsTo = {}
+    this.lastSeenWordIds = {}
     this.currentCard = null
     // let id_to_card = {}
     // cards_input.forEach(card => {
@@ -45,7 +45,9 @@ class Session {
     if (shouldIncreaseAdjustedCounter) {
       this.queueCounter++;
     }
-    this.lastSeenBelongsTo[this.currentCard.belongs_to] = this.counter
+    this.currentCard.word_ids.forEach(id => {
+      this.lastSeenWordIds[id] = this.counter
+    })
     // console.log(currentCard)
   }
   getStatus() {
@@ -55,8 +57,8 @@ class Session {
       good: this.cards.filter(card => card.getStatus() === PERFECT).length,
       total: this.cards.length,
       cardsDone: this.cards.filter(card => card.done).length,
-      wordsTotal: _.uniq(this.cards.map(i => i.belongs_to)).length,
-      wordsDone: _.uniq(this.cards.filter(card => card.done).map(i => i.belongs_to)).length,
+      wordsTotal: _.uniq(_.flatten(this.cards.map(i => i.word_ids))).length,
+      wordsDone: _.uniq(_.flatten(this.cards.filter(card => card.done).map(i => i.word_ids))).length,
       sessionDone: (this.cards.length - this.cards.filter(card => card.done).length) === 0,
       // total: this.cards.filter(card => card.done).length,
     }

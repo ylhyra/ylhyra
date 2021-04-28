@@ -76,12 +76,17 @@ class Card {
     return this.queuePosition - this.session.queueCounter
   }
   getLastSeen() {
-    return this.session.cards.length
-    // if (this.belongs_to.find(i => this.session.lastSeenBelongsTo[i])) {
-    //   return this.session.counter - this.belongs_to.find(i => this.session.lastSeenBelongsTo[i])
-    // } else {
-    //   return this.session.cards.length
-    // }
+    let last_seen = null;
+    this.word_ids.forEach(i => {
+      if (this.session.lastSeenWordIds[i] && (last_seen === null || last_seen > this.session.lastSeenWordIds[i])) {
+        last_seen = this.session.lastSeenWordIds[i]
+      }
+    })
+    if (last_seen) {
+      return this.session.counter - last_seen
+    } else {
+      return this.session.cards.length
+    }
   }
   getRanking() {
     let q = this.getQueuePosition() +
@@ -114,7 +119,7 @@ const average = (arr = []) => {
   return arr.reduce((a, b) => a + b, 0) / arr.length
 }
 
-const clamp = function(input, min, max) {
+const clamp = function (input, min, max) {
   return Math.min(Math.max(input, min), max);
 }
 export default Card
