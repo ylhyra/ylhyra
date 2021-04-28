@@ -10,18 +10,29 @@ router.post('/vocabulary/save', (req, res) => {
   if (!req.session.user_id) {
     // return res.status(400).send('No user')
   }
-  console.log(req.body.data)
-  res.send(200)
-  return
-  
-  query(sql `
-    INSERT INTO vocabulary_schedule
-      card_id VARCHAR(20),
-      due BIGINT,
-      score VARCHAR(20),
-      last_seen BIGINT,
-      user_id VARCHAR(32)
-   `, (err, results) => {
+  const cards = req.body.data
+
+  if (cards.length > 100) {
+    return res.status(400).send('Too long')
+  }
+
+  const queries = cards.map(i => {
+    return sql `
+      DELETE FROM vocabulary_schedule
+        WHERE card_id = ${i.id}
+        -- AND user_id = ''
+        ;
+      INSERT INTO vocabulary_schedule SET
+        card_id = ${i.id},
+        user_id = ${req.session.user_id},
+        due_date = '1234',
+        status = 'learning'
+        -- user_id = ''
+        ;
+    `
+  })
+
+  query(queries.join(''), (err, results) => {
     if (err) {
       console.error(err)
       res.sendStatus(500)
