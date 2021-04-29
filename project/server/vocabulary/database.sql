@@ -44,13 +44,13 @@ DROP TABLE IF EXISTS vocabulary_schedule;
 CREATE TABLE vocabulary_schedule (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   card_id VARCHAR(20),
-  due_date BIGINT,
+  due DATETIME,
   score VARCHAR(20),
   status ENUM('learning', 'learned'),
-  last_seen BIGINT,
+  last_seen TIMESTAMP,
   user_id VARCHAR(32),
   INDEX (card_id),
-  INDEX (due_date),
+  INDEX (due),
   INDEX (score),
   INDEX (user_id)
 ) ROW_FORMAT=COMPRESSED;

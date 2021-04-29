@@ -1,3 +1,5 @@
+import { average, clamp } from 'App/functions/math'
+
 export const BAD = 1
 export const OK = 2
 export const PERFECT = 3
@@ -113,13 +115,4 @@ class Card {
   }
 }
 
-
-const average = (arr = []) => {
-  if (arr.length === 0) return 0;
-  return arr.reduce((a, b) => a + b, 0) / arr.length
-}
-
-const clamp = function (input, min, max) {
-  return Math.min(Math.max(input, min), max);
-}
 export default Card
