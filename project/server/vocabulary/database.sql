@@ -47,7 +47,7 @@ CREATE TABLE vocabulary_schedule (
   due DATETIME,
   score VARCHAR(20),
   status ENUM('learning', 'learned'),
-  last_seen TIMESTAMP,
+  last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   user_id VARCHAR(32),
   INDEX (card_id),
   INDEX (due),

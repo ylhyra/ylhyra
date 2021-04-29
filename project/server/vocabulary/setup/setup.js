@@ -12,7 +12,8 @@ import stable_stringify from 'json-stable-stringify'
 const google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?output=tsv&random=${Math.random()}`
 
 let dependencyGraph = {}
-let keys = {}
+let hashesToCardIds = {}
+let keysSeen = {}
 
 /*
   Convert vocabulary data into a JavaScrip object
@@ -33,7 +34,7 @@ const run = async () => {
 
   data.split('\n').slice(1)
     // .slice(0, 100) // TEMP!!!
-    .forEach(line => {
+    .forEach((line, line_number) => {
 
       /* Assing names to columns */
       let columns = {}
@@ -81,6 +82,7 @@ const run = async () => {
         depends_on,
         level: columns.level,
         word_ids: icelandic_strings.map(getHash),
+        sort: line_number,
       }
 
       if (columns.direction && columns.direction !== '<-' && columns.direction !== '->') {
@@ -91,8 +93,8 @@ const run = async () => {
       if (columns.direction !== '<-') {
         icelandic_strings.forEach(i => {
           const id = getHash(i) + '_is';
-          if (keys[id]) return console.log(`"${i}" already exists`)
-          keys[id] = true
+          if (keysSeen[id]) return console.log(`"${i}" already exists`)
+          keysSeen[id] = true
           cards.push({
             is: i,
             from: 'is',
@@ -100,27 +102,62 @@ const run = async () => {
             ...card_skeleton,
           })
           // s+=`${i}\t${english}\t${level}\n`
+          ids_contained_in_this_entry.forEach(j => {
+            hashesToCardIds[j] = id
+          })
         })
       }
 
       /* English to Icelandic */
       if (columns.direction !== '->') {
         const id = getHash(columns.icelandic) + '_en'
-        if (keys[id]) return console.log(`"${columns.icelandic}" already exists`)
-        keys[id] = true
+        if (keysSeen[id]) return console.log(`"${columns.icelandic}" already exists`)
+        keysSeen[id] = true
         cards.push({
           is: clean_string(columns.icelandic),
           from: 'en',
           id,
           ...card_skeleton,
         })
+        ids_contained_in_this_entry.forEach(j => {
+          hashesToCardIds[j] = id
+        })
         // s+=`${english}\t${ clean_string(icelandic)}\t${level}\n`
       }
     })
+
+
+
+  /* Process dependency graph */
+  for (let source in dependencyGraph) {
+    CreateDependencyChain(source, dependencyGraph, hashesToCardIds
+    dependencyGraph[source].forEach(target => {
+      if (dependencyGraph[target]) {
+        console.log(dependencyGraph[target])
+      }
+    })
+    // hashesToCardIds
+  }
+
+  process.exit()
+
   // console.log(dependencyGraph)
-  console.log(`${cards.length} cards`)
+  cards = cards.sort((a, b) => {
+    if (a.level !== b.level) {
+      return a.level - b.level
+    }
+    return a.sort - b.sort
+  }).map((card, index) => ({
+    ...card,
+    sort: index,
+  }))
+
+
+  //
+  // process.exit()
   // console.log(cards.slice(0, 2))
   // return;
+  console.log(`${cards.length} cards`)
   await cards.forEachAsync(async ({
     is,
     en,
@@ -128,11 +165,13 @@ const run = async () => {
     from,
     level,
     word_ids,
+    sort,
   }) => {
     await new Promise((resolve) => {
       query(sql `INSERT INTO vocabulary_cards SET
         id = ${id},
         level = ${Math.floor(level) || null},
+        sort = ${sort},
         data = ${stable_stringify({is,en,from,word_ids})}
         `, (err) => {
         if (err) {
