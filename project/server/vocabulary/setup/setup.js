@@ -18,7 +18,7 @@ let keysSeen = {}
 /*
   Convert vocabulary data into a JavaScrip object
 */
-const run = async () => {
+const run = async() => {
   const { data } = await axios.get(google_docs_url)
   let cards = []
 
@@ -130,12 +130,7 @@ const run = async () => {
 
   /* Process dependency graph */
   for (let source in dependencyGraph) {
-    CreateDependencyChain(source, dependencyGraph, hashesToCardIds
-    dependencyGraph[source].forEach(target => {
-      if (dependencyGraph[target]) {
-        console.log(dependencyGraph[target])
-      }
-    })
+    console.log(JSON.stringify(CreateDependencyChain(source, dependencyGraph, hashesToCardIds),null,2))
     // hashesToCardIds
   }
 
@@ -158,7 +153,7 @@ const run = async () => {
   // console.log(cards.slice(0, 2))
   // return;
   console.log(`${cards.length} cards`)
-  await cards.forEachAsync(async ({
+  await cards.forEachAsync(async({
     is,
     en,
     id,
@@ -223,6 +218,27 @@ const getHashesFromCommaSeperated = (i) => {
 // .replace(/'''(.+)'''/g, '<strong>$1</strong>')
 // .replace(/''(.+)''/g, '<em>$1</em>')
 // .trim()
+
+
+const CreateDependencyChain = (source, dependencyGraph, hashesToCardIds, alreadySeenInput = []) => {
+  // let graph = []
+  /* Deep copy in order to only watch direct parents */
+  return dependencyGraph[source].map(target => {
+    const alreadySeen = JSON.parse(JSON.stringify(alreadySeenInput))
+    if (alreadySeen.includes(target)) return null;
+    alreadySeen.push(target)
+
+    if (dependencyGraph[target]) {
+      return {
+        id: target,
+        children: CreateDependencyChain(target, dependencyGraph, hashesToCardIds, alreadySeen)
+      }
+    }
+    return {
+      id: target,
+    }
+  })
+}
 
 query(sql `
   TRUNCATE TABLE vocabulary_cards;
