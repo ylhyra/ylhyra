@@ -46,12 +46,12 @@ CREATE TABLE vocabulary_schedule (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   card_id VARCHAR(20),
   due DATETIME,
-  score VARCHAR(20),
+  score DECIMAL(3,2) UNSIGNED, -- Range from 0 to 3
   status ENUM('learning', 'learned'),
   last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   user_id VARCHAR(32),
-  last_interval_in_days VARCHAR(8),
-  times_seen INT(8), -- Number of sessions this items has been seen
+  last_interval_in_days INT(5) UNSIGNED,
+  times_seen INT(5) UNSIGNED, -- Number of sessions this items has been seen
   INDEX (card_id),
   INDEX (due),
   INDEX (score),

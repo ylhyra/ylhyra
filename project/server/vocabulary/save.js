@@ -28,8 +28,11 @@ router.post('/vocabulary/save', cors(), (req, res) => {
       INSERT INTO vocabulary_schedule SET
         card_id = ${card.id},
         due = FROM_UNIXTIME(${msToS(roundMsToHour(due_milliseconds))}),
-        status = ${card.status},
-        user_id = ${user_id}
+        last_interval_in_days = ${card.due_in_days},
+        status = ${card.status||null},
+        user_id = ${user_id},
+        score = ${card.score},
+        times_seen = ${(card.times_seen||0) + 1}
         ;
     `
   })

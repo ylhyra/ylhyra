@@ -14,7 +14,7 @@ export const getNewSchedule = () => {
   const newSchedule = cards.map(card => {
     let due_in_days;
     const score = average(card.history)
-    const anyBad = history.some(i => i === BAD)
+    const anyBad = card.history.some(i => i === BAD)
     if (anyBad) {
       due_in_days = 1;
     } else {
