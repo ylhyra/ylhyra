@@ -22,6 +22,7 @@ CREATE TABLE vocabulary_card_relations (
   from_id VARCHAR(20),
   to_id VARCHAR(20),
   relation_type ENUM('belongs_to', 'depends_on', 'related'),
+  relation_depth INT(2),
   INDEX (from_id),
   INDEX (to_id)
 ) ROW_FORMAT=COMPRESSED;
@@ -49,6 +50,8 @@ CREATE TABLE vocabulary_schedule (
   status ENUM('learning', 'learned'),
   last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   user_id VARCHAR(32),
+  last_interval_in_days VARCHAR(8),
+  times_seen INT(8), -- Number of sessions this items has been seen
   INDEX (card_id),
   INDEX (due),
   INDEX (score),
