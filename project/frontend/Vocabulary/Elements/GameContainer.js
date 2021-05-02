@@ -10,17 +10,11 @@ import { isBrowser, hasLocalStorage, supportsTouch } from 'project/frontend/App/
 }))
 class GameContainer extends Component {
   componentDidMount = () => {
-    // load()
     $('body').addClass('unscrollable')
-    // $('#speed-reader').on('click', startStop)
-    // document.addEventListener('keydown', checkKey);
-    // !supportsTouch && document.addEventListener('mousemove', mouseListener);
     TextEventListenersOff()
   }
   componentWillUnmount = () => {
     $('body').removeClass('unscrollable')
-    // document.removeEventListener('keydown', checkKey);
-    // !supportsTouch && document.removeEventListener('mousemove', mouseListener);
     TextEventListenersOn()
   }
 
@@ -29,24 +23,11 @@ class GameContainer extends Component {
     return (
       <div>
         <div className="vocabularynew-card-outer-container">
-          {status.sessionDone ? 'Done :)' : <Card/>}
+          <Card/>
         </div>
         <Progress/>
-
-        {/* <TempStatus/> */}
       </div>
     )
   }
 }
 export default GameContainer
-
-
-const Table = () => {
-  return <table>
-    {/* <tbody>
-      {test.map(({ is, en }) => (
-        <tr><td><b>{is}</b></td><td>{en}</td></tr>
-      ))}
-    </tbody> */}
-  </table>
-}

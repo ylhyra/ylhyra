@@ -100,7 +100,7 @@ class Card {
       this.easiness * 0.001 +
       (this.session.cards.length - this.getLastSeen()) / this.session.cards.length * 0.01
     if (this.getLastSeen() <= 3) {
-      return q + this.session.cards.length + 100;
+      return this.session.cards.length + 500 - this.getLastSeen();
     }
     if (this.done) {
       return q + this.session.cards.length + 30

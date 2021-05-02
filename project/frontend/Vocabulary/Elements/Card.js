@@ -22,8 +22,8 @@ class Card extends Component {
     window.addEventListener('keyup', this.keyUp);
   }
   componentDidUpdate(prevProps) {
-    const { card } = this.props.vocabulary
-    if (!prevProps || card.id !== prevProps.vocabulary.card.id) {
+    const { card, status } = this.props.vocabulary
+    if (!prevProps || card.counter !== prevProps.vocabulary.card.counter) {
       this.setState({
         answer: null,
         clickingOnShowButton: null,
@@ -129,7 +129,7 @@ class Card extends Component {
     const is = clean(card.is)
     const en = clean(card.en)
     return (
-      <div className="vocabularynew-vocabulary-card" key={card.id}>
+      <div className="vocabularynew-vocabulary-card" key={status.counter}>
         <div className="vocabularynew-flashcard-container" onClick={()=>this.show(false)}>
           <div className={`flashcard-top ${card.from === 'is' ? 'icelandic' : 'english'}`}>
             {card.from === 'is' ? is : en}

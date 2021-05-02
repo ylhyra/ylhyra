@@ -28,9 +28,9 @@ class MainScreen extends Component {
           <button onClick={()=>setScreen(SCREEN_MAIN)}>Exit</button>
           <div>Done for today!</div>
           <div>You studies X cards.</div>
-          <button onClick={()=>store.getState().vocabulary.deck.continueStudying()}>Continue studying</button>
-          <button onClick={()=>store.getState().vocabulary.deck.studyNewWords()}>Study new words</button>
-          <button onClick={()=>store.getState().vocabulary.deck.repeatTodaysWords()}>Study today’s difficult words again</button>
+          <div><button onClick={()=>store.getState().vocabulary.deck.continueStudying()}>Continue studying</button></div>
+          {/* <div><button onClick={()=>store.getState().vocabulary.deck.studyNewWords()}>Study new words</button></div>
+          <div><button onClick={()=>store.getState().vocabulary.deck.repeatTodaysWords()}>Study today’s difficult words again</button></div> */}
         </div>
       default:
         return <div id="vocabulary">
@@ -46,7 +46,7 @@ class MainScreen extends Component {
 }
 export default MainScreen
 
-const setScreen = (scren) => {
+export const setScreen = (scren) => {
   store.dispatch({
     type: 'VOCABULARY_SCREEN',
     content: scren,

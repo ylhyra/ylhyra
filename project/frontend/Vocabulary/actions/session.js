@@ -4,7 +4,7 @@
 import store from 'App/store'
 import _ from 'underscore'
 import Card, { BAD, OK, PERFECT } from './card'
-import done from './done'
+import { setScreen, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
 
 class Session {
   constructor(cards) {
@@ -54,7 +54,7 @@ class Session {
     const isDone = (this.cards.length - this.cards.filter(card => card.done).length) === 0
     if (isDone) {
       this.done = true
-      done()
+      store.getState().vocabulary.deck.sessionDone()
     }
   }
   getStatus() {
@@ -66,7 +66,7 @@ class Session {
       cardsDone: this.cards.filter(card => card.done).length,
       wordsTotal: _.uniq(_.flatten(this.cards.map(i => i.word_ids))).length,
       wordsDone: _.uniq(_.flatten(this.cards.filter(card => card.done).map(i => i.word_ids))).length,
-      sessionDone: this.done,
+      // sessionDone: this.done,
       // total: this.cards.filter(card => card.done).length,
     }
   }
@@ -92,6 +92,7 @@ export const answer = (rating) => {
   session.next()
   loadCard()
 }
+window.answer = answer //test
 
 export const InitializeSession = (input) => {
   if (Array.isArray(input)) {

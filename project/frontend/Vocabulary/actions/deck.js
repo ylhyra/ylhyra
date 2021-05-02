@@ -6,8 +6,9 @@ import error from 'App/Error'
 import axios from 'axios'
 import { InitializeSession } from 'Vocabulary/actions/session'
 const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
-
-const CARDS_PER_SESSION = 3
+import _ from 'underscore'
+import { setScreen, SCREEN_DONE, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
+const CARDS_PER_SESSION = 1
 const MAX_NEW_CARDS_PER_SESSION = 3
 
 class Deck {
@@ -17,12 +18,24 @@ class Deck {
     this.schedule = {}
   }
   generateSession() {
-    InitializeSession(this.cards.slice(0, 4))
+    InitializeSession(
+      _.shuffle(this.cards).slice(0, CARDS_PER_SESSION)
+    )
   }
-  continueStudying(){
+  sessionDone() {
+    setScreen(SCREEN_DONE)
   }
-  studyNewWords(){}
-  repeatTodaysWords(){}
+  continueStudying() {
+    this.generateSession()
+    setScreen(SCREEN_VOCABULARY)
+  }
+  studyNewWords() {}
+  repeatTodaysWords() {}
+  sync() {
+    // await axios.post(`${url}/api/vocabulary/save`, {
+    //   data: getNewSchedule(),
+    // })
+  }
 }
 
 export const InitializeDeck = async () => {
