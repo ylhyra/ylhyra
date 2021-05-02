@@ -2,9 +2,6 @@ import { average, clamp } from 'App/functions/math'
 import store from 'App/store'
 import { BAD, OK, PERFECT } from './card'
 
-// export const CARD_STATUS_LEARNING = 'learning'
-// export const CARD_STATUS_LEARNED = 'learned'
-
 /**
  * Long-term scheduling
  */

@@ -15,8 +15,8 @@ router.all('/vocabulary/get', /* cors({ origin: 'https://ylhyra.is', credentials
 
   query(sql `
     SELECT * FROM vocabulary_cards
-    ORDER BY level
-    LIMIT 1
+    ORDER BY level, sort
+    LIMIT 200
   `, (err, results) => {
     if (err) {
       console.error(err)

@@ -4,7 +4,7 @@ import { connect, Provider } from 'react-redux'
 import store from 'App/store'
 import error from 'App/Error'
 import { isBrowser } from 'project/frontend/App/functions/isBrowser'
-import MainScreen from './Elements/MainScreen'
+import Screens from './Elements/Screens'
 
 /*
   Render container
@@ -19,7 +19,7 @@ const Render = () => {
     <Provider store={store}>
       <div className="">
         {/* <div id="overlay"></div> */}
-        <MainScreen/>
+        <Screens/>
       </div>
     </Provider>
   )

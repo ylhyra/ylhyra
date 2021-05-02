@@ -4,6 +4,11 @@ export const BAD = 1
 export const OK = 2
 export const PERFECT = 3
 
+// export const CARD_STATUS_NEW = 'new'
+// export const CARD_STATUS_LEARNING = 'learning'
+// export const CARD_STATUS_LEARNED = 'learned'
+// LEVEL_A1
+
 const MIN_E_FACTOR = 1.2
 const DEFAULT_E_FACTOR = 2.5
 

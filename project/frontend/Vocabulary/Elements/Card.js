@@ -162,6 +162,7 @@ export default Card
 
 const hide = (input) => {
   if (!input) return null
+  if (input.split(' ').length > 2) return null; // Temp
   const output = input.split(/([,;/ ])/g).map(i => {
     if (i.match(/[,;/ ]/)) return i;
     let hintsToShow = Math.min(Math.ceil(Math.random() * 3), i.length - 2)

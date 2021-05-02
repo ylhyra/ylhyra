@@ -1,5 +1,14 @@
 import { combineReducers } from 'redux'
 
+const deck = (state = null, action) => {
+  switch (action.type) {
+    case 'LOAD_DECK':
+      return action.content
+    default:
+      return state
+  }
+}
+
 const session = (state = null, action) => {
   switch (action.type) {
     case 'LOAD_SESSION':
@@ -47,6 +56,7 @@ const screen = (state = {}, action) => {
 }
 
 export const vocabulary = combineReducers({
+  deck,
   session,
   card,
   status,
