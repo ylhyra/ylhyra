@@ -1,6 +1,7 @@
 import { average, clamp } from 'App/functions/math'
 import store from 'App/store'
 import { BAD, OK, PERFECT } from './card'
+import { daysToMs } from 'project/frontend/App/functions/time.js'
 
 /**
  * Long-term scheduling
@@ -9,7 +10,7 @@ export const generateNewSchedule = () => {
   const deck = store.getState().vocabulary.deck
   const cards = store.getState().vocabulary.session.cards
 
-  const newSchedule = cards.map(card => {
+  cards.forEach(card => {
     let due_in_days;
     let score;
     if (card.score) {
@@ -37,14 +38,13 @@ export const generateNewSchedule = () => {
     // }
 
     deck.schedule[card.id] = {
-      due_in_days,
+      due: (new Date()).getTime() + daysToMs(due_in_days),
+      last_interval_in_days: due_in_days,
       score,
-      last_updated: (new Date()).getTime(),
+      last_seen: (new Date()).getTime(),
+      times_seen: (deck.schedule[card.id] || 0) + 1,
     }
   })
 
-
   deck.sync()
-
-  return newSchedule
 }

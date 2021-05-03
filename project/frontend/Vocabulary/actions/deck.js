@@ -9,14 +9,15 @@ import { InitializeSession } from 'Vocabulary/actions/session'
 const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
 import _ from 'underscore'
 import { setScreen, SCREEN_DONE, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
-const DEFAULT_CARDS_PER_SESSION = 10
+const DEFAULT_CARDS_PER_SESSION = 1
 const MAX_NEW_CARDS_PER_SESSION = 3
 
 class Deck {
-  constructor(cards) {
+  constructor(cards, schedule) {
     this.cards = cards
     this.generateSession()
-    this.schedule = {}
+    this.schedule = schedule || {}
+    // this.sessionLog = []
     this.save()
   }
   generateSession() {
@@ -34,9 +35,10 @@ class Deck {
   }
   studyNewWords() {}
   repeatTodaysWords() {}
-  save() {
-  }
+  save() {}
   sync() {
+    localStorage.setItem('vocabulary-schedule', JSON.stringify(this.schedule))
+
     // await axios.post(`${url}/api/vocabulary/save`, {
     //   data: getNewSchedule(),
     // })
@@ -44,7 +46,7 @@ class Deck {
 }
 
 export const InitializeDeck = async() => {
-  let cards;
+  let cards, schedule;
   if (localStorage.getItem('vocabulary-cards')) {
     cards = JSON.parse(localStorage.getItem('vocabulary-cards'))
   } else {
@@ -54,7 +56,12 @@ export const InitializeDeck = async() => {
     ))
     localStorage.setItem('vocabulary-cards', JSON.stringify(cards))
   }
-  const deck = new Deck(cards)
+
+  if (localStorage.getItem('vocabulary-schedule')) {
+    schedule = JSON.parse(localStorage.getItem('vocabulary-schedule'))
+  }
+
+  const deck = new Deck(cards, schedule)
   store.dispatch({
     type: 'LOAD_DECK',
     content: deck,

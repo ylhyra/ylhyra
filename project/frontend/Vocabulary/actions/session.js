@@ -55,7 +55,6 @@ class Session {
     if (isDone) {
       this.done = true
       store.getState().vocabulary.deck.sessionDone()
-      this.counter = 0
     }
   }
   getStatus() {
