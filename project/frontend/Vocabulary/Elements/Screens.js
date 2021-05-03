@@ -27,7 +27,7 @@ class MainScreen extends Component {
         return <div id="vocabulary">
           <button onClick={()=>setScreen(SCREEN_MAIN)}>Exit</button>
           <div>Done for today!</div>
-          <div>You studies X cards.</div>
+          {/* <div>You studies X cards.</div> */}
           <div><button onClick={()=>store.getState().vocabulary.deck.continueStudying()}>Continue studying</button></div>
           {/* <div><button onClick={()=>store.getState().vocabulary.deck.studyNewWords()}>Study new words</button></div>
           <div><button onClick={()=>store.getState().vocabulary.deck.repeatTodaysWords()}>Study today’s difficult words again</button></div> */}
@@ -38,7 +38,9 @@ class MainScreen extends Component {
           {status && status.total > 0 ? <div>
             {status.wordsTotal} items to study
             <br/>
-            <button onClick={()=>setScreen(SCREEN_VOCABULARY)}>Start</button>
+            <button onClick={()=>setScreen(SCREEN_VOCABULARY)}>
+              {status.counter && status.counter > 1 ? 'Continue' : 'Start'}
+            </button>
           </div> : `Loading...`}
         </div>
     }

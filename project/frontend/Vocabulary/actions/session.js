@@ -55,6 +55,7 @@ class Session {
     if (isDone) {
       this.done = true
       store.getState().vocabulary.deck.sessionDone()
+      this.counter = 0
     }
   }
   getStatus() {
@@ -66,6 +67,7 @@ class Session {
       cardsDone: this.cards.filter(card => card.done).length,
       wordsTotal: _.uniq(_.flatten(this.cards.map(i => i.word_ids))).length,
       wordsDone: _.uniq(_.flatten(this.cards.filter(card => card.done).map(i => i.word_ids))).length,
+      counter: this.counter,
       // sessionDone: this.done,
       // total: this.cards.filter(card => card.done).length,
     }

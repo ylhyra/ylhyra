@@ -5,7 +5,8 @@ import { BAD, OK, PERFECT } from './card'
 /**
  * Long-term scheduling
  */
-export const getNewSchedule = () => {
+export const generateNewSchedule = () => {
+  const deck = store.getState().vocabulary.deck
   const cards = store.getState().vocabulary.session.cards
 
   const newSchedule = cards.map(card => {
@@ -29,12 +30,21 @@ export const getNewSchedule = () => {
       }
     }
 
-    return {
-      id: card.id,
+    // return {
+    //   id: card.id,
+    //   due_in_days,
+    //   score,
+    // }
+
+    deck.schedule[card.id] = {
       due_in_days,
       score,
+      last_updated: (new Date()).getTime(),
     }
   })
+
+
+  deck.sync()
 
   return newSchedule
 }
