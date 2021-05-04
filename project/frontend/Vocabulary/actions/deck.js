@@ -9,7 +9,7 @@ import { InitializeSession } from 'Vocabulary/actions/session'
 const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
 import _ from 'underscore'
 import { setScreen, SCREEN_DONE, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
-const DEFAULT_CARDS_PER_SESSION = 1
+const DEFAULT_CARDS_PER_SESSION = 2
 const MAX_NEW_CARDS_PER_SESSION = 3
 
 class Deck {
