@@ -14,7 +14,9 @@ const MAX_NEW_CARDS_PER_SESSION = 6
 
 class Deck {
   constructor(cards, schedule) {
-    this.cards = cards
+    this.cards_sorted = cards
+    this.cards = {}
+    cards.forEach(card => this.cards[card.id] = card)
     this.schedule = schedule || {}
     // this.sessionLog = []
     this.generateSession()
@@ -38,31 +40,50 @@ class Deck {
           not_overdue_ids.push(i.id)
         }
       })
-    let chosen = _.shuffle([
+    let chosen_ids = _.shuffle([
       ...bad_cards_ids.slice(0, 8),
       ...good_overdue_ids.slice(0, 14),
       ...not_overdue_ids.slice(0, 14),
     ].slice(0, 11))
 
     /* New cards */
-    let total_new_cards = 0;
-    for (let i = 0; i < this.cards.length; i++) {
-      if (chosen.length < 12 && total_new_cards < MAX_NEW_CARDS_PER_SESSION) {
-        if (!(this.cards[i].id in this.schedule)) {
-          /* TODO: Intersperse */
-          chosen.push(this.cards[i].id)
-          total_new_cards++;
+    let new_card_ids = [];
+    for (let i = 0; i < this.cards_sorted.length; i++) {
+      const id = this.cards_sorted[i].id
+      // console.log(id)
+      if (
+        chosen_ids.length + new_card_ids.length < 15 &&
+        new_card_ids.length < MAX_NEW_CARDS_PER_SESSION
+      ) {
+        if (!(id in this.schedule)) {
+          new_card_ids.push(id)
         }
       } else {
         break;
       }
     }
+    /* Interleave new cards with old cards */
+    const ratio = chosen_ids.length / new_card_ids.length
+    new_card_ids.forEach((id, index) => {
+      /* Inserts item at correct ratio to spread new and old cards out. */
+      chosen_ids.splice(
+        Math.round(ratio * index) +
+        index + /* To make up for the cards we've already added */
+        1, /* Plus one to make old cards show up first */
+        0, id
+      )
+    })
 
-    /* Intersperse */
+    /* Related cards */
+    // chosen
 
-    InitializeSession(
-      _.shuffle(this.cards).slice(0)
-    )
+
+    /* Depends on cards */
+    // TODO
+    //
+    let chosen = chosen_ids.map(id => this.cards[id])
+    console.log(chosen_ids)
+    InitializeSession(chosen)
   }
   sessionDone() {
     setScreen(SCREEN_DONE)
