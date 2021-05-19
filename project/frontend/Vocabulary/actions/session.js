@@ -5,6 +5,7 @@ import store from 'App/store'
 import _ from 'underscore'
 import Card, { BAD, OK, PERFECT } from './card'
 import { setScreen, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
+const MINUTES = 5
 
 class Session {
   constructor(cards) {
@@ -46,7 +47,7 @@ class Session {
     if (shouldIncreaseAdjustedCounter) {
       this.queueCounter++;
     }
-    this.currentCard.word_ids.forEach(id => {
+    this.currentCard.terms.forEach(id => {
       this.lastSeenWordIds[id] = this.counter
     })
 
@@ -64,8 +65,8 @@ class Session {
       good: this.cards.filter(card => card.getStatus() === PERFECT).length,
       total: this.cards.length,
       cardsDone: this.cards.filter(card => card.done).length,
-      wordsTotal: _.uniq(_.flatten(this.cards.map(i => i.word_ids))).length,
-      wordsDone: _.uniq(_.flatten(this.cards.filter(card => card.done).map(i => i.word_ids))).length,
+      wordsTotal: _.uniq(_.flatten(this.cards.map(i => i.terms))).length,
+      wordsDone: _.uniq(_.flatten(this.cards.filter(card => card.done).map(i => i.terms))).length,
       counter: this.counter,
       // sessionDone: this.done,
       // total: this.cards.filter(card => card.done).length,
@@ -93,7 +94,6 @@ export const answer = (rating) => {
   session.next()
   loadCard()
 }
-window.answer = answer //test
 
 export const InitializeSession = (input) => {
   if (Array.isArray(input)) {

@@ -27,7 +27,7 @@ class Card extends Component {
       this.setState({
         answer: null,
         clickingOnShowButton: null,
-        hint: hide(card.from !== 'is' ? card.is : card.en)
+        // hint: hide(card.from !== 'is' ? card.is : card.en)
       })
     }
   }

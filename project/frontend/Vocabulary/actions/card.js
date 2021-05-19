@@ -84,7 +84,7 @@ class Card {
   }
   getLastSeen() {
     let last_seen = null;
-    this.word_ids.forEach(i => {
+    this.terms.forEach(i => {
       if (this.session.lastSeenWordIds[i] && (last_seen === null || last_seen > this.session.lastSeenWordIds[i])) {
         last_seen = this.session.lastSeenWordIds[i]
       }

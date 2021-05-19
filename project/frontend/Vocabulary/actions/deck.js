@@ -9,15 +9,21 @@ import { InitializeSession } from 'Vocabulary/actions/session'
 import { url } from 'App/url'
 import _ from 'underscore'
 import { setScreen, SCREEN_DONE, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
-import { day } from 'project/frontend/App/functions/time.js'
+import { saveInLocalStorage, getFromLocalStorage } from 'project/frontend/App/functions/localStorage'
 const DEFAULT_TERMS_PER_SESSION = 10
-const MAX_NEW_CARDS_PER_SESSION = 6
+const MAX_NEW_CARDS_PER_SESSION = 10
 
 class Deck {
-  constructor(cards, schedule, session) {
-    this.cards_sorted = cards
-    this.cards = {}
-    cards.forEach(card => this.cards[card.id] = card)
+  constructor(database, schedule, session) {
+    const { cards, terms } = database
+    this.cards = cards
+    this.cards_sorted = Object.keys(cards).map(key => {
+      // if(typeof cards[key] === 'function') return null;
+      return {
+        id: key,
+        ...cards[key],
+      }
+    }).filter(Boolean).sort((a, b) => a.sort - b.sort)
     this.schedule = schedule || {}
     // if(session) {
     //
@@ -96,8 +102,8 @@ class Deck {
     /* Depends on cards */
     // TODO
     //
-    let chosen = chosen_ids.map(id => this.cards[id])
-    console.log(chosen_ids)
+    let chosen = chosen_ids.map(id => ({ id, ...this.cards[id] }))
+    // console.log(chosen_ids)
     InitializeSession(chosen)
   }
   sessionDone() {
@@ -111,15 +117,12 @@ class Deck {
   studyNewWords() {}
   repeatTodaysWords() {}
   saveSession() {
-    // /* Save session */
-    // localStorage.setItem('vocabulary-session', JSON.stringify({
-    //   savedAt: new Date().getTime(),
-    //   session: store.getState().vocabulary.session,
-    // }))
+    // saveInLocalStorage('vocabulary-session', store.getState().vocabulary.session)
+    // saveInLocalStorage('vocabulary-session-saved-at', new Date().getTime())
   }
   saveSchedule() {
     /* Save schedule */
-    localStorage.setItem('vocabulary-schedule', JSON.stringify(this.schedule))
+    saveInLocalStorage('vocabulary-schedule', this.schedule)
 
     // await axios.post(`${url}/api/vocabulary/save`, {
     //   data: getNewSchedule(),

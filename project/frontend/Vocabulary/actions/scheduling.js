@@ -13,6 +13,7 @@ export const generateNewSchedule = () => {
   cards.forEach(card => {
     let due_in_days;
     let score;
+    if (card.history.length === 0) return;
     if (card.score) {
       score = average([card.score, average(card.history)])
     } else {
