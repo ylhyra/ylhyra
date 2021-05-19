@@ -5,6 +5,7 @@ import store from 'App/store'
 import error from 'App/Error'
 import { isBrowser } from 'project/frontend/App/functions/isBrowser'
 import Screens from './Elements/Screens'
+import { Initialize } from 'Vocabulary/actions/init'
 
 /*
   Render container
@@ -32,3 +33,4 @@ const Render = () => {
 
 // export default Render
 Render()
+Initialize()

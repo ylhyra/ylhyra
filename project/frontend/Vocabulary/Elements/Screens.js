@@ -1,6 +1,5 @@
 import GameContainer from 'Vocabulary/Elements/GameContainer'
 import React, { Component } from 'react';
-import { InitializeDeck } from 'Vocabulary/actions/deck'
 import { connect } from 'react-redux';
 import store from 'App/store'
 export const SCREEN_MAIN = 1
@@ -12,7 +11,6 @@ export const SCREEN_DONE = 3
 }))
 class MainScreen extends Component {
   componentDidMount() {
-    InitializeDeck()
   }
   render() {
     const { screen, status } = this.props.vocabulary
@@ -42,6 +40,8 @@ class MainScreen extends Component {
               {status.counter && status.counter > 1 ? 'Continue' : 'Start'}
             </button>
           </div> : `Loading...`}
+
+          <Overview/>
         </div>
     }
   }
@@ -53,4 +53,19 @@ export const setScreen = (scren) => {
     type: 'VOCABULARY_SCREEN',
     content: scren,
   })
+}
+
+
+
+@connect(state => ({
+  vocabulary: state.vocabulary,
+}))
+class Overview extends Component {
+  render() {
+    const { deck } = this.props.vocabulary
+    if(!deck)return null;
+    return <div>
+      {Object.keys(deck.schedule).length} seen out of total {Object.keys(deck.cards).length} cards
+    </div>
+  }
 }

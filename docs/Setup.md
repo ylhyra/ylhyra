@@ -27,7 +27,9 @@ This will start a script at `https://localhost:8000/app.js`, a [self-signed](htt
 
 In Chrome, turn on the flag `chrome://flags/#allow-insecure-localhost` and restart Chrome. This will alow self-signed scripts on localhost.
 -->
+```
 open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/Users/egill/Library/Application\ Support/Google/Chrome/TemporarySessionForDevelopmentMode" --disable-web-security --ignore-certificate-errors
+```
 
 **Set the website to development mode**
 

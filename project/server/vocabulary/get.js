@@ -27,4 +27,6 @@ router.all('/vocabulary/get', /* cors({ origin: 'https://ylhyra.is', credentials
   })
 })
 
+
+
 export default router;

@@ -7,6 +7,8 @@
 //
 const msInHour = 1000 * 60 * 60
 const msInDay = msInHour * 24
+export const day = msInDay
+export const hour = msInHour
 
 export const round = (input, zeroes) => {
   const i = 10 ** zeroes

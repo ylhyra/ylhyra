@@ -4,34 +4,58 @@
 */
 import _hash from 'project/frontend/App/functions/hash'
 import axios from 'axios'
+const path = require('path')
+const fs = require('fs')
 require('App/functions/array-foreach-async')
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
 import stable_stringify from 'json-stable-stringify'
 
-const google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?output=tsv&random=${Math.random()}`
+let google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?output=tsv&random=${Math.random()}`
 
-let termDependsOnTerms = {}
-let termsToCardIds = {}
-// let cardIdsToTerms = {}
-let cardIdsSeen = {}
-const AddToDependencyGraph = (first, second) => {
-  if (!second || second.length === 0) return;
-  first.forEach(id => {
-    termDependsOnTerms[id] = [
-      ...(termDependsOnTerms[id] || []),
-      ...second,
-    ]
-  })
+const TESTING = true
+if (TESTING) {
+  /* Spænska */
+  google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vT_pzDyG0wMUZbPK9yf_i4AYrKjbKs6nFmexJMK5s6IsdIRQk96uP77GDqyiR-FvSCgjBaUFMh3DlYw/pub?output=tsv&random=${Math.random()}`
 }
+
 
 /*
   Convert vocabulary data into a JavaScrip object
 */
 const run = async() => {
-  const { data } = await axios.get(google_docs_url)
-  let cards = []
 
+  let terms = {}
+  let cards = {}
+  let dependencies = {}
+  let alternative_ids = {}
+
+  const TermsToCardId = (_terms, id) => {
+    _terms.forEach(term => {
+      if (!terms[term]) {
+        terms[term] = {
+          level: null,
+          cards: []
+        }
+      }
+      terms[term].cards.push(id)
+    })
+  }
+  const AddToDependencyGraph = (first, second, type) => {
+    if (!second || second.length === 0) return;
+    let obj = dependencies
+    if (type === 'alt_ids') {
+      obj = alternative_ids
+    }
+    first.forEach(id => {
+      obj[id] = [
+        ...(obj[id] || []),
+        ...second,
+      ]
+    })
+  }
+
+  const { data } = await axios.get(google_docs_url)
   // console.log(data.split('\n')[0].split('\t'))
   // return;
 
@@ -61,7 +85,7 @@ const run = async() => {
       if (!columns.icelandic) return;
       if (!english) return;
       if (columns.should_be_taught == 'no') return;
-      if (!columns.level) return;
+      if (!columns.level && !TESTING) return;
 
       /* Can have multiple */
       let icelandic_strings = []
@@ -72,20 +96,20 @@ const run = async() => {
         i = clean_string(i)
         icelandic_strings.push(i)
       })
-      const terms = icelandic_strings.map(getHash)
+      const terms_in_this_line = icelandic_strings.map(getHash)
       const alternative_ids = getHashesFromCommaSeperated(columns.alternative_id)
       const depends_on = [
         ...getHashesFromCommaSeperated(columns.depends_on),
         ...getHashesFromCommaSeperated(columns.basic_form),
       ]
 
-      AddToDependencyGraph([...terms, ...alternative_ids], depends_on)
+      AddToDependencyGraph(terms_in_this_line, depends_on)
+      AddToDependencyGraph(alternative_ids, terms_in_this_line, 'alt_ids')
 
       let card_skeleton = {
         en: english,
-        terms,
+        terms: terms_in_this_line,
         level: columns.level,
-        word_ids: icelandic_strings.map(getHash),
         sort: line_number,
       }
 
@@ -115,99 +139,106 @@ const run = async() => {
         })
       }
 
-      to_add.forEach(card => {
-        if (cardIdsSeen[card.id]) return console.log(`"${columns.icelandic}" already exists`)
-        cardIdsSeen[card.id] = true;
-        [...terms, ...alternative_ids].forEach(j => {
-          termsToCardIds[j] = [
-            ...(termsToCardIds[j] || []),
-            card.id
-          ]
-        })
-        termDependsOnTerms[card.id] = terms
-        cards.push(card)
+      to_add.forEach(({ id, ...card }) => {
+        if (cards[id]) return console.log(`"${columns.icelandic}" already exists`)
+        // [...terms_in_this_line, ...alternative_ids].forEach(j => {
+        //   termsToCardIds[j] = [
+        //     ...(termsToCardIds[j] || []),
+        //     card.id
+        //   ]
+        // })
+        // termDependsOnTerms[card.id] = terms_in_this_line
+        TermsToCardId(terms_in_this_line, id)
+        cards[id] = card
       })
     })
 
-  /* Process dependency graph */
-  let dependencyGraphProcessed = {}
-  for (let from_term in cardIdsSeen) {
-    if (typeof (cardIdsSeen[from_term]) == "function") continue;
-    dependencyGraphProcessed[from_term] = CreateDependencyChain(from_term)
-  }
+  // /* Process dependency graph */
+  // let dependencyGraphProcessed = {}
+  // for (let from_term in cardIdsSeen) {
+  //   if (typeof (cardIdsSeen[from_term]) == "function") continue;
+  //   dependencyGraphProcessed[from_term] = CreateDependencyChain(from_term)
+  // }
 
-  cards = cards.sort((a, b) => {
-    if (a.level !== b.level) {
-      return a.level - b.level
-    }
-    // if(dependencyGraphProcessed[a.])
-    return a.sort - b.sort
-  }).map((card, index) => ({
-    ...card,
-    sort: index,
-  }))
+  // cards = cards.sort((a, b) => {
+  //   if (a.level !== b.level) {
+  //     return a.level - b.level
+  //   }
+  //   // if(dependencyGraphProcessed[a.])
+  //   return a.sort - b.sort
+  // }).map((card, index) => ({
+  //   ...card,
+  //   sort: index,
+  // }))
 
-  console.log(`${cards.length} cards`)
-  await cards.forEachAsync(async({
-    is,
-    en,
-    id,
-    from,
-    level,
-    word_ids,
-    sort,
+  console.log(`${Object.keys(cards).length} cards`)
+  // await cards.forEachAsync(async({
+  //   is,
+  //   en,
+  //   id,
+  //   from,
+  //   level,
+  //   word_ids,
+  //   sort,
+  //   terms,
+  // }) => {
+  //   await new Promise((resolve) => {
+  //     query(sql `INSERT INTO vocabulary_cards SET
+  //       id = ${id},
+  //       level = ${Math.floor(level) || null},
+  //       sort = ${sort},
+  //       data = ${stable_stringify({
+  //         is,
+  //         en,
+  //         from,
+  //         word_ids,
+  //       })}
+  //       ;
+  //       `, (err) => {
+  //       if (err) {
+  //         console.error(err)
+  //         process.exit()
+  //       } else {
+  //         resolve()
+  //       }
+  //     })
+  //     // let queries = []
+  //     // terms.forEach(term => {
+  //     //   queries.push(sql `INSERT INTO vocabulary_card_relations SET
+  //     //     from_id = ${id},
+  //     //     to_id = ${term},
+  //     //     relation_type = "belongs_to"
+  //     //     ;
+  //     //   `)
+  //     // })
+  //     // if (dependencyGraphProcessed[id]) {
+  //     //   for (let to_term in dependencyGraphProcessed[id]) {
+  //     //     if (typeof (dependencyGraphProcessed[id][to_term]) == "function") continue;
+  //     //     queries.push(sql `INSERT INTO vocabulary_card_relations SET
+  //     //       from_id = ${id},
+  //     //       to_id = ${to_term},
+  //     //       relation_depth = ${dependencyGraphProcessed[id][to_term]},
+  //     //       relation_type = "depends_on"
+  //     //       ;
+  //     //     `)
+  //     //   }
+  //     // }
+  //     // query(queries.join(''), (err) => {
+  //     //   if (err) {
+  //     //     console.error(err)
+  //     //     process.exit()
+  //     //   }
+  //     // })
+  //   })
+  // })
+  // fs.writeFileSync(path.resolve(__dirname, `terms.json`), JSON.stringify(termDependsOnTerms, null, 2), function () {})
+  fs.writeFileSync(path.resolve(__dirname, `./../vocabulary_database.json`), JSON.stringify({
+    cards,
     terms,
-  }) => {
-    await new Promise((resolve) => {
-      query(sql `INSERT INTO vocabulary_cards SET
-        id = ${id},
-        level = ${Math.floor(level) || null},
-        sort = ${sort},
-        data = ${stable_stringify({
-          is,
-          en,
-          from,
-          word_ids,
-        })}
-        ;
-        `, (err) => {
-        if (err) {
-          console.error(err)
-          process.exit()
-        } else {
-          resolve()
-        }
-      })
-      let queries = []
-      terms.forEach(term => {
-        queries.push(sql `INSERT INTO vocabulary_card_relations SET
-          from_id = ${id},
-          to_id = ${term},
-          relation_type = "belongs_to"
-          ;
-        `)
-      })
-      if (dependencyGraphProcessed[id]) {
-        for (let to_term in dependencyGraphProcessed[id]) {
-          if (typeof (dependencyGraphProcessed[id][to_term]) == "function") continue;
-          queries.push(sql `INSERT INTO vocabulary_card_relations SET
-            from_id = ${id},
-            to_id = ${to_term},
-            relation_depth = ${dependencyGraphProcessed[id][to_term]},
-            relation_type = "depends_on"
-            ;
-          `)
-        }
-      }
-      query(queries.join(''), (err) => {
-        if (err) {
-          console.error(err)
-          process.exit()
-        }
-      })
-    })
-  })
-  console.log('Done')
+    dependencies,
+    alternative_ids,
+  }, null, 2), function () {})
+  console.log('Done 1')
   process.exit()
 }
 
@@ -250,35 +281,36 @@ const getHashesFromCommaSeperated = (i) => {
  * Returns an object on the form { [key]: [depth] }
  */
 const CreateDependencyChain = (from_term, _alreadySeen = [], output = [], depth = 0) => {
-  termDependsOnTerms[from_term].forEach(term => {
-    const alreadySeen = [..._alreadySeen] /* Deep copy in order to only watch direct parents */
-    if (alreadySeen.includes(term)) return;
-    alreadySeen.push(term)
-    const card_ids = termsToCardIds[term] || []
-    if (card_ids.some(id => alreadySeen.includes(id))) return;
-    card_ids.forEach(card_id => {
-      if (depth > 0) {
-        output[card_id] = Math.max(output[card_id] || 0, depth)
-      }
-      alreadySeen.push(card_id)
-    })
-    if (termDependsOnTerms[term]) {
-      CreateDependencyChain(term, alreadySeen, output, card_ids.length > 1 ? depth + 1 : depth)
-    }
-  })
-  if (depth === 0) {
-    return output
-  }
+  // termDependsOnTerms[from_term].forEach(term => {
+  //   const alreadySeen = [..._alreadySeen] /* Deep copy in order to only watch direct parents */
+  //   if (alreadySeen.includes(term)) return;
+  //   alreadySeen.push(term)
+  //   const card_ids = termsToCardIds[term] || []
+  //   if (card_ids.some(id => alreadySeen.includes(id))) return;
+  //   card_ids.forEach(card_id => {
+  //     if (depth > 0) {
+  //       output[card_id] = Math.max(output[card_id] || 0, depth)
+  //     }
+  //     alreadySeen.push(card_id)
+  //   })
+  //   if (termDependsOnTerms[term]) {
+  //     CreateDependencyChain(term, alreadySeen, output, card_ids.length > 1 ? depth + 1 : depth)
+  //   }
+  // })
+  // if (depth === 0) {
+  //   return output
+  // }
 }
 
 
-query(sql `
-  TRUNCATE TABLE vocabulary_cards;
-  TRUNCATE TABLE vocabulary_card_relations;
-`, (err) => {
-  if (err) {
-    console.error(err)
-  } else {
-    run()
-  }
-})
+// query(sql `
+//   TRUNCATE TABLE vocabulary_cards;
+//   TRUNCATE TABLE vocabulary_card_relations;
+// `, (err) => {
+//   if (err) {
+//     console.error(err)
+//   } else {
+//     run()
+//   }
+// })
+run()

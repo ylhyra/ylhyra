@@ -7,7 +7,7 @@ import store from 'App/store'
 import { send } from 'Editor/web-socket'
 import error from 'App/Error'
 import axios from 'axios'
-const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
+import { url } from 'App/url'
 require('App/functions/array-foreach-async')
 
 

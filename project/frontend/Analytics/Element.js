@@ -10,7 +10,7 @@ import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 let timer
 import axios from 'axios'
-const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
+import { url } from 'App/url'
 
 class Editor extends React.PureComponent {
   componentDidMount = () => {}

@@ -5,7 +5,7 @@ import error from 'App/Error'
 import stable_stringify from 'json-stable-stringify'
 // import { prettyPrint as relaxedJson } from 'really-relaxed-json'
 // var relaxedJsonParser = require('really-relaxed-json').createParser()
-const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
+import { url } from 'App/url'
 
 export const openEditor = (page) => {
   const newUrl = mw.util.getUrl(mw.config.get('wgPageName'), { editor: page });

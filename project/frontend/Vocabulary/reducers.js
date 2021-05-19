@@ -13,6 +13,8 @@ const session = (state = null, action) => {
   switch (action.type) {
     case 'LOAD_SESSION':
       return action.content
+    case 'SCREEN_DONE':
+      return null
     default:
       return state
   }

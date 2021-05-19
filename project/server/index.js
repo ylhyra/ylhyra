@@ -63,6 +63,7 @@ app.use('/api', require('server/analytics').default)
 app.use('/api', require('server/translator/save').default)
 app.use('/api', require('server/vocabulary/get').default)
 app.use('/api', require('server/vocabulary/save').default)
+app.use('/api/vocabulary/vocabulary_database.json', express.static(path.join(__dirname, '/vocabulary/vocabulary_database.json')))
 
 app.use('/api/temp_files/', express.static(upload_path))
 

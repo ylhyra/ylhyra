@@ -46,5 +46,5 @@ export const generateNewSchedule = () => {
     }
   })
 
-  deck.sync()
+  deck.saveSchedule()
 }

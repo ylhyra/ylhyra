@@ -6,21 +6,36 @@ import error from 'App/Error'
 import axios from 'axios'
 import { generateNewSchedule } from './scheduling'
 import { InitializeSession } from 'Vocabulary/actions/session'
-const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
+import { url } from 'App/url'
 import _ from 'underscore'
 import { setScreen, SCREEN_DONE, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
+import { day } from 'project/frontend/App/functions/time.js'
 const DEFAULT_TERMS_PER_SESSION = 10
 const MAX_NEW_CARDS_PER_SESSION = 6
 
 class Deck {
-  constructor(cards, schedule) {
+  constructor(cards, schedule, session) {
     this.cards_sorted = cards
     this.cards = {}
     cards.forEach(card => this.cards[card.id] = card)
     this.schedule = schedule || {}
-    // this.sessionLog = []
+    // if(session) {
+    //
+    // }else{
     this.generateSession()
-    this.save()
+    // }
+    // this.sessionLog = []
+    this.saveSession()
+
+    /* TEMPORARY */
+    const ref = this
+    if (process.env.NODE_ENV === 'development') {
+      window.addEventListener('keydown', (e) => {
+        if (e.keyCode === 27 /* ESC */ ) {
+          ref.sessionDone()
+        }
+      })
+    }
   }
   generateSession() {
     const now = (new Date()).getTime()
@@ -95,8 +110,15 @@ class Deck {
   }
   studyNewWords() {}
   repeatTodaysWords() {}
-  save() {}
-  sync() {
+  saveSession() {
+    // /* Save session */
+    // localStorage.setItem('vocabulary-session', JSON.stringify({
+    //   savedAt: new Date().getTime(),
+    //   session: store.getState().vocabulary.session,
+    // }))
+  }
+  saveSchedule() {
+    /* Save schedule */
     localStorage.setItem('vocabulary-schedule', JSON.stringify(this.schedule))
 
     // await axios.post(`${url}/api/vocabulary/save`, {
@@ -104,26 +126,4 @@ class Deck {
     // })
   }
 }
-
-export const InitializeDeck = async() => {
-  let cards, schedule;
-  if (localStorage.getItem('vocabulary-cards')) {
-    cards = JSON.parse(localStorage.getItem('vocabulary-cards'))
-  } else {
-    cards = (await axios.post(`${url}/api/vocabulary/get`, /*null, { withCredentials: true }*/ )).data
-    cards = (cards.map(
-      ({ data, ...other }) => ({ ...other, ...JSON.parse(data) })
-    ))
-    localStorage.setItem('vocabulary-cards', JSON.stringify(cards))
-  }
-
-  if (localStorage.getItem('vocabulary-schedule')) {
-    schedule = JSON.parse(localStorage.getItem('vocabulary-schedule'))
-  }
-
-  const deck = new Deck(cards, schedule)
-  store.dispatch({
-    type: 'LOAD_DECK',
-    content: deck,
-  })
-}
+export default Deck
