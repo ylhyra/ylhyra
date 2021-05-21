@@ -9,16 +9,12 @@ export const PERFECT = 3
 // export const CARD_STATUS_LEARNED = 'learned'
 // LEVEL_A1
 
-const MIN_E_FACTOR = 1.2
-const DEFAULT_E_FACTOR = 2.5
-
 class Card {
   constructor(data, index, session) {
     Object.assign(this, data)
 
     this.session = session
     this.progress = 0
-    this.easiness = DEFAULT_E_FACTOR
     this.history = []
     this.goodRepetitions = 0
     this.queuePosition = index + this.session.counter
@@ -37,7 +33,6 @@ class Card {
 
     /* Derived from SuperMemo2 */
     const diff = 1.9 - rating
-    this.easiness = Math.max(MIN_E_FACTOR, this.easiness + 0.1 - diff * (0.08 + diff * 0.02))
 
     /* Schedule */
     let interval;
@@ -49,21 +44,16 @@ class Card {
         interval = 30
       }
     } else if (rating === OK) {
-      interval = 8
+      interval = 15
+      this.done = true
       if (this.history[1] >= OK) {
         interval = 28
-        this.done = true
       } else if (this.history[1] === BAD) {
-        interval = 4
+        this.done = false // Hmm ?
       }
     } else if (rating === PERFECT) {
-      interval = 16
-      if (this.history[1] >= OK) {
-        interval = this.session.cards.length + 100
-        this.done = true
-      } else if (this.history.length === 1) {
-        interval = this.session.cards.length
-      }
+      interval = this.session.cards.length + 100
+      this.done = true
     }
     this.queuePosition = this.session.queueCounter + interval
     this.lastInterval = interval
@@ -97,7 +87,6 @@ class Card {
   }
   getRanking() {
     let q = this.getQueuePosition() +
-      this.easiness * 0.001 +
       (this.session.cards.length - this.getLastSeen()) / this.session.cards.length * 0.01
     if (this.getLastSeen() <= 3) {
       return this.session.cards.length + 500 - this.getLastSeen();

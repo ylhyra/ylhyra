@@ -1,5 +1,7 @@
 /**
  * A single study session.
+ *
+ *
  */
 import store from 'App/store'
 import _ from 'underscore'
@@ -15,21 +17,12 @@ class Session {
     this.queueCounter = 0
     this.lastSeenWordIds = {}
     this.currentCard = null
-    // let id_to_card = {}
-    // cards_input.forEach(card => {
-    //   id_to_card[card.id] = card
-    // })
     this.cards = cards.map((card, index) => new Card(card, index, this))
-    // /* New cards must be studied in the correct order */
-    // this.newCards = this.cards.filter(card => card.isNew())
-    //
-    // /* A maximum of 5 cards are under intensive study */
-    // this.intensiveStudy = []
   }
   getCard() {
     return {
       ...this.currentCard,
-      showHint: this.currentCard.shouldShowHint()
+      // showHint: this.currentCard.shouldShowHint()
     }
   }
   next() {
@@ -37,10 +30,7 @@ class Session {
       return console.error('No cards')
     }
     const ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
-    // console.log(this.cards.slice().sort((a, b) => a.getQueuePosition() - b.getQueuePosition())
-    //   .map(i => `${i.getQueuePosition()}\t${i.getRanking()}\te: ${i.easiness||0}\t${i.from==='is'?i.is:i.en}`)
-    //   .join('\n')
-    // )
+
     this.currentCard = ranked[0]
     this.counter++;
     let shouldIncreaseAdjustedCounter = this.cards.filter(i => i.getQueuePosition() < 5).length < 5
@@ -108,3 +98,9 @@ export const InitializeSession = (input) => {
     // ERROR
   }
 }
+
+
+// console.log(this.cards.slice().sort((a, b) => a.getQueuePosition() - b.getQueuePosition())
+//   .map(i => `${i.getQueuePosition()}\t${i.getRanking()}\te: ${i.easiness||0}\t${i.from==='is'?i.is:i.en}`)
+//   .join('\n')
+// )

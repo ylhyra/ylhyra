@@ -58,7 +58,7 @@ class Deck {
         } else if (i.due < now) {
           good_overdue_ids.push(i.id)
         } else {
-          not_overdue_ids.push(i.id)
+          // not_overdue_ids.push(i.id)
         }
       })
     let chosen_ids = _.shuffle([
@@ -83,6 +83,7 @@ class Deck {
         break;
       }
     }
+
     /* Interleave new cards with old cards */
     const ratio = chosen_ids.length / new_card_ids.length
     new_card_ids.forEach((id, index) => {
