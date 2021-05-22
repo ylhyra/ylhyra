@@ -17,7 +17,7 @@ class Card {
     this.progress = 0
     this.history = []
     this.goodRepetitions = 0
-    this.queuePosition = index + this.session.counter
+    this.absoluteQueuePosition = index
   }
   rate(rating) {
     this.history.unshift(rating)
@@ -30,9 +30,6 @@ class Card {
     if (rating !== BAD) {
       this.goodRepetitions++
     }
-
-    /* Derived from SuperMemo2 */
-    const diff = 1.9 - rating
 
     /* Schedule */
     let interval;
@@ -55,28 +52,39 @@ class Card {
       interval = this.session.cards.length + 100
       this.done = true
     }
-    this.queuePosition = this.session.queueCounter + interval
+    this.absoluteQueuePosition = this.session.counter + interval
     this.lastInterval = interval
 
     this.status = Math.round(lastTwoAverage)
 
-    if (
-      this.history.length >= 6 ||
-      this.history.length >= 2 && lastTwoAverage >= OK ||
-      lastTwoAverage === PERFECT) {
+    if (this.history.length >= 6) {
       this.done = true
-    } else {
-      this.done = false
     }
+
+    /* Postpone related cards */
+    const card = this
+    this.terms.forEach(term => {
+      this.session.cards.forEach(_card => {
+        if (_card.id === card.id) return;
+        if (_card.terms.includes(term)) {
+          const newPosition = _card.session.counter + Math.min(interval, 10)
+          if (newPosition > _card.absoluteQueuePosition) {
+            _card.absoluteQueuePosition = newPosition
+          }
+        }
+      })
+    })
+
+    this.session.cardTypeLog.unshift(this.from)
   }
   getQueuePosition() {
-    return this.queuePosition - this.session.queueCounter
+    return this.absoluteQueuePosition - this.session.counter
   }
-  getLastSeen() {
+  ticksSinceTermWasSeen() {
     let last_seen = null;
-    this.terms.forEach(i => {
-      if (this.session.lastSeenWordIds[i] && (last_seen === null || last_seen > this.session.lastSeenWordIds[i])) {
-        last_seen = this.session.lastSeenWordIds[i]
+    this.terms.forEach(term => {
+      if (this.session.lastSeenTerms[term] && (last_seen === null || last_seen > this.session.lastSeenTerms[term])) {
+        last_seen = this.session.lastSeenTerms[term]
       }
     })
     if (last_seen) {
@@ -86,13 +94,36 @@ class Card {
     }
   }
   getRanking() {
-    let q = this.getQueuePosition() +
-      (this.session.cards.length - this.getLastSeen()) / this.session.cards.length * 0.01
-    if (this.getLastSeen() <= 3) {
-      return this.session.cards.length + 500 - this.getLastSeen();
+    let q = this.getQueuePosition();
+
+    // /* Slightly adjust so that when two cards compete, the one that hasn't been seen for a while wins. May not be necessary */
+    // q += (this.session.cards.length - this.ticksSinceTermWasSeen()) / this.session.cards.length * 0.01
+
+    /* New cards are not relevant unless there are no overdue cards */
+    if (this.history.length === 0) {
+      q = this.absoluteQueuePosition + 100
+    }
+
+    /* Seen cards */
+    else {
+      /* Seen cards are not relevant if they are not overdue */
+      if (q > 0) {
+        q += 1000
+      }
+    }
+
+    if (this.ticksSinceTermWasSeen() <= 3) {
+      q += (500 - this.ticksSinceTermWasSeen())
     }
     if (this.done) {
-      return q + this.session.cards.length + 30
+      q += 30
+    }
+    /* Prevent rows of the same card type from appearing right next to each other */
+    if (this.session.cardTypeLog[0] === this.from) {
+      q += 0.4
+      if (this.session.cardTypeLog[1] === this.from) {
+        q += 1.9
+      }
     }
     return q
   }

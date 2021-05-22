@@ -14,8 +14,8 @@ class Session {
     this.history = []
     this.cards = {}
     this.counter = 0
-    this.queueCounter = 0
-    this.lastSeenWordIds = {}
+    this.lastSeenTerms = {}
+    this.cardTypeLog = []
     this.currentCard = null
     this.cards = cards.map((card, index) => new Card(card, index, this))
   }
@@ -30,15 +30,12 @@ class Session {
       return console.error('No cards')
     }
     const ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
-
     this.currentCard = ranked[0]
     this.counter++;
-    let shouldIncreaseAdjustedCounter = this.cards.filter(i => i.getQueuePosition() < 5).length < 5
-    if (shouldIncreaseAdjustedCounter) {
-      this.queueCounter++;
-    }
+
+    /* Store when this term was last seen */
     this.currentCard.terms.forEach(id => {
-      this.lastSeenWordIds[id] = this.counter
+      this.lastSeenTerms[id] = this.counter
     })
 
     /* Done */
