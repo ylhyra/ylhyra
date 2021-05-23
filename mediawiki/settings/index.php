@@ -30,11 +30,11 @@ require_once(__DIR__.'/LocalSettings.php');
 require_once(__DIR__.'/Extensions.php');
 require_once(__DIR__.'/Namespaces.php');
 require_once(__DIR__.'/Email.php');
+require_once(__DIR__.'/Script.php');
 if(!$IS_USER_LOGIN_SITE){
   require_once(__DIR__.'/Userrights.php');
   require_once(__DIR__.'/VisualEditor.php');
   require_once(__DIR__.'/Uploads.php');
-  require_once(__DIR__.'/Script.php');
   require_once(__DIR__.'/../ylhyra-extensions/ServerSideRender.php');
   require_once(__DIR__.'/../ylhyra-extensions/Backticks.php');
 } else {
