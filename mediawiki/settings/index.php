@@ -6,7 +6,7 @@ if (!defined('MEDIAWIKI')) {
 }
 
 if($_SERVER['HTTP_HOST'] == 'login.ylhyra.is') {
-  $IS_USER_LOGIN_SITE = true
+  $IS_USER_LOGIN_SITE = true;
 }
 
 error_reporting( -1 );
