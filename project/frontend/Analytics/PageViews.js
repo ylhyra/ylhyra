@@ -3,7 +3,7 @@
 */
 import axios from 'axios'
 // axios.defaults.withCredentials = true;
-const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
+import { url } from 'App/url'
 import TextAnalytics from 'frontend/Analytics/TextInteractions'
 
 require('./Element')
@@ -14,6 +14,7 @@ require('./Element')
 
 const send = () => {
   if (mw.config.get('wgUserGroups').includes('sysop') || mw.config.get('wgUserGroups').includes('editor')) return;
+  if(window.developmentMode) return;
   axios.post(`${url}/api/a`, {
     pageName: mw.config.get('wgPageName'),
   })

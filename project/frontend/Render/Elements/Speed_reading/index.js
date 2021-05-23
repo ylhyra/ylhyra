@@ -19,7 +19,7 @@ class SpeedReader extends React.Component {
     // $('#speed-reader').on('click', startStop)
     document.addEventListener('keydown', checkKey);
     !supportsTouch && document.addEventListener('mousemove', mouseListener);
-    TextEventListenersOn()
+    TextEventListenersOff()
   }
   componentWillUnmount = () => {
     $('body').removeClass('unscrollable')

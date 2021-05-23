@@ -9,7 +9,7 @@ import Flatten from './3-Flatten'
 import MakeList from './4-Make-list'
 
 // const TESTING_WITH_LOCALHOST = true
-const url = process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
+import { url } from 'App/url'
 
 /*
   We use [Aeneas](https://github.com/readbeyond/aeneas/) to synchronize audio and text.

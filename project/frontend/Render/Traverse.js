@@ -11,6 +11,7 @@ const entities = new Entities()
 import isBooleanAttribute from 'is-boolean-attribute'
 import Inflection from 'frontend/Render/Elements/Inflection'
 import Hide from 'frontend/Render/Elements/Hide'
+// import VocabularyFlashcards from 'Vocabulary/button'
 
 const Traverse = (input, index = 0, parentTag) => {
   if (!input) return null
@@ -44,12 +45,17 @@ const Traverse = (input, index = 0, parentTag) => {
         case 'collapse':
           Tag = Hide;
           break;
+        case 'vocabulary-flashcards':
+          return null;
+          // Tag = VocabularyFlashcards;
+          break;
       }
+      if(!Tag) return null;
       // if(input.props['data-type'] === 'collapse'){
       //   return <Tag key={index}>{input.props.children}</Tag>
       // }
       // else
-      if (input.props.children) {
+      if (input.props.children /*&& input.props['data-children'] !== 'string'*/) {
         const { children, ...props } = input.props
         return <Tag {...props} key={index}>
           {children.map((e,i) => Traverse(e,i,input.type))}

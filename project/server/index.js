@@ -10,7 +10,7 @@ import path from 'path'
 import argvFactory from 'minimist'
 const argv = argvFactory(process.argv.slice(2))
 const app = express()
-require('express-ws')(app)  
+require('express-ws')(app)
 import query from './database'
 export const upload_path = path.resolve(__dirname, './../../uploads')
 var cors = require('cors')
@@ -61,6 +61,9 @@ app.use('/api', require('server/audio/GetOneAudioFile').default)
 app.use('/api', require('server/audio/Synchronize').default)
 app.use('/api', require('server/analytics').default)
 app.use('/api', require('server/translator/save').default)
+app.use('/api', require('server/vocabulary/get').default)
+app.use('/api', require('server/vocabulary/save').default)
+app.use('/api/vocabulary/vocabulary_database.json', express.static(path.join(__dirname, '/vocabulary/vocabulary_database.json')))
 
 app.use('/api/temp_files/', express.static(upload_path))
 
@@ -69,6 +72,7 @@ app.use('/api/temp_files/', express.static(upload_path))
 */
 app.use(cors({ origin: '*' }))
 app.set('json spaces', 2)
+
 /*
   When running on subdomains,
   serve up inflections.
@@ -89,6 +93,8 @@ if (process.argv[2] === '--import-inflections') {
   require('project/server/inflection/server/server-with-database/database/ImportToDatabase.js')
 } else if (process.argv[2] === '--generate-search-index') {
   require('project/server/inflection/server/server-with-database/database/generateSearchIndex.js')
+} else if (process.argv[2] === '--import-vocabulary') {
+  require('project/server/vocabulary/setup/setup')
 }
 /* Or, start the app */
 else {

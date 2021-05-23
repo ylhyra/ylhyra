@@ -3,7 +3,7 @@
 */
 
 export default () => {
-  $('#catlinks').prepend('<div id="license" class="license"></div>')
+  $('#catlinks').before('<div id="license" class="license"></div>')
 
   /* CC0 */
   if(mw.config.get('wgCategories').includes('CC0')) {

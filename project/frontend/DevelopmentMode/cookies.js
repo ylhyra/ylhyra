@@ -39,3 +39,7 @@ window.serverSideRendering = (value) => {
 if (getCookie('server-side-rendering') === 'false') {
   console.warn('Server side rendering off')
 }
+
+if(window && getCookie('development') === 'true'){
+  window.developmentMode = true
+}

@@ -151,7 +151,6 @@ CREATE TABLE interactions (
 --   is_mobile BOOLEAN
 -- );
 
-
-
 -- Other data:
 -- inflection/database.sql
+-- vocabulary/database.sql
