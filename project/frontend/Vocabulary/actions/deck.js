@@ -10,8 +10,9 @@ import { url } from 'App/url'
 import _ from 'underscore'
 import { setScreen, SCREEN_DONE, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
 import { saveInLocalStorage, getFromLocalStorage } from 'project/frontend/App/functions/localStorage'
-const DEFAULT_TERMS_PER_SESSION = 10
-const MAX_NEW_CARDS_PER_SESSION = 10
+
+// /* What portion of a session should be new cards? */
+// const NEW_CARDS_RATIO = 0.3
 
 class Deck {
   constructor(database, schedule, session) {
@@ -44,13 +45,19 @@ class Deck {
     }
   }
   generateSession() {
+    InitializeSession(this.createCards(), this)
+  }
+  createCards(options) {
+    const forbidden_ids = options && options.forbidden_ids || []
     const now = (new Date()).getTime()
 
     /* Previously seen cards */
     let bad_cards_ids = []
     let good_overdue_ids = []
     let not_overdue_ids = []
-    let scheduled = Object.keys(this.schedule).map(id => ({ id, ...this.schedule[id] }))
+    let scheduled = Object.keys(this.schedule)
+      .filter(id => !forbidden_ids.includes(id))
+      .map(id => ({ id, ...this.schedule[id] }))
       .sort((a, b) => a.due - b.due)
       .forEach(i => {
         if (i.score <= 1.2) {
@@ -64,17 +71,20 @@ class Deck {
     let chosen_ids = _.shuffle([
       ...bad_cards_ids.slice(0, 8),
       ...good_overdue_ids.slice(0, 14),
-      ...not_overdue_ids.slice(0, 14),
-    ].slice(0, 11))
+      // ...not_overdue_ids.slice(0, 14),
+    ].slice(0, 20))
 
     /* New cards */
+    let new_cards_to_add = 8 // chosen_ids.length > 10 ? 2 : 15
     let new_card_ids = [];
     for (let i = 0; i < this.cards_sorted.length; i++) {
       const id = this.cards_sorted[i].id
-      // console.log(id)
+      // if (forbidden_ids.includes(id)) {
+      //   break;
+      // }
       if (
         chosen_ids.length + new_card_ids.length < 15 &&
-        new_card_ids.length < MAX_NEW_CARDS_PER_SESSION
+        new_card_ids.length < new_cards_to_add
       ) {
         if (!(id in this.schedule)) {
           new_card_ids.push(id)
@@ -105,7 +115,7 @@ class Deck {
     //
     let chosen = chosen_ids.map(id => ({ id, ...this.cards[id] }))
     // console.log(chosen_ids)
-    InitializeSession(chosen)
+    return chosen
   }
   sessionDone() {
     setScreen(SCREEN_DONE)

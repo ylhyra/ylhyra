@@ -5,7 +5,7 @@ import store from 'App/store'
 export const SCREEN_MAIN = 1
 export const SCREEN_VOCABULARY = 2
 export const SCREEN_DONE = 3
-
+import {MINUTES} from 'Vocabulary/actions/session'
 @connect(state => ({
   vocabulary: state.vocabulary,
 }))
@@ -34,7 +34,7 @@ class MainScreen extends Component {
         return <div id="vocabulary">
           <h1>Vocabulary</h1>
           {status && status.total > 0 ? <div>
-            {status.wordsTotal} items to study
+            Ready to study for {MINUTES} minutes?
             <br/>
             <button onClick={()=>setScreen(SCREEN_VOCABULARY)}>
               {status.counter && status.counter > 1 ? 'Continue' : 'Start'}

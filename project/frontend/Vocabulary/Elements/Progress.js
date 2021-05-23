@@ -7,26 +7,23 @@ import { connect } from 'react-redux'
 class Progress extends Component {
   render() {
     const { good, ok, bad, total, cardsDone, wordsTotal, wordsDone } = this.props.vocabulary.status
-    // console.log({ good, ok, bad, total })
     if (!total) return null;
-    const newCardsRemaining = total - good - ok - bad
-    const needToStudy = total - cardsDone
-    const wordsToStudy = wordsTotal - wordsDone
-
-    const secondsLeft = needToStudy * 10 * 5
+    const { totalTime, remainingTime } = this.props.vocabulary.session
+    const doneTime = totalTime - remainingTime
+    const _bad = (bad / total) * doneTime
+    const _ok = (ok / total) * doneTime
+    const _good = (good / total) * doneTime
+    // console.log({bad,_bad,_ok, remainingTime})
     return (
       <div className="vocabularynew-progress">
         <div className="name">
-          {/* <span className="remaining">Approximately {Math.floor(secondsLeft/60)}:{(Math.floor(secondsLeft%60) < 10 ? '0':'') + Math.floor(secondsLeft%60).toString()} left</span> */}
-          <span className="remaining">
-            {/* <b>{newCardsRemaining}</b> new card{needToStudy===1?'':'s'} left, <b>{wordsToStudy}</b> word{wordsToStudy===1?'':'s'} left to memorize */}
-          </span>
+          <span className="remaining"></span>
         </div>
         <div className="bar">
-          <div className="part bad" style={{flex:bad}}/>
-          <div className="part good" style={{flex:ok}}/>
-          <div className="part excellent" style={{flex:good}}/>
-          <div className="part remaining" style={{flex:needToStudy}}/>
+          <div className="part excellent" style={{flex:Math.round(_good/100)}}/>
+          <div className="part good" style={{flex:Math.round(_ok/100)}}/>
+          <div className="part bad" style={{flex:Math.round(_bad/100)}}/>
+          <div className="part remaining" style={{flex:Math.round(remainingTime/100)}}/>
         </div>
       </div>
     )

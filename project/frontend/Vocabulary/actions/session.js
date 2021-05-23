@@ -7,10 +7,12 @@ import store from 'App/store'
 import _ from 'underscore'
 import Card, { BAD, OK, PERFECT } from './card'
 import { setScreen, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
-const MINUTES = 5
+// import { day } from 'project/frontend/App/functions/time.js'
+export const MINUTES = 3
+const MAX_SECONDS_TO_COUNT_PER_ITEM = 15
 
 class Session {
-  constructor(cards) {
+  constructor(cards, deck) {
     this.history = []
     this.cards = {}
     this.counter = 0
@@ -18,6 +20,24 @@ class Session {
     this.cardTypeLog = []
     this.currentCard = null
     this.cards = cards.map((card, index) => new Card(card, index, this))
+    this.deck = deck
+
+    this.totalTime = MINUTES * 60 * 1000
+    this.remainingTime = this.totalTime
+    this.lastTimestamp = (new Date()).getTime()
+  }
+  updateRemainingTime() {
+    const newTimestamp = (new Date()).getTime()
+    const diff = Math.min(
+      MAX_SECONDS_TO_COUNT_PER_ITEM * 1000,
+      newTimestamp - this.lastTimestamp
+    )
+    this.remainingTime -= Math.max(0, diff)
+    this.lastTimestamp = newTimestamp
+    // console.log(this.remainingTime)
+    if(this.remainingTime<=0){
+      this.deck.sessionDone()
+    }
   }
   getCard() {
     return {
@@ -26,6 +46,7 @@ class Session {
     }
   }
   next() {
+    this.updateRemainingTime()
     if (this.cards.length === 0) {
       return console.error('No cards')
     }
@@ -38,12 +59,24 @@ class Session {
       this.lastSeenTerms[id] = this.counter
     })
 
-    /* Done */
-    const isDone = (this.cards.length - this.cards.filter(card => card.done).length) === 0
-    if (isDone) {
-      this.done = true
-      store.getState().vocabulary.deck.sessionDone()
+    // /* Done */
+    // const isDone = (this.cards.length - this.cards.filter(card => card.done).length) === 0
+    // if (isDone) {
+    //   // this.done = true
+    //
+    //   // store.getState().vocabulary.deck.sessionDone()
+    // }
+    const areThereNewCardsRemaining = this.cards.some(i => i.history.length === 0)
+    if (!areThereNewCardsRemaining) {
+      this.createMoreCards()
     }
+  }
+  createMoreCards() {
+    const newCards = this.deck.createCards({
+      forbidden_ids: this.cards.map(i => i.id)
+    })
+    this.cards = this.cards.concat(newCards.map((card, index) => new Card(card, index, this)))
+    console.log('New cards generated')
   }
   getStatus() {
     return {
@@ -51,9 +84,9 @@ class Session {
       ok: this.cards.filter(card => card.getStatus() === OK).length,
       good: this.cards.filter(card => card.getStatus() === PERFECT).length,
       total: this.cards.length,
-      cardsDone: this.cards.filter(card => card.done).length,
+      // cardsDone: this.cards.filter(card => card.done).length,
       wordsTotal: _.uniq(_.flatten(this.cards.map(i => i.terms))).length,
-      wordsDone: _.uniq(_.flatten(this.cards.filter(card => card.done).map(i => i.terms))).length,
+      // wordsDone: _.uniq(_.flatten(this.cards.filter(card => card.done).map(i => i.terms))).length,
       counter: this.counter,
       // sessionDone: this.done,
       // total: this.cards.filter(card => card.done).length,
@@ -82,9 +115,9 @@ export const answer = (rating) => {
   loadCard()
 }
 
-export const InitializeSession = (input) => {
+export const InitializeSession = (input, deck) => {
   if (Array.isArray(input)) {
-    const session = new Session(input)
+    const session = new Session(input, deck)
     session.next()
     store.dispatch({
       type: 'LOAD_SESSION',
