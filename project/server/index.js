@@ -33,6 +33,10 @@ app.use(require('cookie-session')({
   maxAge: 3 * 365 * 24 * 60 * 60 * 1000 // 3 years
 }))
 
+if(!process.env.COOKIE_SECRET){
+  console.warn('Missing COOKIE_SECRET')
+}
+
 /* Set Unicode header on all responses */
 app.use(function(req, res, next) {
   res.setHeader('charset', 'utf-8')
@@ -59,6 +63,7 @@ app.use('/api', require('server/audio/GetOneAudioFile').default)
 // app.use('/api', require('server/translator/Google').default)
 // app.use('/api', require('server/api/audio/Upload').default)
 app.use('/api', require('server/audio/Synchronize').default)
+app.use('/api', require('server/user').default)
 app.use('/api', require('server/analytics').default)
 app.use('/api', require('server/translator/save').default)
 app.use('/api', require('server/vocabulary/get').default)

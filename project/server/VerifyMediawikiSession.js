@@ -2,11 +2,12 @@
   Allow Ylhýra's server to verify that a user is logged in on Mediawiki.
 */
 import axios from 'axios'
-const url = process.env.MEDIAWIKI_TESTING ? 'http://localhost' : 'https://ylhyra.is'
+let url = process.env.MEDIAWIKI_TESTING ? 'http://localhost' : 'https://ylhyra.is'
 
-export default (session_verification_token) => {
+export default (session_verification_token, is_login_site) => {
+  if (is_login_site) { url = 'https://login.ylhyra.is' }
   return new Promise(async(resolve, reject) => {
-    const {session_verification} = (await axios.get(`${url}/api.php`, {
+    const { session_verification } = (await axios.get(`${url}/api.php`, {
       params: {
         action: 'session_verification',
         format: 'json',
@@ -14,7 +15,12 @@ export default (session_verification_token) => {
       }
     })).data
 
-    if (session_verification.success && session_verification.token_age_in_seconds < 120) {
+    let allowed_age = 2 * 60
+    if (process.env.NODE_ENV === `development`) {
+      allowed_age = 100 * 24 * 60 * 60
+    }
+
+    if (session_verification.success && session_verification.token_age_in_seconds < allowed_age) {
       const { data } = await axios.get(`${url}/api.php`, {
         params: {
           ususerids: session_verification.userID,

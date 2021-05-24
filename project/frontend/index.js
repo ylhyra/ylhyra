@@ -52,6 +52,8 @@ function checkIfjQueryIsReady(fn) {
 
 documentReady(async () => {
 
+  require('project/frontend/User')
+
   /* Load vocabulary game */
   require('project/frontend/Vocabulary')
 
