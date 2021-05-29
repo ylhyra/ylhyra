@@ -4,12 +4,13 @@
 import store from 'App/store'
 import error from 'App/Error'
 import axios from 'axios'
-import { generateNewSchedule } from './scheduling'
+import { updateSchedule } from './scheduling'
 import { InitializeSession } from 'Vocabulary/actions/session'
 import { url } from 'App/url'
 import _ from 'underscore'
 import { setScreen, SCREEN_DONE, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
 import { saveInLocalStorage, getFromLocalStorage } from 'project/frontend/App/functions/localStorage'
+import { hour, day } from 'project/frontend/App/functions/time.js'
 
 // /* What portion of a session should be new cards? */
 // const NEW_CARDS_RATIO = 0.3
@@ -19,12 +20,14 @@ class Deck {
     const { cards, terms } = database
     this.cards = cards
     this.cards_sorted = Object.keys(cards).map(key => {
-      // if(typeof cards[key] === 'function') return null;
-      return {
-        id: key,
-        ...cards[key],
-      }
-    }).filter(Boolean).sort((a, b) => a.sort - b.sort)
+        // if(typeof cards[key] === 'function') return null;
+        return {
+          id: key,
+          ...cards[key],
+        }
+      }).filter(Boolean).sort((a, b) => a.sort - b.sort)
+      // TEMP!! bara fyrir mig!
+      .reverse()
     this.schedule = schedule || {}
     // if(session) {
     //
@@ -50,7 +53,7 @@ class Deck {
   createCards(options) {
     const forbidden_ids = options && options.forbidden_ids || []
     const now = (new Date()).getTime()
-
+    console.log(now - 12 * hour)
     /* Previously seen cards */
     let bad_cards_ids = []
     let good_overdue_ids = []
@@ -60,6 +63,7 @@ class Deck {
       .map(id => ({ id, ...this.schedule[id] }))
       .sort((a, b) => a.due - b.due)
       .forEach(i => {
+        if (i.last_seen < now - 12 * hour) return;
         if (i.score <= 1.2) {
           bad_cards_ids.push(i.id)
         } else if (i.due < now) {
@@ -105,6 +109,8 @@ class Deck {
         0, id
       )
     })
+    // TEMP!! bara fyrir mig!
+    new_card_ids.reverse()
 
     /* Related cards */
     // chosen
@@ -114,12 +120,12 @@ class Deck {
     // TODO
     //
     let chosen = chosen_ids.map(id => ({ id, ...this.cards[id] }))
-    // console.log(chosen_ids)
+    console.log(chosen_ids)
     return chosen
   }
   sessionDone() {
     setScreen(SCREEN_DONE)
-    generateNewSchedule()
+    updateSchedule()
   }
   continueStudying() {
     this.generateSession()

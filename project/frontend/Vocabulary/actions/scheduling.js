@@ -6,7 +6,7 @@ import { daysToMs } from 'project/frontend/App/functions/time.js'
 /**
  * Long-term scheduling
  */
-export const generateNewSchedule = () => {
+export const updateSchedule = () => {
   const deck = store.getState().vocabulary.deck
   const cards = store.getState().vocabulary.session.cards
 

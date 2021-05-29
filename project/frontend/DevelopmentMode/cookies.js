@@ -1,19 +1,21 @@
+import { isBrowser } from 'project/frontend/App/functions/isBrowser'
+
 /*
 
   window.ylhyraDevelopment(true)
 
 */
-function setCookie(name, value, days) {
+export function setCookie(name, value, days, options) {
   var expires = "";
   if (days) {
     var date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
     expires = "; expires=" + date.toUTCString();
   }
-  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  document.cookie = name + "=" + (value || "") + expires + `;${options||''} path=/`;
 }
 
-function getCookie(name) {
+export function getCookie(name) {
   var nameEQ = name + "=";
   var ca = document.cookie.split(';');
   for (var i = 0; i < ca.length; i++) {
@@ -28,18 +30,20 @@ function eraseCookie(name) {
   document.cookie = name + '=; Max-Age=-99999999;';
 }
 
-window.ylhyraDevelopment = (value) => {
-  setCookie('development', value.toString());
-}
+if (isBrowser) {
+  window.ylhyraDevelopment = (value) => {
+    setCookie('development', value.toString());
+  }
 
-window.serverSideRendering = (value) => {
-  setCookie('server-side-rendering', value.toString());
-}
+  window.serverSideRendering = (value) => {
+    setCookie('server-side-rendering', value.toString());
+  }
 
-if (getCookie('server-side-rendering') === 'false') {
-  console.warn('Server side rendering off')
-}
+  if (getCookie('server-side-rendering') === 'false') {
+    console.warn('Server side rendering off')
+  }
 
-if(window && getCookie('development') === 'true'){
-  window.developmentMode = true
+  if (getCookie('development') === 'true') {
+    window.developmentMode = true
+  }
 }

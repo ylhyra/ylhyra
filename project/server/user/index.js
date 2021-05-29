@@ -28,7 +28,7 @@ router.post('/user', async(req, res) => {
   // req.session.user = data
 
   return res.send({
-    data,
+    user: data,
     signature,
   })
 })

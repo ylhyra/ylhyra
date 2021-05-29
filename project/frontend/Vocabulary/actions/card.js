@@ -116,7 +116,7 @@ class Card {
       q += (500 - this.ticksSinceTermWasSeen())
     }
     if (this.done) {
-      q += 30
+      q += 300
     }
     /* Prevent rows of the same card type from appearing right next to each other */
     if (this.session.cardTypeLog[0] === this.from) {
