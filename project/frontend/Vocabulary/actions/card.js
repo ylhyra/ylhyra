@@ -34,7 +34,7 @@ class Card {
     /* Schedule */
     let interval;
     if (rating === BAD) {
-      interval = 3
+      interval = 2
       this.done = false
       /* User is getting annoyed */
       if (this.history.length > 4 && average(this.history.slice(0, 4)) < 0.3) {
@@ -67,7 +67,7 @@ class Card {
       this.session.cards.forEach(_card => {
         if (_card.id === card.id) return;
         if (_card.terms.includes(term)) {
-          const newPosition = _card.session.counter + Math.min(interval, 10)
+          const newPosition = _card.session.counter + Math.min(interval, 10) //+ 1 /* Plus one since
           if (newPosition > _card.absoluteQueuePosition) {
             _card.absoluteQueuePosition = newPosition
           }
@@ -101,7 +101,7 @@ class Card {
 
     /* New cards are not relevant unless there are no overdue cards */
     if (this.history.length === 0) {
-      q = this.absoluteQueuePosition + 100
+      q = this.absoluteQueuePosition + 900
     }
 
     /* Seen cards */
@@ -112,8 +112,13 @@ class Card {
       }
     }
 
-    if (this.ticksSinceTermWasSeen() <= 3) {
-      q += (500 - this.ticksSinceTermWasSeen())
+    /* A bad card that is due exactly now has priority */
+    if (this.history[0] === BAD && q === 0) {
+      q -= 50
+    }
+
+    if (this.ticksSinceTermWasSeen() < 2) {
+      q += (5000 - this.ticksSinceTermWasSeen())
     }
     if (this.done) {
       q += 300

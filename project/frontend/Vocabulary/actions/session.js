@@ -35,7 +35,7 @@ class Session {
     this.remainingTime -= Math.max(0, diff)
     this.lastTimestamp = newTimestamp
     // console.log(this.remainingTime)
-    if(this.remainingTime<=0){
+    if (this.remainingTime <= 0) {
       this.deck.sessionDone()
     }
   }
@@ -50,8 +50,27 @@ class Session {
     if (this.cards.length === 0) {
       return console.error('No cards')
     }
-    const ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
-    this.currentCard = ranked[0]
+
+    // let rankedOverdue = []
+    // let rankedNew = []
+    let ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
+    // .forEach(card => {
+    //   if (this.history.length > 0) {
+    //     rankedOverdue.push(card)
+    //   } else {
+    //     rankedNew.push(card)
+    //   }
+    // })
+    this.currentCard = ranked[0] //rankedOverdue[0] || rankedNew[0]
+
+    /* Logging */
+    if (process.env.NODE_ENV === 'development') {
+      console.log(ranked
+        .map(i => `${i.getQueuePosition()}\t${Math.round(i.getRanking())}\t${i.from==='is'?i.is:i.en}\t${this.history.length > 0 ? 'SEEN' : 'NEW'}`)
+        .join('\n')
+      )
+    }
+
     this.counter++;
 
     /* Store when this term was last seen */
@@ -59,13 +78,6 @@ class Session {
       this.lastSeenTerms[id] = this.counter
     })
 
-    // /* Done */
-    // const isDone = (this.cards.length - this.cards.filter(card => card.done).length) === 0
-    // if (isDone) {
-    //   // this.done = true
-    //
-    //   // store.getState().vocabulary.deck.sessionDone()
-    // }
     const areThereNewCardsRemaining = this.cards.some(i => i.history.length === 0)
     if (!areThereNewCardsRemaining) {
       this.createMoreCards()
@@ -128,9 +140,3 @@ export const InitializeSession = (input, deck) => {
     // ERROR
   }
 }
-
-
-// console.log(this.cards.slice().sort((a, b) => a.getQueuePosition() - b.getQueuePosition())
-//   .map(i => `${i.getQueuePosition()}\t${i.getRanking()}\te: ${i.easiness||0}\t${i.from==='is'?i.is:i.en}`)
-//   .join('\n')
-// )

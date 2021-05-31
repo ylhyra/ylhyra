@@ -63,17 +63,18 @@ class Deck {
       .map(id => ({ id, ...this.schedule[id] }))
       .sort((a, b) => a.due - b.due)
       .forEach(i => {
-        if (i.last_seen < now - 12 * hour) return;
-        if (i.score <= 1.2) {
-          bad_cards_ids.push(i.id)
-        } else if (i.due < now) {
+        if (i.last_seen > now - 12 * hour) return;
+        // if (i.score <= 1.01) {
+        //   bad_cards_ids.push(i.id)
+        // } else
+        if (i.due < now) {
           good_overdue_ids.push(i.id)
         } else {
           // not_overdue_ids.push(i.id)
         }
       })
     let chosen_ids = _.shuffle([
-      ...bad_cards_ids.slice(0, 8),
+      ..._.shuffle(bad_cards_ids).slice(0, 8),
       ...good_overdue_ids.slice(0, 14),
       // ...not_overdue_ids.slice(0, 14),
     ].slice(0, 20))
@@ -83,9 +84,9 @@ class Deck {
     let new_card_ids = [];
     for (let i = 0; i < this.cards_sorted.length; i++) {
       const id = this.cards_sorted[i].id
-      // if (forbidden_ids.includes(id)) {
-      //   break;
-      // }
+      if (forbidden_ids.includes(id)) {
+        continue;
+      }
       if (
         chosen_ids.length + new_card_ids.length < 15 &&
         new_card_ids.length < new_cards_to_add
@@ -120,7 +121,7 @@ class Deck {
     // TODO
     //
     let chosen = chosen_ids.map(id => ({ id, ...this.cards[id] }))
-    console.log(chosen_ids)
+    // console.log(chosen_ids)
     return chosen
   }
   sessionDone() {
