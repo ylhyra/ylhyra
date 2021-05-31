@@ -101,14 +101,14 @@ class Card {
 
     /* New cards are not relevant unless there are no overdue cards */
     if (this.history.length === 0) {
-      q = this.absoluteQueuePosition + 900
+      q = this.absoluteQueuePosition + 1000
     }
 
     /* Seen cards */
     else {
       /* Seen cards are not relevant if they are not overdue */
       if (q > 0) {
-        q += 1000
+        q += 2000
       }
     }
 
@@ -121,7 +121,7 @@ class Card {
       q += (5000 - this.ticksSinceTermWasSeen())
     }
     if (this.done) {
-      q += 300
+      q += 700
     }
     /* Prevent rows of the same card type from appearing right next to each other */
     if (this.session.cardTypeLog[0] === this.from) {
