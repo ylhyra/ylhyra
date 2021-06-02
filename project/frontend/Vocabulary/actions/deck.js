@@ -9,7 +9,7 @@ import { InitializeSession } from 'Vocabulary/actions/session'
 import { url } from 'App/url'
 import { setScreen, SCREEN_DONE, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
 import { saveInLocalStorage, getFromLocalStorage } from 'project/frontend/App/functions/localStorage'
-import { createCards } from './createCards'
+import createCards from './createCards'
 
 class Deck {
   constructor(database, schedule, session) {

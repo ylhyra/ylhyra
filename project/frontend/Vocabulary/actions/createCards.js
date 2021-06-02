@@ -1,53 +1,54 @@
 import { hour, day } from 'project/frontend/App/functions/time.js'
 import _ from 'underscore'
+let CARDS_TO_CREATE = 30
+let DEFAULT_NEW_CARDS_PER_SESSION = 3
 
 /**
  * @memberof Deck
  */
-export const createCards = (options) => {
+export default function createCards(options) {
+  const deck = this
   const forbidden_ids = options && options.forbidden_ids || []
   const now = (new Date()).getTime()
-  console.log(now - 12 * hour)
+
   /* Previously seen cards */
-  let bad_cards_ids = []
-  let good_overdue_ids = []
-  let not_overdue_ids = []
-  let scheduled = Object.keys(this.schedule)
+  let overdue_ids = []
+  let not_overdue_bad_cards_ids = []
+  let scheduled = Object.keys(deck.schedule)
     .filter(id => !forbidden_ids.includes(id))
     .map(id => ({ id, ...this.schedule[id] }))
     .sort((a, b) => a.due - b.due)
     .forEach(i => {
-      // if (i.last_seen > now - 12 * hour) return;
-      // if (i.score <= 1.01) {
-      //   bad_cards_ids.push(i.id)
-      // } else
-      // console.log(`${prettyPrintTimestamp(i.due)}`)
-      if (i.due < now) {
-        good_overdue_ids.push(i.id)
-      } else {
-        // not_overdue_ids.push(i.id)
+      if (i.last_seen > now - 6 * hour) return;
+      // console.log(`${prettyPrintTimestamp(i.due)} - ${deck.cards[i.id].is}`)
+      if (i.due < now + 0.5 * day) {
+        overdue_ids.push(i.id)
+      } else if (i.score <= 1.2) {
+        not_overdue_bad_cards_ids.push(i.id)
       }
     })
-  console.log(`${good_overdue_ids.length} overdue`)
-  let chosen_ids = _.shuffle([
-    ..._.shuffle(bad_cards_ids).slice(0, 8),
-    ...good_overdue_ids.slice(0, 20),
-    // ...not_overdue_ids.slice(0, 14),
-  ].slice(0, 30))
+  // console.log(`${overdue_ids.length} overdue`)
+
+  /*
+   * Fill an array of chosen cards.
+   * If the overdue cards are not sufficiently many, the rest will be filled with low-scoring cards
+   */
+  let chosen_ids = [
+    ..._.shuffle(overdue_ids).slice(0, CARDS_TO_CREATE - DEFAULT_NEW_CARDS_PER_SESSION),
+    ..._.shuffle(not_overdue_bad_cards_ids).slice(0, 5),
+  ].slice(0, CARDS_TO_CREATE - DEFAULT_NEW_CARDS_PER_SESSION)
 
   /* New cards */
-  let new_cards_to_add = 8 // chosen_ids.length > 10 ? 2 : 15
+  let new_cards_to_add = Math.max(DEFAULT_NEW_CARDS_PER_SESSION, CARDS_TO_CREATE - chosen_ids.length)
   let new_card_ids = [];
-  for (let i = 0; i < this.cards_sorted.length; i++) {
-    const id = this.cards_sorted[i].id
-    if (forbidden_ids.includes(id)) {
-      continue;
-    }
+  for (let i = 0; i < deck.cards_sorted.length; i++) {
+    const id = deck.cards_sorted[i].id
+    if (forbidden_ids.includes(id)) continue;
     if (
       chosen_ids.length + new_card_ids.length < 15 &&
       new_card_ids.length < new_cards_to_add
     ) {
-      if (!(id in this.schedule)) {
+      if (!(id in deck.schedule)) {
         new_card_ids.push(id)
       }
     } else {
@@ -76,23 +77,7 @@ export const createCards = (options) => {
   /* Depends on cards */
   // TODO
   //
-  let chosen = chosen_ids.map(id => ({ id, ...this.cards[id] }))
+  let chosen = chosen_ids.map(id => ({ id, ...deck.cards[id] }))
   // console.log(chosen_ids)
   return chosen
 }
-
-
-// 
-// // https://stackoverflow.com/questions/847185/convert-a-unix-timestamp-to-time-in-javascript
-// function prettyPrintTimestamp(timestamp) {
-//   var a = new Date(timestamp);
-//   var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-//   var year = a.getFullYear();
-//   var month = months[a.getMonth()];
-//   var date = a.getDate();
-//   var hour = a.getHours();
-//   var min = a.getMinutes();
-//   var sec = a.getSeconds();
-//   var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
-//   return time;
-// }
