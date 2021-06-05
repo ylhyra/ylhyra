@@ -33,4 +33,11 @@ router.post('/user', async(req, res) => {
   })
 })
 
+export const GetUser = (data) => {
+  if (!data) return;
+  const { user, signature } = data
+  if (sha256.hmac(key, stable_stringify(user)) !== signature) return;
+  return user;
+}
+
 export default router;

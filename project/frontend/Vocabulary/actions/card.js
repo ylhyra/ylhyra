@@ -34,11 +34,12 @@ class Card {
     /* Schedule */
     let interval;
     if (rating === BAD) {
-      interval = 2
+      interval = 3
       this.done = false
       /* User is getting annoyed */
       if (this.history.length > 4 && average(this.history.slice(0, 4)) < 0.3) {
-        interval = 30
+        // TODO improve
+        interval = 10
       }
     } else if (rating === OK) {
       interval = 15
@@ -63,8 +64,8 @@ class Card {
 
     /* Postpone related cards */
     const card = this
-    this.terms.forEach(term => {
-      this.session.cards.forEach(_card => {
+    card.terms.forEach(term => {
+      card.session.cards.forEach(_card => {
         if (_card.id === card.id) return;
         if (_card.terms.includes(term)) {
           const newPosition = _card.session.counter + Math.min(interval, 10) //+ 1 /* Plus one since
@@ -74,6 +75,16 @@ class Card {
         }
       })
     })
+
+    /* Add related cards (in case they're missing) */
+    if (rating === BAD) {
+      // _card.absoluteQueuePosition = 2
+      card.terms.forEach(term => {
+      })
+    }
+
+    /* If answer is good, postpone related cards until next day */
+
 
     this.session.cardTypeLog.unshift(this.from)
   }

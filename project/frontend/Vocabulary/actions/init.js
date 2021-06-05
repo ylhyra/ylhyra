@@ -4,7 +4,6 @@ import error from 'App/Error'
 import axios from 'axios'
 import Deck from './deck'
 import { saveInLocalStorage, getFromLocalStorage } from 'project/frontend/App/functions/localStorage'
-import { day } from 'project/frontend/App/functions/time.js'
 // /api/vocabulary/vocabulary_database.json
 
 export const Initialize = async() => {
@@ -16,13 +15,11 @@ export const Initialize = async() => {
   }
 
   let schedule = getFromLocalStorage('vocabulary-schedule')
-  // let session = getFromLocalStorage('vocabulary-session')
-  // if(getFromLocalStorage('vocabulary-session-saved-at') + day > new Date().getTime()){
-  //   session = null
-  // }
   const deck = new Deck(database, schedule)
   store.dispatch({
     type: 'LOAD_DECK',
     content: deck,
   })
+  /* For testing */
+  window.deck = deck
 }

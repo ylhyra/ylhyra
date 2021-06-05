@@ -67,8 +67,6 @@ export default function createCards(options) {
       0, id
     )
   })
-  // TEMP!! bara fyrir mig!
-  new_card_ids.reverse()
 
   /* Related cards */
   // chosen

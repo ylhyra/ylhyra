@@ -10,20 +10,20 @@ import { url } from 'App/url'
 import { setScreen, SCREEN_DONE, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
 import { saveInLocalStorage, getFromLocalStorage } from 'project/frontend/App/functions/localStorage'
 import createCards from './createCards'
+import { saveSchedule } from './sync'
 
 class Deck {
   constructor(database, schedule, session) {
+    const deck = this
     const { cards, terms } = database
     this.cards = cards
     this.cards_sorted = Object.keys(cards).map(key => {
-        // if(typeof cards[key] === 'function') return null;
-        return {
-          id: key,
-          ...cards[key],
-        }
-      }).filter(Boolean).sort((a, b) => a.sort - b.sort)
-      // TEMP!! bara fyrir mig!
-      .reverse()
+      // if(typeof cards[key] === 'function') return null;
+      return {
+        id: key,
+        ...cards[key],
+      }
+    }).filter(Boolean).sort((a, b) => a.sort - b.sort)
     this.schedule = schedule || {}
     // if(session) {
     //
@@ -34,11 +34,10 @@ class Deck {
     this.saveSession()
 
     /* TEMPORARY */
-    const ref = this
     if (process.env.NODE_ENV === 'development') {
       window.addEventListener('keydown', (e) => {
         if (e.keyCode === 27 /* ESC */ ) {
-          ref.sessionDone()
+          deck.sessionDone()
         }
       })
     }
@@ -60,14 +59,7 @@ class Deck {
     // saveInLocalStorage('vocabulary-session', store.getState().vocabulary.session)
     // saveInLocalStorage('vocabulary-session-saved-at', new Date().getTime())
   }
-  saveSchedule() {
-    /* Save schedule */
-    saveInLocalStorage('vocabulary-schedule', this.schedule)
-
-    // await axios.post(`${url}/api/vocabulary/save`, {
-    //   data: getNewSchedule(),
-    // })
-  }
 }
 Deck.prototype.createCards = createCards
+Deck.prototype.saveSchedule = saveSchedule
 export default Deck

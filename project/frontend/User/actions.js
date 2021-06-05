@@ -37,7 +37,10 @@ export const Initialize = (async() => {
      // TODO: verify
      store.dispatch({
        type: 'LOAD_USER',
-       content: user,
+       content: {
+         user,
+         signature,
+       }
      })
    }
  }

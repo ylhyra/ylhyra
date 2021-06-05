@@ -28,13 +28,15 @@ CREATE TABLE vocabulary_card_relations (
 ) ROW_FORMAT=COMPRESSED;
 
 /* Log created after each session */
-DROP TABLE IF EXISTS vocabulary_log;
-CREATE TABLE vocabulary_log (
-  log_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+DROP TABLE IF EXISTS vocabulary_session_log;
+CREATE TABLE vocabulary_session_log (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id VARCHAR(32),
   card_id VARCHAR(20),
   score VARCHAR(20),
+  times_seen INT(2) UNSIGNED, -- Times seen in this session
+  fails INT(2) UNSIGNED,
   `timestamp` BIGINT,
-  user_id VARCHAR(32),
   INDEX (card_id),
   INDEX (`timestamp`),
   INDEX (user_id)
@@ -44,14 +46,14 @@ CREATE TABLE vocabulary_log (
 DROP TABLE IF EXISTS vocabulary_schedule;
 CREATE TABLE vocabulary_schedule (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id VARCHAR(32),
   card_id VARCHAR(20),
   due DATETIME,
   score DECIMAL(3,2) UNSIGNED, -- Range from 0 to 3
   status ENUM('learning', 'learned'),
   last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  user_id VARCHAR(32),
   last_interval_in_days INT(5) UNSIGNED,
-  times_seen INT(5) UNSIGNED, -- Number of sessions this items has been seen
+  times_seen INT(5) UNSIGNED, -- Number of *sessions* this items has been seen
   INDEX (card_id),
   INDEX (due),
   INDEX (score),
