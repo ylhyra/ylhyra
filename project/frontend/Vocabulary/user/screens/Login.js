@@ -4,6 +4,7 @@ import { urls } from 'Vocabulary/screens/router'
 
 export default () => (
   <div>
+    <Link to={urls.SIGN_UP}>Sign up</Link>
     <form>
       <label>
         Username or email:
