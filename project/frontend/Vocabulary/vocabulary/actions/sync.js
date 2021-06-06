@@ -2,9 +2,8 @@ import store from 'App/store'
 import error from 'App/Error'
 import axios from 'axios'
 import { updateSchedule } from './scheduleAfterSession'
-import { InitializeSession } from 'Vocabulary/actions/session'
+import { InitializeSession } from 'Vocabulary/vocabulary/actions/session'
 import { url } from 'App/url'
-import { setScreen, SCREEN_DONE, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
 import { saveInLocalStorage, getFromLocalStorage } from 'project/frontend/App/functions/localStorage'
 
 

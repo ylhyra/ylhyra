@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import clean from 'Render/Elements/Vocabulary/functions/clean'
-import { BAD, OK, PERFECT } from 'Vocabulary/actions/card'
-import { answer } from 'Vocabulary/actions/session'
+import { BAD, OK, PERFECT } from 'Vocabulary/vocabulary/actions/card'
+import { answer } from 'Vocabulary/vocabulary/actions/session'
 import store from 'App/store'
 
 @connect(state => ({

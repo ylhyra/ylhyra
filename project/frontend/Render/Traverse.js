@@ -11,7 +11,7 @@ const entities = new Entities()
 import isBooleanAttribute from 'is-boolean-attribute'
 import Inflection from 'frontend/Render/Elements/Inflection'
 import Hide from 'frontend/Render/Elements/Hide'
-// import VocabularyFlashcards from 'Vocabulary/button'
+// import VocabularyFlashcards from 'Vocabulary/vocabulary/button'
 
 const Traverse = (input, index = 0, parentTag) => {
   if (!input) return null

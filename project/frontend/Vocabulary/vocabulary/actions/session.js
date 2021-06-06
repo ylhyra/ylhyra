@@ -6,7 +6,6 @@
 import store from 'App/store'
 import _ from 'underscore'
 import Card, { BAD, OK, PERFECT } from './card'
-import { setScreen, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
 // import { day } from 'project/frontend/App/functions/time.js'
 export const MINUTES = 3
 const MAX_SECONDS_TO_COUNT_PER_ITEM = 15
@@ -51,25 +50,16 @@ class Session {
       return console.error('No cards')
     }
 
-    // let rankedOverdue = []
-    // let rankedNew = []
     let ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
-    // .forEach(card => {
-    //   if (this.history.length > 0) {
-    //     rankedOverdue.push(card)
-    //   } else {
-    //     rankedNew.push(card)
-    //   }
-    // })
-    this.currentCard = ranked[0] //rankedOverdue[0] || rankedNew[0]
+    this.currentCard = ranked[0]
 
-    /* Logging */
-    if (process.env.NODE_ENV === 'development') {
-      console.log(ranked
-        .map(i => `${i.getQueuePosition()}\t${Math.round(i.getRanking())}\t${i.from==='is'?i.is:i.en}\t${this.history.length > 0 ? 'SEEN' : 'NEW'}`)
-        .join('\n')
-      )
-    }
+    // /* Logging */
+    // if (process.env.NODE_ENV === 'development') {
+    //   console.log(ranked
+    //     .map(i => `${i.getQueuePosition()}\t${Math.round(i.getRanking())}\t${i.from==='is'?i.is:i.en}\t${this.history.length > 0 ? 'SEEN' : 'NEW'}`)
+    //     .join('\n')
+    //   )
+    // }
 
     this.counter++;
 

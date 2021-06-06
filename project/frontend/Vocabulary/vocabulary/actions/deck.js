@@ -5,12 +5,13 @@ import store from 'App/store'
 import error from 'App/Error'
 import axios from 'axios'
 import { updateSchedule } from './scheduleAfterSession'
-import { InitializeSession } from 'Vocabulary/actions/session'
+import { InitializeSession } from 'Vocabulary/vocabulary/actions/session'
 import { url } from 'App/url'
-import { setScreen, SCREEN_DONE, SCREEN_VOCABULARY } from 'Vocabulary/Elements/Screens'
+import { useHistory } from "react-router-dom"
 import { saveInLocalStorage, getFromLocalStorage } from 'project/frontend/App/functions/localStorage'
 import createCards from './createCards'
 import { saveSchedule } from './sync'
+import { urls } from 'Vocabulary/screens/router'
 
 class Deck {
   constructor(database, schedule, session) {
@@ -46,12 +47,12 @@ class Deck {
     InitializeSession(this.createCards(), this)
   }
   sessionDone() {
-    setScreen(SCREEN_DONE)
+    useHistory().push(urls.VOCABULARY)
     updateSchedule()
   }
   continueStudying() {
+    useHistory().push(urls.VOCABULARY_RUNNING)
     this.generateSession()
-    setScreen(SCREEN_VOCABULARY)
   }
   studyNewWords() {}
   repeatTodaysWords() {}

@@ -595,7 +595,7 @@ class Sanitizer {
 							$badtag = true;
 						} elseif ( in_array( $t, $tagstack ) && !isset( $htmlnest[$t] ) ) {
 							$badtag = true;
-						#  Is it a self closed htmlpair ? (T7487)
+						#  Is it a self closed htmlpair ? (T7487)
 						} elseif ( $brace == '/>' && isset( $htmlpairs[$t] ) ) {
 							// Eventually we'll just remove the self-closing
 							// slash, in order to be consistent with HTML5

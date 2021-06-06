@@ -4,12 +4,12 @@ import error from 'App/Error'
 import axios from 'axios'
 import Deck from './deck'
 import { saveInLocalStorage, getFromLocalStorage } from 'project/frontend/App/functions/localStorage'
-// /api/vocabulary/vocabulary_database.json
+// /api/Vocabulary/vocabulary/_database.json
 
 export const Initialize = async() => {
   let database = getFromLocalStorage('vocabulary-database')
   if (!database) {
-    database = (await axios.get(`${url}/api/vocabulary/vocabulary_database.json`)).data
+    database = (await axios.get(`${url}/api/Vocabulary/vocabulary/_database.json`)).data
     saveInLocalStorage('vocabulary-database', database)
     saveInLocalStorage('vocabulary-database-last-updated', new Date().getTime())
   }

@@ -30,7 +30,7 @@ When initializing the document, inline translations must be repositioned so that
 
 ## Audio
 
-<audio/> is currently managed by the Picobel plugin, but it needs to be taken out since it doesn’t play well with our eventListeners.
+<audio/> is currently managed by the Picobel plugin, but it needs to be taken out since it doesn’t play well with our eventListeners.
 
 ### Text highlighting in sync with audio
 
