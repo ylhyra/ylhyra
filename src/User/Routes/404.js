@@ -4,7 +4,6 @@ import { urls } from 'User/Routes/router'
 
 export default () => (
   <div>
-    {/* <Link to={urls.SIGN_UP}>Sign up</Link> */}
-
+    Page not found
   </div>
 )

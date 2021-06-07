@@ -9,21 +9,9 @@ const key = process.env.COOKIE_SECRET || 'secret'
 var crypto = require('crypto');
 import sha256 from 'js-sha256'
 
-router.post('/user', async(req, res) => {
-  const {
-    username,
-    email,
-    password,
-  } = req.body
-
-  return res.send({
-    user: ':)'
-  })
-})
-
 /* Sign up - Step 1: Email */
-router.post('/user/signup', async(req, res) => {
-  const { email } = req.query
+router.post('/user', async(req, res) => {
+  const { email } = req.body
   const short_token = ('0000' + parseInt(crypto.randomBytes(2).toString('hex'), 16).toString()).slice(-4)
   const long_token = crypto.randomBytes(6).toString('hex')
   const derived_key = GetDerivedKey(short_token, long_token)
@@ -33,12 +21,9 @@ router.post('/user/signup', async(req, res) => {
 
 /* Sign up - Step 2: Token */
 router.post('/user/signup/token', async(req, res) => {
-  const { email } = req.query
-  const short_token = ('0000' + parseInt(crypto.randomBytes(2).toString('hex'), 16).toString()).slice(-4)
-  const long_token = crypto.randomBytes(6).toString('hex')
-  const derived_key = GetDerivedKey(short_token, long_token)
+  const { token } = req.body
 
-  return res.send({ short_token, long_token, derived_key })
+  return res.send('')
 })
 
 const GetDerivedKey = (x, y) => {

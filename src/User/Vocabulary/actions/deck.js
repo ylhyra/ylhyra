@@ -11,7 +11,6 @@ import { useHistory } from "react-router-dom"
 import { saveInLocalStorage, getFromLocalStorage } from 'User/App/functions/localStorage'
 import createCards from './createCards'
 import { saveSchedule } from './sync'
-import { urls } from 'User/Routes/router'
 
 class Deck {
   constructor(database, schedule, session) {

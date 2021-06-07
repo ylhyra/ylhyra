@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom'
 import Layout from 'User/Layout/layout'
 import Main from './Main'
+import NotFound from './404'
 import VocabularyOverview from 'User/Vocabulary/screens/overview'
 import VocabularyRunning from 'User/Vocabulary/screens/running'
 import VocabularyTutorial from 'User/Vocabulary/screens/tutorial'
@@ -26,6 +27,7 @@ export const urls = {
   LOG_IN: '/login',
   SIGN_UP: '/signup',
   PAY: '/signup/pwyw',
+  MAIN: '/',
 }
 
 export default function App() {
@@ -33,14 +35,15 @@ export default function App() {
     <Router>
       <Layout>
         <Switch>
-          <Route path={urls.VOCABULARY_SETUP}><VocabularyIntro/></Route>
-          <Route path={urls.VOCABULARY_RUNNING}><VocabularyRunning/></Route>
-          <Route path={urls.VOCABULARY_TUTORIAL}><VocabularyTutorial/></Route>
-          <Route path={urls.VOCABULARY}><VocabularyOverview/></Route>
-          <Route path={urls.LOG_IN}><LogIn/></Route>
-          <Route path={urls.PAY}><Pay/></Route>
-          <Route path={urls.SIGN_UP}><Signup/></Route>
-          <Route path="/"><Main /></Route>
+          <Route exact path={urls.VOCABULARY_SETUP}><VocabularyIntro/></Route>
+          <Route exact path={urls.VOCABULARY_RUNNING}><VocabularyRunning/></Route>
+          <Route exact path={urls.VOCABULARY_TUTORIAL}><VocabularyTutorial/></Route>
+          <Route exact path={urls.VOCABULARY}><VocabularyOverview/></Route>
+          <Route exact path={urls.LOG_IN}><LogIn/></Route>
+          <Route exact path={urls.PAY}><Pay/></Route>
+          <Route exact path={urls.SIGN_UP}><Signup/></Route>
+          <Route exact path={urls.MAIN}><Main /></Route>
+          <Route><NotFound /></Route>
         </Switch>
       </Layout>
     </Router>
