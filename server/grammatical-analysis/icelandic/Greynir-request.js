@@ -5,7 +5,7 @@
   by Vilhjálmur Þorsteinsson.
 */
 
-import query from 'server/database'
+import query from /*'server/*/ 'database'
 import hash from 'string-hash'
 import request from 'request'
 const lang = 'isl'

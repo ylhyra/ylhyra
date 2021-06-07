@@ -1,9 +1,9 @@
-import query from 'server/database'
+import query from /*'server/*/ 'database'
 import string_hash from 'src/User/App/functions/hash'
 import flattenArray from 'src/User/App/functions/flattenArray'
 import simplifyString from './helpers/simplifyString'
 import GetTranslationFrame from './helpers/TranslationFrame'
-import sql from 'server/database/functions/SQL-template-literal'
+import sql from /*'server/*/ 'database/functions/SQL-template-literal'
 import { escape } from 'sqlstring'
 require('src/User/App/functions/array-foreach-async')
 

@@ -1,8 +1,8 @@
 import string_hash from 'src/User/App/functions/hash'
 import GoogleTranslate from './GoogleTranslate'
 import GetSuggestions from './GetSuggestions'
-import GrammaticalAnalysis from 'server/grammatical-analysis'
-import verifySession from 'server/VerifyMediawikiSession'
+import GrammaticalAnalysis from /*'server/*/ 'grammatical-analysis'
+import verifySession from /*'server/*/ 'VerifyMediawikiSession'
 
 const request = async ({ list, tokenized, translation, suggestions, session_verification_token }, send) => {
   if (!list /*|| !to || !from*/ ) return;

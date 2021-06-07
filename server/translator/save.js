@@ -1,4 +1,4 @@
-import query from 'server/database'
+import query from /*'server/*/ 'database'
 const router = (require('express')).Router()
 import string_hash from 'src/User/App/functions/hash'
 require('src/User/App/functions/sortByArray')

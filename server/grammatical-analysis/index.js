@@ -1,4 +1,4 @@
-import Greynir from 'server/grammatical-analysis/icelandic'
+import Greynir from /*'server/*/ 'grammatical-analysis/icelandic'
 // import CreateIDs from './create-ids'
 // import List from './list'
 require('src/User/App/functions/array-foreach-async')

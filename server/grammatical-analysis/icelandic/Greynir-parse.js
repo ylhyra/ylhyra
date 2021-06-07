@@ -5,7 +5,7 @@
   by Vilhjálmur Þorsteinsson.
 */
 
-// import default_tokenizer from 'server/api/translate/tokenizer/default-tokenizer'
+// import default_tokenizer from /*'server/*/ 'api/translate/tokenizer/default-tokenizer'
 require('array-sugar')
 
 

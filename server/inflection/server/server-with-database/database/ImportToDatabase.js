@@ -4,11 +4,11 @@
 */
 var LineByLineReader = require('line-by-line')
 // var inflections = require('./inflections.js')
-import query from 'server/database'
+import query from /*'server/*/ 'database'
 
 let count = 0
 import path from 'path'
-import sql from 'server/database/functions/SQL-template-literal'
+import sql from /*'server/*/ 'database/functions/SQL-template-literal'
 
 const CSV_FILE_NAME = 'KRISTINsnid.csv'
 const CSV_FILE_LINES = 6334181 // Number of lines, calculated with "wc -l"

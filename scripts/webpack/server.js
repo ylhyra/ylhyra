@@ -6,14 +6,13 @@ const NodemonPlugin = require('nodemon-webpack-plugin')
 
 // const polyfills = resolve('scripts/webpack/utils/config/polyfills.js')
 const modules = [
-  resolve(''),
   resolve('server/'),
   resolve('src/'),
   resolve('server/inflection/'),
-  resolve('.'),
+  // resolve(''),
 ]
 
-new webpack.WatchIgnorePlugin({ paths: ['src/.+'] })
+new webpack.WatchIgnorePlugin(['src/.+'])
 
 module.exports = {
   target: 'node',
@@ -24,17 +23,18 @@ module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
     ylhyra_server: [ /*polyfills,*/ resolve('server/index.js')],
-    // vocabulary_server: [polyfills, resolve('project/vocabulary/server/index.js')],
-    // vocabulary_compiler: [polyfills, resolve('project/vocabulary/compiler/index.js')],
-    // vocabulary_notifications_schedule: [polyfills, resolve('project/vocabulary/server/notifications/schedule/ScheduleAll.js')],
-    // vocabulary_notifications_send: [polyfills, resolve('project/vocabulary/server/notifications/send/GetOverdue.js')],
   },
   output: {
     path: resolve('build'),
     filename: '[name].js'
   },
   resolve: {
-    modules: modules,
+    modules: [
+      ...modules,
+      // resolve(''),
+      // resolve('server/node_modules/'),
+      // resolve('node_modules/'),
+    ],
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
   },
   externals: [nodeExternals()],

@@ -1,4 +1,4 @@
-import { Pool, Query } from 'server/database/functions/connection'
+import { Pool, Query } from /*'server/*/ 'database/functions/connection'
 require('dotenv').config()
 
 const pool = Pool({

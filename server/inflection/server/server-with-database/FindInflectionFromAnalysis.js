@@ -5,8 +5,8 @@
 import express from 'express'
 
 // const router = express.Router()
-// import query from 'server/database'
-// import sql from 'server/database/functions/SQL-template-literal'
+// import query from /*'server/*/ 'database'
+// import sql from /*'server/*/ 'database/functions/SQL-template-literal'
 // /*
 //   Input: Grammatical analysis from Greynir for a word
 //   Output: BIN id

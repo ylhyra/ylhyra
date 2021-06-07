@@ -1,6 +1,6 @@
 import { html2json, json2html } from 'User/App/functions/html2json'
 // import SplitIntoUnicodeCharacters from './helpers/runes'
-// import { getTextFromTokenized } from 'server/api/translate/tokenizer/create-ids'
+// import { getTextFromTokenized } from /*'server/*/ 'api/translate/tokenizer/create-ids'
 
 /*
   STEP 1:

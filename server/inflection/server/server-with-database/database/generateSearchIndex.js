@@ -20,8 +20,8 @@
   * 1 - phonetic
 
 */
-import query from 'server/database'
-import sql from 'server/database/functions/SQL-template-literal'
+import query from /*'server/*/ 'database'
+import sql from /*'server/*/ 'database/functions/SQL-template-literal'
 import { escape } from 'sqlstring'
 
 import {

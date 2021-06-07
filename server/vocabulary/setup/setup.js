@@ -7,8 +7,8 @@ import axios from 'axios'
 const path = require('path')
 const fs = require('fs')
 require('src/User/App/functions/array-foreach-async')
-import query from 'server/database'
-import sql from 'server/database/functions/SQL-template-literal'
+import query from /*'server/*/ 'database'
+import sql from /*'server/*/ 'database/functions/SQL-template-literal'
 import stable_stringify from 'json-stable-stringify'
 
 let google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?output=tsv&random=${Math.random()}`

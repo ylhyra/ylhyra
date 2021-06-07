@@ -1,10 +1,10 @@
 /*
   Note: This file currently relies on being a submodule of Ylhýra.
 */
-import query from 'server/database'
-import sql from 'server/database/functions/SQL-template-literal'
-import classify from 'server/inflection/tables/classification/BIN_classification'
-import { sort_by_classification } from 'server/inflection/tables/classification/sort_by_classification'
+import query from /*'server/*/ 'database'
+import sql from /*'server/*/ 'database/functions/SQL-template-literal'
+import classify from /*'server/*/ 'inflection/tables/classification/BIN_classification'
+import { sort_by_classification } from /*'server/*/ 'inflection/tables/classification/sort_by_classification'
 
 /*
   Full table for id
