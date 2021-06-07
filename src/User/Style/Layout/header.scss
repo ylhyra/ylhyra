@@ -1,0 +1,59 @@
+header {
+  height: 60px;
+  margin-top: 14px;
+
+  > div {
+    max-width: $max-width;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    height: 100%;
+
+    #logo {
+      background-size: contain;
+      background-repeat: no-repeat;
+      /* Sans serif */
+      background-image: url("https://ylhyra.is/images/c/c8/Ylhyra_logo_dark.svg");
+      width: 100px;
+      height: 100px * 29 / 89;
+      /* 29 / 89 is the image's ratio */
+      /* Serif */
+      background-image: url("https://ylhyra.is/images/d/d3/Logo_serif.svg");
+      width: 105px;
+      height: 105px * 36 / 112;
+      /* 36 / 112 is the image's ratio */
+      display: block;
+      top: -3px;
+      position: relative;
+    }
+
+    ul {
+      li {
+        display: inline-block;
+        margin: 0 0 0 15px;
+        font-size: 15px;
+
+        a,
+        a:visited {
+          color: #404040;
+          border-bottom: 1px solid #e4e4e4;
+
+          &:hover {
+            text-decoration: none;
+            border-bottom-color: #a7a7a7;
+            color: black;
+          }
+        }
+        @media screen and (max-width: 550px) {
+          margin-left: 9px;
+          font-size: 13px;
+        }
+      }
+    }
+    @media screen and (max-width: 550px) {
+      padding: 0 5px;
+    }
+  }
+}

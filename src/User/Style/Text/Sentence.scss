@@ -1,0 +1,40 @@
+.sentence {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-backface-visibility: hidden;
+  cursor: default;
+  padding: 4px 4px;
+  margin: -5px -5px;
+  /* Added pixel to make up for border. */
+  border-radius: 4px;
+  border: 1px solid transparent;
+  z-index: 999;&.highlighted {
+    cursor: pointer;
+    border-color: #e6e3e3;
+    background-color: #f6f4f4;
+    background: #f9f9f9;
+    border-color: #e8e8e8;
+    color: black;.conversation .me & {
+      background: #2e6ae4;
+      border-color: #4f83ec;
+    }
+  }&.shown {
+    * {
+      z-index: 100;
+    }.conversation .me & {
+      &, .word {
+        color: black !important;
+      }
+    }
+  }&.audioPlaying {
+    background: #f9f9f9;
+    border-color: #e8e8e8;.conversation .me & {
+      background: #2e6ae4;
+      border-color: transparent;
+    }
+  }
+
+  html:active .mw-editable &.missing {
+    border-bottom: 1px dotted #e38100;
+    background: rgba(#ff8a00, 0.03);
+  }
+}

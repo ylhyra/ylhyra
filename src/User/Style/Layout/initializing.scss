@@ -1,0 +1,17 @@
+body:not(.initialized) {
+  .initializing:not(#wikiPreview *) {
+    position: relative;&:before {
+      content: ' Loading...';
+      color: $gray;
+      font-family: sans-serif;
+      border-radius: 12px;
+      background: #ececec;
+      padding: 2px 7px;
+      font-size: 12px;
+      display: inline-block;
+      position: absolute;
+      left: -79px;
+      line-height: 1.6;
+    }
+  }
+}
