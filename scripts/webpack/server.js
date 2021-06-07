@@ -6,15 +6,14 @@ const NodemonPlugin = require('nodemon-webpack-plugin')
 
 // const polyfills = resolve('scripts/webpack/utils/config/polyfills.js')
 const modules = [
-  resolve('project/'),
-  resolve('project/server/'),
-  resolve('project/frontend/'),
-  resolve('project/vocabulary/'),
-  resolve('project/server/inflection/'),
+  resolve(''),
+  resolve('server/'),
+  resolve('src/'),
+  resolve('server/inflection/'),
   resolve('.'),
 ]
 
-new webpack.WatchIgnorePlugin(['project/frontend/.+']);
+new webpack.WatchIgnorePlugin(['src/.+']);
 
 module.exports = {
   target: 'node',
