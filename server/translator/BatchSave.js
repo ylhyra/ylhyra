@@ -1,4 +1,4 @@
-// export TESTING=true && node project/server/translator/BatchSave.js
+// export TESTING=true && node server/translator/BatchSave.js
 
 const axios = require('axios')
 require('./../../frontend/App/functions/array-foreach-async')

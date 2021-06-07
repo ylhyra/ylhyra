@@ -21,14 +21,14 @@ if [ "$DOES_DATABASE_EXIST" == "" ]; then
   echo -e "${CYAN}\nCreating database.\nYou may need to enter your MySQL database root password:${NO_COLOR}"
   mysql -u root -p --execute "CREATE DATABASE IF NOT EXISTS ylhyra;" || { echo 'Could not create database' ; exit 1; }
   echo -e "${CYAN}\nDone.\nYou may need to enter your MySQL database root password again:${NO_COLOR}"
-  mysql -u root -p -D ylhyra < ${BASH_SOURCE%/*}/../../../project/server/database/ylhyra.sql || { echo 'Import failed' ; exit 1; }
+  mysql -u root -p -D ylhyra < ${BASH_SOURCE%/*}/../../../server/database/ylhyra.sql || { echo 'Import failed' ; exit 1; }
   echo -e "${RED}Created database 'ylhyra'.${NO_COLOR}"
 else
   echo -e "${CYAN}The database 'ylhyra' already exists. Do you want to reset it?${NO_COLOR}"
   read -p "[y/n] " input
   if [[ $input == "Y" || $input == "y" ]]; then
     echo -e "${CYAN}\nCreating database.\nYou may need to enter your MySQL database root password:${NO_COLOR}"
-    mysql -u root -p -D ylhyra < ${BASH_SOURCE%/*}/../../../project/server/database/ylhyra.sql || { echo 'Import failed' ; exit 1; }
+    mysql -u root -p -D ylhyra < ${BASH_SOURCE%/*}/../../../server/database/ylhyra.sql || { echo 'Import failed' ; exit 1; }
   else
     echo -e "${CYAN}Exiting.${NO_COLOR}"
     exit;

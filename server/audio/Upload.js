@@ -8,7 +8,7 @@
 // import { exec } from 'child_process'
 // import fs from 'fs'
 // import mime from 'mime'
-// import urlSlug from 'App/functions/url-slug'
+// import urlSlug from 'src/User/App/functions/url-slug'
 // import mkdirp from 'mkdirp'
 // import { upload_path } from 'config.js'
 // import synchronize from './Synchronize'

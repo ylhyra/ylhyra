@@ -1,5 +1,5 @@
 /*
-node project/server/datasets/pronunciation/data/InsertToDatabase.js
+node server/datasets/pronunciation/data/InsertToDatabase.js
 */
 import LineByLineReader from 'line-by-line'
 import path from 'path'

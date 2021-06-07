@@ -13,7 +13,7 @@ const modules = [
   resolve('.'),
 ]
 
-new webpack.WatchIgnorePlugin(['src/.+']);
+new webpack.WatchIgnorePlugin({ paths: ['src/.+'] })
 
 module.exports = {
   target: 'node',
@@ -23,7 +23,7 @@ module.exports = {
   },
   mode: process.env.NODE_ENV,
   entry: {
-    ylhyra_server: [/*polyfills,*/ resolve('project/server/index.js')],
+    ylhyra_server: [ /*polyfills,*/ resolve('server/index.js')],
     // vocabulary_server: [polyfills, resolve('project/vocabulary/server/index.js')],
     // vocabulary_compiler: [polyfills, resolve('project/vocabulary/compiler/index.js')],
     // vocabulary_notifications_schedule: [polyfills, resolve('project/vocabulary/server/notifications/schedule/ScheduleAll.js')],
@@ -60,7 +60,7 @@ module.exports = {
   },
   bail: true,
   watchOptions: {
-    ignored: ['node_modules/**','mediawiki/**','project/frontend/**','project/frontend/**/*.js']
+    ignored: ['node_modules/**', 'mediawiki/**', 'src/User/**', 'src/User/**/*.js']
   },
   module: {
     strictExportPresence: true,

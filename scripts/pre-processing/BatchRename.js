@@ -1,4 +1,4 @@
-require('App/functions/array-foreach-async')
+require('src/User/App/functions/array-foreach-async')
 import { editPage, getNewEditToken } from 'Editor/actions'
 
 const rename = [

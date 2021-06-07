@@ -1,4 +1,4 @@
-import string_hash from 'App/functions/hash'
+import string_hash from 'src/User/App/functions/hash'
 import GoogleTranslate from './GoogleTranslate'
 import GetSuggestions from './GetSuggestions'
 import GrammaticalAnalysis from 'server/grammatical-analysis'

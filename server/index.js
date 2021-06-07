@@ -33,12 +33,12 @@ app.use(require('cookie-session')({
   maxAge: 3 * 365 * 24 * 60 * 60 * 1000 // 3 years
 }))
 
-if(!process.env.COOKIE_SECRET){
+if (!process.env.COOKIE_SECRET) {
   console.warn('Missing COOKIE_SECRET')
 }
 
 /* Set Unicode header on all responses */
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.setHeader('charset', 'utf-8')
   next();
 });
@@ -54,21 +54,23 @@ setTimeout(() => {
   Private APIs
 */
 app.use(cors({ origin: 'https://ylhyra.is' }))
-app.use('/api', require('server/web-socket').default)
-app.use('/api', require('server/server-side-rendering').default)
-// app.use('/api', require('server/tweets').default)
-// app.use('/api', require('server/audio').default)
-app.use('/api', require('server/audio/recorder').default)
-app.use('/api', require('server/audio/GetOneAudioFile').default)
-// app.use('/api', require('server/translator/Google').default)
-// app.use('/api', require('server/api/audio/Upload').default)
-app.use('/api', require('server/audio/Synchronize').default)
+// app.use('/api', require('server/web-socket').default)
+// app.use('/api', require('server/server-side-rendering').default)
+// app.use('/api', require('server/audio/recorder').default)
+// app.use('/api', require('server/audio/GetOneAudioFile').default)
+// app.use('/api', require('server/audio/Synchronize').default)
 app.use('/api', require('server/user').default)
 app.use('/api', require('server/analytics').default)
-app.use('/api', require('server/translator/save').default)
+// app.use('/api', require('server/translator/save').default)
 app.use('/api', require('server/vocabulary/get').default)
 app.use('/api', require('server/vocabulary/save').default)
 app.use('/api/vocabulary/vocabulary_database.json', express.static(path.join(__dirname, '/vocabulary/vocabulary_database.json')))
+
+
+// // app.use('/api', require('server/tweets').default)
+// // app.use('/api', require('server/audio').default)
+// // app.use('/api', require('server/translator/Google').default)
+// // app.use('/api', require('server/api/audio/Upload').default)
 
 app.use('/api/temp_files/', express.static(upload_path))
 
@@ -78,13 +80,19 @@ app.use('/api/temp_files/', express.static(upload_path))
 app.use(cors({ origin: '*' }))
 app.set('json spaces', 2)
 
+const router = (require('express')).Router()
+router.get(['/robots.txt', '/favicon.ico', '/sitemap.xml'], (req, res) => {
+  res.send('')
+})
+app.use('/', router)
+
 /*
   When running on subdomains,
   serve up inflections.
   If other services are needed later, go by "request.headers.host"
 */
 app.use('/inflection_styles', express.static(path.join(__dirname, '/inflection/styles')))
-app.use('/', require('project/server/inflection/server/server-with-database/route_loader').default)
+app.use('/', require('server/inflection/server/server-with-database/route_loader').default)
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST
@@ -95,11 +103,11 @@ const port = argv.port || process.env.PORT || 9123
 
 /* Import steps */
 if (process.argv[2] === '--import-inflections') {
-  require('project/server/inflection/server/server-with-database/database/ImportToDatabase.js')
+  require('server/inflection/server/server-with-database/database/ImportToDatabase.js')
 } else if (process.argv[2] === '--generate-search-index') {
-  require('project/server/inflection/server/server-with-database/database/generateSearchIndex.js')
+  require('server/inflection/server/server-with-database/database/generateSearchIndex.js')
 } else if (process.argv[2] === '--import-vocabulary') {
-  require('project/server/vocabulary/setup/setup')
+  require('server/vocabulary/setup/setup')
 }
 /* Or, start the app */
 else {
@@ -126,7 +134,7 @@ else {
 //   console.error(err)
 // })
 
-process.on('SIGINT', function() {
+process.on('SIGINT', function () {
   process.exit(0)
   // db.stop(function(err) {
   //   process.exit(err ? 1 : 0);

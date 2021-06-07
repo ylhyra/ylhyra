@@ -1,7 +1,7 @@
 import query from 'server/database'
 const router = (require('express')).Router()
-import string_hash from 'App/functions/hash'
-require('App/functions/sortByArray')
+import string_hash from 'src/User/App/functions/hash'
+require('src/User/App/functions/sortByArray')
 import simplifyString from './helpers/simplifyString'
 import GetTranslationFrame from './helpers/TranslationFrame'
 import SQL_helper from './helpers/SQL_helper'

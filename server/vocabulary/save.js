@@ -6,7 +6,7 @@ const router = (require('express')).Router()
 import shortid from 'shortid'
 import sql from 'server/database/functions/SQL-template-literal'
 import cors from 'cors'
-import { round, msToS, daysToMs, roundMsToHour } from 'project/frontend/App/functions/time.js'
+import { round, msToS, daysToMs, roundMsToHour } from 'src/User/App/functions/time.js'
 import { GetUser } from 'server/user'
 
 router.post('/vocabulary/save', cors(), (req, res) => {

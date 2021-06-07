@@ -2,11 +2,11 @@
   To run:
   node build/ylhyra_server.js --import-vocabulary
 */
-import _hash from 'project/frontend/App/functions/hash'
+import _hash from 'src/User/App/functions/hash'
 import axios from 'axios'
 const path = require('path')
 const fs = require('fs')
-require('App/functions/array-foreach-async')
+require('src/User/App/functions/array-foreach-async')
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
 import stable_stringify from 'json-stable-stringify'
