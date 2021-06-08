@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { history, urls } from 'User/Routes/router'
-
-// todo: minimum
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import {pay} from 'User/User/actions'
 
 class Form2 extends React.Component {
   componentDidMount() {
@@ -15,13 +15,38 @@ class Form2 extends React.Component {
     return (
       <div>
         An Ylhýra account is available on a <b>pay-what-you-want</b> basis. If you want to pay nothing, just write "0".
-        <form>
-          <label>
-            Price:
-            <input type="text" value="15 U.S. dollars"/>
-          </label>
-          <button type="submit">Continue</button>
-        </form>
+
+        <Formik
+          initialValues={{ price: '' }}
+          validate={values => {
+            const errors = {};
+            // if (!values.price.trim()) {
+            //   errors.price = 'Required';
+            // } else if (
+            //   !/[0-9]{4}$/.test(values.price.replace(/([^0-9])/g,'').trim())
+            // ) {
+            //   errors.price = `A price should be four digits`;
+            // }
+            return errors;
+          }}
+          onSubmit={(values, { setSubmitting }) => {
+            pay(values)
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              <label>
+                Price:
+                <ErrorMessage name="price" component="div" />
+                <Field type="text" name="price" /> U.S. dollars
+              </label>
+
+              <button type="submit" disabled={isSubmitting}>
+                Continue
+              </button>
+            </Form>
+          )}
+        </Formik>
       </div>
     )
   }

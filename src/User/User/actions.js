@@ -12,16 +12,19 @@ export const InitializeUser = () => {
   let cookie = getCookie('y')
   if (cookie) {
     cookie = JSON.parse(atob(cookie))
-    const user_id = cookie.user_id
     const user = cookie.user
-    if (user_id) {
-      return {
-        user,
-        user_id,
-      }
+    if (user) {
+      return user
     }
   }
   return null
+}
+/* Called on route changes */
+export const updateUser = () => {
+  store.dispatch({
+    type: 'LOAD_USER',
+    content: InitializeUser(),
+  })
 }
 
 export const logout = async() => {
@@ -30,5 +33,15 @@ export const logout = async() => {
     type: 'LOAD_USER',
     content: null,
   })
+  history.push(urls.MAIN)
+}
+
+
+// todo: minimum
+const MAX = 80
+const MIN = 2
+export const pay = ({ price }) => {
+  price = price.replace(/,/,'.')
+
   history.push(urls.MAIN)
 }

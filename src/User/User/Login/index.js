@@ -51,6 +51,7 @@ class Form2 extends React.Component {
     this.setState({
       error: null,
       message: null,
+      does_user_exist: response.does_user_exist,
     })
 
     /* Step 1 done */
@@ -71,9 +72,9 @@ class Form2 extends React.Component {
         },
       })
 
-      if (this.props.type === 'signup') {
+      if (!this.state.does_user_exist) {
         this.props.history.push(urls.PAY)
-      } else if (this.props.type === 'login') {
+      } else {
         this.props.history.push(urls.MAIN)
       }
     }
@@ -91,7 +92,7 @@ class Form2 extends React.Component {
         {this.props.above}
 
         <Formik
-          initialValues={{ email: 'test@test.xyz' }}
+          initialValues={{ email: '' }}
           validate={values => {
             const errors = {};
             if (!values.email.trim()) {
@@ -142,8 +143,17 @@ class Form2 extends React.Component {
     } else if (this.state.step === 2) {
       return (
         <div>
+
+        {this.props.type==='signup' && this.state.does_user_exist && (<div>
+          You have already created an account with this name. You will be logged in instead.
+        </div>)}
+
+        {this.props.type==='login' && !this.state.does_user_exist && (<div>
+          <b>An account with this name does not exist</b>. You will be signed up instead.
+        </div>)}
+
         <Formik
-          initialValues={{ token: '1234' }}
+          initialValues={{ token: '' }}
           validate={values => {
             const errors = {};
             if (!values.token.trim()) {
@@ -176,14 +186,6 @@ class Form2 extends React.Component {
           )}
         </Formik>
       </div>
-      )
-    } else if (this.state.step === 'signup_instead') {
-      return (
-        null
-      )
-    } else if (this.state.step === 'login_instead') {
-      return (
-        null
       )
     }
   }

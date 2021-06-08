@@ -32,12 +32,12 @@ router.post('/user', async(req, res) => {
       expires     = ${expires};
 
       SELECT * FROM users WHERE email = ${email};
-      `, async (err, results) => {
+      `, async(err, results) => {
       if (err) {
         console.error(err)
         return res.sendStatus(500)
       } else {
-        const does_user_exist = await user_exists(email)
+        const does_user_exist = await get_user(email)
         return res.send({ long_token, does_user_exist })
       }
     })
@@ -50,7 +50,7 @@ router.post('/user/token', async(req, res) => {
 
   query(sql `SELECT * FROM user_login_tokens WHERE
     long_token  = ${long_token}
-    `, (err, results) => {
+    `, async(err, results) => {
     if (err) {
       console.error(err)
       return res.sendStatus(500)
@@ -71,33 +71,46 @@ router.post('/user/token', async(req, res) => {
         return res.send({ error: 'ERROR_EXPIRED_TOKEN' })
       }
 
-      /* Success, create user */
-      query(sql `INSERT INTO users SET
-        email = ${results[0].email}
-        `, (err, results2) => {
-        if (err) {
-          console.error(JSON.stringify(err.code))
-          if (err.code === 'ER_DUP_ENTRY') {
-            return res.status(500).send({ error: 'ERROR_USER_ALREADY_EXIST' })
-          }
-          return res.sendStatus(500)
-        } else {
-          const user_id = results2.insertId
-          const user = results[0].email
-          req.session.user_id = user_id
-          req.session.user = user
-          return res.send({ user_id, user })
-        }
+      const email = results[0].email
+      const user = await get_user(email)
+
+      create_user_if_doesnt_exist({ user, email, res }, user_id => {
+        const user_name = email
+        req.session.user = { user_id, user_name }
+        return res.send({ user_id, user_name })
       })
     }
   })
 })
 
-const user_exists = async(email) => {
+const get_user = async(email) => {
   return new Promise(resolve => {
     query(sql `SELECT * FROM users WHERE email = ${email}`, (err, results) => {
-      resolve(results.length > 0)
+      if (results.length > 0) {
+        resolve(results[0])
+      } else {
+        resolve(null)
+      }
     })
+  })
+}
+
+const create_user_if_doesnt_exist = ({ user, email, res }, callback) => {
+  if (user) {
+    return callback(user.id)
+  }
+  query(sql `INSERT INTO users SET
+    email = ${email}
+    `, (err, results2) => {
+    if (err) {
+      console.error(JSON.stringify(err.code))
+      if (err.code === 'ER_DUP_ENTRY') {
+        return res.status(500).send({ error: 'ERROR_USER_ALREADY_EXIST' })
+      }
+      return res.sendStatus(500)
+    } else {
+      callback(results2.insertId)
+    }
   })
 }
 
@@ -131,8 +144,7 @@ const captcha = (captcha_token, res, callback) => {
 
 /* TODO: CSRF */
 router.post('/user/logout', async(req, res) => {
-  req.session.user = ''
-  req.session.user_id = ''
+  req.session.user = null
   return res.sendStatus(200)
 })
 

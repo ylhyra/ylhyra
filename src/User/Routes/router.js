@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom'
 import { createBrowserHistory } from "history";
 import Layout from 'User/Layout/layout'
+import {updateUser} from 'User/User/actions'
 
 /* TODO: Hlaða skyldum saman */
 import Main from './Main'
@@ -25,7 +26,10 @@ const Signup = lazy(()=>import('User/User/screens/Signup'))
 const Settings = lazy(()=>import('User/User/screens/Settings'))
 const Pay = lazy(()=>import('User/User/screens/Pay'))
 
-export const history = createBrowserHistory();
+export const history = createBrowserHistory()
+history.listen((location, action) => {
+  updateUser()
+})
 
 export const urls = {
   VOCABULARY_SETUP: '/vocabulary/setup',
