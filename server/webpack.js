@@ -1,7 +1,7 @@
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 const webpack = require('webpack');
-const resolve = (input) => path.resolve(__dirname, './../../' + input)
+const resolve = (input) => path.resolve(__dirname, './../' + input)
 const NodemonPlugin = require('nodemon-webpack-plugin')
 
 // const polyfills = resolve('scripts/webpack/utils/config/polyfills.js')
@@ -9,10 +9,10 @@ const modules = [
   resolve('server/'),
   resolve('src/'),
   resolve('server/inflection/'),
-  // resolve(''),
+  // resolve('node_modules'),
 ]
 
-new webpack.WatchIgnorePlugin(['src/.+'])
+new webpack.WatchIgnorePlugin({ paths: ['src/.+'] })
 
 module.exports = {
   target: 'node',
@@ -73,7 +73,15 @@ module.exports = {
           cacheDirectory: true,
         },
       }, ],
-    }, ],
+    },
+    // {
+    //   oneOf: [{
+    //     test: /\.(scss)$/,
+    //     include: modules,
+    //     loader: require.resolve('ignore-loader'),
+    //   }, ],
+    // },
+  ],
   },
   plugins: [new NodemonPlugin()],
   // plugins: [

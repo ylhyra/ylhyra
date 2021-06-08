@@ -75,7 +75,8 @@
     "rules": {
       "no-unused-vars": "off",
       "import/no-anonymous-default-export": "off",
-      "jsx-a11y/anchor-has-content": "off"
+      "jsx-a11y/anchor-has-content": "off",
+      "no-unreachable": "off"
     }
   },
   "browserslist": {

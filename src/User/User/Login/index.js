@@ -6,26 +6,33 @@ import axios from 'axios'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory } from "react-router-dom"
 import { withRouter } from "react-router";
+import store from 'User/App/store'
 
-export const ERROR_EMAIL_COULD_NOT_BE_SENT = 'ERROR_EMAIL_COULD_NOT_BE_SENT'
-export const ERROR_INCORRECT_TOKEN = 'ERROR_INCORRECT_TOKEN'
-export const ERROR_INCOMPLETE_FIELD = 'ERROR_INCOMPLETE_FIELD'
-export const ERROR_USER_ALREADY_EXIST = 'ERROR_USER_ALREADY_EXIST'
-export const ERROR_USER_DOESNT_EXIST = 'ERROR_USER_DOESNT_EXIST'
+export const errors = {
+  ERROR_INVALID_EMAIL: 'That is not a valid email',
+  ERROR_INVALID_TOKEN: 'This is not a correct token',
+  ERROR_EXPIRED_TOKEN: 'Your token has expired. Please reload this page and start over.',
+
+  ERROR_EMAIL_COULD_NOT_BE_SENT: 'ERROR_EMAIL_COULD_NOT_BE_SENT',
+  ERROR_INCOMPLETE_FIELD: 'ERROR_INCOMPLETE_FIELD',
+  ERROR_USER_ALREADY_EXIST: 'ERROR_USER_ALREADY_EXIST',
+  ERROR_USER_DOESNT_EXIST: 'ERROR_USER_DOESNT_EXIST',
+}
 
 class Form2 extends React.Component {
   state = {
     step: 1
   }
   submit = async(values) => {
-    const response = (await axios.post(`/api/user`, {
+    let url = values.token ? '/api/user/token' : '/api/user'
+    const response = (await axios.post(url, {
       ...this.state,
-      values,
+      ...values,
     })).data
     console.log(response)
     if (response.error) {
       this.setState({
-        error: response.error,
+        error: errors[response.error],
       })
     }
     /* Step 1 done */
@@ -37,12 +44,21 @@ class Form2 extends React.Component {
     }
     /* Step 2 done */
     else {
-      console.log('Done :)')
+      const { user_id, user } = response
+      store.dispatch({
+        type: 'LOAD_USER',
+        content: {
+          user,
+          user_id,
+        },
+      })
       this.props.history.push(urls.PAY)
     }
   }
   render() {
     const submit = this.submit
+    const error = this.state.error && <div class="error">{this.state.error}</div>
+
     if (this.state.step === 1) {
       return (
         <div>
@@ -56,7 +72,7 @@ class Form2 extends React.Component {
         An account allows you to save your vocabulary progress and continue the game on other devices.
 
         <Formik
-          initialValues={{ email: '' }}
+          initialValues={{ email: 'test@test.xyz' }}
           validate={values => {
             const errors = {};
             if (!values.email.trim()) {
@@ -65,9 +81,6 @@ class Form2 extends React.Component {
               !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email.trim())
             ) {
               errors.email = 'Invalid email address';
-            }
-            if(this.state.error){
-              errors.email = this.state.error
             }
             return errors;
           }}
@@ -82,12 +95,17 @@ class Form2 extends React.Component {
                 <ErrorMessage name="email" component="div" />
                 <Field type="email" name="email" />
               </label>
+
+              {error}
+
               <button type="submit" disabled={isSubmitting}>
                 Submit
               </button>
             </Form>
           )}
         </Formik>
+
+
         {/* {process.env.REACT_APP_HCAPTCHA_SITEKEY &&
           <HCaptcha
             sitekey={process.env.REACT_APP_HCAPTCHA_SITEKEY}
@@ -98,7 +116,7 @@ class Form2 extends React.Component {
       return (
         <div>
         <Formik
-          initialValues={{ token: '' }}
+          initialValues={{ token: '1234' }}
           validate={values => {
             const errors = {};
             if (!values.token.trim()) {
@@ -121,6 +139,9 @@ class Form2 extends React.Component {
                 <ErrorMessage name="token" component="div" />
                 <Field type="text" name="token" />
               </label>
+
+              {error}
+
               <button type="submit" disabled={isSubmitting}>
                 Submit
               </button>

@@ -105,8 +105,6 @@ CREATE TABLE sounds (
 );
 CREATE INDEX _text ON sounds (text);
 
-
-
 /*
   Analytics
 */
@@ -130,27 +128,34 @@ CREATE TABLE interactions (
   country VARCHAR(2),
 
   type VARCHAR(40) -- "text" for text interaction, "view" for a page view
-);
--- CREATE INDEX _text ON sounds (text);
--- DROP TABLE IF EXISTS sessions;
--- CREATE TABLE sessions (
---   id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
---   timestamp TIMESTAMP,
---   user_session VARCHAR(120),
---   analytics_hash VARCHAR(120) -- FOREIGN KEY user_analytics.hash,
--- );
--- DROP TABLE IF EXISTS user_analytics;
--- CREATE TABLE user_analytics (
---   id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
---   hash VARCHAR(120),
---   ip VARCHAR(120),
---   browser VARCHAR(120),
---   version VARCHAR(120),
---   os VARCHAR(120),
---   platform VARCHAR(120),
---   is_mobile BOOLEAN
--- );
-
+) ROW_FORMAT=COMPRESSED;
 -- Other data:
 -- inflection/database.sql
 -- vocabulary/database.sql
+
+
+/*
+  _   _ ____  _____ ____  ____
+ | | | / ___|| ____|  _ \/ ___|
+ | | | \___ \|  _| | |_) \___ \
+ | |_| |___) | |___|  _ < ___) |
+  \___/|____/|_____|_| \_\____/
+*/
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255),
+  INDEX (email)
+) ROW_FORMAT=COMPRESSED;
+
+DROP TABLE IF EXISTS user_login_tokens;
+CREATE TABLE user_login_tokens (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255),
+  short_token VARCHAR(4),
+  long_token VARCHAR(20),
+  expires VARCHAR(20),
+  attempts INT(1),
+  INDEX (email),
+  INDEX (long_token)
+) ROW_FORMAT=COMPRESSED;

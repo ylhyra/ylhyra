@@ -8,28 +8,72 @@ import sha256 from 'js-sha256'
 const router = (require('express')).Router()
 const key = process.env.COOKIE_SECRET || 'secret'
 var crypto = require('crypto');
-// const SESSION_USER_NAME = 'u'
-const SESSION_USER_ID = 'i'
 
 /* Sign up - Step 1: Email */
 router.post('/user', async(req, res) => {
-  req.session[SESSION_USER_ID] = '123'
-
-
-
   const { email } = req.body
+
   const short_token = ('0000' + parseInt(crypto.randomBytes(2).toString('hex'), 16).toString()).slice(-4)
   const long_token = crypto.randomBytes(6).toString('hex')
-  const derived_key = GetDerivedKey(short_token, long_token)
+  // const derived_key = GetDerivedKey(short_token, long_token)
+  const expires = (new Date()).getTime() + 2 * 60 * 60 * 1000 /* Two hours */
 
-  return res.send({ short_token, long_token, derived_key })
+  if (!email || !email.trim() || email.length > 255) {
+    return res.send({ error: 'ERROR_INVALID_EMAIL' })
+  }
+
+  /* TODO: Captcha */
+
+  query(sql `INSERT INTO user_login_tokens SET
+    email       = ${email.trim()},
+    short_token = ${short_token},
+    long_token  = ${long_token},
+    expires     = ${expires}
+    `, (err, results) => {
+    if (err) {
+      console.error(err)
+      return res.sendStatus(500)
+    } else {
+      return res.send({ long_token })
+    }
+  })
+  // req.session.user_id = '123'
 })
 
 /* Sign up - Step 2: Token */
-router.post('/user/signup/token', async(req, res) => {
-  const { token } = req.body
+router.post('/user/token', async(req, res) => {
+  const { token, long_token } = req.body
 
-  return res.send('')
+  query(sql `SELECT * FROM user_login_tokens WHERE
+    short_token = ${token} AND
+    long_token  = ${long_token}
+    `, (err, results) => {
+    if (err) {
+      console.error(err)
+      return res.sendStatus(500)
+    } else {
+      if (results.length < 1) {
+        return res.send({ error: 'ERROR_INVALID_TOKEN' })
+      } else if (parseInt(results[0].expires) < (new Date()).getTime()) {
+        return res.send({ error: 'ERROR_EXPIRED_TOKEN' })
+      }
+      /* Success, create user */
+      query(sql `INSERT INTO users SET
+        email = ${results[0].email}
+        `, (err, results2) => {
+        if (err) {
+          console.error(err)
+          return res.sendStatus(500)
+        } else {
+          const user_id = results2.email
+          const user = results2.id
+          req.session.user_id = user_id
+          req.session.user = user
+          return res.send({ user_id, user })
+        }
+      })
+    }
+  })
 })
 
 const GetDerivedKey = (x, y) => {
@@ -47,7 +91,7 @@ const GetDerivedKey = (x, y) => {
 
 /* TODO: CSRF */
 router.post('/user/logout', async(req, res) => {
-  req.session[SESSION_USER_ID] = ''
+  req.session.user_id = ''
   return res.sendStatus(200)
 })
 

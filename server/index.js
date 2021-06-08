@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))
 app.use(requestIp.mw())
 app.use(require('express-useragent').express())
 app.use(require('cookie-session')({
-  name: 'ylhyra_session',
+  name: 'y',
   keys: [
     process.env.COOKIE_SECRET || 'secret'
   ],

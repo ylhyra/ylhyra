@@ -12,17 +12,18 @@ import { createBrowserHistory } from "history";
 import Layout from 'User/Layout/layout'
 
 /* TODO: Hlaða skyldum saman */
-const Main = lazy(()=>import('./Main'))
+import Main from './Main'
 const NotFound = lazy(()=>import('./404'))
+
 const VocabularyOverview = lazy(()=>import('User/Vocabulary/screens/overview'))
 const VocabularyRunning = lazy(()=>import('User/Vocabulary/screens/running'))
 const VocabularyTutorial = lazy(()=>import('User/Vocabulary/screens/tutorial'))
-const LogIn = lazy(()=>import('User/User/screens/Login'))
-const Pay = lazy(()=>import('User/User/screens/Pay'))
-const Signup = lazy(()=>import('User/User/screens/Signup'))
-const UserSettings = lazy(()=>import('User/User/screens/Settings'))
 const VocabularyIntro = lazy(()=>import('User/Vocabulary/screens/setup'))
+
+const LogIn = lazy(()=>import('User/User/screens/Login'))
+const Signup = lazy(()=>import('User/User/screens/Signup'))
 const Settings = lazy(()=>import('User/User/screens/Settings'))
+const Pay = lazy(()=>import('User/User/screens/Pay'))
 
 export const history = createBrowserHistory();
 
