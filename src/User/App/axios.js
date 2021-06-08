@@ -8,7 +8,7 @@ axios.interceptors.response.use(
   },
   function (error) {
     let message;
-    const response = error.response.data
+    const response = error.response && error.response.data
     if (typeof response === 'object') {
       message = response.message || response.error
     }

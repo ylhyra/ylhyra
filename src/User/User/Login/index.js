@@ -11,23 +11,50 @@ import store from 'User/App/store'
 import errors from 'User/App/Error/messages'
 
 class Form2 extends React.Component {
-  state = {
-    step: 1
+  constructor(props) {
+    super(props)
+    this.captcha_element = React.createRef()
+    this.state = {
+      step: 1,
+      type: this.props.type,
+      /* Either "signup" or "login" */
+    }
   }
   submit = async(values, setSubmitting) => {
+    this.setState({ ...values })
+
+    if (!this.state.captcha_token && process.env.REACT_APP_HCAPTCHA_SITEKEY) {
+      this.setState({
+        message: 'Verifying...',
+        awaitingCaptcha: true,
+      })
+      this.captcha_element.current.execute()
+      setSubmitting && setSubmitting(false)
+      return;
+    }
+
     let url = values.token ? '/api/user/token' : '/api/user'
     const response = (await axios.post(url, {
       ...this.state,
       ...values,
     })).data
     console.log(response)
+
+    setSubmitting && setSubmitting(false)
     if (response.error) {
       this.setState({
         error: errors[response.error],
       })
+      return;
     }
+
+    this.setState({
+      error: null,
+      message: null,
+    })
+
     /* Step 1 done */
-    else if (this.state.step === 1) {
+    if (this.state.step === 1) {
       this.setState({
         step: 2,
         long_token: response.long_token,
@@ -43,25 +70,25 @@ class Form2 extends React.Component {
           user_id,
         },
       })
-      this.props.history.push(urls.PAY)
+
+      if (this.props.type === 'signup') {
+        this.props.history.push(urls.PAY)
+      } else if (this.props.type === 'login') {
+        this.props.history.push(urls.MAIN)
+      }
     }
-    setSubmitting(false)
   }
   render() {
     const submit = this.submit
     const error = this.state.error && <div className="error">{this.state.error}</div>
+    const message = this.state.message && <div className=""><b>{this.state.message}</b></div>
+    const parent = this
 
     if (this.state.step === 1) {
       return (
         <div>
 
-        <div>
-          Step 1: Create an account<br/>
-          Step 2: Pay what you want
-        </div>
-
-        <h2>Create an account</h2>
-        An account allows you to save your vocabulary progress and continue the game on other devices.
+        {this.props.above}
 
         <Formik
           initialValues={{ email: 'test@test.xyz' }}
@@ -89,6 +116,20 @@ class Form2 extends React.Component {
               </label>
 
               {error}
+              {message}
+
+              {process.env.REACT_APP_HCAPTCHA_SITEKEY &&
+                <HCaptcha
+                  size="invisible"
+                  ref={parent.captcha_element}
+                  sitekey={process.env.REACT_APP_HCAPTCHA_SITEKEY}
+                  onVerify={value=>{
+                    parent.setState({captcha_token:value})
+                    if(parent.state.awaitingCaptcha){
+                      parent.submit({})
+                    }
+                  }
+                  }/>}
 
               <button type="submit" disabled={isSubmitting}>
                 Submit
@@ -96,15 +137,9 @@ class Form2 extends React.Component {
             </Form>
           )}
         </Formik>
-
-
-        {/* {process.env.REACT_APP_HCAPTCHA_SITEKEY &&
-          <HCaptcha
-            sitekey={process.env.REACT_APP_HCAPTCHA_SITEKEY}
-            onVerify={console.log}/>} */}
       </div>
       )
-    } else {
+    } else if (this.state.step === 2) {
       return (
         <div>
         <Formik
@@ -141,6 +176,14 @@ class Form2 extends React.Component {
           )}
         </Formik>
       </div>
+      )
+    } else if (this.state.step === 'signup_instead') {
+      return (
+        null
+      )
+    } else if (this.state.step === 'login_instead') {
+      return (
+        null
       )
     }
   }

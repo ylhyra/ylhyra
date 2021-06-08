@@ -38,6 +38,7 @@
     "express-ws": "^4.0.0",
     "file-extension": "^4.0.5",
     "frontend": "^2.0.0-alpha.4",
+    "hcaptcha": "0.0.2",
     "html-entities": "^2.3.2",
     "js-sha256": "^0.9.0",
     "json-stable-stringify": "^1.0.1",

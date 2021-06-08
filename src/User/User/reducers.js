@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-
-export const user = (state = null, action) => {
+import { InitializeUser } from './actions'
+export const user = (state = InitializeUser(), action) => {
   switch (action.type) {
     case 'LOAD_USER':
       return action.content

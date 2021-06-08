@@ -99,7 +99,7 @@ app.use('/', require( /*'server/*/ 'inflection/server/server-with-database/route
 const customHost = argv.host || process.env.HOST
 const host = customHost || null; // Let http.Server use its default IPv6/4 host
 const prettyHost = customHost || 'localhost'
-const port = argv.port || process.env.PORT || 9123
+const port = argv.port || 9123
 
 
 /* Import steps */

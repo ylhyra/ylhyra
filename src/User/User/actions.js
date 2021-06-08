@@ -8,23 +8,20 @@ import { getCookie } from 'User/App/functions/cookie'
 todo: Poll to check if user has logged in on another session
 */
 
-export const InitializeUser = async() => {
+export const InitializeUser = () => {
   let cookie = getCookie('y')
   if (cookie) {
     cookie = JSON.parse(atob(cookie))
-    console.log(cookie)
     const user_id = cookie.user_id
     const user = cookie.user
     if (user_id) {
-      store.dispatch({
-        type: 'LOAD_USER',
-        content: {
-          user,
-          user_id,
-        },
-      })
+      return {
+        user,
+        user_id,
+      }
     }
   }
+  return null
 }
 
 export const logout = async() => {

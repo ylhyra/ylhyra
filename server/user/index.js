@@ -5,37 +5,42 @@ import cors from 'cors'
 import stable_stringify from 'json-stable-stringify'
 import send_email from /*'server/*/ 'user/send_email'
 import sha256 from 'js-sha256'
+import request from 'request'
 const router = (require('express')).Router()
 const key = process.env.COOKIE_SECRET || 'secret'
 var crypto = require('crypto');
 
+
 /* Sign up - Step 1: Email */
 router.post('/user', async(req, res) => {
-  const { email } = req.body
+  const email = req.body.email && req.body.email.trim()
+  const { captcha_token } = req.body
 
-  const short_token = ('0000' + parseInt(crypto.randomBytes(2).toString('hex'), 16).toString()).slice(-4)
-  const long_token = crypto.randomBytes(6).toString('hex')
-  // const derived_key = GetDerivedKey(short_token, long_token)
-  const expires = (new Date()).getTime() + 2 * 60 * 60 * 1000 /* Two hours */
-
-  if (!email || !email.trim() || email.length > 255) {
+  if (!email || email.length > 255) {
     return res.send({ error: 'ERROR_INVALID_EMAIL' })
   }
 
-  /* TODO: Captcha */
+  captcha(captcha_token, res, () => {
+    const short_token = ('0000' + parseInt(crypto.randomBytes(2).toString('hex'), 16).toString()).slice(-4)
+    const long_token = crypto.randomBytes(8).toString('hex')
+    const expires = (new Date()).getTime() + 2 * 60 * 60 * 1000 /* Two hours */
 
-  query(sql `INSERT INTO user_login_tokens SET
-    email       = ${email.trim()},
-    short_token = ${short_token},
-    long_token  = ${long_token},
-    expires     = ${expires}
-    `, (err, results) => {
-    if (err) {
-      console.error(err)
-      return res.sendStatus(500)
-    } else {
-      return res.send({ long_token })
-    }
+    query(sql `INSERT INTO user_login_tokens SET
+      email       = ${email},
+      short_token = ${short_token},
+      long_token  = ${long_token},
+      expires     = ${expires};
+
+      SELECT * FROM users WHERE email = ${email};
+      `, async (err, results) => {
+      if (err) {
+        console.error(err)
+        return res.sendStatus(500)
+      } else {
+        const does_user_exist = await user_exists(email)
+        return res.send({ long_token, does_user_exist })
+      }
+    })
   })
 })
 
@@ -44,7 +49,6 @@ router.post('/user/token', async(req, res) => {
   const { token, long_token } = req.body
 
   query(sql `SELECT * FROM user_login_tokens WHERE
-    -- short_token = ${token} AND -- TEMP!!!!!
     long_token  = ${long_token}
     `, (err, results) => {
     if (err) {
@@ -54,6 +58,15 @@ router.post('/user/token', async(req, res) => {
 
       if (results.length < 1) {
         return res.send({ error: 'ERROR_INVALID_TOKEN' })
+      } else if (results[0].short_token !== token) {
+        if (results[0].attempts < 3) {
+          query(sql `UPDATE user_login_tokens SET
+            attempts = ${results[0].attempts + 1}
+            WHERE long_token  = ${long_token}`, (err, r) => {})
+          return res.send({ error: 'ERROR_INVALID_TOKEN' })
+        } else {
+          return res.send({ error: 'ERROR_EXPIRED_TOKEN' })
+        }
       } else if (parseInt(results[0].expires) < (new Date()).getTime()) {
         return res.send({ error: 'ERROR_EXPIRED_TOKEN' })
       }
@@ -79,6 +92,38 @@ router.post('/user/token', async(req, res) => {
     }
   })
 })
+
+const user_exists = async(email) => {
+  return new Promise(resolve => {
+    query(sql `SELECT * FROM users WHERE email = ${email}`, (err, results) => {
+      resolve(results.length > 0)
+    })
+  })
+}
+
+const captcha = (captcha_token, res, callback) => {
+  if (!process.env.REACT_APP_HCAPTCHA_SITEKEY) {
+    return callback()
+  }
+  if (!captcha_token) {
+    return res.send({ error: 'ERROR_INCORRECT_CAPTCHA' })
+  }
+  request.post({
+    url: 'https://hcaptcha.com/siteverify',
+    form: {
+      response: captcha_token,
+      secret: process.env.HCAPTCHA_SECRET,
+    }
+  }, (error, response, body) => {
+    if (error) {
+      console.error(error)
+      return res.sendStatus(500)
+    } else if (JSON.parse(body).success !== true) {
+      return res.send({ error: 'ERROR_INCORRECT_CAPTCHA' })
+    }
+    callback()
+  })
+}
 
 // const GetDerivedKey = (x, y) => {
 //   return sha256.hmac(key, x + '' + y)
