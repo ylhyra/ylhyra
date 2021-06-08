@@ -2,28 +2,19 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { urls } from 'User/Routes/router'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
-import axios from 'axios'
+import axios from 'User/App/axios'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory } from "react-router-dom"
 import { withRouter } from "react-router";
 import store from 'User/App/store'
 
-export const errors = {
-  ERROR_INVALID_EMAIL: 'That is not a valid email',
-  ERROR_INVALID_TOKEN: 'This is not a correct token',
-  ERROR_EXPIRED_TOKEN: 'Your token has expired. Please reload this page and start over.',
-
-  ERROR_EMAIL_COULD_NOT_BE_SENT: 'ERROR_EMAIL_COULD_NOT_BE_SENT',
-  ERROR_INCOMPLETE_FIELD: 'ERROR_INCOMPLETE_FIELD',
-  ERROR_USER_ALREADY_EXIST: 'ERROR_USER_ALREADY_EXIST',
-  ERROR_USER_DOESNT_EXIST: 'ERROR_USER_DOESNT_EXIST',
-}
+import errors from 'User/App/Error/messages'
 
 class Form2 extends React.Component {
   state = {
     step: 1
   }
-  submit = async(values) => {
+  submit = async(values, setSubmitting) => {
     let url = values.token ? '/api/user/token' : '/api/user'
     const response = (await axios.post(url, {
       ...this.state,
@@ -54,10 +45,11 @@ class Form2 extends React.Component {
       })
       this.props.history.push(urls.PAY)
     }
+    setSubmitting(false)
   }
   render() {
     const submit = this.submit
-    const error = this.state.error && <div class="error">{this.state.error}</div>
+    const error = this.state.error && <div className="error">{this.state.error}</div>
 
     if (this.state.step === 1) {
       return (
@@ -85,7 +77,7 @@ class Form2 extends React.Component {
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
-            submit(values)
+            submit(values, setSubmitting)
           }}
         >
           {({ isSubmitting }) => (
@@ -129,7 +121,7 @@ class Form2 extends React.Component {
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
-            submit(values)
+            submit(values, setSubmitting)
           }}
         >
           {({ isSubmitting }) => (

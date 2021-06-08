@@ -1,7 +1,7 @@
 /*
   Tracks time spent on page
 */
-import axios from 'axios'
+import axios from 'User/App/axios'
 // axios.defaults.withCredentials = true;
 import { url } from 'User/App/url'
 import TextAnalytics from 'User/Analytics/TextInteractions'

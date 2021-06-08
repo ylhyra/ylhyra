@@ -9,6 +9,7 @@ import createLogger from 'redux-logger'
 // import { speed_reader } from 'User/Render/Elements/Speed_reading/reducers'
 import { vocabulary } from 'User/Vocabulary/reducers'
 import { user } from 'User/User/reducers'
+import error from 'User/App/Error/reducers'
 
 /*
   Logger
@@ -31,6 +32,7 @@ const store = createStore(
     // speed_reader,
     vocabulary,
     user,
+    error,
   }),
   applyMiddleware(
     // routerMiddleware(history),
@@ -39,3 +41,6 @@ const store = createStore(
   ),
 )
 export default store
+
+//temp
+window.store = store

@@ -36,7 +36,7 @@ export const Query = (query, secondParameter, thirdParameter, pool) => {
         callback(false, results);
       } else {
         console.error(err)
-        throw err
+        callback(err)
       }
     }
   })

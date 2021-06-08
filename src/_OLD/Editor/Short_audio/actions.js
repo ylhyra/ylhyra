@@ -1,5 +1,5 @@
 import _ from 'underscore'
-import axios from 'axios'
+import axios from 'User/App/axios'
 import store from 'User/App/store'
 import isEmpty from 'is-empty-object'
 import { send } from 'Editor/web-socket'

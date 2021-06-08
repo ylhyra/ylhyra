@@ -1,6 +1,6 @@
 import { newTitle } from 'Parse/index.js'
 import { AllHtmlEntities as Entities } from 'html-entities'
-import axios from 'axios'
+import axios from 'User/App/axios'
 const entities = new Entities()
 require('User/App/functions/array-foreach-async')
 

@@ -8,7 +8,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import axios from 'axios'
+import axios from 'User/App/axios'
 import { url } from 'User/App/url'
 let timer
 

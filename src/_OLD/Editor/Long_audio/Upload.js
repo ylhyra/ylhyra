@@ -1,7 +1,7 @@
 // import React from 'react'
 // import { connect } from 'react-redux'
 // import styled from 'styled-components'
-// import axios from 'axios'
+// import axios from 'User/App/axios'
 // import Dropzone from 'react-dropzone'
 // import error from 'User/App/Error'
 //

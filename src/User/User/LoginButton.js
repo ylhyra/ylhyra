@@ -7,7 +7,7 @@ const Button = (props) => {
   return (
     <div>
       {props.user ?
-        <Link to={urls.USER_PAGE}>{props.user.name.slice(0,15)}</Link> :
+        <Link to={urls.USER_PAGE}>{props.user.user}</Link> :
         <Link to={urls.LOG_IN}>Log in</Link>
       }
     </div>

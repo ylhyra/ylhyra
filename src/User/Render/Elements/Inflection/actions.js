@@ -1,4 +1,4 @@
-import axios from 'axios' //process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
+import axios from 'User/App/axios' //process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
 import React from 'react'
 import ReactDOM from 'react-dom'
 // import Inflection from 'User/Render/Elements/Inflection'

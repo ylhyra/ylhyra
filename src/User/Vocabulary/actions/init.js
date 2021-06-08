@@ -1,7 +1,7 @@
 import { url } from 'User/App/url'
 import store from 'User/App/store'
 import error from 'User/App/Error'
-import axios from 'axios'
+import axios from 'User/App/axios'
 import Deck from './deck'
 import { saveInLocalStorage, getFromLocalStorage } from 'User/App/functions/localStorage'
 // /api/Vocabulary/_database.json

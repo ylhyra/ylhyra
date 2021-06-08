@@ -2,7 +2,7 @@
   Analytics on which terms are most clicked on.
 */
 // const TESTING = true;
-import axios from 'axios'
+import axios from 'User/App/axios'
 // axios.defaults.withCredentials = true;
 import { url } from 'User/App/url'
 let mode = 'mouse';

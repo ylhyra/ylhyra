@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'User/App/axios'
 import { url } from 'User/App/url'
 import { connect } from 'react-redux'
 import { synchronize } from 'Editor/Long_audio/Synchronize'

@@ -1,7 +1,7 @@
 import store from 'User/App/store'
 import { url } from 'User/App/url'
 import { history, urls } from 'User/Routes/router'
-import axios from 'axios'
+import axios from 'User/App/axios'
 import { getCookie } from 'User/App/functions/cookie'
 
 /*
@@ -12,6 +12,7 @@ export const InitializeUser = async() => {
   let cookie = getCookie('y')
   if (cookie) {
     cookie = JSON.parse(atob(cookie))
+    console.log(cookie)
     const user_id = cookie.user_id
     const user = cookie.user
     if (user_id) {

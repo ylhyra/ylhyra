@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from 'axios'
+import axios from 'User/App/axios'
 import store from 'User/App/store'
 import ReactDOMServer from 'react-dom/server'
 import error from 'User/App/Error'

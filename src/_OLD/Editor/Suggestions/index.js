@@ -6,7 +6,7 @@ import React from 'react'
 import store from 'User/App/store'
 import { send } from 'Editor/web-socket'
 import error from 'User/App/Error'
-import axios from 'axios'
+import axios from 'User/App/axios'
 import { url } from 'User/App/url'
 require('User/App/functions/array-foreach-async')
 

@@ -1,23 +1,24 @@
 // import 'source-map-support/register'
-require('source-map-support').install()
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-require('dotenv').config({ path: './../.env' })
 import express from 'express'
 import logger from './logger'
 import bodyParser from 'body-parser'
 import path from 'path'
 import argvFactory from 'minimist'
+import query from './database'
+import requestIp from 'request-ip';
+require('source-map-support').install()
+require('dotenv').config({ path: './../.env' })
 const argv = argvFactory(process.argv.slice(2))
 const app = express()
 require('express-ws')(app)
-import query from './database'
 export const upload_path = path.resolve(__dirname, './../../uploads')
 var cors = require('cors')
-import requestIp from 'request-ip';
 
 app.use(bodyParser.json({ limit: '5mb' }))
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))
+
 
 
 app.use(requestIp.mw())
@@ -60,8 +61,8 @@ app.use(cors({ origin: 'https://ylhyra.is' }))
 // app.use('/api', require(/*'server/*/ 'audio/GetOneAudioFile').default)
 // app.use('/api', require(/*'server/*/ 'audio/Synchronize').default)
 // app.use('/api', require(/*'server/*/ 'translator/save').default)
-app.use('/api', require(/*'server/*/ 'analytics').default)
-app.use('/api', require(/*'server/*/ 'user').default)
+app.use('/api', require( /*'server/*/ 'analytics').default)
+app.use('/api', require( /*'server/*/ 'user').default)
 // app.use('/api', require(/*'server/*/ 'vocabulary/get').default)
 // app.use('/api', require(/*'server/*/ 'vocabulary/save').default)
 app.use('/api/vocabulary/vocabulary_database.json', express.static(path.join(__dirname, '/vocabulary/vocabulary_database.json')))
@@ -92,7 +93,7 @@ app.use('/', router)
   If other services are needed later, go by "request.headers.host"
 */
 app.use('/inflection_styles', express.static(path.join(__dirname, '/inflection/styles')))
-app.use('/', require(/*'server/*/ 'inflection/server/server-with-database/route_loader').default)
+app.use('/', require( /*'server/*/ 'inflection/server/server-with-database/route_loader').default)
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST
@@ -103,11 +104,11 @@ const port = argv.port || process.env.PORT || 9123
 
 /* Import steps */
 if (process.argv[2] === '--import-inflections') {
-  require(/*'server/*/ 'inflection/server/server-with-database/database/ImportToDatabase.js')
+  require( /*'server/*/ 'inflection/server/server-with-database/database/ImportToDatabase.js')
 } else if (process.argv[2] === '--generate-search-index') {
-  require(/*'server/*/ 'inflection/server/server-with-database/database/generateSearchIndex.js')
+  require( /*'server/*/ 'inflection/server/server-with-database/database/generateSearchIndex.js')
 } else if (process.argv[2] === '--import-vocabulary') {
-  require(/*'server/*/ 'vocabulary/setup/setup')
+  require( /*'server/*/ 'vocabulary/setup/setup')
 }
 /* Or, start the app */
 else {
@@ -123,20 +124,11 @@ else {
 }
 
 
-
-// /*
-//   TODO
-//   This is a crude way of handling exceptions.
-//   There are better ways of handling.
-//   https://stackoverflow.com/questions/5999373/how-do-i-prevent-node-js-from-crashing-try-catch-doesnt-work
-// */
-// process.on('uncaughtException', function (err) {
-//   console.error(err)
-// })
-
 process.on('SIGINT', function () {
   process.exit(0)
   // db.stop(function(err) {
   //   process.exit(err ? 1 : 0);
   // });
 });
+
+process.on('uncaughtException', err => {})

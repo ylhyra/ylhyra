@@ -2,10 +2,13 @@ import 'User/Style/index.scss'
 import LoginButton from 'User/User/LoginButton'
 import { Link } from 'react-router-dom'
 import { urls } from 'User/Routes/router'
+import Error from 'User/App/Error'
 
 export default (props) => (
   <div>
     <div id="container">
+      <Error/>
+      
       <header>
       	<div>
       		<Link to={urls.MAIN} id="logo"></Link>

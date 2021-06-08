@@ -37,7 +37,6 @@ router.post('/user', async(req, res) => {
       return res.send({ long_token })
     }
   })
-  // req.session.user_id = '123'
 })
 
 /* Sign up - Step 2: Token */
@@ -45,28 +44,33 @@ router.post('/user/token', async(req, res) => {
   const { token, long_token } = req.body
 
   query(sql `SELECT * FROM user_login_tokens WHERE
-    short_token = ${token} AND
+    -- short_token = ${token} AND -- TEMP!!!!!
     long_token  = ${long_token}
     `, (err, results) => {
     if (err) {
       console.error(err)
       return res.sendStatus(500)
     } else {
+
       if (results.length < 1) {
         return res.send({ error: 'ERROR_INVALID_TOKEN' })
       } else if (parseInt(results[0].expires) < (new Date()).getTime()) {
         return res.send({ error: 'ERROR_EXPIRED_TOKEN' })
       }
+
       /* Success, create user */
       query(sql `INSERT INTO users SET
         email = ${results[0].email}
         `, (err, results2) => {
         if (err) {
-          console.error(err)
+          console.error(JSON.stringify(err.code))
+          if (err.code === 'ER_DUP_ENTRY') {
+            return res.status(500).send({ error: 'ERROR_USER_ALREADY_EXIST' })
+          }
           return res.sendStatus(500)
         } else {
-          const user_id = results2.email
-          const user = results2.id
+          const user_id = results2.insertId
+          const user = results[0].email
           req.session.user_id = user_id
           req.session.user = user
           return res.send({ user_id, user })
@@ -76,21 +80,13 @@ router.post('/user/token', async(req, res) => {
   })
 })
 
-const GetDerivedKey = (x, y) => {
-  return sha256.hmac(key, x + '' + y)
-}
-
-// router.get('/user', async(req, res) => {
-//   send_email()
-//
-//   return res.send({
-//     user: ':)'
-//   })
-// })
-
+// const GetDerivedKey = (x, y) => {
+//   return sha256.hmac(key, x + '' + y)
+// }
 
 /* TODO: CSRF */
 router.post('/user/logout', async(req, res) => {
+  req.session.user = ''
   req.session.user_id = ''
   return res.sendStatus(200)
 })
