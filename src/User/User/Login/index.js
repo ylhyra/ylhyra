@@ -38,7 +38,7 @@ class Form2 extends React.Component {
     /* Step 2 done */
     else {
       console.log('Done :)')
-      this.props.history.push(urls.MAIN)
+      this.props.history.push(urls.PAY)
     }
   }
   render() {

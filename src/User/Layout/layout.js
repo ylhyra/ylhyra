@@ -1,16 +1,18 @@
 import 'User/Style/index.scss'
 import LoginButton from 'User/User/LoginButton'
+import { Link } from 'react-router-dom'
+import { urls } from 'User/Routes/router'
 
 export default (props) => (
   <div>
     <div id="container">
       <header>
       	<div>
-      		<a href="/" id="logo"></a>
+      		<Link to={urls.MAIN} id="logo"></Link>
       		<ul>
-      			<li><a href="/Texts">Texts</a></li>
-      			<li><a href="/Explanations">Explanations</a></li>
-      			<li><a href="/Project:About">About</a></li>
+      			<li><Link to="/Texts">Texts</Link></li>
+      			<li><Link to="/Explanations">Explanations</Link></li>
+      			<li><Link to="/Project:About">About</Link></li>
             <LoginButton/>
       		</ul>
       	</div>

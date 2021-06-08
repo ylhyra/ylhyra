@@ -30,7 +30,7 @@ app.use(require('cookie-session')({
   // secure: true,
   secure: false,
   httpOnly: false,
-  maxAge: 3 * 365 * 24 * 60 * 60 * 1000 // 3 years
+  maxAge: 5 * 365 * 24 * 60 * 60 * 1000 // 5 years
 }))
 
 if (!process.env.COOKIE_SECRET) {

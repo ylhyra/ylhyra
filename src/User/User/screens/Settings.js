@@ -1,5 +1,7 @@
+import { logout } from 'User/User/actions'
+
 export default () => (
   <div>
-    Log out
+    <button onClick={logout}>Log out</button>
   </div>
 )

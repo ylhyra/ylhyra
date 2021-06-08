@@ -5,10 +5,15 @@ import { urls } from 'User/Routes/router'
 
 const Button = (props) => {
   return (
-    <Link to={urls.LOG_IN}>Log in</Link>
+    <div>
+      {props.user ?
+        <Link to={urls.USER_PAGE}>{props.user.name.slice(0,15)}</Link> :
+        <Link to={urls.LOG_IN}>Log in</Link>
+      }
+    </div>
   )
 }
 
 export default connect(state => ({
-  vocabulary: state.vocabulary,
+  user: state.user,
 }))(Button)
