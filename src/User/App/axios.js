@@ -9,13 +9,16 @@ axios.interceptors.response.use(
   function (error) {
     let message;
     const response = error.response && error.response.data
+    const status = error.response && error.response.status
     if (typeof response === 'object') {
       message = response.message || response.error
     }
     if (typeof message !== 'string') {
       message = 'Server returned an error'
     }
-    notify(message, 'error')
+    if (status !== 404) {
+      notify(message, 'error')
+    }
     return Promise.reject(error);
   }
 )

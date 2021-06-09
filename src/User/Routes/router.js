@@ -11,6 +11,7 @@ import {
 import { createBrowserHistory } from "history";
 import Layout from 'User/Layout/layout'
 import {updateUser} from 'User/User/actions'
+import Content from './content'
 
 /* TODO: Hlaða skyldum saman */
 import Main from './Main'
@@ -58,7 +59,8 @@ export default function App() {
             <Route exact path={urls.SIGN_UP}><Signup/></Route>
             <Route exact path={urls.USER_PAGE}><Settings /></Route>
             <Route exact path={urls.MAIN}><Main /></Route>
-            <Route><NotFound /></Route>
+            <Route><Content /></Route>
+            {/* <Route><NotFound /></Route> */}
           </Switch>
         </Suspense>
       </Layout>

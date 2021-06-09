@@ -26,7 +26,7 @@ const run = () => {
           redirects[target].push(`${title} -> ${full_target}`)
         }
       })
-      // console.log(folders)
+      // console.log(redirects)
       // process.exit()
       result.mediawiki.page.forEach(page => {
         if (page.redirect) return;
@@ -38,7 +38,7 @@ const run = () => {
         // process.exit()
         let header = `
           title = ${page.title}
-          redirects = ${redirects[title] ? redirects[title].join('; ') : ''}
+          redirects = ${redirects[page.title[0]] ? redirects[page.title[0]].join('; ') : ''}
         `
 
         if (page.ns[0] === '0') {

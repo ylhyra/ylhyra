@@ -12,7 +12,8 @@
   "scripts": {
     "start": "export BROWSER=none && react-scripts start",
     "build": "react-scripts build",
-    "compile": "rm -f output/* && node build/ylhyra_server.js --compile-content"
+    "compile": "rm -f output/* && node build/ylhyra_server.js --compile-content",
+    "server": "export NODE_ENV=development && webpack --config ./scripts/server_webpack.js --color --watch"
   },
   "proxy": "http://localhost:9123",
   "dependencies": {
@@ -37,9 +38,11 @@
     "html-entities": "^2.3.2",
     "is-boolean-attribute": "0.0.1",
     "is-empty-object": "^1.1.1",
+    "jquery": "^3.6.0",
     "js-sha256": "^0.9.0",
     "json-stable-stringify": "^1.0.1",
     "line-by-line": "^0.1.6",
+    "marked": "^2.0.7",
     "minimist": "^1.2.5",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",
@@ -67,6 +70,7 @@
     "sqlstring": "^2.3.2",
     "string-hash": "^1.1.3",
     "twitter": "^1.7.1",
+    "typeset": "^0.3.1",
     "underscore": "^1.13.1",
     "webpack-node-externals": "^3.0.0",
     "xml2js": "^0.4.23"
@@ -80,6 +84,9 @@
       "import/no-anonymous-default-export": "off",
       "jsx-a11y/anchor-has-content": "off",
       "no-unreachable": "off"
+    },
+    "globals": {
+      "__basedir": true
     }
   },
   "browserslist": {
