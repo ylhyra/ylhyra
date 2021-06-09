@@ -6,88 +6,58 @@ import stable_stringify from 'json-stable-stringify'
 import send_email from /*'server/*/ 'user/send_email'
 import sha256 from 'js-sha256'
 import request from 'request'
+import { hash as argon_hash, verify as argon_verify } from 'argon2'
 const router = (require('express')).Router()
 const key = process.env.COOKIE_SECRET || 'secret'
 var crypto = require('crypto');
 
-
-/* Sign up - Step 1: Email */
 router.post('/user', async(req, res) => {
+  let username = req.body.username && req.body.username.trim().replace(/\s+/g, ' ')
   const email = req.body.email && req.body.email.trim()
-  const { captcha_token } = req.body
+  const { password, captcha_token, type } = req.body
 
-  if (!email || email.length > 255) {
+  if (!email || email.length > 255 || !/@/.test(email)) {
     return res.send({ error: 'ERROR_INVALID_EMAIL' })
   }
+  if (!password) {
+    return res.send({ error: 'ERROR_PASSWORD_REQUIRED' })
+  }
 
-  captcha(captcha_token, res, () => {
-    const short_token = ('0000' + parseInt(crypto.randomBytes(2).toString('hex'), 16).toString()).slice(-4)
-    const long_token = crypto.randomBytes(8).toString('hex')
-    const expires = (new Date()).getTime() + 2 * 60 * 60 * 1000 /* Two hours */
-
-    query(sql `INSERT INTO user_login_tokens SET
-      email       = ${email},
-      short_token = ${short_token},
-      long_token  = ${long_token},
-      expires     = ${expires};
-
-      SELECT * FROM users WHERE email = ${email};
-      `, async(err, results) => {
-      if (err) {
-        console.error(err)
-        return res.sendStatus(500)
-      } else {
-        const does_user_exist = await get_user(email)
-        return res.send({ long_token, does_user_exist })
+  captcha(captcha_token, res, async() => {
+    let userid, user;
+    if (type === 'login') {
+      user = await get_user({ username, password, res })
+      username = user.username
+      userid = user.id
+    } else if (type === 'signup') {
+      /* Check if username is valid */
+      if (/@/.test(username)) {
+        return res.send({ error: 'ERROR_INVALID_USERNAME' })
       }
-    })
-  })
-})
+      /* Check if username or email already exists */
+      const error = await check_if_user_exists({ email, username })
+      if (error) return res.send({ error });
 
-/* Sign up - Step 2: Token */
-router.post('/user/token', async(req, res) => {
-  const { token, long_token } = req.body
-
-  query(sql `SELECT * FROM user_login_tokens WHERE
-    long_token  = ${long_token}
-    `, async(err, results) => {
-    if (err) {
-      console.error(err)
-      return res.sendStatus(500)
-    } else {
-
-      if (results.length < 1) {
-        return res.send({ error: 'ERROR_INVALID_TOKEN' })
-      } else if (results[0].short_token !== token) {
-        if (results[0].attempts < 3) {
-          query(sql `UPDATE user_login_tokens SET
-            attempts = ${results[0].attempts + 1}
-            WHERE long_token  = ${long_token}`, (err, r) => {})
-          return res.send({ error: 'ERROR_INVALID_TOKEN' })
-        } else {
-          return res.send({ error: 'ERROR_EXPIRED_TOKEN' })
-        }
-      } else if (parseInt(results[0].expires) < (new Date()).getTime()) {
-        return res.send({ error: 'ERROR_EXPIRED_TOKEN' })
-      }
-
-      const email = results[0].email
-      const user = await get_user(email)
-
-      create_user_if_doesnt_exist({ user, email, res }, user_id => {
-        const user_name = email
-        req.session.user = { user_id, user_name }
-        return res.send({ user_id, user_name })
-      })
+      userid = await create_user({ email, username, password, res })
     }
+
+    req.session.user = { userid, username }
+    return res.send({ userid, username })
   })
 })
 
-const get_user = async(email) => {
+const get_user = async({ username, password, res }) => {
   return new Promise(resolve => {
-    query(sql `SELECT * FROM users WHERE email = ${email}`, (err, results) => {
+    query(sql `SELECT * FROM users WHERE
+      username = ${username} OR
+      email = ${username} OR
+    `, (err, results) => {
       if (results.length > 0) {
-        resolve(results[0])
+        const row = results[0]
+        if (!argon_verify(row.password, password)) {
+          return resolve('ERROR_INCORRECT_PASSWORD')
+        }
+        return row
       } else {
         resolve(null)
       }
@@ -95,22 +65,41 @@ const get_user = async(email) => {
   })
 }
 
-const create_user_if_doesnt_exist = ({ user, email, res }, callback) => {
-  if (user) {
-    return callback(user.id)
-  }
-  query(sql `INSERT INTO users SET
-    email = ${email}
-    `, (err, results2) => {
-    if (err) {
-      console.error(JSON.stringify(err.code))
-      if (err.code === 'ER_DUP_ENTRY') {
-        return res.status(500).send({ error: 'ERROR_USER_ALREADY_EXIST' })
+/*
+  Returns "ERROR_USERNAME_EXISTS" or "ERROR_EMAIL_ALREADY_IN_USE"
+*/
+const check_if_user_exists = async({ email, username }) => {
+  return new Promise(resolve => {
+    query(sql `SELECT * FROM users WHERE email = ${email} OR username = ${username}`, (err, results) => {
+      if (results.length > 0) {
+        if (results[0].email === email) {
+          return resolve('ERROR_EMAIL_ALREADY_IN_USE')
+        } else if (results[0].username === username) {
+          return resolve('ERROR_USERNAME_EXISTS')
+        }
       }
-      return res.sendStatus(500)
-    } else {
-      callback(results2.insertId)
-    }
+      return resolve(null)
+    })
+  })
+}
+
+const create_user = ({ username, email, password, res }) => {
+  return new Promise(async resolve => {
+    const hash = await argon_hash(password)
+    query(sql `INSERT INTO users SET
+      username = ${username},
+      email = ${email},
+      password = ${hash}
+      `, (err, results2) => {
+      if (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+          return res.status(500).send({ error: 'ERROR_USER_ALREADY_EXIST' })
+        }
+        return res.sendStatus(500)
+      } else {
+        resolve(results2.insertId)
+      }
+    })
   })
 }
 

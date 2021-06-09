@@ -24,7 +24,7 @@ const Tweet = (tweet) => {
       |id=${tweet.id}
       |date=${tweet.date}
       |favorites=${tweet.favorites||''}
-      |user_name=${tweet.user.name||''}
+      |username=${tweet.user.name||''}
       |handle=${tweet.user.handle||''}
       |user_picture=${tweet.user.picture||''}
       |verified=${tweet.user.verified||''}

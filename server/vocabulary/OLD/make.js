@@ -53,11 +53,11 @@ const getCards = async (req, res, currentlyShown, callback) => {
     WHERE TRUE
     ${'AND word_id != ? '.repeat(currentlyShown.length)}
   `, [
-    req.session.user_id,
+    req.session.userid,
     level,
-    req.session.user_id,
-    req.session.user_id,
-    req.session.user_id,
+    req.session.userid,
+    req.session.userid,
+    req.session.userid,
     ...currentlyShown,
   ], (err, results) => {
     if (err) {

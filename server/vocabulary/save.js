@@ -27,13 +27,13 @@ router.post('/vocabulary/save', cors(), (req, res) => {
     return sql `
       DELETE FROM vocabulary_schedule
         WHERE card_id = ${id}
-        AND user_id = ${userid}
+        AND userid = ${userid}
         ;
       INSERT INTO vocabulary_schedule SET
         card_id = ${id},
         due = FROM_UNIXTIME(${msToS(roundMsToHour(item.due))}),
         last_interval_in_days = ${item.last_interval_in_days},
-        user_id = ${userid},
+        userid = ${userid},
         score = ${item.score},
         times_seen = ${item.times_seen}
         ;

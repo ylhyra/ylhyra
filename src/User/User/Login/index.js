@@ -16,13 +16,13 @@ class Form2 extends React.Component {
     this.captcha_element = React.createRef()
     this.state = {
       step: 1,
-      type: this.props.type,
-      /* Either "signup" or "login" */
+      type: this.props.type, // Either "signup" or "login"
     }
   }
   submit = async(values, setSubmitting) => {
     this.setState({ ...values })
 
+    /* Execute invisible captcha */
     if (!this.state.captcha_token && process.env.REACT_APP_HCAPTCHA_SITEKEY) {
       this.setState({
         message: 'Verifying...',
@@ -33,8 +33,7 @@ class Form2 extends React.Component {
       return;
     }
 
-    let url = values.token ? '/api/user/token' : '/api/user'
-    const response = (await axios.post(url, {
+    const response = (await axios.post('/api/user', {
       ...this.state,
       ...values,
     })).data
@@ -48,146 +47,113 @@ class Form2 extends React.Component {
       return;
     }
 
-    this.setState({
-      error: null,
-      message: null,
-      does_user_exist: response.does_user_exist,
-    })
-
-    /* Step 1 done */
-    if (this.state.step === 1) {
-      this.setState({
-        step: 2,
-        long_token: response.long_token,
-      })
-    }
-    /* Step 2 done */
-    else {
-      const { user_id, user } = response
-      store.dispatch({
-        type: 'LOAD_USER',
-        content: {
-          user,
-          user_id,
-        },
-      })
-
-      if (!this.state.does_user_exist) {
-        this.props.history.push(urls.PAY)
-      } else {
-        this.props.history.push(urls.MAIN)
-      }
-    }
+    // this.setState({
+    //   error: null,
+    //   message: null,
+    //   does_user_exist: response.does_user_exist,
+    // })
+    //
+    // /* Step 1 done */
+    // if (this.state.step === 1) {
+    //   this.setState({
+    //     step: 2,
+    //     long_token: response.long_token,
+    //   })
+    // }
+    // /* Step 2 done */
+    // else {
+    //   const { userid, user } = response
+    //   store.dispatch({
+    //     type: 'LOAD_USER',
+    //     content: {
+    //       user,
+    //       userid,
+    //     },
+    //   })
+    //
+    //   if (!this.state.does_user_exist) {
+    //     this.props.history.push(urls.PAY)
+    //   } else {
+    //     this.props.history.push(urls.MAIN)
+    //   }
+    // }
   }
   render() {
     const submit = this.submit
     const error = this.state.error && <div className="error">{this.state.error}</div>
     const message = this.state.message && <div className=""><b>{this.state.message}</b></div>
     const parent = this
+    const isSignup = this.props.type === 'signup'
 
-    if (this.state.step === 1) {
-      return (
-        <div>
+    return (
+      <div>
 
-        {this.props.above}
+      {this.props.above}
 
-        <Formik
-          initialValues={{ email: '' }}
-          validate={values => {
-            const errors = {};
-            if (!values.email.trim()) {
-              errors.email = 'Required';
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email.trim())
-            ) {
-              errors.email = 'Invalid email address';
-            }
-            return errors;
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            submit(values, setSubmitting)
-          }}
-        >
-          {({ isSubmitting }) => (
-            <Form>
+      <Formik
+        initialValues={{ username: '', email: '', password: '' }}
+        validate={values => {
+          const errors = {};
+          if (!values.email.trim()) {
+            errors.email = 'Required';
+          } else if (
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email.trim())
+          ) {
+            errors.email = 'Invalid email address';
+          }
+          return errors;
+        }}
+        onSubmit={(values, { setSubmitting }) => {
+          submit(values, setSubmitting)
+        }}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+
+            <label>
+              <div>{isSignup ? 'Choose a username' : 'Username or email:'}</div>
+              <ErrorMessage name="username" component="div" />
+              <Field type="text" name="username" />
+            </label>
+
+            {isSignup &&
               <label>
                 <div>Email:</div>
                 <ErrorMessage name="email" component="div" />
                 <Field type="email" name="email" />
               </label>
-
-              {error}
-              {message}
-
-              {process.env.REACT_APP_HCAPTCHA_SITEKEY &&
-                <HCaptcha
-                  size="invisible"
-                  ref={parent.captcha_element}
-                  sitekey={process.env.REACT_APP_HCAPTCHA_SITEKEY}
-                  onVerify={value=>{
-                    parent.setState({captcha_token:value})
-                    if(parent.state.awaitingCaptcha){
-                      parent.submit({})
-                    }
-                  }
-                  }/>}
-
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
-            </Form>
-          )}
-        </Formik>
-      </div>
-      )
-    } else if (this.state.step === 2) {
-      return (
-        <div>
-
-        {this.props.type==='signup' && this.state.does_user_exist && (<div>
-          You have already created an account with this name. You will be logged in instead.
-        </div>)}
-
-        {this.props.type==='login' && !this.state.does_user_exist && (<div>
-          <b>An account with this name does not exist</b>. You will be signed up instead.
-        </div>)}
-
-        <Formik
-          initialValues={{ token: '' }}
-          validate={values => {
-            const errors = {};
-            if (!values.token.trim()) {
-              errors.token = 'Required';
-            } else if (
-              !/[0-9]{4}$/.test(values.token.replace(/([^0-9])/g,'').trim())
-            ) {
-              errors.token = `A token should be four digits`;
             }
-            return errors;
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            submit(values, setSubmitting)
-          }}
-        >
-          {({ isSubmitting }) => (
-            <Form>
-              <label>
-                <div>Enter the four digits you received in your email:</div>
-                <ErrorMessage name="token" component="div" />
-                <Field type="text" name="token" />
-              </label>
 
-              {error}
+            <label>
+              <div>{isSignup ? 'Choose a password' : 'Password:'}</div>
+              <ErrorMessage name="password" component="div" />
+              <Field type="password" name="password" />
+            </label>
 
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
-            </Form>
-          )}
-        </Formik>
-      </div>
-      )
-    }
+            {error}
+            {message}
+
+            {process.env.REACT_APP_HCAPTCHA_SITEKEY &&
+              <HCaptcha
+                size="invisible"
+                ref={parent.captcha_element}
+                sitekey={process.env.REACT_APP_HCAPTCHA_SITEKEY}
+                onVerify={value=>{
+                  parent.setState({captcha_token:value})
+                  if(parent.state.awaitingCaptcha){
+                    parent.submit({})
+                  }
+                }
+                }/>}
+
+            <button type="submit" disabled={isSubmitting}>
+              Submit
+            </button>
+          </Form>
+        )}
+      </Formik>
+    </div>
+    )
   }
 }
 export default withRouter(Form2)

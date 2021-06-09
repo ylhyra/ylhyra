@@ -10,8 +10,8 @@ import cors from 'cors'
 
 router.all('/vocabulary/get', /* cors({ origin: 'https://ylhyra.is', credentials: true }),*/ (req, res) => {
   /* Temp */
-  // let user_id = req.body.user_id || shortid.generate()
-  // res.setHeader('user_id', user_id) /* Temp */
+  // let userid = req.body.userid || shortid.generate()
+  // res.setHeader('userid', userid) /* Temp */
 
   query(sql `
     SELECT * FROM vocabulary_cards
