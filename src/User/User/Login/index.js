@@ -42,41 +42,25 @@ class Form2 extends React.Component {
     setSubmitting && setSubmitting(false)
     if (response.error) {
       this.setState({
-        error: errors[response.error],
+        error: errors[response.error] || response.error,
       })
       return;
     }
 
-    // this.setState({
-    //   error: null,
-    //   message: null,
-    //   does_user_exist: response.does_user_exist,
-    // })
-    //
-    // /* Step 1 done */
-    // if (this.state.step === 1) {
-    //   this.setState({
-    //     step: 2,
-    //     long_token: response.long_token,
-    //   })
-    // }
-    // /* Step 2 done */
-    // else {
-    //   const { userid, user } = response
-    //   store.dispatch({
-    //     type: 'LOAD_USER',
-    //     content: {
-    //       user,
-    //       userid,
-    //     },
-    //   })
-    //
-    //   if (!this.state.does_user_exist) {
-    //     this.props.history.push(urls.PAY)
-    //   } else {
-    //     this.props.history.push(urls.MAIN)
-    //   }
-    // }
+    const { userid, username, did_user_exist } = response
+    store.dispatch({
+      type: 'LOAD_USER',
+      content: {
+        username,
+        userid,
+      },
+    })
+
+    if (!did_user_exist) {
+      this.props.history.push(urls.PAY)
+    } else {
+      this.props.history.push(urls.MAIN)
+    }
   }
   render() {
     const submit = this.submit
@@ -94,12 +78,14 @@ class Form2 extends React.Component {
         initialValues={{ username: '', email: '', password: '' }}
         validate={values => {
           const errors = {};
-          if (!values.email.trim()) {
-            errors.email = 'Required';
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email.trim())
-          ) {
+          if (!values.username.trim()) {
+            errors.username = 'Required';
+          }
+          if (values.email && !/@/.test(values.email)) {
             errors.email = 'Invalid email address';
+          }
+          if (!values.password) {
+            errors.password = 'Required';
           }
           return errors;
         }}

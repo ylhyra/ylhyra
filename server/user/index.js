@@ -6,7 +6,10 @@ import stable_stringify from 'json-stable-stringify'
 import send_email from /*'server/*/ 'user/send_email'
 import sha256 from 'js-sha256'
 import request from 'request'
-import { hash as argon_hash, verify as argon_verify } from 'argon2'
+// import { hash as argon_hash, verify as argon_verify } from 'argon2'
+const argon2 = require('argon2');
+const argon_hash = argon2.hash
+const argon_verify = argon2.verify
 const router = (require('express')).Router()
 const key = process.env.COOKIE_SECRET || 'secret'
 var crypto = require('crypto');
@@ -16,19 +19,20 @@ router.post('/user', async(req, res) => {
   const email = req.body.email && req.body.email.trim()
   const { password, captcha_token, type } = req.body
 
-  if (!email || email.length > 255 || !/@/.test(email)) {
-    return res.send({ error: 'ERROR_INVALID_EMAIL' })
-  }
+  // if (!email || email.length > 255 || !/@/.test(email)) {
+  //   return res.send({ error: 'ERROR_INVALID_EMAIL' })
+  // }
   if (!password) {
     return res.send({ error: 'ERROR_PASSWORD_REQUIRED' })
   }
 
   captcha(captcha_token, res, async() => {
-    let userid, user;
+    let userid, user, did_user_exist;
     if (type === 'login') {
       user = await get_user({ username, password, res })
       username = user.username
       userid = user.id
+      did_user_exist = true
     } else if (type === 'signup') {
       /* Check if username is valid */
       if (/@/.test(username)) {
@@ -42,7 +46,7 @@ router.post('/user', async(req, res) => {
     }
 
     req.session.user = { userid, username }
-    return res.send({ userid, username })
+    return res.send({ userid, username, did_user_exist })
   })
 })
 
@@ -70,9 +74,15 @@ const get_user = async({ username, password, res }) => {
 */
 const check_if_user_exists = async({ email, username }) => {
   return new Promise(resolve => {
-    query(sql `SELECT * FROM users WHERE email = ${email} OR username = ${username}`, (err, results) => {
+    let q;
+    if (email) {
+      q = sql `SELECT * FROM users WHERE email = ${email} OR username = ${username}`
+    } else {
+      q = sql `SELECT * FROM users WHERE username = ${username}`
+    }
+    query(q, (err, results) => {
       if (results.length > 0) {
-        if (results[0].email === email) {
+        if (email && results[0].email === email) {
           return resolve('ERROR_EMAIL_ALREADY_IN_USE')
         } else if (results[0].username === username) {
           return resolve('ERROR_USERNAME_EXISTS')
@@ -88,7 +98,7 @@ const create_user = ({ username, email, password, res }) => {
     const hash = await argon_hash(password)
     query(sql `INSERT INTO users SET
       username = ${username},
-      email = ${email},
+      email = ${email||null},
       password = ${hash}
       `, (err, results2) => {
       if (err) {

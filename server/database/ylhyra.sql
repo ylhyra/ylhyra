@@ -146,6 +146,7 @@ CREATE TABLE users (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(255) UNIQUE,
   email VARCHAR(255) UNIQUE,
+  password VARCHAR(120),
   paid VARCHAR(255),
   INDEX (username),
   INDEX (email)
