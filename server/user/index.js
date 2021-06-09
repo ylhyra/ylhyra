@@ -22,6 +22,9 @@ router.post('/user', async(req, res) => {
   // if (!email || email.length > 255 || !/@/.test(email)) {
   //   return res.send({ error: 'ERROR_INVALID_EMAIL' })
   // }
+  if (!username) {
+    return res.send({ error: 'ERROR_USERNAME_REQUIRED' })
+  }
   if (!password) {
     return res.send({ error: 'ERROR_PASSWORD_REQUIRED' })
   }
@@ -38,6 +41,7 @@ router.post('/user', async(req, res) => {
       if (/@/.test(username)) {
         return res.send({ error: 'ERROR_INVALID_USERNAME' })
       }
+
       /* Check if username or email already exists */
       const error = await check_if_user_exists({ email, username })
       if (error) return res.send({ error });
@@ -54,16 +58,16 @@ const get_user = async({ username, password, res }) => {
   return new Promise(resolve => {
     query(sql `SELECT * FROM users WHERE
       username = ${username} OR
-      email = ${username} OR
+      email = ${username}
     `, (err, results) => {
       if (results.length > 0) {
         const row = results[0]
         if (!argon_verify(row.password, password)) {
-          return resolve('ERROR_INCORRECT_PASSWORD')
+          return res.send({ error: 'ERROR_INCORRECT_PASSWORD' })
         }
-        return row
+        resolve(row)
       } else {
-        resolve(null)
+        return res.send({ error: 'ERROR_USERNAME_DOES_NOT_EXIST' })
       }
     })
   })

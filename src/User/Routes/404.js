@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'User/App/Link'
 import { urls } from 'User/Routes/router'
 
 export default () => (

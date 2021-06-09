@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'User/App/Link'
 import { urls } from 'User/Routes/router'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import axios from 'User/App/axios'

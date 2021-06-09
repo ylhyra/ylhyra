@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import store from 'User/App/store'
 import { MINUTES } from 'User/Vocabulary/actions/session'
-import { Link } from 'react-router-dom'
+import Link from 'User/App/Link'
 
 export default () => (
   <div>
