@@ -21,3 +21,4 @@ database_local
 *.txt
 test.html
 OLD/*
+output/*

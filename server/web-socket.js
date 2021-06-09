@@ -1,10 +1,10 @@
 import express from 'express'
-const router = express.Router()
 // import Tokenize from './tokenizer'
 import Translate from /*'server/*/ 'translator'
 import Tweet from /*'server/*/ 'tweets'
 import Sound from /*'server/*/ 'audio'
 import Recorder from /*'server/*/ 'audio/recorder'
+const router = express.Router()
 // import GoogleTranslate from /*'server/*/ 'translator/GoogleTranslate'
 
 router.ws('/', (websocket, req) => {

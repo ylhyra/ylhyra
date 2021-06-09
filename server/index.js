@@ -63,6 +63,7 @@ app.use(cors({ origin: 'https://ylhyra.is' }))
 // app.use('/api', require(/*'server/*/ 'translator/save').default)
 app.use('/api', require( /*'server/*/ 'analytics').default)
 app.use('/api', require( /*'server/*/ 'user').default)
+app.use('/api', require( /*'server/*/ 'content').default)
 // app.use('/api', require(/*'server/*/ 'vocabulary/get').default)
 // app.use('/api', require(/*'server/*/ 'vocabulary/save').default)
 app.use('/api/vocabulary/vocabulary_database.json', express.static(path.join(__dirname, '/vocabulary/vocabulary_database.json')))
@@ -103,7 +104,9 @@ const port = argv.port || 9123
 
 
 /* Import steps */
-if (process.argv[2] === '--import-inflections') {
+if (process.argv[2] === '--compile-content') {
+  require( /*'server/*/ 'compiler/index.js')
+} else if (process.argv[2] === '--import-inflections') {
   require( /*'server/*/ 'inflection/server/server-with-database/database/ImportToDatabase.js')
 } else if (process.argv[2] === '--generate-search-index') {
   require( /*'server/*/ 'inflection/server/server-with-database/database/generateSearchIndex.js')

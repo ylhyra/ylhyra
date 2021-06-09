@@ -31,7 +31,7 @@ module.exports = {
   resolve: {
     modules: [
       ...modules,
-      // resolve(''),
+      resolve(''),
       // resolve('server/node_modules/'),
       // resolve('node_modules/'),
     ],

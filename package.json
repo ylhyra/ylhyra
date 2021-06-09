@@ -11,7 +11,8 @@
   "homepage": "https://ylhyra.is",
   "scripts": {
     "start": "export BROWSER=none && react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "compile": "rm -f output/* && node build/ylhyra_server.js --compile-content"
   },
   "proxy": "http://localhost:9123",
   "dependencies": {

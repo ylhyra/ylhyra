@@ -1,9 +1,9 @@
 import React from 'react'
-const router = (require('express')).Router()
 import Parse from 'frontend/Parse'
 import Render from 'frontend/Render'
 // import Render from 'frontend/Render'
 import ReactDOMServer from 'react-dom/server'
+const router = (require('express')).Router()
 var now = require("performance-now")
 
 

@@ -15,8 +15,8 @@ const run = () => {
       /* Find redirects */
       result.mediawiki.page.forEach(page => {
         const title = page.title[0].replace(/:/g, '/')
-        if(title.match(/([^/]+)$/)){
-          folders[title.match(/^(.+)\/([^/]+)$/)][0] = true
+        if(title.match(/^(.+)\/([^/]+)$/)){
+          folders[title.match(/^(.+)\/([^/]+)$/)[1]] = true
         }
         // console.log(JSON.stringify(page, null, 2))
         if (page.redirect) {
@@ -26,6 +26,8 @@ const run = () => {
           redirects[target].push(`${title} -> ${full_target}`)
         }
       })
+      // console.log(folders)
+      // process.exit()
       result.mediawiki.page.forEach(page => {
         if (page.redirect) return;
         let title = page.title[0].replace(/:/g, '/')
@@ -40,6 +42,12 @@ const run = () => {
         `
 
         if (page.ns[0] === '0') {
+          if(title in folders){
+            title = title + '/index'
+            // title = title + '/' + (title.match(/([^/]+)$/) ? title.match(/([^/]+)$/)[1] : title)
+            // console.log(title)
+          }
+
           if (/\{\{book/.test(text)||
             /(Blær|Brennu-Njáls|Jochum|Hallgríms|Þorstei|Svein|Imb|Españ|Tweets|Villi)/.test(title)
           ) {
