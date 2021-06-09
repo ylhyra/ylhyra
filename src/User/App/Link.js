@@ -5,7 +5,6 @@ import { withRouter } from "react-router";
 class Link extends React.Component {
   render() {
     const { route, to, children, history, className, id } = this.props
-    // console.log(this.props)
     if (history.location.pathname === to) {
       return <span {...{className,id}}><b>{children}</b></span>
     }
