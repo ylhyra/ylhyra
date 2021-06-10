@@ -1,4 +1,4 @@
-import AudioClip from 'User/Render/Audio/AudioClip'
+import AudioClip from 'documents/Render/Audio/AudioClip'
 import store from 'User/App/store'
 import Analytics from 'User/Analytics/TextInteractions'
 

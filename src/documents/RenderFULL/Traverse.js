@@ -7,12 +7,12 @@ import inlineStyle2Json from 'User/App/functions/inline-style-2-json'
 import isBooleanAttribute from 'is-boolean-attribute'
 
 /* Elements */
-import Audio from 'User/Render/Audio'
-// import Conversation from 'User/Render/Elements/Conversation'
-// import Vocabulary from 'User/Render/Elements/Vocabulary'
-// import GameContainer from 'User/Render/Elements/Vocabulary/GameContainer'
-// import Inflection from 'User/Render/Elements/Inflection'
-// import Hide from 'User/Render/Elements/Hide'
+import Audio from 'documents/Render/Audio'
+// import Conversation from 'documents/Render/Elements/Conversation'
+// import Vocabulary from 'documents/Render/Elements/Vocabulary'
+// import GameContainer from 'documents/Render/Elements/Vocabulary/GameContainer'
+// import Inflection from 'documents/Render/Elements/Inflection'
+// import Hide from 'documents/Render/Elements/Hide'
 
 // import VocabularyFlashcards from 'Vocabulary/button'
 

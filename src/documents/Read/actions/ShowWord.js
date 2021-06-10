@@ -1,8 +1,8 @@
-import FindAGoodPositionForTooltip from 'User/Render/Text/actions/TooltipPosition'
-import AudioClip from 'User/Render/Audio/AudioClip'
+import FindAGoodPositionForTooltip from 'documents/Read/actions/TooltipPosition'
+import AudioClip from 'documents/Render/Audio/AudioClip'
 import { logShown } from './Reset'
 import Analytics from 'User/Analytics/TextInteractions'
-import { ShowInflectionTable } from 'User/Render/Elements/Inflection/actions'
+import { ShowInflectionTable } from 'documents/Render/Elements/Inflection/actions'
 
 /*
   Keep track of which ID is currently shown.

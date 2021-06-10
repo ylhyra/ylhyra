@@ -4,9 +4,9 @@ import { ConnectedRouter, routerReducer as routing, routerMiddleware } from 'rea
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 
-// import { data } from 'User/Render/reducers'
-// import { audio } from 'User/Render/Audio/reducers'
-// import { speed_reader } from 'User/Render/Elements/Speed_reading/reducers'
+// import { data } from 'documents/Render/reducers'
+// import { audio } from 'documents/Render/Audio/reducers'
+// import { speed_reader } from 'documents/Render/Elements/Speed_reading/reducers'
 import { vocabulary } from 'User/Vocabulary/reducers'
 import { user } from 'User/User/reducers'
 import error from 'User/App/Error/reducers'

@@ -8,17 +8,8 @@ import isBooleanAttribute from 'is-boolean-attribute'
 // import Controls from './Controls/Controls'
 // import AudioPlayer from './Controls/Audio'
 
-const customTemplates = [
-  'A1'
-]
-const customTemplatesLoaded = {}
-const customTemplatesLowercase = {}
-customTemplates.forEach(x => {
-  customTemplatesLoaded[x] = lazy(() =>
-    import (`User/Templates/${x}`))
-  customTemplatesLowercase[x.toLowerCase()] = x
-})
-
+import GetTemplate from 'documents/Templates/_list'
+import Link from 'User/App/Link'
 
 const Traverse = ({ json, data, index }) => {
   if (!json) return null
@@ -32,14 +23,11 @@ const Traverse = ({ json, data, index }) => {
       Tag = Word;
     } else if (tag === 'sentence') {
       Tag = Sentence;
+    } else if (tag === 'a') {
+      Tag = Link
+    } else {
+      Tag = GetTemplate(tag) || Tag
     }
-
-
-    if (tag.toLowerCase() in customTemplatesLowercase) {
-      Tag = customTemplatesLoaded[customTemplatesLowercase[tag.toLowerCase()]];
-    }
-
-
 
 
 

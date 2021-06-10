@@ -1,17 +1,29 @@
-// import links from './../../output/links'
-import compiler from 'compiler/generate_html'
-import generate_html, { URL_title } from 'compiler/generate_html'
+import generate_html from 'documents/Compile'
+import { URL_title } from 'documents/Compile/functions'
 const router = (require('express')).Router()
 var fs = require('fs')
 const folder = __dirname + '/../../output/'
 let links = require('src/output/links.js')
+const yaml = require('js-yaml');
 
 router.get('/content', async(req, res) => {
-  const title = URL_title(req.query.title)
-  if (links[title]) {
-    const content = await generate_html(title)
+  let url = URL_title(req.query.title)
+  let values = links[url]
+  if (values) {
+    let output = {}
+    let title = values.title
+    if (values.redirect_to) {
+      url = values.redirect_to
+      title = links[values.redirect_to].title
+      output.redirect_to = values.redirect_to
+      output.section = values.section
+    }
+    // console.log(info)
+    const content = await generate_html(url)
     res.send({
+      ...output,
       content,
+      title,
     })
   } else {
     return res.sendStatus(404)
@@ -23,14 +35,22 @@ export default router;
 
 
 export const ParseHeaderAndBody = (data) => {
-  let [header, body] = data.split(/\n>>>>\n/)
+  const match = data.trim().match(/^---\n([\s\S]+?)\n---([\s\S]+)?/)
+  if (!match) {
+    throw new Error('Failed to parse\n\n' + data)
+    return;
+  }
+  let [j, header, body] = match
 
   let output = {}
-  header.split('\n').forEach(i => {
-    const [key, val] = i.split(/ = /)
-    if (key) {
-      output[key] = val
-    }
-  })
+  // header = header.replace(/: (.+):/g, ': $1\\:')
+  header = yaml.load(header)
+  body = (body || '').trim()
+
+  if (!header.title) {
+    throw new Error('Missing title\n\n' + data)
+    return;
+  }
+
   return { header, body }
 }

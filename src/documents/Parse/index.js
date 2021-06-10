@@ -31,7 +31,7 @@ var now = require("performance-now")
 /*
   Parser
 */
-export default async({ html, title }) => {
+export default ({ html, title }) => {
   if (!html) return null
   // console.log(html)
   try {
@@ -61,7 +61,7 @@ export default async({ html, title }) => {
     /*
       Is data already saved?
     */
-    let data = await RequestData(json)
+    let data = null// RequestData(json)
     // console.warn('----->-->>>>>>>>>>>>>>>>>>>>>>>>>\n>>>>>>>>>>>>>>>>>>>>-')
     // console.warn(data)
     // var t2 = now()
@@ -105,7 +105,6 @@ export default async({ html, title }) => {
     // console.log(`Wrapping took ${Math.round(t5 - t4)} ms`)
     // console.log(json2html(wrapped))
     let compiled = Compiler({ json: wrapped, data: flattenedData })
-    // console.log({compiled})
     // var t6 = now()
     // console.log(`Compilation took ${Math.round(t6 - t5)} ms`)
     // console.log(`total ${Math.round(t6 - t0)} ms`)

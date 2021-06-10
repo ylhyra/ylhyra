@@ -1,4 +1,4 @@
-import { fix_inline_translations } from 'User/Render/Text/InlineTranslations/InlineTranslations/'
+import { fix_inline_translations } from 'documents/Read/InlineTranslations/InlineTranslations/'
 
 /*
   We use a false checkbox since iOS doesn't behave well with inputs.

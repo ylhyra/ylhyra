@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Card from './Card'
 import Progress from './Progress'
 import { connect } from 'react-redux';
-import { TextEventListenersOn, TextEventListenersOff } from 'User/Render/Text/Touch/'
+import { TextEventListenersOn, TextEventListenersOff } from 'documents/Read/Touch/'
 import { isBrowser, hasLocalStorage, supportsTouch } from 'User/App/functions/isBrowser'
 
 class GameContainer extends Component {

@@ -23,3 +23,4 @@ package-lock.json
 project/mediawiki/backup/*/*
 project/mediawiki/LocalSettings.php
 test.html
+*.save

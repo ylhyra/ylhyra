@@ -1,5 +1,5 @@
-import { TouchEventListenerOn, TouchEventListenerOff } from 'User/Render/Text/Touch/Touch'
-import { MouseEventListenerOn, MouseEventListenerOff } from 'User/Render/Text/Touch/Mouse'
+import { TouchEventListenerOn, TouchEventListenerOff } from 'documents/Read/Touch/Touch'
+import { MouseEventListenerOn, MouseEventListenerOff } from 'documents/Read/Touch/Mouse'
 import Analytics from 'User/Analytics/TextInteractions'
 import { isBrowser, supportsTouch } from 'User/App/functions/isBrowser'
 

@@ -7,30 +7,30 @@
   `--'        `-'
   YLhýra - Plugin for reading annotated texts
 */
-// import { fix_inline_translations } from 'User/Render/Text/InlineTranslations/InlineTranslations/'
+// import { fix_inline_translations } from 'documents/Read/InlineTranslations/InlineTranslations/'
 // import Typeset from './Render/Typeset'
 
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
-import {TextEventListenersOn} from 'User/Render/Text/Touch/'
+import {TextEventListenersOn} from 'documents/Read/Touch/'
 
 import Parse from 'documents/Parse'
-import Render from 'User/Render'
+import Render from 'documents/Render'
 import Editor from 'Editor'
 import Source_editor from 'Source_editor'
 import store from 'User/App/store'
 import ReactDOMServer from 'react-dom/server' // TODO: Remove this dependency
 import RenderRecorder from 'User/Editor/Short_audio/Inline recorder.js'
-import Attribution from 'User/Render/Attribution'
-import FrontpageDemo from 'User/Render/Frontpage/demo'
-require('User/Render/Style/index.styl')
+import Attribution from 'documents/Render/Attribution'
+import FrontpageDemo from 'documents/Render/Frontpage/demo'
+require('documents/Render/Style/index.styl')
 require('./DevelopmentMode')
 require('Source_editor/Tweets')
 export const host = process.env.NODE_ENV === 'production' ? location.host : 'localhost:9123'
 var now = require("performance-now")
 var HtmlToReactParser = require('html-to-react').Parser
-// import ImageLayout from 'User/Render/ImageLayout'
+// import ImageLayout from 'documents/Render/ImageLayout'
 
 /*
   Temporary silly way of waiting until jQuery is ready

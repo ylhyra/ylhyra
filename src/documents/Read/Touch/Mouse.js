@@ -4,11 +4,11 @@
    | |  | | (_) | |_| \__ \  __/
    |_|  |_|\___/ \__,_|___/\___| */
 
-import showWord from 'User/Render/Text/actions/ShowWord'
-import reset from 'User/Render/Text/actions/Reset'
-import { highlightSentence } from 'User/Render/Text/actions/HighlightSentence'
-import { showSentence } from 'User/Render/Text/actions/ShowSentence'
-import { turnOffDemonstration } from 'User/Render/Frontpage/demo'
+import showWord from 'documents/Read/actions/ShowWord'
+import reset from 'documents/Read/actions/Reset'
+import { highlightSentence } from 'documents/Read/actions/HighlightSentence'
+import { showSentence } from 'documents/Read/actions/ShowSentence'
+import { turnOffDemonstration } from 'documents/Render/Frontpage/demo'
 
 let lastId = null
 let isSentenceBeingShown = false

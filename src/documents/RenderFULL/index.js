@@ -4,10 +4,10 @@
 // import store from 'User/App/store'
 // import Traverse from './Traverse'
 // import { html2json, json2html } from 'User/App/functions/html2json'
-// import { ReadAlongSetup } from 'User/Render/Audio/ReadAlong'
+// import { ReadAlongSetup } from 'documents/Render/Audio/ReadAlong'
 // import error from 'User/App/Error'
-// import Inflection from 'User/Render/Elements/Inflection'
-// import SpeedReaderSetup from 'User/Render/Elements/Speed_reading/setup'
+// import Inflection from 'documents/Render/Elements/Inflection'
+// import SpeedReaderSetup from 'documents/Render/Elements/Speed_reading/setup'
 // import { isBrowser } from 'User/App/functions/isBrowser'
 //
 // const Render = (parsed, { shouldReturnElement, hydrate }) => {

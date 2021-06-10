@@ -10,13 +10,20 @@ import {
 } from 'react-router-dom'
 import { createBrowserHistory } from "history";
 import Layout from 'User/Layout/layout'
-import {updateUser} from 'User/User/actions'
+import { updateUser } from 'User/User/actions'
 import Content from './content'
+// import VocabularyOverview from 'User/Vocabulary/screens/overview'
+// import VocabularyRunning from 'User/Vocabulary/screens/running'
+// import VocabularyTutorial from 'User/Vocabulary/screens/tutorial'
+// import VocabularyIntro from 'User/Vocabulary/screens/setup'
+// import LogIn from 'User/User/screens/Login'
+// import Signup from 'User/User/screens/Signup'
+// import Settings from 'User/User/screens/Settings'
+// import Pay from 'User/User/screens/Pay'
+
+import Main from './Main'
 
 /* TODO: Hlaða skyldum saman */
-import Main from './Main'
-const NotFound = lazy(()=>import('./404'))
-
 const VocabularyOverview = lazy(()=>import('User/Vocabulary/screens/overview'))
 const VocabularyRunning = lazy(()=>import('User/Vocabulary/screens/running'))
 const VocabularyTutorial = lazy(()=>import('User/Vocabulary/screens/tutorial'))
@@ -28,9 +35,13 @@ const Settings = lazy(()=>import('User/User/screens/Settings'))
 const Pay = lazy(()=>import('User/User/screens/Pay'))
 
 export const history = createBrowserHistory()
-history.listen((location, action) => {
-  updateUser()
-})
+// history.listen((location, action) => {
+//   updateUser()
+//   // /* React Router doesn't clear hash on page change */
+//   // if (/#/.test(window.location.href)) {
+//   //   window.location.href = window.location.href.split('#')[0]
+//   // }
+// })
 
 export const urls = {
   VOCABULARY_SETUP: '/vocabulary/setup',
@@ -59,8 +70,7 @@ export default function App() {
             <Route exact path={urls.SIGN_UP}><Signup/></Route>
             <Route exact path={urls.USER_PAGE}><Settings /></Route>
             <Route exact path={urls.MAIN}><Main /></Route>
-            <Route><Content /></Route>
-            {/* <Route><NotFound /></Route> */}
+            <Route><Content key={history.location.pathname} /></Route>
           </Switch>
         </Suspense>
       </Layout>
