@@ -1,5 +1,5 @@
 import { URL_title } from 'documents/Compile/functions'
-import { ParseHeaderAndBody } from 'content'
+import { ParseHeaderAndBody } from 'server/content'
 let links = require('src/output/links.js')
 require('app/App/functions/array-foreach-async')
 var fs = require('fs')

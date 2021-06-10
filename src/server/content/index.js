@@ -17,6 +17,8 @@ router.get('/content', async(req, res) => {
       title = links[values.redirect_to].title
       output.redirect_to = values.redirect_to
       output.section = values.section
+    } else if (req.query.title !== url) {
+      output.redirect_to = url
     }
     // console.log(info)
     const content = await generate_html(url)
@@ -47,7 +49,7 @@ export const ParseHeaderAndBody = (data) => {
   header = yaml.load(header)
   body = (body || '').trim()
 
-  if (!header.title) {
+  if (!header.title && header.title !== '') {
     throw new Error('Missing title\n\n' + data)
     return;
   }

@@ -1,13 +1,13 @@
 /**
  * Saves session and updates schedule
  */
-import query from /*'server/*/ 'database'
+import query from 'server/database'
 const router = (require('express')).Router()
 import shortid from 'shortid'
-import sql from /*'server/*/ 'database/functions/SQL-template-literal'
+import sql from 'server/database/functions/SQL-template-literal'
 import cors from 'cors'
-import { round, msToS, daysToMs, roundMsToHour } from 'src/User/App/functions/time.js'
-import { GetUser } from /*'server/*/ 'user'
+import { round, msToS, daysToMs, roundMsToHour } from 'src/app/App/functions/time.js'
+import { GetUser } from 'server/user'
 
 router.post('/vocabulary/save', cors(), (req, res) => {
   const user = GetUser(req.body.user)

@@ -30,7 +30,7 @@ module.exports = {
   resolve: {
     modules: [
       ...modules,
-      resolve('src/server/'),
+      // resolve('src/server/'),
       resolve('src/server/inflection/'),
       resolve('.'),
       // resolve('server/node_modules/'),

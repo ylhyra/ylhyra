@@ -9,19 +9,10 @@ import {
   useParams
 } from 'react-router-dom'
 import { createBrowserHistory } from "history";
-import Layout from 'documents/Templates/Layout'
+import Layout from 'app/Elements/Layout/Layout'
 import { updateUser } from 'app/User/actions'
 import Content from './content'
-// import VocabularyOverview from 'app/Vocabulary/screens/overview'
-// import VocabularyRunning from 'app/Vocabulary/screens/running'
-// import VocabularyTutorial from 'app/Vocabulary/screens/tutorial'
-// import VocabularyIntro from 'app/Vocabulary/screens/setup'
-// import LogIn from 'app/User/screens/Login'
-// import Signup from 'app/User/screens/Signup'
-// import Settings from 'app/User/screens/Settings'
-// import Pay from 'app/User/screens/Pay'
-
-import Frontpage from 'documents/Templates/Frontpage'
+import Frontpage from 'app/Elements/Frontpage'
 
 /* TODO: Hlaða skyldum saman */
 const VocabularyOverview = lazy(()=>import('app/Vocabulary/screens/overview'))
@@ -44,8 +35,9 @@ export const history = createBrowserHistory()
 // })
 
 export const urls = {
-  VOCABULARY_SETUP: '/vocabulary/setup',
   VOCABULARY: '/vocabulary',
+  VOCABULARY_SETUP: '/vocabulary',
+  // VOCABULARY_SETUP: '/vocabulary/setup',
   VOCABULARY_RUNNING: '/vocabulary/running',
   VOCABULARY_TUTORIAL: '/vocabulary/tutorial',
   LOG_IN: '/login',
@@ -61,7 +53,7 @@ export default function App() {
       <Layout>
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
-            <Route exact path={urls.VOCABULARY_SETUP}><VocabularyIntro/></Route>
+            {/* <Route exact path={urls.VOCABULARY_SETUP}><VocabularyIntro/></Route> */}
             <Route exact path={urls.VOCABULARY_RUNNING}><VocabularyRunning/></Route>
             <Route exact path={urls.VOCABULARY_TUTORIAL}><VocabularyTutorial/></Route>
             <Route exact path={urls.VOCABULARY}><VocabularyOverview/></Route>

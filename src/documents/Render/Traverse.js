@@ -9,7 +9,7 @@ import isBooleanAttribute from 'is-boolean-attribute'
 // import AudioPlayer from './Controls/Audio'
 
 import GetTemplate from 'documents/Templates/_list'
-import Link from 'app/App/Link'
+import Link from 'app/Elements/Link'
 
 const Traverse = ({ json, data, index }) => {
   if (!json) return null
@@ -102,6 +102,7 @@ export default Traverse
   Allow for specific custom elements.
 */
 const customTags = {
+  'p': 'div',
   'center': 'div',
   'translate': 'span',
   'isl': 'span',

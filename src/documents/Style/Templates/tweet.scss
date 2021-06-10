@@ -4,22 +4,33 @@
   padding: 10px;
   margin-bottom: 20px;
   background: white;
-  @include sans_serif(); spo.tweet-header {
+  @include sans_serif();
+
+  spo.tweet-header {
     display: flex;
     align-items: center;
     line-height: 1.4;
+
     img {
       border-radius: 100px;
-    }.tweet-author {
+    }
+
+    .tweet-author {
       flex: 1;
-      padding-left: 10px;.tweet-username a {
+      padding-left: 10px;
+
+      .tweet-username a {
         color: black;
         font-weight: bold;
-      }.tweet-handle a {
+      }
+
+      .tweet-handle a {
         color: #ababab;
       }
     }
-  }.tweet-text {
+  }
+
+  .tweet-text {
     font-size: 15px;
   }
 }

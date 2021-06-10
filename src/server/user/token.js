@@ -1,9 +1,9 @@
-import query from /*'server/*/ 'database'
+import query from 'server/database'
 import shortid from 'shortid'
-import sql from /*'server/*/ 'database/functions/SQL-template-literal'
+import sql from 'server/database/functions/SQL-template-literal'
 import cors from 'cors'
 import stable_stringify from 'json-stable-stringify'
-import send_email from /*'server/*/ 'app/send_email'
+import send_email from 'server/user/send_email'
 import sha256 from 'js-sha256'
 import request from 'request'
 const router = (require('express')).Router()

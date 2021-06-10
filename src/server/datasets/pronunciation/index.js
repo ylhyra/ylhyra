@@ -8,10 +8,10 @@
 
 */
 
-import query from /*'server/*/ 'database'
+import query from 'server/database'
 import _ from 'underscore'
 const wordRegex = /([A-zÀ-ÿ·-]+)/g
-require('src/User/App/functions/array-foreach-async')
+require('src/app/App/functions/array-foreach-async')
 
 const IPA_to_English = [
   ['ji', 'yi'],

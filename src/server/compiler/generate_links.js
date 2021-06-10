@@ -1,10 +1,11 @@
 /*
 node build/ylhyra_server.js --compile-content
 */
-// import urlSlug from 'src/User/App/functions/url-slug'
+// import urlSlug from 'src/app/App/functions/url-slug'
 import string_hash from 'app/App/functions/hash'
 import { URL_title } from 'documents/Compile/functions'
-import { ParseHeaderAndBody } from 'content'
+import { ParseHeaderAndBody } from 'server/content'
+import RemoveUnwantedCharacters from 'app/App/functions/RemoveUnwantedCharacters'
 var fs = require('fs');
 const content_folder = __basedir + '/../ylhyra_content/'
 const output_folder = __basedir + '/src/output/'
@@ -19,16 +20,20 @@ const run = () => {
 
   for (const file in files) {
     if (typeof files[file] !== 'string') continue;
-    const data = fs.readFileSync(files[file], 'utf8')
+    let data = fs.readFileSync(files[file], 'utf8')
+    data = RemoveUnwantedCharacters(data)
     let { header, body } = ParseHeaderAndBody(data)
     const filename = FileSafeTitle(header.title) //+ '_' + string_hash(body)
+    if (URL_title(header.title) in links) {
+      throw new Error(`"${header.title}" already exists`)
+    }
     links[URL_title(header.title)] = {
       title: header.title,
       filename,
       file: files[file],
     }
     header.redirects && header.redirects.forEach(r => {
-      if(!r){
+      if (!r) {
         console.log(files[file])
       }
       const [r_title, r_section] = r.split('#')

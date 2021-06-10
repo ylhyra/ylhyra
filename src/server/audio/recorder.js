@@ -1,14 +1,14 @@
 import express from 'express'
 const router = express.Router()
-import query from /*'server/*/ 'database'
-import getParameters from /*'server/*/ 'database/functions/getParameters'
+import query from 'server/database'
+import getParameters from 'server/database/functions/getParameters'
 import fs from 'fs'
 import multer from 'multer'
 var upload = multer({ dest: 'uploads/' })
 import shortid from 'shortid'
 import path from 'path'
 import { exec } from 'child_process'
-import urlSlug from 'src/User/App/functions/url-slug'
+import urlSlug from 'src/app/App/functions/url-slug'
 
 /*
   TODO! Access control

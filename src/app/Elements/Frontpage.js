@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import Link from 'app/App/Link'
+import Link from 'app/Elements/Link'
 import { urls } from 'app/Routes/router'
 
 const Screen = (props) => (

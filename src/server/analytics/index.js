@@ -1,6 +1,6 @@
-import query from /*'server/*/ 'database'
+import query from 'server/database'
 import shortid from 'shortid'
-import sql from /*'server/*/ 'database/functions/SQL-template-literal'
+import sql from 'server/database/functions/SQL-template-literal'
 const router = (require('express')).Router()
 // var cors = require('cors')
 // app.use(cors({

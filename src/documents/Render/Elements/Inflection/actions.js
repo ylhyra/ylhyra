@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 // import Inflection from 'documents/Render/Elements/Inflection'
 import store from 'app/App/store'
-// import classify from /*'server/*/ 'inflection/tables/classification/BIN_classification.js'
+// import classify from 'server/inflection/tables/classification/BIN_classification.js'
 import { without } from 'underscore'
 const url = ''
 let cache = {}

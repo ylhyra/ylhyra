@@ -1,14 +1,21 @@
 import React from 'react'
-import Link from 'app/App/Link'
+import { connect } from 'react-redux';
+import Link from 'app/Elements/Link'
 import { urls } from 'app/Routes/router'
 
-export default () => (
+const Screen = (props) => (
   <div>
     Are you a beginner?
     <div>
       <button>Yes, I'm a beginner</button>
       <button>No, I already speak some Icelandic</button>
     </div>
-    <Link to={urls.LOG_IN}>Already have an account?</Link>
+    {!props.user &&
+      <Link to={urls.LOG_IN}>Already have an account?</Link>
+    }
   </div>
 )
+
+export default connect(state => ({
+  user: state.user,
+}))(Screen)

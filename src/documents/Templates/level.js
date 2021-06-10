@@ -1,4 +1,4 @@
-import Link from 'app/App/Link'
+import Link from 'app/Elements/Link'
 
 export default (props) => {
   return (<span className="level">

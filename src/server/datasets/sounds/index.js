@@ -1,4 +1,4 @@
-import query from /*'server/*/ 'database'
+import query from 'server/database'
 
 export default (input) => {
   if (!input || !input.trim()) return;

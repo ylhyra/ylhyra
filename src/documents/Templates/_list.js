@@ -1,7 +1,9 @@
 import React, { lazy } from 'react';
 
 const customTemplates = [
-  'level'
+  'Level',
+  'Book',
+  'Blær',
 ]
 
 const customTemplatesLoaded = {}

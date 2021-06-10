@@ -1,6 +1,6 @@
 import store from 'app/App/store'
 import GoogleTranslate from './GoogleTranslate'
-import { get_ISO_639_1 } from /*'server/*/ 'datasets/languages'
+import { get_ISO_639_1 } from 'server/datasets/languages'
 // import { saveEditor } from 'Editor/actions'
 require('app/App/functions/array-foreach-async')
 

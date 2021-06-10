@@ -1,5 +1,5 @@
 import LoginButton from 'app/User/LoginButton'
-import Link from 'app/App/Link'
+import Link from 'app/Elements/Link'
 import { urls } from 'app/Routes/router'
 
 export default (props) => (
@@ -7,7 +7,8 @@ export default (props) => (
   	<div>
   		<Link to={urls.MAIN} id="logo"></Link>
   		<ul>
-  			<li><Link to="/Texts">Texts</Link></li>
+        <li><Link to="/Texts">Texts</Link></li>
+  			<li><Link to="/Vocabulary">Vocabulary</Link></li>
   			<li><Link to="/Explanations">Explanations</Link></li>
   			<li><Link to="/Project:About">About</Link></li>
         <li><LoginButton/></li>
