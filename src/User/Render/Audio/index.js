@@ -11,9 +11,6 @@ require('./KeyboardListener')
 require('array-sugar')
 let timer
 
-@connect(state => ({
-  audio: state.audio,
-}))
 class Audio extends React.PureComponent {
   errorCount = 0; // Keep count on how often we have re-attempted reloading file
   constructor(props) {
@@ -204,4 +201,6 @@ class Audio extends React.PureComponent {
     )
   }
 }
-export default Audio
+export default connect(state => ({
+  audio: state.audio,
+}))(Audio)

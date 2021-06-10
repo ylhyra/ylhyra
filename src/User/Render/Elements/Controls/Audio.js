@@ -1,5 +1,5 @@
 import React from 'react'
-import { getUpdatedID } from 'Parse/Compiler/1_Precompile/UpdateID'
+import { getUpdatedID } from 'User/Parse/Compiler/1_Precompile/UpdateID'
 
 // /*
 //   [optional] Temporarily mute the audio in development

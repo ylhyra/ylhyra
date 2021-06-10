@@ -8,9 +8,6 @@ import store from 'User/App/store'
 // import link from './link'
 import { ShowInflectionTable } from './actions'
 
-@connect(state => ({
-  inflection: state.inflection,
-}))
 class Inflection extends React.Component {
   // state = {
   //   small: true
@@ -33,4 +30,6 @@ class Inflection extends React.Component {
   }
 }
 
-export default Inflection
+export default connect(state => ({
+  inflection: state.inflection,
+}))(Inflection)

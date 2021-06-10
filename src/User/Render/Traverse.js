@@ -1,19 +1,23 @@
 import React from 'react'
 import convert from 'react-attr-converter';
 import inlineStyle2Json from 'User/App/functions/inline-style-2-json'
-import Conversation from 'User/Render/Elements/Conversation'
-import Vocabulary from 'User/Render/Elements/Vocabulary'
-import GameContainer from 'User/Render/Elements/Vocabulary/GameContainer'
-import Audio from 'User/Render/Audio'
-import { html2json, json2html } from 'User/App/functions/html2json'
-import { AllHtmlEntities as Entities } from 'html-entities'
+// import { html2json, json2html } from 'User/App/functions/html2json'
+// import { AllHtmlEntities as Entities } from 'html-entities'
+// const entities = new Entities()
 import isBooleanAttribute from 'is-boolean-attribute'
-import Inflection from 'User/Render/Elements/Inflection'
-import Hide from 'User/Render/Elements/Hide'
-const entities = new Entities()
+
+/* Elements */
+import Audio from 'User/Render/Audio'
+// import Conversation from 'User/Render/Elements/Conversation'
+// import Vocabulary from 'User/Render/Elements/Vocabulary'
+// import GameContainer from 'User/Render/Elements/Vocabulary/GameContainer'
+// import Inflection from 'User/Render/Elements/Inflection'
+// import Hide from 'User/Render/Elements/Hide'
+
 // import VocabularyFlashcards from 'Vocabulary/button'
 
 const Traverse = (input, index = 0, parentTag) => {
+  // console.log(input)
   if (!input) return null
   if (typeof input === 'string') {
     if (CannotIncludeWhitespaceChildren.includes(parentTag)) {
@@ -26,28 +30,30 @@ const Traverse = (input, index = 0, parentTag) => {
     if (input.props['data-type']) {
       let Tag;
       switch (input.props['data-type']) {
-        case 'conversation':
-          Tag = Conversation;
-          break;
-        case 'vocabulary':
-          Tag = Vocabulary;
-          break;
+        // case 'conversation':
+        //   Tag = Conversation;
+        //   break;
+        // case 'vocabulary':
+        //   Tag = Vocabulary;
+        //   break;
         case 'audio':
         case 'video':
           Tag = Audio;
           break;
-        case 'game-container':
-          Tag = GameContainer;
-          break;
-        case 'inflection':
-          Tag = Inflection;
-          break;
-        case 'collapse':
-          Tag = Hide;
-          break;
+        // case 'game-container':
+        //   Tag = GameContainer;
+        //   break;
+        // case 'inflection':
+        //   Tag = Inflection;
+        //   break;
+        // case 'collapse':
+        //   Tag = Hide;
+        //   break;
         case 'vocabulary-flashcards':
           return null;
           // Tag = VocabularyFlashcards;
+          break;
+        default:
           break;
       }
       if(!Tag) return null;
@@ -97,6 +103,7 @@ const Traverse = (input, index = 0, parentTag) => {
       return input
     }
   }
+  return null
 }
 
 export default Traverse

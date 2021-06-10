@@ -54,10 +54,7 @@ class SpeedReader extends React.Component {
 
 export default SpeedReader
 
-@connect(state => ({
-  speed_reader: state.speed_reader,
-}))
-class Header extends React.Component {
+class Header_ extends React.Component {
   render() {
     const { started, wpm, cur, words, running, skin, mouse_hidden } = this.props.speed_reader
     return <div id="speed-reader-header" className="noclick" onClick={(e)=>e.stopPropagation()}>
@@ -77,11 +74,11 @@ class Header extends React.Component {
     </div>
   }
 }
-
-@connect(state => ({
+const Header = connect(state => ({
   speed_reader: state.speed_reader,
-}))
-class PlayScreen extends React.Component {
+}))(Header_)
+
+class PlayScreen_ extends React.Component {
   render() {
     const { started, wpm, cur, words, running, skin, mouse_hidden, showTranslation, done } = this.props.speed_reader
     return (
@@ -102,11 +99,11 @@ class PlayScreen extends React.Component {
     )
   }
 }
-
-@connect(state => ({
+const PlayScreen = connect(state => ({
   speed_reader: state.speed_reader,
-}))
-class DoneScreen extends React.Component {
+}))(PlayScreen_)
+
+class DoneScreen_ extends React.Component {
   render() {
     const { started, wpm, cur, words, running, skin, mouse_hidden, showTranslation, done } = this.props.speed_reader
     return (
@@ -144,11 +141,11 @@ class DoneScreen extends React.Component {
     )
   }
 }
-
-@connect(state => ({
+export const DoneScreen = connect(state => ({
   speed_reader: state.speed_reader,
-}))
-class AboutScreen extends React.Component {
+}))(DoneScreen_)
+
+class AboutScreen_ extends React.Component {
   render() {
     const { started, wpm, cur, words, running, skin, mouse_hidden } = this.props.speed_reader
 
@@ -183,7 +180,9 @@ class AboutScreen extends React.Component {
     )
   }
 }
-
+const AboutScreen = connect(state => ({
+  speed_reader: state.speed_reader,
+}))(AboutScreen_)
 
 class Word extends React.Component {
   componentDidMount = () => {
@@ -215,10 +214,7 @@ const handleChange = (prop, value) => {
   })
 }
 
-@connect(state => ({
-  speed_reader: state.speed_reader,
-}))
-class Settings extends React.Component {
+class Settings_ extends React.Component {
   render() {
     const { started, wpm, cur, words, running, skin, mouse_hidden } = this.props.speed_reader
     let available_speeds = []
@@ -250,3 +246,6 @@ class Settings extends React.Component {
     </div>
   }
 }
+const Settings = connect(state => ({
+  speed_reader: state.speed_reader,
+}))(Settings_)

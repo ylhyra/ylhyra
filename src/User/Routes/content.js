@@ -3,6 +3,10 @@ import axios from 'User/App/axios'
 import { withRouter } from "react-router";
 import NotFound from 'User/Routes/404'
 
+import { html2json, json2html } from 'User/App/functions/html2json'
+import Parse from 'User/Parse'
+import Traverse from 'User/Render/Traverse'
+
 class Content extends Component {
   state = {}
   async componentDidMount() {
@@ -21,9 +25,7 @@ class Content extends Component {
   render() {
     if (this.state.error) return <NotFound/>;
     if (!this.state.data) return <div>Loading...</div>;
-    return (
-      <div dangerouslySetInnerHTML={{__html: (this.state.data.content)}}/>
-    )
+    return Traverse(Parse({ html: this.state.data.content }))
   }
 }
 export default withRouter(Content)

@@ -41,8 +41,6 @@ export default async({ html, title }) => {
       .replace(/[\s\n\r]+/g, ' ') // Ef þetta er fjarlægt virkar WrapInTags/SplitAndWrap ekki
       // .replace(/\u00AD/g,' ') //Soft-hyphens
       // .replace(/\u00A0/g,' ') //Non-breaking spaces
-      .replace(/<\/?mw:toc>/g, '') //Mediawiki clutter
-      .replace(/<mw:editsection.*?<\/mw:editsection>/g, '') //Mediawiki clutter
     let json = html2json(html)
 
     // var t1 = now()

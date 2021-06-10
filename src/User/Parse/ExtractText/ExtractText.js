@@ -15,7 +15,7 @@
 import GroupParagraphs from './Paragraphs'
 import hash from 'User/App/functions/hash'
 import emoji_strip from 'emoji-strip'
-import { newTitle } from 'Parse/index.js'
+import { newTitle } from 'User/Parse/index.js'
 
 /*
   Convert document into raw text

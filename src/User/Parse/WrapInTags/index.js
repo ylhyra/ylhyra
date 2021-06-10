@@ -38,24 +38,24 @@ import SplitAndWrap from './2-SplitAndWrap'
 import InvertElementsThatOnlyContainOneThing from './3-Invert'
 import MergeElementsThatHaveBeenSplitUnnecessarily from './4-Merge'
 import GroupParagraphs from 'User/Parse/ExtractText/Paragraphs'
-import { newTitle } from 'Parse/index.js'
+import { newTitle } from 'User/Parse/index.js'
 
 /*
   Parse input and split paragraphs
 */
-export default function({ json, tokenized }) {
+export default function ({ json, tokenized }) {
   // console.log(json2html(json))
   /*
     Flatten tokenized
   */
   let tokenizedFlattened = []
   for (const documentTitle of Object.keys(tokenized)) {
-    tokenized[documentTitle].forEach(d => {
+    for (const i in tokenized[documentTitle]) {
       tokenizedFlattened.push({
         documentTitle,
-        ...d,
+        ...tokenized[documentTitle][i],
       })
-    })
+    }
   }
   tokenizedFlattened = tokenizedFlattened.sort((a, b) => a.index - b.index)
 

@@ -3,9 +3,9 @@ import Tooltip from './Definition/Tooltip'
 import InlineTranslation from './Definition/InlineTranslation'
 import exists from 'User/App/functions/exists'
 import Box from './Definition/Box/Word'
-import { getUpdatedID, getPreviousID } from 'Parse/Compiler/1_Precompile/UpdateID'
+import { getUpdatedID, getPreviousID } from 'User/Parse/Compiler/1_Precompile/UpdateID'
 import _ from 'underscore'
-import GetSound from 'Parse/Compiler/2_CompileToHTML/Sound'
+import GetSound from 'User/Parse/Compiler/2_CompileToHTML/Sound'
 import omitEmpty from 'omit-empty'
 
 class WordElement extends React.Component {

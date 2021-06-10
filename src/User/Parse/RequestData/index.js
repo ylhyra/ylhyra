@@ -1,4 +1,4 @@
-import { newTitle } from 'Parse/index.js'
+import { newTitle } from 'User/Parse/index.js'
 import { AllHtmlEntities as Entities } from 'html-entities'
 import axios from 'User/App/axios'
 const entities = new Entities()
@@ -13,6 +13,11 @@ require('User/App/functions/array-foreach-async')
 */
 const ExtractData = async (input) => {
   let output = {}
+
+  return output
+  
+
+
   const getNewTitle = new newTitle()
   let temp = []
   Traverse(input, ({ documentTitle, url }) => {
