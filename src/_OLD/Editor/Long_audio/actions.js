@@ -1,6 +1,6 @@
 import store from 'User/App/store'
-import { getText } from 'User/Parse/ExtractText/ExtractText'
-import { getTextFromTokenized } from 'User/Parse/WrapInTags/1-InsertSplit.js'
+import { getText } from 'documents/Parse/ExtractText/ExtractText'
+import { getTextFromTokenized } from 'documents/Parse/WrapInTags/1-InsertSplit.js'
 import hash from 'User/App/functions/hash'
 import NotifyError from 'User/App/Error'
 import { html2json, json2html } from 'User/App/functions/html2json'

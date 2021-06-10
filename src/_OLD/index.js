@@ -15,7 +15,7 @@ import "regenerator-runtime/runtime";
 
 import {TextEventListenersOn} from 'User/Render/Text/Touch/'
 
-import Parse from 'User/Parse'
+import Parse from 'documents/Parse'
 import Render from 'User/Render'
 import Editor from 'Editor'
 import Source_editor from 'Source_editor'

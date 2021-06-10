@@ -1,4 +1,4 @@
-import { newTitle } from 'User/Parse/index.js'
+import { newTitle } from 'documents/Parse/index.js'
 import { AllHtmlEntities as Entities } from 'html-entities'
 import axios from 'User/App/axios'
 const entities = new Entities()

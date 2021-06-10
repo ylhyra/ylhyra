@@ -38,7 +38,7 @@
     "file-extension": "^4.0.5",
     "formik": "^2.2.9",
     "history": "^5.0.0",
-    "html-entities": "^2.3.2",
+    "html-entities": "^1.4.0",
     "is-boolean-attribute": "0.0.1",
     "is-empty-object": "^1.1.1",
     "jquery": "^3.6.0",

@@ -11,7 +11,7 @@ const Transclude = (title, depth = 0) => {
       return resolve(`\nNo template ${title}\n`)
     }
 
-    fs.readFile(__dirname + '/../../../' + links[title].file, 'utf8', async(err, data) => {
+    fs.readFile(__basedir + '/' + links[title].file, 'utf8', async(err, data) => {
       if (err) {
         return resolve(`\nFailed to read file for ${title}\n`)
       }

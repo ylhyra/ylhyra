@@ -1,12 +1,24 @@
-import React from 'react'
-import Sentence from './Sentence'
-import Word from './Word'
+import React, { lazy } from 'react';
+import Sentence from 'documents/Render/TextElements/Sentence'
+import Word from 'documents/Render/TextElements/Word'
 import convert from 'react-attr-converter';
 import inlineStyle2Json from 'User/App/functions/inline-style-2-json'
 import isBooleanAttribute from 'is-boolean-attribute'
 
 // import Controls from './Controls/Controls'
 // import AudioPlayer from './Controls/Audio'
+
+const customTemplates = [
+  'A1'
+]
+const customTemplatesLoaded = {}
+const customTemplatesLowercase = {}
+customTemplates.forEach(x => {
+  customTemplatesLoaded[x] = lazy(() =>
+    import (`User/Templates/${x}`))
+  customTemplatesLowercase[x.toLowerCase()] = x
+})
+
 
 const Traverse = ({ json, data, index }) => {
   if (!json) return null
@@ -21,6 +33,16 @@ const Traverse = ({ json, data, index }) => {
     } else if (tag === 'sentence') {
       Tag = Sentence;
     }
+
+
+    if (tag.toLowerCase() in customTemplatesLowercase) {
+      Tag = customTemplatesLoaded[customTemplatesLowercase[tag.toLowerCase()]];
+    }
+
+
+
+
+
 
     /*
       Attribute values can be arrays (from html2json).

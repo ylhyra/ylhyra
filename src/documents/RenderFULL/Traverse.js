@@ -19,6 +19,7 @@ import Audio from 'User/Render/Audio'
 const Traverse = (input, index = 0, parentTag) => {
   // console.log(input)
   if (!input) return null
+  // const { node, tag, attr, child, text } = input
   if (typeof input === 'string') {
     if (CannotIncludeWhitespaceChildren.includes(parentTag)) {
       return null

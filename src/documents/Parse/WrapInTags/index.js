@@ -31,14 +31,14 @@
 */
 
 import { html2json, json2html } from 'User/App/functions/html2json'
-import { getText } from 'User/Parse/ExtractText/ExtractText'
+import { getText } from 'documents/Parse/ExtractText/ExtractText'
 
 import InsertSplit from './1-InsertSplit'
 import SplitAndWrap from './2-SplitAndWrap'
 import InvertElementsThatOnlyContainOneThing from './3-Invert'
 import MergeElementsThatHaveBeenSplitUnnecessarily from './4-Merge'
-import GroupParagraphs from 'User/Parse/ExtractText/Paragraphs'
-import { newTitle } from 'User/Parse/index.js'
+import GroupParagraphs from 'documents/Parse/ExtractText/Paragraphs'
+import { newTitle } from 'documents/Parse/index.js'
 
 /*
   Parse input and split paragraphs
