@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import React from 'react'
-import store from 'User/App/store'
+import store from 'app/App/store'
 import { findSoundBites } from './actions'
 import Recorder from './Recorder'
 

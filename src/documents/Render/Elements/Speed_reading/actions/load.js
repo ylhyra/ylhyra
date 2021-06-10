@@ -1,4 +1,4 @@
-import store from 'User/App/store'
+import store from 'app/App/store'
 export const load = () => {
   let words = []
   let book = $('.book').clone()

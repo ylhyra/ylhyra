@@ -19,9 +19,9 @@ import Parse from 'documents/Parse'
 import Render from 'documents/Render'
 import Editor from 'Editor'
 import Source_editor from 'Source_editor'
-import store from 'User/App/store'
+import store from 'app/App/store'
 import ReactDOMServer from 'react-dom/server' // TODO: Remove this dependency
-import RenderRecorder from 'User/Editor/Short_audio/Inline recorder.js'
+import RenderRecorder from 'app/Editor/Short_audio/Inline recorder.js'
 import Attribution from 'documents/Render/Attribution'
 import FrontpageDemo from 'documents/Render/Frontpage/demo'
 require('documents/Render/Style/index.styl')
@@ -53,7 +53,7 @@ function checkIfjQueryIsReady(fn) {
 documentReady(async () => {
 
   /* Load vocabulary game */
-  require('User/Vocabulary')
+  require('app/Vocabulary')
 
   /*
     Temporary button for removing styling
@@ -141,4 +141,4 @@ documentReady(async () => {
 document.documentElement.className += ' ylhyra-loaded'
 
 
-// require('User/BatchRename')
+// require('app/BatchRename')

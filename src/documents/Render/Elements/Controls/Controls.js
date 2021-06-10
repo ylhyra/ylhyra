@@ -1,5 +1,5 @@
 import AudioPlayer from './Audio'
-import exists from 'User/App/functions/exists'
+import exists from 'app/App/functions/exists'
 
 export default (audioId, tree) => {
   // // let hasAudio = input.audio.file // TODO Update audio setup.

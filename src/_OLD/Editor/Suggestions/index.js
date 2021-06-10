@@ -3,12 +3,12 @@
   https://ylhyra.is/Software:Suggestions
 */
 import React from 'react'
-import store from 'User/App/store'
+import store from 'app/App/store'
 import { send } from 'Editor/web-socket'
-import error from 'User/App/Error'
-import axios from 'User/App/axios'
-import { url } from 'User/App/url'
-require('User/App/functions/array-foreach-async')
+import error from 'app/App/Error'
+import axios from 'app/App/axios'
+import { url } from 'app/App/url'
+require('app/App/functions/array-foreach-async')
 
 
 /*

@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import store from 'User/App/store'
+import store from 'app/App/store'
 import { ParseHTMLtoObject, ParseHTMLtoArray } from 'documents/Render/Elements/parse'
 import Card from 'documents/Render/Elements/Vocabulary/Card'
 import { randomizeOptions } from 'documents/Render/Elements/Vocabulary/randomize'
-// import { AudioPlayer } from 'User/Audio/AudioPlayer'
-// import { ReadAlongSetup, ReadAlongMessage } from 'User/Audio/ReadAlong'
+// import { AudioPlayer } from 'app/Audio/AudioPlayer'
+// import { ReadAlongSetup, ReadAlongMessage } from 'app/Audio/ReadAlong'
 require('array-sugar')
 
 class Conversation extends React.Component {

@@ -1,7 +1,7 @@
 import Precompile from './1_Precompile'
 // import CompileToHTML from './2_CompileToHTML'
 import { reset } from './1_Precompile/UpdateID'
-import { html2json, json2html } from 'User/App/functions/html2json'
+import { html2json, json2html } from 'app/App/functions/html2json'
 import { AllHtmlEntities as Entities } from 'html-entities'
 const entities = new Entities()
 

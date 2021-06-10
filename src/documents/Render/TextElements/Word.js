@@ -1,7 +1,7 @@
 import React from 'react'
 import Tooltip from './Definition/Tooltip'
 import InlineTranslation from './Definition/InlineTranslation'
-import exists from 'User/App/functions/exists'
+import exists from 'app/App/functions/exists'
 import Box from './Definition/Box/Word'
 import { getUpdatedID, getPreviousID } from 'documents/Parse/Compiler/1_Precompile/UpdateID'
 import _ from 'underscore'

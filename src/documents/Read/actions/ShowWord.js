@@ -1,7 +1,7 @@
 import FindAGoodPositionForTooltip from 'documents/Read/actions/TooltipPosition'
 import AudioClip from 'documents/Render/Audio/AudioClip'
 import { logShown } from './Reset'
-import Analytics from 'User/Analytics/TextInteractions'
+import Analytics from 'app/Analytics/TextInteractions'
 import { ShowInflectionTable } from 'documents/Render/Elements/Inflection/actions'
 
 /*

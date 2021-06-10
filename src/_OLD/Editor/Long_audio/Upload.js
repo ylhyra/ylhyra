@@ -1,9 +1,9 @@
 // import React from 'react'
 // import { connect } from 'react-redux'
 // import styled from 'styled-components'
-// import axios from 'User/App/axios'
+// import axios from 'app/App/axios'
 // import Dropzone from 'react-dropzone'
-// import error from 'User/App/Error'
+// import error from 'app/App/Error'
 //
 // export function upload(files, hash, setState) {
 //   return async (dispatch, getState) => {

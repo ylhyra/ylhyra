@@ -1,9 +1,9 @@
-import store from 'User/App/store'
+import store from 'app/App/store'
 import { getText } from 'documents/Parse/ExtractText/ExtractText'
 import { getTextFromTokenized } from 'documents/Parse/WrapInTags/1-InsertSplit.js'
-import hash from 'User/App/functions/hash'
-import NotifyError from 'User/App/Error'
-import { html2json, json2html } from 'User/App/functions/html2json'
+import hash from 'app/App/functions/hash'
+import NotifyError from 'app/App/Error'
+import { html2json, json2html } from 'app/App/functions/html2json'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 

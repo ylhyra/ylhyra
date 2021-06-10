@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { updateDefinition } from 'Editor/Translator/actions'
-import store from 'User/App/store'
+import store from 'app/App/store'
 
 class Suggestions extends React.Component {
   render() {

@@ -1,4 +1,4 @@
-import { isBrowser } from 'User/App/functions/isBrowser'
+import { isBrowser } from 'app/App/functions/isBrowser'
 
 /*
 

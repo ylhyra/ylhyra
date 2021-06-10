@@ -13,7 +13,7 @@
 */
 
 import GroupParagraphs from './Paragraphs'
-import hash from 'User/App/functions/hash'
+import hash from 'app/App/functions/hash'
 import emoji_strip from 'emoji-strip'
 import { newTitle } from 'documents/Parse/index.js'
 

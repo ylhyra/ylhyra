@@ -1,7 +1,7 @@
 import { getScrollingElement } from 'documents/Render/helpers.js'
 import { ReadAlongSingleSentence } from 'documents/Render/Audio/ReadAlong'
 import { logShown } from './Reset'
-import Analytics from 'User/Analytics/TextInteractions'
+import Analytics from 'app/Analytics/TextInteractions'
 
 /*
   Show sentence

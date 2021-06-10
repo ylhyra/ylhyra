@@ -1,10 +1,10 @@
-import axios from 'User/App/axios'
-import { url } from 'User/App/url'
+import axios from 'app/App/axios'
+import { url } from 'app/App/url'
 import { connect } from 'react-redux'
 import { synchronize } from 'Editor/Long_audio/Synchronize'
 import React from 'react'
-import store from 'User/App/store'
-require('User/App/functions/array-foreach-async')
+import store from 'app/App/store'
+require('app/App/functions/array-foreach-async')
 
 class Inflections extends React.Component {
   state = {}

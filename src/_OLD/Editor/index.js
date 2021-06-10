@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import store from 'User/App/store'
-// require('User/Editor/Style/index.styl')
+import store from 'app/App/store'
+// require('app/Editor/Style/index.styl')
 import Translator from 'Editor/Translator'
 import Header from 'Editor/Header'
 import LongAudio from 'Editor/Long_audio'

@@ -8,11 +8,11 @@
 */
 
 import { receiveSuggestions } from 'Editor/Suggestions'
-import error from 'User/App/Error'
+import error from 'app/App/Error'
 import tweet from 'Source_editor/Tweets'
-import store from 'User/App/store'
+import store from 'app/App/store'
 const protocol = process.env.NODE_ENV === 'production' ? 'wss' : 'ws'
-// import {host} from 'User/index.js'
+// import {host} from 'app/index.js'
 const host = process.env.NODE_ENV === 'production' ? location.host : 'localhost:9123'
 let socket
 let queued = []

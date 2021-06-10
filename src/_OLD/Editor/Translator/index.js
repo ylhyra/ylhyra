@@ -5,7 +5,7 @@ import SentenceTranslation from 'Editor/Translator/Views/Document/SentenceTransl
 import Word from 'Editor/Translator/Views/Document/Word'
 import WordSidebar, { isMacintosh } from 'Editor/Translator/Views/Sidebar/Sidebar'
 import Suggestions from 'Editor/Suggestions/Views/List'
-import store from 'User/App/store'
+import store from 'app/App/store'
 import { MakeSuggestions, applySuggestions } from 'Editor/Suggestions'
 
 class TranslatingEditor extends React.Component {

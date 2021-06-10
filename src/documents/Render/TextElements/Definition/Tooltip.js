@@ -1,5 +1,5 @@
 import React from 'react'
-import exists from 'User/App/functions/exists'
+import exists from 'app/App/functions/exists'
 
 export default class Definition extends React.PureComponent {
   render() {

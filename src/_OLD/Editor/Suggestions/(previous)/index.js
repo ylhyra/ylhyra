@@ -1,5 +1,5 @@
 import { send } from 'Editor/web-socket'
-import store from 'User/App/store'
+import store from 'app/App/store'
 import React from 'react'
 // import GoogleTranslate from './GoogleTranslate'
 

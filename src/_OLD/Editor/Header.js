@@ -1,5 +1,5 @@
 import { save, closeEditor, openEditor } from 'Editor/actions'
-import store from 'User/App/store'
+import store from 'app/App/store'
 // import MakeSuggestions from 'Editor/Suggestions'
 
 import React from 'react'

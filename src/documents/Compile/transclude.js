@@ -1,17 +1,20 @@
 import { URL_title } from 'documents/Compile/functions'
 import { ParseHeaderAndBody } from 'content'
 let links = require('src/output/links.js')
-require('User/App/functions/array-foreach-async')
+require('app/App/functions/array-foreach-async')
 var fs = require('fs')
 
 const Transclude = (title, depth = 0) => {
   return new Promise((resolve, reject) => {
-    title = URL_title(title)
-    if (!(title in links)) {
-      return resolve(`\nNo template ${title}\n`)
+    let url = URL_title('Template:' + title)
+    if (!(url in links)) {
+      url = URL_title(title)
+      if (!(url in links)) {
+        return resolve(`\nNo template named "${title}"\n`)
+      }
     }
 
-    fs.readFile(links[title].file, 'utf8', async(err, data) => {
+    fs.readFile(links[url].file, 'utf8', async(err, data) => {
       if (err) {
         console.log(err)
         return resolve(`\nFailed to read file for ${title}\n`)
@@ -29,7 +32,7 @@ const Transclude = (title, depth = 0) => {
                 output += q
                 return resolve2()
               }
-              const j = await Transclude('Template:' + q, depth + 1)
+              const j = await Transclude(q, depth + 1)
               // console.log(j)
               output += j
               return resolve2()

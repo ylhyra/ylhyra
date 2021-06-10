@@ -1,4 +1,4 @@
-import store from 'User/App/store'
+import store from 'app/App/store'
 let timer;
 let average_word_length = 6;
 let MINOR_BREAK = /[,;:]$/

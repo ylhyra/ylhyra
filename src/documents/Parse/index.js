@@ -14,7 +14,7 @@
 
 */
 
-import { html2json, json2html } from 'User/App/functions/html2json'
+import { html2json, json2html } from 'app/App/functions/html2json'
 import markdown from 'marked'
 import { AllHtmlEntities as Entities } from 'html-entities'
 import RequestData from './RequestData'
@@ -22,8 +22,8 @@ import ExtractText from './ExtractText/ExtractText'
 import Tokenizer from './Tokenize'
 import WrapInTags from './WrapInTags'
 import Compiler from './Compiler'
-import NotifyError from 'User/App/Error'
-// import store from 'User/App/store'
+import NotifyError from 'app/App/Error'
+// import store from 'app/App/store'
 import isEmpty from 'is-empty-object'
 const entities = new Entities()
 var now = require("performance-now")

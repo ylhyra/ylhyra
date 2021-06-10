@@ -1,15 +1,15 @@
 import React from 'react'
-import axios from 'User/App/axios'
-import store from 'User/App/store'
+import axios from 'app/App/axios'
+import store from 'app/App/store'
 import ReactDOMServer from 'react-dom/server'
-import error from 'User/App/Error'
+import error from 'app/App/Error'
 
 import MergeShortWords from './2-Merge-short-words'
 import Flatten from './3-Flatten'
 import MakeList from './4-Make-list'
 
 // const TESTING_WITH_LOCALHOST = true
-import { url } from 'User/App/url'
+import { url } from 'app/App/url'
 
 /*
   We use [Aeneas](https://github.com/readbeyond/aeneas/) to synchronize audio and text.

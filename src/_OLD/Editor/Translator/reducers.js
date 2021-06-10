@@ -1,8 +1,8 @@
 import { omit, uniq } from 'underscore'
-import store from 'User/App/store'
+import store from 'app/App/store'
 import { combineReducers } from 'redux'
 import { wordsHash } from 'Editor/Translator/actions'
-require('User/App/functions/sortByArray')
+require('app/App/functions/sortByArray')
 
 /*
   ____       _           _   _

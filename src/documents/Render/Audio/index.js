@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import { ReadAlong, ReadAlongSetup } from './ReadAlong'
 import SmoothScroll from './Scroll/SmoothScroll'
-import store from 'User/App/store'
+import store from 'app/App/store'
 import { ParseHTMLtoObject, ParseHTMLtoArray } from 'documents/Render/Elements/parse'
 import tapOrClick from 'react-tap-or-click'
-import NotifyError from 'User/App/Error'
+import NotifyError from 'app/App/Error'
 require('./KeyboardListener')
 require('array-sugar')
 let timer

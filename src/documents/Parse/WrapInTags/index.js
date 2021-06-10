@@ -30,7 +30,7 @@
 
 */
 
-import { html2json, json2html } from 'User/App/functions/html2json'
+import { html2json, json2html } from 'app/App/functions/html2json'
 import { getText } from 'documents/Parse/ExtractText/ExtractText'
 
 import InsertSplit from './1-InsertSplit'

@@ -1,4 +1,4 @@
-import { html2json, json2html } from 'User/App/functions/html2json'
+import { html2json, json2html } from 'app/App/functions/html2json'
 
 /*
   STEP 2:

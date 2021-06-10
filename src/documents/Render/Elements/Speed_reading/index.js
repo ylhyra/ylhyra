@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import store from 'User/App/store'
+import store from 'app/App/store'
 // require('array-sugar')
 import { checkKey, mouseListener } from './actions/eventListeners'
 import { start, startStop, prevWord, close, reset } from './actions/actions'
 import { load } from './actions/load'
-import { isBrowser, hasLocalStorage, supportsTouch } from 'User/App/functions/isBrowser'
+import { isBrowser, hasLocalStorage, supportsTouch } from 'app/App/functions/isBrowser'
 import { TextEventListenersOn, TextEventListenersOff } from 'documents/Read/Touch/'
 
 @connect(state => ({

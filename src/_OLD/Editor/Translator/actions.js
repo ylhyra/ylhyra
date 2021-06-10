@@ -1,6 +1,6 @@
 import _ from 'underscore'
 import hash from 'string-hash'
-import store from 'User/App/store'
+import store from 'app/App/store'
 
 /*
   If the user has selected several non-adjacent words,

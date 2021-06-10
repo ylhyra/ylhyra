@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import store from 'User/App/store'
-import { html2json, json2html } from 'User/App/functions/html2json'
+import store from 'app/App/store'
+import { html2json, json2html } from 'app/App/functions/html2json'
 
 class Hide extends React.Component {
 state = {}

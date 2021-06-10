@@ -1,4 +1,4 @@
-import string_hash from 'User/App/functions/hash'
+import string_hash from 'app/App/functions/hash'
 
 /*
   Long audio

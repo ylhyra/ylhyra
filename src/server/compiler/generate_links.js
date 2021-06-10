@@ -2,7 +2,7 @@
 node build/ylhyra_server.js --compile-content
 */
 // import urlSlug from 'src/User/App/functions/url-slug'
-import string_hash from 'User/App/functions/hash'
+import string_hash from 'app/App/functions/hash'
 import { URL_title } from 'documents/Compile/functions'
 import { ParseHeaderAndBody } from 'content'
 var fs = require('fs');

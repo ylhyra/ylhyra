@@ -1,6 +1,6 @@
 import React from 'react'
 import Box from './Definition/Box/Sentence'
-import exists from 'User/App/functions/exists'
+import exists from 'app/App/functions/exists'
 
 class Sentence extends React.Component {
   render() {

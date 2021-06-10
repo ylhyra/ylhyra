@@ -1,9 +1,9 @@
 import _ from 'underscore'
-import axios from 'User/App/axios'
-import store from 'User/App/store'
+import axios from 'app/App/axios'
+import store from 'app/App/store'
 import isEmpty from 'is-empty-object'
 import { send } from 'Editor/web-socket'
-require('User/App/functions/sortByArray')
+require('app/App/functions/sortByArray')
 // import { saveEditor } from 'Editor/actions'
 
 export const findSoundBites = async () => {

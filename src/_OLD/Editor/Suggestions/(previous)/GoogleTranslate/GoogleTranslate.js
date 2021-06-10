@@ -1,4 +1,4 @@
-import axios from 'User/App/axios'
+import axios from 'app/App/axios'
 
 /*
   Hér er hægt að sjá leiðbeiningar um hvað hægt er að biðja GoogleTranslate um:

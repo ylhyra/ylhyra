@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
-import store from 'User/App/store'
+import store from 'app/App/store'
 import Recorder from './Recorder'
 
 const RenderRecorder = () => {

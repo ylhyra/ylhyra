@@ -1,4 +1,4 @@
-import store from 'User/App/store'
+import store from 'app/App/store'
 import { soundAttribution as Attribution } from 'documents/Render/Attribution'
 /*
   Short audio clips, like words on hover, that do not require an audio player interface

@@ -1,8 +1,8 @@
 import { newTitle } from 'documents/Parse/index.js'
 import { AllHtmlEntities as Entities } from 'html-entities'
-import axios from 'User/App/axios'
+import axios from 'app/App/axios'
 const entities = new Entities()
-require('User/App/functions/array-foreach-async')
+require('app/App/functions/array-foreach-async')
 
 /*
   Makes an HTTP request to fetch the relevant data in the Data: namespace (link encoded in in [[Template:Start]])

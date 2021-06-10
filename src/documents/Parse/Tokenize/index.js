@@ -11,7 +11,7 @@
 
 import _ from 'underscore'
 import CreateIDs from './IDs/CreateIDs'
-import hash from 'User/App/functions/hash'
+import hash from 'app/App/functions/hash'
 import PreserveIDs from './IDs/PreserveIDs'
 import tokenizer from './Tokenizer'
 

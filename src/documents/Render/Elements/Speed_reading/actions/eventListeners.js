@@ -1,4 +1,4 @@
-import store from 'User/App/store'
+import store from 'app/App/store'
 import { startStop, prevWord, nextWord } from './actions'
 export const checkKey = (e) => {
   // console.log((e.keyCode))

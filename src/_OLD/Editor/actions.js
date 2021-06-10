@@ -1,11 +1,11 @@
-import axios from 'User/App/axios'
-import store from 'User/App/store'
+import axios from 'app/App/axios'
+import store from 'app/App/store'
 import { push, replace } from 'react-router-redux'
-import error from 'User/App/Error'
+import error from 'app/App/Error'
 import stable_stringify from 'json-stable-stringify'
 // import { prettyPrint as relaxedJson } from 'really-relaxed-json'
 // var relaxedJsonParser = require('really-relaxed-json').createParser()
-import { url } from 'User/App/url'
+import { url } from 'app/App/url'
 
 export const openEditor = (page) => {
   const newUrl = mw.util.getUrl(mw.config.get('wgPageName'), { editor: page });

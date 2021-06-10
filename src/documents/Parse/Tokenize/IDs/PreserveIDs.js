@@ -12,7 +12,7 @@
 */
 
 import { diffArrays } from 'diff'
-import flattenArray from 'User/App/functions/flattenArray'
+import flattenArray from 'app/App/functions/flattenArray'
 import { findBestMatch } from 'string-similarity'
 
 const Preserve = (first, second) => {

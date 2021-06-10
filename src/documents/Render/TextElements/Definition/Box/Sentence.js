@@ -1,5 +1,5 @@
 import React from 'react'
-import exists from 'User/App/functions/exists'
+import exists from 'app/App/functions/exists'
 import { ItalicsAndBold } from 'documents/Render/TextElements/Definition/Tooltip'
 
 export default class SentenceBox extends React.PureComponent {

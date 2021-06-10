@@ -1,6 +1,6 @@
 import ScrollIntoView from 'documents/Render/Audio/Scroll/ScrollIntoView'
 import { addClass, removeClass } from 'documents/Render/helpers.js'
-import store from 'User/App/store'
+import store from 'app/App/store'
 import _ from 'underscore'
 
 /*

@@ -1,6 +1,6 @@
 import AudioClip from 'documents/Render/Audio/AudioClip'
-import store from 'User/App/store'
-import Analytics from 'User/Analytics/TextInteractions'
+import store from 'app/App/store'
+import Analytics from 'app/Analytics/TextInteractions'
 
 var shownElements = []
 export const logShown = (id) => {

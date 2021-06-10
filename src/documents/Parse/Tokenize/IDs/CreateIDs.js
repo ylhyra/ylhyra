@@ -1,5 +1,5 @@
 import shortid from 'shortid'
-import hash from 'User/App/functions/hash'
+import hash from 'app/App/functions/hash'
 require('array-sugar')
 
 /*

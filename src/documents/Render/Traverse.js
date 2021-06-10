@@ -2,14 +2,14 @@ import React, { lazy } from 'react';
 import Sentence from 'documents/Render/TextElements/Sentence'
 import Word from 'documents/Render/TextElements/Word'
 import convert from 'react-attr-converter';
-import inlineStyle2Json from 'User/App/functions/inline-style-2-json'
+import inlineStyle2Json from 'app/App/functions/inline-style-2-json'
 import isBooleanAttribute from 'is-boolean-attribute'
 
 // import Controls from './Controls/Controls'
 // import AudioPlayer from './Controls/Audio'
 
 import GetTemplate from 'documents/Templates/_list'
-import Link from 'User/App/Link'
+import Link from 'app/App/Link'
 
 const Traverse = ({ json, data, index }) => {
   if (!json) return null
