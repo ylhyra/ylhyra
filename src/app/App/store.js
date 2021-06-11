@@ -10,7 +10,7 @@ import createLogger from 'redux-logger'
 import { vocabulary } from 'app/Vocabulary/reducers'
 import { user } from 'app/User/reducers'
 import error from 'app/App/Error/reducers'
-import route from 'app/Routes/reducers'
+import { route } from 'app/Router/reducers'
 
 /*
   Logger

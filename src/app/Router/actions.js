@@ -10,6 +10,8 @@ export const updateURL = (url) => {
 }
 
 export const getURL = () => {
-  return window.location.pathname
+  return {
+    pathname: window.location.pathname,
+  }
   // window.location.href
 }

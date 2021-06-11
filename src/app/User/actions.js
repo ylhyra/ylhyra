@@ -1,8 +1,13 @@
+import { connect } from 'react-redux';
 import store from 'app/App/store'
-import { history, urls } from 'app/Routes/router'
+
+import { updateURL } from 'app/Router/actions'
 import axios from 'app/App/axios'
 import { getCookie } from 'app/App/functions/cookie'
 
+export const InitializeUser = () => {
+  updateUser()
+}
 export const getUserFromCookie = () => {
   let cookie = getCookie('y')
   if (cookie) {
@@ -19,7 +24,7 @@ export const getUserFromCookie = () => {
 export const updateUser = () => {
   const x = getUserFromCookie()
   if (
-    (this.state.user && this.state.user.user_id) !==
+    (store.getState().user && store.getState().user.user_id) !==
     (x && x.user_id)) {
     store.dispatch({
       type: 'LOAD_USER',
@@ -34,7 +39,7 @@ export const logout = async() => {
     type: 'LOAD_USER',
     content: null,
   })
-  history.push(urls.MAIN)
+  updateURL('MAIN')
 }
 
 
@@ -44,5 +49,5 @@ const MIN = 2
 export const pay = ({ price }) => {
   price = price.replace(/,/, '.')
 
-  history.push(urls.MAIN)
+  updateURL('MAIN')
 }

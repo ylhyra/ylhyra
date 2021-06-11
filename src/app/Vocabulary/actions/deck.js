@@ -9,7 +9,8 @@ import { InitializeSession } from 'app/Vocabulary/actions/session'
 import { saveInLocalStorage, getFromLocalStorage } from 'app/App/functions/localStorage'
 import createCards from './createCards'
 import { saveSchedule } from './sync'
-import { history, urls } from 'app/Routes/router'
+
+import { updateURL } from 'app/Router/actions'
 
 class Deck {
   constructor(database, schedule, session) {
@@ -45,11 +46,11 @@ class Deck {
     InitializeSession(this.createCards(), this)
   }
   sessionDone() {
-    history.push(urls.VOCABULARY)
+    updateURL('VOCABULARY')
     updateSchedule()
   }
   continueStudying() {
-    history.push(urls.VOCABULARY_RUNNING)
+    updateURL('VOCABULARY_RUNNING')
     this.generateSession()
   }
   studyNewWords() {}

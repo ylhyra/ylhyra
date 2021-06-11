@@ -1,6 +1,6 @@
 import LoginButton from 'app/User/LoginButton'
 import Link from 'app/Router/Link'
-import { urls } from 'app/Routes/router'
+
 
 export default (props) => (
   <div id="footer">

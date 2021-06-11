@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { urls } from 'app/Routes/router'
+
 import { URL_title } from 'documents/Compile/functions'
+import { updateURL } from 'app/Router/actions'
 
 class Link extends React.Component {
+  fn = (e, url) => {
+    e.preventDefault();
+    updateURL(url)
+  }
   render() {
     let { route, href, children, className, id } = this.props
-    href = href || href
+    if (!href) {
+      console.error('Missing href:')
+      console.log(children)
+      return '';
+    }
     if (href.startsWith('/')) {
       href = URL_title(href)
     }
@@ -15,7 +24,10 @@ class Link extends React.Component {
       return <span {...{className,id}}><b>{children}</b></span>
     }
     if (href.startsWith('/')) {
-      return <a href={href} {...{className,id}}>{children}</a>
+      return <a
+        href={href} {...{className,id}}
+        onClick={(e)=>this.fn(e,href)}
+        >{children}</a>
     }
     return <a href={href} {...{className,id}}>{children}</a>
   }

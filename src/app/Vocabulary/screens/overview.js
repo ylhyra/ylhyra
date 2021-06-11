@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import store from 'app/App/store'
 import { MINUTES } from 'app/Vocabulary/actions/session'
-import { urls } from 'app/Routes/router'
+
 import Link from 'app/Router/Link'
 
 class Overview extends Component {
@@ -15,7 +15,7 @@ class Overview extends Component {
         {status && status.total > 0 ? <div>
           {/* Ready to study for {MINUTES} minutes?
           <br/> */}
-          <Link href={urls.VOCABULARY_RUNNING}>
+          <Link href={'VOCABULARY_RUNNING'}>
             {status.counter && status.counter > 1 ? 'Continue' : 'Start'}
           </Link>
         </div> : `Loading...`}

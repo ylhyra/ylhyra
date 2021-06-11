@@ -1,6 +1,7 @@
+import { connect } from 'react-redux';
 import React from 'react'
 import Link from 'app/Router/Link'
-import { urls } from 'app/Routes/router'
+
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import axios from 'app/App/axios'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -57,9 +58,9 @@ class Form2 extends React.Component {
     })
 
     if (!did_user_exist) {
-      this.props.history.push(urls.PAY)
+      this.props.history.push('PAY')
     } else {
-      this.props.history.push(urls.MAIN)
+      this.props.history.push('MAIN')
     }
   }
   render() {

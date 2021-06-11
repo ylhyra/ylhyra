@@ -1,14 +1,15 @@
 import { connect } from 'react-redux';
 import React from 'react'
 import Link from 'app/Router/Link'
-import { history, urls } from 'app/Routes/router'
+
+import { updateURL } from 'app/Router/actions'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import {pay} from 'app/User/actions'
 
 class Form2 extends React.Component {
   componentDidMount() {
     if (!this.props.user) {
-      history.push(urls.SIGN_UP)
+      updateURL('SIGN_UP')
     }
   }
   render() {

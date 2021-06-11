@@ -1,5 +1,6 @@
-import { getURL } from 'app/Routes/actions'
-const route = (state = getURL(), action) => {
+export const route = (state = {
+  pathname: 'MAIN',
+}, action) => {
   switch (action.type) {
     case 'ROUTE':
       return action.content
