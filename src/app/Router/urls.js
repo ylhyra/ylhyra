@@ -23,32 +23,38 @@ const Settings = lazy(() =>
 const Pay = lazy(() =>
   import ('app/User/screens/Pay'))
 
-const urls = {
+const list = {
   MAIN: {
     url: '/',
     component: Frontpage
   },
   VOCABULARY: {
+    title: 'Vocabulary',
     url: '/vocabulary',
     component: VocabularyOverview
   },
   VOCABULARY_SETUP: {
+    title: 'Vocabulary',
     url: '/vocabulary/setup',
     component: VocabularyIntro
   },
   VOCABULARY_RUNNING: {
+    title: 'Vocabulary',
     url: '/vocabulary/play',
     component: VocabularyRunning
   },
   VOCABULARY_TUTORIAL: {
+    title: 'Vocabulary',
     url: '/vocabulary/tutorial',
     component: VocabularyTutorial
   },
   LOG_IN: {
+    title: 'Log in',
     url: '/login',
     component: LogIn
   },
   SIGN_UP: {
+    title: 'Sign up',
     url: '/signup',
     component: Signup
   },
@@ -63,8 +69,11 @@ const urls = {
 }
 
 const components = {}
-for (const name in urls) {
-  components[urls[name].url] = urls[name].component
+const url_to_info_ = {}
+for (const name in list) {
+  components[list[name].url] = list[name].component
+  url_to_info_[list[name].url] = { ...list[name], name }
 }
-
+export const urls = list
+export const url_to_info = url_to_info_
 export default components

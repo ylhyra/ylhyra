@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { urls as app_urls } from 'app/Router/urls'
 import { URL_title } from 'documents/Compile/functions'
 import { updateURL } from 'app/Router/actions'
 
 class Link extends React.Component {
   fn = (e, url) => {
     e.preventDefault();
+    // e.stopPropagation();
+    // e.nativeEvent.stopImmediatePropagation();
     updateURL(url)
   }
   render() {
@@ -16,11 +18,14 @@ class Link extends React.Component {
       console.log(children)
       return '';
     }
+    if (href in app_urls) {
+      href = app_urls[href].url
+    }
     if (href.startsWith('/')) {
       href = URL_title(href)
     }
     /* Todo: Hvað með section linka? */
-    if (route.pathname === href || !href) {
+    if ((route.pathname === href && !route.section) || !href) {
       return <span {...{className,id}}><b>{children}</b></span>
     }
     if (href.startsWith('/')) {

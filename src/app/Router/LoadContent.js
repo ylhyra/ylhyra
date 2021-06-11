@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'app/App/axios'
-import { withRouter } from "react-router";
 import NotFound from 'documents/Templates/404'
 import { connect } from 'react-redux';
 

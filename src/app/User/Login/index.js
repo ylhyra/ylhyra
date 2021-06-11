@@ -5,8 +5,6 @@ import Link from 'app/Router/Link'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import axios from 'app/App/axios'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useHistory } from "react-router-dom"
-import { withRouter } from "react-router";
 import store from 'app/App/store'
 
 import errors from 'app/App/Error/messages'

@@ -1,5 +1,5 @@
 export const route = (state = {
-  pathname: 'MAIN',
+  pathname: '/',
 }, action) => {
   switch (action.type) {
     case 'ROUTE':
