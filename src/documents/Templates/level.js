@@ -1,7 +1,7 @@
-import Link from 'app/Elements/Link'
+import Link from 'app/Router/Link'
 
 export default (props) => {
   return (<span className="level">
-    Level <Link to={props.level}>{props.level.toUpperCase()}</Link>
+    Level <Link href={props.level}>{props.level.toUpperCase()}</Link>
   </span>)
 }

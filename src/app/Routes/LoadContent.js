@@ -58,4 +58,6 @@ class Content extends Component {
     return Render({ json: Parse({ html: this.state.data.content }).parsed })
   }
 }
-export default withRouter(Content)
+export default connect(state => ({
+  route: state.route,
+}))(Content)

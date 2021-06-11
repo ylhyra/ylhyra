@@ -6,7 +6,6 @@ import store from 'app/App/store'
 // import { getUserFromCookie } from 'app/User/actions'
 import { Initialize as InitializeVocabulary } from 'app/Vocabulary/actions/init'
 import 'documents/Style/index.scss'
-import 'app/Vocabulary/styles/index.scss'
 
 InitializeVocabulary()
 

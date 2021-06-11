@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'app/Elements/Link'
+import Link from 'app/Router/Link'
 import { urls } from 'app/Routes/router'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import axios from 'app/App/axios'
@@ -142,4 +142,6 @@ class Form2 extends React.Component {
     )
   }
 }
-export default withRouter(Form2)
+export default connect(state => ({
+  route: state.route,
+}))(Form2)

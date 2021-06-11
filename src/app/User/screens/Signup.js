@@ -1,12 +1,12 @@
 import React from 'react'
-import Link from 'app/Elements/Link'
+import Link from 'app/Router/Link'
 import { urls } from 'app/Routes/router'
 import Login from 'app/User/Login'
 
 export default () => <Login
   type="signup"
   above={<div>
-    <Link to={urls.LOG_IN}>Already have an account?</Link>
+    <Link href={urls.LOG_IN}>Already have an account?</Link>
 
     <div>
       Step 1: Create an account<br/>

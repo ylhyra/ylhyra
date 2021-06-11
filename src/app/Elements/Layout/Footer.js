@@ -1,5 +1,5 @@
 import LoginButton from 'app/User/LoginButton'
-import Link from 'app/Elements/Link'
+import Link from 'app/Router/Link'
 import { urls } from 'app/Routes/router'
 
 export default (props) => (

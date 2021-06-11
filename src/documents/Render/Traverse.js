@@ -9,7 +9,7 @@ import isBooleanAttribute from 'is-boolean-attribute'
 // import AudioPlayer from './Controls/Audio'
 
 import GetTemplate from 'documents/Templates/_list'
-import Link from 'app/Elements/Link'
+import Link from 'app/Router/Link'
 
 const Traverse = ({ json, data, index }) => {
   if (!json) return null

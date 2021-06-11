@@ -38,7 +38,7 @@
     font-weight: 500;
   }
   button.selected {
-    box-shadow: 0 0 0 2px rgb(0, 0, 0, .34);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.34);
     z-index: 10;
   }
 }

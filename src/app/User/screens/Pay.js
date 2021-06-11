@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import React from 'react'
-import Link from 'app/Elements/Link'
+import Link from 'app/Router/Link'
 import { history, urls } from 'app/Routes/router'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import {pay} from 'app/User/actions'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import Link from 'app/Elements/Link'
+import Link from 'app/Router/Link'
 import { urls } from 'app/Routes/router'
 
 const Screen = (props) => (
@@ -11,7 +11,7 @@ const Screen = (props) => (
       <button>No, I already speak some Icelandic</button>
     </div>
     {!props.user &&
-      <Link to={urls.LOG_IN}>Already have an account?</Link>
+      <Link href={urls.LOG_IN}>Already have an account?</Link>
     }
   </div>
 )
