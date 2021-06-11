@@ -26,7 +26,7 @@ const ExtractData = async (input) => {
   await temp.forEachAsync(async ({ documentTitle, url }) => {
     const title = getNewTitle.get(documentTitle)
     // Random is added to bypass cache
-    const { data } = await axios.get(`https://ylhyra.is/index.php?title=${url}&action=raw&ctype=text/json&random=${Math.random()}`)
+    const { data } = await axios.get(`https://ylhyra.is/index.php?title=&action=raw&ctype=text/json&random=${Math.random()}`)
     // console.log(data)
     output[title] = updateIDs(data, title)
   })

@@ -1,49 +1,43 @@
 $max-width: 700px;
 $gray: #6b6b6b;
 $blue: #1161d9;
-
 @mixin serif() {
   font-family: Georgia, serif;
 }
-
 @mixin sans_serif() {
   font-family: Helvetica Neue, -apple-system, sans-serif;
 }
-
 @mixin underline_links() {
   a {
     border-bottom: 1px solid #e4e4e4;
-    color: black;&:hover {
+    color: black;
+    &:hover {
       text-decoration: none;
       border-bottom-color: #a7a7a7;
       color: black;
     }
   }
 }
-
 @mixin card_shadow() {
-  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.13), 0 1px 1px 0 rgba(0, 0, 0, 0.17);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.13), 0 1px 1px 0 rgba(0, 0, 0, 0.17);
   overflow: hidden;
 }
-
 @import 'reset';
-// @import './../../Vocabulary/styles/*';
+@import 'Vocabulary/index.scss';
+@import 'Vocabulary/card-contents.scss';
+@import 'Vocabulary/flashcard.scss';
+@import 'Vocabulary/progress.scss';
+@import 'Vocabulary/card.scss';
 //
 // @import './../Elements/Speed_reading/speed-reader';
-//
 // @import './../../Editor/Style/index.scss';
 // @import './../../../server/inflection/styles/inflections/inflection.scss';
 // @import './../../../server/inflection/styles/inflections/table.scss';
-
-img, video {
+img,
+video {
   max-width: 100%;
   height: auto;
 }
-[data-children] {
-  display: none;
-}
-
-
 @import 'AudioVideo/AudioVideo.scss';
 @import 'Frontpage/frontpage-box.scss';
 @import 'Frontpage/index.scss';

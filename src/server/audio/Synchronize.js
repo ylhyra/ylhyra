@@ -26,7 +26,7 @@ router.post('/audio/synchronize', (req, res) => {
 const DownloadFile = (filename, res, callback) => {
   const url = `https://ylhyra.is/index.php?title=Special:Filepath/${encodeURIComponent(filename)}`
   const tmp_filepath = path.resolve(upload_path, `tmp_${shortid.generate()}.${fileExtension(filename)}`)
-  exec(` curl -sS -L "${url}" --output ${tmp_filepath} `, (err, stdout, stderr) => {
+  exec(` curl -sS -L "" --output ${tmp_filepath} `, (err, stdout, stderr) => {
     if (err || stderr) {
       console.error(err || stderr)
 

@@ -8,7 +8,7 @@ let DEFAULT_NEW_CARDS_PER_SESSION = 3
  */
 export default function createCards(options) {
   const deck = this
-  const forbidden_ids = options && options.forbidden_ids || []
+  const forbidden_ids = (options && options.forbidden_ids) || []
   const now = (new Date()).getTime()
 
   /* Previously seen cards */

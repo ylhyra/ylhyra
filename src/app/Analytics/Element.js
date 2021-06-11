@@ -9,7 +9,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect, Provider } from 'react-redux'
 import axios from 'app/App/axios'
-import { url } from 'app/App/url'
+
 let timer
 
 class Editor extends React.PureComponent {
@@ -23,7 +23,7 @@ const RenderEditor = async () => {
   if (!mw.config.get('wgUserGroups').includes('sysop')) return;
   $('#content').append('<div id="analytics-container"></div>')
 
-  const { data } = await axios.get(`${url}/api/a`, {
+  const { data } = await axios.get(`/api/a`, {
     pageName: mw.config.get('wgPageName'),
   })
   console.log(data)

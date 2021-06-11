@@ -30,10 +30,10 @@ export default (input) => {
     })
     /* External links */
     .replace(/\[((?:http|mailto)[^ ]+?) (.+?)\]/g, (x, url, text) => {
-      return `<a href="${url}">${text}</a>`
+      return `<a href="">${text}</a>`
     })
     .replace(/\[((?:http|mailto)[^ ]+?)\]/g, (x, url) => {
-      return `[<a href="${url}">link</a>]`
+      return `[<a href="">link</a>]`
     })
     .replace(/^\*\*\*\n/gm, '\n<hr/>\n')
     /* Lists */

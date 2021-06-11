@@ -9,7 +9,7 @@ import Flatten from './3-Flatten'
 import MakeList from './4-Make-list'
 
 // const TESTING_WITH_LOCALHOST = true
-import { url } from 'app/App/url'
+
 
 /*
   We use [Aeneas](https://github.com/readbeyond/aeneas/) to synchronize audio and text.
@@ -22,7 +22,7 @@ export const synchronize = async (filename) => {
       TODO!!!
       Switch to web-socket
     */
-    const data = (await axios.post(`${url}/api/audio/synchronize`, {
+    const data = (await axios.post(`/api/audio/synchronize`, {
       filename,
       ...long_audio[filename],
     })).data

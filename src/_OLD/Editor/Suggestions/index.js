@@ -7,7 +7,7 @@ import store from 'app/App/store'
 import { send } from 'Editor/web-socket'
 import error from 'app/App/Error'
 import axios from 'app/App/axios'
-import { url } from 'app/App/url'
+
 require('app/App/functions/array-foreach-async')
 
 
@@ -64,7 +64,7 @@ export const receiveSuggestions = async (action) => {
       if (!id) return resolve();
       const analysis = item.analysis[0].analysis
 
-      const data = (await axios.post(`${url}/api/inflection/find_inflection_id`, {
+      const data = (await axios.post(`/api/inflection/find_inflection_id`, {
         analysis: item.analysis[0]
       })).data
 

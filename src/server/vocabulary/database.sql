@@ -31,7 +31,7 @@ CREATE TABLE vocabulary_card_relations (
 DROP TABLE IF EXISTS vocabulary_session_log;
 CREATE TABLE vocabulary_session_log (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  userid VARCHAR(32),
+  user_id VARCHAR(32),
   card_id VARCHAR(20),
   score VARCHAR(20),
   times_seen INT(2) UNSIGNED, -- Times seen in this session
@@ -39,14 +39,14 @@ CREATE TABLE vocabulary_session_log (
   `timestamp` BIGINT,
   INDEX (card_id),
   INDEX (`timestamp`),
-  INDEX (userid)
+  INDEX (user_id)
 ) ROW_FORMAT=COMPRESSED;
 
 /* Stores both due and score */
 DROP TABLE IF EXISTS vocabulary_schedule;
 CREATE TABLE vocabulary_schedule (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  userid VARCHAR(32),
+  user_id VARCHAR(32),
   card_id VARCHAR(20),
   due DATETIME,
   score DECIMAL(3,2) UNSIGNED, -- Range from 0 to 3
@@ -57,11 +57,11 @@ CREATE TABLE vocabulary_schedule (
   INDEX (card_id),
   INDEX (due),
   INDEX (score),
-  INDEX (userid)
+  INDEX (user_id)
 ) ROW_FORMAT=COMPRESSED;
 
 DROP TABLE IF EXISTS vocabulary_users;
 CREATE TABLE vocabulary_users (
-  userid VARCHAR(32) PRIMARY KEY,
+  user_id VARCHAR(32) PRIMARY KEY,
   level INT(1)
 ) ROW_FORMAT=COMPRESSED;

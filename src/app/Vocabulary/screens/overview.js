@@ -5,23 +5,31 @@ import store from 'app/App/store'
 import { MINUTES } from 'app/Vocabulary/actions/session'
 import Link from 'app/Elements/Link'
 
-export default () => (
-  <div>
-    <h1>Vocabulary</h1>
-    {/* {status && status.total > 0 ? <div>
-      Ready to study for {MINUTES} minutes?
-      <br/>
-      <Link to="/vocabulary/running">
-        {status.counter && status.counter > 1 ? 'Continue' : 'Start'}
-      </Link>
-    </div> : `Loading...`} */}
+class Overview extends Component {
+  render() {
+    const { status } = this.props.vocabulary
+    return (
+      <div>
+        <h1>Vocabulary</h1>
+        {status && status.total > 0 ? <div>
+          {/* Ready to study for {MINUTES} minutes?
+          <br/> */}
+          <Link to="/vocabulary/running">
+            {status.counter && status.counter > 1 ? 'Continue' : 'Start'}
+          </Link>
+        </div> : `Loading...`}
 
-    <Overview/>
-  </div>
-)
+        <Overview2/>
+      </div>
+    )
+  }
+}
+export default connect(state => ({
+  vocabulary: state.vocabulary,
+}))(Overview)
 
 
-class Overview2 extends Component {
+class Overview3 extends Component {
   render() {
     const { deck } = this.props.vocabulary
     if (!deck) return null;
@@ -30,6 +38,6 @@ class Overview2 extends Component {
     </div>
   }
 }
-const Overview = connect(state => ({
+const Overview2 = connect(state => ({
   vocabulary: state.vocabulary,
-}))(Overview2)
+}))(Overview3)

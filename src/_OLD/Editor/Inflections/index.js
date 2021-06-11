@@ -1,5 +1,5 @@
 import axios from 'app/App/axios'
-import { url } from 'app/App/url'
+
 import { connect } from 'react-redux'
 import { synchronize } from 'Editor/Long_audio/Synchronize'
 import React from 'react'
@@ -15,7 +15,7 @@ class Inflections extends React.Component {
     //   await new Promise(async resolve => {
     //     // console.log(analysis[id])
     //     list.words[id].text
-    //     const rows = (await axios.post(`${url}/api/inflection/search`, {
+    //     const rows = (await axios.post(`/api/inflection/search`, {
     //       word: list.words[id].text
     //     })).data
     //     id_to_possible_values[id] = rows

@@ -43,7 +43,7 @@ export const updateSchedule = () => {
       last_interval_in_days: due_in_days,
       score,
       last_seen: (new Date()).getTime(),
-      times_seen: (deck.schedule[card.id] && deck.schedule[card.id].times_seen || 0) + 1,
+      times_seen: ((deck.schedule[card.id] && deck.schedule[card.id].times_seen) || 0) + 1,
     }
   })
 

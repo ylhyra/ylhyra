@@ -75,10 +75,10 @@ router.post('/user/token', async(req, res) => {
       const email = results[0].email
       const user = await get_user(email)
 
-      create_user_if_doesnt_exist({ user, email, res }, userid => {
+      create_user_if_doesnt_exist({ user, email, res }, user_id => {
         const username = email
-        req.session.user = { userid, username }
-        return res.send({ userid, username })
+        req.session.user = { user_id, username }
+        return res.send({ user_id, username })
       })
     }
   })

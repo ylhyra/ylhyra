@@ -8,8 +8,6 @@ class Card extends Component {
   state = {}
   componentDidMount() {
     this.componentDidUpdate()
-  }
-  UNSAFE_componentWillMount() {
     window.addEventListener('keydown', this.checkKey);
     window.addEventListener('keyup', this.keyUp);
   }

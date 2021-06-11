@@ -27,7 +27,7 @@ const run = async (apcontinue = '') => {
 
       const data = (await axios.get(`https://ylhyra.is/index.php?title=${datatitle}&action=raw&ctype=text/json&random=${Math.random()}`)).data
 
-      await axios.put(`${url}/api/save`, {
+      await axios.put(`/api/save`, {
         data: {
           document_id: pageid,
           ...data

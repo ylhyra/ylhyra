@@ -47,12 +47,12 @@ class Form2 extends React.Component {
       return;
     }
 
-    const { userid, username, did_user_exist } = response
+    const { user_id, username, did_user_exist } = response
     store.dispatch({
       type: 'LOAD_USER',
       content: {
         username,
-        userid,
+        user_id,
       },
     })
 

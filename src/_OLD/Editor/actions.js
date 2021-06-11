@@ -5,7 +5,7 @@ import error from 'app/App/Error'
 import stable_stringify from 'json-stable-stringify'
 // import { prettyPrint as relaxedJson } from 'really-relaxed-json'
 // var relaxedJsonParser = require('really-relaxed-json').createParser()
-import { url } from 'app/App/url'
+
 
 export const openEditor = (page) => {
   const newUrl = mw.util.getUrl(mw.config.get('wgPageName'), { editor: page });
@@ -113,7 +113,7 @@ export const save = async () => {
 */
 export const save2 = async () => {
   const data = store.getState().editor
-  await axios.put(`${url}/api/save`, {
+  await axios.put(`/api/save`, {
     data: {
       document_id: mw.config.get('wgArticleId'),
       ...data

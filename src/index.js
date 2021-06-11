@@ -3,8 +3,12 @@ import ReactDOM from 'react-dom';
 import Routes from 'app/Routes/router'
 import { connect, Provider } from 'react-redux'
 import store from 'app/App/store'
-import { InitializeUser } from 'app/User/actions'
+// import { getUserFromCookie } from 'app/User/actions'
+import { Initialize as InitializeVocabulary } from 'app/Vocabulary/actions/init'
 import 'documents/Style/index.scss'
+import 'app/Vocabulary/styles/index.scss'
+
+InitializeVocabulary()
 
 ReactDOM.render(
   <React.StrictMode>

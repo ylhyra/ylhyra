@@ -2,17 +2,16 @@
  * Saves session and updates schedule
  */
 import query from 'server/database'
-const router = (require('express')).Router()
 import shortid from 'shortid'
 import sql from 'server/database/functions/SQL-template-literal'
 import cors from 'cors'
 import { round, msToS, daysToMs, roundMsToHour } from 'src/app/App/functions/time.js'
-import { GetUser } from 'server/user'
+const router = (require('express')).Router()
 
 router.post('/vocabulary/save', cors(), (req, res) => {
-  const user = GetUser(req.body.user)
+  const user = req.session.user_id
   if (!user) return res.status(400).send('Not logged in');
-  const { userid } = user
+  const { user_id } = user
 
   const schedule = req.body.schedule
 
@@ -27,13 +26,13 @@ router.post('/vocabulary/save', cors(), (req, res) => {
     return sql `
       DELETE FROM vocabulary_schedule
         WHERE card_id = ${id}
-        AND userid = ${userid}
+        AND user_id = ${user_id}
         ;
       INSERT INTO vocabulary_schedule SET
         card_id = ${id},
         due = FROM_UNIXTIME(${msToS(roundMsToHour(item.due))}),
         last_interval_in_days = ${item.last_interval_in_days},
-        userid = ${userid},
+        user_id = ${user_id},
         score = ${item.score},
         times_seen = ${item.times_seen}
         ;

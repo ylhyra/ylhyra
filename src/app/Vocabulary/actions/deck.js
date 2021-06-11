@@ -6,11 +6,10 @@ import error from 'app/App/Error'
 import axios from 'app/App/axios'
 import { updateSchedule } from './scheduleAfterSession'
 import { InitializeSession } from 'app/Vocabulary/actions/session'
-import { url } from 'app/App/url'
-import { useHistory } from "react-router-dom"
 import { saveInLocalStorage, getFromLocalStorage } from 'app/App/functions/localStorage'
 import createCards from './createCards'
 import { saveSchedule } from './sync'
+import { history, urls } from 'app/Routes/router'
 
 class Deck {
   constructor(database, schedule, session) {
@@ -46,11 +45,11 @@ class Deck {
     InitializeSession(this.createCards(), this)
   }
   sessionDone() {
-    useHistory().push(urls.VOCABULARY)
+    history.push(urls.VOCABULARY)
     updateSchedule()
   }
   continueStudying() {
-    useHistory().push(urls.VOCABULARY_RUNNING)
+    history.push(urls.VOCABULARY_RUNNING)
     this.generateSession()
   }
   studyNewWords() {}

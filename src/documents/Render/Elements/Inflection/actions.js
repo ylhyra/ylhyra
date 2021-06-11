@@ -17,7 +17,7 @@ export const ShowInflectionTable = async(input) => {
   // let html = cache[JSON.stringify(input)]
   // if (!html) {
   //   const cats = classify({ grammatical_tag }).inflectional_form_categories.filter(i => typeof i !== 'number')
-  //   html = (await axios.get(`${url}/api/inflection?id=${BIN_id}&type=html&give_me=${cats.join(',')}`, {})).data
+  //   html = (await axios.get(`/api/inflection?id=${BIN_id}&type=html&give_me=${cats.join(',')}`, {})).data
   //   cache[JSON.stringify(input)] = html
   // }
   // // console.log(html)

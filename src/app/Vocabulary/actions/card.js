@@ -93,16 +93,18 @@ class Card {
   }
   ticksSinceTermWasSeen() {
     let last_seen = null;
-    this.terms.forEach(term => {
-      if (this.session.lastSeenTerms[term] && (last_seen === null || last_seen > this.session.lastSeenTerms[term])) {
-        last_seen = this.session.lastSeenTerms[term]
-      }
-    })
-    if (last_seen) {
-      return this.session.counter - last_seen
-    } else {
-      return this.session.cards.length
-    }
+    return null
+    // TODO
+    // this.terms.forEach(term => {
+    //   if (this.session.lastSeenTerms[term] && (last_seen === null || last_seen > this.session.lastSeenTerms[term])) {
+    //     last_seen = this.session.lastSeenTerms[term]
+    //   }
+    // })
+    // if (last_seen) {
+    //   return this.session.counter - last_seen
+    // } else {
+    //   return this.session.cards.length
+    // }
   }
   getRanking() {
     let q = this.getQueuePosition();

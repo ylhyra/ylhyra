@@ -30,11 +30,11 @@ router.post('/user', async(req, res) => {
   }
 
   captcha(captcha_token, res, async() => {
-    let userid, user, did_user_exist;
+    let user_id, user, did_user_exist;
     if (type === 'login') {
       user = await get_user({ username, password, res })
       username = user.username
-      userid = user.id
+      user_id = user.id
       did_user_exist = true
     } else if (type === 'signup') {
       /* Check if username is valid */
@@ -46,11 +46,12 @@ router.post('/user', async(req, res) => {
       const error = await check_if_user_exists({ email, username })
       if (error) return res.send({ error });
 
-      userid = await create_user({ email, username, password, res })
+      user_id = await create_user({ email, username, password, res })
     }
 
-    req.session.user = { userid, username }
-    return res.send({ userid, username, did_user_exist })
+    req.session.user_id = user_id
+    req.session.username = username
+    return res.send({ user_id, username, did_user_exist })
   })
 })
 

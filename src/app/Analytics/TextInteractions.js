@@ -4,7 +4,7 @@
 // const TESTING = true;
 import axios from 'app/App/axios'
 // axios.defaults.withCredentials = true;
-import { url } from 'app/App/url'
+
 let mode = 'mouse';
 let currentId = null;
 let startTime = null;
@@ -39,7 +39,7 @@ const setTouchMode = () => {
 }
 const send = () => {
   if(window.developmentMode) return;
-  // axios.post(`${url}/api/a`, {
+  // axios.post(`/api/a`, {
   //   pageName: mw.config.get('wgPageName'),
   //   seen,
   //   mode,

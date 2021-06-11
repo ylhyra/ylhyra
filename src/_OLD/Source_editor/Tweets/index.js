@@ -55,7 +55,7 @@ const UploadTwitterImage = (tweet, url) => {
   const filename = `Tweet-${tweet.user.handle}-${hash(url)}${url.match(/\.([^.]+)$/)[0]}`
   api.postWithToken('csrf', {
     filename,
-    text: `© '''${tweet.user.handle}''' – ${url}`,
+    text: `© '''${tweet.user.handle}''' – `,
     url: url,
     action: 'upload',
     ignorewarnings: '1',
