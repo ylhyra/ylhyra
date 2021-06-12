@@ -18,7 +18,7 @@ OLD/*
 database_local
 google_translation_api.json
 npm-debug.log*
-output/*
+src/output/*
 package-lock.json
 project/mediawiki/backup/*/*
 project/mediawiki/LocalSettings.php
