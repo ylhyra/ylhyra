@@ -1,13 +1,16 @@
 import store from 'app/App/store'
-import { url_to_info } from 'app/Router/urls'
+import { url_to_info } from 'app/Router/paths'
 
 export const InitializeRouter = () => {
-  updateURL(window.location.pathname)
+  updateURL(window.location.pathname + window.location.hash)
 }
 
 export const updateURL = (url, title) => {
+  // url = url.replace(/#$/, '')
   const [pathname, section] = url.split('#')
-  window.history.pushState(null, '', url);
+  if (url !== window.location.pathname) {
+    window.history.pushState(null, '', url);
+  }
 
   if (!title && pathname in url_to_info) {
     title = url_to_info[pathname].title
@@ -24,7 +27,5 @@ export const updateURL = (url, title) => {
 }
 
 export const getURL = () => {
-  return {
-    pathname: window.location.pathname,
-  }
+  return window.location.pathname
 }

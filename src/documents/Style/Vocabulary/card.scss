@@ -1,7 +1,7 @@
-.vocabularynew-card-outer-container {
+.vocabulary-card-outer-container {
   flex: 1;
   display: flex;
-  min-height: 470px;
+  // min-height: 470px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -30,7 +30,7 @@
     }
   }
 }
-.vocabularynew-vocabulary-card {
+.vocabulary-vocabulary-card {
   display: flex;
   flex-direction: row;
   background: #f4f4f4;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { urls as app_urls } from 'app/Router/urls'
+import { urls as app_urls } from 'app/Router/paths'
 import { URL_title } from 'documents/Compile/functions'
 
 import LoginButton from 'app/User/LoginButton'

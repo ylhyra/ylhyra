@@ -1,5 +1,5 @@
 import typeset from 'typeset'
-import { URL_title } from 'documents/Compile/functions'
+import { URL_title, section_id } from 'documents/Compile/functions'
 import marked from 'marked'
 import RemoveUnwantedCharacters from 'app/App/functions/RemoveUnwantedCharacters'
 // import markdown from 'simple-markdown'
@@ -30,10 +30,10 @@ export default (input) => {
     })
     /* External links */
     .replace(/\[((?:http|mailto)[^ ]+?) (.+?)\]/g, (x, url, text) => {
-      return `<a href="">${text}</a>`
+      return `<a href="${url}">${text}</a>`
     })
     .replace(/\[((?:http|mailto)[^ ]+?)\]/g, (x, url) => {
-      return `[<a href="">link</a>]`
+      return `[<a href="${url}">link</a>]`
     })
     .replace(/^\*\*\*\n/gm, '\n<hr/>\n')
     /* Lists */
@@ -46,6 +46,7 @@ export default (input) => {
     /* Headings */
     .replace(/^(=+) ?(.+)\1/gm, (x, equals, title) => {
       return `${'#'.repeat(equals.length)} ${title}`
+      // return `<h${equals.length} id="${section_id(title)}">${title}</h${equals.length}>`
     })
     /* Bold */
     .replace(/'''/g, '**')
@@ -57,9 +58,12 @@ export default (input) => {
   /* References */
   // input = input.split(/<ref[> ][\s\S]+<\/ref>/g)
 
-  // console.log(input.slice(0,200))
+  // console.log(input.slice(0, 200))
 
   input = marked(input)
+
+  input = input
+    .replace(/(<h[0-9] id=")/g, '$1s-')
   // console.log(input.slice(0,200))
   input = typeset(input, { disable: ['hyphenate', 'hangingPunctuation', 'ligatures', 'smallCaps'] })
   return input

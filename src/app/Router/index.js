@@ -3,7 +3,7 @@ import Layout from 'app/Elements/Layout/Layout'
 import { updateUser } from 'app/User/actions'
 import LoadContent from './LoadContent'
 import Frontpage from 'app/Elements/Frontpage'
-import components from 'app/Router/urls'
+import components from 'app/Router/paths'
 import { connect } from 'react-redux';
 
 class App extends React.Component {
@@ -19,7 +19,7 @@ class App extends React.Component {
     return (
       <Layout>
         <Suspense fallback={<div>Loading...</div>}>
-          <Element/>
+          <Element key={url}/>
         </Suspense>
       </Layout>
     )

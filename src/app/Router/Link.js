@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { urls as app_urls } from 'app/Router/urls'
+import { urls as app_urls } from 'app/Router/paths'
 import { URL_title } from 'documents/Compile/functions'
 import { updateURL } from 'app/Router/actions'
 
@@ -14,7 +14,7 @@ class Link extends React.Component {
   render() {
     let { route, href, children, className, id } = this.props
     if (!href) {
-      console.error('Missing href:')
+      console.warn('Missing href:')
       console.log(children)
       return '';
     }

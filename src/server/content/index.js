@@ -12,21 +12,29 @@ router.get('/content', async(req, res) => {
   if (values) {
     let output = {}
     let title = values.title
+    let file = values.file
     if (values.redirect_to) {
       url = values.redirect_to
+      file = values.file
       title = links[values.redirect_to].title
       output.redirect_to = values.redirect_to
       output.section = values.section
     } else if (req.query.title !== url) {
       output.redirect_to = url
     }
-    // console.log(info)
-    const content = await generate_html(url)
-    res.send({
-      ...output,
-      content,
-      title,
-    })
+
+    if (url.startsWith('file:')) {
+      res.sendfile(file.replace(/(\.[a-z]+)$/i,''))
+      // res.sendfile(file)
+    } else {
+      // console.log(info)
+      const content = await generate_html(url)
+      res.send({
+        ...output,
+        content,
+        title,
+      })
+    }
   } else {
     return res.sendStatus(404)
   }

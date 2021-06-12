@@ -1,12 +1,11 @@
 #vocabulary {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 3000;
-  overflow: auto;
-  line-height: 1.4;
-  background: white;
-  padding: 0 14px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 7px;
+  #game-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
 }

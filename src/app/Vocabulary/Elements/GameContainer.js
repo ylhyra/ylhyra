@@ -18,8 +18,8 @@ class GameContainer extends Component {
   render() {
     const { status } = this.props.vocabulary
     return (
-      <div>
-        <div className="vocabularynew-card-outer-container">
+      <div id="game-container">
+        <div className="vocabulary-card-outer-container">
           <Card/>
         </div>
         <Progress/>

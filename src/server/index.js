@@ -14,6 +14,7 @@ const argv = argvFactory(process.argv.slice(2))
 const app = express()
 require('express-ws')(app)
 export const upload_path = path.resolve(__dirname, './../../uploads')
+// export const image_path = path.resolve(__dirname, './../output/images')
 var cors = require('cors')
 
 app.use(bodyParser.json({ limit: '5mb' }))
@@ -61,9 +62,9 @@ app.use(cors({ origin: 'https://ylhyra.is' }))
 // app.use('/api', require('server/audio/GetOneAudioFile').default)
 // app.use('/api', require('server/audio/Synchronize').default)
 // app.use('/api', require('server/translator/save').default)
-app.use('/api', require( 'server/analytics').default)
-app.use('/api', require( 'server/user').default)
-app.use('/api', require( 'server/content').default)
+app.use('/api', require('server/analytics').default)
+app.use('/api', require('server/user').default)
+app.use('/api', require('server/content').default)
 app.use('/api', require('server/vocabulary/get').default)
 app.use('/api', require('server/vocabulary/save').default)
 app.use('/api/vocabulary/vocabulary_database.json', express.static(path.join(__dirname, '/vocabulary/vocabulary_database.json')))
@@ -75,6 +76,10 @@ app.use('/api/vocabulary/vocabulary_database.json', express.static(path.join(__d
 // // app.use('/api', require('server/api/audio/Upload').default)
 
 app.use('/api/temp_files/', express.static(upload_path))
+
+// export const image_path = path.resolve(__dirname, './../../../ylhyra_content/not_data/files')
+export const image_path = path.resolve(__dirname, './../output/images')
+app.use('/api/images/', express.static(image_path))
 
 /*
   Public APIs
@@ -94,7 +99,7 @@ app.use('/', router)
   If other services are needed later, go by "request.headers.host"
 */
 app.use('/inflection_styles', express.static(path.join(__dirname, '/inflection/styles')))
-app.use('/', require( 'server/inflection/server/server-with-database/route_loader').default)
+app.use('/', require('server/inflection/server/server-with-database/route_loader').default)
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST
@@ -105,13 +110,13 @@ const port = argv.port || 9123
 
 /* Import steps */
 if (process.argv[2] === '--compile-content') {
-  require( 'server/compiler/generate_links.js')
+  require('server/compiler/generate_links.js')
 } else if (process.argv[2] === '--import-inflections') {
-  require( 'server/inflection/server/server-with-database/database/ImportToDatabase.js')
+  require('server/inflection/server/server-with-database/database/ImportToDatabase.js')
 } else if (process.argv[2] === '--generate-search-index') {
-  require( 'server/inflection/server/server-with-database/database/generateSearchIndex.js')
+  require('server/inflection/server/server-with-database/database/generateSearchIndex.js')
 } else if (process.argv[2] === '--import-vocabulary') {
-  require( 'server/vocabulary/setup/setup')
+  require('server/vocabulary/setup/setup')
 }
 /* Or, start the app */
 else {

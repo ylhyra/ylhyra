@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'app/App/axios'
 import NotFound from 'documents/Templates/404'
 import { connect } from 'react-redux';
-
+import { getURL } from 'app/Router/actions'
 import { html2json, json2html } from 'app/App/functions/html2json'
 import Parse from 'documents/Parse'
 
@@ -16,11 +16,11 @@ class Content extends Component {
     this.get()
   }
   get() {
-    this.setState({
-      // pathname: this.props.history.location.pathname,
-    })
-    return;
-    const url = this.props.history.location.pathname.replace(/^\//, '')
+    // this.setState({
+    //   // pathname: this.props.history.location.pathname,
+    // })
+    // return;
+    const url = getURL().replace(/^\//, '')
     axios.get('/api/content', {
       params: {
         title: url,

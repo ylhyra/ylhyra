@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Routes from 'app/Router/router'
+import Router from 'app/Router'
 import { connect, Provider } from 'react-redux'
 import store from 'app/App/store'
 import { InitializeUser } from 'app/User/actions'
@@ -15,7 +15,7 @@ InitializeRouter()
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Routes />
+      <Router />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -4,6 +4,7 @@ const customTemplates = [
   'Level',
   'Book',
   'Blær',
+  'Image',
 ]
 
 const customTemplatesLoaded = {}

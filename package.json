@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git://github.com/ylhyra/ylhyra.git"
   },
-  "license": "GPL",
+  "license": "MIT",
   "private": false,
   "homepage": "https://ylhyra.is",
   "scripts": {

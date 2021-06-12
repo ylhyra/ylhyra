@@ -123,8 +123,8 @@ class Card extends Component {
     const is = card.is
     const en = card.en
     return (
-      <div className="vocabularynew-vocabulary-card" key={status.counter}>
-        <div className="vocabularynew-flashcard-container" onClick={()=>this.show(false)}>
+      <div className="vocabulary-vocabulary-card" key={status.counter}>
+        <div className="vocabulary-flashcard-container" onClick={()=>this.show(false)}>
           <div className={`flashcard-top ${card.from === 'is' ? 'icelandic' : 'english'}`}>
             {card.from === 'is' ? is : en}
           </div>

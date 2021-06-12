@@ -6,8 +6,8 @@ import { MINUTES } from 'app/Vocabulary/actions/session'
 import Link from 'app/Router/Link'
 
 export default () => (
-  <div>
-    <Link href="/vocabulary">Exit</Link>
+  <div id="vocabulary">
+    <Link href="VOCABULARY">Exit</Link>
     <GameContainer/>
   </div>
 )

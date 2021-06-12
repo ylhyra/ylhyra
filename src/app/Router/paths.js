@@ -5,10 +5,8 @@ import LoadContent from './LoadContent'
 import Frontpage from 'app/Elements/Frontpage'
 
 /* TODO: Hlaða skyldum saman */
-const VocabularyOverview = lazy(() =>
-  import ('app/Vocabulary/screens/overview'))
-const VocabularyRunning = lazy(() =>
-  import ('app/Vocabulary/screens/running'))
+import VocabularyOverview from 'app/Vocabulary/screens/overview'
+import VocabularyRunning from 'app/Vocabulary/screens/running'
 const VocabularyTutorial = lazy(() =>
   import ('app/Vocabulary/screens/tutorial'))
 const VocabularyIntro = lazy(() =>

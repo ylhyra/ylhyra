@@ -12,7 +12,7 @@ class Progress extends Component {
     const _good = (good / total) * doneTime
     // console.log({bad,_bad,_ok, remainingTime})
     return (
-      <div className="vocabularynew-progress">
+      <div className="vocabulary-progress">
         <div className="name">
           <span className="remaining"></span>
         </div>
