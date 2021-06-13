@@ -11,7 +11,8 @@ class Link extends React.Component {
     updateURL(url)
   }
   render() {
-    let { route, href, children, className, id } = this.props
+    let { route, href, children, className, id, to } = this.props
+    href = href || to
     if (!href) {
       console.warn('Missing href:')
       console.log(children)

@@ -24,6 +24,7 @@ class Session {
     this.totalTime = MINUTES * 60 * 1000
     this.remainingTime = this.totalTime
     this.lastTimestamp = (new Date()).getTime()
+    this.checkIfCardsRemaining()
   }
   updateRemainingTime() {
     const newTimestamp = (new Date()).getTime()
@@ -38,8 +39,12 @@ class Session {
       this.deck.sessionDone()
     }
   }
-  getPercentageRemaining() {
-    return Math.floor(this.remainingTime / this.totalTime)
+  printTimeRemaining() {
+    const time = Math.floor(this.remainingTime/1000) || 1
+    const minutes = Math.floor(time / 60);
+    const seconds = time - minutes * 60;
+    return `${minutes}:${('0'+seconds).slice(-2)}`
+    // return `${minutes} minute${minutes===1?'':''}, ${('0'+seconds).slice(-2)} second${seconds===1?'s':''}`
   }
   getCard() {
     return {
@@ -50,7 +55,9 @@ class Session {
   next() {
     this.updateRemainingTime()
     if (this.cards.length === 0) {
-      return console.error('No cards')
+      console.error('No cards')
+      this.createMoreCards()
+      return this.next()
     }
 
     let ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
@@ -71,6 +78,10 @@ class Session {
       this.lastSeenTerms[id] = this.counter
     })
 
+    this.deck.saveSession(this)
+    this.checkIfCardsRemaining()
+  }
+  checkIfCardsRemaining() {
     const areThereNewCardsRemaining = this.cards.some(i => i.history.length === 0)
     if (!areThereNewCardsRemaining) {
       this.createMoreCards()

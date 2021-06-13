@@ -8,10 +8,10 @@ class Session extends Component {
     return (
       <div id="">
         {session ? <div>
-          <Link to="VOCABULARY_PLAY">
-            {session.getPercentageRemaining()}% remaining
+          <Link href="VOCABULARY_PLAY">
+            Session {session.printTimeRemaining()} remaining. CONTINUE!
           </Link>
-        </div>: 'No session'}
+        </div>: ''}
       </div>
     )
   }

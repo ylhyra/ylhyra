@@ -41,6 +41,7 @@ class Deck {
         }
       })
     }
+    this.loadSessionFromLocalStorage()
   }
   generateSession() {
     InitializeSession(this.createCards(), this)
@@ -48,6 +49,7 @@ class Deck {
   sessionDone() {
     updateURL('VOCABULARY')
     updateSchedule()
+    this.saveSession(null, true)
   }
   continueStudying() {
     updateURL('VOCABULARY_PLAY')
@@ -55,9 +57,22 @@ class Deck {
   }
   studyNewWords() {}
   repeatTodaysWords() {}
-  saveSession() {
-    // saveInLocalStorage('vocabulary-session', store.getState().vocabulary.session)
-    // saveInLocalStorage('vocabulary-session-saved-at', new Date().getTime())
+  saveSession(session, done) {
+    if (!done) {
+      let to_save = session.cards.filter(i => i.history.length !== 0).map(({ session, ...rest }) => rest)
+      if (to_save.length < 1) {
+        to_save = null
+      }
+      saveInLocalStorage('vocabulary-session', to_save)
+      saveInLocalStorage('vocabulary-session-saved-at', new Date().getTime())
+    } else {
+      saveInLocalStorage('vocabulary-session', null)
+    }
+  }
+  loadSessionFromLocalStorage() {
+    if (getFromLocalStorage('vocabulary-session')) {
+      InitializeSession(getFromLocalStorage('vocabulary-session'), this)
+    }
   }
 }
 Deck.prototype.createCards = createCards

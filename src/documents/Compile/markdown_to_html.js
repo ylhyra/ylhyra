@@ -61,7 +61,7 @@ export default (input) => {
   /* References */
   // input = input.split(/<ref[> ][\s\S]+<\/ref>/g)
 
-  console.log(input.slice(0, 200))
+  // console.log(input.slice(0, 200))
 
   // console.log(input)
 
