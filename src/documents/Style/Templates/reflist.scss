@@ -6,13 +6,15 @@
     list-style-type: inherit;
   }
   margin-top: 12px;
-}.notes {
+}
+.notes {
   @include sans_serif();
   margin-block-start: 10px;
   font-weight: normal;
   color: #595959;
   font-size: 13px;
-  line-height: 1.6;.reflist {
+  line-height: 1.6;
+  .reflist {
     font-size: 13px;
   }
 }

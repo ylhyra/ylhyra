@@ -6,169 +6,135 @@
   background-size: contain;
   background-position: center;
   display: inline-block;
-
   &:before {
     white-space: nowrap;
   }
-
   &.large {
     height: 50px;
     width: 50px;
   }
-
   &.small {
     height: 35px;
     width: 35px;
   }
-
   &.smaller {
     height: 22px;
     width: 22px;
   }
-
   &.very_small {
     height: 17px;
     width: 17px;
   }
-
   &.masculine {
     &.plural {
       background-image: url("https://media.egill.xyz/emoji/kkft.png");
     }
   }
-
   &.feminine {
     &.plural {
       background-image: url("https://media.egill.xyz/emoji/kvkft.png");
     }
   }
-
   &.neuter {
     &.plural {
       background-image: url("https://media.egill.xyz/emoji/hkft.png");
     }
   }
-
   &.plural {
     width: 86px;
     margin: 0 -20px;
-
     &.large {
       width: 100px;
     }
-
     &.small {
       width: 66px;
       margin: 0;
     }
-
     &.smaller {
       width: 33px;
       margin: 0;
     }
   }
-
   &.article {
     background-color: #000;
   }
-
   &.nominative {
     background-image: url("https://media.egill.xyz/emoji/nominative.png");
   }
-
   &.accusative {
     background-image: url("https://media.egill.xyz/emoji/accusative.png");
   }
-
   &.dative {
     background-image: url("https://media.egill.xyz/emoji/dative.png");
   }
-
   &.genitive {
     background-image: url("https://media.egill.xyz/emoji/genitive.png");
   }
-
   &.infinitive {
     &:before {
       content: "🌺";
     }
   }
-
   &.present {
     &:before {
       content: "🌞";
     }
   }
-
   &.past {
     &:before {
       content: "🌚";
     }
-
     &.subjunctive {
       width: 37px;
-
       &:before {
         content: "🌚🤔";
       }
     }
   }
-
   &.supine {
     &:before {
       content: "🌈";
     }
   }
-
   &.subjunctive {
     width: 37px;
-
     &:before {
       content: "🌞🤔";
     }
   }
-
   &.in_a_question {
     &.present {
       &:before {
         content: "🌞❓";
       }
     }
-
     &.past {
       width: 37px;
-
       &:before {
         content: "🌚❓";
       }
     }
   }
-
   &.imperative {
     &:before {
       content: "⚠️";
     }
-
     &.plural {
       width: 37px;
-
       &:before {
         content: "⚠️👥";
       }
     }
   }
 }
-
 .emoji.masculine.singular,
 .emoji.masculine:not(.plural) {
   background-image: url("https://media.egill.xyz/emoji/kket.png");
 }
-
 .emoji.feminine.singular,
 .emoji.feminine:not(.plural) {
   background-image: url("https://media.egill.xyz/emoji/kvket.png");
 }
-
 .emoji.neuter.singular,
 .emoji.neuter:not(.plural) {
   background-image: url("https://media.egill.xyz/emoji/hket.png");

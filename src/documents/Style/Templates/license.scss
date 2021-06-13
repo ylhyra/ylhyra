@@ -8,9 +8,11 @@
   @include sans_serif();
   a:not(:hover) {
     color: inherit;
-  }.license-link {
+  }
+  .license-link {
     font-size: 9px;
-  }.info {
+  }
+  .info {
     background: #e6e6e6;
     border-radius: 30px;
     display: inline-block;
@@ -18,7 +20,7 @@
     line-height: 1.2;
     font-size: 10px;
     margin-left: 4px;
-    padding: 1px 4px 2px 4px;
+    padding: 1px 4px 2px;
     letter-spacing: -0.3px;
   }
 }

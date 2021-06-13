@@ -65,23 +65,25 @@ const Images = (data) => {
           const url = '/api/images/'
           // ${rest}
           let params = {}
-          rest.replace(/([a-z]+)="(.+?)"/g, (v, key, val) => {
+          rest && rest.replace(/([a-z]+)="(.+?)"/g, (v, key, val) => {
             params[key] = val
           })
           let transcluded = await Transclude('File:' + filename_)
+          const big_to_small = [...boxes]
+          const small_to_big = [...boxes].reverse()
           output.push(`<Image position="${params.position||''}">
             <div class="image-and-metadata">
               <picture>
-                ${boxes.reverse().map((i,index) => `
+                ${small_to_big.map((i,index) => `
                   <source
-                    media="(max-width: ${i[0]}px)"
+                    ${i[0]!==800?`media="(max-width: ${i[0]}px)"`:''}
                     srcset="
                       ${url}${name}-${i[0]}x${i[1]}.${ending} 1x,
                       ${url}${name}-${i[2]}x${i[3]}.${ending} 2x"
                   />
                 `).join('')}
                 <img
-                  src="${url}${name}-${boxes[0][2]}x${boxes[0][3]}.${ending}"
+                  src="${url}${name}-${big_to_small[0][0]}x${big_to_small[0][1]}.${ending}"
                   width="${original_width}"
                   height="${original_height}"
                 />

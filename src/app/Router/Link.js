@@ -6,9 +6,8 @@ import { updateURL } from 'app/Router/actions'
 
 class Link extends React.Component {
   fn = (e, url) => {
+    if (e.altKey || e.metaKey || e.ctrlKey) return;
     e.preventDefault();
-    // e.stopPropagation();
-    // e.nativeEvent.stopImmediatePropagation();
     updateURL(url)
   }
   render() {

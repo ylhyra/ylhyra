@@ -5,11 +5,17 @@ export const InitializeRouter = () => {
   updateURL(window.location.pathname + window.location.hash)
 }
 
-export const updateURL = (url, title) => {
-  // url = url.replace(/#$/, '')
+export const updateURL = (url, title, replace) => {
+  if (!url.startsWith('/')) {
+    url = '/' + url
+  }
   const [pathname, section] = url.split('#')
   if (url !== window.location.pathname) {
-    window.history.pushState(null, '', url);
+    if (replace) {
+      window.history.replaceState(null, '', url);
+    } else {
+      window.history.pushState(null, '', url);
+    }
   }
 
   if (!title && pathname in url_to_info) {
@@ -17,13 +23,15 @@ export const updateURL = (url, title) => {
   }
   window.document.title = (title ? title + '\u200A•\u200A' : '') + 'Ylhýra'
 
-  store.dispatch({
-    type: 'ROUTE',
-    content: {
-      pathname: pathname,
-      section: section,
-    }
-  })
+  if (!replace) {
+    store.dispatch({
+      type: 'ROUTE',
+      content: {
+        pathname: pathname,
+        section: section,
+      }
+    })
+  }
 }
 
 export const getURL = () => {

@@ -5,10 +5,12 @@ import { connect } from 'react-redux';
 import { getURL } from 'app/Router/actions'
 import { html2json, json2html } from 'app/App/functions/html2json'
 import Parse from 'documents/Parse'
-
+import { updateURL } from 'app/Router/actions'
 // import Traverse from 'documents/Render/Traverse'
 // import Traverse from 'documents/Render/Traverse'
 import Render from 'documents/Render'
+
+let cache = {}
 
 class Content extends Component {
   state = {}
@@ -20,36 +22,29 @@ class Content extends Component {
     //   // pathname: this.props.history.location.pathname,
     // })
     // return;
-    const url = getURL().replace(/^\//, '')
-    axios.get('/api/content', {
-      params: {
-        title: url,
-      }
-    }).then(async({ data }) => {
-      this.setState({
-        data
-      })
-      if (data.redirect_to) {
-        this.props.history.replace('/' +
-          data.redirect_to
-          // +(data.section ? '#' + data.section : '')
-        )
-        if (data.section) {
-          // TODO: Go to section, highlight
+    let url = getURL().replace(/^\//, '')
+    if (url in cache) {
+      this.set(url, cache[url])
+    } else {
+      axios.get('/api/content', {
+        params: {
+          title: url,
         }
-      }
-      window.document.title = `${data.title} - Ylhýra`
-    }).catch(error => {
-      if (error.response && error.response.status === 404) {
-        this.setState({ error: 404 })
-      }
-    })
+      }).then(async({ data }) => {
+        this.set(url, data)
+        cache[url] = data
+      }).catch(error => {
+        if (error.response && error.response.status === 404) {
+          this.setState({ error: 404 })
+        }
+      })
+    }
   }
-  componentDidUpdate() {
-    // if (this.props.history.location.pathname !== this.state.pathname) {
-    //   this.setState({ data: null })
-    //   this.get()
-    // }
+  set(url, data) {
+    this.setState({ data })
+    // TODO: Go to section, highlight
+    url = data.redirect_to || url
+    updateURL(url, data.title, true)
   }
   render() {
     if (this.state.error) return <NotFound/>;

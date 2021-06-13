@@ -10,21 +10,24 @@
     list-style-type: none;
     li {
       display: flex;
-      margin-bottom: 3px;> :first-child {
+      margin-bottom: 3px;
+      > :first-child {
         width: 20px;
         padding: 0 5px;
         text-align: right;
-      }> :last-child {
+      }
+      > :last-child {
         flex: 1;
-      }&.gray {
+      }
+      &.gray {
         opacity: 0.8;
       }
     }
-  }.touch {
+  }
+  .touch {
     display: none;
   }
 }
-
 /* Desktop computer */
 body:not(.supports-touch) {
   .only-mobile {

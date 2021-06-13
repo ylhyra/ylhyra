@@ -3,10 +3,18 @@
     max-width: 250px;
     float: right;
     clear: right;
+    margin: 0 0 12px 12px;
+  }
+  &:not(.right){
+    margin: 20px 0;
   }
   .image-and-metadata {
     position: relative;
     margin-bottom: 3px;
+    picture {
+      background: #ebf4e1;
+      display: block;
+    }
     img {
       display: block;
     }
@@ -26,5 +34,8 @@
         display: block;
       }
     }
+  }
+  .caption {
+    font-size: 13px;
   }
 }

@@ -4,30 +4,28 @@
   max-width: 600px;
   margin: 38px auto;
 
-  /* NYTIMES STYLE */&, &.ny-times {
+  /* NYTIMES STYLE */
+  &, &.ny-times {
     font-size: 20px;
     color: #111;
     font-family: Georgia, serif;
     letter-spacing: 0.1px;
     font-size: 16px;
   }
-
   h1 {
     text-align: center;
-    margin: 25px 3px;
-    margin-bottom: 0px;
+    margin: 25px 3px 0;
   }
-
   h2 {
     text-align: center;
     font-size: 15px;
     font-family: sans-serif;
-  }.subtitle {
+  }
+  .subtitle {
     margin-bottom: 20px;
     text-align: center;
     font-size: 14px;
   }
-
   @media screen and (min-width: 700px) {
     .thumb.tright {
       margin-right: -38px;

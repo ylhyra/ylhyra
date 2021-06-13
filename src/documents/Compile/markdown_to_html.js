@@ -63,10 +63,9 @@ export default (input) => {
 
   // console.log(input.slice(0, 200))
 
-  console.log(input)
+  // console.log(input)
 
 
-  console.log(input)
   input = marked(input)
 
   input = input

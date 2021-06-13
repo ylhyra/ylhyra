@@ -10,9 +10,16 @@
   width: 100%;
   max-width: $max-width;
   padding: 0 30px;
+  flex: 1;
   margin: auto;
   @media screen and (max-width: 600px) {
     padding: 0 5px;
+  }
+  > *:first-child {
+    margin-top: 0;
+    .ylhyra_image:not(.right) {
+      margin-top: 0;
+    }
   }
 }
 /* Parser output */
@@ -24,7 +31,6 @@
   line-height: 1.55;
   font-size: 15px;
 }
-
 .ylhyra-text {
   position: relative;
 }
@@ -41,11 +47,9 @@
   padding: 0;
   text-align: left;
 }
-
 h2 {
   font-size: 18px;
 }
-
 .short-translated-text {
   background: #edf0f157;
   padding: 2px 4px;
@@ -53,7 +57,6 @@ h2 {
   border-radius: 2px;
   border: 1px solid #abc6de57;
 }
-
 h2 {
   font-family: "Georgia", "Times New Roman", serif;
   font-weight: normal;

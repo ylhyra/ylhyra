@@ -5,7 +5,8 @@ $blue: #1161d9;
   font-family: Georgia, serif;
 }
 @mixin sans_serif() {
-  font-family: Helvetica Neue, -apple-system, sans-serif;
+  font-family: Helvetica Neue, sans-serif;
+  // font-family: -apple-system, system-ui, "Segoe UI", sans-serif;
 }
 @mixin underline_links() {
   a {
@@ -41,7 +42,6 @@ video {
 @import 'AudioVideo/AudioVideo.scss';
 @import 'Frontpage/frontpage-box.scss';
 @import 'Frontpage/index.scss';
-@import 'Layout/actions.scss';
 @import 'Layout/button.scss';
 @import 'Layout/footer.scss';
 @import 'Layout/grid.scss';
@@ -64,7 +64,6 @@ video {
 @import 'Templates/banner.scss';
 @import 'Templates/various.scss';
 @import 'Templates/book.scss';
-@import 'Templates/collapse.scss';
 @import 'Templates/conversation.scss';
 @import 'Templates/emoji.scss';
 @import 'Templates/inflection.scss';
@@ -74,7 +73,6 @@ video {
 @import 'Templates/reference.scss';
 @import 'Templates/reflist.scss';
 @import 'Templates/table.scss';
-@import 'Templates/text-snippet.scss';
 @import 'Templates/tweet.scss';
 @import 'Templates/Controls/Controls.scss';
 @import 'Templates/Controls/Instructions.scss';

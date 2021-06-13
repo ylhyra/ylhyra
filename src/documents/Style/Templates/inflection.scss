@@ -2,7 +2,8 @@
   @include sans_serif();
   font-size: 13px;
   padding: 10px;
-  color: #494949;&.small {
+  color: #494949;
+  &.small {
     @include card_shadow();
     background: #fdfdfd;
     border-radius: 3px;
@@ -17,10 +18,12 @@
   }
   hr {
     margin: 7px 0;
-  }.gray {
+  }
+  .gray {
     font-weight: normal;
     white-space: nowrap;
-  }.light-gray {
+  }
+  .light-gray {
     color: #b0b0b0;
     font-weight: normal;
   }
@@ -37,7 +40,8 @@
     line-height: 1;
     font-size: 17px;
     color: black;
-  }.indent {
+  }
+  .indent {
     margin-left: 20px;
   }
 }

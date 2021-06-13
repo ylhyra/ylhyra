@@ -2910,6 +2910,11 @@ module.exports = {
     "filename": "phrases-for-waiters",
     "file": "/Users/egill/ylhyra_content/not_data/drafts/Phrases_for_waiters.md"
   },
+  "project:public-domain": {
+    "title": "Project:Public domain",
+    "filename": "project_public-domain",
+    "file": "/Users/egill/ylhyra_content/not_data/drafts/Public_domain.md"
+  },
   "project:schedule": {
     "title": "Project:Schedule",
     "filename": "project_schedule",
@@ -2964,6 +2969,11 @@ module.exports = {
     "title": "Project:Translation ideas",
     "filename": "project_translation-ideas",
     "file": "/Users/egill/ylhyra_content/not_data/drafts/Translation_ideas.md"
+  },
+  "project:vocabulary": {
+    "title": "Project:Vocabulary",
+    "filename": "project_vocabulary",
+    "file": "/Users/egill/ylhyra_content/not_data/drafts/Vocabulary.md"
   },
   "talk:word-order": {
     "title": "Talk:Word order",
@@ -5391,10 +5401,13 @@ module.exports = {
     "filename": "file_ég-hélt-framhjá-elvari.mp4",
     "file": "/Users/egill/ylhyra_content/not_data/files/video/Ég_hélt_framhjá_Elvari.mp4.md"
   },
-  "project:about": {
-    "title": "Project:About",
-    "filename": "project_about",
+  "about": {
+    "title": "About",
+    "filename": "about",
     "file": "/Users/egill/ylhyra_content/not_data/project/About.md"
+  },
+  "project:about": {
+    "redirect_to": "about"
   },
   "project:inflections": {
     "title": "Project:Inflections",
@@ -5483,11 +5496,6 @@ module.exports = {
     "filename": "privacy-policy",
     "file": "/Users/egill/ylhyra_content/not_data/project/Privacy_policy.md"
   },
-  "project:public-domain": {
-    "title": "Project:Public domain",
-    "filename": "project_public-domain",
-    "file": "/Users/egill/ylhyra_content/not_data/project/Public_domain.md"
-  },
   "project:software-work-in-progess": {
     "title": "Project:Software work in progess",
     "filename": "project_software-work-in-progess",
@@ -5497,11 +5505,6 @@ module.exports = {
     "title": "Project:Software work in progess/Útlit",
     "filename": "project_software-work-in-progess_útlit",
     "file": "/Users/egill/ylhyra_content/not_data/project/Software/Útlit.md"
-  },
-  "project:vocabulary": {
-    "title": "Project:Vocabulary",
-    "filename": "project_vocabulary",
-    "file": "/Users/egill/ylhyra_content/not_data/project/Vocabulary.md"
   },
   "project:ylhýra": {
     "title": "Project:Ylhýra",
@@ -5667,11 +5670,6 @@ module.exports = {
     "filename": "template_gender",
     "file": "/Users/egill/ylhyra_content/not_data/templates/Gender.md"
   },
-  "template:getaudio": {
-    "title": "Template:GetAudio",
-    "filename": "template_getaudio",
-    "file": "/Users/egill/ylhyra_content/not_data/templates/GetAudio.md"
-  },
   "template:gray": {
     "title": "Template:Gray",
     "filename": "template_gray",
@@ -5697,11 +5695,6 @@ module.exports = {
     "title": "Template:IPA",
     "filename": "template_ipa",
     "file": "/Users/egill/ylhyra_content/not_data/templates/IPA.md"
-  },
-  "template:image": {
-    "title": "Template:Image",
-    "filename": "template_image",
-    "file": "/Users/egill/ylhyra_content/not_data/templates/Image.md"
   },
   "template:in-progress": {
     "title": "Template:In progress",

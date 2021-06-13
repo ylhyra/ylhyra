@@ -10,23 +10,29 @@
   overflow: hidden;
   transition: all 1s;
   max-width: 400px;
-  margin: auto;
-  margin-bottom: 20px;
-}.conversation {
+  margin: auto auto 20px;
+}
+.conversation {
   @include sans_serif();
   flex: 1;
   overflow: hidden;
   font-size: 14px;
-  background: white;> .conversationWindow {
+  background: white;
+  > .conversationWindow {
     padding: 12px 9px;
-  }.bubbles {
+  }
+  .bubbles {
     flex: 1;
     margin-bottom: 6px;
-  }.bubble-container {
+  }
+  .bubble-container {
     display: flex;
-  }.me, .them {
+  }
+  .me,
+  .them {
     padding: 1px 0;
-  }.them {
+  }
+  .them {
     .img {
       width: 40px;
       height: 40px;
@@ -34,46 +40,57 @@
       overflow: hidden;
       background-position: center;
       background-size: cover;
-    }.bubbles {
+    }
+    .bubbles {
       margin-left: 6px;
-    }.bubble-container {
+    }
+    .bubble-container {
       .bubble {
         border-top-right-radius: 16px;
         border-bottom-right-radius: 16px;
-      }&:first-of-type {
+      }
+      &:first-of-type {
         .bubble {
           border-top-left-radius: 16px;
         }
-      }&:last-of-type {
+      }
+      &:last-of-type {
         .bubble {
           border-bottom-left-radius: 16px;
         }
       }
     }
-  }.me {
+  }
+  .me {
     .bubble-container {
-      flex-direction: row-reverse;.bubble {
+      flex-direction: row-reverse;
+      .bubble {
         border-top-left-radius: 16px;
         border-bottom-left-radius: 16px;
-      }&:first-of-type {
+      }
+      &:first-of-type {
         .bubble {
           border-top-right-radius: 16px;
         }
-      }&:last-of-type {
+      }
+      &:last-of-type {
         .bubble {
           border-bottom-right-radius: 16px;
         }
       }
-    }.bubble {
+    }
+    .bubble {
       background: #407FFF;
       color: white;
       a {
         color: white;
-      }.reference a {
+      }
+      .reference a {
         color: #cbdcff;
       }
     }
-  }.bubble {
+  }
+  .bubble {
     max-width: 80%;
     background: #eee;
     padding: 6px 11px;
@@ -81,26 +98,32 @@
     line-height: 16px;
     transition: border-radius 0.1s ease;
   }
-}.response {
+}
+.response {
   text-align: center;
   border-top: 1px solid #d6d6d6;
   background: #f9f9f9;
   min-height: 200px;
   display: flex;
-  padding: 0;> div {
-    width: 100%;> div {
+  padding: 0;
+  > div {
+    width: 100%;
+    > div {
       height: 100%;
       display: flex;
       flex-direction: column;
     }
-  }> div:not(.write) {
+  }
+  > div:not(.write) {
     padding: 15px;
-  }.answers-container {
+  }
+  .answers-container {
     flex: 1;
     display: flex;
     flex-direction: column;
   }
-}.conversation.interactive {
+}
+.conversation.interactive {
   > div {
     flex: 1;
   }

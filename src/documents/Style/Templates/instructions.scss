@@ -1,14 +1,14 @@
 .instructions-header {
   color: #272727;
   border: 1px solid #c9c9c9;
-  margin: auto;
-  margin-bottom: 30px;
+  margin: auto auto 30px;
   padding-bottom: 30px;
   background: #f9f9f9;
   padding: 29px;
   max-width: 500px;
   border-radius: 3px;
-}.instructions {
+}
+.instructions {
   font-size: 11px;
   margin: auto;
   line-height: 1.3em;
@@ -21,21 +21,24 @@
     list-style-type: none;
     li {
       display: flex;
-      margin-bottom: 3px;> :first-child {
+      margin-bottom: 3px;
+      > :first-child {
         width: 20px;
         padding: 0 5px;
         text-align: right;
-      }> :last-child {
+      }
+      > :last-child {
         flex: 1;
-      }&.gray {
+      }
+      &.gray {
         opacity: 0.8;
       }
     }
-  }.touch {
+  }
+  .touch {
     display: none;
   }
 }
-
 /* Desktop computer */
 body:not(.supports-touch) {
   .only-mobile {
