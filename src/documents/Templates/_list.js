@@ -5,13 +5,14 @@ const customTemplates = [
   'Book',
   'Blær',
   'Image',
+  'Button',
 ]
 
 const customTemplatesLoaded = {}
 const customTemplatesLowercase = {}
 customTemplates.forEach(x => {
   customTemplatesLoaded[x] = lazy(() =>
-    import (`documents/Templates/${x}`))
+    import (`documents/Templates/${x}.js`))
   customTemplatesLowercase[x.toLowerCase()] = x
 })
 const GetTemplate = (name) => {

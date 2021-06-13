@@ -1,0 +1,30 @@
+.ylhyra_image {
+  &.right {
+    max-width: 250px;
+    float: right;
+    clear: right;
+  }
+  .image-and-metadata {
+    position: relative;
+    margin-bottom: 3px;
+    img {
+      display: block;
+    }
+    .metadata {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: rgba(242, 242, 242, 0.95);
+      word-break: break-all;
+      padding: 0 3px;
+      font-size: 11px;
+      text-align: right;
+      display: none;
+    }
+    &:hover {
+      .metadata {
+        display: block;
+      }
+    }
+  }
+}

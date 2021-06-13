@@ -22,6 +22,8 @@ const Transclude = (title, depth = 0) => {
       let { header, body } = ParseHeaderAndBody(data)
 
       let output = body
+      /* Strip comments */
+      output = output.replace(/<!--(.+?)-->/g, '')
       // TODO
       if (depth < 1) {
         output = ''

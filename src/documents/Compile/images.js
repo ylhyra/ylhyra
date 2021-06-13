@@ -1,6 +1,7 @@
 import { URL_title } from 'documents/Compile/functions'
 import { ParseHeaderAndBody } from 'server/content'
 import _ from 'underscore'
+import Transclude from './transclude'
 let links = require('src/output/links.js')
 require('app/App/functions/array-foreach-async')
 var fs = require('fs')
@@ -20,11 +21,18 @@ const Images = (data) => {
     /* Run */
     await input.forEachAsync(async(z, index) => {
       await new Promise(async(resolve2, reject2) => {
-        const filename = z.match(/src="(.+?)"/)[1]
-        const file = links[URL_title('File:' + filename)].file.replace(/\.md$/, '')
+        let [o, filename_, rest] = z.match(/src="(.+?)"(.+)?\/>/)
+        // console.log(rest)
+        if (!(URL_title('File:' + filename_) in links)) {
+          throw new Error('No file named: ' + filename_)
+          reject2()
+          return;
+        }
+        const file = links[URL_title('File:' + filename_)].file.replace(/\.md$/, '')
+        const filename = links[URL_title('File:' + filename_)].filename
         const [k, name, ending] = filename.match(/(.+)\.(.+?)$/)
 
-        exec(`identify ${file}`, (error, stdout, stderr) => {
+        exec(`identify ${file}`, async(error, stdout, stderr) => {
           if (error) return console.error(`exec error: ${error}`);
           const [j, original_width, original_height] = stdout.match(/^[^ ]+ [^ ]+ ([0-9]+)x([0-9]+)/)
 
@@ -55,21 +63,34 @@ const Images = (data) => {
 
           // const url = `/api/content/files/${encodeURI(file.match(/not_data\/files\/(.+)/)[1])}`
           const url = '/api/images/'
-          output.push(`<picture>
-            ${boxes.map((i,index) => `
-              <source
-                media="(min-width: ${boxes[index+1]?boxes[index+1][0]:'0'}px)"
-                srcset="
-                  ${url}${name}-${i[0]}x${i[1]}.${ending} 1x,
-                  ${url}${name}-${i[2]}x${i[3]}.${ending} 2x"
-              />
-            `).join('')}
-            <img
-              src="${url}${name}-${boxes[0][2]}x${boxes[0][3]}.${ending}"
-              width=${original_width}
-              height=${original_height}
-            />
-          </picture>`.replace(/^ +/mg, '').replace(/\n/g, ' '))
+          // ${rest}
+          let params = {}
+          rest.replace(/([a-z]+)="(.+?)"/g, (v, key, val) => {
+            params[key] = val
+          })
+          let transcluded = await Transclude('File:' + filename_)
+          output.push(`<Image position="${params.position||''}">
+            <div class="image-and-metadata">
+              <picture>
+                ${boxes.reverse().map((i,index) => `
+                  <source
+                    media="(max-width: ${i[0]}px)"
+                    srcset="
+                      ${url}${name}-${i[0]}x${i[1]}.${ending} 1x,
+                      ${url}${name}-${i[2]}x${i[3]}.${ending} 2x"
+                  />
+                `).join('')}
+                <img
+                  src="${url}${name}-${boxes[0][2]}x${boxes[0][3]}.${ending}"
+                  width="${original_width}"
+                  height="${original_height}"
+                />
+              </picture>
+              ${transcluded?`<div class="metadata">${transcluded}</div>`:''}
+            </div>
+            ${params.caption?`<div class="caption">${params.caption}</div>`:''}
+          </Image>
+          `.replace(/^ +/mg, '').replace(/\n/g, ' '))
 
           fs.stat(`${output_folder}${name}-${boxes[0][2]}x${boxes[0][3]}.${ending}`, function (err, stat) {
             if (err == null) {
@@ -85,6 +106,7 @@ const Images = (data) => {
               });
             } else {
               console.log(err.code);
+              reject2()
             }
           });
         });

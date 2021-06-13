@@ -53,18 +53,27 @@ export default (input) => {
     .replace(/''/g, '*')
 
     /* Tags */
-    .replace(/<([^>]+)\/>/g, '<$1></$1>')
+    .replace(/<([^> ]+)( [^>]+)?\/>/g, '<$1$2></$1>')
+
+    // /* Remove? */
+    // .replace(/<\/Image>\n\n/g, '</Image>\n')
 
   /* References */
   // input = input.split(/<ref[> ][\s\S]+<\/ref>/g)
 
   // console.log(input.slice(0, 200))
 
+  console.log(input)
+
+
+  console.log(input)
   input = marked(input)
 
   input = input
     .replace(/(<h[0-9] id=")/g, '$1s-')
   // console.log(input.slice(0,200))
+
   input = typeset(input, { disable: ['hyphenate', 'hangingPunctuation', 'ligatures', 'smallCaps'] })
+  // console.log(input)
   return input
 }
