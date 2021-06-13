@@ -22,9 +22,9 @@ export default function createCards(options) {
       if (i.last_seen > now - 6 * hour) return;
       // console.log(`${prettyPrintTimestamp(i.due)} - ${deck.cards[i.id].is}`)
       if (i.due < now + 0.5 * day) {
-        overdue_ids.push(i.id)
+        overdue_ids.push(i.card_id)
       } else if (i.score <= 1.2) {
-        not_overdue_bad_cards_ids.push(i.id)
+        not_overdue_bad_cards_ids.push(i.card_id)
       }
     })
   // console.log(`${overdue_ids.length} overdue`)
@@ -75,7 +75,14 @@ export default function createCards(options) {
   /* Depends on cards */
   // TODO
   //
-  let chosen = chosen_ids.map(id => ({ id, ...deck.cards[id] }))
-  // console.log(chosen_ids)
+  let chosen = chosen_ids.map(id => {
+    if (!(id in deck.cards)) {
+      if (process.env.NODE_ENV === 'development') {
+        throw new Error('Incorrect id passed into deck.cards')
+      }
+      return null;
+    }
+    return { id, ...deck.cards[id] }
+  }).filter(Boolean)
   return chosen
 }

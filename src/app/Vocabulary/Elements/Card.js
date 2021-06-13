@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BAD, OK, PERFECT } from 'app/Vocabulary/actions/card'
+import { BAD, OK, EASY } from 'app/Vocabulary/actions/card'
 import { answer } from 'app/Vocabulary/actions/session'
 import store from 'app/App/store'
 
@@ -34,7 +34,7 @@ class Card extends Component {
     const { answered } = this.props.vocabulary.card
     // console.log(e.keyCode)
     this.isKeyDown = true
-    if (e.keyCode === 32 /* Space */ ) {
+    if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */ ) {
       if (answered) {
         this.answer(OK)
       } else {
@@ -57,7 +57,7 @@ class Card extends Component {
       e.preventDefault()
     } else if ([51 /* Three */ , 76 /* L */ , 68 /* D */ , 39 /* Right */ ].includes(e.keyCode)) {
       if (answered) {
-        this.answer(PERFECT)
+        this.answer(EASY)
       } else {
         this.show()
       }
@@ -123,8 +123,8 @@ class Card extends Component {
     const is = card.is
     const en = card.en
     return (
-      <div className="vocabulary-vocabulary-card" key={status.counter}>
-        <div className="vocabulary-flashcard-container" onClick={()=>this.show(false)}>
+      <div className={`vocabulary-card ${answered?'':'not-answered'}`} key={status.counter}>
+        <div className="flashcard-container" onClick={()=>this.show(false)}>
           <div className={`flashcard-top ${card.from === 'is' ? 'icelandic' : 'english'}`}>
             {card.from === 'is' ? is : en}
           </div>
@@ -142,8 +142,8 @@ class Card extends Component {
           ) : (
             <div>
               <button className={this.state.answer === BAD ? 'selected':''} onClick={()=>this.answer(BAD,false)}>Bad</button>
-              <button className={this.state.answer === OK || !this.state.answer ? 'selected':''} onClick={()=>this.answer(OK,false)}>OK</button>
-              <button className={this.state.answer === PERFECT ? 'selected':''} onClick={()=>this.answer(PERFECT,false)}>Perfect</button>
+              <button className={this.state.answer === OK ? 'selected':''} onClick={()=>this.answer(OK,false)}>OK</button>
+              <button className={this.state.answer === EASY ? 'selected':''} onClick={()=>this.answer(EASY,false)}>Easy</button>
             </div>
           )}
         </div>

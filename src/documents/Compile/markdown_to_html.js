@@ -40,9 +40,9 @@ export default (input) => {
     .replace(/^(\*+) ?/gm, (x, bullets) => {
       return `${'  '.repeat(bullets.length-1)}- `
     })
-    .replace(/^(#+) ?/gm, (x, bullets) => {
-      return `${'  '.repeat(bullets.length-1)}1. `
-    })
+    // .replace(/^(#+) ?/gm, (x, bullets) => {
+    //   return `${'  '.repeat(bullets.length-1)}1. `
+    // })
     /* Headings */
     .replace(/^(=+) ?(.+)\1/gm, (x, equals, title) => {
       return `${'#'.repeat(equals.length)} ${title}`
@@ -61,7 +61,7 @@ export default (input) => {
   /* References */
   // input = input.split(/<ref[> ][\s\S]+<\/ref>/g)
 
-  // console.log(input.slice(0, 200))
+  console.log(input.slice(0, 200))
 
   // console.log(input)
 

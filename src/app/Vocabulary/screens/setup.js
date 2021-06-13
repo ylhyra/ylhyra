@@ -11,7 +11,7 @@ const Screen = (props) => (
       <button>No, I already speak some Icelandic</button>
     </div>
     {!props.user &&
-      <Link href={'LOG_IN'}>Already have an account?</Link>
+      <Link href="LOG_IN">Already have an account?</Link>
     }
   </div>
 )

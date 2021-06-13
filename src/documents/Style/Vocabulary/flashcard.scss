@@ -1,7 +1,7 @@
 /*
   Flashcard
 */
-.vocabulary-flashcard-container {
+.flashcard-container {
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -37,7 +37,7 @@
   .english {
     font-weight: 500;
   }
-  button.selected {
+  button.selected, button:active  {
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.34);
     z-index: 10;
   }

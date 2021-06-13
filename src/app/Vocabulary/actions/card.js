@@ -2,7 +2,7 @@ import { average, clamp } from 'app/App/functions/math'
 
 export const BAD = 1
 export const OK = 2
-export const PERFECT = 3
+export const EASY = 3
 
 // export const CARD_STATUS_NEW = 'new'
 // export const CARD_STATUS_LEARNING = 'learning'
@@ -49,7 +49,7 @@ class Card {
       } else if (this.history[1] === BAD) {
         this.done = false // Hmm ?
       }
-    } else if (rating === PERFECT) {
+    } else if (rating === EASY) {
       interval = this.session.cards.length + 100
       this.done = true
     }
@@ -94,23 +94,19 @@ class Card {
   ticksSinceTermWasSeen() {
     let last_seen = null;
     return null
-    // TODO
-    // this.terms.forEach(term => {
-    //   if (this.session.lastSeenTerms[term] && (last_seen === null || last_seen > this.session.lastSeenTerms[term])) {
-    //     last_seen = this.session.lastSeenTerms[term]
-    //   }
-    // })
-    // if (last_seen) {
-    //   return this.session.counter - last_seen
-    // } else {
-    //   return this.session.cards.length
-    // }
+    this.terms.forEach(term => {
+      if (this.session.lastSeenTerms[term] && (last_seen === null || last_seen > this.session.lastSeenTerms[term])) {
+        last_seen = this.session.lastSeenTerms[term]
+      }
+    })
+    if (last_seen) {
+      return this.session.counter - last_seen
+    } else {
+      return this.session.cards.length
+    }
   }
   getRanking() {
     let q = this.getQueuePosition();
-
-    // /* Slightly adjust so that when two cards compete, the one that hasn't been seen for a while wins. May not be necessary */
-    // q += (this.session.cards.length - this.ticksSinceTermWasSeen()) / this.session.cards.length * 0.01
 
     /* New cards are not relevant unless there are no overdue cards */
     if (this.history.length === 0) {
@@ -152,7 +148,7 @@ class Card {
   shouldShowHint() {
     const lastTwoAverage = average(this.history.slice(0, 2))
     return !(
-      this.history[0] === PERFECT ||
+      this.history[0] === EASY ||
       (this.history.length >= 2 && lastTwoAverage >= OK)
     )
   }

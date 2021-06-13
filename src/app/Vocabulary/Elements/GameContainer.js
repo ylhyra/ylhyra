@@ -6,15 +6,15 @@ import { TextEventListenersOn, TextEventListenersOff } from 'documents/Read/Touc
 import { isBrowser, hasLocalStorage, supportsTouch } from 'app/App/functions/isBrowser'
 
 class GameContainer extends Component {
-  // componentDidMount = () => {
-  //   $('body').addClass('unscrollable')
-  //   TextEventListenersOff()
-  // }
-  // componentWillUnmount = () => {
-  //   $('body').removeClass('unscrollable')
-  //   TextEventListenersOn()
-  // }
-
+  componentDidMount = () => {
+    this.componentDidUpdate()
+  }
+  componentDidUpdate = () => {
+    const { deck, session } = this.props.vocabulary
+    if (deck && !session) {
+      deck.generateSession()
+    }
+  }
   render() {
     const { status } = this.props.vocabulary
     return (

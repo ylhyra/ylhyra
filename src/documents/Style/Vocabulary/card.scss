@@ -30,7 +30,7 @@
     }
   }
 }
-.vocabulary-vocabulary-card {
+.vocabulary-card {
   display: flex;
   flex-direction: row;
   background: #f4f4f4;
@@ -52,6 +52,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+  }
+  &.not-answered {
+    cursor: pointer;
+    &:hover {
+      box-shadow: 0 0 1px 0 rgba(black, 0.5), 0 1px 3px 0 rgba(black, 0.2);
+    }
   }
   &.incorrect {
     box-shadow: 0 0 0 2px #f04949;
@@ -83,9 +89,6 @@
       flex-direction: column;
     }
   }
-  &.gender .answers {
-    flex: 0;
-  }
   .notes {
     background: white;
     text-align: left;
@@ -107,149 +110,11 @@
     }
   }
 }
-@-webkit-keyframes shake {
-  10% {
-    transform: translate3d(-6px, 0, 0);
-  }
-  40% {
-    transform: translate3d(5px, 0, 0);
-  }
-  70% {
-    transform: translate3d(-2px, 0, 0);
-  }
-  90% {
-    transform: translate3d(1px, 0, 0);
-  }
-}
-@-moz-keyframes shake {
-  10% {
-    transform: translate3d(-6px, 0, 0);
-  }
-  40% {
-    transform: translate3d(5px, 0, 0);
-  }
-  70% {
-    transform: translate3d(-2px, 0, 0);
-  }
-  90% {
-    transform: translate3d(1px, 0, 0);
-  }
-}
-@-ms-keyframes shake {
-  10% {
-    transform: translate3d(-6px, 0, 0);
-  }
-  40% {
-    transform: translate3d(5px, 0, 0);
-  }
-  70% {
-    transform: translate3d(-2px, 0, 0);
-  }
-  90% {
-    transform: translate3d(1px, 0, 0);
-  }
-}
-@-o-keyframes shake {
-  10% {
-    transform: translate3d(-6px, 0, 0);
-  }
-  40% {
-    transform: translate3d(5px, 0, 0);
-  }
-  70% {
-    transform: translate3d(-2px, 0, 0);
-  }
-  90% {
-    transform: translate3d(1px, 0, 0);
-  }
-}
-@keyframes shake {
-  10% {
-    transform: translate3d(-6px, 0, 0);
-  }
-  40% {
-    transform: translate3d(5px, 0, 0);
-  }
-  70% {
-    transform: translate3d(-2px, 0, 0);
-  }
-  90% {
-    transform: translate3d(1px, 0, 0);
-  }
-}
-@-webkit-keyframes fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@-moz-keyframes fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@-ms-keyframes fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@-o-keyframes fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 @keyframes fadein {
   from {
     opacity: 0;
   }
   to {
-    opacity: 1;
-  }
-}
-@-webkit-keyframes mild-blink {
-  0%,
-  100% {
-    opacity: 0.85;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-@-moz-keyframes mild-blink {
-  0%,
-  100% {
-    opacity: 0.85;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-@-ms-keyframes mild-blink {
-  0%,
-  100% {
-    opacity: 0.85;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-@-o-keyframes mild-blink {
-  0%,
-  100% {
-    opacity: 0.85;
-  }
-  50% {
     opacity: 1;
   }
 }
@@ -260,46 +125,6 @@
   }
   50% {
     opacity: 1;
-  }
-}
-@-webkit-keyframes animationFrames {
-  0%,
-  100%,
-  40% {
-    transform: translate(0px, 0px) rotate(0deg);
-  }
-  20% {
-    transform: translate(5px, 0px) rotate(0.5deg);
-  }
-}
-@-moz-keyframes animationFrames {
-  0%,
-  100%,
-  40% {
-    transform: translate(0px, 0px) rotate(0deg);
-  }
-  20% {
-    transform: translate(5px, 0px) rotate(0.5deg);
-  }
-}
-@-ms-keyframes animationFrames {
-  0%,
-  100%,
-  40% {
-    transform: translate(0px, 0px) rotate(0deg);
-  }
-  20% {
-    transform: translate(5px, 0px) rotate(0.5deg);
-  }
-}
-@-o-keyframes animationFrames {
-  0%,
-  100%,
-  40% {
-    transform: translate(0px, 0px) rotate(0deg);
-  }
-  20% {
-    transform: translate(5px, 0px) rotate(0.5deg);
   }
 }
 @keyframes animationFrames {

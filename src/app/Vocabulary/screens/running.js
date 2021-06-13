@@ -7,7 +7,10 @@ import Link from 'app/Router/Link'
 
 export default () => (
   <div id="vocabulary">
-    <Link href="VOCABULARY">Exit</Link>
+    <div>
+      <Link href="VOCABULARY">Exit</Link>{' • '}
+      <Link href="/vocabulary/tutorial">Tutorial</Link>
+    </div>
     <GameContainer/>
   </div>
 )

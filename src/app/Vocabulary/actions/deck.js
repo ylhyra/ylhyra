@@ -28,10 +28,10 @@ class Deck {
     // if(session) {
     //
     // }else{
-    this.generateSession()
-    // }
-    // this.sessionLog = []
-    this.saveSession()
+    // this.generateSession()
+    // // }
+    // // this.sessionLog = []
+    // this.saveSession()
 
     /* TEMPORARY */
     if (process.env.NODE_ENV === 'development') {
@@ -50,7 +50,7 @@ class Deck {
     updateSchedule()
   }
   continueStudying() {
-    updateURL('VOCABULARY_RUNNING')
+    updateURL('VOCABULARY_PLAY')
     this.generateSession()
   }
   studyNewWords() {}

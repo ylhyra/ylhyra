@@ -9,6 +9,10 @@ const deck = (state = null, action) => {
   }
 }
 
+/*
+  - started_at
+  - data
+*/
 const session = (state = null, action) => {
   switch (action.type) {
     case 'LOAD_SESSION':

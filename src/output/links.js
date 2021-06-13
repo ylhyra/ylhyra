@@ -5506,6 +5506,11 @@ module.exports = {
     "filename": "project_software-work-in-progess_útlit",
     "file": "/Users/egill/ylhyra_content/not_data/project/Software/Útlit.md"
   },
+  "vocabulary/tutorial": {
+    "title": "Vocabulary/Tutorial",
+    "filename": "vocabulary_tutorial",
+    "file": "/Users/egill/ylhyra_content/not_data/project/Vocabulary/Tutorial.md"
+  },
   "project:ylhýra": {
     "title": "Project:Ylhýra",
     "filename": "project_ylhýra",

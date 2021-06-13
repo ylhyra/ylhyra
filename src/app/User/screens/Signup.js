@@ -6,7 +6,7 @@ import Login from 'app/User/Login'
 export default () => <Login
   type="signup"
   above={<div>
-    <Link href={'LOG_IN'}>Already have an account?</Link>
+    <Link href="LOG_IN">Already have an account?</Link>
 
     <div>
       Step 1: Create an account<br/>

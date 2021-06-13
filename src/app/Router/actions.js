@@ -1,6 +1,10 @@
 import store from 'app/App/store'
 import { url_to_info } from 'app/Router/paths'
 
+window.addEventListener('popstate', (event) => {
+  updateURL(window.location.pathname)
+})
+
 export const InitializeRouter = () => {
   updateURL(window.location.pathname + window.location.hash)
 }
@@ -21,7 +25,7 @@ export const updateURL = (url, title, replace) => {
   if (!title && pathname in url_to_info) {
     title = url_to_info[pathname].title
   }
-  window.document.title = (title ? title + '\u200A•\u200A' : '') + 'Ylhýra'
+  window.document.title = (title ? title + ' • ' : '') + 'Ylhýra'
 
   if (!replace) {
     store.dispatch({

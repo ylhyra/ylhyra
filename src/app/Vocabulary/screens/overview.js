@@ -8,18 +8,13 @@ import Link from 'app/Router/Link'
 
 class Overview extends Component {
   render() {
-    const { status } = this.props.vocabulary
+    const { status, session } = this.props.vocabulary
     return (
       <div>
         <h1>Vocabulary</h1>
-        {status && status.total > 0 ? <div>
-          {/* Ready to study for {MINUTES} minutes?
-          <br/> */}
-          <Link href={'VOCABULARY_RUNNING'}>
-            {status.counter && status.counter > 1 ? 'Continue' : 'Start'}
-          </Link>
-        </div> : `Loading...`}
-
+        <Link href="VOCABULARY_PLAY">
+          {session ? 'Continue' : 'Start'}
+        </Link>
         <Overview2/>
       </div>
     )

@@ -10,24 +10,3 @@ We keep track of two things:
 
 * **terms** – A term is an identifier for a particular Icelandic sentence.
 * **cards** – Belongs to one or more terms.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

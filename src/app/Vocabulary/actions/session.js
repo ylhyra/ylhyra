@@ -5,7 +5,7 @@
  */
 import store from 'app/App/store'
 import _ from 'underscore'
-import Card, { BAD, OK, PERFECT } from './card'
+import Card, { BAD, OK, EASY } from './card'
 // import { day } from 'app/App/functions/time.js'
 export const MINUTES = 3
 const MAX_SECONDS_TO_COUNT_PER_ITEM = 15
@@ -37,6 +37,9 @@ class Session {
     if (this.remainingTime <= 0) {
       this.deck.sessionDone()
     }
+  }
+  getPercentageRemaining() {
+    return Math.floor(this.remainingTime / this.totalTime)
   }
   getCard() {
     return {
@@ -84,7 +87,7 @@ class Session {
     return {
       bad: this.cards.filter(card => card.getStatus() === BAD).length,
       ok: this.cards.filter(card => card.getStatus() === OK).length,
-      good: this.cards.filter(card => card.getStatus() === PERFECT).length,
+      good: this.cards.filter(card => card.getStatus() === EASY).length,
       total: this.cards.length,
       // cardsDone: this.cards.filter(card => card.done).length,
       wordsTotal: _.uniq(_.flatten(this.cards.map(i => i.terms))).length,

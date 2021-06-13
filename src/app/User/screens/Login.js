@@ -6,7 +6,7 @@ import Login from 'app/User/Login'
 export default () => <Login
   type="login"
   above={<div>
-    <Link href={'SIGN_UP'}>Sign up</Link>
+    <Link href="SIGN_UP">Sign up</Link>
     <h2>Log in</h2>
   </div>}
 />

@@ -7,8 +7,8 @@ import Frontpage from 'app/Elements/Frontpage'
 /* TODO: Hlaða skyldum saman */
 import VocabularyOverview from 'app/Vocabulary/screens/overview'
 import VocabularyRunning from 'app/Vocabulary/screens/running'
-const VocabularyTutorial = lazy(() =>
-  import ('app/Vocabulary/screens/tutorial'))
+// const VocabularyTutorial = lazy(() =>
+//   import ('app/Vocabulary/screens/tutorial'))
 const VocabularyIntro = lazy(() =>
   import ('app/Vocabulary/screens/setup'))
 
@@ -36,16 +36,16 @@ const list = {
     url: '/vocabulary/setup',
     component: VocabularyIntro
   },
-  VOCABULARY_RUNNING: {
+  VOCABULARY_PLAY: {
     title: 'Vocabulary',
     url: '/vocabulary/play',
     component: VocabularyRunning
   },
-  VOCABULARY_TUTORIAL: {
-    title: 'Vocabulary',
-    url: '/vocabulary/tutorial',
-    component: VocabularyTutorial
-  },
+  // /vocabulary/tutorial: {
+  //   title: 'Vocabulary',
+  //   url: '/vocabulary/tutorial',
+  //   component: VocabularyTutorial
+  // },
   LOG_IN: {
     title: 'Log in',
     url: '/login',
