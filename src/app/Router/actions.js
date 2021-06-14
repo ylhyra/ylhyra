@@ -25,7 +25,7 @@ export const updateURL = (url, title, replace) => {
   if (!title && pathname in url_to_info) {
     title = url_to_info[pathname].title
   }
-  window.document.title = (title ? title + ' • ' : '') + 'Ylhýra'
+  window.document.title = (title ? title + '\u2006•\u200A' : '') + 'Ylhýra'
 
   if (!replace) {
     store.dispatch({
@@ -39,5 +39,6 @@ export const updateURL = (url, title, replace) => {
 }
 
 export const getURL = () => {
-  return window.location.pathname
+  return decodeURI(window.location.pathname)
+    .replace(/^\//, '')
 }

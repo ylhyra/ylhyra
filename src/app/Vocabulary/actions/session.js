@@ -43,7 +43,7 @@ class Session {
     const time = Math.floor(this.remainingTime/1000) || 1
     const minutes = Math.floor(time / 60);
     const seconds = time - minutes * 60;
-    return `${minutes}:${('0'+seconds).slice(-2)}`
+    return `${minutes}m${('0'+seconds).slice(-2)}s`
     // return `${minutes} minute${minutes===1?'':''}, ${('0'+seconds).slice(-2)} second${seconds===1?'s':''}`
   }
   getCard() {

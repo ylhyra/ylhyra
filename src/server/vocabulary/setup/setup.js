@@ -1,6 +1,6 @@
 /*
   To run:
-  node build/ylhyra_server.js --import-vocabulary
+  node build_server/ylhyra_server.js --import-vocabulary
 */
 import _hash from 'src/app/App/functions/hash'
 import axios from 'axios'

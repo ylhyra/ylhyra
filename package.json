@@ -12,8 +12,9 @@
   "scripts": {
     "start": "export BROWSER=none && react-scripts start",
     "build": "react-scripts build",
-    "xxcompile_links": "rm -f src/output/**.html && node build/ylhyra_server.js --compile-content",
-    "compile_links": "node build/ylhyra_server.js --compile-content",
+    "xxcompile_links": "rm -f src/output/**.html && node build_server/ylhyra_server.js --compile-content",
+    "compile_links": "node build_server/ylhyra_server.js --compile-content",
+    "compile_vocabulary": "node build_server/ylhyra_server.js --import-vocabulary",
     "server": "export NODE_ENV=development && webpack --config ./scripts/server_webpack.js --color --watch"
   },
   "proxy": "http://localhost:9123",

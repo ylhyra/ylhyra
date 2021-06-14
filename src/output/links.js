@@ -5982,5 +5982,10 @@ module.exports = {
     "title": "Template:Þt",
     "filename": "template_þt",
     "file": "/Users/egill/ylhyra_content/not_data/templates/Þt.md"
+  },
+  "fotografía": {
+    "title": "fotografía",
+    "filename": "fotografía",
+    "file": "/Users/egill/ylhyra_content/not_data/test/fotografia.md"
   }
 }

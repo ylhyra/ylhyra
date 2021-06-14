@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Link from 'app/Router/Link'
+import Button from 'documents/Templates/Button'
 
 class Session extends Component {
   render() {
@@ -8,9 +9,9 @@ class Session extends Component {
     return (
       <div id="">
         {session ? <div>
-          <Link href="VOCABULARY_PLAY">
+          <Button><Link href="VOCABULARY_PLAY">
             Session {session.printTimeRemaining()} remaining. CONTINUE!
-          </Link>
+          </Link></Button>
         </div>: ''}
       </div>
     )

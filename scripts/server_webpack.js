@@ -24,7 +24,7 @@ module.exports = {
     ylhyra_server: [ /*polyfills,*/ resolve('src/server/index.js')],
   },
   output: {
-    path: resolve('build'),
+    path: resolve('build_server'),
     filename: '[name].js'
   },
   resolve: {

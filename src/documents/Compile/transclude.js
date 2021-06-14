@@ -34,16 +34,15 @@ const Transclude = (title, depth = 0) => {
                 output += q
                 return resolve2()
               }
-              const j = await Transclude(q, depth + 1)
+              const j = (await Transclude(q, depth + 1)).output
               // console.log(j)
               output += j
               return resolve2()
             })
           })
-
       }
 
-      resolve(output)
+      resolve({ output, header })
     })
   })
 }

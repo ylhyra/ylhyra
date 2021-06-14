@@ -18,11 +18,7 @@ class Content extends Component {
     this.get()
   }
   get() {
-    // this.setState({
-    //   // pathname: this.props.history.location.pathname,
-    // })
-    // return;
-    let url = getURL().replace(/^\//, '')
+    let url = getURL()
     if (url in cache) {
       this.set(url, cache[url])
     } else {
