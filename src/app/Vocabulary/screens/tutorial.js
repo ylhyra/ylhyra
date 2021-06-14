@@ -13,7 +13,7 @@
 //
 //
 //
-//     <kbd>1</kbd> for "Bad", <kbd>2</kbd> for "OK", <kbd>3</kbd> for "Easy",
+//     <kbd>1</kbd> for "Bad", <kbd>2</kbd> for "GOOD", <kbd>3</kbd> for "Easy",
 //
 //     <kbd>&larr;</kbd>, <kbd>↓</kbd>, <kbd>&rarr;</kbd>
 //

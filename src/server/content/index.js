@@ -24,15 +24,16 @@ router.get('/content', async(req, res) => {
     }
 
     if (url.startsWith('file:')) {
-      res.sendfile(file.replace(/(\.[a-z]+)$/i,''))
+      res.sendfile(file.replace(/(\.[a-z]+)$/i, ''))
       // res.sendfile(file)
     } else {
       // console.log(info)
-      const content = await generate_html(url)
+      const { content, header } = await generate_html(url)
       res.send({
         ...output,
         content,
         title,
+        header,
       })
     }
   } else {

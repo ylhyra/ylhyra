@@ -44,7 +44,7 @@ router.post('/vocabulary/save', cors(), (req, res) => {
       console.error(err)
       res.sendStatus(500)
     } else {
-      res.send('OK')
+      res.send('GOOD')
     }
   })
 })

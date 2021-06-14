@@ -16,12 +16,14 @@ class GameContainer extends Component {
     }
   }
   render() {
-    const { status } = this.props.vocabulary
+    const { status, session } = this.props.vocabulary
+    if(!session) return null;
     return (
       <div id="game-container">
         <div className="vocabulary-card-outer-container">
           <Card/>
         </div>
+        {session.printTimeRemaining()}
         <Progress/>
       </div>
     )

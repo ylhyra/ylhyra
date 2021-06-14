@@ -17,21 +17,12 @@ class Deck {
     const deck = this
     const { cards, terms } = database
     this.cards = cards
+    this.terms = terms
     this.cards_sorted = Object.keys(cards).map(key => {
       // if(typeof cards[key] === 'function') return null;
-      return {
-        id: key,
-        ...cards[key],
-      }
+      return cards[key]
     }).filter(Boolean).sort((a, b) => a.sort - b.sort)
     this.schedule = schedule || {}
-    // if(session) {
-    //
-    // }else{
-    // this.generateSession()
-    // // }
-    // // this.sessionLog = []
-    // this.saveSession()
 
     /* TEMPORARY */
     if (process.env.NODE_ENV === 'development') {

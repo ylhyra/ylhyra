@@ -10,7 +10,7 @@ export default async(title) => {
   output = await images(output)
   output = markdown_to_html(output)
   console.log(header)
-  return output
+  return { content: output, header }
 }
 
 // new Promise((resolve, reject) => {

@@ -6,9 +6,8 @@ import { getURL } from 'app/Router/actions'
 import { html2json, json2html } from 'app/App/functions/html2json'
 import Parse from 'documents/Parse'
 import { updateURL } from 'app/Router/actions'
-// import Traverse from 'documents/Render/Traverse'
-// import Traverse from 'documents/Render/Traverse'
 import Render from 'documents/Render'
+import VocabularyHeader from 'app/Vocabulary/Elements/VocabularyHeader'
 
 let cache = {}
 
@@ -46,7 +45,11 @@ class Content extends Component {
     if (this.state.error) return <NotFound/>;
     if (!this.state.data) return <div>Loading...</div>;
     // console.log(Parse({ html: this.state.data.content }))
-    return Render({ json: Parse({ html: this.state.data.content }).parsed })
+    return <div>
+      <VocabularyHeader header_data={this.state.data.header}/>
+      {Render({ json: Parse({ html: this.state.data.content }).parsed })}
+    </div>
+
   }
 }
 export default connect(state => ({

@@ -67,7 +67,7 @@ app.use('/api', require('server/user').default)
 app.use('/api', require('server/content').default)
 app.use('/api', require('server/vocabulary/get').default)
 app.use('/api', require('server/vocabulary/save').default)
-app.use('/api/vocabulary/vocabulary_database.json', express.static(path.join(__dirname, '/vocabulary/vocabulary_database.json')))
+app.use('/api/vocabulary/vocabulary_database.json', express.static(__basedir + '/src/output/vocabulary_database.json'))
 
 
 // // app.use('/api', require('server/tweets').default)
@@ -77,9 +77,10 @@ app.use('/api/vocabulary/vocabulary_database.json', express.static(path.join(__d
 
 app.use('/api/temp_files/', express.static(upload_path))
 
-// export const image_path = path.resolve(__dirname, './../../../ylhyra_content/not_data/files')
-export const image_path = path.resolve(__dirname, './../output/images')
-app.use('/api/images/', express.static(image_path))
+export const processed_image_path = path.resolve(__basedir, 'src/output/images')
+app.use('/api/images/', express.static(processed_image_path))
+export const unprocessed_image_path = path.resolve(__basedir, './../ylhyra_content/not_data/files')
+app.use('/api/images2/', express.static(unprocessed_image_path))
 
 /*
   Public APIs

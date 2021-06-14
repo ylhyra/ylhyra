@@ -5,7 +5,7 @@
  */
 import store from 'app/App/store'
 import _ from 'underscore'
-import Card, { BAD, OK, EASY } from './card'
+import Card, { BAD, GOOD, EASY } from './card'
 // import { day } from 'app/App/functions/time.js'
 export const MINUTES = 3
 const MAX_SECONDS_TO_COUNT_PER_ITEM = 15
@@ -43,7 +43,7 @@ class Session {
     const time = Math.floor(this.remainingTime/1000) || 1
     const minutes = Math.floor(time / 60);
     const seconds = time - minutes * 60;
-    return `${minutes}m${('0'+seconds).slice(-2)}s`
+    return `${minutes}:${('0'+seconds).slice(-2)}`
     // return `${minutes} minute${minutes===1?'':''}, ${('0'+seconds).slice(-2)} second${seconds===1?'s':''}`
   }
   getCard() {
@@ -97,7 +97,7 @@ class Session {
   getStatus() {
     return {
       bad: this.cards.filter(card => card.getStatus() === BAD).length,
-      ok: this.cards.filter(card => card.getStatus() === OK).length,
+      ok: this.cards.filter(card => card.getStatus() === GOOD).length,
       good: this.cards.filter(card => card.getStatus() === EASY).length,
       total: this.cards.length,
       // cardsDone: this.cards.filter(card => card.done).length,
@@ -132,6 +132,7 @@ export const answer = (rating) => {
 }
 
 export const InitializeSession = (input, deck) => {
+  if(!deck) throw new Error('Deck misssing')
   if (Array.isArray(input)) {
     const session = new Session(input, deck)
     session.next()

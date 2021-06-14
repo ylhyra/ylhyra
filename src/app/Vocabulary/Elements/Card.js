@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BAD, OK, EASY } from 'app/Vocabulary/actions/card'
+import { BAD, GOOD, EASY } from 'app/Vocabulary/actions/card'
 import { answer } from 'app/Vocabulary/actions/session'
 import store from 'app/App/store'
 
@@ -36,7 +36,7 @@ class Card extends Component {
     this.isKeyDown = true
     if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */ ) {
       if (answered) {
-        this.answer(OK)
+        this.answer(GOOD)
       } else {
         this.show()
       }
@@ -50,7 +50,7 @@ class Card extends Component {
       e.preventDefault()
     } else if ([50 /* Two */ , 75 /* K */ , 83 /* S */ , 40 /* Down */ ].includes(e.keyCode)) {
       if (answered) {
-        this.answer(OK)
+        this.answer(GOOD)
       } else {
         this.show()
       }
@@ -142,7 +142,7 @@ class Card extends Component {
           ) : (
             <div>
               <button className={this.state.answer === BAD ? 'selected':''} onClick={()=>this.answer(BAD,false)}>Bad</button>
-              <button className={this.state.answer === OK ? 'selected':''} onClick={()=>this.answer(OK,false)}>OK</button>
+              <button className={this.state.answer === GOOD ? 'selected':''} onClick={()=>this.answer(GOOD,false)}>Good</button>
               <button className={this.state.answer === EASY ? 'selected':''} onClick={()=>this.answer(EASY,false)}>Easy</button>
             </div>
           )}

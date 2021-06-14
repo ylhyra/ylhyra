@@ -1,0 +1,15 @@
+User-agent: *
+Disallow: /api/
+Disallow: /file:
+Disallow: /project:
+Disallow: /*.png$
+Disallow: /*.jpg$
+Disallow: /*.jpeg$
+Disallow: /*.svg$
+Disallow: /*.gif$
+Disallow: /*.md$
+
+User-agent: Googlebot-Image
+Disallow: /
+
+# Sitemap: https://ylhyra.is/sitemap.xml

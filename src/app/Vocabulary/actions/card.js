@@ -1,7 +1,7 @@
 import { average, clamp } from 'app/App/functions/math'
 
 export const BAD = 1
-export const OK = 2
+export const GOOD = 2
 export const EASY = 3
 
 // export const CARD_STATUS_NEW = 'new'
@@ -41,10 +41,10 @@ class Card {
         // TODO improve
         interval = 10
       }
-    } else if (rating === OK) {
+    } else if (rating === GOOD) {
       interval = 15
       this.done = true
-      if (this.history[1] >= OK) {
+      if (this.history[1] >= GOOD) {
         interval = 28
       } else if (this.history[1] === BAD) {
         this.done = false // Hmm ?
@@ -149,7 +149,7 @@ class Card {
     const lastTwoAverage = average(this.history.slice(0, 2))
     return !(
       this.history[0] === EASY ||
-      (this.history.length >= 2 && lastTwoAverage >= OK)
+      (this.history.length >= 2 && lastTwoAverage >= GOOD)
     )
   }
 }

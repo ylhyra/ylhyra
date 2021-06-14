@@ -21,9 +21,8 @@ export const Initialize = async() => {
       r && r.forEach(i => {
         schedule[i.card_id] = i
       })
-      // TODO
-      // saveInLocalStorage('vocabulary-database', database)
-      // saveInLocalStorage('vocabulary-database-last-updated', new Date().getTime())
+      saveInLocalStorage('vocabulary-schedule', schedule)
+      saveInLocalStorage('vocabulary-schedule-last-updated', new Date().getTime())
     }
   }
 

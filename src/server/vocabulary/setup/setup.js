@@ -2,15 +2,14 @@
   To run:
   node build_server/ylhyra_server.js --import-vocabulary
 */
-import _hash from 'src/app/App/functions/hash'
 import axios from 'axios'
-const path = require('path')
-const fs = require('fs')
-require('src/app/App/functions/array-foreach-async')
 import query from 'server/database'
 import sql from 'server/database/functions/SQL-template-literal'
 import stable_stringify from 'json-stable-stringify'
-
+import { clean_string, getHash, getHashesFromCommaSeperated } from './functions'
+const path = require('path')
+const fs = require('fs')
+require('src/app/App/functions/array-foreach-async')
 let google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?output=tsv&random=${Math.random()}`
 
 const TESTING = true
@@ -84,7 +83,7 @@ const run = async() => {
       const english = clean_string(columns.english)
       if (!columns.icelandic) return;
       if (!english) return;
-      if (columns.should_be_taught == 'no') return;
+      if (columns.should_be_taught === 'no') return;
       if (!columns.level && !TESTING) return;
 
       /* Can have multiple */
@@ -114,7 +113,7 @@ const run = async() => {
       }
 
       if (columns.direction && columns.direction !== '<-' && columns.direction !== '->') {
-        throw (`Unknown direction ${columns.direction}`)
+        throw new Error(`Unknown direction ${columns.direction}`)
       }
 
       /* Icelandic to English */
@@ -149,7 +148,10 @@ const run = async() => {
         // })
         // termDependsOnTerms[card.id] = terms_in_this_line
         TermsToCardId(terms_in_this_line, id)
-        cards[id] = card
+        cards[id] = {
+          id,
+          ...card,
+        }
       })
     })
 
@@ -232,7 +234,7 @@ const run = async() => {
   //   })
   // })
   // fs.writeFileSync(path.resolve(__dirname, `terms.json`), JSON.stringify(termDependsOnTerms, null, 2), function () {})
-  fs.writeFileSync(path.resolve(__dirname, `./../vocabulary_database.json`), JSON.stringify({
+  fs.writeFileSync(__basedir + '/src/output/vocabulary_database.json', JSON.stringify({
     cards,
     terms,
     dependencies,
@@ -242,34 +244,6 @@ const run = async() => {
   process.exit()
 }
 
-const clean_string = (i) => {
-  if (!i) return null;
-  return i
-    .replace(/\*/g, '')
-    .replace(/\\,/g, ',')
-    .replace(/'{2,}/g, '')
-    .replace(/\s+/g, ' ')
-    .trim()
-}
-
-
-
-const getHash = (i) => {
-  if (Array.isArray(i)) {
-    return getHash(i.map(clean_string).join(';'))
-  }
-  const string = clean_string(i)
-    .replace(/[.!]+$/, '')
-    .toLowerCase()
-  if (!string) return null;
-  // return (string)
-  return _hash(string)
-}
-
-const getHashesFromCommaSeperated = (i) => {
-  if (!i) return [];
-  return i.split(',').map(getHash).filter(Boolean)
-}
 
 // const format_string = (i) => i
 // .replace(/\\,/g, ',')

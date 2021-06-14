@@ -2,11 +2,11 @@
 *OLD*
 *.csv
 *.save
-*.txt
 *.zip
+*.txt
+!public/robots.txt
 build
 build_server
-google_translation_api.json
 node_modules
 npm-debug.log*
 package-lock.json
