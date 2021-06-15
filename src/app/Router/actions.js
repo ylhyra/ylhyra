@@ -18,6 +18,12 @@ export const updateURL = (url, title, replace) => {
     url = '/' + url
   }
 
+  const [pathname, section] = url.split('#')
+  if (!title && pathname in url_to_info) {
+    title = url_to_info[pathname].title
+  }
+  window.document.title = (title ? title + '\u2006•\u200A' : '') + 'Ylhýra'
+
   /*
     Force vocabulary game to keep the URL of the article it is started on
   */
@@ -28,10 +34,11 @@ export const updateURL = (url, title, replace) => {
         pathname: url,
       }
     })
+    /* ?? */
+    window.history.pushState(null, '', window.location.pathname);
     return;
   }
 
-  const [pathname, section] = url.split('#')
   if (url !== window.location.pathname) {
     if (replace) {
       window.history.replaceState(null, '', url);
@@ -39,11 +46,6 @@ export const updateURL = (url, title, replace) => {
       window.history.pushState(null, '', url);
     }
   }
-
-  if (!title && pathname in url_to_info) {
-    title = url_to_info[pathname].title
-  }
-  window.document.title = (title ? title + '\u2006•\u200A' : '') + 'Ylhýra'
 
   if (!replace) {
     store.dispatch({

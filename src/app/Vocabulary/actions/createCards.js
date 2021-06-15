@@ -81,7 +81,6 @@ export default function createCards(options, deck_) {
 
   /* Depends on cards */
   // TODO
-  //
   let chosen = chosen_ids.map(id => {
     if (!(id in deck.cards)) {
       if (process.env.NODE_ENV === 'development') {

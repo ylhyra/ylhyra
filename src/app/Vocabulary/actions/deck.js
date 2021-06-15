@@ -40,7 +40,11 @@ class Deck {
   sessionDone() {
     updateSchedule()
     this.saveSession(null, true)
-    updateURL('VOCABULARY')
+    store.dispatch({
+      type: 'LOAD_SESSION',
+      content: null,
+    })
+    updateURL(window.location.pathname)
   }
   continueStudying() {
     updateURL('VOCABULARY_PLAY')
