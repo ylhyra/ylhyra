@@ -50,14 +50,9 @@ class Deck {
     updateURL('VOCABULARY_PLAY')
     this.generateSession()
   }
-  studyNewWords() {}
-  repeatTodaysWords() {}
   saveSession(session, done) {
     if (!done) {
-      let to_save = session.cards.filter(i => i.history.length !== 0).map(({ session, ...rest }) => rest)
-      if (to_save.length < 1) {
-        to_save = null
-      }
+      let to_save = session.cards.map(({ session, ...rest }) => rest)
       saveInLocalStorage('vocabulary-session', to_save)
       saveInLocalStorage('vocabulary-session-saved-at', new Date().getTime())
     } else {
@@ -74,30 +69,3 @@ class Deck {
 Deck.prototype.createCards = createCards
 Deck.prototype.syncSchedule = syncSchedule
 export default Deck
-
-
-export const MakeSummaryOfCardStatuses = (cards, deck) => {
-  let not_seen = 0
-  let bad = 0
-  let good = 0
-  let easy = 0
-  cards.forEach(id => {
-    if (id in deck.schedule) {
-      if (deck.schedule[id].score < GOOD) {
-        bad++
-      } else if (deck.schedule[id].score < EASY) {
-        good++
-      } else {
-        easy++
-      }
-    } else {
-      not_seen++
-    }
-  })
-  return {
-    not_seen,
-    bad,
-    good,
-    easy,
-  }
-}

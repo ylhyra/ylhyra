@@ -1,5 +1,6 @@
 import { hour, day } from 'app/App/functions/time.js'
 import _ from 'underscore'
+import { BAD, GOOD, EASY } from './card'
 let CARDS_TO_CREATE = 30
 let DEFAULT_NEW_CARDS_PER_SESSION = 3
 
@@ -11,7 +12,7 @@ export default function createCards(options, deck_) {
   const now = (new Date()).getTime()
   const forbidden_ids = (options && options.forbidden_ids) || []
   const allowed_card_ids = (options && options.allowed_card_ids) || null
-  if(allowed_card_ids) {
+  if (allowed_card_ids) {
     CARDS_TO_CREATE = 100
     DEFAULT_NEW_CARDS_PER_SESSION = 30
   }
@@ -75,13 +76,35 @@ export default function createCards(options, deck_) {
     )
   })
 
-  /* Related cards */
-  // chosen
-
+  /* TODO: Related cards */
 
   /* Depends on cards */
-  // TODO
-  let chosen = chosen_ids.map(id => {
+  chosen_ids = _.flatten(
+    chosen_ids.map(id => {
+      let output = [id]
+      deck.cards[id].terms.forEach(term => {
+        deck.terms[term].cards
+          .filter(sibling_card_id => sibling_card_id !== id)
+          .forEach(sibling_card_id => {
+            if (
+              /* Not seen */
+              !(sibling_card_id in deck.schedule) ||
+              deck.schedule[sibling_card_id].score < GOOD
+            ) {
+              output.push(sibling_card_id)
+            }
+          })
+      })
+      /* Show Icelandic card before English */
+      output = output.sort((a, b) => {
+        if (a.endsWith('is')) return -1;
+        return 1;
+      })
+      return output
+    })
+  )
+
+  let chosen = _.uniq(chosen_ids).map(id => {
     if (!(id in deck.cards)) {
       if (process.env.NODE_ENV === 'development') {
         throw new Error('Incorrect id passed into deck.cards')

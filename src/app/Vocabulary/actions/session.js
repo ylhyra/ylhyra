@@ -4,9 +4,18 @@
 import store from 'app/App/store'
 import _ from 'underscore'
 import Card, { BAD, GOOD, EASY } from './card'
+import {
+  updateRemainingTime,
+  getAdjustedPercentageDone,
+  printTimeRemaining,
+  getCard,
+  checkIfCardsRemaining,
+  createMoreCards,
+  getStatus,
+} from './_functions'
 // import { day } from 'app/App/functions/time.js'
 export const MINUTES = 3
-const MAX_SECONDS_TO_COUNT_PER_ITEM = 15
+export const MAX_SECONDS_TO_COUNT_PER_ITEM = 15
 const LOGGING = true
 
 class Session {
@@ -36,7 +45,7 @@ class Session {
         this.next(1)
       } else {
         throw new Error('Failed to generate cards')
-        // TODO User-facing error
+        // TODO User-facing error?
       }
       return
     }
@@ -64,58 +73,16 @@ class Session {
   }
 }
 
-Session.prototype.updateRemainingTime = function () {
-  const newTimestamp = (new Date()).getTime()
-  const diff = Math.min(
-    MAX_SECONDS_TO_COUNT_PER_ITEM * 1000,
-    newTimestamp - this.lastTimestamp
-  )
-  this.remainingTime = Math.max(0, this.remainingTime - diff)
-  this.lastTimestamp = newTimestamp
-  if (this.remainingTime <= 0) {
-    this.deck.sessionDone()
-  }
-}
-Session.prototype.getAdjustedPercentageDone = function () {
-  return ((this.totalTime - this.remainingTime) / this.totalTime) * 100
-}
-Session.prototype.printTimeRemaining = function () {
-  const time = Math.floor(this.remainingTime / 1000) || 1
-  const minutes = Math.floor(time / 60);
-  const seconds = time - minutes * 60;
-  return `${minutes}:${('0'+seconds).slice(-2)}`
-  // return `${minutes} minute${minutes===1?'':''}, ${('0'+seconds).slice(-2)} second${seconds===1?'s':''}`
-}
-Session.prototype.getCard = function () {
-  return this.currentCard
-}
-Session.prototype.checkIfCardsRemaining = function () {
-  const areThereNewCardsRemaining = this.cards.some(i => i.history.length === 0)
-  if (!areThereNewCardsRemaining) {
-    this.createMoreCards()
-  }
-}
-Session.prototype.createMoreCards = function () {
-  const newCards = this.deck.createCards({
-    forbidden_ids: this.cards.map(i => i.id)
-  })
-  this.cards = this.cards.concat(newCards.map((card, index) => new Card(card, index, this)))
-  console.log('New cards generated')
-}
-Session.prototype.getStatus = function () {
-  return {
-    bad: this.cards.filter(card => card.getStatus() === BAD).length,
-    ok: this.cards.filter(card => card.getStatus() === GOOD).length,
-    good: this.cards.filter(card => card.getStatus() === EASY).length,
-    total: this.cards.length,
-    wordsTotal: _.uniq(_.flatten(this.cards.map(i => i.terms))).length,
-    counter: this.counter,
-  }
-}
+Session.prototype.updateRemainingTime = updateRemainingTime
+Session.prototype.getAdjustedPercentageDone = getAdjustedPercentageDone
+Session.prototype.printTimeRemaining = printTimeRemaining
+Session.prototype.getCard = getCard
+Session.prototype.checkIfCardsRemaining = checkIfCardsRemaining
+Session.prototype.createMoreCards = createMoreCards
+Session.prototype.getStatus = getStatus
 
 export const loadCard = () => {
   const session = store.getState().vocabulary.session
-  // if (session.done) return;
   if (!session.currentCard) return console.error('no cards')
   store.dispatch({
     type: 'LOAD_CARD',

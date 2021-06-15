@@ -5,7 +5,7 @@ import Button from 'documents/Templates/Button'
 import { getHash } from 'server/vocabulary/setup/functions.js'
 import { InitializeSession } from 'app/Vocabulary/actions/session'
 import { updateURL } from 'app/Router/actions'
-import { MakeSummaryOfCardStatuses } from 'app/Vocabulary/actions/deck.js'
+import { MakeSummaryOfCardStatuses, PercentageKnown } from 'app/Vocabulary/actions/_functions'
 import createCards from 'app/Vocabulary/actions/createCards'
 
 class X extends Component {
@@ -37,7 +37,8 @@ class X extends Component {
     const cards = this.getCards()
     if (cards.length === 0) return null;
     return (<div>
-      <div>{JSON.stringify(MakeSummaryOfCardStatuses(cards, deck))}</div>
+      <div>{PercentageKnown(cards, deck)}% known</div>
+      {/* <div>{JSON.stringify(MakeSummaryOfCardStatuses(cards, deck))}</div> */}
       <button onClick={this.run}>Study {cards.length} cards</button>
     </div>)
   }
