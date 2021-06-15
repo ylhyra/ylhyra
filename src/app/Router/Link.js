@@ -1,3 +1,4 @@
+import store from 'app/App/store'
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { urls as app_urls } from 'app/Router/paths'

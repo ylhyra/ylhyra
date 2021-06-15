@@ -10,6 +10,7 @@ import { saveInLocalStorage, getFromLocalStorage } from 'app/App/functions/local
 import createCards from './createCards'
 import { syncSchedule } from './sync'
 import { updateURL } from 'app/Router/actions'
+import { BAD, GOOD, EASY } from './card'
 
 class Deck {
   constructor(database, schedule, session) {
@@ -78,9 +79,13 @@ export const MakeSummaryOfCardStatuses = (cards, deck) => {
   let easy = 0
   cards.forEach(id => {
     if (id in deck.schedule) {
-      console.log(deck.cards[id].is)
-      /* TODO */
-      easy++
+      if (deck.schedule[id].score < GOOD) {
+        bad++
+      } else if (deck.schedule[id].score < EASY) {
+        good++
+      } else {
+        easy++
+      }
     } else {
       not_seen++
     }

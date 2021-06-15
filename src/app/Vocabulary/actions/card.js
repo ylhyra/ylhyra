@@ -4,20 +4,14 @@ export const BAD = 1
 export const GOOD = 2
 export const EASY = 3
 
-// export const CARD_STATUS_NEW = 'new'
-// export const CARD_STATUS_LEARNING = 'learning'
-// export const CARD_STATUS_LEARNED = 'learned'
-// LEVEL_A1
-
 class Card {
   constructor(data, index, session) {
-    Object.assign(this, data)
-
     this.session = session
     this.progress = 0
     this.history = []
     this.goodRepetitions = 0
     this.absoluteQueuePosition = index
+    Object.assign(this, data)
   }
   rate(rating) {
     this.history.unshift(rating)
@@ -67,8 +61,9 @@ class Card {
     card.terms.forEach(term => {
       card.session.cards.forEach(_card => {
         if (_card.id === card.id) return;
+        if (_card.history.includes(BAD)) return;
         if (_card.terms.includes(term)) {
-          const newPosition = _card.session.counter + Math.min(interval, 10) //+ 1 /* Plus one since
+          const newPosition = _card.session.counter + Math.min(interval, 10)
           if (newPosition > _card.absoluteQueuePosition) {
             _card.absoluteQueuePosition = newPosition
           }
@@ -79,8 +74,7 @@ class Card {
     /* Add related cards (in case they're missing) */
     if (rating === BAD) {
       // _card.absoluteQueuePosition = 2
-      card.terms.forEach(term => {
-      })
+      card.terms.forEach(term => {})
     }
 
     /* If answer is good, postpone related cards until next day */
@@ -126,7 +120,7 @@ class Card {
       q -= 50
     }
 
-    if (this.ticksSinceTermWasSeen() < 2) {
+    if (this.ticksSinceTermWasSeen() <= 2) {
       q += (5000 - this.ticksSinceTermWasSeen())
     }
     if (this.done) {

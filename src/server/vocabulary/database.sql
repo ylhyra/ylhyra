@@ -36,7 +36,7 @@ CREATE TABLE vocabulary_session_log (
   score VARCHAR(20),
   times_seen INT(2) UNSIGNED, -- Times seen in this session
   fails INT(2) UNSIGNED,
-  `timestamp` BIGINT,
+  `timestamp` DATETIME,
   INDEX (card_id),
   INDEX (`timestamp`),
   INDEX (user_id)
@@ -58,10 +58,4 @@ CREATE TABLE vocabulary_schedule (
   INDEX (due),
   INDEX (score),
   INDEX (user_id)
-) ROW_FORMAT=COMPRESSED;
-
-DROP TABLE IF EXISTS vocabulary_users;
-CREATE TABLE vocabulary_users (
-  user_id VARCHAR(32) PRIMARY KEY,
-  level INT(1)
 ) ROW_FORMAT=COMPRESSED;

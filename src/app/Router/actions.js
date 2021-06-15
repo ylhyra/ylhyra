@@ -17,6 +17,20 @@ export const updateURL = (url, title, replace) => {
   if (!url.startsWith('/')) {
     url = '/' + url
   }
+
+  /*
+    Force vocabulary game to keep the URL of the article it is started on
+  */
+  if (url === '/vocabulary/play') {
+    store.dispatch({
+      type: 'ROUTE',
+      content: {
+        pathname: url,
+      }
+    })
+    return;
+  }
+
   const [pathname, section] = url.split('#')
   if (url !== window.location.pathname) {
     if (replace) {

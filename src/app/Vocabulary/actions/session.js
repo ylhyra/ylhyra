@@ -20,6 +20,7 @@ class Session {
     this.currentCard = null
     this.cards = cards.map((card, index) => new Card(card, index, this))
     this.deck = deck
+    this.timeStarted = (new Date()).getTime()
 
     this.totalTime = MINUTES * 60 * 1000
     this.remainingTime = this.totalTime
