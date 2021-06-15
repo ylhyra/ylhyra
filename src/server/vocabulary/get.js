@@ -22,15 +22,17 @@ router.all('/vocabulary/get', /* cors({ origin: 'https://ylhyra.is', credentials
   })
 })
 
-router.post('/vocabulary/schedule', (req, res) => {
-  // console.log(req.session)
+/* Get schedule */
+router.all('/vocabulary/schedule', (req, res) => {
   if (!req.session.user_id) {
     return res.status(401).send({ error: 'ERROR_NOT_LOGGED_IN' })
   }
   query(sql `
-    SELECT * FROM vocabulary_schedule
-    -- WHERE user_id = ${req.session.user_id}
-    WHERE user_id = 1
+    SELECT *,
+      UNIX_TIMESTAMP(due) * 1000 as due,
+      UNIX_TIMESTAMP(last_seen) * 1000 as last_seen
+      FROM vocabulary_schedule
+    WHERE user_id = ${req.session.user_id}
   `, (err, results) => {
     if (err) {
       console.error(err)

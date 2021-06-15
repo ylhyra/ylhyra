@@ -26,7 +26,7 @@ export const updateSchedule = () => {
       due_in_days = (card.last_interval_in_days || 1) * score
     }
     /* New cards */
-    if (!card.times_seen) {
+    if (!card.sessions_seen) {
       if (score > 2.8) {
         due_in_days = 20
       }
@@ -43,9 +43,9 @@ export const updateSchedule = () => {
       last_interval_in_days: due_in_days,
       score,
       last_seen: (new Date()).getTime(),
-      times_seen: ((deck.schedule[card.id] && deck.schedule[card.id].times_seen) || 0) + 1,
+      sessions_seen: ((deck.schedule[card.id] && deck.schedule[card.id].sessions_seen) || 0) + 1,
     }
   })
 
-  deck.saveSchedule()
+  deck.syncSchedule()
 }

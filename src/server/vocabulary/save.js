@@ -9,9 +9,8 @@ import { round, msToS, daysToMs, roundMsToHour } from 'src/app/App/functions/tim
 const router = (require('express')).Router()
 
 router.post('/vocabulary/save', cors(), (req, res) => {
-  const user = req.session.user_id
-  if (!user) return res.status(400).send('Not logged in');
-  const { user_id } = user
+  const user_id = req.session.user_id
+  if (!user_id) return res.status(400).send('Not logged in');
 
   const schedule = req.body.schedule
 
@@ -21,6 +20,7 @@ router.post('/vocabulary/save', cors(), (req, res) => {
 
   const queries = Object.keys(schedule).map(id => {
     const item = schedule[id]
+    if(!item.due) return '';
     // const due_milliseconds = (new Date()).getTime() + daysToMs(card.due_in_days)
 
     return sql `
@@ -31,10 +31,11 @@ router.post('/vocabulary/save', cors(), (req, res) => {
       INSERT INTO vocabulary_schedule SET
         card_id = ${id},
         due = FROM_UNIXTIME(${msToS(roundMsToHour(item.due))}),
+        last_seen = FROM_UNIXTIME(${msToS(roundMsToHour(item.last_seen))}),
         last_interval_in_days = ${item.last_interval_in_days},
         user_id = ${user_id},
         score = ${item.score},
-        times_seen = ${item.times_seen}
+        sessions_seen = ${item.sessions_seen}
         ;
     `
   })

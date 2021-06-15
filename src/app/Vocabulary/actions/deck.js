@@ -4,12 +4,11 @@
 import store from 'app/App/store'
 import error from 'app/App/Error'
 import axios from 'app/App/axios'
-import { updateSchedule } from './scheduleAfterSession'
+import { updateSchedule } from './createSchedule'
 import { InitializeSession } from 'app/Vocabulary/actions/session'
 import { saveInLocalStorage, getFromLocalStorage } from 'app/App/functions/localStorage'
 import createCards from './createCards'
-import { saveSchedule } from './sync'
-
+import { syncSchedule } from './sync'
 import { updateURL } from 'app/Router/actions'
 
 class Deck {
@@ -38,9 +37,9 @@ class Deck {
     InitializeSession(this.createCards(), this)
   }
   sessionDone() {
-    updateURL('VOCABULARY')
     updateSchedule()
     this.saveSession(null, true)
+    updateURL('VOCABULARY')
   }
   continueStudying() {
     updateURL('VOCABULARY_PLAY')
@@ -61,11 +60,35 @@ class Deck {
     }
   }
   loadSessionFromLocalStorage() {
+    /* TODO: Clear after a day */
     if (getFromLocalStorage('vocabulary-session')) {
       InitializeSession(getFromLocalStorage('vocabulary-session'), this)
     }
   }
 }
 Deck.prototype.createCards = createCards
-Deck.prototype.saveSchedule = saveSchedule
+Deck.prototype.syncSchedule = syncSchedule
 export default Deck
+
+
+export const MakeSummaryOfCardStatuses = (cards, deck) => {
+  let not_seen = 0
+  let bad = 0
+  let good = 0
+  let easy = 0
+  cards.forEach(id => {
+    if (id in deck.schedule) {
+      console.log(deck.cards[id].is)
+      /* TODO */
+      easy++
+    } else {
+      not_seen++
+    }
+  })
+  return {
+    not_seen,
+    bad,
+    good,
+    easy,
+  }
+}

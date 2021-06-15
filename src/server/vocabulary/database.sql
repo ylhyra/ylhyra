@@ -51,9 +51,9 @@ CREATE TABLE vocabulary_schedule (
   due DATETIME,
   score DECIMAL(3,2) UNSIGNED, -- Range from 0 to 3
   status ENUM('learning', 'learned'),
-  last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_seen DATETIME,
   last_interval_in_days INT(5) UNSIGNED,
-  times_seen INT(5) UNSIGNED, -- Number of *sessions* this items has been seen
+  sessions_seen INT(5) UNSIGNED, -- Number of sessions this items has been seen
   INDEX (card_id),
   INDEX (due),
   INDEX (score),

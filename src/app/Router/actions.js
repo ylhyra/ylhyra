@@ -1,5 +1,6 @@
 import store from 'app/App/store'
 import { url_to_info } from 'app/Router/paths'
+import { urls as app_urls } from 'app/Router/paths'
 
 window.addEventListener('popstate', (event) => {
   updateURL(window.location.pathname)
@@ -10,6 +11,9 @@ export const InitializeRouter = () => {
 }
 
 export const updateURL = (url, title, replace) => {
+  if (url in app_urls) {
+    url = app_urls[url].url
+  }
   if (!url.startsWith('/')) {
     url = '/' + url
   }

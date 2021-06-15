@@ -5,7 +5,7 @@ import Button from 'documents/Templates/Button'
 import { getHash } from 'server/vocabulary/setup/functions.js'
 import { InitializeSession } from 'app/Vocabulary/actions/session'
 import { updateURL } from 'app/Router/actions'
-
+import {MakeSummaryOfCardStatuses} from 'app/Vocabulary/actions/deck.js'
 class X extends Component {
   getCards = () => {
     const vocabulary_list = this.props.header_data.vocabulary
@@ -21,11 +21,6 @@ class X extends Component {
       }
     })
 
-    // cards.forEach(id => {
-    //   if (id in deck.schedule) {
-    //     console.log(deck.cards[id].is)
-    //   }
-    // })
     return cards
   }
   run = () => {
@@ -42,6 +37,7 @@ class X extends Component {
     const cards = this.getCards()
     if (cards.length === 0) return null;
     return (<div>
+      <div>{JSON.stringify(MakeSummaryOfCardStatuses(cards, deck))}</div>
       <button onClick={this.run}>Study {cards.length} cards</button>
     </div>)
   }

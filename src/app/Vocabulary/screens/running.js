@@ -8,6 +8,7 @@ import Link from 'app/Router/Link'
 export default () => (
   <div id="vocabulary">
     <div>
+      {/* TODO: Exit ætti að ná í fyrri síðu geymda í URLi */}
       <Link href="VOCABULARY">Exit</Link>{' • '}
       <Link href="/vocabulary/tutorial">Tutorial</Link>
     </div>
