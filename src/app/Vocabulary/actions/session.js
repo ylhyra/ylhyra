@@ -9,6 +9,7 @@ import Card, { BAD, GOOD, EASY } from './card'
 // import { day } from 'app/App/functions/time.js'
 export const MINUTES = 3
 const MAX_SECONDS_TO_COUNT_PER_ITEM = 15
+const LOGGING = true
 
 class Session {
   constructor(cards, deck) {
@@ -41,7 +42,7 @@ class Session {
     }
   }
   printTimeRemaining() {
-    const time = Math.floor(this.remainingTime/1000) || 1
+    const time = Math.floor(this.remainingTime / 1000) || 1
     const minutes = Math.floor(time / 60);
     const seconds = time - minutes * 60;
     return `${minutes}:${('0'+seconds).slice(-2)}`
@@ -53,24 +54,31 @@ class Session {
       // showHint: this.currentCard.shouldShowHint()
     }
   }
-  next() {
+  next(depth = 0) {
     this.updateRemainingTime()
     if (this.cards.length === 0) {
       console.error('No cards')
       this.createMoreCards()
-      return this.next()
+      /* Prevent infinite calls */
+      if (depth === 0) {
+        this.next(1)
+      } else {
+        throw new Error('Failed to generate cards')
+        // TODO User-facing error
+      }
+      return
     }
 
     let ranked = this.cards.slice().sort((a, b) => a.getRanking() - b.getRanking())
     this.currentCard = ranked[0]
 
     // /* Logging */
-    // if (process.env.NODE_ENV === 'development') {
-    //   console.log(ranked
-    //     .map(i => `${i.getQueuePosition()}\t${Math.round(i.getRanking())}\t${i.from==='is'?i.is:i.en}\t${this.history.length > 0 ? 'SEEN' : 'NEW'}`)
-    //     .join('\n')
-    //   )
-    // }
+    if (LOGGING && process.env.NODE_ENV === 'development') {
+      console.log(ranked
+        .map(i => `${i.getQueuePosition()}\t${Math.round(i.getRanking())}\t${i.from==='is'?i.is:i.en}\t${this.history.length > 0 ? 'SEEN' : 'NEW'}`)
+        .join('\n')
+      )
+    }
 
     this.counter++;
 
@@ -133,7 +141,7 @@ export const answer = (rating) => {
 }
 
 export const InitializeSession = (input, deck) => {
-  if(!deck) throw new Error('Deck misssing')
+  if (!deck) throw new Error('Deck misssing')
   if (Array.isArray(input)) {
     const session = new Session(input, deck)
     session.next()

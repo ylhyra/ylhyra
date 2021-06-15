@@ -6,17 +6,23 @@ let DEFAULT_NEW_CARDS_PER_SESSION = 3
 /**
  * @memberof Deck
  */
-export default function createCards(options) {
-  const deck = this
-  const forbidden_ids = (options && options.forbidden_ids) || []
+export default function createCards(options, deck_) {
+  const deck = deck_ || this
   const now = (new Date()).getTime()
+  const forbidden_ids = (options && options.forbidden_ids) || []
+  const allowed_card_ids = (options && options.allowed_card_ids) || null
+  if(allowed_card_ids) {
+    CARDS_TO_CREATE = 100
+    DEFAULT_NEW_CARDS_PER_SESSION = 30
+  }
 
   /* Previously seen cards */
   let overdue_ids = []
   let not_overdue_bad_cards_ids = []
   let scheduled = Object.keys(deck.schedule)
     .filter(id => !forbidden_ids.includes(id))
-    .map(id => ({ id, ...this.schedule[id] }))
+    .filter(id => !allowed_card_ids || allowed_card_ids.includes(id))
+    .map(id => ({ id, ...deck.schedule[id] }))
     .sort((a, b) => a.due - b.due)
     .forEach(i => {
       if (i.last_seen > now - 6 * hour) return;
@@ -44,6 +50,7 @@ export default function createCards(options) {
   for (let i = 0; i < deck.cards_sorted.length; i++) {
     const id = deck.cards_sorted[i].id
     if (forbidden_ids.includes(id)) continue;
+    if (allowed_card_ids && !allowed_card_ids.includes(id)) continue;
     if (
       chosen_ids.length + new_card_ids.length < 15 &&
       new_card_ids.length < new_cards_to_add
