@@ -109,8 +109,8 @@ export const createMoreCards = function () {
 export const getStatus = function () {
   return {
     bad: this.cards.filter(card => card.getStatus() === BAD).length,
-    ok: this.cards.filter(card => card.getStatus() === GOOD).length,
-    good: this.cards.filter(card => card.getStatus() === EASY).length,
+    good: this.cards.filter(card => card.getStatus() === GOOD).length,
+    easy: this.cards.filter(card => card.getStatus() === EASY).length,
     total: this.cards.length,
     wordsTotal: _.uniq(_.flatten(this.cards.map(i => i.terms))).length,
     counter: this.counter,

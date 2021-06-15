@@ -55,8 +55,9 @@ class Session {
 
     /* Logging */
     if (LOGGING && process.env.NODE_ENV === 'development') {
+      const deck = this.deck
       console.log(ranked
-        .map(i => `${i.getQueuePosition()}\t${Math.round(i.getRanking())}\t${i.from==='is'?i.is:i.en}\t${this.history.length > 0 ? 'SEEN' : 'NEW'}`)
+        .map(i => `${i.getQueuePosition()}\t${Math.round(i.getRanking())}\t${i.from==='is'?i.is:i.en}\t${deck.schedule[i.id] ? new Date(deck.schedule[i.id].last_seen) : ''}\t${i.history.length > 0 ? 'SEEN' : 'NEW'}`)
         .join('\n')
       )
     }

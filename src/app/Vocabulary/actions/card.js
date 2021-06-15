@@ -87,7 +87,6 @@ class Card {
   }
   ticksSinceTermWasSeen() {
     let last_seen = null;
-    return null
     this.terms.forEach(term => {
       if (this.session.lastSeenTerms[term] && (last_seen === null || last_seen > this.session.lastSeenTerms[term])) {
         last_seen = this.session.lastSeenTerms[term]
@@ -127,7 +126,7 @@ class Card {
       q += 700
     }
     /* Prevent rows of the same card type from appearing right next to each other */
-    if (this.session.cardTypeLog[0] === this.from) {
+    if (this.session.cardTypeLog[0] === this.from && this.history.length > 0) {
       q += 0.4
       if (this.session.cardTypeLog[1] === this.from) {
         q += 1.9

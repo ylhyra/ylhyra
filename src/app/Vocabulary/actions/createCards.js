@@ -17,6 +17,21 @@ export default function createCards(options, deck_) {
     DEFAULT_NEW_CARDS_PER_SESSION = 30
   }
 
+  /* TODO: Needs to rank so that it's less likely but not impossible for these to show up */
+  const WasTermRecentlySeen = (id) => {
+    let returns = false
+    deck.cards[id].terms.forEach(term => {
+      deck.terms[term].cards.forEach(sibling_card_id => {
+        if (deck.schedule[sibling_card_id]) {
+          if (deck.schedule[sibling_card_id].last_seen > now - 6 * hour) {
+            returns = true
+          }
+        }
+      })
+    })
+    return returns
+  }
+
   /* Previously seen cards */
   let overdue_ids = []
   let not_overdue_bad_cards_ids = []
@@ -26,15 +41,13 @@ export default function createCards(options, deck_) {
     .map(id => ({ id, ...deck.schedule[id] }))
     .sort((a, b) => a.due - b.due)
     .forEach(i => {
-      if (i.last_seen > now - 6 * hour) return;
-      // console.log(`${prettyPrintTimestamp(i.due)} - ${deck.cards[i.id].is}`)
+      if (WasTermRecentlySeen(i.id)) return;
       if (i.due < now + 0.5 * day) {
-        overdue_ids.push(i.card_id)
+        overdue_ids.push(i.id)
       } else if (i.score <= 1.2) {
-        not_overdue_bad_cards_ids.push(i.card_id)
+        not_overdue_bad_cards_ids.push(i.id)
       }
     })
-  // console.log(`${overdue_ids.length} overdue`)
 
   /*
    * Fill an array of chosen cards.
@@ -52,6 +65,7 @@ export default function createCards(options, deck_) {
     const id = deck.cards_sorted[i].id
     if (forbidden_ids.includes(id)) continue;
     if (allowed_card_ids && !allowed_card_ids.includes(id)) continue;
+    if (WasTermRecentlySeen(id)) continue;
     if (
       chosen_ids.length + new_card_ids.length < 15 &&
       new_card_ids.length < new_cards_to_add
@@ -76,11 +90,22 @@ export default function createCards(options, deck_) {
     )
   })
 
+  /* Verify ids exist */
+  chosen_ids.forEach(id => {
+    if (!(id in deck.cards)) {
+      if (process.env.NODE_ENV === 'development') {
+        throw new Error(`Incorrect id passed into deck.cards: ${id}`)
+      }
+      return null;
+    }
+  })
+
   /* TODO: Related cards */
 
   /* Depends on cards */
   chosen_ids = _.flatten(
     chosen_ids.map(id => {
+
       let output = [id]
       deck.cards[id].terms.forEach(term => {
         deck.terms[term].cards
@@ -103,14 +128,9 @@ export default function createCards(options, deck_) {
       return output
     })
   )
+  // console.log(chosen_ids)
 
   let chosen = _.uniq(chosen_ids).map(id => {
-    if (!(id in deck.cards)) {
-      if (process.env.NODE_ENV === 'development') {
-        throw new Error('Incorrect id passed into deck.cards')
-      }
-      return null;
-    }
     return { id, ...deck.cards[id] }
   }).filter(Boolean)
   return chosen
