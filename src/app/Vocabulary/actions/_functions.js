@@ -1,3 +1,4 @@
+import store from 'app/App/store'
 /**
  * Various helper functions
  */
@@ -115,4 +116,9 @@ export const getStatus = function () {
     wordsTotal: _.uniq(_.flatten(this.cards.map(i => i.terms))).length,
     counter: this.counter,
   }
+}
+
+export const getWordFromId = (id) => {
+  const { deck } = store.getState().vocabulary
+  return deck.cards[id].is
 }

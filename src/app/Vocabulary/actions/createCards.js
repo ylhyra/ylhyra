@@ -1,8 +1,8 @@
 import { hour, day } from 'app/App/functions/time.js'
 import _ from 'underscore'
 import { BAD, GOOD, EASY } from './card'
-let CARDS_TO_CREATE = 30
-let DEFAULT_NEW_CARDS_PER_SESSION = 3
+import { getWordFromId } from './_functions'
+let CARDS_TO_CREATE = 100
 
 /**
  * @memberof Deck
@@ -12,24 +12,35 @@ export default function createCards(options, deck_) {
   const now = (new Date()).getTime()
   const forbidden_ids = (options && options.forbidden_ids) || []
   const allowed_card_ids = (options && options.allowed_card_ids) || null
-  if (allowed_card_ids) {
-    CARDS_TO_CREATE = 100
-    DEFAULT_NEW_CARDS_PER_SESSION = 30
-  }
 
-  /* TODO: Needs to rank so that it's less likely but not impossible for these to show up */
-  const WasTermRecentlySeen = (id) => {
-    let returns = false
+  const ScoreByTimeSinceTermWasSeen = (id) => {
+    let latest = null;
     deck.cards[id].terms.forEach(term => {
       deck.terms[term].cards.forEach(sibling_card_id => {
         if (deck.schedule[sibling_card_id]) {
-          if (deck.schedule[sibling_card_id].last_seen > now - 6 * hour) {
-            returns = true
+          if (deck.schedule[sibling_card_id].last_seen > latest) {
+            latest = deck.schedule[sibling_card_id].last_seen
           }
         }
       })
     })
-    return returns
+    let hoursSinceSeen = (now - latest) / hour
+    if (hoursSinceSeen < 0.3) {
+      return 3
+    } else if (hoursSinceSeen < 2) {
+      return 2
+    } else if (hoursSinceSeen < 12) {
+      return 1
+    } else {
+      return 0
+    }
+    // return hoursSinceSeen
+  }
+  const SortIdsByWhetherTermWasRecentlySeen = (input) => {
+    return input.map(id => ({
+      id,
+      hours_since_seen_score: ScoreByTimeSinceTermWasSeen(id),
+    })).sort((a, b) => a.hours_since_seen_score - b.hours_since_seen_score).map(i => i.id)
   }
 
   /* Previously seen cards */
@@ -41,7 +52,6 @@ export default function createCards(options, deck_) {
     .map(id => ({ id, ...deck.schedule[id] }))
     .sort((a, b) => a.due - b.due)
     .forEach(i => {
-      if (WasTermRecentlySeen(i.id)) return;
       if (i.due < now + 0.5 * day) {
         overdue_ids.push(i.id)
       } else if (i.score <= 1.2) {
@@ -49,27 +59,13 @@ export default function createCards(options, deck_) {
       }
     })
 
-  /*
-   * Fill an array of chosen cards.
-   * If the overdue cards are not sufficiently many, the rest will be filled with low-scoring cards
-   */
-  let chosen_ids = [
-    ..._.shuffle(overdue_ids).slice(0, CARDS_TO_CREATE - DEFAULT_NEW_CARDS_PER_SESSION),
-    ..._.shuffle(not_overdue_bad_cards_ids).slice(0, 5),
-  ].slice(0, CARDS_TO_CREATE - DEFAULT_NEW_CARDS_PER_SESSION)
-
   /* New cards */
-  let new_cards_to_add = Math.max(DEFAULT_NEW_CARDS_PER_SESSION, CARDS_TO_CREATE - chosen_ids.length)
   let new_card_ids = [];
   for (let i = 0; i < deck.cards_sorted.length; i++) {
     const id = deck.cards_sorted[i].id
     if (forbidden_ids.includes(id)) continue;
     if (allowed_card_ids && !allowed_card_ids.includes(id)) continue;
-    if (WasTermRecentlySeen(id)) continue;
-    if (
-      chosen_ids.length + new_card_ids.length < 15 &&
-      new_card_ids.length < new_cards_to_add
-    ) {
+    if (new_card_ids.length < 50) {
       if (!(id in deck.schedule)) {
         new_card_ids.push(id)
       }
@@ -78,34 +74,46 @@ export default function createCards(options, deck_) {
     }
   }
 
-  /* Interleave new cards with old cards */
-  const ratio = chosen_ids.length / new_card_ids.length
-  new_card_ids.forEach((id, index) => {
-    /* Inserts item at correct ratio to spread new and old cards out. */
-    chosen_ids.splice(
-      Math.round(ratio * index) +
-      index + /* To make up for the cards we've already added */
-      1, /* Plus one to make old cards show up first */
-      0, id
-    )
-  })
+  // /* Verify ids exist */
+  // chosen_ids.forEach(id => {
+  //   if (!(id in deck.cards)) {
+  //     if (process.env.NODE_ENV === 'development') {
+  //       throw new Error(`Incorrect id passed into deck.cards: ${id}`)
+  //     }
+  //     return null;
+  //   }
+  // })
 
-  /* Verify ids exist */
-  chosen_ids.forEach(id => {
-    if (!(id in deck.cards)) {
-      if (process.env.NODE_ENV === 'development') {
-        throw new Error(`Incorrect id passed into deck.cards: ${id}`)
-      }
-      return null;
+  /* TODO: Not very efficient */
+  overdue_ids = _.shuffle(overdue_ids)
+  not_overdue_bad_cards_ids = _.shuffle(not_overdue_bad_cards_ids)
+  let total_options = overdue_ids.length + not_overdue_bad_cards_ids.length + new_card_ids.length
+  let chosen_ids = []
+  for (let i = 0; chosen_ids.length < total_options; i++) {
+    if (i % 1 === 0 && overdue_ids.length > 0) {
+      chosen_ids.push(overdue_ids.shift())
     }
-  })
+    if (i % 8 === 0 && not_overdue_bad_cards_ids.length > 0) {
+      chosen_ids.push(not_overdue_bad_cards_ids.shift())
+    }
+    if (i % 9 === 0 && new_card_ids.length > 0) {
+      chosen_ids.push(new_card_ids.shift())
+    }
+  }
+  // console.log({
+  //   overdue_ids: overdue_ids.map(getWordFromId),
+  //   not_overdue_bad_cards_ids: not_overdue_bad_cards_ids.map(getWordFromId),
+  //   new_card_ids: new_card_ids.map(getWordFromId),
+  // })
+  chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids)
+  chosen_ids = chosen_ids.slice(0, CARDS_TO_CREATE)
+
 
   /* TODO: Related cards */
 
   /* Depends on cards */
   chosen_ids = _.flatten(
     chosen_ids.map(id => {
-
       let output = [id]
       deck.cards[id].terms.forEach(term => {
         deck.terms[term].cards
@@ -128,7 +136,6 @@ export default function createCards(options, deck_) {
       return output
     })
   )
-  // console.log(chosen_ids)
 
   let chosen = _.uniq(chosen_ids).map(id => {
     return { id, ...deck.cards[id] }
