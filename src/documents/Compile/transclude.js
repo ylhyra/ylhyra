@@ -3,6 +3,7 @@ import { ParseHeaderAndBody } from 'server/content'
 let links = require('src/output/links.js')
 require('app/App/functions/array-foreach-async')
 var fs = require('fs')
+var btoa = require('btoa');
 
 const Transclude = (title, depth = 0) => {
   return new Promise((resolve, reject) => {
@@ -34,9 +35,16 @@ const Transclude = (title, depth = 0) => {
                 output += q
                 return resolve2()
               }
-              const j = (await Transclude(q, depth + 1)).output
-              // console.log(j)
-              output += j
+              /* TODO: Find better syntax to get header info */
+              if (/(>>>)/.test(q)) {
+                const [title_, param_] = q.split('>>>')
+                const transclusion = await Transclude(title_, depth + 1)
+                output += btoa(JSON.stringify(transclusion.header[param_]))
+                  // .replace(/"/g,'\\"')
+              } else {
+                const transclusion = await Transclude(q, depth + 1)
+                output += transclusion.output
+              }
               return resolve2()
             })
           })

@@ -17,6 +17,7 @@ export const updateURL = (url, title, replace) => {
   if (!url.startsWith('/')) {
     url = '/' + url
   }
+  url = decodeURI(url)
 
   const [pathname, section] = url.split('#')
   if (!title && pathname in url_to_info) {

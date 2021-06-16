@@ -1,7 +1,7 @@
 import { hour, day } from 'app/App/functions/time.js'
 import _ from 'underscore'
 import { BAD, GOOD, EASY } from './card'
-import { getWordFromId } from './_functions'
+import { getWordFromId, getRelatedCardIds } from './_functions'
 let CARDS_TO_CREATE = 100
 
 /**
@@ -15,14 +15,12 @@ export default function createCards(options, deck_) {
 
   const ScoreByTimeSinceTermWasSeen = (id) => {
     let latest = null;
-    deck.cards[id].terms.forEach(term => {
-      deck.terms[term].cards.forEach(sibling_card_id => {
-        if (deck.schedule[sibling_card_id]) {
-          if (deck.schedule[sibling_card_id].last_seen > latest) {
-            latest = deck.schedule[sibling_card_id].last_seen
-          }
+    getRelatedCardIds().forEach(sibling_card_id => {
+      if (deck.schedule[sibling_card_id]) {
+        if (deck.schedule[sibling_card_id].last_seen > latest) {
+          latest = deck.schedule[sibling_card_id].last_seen
         }
-      })
+      }
     })
     let hoursSinceSeen = (now - latest) / hour
     if (hoursSinceSeen < 0.3) {
@@ -115,19 +113,17 @@ export default function createCards(options, deck_) {
   chosen_ids = _.flatten(
     chosen_ids.map(id => {
       let output = [id]
-      deck.cards[id].terms.forEach(term => {
-        deck.terms[term].cards
-          .filter(sibling_card_id => sibling_card_id !== id)
-          .forEach(sibling_card_id => {
-            if (
-              /* Not seen */
-              !(sibling_card_id in deck.schedule) ||
-              deck.schedule[sibling_card_id].score < GOOD
-            ) {
-              output.push(sibling_card_id)
-            }
-          })
-      })
+      getRelatedCardIds()
+        .filter(sibling_card_id => sibling_card_id !== id)
+        .forEach(sibling_card_id => {
+          if (
+            /* Not seen */
+            !(sibling_card_id in deck.schedule) ||
+            deck.schedule[sibling_card_id].score < GOOD
+          ) {
+            output.push(sibling_card_id)
+          }
+        })
       /* Show Icelandic card before English */
       output = output.sort((a, b) => {
         if (a.endsWith('is')) return -1;

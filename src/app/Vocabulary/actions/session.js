@@ -4,19 +4,20 @@
 import store from 'app/App/store'
 import _ from 'underscore'
 import Card, { BAD, GOOD, EASY } from './card'
-import {
-  updateRemainingTime,
-  getAdjustedPercentageDone,
-  printTimeRemaining,
-  getCard,
-  checkIfCardsRemaining,
-  createMoreCards,
-  getStatus,
-} from './_functions'
+// import {
+//   updateRemainingTime,
+//   getAdjustedPercentageDone,
+//   printTimeRemaining,
+//   getCard,
+//   checkIfCardsRemaining,
+//   createMoreCards,
+//   getStatus,
+// } from './_functions'
 // import { day } from 'app/App/functions/time.js'
-export const MINUTES = 3
+// export const MINUTES = 3
+export const MINUTES = 5
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 15
-const LOGGING = true
+const LOGGING = false
 
 class Session {
   constructor(cards, deck) {
@@ -71,6 +72,84 @@ class Session {
 
     this.deck.saveSession(this)
     this.checkIfCardsRemaining()
+  }
+}
+
+/**
+ * @extends Session
+ */
+export const updateRemainingTime = function () {
+  const newTimestamp = (new Date()).getTime()
+  const diff = Math.min(
+    MAX_SECONDS_TO_COUNT_PER_ITEM * 1000,
+    newTimestamp - this.lastTimestamp
+  )
+  this.remainingTime = Math.max(0, this.remainingTime - diff)
+  this.lastTimestamp = newTimestamp
+  if (this.remainingTime <= 0) {
+    this.deck.sessionDone()
+    this.done = true
+  }
+}
+
+/**
+ * @extends Session
+ */
+export const getAdjustedPercentageDone = function () {
+  return ((this.totalTime - this.remainingTime) / this.totalTime) * 100
+}
+
+/**
+ * @extends Session
+ */
+export const printTimeRemaining = function () {
+  const time = Math.floor(this.remainingTime / 1000) || 1
+  const minutes = Math.floor(time / 60);
+  const seconds = time - minutes * 60;
+  return `${minutes}:${('0'+seconds).slice(-2)}`
+  // return `${minutes} minute${minutes===1?'':''}, ${('0'+seconds).slice(-2)} second${seconds===1?'s':''}`
+}
+
+/**
+ * @extends Session
+ */
+export const getCard = function () {
+  return this.currentCard
+}
+
+/**
+ * @extends Session
+ */
+export const checkIfCardsRemaining = function () {
+  const areThereNewCardsRemaining = this.cards.some(i => i.history.length === 0)
+  if (!areThereNewCardsRemaining) {
+    this.createMoreCards()
+  }
+}
+
+/**
+ * @extends Session
+ */
+export const createMoreCards = function () {
+  const newCards = this.deck.createCards({
+    forbidden_ids: this.cards.map(i => i.id)
+  })
+  this.cards = this.cards
+    .concat(newCards.map((card, index) => new Card(card, index, this)))
+  console.log('New cards generated')
+}
+
+/**
+ * @extends Session
+ */
+export const getStatus = function () {
+  return {
+    bad: this.cards.filter(card => card.getStatus() === BAD).length,
+    good: this.cards.filter(card => card.getStatus() === GOOD).length,
+    easy: this.cards.filter(card => card.getStatus() === EASY).length,
+    total: this.cards.length,
+    wordsTotal: _.uniq(_.flatten(this.cards.map(i => i.terms))).length,
+    counter: this.counter,
   }
 }
 

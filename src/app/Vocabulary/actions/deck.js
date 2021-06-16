@@ -40,11 +40,11 @@ class Deck {
   sessionDone() {
     updateSchedule()
     this.saveSession(null, true)
-    store.dispatch({
-      type: 'LOAD_SESSION',
-      content: null,
-    })
     updateURL(window.location.pathname)
+    // store.dispatch({
+    //   type: 'LOAD_SESSION',
+    //   content: null,
+    // })
   }
   continueStudying() {
     updateURL('VOCABULARY_PLAY')
@@ -53,6 +53,9 @@ class Deck {
   saveSession(session, done) {
     if (!done) {
       let to_save = session.cards.map(({ session, ...rest }) => rest)
+      if (!to_save.some(i => i.history.length > 0)) {
+        to_save = null
+      }
       saveInLocalStorage('vocabulary-session', to_save)
       saveInLocalStorage('vocabulary-session-saved-at', new Date().getTime())
     } else {

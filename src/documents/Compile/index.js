@@ -9,7 +9,7 @@ export default async(title) => {
   if (!output) return null;
   output = await images(output)
   output = markdown_to_html(output)
-  console.log(header)
+  // console.log(output)
   return { content: output, header }
 }
 

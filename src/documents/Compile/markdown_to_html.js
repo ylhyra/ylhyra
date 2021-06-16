@@ -65,8 +65,9 @@ export default (input) => {
 
   // console.log(input)
 
-
   input = marked(input)
+
+  // console.log(input)
 
   input = input
     .replace(/(<h[0-9] id=")/g, '$1s-')

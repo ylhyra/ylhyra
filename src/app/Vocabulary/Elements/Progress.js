@@ -9,7 +9,7 @@ class Progress extends Component {
     const _bad = (bad / seen) * percentageDone
     const _good = (good / seen) * percentageDone
     const _easy = (easy / seen) * percentageDone
-    console.log({ bad, good, easy, percentageDone })
+    // console.log({ bad, good, easy, percentageDone })
     return (
       <div className="vocabulary-progress">
         <div className="name">

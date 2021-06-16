@@ -1,4 +1,5 @@
 import { average, clamp } from 'app/App/functions/math'
+import { getWordFromId, getRelatedCardIds } from './_functions'
 
 export const BAD = 1
 export const GOOD = 2
@@ -73,30 +74,14 @@ class Card {
 
     /* Add related cards (in case they're missing) */
     if (rating === BAD) {
-      // _card.absoluteQueuePosition = 2
-      card.terms.forEach(term => {})
+      // getRelatedCardIds(card.id)
+      //   .filter(sibling_id => !card.session.cards.some(j => j.id === sibling_id))
+      //   .forEach(sibling_id => {
+      //     /* TODO */
+      //   })
     }
-
-    /* If answer is good, postpone related cards until next day */
-
 
     this.session.cardTypeLog.unshift(this.from)
-  }
-  getQueuePosition() {
-    return this.absoluteQueuePosition - this.session.counter
-  }
-  ticksSinceTermWasSeen() {
-    let last_seen = null;
-    this.terms.forEach(term => {
-      if (this.session.lastSeenTerms[term] && (last_seen === null || last_seen > this.session.lastSeenTerms[term])) {
-        last_seen = this.session.lastSeenTerms[term]
-      }
-    })
-    if (last_seen) {
-      return this.session.counter - last_seen
-    } else {
-      return this.session.cards.length
-    }
   }
   getRanking() {
     let q = this.getQueuePosition();
@@ -134,17 +119,34 @@ class Card {
     }
     return q
   }
-  getStatus() {
-    if (!this.lastSeen) return null;
-    return this.status
+}
+
+Card.prototype.getQueuePosition = function () {
+  return this.absoluteQueuePosition - this.session.counter
+}
+Card.prototype.ticksSinceTermWasSeen = function () {
+  let last_seen = null;
+  this.terms.forEach(term => {
+    if (this.session.lastSeenTerms[term] && (last_seen === null || last_seen > this.session.lastSeenTerms[term])) {
+      last_seen = this.session.lastSeenTerms[term]
+    }
+  })
+  if (last_seen) {
+    return this.session.counter - last_seen
+  } else {
+    return this.session.cards.length
   }
-  shouldShowHint() {
-    const lastTwoAverage = average(this.history.slice(0, 2))
-    return !(
-      this.history[0] === EASY ||
-      (this.history.length >= 2 && lastTwoAverage >= GOOD)
-    )
-  }
+}
+Card.prototype.getStatus = function () {
+  if (!this.lastSeen) return null;
+  return this.status
+}
+Card.prototype.shouldShowHint = function () {
+  const lastTwoAverage = average(this.history.slice(0, 2))
+  return !(
+    this.history[0] === EASY ||
+    (this.history.length >= 2 && lastTwoAverage >= GOOD)
+  )
 }
 
 export default Card

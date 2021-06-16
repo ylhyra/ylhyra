@@ -826,10 +826,23 @@ module.exports = {
     "filename": "course_yes",
     "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/Yes.md"
   },
-  "text/course": {
-    "title": "Text:Course",
-    "filename": "text_course",
+  "course": {
+    "title": "Course",
+    "filename": "course",
     "file": "/Users/egill/ylhyra_content/not_data/content/course/Course.md"
+  },
+  "conversations/prentari": {
+    "title": "Conversations/Prentari",
+    "filename": "conversations_prentari",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/conversations/Prentari.md"
+  },
+  "text/conversations/winter": {
+    "title": "Text:Conversations/Winter",
+    "filename": "text_conversations_winter",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/conversations/Winter.md"
+  },
+  "conversations/winter": {
+    "redirect_to": "text/conversations/winter"
   },
   "-ó-endings/less-common-words": {
     "title": "-ó endings/Less common words",
@@ -1356,19 +1369,6 @@ module.exports = {
   "course/a1/introduction-to-cases": {
     "redirect_to": "cases"
   },
-  "conversations/prentari": {
-    "title": "Conversations/Prentari",
-    "filename": "conversations_prentari",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Conversations/Prentari.md"
-  },
-  "text/conversations/winter": {
-    "title": "Text:Conversations/Winter",
-    "filename": "text_conversations_winter",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Conversations/Winter.md"
-  },
-  "conversations/winter": {
-    "redirect_to": "text/conversations/winter"
-  },
   "kennitala": {
     "title": "Kennitala",
     "filename": "kennitala",
@@ -1854,16 +1854,6 @@ module.exports = {
   },
   "verb": {
     "redirect_to": "verbs"
-  },
-  "vocabulary/all": {
-    "title": "Vocabulary/All",
-    "filename": "vocabulary_all",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Vocabulary/All.md"
-  },
-  "vocabulary": {
-    "title": "Vocabulary",
-    "filename": "vocabulary",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Vocabulary/index.md"
   },
   "að": {
     "title": "Að",
@@ -2904,6 +2894,14 @@ module.exports = {
     "title": "Text/Milk",
     "filename": "text_milk",
     "file": "/Users/egill/ylhyra_content/not_data/drafts/Milk.md"
+  },
+  "project/ylhýra": {
+    "title": "Project:Ylhýra",
+    "filename": "project_ylhýra",
+    "file": "/Users/egill/ylhyra_content/not_data/drafts/Overview.md"
+  },
+  "project": {
+    "redirect_to": "project/ylhýra"
   },
   "phrases-for-waiters": {
     "title": "Phrases for waiters",
@@ -5399,11 +5397,6 @@ module.exports = {
   "project/about": {
     "redirect_to": "about"
   },
-  "project/inflections": {
-    "title": "Project:Inflections",
-    "filename": "project_inflections",
-    "file": "/Users/egill/ylhyra_content/not_data/project/BÍN.md"
-  },
   "project/collaborate": {
     "title": "Project:Collaborate",
     "filename": "project_collaborate",
@@ -5417,10 +5410,15 @@ module.exports = {
     "filename": "project_eliza-reid",
     "file": "/Users/egill/ylhyra_content/not_data/project/Eliza_Reid.md"
   },
+  "project/inflections": {
+    "title": "Project:Inflections",
+    "filename": "project_inflections",
+    "file": "/Users/egill/ylhyra_content/not_data/project/Legal/BÍN.md"
+  },
   "project/license": {
     "title": "Project:License",
     "filename": "project_license",
-    "file": "/Users/egill/ylhyra_content/not_data/project/License.md"
+    "file": "/Users/egill/ylhyra_content/not_data/project/Legal/License.md"
   },
   "project/copyrights": {
     "redirect_to": "project/license"
@@ -5430,6 +5428,11 @@ module.exports = {
   },
   "project/licensing": {
     "redirect_to": "project/license"
+  },
+  "privacy-policy": {
+    "title": "Privacy policy",
+    "filename": "privacy-policy",
+    "file": "/Users/egill/ylhyra_content/not_data/project/Legal/Privacy_policy.md"
   },
   "project/manual-of-style": {
     "title": "Project:Manual of style",
@@ -5481,11 +5484,6 @@ module.exports = {
     "filename": "project_poster",
     "file": "/Users/egill/ylhyra_content/not_data/project/Poster.md"
   },
-  "privacy-policy": {
-    "title": "Privacy policy",
-    "filename": "privacy-policy",
-    "file": "/Users/egill/ylhyra_content/not_data/project/Privacy_policy.md"
-  },
   "project/software-work-in-progess": {
     "title": "Project:Software work in progess",
     "filename": "project_software-work-in-progess",
@@ -5500,14 +5498,6 @@ module.exports = {
     "title": "Vocabulary/Tutorial",
     "filename": "vocabulary_tutorial",
     "file": "/Users/egill/ylhyra_content/not_data/project/Vocabulary/Tutorial.md"
-  },
-  "project/ylhýra": {
-    "title": "Project:Ylhýra",
-    "filename": "project_ylhýra",
-    "file": "/Users/egill/ylhyra_content/not_data/project/Ylhýra.md"
-  },
-  "project": {
-    "redirect_to": "project/ylhýra"
   },
   "template/anchor": {
     "title": "Template:Anchor",
@@ -5977,5 +5967,10 @@ module.exports = {
     "title": "Fotografía",
     "filename": "fotografía",
     "file": "/Users/egill/ylhyra_content/not_data/test/fotografia.md"
+  },
+  "spænska": {
+    "title": "Spænska",
+    "filename": "spænska",
+    "file": "/Users/egill/ylhyra_content/not_data/test/spænska.md"
   }
 }

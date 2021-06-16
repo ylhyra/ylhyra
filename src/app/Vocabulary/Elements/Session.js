@@ -6,6 +6,7 @@ import Button from 'documents/Templates/Button'
 class Session extends Component {
   render() {
     const { session } = this.props.vocabulary
+    if (!session || session.remainingTime === session.totalTime || session.done) return null;
     return (
       <div id="">
         {session ? <div>

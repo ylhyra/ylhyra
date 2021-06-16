@@ -39,7 +39,7 @@ class X extends Component {
     return (<div>
       <div>{PercentageKnown(cards, deck)}% known</div>
       {/* <div>{JSON.stringify(MakeSummaryOfCardStatuses(cards, deck))}</div> */}
-      <button onClick={this.run}>Study {cards.length} cards</button>
+      {this.props.button!==false && <button onClick={this.run}>Study {cards.length} cards</button>}
     </div>)
   }
 }

@@ -6,6 +6,7 @@ const customTemplates = [
   'Blær',
   'Image',
   'Button',
+  'VocabularyStatus',
 ]
 
 const customTemplatesLoaded = {}

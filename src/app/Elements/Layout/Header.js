@@ -6,6 +6,7 @@ export default (props) => (
   	<div>
   		<Link href="MAIN" id="logo"></Link>
   		<ul>
+        <li><Link href="/Spænska">Spænska</Link></li>
         <li><Link href="/Texts">Texts</Link></li>
   			<li><Link href="/Vocabulary">Vocabulary</Link></li>
   			<li><Link href="/Explanations">Explanations</Link></li>
