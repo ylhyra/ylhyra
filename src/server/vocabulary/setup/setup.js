@@ -109,6 +109,10 @@ const run = async() => {
         terms: terms_in_this_line,
         level: columns.level,
         sort: line_number,
+        basic_form: columns.basic_form,
+        note_before_show: columns.note_before_show,
+        note_after_show: columns.note_after_show,
+        literally: columns.literally,
       }
 
       if (columns.direction && columns.direction !== '<-' && columns.direction !== '->') {
@@ -242,7 +246,6 @@ const run = async() => {
   console.log('Done 1')
   process.exit()
 }
-
 
 // const format_string = (i) => i
 // .replace(/\\,/g, ',')

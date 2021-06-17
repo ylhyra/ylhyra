@@ -110,6 +110,7 @@ export const withDependencies = (card_ids) => {
   terms.forEach(term => {
     let dependencies = [term]
     const checkDependencies = (term) => {
+      // TODO: gera það sama og í setup.js
       if (term in deck.dependencies) {
         deck.dependencies[term].forEach(depends_on => {
           if (!dependencies.includes(depends_on)) {
