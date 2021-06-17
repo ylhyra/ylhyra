@@ -95,8 +95,8 @@ class Card {
   getRanking() {
     let q = this.getQueuePosition();
 
-    /* New cards are not relevant unless there are no overdue cards */
-    if (this.history.length === 0) {
+    /* New terms are not relevant unless there are no overdue cards */
+    if (!this.terms.some(term => term in this.session.lastSeenTerms)) {
       q = this.absoluteQueuePosition + 1000
     }
 
@@ -109,7 +109,10 @@ class Card {
     }
 
     /* A bad card that is due exactly now has priority */
-    if (this.history[0] === BAD && q === 0) {
+    if (
+      this.history[0] === BAD && q === 0 &&
+      this.session.counter % 2 === 0 /* (But not always, to prevent staleness) */
+    ) {
       q -= 50
     }
 
@@ -120,10 +123,13 @@ class Card {
       q += 700
     }
     /* Prevent rows of the same card type from appearing right next to each other */
-    if (this.session.cardTypeLog[0] === this.from /*&& this.history.length > 0*/ ) {
+    if (
+      this.session.cardTypeLog[0] === this.from &&
+      (this.history.length > 0 || this.sessions_seen > 0) /* TODO verify sessions_seen is set */
+    ) {
       q += 0.4
       if (this.session.cardTypeLog[1] === this.from) {
-        q += 1.9
+        q += 2
       }
     }
     return q

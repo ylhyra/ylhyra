@@ -59,7 +59,11 @@ export const getWordFromId = (id) => {
 }
 
 export const getWordFromTerm = (term) => {
-  return getDeck().terms[term].cards.map(getWordFromId)
+  if (getDeck().terms[term]) {
+    return getWordFromId(getDeck().terms[term].cards[0])
+  } else {
+    console.log(`No term ${term}`)
+  }
 }
 
 export const getRelatedCardIds = (id) => {
@@ -102,7 +106,8 @@ export const withDependencies = (card_ids) => {
   let returns = []
   let terms = []
   card_ids.forEach(card_id => terms = terms.concat(deck.cards[card_id].terms))
-  _.uniq(terms).forEach(term => {
+  terms = _.uniq(terms)
+  terms.forEach(term => {
     let dependencies = [term]
     const checkDependencies = (term) => {
       if (term in deck.dependencies) {
@@ -120,31 +125,6 @@ export const withDependencies = (card_ids) => {
         returns = returns.concat(deck.terms[term].cards)
       }
     })
-    console.log(dependencies.map(getWordFromTerm))
   })
   return _.uniq(returns)
-}
-
-
-
-const CreateDependencyChain = (from_term, _alreadySeen = [], output = [], depth = 0) => {
-  // termDependsOnTerms[from_term].forEach(term => {
-  //   const alreadySeen = [..._alreadySeen] /* Deep copy in order to only watch direct parents */
-  //   if (alreadySeen.includes(term)) return;
-  //   alreadySeen.push(term)
-  //   const card_ids = termsToCardIds[term] || []
-  //   if (card_ids.some(id => alreadySeen.includes(id))) return;
-  //   card_ids.forEach(card_id => {
-  //     if (depth > 0) {
-  //       output[card_id] = Math.max(output[card_id] || 0, depth)
-  //     }
-  //     alreadySeen.push(card_id)
-  //   })
-  //   if (termDependsOnTerms[term]) {
-  //     CreateDependencyChain(term, alreadySeen, output, card_ids.length > 1 ? depth + 1 : depth)
-  //   }
-  // })
-  // if (depth === 0) {
-  //   return output
-  // }
 }
