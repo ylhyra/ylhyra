@@ -8,6 +8,7 @@ import path from 'path'
 import argvFactory from 'minimist'
 import query from './database'
 import requestIp from 'request-ip';
+global.__basedir = path.resolve(__dirname + '/../../')
 require('source-map-support').install()
 require('dotenv').config({ path: './../.env' })
 const argv = argvFactory(process.argv.slice(2))
@@ -16,11 +17,9 @@ require('express-ws')(app)
 export const upload_path = path.resolve(__dirname, './../../uploads')
 // export const image_path = path.resolve(__dirname, './../output/images')
 var cors = require('cors')
-
 app.use(bodyParser.json({ limit: '5mb' }))
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))
 
-global.__basedir = path.resolve(__dirname + '/../../')
 
 app.use(requestIp.mw())
 app.use(require('express-useragent').express())
@@ -67,8 +66,6 @@ app.use('/api', require('server/user').default)
 app.use('/api', require('server/content').default)
 app.use('/api', require('server/vocabulary/get').default)
 app.use('/api', require('server/vocabulary/save').default)
-app.use('/api/vocabulary/vocabulary_database.json', express.static(__basedir + '/src/output/vocabulary_database.json'))
-
 
 // // app.use('/api', require('server/tweets').default)
 // // app.use('/api', require('server/audio').default)

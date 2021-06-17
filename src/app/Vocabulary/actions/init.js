@@ -4,13 +4,25 @@ import axios from 'app/App/axios'
 import Deck from './deck'
 import { saveInLocalStorage, getFromLocalStorage } from 'app/App/functions/localStorage'
 import { getUserFromCookie } from 'app/User/actions'
+import { hour, day } from 'app/App/functions/time.js'
 
-export const Initialize = async() => {
+export const InitializeVocabulary = async() => {
+  const now = (new Date()).getTime()
   let database = getFromLocalStorage('vocabulary-database')
-  if (!database) {
+  let should_update = false
+  if (
+    database &&
+    getFromLocalStorage('vocabulary-database-last-updated') < now - day
+  ) {
+    // const database_last_updated = (await axios.get(`/api/vocabulary/database_last_updated`)).data
+    should_update = true
+  }
+  if (!database || should_update) {
+    console.log('Downloading database')
     database = (await axios.get(`/api/vocabulary/vocabulary_database.json`)).data
     saveInLocalStorage('vocabulary-database', database)
     saveInLocalStorage('vocabulary-database-last-updated', new Date().getTime())
+    saveInLocalStorage('vocabulary-session', null)
   }
 
   let schedule = getFromLocalStorage('vocabulary-schedule')

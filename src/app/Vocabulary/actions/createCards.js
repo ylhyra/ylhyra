@@ -1,7 +1,7 @@
 import { hour, day } from 'app/App/functions/time.js'
 import _ from 'underscore'
 import { BAD, GOOD, EASY } from './card'
-import { getWordFromId, getRelatedCardIds } from './_functions'
+import { getWordFromId, getRelatedCardIds, filterOnlyCardsThatExist } from './_functions'
 let CARDS_TO_CREATE = 100
 
 /**
@@ -15,7 +15,7 @@ export default function createCards(options, deck_) {
 
   const ScoreByTimeSinceTermWasSeen = (id) => {
     let latest = null;
-    getRelatedCardIds().forEach(sibling_card_id => {
+    getRelatedCardIds(id).forEach(sibling_card_id => {
       if (deck.schedule[sibling_card_id]) {
         if (deck.schedule[sibling_card_id].last_seen > latest) {
           latest = deck.schedule[sibling_card_id].last_seen
@@ -47,6 +47,7 @@ export default function createCards(options, deck_) {
   let scheduled = Object.keys(deck.schedule)
     .filter(id => !forbidden_ids.includes(id))
     .filter(id => !allowed_card_ids || allowed_card_ids.includes(id))
+    .filter(id => id in deck.cards)
     .map(id => ({ id, ...deck.schedule[id] }))
     .sort((a, b) => a.due - b.due)
     .forEach(i => {
@@ -73,14 +74,16 @@ export default function createCards(options, deck_) {
   }
 
   // /* Verify ids exist */
-  // chosen_ids.forEach(id => {
+  // [...overdue_ids, ...not_overdue_bad_cards_ids, ...new_card_ids].forEach(id => {
   //   if (!(id in deck.cards)) {
   //     if (process.env.NODE_ENV === 'development') {
+  //       console.log({ overdue_ids, not_overdue_bad_cards_ids, new_card_ids })
   //       throw new Error(`Incorrect id passed into deck.cards: ${id}`)
   //     }
   //     return null;
   //   }
   // })
+
 
   /* TODO: Not very efficient */
   overdue_ids = _.shuffle(overdue_ids)
@@ -113,7 +116,7 @@ export default function createCards(options, deck_) {
   chosen_ids = _.flatten(
     chosen_ids.map(id => {
       let output = [id]
-      getRelatedCardIds()
+      getRelatedCardIds(id)
         .filter(sibling_card_id => sibling_card_id !== id)
         .forEach(sibling_card_id => {
           if (

@@ -68,7 +68,7 @@ const Images = (data) => {
           rest && rest.replace(/([a-z]+)="(.+?)"/g, (v, key, val) => {
             params[key] = val
           })
-          let transcluded = await Transclude('File:' + filename_)
+          let transcluded = (await Transclude('File:' + filename_)).output
           const big_to_small = [...boxes]
           const small_to_big = [...boxes].reverse()
           output.push(`<Image position="${params.position||''}">

@@ -37,15 +37,19 @@ class Card {
         interval = 10
       }
     } else if (rating === GOOD) {
-      interval = 15
+      interval = 200
       this.done = true
+      if (this.score && this.score < GOOD) {
+        interval = 15
+      }
       if (this.history[1] >= GOOD) {
-        interval = 28
+        interval = 200
       } else if (this.history[1] === BAD) {
-        this.done = false // Hmm ?
+        interval = 10
+        this.done = false
       }
     } else if (rating === EASY) {
-      interval = this.session.cards.length + 100
+      interval = 800
       this.done = true
     }
     this.absoluteQueuePosition = this.session.counter + interval
@@ -62,9 +66,14 @@ class Card {
     card.terms.forEach(term => {
       card.session.cards.forEach(_card => {
         if (_card.id === card.id) return;
-        if (_card.history.includes(BAD)) return;
         if (_card.terms.includes(term)) {
-          const newPosition = _card.session.counter + Math.min(interval, 10)
+          let max = 300;
+          if ((_card.score && _card.score < GOOD) ||
+            card.history.includes(BAD) ||
+            _card.history.includes(BAD)) {
+            max = 10
+          }
+          const newPosition = _card.session.counter + Math.min(interval, max)
           if (newPosition > _card.absoluteQueuePosition) {
             _card.absoluteQueuePosition = newPosition
           }
@@ -111,7 +120,7 @@ class Card {
       q += 700
     }
     /* Prevent rows of the same card type from appearing right next to each other */
-    if (this.session.cardTypeLog[0] === this.from && this.history.length > 0) {
+    if (this.session.cardTypeLog[0] === this.from /*&& this.history.length > 0*/ ) {
       q += 0.4
       if (this.session.cardTypeLog[1] === this.from) {
         q += 1.9

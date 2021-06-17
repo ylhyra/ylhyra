@@ -2,577 +2,577 @@ module.exports = {
   "data/bláa-lónið": {
     "title": "Data:Bláa lónið",
     "filename": "data_bláa-lónið",
-    "file": "/Users/egill/ylhyra_content/data/Data/Bláa_lónið.md"
+    "file": "/Users/egill/ylhyra_content/data/Bláa_lónið.md"
   },
   "data/blær/egg-í-áskrift": {
     "title": "Data:Blær/Egg í áskrift",
     "filename": "data_blær_egg-í-áskrift",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Egg_í_áskrift.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Egg_í_áskrift.md"
   },
   "data/blær/fyrst-við-erum-hérna": {
     "title": "Data:Blær/Fyrst við erum hérna",
     "filename": "data_blær_fyrst-við-erum-hérna",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Fyrst_við_erum_hérna.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Fyrst_við_erum_hérna.md"
   },
   "data/blær/lunga": {
     "title": "Data:Blær/LungA",
     "filename": "data_blær_lunga",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/LungA.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/LungA.md"
   },
   "data/blær/silfur-svanurinn/1": {
     "title": "Data:Blær/Silfur svanurinn/1",
     "filename": "data_blær_silfur-svanurinn_1",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Silfur_svanurinn/1.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Silfur_svanurinn/1.md"
   },
   "data/blær/silfur-svanurinn/2": {
     "title": "Data:Blær/Silfur svanurinn/2",
     "filename": "data_blær_silfur-svanurinn_2",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Silfur_svanurinn/2.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Silfur_svanurinn/2.md"
   },
   "data/blær/silfur-svanurinn/3": {
     "title": "Data:Blær/Silfur svanurinn/3",
     "filename": "data_blær_silfur-svanurinn_3",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Silfur_svanurinn/3.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Silfur_svanurinn/3.md"
   },
   "data/blær/silfur-svanurinn/4": {
     "title": "Data:Blær/Silfur svanurinn/4",
     "filename": "data_blær_silfur-svanurinn_4",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Silfur_svanurinn/4.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Silfur_svanurinn/4.md"
   },
   "data/blær/silfur-svanurinn/5": {
     "title": "Data:Blær/Silfur svanurinn/5",
     "filename": "data_blær_silfur-svanurinn_5",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Silfur_svanurinn/5.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Silfur_svanurinn/5.md"
   },
   "data/blær/silfur-svanurinn/6": {
     "title": "Data:Blær/Silfur svanurinn/6",
     "filename": "data_blær_silfur-svanurinn_6",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Silfur_svanurinn/6.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Silfur_svanurinn/6.md"
   },
   "data/blær/silfur-svanurinn/7": {
     "title": "Data:Blær/Silfur svanurinn/7",
     "filename": "data_blær_silfur-svanurinn_7",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Silfur_svanurinn/7.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Silfur_svanurinn/7.md"
   },
   "data/blær/silfur-svanurinn/8": {
     "title": "Data:Blær/Silfur svanurinn/8",
     "filename": "data_blær_silfur-svanurinn_8",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Silfur_svanurinn/8.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Silfur_svanurinn/8.md"
   },
   "data/blær/vinkonur-vors-og-blóma/1": {
     "title": "Data:Blær/Vinkonur vors og blóma/1",
     "filename": "data_blær_vinkonur-vors-og-blóma_1",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Vinkonur_vors_og_blóma/1.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Vinkonur_vors_og_blóma/1.md"
   },
   "data/blær/vinkonur-vors-og-blóma/2": {
     "title": "Data:Blær/Vinkonur vors og blóma/2",
     "filename": "data_blær_vinkonur-vors-og-blóma_2",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Vinkonur_vors_og_blóma/2.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Vinkonur_vors_og_blóma/2.md"
   },
   "data/blær/vinkonur-vors-og-blóma/3": {
     "title": "Data:Blær/Vinkonur vors og blóma/3",
     "filename": "data_blær_vinkonur-vors-og-blóma_3",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Vinkonur_vors_og_blóma/3.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Vinkonur_vors_og_blóma/3.md"
   },
   "data/blær/vinkonur-vors-og-blóma/4": {
     "title": "Data:Blær/Vinkonur vors og blóma/4",
     "filename": "data_blær_vinkonur-vors-og-blóma_4",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Vinkonur_vors_og_blóma/4.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Vinkonur_vors_og_blóma/4.md"
   },
   "data/blær/vinkonur-vors-og-blóma/5": {
     "title": "Data:Blær/Vinkonur vors og blóma/5",
     "filename": "data_blær_vinkonur-vors-og-blóma_5",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Vinkonur_vors_og_blóma/5.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Vinkonur_vors_og_blóma/5.md"
   },
   "data/blær/vinkonur-vors-og-blóma/6": {
     "title": "Data:Blær/Vinkonur vors og blóma/6",
     "filename": "data_blær_vinkonur-vors-og-blóma_6",
-    "file": "/Users/egill/ylhyra_content/data/Data/Blær/Vinkonur_vors_og_blóma/6.md"
+    "file": "/Users/egill/ylhyra_content/data/Blær/Vinkonur_vors_og_blóma/6.md"
   },
   "data/brennu-njáls-saga/höskuldur-og-brennan/1": {
     "title": "Data:Brennu-Njáls saga/Höskuldur og brennan/1",
     "filename": "data_brennu-njáls-saga_höskuldur-og-brennan_1",
-    "file": "/Users/egill/ylhyra_content/data/Data/Brennu-Njáls_saga/Höskuldur_og_brennan/1.md"
+    "file": "/Users/egill/ylhyra_content/data/Brennu-Njáls_saga/Höskuldur_og_brennan/1.md"
   },
   "data/brennu-njáls-saga/höskuldur-og-brennan/10": {
     "title": "Data:Brennu-Njáls saga/Höskuldur og brennan/10",
     "filename": "data_brennu-njáls-saga_höskuldur-og-brennan_10",
-    "file": "/Users/egill/ylhyra_content/data/Data/Brennu-Njáls_saga/Höskuldur_og_brennan/10.md"
+    "file": "/Users/egill/ylhyra_content/data/Brennu-Njáls_saga/Höskuldur_og_brennan/10.md"
   },
   "data/brennu-njáls-saga/höskuldur-og-brennan/2": {
     "title": "Data:Brennu-Njáls saga/Höskuldur og brennan/2",
     "filename": "data_brennu-njáls-saga_höskuldur-og-brennan_2",
-    "file": "/Users/egill/ylhyra_content/data/Data/Brennu-Njáls_saga/Höskuldur_og_brennan/2.md"
+    "file": "/Users/egill/ylhyra_content/data/Brennu-Njáls_saga/Höskuldur_og_brennan/2.md"
   },
   "data/brennu-njáls-saga/höskuldur-og-brennan/3": {
     "title": "Data:Brennu-Njáls saga/Höskuldur og brennan/3",
     "filename": "data_brennu-njáls-saga_höskuldur-og-brennan_3",
-    "file": "/Users/egill/ylhyra_content/data/Data/Brennu-Njáls_saga/Höskuldur_og_brennan/3.md"
+    "file": "/Users/egill/ylhyra_content/data/Brennu-Njáls_saga/Höskuldur_og_brennan/3.md"
   },
   "data/brennu-njáls-saga/höskuldur-og-brennan/4": {
     "title": "Data:Brennu-Njáls saga/Höskuldur og brennan/4",
     "filename": "data_brennu-njáls-saga_höskuldur-og-brennan_4",
-    "file": "/Users/egill/ylhyra_content/data/Data/Brennu-Njáls_saga/Höskuldur_og_brennan/4.md"
+    "file": "/Users/egill/ylhyra_content/data/Brennu-Njáls_saga/Höskuldur_og_brennan/4.md"
   },
   "data/brennu-njáls-saga/höskuldur-og-brennan/5": {
     "title": "Data:Brennu-Njáls saga/Höskuldur og brennan/5",
     "filename": "data_brennu-njáls-saga_höskuldur-og-brennan_5",
-    "file": "/Users/egill/ylhyra_content/data/Data/Brennu-Njáls_saga/Höskuldur_og_brennan/5.md"
+    "file": "/Users/egill/ylhyra_content/data/Brennu-Njáls_saga/Höskuldur_og_brennan/5.md"
   },
   "data/brennu-njáls-saga/höskuldur-og-brennan/6": {
     "title": "Data:Brennu-Njáls saga/Höskuldur og brennan/6",
     "filename": "data_brennu-njáls-saga_höskuldur-og-brennan_6",
-    "file": "/Users/egill/ylhyra_content/data/Data/Brennu-Njáls_saga/Höskuldur_og_brennan/6.md"
+    "file": "/Users/egill/ylhyra_content/data/Brennu-Njáls_saga/Höskuldur_og_brennan/6.md"
   },
   "data/brennu-njáls-saga/höskuldur-og-brennan/7": {
     "title": "Data:Brennu-Njáls saga/Höskuldur og brennan/7",
     "filename": "data_brennu-njáls-saga_höskuldur-og-brennan_7",
-    "file": "/Users/egill/ylhyra_content/data/Data/Brennu-Njáls_saga/Höskuldur_og_brennan/7.md"
+    "file": "/Users/egill/ylhyra_content/data/Brennu-Njáls_saga/Höskuldur_og_brennan/7.md"
   },
   "data/brennu-njáls-saga/höskuldur-og-brennan/8": {
     "title": "Data:Brennu-Njáls saga/Höskuldur og brennan/8",
     "filename": "data_brennu-njáls-saga_höskuldur-og-brennan_8",
-    "file": "/Users/egill/ylhyra_content/data/Data/Brennu-Njáls_saga/Höskuldur_og_brennan/8.md"
+    "file": "/Users/egill/ylhyra_content/data/Brennu-Njáls_saga/Höskuldur_og_brennan/8.md"
   },
   "data/brennu-njáls-saga/höskuldur-og-brennan/9": {
     "title": "Data:Brennu-Njáls saga/Höskuldur og brennan/9",
     "filename": "data_brennu-njáls-saga_höskuldur-og-brennan_9",
-    "file": "/Users/egill/ylhyra_content/data/Data/Brennu-Njáls_saga/Höskuldur_og_brennan/9.md"
+    "file": "/Users/egill/ylhyra_content/data/Brennu-Njáls_saga/Höskuldur_og_brennan/9.md"
   },
   "data/conversations/eldamennska": {
     "title": "Data:Conversations/Eldamennska",
     "filename": "data_conversations_eldamennska",
-    "file": "/Users/egill/ylhyra_content/data/Data/Conversations/Eldamennska.md"
+    "file": "/Users/egill/ylhyra_content/data/Conversations/Eldamennska.md"
   },
   "data/conversations/prentari": {
     "title": "Data:Conversations/Prentari",
     "filename": "data_conversations_prentari",
-    "file": "/Users/egill/ylhyra_content/data/Data/Conversations/Prentari.md"
+    "file": "/Users/egill/ylhyra_content/data/Conversations/Prentari.md"
   },
   "data/devoicing": {
     "title": "Data:Devoicing",
     "filename": "data_devoicing",
-    "file": "/Users/egill/ylhyra_content/data/Data/Devoicing.md"
+    "file": "/Users/egill/ylhyra_content/data/Devoicing.md"
   },
   "data/egils-saga/veisla-hjá-afa": {
     "title": "Data:Egils saga/Veisla hjá afa",
     "filename": "data_egils-saga_veisla-hjá-afa",
-    "file": "/Users/egill/ylhyra_content/data/Data/Egils_saga/Veisla_hjá_afa.md"
+    "file": "/Users/egill/ylhyra_content/data/Egils_saga/Veisla_hjá_afa.md"
   },
   "data/español/magnús-jochum-pálsson/ánamaðkar": {
     "title": "Data:Español/Magnús Jochum Pálsson/Ánamaðkar",
     "filename": "data_español_magnús-jochum-pálsson_ánamaðkar",
-    "file": "/Users/egill/ylhyra_content/data/Data/Español/Magnús_Jochum_Pálsson/Ánamaðkar.md"
+    "file": "/Users/egill/ylhyra_content/data/Español/Magnús_Jochum_Pálsson/Ánamaðkar.md"
   },
   "data/færeyjar": {
     "title": "Data:Færeyjar",
     "filename": "data_færeyjar",
-    "file": "/Users/egill/ylhyra_content/data/Data/Færeyjar.md"
+    "file": "/Users/egill/ylhyra_content/data/Færeyjar.md"
   },
   "data/fóstbræður": {
     "title": "Data:Fóstbræður",
     "filename": "data_fóstbræður",
-    "file": "/Users/egill/ylhyra_content/data/Data/Fóstbræður.md"
+    "file": "/Users/egill/ylhyra_content/data/Fóstbræður.md"
   },
   "data/text/a1/garðvinna": {
     "title": "Data:Text:A1/Garðvinna",
     "filename": "data_text_a1_garðvinna",
-    "file": "/Users/egill/ylhyra_content/data/Data/Garðvinna.md"
+    "file": "/Users/egill/ylhyra_content/data/Garðvinna.md"
   },
   "data/harðfiskur": {
     "title": "Data:Harðfiskur",
     "filename": "data_harðfiskur",
-    "file": "/Users/egill/ylhyra_content/data/Data/Harðfiskur.md"
+    "file": "/Users/egill/ylhyra_content/data/Harðfiskur.md"
   },
   "data/help/adding-material": {
     "title": "Data:Help:Adding material",
     "filename": "data_help_adding-material",
-    "file": "/Users/egill/ylhyra_content/data/Data/Help/Adding_material.md"
+    "file": "/Users/egill/ylhyra_content/data/Help/Adding_material.md"
   },
   "data/help/getting-started": {
     "title": "Data:Help:Getting started",
     "filename": "data_help_getting-started",
-    "file": "/Users/egill/ylhyra_content/data/Data/Help/Getting_started.md"
+    "file": "/Users/egill/ylhyra_content/data/Help/Getting_started.md"
   },
   "data/hérna": {
     "title": "Data:Hérna",
     "filename": "data_hérna",
-    "file": "/Users/egill/ylhyra_content/data/Data/Hérna.md"
+    "file": "/Users/egill/ylhyra_content/data/Hérna.md"
   },
   "data/imba/afi": {
     "title": "Data:Imba/afi",
     "filename": "data_imba_afi",
-    "file": "/Users/egill/ylhyra_content/data/Data/Imba/afi.md"
+    "file": "/Users/egill/ylhyra_content/data/Imba/afi.md"
   },
   "data/imba/current-mood": {
     "title": "Data:Imba/current mood",
     "filename": "data_imba_current-mood",
-    "file": "/Users/egill/ylhyra_content/data/Data/Imba/current_mood.md"
+    "file": "/Users/egill/ylhyra_content/data/Imba/current_mood.md"
   },
   "data/imba/grip": {
     "title": "Data:Imba/grip",
     "filename": "data_imba_grip",
-    "file": "/Users/egill/ylhyra_content/data/Data/Imba/grip.md"
+    "file": "/Users/egill/ylhyra_content/data/Imba/grip.md"
   },
   "data/imba/áferð-og-flug": {
     "title": "Data:Imba/áferð og flug",
     "filename": "data_imba_áferð-og-flug",
-    "file": "/Users/egill/ylhyra_content/data/Data/Imba/áferð_og_flug.md"
+    "file": "/Users/egill/ylhyra_content/data/Imba/áferð_og_flug.md"
   },
   "data/imba/ég-veit": {
     "title": "Data:Imba/ég veit",
     "filename": "data_imba_ég-veit",
-    "file": "/Users/egill/ylhyra_content/data/Data/Imba/ég_veit.md"
+    "file": "/Users/egill/ylhyra_content/data/Imba/ég_veit.md"
   },
   "data/intonation": {
     "title": "Data:Intonation",
     "filename": "data_intonation",
-    "file": "/Users/egill/ylhyra_content/data/Data/Intonation.md"
+    "file": "/Users/egill/ylhyra_content/data/Intonation.md"
   },
   "data/jónas-hallgrímsson/ásta/1": {
     "title": "Data:Jónas Hallgrímsson/Ásta/1",
     "filename": "data_jónas-hallgrímsson_ásta_1",
-    "file": "/Users/egill/ylhyra_content/data/Data/Jónas_Hallgrímsson/Ásta/1.md"
+    "file": "/Users/egill/ylhyra_content/data/Jónas_Hallgrímsson/Ásta/1.md"
   },
   "data/kristnihald/fólk-ætti-að-faðmast-meira.-eitt-gott": {
     "title": "Data:Kristnihald/Fólk ætti að faðmast meira. Eitt gott",
     "filename": "data_kristnihald_fólk-ætti-að-faðmast-meira.-eitt-gott",
-    "file": "/Users/egill/ylhyra_content/data/Data/Kristnihald/Fólk_ætti_að_faðmast_meira._Eitt_gott.md"
+    "file": "/Users/egill/ylhyra_content/data/Kristnihald/Fólk_ætti_að_faðmast_meira._Eitt_gott.md"
   },
   "data/lopapeysa": {
     "title": "Data:Lopapeysa",
     "filename": "data_lopapeysa",
-    "file": "/Users/egill/ylhyra_content/data/Data/Lopapeysa.md"
+    "file": "/Users/egill/ylhyra_content/data/Lopapeysa.md"
   },
   "data/lúpína": {
     "title": "Data:Lúpína",
     "filename": "data_lúpína",
-    "file": "/Users/egill/ylhyra_content/data/Data/Lúpína.md"
+    "file": "/Users/egill/ylhyra_content/data/Lúpína.md"
   },
   "data/magnús-jochum-pálsson/pípulækningar": {
     "title": "Data:Magnús Jochum Pálsson/Pípulækningar",
     "filename": "data_magnús-jochum-pálsson_pípulækningar",
-    "file": "/Users/egill/ylhyra_content/data/Data/Magnús_Jochum_Pálsson/Pípulækningar.md"
+    "file": "/Users/egill/ylhyra_content/data/Magnús_Jochum_Pálsson/Pípulækningar.md"
   },
   "data/magnús-jochum-pálsson/ánamaðkar": {
     "title": "Data:Magnús Jochum Pálsson/Ánamaðkar",
     "filename": "data_magnús-jochum-pálsson_ánamaðkar",
-    "file": "/Users/egill/ylhyra_content/data/Data/Magnús_Jochum_Pálsson/Ánamaðkar.md"
+    "file": "/Users/egill/ylhyra_content/data/Magnús_Jochum_Pálsson/Ánamaðkar.md"
   },
   "data/nafn-vestmannaeyja": {
     "title": "Data:Nafn Vestmannaeyja",
     "filename": "data_nafn-vestmannaeyja",
-    "file": "/Users/egill/ylhyra_content/data/Data/Nafn_Vestmannaeyja.md"
+    "file": "/Users/egill/ylhyra_content/data/Nafn_Vestmannaeyja.md"
   },
   "data/njála/1": {
     "title": "Data:Njála/1",
     "filename": "data_njála_1",
-    "file": "/Users/egill/ylhyra_content/data/Data/Njála/1.md"
+    "file": "/Users/egill/ylhyra_content/data/Njála/1.md"
   },
   "data/project/name": {
     "title": "Data:Project:Name",
     "filename": "data_project_name",
-    "file": "/Users/egill/ylhyra_content/data/Data/Project/Name.md"
+    "file": "/Users/egill/ylhyra_content/data/Project/Name.md"
   },
   "data/r": {
     "title": "Data:R",
     "filename": "data_r",
-    "file": "/Users/egill/ylhyra_content/data/Data/R.md"
+    "file": "/Users/egill/ylhyra_content/data/R.md"
   },
   "data/text/a1/reykjavík": {
     "title": "Data:Text:A1/Reykjavík",
     "filename": "data_text_a1_reykjavík",
-    "file": "/Users/egill/ylhyra_content/data/Data/Reykjavík.md"
+    "file": "/Users/egill/ylhyra_content/data/Reykjavík.md"
   },
   "data/sitji-guðs-englar": {
     "title": "Data:Sitji guðs englar",
     "filename": "data_sitji-guðs-englar",
-    "file": "/Users/egill/ylhyra_content/data/Data/Sitji_guðs_englar.md"
+    "file": "/Users/egill/ylhyra_content/data/Sitji_guðs_englar.md"
   },
   "data/snippet/eiríkur-dansar": {
     "title": "Data:Snippet:Eiríkur dansar",
     "filename": "data_snippet_eiríkur-dansar",
-    "file": "/Users/egill/ylhyra_content/data/Data/Snippet/Eiríkur_dansar.md"
+    "file": "/Users/egill/ylhyra_content/data/Snippet/Eiríkur_dansar.md"
   },
   "data/soft-in-the-middle": {
     "title": "Data:Soft in the middle",
     "filename": "data_soft-in-the-middle",
-    "file": "/Users/egill/ylhyra_content/data/Data/Soft_in_the_middle.md"
+    "file": "/Users/egill/ylhyra_content/data/Soft_in_the_middle.md"
   },
   "data/strætó": {
     "title": "Data:Strætó",
     "filename": "data_strætó",
-    "file": "/Users/egill/ylhyra_content/data/Data/Strætó.md"
+    "file": "/Users/egill/ylhyra_content/data/Strætó.md"
   },
   "data/sund": {
     "title": "Data:Sund",
     "filename": "data_sund",
-    "file": "/Users/egill/ylhyra_content/data/Data/Sund.md"
+    "file": "/Users/egill/ylhyra_content/data/Sund.md"
   },
   "data/sveinbjörn-egilsson/bí-bí-og-blaka": {
     "title": "Data:Sveinbjörn Egilsson/Bí bí og blaka",
     "filename": "data_sveinbjörn-egilsson_bí-bí-og-blaka",
-    "file": "/Users/egill/ylhyra_content/data/Data/Sveinbjörn_Egilsson/Bí_bí_og_blaka.md"
+    "file": "/Users/egill/ylhyra_content/data/Sveinbjörn_Egilsson/Bí_bí_og_blaka.md"
   },
   "data/test": {
     "title": "Data:Test",
     "filename": "data_test",
-    "file": "/Users/egill/ylhyra_content/data/Data/Test.md"
+    "file": "/Users/egill/ylhyra_content/data/Test.md"
   },
   "data/text/blær/fyrst-við-erum-hérna/teaser": {
     "title": "Data:Text:Blær/Fyrst við erum hérna/Teaser",
     "filename": "data_text_blær_fyrst-við-erum-hérna_teaser",
-    "file": "/Users/egill/ylhyra_content/data/Data/Text/Blær/Fyrst_við_erum_hérna/Teaser.md"
+    "file": "/Users/egill/ylhyra_content/data/Text/Blær/Fyrst_við_erum_hérna/Teaser.md"
   },
   "data/text/conversations/winter": {
     "title": "Data:Text:Conversations/Winter",
     "filename": "data_text_conversations_winter",
-    "file": "/Users/egill/ylhyra_content/data/Data/Text/Conversations/Winter.md"
+    "file": "/Users/egill/ylhyra_content/data/Text/Conversations/Winter.md"
   },
   "data/text/demo": {
     "title": "Data:Text:Demo",
     "filename": "data_text_demo",
-    "file": "/Users/egill/ylhyra_content/data/Data/Text/Demo.md"
+    "file": "/Users/egill/ylhyra_content/data/Text/Demo.md"
   },
   "data/text/magnús-jochum-pálsson/leyfi": {
     "title": "Data:Text:Magnús Jochum Pálsson/Leyfi",
     "filename": "data_text_magnús-jochum-pálsson_leyfi",
-    "file": "/Users/egill/ylhyra_content/data/Data/Text/Magnús_Jochum_Pálsson/Leyfi.md"
+    "file": "/Users/egill/ylhyra_content/data/Text/Magnús_Jochum_Pálsson/Leyfi.md"
   },
   "data/text/milk": {
     "title": "Data:Text/Milk",
     "filename": "data_text_milk",
-    "file": "/Users/egill/ylhyra_content/data/Data/Text/Milk.md"
+    "file": "/Users/egill/ylhyra_content/data/Text/Milk.md"
   },
   "data/text/sofðu-unga-ástin-mín/1": {
     "title": "Data:Text:Sofðu unga ástin mín/1",
     "filename": "data_text_sofðu-unga-ástin-mín_1",
-    "file": "/Users/egill/ylhyra_content/data/Data/Text/Sofðu_unga_ástin_mín/1.md"
+    "file": "/Users/egill/ylhyra_content/data/Text/Sofðu_unga_ástin_mín/1.md"
   },
   "data/text/ylhýra": {
     "title": "Data:Text:Ylhýra",
     "filename": "data_text_ylhýra",
-    "file": "/Users/egill/ylhyra_content/data/Data/Text/Ylhýra.md"
+    "file": "/Users/egill/ylhyra_content/data/Text/Ylhýra.md"
   },
   "data/tweets/benedikt/ber": {
     "title": "Data:Tweets/Benedikt/Ber",
     "filename": "data_tweets_benedikt_ber",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Benedikt/Ber.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Benedikt/Ber.md"
   },
   "data/tweets/benedikt/blundur": {
     "title": "Data:Tweets/Benedikt/Blundur",
     "filename": "data_tweets_benedikt_blundur",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Benedikt/Blundur.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Benedikt/Blundur.md"
   },
   "data/tweets/benedikt/draumsýn": {
     "title": "Data:Tweets/Benedikt/Draumsýn",
     "filename": "data_tweets_benedikt_draumsýn",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Benedikt/Draumsýn.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Benedikt/Draumsýn.md"
   },
   "data/tweets/benedikt/hreimur": {
     "title": "Data:Tweets/Benedikt/Hreimur",
     "filename": "data_tweets_benedikt_hreimur",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Benedikt/Hreimur.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Benedikt/Hreimur.md"
   },
   "data/tweets/benedikt/ingólfur": {
     "title": "Data:Tweets/Benedikt/Ingólfur",
     "filename": "data_tweets_benedikt_ingólfur",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Benedikt/Ingólfur.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Benedikt/Ingólfur.md"
   },
   "data/tweets/benedikt/slydda": {
     "title": "Data:Tweets/Benedikt/Slydda",
     "filename": "data_tweets_benedikt_slydda",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Benedikt/Slydda.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Benedikt/Slydda.md"
   },
   "data/tweets/benedikt/yfirmaður": {
     "title": "Data:Tweets/Benedikt/Yfirmaður",
     "filename": "data_tweets_benedikt_yfirmaður",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Benedikt/Yfirmaður.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Benedikt/Yfirmaður.md"
   },
   "data/tweets/branddís/borðaraðir": {
     "title": "Data:Tweets/Branddís/Borðaraðir",
     "filename": "data_tweets_branddís_borðaraðir",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Branddís/Borðaraðir.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Branddís/Borðaraðir.md"
   },
   "data/tweets/branddís/crossfit": {
     "title": "Data:Tweets/Branddís/Crossfit",
     "filename": "data_tweets_branddís_crossfit",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Branddís/Crossfit.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Branddís/Crossfit.md"
   },
   "data/tweets/branddís/danmörk": {
     "title": "Data:Tweets/Branddís/Danmörk",
     "filename": "data_tweets_branddís_danmörk",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Branddís/Danmörk.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Branddís/Danmörk.md"
   },
   "data/tweets/branddís/köttur": {
     "title": "Data:Tweets/Branddís/Köttur",
     "filename": "data_tweets_branddís_köttur",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Branddís/Köttur.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Branddís/Köttur.md"
   },
   "data/tweets/branddís/mössuð": {
     "title": "Data:Tweets/Branddís/Mössuð",
     "filename": "data_tweets_branddís_mössuð",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Branddís/Mössuð.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Branddís/Mössuð.md"
   },
   "data/tweets/imba/afgreiðslustörf": {
     "title": "Data:Tweets/Imba/Afgreiðslustörf",
     "filename": "data_tweets_imba_afgreiðslustörf",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Imba/Afgreiðslustörf.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Imba/Afgreiðslustörf.md"
   },
   "data/tweets/imba/ligeglad": {
     "title": "Data:Tweets/Imba/Ligeglad",
     "filename": "data_tweets_imba_ligeglad",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Imba/Ligeglad.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Imba/Ligeglad.md"
   },
   "data/tweets/imba/rok": {
     "title": "Data:Tweets/Imba/Rok",
     "filename": "data_tweets_imba_rok",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Imba/Rok.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Imba/Rok.md"
   },
   "data/tweets/imba/þjóðverjar": {
     "title": "Data:Tweets/Imba/Þjóðverjar",
     "filename": "data_tweets_imba_þjóðverjar",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Imba/Þjóðverjar.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Imba/Þjóðverjar.md"
   },
   "data/tweets/kristín-ólafs/slúður": {
     "title": "Data:Tweets/Kristín Ólafs/Slúður",
     "filename": "data_tweets_kristín-ólafs_slúður",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Kristín_Ólafs/Slúður.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Kristín_Ólafs/Slúður.md"
   },
   "data/tweets/kristín-ólafs/unglingar": {
     "title": "Data:Tweets/Kristín Ólafs/Unglingar",
     "filename": "data_tweets_kristín-ólafs_unglingar",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Kristín_Ólafs/Unglingar.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Kristín_Ólafs/Unglingar.md"
   },
   "data/tweets/rannveig-dóra/matur": {
     "title": "Data:Tweets/Rannveig Dóra/Matur",
     "filename": "data_tweets_rannveig-dóra_matur",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Rannveig_Dóra/Matur.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Rannveig_Dóra/Matur.md"
   },
   "data/tweets/ása/kettir": {
     "title": "Data:Tweets/Ása/Kettir",
     "filename": "data_tweets_ása_kettir",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Ása/Kettir.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Ása/Kettir.md"
   },
   "data/tweets/ása/ormurinn": {
     "title": "Data:Tweets/Ása/Ormurinn",
     "filename": "data_tweets_ása_ormurinn",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Ása/Ormurinn.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Ása/Ormurinn.md"
   },
   "data/tweets/ása/sjófánar": {
     "title": "Data:Tweets/Ása/Sjófánar",
     "filename": "data_tweets_ása_sjófánar",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Ása/Sjófánar.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Ása/Sjófánar.md"
   },
   "data/tweets/ása/stjörnur": {
     "title": "Data:Tweets/Ása/Stjörnur",
     "filename": "data_tweets_ása_stjörnur",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Ása/Stjörnur.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Ása/Stjörnur.md"
   },
   "data/tweets/ása/sund": {
     "title": "Data:Tweets/Ása/Sund",
     "filename": "data_tweets_ása_sund",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Ása/Sund.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Ása/Sund.md"
   },
   "data/tweets/ása/íslenskar-bíómyndir": {
     "title": "Data:Tweets/Ása/Íslenskar bíómyndir",
     "filename": "data_tweets_ása_íslenskar-bíómyndir",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Ása/Íslenskar_bíómyndir.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Ása/Íslenskar_bíómyndir.md"
   },
   "data/tweets/ólafur/ólæs": {
     "title": "Data:Tweets/Ólafur/Ólæs",
     "filename": "data_tweets_ólafur_ólæs",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Ólafur/Ólæs.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Ólafur/Ólæs.md"
   },
   "data/tweets/þorsteinn/afi": {
     "title": "Data:Tweets/Þorsteinn/Afi",
     "filename": "data_tweets_þorsteinn_afi",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Þorsteinn/Afi.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Þorsteinn/Afi.md"
   },
   "data/tweets/þorsteinn/alþingi": {
     "title": "Data:Tweets/Þorsteinn/Alþingi",
     "filename": "data_tweets_þorsteinn_alþingi",
-    "file": "/Users/egill/ylhyra_content/data/Data/Tweets/Þorsteinn/Alþingi.md"
+    "file": "/Users/egill/ylhyra_content/data/Tweets/Þorsteinn/Alþingi.md"
   },
   "data/vestmannaeyjar": {
     "title": "Data:Vestmannaeyjar",
     "filename": "data_vestmannaeyjar",
-    "file": "/Users/egill/ylhyra_content/data/Data/Vestmannaeyjar.md"
+    "file": "/Users/egill/ylhyra_content/data/Vestmannaeyjar.md"
   },
   "data/villi-neto/bubbi": {
     "title": "Data:Villi Neto/Bubbi",
     "filename": "data_villi-neto_bubbi",
-    "file": "/Users/egill/ylhyra_content/data/Data/Villi_Neto/Bubbi.md"
+    "file": "/Users/egill/ylhyra_content/data/Villi_Neto/Bubbi.md"
   },
   "data/villi-neto/finnland": {
     "title": "Data:Villi Neto/Finnland",
     "filename": "data_villi-neto_finnland",
-    "file": "/Users/egill/ylhyra_content/data/Data/Villi_Neto/Finnland.md"
+    "file": "/Users/egill/ylhyra_content/data/Villi_Neto/Finnland.md"
   },
   "data/villi-neto/forníslenski-sjomlinn": {
     "title": "Data:Villi Neto/Forníslenski sjomlinn",
     "filename": "data_villi-neto_forníslenski-sjomlinn",
-    "file": "/Users/egill/ylhyra_content/data/Data/Villi_Neto/Forníslenski_sjomlinn.md"
+    "file": "/Users/egill/ylhyra_content/data/Villi_Neto/Forníslenski_sjomlinn.md"
   },
   "data/villi-neto/fullt-nafn": {
     "title": "Data:Villi Neto/Fullt nafn",
     "filename": "data_villi-neto_fullt-nafn",
-    "file": "/Users/egill/ylhyra_content/data/Data/Villi_Neto/Fullt_nafn.md"
+    "file": "/Users/egill/ylhyra_content/data/Villi_Neto/Fullt_nafn.md"
   },
   "data/villi-neto/kaffi": {
     "title": "Data:Villi Neto/Kaffi",
     "filename": "data_villi-neto_kaffi",
-    "file": "/Users/egill/ylhyra_content/data/Data/Villi_Neto/Kaffi.md"
+    "file": "/Users/egill/ylhyra_content/data/Villi_Neto/Kaffi.md"
   },
   "data/villi-neto/lýsi": {
     "title": "Data:Villi Neto/Lýsi",
     "filename": "data_villi-neto_lýsi",
-    "file": "/Users/egill/ylhyra_content/data/Data/Villi_Neto/Lýsi.md"
+    "file": "/Users/egill/ylhyra_content/data/Villi_Neto/Lýsi.md"
   },
   "data/villi-neto/reiður-á-innsoginu": {
     "title": "Data:Villi Neto/Reiður á innsoginu",
     "filename": "data_villi-neto_reiður-á-innsoginu",
-    "file": "/Users/egill/ylhyra_content/data/Data/Villi_Neto/Reiður_á_innsoginu.md"
+    "file": "/Users/egill/ylhyra_content/data/Villi_Neto/Reiður_á_innsoginu.md"
   },
   "data/villi-neto/skata": {
     "title": "Data:Villi Neto/Skata",
     "filename": "data_villi-neto_skata",
-    "file": "/Users/egill/ylhyra_content/data/Data/Villi_Neto/Skata.md"
+    "file": "/Users/egill/ylhyra_content/data/Villi_Neto/Skata.md"
   },
   "data/villi-neto/íslendingar-í-sólarlöndum": {
     "title": "Data:Villi Neto/Íslendingar í sólarlöndum",
     "filename": "data_villi-neto_íslendingar-í-sólarlöndum",
-    "file": "/Users/egill/ylhyra_content/data/Data/Villi_Neto/Íslendingar_í_sólarlöndum.md"
+    "file": "/Users/egill/ylhyra_content/data/Villi_Neto/Íslendingar_í_sólarlöndum.md"
   },
   "data/villi-neto/íslenskar-myndir": {
     "title": "Data:Villi Neto/Íslenskar myndir",
     "filename": "data_villi-neto_íslenskar-myndir",
-    "file": "/Users/egill/ylhyra_content/data/Data/Villi_Neto/Íslenskar_myndir.md"
+    "file": "/Users/egill/ylhyra_content/data/Villi_Neto/Íslenskar_myndir.md"
   },
   "data/vísur-vatnsenda-rósu": {
     "title": "Data:Vísur Vatnsenda-Rósu",
     "filename": "data_vísur-vatnsenda-rósu",
-    "file": "/Users/egill/ylhyra_content/data/Data/Vísur_Vatnsenda-Rósu.md"
+    "file": "/Users/egill/ylhyra_content/data/Vísur_Vatnsenda-Rósu.md"
   },
   "data/þorsteins-þáttur-stangarhöggs/1": {
     "title": "Data:Þorsteins þáttur stangarhöggs/1",
     "filename": "data_þorsteins-þáttur-stangarhöggs_1",
-    "file": "/Users/egill/ylhyra_content/data/Data/Þorsteins_þáttur_stangarhöggs/1.md"
+    "file": "/Users/egill/ylhyra_content/data/Þorsteins_þáttur_stangarhöggs/1.md"
   },
   "data/þorsteins-þáttur-stangarhöggs/2": {
     "title": "Data:Þorsteins þáttur stangarhöggs/2",
     "filename": "data_þorsteins-þáttur-stangarhöggs_2",
-    "file": "/Users/egill/ylhyra_content/data/Data/Þorsteins_þáttur_stangarhöggs/2.md"
+    "file": "/Users/egill/ylhyra_content/data/Þorsteins_þáttur_stangarhöggs/2.md"
   },
   "data/þorsteins-þáttur-stangarhöggs/3": {
     "title": "Data:Þorsteins þáttur stangarhöggs/3",
     "filename": "data_þorsteins-þáttur-stangarhöggs_3",
-    "file": "/Users/egill/ylhyra_content/data/Data/Þorsteins_þáttur_stangarhöggs/3.md"
+    "file": "/Users/egill/ylhyra_content/data/Þorsteins_þáttur_stangarhöggs/3.md"
   },
   "data/þúfa": {
     "title": "Data:Þúfa",
     "filename": "data_þúfa",
-    "file": "/Users/egill/ylhyra_content/data/Data/Þúfa.md"
+    "file": "/Users/egill/ylhyra_content/data/Þúfa.md"
   },
   "": {
     "title": "",
@@ -582,55 +582,25 @@ module.exports = {
   "ylhýra": {
     "redirect_to": ""
   },
-  "chapter-1/er": {
-    "title": "Chapter 1/Er",
-    "filename": "chapter-1_er",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Chapter_1/Er.md"
-  },
-  "chapter-1/vocabulary": {
-    "title": "Chapter 1/Vocabulary",
-    "filename": "chapter-1_vocabulary",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Chapter_1/Vocabulary.md"
-  },
-  "chapter-1": {
-    "title": "Chapter 1",
-    "filename": "chapter-1",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Chapter_1/index.md"
-  },
-  "chapter-2": {
-    "title": "Chapter 2",
-    "filename": "chapter-2",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Chapter_2/index.md"
-  },
-  "chapter-3": {
-    "title": "Chapter 3",
-    "filename": "chapter-3",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Chapter_3.md"
-  },
-  "chapter-4": {
-    "title": "Chapter 4",
-    "filename": "chapter-4",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Chapter_4.md"
-  },
-  "chapter-6": {
-    "title": "Chapter 6",
-    "filename": "chapter-6",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Chapter_6.md"
+  "course": {
+    "title": "Course",
+    "filename": "course",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/Table_of_contents.md"
   },
   "course/a1/about-icelandic": {
     "title": "Course/A1/About Icelandic",
     "filename": "course_a1_about-icelandic",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/About_Icelandic.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/About_Icelandic.md"
   },
   "course/a1/at-the-supermarket": {
     "title": "Course/A1/At the supermarket",
     "filename": "course_a1_at-the-supermarket",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/At_the_supermarket.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/At_the_supermarket.md"
   },
   "course/a1/að": {
     "title": "Course/A1/Að",
     "filename": "course_a1_að",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Að.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Að.md"
   },
   "text/að/intro": {
     "redirect_to": "course/a1/að"
@@ -638,22 +608,22 @@ module.exports = {
   "course/a1/conversation-–-búinn": {
     "title": "Course/A1/Conversation – Búinn",
     "filename": "course_a1_conversation-–-búinn",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Conversation_–_Búinn.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Conversation_–_Búinn.md"
   },
   "course/a1/conversation-–-búinn-2": {
     "title": "Course/A1/Conversation – Búinn 2",
     "filename": "course_a1_conversation-–-búinn-2",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Conversation_–_Búinn_2.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Conversation_–_Búinn_2.md"
   },
   "course/a1/double-l": {
     "title": "Course/A1/Double L",
     "filename": "course_a1_double-l",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Double_L.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Double_L.md"
   },
   "course/a1/good-day": {
     "title": "Course/A1/Good day",
     "filename": "course_a1_good-day",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Good_day.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Good_day.md"
   },
   "chapter-2/good-day": {
     "redirect_to": "course/a1/good-day"
@@ -661,7 +631,7 @@ module.exports = {
   "course/a1/hello": {
     "title": "Course/A1/Hello",
     "filename": "course_a1_hello",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Hello.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Hello.md"
   },
   "chapter-1/hello": {
     "redirect_to": "course/a1/hello"
@@ -669,27 +639,22 @@ module.exports = {
   "course/a1/is": {
     "title": "Course/A1/Is",
     "filename": "course_a1_is",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Is.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Is.md"
   },
   "course/a1/listening-–-sæll": {
     "title": "Course/A1/Listening – sæll",
     "filename": "course_a1_listening-–-sæll",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Listening_–_sæll.md"
-  },
-  "course/a1/new-letters---þ,-ð": {
-    "title": "Course/A1/New letters - Þ, Ð",
-    "filename": "course_a1_new-letters---þ,-ð",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/New_letters/_Þ,_Ð.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Listening_–_sæll.md"
   },
   "course/a1/politeness": {
     "title": "Course/A1/Politeness",
     "filename": "course_a1_politeness",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Politeness.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Politeness.md"
   },
   "course/a1/questions": {
     "title": "Course/A1/Questions",
     "filename": "course_a1_questions",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Questions.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Questions.md"
   },
   "chapter-2/questions": {
     "redirect_to": "course/a1/questions"
@@ -697,7 +662,7 @@ module.exports = {
   "course/a1/sæll": {
     "title": "Course/A1/Sæll",
     "filename": "course_a1_sæll",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Sæll.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Sæll.md"
   },
   "text/sæll/intro": {
     "redirect_to": "course/a1/sæll"
@@ -705,7 +670,7 @@ module.exports = {
   "course/a1/thanks": {
     "title": "Course/A1/Thanks",
     "filename": "course_a1_thanks",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Thanks.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Thanks.md"
   },
   "chapter-2/thanks": {
     "redirect_to": "course/a1/thanks"
@@ -713,7 +678,7 @@ module.exports = {
   "course/a1/this": {
     "title": "Course/A1/This",
     "filename": "course_a1_this",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/This.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/This.md"
   },
   "text/þetta/intro": {
     "redirect_to": "course/a1/this"
@@ -721,102 +686,155 @@ module.exports = {
   "course/a1/want": {
     "title": "Course/A1/Want",
     "filename": "course_a1_want",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/A1/Want.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/Want.md"
+  },
+  "course/a1/new-letters---þ,-ð": {
+    "title": "Course/A1/New letters - Þ, Ð",
+    "filename": "course_a1_new-letters---þ,-ð",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/A1/_Þ,_Ð.md"
   },
   "course/cases-of-vinur": {
     "title": "Course/Cases of vinur",
     "filename": "course_cases-of-vinur",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/Cases_of_vinur.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/Cases_of_vinur.md"
   },
-  "course/doing": {
-    "title": "Course/Doing",
-    "filename": "course_doing",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/Doing.md"
+  "chapter-1/er": {
+    "title": "Chapter 1/Er",
+    "filename": "chapter-1_er",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/Chapter_1/Er.md"
   },
-  "course/going-to": {
-    "title": "Course/Going to",
-    "filename": "course_going-to",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/Going_to.md"
+  "chapter-1/vocabulary": {
+    "title": "Chapter 1/Vocabulary",
+    "filename": "chapter-1_vocabulary",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/Chapter_1/Vocabulary.md"
   },
-  "course/greetings": {
-    "title": "Course/Greetings",
-    "filename": "course_greetings",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/Greetings.md"
+  "chapter-1": {
+    "title": "Chapter 1",
+    "filename": "chapter-1",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/Chapter_1/index.md"
   },
-  "course/how": {
-    "title": "Course/How?",
-    "filename": "course_how",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/How?.md"
+  "chapter-2": {
+    "title": "Chapter 2",
+    "filename": "chapter-2",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/Chapter_2/index.md"
   },
-  "course/how-are-you": {
-    "title": "Course/How are you",
-    "filename": "course_how-are-you",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/How_are_you.md"
+  "chapter-3": {
+    "title": "Chapter 3",
+    "filename": "chapter-3",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/Chapter_3.md"
   },
-  "course/i-am": {
-    "title": "Course/I am",
-    "filename": "course_i-am",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/I_am.md"
+  "chapter-4": {
+    "title": "Chapter 4",
+    "filename": "chapter-4",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/Chapter_4.md"
   },
-  "course/i-know": {
-    "title": "Course/I know",
-    "filename": "course_i-know",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/I_know.md"
-  },
-  "course/i-like": {
-    "title": "Course/I like",
-    "filename": "course_i-like",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/I_like.md"
-  },
-  "course/introduction-to-cases": {
-    "title": "Course/Introduction to cases",
-    "filename": "course_introduction-to-cases",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/Introduction_to_cases.md"
-  },
-  "course/live": {
-    "title": "Course/Live",
-    "filename": "course_live",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/Live.md"
-  },
-  "course/ordering-food": {
-    "title": "Course/Ordering food",
-    "filename": "course_ordering-food",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/Ordering_food.md"
-  },
-  "course/the": {
-    "title": "Course/The",
-    "filename": "course_the",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/The.md"
-  },
-  "course/to-own": {
-    "title": "Course/To own",
-    "filename": "course_to-own",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/To_own.md"
+  "chapter-6": {
+    "title": "Chapter 6",
+    "filename": "chapter-6",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/Chapter_6.md"
   },
   "course/to-watch": {
     "title": "Course/To watch",
     "filename": "course_to-watch",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/To_watch.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/To_watch.md"
+  },
+  "conversations/prentari": {
+    "title": "Conversations/Prentari",
+    "filename": "conversations_prentari",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/conversations/Prentari.md"
+  },
+  "text/conversations/winter": {
+    "title": "Text:Conversations/Winter",
+    "filename": "text_conversations_winter",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/_drafts/conversations/Winter.md"
+  },
+  "conversations/winter": {
+    "redirect_to": "text/conversations/winter"
+  },
+  "course/doing": {
+    "title": "Course/Doing",
+    "filename": "course_doing",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/Doing.md"
+  },
+  "course/going-to": {
+    "title": "Course/Going to",
+    "filename": "course_going-to",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/Going_to.md"
+  },
+  "course/greetings": {
+    "title": "Course/Greetings",
+    "filename": "course_greetings",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/Greetings.md"
+  },
+  "course/how": {
+    "title": "Course/How?",
+    "filename": "course_how",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/How?.md"
+  },
+  "course/how-are-you": {
+    "title": "Course/How are you",
+    "filename": "course_how-are-you",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/How_are_you.md"
+  },
+  "course/i-am": {
+    "title": "Course/I am",
+    "filename": "course_i-am",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/I_am.md"
+  },
+  "course/i-know": {
+    "title": "Course/I know",
+    "filename": "course_i-know",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/I_know.md"
+  },
+  "course/i-like": {
+    "title": "Course/I like",
+    "filename": "course_i-like",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/I_like.md"
+  },
+  "course/introduction-to-cases": {
+    "title": "Course/Introduction to cases",
+    "filename": "course_introduction-to-cases",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/Introduction_to_cases.md"
+  },
+  "course/live": {
+    "title": "Course/Live",
+    "filename": "course_live",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/Live.md"
+  },
+  "course/ordering-food": {
+    "title": "Course/Ordering food",
+    "filename": "course_ordering-food",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/Ordering_food.md"
+  },
+  "course/the": {
+    "title": "Course/The",
+    "filename": "course_the",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/The.md"
+  },
+  "course/to-own": {
+    "title": "Course/To own",
+    "filename": "course_to-own",
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/To_own.md"
   },
   "course/want": {
     "title": "Course/Want",
     "filename": "course_want",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/Want.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/Want.md"
   },
   "course/when": {
     "title": "Course/When?",
     "filename": "course_when",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/When?.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/When?.md"
   },
   "course/why": {
     "title": "Course/Why?",
     "filename": "course_why",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/Why?.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/Why?.md"
   },
   "course/word-merging": {
     "title": "Course/Word merging",
     "filename": "course_word-merging",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/Word_merging.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/Word_merging.md"
   },
   "word-merging": {
     "redirect_to": "course/word-merging"
@@ -824,25 +842,7 @@ module.exports = {
   "course/yes": {
     "title": "Course/Yes",
     "filename": "course_yes",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course/Yes.md"
-  },
-  "course": {
-    "title": "Course",
-    "filename": "course",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/Course.md"
-  },
-  "conversations/prentari": {
-    "title": "Conversations/Prentari",
-    "filename": "conversations_prentari",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/conversations/Prentari.md"
-  },
-  "text/conversations/winter": {
-    "title": "Text:Conversations/Winter",
-    "filename": "text_conversations_winter",
-    "file": "/Users/egill/ylhyra_content/not_data/content/course/conversations/Winter.md"
-  },
-  "conversations/winter": {
-    "redirect_to": "text/conversations/winter"
+    "file": "/Users/egill/ylhyra_content/not_data/content/course/a1/Yes.md"
   },
   "-ó-endings/less-common-words": {
     "title": "-ó endings/Less common words",
@@ -1855,25 +1855,30 @@ module.exports = {
   "verb": {
     "redirect_to": "verbs"
   },
+  "word-order": {
+    "title": "Word order",
+    "filename": "word-order",
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_order.md"
+  },
   "að": {
     "title": "Að",
     "filename": "að",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Að.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Að.md"
   },
   "ef": {
     "title": "Ef",
     "filename": "ef",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Ef.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Ef.md"
   },
   "eiginlega": {
     "title": "Eiginlega",
     "filename": "eiginlega",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Eiginlega.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Eiginlega.md"
   },
   "filler-words": {
     "title": "Filler words",
     "filename": "filler-words",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Filler_words.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Filler_words.md"
   },
   "hikorð": {
     "redirect_to": "filler-words"
@@ -1881,17 +1886,17 @@ module.exports = {
   "fíla": {
     "title": "Fíla",
     "filename": "fíla",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Fíla.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Fíla.md"
   },
   "gjörðu-svo-vel": {
     "title": "Gjörðu svo vel",
     "filename": "gjörðu-svo-vel",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Gjörðu_svo_vel.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Gjörðu_svo_vel.md"
   },
   "góðan-daginn": {
     "title": "Góðan daginn",
     "filename": "góðan-daginn",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Góðan_daginn.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Góðan_daginn.md"
   },
   "daginn": {
     "redirect_to": "góðan-daginn"
@@ -1899,32 +1904,32 @@ module.exports = {
   "ha": {
     "title": "Ha?",
     "filename": "ha",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Ha?.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Ha?.md"
   },
   "heyrðu": {
     "title": "Heyrðu",
     "filename": "heyrðu",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Heyrðu.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Heyrðu.md"
   },
   "hljóta": {
     "title": "Hljóta",
     "filename": "hljóta",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Hljóta.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Hljóta.md"
   },
   "hérna": {
     "title": "Hérna",
     "filename": "hérna",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Hérna.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Hérna.md"
   },
   "kunna-vs.-þekkja-vs.-vita-vs.-geta": {
     "title": "Kunna vs. þekkja vs. vita vs. geta",
     "filename": "kunna-vs.-þekkja-vs.-vita-vs.-geta",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Kunna_vs._þekkja_vs._vita_vs._geta.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Kunna_vs._þekkja_vs._vita_vs._geta.md"
   },
   "kær": {
     "title": "Kær",
     "filename": "kær",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Kær.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Kær.md"
   },
   "kæri": {
     "redirect_to": "kær"
@@ -1935,12 +1940,12 @@ module.exports = {
   "need-to": {
     "title": "Need to",
     "filename": "need-to",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Need_to.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Need_to.md"
   },
   "náttúrulega": {
     "title": "Náttúrulega",
     "filename": "náttúrulega",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Náttúrulega.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Náttúrulega.md"
   },
   "náttla": {
     "redirect_to": "náttúrulega"
@@ -1948,12 +1953,12 @@ module.exports = {
   "nú": {
     "title": "Nú",
     "filename": "nú",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Nú.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Nú.md"
   },
   "skal": {
     "title": "Skal",
     "filename": "skal",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Skal.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Skal.md"
   },
   "skulu": {
     "redirect_to": "skal"
@@ -1961,22 +1966,22 @@ module.exports = {
   "sko": {
     "title": "Sko",
     "filename": "sko",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Sko.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Sko.md"
   },
   "sæll": {
     "title": "Sæll",
     "filename": "sæll",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Sæll.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Sæll.md"
   },
   "want": {
     "title": "Want",
     "filename": "want",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Want.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Want.md"
   },
   "yes": {
     "title": "Yes",
     "filename": "yes",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Yes.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Yes.md"
   },
   "course/a1/yes": {
     "redirect_to": "yes"
@@ -1987,25 +1992,20 @@ module.exports = {
   "ætli": {
     "title": "Ætli",
     "filename": "ætli",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Ætli.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Ætli.md"
   },
   "það": {
     "title": "Það",
     "filename": "það",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Það.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Það.md"
   },
   "þetta": {
     "title": "Þetta",
     "filename": "þetta",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word use/Þetta.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_use/Þetta.md"
   },
   "þessi": {
     "redirect_to": "þetta"
-  },
-  "word-order": {
-    "title": "Word order",
-    "filename": "word-order",
-    "file": "/Users/egill/ylhyra_content/not_data/content/explanations/Word_order.md"
   },
   "þú-merging": {
     "title": "Þú merging",
@@ -2230,15 +2230,15 @@ module.exports = {
   "text/sitji-guðs-englar": {
     "redirect_to": "sitji-guðs-englar"
   },
-  "text/sofðu-unga-ástin-mín/1": {
-    "title": "Text:Sofðu unga ástin mín/1",
-    "filename": "text_sofðu-unga-ástin-mín_1",
-    "file": "/Users/egill/ylhyra_content/not_data/content/reading/poems/Sofðu_unga_ástin_mín (text).md"
-  },
   "sofðu-unga-ástin-mín": {
     "title": "Sofðu unga ástin mín",
     "filename": "sofðu-unga-ástin-mín",
     "file": "/Users/egill/ylhyra_content/not_data/content/reading/poems/Sofðu_unga_ástin_mín.md"
+  },
+  "text/sofðu-unga-ástin-mín/1": {
+    "title": "Text:Sofðu unga ástin mín/1",
+    "filename": "text_sofðu-unga-ástin-mín_1",
+    "file": "/Users/egill/ylhyra_content/not_data/content/reading/poems/Sofðu_unga_ástin_mín_(text).md"
   },
   "vísur-vatnsenda-rósu": {
     "title": "Vísur Vatnsenda-Rósu",
@@ -2396,7 +2396,7 @@ module.exports = {
   "template/copyright/blær": {
     "title": "Template:Copyright/Blær",
     "filename": "template_copyright_blær",
-    "file": "/Users/egill/ylhyra_content/not_data/content/reading/text/Blær/_templates/Blær copyright.md"
+    "file": "/Users/egill/ylhyra_content/not_data/content/reading/text/Blær/_templates/Blær_copyright.md"
   },
   "template/blær": {
     "title": "Template:Blær",
@@ -2423,11 +2423,6 @@ module.exports = {
     "filename": "magnús-jochum-pálsson",
     "file": "/Users/egill/ylhyra_content/not_data/content/reading/text/Magnús_Jochum/index.md"
   },
-  "text/demo": {
-    "title": "Text:Demo",
-    "filename": "text_demo",
-    "file": "/Users/egill/ylhyra_content/not_data/content/reading/text/Magnús_Jochum/Ánamaðkar (frontpage demo).md"
-  },
   "magnús-jochum-pálsson/ánamaðkar": {
     "title": "Magnús Jochum Pálsson/Ánamaðkar",
     "filename": "magnús-jochum-pálsson_ánamaðkar",
@@ -2440,6 +2435,11 @@ module.exports = {
   },
   "español/magnús-jochum-pálsson/ánamaðkar": {
     "redirect_to": "magnús-jochum-pálsson/ánamaðkar/es"
+  },
+  "text/demo": {
+    "title": "Text:Demo",
+    "filename": "text_demo",
+    "file": "/Users/egill/ylhyra_content/not_data/content/reading/text/Magnús_Jochum/Ánamaðkar_(frontpage_demo).md"
   },
   "bláa-lónið": {
     "title": "Bláa lónið",
@@ -5447,7 +5447,7 @@ module.exports = {
   "project/newest": {
     "title": "Project:Newest",
     "filename": "project_newest",
-    "file": "/Users/egill/ylhyra_content/not_data/project/Newest articles.md"
+    "file": "/Users/egill/ylhyra_content/not_data/project/Newest_articles.md"
   },
   "project/newsletter/1": {
     "title": "Project:Newsletter/1",
@@ -5752,7 +5752,7 @@ module.exports = {
   "text/ylhýra": {
     "title": "Text:Ylhýra",
     "filename": "text_ylhýra",
-    "file": "/Users/egill/ylhyra_content/not_data/templates/Nafnið „Ylhýra“ með þýðingu.md"
+    "file": "/Users/egill/ylhyra_content/not_data/templates/Nafnið_„Ylhýra“_með_þýðingu.md"
   },
   "template/needs-audio": {
     "title": "Template:Needs audio",

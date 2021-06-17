@@ -1,8 +1,11 @@
+import express from 'express'
 import query from 'server/database'
 import shortid from 'shortid'
 import sql from 'server/database/functions/SQL-template-literal'
 import cors from 'cors'
 const router = (require('express')).Router()
+const fs = require('fs');
+export const vocabulary_json = __basedir + '/src/output/vocabulary_database.json'
 
 router.all('/vocabulary/get', /* cors({ origin: 'https://ylhyra.is', credentials: true }),*/ (req, res) => {
   /* Temp */
@@ -22,8 +25,19 @@ router.all('/vocabulary/get', /* cors({ origin: 'https://ylhyra.is', credentials
   })
 })
 
+router.use('/vocabulary/vocabulary_database.json', express.static(vocabulary_json))
+router.get('/vocabulary/database_last_updated', (req, res) => {
+  fs.stat(vocabulary_json, (err, stats) => {
+    if (err) {
+      throw err;
+    }
+    res.send((new Date(stats.mtime)).getTime().toString())
+  })
+})
+
+
 /* Get schedule */
-router.all('/vocabulary/schedule', (req, res) => {
+router.post('/vocabulary/schedule', (req, res) => {
   if (!req.session.user_id) {
     return res.status(401).send({ error: 'ERROR_NOT_LOGGED_IN' })
   }

@@ -37,6 +37,7 @@ class Session {
     this.checkIfCardsRemaining()
   }
   next(depth = 0) {
+    this.counter++;
     this.updateRemainingTime()
     if (this.cards.length === 0) {
       console.error('No cards')
@@ -62,8 +63,6 @@ class Session {
         .join('\n')
       )
     }
-
-    this.counter++;
 
     /* Store when this term was last seen */
     this.currentCard.terms.forEach(id => {
@@ -163,7 +162,7 @@ Session.prototype.getStatus = getStatus
 
 export const loadCard = () => {
   const session = store.getState().vocabulary.session
-  if (!session.currentCard) return console.error('no cards')
+  if (!session || !session.currentCard) return console.error('no cards')
   store.dispatch({
     type: 'LOAD_CARD',
     content: {
@@ -178,7 +177,9 @@ export const answer = (rating) => {
   const session = store.getState().vocabulary.session
   session.currentCard.rate(rating)
   session.next()
-  loadCard()
+  if (!session.done) {
+    loadCard()
+  }
 }
 
 export const InitializeSession = (input, deck) => {

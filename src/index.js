@@ -4,7 +4,7 @@ import Router from 'app/Router'
 import { connect, Provider } from 'react-redux'
 import store from 'app/App/store'
 import { InitializeUser } from 'app/User/actions'
-import { Initialize as InitializeVocabulary } from 'app/Vocabulary/actions/init'
+import { InitializeVocabulary } from 'app/Vocabulary/actions/init'
 import 'documents/Style/index.scss'
 import { InitializeRouter } from 'app/Router/actions'
 

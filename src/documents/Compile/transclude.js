@@ -43,7 +43,7 @@ const Transclude = (title, depth = 0) => {
                   // .replace(/"/g,'\\"')
               } else {
                 const transclusion = await Transclude(q, depth + 1)
-                output += transclusion.output
+                output += transclusion.output || ''
               }
               return resolve2()
             })

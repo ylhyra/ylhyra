@@ -8,7 +8,7 @@ const Button = (props) => {
     <div>
       {props.user ?
         <b><Link href="USER_PAGE">{props.user.username}</Link></b> :
-        <Link href="LOG_IN">Log in</Link>
+        <Link href="LOG_IN">Log&nbsp;in</Link>
       }
     </div>
   )

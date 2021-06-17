@@ -11,13 +11,12 @@ const path = require('path')
 const fs = require('fs')
 require('src/app/App/functions/array-foreach-async')
 let google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?output=tsv&random=${Math.random()}`
-
-const TESTING = true
-if (TESTING) {
+let TESTING = false
+if (process.argv[3] === '--testing') {
   /* Spænska */
   google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vT_pzDyG0wMUZbPK9yf_i4AYrKjbKs6nFmexJMK5s6IsdIRQk96uP77GDqyiR-FvSCgjBaUFMh3DlYw/pub?output=tsv&random=${Math.random()}`
+  TESTING = true
 }
-
 
 /*
   Convert vocabulary data into a JavaScrip object

@@ -4,7 +4,7 @@
 import store from 'app/App/store'
 import error from 'app/App/Error'
 import axios from 'app/App/axios'
-import { updateSchedule } from './createSchedule'
+import { createSchedule } from './createSchedule'
 import { InitializeSession } from 'app/Vocabulary/actions/session'
 import { saveInLocalStorage, getFromLocalStorage } from 'app/App/functions/localStorage'
 import createCards from './createCards'
@@ -15,9 +15,11 @@ import { BAD, GOOD, EASY } from './card'
 class Deck {
   constructor(database, schedule, session) {
     const deck = this
-    const { cards, terms } = database
+    const { cards, terms, alternative_ids, dependencies } = database
     this.cards = cards
     this.terms = terms
+    this.alternative_ids = alternative_ids
+    this.dependencies = dependencies
     this.cards_sorted = Object.keys(cards).map(key => {
       // if(typeof cards[key] === 'function') return null;
       return cards[key]
@@ -38,13 +40,13 @@ class Deck {
     InitializeSession(this.createCards(), this)
   }
   sessionDone() {
-    updateSchedule()
+    createSchedule()
     this.saveSession(null, true)
     updateURL(window.location.pathname)
-    // store.dispatch({
-    //   type: 'LOAD_SESSION',
-    //   content: null,
-    // })
+    store.dispatch({
+      type: 'LOAD_SESSION',
+      content: null,
+    })
   }
   continueStudying() {
     updateURL('VOCABULARY_PLAY')

@@ -1,7 +1,7 @@
 import store from 'app/App/store'
 import error from 'app/App/Error'
 import axios from 'app/App/axios'
-import { updateSchedule } from './createSchedule'
+import { createSchedule } from './createSchedule'
 // import { InitializeSession } from 'app/Vocabulary/actions/session'
 
 import { saveInLocalStorage, getFromLocalStorage } from 'app/App/functions/localStorage'

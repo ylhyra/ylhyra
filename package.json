@@ -15,6 +15,7 @@
     "xxcompile_links": "rm -f src/output/**.html && node build_server/ylhyra_server.js --compile-content",
     "compile_links": "node build_server/ylhyra_server.js --compile-content",
     "compile_vocabulary": "node build_server/ylhyra_server.js --import-vocabulary",
+    "compile_vocabulary_testing": "node build_server/ylhyra_server.js --import-vocabulary --testing",
     "server": "export NODE_ENV=development && webpack --config ./scripts/server_webpack.js --color --watch"
   },
   "proxy": "http://localhost:9123",

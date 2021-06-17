@@ -6,9 +6,13 @@ import { daysToMs } from 'app/App/functions/time.js'
 /**
  * Long-term scheduling
  */
-export const updateSchedule = () => {
-  const deck = store.getState().vocabulary.deck
-  const cards = store.getState().vocabulary.session.cards
+export const createSchedule = () => {
+  const { deck, session } = store.getState().vocabulary
+  if (!session) {
+    console.error('createSchedule called without an active session!')
+    return
+  }
+  const cards = session.cards
 
   cards.forEach(card => {
     let due_in_days;

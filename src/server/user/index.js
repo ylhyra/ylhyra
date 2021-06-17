@@ -148,7 +148,8 @@ const captcha = (captcha_token, res, callback) => {
 
 /* TODO: CSRF */
 router.post('/user/logout', async(req, res) => {
-  req.session.user = null
+  req.session.user_id = null
+  req.session.username = null
   return res.sendStatus(200)
 })
 

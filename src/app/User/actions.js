@@ -1,8 +1,9 @@
+import { saveInLocalStorage, getFromLocalStorage } from 'app/App/functions/localStorage'
 import { connect } from 'react-redux';
 import store from 'app/App/store'
-
 import { updateURL } from 'app/Router/actions'
 import axios from 'app/App/axios'
+import { InitializeVocabulary } from 'app/Vocabulary/actions/init'
 import { getCookie } from 'app/App/functions/cookie'
 
 export const InitializeUser = () => {
@@ -39,6 +40,13 @@ export const logout = async() => {
     type: 'LOAD_USER',
     content: null,
   })
+  store.dispatch({
+    type: 'LOAD_SESSION',
+    content: null,
+  })
+  saveInLocalStorage('vocabulary-schedule', null)
+  saveInLocalStorage('vocabulary-session', null)
+  InitializeVocabulary()
   updateURL('MAIN')
 }
 

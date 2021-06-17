@@ -6,7 +6,9 @@ export default async(title) => {
   // console.log(title)
   let { output, header } = await transclude(title)
   // console.log(output)
-  if (!output) return null;
+  if (!output) {
+    throw new Error('No output from transclude, possibly files have been changed since last link compilation ')
+  }
   output = await images(output)
   output = markdown_to_html(output)
   // console.log(output)
