@@ -1,20 +1,19 @@
 /*
   Flashcard
 */
-.flashcard {
+.vocabulary-card.flashcard {
   display: flex;
   flex-direction: column;
   text-align: center;
   > * {
     flex: 1;
-    padding: 30px;
+    padding: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .flashcard-bottom,
   .flashcard-top {
-    display: flex;
     flex-direction: column;
     font-size: 20px;
     text-shadow: 1px 1px 1px rgba(#ffffff, 0.2);
@@ -27,23 +26,24 @@
     }
   }
   .flashcard-bottom {
-    // background: #f2ecec;
     border-top: 1px solid #dfdfdf;
     transition: all 0.3s ease;
-    &.not-answered {
-      background: #e6e6e6;
-      font-size: 14px;
-      color: #868686;
-      font-weight: 400;
-    }
+    // &.not-answered {
+    //   background: #e6e6e6;
+    //   font-size: 14px;
+    //   color: #868686;
+    //   font-weight: 400;
+    // }
   }
-  .icelandic {
+  .flashcard-prompt-icelandic {
     font-family: Georgia, serif;
   }
-  .english {
-    // font-weight: 500;
+  .flashcard-prompt-english {
     background: #f0eded;
     font-size: 19px;
+    &.flashcard-bottom + div {
+      background: #f0eded;
+    }
   }
   button.selected,
   button:active {
@@ -60,12 +60,13 @@
       color: #828282;
     }
   }
+
+  .show-after-answer {
+    opacity: 0;
+  }
   &.answered {
     .show-after-answer {
       opacity: 1;
     }
-  }
-  .show-after-answer {
-    opacity: 0;
   }
 }

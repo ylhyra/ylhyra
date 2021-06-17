@@ -136,16 +136,16 @@ class Card extends Component {
       note_above = <div className="note">
         {basic_form && <div className="show-after-answer"><b>Basic form:</b> {basic_form}</div>}
       </div>
-      note_below = <div className="note">
+      note_below = <div className="note" key={2}>
         {(note_after_show||note_before_show) && <div><b>Note:</b> {(note_after_show||note_before_show)}</div>}
-        {literally && <div><b>Literal meaning:</b> {literally}</div>}
+        {literally && <div><b>Literally:</b> {literally}</div>}
       </div>
     } else {
       note_above = <div className="note">
         {note_before_show && <div><b>Note:</b> {note_before_show}</div>}
-        {literally && <div><b>Literal meaning:</b> {literally}</div>}
+        {literally && <div><b>Literally:</b> {literally}</div>}
       </div>
-      note_below = <div className="note">
+      note_below = <div className="note" key={2}>
         {(note_after_show) && <div><b>Note:</b> {(note_after_show)}</div>}
         {basic_form && <div><b>Basic form:</b> {basic_form}</div>}
       </div>
@@ -156,31 +156,43 @@ class Card extends Component {
         className={`
           vocabulary-card
           flashcard
-          ${answered?'answered':'not-answered'}`}
+          ${answered?'answered':'not-answered'}
+        `}
         key={status.counter}
         onClick={()=>this.show(false)}
       >
-        <div className={`flashcard-top ${from === 'is' ? 'icelandic' : 'english'}`}>
+        <div className={`
+          flashcard-top
+          flashcard-prompt-${from === 'is' ? 'icelandic' : 'english'}
+        `}>
           <div>
             {from === 'is' ? is : en}
           </div>
           {note_above}
         </div>
-        <div className={`flashcard-bottom ${from !== 'is' ? 'icelandic' : 'english'}`}>
-          {answered ? (<div>
-            <div>
+        <div className={`
+          flashcard-bottom
+          flashcard-prompt-${from !== 'is' ? 'icelandic' : 'english'}
+        `}>
+          {answered ? ([
+            <div key={1}>
               {from !== 'is' ? is : en}
-            </div>
-            {note_below}
-          </div>
+            </div>,
+            note_below,
+          ]
           ) : (
             card.showHint && this.state.hint
           )}
         </div>
         {!answered ? (
-          <button className={`flashcard-bottom not-answered ${this.state.clickingOnShowButton ? 'selected':''}`}>
-            Click to show answer
-          </button>
+          <div>
+            <button className={`
+              not-answered
+              ${this.state.clickingOnShowButton ? 'selected':''}
+            `}>
+              Click to show answer
+            </button>
+          </div>
         ) : (
           <div>
             <button className={this.state.answer === BAD ? 'selected':''} onClick={()=>this.answer(BAD,false)}>Bad</button>
