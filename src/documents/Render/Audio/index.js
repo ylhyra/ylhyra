@@ -6,7 +6,7 @@ import SmoothScroll from './Scroll/SmoothScroll'
 import store from 'app/App/store'
 import { ParseHTMLtoObject, ParseHTMLtoArray } from 'documents/Render/Elements/parse'
 import tapOrClick from 'react-tap-or-click'
-import NotifyError from 'app/App/Error'
+import { notify } from 'app/App/Error'
 require('./KeyboardListener')
 require('array-sugar')
 let timer
@@ -17,13 +17,10 @@ class Audio extends React.PureComponent {
     super(props);
     this.audio = React.createRef()
     let data
-    if (this.props.children) {
-      data = ParseHTMLtoObject(this.props.children)
-    } else {
-      data = {
-        filename: this.props.filename,
-        filepath: this.props.filepath,
-      }
+    /* TODO: Cleanup */
+    data = {
+      filename: this.props.src,
+      filepath: this.props.src,
     }
     this.state = {
       data,
@@ -147,7 +144,7 @@ class Audio extends React.PureComponent {
     console.log(e)
     console.warn(`File missing: ${this.state.data.filepath}`)
     if (this.errorCount++ > 1) {
-      return NotifyError('Could not load file.', undefined, true)
+      return notify('Could not load file.', undefined, true)
     } else {
       this.setState({
         key: this.state.key + 1,
@@ -157,7 +154,8 @@ class Audio extends React.PureComponent {
   }
   render() {
     const { playing, loading, error, currentTimePercentage } = this.state
-    const { filepath, inline, video, label } = this.state.data
+    const { filepath, video, label } = this.state.data
+    const inline = this.props.inline
     if (!filepath) return null;
     let ContainerTag = 'div'
     if (inline) {

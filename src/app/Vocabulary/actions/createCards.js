@@ -50,18 +50,6 @@ export default function createCards(options, deck_) {
     }
   }
 
-  // /* Verify ids exist */
-  // [...overdue_bad_ids, ...not_overdue_bad_cards_ids, ...new_card_ids].forEach(id => {
-  //   if (!(id in deck.cards)) {
-  //     if (process.env.NODE_ENV === 'development') {
-  //       console.log({ overdue_bad_ids, not_overdue_bad_cards_ids, new_card_ids })
-  //       throw new Error(`Incorrect id passed into deck.cards: ${id}`)
-  //     }
-  //     return null;
-  //   }
-  // })
-
-
   /* TODO: Not very efficient */
   overdue_good_ids = _.shuffle(overdue_good_ids)
   overdue_bad_ids = _.shuffle(overdue_bad_ids)
@@ -86,14 +74,8 @@ export default function createCards(options, deck_) {
       chosen_ids.push(not_overdue_bad_cards_ids.shift())
     }
   }
-  // console.log({
-  //   overdue_bad_ids: overdue_bad_ids.map(getWordFromId),
-  //   not_overdue_bad_cards_ids: not_overdue_bad_cards_ids.map(getWordFromId),
-  //   new_card_ids: new_card_ids.map(getWordFromId),
-  // })
   chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids, deck)
   chosen_ids = chosen_ids.slice(0, CARDS_TO_CREATE)
-
 
   /* TODO: Related cards */
 

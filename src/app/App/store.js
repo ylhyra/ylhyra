@@ -4,7 +4,7 @@ import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 
 // import { data } from 'documents/Render/reducers'
-// import { audio } from 'documents/Render/Audio/reducers'
+import { audio } from 'documents/Render/Audio/reducers'
 // import { speed_reader } from 'documents/Render/Elements/Speed_reading/reducers'
 import { vocabulary } from 'app/Vocabulary/reducers'
 import { user } from 'app/User/reducers'
@@ -27,7 +27,7 @@ const store = createStore(
     // /* Data storage for the renderer */
     // data,
     // /* Reader */
-    // audio,
+    audio,
     // inflection,
     // speed_reader,
     vocabulary,

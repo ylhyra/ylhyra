@@ -22,7 +22,7 @@ import ExtractText from './ExtractText/ExtractText'
 import Tokenizer from './Tokenize'
 import WrapInTags from './WrapInTags'
 import Compiler from './Compiler'
-import NotifyError from 'app/App/Error'
+import { notify } from 'app/App/Error'
 // import store from 'app/App/store'
 import isEmpty from 'is-empty-object'
 const entities = new Entities()
@@ -121,7 +121,7 @@ export default ({ html, title }) => {
   } catch (e) {
     console.error(e)
     if (typeof mw !== 'undefined') {
-      NotifyError('Error in parse step')
+      notify('Error in parse step')
     }
   }
 }

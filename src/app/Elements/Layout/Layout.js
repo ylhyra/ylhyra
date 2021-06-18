@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { urls as app_urls } from 'app/Router/paths'
-import { URL_title } from 'documents/Compile/functions'
+import { URL_title } from 'paths.js'
 
 import LoginButton from 'app/User/LoginButton'
 import Link from 'app/Router/Link'

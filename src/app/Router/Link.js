@@ -2,7 +2,7 @@ import store from 'app/App/store'
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { urls as app_urls } from 'app/Router/paths'
-import { URL_title } from 'documents/Compile/functions'
+import { URL_title } from 'paths.js'
 import { updateURL } from 'app/Router/actions'
 
 class Link extends React.Component {

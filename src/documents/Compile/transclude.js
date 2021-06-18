@@ -1,4 +1,4 @@
-import { URL_title } from 'documents/Compile/functions'
+import { URL_title } from 'paths.js'
 import { ParseHeaderAndBody } from 'server/content'
 let links = require('src/output/links.js')
 require('app/App/functions/array-foreach-async')

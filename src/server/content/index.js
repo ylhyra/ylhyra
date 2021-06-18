@@ -1,8 +1,7 @@
 import generate_html from 'documents/Compile'
-import { URL_title } from 'documents/Compile/functions'
+import { URL_title } from 'paths.js'
 const router = (require('express')).Router()
 var fs = require('fs')
-const folder = __dirname + '/../../output/'
 let links = require('src/output/links.js')
 const yaml = require('js-yaml');
 
@@ -25,7 +24,7 @@ router.get('/content', async(req, res) => {
 
     title = title.split(/[/:]/g).reverse().join('\u2006•\u200A')
 
-    if (url.startsWith('file:')) {
+    if (url.startsWith('file/')) {
       res.sendfile(file.replace(/(\.[a-z]+)$/i, ''))
       // res.sendfile(file)
     } else {

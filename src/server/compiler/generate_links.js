@@ -3,12 +3,14 @@ node build_server/ylhyra_server.js --compile-content
 */
 // import urlSlug from 'src/app/App/functions/url-slug'
 import string_hash from 'app/App/functions/hash'
-import { URL_title } from 'documents/Compile/functions'
 import { ParseHeaderAndBody } from 'server/content'
 import RemoveUnwantedCharacters from 'app/App/functions/RemoveUnwantedCharacters'
+import {
+  content_folder,
+  output_folder,
+  URL_title,
+} from 'paths.js'
 var fs = require('fs');
-const content_folder = __basedir + '/../ylhyra_content/'
-const output_folder = __basedir + '/src/output/'
 const path = require("path");
 let files = []
 const links = {}

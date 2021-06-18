@@ -6,3 +6,4 @@ Vocabulary:
 * sitemap
 * laga 'exit' takka
 * continue session on login
+* max bad ratio

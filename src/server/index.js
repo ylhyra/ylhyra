@@ -4,23 +4,26 @@ import "regenerator-runtime/runtime";
 import express from 'express'
 import logger from './logger'
 import bodyParser from 'body-parser'
-import path from 'path'
 import argvFactory from 'minimist'
 import query from './database'
 import requestIp from 'request-ip';
-global.__basedir = path.resolve(__dirname + '/../../')
+import path from 'path'
+import {
+  unprocessed_image_url,
+  ylhyra_content_files,
+  processed_image_url,
+  image_output_folder,
+} from 'paths.js'
 require('source-map-support').install()
 require('dotenv').config({ path: './../.env' })
 const argv = argvFactory(process.argv.slice(2))
 const app = express()
 require('express-ws')(app)
-export const upload_path = path.resolve(__dirname, './../../uploads')
+// export const upload_path = path.resolve(__dirname, './../../uploads')
 // export const image_path = path.resolve(__dirname, './../output/images')
 var cors = require('cors')
 app.use(bodyParser.json({ limit: '5mb' }))
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))
-
-
 app.use(requestIp.mw())
 app.use(require('express-useragent').express())
 app.use(require('cookie-session')({
@@ -72,12 +75,10 @@ app.use('/api', require('server/vocabulary/save').default)
 // // app.use('/api', require('server/translator/Google').default)
 // // app.use('/api', require('server/api/audio/Upload').default)
 
-app.use('/api/temp_files/', express.static(upload_path))
+// app.use('/api/temp_files/', express.static(upload_path))
 
-export const processed_image_path = path.resolve(__basedir, 'src/output/images')
-app.use('/api/images/', express.static(processed_image_path))
-export const unprocessed_image_path = path.resolve(__basedir, './../ylhyra_content/not_data/files')
-app.use('/api/images2/', express.static(unprocessed_image_path))
+app.use(processed_image_url, express.static(image_output_folder))
+app.use(unprocessed_image_url, express.static(ylhyra_content_files))
 
 /*
   Public APIs

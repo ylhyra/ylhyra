@@ -4,17 +4,6 @@
 import store from 'app/App/store'
 import _ from 'underscore'
 import Card, { BAD, GOOD, EASY } from './card'
-// import {
-//   updateRemainingTime,
-//   getAdjustedPercentageDone,
-//   printTimeRemaining,
-//   getCard,
-//   checkIfCardsRemaining,
-//   createMoreCards,
-//   getStatus,
-// } from './_functions'
-// import { day } from 'app/App/functions/time.js'
-// export const MINUTES = 3
 export const MINUTES = 5
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 15
 const LOGGING = false

@@ -7,6 +7,7 @@ const customTemplates = [
   'Image',
   'Button',
   'VocabularyStatus',
+  'Audio',
 ]
 
 const customTemplatesLoaded = {}

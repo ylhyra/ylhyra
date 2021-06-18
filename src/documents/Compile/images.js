@@ -1,12 +1,12 @@
-import { URL_title } from 'documents/Compile/functions'
+import { URL_title, image_output_folder } from 'paths.js'
 import { ParseHeaderAndBody } from 'server/content'
 import _ from 'underscore'
 import Transclude from './transclude'
+import { processed_image_url } from 'paths.js'
 let links = require('src/output/links.js')
 require('app/App/functions/array-foreach-async')
 var fs = require('fs')
 const { exec } = require('child_process');
-const output_folder = __basedir + '/src/output/images/'
 
 const Images = (data) => {
   return new Promise(async(resolve, reject) => {
@@ -61,8 +61,6 @@ const Images = (data) => {
           })
           string_sizes = _.uniq(string_sizes)
 
-          // const url = `/api/content/files/${encodeURI(file.match(/not_data\/files\/(.+)/)[1])}`
-          const url = '/api/images/'
           // ${rest}
           let params = {}
           rest && rest.replace(/([a-z]+)="(.+?)"/g, (v, key, val) => {
@@ -78,12 +76,12 @@ const Images = (data) => {
                   <source
                     ${i[0]!==800?`media="(max-width: ${i[0]}px)"`:''}
                     srcset="
-                      ${url}${name}-${i[0]}x${i[1]}.${ending} 1x,
-                      ${url}${name}-${i[2]}x${i[3]}.${ending} 2x"
+                      ${processed_image_url}/${name}-${i[0]}x${i[1]}.${ending} 1x,
+                      ${processed_image_url}/${name}-${i[2]}x${i[3]}.${ending} 2x"
                   />
                 `).join('')}
                 <img
-                  src="${url}${name}-${big_to_small[0][0]}x${big_to_small[0][1]}.${ending}"
+                  src="${processed_image_url}/${name}-${big_to_small[0][0]}x${big_to_small[0][1]}.${ending}"
                   width="${original_width}"
                   height="${original_height}"
                 />
@@ -94,7 +92,7 @@ const Images = (data) => {
           </Image>
           `.replace(/^ +/mg, '').replace(/\n/g, ' '))
 
-          fs.stat(`${output_folder}${name}-${boxes[0][2]}x${boxes[0][3]}.${ending}`, function (err, stat) {
+          fs.stat(`${image_output_folder}${name}-${boxes[0][2]}x${boxes[0][3]}.${ending}`, function (err, stat) {
             if (err == null) {
               // File exists
               return resolve2()
