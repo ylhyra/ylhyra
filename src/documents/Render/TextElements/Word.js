@@ -5,7 +5,7 @@ import exists from 'app/App/functions/exists'
 import Box from './Definition/Box/Word'
 import { getUpdatedID, getPreviousID } from 'documents/Parse/Compiler/1_Precompile/UpdateID'
 import _ from 'underscore'
-import GetSound from 'documents/Render/TextElements/Sound'
+// import GetSound from 'documents/Render/TextElements/Sound'
 import omitEmpty from 'omit-empty'
 
 class WordElement extends React.Component {
@@ -18,8 +18,8 @@ class WordElement extends React.Component {
 
       attrs = omitEmpty({
         'data-word-has-definition': true,
-        'data-sound': GetSound(id, editor),
-        'data-analysis': get_analysis(id, editor),
+        // 'data-sound': GetSound(id, editor),
+        // 'data-analysis': get_analysis(id, editor),
       })
 
       /*
@@ -61,17 +61,17 @@ class WordElement extends React.Component {
   }
 }
 
-const get_analysis = (updatedID, editor) => {
-  const id = getPreviousID(updatedID) || updatedID
-  if (!editor.analysis) return null;
-  const analysis = editor.analysis[id]
-  if (!analysis) return null;
-  // console.log(analysis)
-  return JSON.stringify({
-    BIN_id: analysis.BIN_id,
-    word_class: analysis.word_class,
-    grammatical_tag: analysis.grammatical_tag,
-  })
-}
+// const get_analysis = (updatedID, editor) => {
+//   const id = getPreviousID(updatedID) || updatedID
+//   if (!editor.analysis) return null;
+//   const analysis = editor.analysis[id]
+//   if (!analysis) return null;
+//   // console.log(analysis)
+//   return JSON.stringify({
+//     BIN_id: analysis.BIN_id,
+//     word_class: analysis.word_class,
+//     grammatical_tag: analysis.grammatical_tag,
+//   })
+// }
 
 export default WordElement

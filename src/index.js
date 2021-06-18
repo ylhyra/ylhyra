@@ -7,10 +7,12 @@ import { InitializeUser } from 'app/User/actions'
 import { InitializeVocabulary } from 'app/Vocabulary/actions/init'
 import 'documents/Style/index.scss'
 import { InitializeRouter } from 'app/Router/actions'
+import { TextEventListenersOn } from 'documents/Read/Touch'
 
 InitializeUser()
 InitializeVocabulary()
 InitializeRouter()
+TextEventListenersOn()
 
 ReactDOM.render(
   <React.StrictMode>

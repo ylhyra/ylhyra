@@ -82,7 +82,7 @@ const run = async() => {
       const english = clean_string(columns.english)
       if (!columns.icelandic) return;
       if (!english) return;
-      if (columns.should_be_taught === 'no') return;
+      if (columns.should_teach === 'no') return;
       if (!columns.level && !TESTING) return;
 
       /* Can have multiple */
@@ -110,7 +110,7 @@ const run = async() => {
         level: columns.level,
         sort: line_number,
         basic_form: columns.basic_form,
-        note_before_show: columns.note_before_show,
+        note_bfr_show: columns.note_bfr_show,
         note_after_show: columns.note_after_show,
         literally: columns.literally,
       }

@@ -122,7 +122,7 @@ class Card extends Component {
     let {
       from,
       basic_form,
-      note_before_show,
+      note_bfr_show,
       note_after_show,
       literally,
     } = card
@@ -136,7 +136,7 @@ class Card extends Component {
     literally = literally && <div><b>Literally:</b> {styleCommas(literally)} </div>
     basic_form = basic_form && <div><b>Basic form:</b> {styleCommas(basic_form)} </div>
     note_after_show = styleCommas(note_after_show)
-    note_before_show = styleCommas(note_before_show)
+    note_bfr_show = styleCommas(note_bfr_show)
 
     if (from === 'is') {
       note_above = <div className="note">
@@ -144,11 +144,11 @@ class Card extends Component {
       </div>
       note_below = <div className="note" key={2}>
         {literally}
-        {(note_after_show||note_before_show) && <div><b>Note:</b> {(note_after_show||note_before_show)} </div>}
+        {(note_after_show||note_bfr_show) && <div><b>Note:</b> {(note_after_show||note_bfr_show)} </div>}
       </div>
     } else {
       note_above = <div className="note">
-        {note_before_show && <div><b>Note:</b> {note_before_show} </div>}
+        {note_bfr_show && <div><b>Note:</b> {note_bfr_show} </div>}
         {literally}
       </div>
       note_below = <div className="note" key={2}>

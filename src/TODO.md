@@ -7,3 +7,4 @@ Vocabulary:
 * laga 'exit' takka
 * continue session on login
 * max bad ratio
+* fjarlægja lazy-loading á templötum

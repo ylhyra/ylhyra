@@ -1,32 +1,18 @@
 import { newTitle } from 'documents/Parse/index.js'
 import { AllHtmlEntities as Entities } from 'html-entities'
-import axios from 'app/App/axios'
 const entities = new Entities()
-require('app/App/functions/array-foreach-async')
 
 /*
-  Makes an HTTP request to fetch the relevant data in the Data: namespace (link encoded in in [[Template:Start]])
-  It is only possible to transclude the data for small documents.
-
   Returns an object containing:
     DocumentTitle => Data
 */
-const ExtractData = async (input) => {
+const ExtractData = (input) => {
   let output = {}
-
-  return output
-  
-
 
   const getNewTitle = new newTitle()
   let temp = []
-  Traverse(input, ({ documentTitle, url }) => {
-    temp.push({ documentTitle, url })
-  })
-  await temp.forEachAsync(async ({ documentTitle, url }) => {
+  Traverse(input, ({ documentTitle, data }) => {
     const title = getNewTitle.get(documentTitle)
-    // Random is added to bypass cache
-    const { data } = await axios.get(`https://ylhyra.is/index.php?title=&action=raw&ctype=text/json&random=${Math.random()}`)
     // console.log(data)
     output[title] = updateIDs(data, title)
   })
@@ -45,14 +31,12 @@ const Traverse = (input, callback) => {
   }
   if (attr && attr['data-document-start'] && attr['data-data']) {
     try {
-      const url = attr['data-data']
-      // console.warn(url)
-      // const encodedData = attr['data-data']
-      // const data = JSON.parse(entities.decode(decodeURIComponent(encodedData)))
-      url && callback({
+      let data = attr['data-data']
+      // console.log((decodeURIComponent(atob(data))))
+      data = data && JSON.parse( /*entities.decode*/ (decodeURIComponent(atob(data))))
+      data && callback({
         documentTitle: attr['data-document-start'],
-        // data,
-        url,
+        data,
       })
     } catch (e) {
       // console.error(child[0].text + ' is not parseable JSON')

@@ -58,7 +58,7 @@ export default function showWord(id) {
   if (id !== currentId) return; /* Exit if we're behind schedule */
 
   const { top, left } = FindAGoodPositionForTooltip({
-    relative: tooltip.closest('.ylhyra-text').getBoundingClientRect(), // The text container will have "position:relative"
+    relative: document.getElementById('content').getBoundingClientRect(), // The text container will have "position:relative"
     tooltip: tooltip.getBoundingClientRect(),
     sentence: element.getBoundingClientRect(),
     // sentence_multiple_lines: this.props.clientRects || null

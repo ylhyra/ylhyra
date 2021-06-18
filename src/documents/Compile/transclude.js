@@ -6,7 +6,7 @@ require('app/App/functions/array-foreach-async')
 var fs = require('fs')
 var btoa = require('btoa');
 
-const Transclude = (title, depth = 0) => {
+const Transclude = (title, depth = 0, shouldGetData = true) => {
   return new Promise((resolve, reject) => {
     let url = URL_title('Template:' + title)
     if (!(url in links)) {
@@ -40,7 +40,7 @@ const Transclude = (title, depth = 0) => {
               if (/(>>>)/.test(q)) {
                 const [title_, param_] = q.split('>>>')
                 const transclusion = await Transclude(title_, depth + 1)
-                output += btoa(JSON.stringify(transclusion.header[param_]))
+                output += btoa(JSON.stringify(transclusion.header[param_])) /* TODO encodeURIComponent instead */
                 // .replace(/"/g,'\\"')
               } else {
                 const transclusion = await Transclude(q, depth + 1)
@@ -50,12 +50,12 @@ const Transclude = (title, depth = 0) => {
             })
           })
       }
-
-      const data2 = await getData(header)
-      output = `<span data-document-start="${(data2||header).title}" data-data="${data2?btoa(JSON.stringify(data2.output)):''}"></span>` +
-        output +
-        `<span data-document-end="${(data2||header).title}"></span>`
-
+      if (shouldGetData) {
+        const data2 = await getData(header)
+        output = `<span data-document-start="${(data2||header).title}" data-data="${data2?btoa(encodeURIComponent((data2.output))):''}"></span>` +
+          output +
+          `<span data-document-end="${(data2||header).title}"></span>`
+      }
       resolve({ output, header })
     })
   })
@@ -64,8 +64,11 @@ const Transclude = (title, depth = 0) => {
 const getData = async(header) => {
   const data_title = [header.title, ...(header.redirects || [])].find(t => URL_title('Data:' + t) in links)
   if (!data_title) return;
+  const output = (await Transclude('Data:' + data_title, 0, false)).output
+  // console.log(output.slice(0, 100))
+  // return;
   return {
-    output: (await Transclude('Data:' + data_title)).output,
+    output: JSON.stringify(JSON.parse(output)),
     title: data_title
   }
 }
