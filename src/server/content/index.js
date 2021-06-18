@@ -2,6 +2,7 @@ import generate_html from 'documents/Compile'
 import { URL_title } from 'paths.js'
 const router = (require('express')).Router()
 var fs = require('fs')
+
 let links = require('src/output/links.js')
 const yaml = require('js-yaml');
 
@@ -30,6 +31,9 @@ router.get('/content', async(req, res) => {
     } else {
       // console.log(info)
       const { content, header } = await generate_html(url)
+      if('html' in req.query) {
+        return res.send(content)
+      }
       res.send({
         ...output,
         content,

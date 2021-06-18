@@ -1,5 +1,6 @@
 import { URL_title } from 'paths.js'
 import { ParseHeaderAndBody } from 'server/content'
+
 let links = require('src/output/links.js')
 require('app/App/functions/array-foreach-async')
 var fs = require('fs')
@@ -24,7 +25,7 @@ const Transclude = (title, depth = 0) => {
 
       let output = body
       /* Strip comments */
-      output = output.replace(/<!--(.+?)-->/g, '')
+      output = output.replace(/<!--([\s\S]+?)-->/g, '')
       // TODO
       if (depth < 1) {
         output = ''
@@ -40,7 +41,7 @@ const Transclude = (title, depth = 0) => {
                 const [title_, param_] = q.split('>>>')
                 const transclusion = await Transclude(title_, depth + 1)
                 output += btoa(JSON.stringify(transclusion.header[param_]))
-                  // .replace(/"/g,'\\"')
+                // .replace(/"/g,'\\"')
               } else {
                 const transclusion = await Transclude(q, depth + 1)
                 output += transclusion.output || ''
@@ -50,9 +51,23 @@ const Transclude = (title, depth = 0) => {
           })
       }
 
+      const data2 = await getData(header)
+      output = `<span data-document-start="${(data2||header).title}" data-data="${data2?btoa(JSON.stringify(data2.output)):''}"></span>` +
+        output +
+        `<span data-document-end="${(data2||header).title}"></span>`
+
       resolve({ output, header })
     })
   })
+}
+
+const getData = async(header) => {
+  const data_title = [header.title, ...(header.redirects || [])].find(t => URL_title('Data:' + t) in links)
+  if (!data_title) return;
+  return {
+    output: (await Transclude('Data:' + data_title)).output,
+    title: data_title
+  }
 }
 
 export default Transclude

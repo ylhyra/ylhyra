@@ -2,7 +2,8 @@ import { URL_title, image_output_folder } from 'paths.js'
 import { ParseHeaderAndBody } from 'server/content'
 import _ from 'underscore'
 import Transclude from './transclude'
-import { processed_image_url } from 'paths.js'
+import { processed_image_url, output_folder } from 'paths.js'
+
 let links = require('src/output/links.js')
 require('app/App/functions/array-foreach-async')
 var fs = require('fs')
@@ -24,7 +25,7 @@ const Images = (data) => {
         let [o, filename_, rest] = z.match(/src="(.+?)"(.+)?\/>/)
         // console.log(rest)
         if (!(URL_title('File:' + filename_) in links)) {
-          throw new Error('No file named: ' + filename_)
+          throw new Error('No file named: ' + filename_ + '. Is it from Commons?')
           reject2()
           return;
         }
@@ -92,14 +93,14 @@ const Images = (data) => {
           </Image>
           `.replace(/^ +/mg, '').replace(/\n/g, ' '))
 
-          fs.stat(`${image_output_folder}${name}-${boxes[0][2]}x${boxes[0][3]}.${ending}`, function (err, stat) {
+          fs.stat(`${image_output_folder}/${name}-${boxes[0][2]}x${boxes[0][3]}.${ending}`, function (err, stat) {
             if (err == null) {
               // File exists
               return resolve2()
             } else if (err.code === 'ENOENT') {
               // File does not exist
               exec(string_sizes.map(size => `
-                  convert ${file} -resize ${size} -quality 80 ${output_folder}${name}-${size}.${ending}
+                  convert ${file} -resize ${size} -quality 80 ${image_output_folder}/${name}-${size}.${ending}
                 `).join(''), (error2, stdout2, stderr2) => {
                 if (error2) return console.error(`exec error: ${error2}`);
                 return resolve2()

@@ -3,7 +3,7 @@ global.__basedir = path.resolve(__dirname + '/../')
 
 /* Folders */
 export const content_folder = path.resolve(__basedir, './../ylhyra_content')
-export const output_folder = path.resolve(__basedir, './../ylhyra_output')
+export const output_folder = path.resolve(__basedir, './src/output')
 export const image_output_folder = path.resolve(output_folder, './images')
 
 /* File URLs */

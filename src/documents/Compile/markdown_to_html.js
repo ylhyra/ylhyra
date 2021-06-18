@@ -3,6 +3,7 @@ import { URL_title, section_id } from 'paths.js'
 import marked from 'marked'
 import RemoveUnwantedCharacters from 'app/App/functions/RemoveUnwantedCharacters'
 // import markdown from 'simple-markdown'
+
 let links = require('src/output/links.js')
 
 export default (input) => {
