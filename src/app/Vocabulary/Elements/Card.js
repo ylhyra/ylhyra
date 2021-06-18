@@ -119,7 +119,7 @@ class Card extends Component {
     // console.log(card)
     // console.log({card,answer})
     if (!card || !card.is) return null;
-    const {
+    let {
       from,
       basic_form,
       note_before_show,
@@ -132,22 +132,28 @@ class Card extends Component {
 
     let note_above = null;
     let note_below = null;
-    if(from === 'is') {
+
+    literally = literally && <div><b>Literally:</b> {styleCommas(literally)} </div>
+    basic_form = basic_form && <div><b>Basic form:</b> {styleCommas(basic_form)} </div>
+    note_after_show = styleCommas(note_after_show)
+    note_before_show = styleCommas(note_before_show)
+
+    if (from === 'is') {
       note_above = <div className="note">
-        {basic_form && <div className="show-after-answer"><b>Basic form:</b> {basic_form}</div>}
+        {basic_form}
       </div>
       note_below = <div className="note" key={2}>
-        {(note_after_show||note_before_show) && <div><b>Note:</b> {(note_after_show||note_before_show)}</div>}
-        {literally && <div><b>Literally:</b> {literally}</div>}
+        {literally}
+        {(note_after_show||note_before_show) && <div><b>Note:</b> {(note_after_show||note_before_show)} </div>}
       </div>
     } else {
       note_above = <div className="note">
-        {note_before_show && <div><b>Note:</b> {note_before_show}</div>}
-        {literally && <div><b>Literally:</b> {literally}</div>}
+        {note_before_show && <div><b>Note:</b> {note_before_show} </div>}
+        {literally}
       </div>
       note_below = <div className="note" key={2}>
-        {(note_after_show) && <div><b>Note:</b> {(note_after_show)}</div>}
-        {basic_form && <div><b>Basic form:</b> {basic_form}</div>}
+        {(note_after_show) && <div><b>Note:</b> {(note_after_show)} </div>}
+        {basic_form}
       </div>
     }
 
@@ -166,7 +172,7 @@ class Card extends Component {
           flashcard-prompt-${from === 'is' ? 'icelandic' : 'english'}
         `}>
           <div>
-            {from === 'is' ? is : en}
+            {styleCommas(from === 'is' ? is : en)}
           </div>
           {note_above}
         </div>
@@ -176,7 +182,7 @@ class Card extends Component {
         `}>
           {answered ? ([
             <div key={1}>
-              {from !== 'is' ? is : en}
+              {styleCommas(from !== 'is' ? is : en)}
             </div>,
             note_below,
           ]
@@ -224,4 +230,29 @@ const hide = (input) => {
 
   //.replace(/\(/g, '<span className="parentheses">(').replace(/\)/g, ')</span>')
   return (<span dangerouslySetInnerHTML={{__html: output}}/>)
+}
+
+const styleCommas = (text) => {
+  if(!text) return null;
+  return <span>{
+    text
+      .replace(/"([^"]*)"/g, "“$1”") /* Curly quotes */
+      .replace(/\\,/g, '\u0044') /* Escaped commas */
+      .replace(/ \+ /g, '\u2006+\u2006') /* Spacing around plusses */
+      .split(/(, )/g)
+      .map((j, index) => {
+        if (index % 2 === 0) {
+          /* Style semicolons */
+          return j
+            .split(/(; )/g)
+            .map((u, index2) => {
+              if (index2 % 2 === 0) {
+                return u
+              }
+              return <span className="semicolon" key={index2}>; </span>
+            })
+        }
+        return <span className="comma" key={index}>, </span>
+      })
+  }</span>
 }

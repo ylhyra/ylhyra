@@ -108,24 +108,36 @@ export const withDependencies = (card_ids) => {
   card_ids.forEach(card_id => terms = terms.concat(deck.cards[card_id].terms))
   terms = _.uniq(terms)
   terms.forEach(term => {
-    let dependencies = [term]
-    const checkDependencies = (term) => {
-      // TODO: gera það sama og í setup.js
-      if (term in deck.dependencies) {
-        deck.dependencies[term].forEach(depends_on => {
-          if (!dependencies.includes(depends_on)) {
-            dependencies.unshift(depends_on)
-            checkDependencies(depends_on)
-          }
-        })
-      }
-    }
-    checkDependencies(term)
-    dependencies.forEach(term => {
+    let terms = [{ term, sortKey: -1 }]
+    const chain = CreateDependencyChain(term, deck)
+    Object.keys(chain).forEach(k => {
+      terms.push({ term: k, sortKey: chain[k] })
+    })
+    terms = terms.sort((a, b) => b.sortKey - a.sortKey).map(i => i.term)
+    terms.forEach(term => {
       if (term in deck.terms) {
         returns = returns.concat(deck.terms[term].cards)
       }
     })
   })
   return _.uniq(returns)
+}
+
+/**
+ * Returns an object on the form { [key]: [depth] }
+ */
+const CreateDependencyChain = (from_term, deck, _alreadySeen = [], output = [], depth = 0) => {
+  if (from_term in deck.dependencies) {
+    deck.dependencies[from_term].forEach(term => {
+      const alreadySeen = [..._alreadySeen] /* Deep copy in order to only watch direct parents */
+      if (alreadySeen.includes(term)) return;
+      alreadySeen.push(term)
+      output[term] = Math.max(output[term] || 0, depth)
+      alreadySeen.push(term)
+      if (deck.dependencies[term]) {
+        CreateDependencyChain(term, deck, alreadySeen, output, depth + 1)
+      }
+    })
+  }
+  return output
 }

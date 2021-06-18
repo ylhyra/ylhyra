@@ -31,7 +31,7 @@ export const InitializeVocabulary = async() => {
     if (getUserFromCookie()) {
       const r = (await axios.post(`/api/vocabulary/schedule`)).data
       r && r.forEach(i => {
-        schedule[i.card_id] = i
+        schedule[i.card_id] = { ...i, id: i.card_id }
       })
       saveInLocalStorage('vocabulary-schedule', schedule)
       saveInLocalStorage('vocabulary-schedule-last-updated', new Date().getTime())

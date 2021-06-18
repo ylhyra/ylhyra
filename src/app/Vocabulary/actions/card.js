@@ -32,7 +32,7 @@ class Card {
       interval = 3
       this.done = false
       /* User is getting annoyed */
-      if (this.history.length > 4 && average(this.history.slice(0, 4)) < 0.3) {
+      if (this.history.length > 10) {
         // TODO improve
         interval = 10
       }
@@ -45,8 +45,10 @@ class Card {
       if (this.history[1] >= GOOD) {
         interval = 200
       } else if (this.history[1] === BAD) {
-        interval = 10
+        interval = 8
         this.done = false
+      } else if (this.history[2] === BAD) {
+        interval = 15
       }
     } else if (rating === EASY) {
       interval = 800
@@ -57,9 +59,9 @@ class Card {
 
     this.status = Math.round(lastTwoAverage)
 
-    if (this.history.length >= 6) {
-      this.done = true
-    }
+    // if (this.history.length >= 6) {
+    //   this.done = true
+    // }
 
     /* Postpone related cards */
     const card = this
@@ -116,7 +118,16 @@ class Card {
       q -= 50
     }
 
-    if (this.ticksSinceTermWasSeen() <= 2) {
+    // /* Bad cards first */
+    // if (
+    //   this.history.length > 0 &&
+    //   this.history[0] >= GOOD &&
+    //   this.session.counter % 3 < 2 /* (But not always, to prevent staleness) */
+    // ) {
+    //   q += 20
+    // }
+
+    if (this.ticksSinceTermWasSeen() < 2) {
       q += (5000 - this.ticksSinceTermWasSeen())
     }
     if (this.done) {
@@ -129,7 +140,10 @@ class Card {
     ) {
       q += 0.4
       if (this.session.cardTypeLog[1] === this.from) {
-        q += 2
+        q += 5
+        // if (this.session.cardTypeLog[2] === this.from) {
+        //   q += 2000
+        // }
       }
     }
     return q

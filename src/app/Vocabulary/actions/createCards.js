@@ -13,36 +13,9 @@ export default function createCards(options, deck_) {
   const forbidden_ids = (options && options.forbidden_ids) || []
   const allowed_card_ids = (options && options.allowed_card_ids) || null
 
-  const ScoreByTimeSinceTermWasSeen = (id) => {
-    let latest = null;
-    getRelatedCardIds(id).forEach(sibling_card_id => {
-      if (deck.schedule[sibling_card_id]) {
-        if (deck.schedule[sibling_card_id].last_seen > latest) {
-          latest = deck.schedule[sibling_card_id].last_seen
-        }
-      }
-    })
-    let hoursSinceSeen = (now - latest) / hour
-    if (hoursSinceSeen < 0.3) {
-      return 3
-    } else if (hoursSinceSeen < 2) {
-      return 2
-    } else if (hoursSinceSeen < 12) {
-      return 1
-    } else {
-      return 0
-    }
-    // return hoursSinceSeen
-  }
-  const SortIdsByWhetherTermWasRecentlySeen = (input) => {
-    return input.map(id => ({
-      id,
-      hours_since_seen_score: ScoreByTimeSinceTermWasSeen(id),
-    })).sort((a, b) => a.hours_since_seen_score - b.hours_since_seen_score).map(i => i.id)
-  }
-
   /* Previously seen cards */
-  let overdue_ids = []
+  let overdue_good_ids = []
+  let overdue_bad_ids = []
   let not_overdue_bad_cards_ids = []
   let scheduled = Object.keys(deck.schedule)
     .filter(id => !forbidden_ids.includes(id))
@@ -52,7 +25,11 @@ export default function createCards(options, deck_) {
     .sort((a, b) => a.due - b.due)
     .forEach(i => {
       if (i.due < now + 0.5 * day) {
-        overdue_ids.push(i.id)
+        if (i.score < GOOD) {
+          overdue_bad_ids.push(i.id)
+        } else {
+          overdue_good_ids.push(i.id)
+        }
       } else if (i.score <= 1.2) {
         not_overdue_bad_cards_ids.push(i.id)
       }
@@ -74,10 +51,10 @@ export default function createCards(options, deck_) {
   }
 
   // /* Verify ids exist */
-  // [...overdue_ids, ...not_overdue_bad_cards_ids, ...new_card_ids].forEach(id => {
+  // [...overdue_bad_ids, ...not_overdue_bad_cards_ids, ...new_card_ids].forEach(id => {
   //   if (!(id in deck.cards)) {
   //     if (process.env.NODE_ENV === 'development') {
-  //       console.log({ overdue_ids, not_overdue_bad_cards_ids, new_card_ids })
+  //       console.log({ overdue_bad_ids, not_overdue_bad_cards_ids, new_card_ids })
   //       throw new Error(`Incorrect id passed into deck.cards: ${id}`)
   //     }
   //     return null;
@@ -86,27 +63,35 @@ export default function createCards(options, deck_) {
 
 
   /* TODO: Not very efficient */
-  overdue_ids = _.shuffle(overdue_ids)
+  overdue_good_ids = _.shuffle(overdue_good_ids)
+  overdue_bad_ids = _.shuffle(overdue_bad_ids)
   not_overdue_bad_cards_ids = _.shuffle(not_overdue_bad_cards_ids)
-  let total_options = overdue_ids.length + not_overdue_bad_cards_ids.length + new_card_ids.length
+  let total_options =
+    overdue_bad_ids.length +
+    overdue_good_ids.length +
+    not_overdue_bad_cards_ids.length +
+    new_card_ids.length
   let chosen_ids = []
   for (let i = 0; chosen_ids.length < total_options; i++) {
-    if (i % 1 === 0 && overdue_ids.length > 0) {
-      chosen_ids.push(overdue_ids.shift())
+    if (i % 9 === 0 && new_card_ids.length > 0) {
+      chosen_ids.push(new_card_ids.shift())
+    }
+    if (i % 1 === 0 && overdue_good_ids.length > 0) {
+      chosen_ids.push(overdue_good_ids.shift())
+    }
+    if (i % 1 === 0 && overdue_bad_ids.length > 0) {
+      chosen_ids.push(overdue_bad_ids.shift())
     }
     if (i % 8 === 0 && not_overdue_bad_cards_ids.length > 0) {
       chosen_ids.push(not_overdue_bad_cards_ids.shift())
     }
-    if (i % 9 === 0 && new_card_ids.length > 0) {
-      chosen_ids.push(new_card_ids.shift())
-    }
   }
   // console.log({
-  //   overdue_ids: overdue_ids.map(getWordFromId),
+  //   overdue_bad_ids: overdue_bad_ids.map(getWordFromId),
   //   not_overdue_bad_cards_ids: not_overdue_bad_cards_ids.map(getWordFromId),
   //   new_card_ids: new_card_ids.map(getWordFromId),
   // })
-  chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids)
+  chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids, deck)
   chosen_ids = chosen_ids.slice(0, CARDS_TO_CREATE)
 
 
@@ -140,4 +125,35 @@ export default function createCards(options, deck_) {
     return { id, ...deck.cards[id] }
   }).filter(Boolean)
   return chosen
+}
+
+
+
+const ScoreByTimeSinceTermWasSeen = (id, deck, now) => {
+  let latest = null;
+  getRelatedCardIds(id).forEach(sibling_card_id => {
+    if (deck.schedule[sibling_card_id]) {
+      if (deck.schedule[sibling_card_id].last_seen > latest) {
+        latest = deck.schedule[sibling_card_id].last_seen
+      }
+    }
+  })
+  let hoursSinceSeen = (now - latest) / hour
+  if (hoursSinceSeen < 0.3) {
+    return 3
+  } else if (hoursSinceSeen < 2) {
+    return 2
+  } else if (hoursSinceSeen < 12) {
+    return 1
+  } else {
+    return 0
+  }
+  // return hoursSinceSeen
+}
+const SortIdsByWhetherTermWasRecentlySeen = (input, deck) => {
+  const now = (new Date()).getTime()
+  return input.map(id => ({
+    id,
+    hours_since_seen_score: ScoreByTimeSinceTermWasSeen(id, deck, now),
+  })).sort((a, b) => a.hours_since_seen_score - b.hours_since_seen_score).map(i => i.id)
 }

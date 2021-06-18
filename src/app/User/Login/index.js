@@ -1,7 +1,8 @@
+import { updateURL } from 'app/Router/actions'
 import { connect } from 'react-redux';
 import React from 'react'
 import Link from 'app/Router/Link'
-
+import { login } from 'app/User/actions'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import axios from 'app/App/axios'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -47,18 +48,12 @@ class Form2 extends React.Component {
     }
 
     const { user_id, username, did_user_exist } = response
-    store.dispatch({
-      type: 'LOAD_USER',
-      content: {
-        username,
-        user_id,
-      },
-    })
+    login({ username, user_id })
 
     if (!did_user_exist) {
-      this.props.history.push('PAY')
+      updateURL('PAY')
     } else {
-      this.props.history.push('MAIN')
+      updateURL('MAIN')
     }
   }
   render() {

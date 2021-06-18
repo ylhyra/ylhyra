@@ -34,6 +34,20 @@ export const updateUser = () => {
   }
 }
 
+export const login = async({ username, user_id }) => {
+  store.dispatch({
+    type: 'LOAD_USER',
+    content: {
+      username,
+      user_id,
+    },
+  })
+  /* TODO!!! Save logged-out schedule if new user */
+  saveInLocalStorage('vocabulary-schedule', null)
+  saveInLocalStorage('vocabulary-session', null)
+  InitializeVocabulary()
+}
+
 export const logout = async() => {
   const response = (await axios.post(`/api/user/logout`)).data
   store.dispatch({
