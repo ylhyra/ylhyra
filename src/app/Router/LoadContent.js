@@ -8,6 +8,7 @@ import Parse from 'documents/Parse'
 import { updateURL } from 'app/Router/actions'
 import Render from 'documents/Render'
 import VocabularyHeader from 'app/Vocabulary/Elements/VocabularyHeader'
+// import markdown_to_html from 'documents/Compile/markdown_to_html'
 
 let cache = {}
 
@@ -47,7 +48,11 @@ class Content extends Component {
     // console.log(Parse({ html: this.state.data.content }))
     return <div>
       <VocabularyHeader header_data={this.state.data.header}/>
-      {Render({ json: Parse({ html: this.state.data.content }).parsed })}
+      {Render({
+        json: Parse({
+          html: /*markdown_to_html*/(this.state.data.content)
+        }).parsed
+      })}
     </div>
 
   }

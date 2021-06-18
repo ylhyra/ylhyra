@@ -90,7 +90,6 @@ const GroupParagraphs = ({ input, paragraphFunction, isTranslating, getNewTitle 
 
 
 export const shouldTranslate_ = ({ tag, attr }, isTranslating) => {
-  return true;
   if (tag && ['translate', 'book'].includes(tag.toLowerCase())) {
     return true
   }

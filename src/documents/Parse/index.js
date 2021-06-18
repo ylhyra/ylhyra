@@ -69,7 +69,7 @@ export default ({ html, title }) => {
     // console.log(`Compilation took ${Math.round(t6 - t5)} ms`)
     // console.log(`total ${Math.round(t6 - t0)} ms`)
     // compiled = entities.decode(compiled)
-    // console.log(JSON.stringify(compiled))
+    // console.log(JSON.stringify(compiled,null,2))
     return {
       parsed: (compiled), // JSON object
       // parsed: html2json(compiled),
