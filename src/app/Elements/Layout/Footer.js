@@ -1,3 +1,4 @@
+import React from "react";
 import LoginButton from "app/User/LoginButton";
 import Link from "app/Router/Link";
 
@@ -20,9 +21,7 @@ export default (props) => (
         </span>
         •
         <span className="footer-gray">
-          <a href="/cdn-cgi/l/email-protection#8bf2e7e3f2f9eacbf2e7e3f2f9eaa5e2f8">
-            Report errors
-          </a>
+          <a href="mailto:ylhyra@ylhyra.is">Report errors</a>
         </span>
         •
         <span className="footer-gray">

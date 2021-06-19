@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { urls as app_urls } from "app/Router/paths";
-import { URL_title } from "paths.js";
 
 import LoginButton from "app/User/LoginButton";
 import Link from "app/Router/Link";
@@ -11,11 +9,11 @@ import Header from "app/Elements/Layout/Header";
 import Footer from "app/Elements/Layout/Footer";
 import Session from "app/Vocabulary/Elements/Session";
 
-const fullscreen = ["VOCABULARY_PLAY"].map((i) => app_urls[i].url);
-
 class Layout extends React.Component {
   render() {
-    const is_fullscreen = fullscreen.includes(this.props.route.pathname);
+    const is_fullscreen = ["/vocabulary/play"].includes(
+      this.props.route.pathname
+    );
     return (
       <div id="container">
         <Error />

@@ -114,6 +114,8 @@ const port = argv.port || 9123;
 /* Import steps */
 if (process.argv[2] === "--compile-content") {
   require("server/compiler/generate_links.js");
+} else if (process.argv[2] === "--prerender") {
+  require("server/content/prerender.js");
 } else if (process.argv[2] === "--import-inflections") {
   require("server/inflection/server/server-with-database/database/ImportToDatabase.js");
 } else if (process.argv[2] === "--generate-search-index") {
@@ -121,7 +123,7 @@ if (process.argv[2] === "--compile-content") {
 } else if (process.argv[2] === "--import-vocabulary") {
   require("server/vocabulary/setup/setup");
 } else {
-/* Or, start the app */
+  /* Or, start the app */
   app.listen(port, host, (err) => {
     if (err) {
       return logger.error(err.message);

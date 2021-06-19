@@ -4361,21 +4361,6 @@ module.exports = {
     "filename": "file_ég-hélt-framhjá-elvari.mp3",
     "file": "/Users/egill/ylhyra_content/not_data/files/audio/Ég_hélt_framhjá_Elvari.mp3.md"
   },
-  "file/bláa-lónið.jpg": {
-    "title": "File:Bláa_lónið.jpg",
-    "filename": "file_bláa-lónið.jpg",
-    "file": "/Users/egill/ylhyra_content/not_data/files/images/Bláa_lónið.jpg.md"
-  },
-  "file/börn-svarthvít.jpg": {
-    "title": "File:Börn_svarthvít.jpg",
-    "filename": "file_börn-svarthvít.jpg",
-    "file": "/Users/egill/ylhyra_content/not_data/files/images/Börn_svarthvít.jpg.md"
-  },
-  "file/börn-við-sjó.jpg": {
-    "title": "File:Börn_við_sjó.jpg",
-    "filename": "file_börn-við-sjó.jpg",
-    "file": "/Users/egill/ylhyra_content/not_data/files/images/Börn_við_sjó.jpg.md"
-  },
   "file/eliza-reid.jpg": {
     "title": "File:Eliza_Reid.jpg",
     "filename": "file_eliza-reid.jpg",
@@ -4395,11 +4380,6 @@ module.exports = {
     "title": "File:Fósbræður.jpg",
     "filename": "file_fósbræður.jpg",
     "file": "/Users/egill/ylhyra_content/not_data/files/images/Fósbræður.jpg.md"
-  },
-  "file/hundur-í-garði.jpg": {
-    "title": "File:Hundur_í_garði.jpg",
-    "filename": "file_hundur-í-garði.jpg",
-    "file": "/Users/egill/ylhyra_content/not_data/files/images/Hundur_í_garði.jpg.md"
   },
   "file/hundur-í-garði2.jpg": {
     "title": "File:Hundur_í_garði2.jpg",
@@ -4450,11 +4430,6 @@ module.exports = {
     "title": "File:Lopapeysa_–_John_Shortland.jpg",
     "filename": "file_lopapeysa-–-john-shortland.jpg",
     "file": "/Users/egill/ylhyra_content/not_data/files/images/Lopapeysa_–_John_Shortland.jpg.md"
-  },
-  "file/reykjavík-um-vetur.jpg": {
-    "title": "File:Reykjavík_um_vetur.jpg",
-    "filename": "file_reykjavík-um-vetur.jpg",
-    "file": "/Users/egill/ylhyra_content/not_data/files/images/Reykjavík_um_vetur.jpg.md"
   },
   "file/snorri-meme.png": {
     "title": "File:Snorri_meme.png",
@@ -5256,6 +5231,16 @@ module.exports = {
     "filename": "file_artyom-kabajev-gof5rru1epu-unsplash.jpg",
     "file": "/Users/egill/ylhyra_content/not_data/files/images/unsplash/Artyom-kabajev-gOF5rrU1EpU-unsplash.jpg.md"
   },
+  "file/bláa-lónið.jpg": {
+    "title": "File:Bláa_lónið.jpg",
+    "filename": "file_bláa-lónið.jpg",
+    "file": "/Users/egill/ylhyra_content/not_data/files/images/unsplash/Bláa_lónið.jpg.md"
+  },
+  "file/börn-svarthvít.jpg": {
+    "title": "File:Börn_svarthvít.jpg",
+    "filename": "file_börn-svarthvít.jpg",
+    "file": "/Users/egill/ylhyra_content/not_data/files/images/unsplash/Börn_svarthvít.jpg.md"
+  },
   "file/fezbot2000-9ps66aoqerk-unsplash.jpg": {
     "title": "File:Fezbot2000-9ps66aOQERk-unsplash.jpg",
     "filename": "file_fezbot2000-9ps66aoqerk-unsplash.jpg",
@@ -5270,6 +5255,11 @@ module.exports = {
     "title": "File:Khamkeo-vilaysing-TahzKepGKL4-unsplash.jpg",
     "filename": "file_khamkeo-vilaysing-tahzkepgkl4-unsplash.jpg",
     "file": "/Users/egill/ylhyra_content/not_data/files/images/unsplash/Khamkeo-vilaysing-TahzKepGKL4-unsplash.jpg.md"
+  },
+  "file/reykjavík-um-vetur.jpg": {
+    "title": "File:Reykjavík_um_vetur.jpg",
+    "filename": "file_reykjavík-um-vetur.jpg",
+    "file": "/Users/egill/ylhyra_content/not_data/files/images/unsplash/Reykjavík_um_vetur.jpg.md"
   },
   "file/ursula-drake-1ovcneq6zhq-unsplash.jpg": {
     "title": "File:Ursula-drake-1OVcNeq6ZHQ-unsplash.jpg",

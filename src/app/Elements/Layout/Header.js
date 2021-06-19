@@ -1,3 +1,4 @@
+import React from "react";
 import LoginButton from "app/User/LoginButton";
 import Link from "app/Router/Link";
 

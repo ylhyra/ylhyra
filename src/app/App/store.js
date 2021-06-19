@@ -2,6 +2,7 @@
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import createLogger from "redux-logger";
+import { isBrowser } from "app/App/functions/isBrowser";
 
 // import { data } from 'documents/Render/reducers'
 import { audio } from "documents/Render/Audio/reducers";
@@ -46,4 +47,6 @@ const store = createStore(
 export default store;
 
 //temp
-window.store = store;
+if (isBrowser) {
+  window.store = store;
+}

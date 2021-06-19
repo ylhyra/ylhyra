@@ -6,7 +6,7 @@
 *.txt
 !public/robots.txt
 build
-build_server
+build
 node_modules
 npm-debug.log*
 package-lock.json

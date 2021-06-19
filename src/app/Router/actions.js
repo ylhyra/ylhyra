@@ -1,10 +1,12 @@
 import store from "app/App/store";
 import { url_to_info } from "app/Router/paths";
 import { urls as app_urls } from "app/Router/paths";
+import { isBrowser } from "app/App/functions/isBrowser";
 
-window.addEventListener("popstate", (event) => {
-  updateURL(window.location.pathname);
-});
+isBrowser &&
+  window.addEventListener("popstate", (event) => {
+    updateURL(window.location.pathname);
+  });
 
 export const InitializeRouter = () => {
   updateURL(window.location.pathname + window.location.hash);

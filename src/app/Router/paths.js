@@ -3,20 +3,15 @@ import Layout from "app/Elements/Layout/Layout";
 import { updateUser } from "app/User/actions";
 import LoadContent from "./LoadContent";
 import Frontpage from "app/Elements/Frontpage";
-
-/* TODO: Hlaða skyldum saman */
 import VocabularyOverview from "app/Vocabulary/screens/overview";
 import VocabularyRunning from "app/Vocabulary/screens/running";
-// const VocabularyTutorial = lazy(() =>
-//   import ('app/Vocabulary/screens/tutorial'))
-const VocabularyIntro = lazy(() => import("app/Vocabulary/screens/setup"));
+import VocabularyIntro from "app/Vocabulary/screens/setup";
+import LogIn from "app/User/screens/Login";
+import Signup from "app/User/screens/Signup";
+import Settings from "app/User/screens/Settings";
+import Pay from "app/User/screens/Pay";
 
-const LogIn = lazy(() => import("app/User/screens/Login"));
-const Signup = lazy(() => import("app/User/screens/Signup"));
-const Settings = lazy(() => import("app/User/screens/Settings"));
-const Pay = lazy(() => import("app/User/screens/Pay"));
-
-const list = {
+export const urls = {
   MAIN: {
     url: "/",
     component: Frontpage,
@@ -63,10 +58,9 @@ const list = {
 
 const components = {};
 const url_to_info_ = {};
-for (const name in list) {
-  components[list[name].url] = list[name].component;
-  url_to_info_[list[name].url] = { ...list[name], name };
+for (const name in urls) {
+  components[urls[name].url] = urls[name].component;
+  url_to_info_[urls[name].url] = { ...urls[name], name };
 }
-export const urls = list;
 export const url_to_info = url_to_info_;
 export default components;

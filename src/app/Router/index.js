@@ -10,17 +10,16 @@ class App extends React.Component {
   render() {
     let Element = () => null;
     const url = this.props.route.pathname;
-    if (url in components) {
+    if (url in components && !this.props.prerender) {
       Element = components[url];
     } else {
       Element = LoadContent;
     }
-
     return (
       <Layout>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Element key={url} />
-        </Suspense>
+        {/* <Suspense fallback={<div>Loading...</div>}> */}
+        <Element key={url} prerender={this.props.prerender} />
+        {/* </Suspense> */}
       </Layout>
     );
   }

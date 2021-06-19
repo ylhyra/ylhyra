@@ -1,8 +1,7 @@
 build
-build_server
+build
 public
 src/output
 *OLD*
 *.txt
 *.html
-*.json

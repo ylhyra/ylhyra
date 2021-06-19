@@ -15,7 +15,9 @@ let cache = {};
 class Content extends Component {
   state = {};
   async componentDidMount() {
-    this.get();
+    if (!this.props.prerender) {
+      this.get();
+    }
   }
   get() {
     let url = getURL();
@@ -46,16 +48,21 @@ class Content extends Component {
     updateURL(url, data.title, true);
   }
   render() {
-    if (this.state.error) return <NotFound />;
-    if (!this.state.data) return <div>Loading...</div>;
-    // console.log(Parse({ html: this.state.data.content }))
+    // if (this.state.error) return <NotFound />;
+    // if (!this.state.data) return <div>Loading...</div>;
+    // // console.log(Parse({ html: this.state.data.content }))
     return (
       <div>
-        <VocabularyHeader header_data={this.state.data.header} />
+        {!this.props.prerender && (
+          <VocabularyHeader
+            header_data={this.state.data && this.state.data.header}
+          />
+        )}
         {Render({
-          json: Parse({
-            html: /*markdown_to_html*/ this.state.data.content,
-          }).parsed,
+          // json: Parse({
+          //   html: /*markdown_to_html*/ this.state.data.content,
+          // }).parsed,
+          json: this.props.prerender,
         })}
       </div>
     );

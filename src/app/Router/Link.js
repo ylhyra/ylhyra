@@ -40,6 +40,9 @@ class Link extends React.Component {
         </a>
       );
     }
+    // if (!/%/.test(href)) {
+    //   href = encodeURI(href);
+    // }
     return (
       <a href={href} {...{ className, id }}>
         {children}
