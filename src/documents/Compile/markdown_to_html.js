@@ -1,6 +1,6 @@
 import typeset from 'typeset'
 import { URL_title, section_id } from 'paths.js'
-import marked from 'marked'
+import marked, { inlineLexer } from 'marked'
 import RemoveUnwantedCharacters from 'app/App/functions/RemoveUnwantedCharacters'
 import { html2json, json2html } from 'app/App/functions/html2json'
 // import markdown from 'simple-markdown'
@@ -25,18 +25,37 @@ const Traverse = (json) => {
   if (node === 'element' || node === 'root') {
     return {
       ...json,
-      child: child && child.map((e, i) => Traverse(e))
+      child: child && ProcessArray(child)
     }
   } else if (node === 'text') {
     /* TODO Needs to be parsed with siblings */
     return {
       ...json,
-      text: process_(text)
+      text: processText(text)
     }
   }
 }
+const ProcessArray = (arr) => {
+  const substituted = arr.map((j, i) => {
+    if (j.node === 'text') {
+      return j.text
+    }
+    return `SUBSTITUTION${i}`
+  }).join('')
+  return processText(substituted).split(/(SUBSTITUTION[0-9]+)/g).map((j, i) => {
+    if (j.startsWith('SUBSTITUTION')) {
+      const x = j.match(/SUBSTITUTION([0-9]+)/)[1]
+      const element = arr[parseInt(x)]
+      return Traverse(element)
+    }
+    return {
+      node: 'text',
+      text: j,
+    }
+  })
+}
 
-const process_ = (input) => {
+const processText = (input) => {
 
   input = RemoveUnwantedCharacters(input)
     /* Internal links */
@@ -53,11 +72,11 @@ const process_ = (input) => {
           return target
         }
         if (links[link].redirect_to) {
-          link = links[link].redirect_to + '#' + links[link].section
+          link = links[link].redirect_to + (links[link].section ? '#' + links[link].section : '')
         }
         link = '/' + link
       }
-      return `<a href="${link}">${target}</a>`
+      return `<a href="${encodeURI(link)}">${target}</a>`
     })
     /* External links */
     .replace(/\[((?:http|mailto)[^ ]+?) (.+?)\]/g, (x, url, text) => {
@@ -94,11 +113,14 @@ const process_ = (input) => {
 
   // console.log(input.slice(0, 200))
 
-  // console.log(input)
+  if (!input.trim()) return input;
+  const [f, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/)
+  let m = marked(middle)
+  if (!/\n\n/.test(middle)) {
+    m = m.replace(/<p>(.+)<\/p>/, '$1')
+  }
+  input = (pre || '') + m + (post || '')
 
-  input = marked(input)
-
-  // console.log(input)
 
   input = input
     .replace(/(<h[0-9] id=")/g, '$1s-')

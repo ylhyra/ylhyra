@@ -25,7 +25,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
 
       let output = body
       /* Strip comments */
-      output = output.replace(/<!--([\s\S]+?)-->/g, '')
+      output = output.replace(/<!--([\s\S]+?)-->\n?/g, '')
       // TODO
       if (depth < 1) {
         output = ''
