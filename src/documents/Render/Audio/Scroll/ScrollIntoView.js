@@ -1,26 +1,26 @@
-import SmoothScroll from './SmoothScroll'
-import {getScrollingElement} from 'documents/Render/helpers.js'
-const ControlsHeight = 45
+import SmoothScroll from "./SmoothScroll";
+import { getScrollingElement } from "documents/Render/helpers.js";
+const ControlsHeight = 45;
 
 /*
   Calculates ideal position for element.
 
   Note: Currently assumes document fills entire window, is okay as long as the window is always the scrollable element.
 */
-export default function ScrollIntoView (ids) {
+export default function ScrollIntoView(ids) {
   if (!ids) return;
-  ids = Array.isArray(ids) ? ids : [ids]
-  ids.forEach(id => {
+  ids = Array.isArray(ids) ? ids : [ids];
+  ids.forEach((id) => {
     // const element = document.getElementById(id)
     // if (!element) return;
     // element.classList.add(cssClass)
-  })
+  });
 
-  const id = ids[ids.length - 1]
+  const id = ids[ids.length - 1];
 
-  const element = document.getElementById(id)
+  const element = document.getElementById(id);
   if (!element) return;
-  const elementRect = element.getBoundingClientRect()
+  const elementRect = element.getBoundingClientRect();
 
   // const containerRect = getScrollingElement().getBoundingClientRect()
   // console.log(containerRect)
@@ -36,15 +36,15 @@ export default function ScrollIntoView (ids) {
   // const idealPositionChange = parseInt(elementRect.y - idealPosition)
   // console.log({isAbove, isBelow})
 
-  const isAbove = ControlsHeight >= elementRect.y - 100
-  const isBelow = window.innerHeight <= elementRect.y + elementRect.height + 100
+  const isAbove = ControlsHeight >= elementRect.y - 100;
+  const isBelow =
+    window.innerHeight <= elementRect.y + elementRect.height + 100;
 
-  let idealPosition = 15 / 100 * (window.innerHeight - ControlsHeight)
-  idealPosition = Math.max(100, idealPosition)
-  const idealPositionChange = parseInt(elementRect.y - idealPosition)
-  SmoothScroll.scroll(idealPositionChange, isAbove || isBelow)
+  let idealPosition = (15 / 100) * (window.innerHeight - ControlsHeight);
+  idealPosition = Math.max(100, idealPosition);
+  const idealPositionChange = parseInt(elementRect.y - idealPosition);
+  SmoothScroll.scroll(idealPositionChange, isAbove || isBelow);
 }
-
 
 // function getScrollParent(node) {
 //   if (node === null) {

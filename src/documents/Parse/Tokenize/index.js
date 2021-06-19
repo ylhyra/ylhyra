@@ -9,33 +9,35 @@
   2. Sends text to server for tokenization
 */
 
-import _ from 'underscore'
-import CreateIDs from './IDs/CreateIDs'
-import hash from 'app/App/functions/hash'
-import PreserveIDs from './IDs/PreserveIDs'
-import tokenizer from './Tokenizer'
+import _ from "underscore";
+import CreateIDs from "./IDs/CreateIDs";
+import hash from "app/App/functions/hash";
+import PreserveIDs from "./IDs/PreserveIDs";
+import tokenizer from "./Tokenizer";
 
-export default function(documents, data) {
-  let tokenized = {}
+export default function (documents, data) {
+  let tokenized = {};
   for (const documentTitle of Object.keys(documents)) {
     tokenized[documentTitle] = tokenize({
       documentTitle,
       paragraphs: documents[documentTitle],
-      previousData: data[documentTitle] || {}
-    })
+      previousData: data[documentTitle] || {},
+    });
   }
-  return tokenized
+  return tokenized;
 }
 
 const tokenize = ({ documentTitle, paragraphs, previousData }) => {
-  const oldHashes = previousData.tokenized?.map(p => p.hash) || []
+  const oldHashes = previousData.tokenized?.map((p) => p.hash) || [];
 
   /*
     We do not want to unnecessarily recalculate tokenization.
   */
-  const paragraphsMissingTokenization = _.uniq(paragraphs.filter(p => !oldHashes.includes(p.hash)))
+  const paragraphsMissingTokenization = _.uniq(
+    paragraphs.filter((p) => !oldHashes.includes(p.hash))
+  );
 
-  let tokenized = tokenizer({ paragraphs: paragraphsMissingTokenization })
+  let tokenized = tokenizer({ paragraphs: paragraphsMissingTokenization });
 
   /*
     Since we only calculated tokenization for things that have changed,
@@ -44,38 +46,38 @@ const tokenize = ({ documentTitle, paragraphs, previousData }) => {
   const arrayOfNewAndOldTokenizations = [
     ...(previousData.tokenized || []), // Previous tokenization
     ...tokenized, // New tokenization
-  ]
-  tokenized = paragraphs.map(p => {
+  ];
+  tokenized = paragraphs.map((p) => {
     return {
-      ...arrayOfNewAndOldTokenizations.find(i => i.hash === p.hash),
+      ...arrayOfNewAndOldTokenizations.find((i) => i.hash === p.hash),
       index: p.index,
-    }
-  })
+    };
+  });
   // console.log(tokenized)
-  tokenized = CreateIDs(documentTitle, tokenized)
-  if(previousData.tokenized) {
-    tokenized = PreserveIDs(previousData.tokenized, tokenized)
+  tokenized = CreateIDs(documentTitle, tokenized);
+  if (previousData.tokenized) {
+    tokenized = PreserveIDs(previousData.tokenized, tokenized);
   }
 
   /*
     "Paragraph" currently only contains a hash of the text.
     Here we add a hash of the IDs
   */
-  tokenized = tokenized.map(paragraph => ({
+  tokenized = tokenized.map((paragraph) => ({
     ...paragraph,
     hashOfIds: hashOfIds(paragraph),
-  }))
+  }));
 
-  return tokenized
-}
+  return tokenized;
+};
 
 const hashOfIds = (paragraph) => {
-  let ids = []
-  paragraph.sentences.forEach(sentence => {
-    ids.push(sentence.id)
-    sentence.words.forEach(word => {
-      ids.push(word.id)
-    })
-  })
-  return hash(ids)
-}
+  let ids = [];
+  paragraph.sentences.forEach((sentence) => {
+    ids.push(sentence.id);
+    sentence.words.forEach((word) => {
+      ids.push(word.id);
+    });
+  });
+  return hash(ids);
+};

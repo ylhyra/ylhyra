@@ -1,11 +1,11 @@
-import query from 'server/database'
-import string_hash from 'src/app/App/functions/hash'
-import flattenArray from 'src/app/App/functions/flattenArray'
-import simplifyString from './helpers/simplifyString'
-import GetTranslationFrame from './helpers/TranslationFrame'
-import sql from 'server/database/functions/SQL-template-literal'
-import { escape } from 'sqlstring'
-require('src/app/App/functions/array-foreach-async')
+import query from "server/database";
+import string_hash from "src/app/App/functions/hash";
+import flattenArray from "src/app/App/functions/flattenArray";
+import simplifyString from "./helpers/simplifyString";
+import GetTranslationFrame from "./helpers/TranslationFrame";
+import sql from "server/database/functions/SQL-template-literal";
+import { escape } from "sqlstring";
+require("src/app/App/functions/array-foreach-async");
 
 /*
 
@@ -27,18 +27,17 @@ require('src/app/App/functions/array-foreach-async')
 
 const request = ({ list }) => {
   return new Promise(async (resolve, reject) => {
-    let queries = []
+    let queries = [];
 
     for (let sentence_id in list.sentences) {
-
-      const sentence = list.sentences[sentence_id]
+      const sentence = list.sentences[sentence_id];
 
       /*
         Search sentences
       */
-      if (typeof sentence !== 'string' && sentence.id) {
-        const text_hash = string_hash(simplifyString(sentence.text))
-        queries.push(sql `
+      if (typeof sentence !== "string" && sentence.id) {
+        const text_hash = string_hash(simplifyString(sentence.text));
+        queries.push(sql`
           SELECT ${sentence.id} as item_id, definition, definition_hash FROM (
             SELECT
               definitions.definition_hash,
@@ -52,20 +51,22 @@ const request = ({ list }) => {
             ) as inner_table
           GROUP BY definition_hash
           LIMIT 15;
-        `)
+        `);
       }
 
       /*
         Search words
       */
       sentence.words.forEach((word, index) => {
-        if (typeof word === 'string' || !word.id) return;
+        if (typeof word === "string" || !word.id) return;
 
-        const text_hash = string_hash(simplifyString(word.text))
-        const translation_frame = GetTranslationFrame(sentence.words, index)
+        const text_hash = string_hash(simplifyString(word.text));
+        const translation_frame = GetTranslationFrame(sentence.words, index);
         // console.log(translation_frame)
         queries.push(`
-          SELECT ${escape(word.id)} as item_id, definition, definition_hash, also_part_of_definition FROM (
+          SELECT ${escape(
+            word.id
+          )} as item_id, definition, definition_hash, also_part_of_definition FROM (
             SELECT
               definitions.definition_hash,
               definitions.definition,
@@ -81,14 +82,22 @@ const request = ({ list }) => {
                 SELECT count(*) FROM words_in_translation_frame
                   WHERE translation_frame_hash = t.translation_frame_hash
                   AND is_part_of_definition = TRUE
-                  ${translation_frame.length > 0 && `
+                  ${
+                    translation_frame.length > 0 &&
+                    `
                     AND (
-                      ${translation_frame.map(frame => `
+                      ${translation_frame
+                        .map(
+                          (frame) => `
                         (
                           word = ${escape(frame.text)}
-                          AND position_relative_to_center_word = ${escape(frame.position_relative_to_center_word)}
+                          AND position_relative_to_center_word = ${escape(
+                            frame.position_relative_to_center_word
+                          )}
                         )
-                      `).join(' OR ')}
+                      `
+                        )
+                        .join(" OR ")}
                     )`
                   }
               ) as HAS_CORRECT_AMOUNT_OF_MATCHES,
@@ -98,14 +107,22 @@ const request = ({ list }) => {
                 SELECT SUM(10 - ABS(position_relative_to_center_word))
                   FROM words_in_translation_frame
                   WHERE translation_frame_hash = t.translation_frame_hash
-                  ${translation_frame.length > 0 && `
+                  ${
+                    translation_frame.length > 0 &&
+                    `
                     AND (
-                      ${translation_frame.map(frame => `
+                      ${translation_frame
+                        .map(
+                          (frame) => `
                         (
                           word = ${escape(frame.text)}
-                          AND position_relative_to_center_word = ${escape(frame.position_relative_to_center_word)}
+                          AND position_relative_to_center_word = ${escape(
+                            frame.position_relative_to_center_word
+                          )}
                         )
-                      `).join(' OR ')}
+                      `
+                        )
+                        .join(" OR ")}
                     )`
                   }
               ) as SCORE,
@@ -131,30 +148,30 @@ const request = ({ list }) => {
             ) as inner_table
           GROUP BY definition_hash
           LIMIT 15;
-        `)
-      })
+        `);
+      });
     }
     // console.log(queries.join(''))
-    let returns = []
+    let returns = [];
     await queries.forEachAsync(async (q) => {
       await new Promise((resolve2, reject2) => {
         query(q, (err, results) => {
           if (err) {
-            console.error('Error in GetSuggestions.js:')
-            console.error(err)
-            reject2()
+            console.error("Error in GetSuggestions.js:");
+            console.error(err);
+            reject2();
           } else {
-            results = flattenArray(results)
+            results = flattenArray(results);
             // console.log(JSON.stringify(results, null, 2))
-            returns.push(results)
-            resolve2()
+            returns.push(results);
+            resolve2();
           }
-        })
-      })
-    })
-    returns = flattenArray(returns)
-    resolve(returns)
-  })
-}
+        });
+      });
+    });
+    returns = flattenArray(returns);
+    resolve(returns);
+  });
+};
 
-export default request
+export default request;

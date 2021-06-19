@@ -1,4 +1,4 @@
-#overlay  {
+#overlay {
   opacity: 0;
   display: none;
   transition: opacity 0.2s;
@@ -9,7 +9,7 @@
   position: fixed;
   background: rgba(0, 0, 0, 0.3);
   z-index: -1;
-  body.sentence-shown &  {
+  body.sentence-shown & {
     z-index: 7;
     opacity: 1;
     display: block;

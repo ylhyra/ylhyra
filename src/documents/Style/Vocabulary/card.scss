@@ -46,7 +46,9 @@
   z-index: 100;
   width: 100%;
   transition {
-    background: 0.3s ease-in-out, border 0.2s ease, box-shadow 0.2s ease, left 0.5s ease-in-out, opacity 0.5s ease-in-out, top 0.5s ease-in-out, width 0.5s ease-in-out, z-index 0.5s ease-in-out;
+    background: 0.3s ease-in-out, border 0.2s ease, box-shadow 0.2s ease,
+      left 0.5s ease-in-out, opacity 0.5s ease-in-out, top 0.5s ease-in-out,
+      width 0.5s ease-in-out, z-index 0.5s ease-in-out;
   }
   > div:first-child {
     flex: 1;

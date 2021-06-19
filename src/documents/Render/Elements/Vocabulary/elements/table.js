@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import Emoji from 'documents/Render/Elements/Vocabulary/Types/Gender'
+import React, { Component } from "react";
+import styled from "styled-components";
+import Emoji from "documents/Render/Elements/Vocabulary/Types/Gender";
 
-const border = '1px solid #dedede;'
-const radius = '3px'
-export const Table = styled.table `
+const border = "1px solid #dedede;";
+const radius = "3px";
+export const Table = styled.table`
   border-spacing: 0;
   margin: auto;
   margin-bottom: 10px;
@@ -41,15 +41,14 @@ export const Table = styled.table `
       padding-right: 1px;
     }
     b {
-      ${'' /* font-weight: 800; */}
+      ${"" /* font-weight: 800; */}
       font-weight: inherit;
       border-bottom: 1px solid #bababa;
     }
     &.main {
       position: relative;
-      box-shadow: 0 0 0 3px #1e8ed5,
-      inset 0 0 0 1px #1e8ed5;
-      border: none!important;
+      box-shadow: 0 0 0 3px #1e8ed5, inset 0 0 0 1px #1e8ed5;
+      border: none !important;
       background: white;
       top: 1px;
       left: 1px;
@@ -69,9 +68,8 @@ export const Table = styled.table `
     clear: left;
   }
 
-
-
-  td, th:not(:empty) {
+  td,
+  th:not(:empty) {
     border-top: ${border};
     border-left: ${border};
     &:last-child {
@@ -88,7 +86,8 @@ export const Table = styled.table `
   }
   tbody:first-child {
     tr:first-child {
-      th, td {
+      th,
+      td {
         &:not(:empty) {
           &:first-child {
             border-top-left-radius: ${radius};
@@ -102,7 +101,8 @@ export const Table = styled.table `
   }
   tbody:last-child {
     tr:last-child {
-      th, td {
+      th,
+      td {
         &:not(:empty) {
           border-bottom: ${border};
           &:first-child {
@@ -120,27 +120,33 @@ export const Table = styled.table `
     color: #5b5b5b;
     font-weight: normal;
   }
-`
-const Cell = styled.td `
-  ${p => (p.importance === 1 || p.importance === 2) && `
+`;
+const Cell = styled.td`
+  ${(p) =>
+    (p.importance === 1 || p.importance === 2) &&
+    `
     font-weight: 700;
     box-shadow: inset 0 0 0 3px #6c8de3;
     background: white;
   `}
-  ${p => !p.importance && `
+  ${(p) =>
+    !p.importance &&
+    `
     font-weight: 500;
   `}
-  ${p => p.importance === -1 && `
+  ${(p) =>
+    p.importance === -1 &&
+    `
     span {
       opacity: 0.7;
     }
     background: #ededed;
   `}
-`
+`;
 
 class Element extends Component {
   render() {
-    const { table } = this.props
+    const { table } = this.props;
     // console.log(table)
     return (
       <Table>
@@ -148,40 +154,49 @@ class Element extends Component {
           {table.map((row, a) => (
             <tr key={a}>
               {row.map((cell, b) => {
-                if(cell === null) return <th key={b}/>
+                if (cell === null) return <th key={b} />;
 
-                let className
-                if(table[a - 1] && table[a - 1][b] === null) {
-                  className = 'first-top'
+                let className;
+                if (table[a - 1] && table[a - 1][b] === null) {
+                  className = "first-top";
                 }
-                if(table[a][b - 1] === null) {
-                  className = 'first-left'
+                if (table[a][b - 1] === null) {
+                  className = "first-left";
                 }
 
-                if(cell.type && cell.type === 'emoji') {
+                if (cell.type && cell.type === "emoji") {
                   // console.log(cell)
                   return (
-                    <th key={b} className={className} colSpan={cell.colspan || 1} rowSpan={cell.rowspan || 1}>
-                      <Emoji {...cell} smaller/>
+                    <th
+                      key={b}
+                      className={className}
+                      colSpan={cell.colspan || 1}
+                      rowSpan={cell.rowspan || 1}
+                    >
+                      <Emoji {...cell} smaller />
                     </th>
-                  )
+                  );
                 }
                 return (
-                  <Cell key={b} importance={cell.importance} className={className} colSpan={cell.colspan || 1} rowSpan={cell.rowspan || 1}>
-                    <span>
-                      {checkForBrackets(cell.value)}
-                    </span>
+                  <Cell
+                    key={b}
+                    importance={cell.importance}
+                    className={className}
+                    colSpan={cell.colspan || 1}
+                    rowSpan={cell.rowspan || 1}
+                  >
+                    <span>{checkForBrackets(cell.value)}</span>
                   </Cell>
-                )
+                );
               })}
             </tr>
           ))}
         </tbody>
       </Table>
-    )
+    );
   }
 }
-export default Element
+export default Element;
 
 /*
   Checks for "[hér er] kötturinn [minn]"
@@ -196,20 +211,22 @@ const checkForBrackets = (input) => {
   //   )
   // }
   // console.log(input)
-  if(!input) return null
+  if (!input) return null;
   return (
-    <span dangerouslySetInnerHTML={{
-      __html: input
-        // .trim()
-        .replace(/\[(.*?)\]/g, '<span className="helper">$1</span>')
-        // .replace(/^að /g, '<span className="helper">að</span> ')
-        // TEMP
-        .replace('hann/hún/það','hann')
-        .replace('þeir/þær/þau','þeir')
-        .replace('hann/hana/það','hann')
-        .replace('þá/þær/þau','þá')
-        .replace('honum/henni/því','honum')
-        .replace('he/she/it','he')
-    }}/>
-  )
-}
+    <span
+      dangerouslySetInnerHTML={{
+        __html: input
+          // .trim()
+          .replace(/\[(.*?)\]/g, '<span className="helper">$1</span>')
+          // .replace(/^að /g, '<span className="helper">að</span> ')
+          // TEMP
+          .replace("hann/hún/það", "hann")
+          .replace("þeir/þær/þau", "þeir")
+          .replace("hann/hana/það", "hann")
+          .replace("þá/þær/þau", "þá")
+          .replace("honum/henni/því", "honum")
+          .replace("he/she/it", "he"),
+      }}
+    />
+  );
+};

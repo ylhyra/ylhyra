@@ -1,75 +1,77 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { getTextFromReactElement as getText} from 'documents/Render/Elements/parse'
-import AutosizeTextarea from 'react-textarea-autosize'
-let timer
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getTextFromReactElement as getText } from "documents/Render/Elements/parse";
+import AutosizeTextarea from "react-textarea-autosize";
+let timer;
 
 class Write extends Component {
   constructor(props) {
     super(props);
-    const { card } = this.props
-    let correctAnswer
-    if (card.to === 'is') {
-      correctAnswer = getText(card.icelandic)
+    const { card } = this.props;
+    let correctAnswer;
+    if (card.to === "is") {
+      correctAnswer = getText(card.icelandic);
     } else {
-      correctAnswer = getText(card.english)
+      correctAnswer = getText(card.english);
     }
     this.state = {
       value: getFirstLetters(correctAnswer, card),
       correctAnswer,
-    }
+    };
   }
 
   componentDidMount = () => {
-    this.focus()
-  }
+    this.focus();
+  };
 
   focus = () => {
-    this.textInput?.focus()
-  }
+    this.textInput?.focus();
+  };
 
   checkForSubmit = (event) => {
     if (event.keyCode == 13) {
-      return this.check(event.target.value, true)
+      return this.check(event.target.value, true);
     }
-  }
+  };
 
   handleChange = (event) => {
     if (this.state.answered) return;
-    this.setState({ value: event.target.value })
-    this.check(event.target.value)
-  }
+    this.setState({ value: event.target.value });
+    this.check(event.target.value);
+  };
 
   handleSubmit = (event) => {
-    this.check(this.state.value, true)
+    this.check(this.state.value, true);
     event.preventDefault();
-  }
+  };
 
   check = (value, submit = false) => {
-    const { card } = this.props
-    const isCorrect = EqualOrSimilar(this.state.correctAnswer, value)
-    console.log({ isCorrect })
-    timer && clearTimeout(timer)
-    if (isCorrect === 'yes') {
-      this.submit(isCorrect)
-    } else if (isCorrect === 'kind of' && !submit) {
-      timer = setTimeout(() => { this.submit(isCorrect) }, 800)
+    const { card } = this.props;
+    const isCorrect = EqualOrSimilar(this.state.correctAnswer, value);
+    console.log({ isCorrect });
+    timer && clearTimeout(timer);
+    if (isCorrect === "yes") {
+      this.submit(isCorrect);
+    } else if (isCorrect === "kind of" && !submit) {
+      timer = setTimeout(() => {
+        this.submit(isCorrect);
+      }, 800);
     } else if (submit) {
-      this.submit(isCorrect)
+      this.submit(isCorrect);
     }
-  }
+  };
 
   submit = (isCorrect) => {
     this.setState({
       answered: true,
       isCorrect,
-    })
-    this.props.submitAnswer({ correct: isCorrect })
-  }
+    });
+    this.props.submitAnswer({ correct: isCorrect });
+  };
 
   render() {
-    const { card } = this.props
-    const { correctAnswer, answered, isCorrect } = this.state
+    const { card } = this.props;
+    const { correctAnswer, answered, isCorrect } = this.state;
     return (
       <div className="writing-container">
         {/* {process.env.NODE_ENV !== 'production' && (
@@ -78,7 +80,6 @@ class Write extends Component {
         <div className="top">
           <div>
             <form onSubmit={this.handleSubmit}>
-
               <AutosizeTextarea
                 className="write-textbox"
                 autoComplete="false"
@@ -87,7 +88,9 @@ class Write extends Component {
                 onKeyDown={this.checkForSubmit}
                 onChange={this.handleChange}
                 readOnly={answered}
-                inputRef={(input) => { this.textInput = input; }}
+                inputRef={(input) => {
+                  this.textInput = input;
+                }}
               />
 
               {/* <input
@@ -102,49 +105,70 @@ class Write extends Component {
               /> */}
             </form>
 
-            {answered && isCorrect === 'yes' && (<div>
-              <small className="correct">Correct</small>
-            </div>)}
+            {answered && isCorrect === "yes" && (
+              <div>
+                <small className="correct">Correct</small>
+              </div>
+            )}
 
-            {answered && (isCorrect === 'no' || isCorrect === 'kind of') && (<div>
-              <small>
-                {isCorrect === 'kind of' && <small className="correct">Correct - </small>}
-                <span className="gray">Your answer:</span> <i>{this.state.value}</i></small>
-            </div>)}
+            {answered && (isCorrect === "no" || isCorrect === "kind of") && (
+              <div>
+                <small>
+                  {isCorrect === "kind of" && (
+                    <small className="correct">Correct - </small>
+                  )}
+                  <span className="gray">Your answer:</span>{" "}
+                  <i>{this.state.value}</i>
+                </small>
+              </div>
+            )}
           </div>
         </div>
 
         <div className="bottom">
           <div className="small-instructions gray">
-            {card.to === 'is' && (
-              <div>If you don't have an Icelandic keyboard, you can skip the accent marks and substitue the following: þ = th, ð = d, æ = ae, ö = o.</div>
+            {card.to === "is" && (
+              <div>
+                If you don't have an Icelandic keyboard, you can skip the accent
+                marks and substitue the following: þ = th, ð = d, æ = ae, ö = o.
+              </div>
             )}
             Hit enter to submit.
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
-export default Write
+export default Write;
 
-
-export const removeTags = (input) => removeInvisible(input).replace(/<.*?>/g, '')
-export const removeInvisible = (input) => input.replace(/<span[^>]*?display: ?none[^>]*?>[^<>]*?<\/span>/g, '')
-export const removeRepeatingCharacters = (input) => input.replace(/(.)\1+/g, (str, match) => match[0])
+export const removeTags = (input) =>
+  removeInvisible(input).replace(/<.*?>/g, "");
+export const removeInvisible = (input) =>
+  input.replace(/<span[^>]*?display: ?none[^>]*?>[^<>]*?<\/span>/g, "");
+export const removeRepeatingCharacters = (input) =>
+  input.replace(/(.)\1+/g, (str, match) => match[0]);
 
 export const EqualOrSimilar = (correctAnswer, userAnswer) => {
   /*
     Ignore uppercase and spaces
   */
-  correctAnswer = correctAnswer.toLowerCase().replace(/\s+/g, ' ').replace(/[?!:,.]/g, '').trim()
-  userAnswer = userAnswer.toLowerCase().replace(/\s+/g, ' ').replace(/[?!:,.]/g, '').trim()
+  correctAnswer = correctAnswer
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .replace(/[?!:,.]/g, "")
+    .trim();
+  userAnswer = userAnswer
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .replace(/[?!:,.]/g, "")
+    .trim();
 
   /*
     Correct
   */
   if (userAnswer === correctAnswer) {
-    return 'yes'
+    return "yes";
   }
 
   /*
@@ -158,29 +182,29 @@ export const EqualOrSimilar = (correctAnswer, userAnswer) => {
     Correct without special characters
   */
   userAnswer = userAnswer
-    .replace(/á/g, 'a')
-    .replace(/é/g, 'e')
-    .replace(/í/g, 'i')
-    .replace(/ó/g, 'o')
-    .replace(/ú/g, 'u')
-    .replace(/ý/g, 'y')
-    .replace(/ö/g, 'o')
-    .replace(/æ/g, 'ae')
-    .replace(/ð/g, 'd')
-    .replace(/þ/g, 'th')
+    .replace(/á/g, "a")
+    .replace(/é/g, "e")
+    .replace(/í/g, "i")
+    .replace(/ó/g, "o")
+    .replace(/ú/g, "u")
+    .replace(/ý/g, "y")
+    .replace(/ö/g, "o")
+    .replace(/æ/g, "ae")
+    .replace(/ð/g, "d")
+    .replace(/þ/g, "th");
   correctAnswer = correctAnswer
-    .replace(/á/g, 'a')
-    .replace(/é/g, 'e')
-    .replace(/í/g, 'i')
-    .replace(/ó/g, 'o')
-    .replace(/ú/g, 'u')
-    .replace(/ý/g, 'y')
-    .replace(/ö/g, 'o')
-    .replace(/æ/g, 'ae')
-    .replace(/ð/g, '(d|dh|th)')
-    .replace(/þ/g, '(d|dh|th|t)')
-  if ((new RegExp('^' + correctAnswer + '$', 'i')).test(userAnswer)) {
-    return 'kind of'
+    .replace(/á/g, "a")
+    .replace(/é/g, "e")
+    .replace(/í/g, "i")
+    .replace(/ó/g, "o")
+    .replace(/ú/g, "u")
+    .replace(/ý/g, "y")
+    .replace(/ö/g, "o")
+    .replace(/æ/g, "ae")
+    .replace(/ð/g, "(d|dh|th)")
+    .replace(/þ/g, "(d|dh|th|t)");
+  if (new RegExp("^" + correctAnswer + "$", "i").test(userAnswer)) {
+    return "kind of";
   }
 
   /*
@@ -189,22 +213,23 @@ export const EqualOrSimilar = (correctAnswer, userAnswer) => {
     - repeating characters
     - y/i, ý/í
   */
-  userAnswer = removeRepeatingCharacters(userAnswer).replace(/y/g, 'i')
-  correctAnswer = removeRepeatingCharacters(correctAnswer).replace(/y/g, 'i')
+  userAnswer = removeRepeatingCharacters(userAnswer).replace(/y/g, "i");
+  correctAnswer = removeRepeatingCharacters(correctAnswer).replace(/y/g, "i");
 
-  if ((new RegExp('^' + correctAnswer + '$', 'i')).test(userAnswer)) {
-    return 'kind of'
+  if (new RegExp("^" + correctAnswer + "$", "i").test(userAnswer)) {
+    return "kind of";
   }
-  return 'no'
-}
+  return "no";
+};
 
 /*
   Ignores "mig" in "mig langar"
 */
 const ignoreAtStart = (input) => {
-  return input.replace(ignoreRegex, '').trim()
-}
-const ignoreRegex = /^((?:you guys|ég|mig|mér|mín|þú|þig|þér|þín|hann|honum|hans|þeir|við|okkur|þið|ykkur|hún|hana|henni|hennar|það|því|þess|þá|þeim|þeirra|þær|þau|I|you|he|she|it|we|us|him|his|her|its|að|to|they|them) )/i
+  return input.replace(ignoreRegex, "").trim();
+};
+const ignoreRegex =
+  /^((?:you guys|ég|mig|mér|mín|þú|þig|þér|þín|hann|honum|hans|þeir|við|okkur|þið|ykkur|hún|hana|henni|hennar|það|því|þess|þá|þeim|þeirra|þær|þau|I|you|he|she|it|we|us|him|his|her|its|að|to|they|them) )/i;
 
 const getFirstLetters = (input, card) => {
   if (card.hint) {
@@ -212,20 +237,20 @@ const getFirstLetters = (input, card) => {
     // if (index === 1) {
     //   return text
     // }
-    const text = input
-    if (typeof card.hint === 'number') {
-      return text.slice(0, card.hint)
+    const text = input;
+    if (typeof card.hint === "number") {
+      return text.slice(0, card.hint);
     } else if (text.length === 1) {
-      return ''
+      return "";
     } else if (text.length === 2) {
-      return text.slice(0, 1)
+      return text.slice(0, 1);
     } else {
-      const length = Math.random() > 0.5 ? 2 : 1
-      return text.slice(0, length)
+      const length = Math.random() > 0.5 ? 2 : 1;
+      return text.slice(0, length);
     }
     // console.log({ text, index })
     // }).join('')
   } else {
-    return ''
+    return "";
   }
-}
+};

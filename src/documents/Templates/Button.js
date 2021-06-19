@@ -1,5 +1,1 @@
-export default (props) => (
-  <div className="button blue">
-    {props.children}
-  </div>
-)
+export default (props) => <div className="button blue">{props.children}</div>;

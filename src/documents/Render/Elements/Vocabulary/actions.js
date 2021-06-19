@@ -1,42 +1,42 @@
-import store from 'app/App/store'
+import store from "app/App/store";
 
 export const close = () => {
   store.dispatch({
-    type: 'CLOSE',
-  })
-}
+    type: "CLOSE",
+  });
+};
 
 export const start = () => {
   store.dispatch({
-    type: 'CARDS',
-    content: []
-  })
-}
+    type: "CARDS",
+    content: [],
+  });
+};
 
 export const submitAnswer = ({ correct, index, section_id }) => {
-  if(typeof section_id === 'undefined') {
-    console.warn('Section_id undefined!')
+  if (typeof section_id === "undefined") {
+    console.warn("Section_id undefined!");
   }
   if (store.getState().vocabulary.answers[section_id]?.answered) {
     // next(id)
-    return null
+    return null;
   }
 
   // console.log({correct, index, section_id })
 
   store.dispatch({
-    type: 'ANSWER',
+    type: "ANSWER",
     section_id,
     content: {
       correct,
       selected_index: index,
-    }
-  })
+    },
+  });
 
   setTimeout(() => {
     store.dispatch({
-      type: 'NEXT',
-      section_id
-    })
-  }, 3000)
-}
+      type: "NEXT",
+      section_id,
+    });
+  }, 3000);
+};

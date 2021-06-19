@@ -1,24 +1,32 @@
-import React from 'react'
-import { connect } from 'react-redux';
-import Link from 'app/Router/Link'
-import { PercentageKnownOverall } from 'app/Vocabulary/actions/_functions.js'
+import React from "react";
+import { connect } from "react-redux";
+import Link from "app/Router/Link";
+import { PercentageKnownOverall } from "app/Vocabulary/actions/_functions.js";
 
 const Screen = (props) => (
   <div>
-    {!props.user ? <div>
+    {!props.user ? (
       <div>
-        <Link href="VOCABULARY_PLAY" className="button">Start learning</Link>
+        <div>
+          <Link href="VOCABULARY_PLAY" className="button">
+            Start learning
+          </Link>
+        </div>
+        <Link href="LOG_IN">Already have an account?</Link>
       </div>
-      <Link href="LOG_IN">Already have an account?</Link>
-    </div> : <div>
+    ) : (
       <div>
-        <Link href="VOCABULARY_PLAY" className="button">Play</Link>
-        {PercentageKnownOverall()}% known
+        <div>
+          <Link href="VOCABULARY_PLAY" className="button">
+            Play
+          </Link>
+          {PercentageKnownOverall()}% known
+        </div>
       </div>
-    </div>}
+    )}
   </div>
-)
+);
 
-export default connect(state => ({
+export default connect((state) => ({
   user: state.user,
-}))(Screen)
+}))(Screen);

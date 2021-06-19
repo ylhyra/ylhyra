@@ -1,26 +1,25 @@
-import React, { lazy } from 'react';
+import React, { lazy } from "react";
 
 const customTemplates = [
-  'Level',
-  'Book',
-  'Blær',
-  'Image',
-  'Button',
-  'VocabularyStatus',
-  'Audio',
-]
+  "Level",
+  "Book",
+  "Blær",
+  "Image",
+  "Button",
+  "VocabularyStatus",
+  "Audio",
+];
 
-const customTemplatesLoaded = {}
-const customTemplatesLowercase = {}
-customTemplates.forEach(x => {
-  customTemplatesLoaded[x] = lazy(() =>
-    import (`documents/Templates/${x}.js`))
-  customTemplatesLowercase[x.toLowerCase()] = x
-})
+const customTemplatesLoaded = {};
+const customTemplatesLowercase = {};
+customTemplates.forEach((x) => {
+  customTemplatesLoaded[x] = lazy(() => import(`documents/Templates/${x}.js`));
+  customTemplatesLowercase[x.toLowerCase()] = x;
+});
 const GetTemplate = (name) => {
   if (name.toLowerCase() in customTemplatesLowercase) {
-    return customTemplatesLoaded[customTemplatesLowercase[name.toLowerCase()]]
+    return customTemplatesLoaded[customTemplatesLowercase[name.toLowerCase()]];
   }
-  return null
-}
-export default GetTemplate
+  return null;
+};
+export default GetTemplate;

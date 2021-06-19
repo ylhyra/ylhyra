@@ -2,107 +2,114 @@
   To run:
   node build_server/ylhyra_server.js --import-vocabulary
 */
-import axios from 'axios'
-import query from 'server/database'
-import sql from 'server/database/functions/SQL-template-literal'
-import stable_stringify from 'json-stable-stringify'
-import { clean_string, getHash, getHashesFromCommaSeperated } from './functions'
-const path = require('path')
-const fs = require('fs')
-require('src/app/App/functions/array-foreach-async')
-let google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?output=tsv&random=${Math.random()}`
-let TESTING = false
-if (process.argv[3] === '--testing') {
+import axios from "axios";
+import query from "server/database";
+import sql from "server/database/functions/SQL-template-literal";
+import stable_stringify from "json-stable-stringify";
+import {
+  clean_string,
+  getHash,
+  getHashesFromCommaSeperated,
+} from "./functions";
+const path = require("path");
+const fs = require("fs");
+require("src/app/App/functions/array-foreach-async");
+let google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?output=tsv&random=${Math.random()}`;
+let TESTING = false;
+if (process.argv[3] === "--testing") {
   /* Spænska */
-  google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vT_pzDyG0wMUZbPK9yf_i4AYrKjbKs6nFmexJMK5s6IsdIRQk96uP77GDqyiR-FvSCgjBaUFMh3DlYw/pub?output=tsv&random=${Math.random()}`
-  TESTING = true
+  google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vT_pzDyG0wMUZbPK9yf_i4AYrKjbKs6nFmexJMK5s6IsdIRQk96uP77GDqyiR-FvSCgjBaUFMh3DlYw/pub?output=tsv&random=${Math.random()}`;
+  TESTING = true;
 }
 
 /*
   Convert vocabulary data into a JavaScrip object
 */
-const run = async() => {
-
-  let terms = {}
-  let cards = {}
-  let dependencies = {}
-  let alternative_ids = {}
+const run = async () => {
+  let terms = {};
+  let cards = {};
+  let dependencies = {};
+  let alternative_ids = {};
 
   const TermsToCardId = (_terms, id) => {
-    _terms.forEach(term => {
+    _terms.forEach((term) => {
       if (!terms[term]) {
         terms[term] = {
           level: null,
-          cards: []
-        }
+          cards: [],
+        };
       }
-      terms[term].cards.push(id)
-    })
-  }
+      terms[term].cards.push(id);
+    });
+  };
   const AddToDependencyGraph = (first, second, type) => {
     if (!second || second.length === 0) return;
-    let obj = dependencies
-    if (type === 'alt_ids') {
-      obj = alternative_ids
+    let obj = dependencies;
+    if (type === "alt_ids") {
+      obj = alternative_ids;
     }
-    first.forEach(id => {
-      obj[id] = [
-        ...(obj[id] || []),
-        ...second,
-      ]
-    })
-  }
+    first.forEach((id) => {
+      obj[id] = [...(obj[id] || []), ...second];
+    });
+  };
 
-  const { data } = await axios.get(google_docs_url)
+  const { data } = await axios.get(google_docs_url);
   // console.log(data.split('\n')[0].split('\t'))
   // return;
 
   /* Read the table header to get the names of columns */
-  let column_indexes_to_name = {}
-  data.split('\n')[0].split('\t').forEach((name, index) => {
-    if (!name.trim()) return;
-    column_indexes_to_name[index] = name.trim()
-  })
+  let column_indexes_to_name = {};
+  data
+    .split("\n")[0]
+    .split("\t")
+    .forEach((name, index) => {
+      if (!name.trim()) return;
+      column_indexes_to_name[index] = name.trim();
+    });
 
-  data.split('\n').slice(1)
+  data
+    .split("\n")
+    .slice(1)
     // .slice(0, 100) // TEMP!!!
     .forEach((line, line_number) => {
-      let to_add = []
+      let to_add = [];
 
       /* Assing names to columns */
-      let columns = {}
-      line.split('\t').forEach((string, index) => {
+      let columns = {};
+      line.split("\t").forEach((string, index) => {
         if (!column_indexes_to_name[index]) return;
-        columns[column_indexes_to_name[index]] = string.trim() || null
-      })
+        columns[column_indexes_to_name[index]] = string.trim() || null;
+      });
 
       // console.log(columns)
       // process.exit()
 
-      const english = clean_string(columns.english)
+      const english = clean_string(columns.english);
       if (!columns.icelandic) return;
       if (!english) return;
-      if (columns.should_teach === 'no') return;
+      if (columns.should_teach === "no") return;
       if (!columns.level && !TESTING) return;
 
       /* Can have multiple */
-      let icelandic_strings = []
-      columns.icelandic.split(/(.+?[^\\])([,;])/g).forEach(i => {
-        i = i.trim()
+      let icelandic_strings = [];
+      columns.icelandic.split(/(.+?[^\\])([,;])/g).forEach((i) => {
+        i = i.trim();
         if (!i) return;
-        if (i === ',' || i === ';') return;
-        i = clean_string(i)
-        icelandic_strings.push(i)
-      })
-      const terms_in_this_line = icelandic_strings.map(getHash)
-      const alternative_ids = getHashesFromCommaSeperated(columns.alternative_id)
+        if (i === "," || i === ";") return;
+        i = clean_string(i);
+        icelandic_strings.push(i);
+      });
+      const terms_in_this_line = icelandic_strings.map(getHash);
+      const alternative_ids = getHashesFromCommaSeperated(
+        columns.alternative_id
+      );
       const depends_on = [
         ...getHashesFromCommaSeperated(columns.depends_on),
         ...getHashesFromCommaSeperated(columns.basic_form),
-      ]
+      ];
 
-      AddToDependencyGraph(terms_in_this_line, depends_on)
-      AddToDependencyGraph(alternative_ids, terms_in_this_line, 'alt_ids')
+      AddToDependencyGraph(terms_in_this_line, depends_on);
+      AddToDependencyGraph(alternative_ids, terms_in_this_line, "alt_ids");
 
       let card_skeleton = {
         en: english,
@@ -113,36 +120,41 @@ const run = async() => {
         note_bfr_show: columns.note_bfr_show,
         note_after_show: columns.note_after_show,
         literally: columns.literally,
-      }
+      };
 
-      if (columns.direction && columns.direction !== '<-' && columns.direction !== '->') {
-        throw new Error(`Unknown direction ${columns.direction}`)
+      if (
+        columns.direction &&
+        columns.direction !== "<-" &&
+        columns.direction !== "->"
+      ) {
+        throw new Error(`Unknown direction ${columns.direction}`);
       }
 
       /* Icelandic to English */
-      if (columns.direction !== '<-') {
-        icelandic_strings.forEach(i => {
+      if (columns.direction !== "<-") {
+        icelandic_strings.forEach((i) => {
           to_add.push({
             is: i,
-            from: 'is',
-            id: getHash(i) + '_is',
+            from: "is",
+            id: getHash(i) + "_is",
             ...card_skeleton,
-          })
-        })
+          });
+        });
       }
 
       /* English to Icelandic */
-      if (columns.direction !== '->') {
+      if (columns.direction !== "->") {
         to_add.push({
           is: clean_string(columns.icelandic),
-          from: 'en',
-          id: getHash(columns.icelandic) + '_en',
+          from: "en",
+          id: getHash(columns.icelandic) + "_en",
           ...card_skeleton,
-        })
+        });
       }
 
       to_add.forEach(({ id, ...card }) => {
-        if (cards[id]) return console.log(`"${columns.icelandic}" already exists`)
+        if (cards[id])
+          return console.log(`"${columns.icelandic}" already exists`);
         // [...terms_in_this_line, ...alternative_ids].forEach(j => {
         //   termsToCardIds[j] = [
         //     ...(termsToCardIds[j] || []),
@@ -150,13 +162,13 @@ const run = async() => {
         //   ]
         // })
         // termDependsOnTerms[card.id] = terms_in_this_line
-        TermsToCardId(terms_in_this_line, id)
+        TermsToCardId(terms_in_this_line, id);
         cards[id] = {
           id,
           ...card,
-        }
-      })
-    })
+        };
+      });
+    });
 
   // /* Process dependency graph */
   // let dependencyGraphProcessed = {}
@@ -176,7 +188,7 @@ const run = async() => {
   //   sort: index,
   // }))
 
-  console.log(`${Object.keys(cards).length} cards`)
+  console.log(`${Object.keys(cards).length} cards`);
   // await cards.forEachAsync(async({
   //   is,
   //   en,
@@ -237,15 +249,23 @@ const run = async() => {
   //   })
   // })
   // fs.writeFileSync(path.resolve(__dirname, `terms.json`), JSON.stringify(termDependsOnTerms, null, 2), function () {})
-  fs.writeFileSync(__basedir + '/src/output/vocabulary_database.json', JSON.stringify({
-    cards,
-    terms,
-    dependencies,
-    alternative_ids,
-  }, null, 2), function () {})
-  console.log('Done 1')
-  process.exit()
-}
+  fs.writeFileSync(
+    __basedir + "/src/output/vocabulary_database.json",
+    JSON.stringify(
+      {
+        cards,
+        terms,
+        dependencies,
+        alternative_ids,
+      },
+      null,
+      2
+    ),
+    function () {}
+  );
+  console.log("Done 1");
+  process.exit();
+};
 
 // const format_string = (i) => i
 // .replace(/\\,/g, ',')
@@ -256,7 +276,12 @@ const run = async() => {
 /**
  * Returns an object on the form { [key]: [depth] }
  */
-const CreateDependencyChain = (from_term, _alreadySeen = [], output = [], depth = 0) => {
+const CreateDependencyChain = (
+  from_term,
+  _alreadySeen = [],
+  output = [],
+  depth = 0
+) => {
   // termDependsOnTerms[from_term].forEach(term => {
   //   const alreadySeen = [..._alreadySeen] /* Deep copy in order to only watch direct parents */
   //   if (alreadySeen.includes(term)) return;
@@ -276,8 +301,7 @@ const CreateDependencyChain = (from_term, _alreadySeen = [], output = [], depth 
   // if (depth === 0) {
   //   return output
   // }
-}
-
+};
 
 // query(sql `
 //   TRUNCATE TABLE vocabulary_cards;
@@ -289,4 +313,4 @@ const CreateDependencyChain = (from_term, _alreadySeen = [], output = [], depth 
 //     run()
 //   }
 // })
-run()
+run();

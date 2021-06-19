@@ -1,18 +1,17 @@
-import query from 'server/database'
-const router = (require('express')).Router()
-import string_hash from 'src/app/App/functions/hash'
-require('src/app/App/functions/sortByArray')
-import simplifyString from './helpers/simplifyString'
-import GetTranslationFrame from './helpers/TranslationFrame'
-import SQL_helper from './helpers/SQL_helper'
+import query from "server/database";
+const router = require("express").Router();
+import string_hash from "src/app/App/functions/hash";
+require("src/app/App/functions/sortByArray");
+import simplifyString from "./helpers/simplifyString";
+import GetTranslationFrame from "./helpers/TranslationFrame";
+import SQL_helper from "./helpers/SQL_helper";
 
-router.put('/save', (req, res) => {
-  const { document_id, from, to, translation, list, } = req.body.data
-  SaveTranslator({ document_id, from, to, translation, list, })
+router.put("/save", (req, res) => {
+  const { document_id, from, to, translation, list } = req.body.data;
+  SaveTranslator({ document_id, from, to, translation, list });
 
-  res.sendStatus(200)
-})
-
+  res.sendStatus(200);
+});
 
 /*
 
@@ -30,21 +29,22 @@ router.put('/save', (req, res) => {
   (Temp: Disregards analysis)
 
 */
-const SaveTranslator = ({ document_id, from, to, translation, list, }) => {
+const SaveTranslator = ({ document_id, from, to, translation, list }) => {
   if (!list) return;
-  const SQL = new SQL_helper()
+  const SQL = new SQL_helper();
 
   /*
     Remove previously saved translations for this document
     (Temporary: Does not remove joins as
      they may be shared with others)
   */
-  SQL.query([`
+  SQL.query([
+    `
     DELETE w -- a,b,c,d
       FROM words_and_sentences as w
-      WHERE w.document_id = ?;`, [
-    document_id,
-  ]])
+      WHERE w.document_id = ?;`,
+    [document_id],
+  ]);
 
   // # Svona á að eyða með joinum:
   // DELETE h.* FROM history h
@@ -63,48 +63,48 @@ const SaveTranslator = ({ document_id, from, to, translation, list, }) => {
   //   ;
 
   for (let sentence_id in list.sentences) {
-    const sentence = list.sentences[sentence_id]
+    const sentence = list.sentences[sentence_id];
 
     // TODO: Save sentence definition
     // const definition = translation.sentences[sentence_id]
-
 
     /*
       Save sentence
     */
     if (translation.sentences[sentence.id]) {
-      const definition = translation.sentences[sentence.id]
-      const { contains, ...definition_pure } = definition
-      const text_hash = string_hash(simplifyString(sentence.text))
-      const definition_hash = string_hash(definition_pure)
+      const definition = translation.sentences[sentence.id];
+      const { contains, ...definition_pure } = definition;
+      const text_hash = string_hash(simplifyString(sentence.text));
+      const definition_hash = string_hash(definition_pure);
 
-      SQL.query([`
+      SQL.query([
+        `
         INSERT INTO words_and_sentences SET
           from_lang = ?,
           to_lang = ?,
           text_hash = ?,
           definition_hash = ?,
-          document_id = ?;`, [
-        from, to, text_hash, definition_hash, document_id,
-      ]])
+          document_id = ?;`,
+        [from, to, text_hash, definition_hash, document_id],
+      ]);
 
-      SQL.query([`
+      SQL.query([
+        `
         INSERT IGNORE INTO definitions SET
           definition_hash = ?,
           definition = ?;
-          `, [
-        definition_hash, JSON.stringify(definition_pure)
-      ]])
+          `,
+        [definition_hash, JSON.stringify(definition_pure)],
+      ]);
     }
-
 
     /*
       Save words
     */
     sentence.words?.forEach((word, index) => {
-      if (typeof word === 'string' || !word.id) return;
+      if (typeof word === "string" || !word.id) return;
       if (translation.words[word.id]) {
-        const definition = translation.definitions[translation.words[word.id]]
+        const definition = translation.definitions[translation.words[word.id]];
         if (!definition.contains) return;
 
         // const text = definition.contains
@@ -118,77 +118,84 @@ const SaveTranslator = ({ document_id, from, to, translation, list, }) => {
         /*
           "Contains" is just a list of ids. Here we remove it.
         */
-        const { contains, ...definition_pure } = definition // TODO copy to next file...
+        const { contains, ...definition_pure } = definition; // TODO copy to next file...
 
-        const text_hash = string_hash(simplifyString(word.text))
-        const definition_hash = string_hash(definition_pure)
+        const text_hash = string_hash(simplifyString(word.text));
+        const definition_hash = string_hash(definition_pure);
 
-        const translation_frame = GetTranslationFrame(sentence.words, index, contains)
-        const translation_frame_hash = string_hash(translation_frame)
+        const translation_frame = GetTranslationFrame(
+          sentence.words,
+          index,
+          contains
+        );
+        const translation_frame_hash = string_hash(translation_frame);
 
-        SQL.query([`
+        SQL.query([
+          `
           INSERT INTO words_and_sentences SET
             from_lang = ?,
             to_lang = ?,
             text_hash = ?,
             translation_frame_hash = ?,
-            document_id = ?;`, [
-          from, to, text_hash, translation_frame_hash, document_id,
-        ]])
+            document_id = ?;`,
+          [from, to, text_hash, translation_frame_hash, document_id],
+        ]);
 
-        SQL.query([`
+        SQL.query([
+          `
           INSERT IGNORE INTO translation_frames SET
             translation_frame_hash = ?,
-            definition_hash = ?;`, [
-          translation_frame_hash, definition_hash
-        ]])
+            definition_hash = ?;`,
+          [translation_frame_hash, definition_hash],
+        ]);
 
         // TEMP (Ég ætti líklega að finna betri leið til að stimpla allt þetta inn...)
-        SQL.query([`
+        SQL.query([
+          `
           DELETE w FROM words_in_translation_frame as w
-          WHERE w.translation_frame_hash = ?;`, [
-          translation_frame_hash,
-        ]])
+          WHERE w.translation_frame_hash = ?;`,
+          [translation_frame_hash],
+        ]);
 
-        translation_frame.forEach(word_in_frame => {
-          SQL.query([`
+        translation_frame.forEach((word_in_frame) => {
+          SQL.query([
+            `
             INSERT IGNORE INTO words_in_translation_frame SET
               translation_frame_hash = ?,
               position_relative_to_center_word = ?,
               word = ?,
-              is_part_of_definition = ?;`, [
-            translation_frame_hash,
-            word_in_frame.position_relative_to_center_word,
-            word_in_frame.text,
-            word_in_frame.is_part_of_definition,
-          ]])
-        })
+              is_part_of_definition = ?;`,
+            [
+              translation_frame_hash,
+              word_in_frame.position_relative_to_center_word,
+              word_in_frame.text,
+              word_in_frame.is_part_of_definition,
+            ],
+          ]);
+        });
 
-        SQL.query([`
+        SQL.query([
+          `
           INSERT IGNORE INTO definitions SET
             definition_hash = ?,
             definition = ?;
-            `, [
-          definition_hash, JSON.stringify(definition_pure)
-        ]])
-
+            `,
+          [definition_hash, JSON.stringify(definition_pure)],
+        ]);
       }
-    })
+    });
   }
 
   if (!SQL.getQueries()) return;
 
   query(SQL.getQueries(), SQL.getValues(), (err, results) => {
     if (err) {
-      console.error(err)
-    } else {}
-  })
-}
+      console.error(err);
+    } else {
+    }
+  });
+};
 
 // export default SaveTranslator
-
-
-
-
 
 export default router;

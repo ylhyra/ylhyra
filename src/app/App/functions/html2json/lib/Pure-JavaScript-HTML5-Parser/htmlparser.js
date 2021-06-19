@@ -81,284 +81,297 @@
  */
 
 (function () {
+  // Regular Expressions for parsing tags and attributes
+  var startTag =
+      /^<([-A-Za-z0-9_:]+)((?:\s+[a-zA-Z_:][-a-zA-Z0-9_:.]*(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/,
+    endTag = /^<\/([-A-Za-z0-9_:]+)[^>]*>/,
+    attr =
+      /([a-zA-Z_:][-a-zA-Z0-9_:.]*)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/g;
 
-	// Regular Expressions for parsing tags and attributes
-	var startTag = /^<([-A-Za-z0-9_:]+)((?:\s+[a-zA-Z_:][-a-zA-Z0-9_:.]*(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/,
-		endTag = /^<\/([-A-Za-z0-9_:]+)[^>]*>/,
-		attr = /([a-zA-Z_:][-a-zA-Z0-9_:.]*)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/g;
+  // Empty Elements - HTML 5
+  var empty = makeMap(
+    "area,base,basefont,br,col,frame,hr,img,input,link,meta,param,embed,command,keygen,source,track,wbr"
+  );
 
-	// Empty Elements - HTML 5
-	var empty = makeMap("area,base,basefont,br,col,frame,hr,img,input,link,meta,param,embed,command,keygen,source,track,wbr");
+  // Block Elements - HTML 5
+  var block = makeMap(
+    "a,address,article,applet,aside,audio,blockquote,button,canvas,center,dd,del,dir,div,dl,dt,fieldset,figcaption,figure,footer,form,frameset,h1,h2,h3,h4,h5,h6,header,hgroup,hr,iframe,ins,isindex,li,map,menu,noframes,noscript,object,ol,output,p,pre,section,script,table,tbody,td,tfoot,th,thead,tr,ul,videoabbr,acronym,applet,b,basefont,bdo,big,br,button,cite,code,del,dfn,em,font,i,iframe,img,input,ins,kbd,label,map,object,q,s,samp,script,select,small,span,strike,strong,sub,sup,textarea,tt,u,var"
+  );
 
-	// Block Elements - HTML 5
-	var block = makeMap("a,address,article,applet,aside,audio,blockquote,button,canvas,center,dd,del,dir,div,dl,dt,fieldset,figcaption,figure,footer,form,frameset,h1,h2,h3,h4,h5,h6,header,hgroup,hr,iframe,ins,isindex,li,map,menu,noframes,noscript,object,ol,output,p,pre,section,script,table,tbody,td,tfoot,th,thead,tr,ul,videoabbr,acronym,applet,b,basefont,bdo,big,br,button,cite,code,del,dfn,em,font,i,iframe,img,input,ins,kbd,label,map,object,q,s,samp,script,select,small,span,strike,strong,sub,sup,textarea,tt,u,var");
+  // Inline Elements - HTML 5
+  var inline = makeMap("");
 
-	// Inline Elements - HTML 5
-	var inline = makeMap("");
+  // Elements that you can, intentionally, leave open
+  // (and which close themselves)
+  var closeSelf = makeMap("colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr");
 
-	// Elements that you can, intentionally, leave open
-	// (and which close themselves)
-	var closeSelf = makeMap("colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr");
+  // Attributes that have their values filled in disabled="disabled"
+  var fillAttrs = makeMap(
+    "checked,compact,declare,defer,disabled,ismap,multiple,nohref,noresize,noshade,nowrap,readonly,selected"
+  );
 
-	// Attributes that have their values filled in disabled="disabled"
-	var fillAttrs = makeMap("checked,compact,declare,defer,disabled,ismap,multiple,nohref,noresize,noshade,nowrap,readonly,selected");
+  // Special Elements (can contain anything)
+  var special = makeMap("script,style");
 
-	// Special Elements (can contain anything)
-	var special = makeMap("script,style");
+  var HTMLParser = (this.HTMLParser = function (html, handler) {
+    var index,
+      chars,
+      match,
+      stack = [],
+      last = html;
+    while (html) {
+      chars = true;
 
-	var HTMLParser = this.HTMLParser = function (html, handler) {
-		var index, chars, match, stack = [], last = html;
-		while (html) {
-			chars = true;
+      // Make sure we're not in a script or style element
+      if (!stack[stack.length - 1] || !special[stack[stack.length - 1]]) {
+        // Comment
+        if (html.indexOf("<!--") == 0) {
+          index = html.indexOf("-->");
 
-			// Make sure we're not in a script or style element
-			if (!stack[stack.length - 1] || !special[stack[stack.length - 1]]) {
+          if (index >= 0) {
+            if (handler.comment) handler.comment(html.substring(4, index));
+            html = html.substring(index + 3);
+            chars = false;
+          }
 
-				// Comment
-				if (html.indexOf("<!--") == 0) {
-					index = html.indexOf("-->");
+          // end tag
+        } else if (html.indexOf("</") == 0) {
+          match = html.match(endTag);
 
-					if (index >= 0) {
-						if (handler.comment)
-							handler.comment(html.substring(4, index));
-						html = html.substring(index + 3);
-						chars = false;
-					}
+          if (match) {
+            html = html.substring(match[0].length);
+            match[0].replace(endTag, parseEndTag);
+            chars = false;
+          }
 
-					// end tag
-				} else if (html.indexOf("</") == 0) {
-					match = html.match(endTag);
+          // start tag
+        } else if (html.indexOf("<") == 0) {
+          match = html.match(startTag);
 
-					if (match) {
-						html = html.substring(match[0].length);
-						match[0].replace(endTag, parseEndTag);
-						chars = false;
-					}
+          if (match) {
+            html = html.substring(match[0].length);
+            match[0].replace(startTag, parseStartTag);
+            chars = false;
+          }
+        }
 
-					// start tag
-				} else if (html.indexOf("<") == 0) {
-					match = html.match(startTag);
+        if (chars) {
+          index = html.indexOf("<");
 
-					if (match) {
-						html = html.substring(match[0].length);
-						match[0].replace(startTag, parseStartTag);
-						chars = false;
-					}
-				}
+          var text = index < 0 ? html : html.substring(0, index);
+          html = index < 0 ? "" : html.substring(index);
 
-				if (chars) {
-					index = html.indexOf("<");
+          if (handler.chars) handler.chars(text);
+        }
+      } else {
+        html = html.replace(
+          new RegExp("([\\s\\S]*?)</" + stack[stack.length - 1] + "[^>]*>"),
+          function (all, text) {
+            text = text.replace(
+              /<!--([\s\S]*?)-->|<!\[CDATA\[([\s\S]*?)]]>/g,
+              "$1$2"
+            );
+            if (handler.chars) handler.chars(text);
 
-					var text = index < 0 ? html : html.substring(0, index);
-					html = index < 0 ? "" : html.substring(index);
+            return "";
+          }
+        );
 
-					if (handler.chars)
-						handler.chars(text);
-				}
+        parseEndTag("", stack[stack.length - 1]);
+      }
 
-			} else {
-				html = html.replace(new RegExp("([\\s\\S]*?)<\/" + stack[stack.length - 1] + "[^>]*>"), function (all, text) {
-					text = text.replace(/<!--([\s\S]*?)-->|<!\[CDATA\[([\s\S]*?)]]>/g, "$1$2");
-					if (handler.chars)
-						handler.chars(text);
+      if (html == last) throw "html2json Parse Error: " + html.slice(0, 120);
+      last = html;
+    }
 
-					return "";
-				});
+    // Clean up any remaining tags
+    parseEndTag();
 
-				parseEndTag("", stack[stack.length - 1]);
-			}
+    function parseStartTag(tag, tagName, rest, unary) {
+      tagName = tagName; //.toLowerCase();
 
-			if (html == last)
-				throw "html2json Parse Error: " + html.slice(0,120);
-			last = html;
-		}
+      if (block[tagName]) {
+        while (stack[stack.length - 1] && inline[stack[stack.length - 1]]) {
+          parseEndTag("", stack[stack.length - 1]);
+        }
+      }
 
-		// Clean up any remaining tags
-		parseEndTag();
+      if (closeSelf[tagName] && stack[stack.length - 1] == tagName) {
+        parseEndTag("", tagName);
+      }
 
-		function parseStartTag(tag, tagName, rest, unary) {
-			tagName = tagName//.toLowerCase();
+      unary = empty[tagName] || !!unary;
 
-			if (block[tagName]) {
-				while (stack[stack.length - 1] && inline[stack[stack.length - 1]]) {
-					parseEndTag("", stack[stack.length - 1]);
-				}
-			}
+      if (!unary) stack.push(tagName);
 
-			if (closeSelf[tagName] && stack[stack.length - 1] == tagName) {
-				parseEndTag("", tagName);
-			}
+      if (handler.start) {
+        var attrs = [];
 
-			unary = empty[tagName] || !!unary;
+        rest.replace(attr, function (match, name) {
+          var value = arguments[2]
+            ? arguments[2]
+            : arguments[3]
+            ? arguments[3]
+            : arguments[4]
+            ? arguments[4]
+            : fillAttrs[name]
+            ? name
+            : "";
 
-			if (!unary)
-				stack.push(tagName);
+          attrs.push({
+            name: name,
+            value: value,
+            escaped: value.replace(/(^|[^\\])"/g, '$1\\"'), //"
+          });
+        });
 
-			if (handler.start) {
-				var attrs = [];
+        if (handler.start) handler.start(tagName, attrs, unary);
+      }
+    }
 
-				rest.replace(attr, function (match, name) {
-					var value = arguments[2] ? arguments[2] :
-						arguments[3] ? arguments[3] :
-						arguments[4] ? arguments[4] :
-						fillAttrs[name] ? name : "";
+    function parseEndTag(tag, tagName) {
+      // If no tag name is provided, clean shop
+      if (!tagName) var pos = 0;
+      // Find the closest opened tag of the same type
+      else
+        for (var pos = stack.length - 1; pos >= 0; pos--)
+          if (stack[pos] == tagName) break;
 
-					attrs.push({
-						name: name,
-						value: value,
-						escaped: value.replace(/(^|[^\\])"/g, '$1\\\"') //"
-					});
-				});
+      if (pos >= 0) {
+        // Close all the open elements, up the stack
+        for (var i = stack.length - 1; i >= pos; i--)
+          if (handler.end) handler.end(stack[i]);
 
-				if (handler.start)
-					handler.start(tagName, attrs, unary);
-			}
-		}
+        // Remove the open elements from the stack
+        stack.length = pos;
+      }
+    }
+  });
 
-		function parseEndTag(tag, tagName) {
-			// If no tag name is provided, clean shop
-			if (!tagName)
-				var pos = 0;
+  this.HTMLtoXML = function (html) {
+    var results = "";
 
-				// Find the closest opened tag of the same type
-			else
-				for (var pos = stack.length - 1; pos >= 0; pos--)
-					if (stack[pos] == tagName)
-						break;
+    HTMLParser(html, {
+      start: function (tag, attrs, unary) {
+        results += "<" + tag;
 
-			if (pos >= 0) {
-				// Close all the open elements, up the stack
-				for (var i = stack.length - 1; i >= pos; i--)
-					if (handler.end)
-						handler.end(stack[i]);
+        for (var i = 0; i < attrs.length; i++)
+          results += " " + attrs[i].name + '="' + attrs[i].escaped + '"';
+        results += ">";
+      },
+      end: function (tag) {
+        results += "</" + tag + ">";
+      },
+      chars: function (text) {
+        results += text;
+      },
+      comment: function (text) {
+        results += "<!--" + text + "-->";
+      },
+    });
 
-				// Remove the open elements from the stack
-				stack.length = pos;
-			}
-		}
-	};
+    return results;
+  };
 
-	this.HTMLtoXML = function (html) {
-		var results = "";
+  this.HTMLtoDOM = function (html, doc) {
+    // There can be only one of these elements
+    var one = makeMap("html,head,body,title");
 
-		HTMLParser(html, {
-			start: function (tag, attrs, unary) {
-				results += "<" + tag;
+    // Enforce a structure for the document
+    var structure = {
+      link: "head",
+      base: "head",
+    };
 
-				for (var i = 0; i < attrs.length; i++)
-					results += " " + attrs[i].name + '="' + attrs[i].escaped + '"';
-				results += ">";
-			},
-			end: function (tag) {
-				results += "</" + tag + ">";
-			},
-			chars: function (text) {
-				results += text;
-			},
-			comment: function (text) {
-				results += "<!--" + text + "-->";
-			}
-		});
+    if (!doc) {
+      if (typeof DOMDocument != "undefined") doc = new DOMDocument();
+      else if (
+        typeof document != "undefined" &&
+        document.implementation &&
+        document.implementation.createDocument
+      )
+        doc = document.implementation.createDocument("", "", null);
+      else if (typeof ActiveX != "undefined")
+        doc = new ActiveXObject("Msxml.DOMDocument");
+    } else
+      doc =
+        doc.ownerDocument ||
+        (doc.getOwnerDocument && doc.getOwnerDocument()) ||
+        doc;
 
-		return results;
-	};
+    var elems = [],
+      documentElement =
+        doc.documentElement ||
+        (doc.getDocumentElement && doc.getDocumentElement());
 
-	this.HTMLtoDOM = function (html, doc) {
-		// There can be only one of these elements
-		var one = makeMap("html,head,body,title");
+    // If we're dealing with an empty document then we
+    // need to pre-populate it with the HTML document structure
+    if (!documentElement && doc.createElement)
+      (function () {
+        var html = doc.createElement("html");
+        var head = doc.createElement("head");
+        head.appendChild(doc.createElement("title"));
+        html.appendChild(head);
+        html.appendChild(doc.createElement("body"));
+        doc.appendChild(html);
+      })();
 
-		// Enforce a structure for the document
-		var structure = {
-			link: "head",
-			base: "head"
-		};
+    // Find all the unique elements
+    if (doc.getElementsByTagName)
+      for (var i in one) one[i] = doc.getElementsByTagName(i)[0];
 
-		if (!doc) {
-			if (typeof DOMDocument != "undefined")
-				doc = new DOMDocument();
-			else if (typeof document != "undefined" && document.implementation && document.implementation.createDocument)
-				doc = document.implementation.createDocument("", "", null);
-			else if (typeof ActiveX != "undefined")
-				doc = new ActiveXObject("Msxml.DOMDocument");
+    // If we're working with a document, inject contents into
+    // the body element
+    var curParentNode = one.body;
 
-		} else
-			doc = doc.ownerDocument ||
-				doc.getOwnerDocument && doc.getOwnerDocument() ||
-				doc;
+    HTMLParser(html, {
+      start: function (tagName, attrs, unary) {
+        // If it's a pre-built element, then we can ignore
+        // its construction
+        if (one[tagName]) {
+          curParentNode = one[tagName];
+          if (!unary) {
+            elems.push(curParentNode);
+          }
+          return;
+        }
 
-		var elems = [],
-			documentElement = doc.documentElement ||
-				doc.getDocumentElement && doc.getDocumentElement();
+        var elem = doc.createElement(tagName);
 
-		// If we're dealing with an empty document then we
-		// need to pre-populate it with the HTML document structure
-		if (!documentElement && doc.createElement) (function () {
-			var html = doc.createElement("html");
-			var head = doc.createElement("head");
-			head.appendChild(doc.createElement("title"));
-			html.appendChild(head);
-			html.appendChild(doc.createElement("body"));
-			doc.appendChild(html);
-		})();
+        for (var attr in attrs)
+          elem.setAttribute(attrs[attr].name, attrs[attr].value);
 
-		// Find all the unique elements
-		if (doc.getElementsByTagName)
-			for (var i in one)
-				one[i] = doc.getElementsByTagName(i)[0];
+        if (structure[tagName] && typeof one[structure[tagName]] != "boolean")
+          one[structure[tagName]].appendChild(elem);
+        else if (curParentNode && curParentNode.appendChild)
+          curParentNode.appendChild(elem);
 
-		// If we're working with a document, inject contents into
-		// the body element
-		var curParentNode = one.body;
+        if (!unary) {
+          elems.push(elem);
+          curParentNode = elem;
+        }
+      },
+      end: function (tag) {
+        elems.length -= 1;
 
-		HTMLParser(html, {
-			start: function (tagName, attrs, unary) {
-				// If it's a pre-built element, then we can ignore
-				// its construction
-				if (one[tagName]) {
-					curParentNode = one[tagName];
-					if (!unary) {
-						elems.push(curParentNode);
-					}
-					return;
-				}
+        // Init the new parentNode
+        curParentNode = elems[elems.length - 1];
+      },
+      chars: function (text) {
+        curParentNode.appendChild(doc.createTextNode(text));
+      },
+      comment: function (text) {
+        // create comment node
+      },
+    });
 
-				var elem = doc.createElement(tagName);
+    return doc;
+  };
 
-				for (var attr in attrs)
-					elem.setAttribute(attrs[attr].name, attrs[attr].value);
-
-				if (structure[tagName] && typeof one[structure[tagName]] != "boolean")
-					one[structure[tagName]].appendChild(elem);
-
-				else if (curParentNode && curParentNode.appendChild)
-					curParentNode.appendChild(elem);
-
-				if (!unary) {
-					elems.push(elem);
-					curParentNode = elem;
-				}
-			},
-			end: function (tag) {
-				elems.length -= 1;
-
-				// Init the new parentNode
-				curParentNode = elems[elems.length - 1];
-			},
-			chars: function (text) {
-				curParentNode.appendChild(doc.createTextNode(text));
-			},
-			comment: function (text) {
-				// create comment node
-			}
-		});
-
-		return doc;
-	};
-
-	function makeMap(str) {
-		var obj = {}, items = str.split(",");
-		for (var i = 0; i < items.length; i++)
-			obj[items[i]] = true;
-		return obj;
-	}
+  function makeMap(str) {
+    var obj = {},
+      items = str.split(",");
+    for (var i = 0; i < items.length; i++) obj[items[i]] = true;
+    return obj;
+  }
 })();

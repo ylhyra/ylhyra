@@ -1,19 +1,18 @@
 /* eslint-disable no-console */
 
-import chalk from 'chalk'
+import chalk from "chalk";
 
 // import ip from 'ip'
 
-const divider = chalk.gray('\n-----------------------------------')
+const divider = chalk.gray("\n-----------------------------------");
 
 /**
  * Logger middleware, you can customize it to make messages more personal
  */
 const logger = {
-
   // Called whenever there's an error on the server we want to print
   error: (err) => {
-    console.error(chalk.red(err))
+    console.error(chalk.red(err));
   },
 
   // Called when express.js app starts on given port w/o errors
@@ -33,6 +32,6 @@ const logger = {
     // ${chalk.blue(`Press ${chalk.italic('CTRL-C')} to stop`)}
     //     `)
   },
-}
+};
 
 export default logger;

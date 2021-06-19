@@ -5,7 +5,8 @@
   margin: 38px auto;
 
   /* NYTIMES STYLE */
-  &, &.ny-times {
+  &,
+  &.ny-times {
     font-size: 20px;
     color: #111;
     font-family: Georgia, serif;

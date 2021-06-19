@@ -1,7 +1,8 @@
 #header {
-  padding-bottom: 19px;.above {
+  padding-bottom: 19px;
+  .above {
     font-size: 13px;
-    color: #5E5E5E;
+    color: #5e5e5e;
     text-transform: uppercase;
     @include sans_serif();
   }
@@ -18,6 +19,6 @@
     padding: 0;
     @include sans_serif();
     font-size: 13px;
-    color: #67A1D1;
+    color: #67a1d1;
   }
 }

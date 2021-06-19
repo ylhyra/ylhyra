@@ -1,25 +1,25 @@
-import { connect } from 'react-redux';
-import React from 'react'
-import Link from 'app/Router/Link'
+import { connect } from "react-redux";
+import React from "react";
+import Link from "app/Router/Link";
 
-import { updateURL } from 'app/Router/actions'
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import {pay} from 'app/User/actions'
+import { updateURL } from "app/Router/actions";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { pay } from "app/User/actions";
 
 class Form2 extends React.Component {
   componentDidMount() {
     if (!this.props.user) {
-      updateURL('SIGN_UP')
+      updateURL("SIGN_UP");
     }
   }
   render() {
     return (
       <div>
-        An Ylhýra account is available on a <b>pay-what-you-want</b> basis. If you want to pay nothing, just write "0".
-
+        An Ylhýra account is available on a <b>pay-what-you-want</b> basis. If
+        you want to pay nothing, just write "0".
         <Formik
-          initialValues={{ price: '' }}
-          validate={values => {
+          initialValues={{ price: "" }}
+          validate={(values) => {
             const errors = {};
             // if (!values.price.trim()) {
             //   errors.price = 'Required';
@@ -31,7 +31,7 @@ class Form2 extends React.Component {
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
-            pay(values)
+            pay(values);
           }}
         >
           {({ isSubmitting }) => (
@@ -49,9 +49,9 @@ class Form2 extends React.Component {
           )}
         </Formik>
       </div>
-    )
+    );
   }
 }
-export default connect(state => ({
+export default connect((state) => ({
   user: state.user,
-}))(Form2)
+}))(Form2);

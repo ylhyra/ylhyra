@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react";
 
 class ScrollToTop extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.location.pathname !== prevProps.location.pathname) {
-      document.getElementById('root').scrollTo(0, 0)
+      document.getElementById("root").scrollTo(0, 0);
     }
   }
   render() {
-    return this.props.children
+    return this.props.children;
   }
 }
 
-export default (ScrollToTop)
+export default ScrollToTop;

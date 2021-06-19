@@ -1,50 +1,52 @@
-import { newTitle } from 'documents/Parse/index.js'
-import { AllHtmlEntities as Entities } from 'html-entities'
-const entities = new Entities()
+import { newTitle } from "documents/Parse/index.js";
+import { AllHtmlEntities as Entities } from "html-entities";
+const entities = new Entities();
 
 /*
   Returns an object containing:
     DocumentTitle => Data
 */
 const ExtractData = (input) => {
-  let output = {}
+  let output = {};
 
-  const getNewTitle = new newTitle()
-  let temp = []
+  const getNewTitle = new newTitle();
+  let temp = [];
   Traverse(input, ({ documentTitle, data }) => {
-    const title = getNewTitle.get(documentTitle)
+    const title = getNewTitle.get(documentTitle);
     // console.log(data)
-    output[title] = updateIDs(data, title)
-  })
-  return output
-}
+    output[title] = updateIDs(data, title);
+  });
+  return output;
+};
 
 const Traverse = (input, callback) => {
-  const { node, tag, attr, child, text } = input
-  if (typeof input === 'string') return;
-  if (node === 'text') return;
+  const { node, tag, attr, child, text } = input;
+  if (typeof input === "string") return;
+  if (node === "text") return;
   if (Array.isArray(input)) {
-    return input.map(i => Traverse(i, callback))
+    return input.map((i) => Traverse(i, callback));
   }
   if (input.child) {
-    input.child.map(i => Traverse(i, callback))
+    input.child.map((i) => Traverse(i, callback));
   }
-  if (attr && attr['data-document-start'] && attr['data-data']) {
+  if (attr && attr["data-document-start"] && attr["data-data"]) {
     try {
-      let data = attr['data-data']
+      let data = attr["data-data"];
       // console.log((decodeURIComponent(atob(data))))
-      data = data && JSON.parse( /*entities.decode*/ (decodeURIComponent(atob(data))))
-      data && callback({
-        documentTitle: attr['data-document-start'],
-        data,
-      })
+      data =
+        data && JSON.parse(/*entities.decode*/ decodeURIComponent(atob(data)));
+      data &&
+        callback({
+          documentTitle: attr["data-document-start"],
+          data,
+        });
     } catch (e) {
       // console.error(child[0].text + ' is not parseable JSON')
-      console.error(e)
+      console.error(e);
     }
   }
-}
-export default ExtractData
+};
+export default ExtractData;
 
 /*
   //TODO!
@@ -52,5 +54,5 @@ export default ExtractData
 */
 const updateIDs = (data, title) => {
   // console.log(data)
-  return data
-}
+  return data;
+};

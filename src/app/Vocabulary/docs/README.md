@@ -8,5 +8,5 @@ The entire flashcard database is stored in the user's frontend.
 
 We keep track of two things:
 
-* **terms** – A term is an identifier for a particular Icelandic sentence.
-* **cards** – Belongs to one or more terms.
+- **terms** – A term is an identifier for a particular Icelandic sentence.
+- **cards** – Belongs to one or more terms.

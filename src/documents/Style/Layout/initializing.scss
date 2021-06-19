@@ -1,7 +1,8 @@
 body:not(.initialized) {
   .initializing:not(#wikiPreview *) {
-    position: relative;&:before {
-      content: ' Loading...';
+    position: relative;
+    &:before {
+      content: " Loading...";
       color: $gray;
       font-family: sans-serif;
       border-radius: 12px;

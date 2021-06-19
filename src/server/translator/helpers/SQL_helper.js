@@ -1,7 +1,7 @@
 export default class SQL_helper {
   constructor() {
-    this.queries = ''
-    this.values = []
+    this.queries = "";
+    this.values = [];
   }
   query(input) {
     /*
@@ -10,16 +10,16 @@ export default class SQL_helper {
       to only request a limited amount of suggestions at a time.
     */
     if (this.queries.length + input[0] > 3000) {
-      return
+      return;
     }
 
-    this.queries += input[0]
-    this.values = this.values.concat(input[1])
+    this.queries += input[0];
+    this.values = this.values.concat(input[1]);
   }
   getQueries() {
-    return this.queries
+    return this.queries;
   }
   getValues() {
-    return this.values
+    return this.values;
   }
 }

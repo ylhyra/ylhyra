@@ -1,7 +1,7 @@
-import { getScrollingElement } from 'documents/Render/helpers.js'
+import { getScrollingElement } from "documents/Render/helpers.js";
 
-let allowed = true
-let temporaryStop
+let allowed = true;
+let temporaryStop;
 
 /*
   Scrolls to position, but only if the
@@ -13,35 +13,31 @@ const SmoothScroll = {
     if (!allowed) return;
     getScrollingElement().scrollBy({
       top: change,
-      behavior: 'smooth'
-    })
+      behavior: "smooth",
+    });
   },
   allow: () => {
-    allowed = true
-    temporaryStop && clearTimeout(temporaryStop)
+    allowed = true;
+    temporaryStop && clearTimeout(temporaryStop);
   },
   stop: () => {
-    allowed = false
-    temporaryStop && clearTimeout(temporaryStop)
+    allowed = false;
+    temporaryStop && clearTimeout(temporaryStop);
     temporaryStop = setTimeout(() => {
-      allowed = true
-    }, 3 * 1000)
+      allowed = true;
+    }, 3 * 1000);
   },
-}
+};
 
 /*
   Listen for user's scroll.
   We don't want to interrupt it and so stop
   all auto-scrolling for a few seconds afterwards.
 */
-typeof window !== 'undefined' && window.addEventListener('mousewheel', () => SmoothScroll.stop(), false)
+typeof window !== "undefined" &&
+  window.addEventListener("mousewheel", () => SmoothScroll.stop(), false);
 
-export default SmoothScroll
-
-
-
-
-
+export default SmoothScroll;
 
 /**********************************
   Safari does not have built in smooth scrolling.

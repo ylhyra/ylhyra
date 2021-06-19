@@ -5,40 +5,38 @@
 
 */
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { connect, Provider } from 'react-redux'
-import axios from 'app/App/axios'
+import React from "react";
+import ReactDOM from "react-dom";
+import { connect, Provider } from "react-redux";
+import axios from "app/App/axios";
 
-let timer
+let timer;
 
 class Editor extends React.PureComponent {
-  componentDidMount = () => {}
-  render() {
-
-  }
+  componentDidMount = () => {};
+  render() {}
 }
 
 const RenderEditor = async () => {
-  if (!mw.config.get('wgUserGroups').includes('sysop')) return;
-  $('#content').append('<div id="analytics-container"></div>')
+  if (!mw.config.get("wgUserGroups").includes("sysop")) return;
+  $("#content").append('<div id="analytics-container"></div>');
 
   const { data } = await axios.get(`/api/a`, {
-    pageName: mw.config.get('wgPageName'),
-  })
-  console.log(data)
+    pageName: mw.config.get("wgPageName"),
+  });
+  console.log(data);
 
   ReactDOM.render(
     <div>
-      {data.map(row => (
+      {data.map((row) => (
         <div>
           {row.page_name} – {row.unique_views} unique views
         </div>
       ))}
     </div>,
-    document.querySelector('#analytics-container')
-  )
-}
+    document.querySelector("#analytics-container")
+  );
+};
 
 // RenderEditor()
 

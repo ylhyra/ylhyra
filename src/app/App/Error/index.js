@@ -1,28 +1,26 @@
-import store from 'app/App/store'
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import messages from './messages'
+import store from "app/App/store";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import messages from "./messages";
 
 const Notification = (props) => {
   if (!props.error) return null;
-  let message = props.error.message
+  let message = props.error.message;
   if (message in messages) {
-    message = messages[message]
+    message = messages[message];
   }
-  return <div className="notification">
-    {message}
-  </div>
-}
+  return <div className="notification">{message}</div>;
+};
 
-export default connect(state => ({
+export default connect((state) => ({
   error: state.error,
-}))(Notification)
+}))(Notification);
 
 export const notify = (message) => {
   store.dispatch({
-    type: 'ERROR',
+    type: "ERROR",
     content: {
       message: message,
-    }
-  })
-}
+    },
+  });
+};

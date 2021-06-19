@@ -1,13 +1,13 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from "redux";
 
 const deck = (state = null, action) => {
   switch (action.type) {
-    case 'LOAD_DECK':
-      return action.content
+    case "LOAD_DECK":
+      return action.content;
     default:
-      return state
+      return state;
   }
-}
+};
 
 /*
   - started_at
@@ -15,51 +15,51 @@ const deck = (state = null, action) => {
 */
 const session = (state = null, action) => {
   switch (action.type) {
-    case 'LOAD_SESSION':
-      return action.content
-    case 'SCREEN_DONE':
-      return null
+    case "LOAD_SESSION":
+      return action.content;
+    case "SCREEN_DONE":
+      return null;
     default:
-      return state
+      return state;
   }
-}
+};
 
 const card = (state = {}, action) => {
   switch (action.type) {
-    case 'LOAD_CARD':
+    case "LOAD_CARD":
       return {
         ...action.content,
         answered: false,
-      }
-    case 'ANSWER_CARD':
+      };
+    case "ANSWER_CARD":
       return {
         ...state,
         answered: true,
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
 const status = (state = {}, action) => {
   switch (action.type) {
-    case 'LOAD_CARD':
-      return action.content.status || state
-      // return flattenData(action.data)
+    case "LOAD_CARD":
+      return action.content.status || state;
+    // return flattenData(action.data)
     default:
-      return state
+      return state;
   }
-}
+};
 
 const screen = (state = {}, action) => {
   switch (action.type) {
-    case 'VOCABULARY_SCREEN':
-      return action.content || state
-      // return flattenData(action.data)
+    case "VOCABULARY_SCREEN":
+      return action.content || state;
+    // return flattenData(action.data)
     default:
-      return state
+      return state;
   }
-}
+};
 
 export const vocabulary = combineReducers({
   deck,
@@ -67,4 +67,4 @@ export const vocabulary = combineReducers({
   card,
   status,
   screen,
-})
+});

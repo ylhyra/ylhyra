@@ -1,10 +1,13 @@
-export const route = (state = {
-  pathname: '/',
-}, action) => {
+export const route = (
+  state = {
+    pathname: "/",
+  },
+  action
+) => {
   switch (action.type) {
-    case 'ROUTE':
-      return action.content
+    case "ROUTE":
+      return action.content;
     default:
-      return state
+      return state;
   }
-}
+};

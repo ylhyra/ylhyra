@@ -30,15 +30,15 @@
 
 */
 
-import { html2json, json2html } from 'app/App/functions/html2json'
-import { getText } from 'documents/Parse/ExtractText/ExtractText'
+import { html2json, json2html } from "app/App/functions/html2json";
+import { getText } from "documents/Parse/ExtractText/ExtractText";
 
-import InsertSplit from './1-InsertSplit'
-import SplitAndWrap from './2-SplitAndWrap'
-import InvertElementsThatOnlyContainOneThing from './3-Invert'
-import MergeElementsThatHaveBeenSplitUnnecessarily from './4-Merge'
-import GroupParagraphs from 'documents/Parse/ExtractText/Paragraphs'
-import { newTitle } from 'documents/Parse/index.js'
+import InsertSplit from "./1-InsertSplit";
+import SplitAndWrap from "./2-SplitAndWrap";
+import InvertElementsThatOnlyContainOneThing from "./3-Invert";
+import MergeElementsThatHaveBeenSplitUnnecessarily from "./4-Merge";
+import GroupParagraphs from "documents/Parse/ExtractText/Paragraphs";
+import { newTitle } from "documents/Parse/index.js";
 
 /*
   Parse input and split paragraphs
@@ -48,47 +48,47 @@ export default function ({ json, tokenized }) {
   /*
     Flatten tokenized
   */
-  let tokenizedFlattened = []
+  let tokenizedFlattened = [];
   for (const documentTitle of Object.keys(tokenized)) {
     for (const i in tokenized[documentTitle]) {
       tokenizedFlattened.push({
         documentTitle,
         ...tokenized[documentTitle][i],
-      })
+      });
     }
   }
-  tokenizedFlattened = tokenizedFlattened.sort((a, b) => a.index - b.index)
+  tokenizedFlattened = tokenizedFlattened.sort((a, b) => a.index - b.index);
 
   // console.log(tokenized)
 
   // console.warn(JSON.stringify(json))
-  let index = 0
+  let index = 0;
   let wrapped = GroupParagraphs({
     input: json,
     getNewTitle: new newTitle(),
     paragraphFunction: (paragraph, documentTitle) => {
-      const text = getText(paragraph, true, true)
+      const text = getText(paragraph, true, true);
       // console.log(JSON.stringify(paragraph))
       // console.log(text)
       if (documentTitle === undefined) {
         // console.log(JSON.stringify(paragraph))
-        return paragraph
+        return paragraph;
       }
       // console.log(JSON.stringify(paragraph))
       // console.error('HAHA')
       // console.log(JSON.stringify(paragraph))
       if (text) {
-        return Sentences(paragraph, tokenizedFlattened[index++].sentences)
+        return Sentences(paragraph, tokenizedFlattened[index++].sentences);
       }
-      return paragraph
+      return paragraph;
     },
-  })
+  });
   // console.log(JSON.stringify(wrapped))
-  wrapped = RemoveData(wrapped)
+  wrapped = RemoveData(wrapped);
   // console.log(wrapped)
   // wrapped = html2json(json2html(wrapped))
 
-  return wrapped
+  return wrapped;
 }
 
 /*
@@ -101,51 +101,56 @@ const Sentences = (paragraph_HTML, sentences) => {
     Extract words from sentence
     (Creates a function that will be called in "WrapInTags.js")
   */
-  let i = 0
+  let i = 0;
 
   function Words(sentence_HTML) {
-    const words = sentences[i++].words
-    return WrapInTags(sentence_HTML, words, 'word')
+    const words = sentences[i++].words;
+    return WrapInTags(sentence_HTML, words, "word");
   }
 
-  return WrapInTags(paragraph_HTML, sentences, 'sentence', Words).child
-}
-
+  return WrapInTags(paragraph_HTML, sentences, "sentence", Words).child;
+};
 
 const WrapInTags = (input, tokenizedSplit, elementName, innerFunction) => {
-  let html, json
-  const temp_attribute_name = innerFunction ? `data-temp-id` : `data-temp-id2`
+  let html, json;
+  const temp_attribute_name = innerFunction ? `data-temp-id` : `data-temp-id2`;
 
   if (tokenizedSplit.length === 0) return input;
   // console.log(JSON.stringify(input))
-  html = InsertSplit(input, tokenizedSplit)
-  json = SplitAndWrap(html, tokenizedSplit, elementName, innerFunction, temp_attribute_name)
+  html = InsertSplit(input, tokenizedSplit);
+  json = SplitAndWrap(
+    html,
+    tokenizedSplit,
+    elementName,
+    innerFunction,
+    temp_attribute_name
+  );
   // console.log(json2html(json))
-  json = InvertElementsThatOnlyContainOneThing(json)
-  json = MergeElementsThatHaveBeenSplitUnnecessarily(json, temp_attribute_name)
-  return json
-}
+  json = InvertElementsThatOnlyContainOneThing(json);
+  json = MergeElementsThatHaveBeenSplitUnnecessarily(json, temp_attribute_name);
+  return json;
+};
 
 /*
   Removes the inline data printed in [[Template:Start]]
 */
 const RemoveData = (input) => {
-  if (!input) return input
+  if (!input) return input;
   if (Array.isArray(input)) {
-    return input.map(RemoveData)
+    return input.map(RemoveData);
   }
-  const { node, tag, attr, child, text } = input
-  if (node === 'element' || node === 'root') {
+  const { node, tag, attr, child, text } = input;
+  if (node === "element" || node === "root") {
     if (attr && (attr["data-document-start"] || attr["data-document-end"])) {
-      return { node: "text", text: "" } // Hlýtur að vera betri leið til að henda út greinum...
+      return { node: "text", text: "" }; // Hlýtur að vera betri leið til að henda út greinum...
     }
     if (child) {
       return {
         ...input,
-        child: child.map((e, i) => RemoveData(e, i))
-      }
+        child: child.map((e, i) => RemoveData(e, i)),
+      };
     }
-    return input
+    return input;
   }
-  return input
-}
+  return input;
+};

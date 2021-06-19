@@ -1,1 +1,1 @@
-import 'documents/Templates/Blær.scss'
+import "documents/Templates/Blær.scss";

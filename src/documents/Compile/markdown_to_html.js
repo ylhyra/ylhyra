@@ -1,36 +1,38 @@
-import typeset from 'typeset'
-import { URL_title, section_id } from 'paths.js'
-import marked from 'marked'
-import RemoveUnwantedCharacters from 'app/App/functions/RemoveUnwantedCharacters'
-import { html2json, json2html } from 'app/App/functions/html2json'
-let links = require('src/output/links.js')
+import typeset from "typeset";
+import { URL_title, section_id } from "paths.js";
+import marked from "marked";
+import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
+import { html2json, json2html } from "app/App/functions/html2json";
+let links = require("src/output/links.js");
 
 /**
  * Here we convert markdown textblocks to HTML.
  * Each HTML element in the original text is processed seperately to preserve HTML structure.
  */
 export default (input) => {
-  input = json2html(Traverse(html2json(input)))
-  input = typeset(input, { disable: ['hyphenate', 'hangingPunctuation', 'ligatures', 'smallCaps'] })
-  return input
-}
+  input = json2html(Traverse(html2json(input)));
+  input = typeset(input, {
+    disable: ["hyphenate", "hangingPunctuation", "ligatures", "smallCaps"],
+  });
+  return input;
+};
 
 const Traverse = (json) => {
-  if (!json) return null
-  const { node, tag, attr, child, text } = json
-  if (node === 'element' || node === 'root') {
+  if (!json) return null;
+  const { node, tag, attr, child, text } = json;
+  if (node === "element" || node === "root") {
     return {
       ...json,
-      child: child && ProcessArray(child)
-    }
-  } else if (node === 'text') {
+      child: child && ProcessArray(child),
+    };
+  } else if (node === "text") {
     /* TODO Is this necessary? */
     return {
       ...json,
-      text: processText(text)
-    }
+      text: processText(text),
+    };
   }
-}
+};
 
 /**
  * Converts markdown text to HTML.
@@ -38,73 +40,81 @@ const Traverse = (json) => {
  * and then the elements are re-inserted.
  */
 const ProcessArray = (arr) => {
-  const substituted = arr.map((j, i) => {
-    if (j.node === 'text') {
-      return j.text
-    }
-    return `SUBSTITUTION${i}`
-  }).join('')
-  return processText(substituted).split(/(SUBSTITUTION[0-9]+)/g).map((j, i) => {
-    if (j.startsWith('SUBSTITUTION')) {
-      const x = j.match(/SUBSTITUTION([0-9]+)/)[1]
-      const element = arr[parseInt(x)]
-      return Traverse(element)
-    }
-    return {
-      node: 'text',
-      text: j,
-    }
-  })
-}
+  const substituted = arr
+    .map((j, i) => {
+      if (j.node === "text") {
+        return j.text;
+      }
+      return `SUBSTITUTION${i}`;
+    })
+    .join("");
+  return processText(substituted)
+    .split(/(SUBSTITUTION[0-9]+)/g)
+    .map((j, i) => {
+      if (j.startsWith("SUBSTITUTION")) {
+        const x = j.match(/SUBSTITUTION([0-9]+)/)[1];
+        const element = arr[parseInt(x)];
+        return Traverse(element);
+      }
+      return {
+        node: "text",
+        text: j,
+      };
+    });
+};
 
 const processText = (input) => {
   input = RemoveUnwantedCharacters(input)
     /* Internal links */
     .replace(/\[\[(.+?)\]\]/g, (x, match) => {
-      let [link, target] = match.split('|')
-      link = link.trim()
-      target = (target || link).trim()
+      let [link, target] = match.split("|");
+      link = link.trim();
+      target = (target || link).trim();
       if (/^:?w:/i.test(link)) {
-        link = `http://en.wikipedia.org/wiki/${encodeURIComponent(link.replace(/^w:/i,''))}`
+        link = `http://en.wikipedia.org/wiki/${encodeURIComponent(
+          link.replace(/^w:/i, "")
+        )}`;
       } else {
-        link = URL_title(link)
+        link = URL_title(link);
 
         if (!(link in links)) {
-          return target
+          return target;
         }
         if (links[link].redirect_to) {
-          link = links[link].redirect_to + (links[link].section ? '#' + links[link].section : '')
+          link =
+            links[link].redirect_to +
+            (links[link].section ? "#" + links[link].section : "");
         }
-        link = '/' + link
+        link = "/" + link;
       }
-      return `<a href="${encodeURI(link)}">${target}</a>`
+      return `<a href="${encodeURI(link)}">${target}</a>`;
     })
     /* External links */
     .replace(/\[((?:http|mailto)[^ ]+?) (.+?)\]/g, (x, url, text) => {
-      return `<a href="${url}">${text}</a>`
+      return `<a href="${url}">${text}</a>`;
     })
     .replace(/\[((?:http|mailto)[^ ]+?)\]/g, (x, url) => {
-      return `[<a href="${url}">link</a>]`
+      return `[<a href="${url}">link</a>]`;
     })
-    .replace(/^\*\*\*\n/gm, '\n<hr/>\n')
+    .replace(/^\*\*\*\n/gm, "\n<hr/>\n")
     /* Lists */
     .replace(/^(\*+) ?/gm, (x, bullets) => {
-      return `${'  '.repeat(bullets.length-1)}- `
+      return `${"  ".repeat(bullets.length - 1)}- `;
     })
     // .replace(/^(#+) ?/gm, (x, bullets) => {
     //   return `${'  '.repeat(bullets.length-1)}1. `
     // })
     /* Headings */
     .replace(/^(=+) ?(.+)\1/gm, (x, equals, title) => {
-      return `${'#'.repeat(equals.length)} ${title}`
+      return `${"#".repeat(equals.length)} ${title}`;
       // return `<h${equals.length} id="${section_id(title)}">${title}</h${equals.length}>`
     })
     /* Bold */
-    .replace(/'''/g, '**')
-    .replace(/''/g, '*')
+    .replace(/'''/g, "**")
+    .replace(/''/g, "*")
 
     /* Tags */
-    .replace(/<([^> ]+)( [^>]+)?\/>/g, '<$1$2></$1>')
+    .replace(/<([^> ]+)( [^>]+)?\/>/g, "<$1$2></$1>");
 
   // /* Remove? */
   // .replace(/<\/Image>\n\n/g, '</Image>\n')
@@ -116,17 +126,16 @@ const processText = (input) => {
 
   /* Markdown */
   if (!input.trim()) return input;
-  const [f, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/)
-  let m = marked(middle)
+  const [f, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/);
+  let m = marked(middle);
   if (!/\n\n/.test(middle)) {
-    m = m.replace(/<p>(.+)<\/p>/, '$1')
+    m = m.replace(/<p>(.+)<\/p>/, "$1");
   }
-  input = (pre || '') + m + (post || '')
+  input = (pre || "") + m + (post || "");
 
-  input = input
-    .replace(/(<h[0-9] id=")/g, '$1s-')
+  input = input.replace(/(<h[0-9] id=")/g, "$1s-");
   // console.log(input.slice(0,200))
 
   // console.log(input)
-  return input
-}
+  return input;
+};

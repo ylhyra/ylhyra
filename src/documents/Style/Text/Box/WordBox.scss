@@ -1,69 +1,7 @@
 .word-box {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   @extend .box;
-  padding: 6px 12px;&.shown {
+  padding: 6px 12px;
+  &.shown {
     display: flex;
   }
   flex-direction: row;
@@ -71,11 +9,14 @@
   bottom: 0;
   left: 0;
   right: 0;
-  border-radius: 0;> :first-child {
+  border-radius: 0;
+  > :first-child {
     flex: 1;
-  }> span > span {
+  }
+  > span > span {
     float: left;
-    margin: 5px 0;&:not(:last-child) {
+    margin: 5px 0;
+    &:not(:last-child) {
       padding-right: 16px;
       margin-right: 16px;
       border-right: 1px solid #dddddd;

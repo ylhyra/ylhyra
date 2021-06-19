@@ -33,4 +33,4 @@ export default `
       </li>
     </ul>
 
-  </div>`
+  </div>`;

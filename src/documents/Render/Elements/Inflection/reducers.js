@@ -1,8 +1,8 @@
-export const inflection = (state = '', action) => {
+export const inflection = (state = "", action) => {
   switch (action.type) {
-    case 'LOAD_INFLECTION':
-      return action.content
+    case "LOAD_INFLECTION":
+      return action.content;
     default:
-      return state
+      return state;
   }
-}
+};

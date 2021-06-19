@@ -11,8 +11,8 @@
 - Returns a JSON tree of the entire document.
 
 */
-require('array-sugar')
-let documents = []
+require("array-sugar");
+let documents = [];
 
 /*
   - Finds paragraphs of text.
@@ -20,35 +20,40 @@ let documents = []
   - This allows us to split sentences without giving a thought about how HTML tags affect it.
   - Block elements make us switch to a new paragraph.
 */
-const GroupParagraphs = ({ input, paragraphFunction, isTranslating, getNewTitle }) => {
+const GroupParagraphs = ({
+  input,
+  paragraphFunction,
+  isTranslating,
+  getNewTitle,
+}) => {
   // console.log(JSON.stringify(input))
-  if (!input || shouldSkip(input)) return input
+  if (!input || shouldSkip(input)) return input;
   if (input.child) {
     /*
       Look for inline elements & text.
       We group together inline elements before splitting into
       sentences so that "Blah <i>blah</i> blah." will be assesed together.
     */
-    let returns = []
-    let group = []
+    let returns = [];
+    let group = [];
     for (let i = 0; i < input.child.length; i++) {
-      let isNewDocument = false
+      let isNewDocument = false;
 
-      const element = input.child[i]
+      const element = input.child[i];
       if (shouldSkip(element)) {
-        returns.push(element)
+        returns.push(element);
         continue;
       }
-      const shouldTranslate = shouldTranslate_(element, isTranslating)
+      const shouldTranslate = shouldTranslate_(element, isTranslating);
 
       if (element.attr) {
-        if (element.attr['data-document-start']) {
+        if (element.attr["data-document-start"]) {
           // console.error('HAHHAAHA'+element.attr['data-document-start'])
-          documents.push(getNewTitle.get(element.attr['data-document-start']))
-          isNewDocument = true
-        } else if (element.attr['data-document-end'] && documents.length > 0) {
-          documents.pop()
-          isNewDocument = true
+          documents.push(getNewTitle.get(element.attr["data-document-start"]));
+          isNewDocument = true;
+        } else if (element.attr["data-document-end"] && documents.length > 0) {
+          documents.pop();
+          isNewDocument = true;
         }
       }
 
@@ -57,20 +62,31 @@ const GroupParagraphs = ({ input, paragraphFunction, isTranslating, getNewTitle 
         it together before sending to sentence()
       */
       // console.log({isTranslating, shouldTranslate, element})
-      if ( /*isTranslating === shouldTranslate &&*/ isTranslating && shouldTranslate && (isInlineElement(element.tag) || element.node === 'text') && !isNewDocument) {
-        group.push(element)
-      }
+      if (
+        /*isTranslating === shouldTranslate &&*/ isTranslating &&
+        shouldTranslate &&
+        (isInlineElement(element.tag) || element.node === "text") &&
+        !isNewDocument
+      ) {
+        group.push(element);
+      } else {
       /*
         Else, our grouping is finished
       */
-      else {
         // console.log(documents.last)
         returns = [
           ...returns,
-          ...isTranslating ? (paragraphFunction(group, documents.last) || []) : group,
-          GroupParagraphs({ input: element, paragraphFunction, isTranslating: shouldTranslate, getNewTitle }) || {},
-        ]
-        group = []
+          ...(isTranslating
+            ? paragraphFunction(group, documents.last) || []
+            : group),
+          GroupParagraphs({
+            input: element,
+            paragraphFunction,
+            isTranslating: shouldTranslate,
+            getNewTitle,
+          }) || {},
+        ];
+        group = [];
       }
     }
     // console.error(JSON.stringify([
@@ -81,52 +97,80 @@ const GroupParagraphs = ({ input, paragraphFunction, isTranslating, getNewTitle 
       ...input,
       child: [
         ...returns,
-        ...isTranslating ? (paragraphFunction(group, documents.last) || []) : group,
-      ]
-    }
+        ...(isTranslating
+          ? paragraphFunction(group, documents.last) || []
+          : group),
+      ],
+    };
   }
-  return input
-}
-
+  return input;
+};
 
 export const shouldTranslate_ = ({ tag, attr }, isTranslating) => {
-  if (tag && ['translate', 'book'].includes(tag.toLowerCase())) {
-    return true
+  if (tag && ["translate", "book"].includes(tag.toLowerCase())) {
+    return true;
   }
-  if (attr && (attr['data-translate'] === 'no' || attr['data-translate'] === 'false')) {
-    return false
+  if (
+    attr &&
+    (attr["data-translate"] === "no" || attr["data-translate"] === "false")
+  ) {
+    return false;
   }
-  if (attr && (attr['data-children'] === 'string')) {
-    return false
+  if (attr && attr["data-children"] === "string") {
+    return false;
   }
-  if (attr && ('data-translate' in attr)) {
-    return true
+  if (attr && "data-translate" in attr) {
+    return true;
   }
-  if (attr && ('no-translate' in attr || 'data-no-translate' in attr || 'ignore' in attr)) {
-    return false
+  if (
+    attr &&
+    ("no-translate" in attr || "data-no-translate" in attr || "ignore" in attr)
+  ) {
+    return false;
   }
-  return isTranslating
-}
-
+  return isTranslating;
+};
 
 export const isInlineElement = (tag) => {
-  if (!tag || typeof tag !== 'string') {
-    return false
+  if (!tag || typeof tag !== "string") {
+    return false;
   }
-  return ['span', 'b', 'big', 'i', 'small', 'tt', 'abbr', 'acronym', 'cite', 'code', 'dfn', 'em', 'kbd', 'strong', 'samp', 'var', 'a', 'bdo', 'map', 'object', 'q', 'sub', 'sup', ]
-    .includes(tag.toLowerCase())
-}
+  return [
+    "span",
+    "b",
+    "big",
+    "i",
+    "small",
+    "tt",
+    "abbr",
+    "acronym",
+    "cite",
+    "code",
+    "dfn",
+    "em",
+    "kbd",
+    "strong",
+    "samp",
+    "var",
+    "a",
+    "bdo",
+    "map",
+    "object",
+    "q",
+    "sub",
+    "sup",
+  ].includes(tag.toLowerCase());
+};
 
 /* Block elements to skip */
 export const shouldSkip = ({ tag, attr }) => {
-  if (!tag || typeof tag !== 'string') {
-    return false
+  if (!tag || typeof tag !== "string") {
+    return false;
   }
-  if ((attr && attr.class === 'instructions') || tag === 'answers') {
-    return true
+  if ((attr && attr.class === "instructions") || tag === "answers") {
+    return true;
   }
-  return ['script', 'style', 'head', /* 'sup'*/ ]
-    .includes(tag.toLowerCase())
-}
+  return ["script", "style", "head" /* 'sup'*/].includes(tag.toLowerCase());
+};
 
-export default GroupParagraphs
+export default GroupParagraphs;

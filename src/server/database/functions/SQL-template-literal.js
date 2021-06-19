@@ -1,30 +1,28 @@
-import { escape } from 'sqlstring'
+import { escape } from "sqlstring";
 
 /*
   Uses tagged template literals to escape strings for SQL.
   > sql`SELECT ${X} FROM ${Y}` becomes `SELECT ${escape(X)} FROM ${escape(Y)}`
   See: https://mxstbr.blog/2016/11/styled-components-magic-explained/
 */
-export default (strings, ...values) => strings
-  .map((string, index) => {
-    let value = values[index]
-    if (value === '') {
-
-    } else if (values[index] === null) {
-      value = null
-    } else if (value === false) {
-      value = 0
-    } else if (!value) {
-      value = '' // ?
-    }
-    if (index !== strings.length - 1) {
-      value = escape(value)
-    }
-    return string.replace(/--.+?\n/g, '\n') /*Removing comments*/ + value
-  })
-  .join('')
-
-
+export default (strings, ...values) =>
+  strings
+    .map((string, index) => {
+      let value = values[index];
+      if (value === "") {
+      } else if (values[index] === null) {
+        value = null;
+      } else if (value === false) {
+        value = 0;
+      } else if (!value) {
+        value = ""; // ?
+      }
+      if (index !== strings.length - 1) {
+        value = escape(value);
+      }
+      return string.replace(/--.+?\n/g, "\n") /*Removing comments*/ + value;
+    })
+    .join("");
 
 // export default (strings, ...values) => {
 //   return strings

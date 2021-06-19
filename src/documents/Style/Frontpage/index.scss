@@ -1,6 +1,7 @@
 #frontpage-splash-screen {
   margin-top: 20px;
-  display: flex;#frontpage-splash-screen-english {
+  display: flex;
+  #frontpage-splash-screen-english {
     @include sans_serif();
     color: #252525;
     font-size: 26px;
@@ -14,19 +15,23 @@
       color: $blue;
       border-bottom-color: #bdbdbd;
     }
-  }#frontpage-splash-screen-demo {
+  }
+  #frontpage-splash-screen-demo {
     flex: 1;
     background: #f7f7f6;
-    border: 1px solid #B6B6B6;
-    box-shadow: 0 5px 7px 0 rgba(181, 181, 181, 0.03), 0 1px 1px 0 rgba(0, 0, 0, 0.06);
+    border: 1px solid #b6b6b6;
+    box-shadow: 0 5px 7px 0 rgba(181, 181, 181, 0.03),
+      0 1px 1px 0 rgba(0, 0, 0, 0.06);
     border-radius: 2px;
     padding: 20px;
-    padding-bottom: 8px;#frontpage-splash-screen-demo-text {
+    padding-bottom: 8px;
+    #frontpage-splash-screen-demo-text {
       @include serif();
       font-size: 18px;
       line-height: 1.96;
       margin-bottom: 22px;
-    }#frontpage-splash-screen-demo-byline {
+    }
+    #frontpage-splash-screen-demo-byline {
       @include sans_serif();
       color: #707070;
       @include underline_links();
@@ -36,7 +41,8 @@
   }
 
   @media screen and (max-width: 600px) {
-    display: block;#frontpage-splash-screen-english {
+    display: block;
+    #frontpage-splash-screen-english {
       padding: 0 0 19px 0;
     }
   }
@@ -47,27 +53,33 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 1rem;
-  margin-bottom: 20px;> div {
+  margin-bottom: 20px;
+  > div {
     .frontpage-box-image {
       height: 120px;
       background-color: #91a2b0;
     }
-  }.latest-articles-title {
+  }
+  .latest-articles-title {
     display: block;
     @include underline_links();
     font-size: 18px;
     margin-top: 6px;
-  }.latest-articles-description {
+  }
+  .latest-articles-description {
     display: block;
     font-size: 13px;
     color: #545454;
   }
   @media screen and (max-width: 600px) {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 200px));> div {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 200px));
+    > div {
       max-width: 200px;
     }
   }
-}.page-Text_Frontpage, .page-Ylhýra {
+}
+.page-Text_Frontpage,
+.page-Ylhýra {
   &.action-view {
     background: #fffffe;
     #mw-content-text {
@@ -75,7 +87,8 @@
       justify-content: center;
       flex-direction: column;
     }
-  }#catlinks {
+  }
+  #catlinks {
     display: none;
   }
 }

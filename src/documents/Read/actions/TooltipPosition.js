@@ -1,28 +1,43 @@
 const padding = {
   left: 2,
   top: 2,
-}
+};
 
-export default function FindAGoodPositionForTooltip({ relative, tooltip, sentence, sentence_multiple_lines }) {
-
-  if (!tooltip) return {
-    top: undefined,
-    left: undefined,
-    arrow: undefined,
-  }
+export default function FindAGoodPositionForTooltip({
+  relative,
+  tooltip,
+  sentence,
+  sentence_multiple_lines,
+}) {
+  if (!tooltip)
+    return {
+      top: undefined,
+      left: undefined,
+      arrow: undefined,
+    };
 
   // let possibilities = []
 
-  const addition = window.location.pathname.startsWith('/tweets') ? -20 : 0
+  const addition = window.location.pathname.startsWith("/tweets") ? -20 : 0;
 
-  const ofan =  {
+  const ofan = {
     top: sentence.top - tooltip.height - padding.top - relative.top + addition,
-    left: Math.min(window.innerWidth - tooltip.width, Math.max(window.pageXOffset, (sentence.left + sentence.width / 2 - tooltip.width / 2) - relative.left + addition)),
+    left: Math.min(
+      window.innerWidth - tooltip.width,
+      Math.max(
+        window.pageXOffset,
+        sentence.left +
+          sentence.width / 2 -
+          tooltip.width / 2 -
+          relative.left +
+          addition
+      )
+    ),
     scoreMultiplier: 2,
-    arrow: 'down'
-  }
+    arrow: "down",
+  };
 
-  return ofan
+  return ofan;
 
   // if(ofan.top >= window.pageYOffset ) {
   //   return ofan
@@ -33,11 +48,6 @@ export default function FindAGoodPositionForTooltip({ relative, tooltip, sentenc
   //   }
   // }
 
-
-
-
-
-
   // Neðan
   // possibilities.push({
   //   top: sentence.top + sentence.height + padding.top,
@@ -45,9 +55,6 @@ export default function FindAGoodPositionForTooltip({ relative, tooltip, sentenc
   //   scoreMultiplier: 1,
   //   arrow: 'up'
   // })
-
-
-
 
   // console.log(sentence.top)
   // console.log(tooltip.height)
@@ -138,13 +145,6 @@ export default function FindAGoodPositionForTooltip({ relative, tooltip, sentenc
   //     arrow: 'right'
   //   })
   // }
-
-
-
-
-
-
-
 
   // return possibilities.map(position => {
   //   let score = position.scoreMultiplier

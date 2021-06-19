@@ -1,5 +1,5 @@
-import AudioPlayer from './Audio'
-import exists from 'app/App/functions/exists'
+import AudioPlayer from "./Audio";
+import exists from "app/App/functions/exists";
 
 export default (audioId, tree) => {
   // // let hasAudio = input.audio.file // TODO Update audio setup.
@@ -20,8 +20,8 @@ export default (audioId, tree) => {
   //     </div>
   //   )
   // }
-  return null
-}
+  return null;
+};
 
 /*
   The "Assist ON / OFF" toggle is only needed when:
@@ -29,21 +29,24 @@ export default (audioId, tree) => {
     - A word has INLINE TRANSLATION
 */
 const CheckIfAssistIsNeeded = (tree) => {
-  let needed = false
+  let needed = false;
   const Traverse = (input, index = 0) => {
-    if (!input) return null
-    const { node, tag, attr, child, text } = input
-    if (node === 'element' || node === 'root') {
-      if (tag === 'word') {
-        const { definition } = attr
-        if (exists(definition) && (definition.difficult || definition.show_definition_above)) {
-          needed = true
+    if (!input) return null;
+    const { node, tag, attr, child, text } = input;
+    if (node === "element" || node === "root") {
+      if (tag === "word") {
+        const { definition } = attr;
+        if (
+          exists(definition) &&
+          (definition.difficult || definition.show_definition_above)
+        ) {
+          needed = true;
         }
       } else {
-        !needed && child && child.map((e, i) => Traverse(e, i))
+        !needed && child && child.map((e, i) => Traverse(e, i));
       }
     }
-  }
-  Traverse(tree)
-  return needed
-}
+  };
+  Traverse(tree);
+  return needed;
+};

@@ -1,24 +1,23 @@
-export const addClass = (ids, cssClass = 'audio') => {
-  ids = Array.isArray(ids) ? ids : [ids]
-  ids.forEach(id => {
-    const element = document.getElementById(id)
+export const addClass = (ids, cssClass = "audio") => {
+  ids = Array.isArray(ids) ? ids : [ids];
+  ids.forEach((id) => {
+    const element = document.getElementById(id);
     if (!element) return;
-    element.classList.add(cssClass)
-  })
-}
+    element.classList.add(cssClass);
+  });
+};
 
-export const removeClass = (ids, cssClass = 'audio') => {
-  ids = Array.isArray(ids) ? ids : [ids]
-  ids.forEach(id => {
-    const element = document.getElementById(id)
+export const removeClass = (ids, cssClass = "audio") => {
+  ids = Array.isArray(ids) ? ids : [ids];
+  ids.forEach((id) => {
+    const element = document.getElementById(id);
     if (!element) return;
-    element.classList.remove(cssClass)
-  })
-}
-
+    element.classList.remove(cssClass);
+  });
+};
 
 export const getScrollingElement = () => {
-  return document.scrollingElement || document.documentElement
+  return document.scrollingElement || document.documentElement;
 
   // document.documentElement //|| document.body || document.body.parentNode || document.documentElement
-}
+};

@@ -1,70 +1,8 @@
-.box  {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.box {
   @extend .text-reset;
   @include sans_serif();
-  display: none;&.shown  {
+  display: none;
+  &.shown {
     display: block;
   }
 
@@ -78,13 +16,11 @@
   background: #f3f3f3;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
-  box-shadow: inset 0 0 0 1px white, 
-              0 7px 18px 3px rgba(0, 0, 0, 0.05), 
-              0 7px 48px 3px rgba(0, 0, 0, 0.05), 
-              0 0 0 1px rgba(0, 0, 0, 0.19), 
-              0 2px 4px 0 rgba(0, 0, 0, 0.09);
+  box-shadow: inset 0 0 0 1px white, 0 7px 18px 3px rgba(0, 0, 0, 0.05),
+    0 7px 48px 3px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.19),
+    0 2px 4px 0 rgba(0, 0, 0, 0.09);
 
-  label  {
+  label {
     font-size: 10px;
     color: #7f7f7f;
     text-transform: uppercase;
@@ -92,15 +28,20 @@
     margin: 0;
     line-height: 1.3em;
     display: block;
-  }> *  {
-    display: block;&:not(:first-child)  {
+  }
+  > * {
+    display: block;
+    &:not(:first-child) {
       padding-top: 6px;
     }
-  }.meaning  {
+  }
+  .meaning {
     font-weight: 500;
-  }.small  {
+  }
+  .small {
     font-size: 14px;
-  }.note  {
+  }
+  .note {
     color: #343434;
   }
 }

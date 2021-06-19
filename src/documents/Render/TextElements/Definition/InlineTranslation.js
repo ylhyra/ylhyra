@@ -1,6 +1,6 @@
-import React from 'react'
-import exists from 'app/App/functions/exists'
-import { ItalicsAndBold } from 'documents/Render/TextElements/Definition/Tooltip'
+import React from "react";
+import exists from "app/App/functions/exists";
+import { ItalicsAndBold } from "documents/Render/TextElements/Definition/Tooltip";
 
 /*
   Maybe TODO:
@@ -11,17 +11,17 @@ import { ItalicsAndBold } from 'documents/Render/TextElements/Definition/Tooltip
 
 class InlineTranslation extends React.PureComponent {
   render() {
-    const { definition } = this.props
+    const { definition } = this.props;
     if (!exists(definition) || !definition.show_definition_above) {
       return null;
     }
-    const text = definition.inline_translation || definition.meaning
+    const text = definition.inline_translation || definition.meaning;
     return (
       <sup className="inline_translation" data-not-text="true" hidden={true}>
-        <span dangerouslySetInnerHTML={{__html: ItalicsAndBold(text)}}/>
+        <span dangerouslySetInnerHTML={{ __html: ItalicsAndBold(text) }} />
       </sup>
-    )
+    );
   }
 }
 
-export default InlineTranslation
+export default InlineTranslation;

@@ -1,14 +1,14 @@
-import axios from 'app/App/axios' //process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
-import React from 'react'
-import ReactDOM from 'react-dom'
+import axios from "app/App/axios"; //process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
+import React from "react";
+import ReactDOM from "react-dom";
 // import Inflection from 'documents/Render/Elements/Inflection'
-import store from 'app/App/store'
+import store from "app/App/store";
 // import classify from 'server/inflection/tables/classification/BIN_classification.js'
-import { without } from 'underscore'
-const url = ''
-let cache = {}
+import { without } from "underscore";
+const url = "";
+let cache = {};
 
-export const ShowInflectionTable = async(input) => {
+export const ShowInflectionTable = async (input) => {
   // input = (typeof input === 'string') ? JSON.parse(input) : input
   // const { BIN_id, grammatical_tag } = input
   // if (!BIN_id) {
@@ -25,4 +25,4 @@ export const ShowInflectionTable = async(input) => {
   //   type: 'LOAD_INFLECTION',
   //   content: html,
   // })
-}
+};

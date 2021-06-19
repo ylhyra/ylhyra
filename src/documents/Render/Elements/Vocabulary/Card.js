@@ -1,82 +1,90 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Gender from 'documents/Render/Elements/Vocabulary/Types/Gender'
-import Multiple from 'documents/Render/Elements/Vocabulary/Types/Multiple'
-import Flashcard from 'documents/Render/Elements/Vocabulary/Types/Flashcard'
-import Write from 'documents/Render/Elements/Vocabulary/Types/Write'
-import DragDrop from 'documents/Render/Elements/Vocabulary/Types/DragDrop'
-import NoGame from 'documents/Render/Elements/Vocabulary/Types/No_game'
-import AudioClip from 'documents/Render/Audio/AudioClip'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Gender from "documents/Render/Elements/Vocabulary/Types/Gender";
+import Multiple from "documents/Render/Elements/Vocabulary/Types/Multiple";
+import Flashcard from "documents/Render/Elements/Vocabulary/Types/Flashcard";
+import Write from "documents/Render/Elements/Vocabulary/Types/Write";
+import DragDrop from "documents/Render/Elements/Vocabulary/Types/DragDrop";
+import NoGame from "documents/Render/Elements/Vocabulary/Types/No_game";
+import AudioClip from "documents/Render/Audio/AudioClip";
 
 class Card extends Component {
   state = {
     hasAnswered: false,
-  }
+  };
   componentDidMount() {
-    this.sound()
+    this.sound();
   }
   componentDidUpdate = () => {
-    this.sound()
-  }
+    this.sound();
+  };
   sound = () => {
-    const { card, answer } = this.props
-    if (/*!volume ||*/ !card.audio) return
+    const { card, answer } = this.props;
+    if (/*!volume ||*/ !card.audio) return;
     // console.log(card)
-    if (card.from === 'is' || card.type==='gender' || card.type==='drag and drop' || card.type==='no game' || card.listen || card.play_sound_immediately || answer.answered) {
+    if (
+      card.from === "is" ||
+      card.type === "gender" ||
+      card.type === "drag and drop" ||
+      card.type === "no game" ||
+      card.listen ||
+      card.play_sound_immediately ||
+      answer.answered
+    ) {
       try {
-        AudioClip.play(card.audio)
-       } catch (e) {
-        console.warn(e)
+        AudioClip.play(card.audio);
+      } catch (e) {
+        console.warn(e);
       }
     }
-  }
+  };
   render() {
-    const { card, answer, insideConversation } = this.props
+    const { card, answer, insideConversation } = this.props;
     // console.log({card,answer})
     if (card) {
-      let Type = null
-      if (card.type === 'multiple choice') {
-        Type = Multiple
-      } else if (card.type === 'gender') {
-        Type = Gender
-      } else if (card.type === 'flashcard') {
-        Type = Flashcard
-      } else if (card.type === 'write') {
-        Type = Write
-      } else if (card.type === 'drag and drop') {
-        Type = DragDrop
-      } else if (card.type === 'no game') {
-        Type = NoGame
-      }
-
-      else {
-        console.error(card.type + ' - unknown type')
-        return null
+      let Type = null;
+      if (card.type === "multiple choice") {
+        Type = Multiple;
+      } else if (card.type === "gender") {
+        Type = Gender;
+      } else if (card.type === "flashcard") {
+        Type = Flashcard;
+      } else if (card.type === "write") {
+        Type = Write;
+      } else if (card.type === "drag and drop") {
+        Type = DragDrop;
+      } else if (card.type === "no game") {
+        Type = NoGame;
+      } else {
+        console.error(card.type + " - unknown type");
+        return null;
       }
       // console.log(answer)
       const className = [
-        !insideConversation && 'vocabulary-card',
-        card.type?.replace(/( )/g, '-'),
-        card.game?.replace(/( )/g, '-'),
-        answer && answer.correct && 'correct',
-        answer && answer.correct === false && 'incorrect',
-      ].filter(Boolean).join(' ')
+        !insideConversation && "vocabulary-card",
+        card.type?.replace(/( )/g, "-"),
+        card.game?.replace(/( )/g, "-"),
+        answer && answer.correct && "correct",
+        answer && answer.correct === false && "incorrect",
+      ]
+        .filter(Boolean)
+        .join(" ");
       return (
         <div className={className} onClick={this.sound}>
-          <Type card={card} answer={answer} id={this.props.id} submitAnswer={this.props.submitAnswer}/>
-          {card.notes && <div className="notes">
-            {card.notes}
-          </div>}
+          <Type
+            card={card}
+            answer={answer}
+            id={this.props.id}
+            submitAnswer={this.props.submitAnswer}
+          />
+          {card.notes && <div className="notes">{card.notes}</div>}
         </div>
-      )
+      );
     }
-    return null
+    return null;
   }
 }
-export default Card
-
-
-
+export default Card;
 
 // componentDidMount() {
 //   const { card, next } = this.props

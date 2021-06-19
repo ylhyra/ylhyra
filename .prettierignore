@@ -1,0 +1,8 @@
+build
+build_server
+public
+src/output
+*OLD*
+*.txt
+*.html
+*.json

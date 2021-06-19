@@ -1,54 +1,58 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { connect, Provider } from 'react-redux'
-import store from 'app/App/store'
-import Card from './Card'
-import { start, close } from './actions'
-import Progress from './Progress'
-import _ from 'underscore'
-import { randomizeOptions } from './randomize'
-import { ParseHTMLtoObject } from 'documents/Render/Elements/parse'
-require('array-sugar')
+import React from "react";
+import ReactDOM from "react-dom";
+import { connect, Provider } from "react-redux";
+import store from "app/App/store";
+import Card from "./Card";
+import { start, close } from "./actions";
+import Progress from "./Progress";
+import _ from "underscore";
+import { randomizeOptions } from "./randomize";
+import { ParseHTMLtoObject } from "documents/Render/Elements/parse";
+require("array-sugar");
 
 class Vocabulary extends React.Component {
   constructor(props) {
     super(props);
     // console.log(this.props)
-    let card = this.props.card || ParseHTMLtoObject(props.children)
-    card = randomizeOptions(card)
+    let card = this.props.card || ParseHTMLtoObject(props.children);
+    card = randomizeOptions(card);
     this.state = {
       card: card,
       answer: {},
-    }
+    };
     // console.log(card)
   }
   submitAnswer = ({ correct, index }) => {
-    const { answer } = this.state
-    const { continueGameContainer } = this.props
+    const { answer } = this.state;
+    const { continueGameContainer } = this.props;
     if (answer.answered) {
-      return null
+      return null;
     }
     this.setState({
       answer: {
         correct,
         selected_index: index,
         answered: true,
-      }
-    })
-    continueGameContainer && continueGameContainer(correct)
-  }
+      },
+    });
+    continueGameContainer && continueGameContainer(correct);
+  };
   render() {
-    const { card, answer } = this.state
+    const { card, answer } = this.state;
     return (
       <div className="card-outer-container">
-        <div className={`card-container ${answer.answered && 'answered'} ${card.notes && 'has-notes'}`}>
-          <Card card={card} answer={answer} submitAnswer={this.submitAnswer}/>
+        <div
+          className={`card-container ${answer.answered && "answered"} ${
+            card.notes && "has-notes"
+          }`}
+        >
+          <Card card={card} answer={answer} submitAnswer={this.submitAnswer} />
         </div>
       </div>
-    )
+    );
   }
 }
-export default Vocabulary
+export default Vocabulary;
 
 // const cards = [
 //

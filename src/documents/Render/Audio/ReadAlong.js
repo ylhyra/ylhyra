@@ -1,7 +1,7 @@
-import ScrollIntoView from 'documents/Render/Audio/Scroll/ScrollIntoView'
-import { addClass, removeClass } from 'documents/Render/helpers.js'
-import store from 'app/App/store'
-import _ from 'underscore'
+import ScrollIntoView from "documents/Render/Audio/Scroll/ScrollIntoView";
+import { addClass, removeClass } from "documents/Render/helpers.js";
+import store from "app/App/store";
+import _ from "underscore";
 
 /*
   Hasten all times by X seconds. It may be better to be a little quick,
@@ -10,7 +10,6 @@ import _ from 'underscore'
   (May not be necessary)
 */
 // let time_shift = 0 // +0.050
-
 
 /*
 
@@ -22,12 +21,12 @@ import _ from 'underscore'
 
 */
 
-let list = {}
-let sentences = {}
-let started = false
-let previous = { elements: [] }
-let timer
-let currentAudioId
+let list = {};
+let sentences = {};
+let started = false;
+let previous = { elements: [] };
+let timer;
+let currentAudioId;
 
 /**
   ____  _____    _    ____       _    _     ___  _   _  ____
@@ -41,90 +40,109 @@ let currentAudioId
 */
 export const ReadAlong = (audio, type, filename) => {
   // console.log(filename)
-  currentAudioId = filename
+  currentAudioId = filename;
   if (!list[currentAudioId]) return;
 
   // Play
-  if (type === 'play') {
-    const time = audio.currentTime
-    if (!previous.begin || !(previous.begin <= time && (time < previous.end || previous.end === null))) {
-      const auto = !audio.paused /*&& type !== 'scrub'*/
-      timer && clearTimeout(timer)
-      Show(FindIndexFromTime(time), time, auto)
+  if (type === "play") {
+    const time = audio.currentTime;
+    if (
+      !previous.begin ||
+      !(
+        previous.begin <= time &&
+        (time < previous.end || previous.end === null)
+      )
+    ) {
+      const auto = !audio.paused; /*&& type !== 'scrub'*/
+      timer && clearTimeout(timer);
+      Show(FindIndexFromTime(time), time, auto);
     }
-    started = true
+    started = true;
   }
 
   // Pause
-  else if (type === 'pause') {
-    timer && clearTimeout(timer)
+  else if (type === "pause") {
+    timer && clearTimeout(timer);
   }
-}
+};
 
 export const ReadAlongSetup = () => {
-  const { long_audio } = store.getState().data
+  const { long_audio } = store.getState().data;
   for (const filename in long_audio) {
-    const synclist = long_audio[filename].sync.list
-    list[filename] = synclist
+    const synclist = long_audio[filename].sync.list;
+    list[filename] = synclist;
     /* Temp solution, would be better to do this in the audio synchronization step */
-    synclist.forEach(section => {
-      section.elements.forEach(element => {
+    synclist.forEach((section) => {
+      section.elements.forEach((element) => {
         if (!sentences[element]) {
           sentences[element] = {
             filename,
             begin: section.begin,
-            end: section.end
-          }
+            end: section.end,
+          };
         } else {
-          sentences[element]['end'] = section.end
+          sentences[element]["end"] = section.end;
         }
-      })
-    })
+      });
+    });
   }
-}
+};
 
 /*
   Find elements that should be shown at this timeout
 */
 const FindIndexFromTime = (time) => {
   return list[currentAudioId].findIndex(({ begin, end }) => {
-    return begin <= time && (time < end || end === null)
-  })
-}
+    return begin <= time && (time < end || end === null);
+  });
+};
 const FindIndexRangeFromID = (id) => {
   return {
     first: list[currentAudioId].findIndex(({ elements }) => {
-      return elements.includes(id)
+      return elements.includes(id);
     }),
-    last: (list[currentAudioId].length - 1) - list[currentAudioId].slice().reverse().findIndex(({ elements }) => {
-      return elements.includes(id)
-    })
-  }
-}
+    last:
+      list[currentAudioId].length -
+      1 -
+      list[currentAudioId]
+        .slice()
+        .reverse()
+        .findIndex(({ elements }) => {
+          return elements.includes(id);
+        }),
+  };
+};
 
 /*
   Show the elements for this time.
   Set timer to repeat the process.
 */
 const Show = (index, time, auto = true) => {
-  const current = list[currentAudioId][index] || { elements: [] }
-  ScrollIntoView(current.elements.filter(i => previous.elements.indexOf(i) === -1))
-  addClass(current.elements.filter(i => previous.elements.indexOf(i) === -1), 'audioPlaying')
-  removeClass(previous.elements.filter(i => current.elements.indexOf(i) === -1), 'audioPlaying')
+  const current = list[currentAudioId][index] || { elements: [] };
+  ScrollIntoView(
+    current.elements.filter((i) => previous.elements.indexOf(i) === -1)
+  );
+  addClass(
+    current.elements.filter((i) => previous.elements.indexOf(i) === -1),
+    "audioPlaying"
+  );
+  removeClass(
+    previous.elements.filter((i) => current.elements.indexOf(i) === -1),
+    "audioPlaying"
+  );
   if (auto && index < list[currentAudioId].length) {
-    timer && clearTimeout(timer)
+    timer && clearTimeout(timer);
     timer = setTimeout(() => {
-      Show(index + 1)
-    }, (current.end - (time || current.begin)) * 1000)
+      Show(index + 1);
+    }, (current.end - (time || current.begin)) * 1000);
   }
-  previous = current
-}
+  previous = current;
+};
 
 export const reset = () => {
-  removeClass(previous.elements)
-  previous = { elements: [] }
-}
-
+  removeClass(previous.elements);
+  previous = { elements: [] };
+};
 
 /*
   Play audio for a single sentence
@@ -133,13 +151,13 @@ export const ReadAlongSingleSentence = (id) => {
   // console.log(sentences[id])
   if (sentences[id]) {
     store.dispatch({
-      type: 'PLAY_SENTENCE',
+      type: "PLAY_SENTENCE",
       filename: sentences[id].filename,
       begin: sentences[id].begin,
       end: sentences[id].end,
-    })
+    });
   }
-}
+};
 
 /*
   TEMPORARY SOLUTION
@@ -147,17 +165,17 @@ export const ReadAlongSingleSentence = (id) => {
 */
 export const ReadAlongMessage = (message, audioId) => {
   if (!message) return;
-  const ids = message.match(/ id=".+?"/g).map(i => i.match(/id="(.+?)"/)[1])
+  const ids = message.match(/ id=".+?"/g).map((i) => i.match(/id="(.+?)"/)[1]);
   // console.log(message)
   // console.log(ids)
-  let begins = []
-  let ends = []
-  ids.forEach(id => {
+  let begins = [];
+  let ends = [];
+  ids.forEach((id) => {
     if (sentences[id]) {
-      begins.push(sentences[id].begin)
-      ends.push(sentences[id].end)
+      begins.push(sentences[id].begin);
+      ends.push(sentences[id].end);
     }
-  })
+  });
   // console.log({
   //   begins,ends,
   //   begin: begins.sort((a,b)=>a-b)[0],
@@ -165,16 +183,12 @@ export const ReadAlongMessage = (message, audioId) => {
   // })
   // return
   store.dispatch({
-    type: 'PLAY_SENTENCE',
+    type: "PLAY_SENTENCE",
     audioId,
     begin: begins.sort((a, b) => a - b)[0],
     end: ends.sort((a, b) => b - a)[0],
-  })
-}
-
-
-
-
+  });
+};
 
 /******** Stuff in development: ********/
 

@@ -1,12 +1,9 @@
 const nodemailer = require("nodemailer");
 
-export default async() => {
-
-  return; 
-  if(
-    !process.env.EMAIL_PASSWORD ||
-    !process.env.EMAIL_SMTP_HOST
-  ) return console.warn('Missing details');
+export default async () => {
+  return;
+  if (!process.env.EMAIL_PASSWORD || !process.env.EMAIL_SMTP_HOST)
+    return console.warn("Missing details");
 
   let transporter = nodemailer.createTransport({
     host: process.env.EMAIL_SMTP_HOST,
@@ -28,4 +25,4 @@ export default async() => {
 
   console.log("Message sent: %s", info.messageId);
   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-}
+};

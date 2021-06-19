@@ -1,5 +1,5 @@
-import React from 'react'
-import { getUpdatedID } from 'documents/Parse/Compiler/1_Precompile/UpdateID'
+import React from "react";
+import { getUpdatedID } from "documents/Parse/Compiler/1_Precompile/UpdateID";
 
 // /*
 //   [optional] Temporarily mute the audio in development
@@ -7,14 +7,16 @@ import { getUpdatedID } from 'documents/Parse/Compiler/1_Precompile/UpdateID'
 // const muted = false
 
 export default (audioId, inlineAudioPlayer, editor) => {
-  const { audio } = editor
-  const hash = audio.sections?.find(section => section.audioElementId === audioId)?.hash
+  const { audio } = editor;
+  const hash = audio.sections?.find(
+    (section) => section.audioElementId === audioId
+  )?.hash;
   if (!hash) {
     // console.warn(`No hash for ${audioId}`)
     return null;
   }
-  const file = audio.files[hash]?.filename
-  const sync = audio.sync[hash]
+  const file = audio.files[hash]?.filename;
+  const sync = audio.sync[hash];
 
   if (!file) {
     // console.warn(`No file for ${audioId}`)
@@ -22,9 +24,9 @@ export default (audioId, inlineAudioPlayer, editor) => {
     return null;
   }
 
-  let props = {}
-  if (inlineAudioPlayer === true || inlineAudioPlayer === 'true') {
-    props['data-inline'] = true
+  let props = {};
+  if (inlineAudioPlayer === true || inlineAudioPlayer === "true") {
+    props["data-inline"] = true;
   }
 
   return (
@@ -61,13 +63,12 @@ export default (audioId, inlineAudioPlayer, editor) => {
     //     <span className="duration">-:--</span>
     //   </div>
     // </div>
-
-  )
-}
+  );
+};
 
 const updateIDs = (input) => {
-  return input.map(i => ({
+  return input.map((i) => ({
     ...i,
-    elements: i.elements.map(id => getUpdatedID(id))
-  }))
-}
+    elements: i.elements.map((id) => getUpdatedID(id)),
+  }));
+};

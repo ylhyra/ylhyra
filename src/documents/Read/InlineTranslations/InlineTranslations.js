@@ -1,8 +1,6 @@
 export const fix_inline_translations = () => {
-
   // Temporary turn off. Is a bit ugly.
   return;
-
 
   // const elements = document.querySelectorAll(`.inline_translation`)
   // elements.forEach(e => {
@@ -27,4 +25,4 @@ export const fix_inline_translations = () => {
   //
   //   e.style.bottom = 1 + fontSize + (lineHeight - fontSize) / 2 + 'px'
   // })
-}
+};

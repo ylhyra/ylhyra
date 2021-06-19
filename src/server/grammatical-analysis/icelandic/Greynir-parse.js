@@ -6,25 +6,24 @@
 */
 
 // import default_tokenizer from 'server/api/translate/tokenizer/default-tokenizer'
-require('array-sugar')
+require("array-sugar");
 
-
-export default function(text, analysis, callback) {
+export default function (text, analysis, callback) {
   if (!analysis.valid) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error('Invalid analysis')
-      console.log(analysis)
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Invalid analysis");
+      console.log(analysis);
     }
     return;
     // return default_tokenizer(text, callback)
   }
 
-  let Sentences = []
-  let remaining = text
+  let Sentences = [];
+  let remaining = text;
 
-  analysis.result.forEach(sentence => {
-    Sentences.push([])
-    sentence.forEach(word => {
+  analysis.result.forEach((sentence) => {
+    Sentences.push([]);
+    sentence.forEach((word) => {
       if (word.err) {
         /*
           TODO!!!
@@ -32,10 +31,10 @@ export default function(text, analysis, callback) {
           Senda í default!
         */
       }
-      const index = remaining.indexOf(word[TEXT])
+      const index = remaining.indexOf(word[TEXT]);
       if (index < 0) return;
       if (index > 0) {
-        Sentences.last.push(remaining.slice(0, index))
+        Sentences.last.push(remaining.slice(0, index));
       }
       Sentences.last.push({
         text: word[TEXT],
@@ -45,17 +44,17 @@ export default function(text, analysis, callback) {
           context_free_grammar: word[CONTEXT_FREE_GRAMMAR],
           base_word: word[BASE_WORD],
           type: word[TYPE],
-        }
-      })
-      remaining = remaining.slice(word[TEXT].length + index)
-    })
-  })
-  callback(Sentences)
+        },
+      });
+      remaining = remaining.slice(word[TEXT].length + index);
+    });
+  });
+  callback(Sentences);
 }
 
-const TEXT = 'x'
-const BASE_WORD = 's' // Inniheldur bandstrik ef orðið er samsett
-const WORD_CLASS = 'c' // kk/kvk/hk, so, lo, ao, fs, st
-const GRAMMATICAL_TAG = 'b' // Í BÍN.
-const CONTEXT_FREE_GRAMMAR = 't' // "fn_et_þgf_hk"
-const TYPE = 'k' // WORD, PERSON, PUNCTUATION, YEAR, AMOUNT
+const TEXT = "x";
+const BASE_WORD = "s"; // Inniheldur bandstrik ef orðið er samsett
+const WORD_CLASS = "c"; // kk/kvk/hk, so, lo, ao, fs, st
+const GRAMMATICAL_TAG = "b"; // Í BÍN.
+const CONTEXT_FREE_GRAMMAR = "t"; // "fn_et_þgf_hk"
+const TYPE = "k"; // WORD, PERSON, PUNCTUATION, YEAR, AMOUNT
