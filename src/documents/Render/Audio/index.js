@@ -37,7 +37,7 @@ class Audio extends React.PureComponent {
     // }
   }
   componentDidUpdate = (prevProps) => {
-    const { audio } = this.refs
+    const audio = this.audio.current
     /* Pause if another audio element has taken over */
     if (this.props.audio.currentlyPlaying !== this.state.data.filename) {
       this.setState({ playing: false })
@@ -55,7 +55,7 @@ class Audio extends React.PureComponent {
     }
   }
   pausePlayButton = () => {
-    const { audio } = this.refs
+    const audio = this.audio.current
     if (audio.duration - audio.currentTime < 0.3) {
       audio.currentTime = 0
     }
@@ -75,7 +75,7 @@ class Audio extends React.PureComponent {
     }
   }
   playing = (event) => {
-    const { audio } = this.refs
+    const audio = this.audio.current
     event.persist()
     ReadAlong(audio, 'play', this.state.data.filename)
     if (audio.duration - audio.currentTime > 0.2) { // More than 0.1 seconds left
@@ -101,13 +101,13 @@ class Audio extends React.PureComponent {
     }
   }
   loading = (event) => {
-    const { audio } = this.refs
+    const audio = this.audio.current
     this.setState({
       loading: true,
     })
   }
   canplay = (event) => {
-    const { audio } = this.refs
+    const audio = this.audio.current
     this.setState({
       loading: false,
     })
@@ -166,7 +166,7 @@ class Audio extends React.PureComponent {
     return (
       <ContainerTag className={`audioPlayer ${playing ? playing : ''} ${error ? 'error' : ''} ${inline ? 'inline' : ''} ${video ? 'video' : ''}`} data-ignore key={this.state.key}>
         <Tag // controls
-        ref="audio"
+        ref={this.audio}
         // preload="none" // TEMP
         loop={Boolean(video)}
         onLoadStart={this.loading}

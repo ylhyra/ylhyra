@@ -1,22 +1,18 @@
 import typeset from 'typeset'
 import { URL_title, section_id } from 'paths.js'
-import marked, { inlineLexer } from 'marked'
+import marked from 'marked'
 import RemoveUnwantedCharacters from 'app/App/functions/RemoveUnwantedCharacters'
 import { html2json, json2html } from 'app/App/functions/html2json'
-// import markdown from 'simple-markdown'
-
 let links = require('src/output/links.js')
 
+/**
+ * Here we convert markdown textblocks to HTML.
+ * Each HTML element in the original text is processed seperately to preserve HTML structure.
+ */
 export default (input) => {
-
-  // console.log(input)
-  let json = html2json(input)
-  // console.log(json)
-  json = Traverse(json)
-  // console.log(JSON.stringify(json, null, 2))
-  // console.log(json2html(json))
-
-  return json2html(json)
+  input = json2html(Traverse(html2json(input)))
+  input = typeset(input, { disable: ['hyphenate', 'hangingPunctuation', 'ligatures', 'smallCaps'] })
+  return input
 }
 
 const Traverse = (json) => {
@@ -28,13 +24,19 @@ const Traverse = (json) => {
       child: child && ProcessArray(child)
     }
   } else if (node === 'text') {
-    /* TODO Needs to be parsed with siblings */
+    /* TODO Is this necessary? */
     return {
       ...json,
       text: processText(text)
     }
   }
 }
+
+/**
+ * Converts markdown text to HTML.
+ * Elements are temporarily substituted, the text is processed,
+ * and then the elements are re-inserted.
+ */
 const ProcessArray = (arr) => {
   const substituted = arr.map((j, i) => {
     if (j.node === 'text') {
@@ -56,7 +58,6 @@ const ProcessArray = (arr) => {
 }
 
 const processText = (input) => {
-
   input = RemoveUnwantedCharacters(input)
     /* Internal links */
     .replace(/\[\[(.+?)\]\]/g, (x, match) => {
@@ -113,6 +114,7 @@ const processText = (input) => {
 
   // console.log(input.slice(0, 200))
 
+  /* Markdown */
   if (!input.trim()) return input;
   const [f, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/)
   let m = marked(middle)
@@ -121,12 +123,10 @@ const processText = (input) => {
   }
   input = (pre || '') + m + (post || '')
 
-
   input = input
     .replace(/(<h[0-9] id=")/g, '$1s-')
   // console.log(input.slice(0,200))
 
-  input = typeset(input, { disable: ['hyphenate', 'hangingPunctuation', 'ligatures', 'smallCaps'] })
   // console.log(input)
   return input
 }

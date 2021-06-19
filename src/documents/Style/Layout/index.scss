@@ -2,27 +2,22 @@ body,
 html {
   min-height: 100vh;
 }
-
 body {
   @include sans_serif();
   font-size: 14px;
 }
-
 hr {
   margin: 40px 20px;
   border: none;
   border-bottom: 1px solid #e6e6e6;
 }
-
 .center {
   display: flex;
   justify-content: space-around;
 }
-
 .container {
   position: relative;
 }
-
 .supports-touch {
   -webkit-touch-callout: none;
   /* iOS Safari */
@@ -37,41 +32,36 @@ hr {
   user-select: none;
   /* Non-prefixed version, currently */
 }
-
 code {
   background: #f1f1f1;
   border: 1px solid #dedede;
   border-radius: 3px;
   padding: 2px 4px;
 }
-
 .small-text-block {
   line-height: 1.4;
   display: block;
 }
-
 .sans-serif {
   @include sans_serif();
 }
-
 .div {
   display: block;
 }
-
 body.unscrollable {
   position: sticky;
   overflow: hidden;
 }
-
-
 label {
   display: block;
 }
-
-p, .p {
+.p,
+p {
   margin: 15px 0;
+  ul & {
+    margin: 0;
+  }
 }
 ul {
-  margin: 5px;
-  margin-left: 16px;
+  margin: 5px 5px 5px 16px;
 }

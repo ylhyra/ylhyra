@@ -52,7 +52,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
       }
       if (shouldGetData) {
         const data2 = await getData(header)
-        output = `<span data-document-start="${(data2||header).title}" data-data="${data2?btoa(encodeURIComponent((data2.output))):''}"></span>` +
+        output = `<span data-document-start="${(data2||header).title}" data-data="${data2?btoa(encodeURIComponent((data2.output))):''}"></span>\n` +
           output +
           `<span data-document-end="${(data2||header).title}"></span>`
       }
