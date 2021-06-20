@@ -48,7 +48,6 @@ class WordElement extends React.Component {
     }
 
     // console.log(definition)
-
     return [
       <Box id={id} definition={definition} key={1} hidden={true} />,
       <Tooltip id={id} definition={definition} key={2} hidden={true} />,

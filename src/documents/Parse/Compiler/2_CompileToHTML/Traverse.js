@@ -7,25 +7,19 @@ const Traverse = ({ json, data, index }) => {
   if (!json) return null;
   const { node, tag, attr, child, text } = json;
   if (node === "element" || node === "root") {
-    let Tag;
+    let Tag = tag;
+
     let extraAttributes = {};
     if (tag === "word") {
-      extraAttributes = { editor: data };
-    }
-
-    if (attr.id === null) {
-      delete attr.id;
-    }
-
-    if (tag === "word") {
       Tag = Word;
+      extraAttributes = { editor: data };
     } else if (tag === "sentence") {
       Tag = Sentence;
     }
     if (Tag) {
       const output = (
-        <Tag {...attr} key={(attr && attr.id) || index} {...extraAttributes}>
-          {child && child.map((e, i) => ReactTraverse({ json: e }))}
+        <Tag key={(attr && attr.id) || index} {...extraAttributes}>
+          {child && child.map((e, i) => Traverse({ json: e }))}
         </Tag>
       );
       return {

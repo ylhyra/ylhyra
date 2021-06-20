@@ -1,13 +1,4 @@
 import React, { lazy } from "react";
-import Sentence from "documents/Parse/Compiler/2_CompileToHTML/Sentence";
-import Word from "documents/Parse/Compiler/2_CompileToHTML/Word";
-import convert from "react-attr-converter";
-import inlineStyle2Json from "app/App/functions/inline-style-2-json";
-import isBooleanAttribute from "is-boolean-attribute";
-
-// import Controls from './Controls/Controls'
-// import AudioPlayer from './Controls/Audio'
-
 import GetTemplate from "documents/Templates/_list";
 import Link from "app/Router/Link";
 
@@ -19,46 +10,15 @@ const Traverse = ({ json, data, index }) => {
     if (node === "root") {
       return child.map((e, i) => Traverse({ json: e, index: i, data }));
     }
-    if (tag === "word") {
-      Tag = Word;
-    } else if (tag === "sentence") {
-      Tag = Sentence;
-    } else if (tag === "a") {
+    if (tag === "a") {
       Tag = Link;
     } else {
       Tag = GetTemplate(tag) || Tag;
     }
 
-    /*
-      Attribute values can be arrays (from html2json).
-      Here we merge them together with spaces
-    */
-    let attrs = {};
-    for (const property in attr) {
-      // Converts HTML attribute into React attribute
-      if (property in attr && !property.startsWith("data-temp")) {
-        const value = attr[property];
-        if (property === "style") {
-          attrs[convert(property)] = inlineStyle2Json(value);
-        } else {
-          attrs[convert(property)] = value;
-          if (value === "true" || value === "false") {
-            attrs[convert(property)] = value === "true" ? true : false;
-          }
-          if (
-            value === "" &&
-            (isBooleanAttribute(property) ||
-              ["autoplay", "loop"].includes(property))
-          ) {
-            attrs[convert(property)] = true;
-          }
-        }
-      }
-    }
-
     /* IMG and HR tags are void tags */
     if (voidElementTags.includes(Tag)) {
-      return <Tag {...attrs} key={(attr && attr.id) || index} />;
+      return <Tag {...attr} key={(attr && attr.id) || index} />;
     }
 
     /*
@@ -66,28 +26,14 @@ const Traverse = ({ json, data, index }) => {
       and add their name as a className
     */
     if (typeof Tag === "string") {
-      getCustomTag(Tag, attrs.className, (output) => {
+      getCustomTag(Tag, attr.className, (output) => {
         Tag = output.tag;
-        attrs.className = output.className;
+        attr.className = output.className;
       });
     }
 
-    /*
-      Always open links in a new window
-    */
-    if (tag === "a" && attrs.href && attrs.href.startsWith("http")) {
-      // attrs.target = "_blank"
-      attrs.rel = "noopener";
-    }
-
-    let extraAttributes = {};
-    if (tag === "word") {
-      extraAttributes = { editor: data };
-    }
-
     return (
-      <Tag {...attrs} key={(attr && attr.id) || index} {...extraAttributes}>
-        {/* {Audio} */}
+      <Tag {...attr} key={(attr && attr.id) || index}>
         {child && child.map((e, i) => Traverse({ json: e, data, index: i }))}
       </Tag>
     );

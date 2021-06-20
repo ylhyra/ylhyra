@@ -10,6 +10,9 @@ const Traverse = ({ json, data, index }) => {
   if (!json) return null;
   const { node, tag, attr, child, text } = json;
   if (node === "element" || node === "root") {
+    if (attr.id === null) {
+      delete attr.id;
+    }
     /*
       Attribute values can be arrays (from html2json).
       Here we merge them together with spaces
@@ -63,40 +66,3 @@ const Traverse = ({ json, data, index }) => {
 };
 
 export default Traverse;
-
-/*
-  Allow for specific custom elements.
-*/
-const customTags = {
-  p: "div",
-  center: "div",
-  translate: "span",
-  isl: "span",
-  "small-box": "span",
-};
-const getCustomTag = (tag, className, callback) => {
-  if (tag in customTags) {
-    className = ((className || "") + " " + tag).trim();
-    tag = customTags[tag];
-  }
-  callback({ tag, className });
-};
-
-const voidElementTags = [
-  "area",
-  "base",
-  "br",
-  "col",
-  "command",
-  "embed",
-  "hr",
-  "img",
-  "input",
-  "keygen",
-  "link",
-  "meta",
-  "param",
-  "source",
-  "track",
-  "wbr",
-];
