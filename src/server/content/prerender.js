@@ -14,11 +14,18 @@ var now = require("performance-now");
 var fs = require("fs");
 const path = require("path");
 const critical = require("critical");
+const build_folder = path.resolve(__basedir, `./build`);
 
 const header_links = `
   <link href="/main.css" rel="stylesheet" />
-  <script src="/ylhyra.js"></script>
 `;
+let footer_links = `
+  <link href="/main.css" rel="stylesheet" />
+  <script src="http://localhost:3000/static/js/bundle.js"></script>
+  <script src="http://localhost:3000/static/js/vendors~main.chunk.js"></script>
+  <script src="http://localhost:3000/static/js/main.chunk.js"></script>
+`;
+
 const css = fs.readFileSync(path.resolve(output_folder, `./css.css`), "utf8");
 const html = fs.readFileSync(
   path.resolve(__basedir, `./public/index.html`),
@@ -29,33 +36,33 @@ const render = async (title) => {
   const { content, header } = await generate_html(title);
   const out = await Parse({ html: content });
   const { parsed, tokenized, data, flattenedData } = out;
-  // let output = ReactDOMServer.renderToStaticMarkup(Render({ json: parsed }));
   let output = ReactDOMServer.renderToStaticMarkup(
     <Provider store={store}>
       <Router prerender={parsed} />
     </Provider>
   );
 
-  output += `<script type="text/javascript">window.ylhyra_data=${JSON.stringify(
-    {
-      parsedHTML: ReactDOMServer.renderToStaticMarkup(parsed),
-      tokenized,
-      data,
-      flattenedData,
-    }
-  )}</script>`;
+  footer_links =
+    `<script type="text/javascript">window.ylhyra_data=${JSON.stringify({
+      // parsedHTML: ReactDOMServer.renderToStaticMarkup(parsed),
+      // tokenized,
+      // data,
+      // flattenedData,
+      parsed,
+    })}</script>` + footer_links;
 
   output = html
     .replace("<!-- Title -->", header.title ? header.title + " - " : "")
     .replace("<!-- Header items -->", header_links)
+    .replace("<!-- Footer items -->", footer_links)
     .replace("<!-- Content -->", output);
 
-  fs.writeFileSync(path.resolve(output_folder, `./${title}.html`), output);
+  fs.writeFileSync(path.resolve(build_folder, `./${title}.html`), output);
 
   /* Inline CSS */
   critical.generate(
     {
-      base: output_folder,
+      base: build_folder,
       src: `${title}.html`,
       width: 1300,
       height: 9000,
@@ -64,7 +71,7 @@ const render = async (title) => {
     (err, cr_output /* Includes {css, html, uncritical} */) => {
       if (err) console.log(err);
       fs.writeFileSync(
-        path.resolve(output_folder, `./${title}2.html`),
+        path.resolve(build_folder, `./${title}.html`),
         cr_output.html
       );
       process.exit();

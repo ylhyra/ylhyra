@@ -7,26 +7,26 @@ import VocabularyStatus from "documents/Templates/VocabularyStatus";
 import Audio from "documents/Templates/Audio";
 
 export default (name) => {
-  switch (name) {
-    case "Level":
+  switch (name.toLowerCase()) {
+    case "level":
       return Level;
       break;
-    case "Book":
+    case "book":
       return Book;
       break;
-    case "Blær":
+    case "blær":
       return Blær;
       break;
-    case "Image":
+    case "image":
       return Image;
       break;
-    case "Button":
+    case "button":
       return Button;
       break;
-    case "VocabularyStatus":
+    case "vocabularystatus":
       return VocabularyStatus;
       break;
-    case "Audio":
+    case "audio":
       return Audio;
       break;
     default:

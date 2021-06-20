@@ -24,7 +24,8 @@ class X extends Component {
     updateURL("/vocabulary/play");
   };
   render() {
-    const vocabulary_list = this.props.header_data.vocabulary;
+    const vocabulary_list =
+      this.props.header_data && this.props.header_data.vocabulary;
     const { deck } = this.props.vocabulary;
     if (!vocabulary_list || !deck) return null;
     const cards = this.getCards();

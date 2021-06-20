@@ -8,17 +8,31 @@ import { InitializeVocabulary } from "app/Vocabulary/actions/init";
 import "documents/Style/index.scss";
 import { InitializeRouter } from "app/Router/actions";
 import { TextEventListenersOn } from "documents/Read/Touch";
+import { isBrowser } from "app/App/functions/isBrowser";
+import Render from "documents/Render";
 
-InitializeUser();
-InitializeVocabulary();
-InitializeRouter();
-TextEventListenersOn();
+let pre_parsed;
+if (isBrowser && window.ylhyra_data) {
+  pre_parsed = Render({
+    json: window.ylhyra_data.parsed,
+  });
+}
 
-ReactDOM.render(
+const Root = (
   <React.StrictMode>
     <Provider store={store}>
-      <Router />
+      <Router pre_parsed={pre_parsed} />
     </Provider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
+
+if (window.ylhyra_data) {
+  ReactDOM.hydrate(Root, document.getElementById("root"));
+} else {
+  ReactDOM.render(Root, document.getElementById("root"));
+}
+
+// InitializeUser();
+// InitializeVocabulary();
+// InitializeRouter();
+TextEventListenersOn();

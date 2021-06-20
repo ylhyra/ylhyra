@@ -5,12 +5,16 @@ import LoadContent from "./LoadContent";
 import Frontpage from "app/Elements/Frontpage";
 import components from "app/Router/paths";
 import { connect } from "react-redux";
+import { isBrowser } from "app/App/functions/isBrowser";
 
 class App extends React.Component {
   render() {
     let Element = () => null;
     const url = this.props.route.pathname;
-    if (url in components && !this.props.prerender) {
+    if (
+      url in components &&
+      !(this.props.prerender || (isBrowser && window.ylhyra_data))
+    ) {
       Element = components[url];
     } else {
       Element = LoadContent;
@@ -18,7 +22,11 @@ class App extends React.Component {
     return (
       <Layout>
         {/* <Suspense fallback={<div>Loading...</div>}> */}
-        <Element key={url} prerender={this.props.prerender} />
+        <Element
+          key={url}
+          prerender={this.props.prerender}
+          pre_parsed={this.props.pre_parsed}
+        />
         {/* </Suspense> */}
       </Layout>
     );

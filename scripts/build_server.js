@@ -59,14 +59,9 @@ module.exports = {
     warnings: false,
     publicPath: false,
   },
-  bail: true,
+  // bail: true,
   watchOptions: {
-    ignored: [
-      "node_modules/**",
-      "mediawiki/**",
-      "src/User/**",
-      "src/User/**/*.js",
-    ],
+    ignored: ["node_modules/**"],
   },
   module: {
     strictExportPresence: true,

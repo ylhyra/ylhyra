@@ -1,7 +1,7 @@
 import { html2json, json2html } from "app/App/functions/html2json";
 import markdown from "marked";
 import { AllHtmlEntities as Entities } from "html-entities";
-import RequestData from "./RequestData";
+import ExtractData from "./ExtractData";
 import ExtractText from "./ExtractText/ExtractText";
 import Tokenizer from "./Tokenize";
 import WrapInTags from "./WrapInTags";
@@ -33,7 +33,7 @@ export default ({ html, title }) => {
     /*
       Is data already saved?
     */
-    let data = RequestData(json);
+    let data = ExtractData(json);
     // console.log(data)
     /*
       Extract text, group by documents

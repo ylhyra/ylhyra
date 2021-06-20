@@ -9,13 +9,24 @@ import { updateURL } from "app/Router/actions";
 import Render from "documents/Render";
 import VocabularyHeader from "app/Vocabulary/Elements/VocabularyHeader";
 // import markdown_to_html from 'documents/Compile/markdown_to_html'
+import { isBrowser } from "app/App/functions/isBrowser";
 
 let cache = {};
 
 class Content extends Component {
   state = {};
-  async componentDidMount() {
-    if (!this.props.prerender) {
+  componentDidMount() {
+    if (this.props.prerender) {
+      // this.setState({ data: this.props.prerender, parsed: true });
+    } else if (isBrowser && window.ylhyra_data) {
+      // this.setState({
+      //   data: Render({
+      //     json: window.ylhyra_data.parsed,
+      //   }),
+      //   parsed: true,
+      // });
+      // delete window.ylhyra_data;
+    } else {
       this.get();
     }
   }
@@ -48,9 +59,22 @@ class Content extends Component {
     updateURL(url, data.title, true);
   }
   render() {
-    // if (this.state.error) return <NotFound />;
-    // if (!this.state.data) return <div>Loading...</div>;
-    // // console.log(Parse({ html: this.state.data.content }))
+    if (this.state.error) return <NotFound />;
+    let out;
+    if (this.props.prerender) {
+      out = Render({
+        json: this.props.prerender,
+      });
+    } else if (this.props.pre_parsed) {
+      out = this.props.pre_parsed;
+    } else {
+      if (!this.state.data) return <div>Loading...</div>;
+      out = Render({
+        json: Parse({
+          html: this.state.data.content,
+        }).parsed,
+      });
+    }
     return (
       <div>
         {!this.props.prerender && (
@@ -58,12 +82,7 @@ class Content extends Component {
             header_data={this.state.data && this.state.data.header}
           />
         )}
-        {Render({
-          // json: Parse({
-          //   html: /*markdown_to_html*/ this.state.data.content,
-          // }).parsed,
-          json: this.props.prerender,
-        })}
+        {out}
       </div>
     );
   }
