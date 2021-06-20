@@ -8,7 +8,7 @@ import {
   getPreviousID,
 } from "documents/Parse/Compiler/1_Precompile/UpdateID";
 import _ from "underscore";
-// import GetSound from 'documents/Render/TextElements/Sound'
+// import GetSound from 'documents/Parse/Compiler/2_CompileToHTML/Sound'
 import omitEmpty from "omit-empty";
 
 class WordElement extends React.Component {

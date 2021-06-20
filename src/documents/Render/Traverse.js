@@ -1,6 +1,6 @@
 import React, { lazy } from "react";
-import Sentence from "documents/Render/TextElements/Sentence";
-import Word from "documents/Render/TextElements/Word";
+import Sentence from "documents/Parse/Compiler/2_CompileToHTML/Sentence";
+import Word from "documents/Parse/Compiler/2_CompileToHTML/Word";
 import convert from "react-attr-converter";
 import inlineStyle2Json from "app/App/functions/inline-style-2-json";
 import isBooleanAttribute from "is-boolean-attribute";
