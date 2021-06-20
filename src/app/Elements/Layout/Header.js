@@ -5,7 +5,7 @@ import Link from "app/Router/Link";
 export default (props) => (
   <header>
     <div>
-      <Link href="MAIN" id="logo"></Link>
+      <Link href="/" id="logo"></Link>
       <ul>
         <li>
           <Link href="/Spænska">Spænska</Link>

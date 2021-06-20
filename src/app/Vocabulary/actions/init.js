@@ -15,10 +15,19 @@ export const InitializeVocabulary = async () => {
   let should_update = false;
   if (
     database &&
-    getFromLocalStorage("vocabulary-database-last-updated") < now - day
+    getFromLocalStorage("vocabulary-database-last-updated") <
+      now - (process.env.NODE_ENV === "production" ? 3 * day : 0)
   ) {
-    // const database_last_updated = (await axios.get(`/api/vocabulary/database_last_updated`)).data
-    should_update = true;
+    const database_last_updated = (
+      await axios.get(`/api/vocabulary/database_last_updated`)
+    ).data;
+    if (
+      parseInt(database_last_updated) >
+      getFromLocalStorage("vocabulary-database-last-updated")
+    ) {
+      should_update = true;
+      console.log("Reloading vocabulary database as it has been updated");
+    }
   }
   if (!database || should_update) {
     console.log("Downloading database");

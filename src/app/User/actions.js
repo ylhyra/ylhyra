@@ -65,7 +65,7 @@ export const logout = async () => {
   saveInLocalStorage("vocabulary-schedule", null);
   saveInLocalStorage("vocabulary-session", null);
   InitializeVocabulary();
-  updateURL("MAIN");
+  updateURL("/");
 };
 
 // todo: minimum
@@ -74,5 +74,5 @@ const MIN = 2;
 export const pay = ({ price }) => {
   price = price.replace(/,/, ".");
 
-  updateURL("MAIN");
+  updateURL("/");
 };

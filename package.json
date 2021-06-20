@@ -118,6 +118,7 @@
   },
   "devDependencies": {
     "prettier": "2.3.1",
+    "webpack-bundle-analyzer": "^4.4.2",
     "webpack-license-plugin": "^4.1.2"
   }
 }

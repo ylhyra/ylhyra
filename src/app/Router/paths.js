@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from "react";
 import Layout from "app/Elements/Layout/Layout";
 import { updateUser } from "app/User/actions";
 import LoadContent from "./LoadContent";
-import Frontpage from "app/Elements/Frontpage";
 import VocabularyOverview from "app/Vocabulary/screens/overview";
 import VocabularyRunning from "app/Vocabulary/screens/running";
 import VocabularyIntro from "app/Vocabulary/screens/setup";
@@ -12,10 +11,6 @@ import Settings from "app/User/screens/Settings";
 import Pay from "app/User/screens/Pay";
 
 export const urls = {
-  MAIN: {
-    url: "/",
-    component: Frontpage,
-  },
   VOCABULARY: {
     title: "Vocabulary",
     url: "/vocabulary",

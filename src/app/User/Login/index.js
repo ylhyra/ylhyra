@@ -39,7 +39,6 @@ class Form2 extends React.Component {
         ...values,
       })
     ).data;
-    console.log(response);
 
     setSubmitting && setSubmitting(false);
     if (response.error) {
@@ -55,7 +54,7 @@ class Form2 extends React.Component {
     if (!did_user_exist) {
       updateURL("PAY");
     } else {
-      updateURL("MAIN");
+      updateURL("/");
     }
   };
   render() {

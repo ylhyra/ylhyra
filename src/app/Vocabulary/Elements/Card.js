@@ -149,7 +149,7 @@ class Card extends Component {
     note_bfr_show = styleCommas(note_bfr_show);
 
     if (from === "is") {
-      note_above = <div className="note">{basic_form}</div>;
+      note_above = <div className="note show-after-answer">{basic_form}</div>;
       note_below = (
         <div className="note" key={2}>
           {literally}
@@ -168,7 +168,6 @@ class Card extends Component {
               <b>Note:</b> {note_bfr_show}{" "}
             </div>
           )}
-          {literally}
         </div>
       );
       note_below = (
@@ -178,6 +177,7 @@ class Card extends Component {
               <b>Note:</b> {note_after_show}{" "}
             </div>
           )}
+          {literally}
           {basic_form}
         </div>
       );
@@ -228,24 +228,40 @@ class Card extends Component {
           </div>
         ) : (
           <div>
-            <button
-              className={this.state.answer === BAD ? "selected" : ""}
-              onClick={() => this.answer(BAD, false)}
-            >
-              Bad
-            </button>
-            <button
-              className={this.state.answer === GOOD ? "selected" : ""}
-              onClick={() => this.answer(GOOD, false)}
-            >
-              Good
-            </button>
-            <button
-              className={this.state.answer === EASY ? "selected" : ""}
-              onClick={() => this.answer(EASY, false)}
-            >
-              Easy
-            </button>
+            <div>
+              {card.counter <= 1 && (
+                <div className="gray">Rate how well you knew this:</div>
+              )}
+              <div>
+                <button
+                  className={
+                    "button-bad " +
+                    (this.state.answer === BAD ? "selected" : "")
+                  }
+                  onClick={() => this.answer(BAD, false)}
+                >
+                  Bad
+                </button>
+                <button
+                  className={
+                    "button-good " +
+                    (this.state.answer === GOOD ? "selected" : "")
+                  }
+                  onClick={() => this.answer(GOOD, false)}
+                >
+                  Good
+                </button>
+                <button
+                  className={
+                    "button-easy " +
+                    (this.state.answer === EASY ? "selected" : "")
+                  }
+                  onClick={() => this.answer(EASY, false)}
+                >
+                  Easy
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>

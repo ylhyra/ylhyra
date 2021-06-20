@@ -1,4 +1,3 @@
-import Parse from "documents/Parse";
 import axios from "app/App/axios";
 import components from "app/Router/paths";
 import { ReadAlongSetup } from "documents/Render/Audio/ReadAlong";
@@ -20,29 +19,37 @@ export const loadContent = (url, prerender_data, preload) => {
     //   data: prerender_data,
     // });
   } else if (url in cache) {
-    set(url, cache[url], preload);
+    set(url, JSON.parse(cache[url]), preload);
   } else {
     axios
       .get("/api/content", {
         params: {
-          title: url.replace(/^\//, ""),
+          title: decodeURI(url.replace(/^\//, "")),
         },
       })
       .then(async ({ data }) => {
-        cache[url] = data;
+        cache[url] = JSON.stringify(data);
         set(url, data, preload);
       })
       .catch((error) => {
         console.log(error);
         if (error.response && error.response.status === 404) {
           // this.setState({ error: 404 });
+          // TODO!!!
         }
       });
   }
 };
 
-const set = (url, data, preload) => {
+const set = async (url, data, preload) => {
   if (preload) return;
+  const Parse = (
+    await import(
+      /* webpackChunkName: "parse" */
+      /* webpackMode: "lazy-once" */
+      "./../../documents/Parse"
+    )
+  ).default;
   const { parsed, flattenedData } = Parse({
     html: data.content,
   });

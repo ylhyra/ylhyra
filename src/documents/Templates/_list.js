@@ -1,3 +1,4 @@
+import Frontpage from "app/Elements/Frontpage";
 import Level from "documents/Templates/Level";
 import Book from "documents/Templates/Book";
 import Blær from "documents/Templates/Blær";
@@ -5,9 +6,12 @@ import Image from "documents/Templates/Image";
 import Button from "documents/Templates/Button";
 import VocabularyStatus from "documents/Templates/VocabularyStatus";
 import Audio from "documents/Templates/Audio";
-
+import Gray from "documents/Templates/Gray";
 export default (name) => {
   switch (name.toLowerCase()) {
+    case "frontpage":
+      return Frontpage;
+      break;
     case "level":
       return Level;
       break;
@@ -28,6 +32,9 @@ export default (name) => {
       break;
     case "audio":
       return Audio;
+      break;
+    case "gray":
+      return Gray;
       break;
     default:
       return null;

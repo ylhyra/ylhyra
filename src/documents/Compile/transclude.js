@@ -11,12 +11,15 @@ var btoa = require("btoa");
 
 const Transclude = (title, depth = 0, shouldGetData = true) => {
   return new Promise((resolve, reject) => {
-    let url = URL_title("Template:" + title);
+    let url = URL_title((depth > 0 ? "Template:" : "") + title);
     if (!(url in links)) {
       url = URL_title(title);
       if (!(url in links)) {
         return resolve(`\nNo template named "${title}"\n`);
       }
+    }
+    if (links[url].redirect_to) {
+      url = links[url].redirect_to;
     }
 
     fs.readFile(links[url].file, "utf8", async (err, data) => {
@@ -29,6 +32,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
       let output = body;
       /* Strip comments */
       output = output.replace(/<!--([\s\S]+?)-->\n?/g, "");
+      // console.log(output);
       // TODO
       if (depth < 1) {
         output = "";

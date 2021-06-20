@@ -3,6 +3,7 @@ import { URL_title, section_id } from "paths.js";
 import marked from "marked";
 import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
 import { html2json, json2html } from "app/App/functions/html2json";
+import Conversation from "documents/Compile/Templates/Conversations.js";
 let links = {};
 try {
   links = require("build/links.js");
@@ -24,6 +25,9 @@ const Traverse = (json) => {
   if (!json) return null;
   const { node, tag, attr, child, text } = json;
   if (node === "element" || node === "root") {
+    if (tag === "Conversation") {
+      return Conversation(json);
+    }
     return {
       ...json,
       child: child && ProcessArray(child),
@@ -32,7 +36,8 @@ const Traverse = (json) => {
     /* TODO Is this necessary? */
     return {
       ...json,
-      text: processText(text),
+      // text: processText(text),
+      text,
     };
   }
 };
@@ -43,14 +48,21 @@ const Traverse = (json) => {
  * and then the elements are re-inserted.
  */
 const ProcessArray = (arr) => {
+  // let anyText = false;
   const substituted = arr
     .map((j, i) => {
       if (j.node === "text") {
+        // if (j.text.trim()) {
+        //   anyText = true;
+        // }
         return j.text;
       }
       return `SUBSTITUTION${i}`;
     })
     .join("");
+  // if (!anyText) {
+  //   return arr.map((e) => Traverse(e));
+  // }
   return processText(substituted)
     .split(/(SUBSTITUTION[0-9]+)/g)
     .map((j, i) => {
@@ -130,7 +142,7 @@ const processText = (input) => {
   /* Markdown */
   if (!input.trim()) return input;
   const [f, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/);
-  let m = marked(middle);
+  let m = marked(middle).trim(); /* Á að trimma? */
   if (!/\n\n/.test(middle)) {
     m = m.replace(/<p>(.+)<\/p>/, "$1");
   }

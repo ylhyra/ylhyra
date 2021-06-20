@@ -66,7 +66,7 @@ export const updateURL = (url, title, replace, prerender) => {
         section: section,
       },
     });
-    loadContent(url, prerender);
+    loadContent(pathname, prerender);
   }
   window.scrollTo(0, 0);
 };

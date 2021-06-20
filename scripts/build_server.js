@@ -12,6 +12,7 @@ const modules = [
 
 module.exports = {
   target: "node",
+  devtool: "source-map",
   node: {
     __dirname: true,
     __filename: false,
@@ -85,7 +86,14 @@ module.exports = {
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1,
     }),
-    new webpack.WatchIgnorePlugin(["src/app", "src/documents"]),
+    new webpack.WatchIgnorePlugin([
+      resolve("src/documents/Parse"),
+      resolve("src/documents/Read"),
+      resolve("src/documents/Render"),
+      resolve("src/documents/Style"),
+      resolve("src/documents/Templates"),
+      resolve("src/app"),
+    ]),
   ],
   // plugins: [
   //   new webpack.optimize.UglifyJsPlugin({

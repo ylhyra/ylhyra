@@ -29,8 +29,7 @@ router.get("/content", async (req, res) => {
     title = title.split(/[/:]/g).reverse().join("\u2006•\u200A");
 
     if (url.startsWith("file/")) {
-      res.sendfile(file.replace(/(\.[a-z]+)$/i, ""));
-      // res.sendfile(file)
+      res.sendFile(file.replace(/(\.[a-z]+)$/i, ""));
     } else {
       // console.log(info)
       const { content, header } = await generate_html(url);
