@@ -14,16 +14,23 @@ var now = require("performance-now");
 var fs = require("fs");
 const path = require("path");
 const critical = require("critical");
-const build_folder = path.resolve(__basedir, `./build/prerender`);
+const build_folder = path.resolve(__basedir, `./build`);
+let TESTING = true;
 
 const header_links = `
-  <link href="/main.css" rel="stylesheet" />
+  <link href="/app/main.css" rel="stylesheet" />
 `;
 let footer_links = `
-  <link href="/main.css" rel="stylesheet" />
-  <script src="http://localhost:3000/static/js/bundle.js"></script>
-  <script src="http://localhost:3000/static/js/vendors~main.chunk.js"></script>
-  <script src="http://localhost:3000/static/js/main.chunk.js"></script>
+  <link href="/app/main.css" rel="stylesheet" />
+  ${
+    TESTING
+      ? `
+    <script src="http://localhost:3000/static/js/bundle.js"></script>
+    <script src="http://localhost:3000/static/js/vendors~main.chunk.js"></script>
+    <script src="http://localhost:3000/static/js/main.chunk.js"></script>
+  `
+      : `<script src="/app/ylhyra.main.js"></script>`
+  }
 `;
 
 const css = fs.readFileSync(
@@ -45,14 +52,16 @@ const render = async (title) => {
     </Provider>
   );
 
+  const necessary_data = JSON.stringify({
+    parsed,
+    flattenedData,
+  })
+    .replace(/,?"attr":{"id":null}/g, "")
+    .replace(/,"appendText":""/g, "");
+
   footer_links =
-    `<script type="text/javascript">window.ylhyra_data=${JSON.stringify({
-      // parsedHTML: ReactDOMServer.renderToStaticMarkup(parsed),
-      // tokenized,
-      // data,
-      // flattenedData,
-      parsed,
-    })}</script>` + footer_links;
+    `<script type="text/javascript">window.ylhyra_data=${necessary_data}</script>` +
+    footer_links;
 
   output = html
     .replace("<!-- Title -->", header.title ? header.title + " - " : "")
@@ -61,29 +70,32 @@ const render = async (title) => {
     .replace("<!-- Content -->", output);
 
   fs.writeFileSync(
+    path.resolve(build_folder, `./prerender/${title}.json`),
+    necessary_data
+  );
+  fs.writeFileSync(
     path.resolve(build_folder, `./prerender/${title}.html`),
     output
   );
 
-  process.exit();
-  // /* Inline CSS */
-  // critical.generate(
-  //   {
-  //     base: build_folder,
-  //     src: `${title}.html`,
-  //     width: 1300,
-  //     height: 9000,
-  //     inline: true,
-  //   },
-  //   (err, cr_output /* Includes {css, html, uncritical} */) => {
-  //     if (err) console.log(err);
-  //     fs.writeFileSync(
-  //       path.resolve(build_folder, `./prerender/${title}.html`),
-  //       cr_output.html
-  //     );
-  //     process.exit();
-  //   }
-  // );
+  /* Inline CSS */
+  critical.generate(
+    {
+      base: build_folder,
+      src: `prerender/${title}.html`,
+      width: 1300,
+      height: 9000,
+      inline: true,
+    },
+    (err, cr_output /* Includes {css, html, uncritical} */) => {
+      if (err) console.log(err);
+      fs.writeFileSync(
+        path.resolve(build_folder, `./prerender/${title}.html`),
+        cr_output.html
+      );
+      process.exit();
+    }
+  );
 };
 
 render("lúpína");

@@ -26,7 +26,7 @@ router.get("/content", async (req, res) => {
       output.redirect_to = url;
     }
 
-    title = title.split(/[/:]/g).reverse().join("\u2006•\u200A");
+    title = title.split(/[/:]/g).reverse().join("\u2006•\u2006");
 
     if (url.startsWith("file/")) {
       res.sendFile(file.replace(/(\.[a-z]+)$/i, ""));

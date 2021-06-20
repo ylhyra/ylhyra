@@ -1,7 +1,7 @@
 import axios from "app/App/axios";
 import components from "app/Router/paths";
 import { ReadAlongSetup } from "documents/Render/Audio/ReadAlong";
-import { URL_title } from "paths.js";
+import { URL_title } from "paths";
 import store from "app/App/store";
 import { updateURL } from "./actions";
 let cache = {};
@@ -46,7 +46,6 @@ const set = async (url, data, preload) => {
   const Parse = (
     await import(
       /* webpackChunkName: "parse" */
-      /* webpackMode: "lazy-once" */
       "./../../documents/Parse"
     )
   ).default;

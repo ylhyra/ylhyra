@@ -1,4 +1,4 @@
-import { URL_title } from "paths.js";
+import { URL_title } from "paths";
 import store from "app/App/store";
 import { url_to_info } from "app/Router/paths";
 import { urls as app_urls } from "app/Router/paths";
@@ -21,6 +21,8 @@ export const InitializeRouter = (prerender) => {
 export const updateURL = (url, title, replace, prerender) => {
   if (url in app_urls) {
     url = app_urls[url].url;
+  } else {
+    url = URL_title(url);
   }
   if (!url.startsWith("/")) {
     url = "/" + url;
@@ -32,7 +34,7 @@ export const updateURL = (url, title, replace, prerender) => {
     title = url_to_info[pathname].title;
   }
   if (title) {
-    window.document.title = (title ? title + "\u2006•\u200A" : "") + "Ylhýra";
+    window.document.title = (title ? title + "\u2006•\u2006" : "") + "Ylhýra";
   }
 
   /*

@@ -4,6 +4,7 @@ import marked from "marked";
 import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
 import { html2json, json2html } from "app/App/functions/html2json";
 import Conversation from "documents/Compile/Templates/Conversations.js";
+import TOC from "documents/Compile/Templates/TOC.js";
 let links = {};
 try {
   links = require("build/links.js");
@@ -27,6 +28,8 @@ const Traverse = (json) => {
   if (node === "element" || node === "root") {
     if (tag === "Conversation") {
       return Conversation(json);
+    } else if (tag === "TOC") {
+      return TOC(json);
     }
     return {
       ...json,

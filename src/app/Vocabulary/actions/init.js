@@ -7,7 +7,7 @@ import {
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
 import { getUserFromCookie } from "app/User/actions";
-import { hour, day } from "app/App/functions/time.js";
+import { hour, day } from "app/App/functions/time";
 
 export const InitializeVocabulary = async () => {
   const now = new Date().getTime();

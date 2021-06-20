@@ -1,4 +1,4 @@
-import { getHash } from "server/vocabulary/setup/functions.js";
+import { getHash } from "server/vocabulary/setup/functions";
 import store from "app/App/store";
 /**
  * Various helper functions

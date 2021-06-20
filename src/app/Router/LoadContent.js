@@ -12,20 +12,23 @@ import { isBrowser } from "app/App/functions/isBrowser";
 
 class Content extends Component {
   render() {
+    const parsed =
+      (this.props.route.data && this.props.route.data.parsed) ||
+      this.props.prerender;
     // if (this.state.error) return <NotFound />;
-    if (!this.props.route.data) return <div>Loading...</div>;
+    if (!parsed) return <div>Loading...</div>;
     let out;
-    out = Render({
-      json: this.props.route.data.parsed,
-    });
+    out = Render({ json: parsed });
     return (
       <div>
-        <VocabularyHeader header_data={this.props.route.data.header} />
+        <VocabularyHeader
+          header_data={this.props.route.data && this.props.route.data.header}
+        />
         {out}
       </div>
     );
   }
 }
-export default connect((state) => ({
+export default /*React.memo*/ connect((state) => ({
   route: state.route,
 }))(Content);

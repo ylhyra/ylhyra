@@ -1,7 +1,7 @@
 import { average, clamp } from "app/App/functions/math";
 import store from "app/App/store";
 import { BAD, GOOD, EASY } from "./card";
-import { daysToMs } from "app/App/functions/time.js";
+import { daysToMs } from "app/App/functions/time";
 
 /**
  * Long-term scheduling

@@ -1,4 +1,4 @@
-import { hour, day } from "app/App/functions/time.js";
+import { hour, day } from "app/App/functions/time";
 import _ from "underscore";
 import { BAD, GOOD, EASY } from "./card";
 import {

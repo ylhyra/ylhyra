@@ -11,13 +11,13 @@
   "homepage": "https://ylhyra.is",
   "scripts": {
     "start": "export BROWSER=none && react-scripts start",
-    "build_": "react-scripts build",
-    "xxcompile_links": "rm -f build/**.html && node build/server/ylhyra_server.js --compile-content",
     "compile_links": "node build/server/ylhyra_server.js --compile-content",
     "compile_vocabulary": "node build/server/ylhyra_server.js --import-vocabulary",
     "compile_vocabulary_testing": "node build/server/ylhyra_server.js --import-vocabulary --testing",
     "prerender": "node build/server/ylhyra_server.js --prerender --trace-warnings",
+    "prerender_": "npm run build_server && npm run prerender",
     "build": "webpack --config ./scripts/build_app.js",
+    "build_server": "webpack --config ./scripts/build_server.js",
     "server": "export NODE_ENV=development && webpack --config ./scripts/build_server.js --color --watch"
   },
   "proxy": "http://localhost:9123",
@@ -45,7 +45,6 @@
     "express-ws": "^4.0.0",
     "file-extension": "^4.0.5",
     "formik": "^2.2.9",
-    "history": "^4.10.1",
     "html-entities": "^1.4.0",
     "htmltidy2": "^0.3.0",
     "is-boolean-attribute": "0.0.1",
