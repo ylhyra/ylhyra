@@ -55,9 +55,7 @@ const render = async (title) => {
   const necessary_data = JSON.stringify({
     parsed,
     flattenedData,
-  })
-    .replace(/,?"attr":{"id":null}/g, "")
-    .replace(/,"appendText":""/g, "");
+  });
 
   footer_links =
     `<script type="text/javascript">window.ylhyra_data=${necessary_data}</script>` +

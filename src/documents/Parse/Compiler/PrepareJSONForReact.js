@@ -5,14 +5,14 @@ import React, { lazy } from "react";
 import convert from "react-attr-converter";
 import inlineStyle2Json from "app/App/functions/inline-style-2-json";
 import isBooleanAttribute from "is-boolean-attribute";
-
-const Traverse = ({ json, data, index }) => {
+import { removeNulls } from "documents/Parse/Compiler/2_CompileToHTML/Traverse.js";
+const Traverse = (json) => {
   if (!json) return null;
-  const { node, tag, attr, child, text } = json;
+  let { node, tag, attr, child, text } = json;
+  if (attr && attr.id === null) {
+    delete attr.id;
+  }
   if (node === "element" || node === "root") {
-    if (attr.id === null) {
-      delete attr.id;
-    }
     /*
       Attribute values can be arrays (from html2json).
       Here we merge them together with spaces
@@ -54,15 +54,16 @@ const Traverse = ({ json, data, index }) => {
 
     let out = json;
     if (child) {
-      out.child = child.map((e, i) => Traverse({ json: e }));
+      out.child = child.map((e, i) => Traverse(e)).filter(removeNulls);
     }
     if (Object.keys(attr_converted).length > 0) {
       out.attr = attr_converted;
     }
 
     return out;
+  } else if (node === "text") {
+    return json;
   }
-  return json;
 };
 
 export default Traverse;

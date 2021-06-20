@@ -4,9 +4,10 @@ import Link from "app/Router/Link";
 
 const Traverse = ({ json, data, index }) => {
   if (!json) return null;
-  const { node, tag, attr, child, text } = json;
+  let { node, tag, attr, child, text } = json;
   if (node === "element" || node === "root") {
     let Tag = tag || "span";
+    attr = attr || {};
     if (node === "root") {
       return child.map((e, i) => Traverse({ json: e, index: i, data }));
     }
@@ -26,7 +27,7 @@ const Traverse = ({ json, data, index }) => {
       and add their name as a className
     */
     if (typeof Tag === "string") {
-      getCustomTag(Tag, attr.className, (output) => {
+      getCustomTag(Tag, attr && attr.className, (output) => {
         Tag = output.tag;
         attr.className = output.className;
       });
