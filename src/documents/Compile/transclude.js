@@ -1,7 +1,10 @@
 import { URL_title } from "paths.js";
 import { ParseHeaderAndBody } from "server/content";
 
-let links = require("src/output/links.js");
+let links = {};
+try {
+  links = require("build/links.js");
+} catch (e) {}
 require("app/App/functions/array-foreach-async");
 var fs = require("fs");
 var btoa = require("btoa");

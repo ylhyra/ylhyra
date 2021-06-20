@@ -3,7 +3,10 @@ import { URL_title } from "paths.js";
 const router = require("express").Router();
 var fs = require("fs");
 
-let links = require("src/output/links.js");
+let links = {};
+try {
+  links = require("build/links.js");
+} catch (e) {}
 const yaml = require("js-yaml");
 
 router.get("/content", async (req, res) => {

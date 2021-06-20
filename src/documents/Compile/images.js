@@ -4,7 +4,10 @@ import _ from "underscore";
 import Transclude from "./transclude";
 import { processed_image_url, output_folder } from "paths.js";
 
-let links = require("src/output/links.js");
+let links = {};
+try {
+  links = require("build/links.js");
+} catch (e) {}
 require("app/App/functions/array-foreach-async");
 var fs = require("fs");
 const { exec } = require("child_process");

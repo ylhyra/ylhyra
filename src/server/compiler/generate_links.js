@@ -50,7 +50,7 @@ const run = () => {
   // console.log(done);
   /* Write links */
   fs.writeFileSync(
-    "src/output/links.js",
+    "build/links.js",
     `module.exports = ` + JSON.stringify(links, null, 2)
   );
   process.exit();

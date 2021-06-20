@@ -6,7 +6,7 @@ import cors from "cors";
 const router = require("express").Router();
 const fs = require("fs");
 export const vocabulary_json =
-  __basedir + "/src/output/vocabulary_database.json";
+  __basedir + "/build/vocabulary_database.json";
 
 router.all(
   "/vocabulary/get",

@@ -250,7 +250,7 @@ const run = async () => {
   // })
   // fs.writeFileSync(path.resolve(__dirname, `terms.json`), JSON.stringify(termDependsOnTerms, null, 2), function () {})
   fs.writeFileSync(
-    __basedir + "/src/output/vocabulary_database.json",
+    __basedir + "/build/vocabulary_database.json",
     JSON.stringify(
       {
         cards,

@@ -11,28 +11,27 @@ import { TextEventListenersOn } from "documents/Read/Touch";
 import { isBrowser } from "app/App/functions/isBrowser";
 import Render from "documents/Render";
 
-let pre_parsed;
+InitializeUser();
+InitializeVocabulary();
+InitializeRouter();
+TextEventListenersOn();
+
+let prerender;
 if (isBrowser && window.ylhyra_data) {
-  pre_parsed = Render({
-    json: window.ylhyra_data.parsed,
-  });
+  prerender = window.ylhyra_data.parsed;
+  delete window.ylhyra_data;
 }
 
 const Root = (
   <React.StrictMode>
     <Provider store={store}>
-      <Router pre_parsed={pre_parsed} />
+      <Router prerender={prerender} />
     </Provider>
   </React.StrictMode>
 );
 
-if (window.ylhyra_data) {
+if (prerender) {
   ReactDOM.hydrate(Root, document.getElementById("root"));
 } else {
   ReactDOM.render(Root, document.getElementById("root"));
 }
-
-// InitializeUser();
-// InitializeVocabulary();
-// InitializeRouter();
-TextEventListenersOn();

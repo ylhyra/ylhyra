@@ -18,14 +18,8 @@ class Content extends Component {
   componentDidMount() {
     if (this.props.prerender) {
       // this.setState({ data: this.props.prerender, parsed: true });
-    } else if (isBrowser && window.ylhyra_data) {
-      // this.setState({
-      //   data: Render({
-      //     json: window.ylhyra_data.parsed,
-      //   }),
-      //   parsed: true,
-      // });
-      // delete window.ylhyra_data;
+      let url = getURL();
+      cache[url] = this.props.prerender;
     } else {
       this.get();
     }
@@ -65,8 +59,6 @@ class Content extends Component {
       out = Render({
         json: this.props.prerender,
       });
-    } else if (this.props.pre_parsed) {
-      out = this.props.pre_parsed;
     } else {
       if (!this.state.data) return <div>Loading...</div>;
       out = Render({

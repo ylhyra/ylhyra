@@ -11,10 +11,7 @@ class App extends React.Component {
   render() {
     let Element = () => null;
     const url = this.props.route.pathname;
-    if (
-      url in components &&
-      !(this.props.prerender || (isBrowser && window.ylhyra_data))
-    ) {
+    if (url in components) {
       Element = components[url];
     } else {
       Element = LoadContent;
@@ -22,11 +19,7 @@ class App extends React.Component {
     return (
       <Layout>
         {/* <Suspense fallback={<div>Loading...</div>}> */}
-        <Element
-          key={url}
-          prerender={this.props.prerender}
-          pre_parsed={this.props.pre_parsed}
-        />
+        <Element key={url} prerender={this.props.prerender} />
         {/* </Suspense> */}
       </Layout>
     );

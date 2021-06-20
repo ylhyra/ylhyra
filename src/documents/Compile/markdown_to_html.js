@@ -3,7 +3,10 @@ import { URL_title, section_id } from "paths.js";
 import marked from "marked";
 import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
 import { html2json, json2html } from "app/App/functions/html2json";
-let links = require("src/output/links.js");
+let links = {};
+try {
+  links = require("build/links.js");
+} catch (e) {}
 
 /**
  * Here we convert markdown textblocks to HTML.

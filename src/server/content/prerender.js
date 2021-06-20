@@ -14,7 +14,7 @@ var now = require("performance-now");
 var fs = require("fs");
 const path = require("path");
 const critical = require("critical");
-const build_folder = path.resolve(__basedir, `./build`);
+const build_folder = path.resolve(__basedir, `./build/prerender`);
 
 const header_links = `
   <link href="/main.css" rel="stylesheet" />
@@ -59,24 +59,25 @@ const render = async (title) => {
 
   fs.writeFileSync(path.resolve(build_folder, `./${title}.html`), output);
 
-  /* Inline CSS */
-  critical.generate(
-    {
-      base: build_folder,
-      src: `${title}.html`,
-      width: 1300,
-      height: 9000,
-      inline: true,
-    },
-    (err, cr_output /* Includes {css, html, uncritical} */) => {
-      if (err) console.log(err);
-      fs.writeFileSync(
-        path.resolve(build_folder, `./${title}.html`),
-        cr_output.html
-      );
-      process.exit();
-    }
-  );
+  process.exit();
+  // /* Inline CSS */
+  // critical.generate(
+  //   {
+  //     base: build_folder,
+  //     src: `${title}.html`,
+  //     width: 1300,
+  //     height: 9000,
+  //     inline: true,
+  //   },
+  //   (err, cr_output /* Includes {css, html, uncritical} */) => {
+  //     if (err) console.log(err);
+  //     fs.writeFileSync(
+  //       path.resolve(build_folder, `./${title}.html`),
+  //       cr_output.html
+  //     );
+  //     process.exit();
+  //   }
+  // );
 };
 
 render("lúpína");
