@@ -119,14 +119,14 @@ class Audio extends React.PureComponent {
   play = (event) => {
     event && event.persist();
     SmoothScroll.allow();
-    ReadAlong(this.refs.audio, "play", this.state.data.filename);
+    ReadAlong(this.audio.current, "play", this.state.data.filename);
     this.updateStore();
     this.setState({ playing: true });
   };
   pause = (event) => {
     event.persist();
     SmoothScroll.stop();
-    ReadAlong(this.refs.audio, "pause", this.state.data.filename);
+    ReadAlong(this.audio.current, "pause", this.state.data.filename);
     this.setState({ playing: false });
   };
   ended = () => {

@@ -11,16 +11,15 @@ import { TextEventListenersOn } from "documents/Read/Touch";
 import { isBrowser } from "app/App/functions/isBrowser";
 import Render from "documents/Render";
 
-InitializeUser();
-InitializeVocabulary();
-TextEventListenersOn();
-
 let prerender;
 if (isBrowser && window.ylhyra_data) {
   prerender = window.ylhyra_data.parsed;
   delete window.ylhyra_data;
 }
 InitializeRouter(prerender);
+InitializeUser();
+InitializeVocabulary();
+TextEventListenersOn();
 
 const Root = (
   <React.StrictMode>

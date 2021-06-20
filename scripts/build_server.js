@@ -10,9 +10,6 @@ const modules = [
   // resolve('node_modules'),
 ];
 
-new webpack.WatchIgnorePlugin(["src/.+"]);
-// new webpack.WatchIgnorePlugin({ paths: ['src/.+'] })
-
 module.exports = {
   target: "node",
   node: {
@@ -88,6 +85,7 @@ module.exports = {
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1,
     }),
+    new webpack.WatchIgnorePlugin(["src/app", "src/documents"]),
   ],
   // plugins: [
   //   new webpack.optimize.UglifyJsPlugin({

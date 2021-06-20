@@ -9,3 +9,4 @@ Vocabulary:
 - continue session on login
 - max bad ratio
 - fjarlægja lazy-loading á templötum
+- fjarlægja readmesetup þegar skipt er um síðu

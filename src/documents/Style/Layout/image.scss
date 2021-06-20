@@ -18,19 +18,20 @@
     img {
       display: block;
     }
-    .metadata {
+    .image-metadata {
       position: absolute;
       top: 0;
       right: 0;
       background: rgba(242, 242, 242, 0.95);
       word-break: break-all;
       padding: 0 3px;
-      font-size: 11px;
+      font-size: 10px;
       text-align: right;
       display: none;
+      opacity: 0.9;
     }
     &:hover {
-      .metadata {
+      .image-metadata {
         display: block;
       }
     }

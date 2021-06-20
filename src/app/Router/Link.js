@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { urls as app_urls } from "app/Router/paths";
 import { URL_title } from "paths.js";
 import { updateURL } from "app/Router/actions";
-
+import { preload } from "./load";
 class Link extends React.Component {
   fn = (e, url) => {
     if (e.altKey || e.metaKey || e.ctrlKey) return;
@@ -35,14 +35,16 @@ class Link extends React.Component {
     }
     if (href.startsWith("/")) {
       return (
-        <a href={href} {...{ className, id }} onClick={(e) => this.fn(e, href)}>
+        <a
+          href={href}
+          {...{ className, id }}
+          onClick={(e) => this.fn(e, href)}
+          onMouseEnter={() => preload(href)}
+        >
           {children}
         </a>
       );
     }
-    // if (!/%/.test(href)) {
-    //   href = encodeURI(href);
-    // }
     return (
       <a href={href} {...{ className, id }}>
         {children}

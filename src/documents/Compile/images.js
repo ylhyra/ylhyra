@@ -115,7 +115,11 @@ const Images = (data) => {
                   height="${original_height}"
                 />
               </picture>
-              ${transcluded ? `<div class="metadata">${transcluded}</div>` : ""}
+              ${
+                transcluded
+                  ? `<div class="image-metadata">${transcluded}</div>`
+                  : ""
+              }
             </div>
             ${
               params.caption

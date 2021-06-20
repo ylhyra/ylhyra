@@ -2,6 +2,7 @@ import ScrollIntoView from "documents/Render/Audio/Scroll/ScrollIntoView";
 import { addClass, removeClass } from "documents/Render/helpers.js";
 import store from "app/App/store";
 import _ from "underscore";
+import { getDynamicFileUrl } from "paths.js";
 
 /*
   Hasten all times by X seconds. It may be better to be a little quick,
@@ -66,14 +67,22 @@ export const ReadAlong = (audio, type, filename) => {
   }
 };
 
-export const ReadAlongSetup = () => {
-  const { long_audio } = store.getState().data;
-  for (const filename in long_audio) {
+const clear = () => {
+  list = {};
+  sentences = {};
+};
+
+export const ReadAlongSetup = (data) => {
+  if (!data || !data.long_audio) {
+    return clear();
+  }
+  const { long_audio } = data;
+  for (let filename in long_audio) {
     const synclist = long_audio[filename].sync.list;
-    list[filename] = synclist;
+    list[getDynamicFileUrl(filename)] = synclist;
     /* Temp solution, would be better to do this in the audio synchronization step */
-    synclist.forEach((section) => {
-      section.elements.forEach((element) => {
+    for (const section of synclist) {
+      for (const element of section.elements) {
         if (!sentences[element]) {
           sentences[element] = {
             filename,
@@ -83,8 +92,8 @@ export const ReadAlongSetup = () => {
         } else {
           sentences[element]["end"] = section.end;
         }
-      });
-    });
+      }
+    }
   }
 };
 

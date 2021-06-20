@@ -11,9 +11,9 @@ export const contentUrl = "/api/content";
 export const processed_image_url = `/api/images`;
 export const unprocessed_image_url = `/api/images2`;
 export const getDynamicFileUrl = (file) =>
-  `/api/content?title=file/${encodeURIComponent(file)}`;
+  `/api/content?title=file/${encodeURIComponent(file.trim())}`;
 export const get_processed_image_url = (file) =>
-  `${processed_image_url}/${encodeURIComponent(file)}`;
+  `${processed_image_url}/${encodeURIComponent(file.trim())}`;
 export const ylhyra_content_files = path.resolve(
   content_folder,
   "./not_data/files"
