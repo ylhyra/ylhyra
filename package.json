@@ -12,11 +12,11 @@
   "scripts": {
     "start": "export BROWSER=none && react-scripts start",
     "build_": "react-scripts build",
-    "xxcompile_links": "rm -f build/**.html && node build/ylhyra_server.js --compile-content",
-    "compile_links": "node build/ylhyra_server.js --compile-content",
-    "compile_vocabulary": "node build/ylhyra_server.js --import-vocabulary",
-    "compile_vocabulary_testing": "node build/ylhyra_server.js --import-vocabulary --testing",
-    "prerender": "node build/ylhyra_server.js --prerender --trace-warnings",
+    "xxcompile_links": "rm -f build/**.html && node build/server/ylhyra_server.js --compile-content",
+    "compile_links": "node build/server/ylhyra_server.js --compile-content",
+    "compile_vocabulary": "node build/server/ylhyra_server.js --import-vocabulary",
+    "compile_vocabulary_testing": "node build/server/ylhyra_server.js --import-vocabulary --testing",
+    "prerender": "node build/server/ylhyra_server.js --prerender --trace-warnings",
     "build": "webpack --config ./scripts/build_app.js",
     "server": "export NODE_ENV=development && webpack --config ./scripts/build_server.js --color --watch"
   },

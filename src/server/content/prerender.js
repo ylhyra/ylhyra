@@ -26,7 +26,10 @@ let footer_links = `
   <script src="http://localhost:3000/static/js/main.chunk.js"></script>
 `;
 
-const css = fs.readFileSync(path.resolve(output_folder, `./css.css`), "utf8");
+const css = fs.readFileSync(
+  path.resolve(output_folder, `./app/main.css`),
+  "utf8"
+);
 const html = fs.readFileSync(
   path.resolve(__basedir, `./public/index.html`),
   "utf8"
@@ -57,7 +60,10 @@ const render = async (title) => {
     .replace("<!-- Footer items -->", footer_links)
     .replace("<!-- Content -->", output);
 
-  fs.writeFileSync(path.resolve(build_folder, `./${title}.html`), output);
+  fs.writeFileSync(
+    path.resolve(build_folder, `./prerender/${title}.html`),
+    output
+  );
 
   process.exit();
   // /* Inline CSS */
@@ -72,7 +78,7 @@ const render = async (title) => {
   //   (err, cr_output /* Includes {css, html, uncritical} */) => {
   //     if (err) console.log(err);
   //     fs.writeFileSync(
-  //       path.resolve(build_folder, `./${title}.html`),
+  //       path.resolve(build_folder, `./prerender/${title}.html`),
   //       cr_output.html
   //     );
   //     process.exit();

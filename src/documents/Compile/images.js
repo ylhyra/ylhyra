@@ -26,6 +26,12 @@ const Images = (data) => {
     await input.forEachAsync(async (z, index) => {
       await new Promise(async (resolve2, reject2) => {
         let [o, filename_, rest] = z.match(/src="(.+?)"(.+)?\/>/);
+        if (!/(png|jpe?g)$/.test(filename_)) {
+          console.log(filename_ + " file type not yet supported");
+          output.push("");
+          // output.push(`<img src=""/>`)
+          return resolve2;
+        }
         // console.log(rest)
         if (!(URL_title("File:" + filename_) in links)) {
           throw new Error(

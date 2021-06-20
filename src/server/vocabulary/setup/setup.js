@@ -1,6 +1,6 @@
 /*
   To run:
-  node build/ylhyra_server.js --import-vocabulary
+  node build/server/ylhyra_server.js --import-vocabulary
 */
 import axios from "axios";
 import query from "server/database";

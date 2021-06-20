@@ -13,7 +13,6 @@ import Render from "documents/Render";
 
 InitializeUser();
 InitializeVocabulary();
-InitializeRouter();
 TextEventListenersOn();
 
 let prerender;
@@ -21,11 +20,12 @@ if (isBrowser && window.ylhyra_data) {
   prerender = window.ylhyra_data.parsed;
   delete window.ylhyra_data;
 }
+InitializeRouter(prerender);
 
 const Root = (
   <React.StrictMode>
     <Provider store={store}>
-      <Router prerender={prerender} />
+      <Router />
     </Provider>
   </React.StrictMode>
 );

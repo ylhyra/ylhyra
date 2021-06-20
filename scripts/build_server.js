@@ -24,7 +24,7 @@ module.exports = {
     ylhyra_server: [/*polyfills,*/ resolve("src/server/index.js")],
   },
   output: {
-    path: resolve("build"),
+    path: resolve("build/server"),
     filename: "[name].js",
   },
   resolve: {
@@ -36,13 +36,9 @@ module.exports = {
       // resolve('server/node_modules/'),
       // resolve('node_modules/'),
     ],
-    extensions: [".web.js", ".mjs", ".js", ".json", ".web.jsx", ".jsx"],
+    extensions: [".js", ".json"],
   },
   externals: [nodeExternals()],
-  /*
-    Virka ekki af einhverjum ástæðum. "source-map-support" í index.js ætti að láta þetta virka.
-  */
-  devtool: "source-map",
   stats: {
     colors: true,
     hash: false,
@@ -69,7 +65,7 @@ module.exports = {
       {
         oneOf: [
           {
-            test: /\.(js|jsx|mjs)$/,
+            test: /\.js$/,
             include: modules,
             loader: require.resolve("babel-loader"),
             options: {

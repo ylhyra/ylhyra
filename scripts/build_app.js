@@ -7,7 +7,7 @@ const config = {
   entry: "./src/index.js",
   mode: "production",
   output: {
-    path: path.resolve(__dirname, "./../build"),
+    path: path.resolve(__dirname, "./../build/app"),
     filename: "ylhyra.js",
   },
   module: {
