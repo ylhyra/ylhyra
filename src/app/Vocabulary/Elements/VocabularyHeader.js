@@ -30,13 +30,16 @@ class X extends Component {
     if (!vocabulary_list || !deck) return null;
     const cards = this.getCards();
     if (cards.length === 0) return null;
+    if (this.props.button === false) {
+      return (
+        <small className="gray">{PercentageKnown(cards, deck)}% known</small>
+      );
+    }
     return (
       <div>
         <div>{PercentageKnown(cards, deck)}% known</div>
         {/* <div>{JSON.stringify(MakeSummaryOfCardStatuses(cards, deck))}</div> */}
-        {this.props.button !== false && (
-          <button onClick={this.run}>Study {cards.length} cards</button>
-        )}
+        <button onClick={this.run}>Study {cards.length} cards</button>
       </div>
     );
   }

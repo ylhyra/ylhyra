@@ -3,6 +3,10 @@ import _hash from "app/App/functions/hash";
 export const clean_string = (i) => {
   if (!i) return null;
   return i
+    .replace(/;;/g, "MAJOR_SEPERATOR")
+    .replace(/;/g, "MINOR_SEPERATOR")
+    .replace(/∆/g, ",")
+
     .replace(/\*/g, "")
     .replace(/\\,/g, ",")
     .replace(/'{2,}/g, "")

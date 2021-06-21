@@ -1,16 +1,11 @@
-import { html2json, json2html } from "app/App/functions/html2json";
 import c from "app/App/functions/no-undefined-in-template-literal.js";
-import markdown_to_html from "documents/Compile/markdown_to_html.js";
 
-export default (json) => {
-  return json;
-  // let text = json2html({ node: "root", child: json.child });
-  // // console.log(text);
-  // let output = text.replace(/^ {2}- (.+)/gm, (x, title) => {
-  //   return c`  - [[${title}]]  <VocabularyStatus header_data="{{${title}>>>vocabulary}}"/>`;
-  // });
-  // return {
-  //   node: "text",
-  //   text: output,
-  // };
+export default (text) => {
+  text = text.replace(/<TOC>([\s\S]+)<\/TOC>/g, (x, content) => {
+    return content.replace(/^ {2}- (.+)/gm, (j, title) => {
+      const short_title = title.match(/\/(.+?)$/)[1] || title;
+      return c`  - [[${title}|${short_title}]]  <VocabularyStatus header_data="{{${title}>>>vocabulary}}"/>`;
+    });
+  });
+  return `<div class="toc">${text}</div>`;
 };

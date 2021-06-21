@@ -23,7 +23,7 @@ const run = async () => {
       console.log(title || "Frontpage");
       if (n++ > 100) process.exit();
 
-      prerender(url, filename, resolve2);
+      prerender(url, filename, true, resolve2);
     });
   });
 };

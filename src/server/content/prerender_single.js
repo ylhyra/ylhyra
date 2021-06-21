@@ -42,7 +42,7 @@ const html = fs.readFileSync(
   "utf8"
 );
 
-const render = async (title, filename, callback) => {
+const render = async (title, filename, css, callback) => {
   // console.log(title);
   const { content, header } = await generate_html(title);
   const out = await Parse({ html: content });
@@ -60,14 +60,14 @@ const render = async (title, filename, callback) => {
     },
   });
 
-  footer_links =
+  const footer_items =
     `<script type="text/javascript">window.ylhyra_data=${necessary_data}</script>` +
     footer_links;
 
   output = html
     .replace("<!-- Title -->", header.title ? header.title + " - " : "")
     .replace("<!-- Header items -->", header_links)
-    .replace("<!-- Footer items -->", footer_links)
+    .replace("<!-- Footer items -->", footer_items)
     .replace("<!-- Content -->", output);
 
   fs.writeFileSync(
@@ -78,27 +78,28 @@ const render = async (title, filename, callback) => {
     path.resolve(build_folder, `./prerender/${filename}.html`),
     output
   );
-  callback();
-  // /* Inline CSS */
-  // critical.generate(
-  //   {
-  //     base: build_folder,
-  //     src: `prerender/${title}.html`,
-  //     width: 1300,
-  //     height: 9000,
-  //     inline: true,
-  //   },
-  //   (err, cr_output /* Includes {css, html, uncritical} */) => {
-  //     if (err) console.log(err);
-  //     fs.writeFileSync(
-  //       path.resolve(build_folder, `./prerender/${filename}.html`),
-  //       cr_output.html
-  //     );
-  //     process.exit();
-  //   }
-  // );
+  if (css) {
+    /* Inline CSS */
+    critical.generate(
+      {
+        base: build_folder,
+        src: `prerender/${filename}.html`,
+        width: 1300,
+        height: 9000,
+        inline: true,
+      },
+      (err, cr_output /* Includes {css, html, uncritical} */) => {
+        if (err) console.log(err);
+        fs.writeFileSync(
+          path.resolve(build_folder, `./prerender/${filename}.html`),
+          cr_output.html
+        );
+        callback();
+      }
+    );
+  } else {
+    callback();
+  }
 };
-
-// render("lúpína");
 
 export default render;

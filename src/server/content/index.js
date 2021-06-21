@@ -1,8 +1,8 @@
 import generate_html from "documents/Compile";
 import { URL_title } from "paths.js";
+import { removeComments } from "documents/Compile/transclude";
 const router = require("express").Router();
 var fs = require("fs");
-
 let links = {};
 try {
   links = require("build/links.js");
@@ -51,6 +51,7 @@ router.get("/content", async (req, res) => {
 export default router;
 
 export const ParseHeaderAndBody = (data) => {
+  data = removeComments(data);
   const match = data.trim().match(/^---\n([\s\S]+?)\n---([\s\S]+)?/);
   if (!match) {
     throw new Error("Failed to parse\n\n" + data);

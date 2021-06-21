@@ -89,6 +89,7 @@ export const getRelatedCardIds = (id) => {
 export const getCardIdsFromWords = (words) => {
   const deck = getDeck();
   let card_ids = [];
+  let missing = [];
   words.forEach((word) => {
     const hash = getHash(word);
     if (hash in deck.terms) {
@@ -98,9 +99,12 @@ export const getCardIdsFromWords = (words) => {
         card_ids = card_ids.concat(deck.terms[j].cards);
       });
     } else {
-      console.log(`"${word}" not in database`);
+      missing.push(word);
     }
   });
+  if (missing.length > 0) {
+    console.log(`Missing terms: ${missing.join(" • ")}`);
+  }
   return withDependencies(_.uniq(card_ids));
 };
 

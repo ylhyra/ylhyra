@@ -1,6 +1,6 @@
 import { URL_title } from "paths.js";
 import { ParseHeaderAndBody } from "server/content";
-
+import TOC from "documents/Compile/Templates/TOC";
 let links = {};
 try {
   links = require("build/links.js");
@@ -30,33 +30,39 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
       let { header, body } = ParseHeaderAndBody(data);
 
       let output = body;
+
       /* Strip comments */
-      output = output.replace(/<!--([\s\S]+?)-->\n?/g, "");
-      // console.log(output);
-      // TODO
+      output = removeComments(output);
+
+      /* Certain templates currently require
+       * pre-processing to access header data  */
+      /* TODO: Move elsewhere */
+      output = TOC(output);
+
       if (depth < 1) {
-        output = "";
-        await body.split(/{{([^{}]+)}}/g).forEachAsync(async (q, index) => {
+        let new_output = "";
+        await output.split(/{{([^{}]+)}}/g).forEachAsync(async (q, index) => {
           await new Promise(async (resolve2, reject2) => {
             if (index % 2 === 0) {
-              output += q;
+              new_output += q;
               return resolve2();
             }
             /* TODO: Find better syntax to get header info */
             if (/(>>>)/.test(q)) {
               const [title_, param_] = q.split(">>>");
               const transclusion = await Transclude(title_, depth + 1);
-              output += btoa(
+              new_output += btoa(
                 JSON.stringify(transclusion.header[param_])
               ); /* TODO encodeURIComponent instead */
               // .replace(/"/g,'\\"')
             } else {
               const transclusion = await Transclude(q, depth + 1);
-              output += transclusion.output || "";
+              new_output += transclusion.output || "";
             }
             return resolve2();
           });
         });
+        output = new_output;
       }
       if (shouldGetData) {
         const data2 = await getData(header);
@@ -67,6 +73,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
           output +
           `<span data-document-end="${(data2 || header).title}"></span>`;
       }
+
       resolve({ output, header });
     });
   });
@@ -87,3 +94,6 @@ const getData = async (header) => {
 };
 
 export default Transclude;
+
+export const removeComments = (i) =>
+  i.replace(/<!--([\s\S]+?)-->/g, "").replace(/\n<!--([\s\S]+?)-->\n/g, "\n");

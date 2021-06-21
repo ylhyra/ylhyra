@@ -68,6 +68,7 @@ app.use("/api", require("server/user").default);
 app.use("/api", require("server/content").default);
 app.use("/api", require("server/vocabulary/get").default);
 app.use("/api", require("server/vocabulary/save").default);
+app.use("/api", require("server/vocabulary/maker").default);
 
 // // app.use('/api', require('server/tweets').default)
 // // app.use('/api', require('server/audio').default)

@@ -1,6 +1,6 @@
 /*
   To run:
-  node build/server/ylhyra_server.js --import-vocabulary
+  npm run vocabulary
 */
 import axios from "axios";
 import query from "server/database";
@@ -13,6 +13,7 @@ import {
 } from "./functions";
 const path = require("path");
 const fs = require("fs");
+
 require("src/app/App/functions/array-foreach-async");
 let google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?output=tsv&random=${Math.random()}`;
 let TESTING = false;
@@ -66,33 +67,41 @@ const run = async () => {
       if (!name.trim()) return;
       column_indexes_to_name[index] = name.trim();
     });
-
+  // let out = [];
   data
     .split("\n")
-    .slice(1)
+    .slice(1) // Remove header
     // .slice(0, 100) // TEMP!!!
     .forEach((line, line_number) => {
+      /**
+       * ------------------------------
+       *         PROCESS LINE
+       * ------------------------------
+       */
       let to_add = [];
 
-      /* Assing names to columns */
+      /* Assign names to columns */
       let columns = {};
       line.split("\t").forEach((string, index) => {
         if (!column_indexes_to_name[index]) return;
         columns[column_indexes_to_name[index]] = string.trim() || null;
       });
+      // out.push(columns);
+      // return;
 
       // console.log(columns)
       // process.exit()
 
+      const icelandic = clean_string(columns.icelandic);
       const english = clean_string(columns.english);
-      if (!columns.icelandic) return;
+      if (!icelandic) return;
       if (!english) return;
       if (columns.should_teach === "no") return;
       if (!columns.level && !TESTING) return;
 
       /* Can have multiple */
       let icelandic_strings = [];
-      columns.icelandic.split(/(.+?[^\\])([,;])/g).forEach((i) => {
+      icelandic.split(/(.+?[^\\])([,;])/g).forEach((i) => {
         i = i.trim();
         if (!i) return;
         if (i === "," || i === ";") return;
@@ -145,16 +154,15 @@ const run = async () => {
       /* English to Icelandic */
       if (columns.direction !== "->") {
         to_add.push({
-          is: clean_string(columns.icelandic),
+          is: clean_string(icelandic),
           from: "en",
-          id: getHash(columns.icelandic) + "_en",
+          id: getHash(icelandic) + "_en",
           ...card_skeleton,
         });
       }
 
       to_add.forEach(({ id, ...card }) => {
-        if (cards[id])
-          return console.log(`"${columns.icelandic}" already exists`);
+        if (cards[id]) return console.log(`"${icelandic}" already exists`);
         // [...terms_in_this_line, ...alternative_ids].forEach(j => {
         //   termsToCardIds[j] = [
         //     ...(termsToCardIds[j] || []),
@@ -169,86 +177,13 @@ const run = async () => {
         };
       });
     });
-
-  // /* Process dependency graph */
-  // let dependencyGraphProcessed = {}
-  // for (let from_term in cardIdsSeen) {
-  //   if (typeof (cardIdsSeen[from_term]) == "function") continue;
-  //   dependencyGraphProcessed[from_term] = CreateDependencyChain(from_term)
-  // }
-
-  // cards = cards.sort((a, b) => {
-  //   if (a.level !== b.level) {
-  //     return a.level - b.level
-  //   }
-  //   // if(dependencyGraphProcessed[a.])
-  //   return a.sort - b.sort
-  // }).map((card, index) => ({
-  //   ...card,
-  //   sort: index,
-  // }))
-
   console.log(`${Object.keys(cards).length} cards`);
-  // await cards.forEachAsync(async({
-  //   is,
-  //   en,
-  //   id,
-  //   from,
-  //   level,
-  //   word_ids,
-  //   sort,
-  //   terms,
-  // }) => {
-  //   await new Promise((resolve) => {
-  //     query(sql `INSERT INTO vocabulary_cards SET
-  //       id = ${id},
-  //       level = ${Math.floor(level) || null},
-  //       sort = ${sort},
-  //       data = ${stable_stringify({
-  //         is,
-  //         en,
-  //         from,
-  //         word_ids,
-  //       })}
-  //       ;
-  //       `, (err) => {
-  //       if (err) {
-  //         console.error(err)
-  //         process.exit()
-  //       } else {
-  //         resolve()
-  //       }
-  //     })
-  //     // let queries = []
-  //     // terms.forEach(term => {
-  //     //   queries.push(sql `INSERT INTO vocabulary_card_relations SET
-  //     //     from_id = ${id},
-  //     //     to_id = ${term},
-  //     //     relation_type = "belongs_to"
-  //     //     ;
-  //     //   `)
-  //     // })
-  //     // if (dependencyGraphProcessed[id]) {
-  //     //   for (let to_term in dependencyGraphProcessed[id]) {
-  //     //     if (typeof (dependencyGraphProcessed[id][to_term]) == "function") continue;
-  //     //     queries.push(sql `INSERT INTO vocabulary_card_relations SET
-  //     //       from_id = ${id},
-  //     //       to_id = ${to_term},
-  //     //       relation_depth = ${dependencyGraphProcessed[id][to_term]},
-  //     //       relation_type = "depends_on"
-  //     //       ;
-  //     //     `)
-  //     //   }
-  //     // }
-  //     // query(queries.join(''), (err) => {
-  //     //   if (err) {
-  //     //     console.error(err)
-  //     //     process.exit()
-  //     //   }
-  //     // })
-  //   })
-  // })
-  // fs.writeFileSync(path.resolve(__dirname, `terms.json`), JSON.stringify(termDependsOnTerms, null, 2), function () {})
+
+  // fs.writeFileSync(
+  //   __basedir + "/build/vocabulary_database2.json",
+  //   JSON.stringify(out, null, 2),
+  //   function () {}
+  // );
   fs.writeFileSync(
     __basedir + "/build/vocabulary_database.json",
     JSON.stringify(
@@ -273,44 +208,4 @@ const run = async () => {
 // .replace(/''(.+)''/g, '<em>$1</em>')
 // .trim()
 
-/**
- * Returns an object on the form { [key]: [depth] }
- */
-const CreateDependencyChain = (
-  from_term,
-  _alreadySeen = [],
-  output = [],
-  depth = 0
-) => {
-  // termDependsOnTerms[from_term].forEach(term => {
-  //   const alreadySeen = [..._alreadySeen] /* Deep copy in order to only watch direct parents */
-  //   if (alreadySeen.includes(term)) return;
-  //   alreadySeen.push(term)
-  //   const card_ids = termsToCardIds[term] || []
-  //   if (card_ids.some(id => alreadySeen.includes(id))) return;
-  //   card_ids.forEach(card_id => {
-  //     if (depth > 0) {
-  //       output[card_id] = Math.max(output[card_id] || 0, depth)
-  //     }
-  //     alreadySeen.push(card_id)
-  //   })
-  //   if (termDependsOnTerms[term]) {
-  //     CreateDependencyChain(term, alreadySeen, output, card_ids.length > 1 ? depth + 1 : depth)
-  //   }
-  // })
-  // if (depth === 0) {
-  //   return output
-  // }
-};
-
-// query(sql `
-//   TRUNCATE TABLE vocabulary_cards;
-//   TRUNCATE TABLE vocabulary_card_relations;
-// `, (err) => {
-//   if (err) {
-//     console.error(err)
-//   } else {
-//     run()
-//   }
-// })
 run();

@@ -4,7 +4,7 @@ import marked from "marked";
 import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
 import { html2json, json2html } from "app/App/functions/html2json";
 import Conversation from "documents/Compile/Templates/Conversations.js";
-import TOC from "documents/Compile/Templates/TOC.js";
+// import TOC from "documents/Compile/Templates/TOC.js";
 let links = {};
 try {
   links = require("build/links.js");
@@ -29,7 +29,7 @@ const Traverse = (json) => {
     if (tag === "Conversation") {
       return Conversation(json);
     } else if (tag === "TOC") {
-      return TOC(json);
+      // return TOC(json);
     }
     return {
       ...json,
@@ -132,7 +132,13 @@ const processText = (input) => {
     .replace(/''/g, "*")
 
     /* Tags */
-    .replace(/<([^> ]+)( [^>]+)?\/>/g, "<$1$2></$1>");
+    .replace(/<([^> ]+)( [^>]+)?\/>/g, "<$1$2></$1>")
+
+    /* Backticks */
+    .replace(
+      /`(.+?)`/g,
+      '<span class="short-translated-text" data-translate="true">$1</span>'
+    );
 
   // /* Remove? */
   // .replace(/<\/Image>\n\n/g, '</Image>\n')
