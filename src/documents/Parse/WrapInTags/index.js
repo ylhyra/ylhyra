@@ -115,7 +115,7 @@ const WrapInTags = (input, tokenizedSplit, elementName, innerFunction) => {
   let html, json;
   const temp_attribute_name = innerFunction ? `data-temp-id` : `data-temp-id2`;
 
-  if (tokenizedSplit.length === 0) return input;
+  if (!tokenizedSplit || tokenizedSplit.length === 0) return input;
   // console.log(JSON.stringify(input))
   html = InsertSplit(input, tokenizedSplit);
   json = SplitAndWrap(

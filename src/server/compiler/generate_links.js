@@ -57,7 +57,9 @@ const run = () => {
 };
 
 export const FileSafeTitle = (title) => {
-  return URL_title(title).replace(/(\/)/g, "_").replace(/(:)/g, "_");
+  return (
+    URL_title(title).replace(/(\/)/g, "_").replace(/(:)/g, "_") || "frontpage"
+  );
 };
 
 // https://stackoverflow.com/a/66187152 CC BY-SA 4.0

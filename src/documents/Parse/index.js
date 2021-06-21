@@ -49,7 +49,7 @@ export default ({ html, title }) => {
       // return html2json(Compiler({ json: wrapped, data: data, }))
     }
     const tokenized = Tokenizer(text, data);
-    // console.log({text,tokenized})
+    // console.log({ text, tokenized });
     // var t4 = now()
     // console.log(`Tokenization took ${Math.round(t4 - t3)} ms`)
     const flattenedData = flattenData(data);

@@ -42,7 +42,8 @@ const html = fs.readFileSync(
   "utf8"
 );
 
-const render = async (title) => {
+const render = async (title, filename, callback) => {
+  // console.log(title);
   const { content, header } = await generate_html(title);
   const out = await Parse({ html: content });
   const { parsed, tokenized, data, flattenedData } = out;
@@ -54,7 +55,9 @@ const render = async (title) => {
 
   const necessary_data = JSON.stringify({
     parsed,
-    flattenedData,
+    flattenedData: {
+      long_audio: flattenedData && flattenedData.long_audio,
+    },
   });
 
   footer_links =
@@ -68,32 +71,34 @@ const render = async (title) => {
     .replace("<!-- Content -->", output);
 
   fs.writeFileSync(
-    path.resolve(build_folder, `./prerender/${title}.json`),
+    path.resolve(build_folder, `./prerender/${filename}.json`),
     necessary_data
   );
   fs.writeFileSync(
-    path.resolve(build_folder, `./prerender/${title}.html`),
+    path.resolve(build_folder, `./prerender/${filename}.html`),
     output
   );
-
-  /* Inline CSS */
-  critical.generate(
-    {
-      base: build_folder,
-      src: `prerender/${title}.html`,
-      width: 1300,
-      height: 9000,
-      inline: true,
-    },
-    (err, cr_output /* Includes {css, html, uncritical} */) => {
-      if (err) console.log(err);
-      fs.writeFileSync(
-        path.resolve(build_folder, `./prerender/${title}.html`),
-        cr_output.html
-      );
-      process.exit();
-    }
-  );
+  callback();
+  // /* Inline CSS */
+  // critical.generate(
+  //   {
+  //     base: build_folder,
+  //     src: `prerender/${title}.html`,
+  //     width: 1300,
+  //     height: 9000,
+  //     inline: true,
+  //   },
+  //   (err, cr_output /* Includes {css, html, uncritical} */) => {
+  //     if (err) console.log(err);
+  //     fs.writeFileSync(
+  //       path.resolve(build_folder, `./prerender/${filename}.html`),
+  //       cr_output.html
+  //     );
+  //     process.exit();
+  //   }
+  // );
 };
 
-render("lúpína");
+// render("lúpína");
+
+export default render;

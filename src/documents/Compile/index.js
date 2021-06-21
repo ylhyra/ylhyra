@@ -7,7 +7,7 @@ export default async (title) => {
   let { output, header } = await TranscludeFromTitle(title);
   if (!output) {
     throw new Error(
-      "No output from transclude, possibly files have been changed since last link compilation "
+      `No output from transclude "${title}", possibly files have been changed since last link compilation`
     );
   }
   output = await images(output);
