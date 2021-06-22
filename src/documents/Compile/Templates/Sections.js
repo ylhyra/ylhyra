@@ -1,5 +1,7 @@
+import c from "app/App/functions/no-undefined-in-template-literal.js";
 export default (input, header) => {
-  if (/Course\//.test(header.title)) {
+  const is_course = /Course\//.test(header.title);
+  if (true || is_course) {
     input =
       "SECTION_START" +
       input.replace(/^(==[^=]+==)$/gm, "SECTION_ENDSECTION_START$1") +
@@ -14,9 +16,11 @@ export default (input, header) => {
     input = input.replace(
       /(SECTION_START([\s\S]+?)SECTION_END)/g,
       (j, k, content) => {
-        return `<Section class="content ${
-          i++ % 2 === 0 ? "" : "odd"
-        }">${content}</Section>`;
+        return c`<section class="
+          ${is_course && "content"}
+          ${i === 0 && "first"}
+          ${i++ % 2 !== 0 && "odd"}
+        ">${content}</section>`;
       }
     );
     // input = input

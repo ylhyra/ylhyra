@@ -8,22 +8,22 @@ export default (props) => (
       <Link href="/" id="logo"></Link>
       <ul>
         <li>
-          <Link href="/Spænska">Spænska</Link>
+          <Link href="/spænska">Spænska</Link>
         </li>
         <li>
-          <Link href="/Texts">Texts</Link>
+          <Link href="/texts">Texts</Link>
         </li>
         <li>
-          <Link href="/Vocabulary">Vocabulary</Link>
+          <Link href="/vocabulary">Vocabulary</Link>
         </li>
         <li>
-          <Link href="/Course">Course</Link>
+          <Link href="/course">Course</Link>
         </li>
         <li>
-          <Link href="/Explanations">Explanations</Link>
+          <Link href="/explanations">Explanations</Link>
         </li>
         <li>
-          <Link href="/About">About</Link>
+          <Link href="/about">About</Link>
         </li>
       </ul>
       <ul>

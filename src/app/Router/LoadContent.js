@@ -19,12 +19,16 @@ class Content extends Component {
     if (!parsed) return <div>Loading...</div>;
     let out;
     out = Render({ json: parsed });
+    let head = (
+      <VocabularyHeader
+        header_data={this.props.route.data && this.props.route.data.header}
+      />
+    );
     return (
       <div>
-        <VocabularyHeader
-          header_data={this.props.route.data && this.props.route.data.header}
-        />
+        {head}
         {out}
+        {head}
       </div>
     );
   }

@@ -8,6 +8,7 @@ import VocabularyStatus from "documents/Templates/VocabularyStatus";
 import Audio from "documents/Templates/Audio";
 import Gray from "documents/Templates/Gray";
 import Section from "documents/Templates/Section";
+import Pron from "documents/Templates/Pron";
 export default (name) => {
   switch (name.toLowerCase()) {
     case "frontpage":
@@ -39,6 +40,9 @@ export default (name) => {
       break;
     case "section":
       return Section;
+      break;
+    case "pron":
+      return Pron;
       break;
     default:
       return null;

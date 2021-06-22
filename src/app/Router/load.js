@@ -33,6 +33,7 @@ export const loadContent = (url, prerender_data, preload) => {
       })
       .catch((error) => {
         console.log(error);
+        if (preload) return;
         if (error.response && error.response.status === 404) {
           store.dispatch({
             type: "LOAD_ROUTE_CONTENT",

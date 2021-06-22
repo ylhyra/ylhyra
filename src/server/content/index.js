@@ -50,7 +50,7 @@ router.get("/content", async (req, res) => {
 
 export default router;
 
-export const ParseHeaderAndBody = (data) => {
+export const ParseHeaderAndBody = (data, file) => {
   data = removeComments(data);
   const match = data.trim().match(/^---\n([\s\S]+?)\n---([\s\S]+)?/);
   if (!match) {
@@ -67,6 +67,10 @@ export const ParseHeaderAndBody = (data) => {
   if (!header.title && header.title !== "") {
     throw new Error("Missing title\n\n" + data);
     return;
+  }
+
+  if (!header.level && /\/[abc][123]\//i.test(file)) {
+    header.level = file.match(/\/([abc][123])\//i)[1].toUpperCase();
   }
 
   return { header, body };

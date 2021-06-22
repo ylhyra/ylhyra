@@ -27,7 +27,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
         console.log(err);
         return resolve(`\nFailed to read file for ${title}\n`);
       }
-      let { header, body } = ParseHeaderAndBody(data);
+      let { header, body } = ParseHeaderAndBody(data, links[url].file);
 
       let output = body;
 

@@ -28,32 +28,52 @@ kbd {
   color: #393939;
 }
 
-section {
+section,
+.section {
   background: #fff;
-  padding: 55px 24px;
-  margin: 0;
-  box-sizing: content-box;
-  line-height: 1.7;
-  letter-spacing: 0.1px;
-  word-spacing: 0.6px;
-  @include serif();
-  font-size: 15px;
-  h2 {
-    @include sans-serif();
-    text-align: center;
-    font-weight: 700;
-  }
-  &.odd {
-    background: #fbfbfb;
-  }
-  &:not(:last-child) {
-    border-bottom: 1px solid #e7e7e7;
+  &.content {
+    padding: 55px 24px;
+    margin: 0;
+    box-sizing: content-box;
+    line-height: 1.7;
+    letter-spacing: 0.1px;
+    word-spacing: 0.6px;
+    @include serif();
+    font-size: 15px;
+    &:not(:last-child) {
+      border-bottom: 1px solid #f0ecec;
+    }
+    &.first {
+      padding-top: 0;
+    }
+    > div {
+      max-width: 500px;
+    }
+    h2 {
+      @include sans-serif();
+      text-align: center;
+      font-weight: 700;
+    }
   }
   > div {
-    max-width: 500px;
+    max-width: $max-width;
     margin: auto;
+  }
+  &.odd {
+    background: #fcfcfc;
   }
   li + li {
     margin-top: 8px;
+  }
+}
+
+.pron {
+  color: #939393;
+  font-weight: 200;
+  > span {
+    font-weight: normal;
+    color: #242424;
+    font-style: italic;
+    // border-bottom: 1px solid #c8c8c8;
   }
 }
