@@ -14,10 +14,9 @@
     "links": "node build/server/ylhyra_server.js --compile-content",
     "vocabulary": "node build/server/ylhyra_server.js --import-vocabulary",
     "vocabulary_testing": "node build/server/ylhyra_server.js --import-vocabulary --testing",
-    "prerender": "rm -f build/prerender/* && node build/server/ylhyra_server.js --prerender",
-    "prerender_": "npm run build_server && npm run prerender",
+    "prerender": "npm run build_server && rm -f build/prerender/* && node build/server/ylhyra_server.js --prerender",
     "build": "rm -f build/app/* && webpack --config ./scripts/build_app.js",
-    "build_server": "webpack --config ./scripts/build_server.js",
+    "build_server": "npm run links && webpack --config ./scripts/build_server.js",
     "server": "export NODE_ENV=development && webpack --config ./scripts/build_server.js --color --watch"
   },
   "proxy": "http://localhost:9123",

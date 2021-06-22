@@ -25,7 +25,11 @@ class Link extends React.Component {
     // if (href.startsWith("/")) {
     //   href = URL_title(href);
     // }
-    if (!href.startsWith("http") && !href.startsWith("/")) {
+    if (
+      !href.startsWith("http") &&
+      !href.startsWith("/") &&
+      !href.startsWith("#")
+    ) {
       href = "/" + href;
     }
     /* Todo: Hvað með section linka? */

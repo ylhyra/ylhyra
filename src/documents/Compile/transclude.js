@@ -40,38 +40,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
       output = TOC(output);
 
       if (depth < 1 && shouldGetData) {
-        let new_output = "";
-        await output.split(/{{([^{}]+)}}/g).forEachAsync(async (q, index) => {
-          await new Promise(async (resolve2, reject2) => {
-            if (index % 2 === 0) {
-              new_output += q;
-              return resolve2();
-            }
-            /* Get header info */
-            /* TODO: Find better syntax to get header info */
-            if (/(>>>)/.test(q)) {
-              const [title_, param_] = q.split(">>>");
-              const transclusion = await Transclude(title_, depth + 1);
-              new_output += btoa(
-                JSON.stringify(transclusion.header[param_])
-              ); /* TODO encodeURIComponent instead */
-              // .replace(/"/g,'\\"')
-            } else {
-              /* Transclude */
-              let [name, ...params] = q.split(/\|/);
-              const transclusion = await Transclude(name, depth + 1);
-              let output2 = transclusion.output || "";
-              if (params) {
-                output2 = output2.replace(/(\$([0-9]*))/g, (q, w, number) => {
-                  return (params[parseInt(number) - 1] || "").trim();
-                });
-              }
-              new_output += output2;
-            }
-            return resolve2();
-          });
-        });
-        output = new_output;
+        output = await TranscludeFromText(output, depth);
       }
       if (shouldGetData) {
         const data2 = await getData(header);
@@ -92,6 +61,57 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
       resolve({ output, header });
     });
   });
+};
+
+export const TranscludeFromText = async (input, depth) => {
+  let output = "";
+  input = input
+    .replace(/{{{+/g, "&lbrace;&lbrace;&lbrace;")
+    .replace(/}}}+/g, "&rbrace;&rbrace;&rbrace;");
+  await input.split(/{{([^{}]+)}}/g).forEachAsync(async (q, index) => {
+    await new Promise(async (resolve2, reject2) => {
+      if (index % 2 === 0) {
+        output += q;
+        return resolve2();
+      }
+      /* Get header info */
+      /* TODO: Find better syntax to get header info */
+      if (/(>>>)/.test(q)) {
+        const [title_, param_] = q.split(">>>");
+        const transclusion = await Transclude(title_, depth + 1);
+        output += btoa(
+          JSON.stringify(transclusion.header[param_])
+        ); /* TODO encodeURIComponent instead */
+        // .replace(/"/g,'\\"')
+      } else {
+        /* Transclude */
+        let [name, ...params] = q.split(/\|/);
+        const transclusion = await Transclude(name, depth + 1);
+        let output2 = transclusion.output;
+        if (output2) {
+          if (params) {
+            output2 = output2.replace(/(\$([0-9]*))/g, (q, w, number) => {
+              return (params[parseInt(number) - 1] || "").trim();
+            });
+          }
+          output += output2;
+        } else {
+          output += `&lbrace;&lbrace;${name}&rbrace;&rbrace;`;
+          console.log(`Missing template: "${name}"`);
+        }
+      }
+      return resolve2();
+    });
+  });
+  // console.log(output);
+  /* Recursively transclude deeper */
+  if (/{{/.test(output) && output !== input && depth <= 3) {
+    if (depth === 3) {
+      console.log({ output, input });
+    }
+    output = await TranscludeFromText(output, depth + 1);
+  }
+  return output;
 };
 
 const getData = async (header) => {

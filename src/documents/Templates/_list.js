@@ -6,10 +6,8 @@ import Image from "documents/Templates/Image";
 import Button from "documents/Templates/Button";
 import VocabularyStatus from "documents/Templates/VocabularyStatus";
 import Audio from "documents/Templates/Audio";
-import Gray from "documents/Templates/Gray";
 import Section from "documents/Templates/Section";
-import Pron from "documents/Templates/Pron";
-import Phrase from "documents/Templates/Phrase";
+
 export default (name) => {
   switch (name.toLowerCase()) {
     case "frontpage":
@@ -36,17 +34,8 @@ export default (name) => {
     case "audio":
       return Audio;
       break;
-    case "gray":
-      return Gray;
-      break;
     case "section":
       return Section;
-      break;
-    case "pron":
-      return Pron;
-      break;
-    case "phrase":
-      return Phrase;
       break;
     default:
       return null;

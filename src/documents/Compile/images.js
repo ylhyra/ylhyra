@@ -17,6 +17,9 @@ const Images = (data) => {
     let input = [];
     let output = [];
     let r = /<Image (.+)?\/>/g;
+    if (r.test(data)) {
+      return resolve(data);
+    }
     /* Collect params */
     data = data.replace(r, (params) => {
       input.push(params);
