@@ -47,6 +47,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
               new_output += q;
               return resolve2();
             }
+            /* Get header info */
             /* TODO: Find better syntax to get header info */
             if (/(>>>)/.test(q)) {
               const [title_, param_] = q.split(">>>");
@@ -56,8 +57,16 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
               ); /* TODO encodeURIComponent instead */
               // .replace(/"/g,'\\"')
             } else {
-              const transclusion = await Transclude(q, depth + 1);
-              new_output += transclusion.output || "";
+              /* Transclude */
+              let [name, ...params] = q.split(/\|/);
+              const transclusion = await Transclude(name, depth + 1);
+              let output2 = transclusion.output || "";
+              if (params) {
+                output2 = output2.replace(/(\$([0-9]*))/g, (q, w, number) => {
+                  return (params[parseInt(number) - 1] || "").trim();
+                });
+              }
+              new_output += output2;
             }
             return resolve2();
           });

@@ -9,6 +9,7 @@ import Audio from "documents/Templates/Audio";
 import Gray from "documents/Templates/Gray";
 import Section from "documents/Templates/Section";
 import Pron from "documents/Templates/Pron";
+import Phrase from "documents/Templates/Phrase";
 export default (name) => {
   switch (name.toLowerCase()) {
     case "frontpage":
@@ -43,6 +44,9 @@ export default (name) => {
       break;
     case "pron":
       return Pron;
+      break;
+    case "phrase":
+      return Phrase;
       break;
     default:
       return null;

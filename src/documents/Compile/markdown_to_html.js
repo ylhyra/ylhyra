@@ -31,6 +31,12 @@ const Traverse = (json) => {
     } else if (tag === "TOC") {
       // return TOC(json);
     }
+    // for (const key in attr) {
+    //   const val = attr[key];
+    //   if (/(''|\[)/.test(val)) {
+    //     attr[key] = processText(val);
+    //   }
+    // }
     return {
       ...json,
       child: child && ProcessArray(child),
@@ -81,7 +87,7 @@ const ProcessArray = (arr) => {
     });
 };
 
-const processText = (input) => {
+export const processText = (input) => {
   input = RemoveUnwantedCharacters(input)
     /* Internal links */
     .replace(/\[\[(.+?)\]\]/g, (x, match) => {

@@ -10,7 +10,6 @@ export default (input, header) => {
       /SECTION_START([\s]+|<span.+?\/span>\n)?SECTION_END/g,
       ""
     );
-    console.log(input.slice(0, 200));
 
     let i = 0;
     input = input.replace(
