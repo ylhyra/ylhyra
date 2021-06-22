@@ -12,10 +12,10 @@ import { isBrowser } from "app/App/functions/isBrowser";
 
 class Content extends Component {
   render() {
+    if (this.props.route.data === "404") return <NotFound />;
     const parsed =
       (this.props.route.data && this.props.route.data.parsed) ||
       this.props.prerender;
-    // if (this.state.error) return <NotFound />;
     if (!parsed) return <div>Loading...</div>;
     let out;
     out = Render({ json: parsed });

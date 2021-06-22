@@ -1,6 +1,7 @@
 /* AUDIO */
 .audioPlayer {
   display: flex;
+  line-height: 1.2;
   &.error {
     display: none;
   }

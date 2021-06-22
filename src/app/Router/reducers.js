@@ -6,9 +6,13 @@ export const route = (
 ) => {
   switch (action.type) {
     case "ROUTE":
-      return action.content;
+      return {
+        ...state,
+        ...action.content,
+      };
     case "LOAD_ROUTE_CONTENT":
       return {
+        ...state,
         data: action.data,
       };
     default:

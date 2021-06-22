@@ -65,7 +65,7 @@ const render = async (title, filename, css, callback) => {
     footer_links;
 
   output = html
-    .replace("<!-- Title -->", header.title ? header.title + " - " : "")
+    .replace("<title>", "<title>" + header.title ? header.title + " - " : "")
     .replace("<!-- Header items -->", header_links)
     .replace("<!-- Footer items -->", footer_items)
     .replace("<!-- Content -->", output);

@@ -1,6 +1,7 @@
 import c from "app/App/functions/no-undefined-in-template-literal.js";
 
 export default (text) => {
+  if (!/<TOC>/.test(text)) return text;
   text = text.replace(/<TOC>([\s\S]+)<\/TOC>/g, (x, content) => {
     return content.replace(/^ {2}- (.+)/gm, (j, title) => {
       const short_title = title.match(/\/(.+?)$/)[1] || title;

@@ -34,8 +34,10 @@ export const loadContent = (url, prerender_data, preload) => {
       .catch((error) => {
         console.log(error);
         if (error.response && error.response.status === 404) {
-          // this.setState({ error: 404 });
-          // TODO!!!
+          store.dispatch({
+            type: "LOAD_ROUTE_CONTENT",
+            data: "404",
+          });
         }
       });
   }

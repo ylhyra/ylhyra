@@ -7,6 +7,7 @@ import Button from "documents/Templates/Button";
 import VocabularyStatus from "documents/Templates/VocabularyStatus";
 import Audio from "documents/Templates/Audio";
 import Gray from "documents/Templates/Gray";
+import Section from "documents/Templates/Section";
 export default (name) => {
   switch (name.toLowerCase()) {
     case "frontpage":
@@ -35,6 +36,9 @@ export default (name) => {
       break;
     case "gray":
       return Gray;
+      break;
+    case "section":
+      return Section;
       break;
     default:
       return null;

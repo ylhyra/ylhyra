@@ -24,6 +24,7 @@ class X extends Component {
     updateURL("/vocabulary/play");
   };
   render() {
+    if (this.props.route.pathname === "/") return null;
     const vocabulary_list =
       this.props.header_data && this.props.header_data.vocabulary;
     const { deck } = this.props.vocabulary;
@@ -46,4 +47,5 @@ class X extends Component {
 }
 export default connect((state) => ({
   vocabulary: state.vocabulary,
+  route: state.route,
 }))(X);

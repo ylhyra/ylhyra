@@ -39,7 +39,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
       /* TODO: Move elsewhere */
       output = TOC(output);
 
-      if (depth < 1) {
+      if (depth < 1 && shouldGetData) {
         let new_output = "";
         await output.split(/{{([^{}]+)}}/g).forEachAsync(async (q, index) => {
           await new Promise(async (resolve2, reject2) => {
@@ -66,12 +66,18 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
       }
       if (shouldGetData) {
         const data2 = await getData(header);
-        output =
-          `<span data-document-start="${(data2 || header).title}" data-data="${
-            data2 ? btoa(encodeURIComponent(data2.output)) : ""
-          }"></span>\n` +
-          output +
-          `<span data-document-end="${(data2 || header).title}"></span>`;
+        if (data2) {
+          output =
+            `<span data-document-start="${
+              (data2 || header).title
+            }" data-data="${
+              data2 ? btoa(encodeURIComponent(data2.output)) : ""
+            }"></span>` +
+            output +
+            `<span data-document-end="${(data2 || header).title}"></span>`;
+          output = output.replace(/(<\/span>)(?:==##)/g, "$1\n$2");
+          header.has_data = true;
+        }
       }
 
       resolve({ output, header });
@@ -87,6 +93,8 @@ const getData = async (header) => {
   const output = (await Transclude("Data:" + data_title, 0, false)).output;
   // console.log(output.slice(0, 100))
   // return;
+  //
+  // console.log(output);
   return {
     output: JSON.stringify(JSON.parse(output)),
     title: data_title,

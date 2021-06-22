@@ -20,7 +20,7 @@ const Screen = (props) => (
           <Link href="VOCABULARY_PLAY" className="button">
             Play
           </Link>
-          {PercentageKnownOverall()}% known
+          {/* {PercentageKnownOverall()}% known */}
         </div>
       </div>
     )}

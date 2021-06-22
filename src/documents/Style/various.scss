@@ -20,3 +20,40 @@ kbd {
     float: right;
   }
 }
+
+#page-not-found {
+  text-align: center;
+  padding-top: 30px;
+  font-size: 20px;
+  color: #393939;
+}
+
+section {
+  background: #fff;
+  padding: 55px 24px;
+  margin: 0;
+  box-sizing: content-box;
+  line-height: 1.7;
+  letter-spacing: 0.1px;
+  word-spacing: 0.6px;
+  @include serif();
+  font-size: 15px;
+  h2 {
+    @include sans-serif();
+    text-align: center;
+    font-weight: 700;
+  }
+  &.odd {
+    background: #fbfbfb;
+  }
+  &:not(:last-child) {
+    border-bottom: 1px solid #e7e7e7;
+  }
+  > div {
+    max-width: 500px;
+    margin: auto;
+  }
+  li + li {
+    margin-top: 8px;
+  }
+}
