@@ -17,7 +17,7 @@ const Images = (data) => {
     let input = [];
     let output = [];
     let r = /<Image (.+)?\/>/g;
-    if (r.test(data)) {
+    if (!r.test(data)) {
       return resolve(data);
     }
     /* Collect params */
@@ -91,7 +91,9 @@ const Images = (data) => {
           const big_to_small = [...boxes];
           const small_to_big = [...boxes].reverse();
           output.push(
-            `<Image position="${params.position || ""}">
+            `<Image position="${params.position || ""}" style="${
+              params.width ? `max-width:${params.width}px` : ""
+            }">
             <div class="image-and-metadata">
               <picture>
                 ${small_to_big

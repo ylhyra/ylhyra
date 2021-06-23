@@ -16,7 +16,7 @@ export default (input, header) => {
       /(SECTION_START([\s\S]+?)SECTION_END)/g,
       (j, k, content) => {
         return c`<section class="
-          ${is_course && "content"}
+          ${(true || is_course) && "content"}
           ${i === 0 && "first"}
           ${i++ % 2 !== 0 && "odd"}
         ">${content}</section>`;

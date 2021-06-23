@@ -13,7 +13,7 @@ import createCards from "app/Vocabulary/actions/createCards";
 import Section from "documents/Templates/Section.js";
 class X extends Component {
   getCards = () => {
-    const vocabulary_list = this.props.header_data.vocabulary;
+    const vocabulary_list = this.getList();
     if (!vocabulary_list) return null;
     return getCardIdsFromWords(vocabulary_list);
   };
@@ -23,10 +23,15 @@ class X extends Component {
     InitializeSession(cards, deck);
     updateURL("/vocabulary/play");
   };
+  getList = () => {
+    return (
+      (this.props.header_data && this.props.header_data.vocabulary) ||
+      (this.props.route.data && this.props.route.data.header.vocabulary)
+    );
+  };
   render() {
     if (this.props.route.pathname === "/") return null;
-    const vocabulary_list =
-      this.props.header_data && this.props.header_data.vocabulary;
+    const vocabulary_list = this.getList();
     const { deck } = this.props.vocabulary;
     if (!vocabulary_list || !deck) return null;
     const cards = this.getCards();

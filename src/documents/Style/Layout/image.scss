@@ -36,6 +36,9 @@
     }
   }
   .caption {
+    @include sans-serif();
     font-size: 13px;
+    line-height: 1.4;
+    padding-top: 2px;
   }
 }

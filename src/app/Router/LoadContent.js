@@ -18,19 +18,7 @@ class Content extends Component {
       this.props.prerender;
     if (!parsed) return <div>Loading...</div>;
     let out;
-    out = Render({ json: parsed });
-    let head = !this.props.prerender && (
-      <VocabularyHeader
-        header_data={this.props.route.data && this.props.route.data.header}
-      />
-    );
-    return (
-      <div>
-        {head}
-        {out}
-        {head}
-      </div>
-    );
+    return Render({ json: parsed });
   }
 }
 export default /*React.memo*/ connect((state) => ({

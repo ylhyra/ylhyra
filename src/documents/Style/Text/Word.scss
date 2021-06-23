@@ -35,10 +35,10 @@
       white-space: nowrap;
     }
   }
-  html:active .mw-editable &.missing {
-    border-bottom: 1px dotted rgba(#d70041, 0.3);
-    background: rgba(#ff0000, 0.05);
-  }
+  // html:active .mw-editable &.missing {
+  //   border-bottom: 1px dotted rgba(#d70041, 0.3);
+  //   background: rgba(#ff0000, 0.05);
+  // }
 }
 
 body.sentence-shown {

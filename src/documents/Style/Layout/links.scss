@@ -29,7 +29,3 @@ a.selflink {
     color: $blue;
   }
 }
-/* No redlinks for anonymous readers */
-body:not(.mw-editable) a.new {
-  color: inherit;
-}

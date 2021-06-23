@@ -1,5 +1,6 @@
 import c from "app/App/functions/no-undefined-in-template-literal.js";
 const r = /<(ref.?|note)(?: name="?(.+?)"?")?(?:>([\s\S]+?)<\/\1>|\/>)/g;
+const temp_r = /REF_(.+?)_REF/g;
 const l_alpha = "abcdefghijklmnopqrstuv";
 /*
  * Nested refs must use <ref1><ref2>bla bla </ref2></ref1>
@@ -12,7 +13,6 @@ export const Ref = (input, header) => {
     ref: [],
     note: [],
   };
-  let sources = "";
   const run = (j) => {
     return j.replace(r, (x, type, name, content) => {
       let id = "" + (name || order.length);
@@ -44,34 +44,49 @@ export const Ref = (input, header) => {
   // console.log(input.slice(0, 200));
   // console.log(refs);
   const replace = (j) =>
-    j.replace(/REF_(.+?)_REF/, (x, id) => {
-      return `<sup class="reference">[<a href="#ref${getKey(id)}">${getKey(
+    j.replace(temp_r, (x, id) => {
+      return `<sup class="reference">[<a href="#ref-${getKey(id)}">${getKey(
         id
       )}</a>]</sup>`;
     });
   const getVals = (j) => {
-    return j
-      .map(
-        (id) =>
-          `- <span id="ref${getKey(id)}">${getKey(id)}</span>. ${
-            refs[id].content
-          }`
-      )
-      .join("\n");
+    return (
+      "<ul class='plain'>" +
+      j
+        .map(
+          (id) =>
+            `<li id="ref-${getKey(id)}">${getKey(id)}&period; ${
+              refs[id].content
+            }</li>`
+        )
+        .join("") +
+      "</ul>"
+    );
   };
   input = run(input);
   input = replace(input);
+  let notes = "";
+  let sources = "";
   input = input.replace(/<sources>([\s\S]+)?<\/sources>/, (j, o) => {
     sources = o;
+    return "";
+  });
+  input = input.replace(/<notes>([\s\S]+)?<\/notes>/, (j, o) => {
+    notes = o;
     return "";
   });
   for (const key in refs) {
     refs[key].content = replace(refs[key].content);
   }
   let reflist = "";
-  if (type_order["note"].length > 0) {
+  if (type_order["note"].length > 0 || notes) {
     reflist += `'''Notes'''\n`;
-    reflist += getVals(type_order["note"]) + "\n\n";
+    if (notes) {
+      reflist += notes + "\n";
+    }
+    if (type_order["note"].length > 0) {
+      reflist += getVals(type_order["note"]) + "\n\n";
+    }
   }
   if (type_order["ref"].length > 0) {
     reflist += `'''References'''\n`;

@@ -8,4 +8,4 @@
 - fjarlægja lazy-loading á templötum
 - fjarlægja readmesetup þegar skipt er um síðu
 - skipta út localhost í css eftir build
-- <ref/>
+- tables

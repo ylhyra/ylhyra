@@ -7,6 +7,7 @@ import Button from "documents/Templates/Button";
 import VocabularyStatus from "documents/Templates/VocabularyStatus";
 import Audio from "documents/Templates/Audio";
 import Section from "documents/Templates/Section";
+import VocabularyHeader from "app/Vocabulary/Elements/VocabularyHeader";
 
 export default (name) => {
   switch (name.toLowerCase()) {
@@ -36,6 +37,9 @@ export default (name) => {
       break;
     case "section":
       return Section;
+      break;
+    case "vocabularyheader":
+      return VocabularyHeader;
       break;
     default:
       return null;

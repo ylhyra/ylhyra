@@ -78,17 +78,3 @@
     }
   }
 }
-.page-Text_Frontpage,
-.page-Ylhýra {
-  &.action-view {
-    background: #fffffe;
-    #mw-content-text {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-    }
-  }
-  #catlinks {
-    display: none;
-  }
-}
