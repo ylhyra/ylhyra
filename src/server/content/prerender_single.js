@@ -65,9 +65,11 @@ const render = async (title, filename, css, callback) => {
     footer_links;
 
   output = html
-    .replace("<title>", "<title>" + header.title ? header.title + " - " : "")
-    .replace("<!-- Header items -->", header_links)
-    .replace("<!-- Footer items -->", footer_items)
+    .replace("<title>", "<title>" + (header.title ? header.title + " • " : ""))
+    .replace(
+      "<!-- Header items -->",
+      "<!--TEMP-->" + header_links + "<!--TEMP-->"
+    )
     .replace("<!-- Content -->", output);
 
   fs.writeFileSync(
@@ -89,10 +91,16 @@ const render = async (title, filename, css, callback) => {
         inline: true,
       },
       (err, cr_output /* Includes {css, html, uncritical} */) => {
+        output = output
+          .replace(
+            /<!--TEMP-->[\s\S]+<!--TEMP-->/,
+            "<style>" + cr_output.css + "</style>"
+          )
+          .replace("<!-- Footer items -->", footer_items + header_links);
         if (err) console.log(err);
         fs.writeFileSync(
           path.resolve(build_folder, `./prerender/${filename}.html`),
-          cr_output.html
+          output
         );
         callback();
       }

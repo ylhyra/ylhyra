@@ -8,18 +8,29 @@ try {
   links = require("build/links.js");
 } catch (e) {}
 const yaml = require("js-yaml");
+const path = require("path");
+const build_folder = path.resolve(__basedir, `./build`);
 
-router.get("/content", async (req, res) => {
-  let url = URL_title(req.query.title);
+router.get(["/api/content", "*"], async (req, res) => {
+  let url;
+  let type = "html";
+  if ("title" in req.query) {
+    url = URL_title(req.query.title);
+    type = "json";
+  } else {
+    url = URL_title(req.path);
+  }
   let values = links[url];
   if (values) {
     let output = {};
     let title = values.title;
     let file = values.file;
+    let filename = values.filename;
     if (values.redirect_to) {
       url = values.redirect_to;
-      file = values.file;
+      file = links[values.redirect_to].file;
       title = links[values.redirect_to].title;
+      filename = links[values.redirect_to].filename;
       output.redirect_to = values.redirect_to;
       output.section = values.section;
     } else if (req.query.title !== url) {
@@ -31,17 +42,31 @@ router.get("/content", async (req, res) => {
     if (url.startsWith("file/")) {
       res.sendFile(file.replace(/(\.[a-z]+)$/i, ""));
     } else {
-      // console.log(info)
-      const { content, header } = await generate_html(url);
-      if ("html" in req.query) {
-        return res.send(content);
+      /* Client side rendering allowed in development */
+      if (process.env.NODE_ENV === "development" && type === "json") {
+        const { content, header } = await generate_html(url);
+        if ("html" in req.query) {
+          return res.send(content);
+        }
+        res.send({
+          ...output,
+          content,
+          title,
+          header,
+        });
+      } else {
+        fs.readFile(
+          path.resolve(build_folder, `./prerender/${filename}.${type}`),
+          "utf8",
+          async (err, data) => {
+            if (err) {
+              return res.sendStatus(404);
+            } else {
+              return res.send(data);
+            }
+          }
+        );
       }
-      res.send({
-        ...output,
-        content,
-        title,
-        header,
-      });
     }
   } else {
     return res.sendStatus(404);

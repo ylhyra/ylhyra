@@ -6,6 +6,7 @@ import Frontpage from "app/Elements/Frontpage";
 import components from "app/Router/paths";
 import { connect } from "react-redux";
 import { isBrowser } from "app/App/functions/isBrowser";
+import Section from "documents/Templates/Section.js";
 
 class App extends React.Component {
   render() {
@@ -13,16 +14,20 @@ class App extends React.Component {
     const url = this.props.route.pathname;
     if (url in components) {
       Element = components[url];
+      return (
+        <Layout>
+          <Section>
+            <Element key={url} prerender={this.props.prerender} />
+          </Section>
+        </Layout>
+      );
     } else {
-      Element = LoadContent;
+      return (
+        <Layout>
+          <LoadContent key={url} prerender={this.props.prerender} />
+        </Layout>
+      );
     }
-    return (
-      <Layout>
-        {/* <Suspense fallback={<div>Loading...</div>}> */}
-        <Element key={url} prerender={this.props.prerender} />
-        {/* </Suspense> */}
-      </Layout>
-    );
   }
 }
 

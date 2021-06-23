@@ -12,19 +12,18 @@ export const loadContent = (url, prerender_data, preload) => {
 
   /* Pre-rendered */
   if (prerender_data) {
-    /* TODO */
-    // cache[url] = prerender_data;
-    // store.dispatch({
-    //   type: "LOAD_ROUTE_CONTENT",
-    //   data: prerender_data,
-    // });
+    cache[url] = { parsed: prerender_data };
+    store.dispatch({
+      type: "LOAD_ROUTE_CONTENT",
+      data: { parsed: prerender_data },
+    });
   } else if (url in cache) {
     set(url, JSON.parse(cache[url]), preload);
   } else {
     axios
       .get("/api/content", {
         params: {
-          title: decodeURI(url.replace(/^\//, "")),
+          title: decodeURI(url.replace(/^\//, "")) || "/",
         },
       })
       .then(async ({ data }) => {
@@ -46,15 +45,24 @@ export const loadContent = (url, prerender_data, preload) => {
 
 const set = async (url, data, preload) => {
   if (preload) return;
-  const Parse = (
-    await import(
-      /* webpackChunkName: "parse" */
-      "./../../documents/Parse"
-    )
-  ).default;
-  const { parsed, flattenedData } = Parse({
-    html: data.content,
-  });
+  let parsed, flattenedData;
+  if ("parsed" in data) {
+    parsed = data.parsed;
+    flattenedData = data.flattenedData;
+  } else {
+    /* Only allowed in development mode */
+    const Parse = (
+      await import(
+        /* webpackChunkName: "parse" */
+        "./../../documents/Parse"
+      )
+    ).default;
+    const out = Parse({
+      html: data.content,
+    });
+    parsed = out.parsed;
+    flattenedData = out.flattenedData;
+  }
   store.dispatch({
     type: "LOAD_ROUTE_CONTENT",
     data: {

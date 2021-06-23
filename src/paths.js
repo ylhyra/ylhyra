@@ -33,6 +33,7 @@ export const URL_title = (title) => {
       // .replace(/(#)/g, '_')
       .replace(/(\?)/g, "")
       .replace(/:/g, "/")
+      .replace(/^\//g, "")
   );
   return title;
 };

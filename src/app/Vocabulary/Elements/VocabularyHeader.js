@@ -10,7 +10,6 @@ import {
   getCardIdsFromWords,
 } from "app/Vocabulary/actions/_functions";
 import createCards from "app/Vocabulary/actions/createCards";
-import Section from "documents/Templates/Section.js";
 class X extends Component {
   getCards = () => {
     const vocabulary_list = this.getList();
@@ -42,11 +41,11 @@ class X extends Component {
       );
     }
     return (
-      <Section>
+      <div>
         <div>{PercentageKnown(cards, deck)}% known</div>
         {/* <div>{JSON.stringify(MakeSummaryOfCardStatuses(cards, deck))}</div> */}
         <button onClick={this.run}>Study {cards.length} cards</button>
-      </Section>
+      </div>
     );
   }
 }

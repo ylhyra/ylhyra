@@ -61,13 +61,15 @@ export const updateURL = (url, title, replace, prerender) => {
   }
 
   if (!replace) {
-    store.dispatch({
-      type: "ROUTE",
-      content: {
-        pathname: pathname,
-        section: section,
-      },
-    });
+    if (!prerender) {
+      store.dispatch({
+        type: "ROUTE",
+        content: {
+          pathname: pathname,
+          section: section,
+        },
+      });
+    }
     loadContent(pathname, prerender);
   }
   window.scrollTo(0, 0);

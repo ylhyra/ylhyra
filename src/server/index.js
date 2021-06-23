@@ -36,6 +36,7 @@ app.use(
     maxAge: 5 * 365 * 24 * 60 * 60 * 1000, // 5 years
   })
 );
+const build_folder = path.resolve(__basedir, `./build`);
 
 if (!process.env.COOKIE_SECRET) {
   console.warn("Missing COOKIE_SECRET");
@@ -53,6 +54,10 @@ setTimeout(() => {
   query(`SET sql_mode = ''`, () => {});
 }, 10000);
 
+app.use(processed_image_url, express.static(image_output_folder));
+app.use(unprocessed_image_url, express.static(ylhyra_content_files));
+app.use("/", express.static(build_folder));
+
 /*
   Private APIs
 */
@@ -65,10 +70,10 @@ app.use(cors({ origin: "https://ylhyra.is" }));
 // app.use('/api', require('server/translator/save').default)
 app.use("/api", require("server/analytics").default);
 app.use("/api", require("server/user").default);
-app.use("/api", require("server/content").default);
 app.use("/api", require("server/vocabulary/get").default);
 app.use("/api", require("server/vocabulary/save").default);
 app.use("/api", require("server/vocabulary/maker").default);
+app.use("/", require("server/content").default);
 
 // // app.use('/api', require('server/tweets').default)
 // // app.use('/api', require('server/audio').default)
@@ -77,34 +82,31 @@ app.use("/api", require("server/vocabulary/maker").default);
 
 // app.use('/api/temp_files/', express.static(upload_path))
 
-app.use(processed_image_url, express.static(image_output_folder));
-app.use(unprocessed_image_url, express.static(ylhyra_content_files));
-
 /*
   Public APIs
 */
 app.use(cors({ origin: "*" }));
 app.set("json spaces", 2);
 
-const router = require("express").Router();
-router.get(["/robots.txt", "/favicon.ico", "/sitemap.xml"], (req, res) => {
-  res.send("");
-});
-app.use("/", router);
+// const router = require("express").Router();
+// router.get(["/robots.txt", "/favicon.ico", "/sitemap.xml"], (req, res) => {
+//   res.send("");
+// });
+// app.use("/", router);
 
-/*
-  When running on subdomains,
-  serve up inflections.
-  If other services are needed later, go by "request.headers.host"
-*/
-app.use(
-  "/inflection_styles",
-  express.static(path.join(__dirname, "/inflection/styles"))
-);
-app.use(
-  "/",
-  require("server/inflection/server/server-with-database/route_loader").default
-);
+// /*
+//   When running on subdomains,
+//   serve up inflections.
+//   If other services are needed later, go by "request.headers.host"
+// */
+// app.use(
+//   "/inflection_styles",
+//   express.static(path.join(__dirname, "/inflection/styles"))
+// );
+// app.use(
+//   "/",
+//   require("server/inflection/server/server-with-database/route_loader").default
+// );
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST;
