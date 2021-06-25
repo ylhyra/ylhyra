@@ -6,6 +6,7 @@ import Image from "documents/Templates/Image";
 import Button from "documents/Templates/Button";
 import VocabularyStatus from "documents/Templates/VocabularyStatus";
 import Audio from "documents/Templates/Audio";
+import H1 from "documents/Templates/H1";
 import Section from "documents/Templates/Section";
 import VocabularyHeader from "app/Vocabulary/Elements/VocabularyHeader";
 
@@ -37,6 +38,9 @@ export default (name) => {
       break;
     case "section":
       return Section;
+      break;
+    case "h1":
+      return H1;
       break;
     case "vocabularyheader":
       return VocabularyHeader;

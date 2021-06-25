@@ -4,7 +4,7 @@ export default (input, header) => {
   if (true || is_course) {
     input =
       "SECTION_START" +
-      input.replace(/^(==[^=]+==)$/gm, "SECTION_ENDSECTION_START$1") +
+      input.replace(/^(==[^=](?:.+)?==)$/gm, "SECTION_ENDSECTION_START$1") +
       "SECTION_END";
     input = input.replace(
       /SECTION_START([\s]+|<span.+?\/span>\n)?SECTION_END/g,

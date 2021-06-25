@@ -23,7 +23,7 @@ export const loadContent = (url, prerender_data, preload) => {
     axios
       .get("/api/content", {
         params: {
-          title: decodeURI(url.replace(/^\//, "")) || "/",
+          title: decodeURI(url.replace(/^\//, "").replace(/#.+/, "")) || "/",
         },
       })
       .then(async ({ data }) => {

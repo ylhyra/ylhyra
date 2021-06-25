@@ -100,16 +100,19 @@ export const processText = (input) => {
         )}`;
       } else {
         link = URL_title(link);
+        const [title, section] = link.split("#");
 
-        if (!(link in links)) {
+        if (title && !(title in links)) {
           return target;
         }
-        if (links[link].redirect_to) {
+        if (links[title].redirect_to) {
           link =
             links[link].redirect_to +
             (links[link].section ? "#" + links[link].section : "");
         }
-        link = "/" + link;
+        if (title) {
+          link = "/" + link;
+        }
       }
       return `<a href="${encodeURI(link)}">${target}</a>`;
     })

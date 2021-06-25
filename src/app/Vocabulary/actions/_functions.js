@@ -103,7 +103,7 @@ export const getCardIdsFromWords = (words) => {
     }
   });
   if (missing.length > 0) {
-    console.log(`Missing terms: ${missing.join(" • ")}`);
+    console.log(`Missing terms:\n${missing.join("\n")}`);
   }
   return withDependencies(_.uniq(card_ids));
 };

@@ -143,6 +143,10 @@
       "embed",
     ];
 
+    if (!json) {
+      return null;
+    }
+
     var child = "";
     if (json.child) {
       child = json.child

@@ -12,7 +12,7 @@
 
 ## Documentation
 
-- [Code overview](code_overview/Code_overview.md)
+- [Document parsing overview](document_parsing/Code_overview.md)
 - [Acknowledgments](Acknowledgments.md)
 
 Documentation is limited, so feel free to [contact me](mailto:egill@egill.xyz) for assistance.

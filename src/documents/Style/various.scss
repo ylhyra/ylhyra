@@ -52,7 +52,8 @@ section,
     h2 {
       @include sans-serif();
       text-align: center;
-      font-weight: 700;
+      font-weight: 600;
+      font-size: 20px;
     }
   }
   > div {
@@ -94,6 +95,9 @@ section,
     // font-weight: 500;
     // font-size: 17px;
   }
+  .p {
+    margin: 0;
+  }
 }
 
 /* References */
@@ -128,4 +132,12 @@ sup.reference {
 
 ul.plain {
   list-style-type: none;
+}
+
+h1 {
+  @include sans-serif();
+  font-size: 29px;
+  > span {
+    border-bottom: 3px solid rgba(#d7d7d7, 0.4);
+  }
 }
