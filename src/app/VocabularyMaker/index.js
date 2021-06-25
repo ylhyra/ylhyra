@@ -5,39 +5,55 @@ import axios from "app/App/axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import errors from "app/App/Error/messages";
 
+const rows = [
+  "icelandic",
+  "english",
+  "depends_on",
+  "level",
+  "dont_confuse",
+  "basic_form",
+  "related_items",
+  "direction",
+  "note_bfr_show",
+  "note_after_show",
+  "note_after_show_is",
+  "grammar_note f/icelandic",
+  "literally",
+  "should_teach",
+  "categories",
+  "grammar_tags",
+  "importance",
+  "show_hint",
+  "alternative_id",
+  "Laga?",
+];
 class Form2 extends React.Component {
   state = { data: [] };
   componentDidMount = async () => {
-    const { data } = await axios.get(`/api/vocabulary_maker`, {});
+    let { data } = await axios.get(`/api/vocabulary_maker`, {});
+    data = data
+      .filter((d) => d.icelandic)
+      .sort((a, b) => (a.level || 100) - (b.level || 100));
     this.setState({ data });
   };
-
+  save = () => {
+    axios.post(`/api/vocabulary_maker`, { data: this.state.data });
+  };
   render() {
+    window.save = this.save;
     return (
-      <table className="wikitable">
+      <table className="wikitable vocabulary_maker_table">
         <tbody>
+          <tr>
+            {rows.map((row_name) => (
+              <th key={row_name}>{row_name}</th>
+            ))}
+          </tr>
           {this.state.data.map((row, index) => (
             <tr key={index}>
-              <td>{row["icelandic"]}</td>
-              <td>{row["english"]}</td>
-              <td>{row["depends_on"]}</td>
-              <td>{row["level"]}</td>
-              <td>{row["dont_confuse"]}</td>
-              <td>{row["basic_form"]}</td>
-              <td>{row["related_items"]}</td>
-              <td>{row["direction"]}</td>
-              <td>{row["note_bfr_show"]}</td>
-              <td>{row["note_after_show"]}</td>
-              <td>{row["note_after_show_is"]}</td>
-              <td>{row["grammar_note f/icelandic"]}</td>
-              <td>{row["literally"]}</td>
-              <td>{row["should_teach"]}</td>
-              <td>{row["categories"]}</td>
-              <td>{row["grammar_tags"]}</td>
-              <td>{row["importance"]}</td>
-              <td>{row["show_hint"]}</td>
-              <td>{row["alternative_id"]}</td>
-              <td>{row["Laga?"]}</td>
+              {rows.map((row_name) => (
+                <td key={row_name}>{row[row_name]}</td>
+              ))}
             </tr>
           ))}
         </tbody>

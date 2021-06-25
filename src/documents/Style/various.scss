@@ -141,3 +141,14 @@ h1 {
     border-bottom: 3px solid rgba(#d7d7d7, 0.4);
   }
 }
+
+/* VOCABULARY MAKER */
+table.vocabulary_maker_table {
+  text-align: left;
+  td,
+  th {
+    font-size: 12px;
+    line-height: 1.1;
+    padding: 2px 5px;
+  }
+}

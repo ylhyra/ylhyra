@@ -9,7 +9,7 @@ import LogIn from "app/User/screens/Login";
 import Signup from "app/User/screens/Signup";
 import Settings from "app/User/screens/Settings";
 import Pay from "app/User/screens/Pay";
-// import VocabularyMaker from "app/VocabularyMaker";
+import VocabularyMaker from "app/VocabularyMaker";
 
 export const urls = {
   VOCABULARY: {
@@ -50,11 +50,12 @@ export const urls = {
     url: "/settings",
     component: Settings,
   },
-  // /* Backend, TODO: remove from production */
-  // VOCABULARY_MAKER: {
-  //   url: "/vocabularymaker",
-  //   component: VocabularyMaker,
-  // },
+  /* Backend */
+  VOCABULARY_MAKER: {
+    url: "/vocabularymaker",
+    component:
+      process.env.NODE_ENV === "development" ? VocabularyMaker : () => {},
+  },
 };
 
 const components = {};
