@@ -1,3 +1,4 @@
+import { average, clamp } from "app/App/functions/math";
 import { hour, day } from "app/App/functions/time";
 import _ from "underscore";
 import { BAD, GOOD, EASY } from "./card";
@@ -6,7 +7,8 @@ import {
   getRelatedCardIds,
   filterOnlyCardsThatExist,
 } from "./_functions";
-let CARDS_TO_CREATE = 100;
+const CARDS_TO_CREATE = 100;
+const MAX_BAD_RATIO = 0.3;
 
 /**
  * @memberof Deck
@@ -21,6 +23,8 @@ export default function createCards(options, deck_) {
   let overdue_good_ids = [];
   let overdue_bad_ids = [];
   let not_overdue_bad_cards_ids = [];
+  let not_overdue = [];
+  let allScores = [];
   let scheduled = Object.keys(deck.schedule)
     .filter((id) => !forbidden_ids.includes(id))
     .filter((id) => !allowed_card_ids || allowed_card_ids.includes(id))
@@ -28,16 +32,22 @@ export default function createCards(options, deck_) {
     .map((id) => ({ id, ...deck.schedule[id] }))
     .sort((a, b) => a.due - b.due)
     .forEach((i) => {
-      if (i.due < now + 0.5 * day) {
-        if (i.score < GOOD) {
-          overdue_bad_ids.push(i.id);
-        } else {
-          overdue_good_ids.push(i.id);
+      if (i.last_seen > now - 0.5 * day) {
+        if (i.due < now + 0.5 * day) {
+          if (i.score < GOOD) {
+            overdue_bad_ids.push(i.id);
+          } else {
+            overdue_good_ids.push(i.id);
+          }
+        } else if (i.score < 1.75) {
+          not_overdue_bad_cards_ids.push(i.id);
         }
-      } else if (i.score <= 1.2) {
-        not_overdue_bad_cards_ids.push(i.id);
+      } else {
+        not_overdue.push(i.id);
       }
+      allScores.push(i.score);
     });
+  const averageScore = average(allScores);
 
   /* New cards */
   let new_card_ids = [];
