@@ -6,8 +6,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import errors from "app/App/Error/messages";
 
 const rows = [
-  "icelandic",
-  "english",
+  // "icelandic",
+  // "english",
   "depends_on",
   "level",
   "dont_confuse",
@@ -42,22 +42,28 @@ class Form2 extends React.Component {
   render() {
     window.save = this.save;
     return (
-      <table className="wikitable vocabulary_maker_table">
-        <tbody>
-          <tr>
-            {rows.map((row_name) => (
-              <th key={row_name}>{row_name}</th>
-            ))}
-          </tr>
-          {this.state.data.map((row, index) => (
-            <tr key={index}>
-              {rows.map((row_name) => (
-                <td key={row_name}>{row[row_name]}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="vocabulary_maker">
+        {this.state.data.map((row, index) => {
+          if (row.row_id === this.state.active) {
+            return null;
+          } else {
+            return (
+              <div key={row.row_id} className="row">
+                <b>{row.icelandic}</b> = {row.english}
+                <div className="small gray">
+                  {rows.map((row_name) =>
+                    row[row_name] ? (
+                      <span key={row_name}>
+                        <b>{row_name}:</b> {row[row_name]},{" "}
+                      </span>
+                    ) : null
+                  )}
+                </div>
+              </div>
+            );
+          }
+        })}
+      </div>
     );
   }
 }

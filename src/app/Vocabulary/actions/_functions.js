@@ -91,7 +91,7 @@ export const getCardIdsFromWords = (words) => {
   let card_ids = [];
   let missing = [];
   words.forEach((word) => {
-    const hash = getHash(word);
+    const hash = getHash(word.split(" = ")[0]);
     if (hash in deck.terms) {
       card_ids = card_ids.concat(deck.terms[hash].cards);
     } else if (hash in deck.alternative_ids) {

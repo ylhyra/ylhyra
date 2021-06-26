@@ -3,8 +3,8 @@ import store from "app/App/store";
 import { BAD, GOOD, EASY } from "./card";
 import { daysToMs } from "app/App/functions/time";
 
-/**
- * Long-term scheduling
+/*
+  Long-term scheduling
  */
 export const createSchedule = () => {
   const { deck, session } = store.getState().vocabulary;
@@ -17,39 +17,55 @@ export const createSchedule = () => {
   cards.forEach((card) => {
     let due_in_days;
     let score;
-    if (card.history.length === 0) return;
-    if (card.score) {
-      score = average([card.score, average(card.history)]);
+    let prevScore = card.score;
+    let isNew = !prevScore;
+    const sessionHistory = card.history;
+    if (sessionHistory.length === 0) return;
+    const sessionScore = average(sessionHistory);
+    const anyBad = sessionHistory.some((i) => i === BAD);
+    // const badGoodRatio =
+    //   sessionHistory.filter((i) => i === BAD) /
+    //   sessionHistory.filter((i) => i >= GOOD);
+
+    /* SCORE */
+    if (isNew) {
+      if (anyBad) {
+        score = 1;
+      } else {
+        score = sessionScore - 0.25;
+      }
     } else {
-      score = average(card.history);
-    }
-    const anyBad = card.history.some((i) => i === BAD);
-    if (anyBad) {
-      due_in_days = 1;
-    } else {
-      due_in_days = (card.last_interval_in_days || 1) * score;
-    }
-    /* New cards */
-    if (!card.sessions_seen) {
-      if (score > 2.8) {
-        due_in_days = 20;
+      if (anyBad) {
+        if (anyBad > 1) {
+          score = BAD;
+        } else {
+          score = clamp(prevScore - 0.25, BAD, BAD + 0.75);
+        }
+      } else {
+        score = clamp(prevScore + 0.25, BAD, EASY + 1);
       }
     }
 
-    // return {
-    //   id: card.id,
-    //   due_in_days,
-    //   score,
-    // }
+    /* SCHEDULE */
+    if (anyBad) {
+      due_in_days = 1;
+    } else if (isNew) {
+      if (sessionScore === EASY) {
+        due_in_days = 20;
+      } else if (sessionScore === GOOD) {
+        due_in_days = 3;
+      }
+    } else {
+      const multiplier = sessionScore === EASY ? 6 : 2;
+      due_in_days = (card.last_interval_in_days || 1) * multiplier;
+    }
 
     deck.schedule[card.id] = {
       due: new Date().getTime() + daysToMs(due_in_days),
-      last_interval_in_days: due_in_days,
+      last_interval_in_days: Math.round(due_in_days),
       score,
       last_seen: new Date().getTime(),
-      sessions_seen:
-        ((deck.schedule[card.id] && deck.schedule[card.id].sessions_seen) ||
-          0) + 1,
+      sessions_seen: (card.sessions_seen || 0) + 1,
     };
   });
 
