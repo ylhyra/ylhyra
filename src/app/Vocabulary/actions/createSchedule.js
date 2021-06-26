@@ -80,9 +80,6 @@ const MAX_CARDS_PER_DAY = 100;
 const spread_out = (deck) => {
   const now = new Date().getTime();
   const { schedule } = deck;
-  // let minRequiredDays = Math.ceil(
-  //   Object.keys(schedule).length / MAX_CARDS_PER_DAY
-  // );
   let maxDays = 0;
   /* Buckets for each day relative to today */
   const buckets = {};
@@ -106,6 +103,35 @@ const spread_out = (deck) => {
     for (let i = 0; i < newBuckets.length; i++) {
       if (newBuckets[i].length <= MAX_CARDS_PER_DAY) continue;
       const arr = _.shuffle(newBuckets[i]);
+      const will_remain = arr.slice(0, MAX_CARDS_PER_DAY);
+      const will_move = arr.slice(MAX_CARDS_PER_DAY);
+      /* Max 10% will be moved back */
+      let howManyWillMoveBack =
+        i > 0 && newBuckets[i - 1].length > MAX_CARDS_PER_DAY
+          ? 0
+          : Math.min(
+              newBuckets[i - 1].length - MAX_CARDS_PER_DAY,
+              Math.floor(will_move.length * 0.1)
+            );
+      const will_move_back = will_move.slice(0, howManyWillMoveBack);
+      const will_move_forward = will_move.slice(howManyWillMoveBack);
+      if (howManyWillMoveBack > 0) {
+        newBuckets[i - 1] = [...newBuckets[i - 1], ...will_move_back];
+      }
+      newBuckets[i] = will_remain;
+      newBuckets[i + 1] = [...newBuckets[i - 1], ...will_move_forward];
     }
   }
+  /* Save after having spread out */
+  newBuckets.forEach((new_days) => {
+    newBuckets[new_days].forEach((card_id) => {
+      const due = schedule[card_id].adjusted_due;
+      const days = Math.max(0, Math.round((due - now) / day));
+      if (Math.abs(days - new_days) > 1) {
+        schedule[card_id].adjusted_due = now + new_days * day;
+        schedule[card_id].altered = true;
+      }
+    });
+  });
+  console.log(schedule);
 };
