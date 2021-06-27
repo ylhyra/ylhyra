@@ -112,7 +112,7 @@ app.set("json spaces", 2);
 const customHost = argv.host || process.env.HOST;
 const host = customHost || null; // Let http.Server use its default IPv6/4 host
 const prettyHost = customHost || "localhost";
-const port = argv.port || 9123;
+const port = process.env.SERVER_PORT || argv.port || 9123;
 
 /* Import steps */
 if (process.argv[2] === "--compile-content") {
