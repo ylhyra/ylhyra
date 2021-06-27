@@ -120,9 +120,9 @@ if (process.argv[2] === "--compile-content") {
 } else if (process.argv[2] === "--prerender") {
   require("server/content/prerender_all.js");
 } else if (process.argv[2] === "--import-inflections") {
-  require("server/inflection/server/server-with-database/database/ImportToDatabase.js");
+  // require("server/inflection/server/server-with-database/database/ImportToDatabase.js");
 } else if (process.argv[2] === "--generate-search-index") {
-  require("server/inflection/server/server-with-database/database/generateSearchIndex.js");
+  // require("server/inflection/server/server-with-database/database/generateSearchIndex.js");
 } else if (process.argv[2] === "--import-vocabulary") {
   require("server/vocabulary/setup/setup");
 } else {
