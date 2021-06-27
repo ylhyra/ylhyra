@@ -16,6 +16,13 @@ try {
  */
 export default (input) => {
   input = json2html(Traverse(html2json(input)));
+  /* Fix anchor ids */
+  input = input.replace(
+    /(<span id=")([^"]+?)("><\/span>)/g,
+    (x, first, middle, final) => {
+      return first + section_id(middle) + final;
+    }
+  );
   input = typeset(input, {
     disable: ["hyphenate", "hangingPunctuation", "ligatures", "smallCaps"],
   });
@@ -66,17 +73,17 @@ const ProcessArray = (arr) => {
         // }
         return j.text;
       }
-      return `SUBSTITUTION${i}`;
+      return `SUBSTITUTION${i}%`;
     })
     .join("");
   // if (!anyText) {
   //   return arr.map((e) => Traverse(e));
   // }
   return processText(substituted)
-    .split(/(SUBSTITUTION[0-9]+)/g)
+    .split(/(SUBSTITUTION[0-9]+%)/g)
     .map((j, i) => {
       if (j.startsWith("SUBSTITUTION")) {
-        const x = j.match(/SUBSTITUTION([0-9]+)/)[1];
+        const x = j.match(/SUBSTITUTION([0-9]+)%/)[1];
         const element = arr[parseInt(x)];
         return Traverse(element);
       }
@@ -133,8 +140,10 @@ export const processText = (input) => {
     // })
     /* Headings */
     .replace(/^(=+) ?(.+)\1/gm, (x, equals, title) => {
-      return `${"#".repeat(equals.length)} ${title}`;
-      // return `<h${equals.length} id="${section_id(title)}">${title}</h${equals.length}>`
+      // return `${"#".repeat(equals.length)} ${title.toLowerCase()}`;
+      return `<h${equals.length} id="${section_id(
+        title.replace(/<.+?>/g, "").replace(/SUBSTITUTION[0-9]+%/g, "")
+      )}">${title.trim()}</h${equals.length}>\n`;
     })
     /* Bold */
     .replace(/'''/g, "**")
@@ -155,7 +164,7 @@ export const processText = (input) => {
   /* References */
   // input = input.split(/<ref[> ][\s\S]+<\/ref>/g)
 
-  // console.log(input.slice(0, 200))
+  // console.log(input.slice(0, 200));
 
   /* Markdown */
   if (!input.trim()) return input;
@@ -166,7 +175,7 @@ export const processText = (input) => {
   }
   input = (pre || "") + m + (post || "");
 
-  input = input.replace(/(<h[0-9] id=")/g, "$1s-");
+  // input = input.replace(/(<h[0-9] id=")/g, "$1s-");
   // console.log(input.slice(0,200))
 
   // console.log(input)

@@ -12,6 +12,7 @@ import {
 } from "app/App/functions/localStorage";
 import createCards from "./createCards";
 import { syncSchedule } from "./sync";
+import { spreadOutSchedule } from "./createSchedule";
 import { updateURL } from "app/Router/actions";
 import { BAD, GOOD, EASY } from "./card";
 
@@ -79,4 +80,5 @@ class Deck {
 }
 Deck.prototype.createCards = createCards;
 Deck.prototype.syncSchedule = syncSchedule;
+Deck.prototype.spreadOutSchedule = spreadOutSchedule;
 export default Deck;

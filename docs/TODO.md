@@ -11,4 +11,3 @@
 - tables
 - subdomains https://stackoverflow.com/questions/19212952/express-js-vhost-subdomain-set-up
 - laga enskar gæsalappir
-- section links

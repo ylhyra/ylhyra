@@ -24,21 +24,26 @@ export const get_unprocessed_image_url = (file) =>
 /* URL slugs */
 export const URL_title = (title) => {
   if (!title) return title;
-  return (
-    title
-      .toLowerCase()
-      .trim()
-      .replace(/([_ ])/g, "-")
-      // .replace(/( )/g, '_')
-      // .replace(/(#)/g, '_')
-      .replace(/(\?)/g, "")
-      .replace(/:/g, "/")
-      .replace(/^\//g, "")
-  );
-  return title;
+  let [path, section] = title.split("#");
+  path = path
+    .toLowerCase()
+    .trim()
+    .replace(/([_ ])/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/(\?)/g, "")
+    .replace(/:/g, "/")
+    .replace(/^\//g, "");
+  section = section_id(section);
+  return path + (section ? "#" + section : "");
 };
 
+const prefix = "section-";
 export const section_id = (title) => {
-  if (!title) return title;
-  return "s-" + URL_title(title).replace(/([^a-z0-9])/g, "-");
+  if (!title || title.startsWith(prefix)) return title;
+  return (
+    prefix +
+    encodeURIComponent(URL_title(title))
+      .replace(/%/g, ".")
+      .replace(/([^a-z0-9.])/g, "_")
+  );
 };

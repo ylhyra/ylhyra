@@ -4,9 +4,12 @@ import { url_to_info } from "app/Router/paths";
 import { urls as app_urls } from "app/Router/paths";
 import { isBrowser } from "app/App/functions/isBrowser";
 import { loadContent } from "./load";
+
 isBrowser &&
   window.addEventListener("popstate", (event) => {
-    updateURL(window.location.pathname);
+    if ("state" in window.history && window.history.state !== null) {
+      updateURL(window.location.pathname + window.location.hash);
+    }
   });
 
 export const InitializeRouter = (prerender) => {
@@ -70,9 +73,15 @@ export const updateURL = (url, title, replace, prerender) => {
         },
       });
     }
-    loadContent(pathname, prerender);
+    loadContent(pathname, prerender, null, section);
   }
-  window.scrollTo(0, 0);
+  if (!section) {
+    window.scrollTo(0, 0);
+  } else {
+    window.history.scrollRestoration = "manual";
+    const el = document.getElementById(section);
+    el && el.scrollIntoView();
+  }
 };
 
 export const getURL = () => {

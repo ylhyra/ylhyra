@@ -113,6 +113,10 @@ section,
   li + li {
     margin-top: 3px;
   }
+  /* Section links */
+  *:target {
+    background-color: rgba(#c0f2fb, 0.36);
+  }
 }
 sup.reference {
   @include sans-serif();
@@ -123,11 +127,6 @@ sup.reference {
   .references & {
     opacity: 0.9;
   }
-}
-
-/* Section links */
-*:target {
-  background-color: rgba(#c0f2fb, 0.36);
 }
 
 ul.plain {

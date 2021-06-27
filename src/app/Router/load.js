@@ -5,7 +5,11 @@ import { URL_title } from "paths";
 import store from "app/App/store";
 import { updateURL } from "./actions";
 let cache = {};
-export const loadContent = (url, prerender_data, preload) => {
+export const loadContent = (url, prerender_data, preload, section) => {
+  // console.log("loadContent");
+  // console.log({ url, section });
+  // throw new Error("");
+
   if (url in components) {
     return;
   }
@@ -18,7 +22,7 @@ export const loadContent = (url, prerender_data, preload) => {
       data: { parsed: prerender_data },
     });
   } else if (url in cache) {
-    set(url, JSON.parse(cache[url]), preload);
+    set(url, JSON.parse(cache[url]), preload, section);
   } else {
     axios
       .get("/api/content", {
@@ -28,7 +32,7 @@ export const loadContent = (url, prerender_data, preload) => {
       })
       .then(async ({ data }) => {
         cache[url] = JSON.stringify(data);
-        set(url, data, preload);
+        set(url, data, preload, section);
       })
       .catch((error) => {
         console.log(error);
@@ -43,7 +47,10 @@ export const loadContent = (url, prerender_data, preload) => {
   }
 };
 
-const set = async (url, data, preload) => {
+const set = async (url, data, preload, section) => {
+  // console.log("set");
+  // console.log({ url, section });
+  // throw new Error("");
   if (preload) return;
   let parsed, flattenedData;
   if ("parsed" in data) {
@@ -70,7 +77,7 @@ const set = async (url, data, preload) => {
       header: data.header,
     },
   });
-  updateURL(url, data.title, true);
+  updateURL(url + (section ? "#" + section : ""), data.title, true);
   ReadAlongSetup(flattenedData); // TEMP
 };
 
