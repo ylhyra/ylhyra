@@ -32,10 +32,9 @@ export default function (json /*onlyRetrieveEntireDocuments*/) {
       // console.log(text)
       // console.log(documentTitle)
       if (documentTitle === undefined) {
-        /* TODO!! */
-        console.log(
-          `Missing {{start}} for document which includes the text ${text}`
-        );
+        // console.log(
+        //   `Missing {{start}} for document which includes the text ${text}`
+        // );
         return;
       }
       if (text) {

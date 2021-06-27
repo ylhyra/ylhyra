@@ -21,9 +21,8 @@ const header_links = `
   <link href="/app/main.css" rel="stylesheet" />
 `;
 let footer_links = `
-  <link href="/app/main.css" rel="stylesheet" />
   ${
-    TESTING
+    TESTING && process.env.NODE_ENV === "development"
       ? `
     <script src="http://localhost:3000/static/js/bundle.js"></script>
     <script src="http://localhost:3000/static/js/vendors~main.chunk.js"></script>
@@ -31,6 +30,7 @@ let footer_links = `
   `
       : `<script src="/app/ylhyra.main.js"></script>`
   }
+  ${header_links}
 `;
 
 const css = fs.readFileSync(
@@ -96,7 +96,7 @@ const render = async (title, filename, css, callback) => {
             /<!--TEMP-->[\s\S]+<!--TEMP-->/,
             "<style>" + cr_output.css + "</style>"
           )
-          .replace("<!-- Footer items -->", footer_items + header_links);
+          .replace("<!-- Footer items -->", footer_items);
         if (err) console.log(err);
         fs.writeFileSync(
           path.resolve(build_folder, `./prerender/${filename}.html`),

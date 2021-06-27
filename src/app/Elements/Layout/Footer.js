@@ -23,10 +23,10 @@ export default (props) => (
         <span className="footer-gray">
           <a href="mailto:ylhyra@ylhyra.is">Report errors</a>
         </span>
-        •
+        {/* •
         <span className="footer-gray">
           <Link href="/Project:Become_a_collaborator">Collaborate</Link>
-        </span>
+        </span> */}
         {/* • */}
       </span>
       {/* <span className="footer-gray">

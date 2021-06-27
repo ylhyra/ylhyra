@@ -14,10 +14,12 @@
     "links": "node build/server/ylhyra_server.js --compile-content",
     "vocabulary": "node build/server/ylhyra_server.js --import-vocabulary",
     "vocabulary_testing": "node build/server/ylhyra_server.js --import-vocabulary --testing",
-    "prerender": "npm run build && npm run build_server && rm -f build/prerender/* && node build/server/ylhyra_server.js --prerender",
-    "build": "./scripts/app.build.sh",
+    "prerender": "rm -f build/prerender/* && node build/server/ylhyra_server.js --prerender",
+    "build_and_prerender": "./scripts/build_and_prerender.sh",
+    "build_app": "./scripts/app.build.sh",
     "build_server": "npm run links && webpack --config ./scripts/server.webpack.js",
-    "server": "export NODE_ENV=development && webpack --config ./scripts/server.webpack.js --color --watch"
+    "server": "export NODE_ENV=development && webpack --config ./scripts/server.webpack.js --color --watch",
+    "deploy": "./scripts/build_and_prerender.sh"
   },
   "proxy": "http://localhost:9123",
   "dependencies": {
@@ -45,7 +47,6 @@
     "file-extension": "^4.0.5",
     "formik": "^2.2.9",
     "html-entities": "^1.4.0",
-    "htmltidy2": "^0.3.0",
     "is-boolean-attribute": "0.0.1",
     "is-empty-object": "^1.1.1",
     "jquery": "^3.6.0",
