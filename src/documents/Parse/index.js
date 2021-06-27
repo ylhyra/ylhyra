@@ -58,8 +58,9 @@ export default ({ html, title }) => {
       Merge tokenization and HTML (does not include data).
       Returns wrapped HTML without data
     */
-    // console.log(json2html(json))
+    // console.log(json2html(json));
     const wrapped = WrapInTags({ json, tokenized });
+    // console.log(json2html(wrapped));
     // console.log({wrapped})
     // var t5 = now()
     // console.log(`Wrapping took ${Math.round(t5 - t4)} ms`)
@@ -112,7 +113,7 @@ const flattenData = (input) => {
     // console.log(input[documentTitle])
     output = merge(output, input[documentTitle]);
   }
-  // console.log(output)
+  // console.log(output);
   return output;
 };
 const merge = (first, second) => {

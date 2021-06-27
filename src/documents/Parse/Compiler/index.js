@@ -10,13 +10,14 @@ const entities = new Entities();
 const TextCompiler = ({ json, data }) => {
   reset(); // TEMP
   let output;
-  // console.log(json2html(json))
+  // console.log(json2html(json));
   output = data ? Precompile({ json, data }) : json;
-  // console.log((data))
+  // console.log(data);
 
   output = PrepareJSONForReact(output);
   output = CompileToHTML({ json: output, data });
   output = ReactDOMServer.renderToStaticMarkup(output);
+  // console.log(output);
   output = html2json(output);
   output = PrepareJSONForReact(output);
 

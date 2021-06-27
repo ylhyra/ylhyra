@@ -9,6 +9,7 @@ import Render from "documents/Render";
 import { connect, Provider } from "react-redux";
 import store from "app/App/store";
 import Router from "app/Router";
+import shortid from "shortid";
 const router = require("express").Router();
 var now = require("performance-now");
 var fs = require("fs");
@@ -16,9 +17,11 @@ const path = require("path");
 const critical = require("critical");
 const build_folder = path.resolve(__basedir, `./build`);
 let TESTING = false;
+/* TODO */
+let hash = shortid.generate();
 
 const header_links = `
-  <link href="/app/main.css" rel="stylesheet" />
+  <link href="/app/main.css?v=${hash}" rel="stylesheet" />
 `;
 let footer_links = `
   ${
@@ -28,7 +31,7 @@ let footer_links = `
     <script src="http://localhost:3000/static/js/vendors~main.chunk.js"></script>
     <script src="http://localhost:3000/static/js/main.chunk.js"></script>
   `
-      : `<script src="/app/ylhyra.main.js"></script>`
+      : `<script src="/app/ylhyra.main.js?v=${hash}"></script>`
   }
   ${header_links}
 `;

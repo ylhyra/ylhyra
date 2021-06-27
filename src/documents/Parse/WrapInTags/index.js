@@ -51,6 +51,7 @@ export default function ({ json, tokenized }) {
   let tokenizedFlattened = [];
   for (const documentTitle of Object.keys(tokenized)) {
     for (const i in tokenized[documentTitle]) {
+      if (!tokenized[documentTitle].hasOwnProperty(i)) continue;
       tokenizedFlattened.push({
         documentTitle,
         ...tokenized[documentTitle][i],
@@ -59,7 +60,8 @@ export default function ({ json, tokenized }) {
   }
   tokenizedFlattened = tokenizedFlattened.sort((a, b) => a.index - b.index);
 
-  // console.log(tokenized)
+  // console.log(JSON.stringify(tokenized, null, 2));
+  // console.log(JSON.stringify(tokenizedFlattened, null, 2));
 
   // console.warn(JSON.stringify(json))
   let index = 0;
@@ -74,17 +76,14 @@ export default function ({ json, tokenized }) {
         // console.log(JSON.stringify(paragraph))
         return paragraph;
       }
-      // console.log(JSON.stringify(paragraph))
-      // console.error('HAHA')
-      // console.log(JSON.stringify(paragraph))
       if (text) {
         return Sentences(paragraph, tokenizedFlattened[index++].sentences);
       }
       return paragraph;
     },
   });
-  // console.log(JSON.stringify(wrapped))
   wrapped = RemoveData(wrapped);
+  // console.log(JSON.stringify(wrapped));
   // console.log(wrapped)
   // wrapped = html2json(json2html(wrapped))
 
@@ -96,7 +95,7 @@ export default function ({ json, tokenized }) {
 */
 const Sentences = (paragraph_HTML, sentences) => {
   // console.warn('HAHA2')
-  // console.log(JSON.stringify(paragraph_HTML))
+  // console.log(JSON.stringify(paragraph_HTML));
   /*
     Extract words from sentence
     (Creates a function that will be called in "WrapInTags.js")
@@ -115,7 +114,10 @@ const WrapInTags = (input, tokenizedSplit, elementName, innerFunction) => {
   let html, json;
   const temp_attribute_name = innerFunction ? `data-temp-id` : `data-temp-id2`;
 
-  if (!tokenizedSplit || tokenizedSplit.length === 0) return input;
+  if (!tokenizedSplit || tokenizedSplit.length === 0) {
+    console.log("Empty tokenizedSplit");
+    return { child: input };
+  }
   // console.log(JSON.stringify(input))
   html = InsertSplit(input, tokenizedSplit);
   json = SplitAndWrap(
