@@ -19,7 +19,7 @@
     "build_app": "./scripts/app.build.sh",
     "build_server": "webpack --config ./scripts/server.webpack.js",
     "server": "export NODE_ENV=development && webpack --config ./scripts/server.webpack.js --color --watch",
-    "deploy": "./scripts/build_and_prerender.sh"
+    "deploy": "./scripts/push_to_server.sh"
   },
   "proxy": "http://localhost:9123",
   "dependencies": {

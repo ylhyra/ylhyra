@@ -15,14 +15,14 @@ var fs = require("fs");
 const path = require("path");
 const critical = require("critical");
 const build_folder = path.resolve(__basedir, `./build`);
-let TESTING = true;
+let TESTING = false;
 
 const header_links = `
   <link href="/app/main.css" rel="stylesheet" />
 `;
 let footer_links = `
   ${
-    TESTING && process.env.NODE_ENV === "development"
+    TESTING
       ? `
     <script src="http://localhost:3000/static/js/bundle.js"></script>
     <script src="http://localhost:3000/static/js/vendors~main.chunk.js"></script>

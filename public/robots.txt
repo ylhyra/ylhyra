@@ -1,13 +1,17 @@
 User-agent: *
 Disallow: /api/
-Disallow: /file:
-Disallow: /project:
+Disallow: /app/
+Disallow: /file/
+Disallow: /project/
 Disallow: /*.png$
 Disallow: /*.jpg$
 Disallow: /*.jpeg$
 Disallow: /*.svg$
 Disallow: /*.gif$
 Disallow: /*.md$
+Disallow: /*.json$
+Disallow: /*.js$
+Disallow: /*.txt$
 
 User-agent: Googlebot-Image
 Disallow: /
