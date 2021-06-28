@@ -1,3 +1,5 @@
+@use "sass:math";
+
 header {
   height: 60px;
   // margin-top: 14px;
@@ -25,7 +27,7 @@ header {
       // /* 36 / 112 is the image's ratio */
       background-image: url("http://localhost:3000/api/images2/assets/Logo_serif_nocircle.svg"); /* TODO */
       width: 68px;
-      height: 68px * 26 / 68;
+      height: math.div(68px * 26, 68);
       display: block;
       position: relative;
     }

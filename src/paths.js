@@ -1,9 +1,9 @@
 global.__basedir = __dirname + "/../";
 
 /* Folders */
-export const content_folder = (__basedir, "/../ylhyra_content");
-export const output_folder = (__basedir, "/build");
-export const image_output_folder = (output_folder, "/images");
+export const content_folder = __basedir + "/../ylhyra_content";
+export const output_folder = __basedir + "/build";
+export const image_output_folder = output_folder + "/images";
 
 /* File URLs */
 export const contentUrl = "/api/content";

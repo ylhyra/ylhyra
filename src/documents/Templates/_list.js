@@ -1,7 +1,7 @@
 import Frontpage from "app/Elements/Frontpage";
 import Level from "documents/Templates/Level";
 import Book from "documents/Templates/Book";
-import Blær from "documents/Templates/Blær";
+// import Blær from "documents/Templates/Blær";
 import Image from "documents/Templates/Image";
 import Button from "documents/Templates/Button";
 import VocabularyStatus from "documents/Templates/VocabularyStatus";
@@ -21,9 +21,9 @@ export default (name) => {
     case "book":
       return Book;
       break;
-    case "blær":
-      return Blær;
-      break;
+    // case "blær":
+    //   return Blær;
+    //   break;
     case "image":
       return Image;
       break;

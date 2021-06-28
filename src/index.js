@@ -11,7 +11,7 @@ import { InitializeRouter } from "app/Router/actions";
 import { TextEventListenersOn } from "documents/Read/Touch";
 import { isBrowser } from "app/App/functions/isBrowser";
 import Render from "documents/Render";
-// import "documents/Style/index.scss";
+import "documents/Style/index.scss";
 
 let prerender;
 if (isBrowser && window.ylhyra_data) {
