@@ -67,7 +67,7 @@ router.get(["/api/content", "*"], async (req, res) => {
           "utf8",
           async (err, data) => {
             if (err) {
-              return res.sendStatus(404);
+              send404(res);
             } else {
               return res.send(data);
             }
@@ -79,12 +79,16 @@ router.get(["/api/content", "*"], async (req, res) => {
     if (type === "json") {
       return res.sendStatus(404);
     } else {
-      res
-        .status(404)
-        .sendFile(path.resolve(build_folder, `./prerender/not-found.html`));
+      send404(res);
     }
   }
 });
+
+const send404 = (res) => {
+  res
+    .status(404)
+    .sendFile(path.resolve(build_folder, `./prerender/not-found.html`));
+};
 
 export default router;
 

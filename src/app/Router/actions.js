@@ -57,6 +57,14 @@ export const updateURL = (url, title, replace, prerender, is404) => {
     return;
   }
 
+  if (is404) {
+    store.dispatch({
+      type: "LOAD_ROUTE_CONTENT",
+      data: "404",
+    });
+    return;
+  }
+
   if (url !== window.location.pathname) {
     if (replace) {
       window.history.replaceState(null, "", url);
@@ -65,7 +73,7 @@ export const updateURL = (url, title, replace, prerender, is404) => {
     }
   }
 
-  if (!replace && !is404) {
+  if (!replace) {
     if (!prerender) {
       ClearReadAlongSetup();
       store.dispatch({

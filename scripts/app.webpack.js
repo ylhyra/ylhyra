@@ -12,6 +12,7 @@ const config = {
   output: {
     path: path.resolve(__dirname, "./../build/app"),
     filename: "ylhyra.[name].js",
+    publicPath: "/app/",
   },
   module: {
     rules: [

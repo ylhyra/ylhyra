@@ -7,11 +7,11 @@ import { connect, Provider } from "react-redux";
 import store from "app/App/store";
 import { InitializeUser } from "app/User/actions";
 import { InitializeVocabulary } from "app/Vocabulary/actions/init";
-import "documents/Style/index.scss";
 import { InitializeRouter } from "app/Router/actions";
 import { TextEventListenersOn } from "documents/Read/Touch";
 import { isBrowser } from "app/App/functions/isBrowser";
 import Render from "documents/Render";
+// import "documents/Style/index.scss";
 
 let prerender;
 if (isBrowser && window.ylhyra_data) {
@@ -31,7 +31,7 @@ const Root = (
   </React.StrictMode>
 );
 
-if (prerender) {
+if (prerender /*|| window.is404*/) {
   ReactDOM.hydrate(Root, document.getElementById("root"));
 } else {
   ReactDOM.render(Root, document.getElementById("root"));

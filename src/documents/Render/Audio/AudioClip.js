@@ -1,5 +1,5 @@
 import store from "app/App/store";
-import { soundAttribution as Attribution } from "documents/Render/Attribution";
+// import { soundAttribution as Attribution } from "documents/Render/Attribution";
 /*
   Short audio clips, like words on hover, that do not require an audio player interface
 */
@@ -19,7 +19,7 @@ const AudioClip = {
     } else {
       file = sound_files;
     }
-    Attribution({ filename: file }); /* If we need to attribute a third party */
+    // Attribution({ filename: file }); /* If we need to attribute a third party */
     audio = new Audio(file);
     const promise = audio.play();
     if (promise) {

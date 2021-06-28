@@ -5,7 +5,7 @@ import { BAD, GOOD, EASY } from "./card";
 import {
   getWordFromId,
   getRelatedCardIds,
-  filterOnlyCardsThatExist,
+  // filterOnlyCardsThatExist,
 } from "./_functions";
 const CARDS_TO_CREATE = 100;
 const MAX_BAD_RATIO = 0.3;

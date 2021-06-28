@@ -40,7 +40,7 @@ class Form2 extends React.Component {
     axios.post(`/api/vocabulary_maker`, { data: this.state.data });
   };
   render() {
-    window.save = this.save;
+    // window.save = this.save;
     return (
       <div className="vocabulary_maker">
         {this.state.data.map((row, index) => {
