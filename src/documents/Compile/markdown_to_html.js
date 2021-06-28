@@ -15,6 +15,7 @@ try {
  * Each HTML element in the original text is processed seperately to preserve HTML structure.
  */
 export default (input) => {
+  // return input;
   input = json2html(Traverse(html2json(input)));
   /* Fix anchor ids */
   input = input.replace(
@@ -123,12 +124,13 @@ export const processText = (input) => {
       }
       return `<a href="${encodeURI(link)}">${target}</a>`;
     })
+    /* Bare external links */
+    .replace(/\[((?:http|mailto)[^ ]+?)\]/g, (x, url) => {
+      return `&#91;<a href="${url}">link</a>&#93;`;
+    })
     /* External links */
     .replace(/\[((?:http|mailto)[^ ]+?) (.+?)\]/g, (x, url, text) => {
       return `<a href="${url}">${text}</a>`;
-    })
-    .replace(/\[((?:http|mailto)[^ ]+?)\]/g, (x, url) => {
-      return `[<a href="${url}">link</a>]`;
     })
     .replace(/^\*\*\*\n/gm, "\n<hr/>\n")
     /* Lists */

@@ -11,18 +11,24 @@ try {
 
 let n = 0;
 const run = async () => {
-  await forEachAsync(Object.keys(links), async (url, index) => {
+  process.stdout.write("Prerendering...");
+  let to_render = [];
+  Object.keys(links).forEach((url) => {
+    const { redirect_to, title, file, filename } = links[url];
+    if (
+      "redirect_to" in links[url] ||
+      /^(Data|File|Text):/.test(title) ||
+      /\/drafts\//.test(file)
+    )
+      return;
+    to_render.push(url);
+  });
+  let i = 0;
+  await forEachAsync(to_render, async (url, index) => {
     return new Promise(async (resolve2, reject2) => {
       const { redirect_to, title, file, filename } = links[url];
-      if (
-        "redirect_to" in links[url] ||
-        /^(Data|File|Text):/.test(title) ||
-        /^\/drafts\//.test(file)
-      )
-        return resolve2();
-      console.log(title || "Frontpage");
-      if (n++ > 100) process.exit();
-
+      process.stdout.write("\r\x1b[K");
+      process.stdout.write(`${i++} of ${to_render.length} done – ${url}`);
       prerender(url, filename, true, resolve2);
     });
   });

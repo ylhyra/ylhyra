@@ -5,8 +5,7 @@ import sql from "server/database/functions/SQL-template-literal";
 import cors from "cors";
 const router = require("express").Router();
 const fs = require("fs");
-export const vocabulary_json =
-  __basedir + "/build/vocabulary_database.json";
+export const vocabulary_json = __basedir + "/build/vocabulary_database.json";
 
 router.all(
   "/vocabulary/get",
@@ -54,6 +53,7 @@ router.post("/vocabulary/schedule", (req, res) => {
     sql`
     SELECT *,
       UNIX_TIMESTAMP(due) * 1000 as due,
+      UNIX_TIMESTAMP(adjusted_due) * 1000 as adjusted_due,
       UNIX_TIMESTAMP(last_seen) * 1000 as last_seen
       FROM vocabulary_schedule
     WHERE user_id = ${req.session.user_id}

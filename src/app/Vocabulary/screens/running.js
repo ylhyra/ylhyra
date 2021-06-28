@@ -12,11 +12,7 @@ export default () => (
       {/* TODO: Exit ætti að ná í fyrri síðu geymda í URLi */}
       <button
         onClick={() => {
-          if (store.getState().route.pathname !== window.location.pathname) {
-            updateURL(window.location.pathname);
-          } else {
-            updateURL("VOCABULARY_PLAY");
-          }
+          store.getState().deck.sessionDone();
         }}
       >
         Exit

@@ -33,7 +33,7 @@ const Images = (data) => {
           console.log(filename_ + " file type not yet supported");
           output.push("");
           // output.push(`<img src=""/>`)
-          return resolve2;
+          return resolve2();
         }
         // console.log(rest)
         if (!(URL_title("File:" + filename_) in links)) {

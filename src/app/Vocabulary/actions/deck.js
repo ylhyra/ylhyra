@@ -60,16 +60,16 @@ class Deck {
     this.generateSession();
   }
   saveSession(session, done) {
-    if (!done) {
-      let to_save = session.cards.map(({ session, ...rest }) => rest);
-      if (!to_save.some((i) => i.history.length > 0)) {
-        to_save = null;
-      }
-      saveInLocalStorage("vocabulary-session", to_save);
-      saveInLocalStorage("vocabulary-session-saved-at", new Date().getTime());
-    } else {
-      saveInLocalStorage("vocabulary-session", null);
-    }
+    // if (!done) {
+    //   let to_save = session.cards.map(({ session, ...rest }) => rest);
+    //   if (!to_save.some((i) => i.history.length > 0)) {
+    //     to_save = null;
+    //   }
+    //   saveInLocalStorage("vocabulary-session", to_save);
+    //   saveInLocalStorage("vocabulary-session-saved-at", new Date().getTime());
+    // } else {
+    //   saveInLocalStorage("vocabulary-session", null);
+    // }
   }
   loadSessionFromLocalStorage() {
     /* TODO: Clear after a day */

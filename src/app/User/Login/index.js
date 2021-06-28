@@ -52,7 +52,11 @@ class Form2 extends React.Component {
     login({ username, user_id });
 
     if (!did_user_exist) {
-      updateURL("PAY");
+      if (process.env.REACT_APP_PWYW === "on") {
+        updateURL("PAY");
+      } else {
+        updateURL("/");
+      }
     } else {
       updateURL("/");
     }

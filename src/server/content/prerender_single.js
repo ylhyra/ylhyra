@@ -33,7 +33,6 @@ let footer_links = `
   `
       : `<script src="/app/ylhyra.main.js?v=${hash}"></script>`
   }
-  ${header_links}
 `;
 
 const css = fs.readFileSync(
@@ -73,7 +72,8 @@ const render = async (title, filename, css, callback) => {
       "<!-- Header items -->",
       "<!--TEMP-->" + header_links + "<!--TEMP-->"
     )
-    .replace("<!-- Content -->", output);
+    .replace("<!-- Content -->", output)
+    .replace("<!-- Footer items -->", footer_items + "<!-- Remaining CSS -->");
 
   fs.writeFileSync(
     path.resolve(build_folder, `./prerender/${filename}.json`),
@@ -83,7 +83,7 @@ const render = async (title, filename, css, callback) => {
     path.resolve(build_folder, `./prerender/${filename}.html`),
     output
   );
-  if (css) {
+  if (false && css) {
     /* Inline CSS */
     critical.generate(
       {
@@ -99,7 +99,7 @@ const render = async (title, filename, css, callback) => {
             /<!--TEMP-->[\s\S]+<!--TEMP-->/,
             "<style>" + cr_output.css + "</style>"
           )
-          .replace("<!-- Footer items -->", footer_items);
+          .replace("<!-- Remaining CSS -->", header_links);
         if (err) console.log(err);
         fs.writeFileSync(
           path.resolve(build_folder, `./prerender/${filename}.html`),

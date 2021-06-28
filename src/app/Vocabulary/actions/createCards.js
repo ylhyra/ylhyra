@@ -22,6 +22,8 @@ export default function createCards(options, deck_) {
   /* Previously seen cards */
   let overdue_good_ids = [];
   let overdue_bad_ids = [];
+  let unadjusted_overdue_good_ids = [];
+  let unadjusted_overdue_bad_ids = [];
   let not_overdue_bad_cards_ids = [];
   let not_overdue = [];
   let allScores = [];
@@ -33,13 +35,19 @@ export default function createCards(options, deck_) {
     .sort((a, b) => a.due - b.due)
     .forEach((i) => {
       if (i.last_seen > now - 0.5 * day) {
-        if (i.due < now + 0.5 * day) {
-          if (i.score < GOOD) {
+        if (i.adjusted_due < now + 0.5 * day) {
+          if (i.score < 1.5) {
             overdue_bad_ids.push(i.id);
           } else {
             overdue_good_ids.push(i.id);
           }
-        } else if (i.score < 1.75) {
+        } else if (i.due < now + 0.5 * day) {
+          if (i.score < 1.5) {
+            unadjusted_overdue_bad_ids.push(i.id);
+          } else {
+            unadjusted_overdue_good_ids.push(i.id);
+          }
+        } else if (i.score < 1.5) {
           not_overdue_bad_cards_ids.push(i.id);
         }
       } else {
@@ -65,8 +73,12 @@ export default function createCards(options, deck_) {
   }
 
   /* TODO: Not very efficient */
-  overdue_good_ids = _.shuffle(overdue_good_ids);
-  overdue_bad_ids = _.shuffle(overdue_bad_ids);
+  overdue_good_ids = _.shuffle(overdue_good_ids).concat(
+    _.shuffle(unadjusted_overdue_good_ids)
+  );
+  overdue_bad_ids = _.shuffle(overdue_bad_ids).concat(
+    _.shuffle(unadjusted_overdue_bad_ids)
+  );
   not_overdue_bad_cards_ids = _.shuffle(not_overdue_bad_cards_ids);
   let total_options =
     overdue_bad_ids.length +

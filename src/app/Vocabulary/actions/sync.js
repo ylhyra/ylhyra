@@ -11,11 +11,22 @@ import {
 
 export async function syncSchedule() {
   const deck = this;
-  saveInLocalStorage("vocabulary-schedule", deck.schedule);
+  const { schedule } = deck;
+  saveInLocalStorage("vocabulary-schedule", schedule);
+  if (store.getState().user && store.getState().user.user_id) {
+    console.log(`Not synced to server as user isn't logged in`);
+    return;
+  }
 
-  /* TODO selective sync */
-  await axios.post(`/api/vocabulary/save`, {
-    schedule: deck.schedule,
-    user: store.getState().user,
+  /* Selective sync */
+  let tosave = {};
+  Object.keys(schedule).forEach((card_id) => {
+    if (schedule[card_id].needsSyncing) {
+      tosave[card_id] = schedule[card_id];
+      schedule[card_id].needsSyncing = false;
+    }
   });
+  if (Object.keys(tosave).length > 0) {
+    await axios.post(`/api/vocabulary/save`, { schedule: tosave });
+  }
 }
