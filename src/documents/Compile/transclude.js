@@ -1,11 +1,12 @@
 import { URL_title } from "paths.js";
 import { ParseHeaderAndBody } from "server/content";
 import TOC from "documents/Compile/Templates/TOC";
+import forEachAsync from "app/App/functions/array-foreach-async";
 let links = {};
 try {
   links = require("build/links.js");
 } catch (e) {}
-require("app/App/functions/array-foreach-async");
+
 var fs = require("fs");
 var btoa = require("btoa");
 
@@ -68,7 +69,7 @@ export const TranscludeFromText = async (input, depth) => {
   input = input
     .replace(/{{{+/g, "&lbrace;&lbrace;&lbrace;")
     .replace(/}}}+/g, "&rbrace;&rbrace;&rbrace;");
-  await input.split(/{{([^{}]+)}}/g).forEachAsync(async (q, index) => {
+  await forEachAsync(input.split(/{{([^{}]+)}}/g), async (q, index) => {
     await new Promise(async (resolve2, reject2) => {
       if (index % 2 === 0) {
         output += q;

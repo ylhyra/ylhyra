@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { synchronize } from 'Editor/Long_audio/Synchronize'
 import React from 'react'
 import store from 'app/App/store'
-require('app/App/functions/array-foreach-async')
+
 
 class Inflections extends React.Component {
   state = {}

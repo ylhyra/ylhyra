@@ -5,7 +5,7 @@ import simplifyString from "./helpers/simplifyString";
 import GetTranslationFrame from "./helpers/TranslationFrame";
 import sql from "server/database/functions/SQL-template-literal";
 import { escape } from "sqlstring";
-require("src/app/App/functions/array-foreach-async");
+
 
 /*
 

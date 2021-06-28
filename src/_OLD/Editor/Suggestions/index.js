@@ -8,7 +8,7 @@ import { send } from 'Editor/web-socket'
 import error from 'app/App/Error'
 import axios from 'app/App/axios'
 
-require('app/App/functions/array-foreach-async')
+
 
 
 /*

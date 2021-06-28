@@ -1,7 +1,6 @@
 // export TESTING=true && node server/translator/BatchSave.js
 
 const axios = require("axios");
-require("./../../frontend/App/functions/array-foreach-async");
 
 const url = process.env.TESTING ? "http://localhost:9123" : "https://ylhyra.is";
 

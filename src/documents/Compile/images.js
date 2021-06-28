@@ -3,12 +3,12 @@ import { ParseHeaderAndBody } from "server/content";
 import _ from "underscore";
 import Transclude from "./transclude";
 import { processed_image_url, output_folder } from "paths.js";
-
+import forEachAsync from "app/App/functions/array-foreach-async";
 let links = {};
 try {
   links = require("build/links.js");
 } catch (e) {}
-require("app/App/functions/array-foreach-async");
+
 var fs = require("fs");
 const { exec } = require("child_process");
 
@@ -26,7 +26,7 @@ const Images = (data) => {
       return params;
     });
     /* Run */
-    await input.forEachAsync(async (z, index) => {
+    await forEachAsync(input, async (z, index) => {
       await new Promise(async (resolve2, reject2) => {
         let [o, filename_, rest] = z.match(/src="(.+?)"(.+)?\/>/);
         if (!/(png|jpe?g)$/.test(filename_)) {
