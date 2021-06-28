@@ -68,10 +68,16 @@ const render = async ({ title, filename, css, is_content, callback }) => {
     </Provider>
   );
 
-  const footer_items =
+  let footer_items =
     (necessary_data
       ? `<script type="text/javascript">window.ylhyra_data=${necessary_data}</script>`
       : "") + footer_links;
+
+  if (filename === "not-found") {
+    footer_items =
+      '<script type="text/javascript">window.is404=true</script>' +
+      footer_items;
+  }
 
   output = html
     .replace(

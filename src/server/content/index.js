@@ -1,6 +1,7 @@
 import generate_html from "documents/Compile";
-import { URL_title } from "paths.js";
+import { URL_title, FileSafeTitle } from "paths.js";
 import { removeComments } from "documents/Compile/transclude";
+import { url_to_info } from "app/Router/paths.js";
 const router = require("express").Router();
 var fs = require("fs");
 let links = {};
@@ -21,20 +22,26 @@ router.get(["/api/content", "*"], async (req, res) => {
     url = URL_title(req.path);
   }
   let values = links[url];
-  if (values) {
+  if (values || url_to_info["/" + url]) {
     let output = {};
-    let title = values.title;
-    let file = values.file;
-    let filename = values.filename;
-    if (values.redirect_to) {
-      url = values.redirect_to;
-      file = links[values.redirect_to].file;
-      title = links[values.redirect_to].title;
-      filename = links[values.redirect_to].filename;
-      output.redirect_to = values.redirect_to;
-      output.section = values.section;
-    } else if (req.query.title !== url) {
-      output.redirect_to = url;
+    let title, file, filename;
+    if (values) {
+      title = values.title;
+      file = values.file;
+      filename = values.filename;
+      if (values.redirect_to) {
+        url = values.redirect_to;
+        file = links[values.redirect_to].file;
+        title = links[values.redirect_to].title;
+        filename = links[values.redirect_to].filename;
+        output.redirect_to = values.redirect_to;
+        output.section = values.section;
+      } else if (req.query.title !== url) {
+        output.redirect_to = url;
+      }
+    } else {
+      title = "";
+      filename = FileSafeTitle(url);
     }
 
     title = title.split(/[/:]/g).reverse().join("\u2006•\u2006");
@@ -69,7 +76,13 @@ router.get(["/api/content", "*"], async (req, res) => {
       }
     }
   } else {
-    return res.sendStatus(404);
+    if (type === "json") {
+      return res.sendStatus(404);
+    } else {
+      res
+        .status(404)
+        .sendFile(path.resolve(build_folder, `./prerender/not-found.html`));
+    }
   }
 });
 

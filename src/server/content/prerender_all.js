@@ -25,7 +25,7 @@ const run = async () => {
       /(villi)/i.test(title)
     )
       return;
-    // to_render.push(url);
+    to_render.push(url);
   });
   let i = 0;
   await forEachAsync(to_render, async (url, index) => {
@@ -38,7 +38,7 @@ const run = async () => {
       let filename;
       let is_content;
       if (links[url]) {
-        filename = links[url];
+        filename = links[url].filename;
         is_content = true;
       } else {
         filename = FileSafeTitle(url);

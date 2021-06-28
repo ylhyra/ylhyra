@@ -13,15 +13,17 @@ isBrowser &&
   });
 
 export const InitializeRouter = (prerender) => {
+  const is404 = window.is404;
   updateURL(
     window.location.pathname + window.location.hash,
     null,
     null,
-    prerender
+    prerender,
+    is404
   );
 };
 
-export const updateURL = (url, title, replace, prerender) => {
+export const updateURL = (url, title, replace, prerender, is404) => {
   if (url in app_urls) {
     url = app_urls[url].url;
   } else {
@@ -63,7 +65,7 @@ export const updateURL = (url, title, replace, prerender) => {
     }
   }
 
-  if (!replace) {
+  if (!replace && !is404) {
     if (!prerender) {
       ClearReadAlongSetup();
       store.dispatch({
