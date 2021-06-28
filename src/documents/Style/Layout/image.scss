@@ -1,4 +1,5 @@
 .ylhyra_image {
+  @include sans-serif();
   &.right {
     max-width: 250px;
     float: right;
@@ -21,7 +22,7 @@
       position: absolute;
       top: 0;
       right: 0;
-      background: rgba(242, 242, 242, 0.95);
+      background: rgba(242, 242, 242, 0.85);
       word-break: break-all;
       padding: 0 3px;
       font-size: 10px;
@@ -36,7 +37,6 @@
     }
   }
   .caption {
-    @include sans-serif();
     font-size: 13px;
     line-height: 1.4;
     padding-top: 2px;

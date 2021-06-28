@@ -11,7 +11,8 @@ const Compile = ({ json, data }) => {
   output = MergeWords(output, data.translation);
   output = MergePunctuation(output, data.translation);
   output = RemoveTempIDs(output);
-  // output = NiceIDs(output, data.id)
+  /* Disabled due to audio sync */
+  // output = NiceIDs(output /*data.id*/);
   // console.log(output)
   // console.log(JSON.stringify(output, null, 2))
   return output;

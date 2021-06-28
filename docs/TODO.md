@@ -6,8 +6,8 @@
 - continue session on login
 - max bad ratio
 - fjarlægja lazy-loading á templötum
-- fjarlægja readmesetup þegar skipt er um síðu
 - skipta út localhost í css eftir build
 - tables
 - subdomains https://stackoverflow.com/questions/19212952/express-js-vhost-subdomain-set-up
 - laga enskar gæsalappir
+- frontpage demo

@@ -67,9 +67,10 @@ export const ReadAlong = (audio, type, filename) => {
   }
 };
 
-const clear = () => {
+export const clear = () => {
   list = {};
   sentences = {};
+  currentAudioId = null;
 };
 
 export const ReadAlongSetup = (data) => {
@@ -127,6 +128,7 @@ const FindIndexRangeFromID = (id) => {
   Set timer to repeat the process.
 */
 const Show = (index, time, auto = true) => {
+  if (!currentAudioId) return;
   const current = list[currentAudioId][index] || { elements: [] };
   ScrollIntoView(
     current.elements.filter((i) => previous.elements.indexOf(i) === -1)

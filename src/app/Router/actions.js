@@ -4,7 +4,7 @@ import { url_to_info } from "app/Router/paths";
 import { urls as app_urls } from "app/Router/paths";
 import { isBrowser } from "app/App/functions/isBrowser";
 import { loadContent } from "./load";
-
+import { clear as ClearReadAlongSetup } from "documents/Render/Audio/ReadAlong.js";
 isBrowser &&
   window.addEventListener("popstate", (event) => {
     if ("state" in window.history && window.history.state !== null) {
@@ -65,6 +65,7 @@ export const updateURL = (url, title, replace, prerender) => {
 
   if (!replace) {
     if (!prerender) {
+      ClearReadAlongSetup();
       store.dispatch({
         type: "ROUTE",
         content: {

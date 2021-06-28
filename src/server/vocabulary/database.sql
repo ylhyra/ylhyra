@@ -49,6 +49,7 @@ CREATE TABLE vocabulary_schedule (
   user_id VARCHAR(32),
   card_id VARCHAR(20),
   due DATETIME,
+  adjusted_due DATETIME,
   score DECIMAL(3,2) UNSIGNED, -- Range from 0 to 3
   status ENUM('learning', 'learned'),
   last_seen DATETIME,

@@ -8,9 +8,6 @@ import {
   The IDs were long random strings, but are here converted into:
   "[documentID]_[serial]"
 
-  TODO!!!
-  "DEFINITION.CONTAINS" must also be updated!
-
 */
 
 let serial;
@@ -36,7 +33,13 @@ const NiceIDs = (input) => {
       child: child && child.map((e) => NiceIDs(e)),
       attr: {
         ...attr,
-        id: id && updateID(id, `${document_id}_${serial++}`),
+        id:
+          id &&
+          updateID(
+            id,
+            `i${serial++}`
+            // `${document_id}_${serial++}`
+          ),
       },
     };
   }
