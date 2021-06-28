@@ -10,7 +10,7 @@ import Signup from "app/User/screens/Signup";
 import Settings from "app/User/screens/Settings";
 import Pay from "app/User/screens/Pay";
 import VocabularyMaker from "app/VocabularyMaker";
-
+import NotFound from "documents/Templates/404";
 export const urls = {
   VOCABULARY: {
     title: "Vocabulary",
@@ -50,13 +50,18 @@ export const urls = {
     url: "/settings",
     component: Settings,
   },
-  /* Backend */
-  VOCABULARY_MAKER: {
-    url: "/vocabularymaker",
-    component:
-      process.env.NODE_ENV === "development" ? VocabularyMaker : () => {},
+  NOT_FOUND: {
+    url: "/not-found",
+    component: NotFound,
   },
 };
+
+if (process.env.NODE_ENV === "development") {
+  urls["VOCABULARY_MAKER"] = {
+    url: "/vocabularymaker",
+    component: VocabularyMaker,
+  };
+}
 
 const components = {};
 const url_to_info_ = {};

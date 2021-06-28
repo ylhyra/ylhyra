@@ -5,7 +5,12 @@ node build/server/ylhyra_server.js --compile-content
 import string_hash from "app/App/functions/hash";
 import { ParseHeaderAndBody } from "server/content";
 import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
-import { content_folder, output_folder, URL_title } from "paths.js";
+import {
+  content_folder,
+  output_folder,
+  URL_title,
+  FileSafeTitle,
+} from "paths.js";
 var fs = require("fs");
 const path = require("path");
 let files = [];
@@ -54,12 +59,6 @@ const run = () => {
     `module.exports = ` + JSON.stringify(links, null, 2)
   );
   process.exit();
-};
-
-export const FileSafeTitle = (title) => {
-  return (
-    URL_title(title).replace(/(\/)/g, "_").replace(/(:)/g, "_") || "frontpage"
-  );
 };
 
 // https://stackoverflow.com/a/66187152 CC BY-SA 4.0

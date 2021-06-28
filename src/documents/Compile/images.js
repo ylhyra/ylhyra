@@ -29,7 +29,7 @@ const Images = (data) => {
     await forEachAsync(input, async (z, index) => {
       await new Promise(async (resolve2, reject2) => {
         let [o, filename_, rest] = z.match(/src="(.+?)"(.+)?\/>/);
-        if (!/(png|jpe?g)$/.test(filename_)) {
+        if (!/(png|jpe?g)$/i.test(filename_)) {
           console.log(filename_ + " file type not yet supported");
           output.push("");
           // output.push(`<img src=""/>`)

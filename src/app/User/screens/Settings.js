@@ -1,3 +1,4 @@
+import React from "react";
 import { logout } from "app/User/actions";
 
 export default () => (

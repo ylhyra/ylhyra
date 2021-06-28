@@ -44,41 +44,52 @@ const html = fs.readFileSync(
   "utf8"
 );
 
-const render = async (title, filename, css, callback) => {
-  // console.log(title);
-  const { content, header } = await generate_html(title);
-  const out = await Parse({ html: content });
-  const { parsed, tokenized, data, flattenedData } = out;
-  let output = ReactDOMServer.renderToStaticMarkup(
+const render = async ({ title, filename, css, is_content, callback }) => {
+  let content, header, necessary_data, output, props;
+  if (is_content) {
+    const h = await generate_html(title);
+    content = h.content;
+    header = h.header;
+    const out = await Parse({ html: content });
+    const { parsed, tokenized, data, flattenedData } = out;
+    props = { prerender: parsed };
+    necessary_data = JSON.stringify({
+      parsed,
+      flattenedData: {
+        long_audio: flattenedData && flattenedData.long_audio,
+      },
+    });
+  } else {
+    props = { url: title };
+  }
+  output = ReactDOMServer.renderToStaticMarkup(
     <Provider store={store}>
-      <Router prerender={parsed} />
+      <Router {...props} />
     </Provider>
   );
 
-  const necessary_data = JSON.stringify({
-    parsed,
-    flattenedData: {
-      long_audio: flattenedData && flattenedData.long_audio,
-    },
-  });
-
   const footer_items =
-    `<script type="text/javascript">window.ylhyra_data=${necessary_data}</script>` +
-    footer_links;
+    (necessary_data
+      ? `<script type="text/javascript">window.ylhyra_data=${necessary_data}</script>`
+      : "") + footer_links;
 
   output = html
-    .replace("<title>", "<title>" + (header.title ? header.title + " • " : ""))
+    .replace(
+      "<title>",
+      "<title>" + (header && header.title ? header.title + " • " : "")
+    )
     .replace(
       "<!-- Header items -->",
       "<!--TEMP-->" + header_links + "<!--TEMP-->"
     )
-    .replace("<!-- Content -->", output)
+    .replace("<!-- Content -->", output || "")
     .replace("<!-- Footer items -->", footer_items + "<!-- Remaining CSS -->");
 
-  fs.writeFileSync(
-    path.resolve(build_folder, `./prerender/${filename}.json`),
-    necessary_data
-  );
+  necessary_data &&
+    fs.writeFileSync(
+      path.resolve(build_folder, `./prerender/${filename}.json`),
+      necessary_data
+    );
   fs.writeFileSync(
     path.resolve(build_folder, `./prerender/${filename}.html`),
     output
@@ -105,11 +116,11 @@ const render = async (title, filename, css, callback) => {
           path.resolve(build_folder, `./prerender/${filename}.html`),
           output
         );
-        callback();
+        callback && callback();
       }
     );
   } else {
-    callback();
+    callback && callback();
   }
 };
 

@@ -47,3 +47,12 @@ export const section_id = (title) => {
       .replace(/([^a-z0-9.])/g, "_")
   );
 };
+
+export const FileSafeTitle = (title) => {
+  return (
+    URL_title(title)
+      .replace(/(\/)/g, "_")
+      .replace(/(:)/g, "_")
+      .replace(/[()]/g, "") || "frontpage"
+  );
+};

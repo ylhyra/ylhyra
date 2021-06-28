@@ -9,13 +9,12 @@ import { updateURL } from "app/Router/actions";
 export default () => (
   <div id="vocabulary">
     <div>
-      {/* TODO: Exit ætti að ná í fyrri síðu geymda í URLi */}
       <button
         onClick={() => {
-          store.getState().deck.sessionDone();
+          store.getState().vocabulary.deck.sessionDone();
         }}
       >
-        Exit
+        Quit
       </button>
       {" • "}
       <Link href="/vocabulary/tutorial">Tutorial</Link>

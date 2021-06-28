@@ -11,7 +11,7 @@ import Section from "documents/Templates/Section.js";
 class App extends React.Component {
   render() {
     let Element = () => null;
-    const url = this.props.route.pathname;
+    const url = this.props.url || this.props.route.pathname;
     if (url in components) {
       Element = components[url];
       return (

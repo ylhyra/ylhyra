@@ -10,7 +10,6 @@ const modules = [
   resolve("src/"),
   // resolve('node_modules'),
 ];
-
 module.exports = {
   target: "node",
   devtool: "source-map",
@@ -23,8 +22,14 @@ module.exports = {
     ylhyra_server: [/*polyfills,*/ resolve("src/server/index.js")],
   },
   output: {
-    path: resolve("build/server"),
-    filename: "[name].js",
+    path:
+      process.env.NODE_ENV === "development"
+        ? resolve("build/server/development")
+        : resolve("build/server"),
+    filename:
+      process.env.NODE_ENV === "development"
+        ? "[name].development.js"
+        : "[name].js",
   },
   resolve: {
     modules: [
@@ -97,20 +102,4 @@ module.exports = {
       resolve("src/app"),
     ]),
   ],
-  // plugins: [
-  //   new webpack.optimize.UglifyJsPlugin({
-  //     compress: {
-  //       warnings: false,
-  //       comparisons: false,
-  //     },
-  //     mangle: {
-  //       safari10: true,
-  //     },
-  //     output: {
-  //       comments: false,
-  //       ascii_only: true,
-  //     },
-  //     sourceMap: true,
-  //   }),
-  // ],
 };
