@@ -8,12 +8,8 @@ import argvFactory from "minimist";
 import query from "./database";
 import requestIp from "request-ip";
 import path from "path";
-import {
-  unprocessed_image_url,
-  ylhyra_content_files,
-  processed_image_url,
-  image_output_folder,
-} from "paths.js";
+import { unprocessed_image_url, processed_image_url } from "paths.js";
+import { ylhyra_content_files, image_output_folder } from "paths_backend.js";
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
 const argv = argvFactory(process.argv.slice(2));

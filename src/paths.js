@@ -1,22 +1,14 @@
 global.__basedir = __dirname + "/../";
 
-/* Folders */
-export const content_folder = __basedir + "/../ylhyra_content";
-export const output_folder = __basedir + "/build";
-export const image_output_folder = output_folder + "/images";
-
-/* File URLs */
 export const contentUrl = "/api/content";
 export const processed_image_url = `/api/images`;
 export const unprocessed_image_url = `/api/images2`;
+
+/* File URLs */
 export const getDynamicFileUrl = (file) =>
   `/api/content?title=file/${encodeURIComponent(file.trim())}`;
 export const get_processed_image_url = (file) =>
   `${processed_image_url}/${encodeURIComponent(file.trim())}`;
-export const ylhyra_content_files = content_folder + "/not_data/files";
-
-export const get_unprocessed_image_url = (file) =>
-  `${unprocessed_image_url}/${encodeURIComponent(file)}`;
 
 /* URL slugs */
 export const URL_title = (title) => {

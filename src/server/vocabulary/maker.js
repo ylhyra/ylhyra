@@ -3,7 +3,7 @@ import query from "server/database";
 import shortid from "shortid";
 import sql from "server/database/functions/SQL-template-literal";
 import cors from "cors";
-import { content_folder } from "paths";
+import { content_folder } from "paths_backend";
 const router = require("express").Router();
 const fs = require("fs");
 const filename = content_folder + "/not_data/vocabulary/vocabulary.json";

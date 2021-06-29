@@ -33,16 +33,24 @@ class Form2 extends React.Component {
     let { data } = await axios.get(`/api/vocabulary_maker`, {});
     data = data
       .filter((d) => d.icelandic)
+      .map((i, index) => {
+        return {
+          ...i,
+          row_id: index + 1,
+        };
+      })
       .sort((a, b) => (a.level || 100) - (b.level || 100));
     this.setState({ data });
+    console.log(data);
   };
   save = () => {
     axios.post(`/api/vocabulary_maker`, { data: this.state.data });
   };
   render() {
-    // window.save = this.save;
+    window.save = this.save;
     return (
       <div className="vocabulary_maker">
+        <h1>Voc</h1>
         {this.state.data.map((row, index) => {
           if (row.row_id === this.state.active) {
             return null;

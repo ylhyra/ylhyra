@@ -1,4 +1,5 @@
-import { URL_title, image_output_folder } from "paths.js";
+import { URL_title } from "paths.js";
+import { image_output_folder } from "paths_backend.js";
 import { ParseHeaderAndBody } from "server/content";
 import _ from "underscore";
 import Transclude from "./transclude";

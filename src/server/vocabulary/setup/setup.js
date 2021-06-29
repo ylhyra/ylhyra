@@ -66,7 +66,7 @@ const run = async () => {
       if (!name.trim()) return;
       column_indexes_to_name[index] = name.trim();
     });
-  // let out = [];
+  let out = [];
   data
     .split("\n")
     .slice(1) // Remove header
@@ -85,8 +85,8 @@ const run = async () => {
         if (!column_indexes_to_name[index]) return;
         columns[column_indexes_to_name[index]] = string.trim() || null;
       });
-      // out.push(columns);
-      // return;
+      out.push(columns);
+      return;
 
       // console.log(columns)
       // process.exit()
@@ -178,11 +178,13 @@ const run = async () => {
     });
   console.log(`${Object.keys(cards).length} cards`);
 
-  // fs.writeFileSync(
-  //   __basedir + "/build/vocabulary_database2.json",
-  //   JSON.stringify(out, null, 2),
-  //   function () {}
-  // );
+  fs.writeFileSync(
+    __basedir + "/build/vocabulary_database2.json",
+    JSON.stringify(out, null, 2),
+    function () {}
+  );
+  process.exit();
+
   fs.writeFileSync(
     __basedir + "/build/vocabulary_database.json",
     JSON.stringify(
