@@ -1,5 +1,5 @@
 import { average, clamp } from "app/App/functions/math";
-import { getWordFromId, getRelatedCardIds } from "./_functions";
+import { printWord, getCardsWithSameTerm } from "./_functions";
 
 export const BAD = 1;
 export const GOOD = 2;
@@ -87,7 +87,7 @@ class Card {
 
     /* Add related cards (in case they're missing) */
     if (rating === BAD) {
-      // getRelatedCardIds(card.id)
+      // getCardsWithSameTerm(card.id)
       //   .filter(sibling_id => !card.session.cards.some(j => j.id === sibling_id))
       //   .forEach(sibling_id => {
       //     /* TODO */

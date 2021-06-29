@@ -15,7 +15,7 @@ main#content {
   flex-direction: column;
   margin: auto;
   @media screen and (max-width: 600px) {
-    padding: 0 5px;
+    // padding: 0 5px;
   }
   > *:first-child {
     margin-top: 0;

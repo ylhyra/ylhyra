@@ -7,9 +7,9 @@ export default (props) => (
     <div>
       <Link href="/" id="logo"></Link>
       <ul>
-        <li>
+        {/* <li>
           <Link href="/spænska">Spænska</Link>
-        </li>
+        </li> */}
         <li>
           <Link href="/texts">Texts</Link>
         </li>

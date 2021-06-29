@@ -55,22 +55,24 @@ export const PercentageKnownOverall = () => {
   return PercentageKnown(card_ids);
 };
 
-export const getWordFromId = (id) => {
-  const card = getDeck().cards[id];
-  return card[card.from];
-};
-
-export const getWordFromTerm = (term) => {
-  if (getDeck().terms[term]) {
-    return getWordFromId(getDeck().terms[term].cards[0]);
+export const printWord = (id) => {
+  const deck = getDeck();
+  if (id in deck.cards) {
+    const card = deck.cards[id];
+    return card[card.from];
+  } else if (id in deck.terms) {
+    return printWord(deck.terms[id].cards[0]);
   } else {
-    console.log(`No term ${term}`);
+    console.log(`No id ${id}`);
   }
 };
 
-export const getRelatedCardIds = (id) => {
+/**
+ * Get cards that have the same term
+ */
+export const getCardsWithSameTerm = (id) => {
   if (typeof id === "undefined")
-    throw new Error("Nothing passed to getRelatedCardIds");
+    throw new Error("Nothing passed to getCardsWithSameTerm");
   const deck = getDeck();
   let out = [];
   deck.cards[id].terms.forEach((term) => {

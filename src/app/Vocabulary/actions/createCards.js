@@ -3,8 +3,9 @@ import { hour, day } from "app/App/functions/time";
 import _ from "underscore";
 import { BAD, GOOD, EASY } from "./card";
 import {
-  getWordFromId,
-  getRelatedCardIds,
+  printWord,
+  getCardsWithSameTerm,
+  withDependencies,
   // filterOnlyCardsThatExist,
 } from "./_functions";
 const CARDS_TO_CREATE = 100;
@@ -72,7 +73,7 @@ export default function createCards(options, deck_) {
     }
   }
 
-  /* TODO: Not very efficient */
+  /* TODO? Not very efficient */
   overdue_good_ids = _.shuffle(overdue_good_ids).concat(
     _.shuffle(unadjusted_overdue_good_ids)
   );
@@ -103,13 +104,13 @@ export default function createCards(options, deck_) {
   chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids, deck);
   chosen_ids = chosen_ids.slice(0, CARDS_TO_CREATE);
 
-  /* TODO: Related cards */
+  console.log(chosen_ids.map((id) => withDependencies(id).map(printWord)));
 
   /* Depends on cards */
   chosen_ids = _.flatten(
     chosen_ids.map((id) => {
       let output = [id];
-      getRelatedCardIds(id)
+      getCardsWithSameTerm(id)
         .filter((sibling_card_id) => sibling_card_id !== id)
         .forEach((sibling_card_id) => {
           if (
@@ -139,7 +140,7 @@ export default function createCards(options, deck_) {
 
 const ScoreByTimeSinceTermWasSeen = (id, deck, now) => {
   let latest = null;
-  getRelatedCardIds(id).forEach((sibling_card_id) => {
+  getCardsWithSameTerm(id).forEach((sibling_card_id) => {
     if (deck.schedule[sibling_card_id]) {
       if (deck.schedule[sibling_card_id].last_seen > latest) {
         latest = deck.schedule[sibling_card_id].last_seen;

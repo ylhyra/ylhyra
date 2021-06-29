@@ -1,8 +1,10 @@
 ### Orðaforði
 
+- Related cards
+- Order
+- Hvað ef notandi kann nú þegar of mikið
 - Hvað ef vafri er með vitlausan tíma?
 - Undo
-- Related cards
 - continue session on login
 - max bad ratio
 - sækja sync
