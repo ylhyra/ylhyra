@@ -22,8 +22,8 @@ export const getHash = (i) => {
     .replace(/[.!]+$/, "")
     .toLowerCase();
   if (!string) return null;
-  // return (string)
-  return _hash(string);
+  return string; //TEMP
+  // return _hash(string);
 };
 
 export const getHashesFromCommaSeperated = (i) => {

@@ -14,7 +14,6 @@ import {
 const path = require("path");
 const fs = require("fs");
 
-
 let google_docs_url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQNFtYReGKVwCT6GshjOJKF-OmTt3ZU_9QHJcpL7UpNVMIZ18T0P1PaSXpqv4rvd76z5qAQ1hui9Vy6/pub?output=tsv&random=${Math.random()}`;
 let TESTING = false;
 if (process.argv[3] === "--testing") {

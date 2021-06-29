@@ -126,9 +126,11 @@ export const withDependencies = (card_ids) => {
     });
     terms = terms.sort((a, b) => b.sortKey - a.sortKey).map((i) => i.term);
     terms.forEach((term) => {
-      if (term in deck.terms) {
-        returns = returns.concat(deck.terms[term].cards);
-      }
+      [term, ...(deck.alternative_ids[term] || [])].forEach((j) => {
+        if (j in deck.terms) {
+          returns = returns.concat(deck.terms[j].cards);
+        }
+      });
     });
   });
   return _.uniq(returns);
@@ -146,16 +148,22 @@ const CreateDependencyChain = (
 ) => {
   if (from_term in deck.dependencies) {
     deck.dependencies[from_term].forEach((term) => {
-      const alreadySeen = [
-        ..._alreadySeen,
-      ]; /* Deep copy in order to only watch direct parents */
+      /* Deep copy in order to only watch direct parents */
+      const alreadySeen = [..._alreadySeen];
       if (alreadySeen.includes(term)) return;
       alreadySeen.push(term);
       output[term] = Math.max(output[term] || 0, depth);
       alreadySeen.push(term);
-      if (deck.dependencies[term]) {
-        CreateDependencyChain(term, deck, alreadySeen, output, depth + 1);
-      }
+      [
+        /* Direct dependency */
+        deck.dependencies[term],
+        /* Through alternative ids */
+        ...(deck.alternative_ids[term] || []),
+      ]
+        .filter(Boolean)
+        .forEach((j) => {
+          CreateDependencyChain(j, deck, alreadySeen, output, depth + 1);
+        });
     });
   }
   return output;
