@@ -11,6 +11,7 @@ import { vocabulary } from "app/Vocabulary/reducers";
 import { user } from "app/User/reducers";
 import error from "app/App/Error/reducers";
 import { route } from "app/Router/reducers";
+import { vocabularyMaker } from "app/VocabularyMaker/reducers.js";
 
 /*
   Logger
@@ -37,6 +38,9 @@ const store = createStore(
     user,
     error,
     route,
+
+    /* TEMP only for dev */
+    vocabularyMaker,
   }),
   applyMiddleware(
     // routerMiddleware(history),

@@ -1,4 +1,4 @@
-import { getHash } from "server/vocabulary/setup/functions";
+import { getHash } from "app/VocabularyMaker/functions";
 import store from "app/App/store";
 /**
  * Various helper functions
