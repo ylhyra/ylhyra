@@ -1,32 +1,45 @@
 import express from "express";
-const router = express.Router();
-import query from "server/database";
-import getParameters from "server/database/functions/getParameters";
 import fs from "fs";
 import multer from "multer";
-var upload = multer({ dest: "uploads/" });
 import shortid from "shortid";
 import path from "path";
 import { exec } from "child_process";
-import urlSlug from "src/app/App/functions/url-slug";
+import { FileSafeTitle } from "paths.js";
+import { ylhyra_content_files } from "paths_backend";
+const router = express.Router();
 
-/*
-  TODO! Access control
-*/
 router.post("/recorder/save", (req, res) => {
-  const { base64_data, word, speaker, should_save } = req.body;
+  if (process.env.NODE_ENV !== "development") return;
+  const { base64_data, word, speaker, speed } = req.body;
   var buffer = Buffer.from(base64_data, "base64");
 
-  // Audio name that will be returned to user
-  const unsafeName =
-    "" +
-    (word.slice(0, 15).trim() + " " + shortid.generate().slice(0, 4)).trim();
-  const safeName = `${urlSlug(unsafeName)}`.trim();
-  const wikiFilename = `${unsafeName}.mp3`; // Af hverju var ég að nota MP3 áður?
-  const wavPath = path.resolve(__dirname, `../../../uploads/${safeName}.wav`);
-  const mp3Filename = `${safeName}.mp3`; // Af hverju var ég að nota MP3 áður?
-  const mp3Path = path.resolve(__dirname, `../../../uploads/${safeName}.mp3`);
-  fs.writeFile(wavPath, buffer, (err) => {
+  const output_folder = path.resolve(
+    ylhyra_content_files,
+    `./audio/pronunciation/`
+  );
+  const filename =
+    FileSafeTitle(speaker) +
+    "_" +
+    speed +
+    "_" +
+    FileSafeTitle(word) +
+    "_" +
+    shortid.generate().slice(0, 3);
+  const filepath = output_folder + `/${filename}`;
+
+  const desc = `
+    ---
+    title: File:${filename}.mp3
+    recording of: ${word}
+    reading speed: ${speed}
+    speaker: ${speaker}
+    ---
+  `
+    .replace(/^ +/gm, "")
+    .trim();
+
+  fs.writeFileSync(filepath + ".mp3.md", desc, (err) => {});
+  fs.writeFile(filepath + ".wav", buffer, (err) => {
     if (err) {
       console.error(err);
       return res.status(500);
@@ -41,34 +54,20 @@ router.post("/recorder/save", (req, res) => {
     // //   # &&
     // //   # rm ${mp3Path}
     // // `)
-    exec(
-      `
-      ffmpeg -i ${wavPath} ${mp3Path}
-    `,
-      (err) => {
-        if (err) {
-          console.error(err);
-          return res.sendStatus(500);
-        }
-
-        /* TEMPORARY FOR DEVELOPMENT; DON'T SAVE */
-        if (word && should_save) {
-          query(
-            `INSERT INTO sounds SET text = ?, file = ?, speaker = ?`,
-            [word, wikiFilename, speaker],
-            (err2, results) => {
-              if (err2) {
-                res.sendStatus(500);
-              } else {
-                res.send({ wikiFilename, mp3Filename });
-              }
-            }
-          );
-        } else {
-          return res.send({ wikiFilename, mp3Filename });
-        }
-      }
-    );
+    res.send(filename + ".mp3");
+    // exec(
+    //   `
+    //   ffmpeg -i ${filepath}.wav ${filepath}.mp3
+    //   ffmpeg -i ${filepath}.wav -c:a libopus -b:a 32K ${filepath}.opus
+    // `,
+    //   (err) => {
+    //     if (err) {
+    //       console.error(err);
+    //       // return res.sendStatus(500);
+    //     }
+    //     // return res.send(filename + ".mp3");
+    //   }
+    // );
   });
 });
 export default router;
@@ -78,53 +77,3 @@ export default router;
   https://ffmpeg.org/ffmpeg-filters.html#silenceremove
   nota "silenceremove=1:1:-50dB:1:1:-50dB:1" á ffmpeg
 */
-
-// // Read all
-// router.get('/recorder', (req, res) => {
-//
-//   // res.send([
-//   //   'að geta',
-//   //   'þú getur',
-//   //   'hann getur',
-//   //   'ég get',
-//   //   'þið getið',
-//   //   'þeir geta',
-//   //   'ég gat',
-//   //   'þú gast',
-//   //   'hann gat',
-//   //   'við gátum',
-//   //   'þeir gátu',
-//   //   'við getum',
-//   //   'ég hélt að ég gæti',
-//   //   'ég hélt að þú gætir',
-//   //   'ég hélt að hann gæti',
-//   //   'ég hélt að við gætum',
-//   //   'ég hélt að þið gætuð',
-//   //   'ég hélt að þeir gætu',
-//   //   'ég held að ég geti',
-//   //   'ég held að þú getir',
-//   //   'ég held að við getum',
-//   //   'ég held að hann geti',
-//   //   'ég held að þið getið',
-//   //   'ég held að þeir geti',
-//   //   'geturðu',
-//   //   'gastu',
-//   //   'þið gátuð',
-//   // ])
-//
-//   query(`
-//     SELECT missing_sounds.text FROM missing_sounds
-//     LEFT JOIN sounds ON sounds.text = missing_sounds.text
-//     WHERE file IS NULL
-//     ORDER BY importance, RAND()
-//   `
-//   , (err, results) => {
-//
-//     if (err) {
-//       console.error(err)
-//       res.send(err)
-//     } else {
-//       res.send(results.map(i => i.text))
-//     }
-//   })
-// })

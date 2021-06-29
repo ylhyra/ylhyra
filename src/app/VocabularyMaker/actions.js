@@ -1,3 +1,4 @@
+import { isBrowser } from "app/App/functions/isBrowser";
 import { getHash } from "app/VocabularyMaker/functions";
 import store from "app/App/store";
 import axios from "app/App/axios";
@@ -41,9 +42,16 @@ export const submit = (vals) => {
 };
 
 export const save = (d) => {
+  const j = d || store.getState().vocabularyMaker.data;
+  if (j.length < 10) {
+    throw new Error();
+    return;
+  }
   axios.post(`/api/vocabulary_maker`, {
-    data: d || store.getState().vocabularyMaker.data,
+    data: j,
   });
 };
 
-window.save = save;
+if (isBrowser) {
+  window.save = save;
+}

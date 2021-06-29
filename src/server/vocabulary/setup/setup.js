@@ -6,11 +6,11 @@ import axios from "axios";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
 import stable_stringify from "json-stable-stringify";
-import {
-  clean_string,
-  getHash,
-  getHashesFromCommaSeperated,
-} from "./functions";
+// import {
+//   clean_string,
+//   getHash,
+//   getHashesFromCommaSeperated,
+// } from "./functions";
 const path = require("path");
 const fs = require("fs");
 

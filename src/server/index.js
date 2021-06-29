@@ -60,7 +60,7 @@ app.use("/", express.static(build_folder));
 app.use(cors({ origin: "https://ylhyra.is" }));
 // app.use('/api', require('server/web-socket').default)
 // app.use('/api', require('server/server-side-rendering').default)
-// app.use('/api', require('server/audio/recorder').default)
+app.use("/api", require("server/audio/recorder").default);
 // app.use('/api', require('server/audio/GetOneAudioFile').default)
 // app.use('/api', require('server/audio/Synchronize').default)
 // app.use('/api', require('server/translator/save').default)
@@ -120,7 +120,7 @@ if (process.argv[2] === "--compile-content") {
 } else if (process.argv[2] === "--generate-search-index") {
   // require("server/inflection/server/server-with-database/database/generateSearchIndex.js");
 } else if (process.argv[2] === "--import-vocabulary") {
-  require("server/vocabulary/setup/setup");
+  // require("server/vocabulary/setup/setup");
 } else {
   /* Or, start the app */
   app.listen(port, host, (err) => {

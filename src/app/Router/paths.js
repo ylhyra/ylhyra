@@ -9,8 +9,12 @@ import LogIn from "app/User/screens/Login";
 import Signup from "app/User/screens/Signup";
 import Settings from "app/User/screens/Settings";
 import Pay from "app/User/screens/Pay";
-import VocabularyMaker from "app/VocabularyMaker";
 import NotFound from "documents/Templates/404";
+
+/* TODO Remove from prod */
+import VocabularyMaker from "app/VocabularyMaker";
+import VocabularyMakerRecord from "app/VocabularyMaker/record";
+
 export const urls = {
   VOCABULARY: {
     title: "Vocabulary",
@@ -21,11 +25,6 @@ export const urls = {
     title: "Vocabulary",
     url: "/vocabulary/setup",
     component: VocabularyIntro,
-  },
-  VOCABULARY_PLAY: {
-    title: "Vocabulary",
-    url: "/vocabulary/play",
-    component: VocabularyRunning,
   },
   // /vocabulary/tutorial: {
   //   title: 'Vocabulary',
@@ -58,8 +57,12 @@ export const urls = {
 
 if (process.env.NODE_ENV === "development") {
   urls["VOCABULARY_MAKER"] = {
-    url: "/vocabularymaker",
+    url: "/maker",
     component: VocabularyMaker,
+  };
+  urls["VOCABULARY_MAKER_RECORDER"] = {
+    url: "/maker/record",
+    component: VocabularyMakerRecord,
   };
 }
 
