@@ -2,6 +2,7 @@ import { isBrowser } from "app/App/functions/isBrowser";
 import {
   getHash,
   getHashesFromCommaSeperated,
+  getRawTextFromVocabularyEntry,
 } from "app/VocabularyMaker/functions";
 import store from "app/App/store";
 import axios from "app/App/axios";
@@ -21,6 +22,7 @@ export const load = async () => {
     type: "LOAD_VOCABULARY_MAKER_DATA",
     content: data,
   });
+  parse(data);
 };
 
 export const select = (id) => {
@@ -61,9 +63,10 @@ if (isBrowser) {
 
 export const parse = (rows) => {
   let terms = {};
-  let cards = {};
+  // let cards = {};
   let dependencies = {};
   let alternative_ids = {};
+  let raw_sentences = {};
 
   const TermsToCardId = (_terms, id) => {
     _terms.forEach((term) => {
@@ -88,76 +91,55 @@ export const parse = (rows) => {
   };
 
   rows.forEach((row) => {
-    const icelandic = clean_string(columns.icelandic);
-    if (!icelandic) return;
-    if (columns.should_teach === "no") return;
+    if (!row.icelandic) return;
 
     /* Can have multiple */
-    let icelandic_strings = [];
-    icelandic.split(/(.+?[^\\])([,;])/g).forEach((i) => {
-      i = i.trim();
-      if (!i) return;
-      if (i === "," || i === ";") return;
-      i = clean_string(i);
-      icelandic_strings.push(i);
-    });
+    let icelandic_strings = row.icelandic
+      .split(/;+/g)
+      .map(getRawTextFromVocabularyEntry);
     const terms_in_this_line = icelandic_strings.map(getHash);
-    const _alternative_ids = getHashesFromCommaSeperated(
-      columns.alternative_id
-    );
+    const _alternative_ids = getHashesFromCommaSeperated(row.alternative_id);
     const depends_on = [
-      ...getHashesFromCommaSeperated(columns.depends_on),
-      ...getHashesFromCommaSeperated(columns.basic_form),
-      ...getHashesFromCommaSeperated(columns["this is a minor variation of"]),
+      ...getHashesFromCommaSeperated(row.depends_on),
+      ...getHashesFromCommaSeperated(row.basic_form),
+      ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
     ];
 
     AddToDependencyGraph(terms_in_this_line, depends_on);
     AddToDependencyGraph(_alternative_ids, terms_in_this_line, "alt_ids");
 
-    if (
-      columns.direction &&
-      columns.direction !== "<-" &&
-      columns.direction !== "->"
-    ) {
-      throw new Error(`Unknown direction ${columns.direction}`);
+    if (row.direction && row.direction !== "<-" && row.direction !== "->") {
+      throw new Error(`Unknown direction ${row.direction}`);
     }
 
-    /* Icelandic to English */
-    if (columns.direction !== "<-") {
-      icelandic_strings.forEach((i) => {
-        to_add.push({
-          is: i,
-          from: "is",
-          id: getHash(i) + "_is",
-          ...card_skeleton,
-        });
-      });
-    }
-
-    /* English to Icelandic */
-    if (columns.direction !== "->") {
-      to_add.push({
-        is: clean_string(icelandic),
-        from: "en",
-        id: getHash(icelandic) + "_en",
-        ...card_skeleton,
-      });
-    }
-
-    to_add.forEach(({ id, ...card }) => {
-      if (cards[id]) return console.log(`"${icelandic}" already exists`);
-      // [...terms_in_this_line, ...alternative_ids].forEach(j => {
-      //   termsToCardIds[j] = [
-      //     ...(termsToCardIds[j] || []),
-      //     card.id
-      //   ]
-      // })
-      // termDependsOnTerms[card.id] = terms_in_this_line
-      TermsToCardId(terms_in_this_line, id);
-      cards[id] = {
-        id,
-        ...card,
-      };
+    terms_in_this_line.forEach((t) => {
+      terms[t] = true;
     });
+    icelandic_strings.forEach((t) => {
+      raw_sentences[t] = true;
+    });
+
+    // /* Icelandic to English */
+    // if (row.direction !== "<-") {
+    //   icelandic_strings.forEach((i) => {
+    //     to_add.push({
+    //       is: i,
+    //       from: "is",
+    //       id: getHash(i) + "_is",
+    //       ...card_skeleton,
+    //     });
+    //   });
+    // }
+    //
+    // /* English to Icelandic */
+    // if (row.direction !== "->") {
+    //   to_add.push({
+    //     is: clean_string(icelandic),
+    //     from: "en",
+    //     id: getHash(icelandic) + "_en",
+    //     ...card_skeleton,
+    //   });
+    // }
   });
+  console.log(terms);
 };

@@ -8,22 +8,17 @@ Chars:
 
 Þú:
 
-* `farð{{u}}`
-* `kemur{{ðu}}`
+- `farð{{u}}`
+- `kemur{{ðu}}`
 
 Stíll:
 
-* `{{gray|bla bla}}`
-* `texti (note: aths)`
-
-Fill in the blank:
-
-* `texti *fill in the blank here*`
-* `'''feitletrun'''`
-
-
-
-
+- `{{gray|bla bla}}`
+- `texti (note: aths)`
+- `texti *fill in the blank here*`
+- `'''feitletrun'''`
+- `%` – base form is also alt id
+- {{spp}} – "Same in past and present"
 
 ## Cards
 

@@ -7,7 +7,9 @@ export const getRawTextFromVocabularyEntry = (input) => {
     .replace(/\(note: .*?\)/g, "")
     .replace(/∆/g, ",")
     .replace(/'''/g, "")
-    .replace(/\*/g, "");
+    .replace(/\*/g, "")
+    .replace(/[\s]+/g, " ")
+    .trim();
 };
 
 export const formatVocabularyEntry = (input) => {

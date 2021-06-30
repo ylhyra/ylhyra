@@ -4,6 +4,7 @@ import { ReactMic } from "react-mic";
 import Sound from "react-sound";
 import axios from "axios";
 import store from "app/App/store";
+import { load, select, submit } from "./actions";
 
 const START_LAG_IN_MILLISECONDS = 100;
 const STOP_LAG_IN_MILLISECONDS = 300;
@@ -129,6 +130,9 @@ class RecorderElement extends React.Component {
 }
 
 export default class Record extends React.Component {
+  componentDidMount = async () => {
+    load();
+  };
   render = () => {
     return (
       <div id="recording_window">
