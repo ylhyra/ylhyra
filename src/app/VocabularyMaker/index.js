@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import errors from "app/App/Error/messages";
 import { load, select, submit } from "./actions";
 import { formatVocabularyEntry } from "./functions";
+import VocabularyMakerRecord from "app/VocabularyMaker/record";
 const row_titles = [
   // "icelandic",
   // "english",
@@ -34,6 +35,8 @@ class Form2 extends React.Component {
   };
   render() {
     if (!this.props.vocabularyMaker.data) return null;
+    // if (!this.props.vocabularyMaker.screen === "record")
+    //   return <VocabularyMakerRecord />;
     return (
       <div className="vocabulary_maker">
         <h1>Voc</h1>

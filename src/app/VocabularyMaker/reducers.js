@@ -16,8 +16,23 @@ const selected = (state = null, action) => {
       return state;
   }
 };
+const word_to_record = (
+  state = {
+    word: null,
+    remaining: null,
+  },
+  action
+) => {
+  switch (action.type) {
+    case "VOCABULARY_TO_RECORD":
+      return action.content;
+    default:
+      return state;
+  }
+};
 
 export const vocabularyMaker = combineReducers({
   data,
   selected,
+  word_to_record,
 });

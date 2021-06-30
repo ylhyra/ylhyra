@@ -3,26 +3,34 @@ import {
   getHash,
   getHashesFromCommaSeperated,
   getRawTextFromVocabularyEntry,
+  simplify_string,
 } from "app/VocabularyMaker/functions";
 import store from "app/App/store";
 import axios from "app/App/axios";
+import _ from "underscore";
 
 let maxID = 0;
+let rows = [];
+let sound = [];
+let terms = {};
+let dependencies = {};
+let alternative_ids = {};
+let raw_sentences = {};
 
 export const load = async () => {
-  let { data } = await axios.get(`/api/vocabulary_maker`, {});
-  data = data
-    .filter((d) => d.icelandic)
+  let vocabulary = (await axios.get(`/api/vocabulary_maker`, {})).data;
+  rows = _.shuffle(vocabulary.rows)
+    // .filter((d) => d.icelandic)
     // .map((i) => ({ ...i, level: parseFloat(i.level) }))
     .sort((a, b) => (a.level || 100) - (b.level || 100));
-  data.forEach((i) => {
+  rows.forEach((i) => {
     maxID = Math.max(maxID, i.row_id);
   });
   store.dispatch({
     type: "LOAD_VOCABULARY_MAKER_DATA",
-    content: data,
+    content: rows,
   });
-  parse(data);
+  parse();
 };
 
 export const select = (id) => {
@@ -33,27 +41,28 @@ export const select = (id) => {
 };
 
 export const submit = (vals) => {
-  let d = store.getState().vocabularyMaker.data;
-  d[d.findIndex((j) => j.row_id === vals.row_id)] = {
+  rows[rows.findIndex((j) => j.row_id === vals.row_id)] = {
     ...vals,
     last_seen: new Date().toISOString().substring(0, 10),
   };
   store.dispatch({
     type: "LOAD_VOCABULARY_MAKER_DATA",
-    content: d,
+    content: rows,
   });
   select(null);
-  save(d);
+  save();
 };
 
-export const save = (d) => {
-  const j = d || store.getState().vocabularyMaker.data;
-  if (j.length < 10) {
+export const save = () => {
+  if (rows.length < 10) {
     throw new Error();
     return;
   }
   axios.post(`/api/vocabulary_maker`, {
-    data: j,
+    data: {
+      rows: rows,
+      sound: sound,
+    },
   });
 };
 
@@ -61,29 +70,28 @@ if (isBrowser) {
   window.save = save;
 }
 
-export const parse = (rows) => {
-  let terms = {};
-  // let cards = {};
-  let dependencies = {};
-  let alternative_ids = {};
-  let raw_sentences = {};
+export const parse = () => {
+  let _terms = {};
+  let _dependencies = {};
+  let _alternative_ids = {};
+  let _raw_sentences = [];
 
   const TermsToCardId = (_terms, id) => {
     _terms.forEach((term) => {
-      if (!terms[term]) {
-        terms[term] = {
+      if (!_terms[term]) {
+        _terms[term] = {
           level: null,
           cards: [],
         };
       }
-      terms[term].cards.push(id);
+      _terms[term].cards.push(id);
     });
   };
   const AddToDependencyGraph = (first, second, type) => {
     if (!second || second.length === 0) return;
-    let obj = dependencies;
+    let obj = _dependencies;
     if (type === "alt_ids") {
-      obj = alternative_ids;
+      obj = _alternative_ids;
     }
     first.forEach((id) => {
       obj[id] = [...(obj[id] || []), ...second];
@@ -113,10 +121,10 @@ export const parse = (rows) => {
     }
 
     terms_in_this_line.forEach((t) => {
-      terms[t] = true;
+      _terms[t] = true;
     });
     icelandic_strings.forEach((t) => {
-      raw_sentences[t] = true;
+      _raw_sentences[t] = true;
     });
 
     // /* Icelandic to English */
@@ -141,5 +149,45 @@ export const parse = (rows) => {
     //   });
     // }
   });
-  console.log(terms);
+  // console.log(_terms);
+  terms = _terms;
+  dependencies = _dependencies;
+  alternative_ids = _alternative_ids;
+  raw_sentences = _raw_sentences;
+
+  setupSound();
+};
+
+let missing_sound = [];
+let current_word_recording = 0;
+const setupSound = () => {
+  missing_sound = [];
+  Object.keys(raw_sentences).forEach((word) => {
+    const lowercase = simplify_string(word);
+    // todo
+    missing_sound.push(word);
+  });
+  nextWordRecord();
+};
+
+export const nextWordRecord = () => {
+  const remaining = `${current_word_recording}/${missing_sound.length}`;
+  const word = missing_sound[current_word_recording++];
+  store.dispatch({
+    type: "VOCABULARY_TO_RECORD",
+    content: {
+      word,
+      remaining,
+    },
+  });
+};
+
+export const saveSound = ({ word, filename }) => {
+  sound.push({
+    word,
+    filename,
+    speed: window.recording_metadata.speed,
+    speaker: window.recording_metadata.speaker,
+  });
+  save();
 };

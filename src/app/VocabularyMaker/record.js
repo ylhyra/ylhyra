@@ -4,14 +4,14 @@ import { ReactMic } from "react-mic";
 import Sound from "react-sound";
 import axios from "axios";
 import store from "app/App/store";
-import { load, select, submit } from "./actions";
+import { load, select, submit, saveSound, nextWordRecord } from "./actions";
 
 const START_LAG_IN_MILLISECONDS = 100;
 const STOP_LAG_IN_MILLISECONDS = 300;
 
 window.recording_metadata = {
   speaker: "E",
-  speed: "slow", // Eða 'normal'
+  speed: "slow", // Eða 'normal', 'rapid'
 };
 
 class RecorderElement extends React.Component {
@@ -60,7 +60,7 @@ class RecorderElement extends React.Component {
         saved: true,
         blob: null,
       });
-      const filname = (
+      const filename = (
         await axios.post("/api/recorder/save", {
           word,
           speaker: window.recording_metadata.speaker,
@@ -68,6 +68,11 @@ class RecorderElement extends React.Component {
           base64_data,
         })
       ).data;
+
+      saveSound({
+        word,
+        filename,
+      });
     };
   };
   cancel = () => {
@@ -129,21 +134,30 @@ class RecorderElement extends React.Component {
   }
 }
 
-export default class Record extends React.Component {
+class Record extends React.Component {
   componentDidMount = async () => {
     load();
   };
   render = () => {
+    const { word, remaining } = this.props.vocabularyMaker.word_to_record;
     return (
       <div id="recording_window">
-        Speaker: "{window.recording_metadata.speaker}" – Speed:{" "}
-        <b>{window.recording_metadata.speed}</b>
-        <hr />
-        <h1>{this.props.word}</h1>
+        <div>Speaker: "{window.recording_metadata.speaker}"</div>
         <div>
-          <RecorderElement word="hæ hæ" onFinish={this.next} />
+          Speed: <b>{window.recording_metadata.speed}</b>
+        </div>
+        <div>Remaining: {remaining}</div>
+        <hr />
+        <h1>{word}</h1>
+        <div>
+          {word && (
+            <RecorderElement word={word} key={word} onFinish={nextWordRecord} />
+          )}
         </div>
       </div>
     );
   };
 }
+export default connect((state) => ({
+  vocabularyMaker: state.vocabularyMaker,
+}))(Record);

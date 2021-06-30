@@ -39,13 +39,16 @@ export const clean_string = (i) => {
     .trim();
 };
 
+export const simplify_string = (i) => {
+  const string = clean_string(i).replace(/[.]+$/, "").toLowerCase();
+  return string;
+};
+
 export const getHash = (i) => {
   if (Array.isArray(i)) {
     return getHash(i.map(clean_string).join(";"));
   }
-  const string = clean_string(i)
-    .replace(/[.!]+$/, "")
-    .toLowerCase();
+  const string = clean_string(i).replace(/[.]+$/, "").toLowerCase();
   if (!string) return null;
   return string; //TEMP
   // return _hash(string);

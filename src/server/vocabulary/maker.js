@@ -22,27 +22,36 @@ router.get("/vocabulary_maker", (req, res) => {
 
 router.post("/vocabulary_maker", (req, res) => {
   if (process.env.NODE_ENV !== "development") return res.sendStatus(500);
-  let data = req.body.data
-    .filter((d) => d.icelandic)
-    .sort((a, b) =>
-      getRawTextFromVocabularyEntry(a.icelandic).localeCompare(
-        getRawTextFromVocabularyEntry(b.icelandic),
-        "is",
-        { ignorePunctuation: true }
+  let data = req.body.data;
+  data = {
+    rows: data.rows
+      .filter((d) => d.icelandic)
+      .sort((a, b) =>
+        getRawTextFromVocabularyEntry(a.icelandic).localeCompare(
+          getRawTextFromVocabularyEntry(b.icelandic),
+          "is",
+          { ignorePunctuation: true }
+        )
       )
-    );
-  data = data.map((j) => removeEmpty(j));
-  fs.writeFile(
-    filename,
-    yaml.dump(data, { lineWidth: -1, quotingType: '"' }),
-    (err) => {
-      if (err) {
-        console.log(err);
-        res.send(err);
-      } else {
-        res.sendStatus(200);
-      }
+      .map((j) => removeEmpty(j)),
+    sound: data.sound,
+  };
+
+  const y = yaml.dump(data, { lineWidth: -1, quotingType: '"' });
+  fs.writeFile(filename, y, (err) => {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    } else {
+      res.sendStatus(200);
     }
+  });
+  /* Backup */
+  fs.writeFile(
+    content_folder +
+      `/not_data/vocabulary/BACKUP/vocabulary.${new Date().getTime()}.yml`,
+    y,
+    (err) => {}
   );
 });
 
