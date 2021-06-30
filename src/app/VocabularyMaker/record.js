@@ -6,12 +6,13 @@ import axios from "axios";
 import store from "app/App/store";
 import { load, select, submit, saveSound, nextWordRecord } from "./actions";
 
-const START_LAG_IN_MILLISECONDS = 100;
+const START_LAG_IN_MILLISECONDS = 0;
+// const START_LAG_IN_MILLISECONDS = 100;
 const STOP_LAG_IN_MILLISECONDS = 300;
 
 window.recording_metadata = {
   speaker: "E",
-  speed: "slow", // Eða 'normal', 'rapid'
+  speed: "slow", // ["slow", "normal", "fast"]
 };
 
 class RecorderElement extends React.Component {
@@ -21,6 +22,47 @@ class RecorderElement extends React.Component {
     remaining: [],
     blob: null,
   };
+
+  componentDidMount() {
+    window.addEventListener("keydown", this.checkKey);
+    window.addEventListener("keyup", this.keyUp);
+  }
+  componentWillUnmount() {
+    window.removeEventListener("keydown", this.checkKey);
+    window.addEventListener("keyup", this.keyUp);
+  }
+  keyUp = () => {
+    this.isKeyDown = false;
+    // if (this.state.recording) {
+    //   this.stop();
+    // }
+  };
+  checkKey = (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (this.isKeyDown) return;
+    // console.log(e.keyCode)
+    this.isKeyDown = true;
+    if (e.keyCode === 27 /* ESC */) {
+      if (this.state.blob) {
+        this.cancel();
+      } else {
+        /* Skip this word */
+        nextWordRecord();
+      }
+    } else if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */) {
+      if (this.state.blob) {
+        this.save();
+      }
+    }
+    // else if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */) {
+    //   if (this.state.recording) {
+    //     // this.stop();
+    //   } else {
+    //     this.start();
+    //   }
+    // }
+  };
+
   start = () => {
     setTimeout(() => {
       this.setState({
@@ -52,7 +94,7 @@ class RecorderElement extends React.Component {
         return console.error("Could not read");
       }
       const base64_data = reader.result.match(/^data:.+\/(.+);base64,(.*)$/)[2];
-      let { word, onFinish } = this.props;
+      let { word } = this.props;
       if (!word) {
         return console.error("No word");
       }
@@ -73,6 +115,7 @@ class RecorderElement extends React.Component {
         word,
         filename,
       });
+      nextWordRecord();
     };
   };
   cancel = () => {
@@ -90,7 +133,7 @@ class RecorderElement extends React.Component {
           onMouseLeave={this.stop}
           className={`recorder ${this.state.recording ? "recording" : ""}`}
         >
-          Record
+          {this.props.word}
         </div>
 
         <ReactMic
@@ -101,59 +144,54 @@ class RecorderElement extends React.Component {
           backgroundColor="#ffffff"
         />
 
-        {(this.state.blob &&
+        {this.state.blob &&
           this.state.blob.blobURL &&
           !this.state.recording && (
-            <div>
-              <Sound
-                url={this.state.blob.blobURL}
-                playStatus={Sound.status.PLAYING}
-                loop={true}
-                // onLoading={this.handleSongLoading}
-                // onPlaying={this.handleSongPlaying}
-                // onFinishedPlaying={()=>this.setState({blob: { ...this.state.blob, blobURL: null }})}
-              />
-              <div
-                onClick={this.save}
-                /*onMouseEnter={this.save}*/ className="recorder"
-              >
-                Save
-              </div>
-              <div onClick={this.cancel} className="recorder">
-                Cancel
-              </div>
-            </div>
-          )) || (
-          <div>
-            <br />
-            <br />
-          </div>
-        )}
+            <Sound
+              url={this.state.blob.blobURL}
+              playStatus={Sound.status.PLAYING}
+              loop={true}
+            />
+          )}
       </div>
     );
   }
 }
 
 class Record extends React.Component {
+  state = {};
   componentDidMount = async () => {
     load();
   };
   render = () => {
     const { word, remaining } = this.props.vocabularyMaker.word_to_record;
     return (
-      <div id="recording_window">
+      <div
+        id="recording_window"
+        /* Needed for Chrome interaction */
+        onClick={() => this.setState({ started: true })}
+      >
         <div>Speaker: "{window.recording_metadata.speaker}"</div>
         <div>
           Speed: <b>{window.recording_metadata.speed}</b>
         </div>
-        <div>Remaining: {remaining}</div>
-        <hr />
-        <h1>{word}</h1>
-        <div>
-          {word && (
-            <RecorderElement word={word} key={word} onFinish={nextWordRecord} />
-          )}
-        </div>
+        <div>Progress: {remaining}</div>
+        {this.state.started ? (
+          <div>
+            <div>{word && <RecorderElement word={word} key={word} />}</div>
+            <div className="rec_instructions">
+              Dragðu músina inn á orðið til að taka upp. <br />
+              Dragðu músina burt til að stöðva upptökuna. <br />
+              Ýttu á Enter til að vista eða Esc til að byrja aftur.
+            </div>
+          </div>
+        ) : (
+          <h2>
+            <u>
+              <i>Click to get started</i>
+            </u>
+          </h2>
+        )}
       </div>
     );
   };

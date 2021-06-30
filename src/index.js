@@ -1,6 +1,6 @@
 // import "core-js/stable";
 import "regenerator-runtime/runtime";
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import Router from "app/Router";
 import { connect, Provider } from "react-redux";
@@ -26,7 +26,9 @@ TextEventListenersOn();
 const Root = (
   <React.StrictMode>
     <Provider store={store}>
-      <Router />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Router />
+      </Suspense>
     </Provider>
   </React.StrictMode>
 );

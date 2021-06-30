@@ -19,7 +19,7 @@ let raw_sentences = {};
 
 export const load = async () => {
   let vocabulary = (await axios.get(`/api/vocabulary_maker`, {})).data;
-  rows = _.shuffle(vocabulary.rows)
+  rows = vocabulary.rows
     // .filter((d) => d.icelandic)
     // .map((i) => ({ ...i, level: parseFloat(i.level) }))
     .sort((a, b) => (a.level || 100) - (b.level || 100));
@@ -30,6 +30,7 @@ export const load = async () => {
     type: "LOAD_VOCABULARY_MAKER_DATA",
     content: rows,
   });
+  sound = vocabulary.sound;
   parse();
 };
 
@@ -98,57 +99,59 @@ export const parse = () => {
     });
   };
 
-  rows.forEach((row) => {
-    if (!row.icelandic) return;
+  _.shuffle(rows)
+    .sort((a, b) => (a.level || 100) - (b.level || 100))
+    .forEach((row) => {
+      if (!row.icelandic) return;
 
-    /* Can have multiple */
-    let icelandic_strings = row.icelandic
-      .split(/;+/g)
-      .map(getRawTextFromVocabularyEntry);
-    const terms_in_this_line = icelandic_strings.map(getHash);
-    const _alternative_ids = getHashesFromCommaSeperated(row.alternative_id);
-    const depends_on = [
-      ...getHashesFromCommaSeperated(row.depends_on),
-      ...getHashesFromCommaSeperated(row.basic_form),
-      ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
-    ];
+      /* Can have multiple */
+      let icelandic_strings = row.icelandic
+        .split(/;+/g)
+        .map(getRawTextFromVocabularyEntry);
+      const terms_in_this_line = icelandic_strings.map(getHash);
+      const _alternative_ids = getHashesFromCommaSeperated(row.alternative_id);
+      const depends_on = [
+        ...getHashesFromCommaSeperated(row.depends_on),
+        ...getHashesFromCommaSeperated(row.basic_form),
+        ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
+      ];
 
-    AddToDependencyGraph(terms_in_this_line, depends_on);
-    AddToDependencyGraph(_alternative_ids, terms_in_this_line, "alt_ids");
+      AddToDependencyGraph(terms_in_this_line, depends_on);
+      AddToDependencyGraph(_alternative_ids, terms_in_this_line, "alt_ids");
 
-    if (row.direction && row.direction !== "<-" && row.direction !== "->") {
-      throw new Error(`Unknown direction ${row.direction}`);
-    }
+      if (row.direction && row.direction !== "<-" && row.direction !== "->") {
+        throw new Error(`Unknown direction ${row.direction}`);
+      }
 
-    terms_in_this_line.forEach((t) => {
-      _terms[t] = true;
+      terms_in_this_line.forEach((t) => {
+        _terms[t] = true;
+      });
+      icelandic_strings.forEach((t) => {
+        _raw_sentences[t] = true;
+      });
+
+      // /* Icelandic to English */
+      // if (row.direction !== "<-") {
+      //   icelandic_strings.forEach((i) => {
+      //     to_add.push({
+      //       is: i,
+      //       from: "is",
+      //       id: getHash(i) + "_is",
+      //       ...card_skeleton,
+      //     });
+      //   });
+      // }
+      //
+      // /* English to Icelandic */
+      // if (row.direction !== "->") {
+      //   to_add.push({
+      //     is: clean_string(icelandic),
+      //     from: "en",
+      //     id: getHash(icelandic) + "_en",
+      //     ...card_skeleton,
+      //   });
+      // }
     });
-    icelandic_strings.forEach((t) => {
-      _raw_sentences[t] = true;
-    });
-
-    // /* Icelandic to English */
-    // if (row.direction !== "<-") {
-    //   icelandic_strings.forEach((i) => {
-    //     to_add.push({
-    //       is: i,
-    //       from: "is",
-    //       id: getHash(i) + "_is",
-    //       ...card_skeleton,
-    //     });
-    //   });
-    // }
-    //
-    // /* English to Icelandic */
-    // if (row.direction !== "->") {
-    //   to_add.push({
-    //     is: clean_string(icelandic),
-    //     from: "en",
-    //     id: getHash(icelandic) + "_en",
-    //     ...card_skeleton,
-    //   });
-    // }
-  });
   // console.log(_terms);
   terms = _terms;
   dependencies = _dependencies;
@@ -162,10 +165,12 @@ let missing_sound = [];
 let current_word_recording = 0;
 const setupSound = () => {
   missing_sound = [];
+  current_word_recording = 0;
   Object.keys(raw_sentences).forEach((word) => {
     const lowercase = simplify_string(word);
-    // todo
-    missing_sound.push(word);
+    if (!sound.some((i) => simplify_string(i.recording_of) === lowercase)) {
+      missing_sound.push(word);
+    }
   });
   nextWordRecord();
 };
@@ -183,8 +188,9 @@ export const nextWordRecord = () => {
 };
 
 export const saveSound = ({ word, filename }) => {
+  console.log(filename);
   sound.push({
-    word,
+    recording_of: word,
     filename,
     speed: window.recording_metadata.speed,
     speaker: window.recording_metadata.speaker,

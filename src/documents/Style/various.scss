@@ -188,23 +188,35 @@ h1 {
 }
 
 #recording_window {
+  // .recorder {
+  //   color: white;
+  //   background: #f03e93;
+  //   padding: 3px;
+  //   font-size: 12px;
+  //   border: 1px solid #8a3520;
+  //   float: right;
+  //   &.recording {
+  //     background: #b32e59;
+  //   }
+  // }
   .recorder {
-    color: white;
-    background: #f03e93;
-    padding: 3px;
-    font-size: 12px;
-    border: 1px solid #8a3520;
-    float: right;
+    border: 3px solid #49e69b;
+    border-radius: 3px;
+    text-align: center;
+    padding: 55px 24px;
+    margin: 30px 10px;
+    font-size: 26px;
+    font-weight: 600;
     &.recording {
-      background: #b32e59;
+      border-color: #d93222;
+      background: #fce3df;
     }
   }
-
   .visualizer {
     display: none;
   }
-
-  h1 {
-    text-align: center;
+  .rec_instructions {
+    color: gray;
+    font-size: 11px;
   }
 }

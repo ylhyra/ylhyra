@@ -10,10 +10,7 @@ import Signup from "app/User/screens/Signup";
 import Settings from "app/User/screens/Settings";
 import Pay from "app/User/screens/Pay";
 import NotFound from "documents/Templates/404";
-
-/* TODO Remove from prod */
-import VocabularyMaker from "app/VocabularyMaker";
-import VocabularyMakerRecord from "app/VocabularyMaker/record";
+import { isBrowser } from "app/App/functions/isBrowser";
 
 export const urls = {
   VOCABULARY: {
@@ -55,14 +52,24 @@ export const urls = {
   },
 };
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development" && isBrowser) {
   urls["VOCABULARY_MAKER"] = {
     url: "/maker",
-    component: VocabularyMaker,
+    component: React.lazy(() =>
+      import(
+        /* webpackChunkName: "vocmak" */
+        "./../../app/VocabularyMaker"
+      )
+    ),
   };
   urls["VOCABULARY_MAKER_RECORDER"] = {
     url: "/maker/record",
-    component: VocabularyMakerRecord,
+    component: React.lazy(() =>
+      import(
+        /* webpackChunkName: "vocmakr" */
+        "./../../app/VocabularyMaker/record"
+      )
+    ),
   };
 }
 

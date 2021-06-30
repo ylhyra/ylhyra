@@ -33,14 +33,14 @@ class Deck {
       .sort((a, b) => a.sort - b.sort);
     this.schedule = schedule || {};
 
-    /* TEMPORARY */
-    if (process.env.NODE_ENV === "development") {
-      window.addEventListener("keydown", (e) => {
-        if (e.keyCode === 27 /* ESC */) {
-          deck.sessionDone();
-        }
-      });
-    }
+    // /* TEMPORARY */
+    // if (process.env.NODE_ENV === "development") {
+    //   window.addEventListener("keydown", (e) => {
+    //     if (e.keyCode === 27 /* ESC */) {
+    //       deck.sessionDone();
+    //     }
+    //   });
+    // }
     this.loadSessionFromLocalStorage();
   }
   generateSession() {

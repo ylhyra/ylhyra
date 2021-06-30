@@ -17,58 +17,67 @@ router.post("/recorder/save", (req, res) => {
     ylhyra_content_files,
     `./audio/pronunciation/`
   );
-  const filename =
-    FileSafeTitle(speaker) +
+  let filename =
+    speaker +
+    (["slow", "normal", "fast"].indexOf(speed) + 1) +
     "_" +
-    speed +
-    "_" +
-    FileSafeTitle(word) +
-    "_" +
-    shortid.generate().slice(0, 3);
-  const filepath = output_folder + `/${filename}`;
+    word
+      .trim()
+      .replace(/ +/g, "_")
+      .replace(/[.,!?:;/~()[\]{}]/g, "");
+  let filepath = output_folder + `/${filename}`;
 
-  const desc = `
-    ---
-    title: File:${filename}.mp3
-    recording of: ${word}
-    reading speed: ${speed}
-    speaker: ${speaker}
-    license: CC0
-    ---
-  `
-    .replace(/^ +/gm, "")
-    .trim();
-
-  fs.writeFileSync(filepath + ".mp3.md", desc, (err) => {});
-  fs.writeFile(filepath + ".wav", buffer, (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500);
+  /* Check if filename is in use */
+  fs.stat(filepath + ".mp3.md", function (err, stat) {
+    if (err == null) {
+      /* Filename already exists */
+      filename += "_" + Math.ceil(Math.random() * 999);
+      filepath = output_folder + `/${filename}`;
     }
-    // console.log("The file was saved!")
-    // // console.log(`
-    // //   ffmpeg -i ${wavPath}
-    // //     # -vn -af
-    // //     # acompressor=threshold=-21dB:ratio=9:attack=200:release=1000
-    // //     # silenceremove=1:0:0:1:1:-50dB:1
-    // //     ${mp3}
-    // //   # &&
-    // //   # rm ${mp3Path}
-    // // `)
-    res.send(filename + ".mp3");
-    // exec(
-    //   `
-    //   ffmpeg -i ${filepath}.wav ${filepath}.mp3
-    //   ffmpeg -i ${filepath}.wav -c:a libopus -b:a 32K ${filepath}.opus
-    // `,
-    //   (err) => {
-    //     if (err) {
-    //       console.error(err);
-    //       // return res.sendStatus(500);
-    //     }
-    //     // return res.send(filename + ".mp3");
-    //   }
-    // );
+
+    const desc = `
+      ---
+      title: File:${filename}.mp3
+      recording of: ${word}
+      reading speed: ${speed}
+      speaker: ${speaker}
+      license: CC0
+      ---
+    `
+      .replace(/^ +/gm, "")
+      .trim();
+
+    fs.writeFileSync(filepath + ".mp3.md", desc, (err) => {});
+    fs.writeFile(filepath + ".wav", buffer, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500);
+      }
+      // console.log("The file was saved!")
+      // // console.log(`
+      // //   ffmpeg -i ${wavPath}
+      // //     # -vn -af
+      // //     # acompressor=threshold=-21dB:ratio=9:attack=200:release=1000
+      // //     # silenceremove=1:0:0:1:1:-50dB:1
+      // //     ${mp3}
+      // //   # &&
+      // //   # rm ${mp3Path}
+      // // `)
+      res.send(filename + ".mp3");
+      // exec(
+      //   `
+      //   ffmpeg -i ${filepath}.wav ${filepath}.mp3
+      //   ffmpeg -i ${filepath}.wav -c:a libopus -b:a 32K ${filepath}.opus
+      // `,
+      //   (err) => {
+      //     if (err) {
+      //       console.error(err);
+      //       // return res.sendStatus(500);
+      //     }
+      //     // return res.send(filename + ".mp3");
+      //   }
+      // );
+    });
   });
 });
 export default router;
