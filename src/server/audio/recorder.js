@@ -33,6 +33,7 @@ router.post("/recorder/save", (req, res) => {
     recording of: ${word}
     reading speed: ${speed}
     speaker: ${speaker}
+    license: CC0
     ---
   `
     .replace(/^ +/gm, "")

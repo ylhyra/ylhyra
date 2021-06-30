@@ -178,12 +178,12 @@ const run = async () => {
     });
   console.log(`${Object.keys(cards).length} cards`);
 
-  fs.writeFileSync(
-    __basedir + "/build/vocabulary_database2.json",
-    JSON.stringify(out, null, 2),
-    function () {}
-  );
-  process.exit();
+  // fs.writeFileSync(
+  //   __basedir + "/build/vocabulary_database2.json",
+  //   JSON.stringify(out, null, 2),
+  //   function () {}
+  // );
+  // process.exit();
 
   fs.writeFileSync(
     __basedir + "/build/vocabulary_database.json",

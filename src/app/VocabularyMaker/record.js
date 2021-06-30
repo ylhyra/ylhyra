@@ -130,6 +130,16 @@ class RecorderElement extends React.Component {
 
 export default class Record extends React.Component {
   render = () => {
-    return <RecorderElement word="hæ hæ" />;
+    return (
+      <div id="recording_window">
+        Speaker: "{window.recording_metadata.speaker}" – Speed:{" "}
+        <b>{window.recording_metadata.speed}</b>
+        <hr />
+        <h1>{this.props.word}</h1>
+        <div>
+          <RecorderElement word="hæ hæ" onFinish={this.next} />
+        </div>
+      </div>
+    );
   };
 }
