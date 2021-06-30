@@ -4,7 +4,7 @@ import { ReactMic } from "react-mic";
 import Sound from "react-sound";
 import axios from "axios";
 import store from "app/App/store";
-import { load, select, submit, saveSound, nextWordRecord } from "./actions";
+import { load, select, submit, saveSound, getNextWordToRecord } from "./actions";
 
 const START_LAG_IN_MILLISECONDS = 0;
 // const START_LAG_IN_MILLISECONDS = 100;
@@ -43,11 +43,11 @@ class RecorderElement extends React.Component {
     // console.log(e.keyCode)
     this.isKeyDown = true;
     if (e.keyCode === 27 /* ESC */) {
-      if (this.state.blob) {
+      if (this.state.blob || this.state.recording) {
         this.cancel();
       } else {
         /* Skip this word */
-        nextWordRecord();
+        getNextWordToRecord();
       }
     } else if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */) {
       if (this.state.blob) {
@@ -70,12 +70,18 @@ class RecorderElement extends React.Component {
         saved: false,
         blob: false,
       });
+      setTimeout(() => {
+        this.setState({
+          interfaceShowsRecording: true,
+        });
+      }, 400);
     }, START_LAG_IN_MILLISECONDS);
   };
   stop = () => {
     setTimeout(() => {
       this.setState({
         recording: false,
+        interfaceShowsRecording: false,
       });
     }, STOP_LAG_IN_MILLISECONDS);
   };
@@ -115,7 +121,7 @@ class RecorderElement extends React.Component {
         word,
         filename,
       });
-      nextWordRecord();
+      getNextWordToRecord();
     };
   };
   cancel = () => {
@@ -131,7 +137,11 @@ class RecorderElement extends React.Component {
         <div
           onMouseEnter={this.start}
           onMouseLeave={this.stop}
-          className={`recorder ${this.state.recording ? "recording" : ""}`}
+          className={`recorder ${
+            this.state.recording && this.state.interfaceShowsRecording
+              ? "recording"
+              : ""
+          }`}
         >
           {this.props.word}
         </div>

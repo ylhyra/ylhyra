@@ -172,11 +172,20 @@ const setupSound = () => {
       missing_sound.push(word);
     }
   });
-  nextWordRecord();
+  getNextWordToRecord();
 };
 
-export const nextWordRecord = () => {
-  const remaining = `${current_word_recording}/${missing_sound.length}`;
+export const getNextWordToRecord = () => {
+  const remaining = `${current_word_recording} done today, ${
+    missing_sound.length - current_word_recording
+  } remaining. ${
+    100 -
+    Math.ceil(
+      ((missing_sound.length - current_word_recording) /
+        Object.keys(raw_sentences).length) *
+        100
+    )
+  }% done overall.`;
   const word = missing_sound[current_word_recording++];
   store.dispatch({
     type: "VOCABULARY_TO_RECORD",
