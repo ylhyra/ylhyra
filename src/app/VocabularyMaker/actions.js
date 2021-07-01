@@ -19,10 +19,16 @@ let raw_sentences = {};
 
 export const load = async () => {
   let vocabulary = (await axios.get(`/api/vocabulary_maker`, {})).data;
-  rows = vocabulary.rows
+  rows = _.shuffle(vocabulary.rows)
     // .filter((d) => d.icelandic)
     // .map((i) => ({ ...i, level: parseFloat(i.level) }))
-    .sort((a, b) => (a.level || 100) - (b.level || 100));
+    .sort(
+      (a, b) =>
+        Boolean(a["Laga?"]) - Boolean(b["Laga?"]) ||
+        Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
+        Boolean(a.last_seen) - Boolean(b.last_seen) ||
+        (a.level || 100) - (b.level || 100)
+    );
   rows.forEach((i) => {
     maxID = Math.max(maxID, i.row_id);
   });
@@ -41,17 +47,38 @@ export const select = (id) => {
   });
 };
 
-export const submit = (vals) => {
+export const selectNext = (row_id) => {
+  const x = rows[rows.findIndex((j) => j.row_id === row_id) + 1];
+  select((x && x.row_id) || null);
+};
+
+export const delete_row = (row_id) => {
+  selectNext(row_id);
+  rows.splice(
+    rows.findIndex((j) => j.row_id === row_id),
+    1
+  );
+  updateInterface();
+};
+
+export const submit = (vals, gotonext = true) => {
   rows[rows.findIndex((j) => j.row_id === vals.row_id)] = {
     ...vals,
     last_seen: new Date().toISOString().substring(0, 10),
   };
+  updateInterface();
+  // select(null);
+  if (gotonext) {
+    selectNext(vals.row_id);
+    save();
+  }
+};
+
+const updateInterface = () => {
   store.dispatch({
     type: "LOAD_VOCABULARY_MAKER_DATA",
     content: rows,
   });
-  select(null);
-  save();
 };
 
 export const save = () => {

@@ -26,12 +26,15 @@ router.post("/vocabulary_maker", (req, res) => {
   data = {
     rows: data.rows
       .filter((d) => d.icelandic)
-      .sort((a, b) =>
-        getRawTextFromVocabularyEntry(a.icelandic).localeCompare(
-          getRawTextFromVocabularyEntry(b.icelandic),
-          "is",
-          { ignorePunctuation: true }
-        )
+      .sort(
+        (a, b) =>
+          getRawTextFromVocabularyEntry(a.icelandic).localeCompare(
+            getRawTextFromVocabularyEntry(b.icelandic),
+            "is",
+            {
+              ignorePunctuation: true,
+            }
+          ) || a.row_id - b.row_id
       )
       .map((j) => removeEmpty(j)),
     sound: data.sound,

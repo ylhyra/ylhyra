@@ -38,7 +38,7 @@ button {
   }
 
   &.blue,
-  &:not(div) {
+  &:not(div):not(.red) {
     border-color: #c4c9fc;
     background: #f2f3ff;
     color: #7791fe;

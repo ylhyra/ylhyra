@@ -3,7 +3,7 @@ import { combineReducers } from "redux";
 const data = (state = null, action) => {
   switch (action.type) {
     case "LOAD_VOCABULARY_MAKER_DATA":
-      return action.content;
+      return action.content.slice(0, 20);
     default:
       return state;
   }
