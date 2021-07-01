@@ -17,27 +17,40 @@ let dependencies = {};
 let alternative_ids = {};
 let raw_sentences = {};
 
+export const MAX_PER_PAGE = 20;
+
 export const load = async () => {
   let vocabulary = (await axios.get(`/api/vocabulary_maker`, {})).data;
-  rows = _.shuffle(vocabulary.rows)
-    // .filter((d) => d.icelandic)
-    // .map((i) => ({ ...i, level: parseFloat(i.level) }))
-    .sort(
-      (a, b) =>
-        Boolean(a["Laga?"]) - Boolean(b["Laga?"]) ||
-        Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
-        Boolean(a.last_seen) - Boolean(b.last_seen) ||
-        (a.level || 100) - (b.level || 100)
-    );
+  sound = vocabulary.sound;
+  rows = vocabulary.rows;
+  // .filter((d) => d.icelandic)
+  // .map((i) => ({ ...i, level: parseFloat(i.level) }))
   rows.forEach((i) => {
     maxID = Math.max(maxID, i.row_id);
   });
+  parse();
+  refreshRows();
+};
+
+let selected_rows = [];
+export const refreshRows = (id) => {
+  rows = _.shuffle(rows).sort(
+    (a, b) =>
+      Boolean(a["Laga?"]) - Boolean(b["Laga?"]) ||
+      Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
+      Boolean(a.last_seen) - Boolean(b.last_seen) ||
+      (a.level || 100) - (b.level || 100)
+  );
+  selectRows();
+  select(selected_rows[0].row_id);
+};
+
+export const selectRows = () => {
+  selected_rows = rows.slice(0, MAX_PER_PAGE);
   store.dispatch({
     type: "LOAD_VOCABULARY_MAKER_DATA",
-    content: rows,
+    content: selected_rows,
   });
-  sound = vocabulary.sound;
-  parse();
 };
 
 export const select = (id) => {
@@ -48,8 +61,13 @@ export const select = (id) => {
 };
 
 export const selectNext = (row_id) => {
-  const x = rows[rows.findIndex((j) => j.row_id === row_id) + 1];
-  select((x && x.row_id) || null);
+  const x =
+    selected_rows[selected_rows.findIndex((j) => j.row_id === row_id) + 1];
+  if (x && x.row_id) {
+    select(x.row_id);
+  } else {
+    refreshRows();
+  }
 };
 
 export const delete_row = (row_id) => {
@@ -62,6 +80,7 @@ export const delete_row = (row_id) => {
 };
 
 export const submit = (vals, gotonext = true) => {
+  vals.level = vals.level ? parseFloat(vals.level) : vals.level;
   rows[rows.findIndex((j) => j.row_id === vals.row_id)] = {
     ...vals,
     last_seen: new Date().toISOString().substring(0, 10),
@@ -75,9 +94,10 @@ export const submit = (vals, gotonext = true) => {
 };
 
 const updateInterface = () => {
+  selectRows();
   store.dispatch({
     type: "LOAD_VOCABULARY_MAKER_DATA",
-    content: rows,
+    content: selected_rows,
   });
 };
 

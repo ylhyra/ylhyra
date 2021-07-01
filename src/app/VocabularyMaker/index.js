@@ -3,9 +3,10 @@ import React from "react";
 import Link from "app/Router/Link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import errors from "app/App/Error/messages";
-import { load, select, submit, delete_row } from "./actions";
+import { load, select, submit, delete_row, selectNext } from "./actions";
 import { formatVocabularyEntry } from "./functions";
 import VocabularyMakerRecord from "app/VocabularyMaker/record";
+import AutosizeTextarea from "react-textarea-autosize";
 
 const row_titles = [
   // "icelandic",
@@ -22,11 +23,13 @@ const row_titles = [
   "note_after_show_is",
   "grammar_note f/icelandic",
   "literally",
+  "pronunciation",
   // "should_teach",
   // "categories",
   // "grammar_tags",
   "importance",
   "show_hint",
+  "should_split",
   "alternative_id",
   "Laga?",
   "eyða",
@@ -82,6 +85,8 @@ class Form2 extends React.Component {
       );
     } else if (e.keyCode === 13 /* Enter */) {
       // this.formRef.current && this.formRef.current.handleSubmit();
+    } else if (e.keyCode === 27 /* Esc */) {
+      selectNext(this.props.vocabularyMaker.selected);
     }
   };
   render() {
@@ -110,18 +115,34 @@ class Form2 extends React.Component {
                         <b>{row_name}:</b>
                         <br />
                         <Field
-                          type={row_name === "level" ? "number" : "text"}
-                          autoFocus={row_name === "basic_form"}
+                          // type={row_name === "level" ? "number" : "text"}
+                          type="text"
+                          autoFocus={row_name === "depends_on"}
                           name={row_name}
                           id={row_name}
-                          size={row[row_name] ? row[row_name].length : 2}
+                          size={
+                            row[row_name] ? row[row_name].toString().length : 2
+                          }
                           onKeyUp={(e) => {
                             e.target.setAttribute(
                               "size",
-                              e.target.value.length
+                              e.target.value.toString().length || 2
                             );
                           }}
                         />
+
+                        {/* <AutosizeTextarea
+                          // className="write-textbox"
+                          autoComplete="false"
+                          name={row_name}
+                          // value={answered ? correctAnswer : this.state.value}
+                          // onKeyDown={this.checkForSubmit}
+                          // onChange={this.handleChange}
+                          // readOnly={answered}
+                          // inputRef={(input) => {
+                          //   this.textInput = input;
+                          // }}
+                        /> */}
                       </label>
                     ))}
 
@@ -146,7 +167,7 @@ class Form2 extends React.Component {
             return (
               <div
                 key={row.row_id}
-                className="row"
+                className={`row ${row.last_seen ? "seen" : ""}`}
                 onClick={() => select(row.row_id)}
               >
                 <b

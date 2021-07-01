@@ -36,7 +36,23 @@ router.post("/vocabulary_maker", (req, res) => {
             }
           ) || a.row_id - b.row_id
       )
-      .map((j) => removeEmpty(j)),
+      .map((row) => {
+        let out = {};
+        Object.keys(row).forEach((k) => {
+          if (!row[k]) return;
+          if (typeof row[k] === "string") {
+            if (!row[k].trim()) return;
+            out[k] = row[k]
+              .trim()
+              .replace(/\s+/g, " ")
+              .replace(/^, ?/g, "")
+              .replace(/,$/g, "");
+          } else {
+            out[k] = row[k];
+          }
+        });
+        return out;
+      }),
     sound: data.sound,
   };
 
@@ -59,9 +75,3 @@ router.post("/vocabulary_maker", (req, res) => {
 });
 
 export default router;
-
-// https://stackoverflow.com/questions/286141/remove-blank-attributes-from-an-object-in-javascript
-function removeEmpty(obj) {
-  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v));
-  // return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== null));
-}

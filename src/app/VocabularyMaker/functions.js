@@ -7,6 +7,7 @@ export const getRawTextFromVocabularyEntry = (input) => {
     .replace(/\(note: .*?\)/g, "")
     .replace(/∆/g, ",")
     .replace(/'''/g, "")
+    .replace(/''/g, "")
     .replace(/\*/g, "")
     .replace(/[\s]+/g, " ")
     .trim();
@@ -21,8 +22,9 @@ export const formatVocabularyEntry = (input) => {
     .replace(/(\(note: .*?\))/g, `<small class="gray">$1</small>`)
     .replace(/'''(.+?)'''/g, "<b><u>$1</u></b>")
     .replace(/\*(.+?)\*/g, "<b><u>$1</u></b>")
-    .replace(/;;/g, `<span class="seperator">;</span>`)
-    .replace(/;/g, `<span class="seperator">,</span>`);
+    .replace(/;;/g, `MAJOR_SEPERATOR`)
+    .replace(/;/g, `<span class="seperator">,</span>`)
+    .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`);
 };
 
 export const clean_string = (i) => {
