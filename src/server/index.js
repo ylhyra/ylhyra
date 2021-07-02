@@ -120,7 +120,7 @@ if (process.argv[2] === "--compile-content") {
 } else if (process.argv[2] === "--generate-search-index") {
   // require("server/inflection/server/server-with-database/database/generateSearchIndex.js");
 } else if (process.argv[2] === "--import-vocabulary") {
-  // require("server/vocabulary/setup/setup");
+  require("server/vocabulary/setup/setup");
 } else {
   /* Or, start the app */
   app.listen(port, host, (err) => {

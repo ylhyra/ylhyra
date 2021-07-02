@@ -12,8 +12,9 @@
   "xxtype": "module",
   "scripts": {
     "start": "export BROWSER=none && react-scripts start",
-    "links": "node build/server/ylhyra_server.js --compile-content",
-    "vocabulary": "node build/server/ylhyra_server.js --import-vocabulary",
+    "links": "export NODE_ENV=production && npm run build_server && node build/server/ylhyra_server.js --compile-content",
+    "vocabulary": "npm run build_server && npm run vocabulary_",
+    "vocabulary_": "node build/server/ylhyra_server.js --import-vocabulary",
     "vocabulary_testing": "node build/server/ylhyra_server.js --import-vocabulary --testing",
     "prerender": "export NODE_ENV=production && rm -f build/prerender/* && node build/server/ylhyra_server.js --prerender",
     "build_and_prerender": "./scripts/build_and_prerender.sh",

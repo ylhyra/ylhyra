@@ -4,6 +4,7 @@ import {
   getHashesFromCommaSeperated,
   getRawTextFromVocabularyEntry,
   simplify_string,
+  parse_vocabulary_file,
 } from "app/VocabularyMaker/functions";
 import store from "app/App/store";
 import axios from "app/App/axios";
@@ -23,12 +24,18 @@ export const load = async () => {
   let vocabulary = (await axios.get(`/api/vocabulary_maker`, {})).data;
   sound = vocabulary.sound;
   rows = vocabulary.rows;
-  // .filter((d) => d.icelandic)
-  // .map((i) => ({ ...i, level: parseFloat(i.level) }))
   rows.forEach((i) => {
     maxID = Math.max(maxID, i.row_id);
   });
-  parse();
+  // const parsed = parse(vocabulary)
+  // terms = parsed.terms
+  // dependencies = parsed.dependencies
+  // alternative_ids = parsed.alternative_ids
+  // raw_sentences = parsed.raw_sentences
+  ({ terms, dependencies, alternative_ids, raw_sentences } =
+    parse_vocabulary_file(vocabulary));
+  setupSound();
+  findMissingDependencies();
   refreshRows();
 };
 
@@ -115,107 +122,6 @@ export const save = () => {
       sound: sound,
     },
   });
-};
-
-let duplicate_terms = [];
-export const parse = () => {
-  let _terms = {};
-  let _dependencies = {};
-  let _alternative_ids = {};
-  let _raw_sentences = [];
-  let _card_ids = [];
-  const addToCardIds = (id) => {
-    if (_card_ids.includes(id)) {
-      console.log(`Duplicate id ${id}`);
-    }
-    _card_ids.push(id);
-  };
-
-  const TermsToCardId = (_terms, id) => {
-    _terms.forEach((term) => {
-      if (!_terms[term]) {
-        _terms[term] = {
-          level: null,
-          cards: [],
-        };
-      }
-      _terms[term].cards.push(id);
-    });
-  };
-  const AddToDependencyGraph = (first, second, type) => {
-    if (!second || second.length === 0) return;
-    let obj = _dependencies;
-    if (type === "alt_ids") {
-      obj = _alternative_ids;
-    }
-    first.forEach((id) => {
-      obj[id] = [...(obj[id] || []), ...second];
-    });
-  };
-
-  _.shuffle(rows)
-    .sort((a, b) => (a.level || 100) - (b.level || 100))
-    .forEach((row) => {
-      if (!row.icelandic) return;
-
-      /* Can have multiple */
-      let icelandic_strings = row.icelandic
-        .split(/;+/g)
-        .map(getRawTextFromVocabularyEntry);
-      const terms_in_this_line = icelandic_strings.map(getHash);
-      let _alternative_ids = getHashesFromCommaSeperated(row.alternative_id);
-      /* Match the "%" in basic_form, which serves to mark something as both the basic form and an alt_id */
-      const basic_form =
-        row.basic_form &&
-        row.basic_form.split(",").map((input) => {
-          const out = input.replace(/\(".+?"\)/g, "").replace(/%/g, "");
-          if (/%/.test(input)) {
-            _alternative_ids.push(getHash(out));
-          }
-          return out;
-        });
-      const depends_on = [
-        ...getHashesFromCommaSeperated(row.depends_on),
-        ...getHashesFromCommaSeperated(basic_form),
-        ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
-      ];
-
-      AddToDependencyGraph(terms_in_this_line, depends_on);
-      AddToDependencyGraph(_alternative_ids, terms_in_this_line, "alt_ids");
-
-      if (row.direction && row.direction !== "<-" && row.direction !== "->") {
-        throw new Error(`Unknown direction ${row.direction}`);
-      }
-
-      terms_in_this_line.forEach((t) => {
-        _terms[t] = true;
-      });
-      icelandic_strings.forEach((t) => {
-        _raw_sentences[t] = true;
-      });
-
-      /* Icelandic to English */
-      if (row.direction !== "<-") {
-        icelandic_strings.forEach((i) => {
-          addToCardIds(getHash(i) + "_is");
-        });
-      }
-
-      /* English to Icelandic */
-      if (row.direction !== "->") {
-        addToCardIds(
-          getHash(getRawTextFromVocabularyEntry(row.icelandic)) + "_en"
-        );
-      }
-    });
-  // console.log(_card_ids);
-  terms = _terms;
-  dependencies = _dependencies;
-  alternative_ids = _alternative_ids;
-  raw_sentences = _raw_sentences;
-
-  setupSound();
-  findMissingDependencies();
 };
 
 let missing_sound = [];
