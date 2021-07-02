@@ -4,7 +4,11 @@ import shortid from "shortid";
 import sql from "server/database/functions/SQL-template-literal";
 import cors from "cors";
 import { content_folder } from "paths_backend";
-import { getRawTextFromVocabularyEntry } from "app/VocabularyMaker/functions.js";
+import {
+  getRawTextFromVocabularyEntry,
+  row_titles,
+} from "app/VocabularyMaker/functions.js";
+import _ from "underscore";
 const router = require("express").Router();
 const fs = require("fs");
 const filename = content_folder + "/not_data/vocabulary/vocabulary.yml";
@@ -19,7 +23,6 @@ router.get("/vocabulary_maker", (req, res) => {
     }
   });
 });
-
 router.post("/vocabulary_maker", (req, res) => {
   if (process.env.NODE_ENV !== "development") return res.sendStatus(500);
   let data = req.body.data;
@@ -38,17 +41,24 @@ router.post("/vocabulary_maker", (req, res) => {
       )
       .map((row) => {
         let out = {};
-        Object.keys(row).forEach((k) => {
-          if (!row[k]) return;
-          if (typeof row[k] === "string") {
-            if (!row[k].trim()) return;
-            out[k] = row[k]
+
+        _.uniq([
+          "icelandic",
+          "english",
+          ...row_titles,
+          "row_id",
+          ...Object.keys(row),
+        ]).forEach((key) => {
+          if (!row[key]) return;
+          if (typeof row[key] === "string") {
+            if (!row[key].trim()) return;
+            out[key] = row[key]
               .trim()
               .replace(/\s+/g, " ")
               .replace(/^, ?/g, "")
               .replace(/,$/g, "");
           } else {
-            out[k] = row[k];
+            out[key] = row[key];
           }
         });
         return out;

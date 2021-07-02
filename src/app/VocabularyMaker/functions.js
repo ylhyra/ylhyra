@@ -8,7 +8,7 @@ export const getRawTextFromVocabularyEntry = (input) => {
     .replace(/∆/g, ",")
     .replace(/'''/g, "")
     .replace(/''/g, "")
-    .replace(/\*/g, "")
+    .replace(/%/g, "")
     .replace(/[\s]+/g, " ")
     .trim();
 };
@@ -24,7 +24,8 @@ export const formatVocabularyEntry = (input) => {
     .replace(/\*(.+?)\*/g, "<b><u>$1</u></b>")
     .replace(/;;/g, `MAJOR_SEPERATOR`)
     .replace(/;/g, `<span class="seperator">,</span>`)
-    .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`);
+    .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
+    .replace(/%/g, "");
 };
 
 export const clean_string = (i) => {
@@ -38,6 +39,7 @@ export const clean_string = (i) => {
     .replace(/\\,/g, ",")
     .replace(/'{2,}/g, "")
     .replace(/\s+/g, " ")
+    .replace(/%/g, "")
     .trim();
 };
 
@@ -50,7 +52,9 @@ export const getHash = (i) => {
   if (Array.isArray(i)) {
     return getHash(i.map(clean_string).join(";"));
   }
-  const string = clean_string(i).replace(/[.]+$/, "").toLowerCase();
+  const string = clean_string(i)
+    .replace(/[.?!]+$/, "")
+    .toLowerCase();
   if (!string) return null;
   return string; //TEMP
   // return _hash(string);
@@ -58,5 +62,35 @@ export const getHash = (i) => {
 
 export const getHashesFromCommaSeperated = (i) => {
   if (!i) return [];
+  if (Array.isArray(i)) {
+    return i.map(getHash);
+  }
   return i.split(",").map(getHash).filter(Boolean);
 };
+
+export const row_titles = [
+  // "icelandic",
+  // "english",
+  "depends_on",
+  "basic_form",
+  "this is a minor variation of",
+  "level",
+  "dont_confuse",
+  "related_items",
+  "direction",
+  "note_bfr_show",
+  "note_after_show",
+  "note_after_show_is",
+  "grammar_note f/icelandic",
+  "literally",
+  "pronunciation",
+  "should_teach",
+  "categories",
+  "grammar_tags",
+  "importance",
+  "show_hint",
+  "should_split",
+  "alternative_id",
+  "Laga?",
+  "eyða",
+];

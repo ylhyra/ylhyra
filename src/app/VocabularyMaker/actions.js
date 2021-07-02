@@ -34,13 +34,16 @@ export const load = async () => {
 
 let selected_rows = [];
 export const refreshRows = (id) => {
-  rows = _.shuffle(rows).sort(
-    (a, b) =>
-      Boolean(a["Laga?"]) - Boolean(b["Laga?"]) ||
-      Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
-      Boolean(a.last_seen) - Boolean(b.last_seen) ||
-      (a.level || 100) - (b.level || 100)
-  );
+  rows =
+    // _.shuffle(rows)
+    rows.sort(
+      (a, b) =>
+        Boolean(a["Laga?"]) - Boolean(b["Laga?"]) ||
+        Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
+        Boolean(a.last_seen) - Boolean(b.last_seen) ||
+        Boolean(a.english) - Boolean(b.english) ||
+        (a.level || 100) - (b.level || 100)
+    );
   selectRows();
   select(selected_rows[0].row_id);
 };
@@ -114,15 +117,19 @@ export const save = () => {
   });
 };
 
-if (isBrowser) {
-  window.save = save;
-}
-
+let duplicate_terms = [];
 export const parse = () => {
   let _terms = {};
   let _dependencies = {};
   let _alternative_ids = {};
   let _raw_sentences = [];
+  let _card_ids = [];
+  const addToCardIds = (id) => {
+    if (_card_ids.includes(id)) {
+      console.log(`Duplicate id ${id}`);
+    }
+    _card_ids.push(id);
+  };
 
   const TermsToCardId = (_terms, id) => {
     _terms.forEach((term) => {
@@ -156,10 +163,20 @@ export const parse = () => {
         .split(/;+/g)
         .map(getRawTextFromVocabularyEntry);
       const terms_in_this_line = icelandic_strings.map(getHash);
-      const _alternative_ids = getHashesFromCommaSeperated(row.alternative_id);
+      let _alternative_ids = getHashesFromCommaSeperated(row.alternative_id);
+      /* Match the "%" in basic_form, which serves to mark something as both the basic form and an alt_id */
+      const basic_form =
+        row.basic_form &&
+        row.basic_form.split(",").map((input) => {
+          const out = input.replace(/\(".+?"\)/g, "").replace(/%/g, "");
+          if (/%/.test(input)) {
+            _alternative_ids.push(getHash(out));
+          }
+          return out;
+        });
       const depends_on = [
         ...getHashesFromCommaSeperated(row.depends_on),
-        ...getHashesFromCommaSeperated(row.basic_form),
+        ...getHashesFromCommaSeperated(basic_form),
         ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
       ];
 
@@ -177,35 +194,28 @@ export const parse = () => {
         _raw_sentences[t] = true;
       });
 
-      // /* Icelandic to English */
-      // if (row.direction !== "<-") {
-      //   icelandic_strings.forEach((i) => {
-      //     to_add.push({
-      //       is: i,
-      //       from: "is",
-      //       id: getHash(i) + "_is",
-      //       ...card_skeleton,
-      //     });
-      //   });
-      // }
-      //
-      // /* English to Icelandic */
-      // if (row.direction !== "->") {
-      //   to_add.push({
-      //     is: clean_string(icelandic),
-      //     from: "en",
-      //     id: getHash(icelandic) + "_en",
-      //     ...card_skeleton,
-      //   });
-      // }
+      /* Icelandic to English */
+      if (row.direction !== "<-") {
+        icelandic_strings.forEach((i) => {
+          addToCardIds(getHash(i) + "_is");
+        });
+      }
+
+      /* English to Icelandic */
+      if (row.direction !== "->") {
+        addToCardIds(
+          getHash(getRawTextFromVocabularyEntry(row.icelandic)) + "_en"
+        );
+      }
     });
-  // console.log(_terms);
+  // console.log(_card_ids);
   terms = _terms;
   dependencies = _dependencies;
   alternative_ids = _alternative_ids;
   raw_sentences = _raw_sentences;
 
   setupSound();
+  findMissingDependencies();
 };
 
 let missing_sound = [];
@@ -253,3 +263,34 @@ export const saveSound = ({ word, filename }) => {
   });
   save();
 };
+
+export const findMissingDependencies = () => {
+  let missing = [];
+  Object.keys(dependencies).forEach((from_term) => {
+    dependencies[from_term].forEach((to_term) => {
+      if (!(to_term in terms) && !(to_term in alternative_ids)) {
+        missing.push(to_term);
+      }
+    });
+  });
+  missing = _.uniq(missing);
+  console.log("Missing:\n" + missing.join("\n"));
+};
+
+export const addRowsIfMissing = (text) => {
+  text.split(/\n/g).forEach((row) => {
+    if (!(getHash(row) in terms) && !(getHash(row) in alternative_ids)) {
+      rows.push({
+        row_id: maxID++ + 1,
+        icelandic: row.trim(),
+        level: window.level || null,
+      });
+      console.log("added " + row);
+    }
+  });
+};
+
+if (isBrowser) {
+  window.addRowsIfMissing = addRowsIfMissing;
+  window.save = save;
+}

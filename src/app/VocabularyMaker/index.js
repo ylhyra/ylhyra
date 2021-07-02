@@ -4,36 +4,10 @@ import Link from "app/Router/Link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import errors from "app/App/Error/messages";
 import { load, select, submit, delete_row, selectNext } from "./actions";
-import { formatVocabularyEntry } from "./functions";
+import { formatVocabularyEntry, row_titles } from "./functions";
 import VocabularyMakerRecord from "app/VocabularyMaker/record";
 import AutosizeTextarea from "react-textarea-autosize";
 
-const row_titles = [
-  // "icelandic",
-  // "english",
-  "depends_on",
-  "basic_form",
-  "this is a minor variation of",
-  "level",
-  "dont_confuse",
-  "related_items",
-  "direction",
-  "note_bfr_show",
-  "note_after_show",
-  "note_after_show_is",
-  "grammar_note f/icelandic",
-  "literally",
-  "pronunciation",
-  // "should_teach",
-  // "categories",
-  // "grammar_tags",
-  "importance",
-  "show_hint",
-  "should_split",
-  "alternative_id",
-  "Laga?",
-  "eyða",
-];
 class Form2 extends React.Component {
   componentDidMount = async () => {
     load();
@@ -104,6 +78,16 @@ class Form2 extends React.Component {
                 initialValues={initialValues}
                 innerRef={this.formRef}
                 enableReinitialize={true}
+                validate={(values) => {
+                  const errors = {};
+                  if (/,/.test(values.icelandic)) {
+                    errors.icelandic = "Comma not allowed";
+                  }
+                  if (/,/.test(values.english)) {
+                    errors.english = "Comma not allowed";
+                  }
+                  return errors;
+                }}
                 onSubmit={(values, { setSubmitting }) => {
                   submit(values);
                 }}
@@ -114,10 +98,11 @@ class Form2 extends React.Component {
                       <label key={row_name} htmlFor={row_name}>
                         <b>{row_name}:</b>
                         <br />
+                        <ErrorMessage name={row_name} component="div" />
                         <Field
                           // type={row_name === "level" ? "number" : "text"}
                           type="text"
-                          autoFocus={row_name === "depends_on"}
+                          autoFocus={row_name === "english"}
                           name={row_name}
                           id={row_name}
                           size={
