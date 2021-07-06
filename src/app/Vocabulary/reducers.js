@@ -61,10 +61,20 @@ const screen = (state = {}, action) => {
   }
 };
 
+const volume = (state = true, action) => {
+  switch (action.type) {
+    case "VOCABULARY_AUDIO_ONOFF":
+      return !state;
+    default:
+      return state;
+  }
+};
+
 export const vocabulary = combineReducers({
   deck,
   session,
   card,
   status,
   screen,
+  volume,
 });

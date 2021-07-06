@@ -8,6 +8,7 @@
 - continue session on login
 - max bad ratio
 - sækja sync
+- occluded
 
 ### Annað
 

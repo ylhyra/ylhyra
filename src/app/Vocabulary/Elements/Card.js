@@ -3,27 +3,40 @@ import { connect } from "react-redux";
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import { answer } from "app/Vocabulary/actions/session";
 import store from "app/App/store";
-
+import AudioClip from "documents/Render/Audio/AudioClip.js";
+import { get_processed_image_url } from "paths";
 class Card extends Component {
   state = {};
   componentDidMount() {
     this.componentDidUpdate();
     window.addEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
+    this.sound();
   }
   componentWillUnmount() {
     window.removeEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
   }
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const { card, status } = this.props.vocabulary;
-    if (!prevProps || card.counter !== prevProps.vocabulary.card.counter) {
+    const prevCard = prevProps && prevProps.vocabulary.card;
+    if (!prevProps || card.counter !== prevCard.counter) {
       this.setState({
         answer: null,
         clickingOnShowButton: null,
         // hint: hide(from !== 'is' ? card.is : card.en)
       });
+      this.sound();
     }
+    // if (
+    //   !prevProps ||
+    //   prevCard.id !== card.id ||
+    //   this.state.answer !== prevState.answer
+    // ) {
+    //   console.log(card.sound && card.sound[0].recording_of);
+    //
+    //   this.sound();
+    // }
   }
   keyUp = () => {
     this.isKeyDown = false;
@@ -86,24 +99,20 @@ class Card extends Component {
       }, 100);
     }
   };
-  // componentDidMount() {
-  //   this.sound()
-  // }
-  // componentDidUpdate = () => {
-  //   this.sound()
-  // }
-  // sound = () => {
-  //   const { card, answer } = this.props
-  //   if (/*!volume ||*/ !card.audio) return
-  //   // console.log(card)
-  //   if (from === 'is' || card.type==='gender' || card.type==='drag and drop' || card.type==='no game' || card.listen || card.play_sound_immediately || answer.answered) {
-  //     try {
-  //       AudioClip.play(card.audio)
-  //      } catch (e) {
-  //       console.warn(e)
-  //     }
-  //   }
-  // }
+  sound = (answered) => {
+    const { card, volume } = this.props.vocabulary;
+    if (volume && card.sound && (card.from === "is" || answered)) {
+      try {
+        // TODO more than one sound
+        // TODO repeat
+        AudioClip.play(get_processed_image_url(card.sound[0].filename, true));
+      } catch (e) {
+        console.warn(e);
+      }
+    } else {
+      AudioClip.pause();
+    }
+  };
   show = (timeout) => {
     if (this.props.vocabulary.card.answered) return;
     if (timeout === false) {
@@ -120,6 +129,7 @@ class Card extends Component {
         });
       }, 50);
     }
+    this.sound(true);
   };
   render() {
     const { card, status } = this.props.vocabulary;
@@ -129,7 +139,7 @@ class Card extends Component {
     if (!card || !card.is) return null;
     let { from, basic_form, note_bfr_show, note_after_show, literally } = card;
     let Type = null;
-    const is = card.is;
+    const is = card.is_formatted;
     const en = card.en;
 
     let note_above = null;
@@ -299,32 +309,42 @@ const hide = (input) => {
 const styleCommas = (text) => {
   if (!text) return null;
   return (
-    <span>
-      {text
-        .replace(/"([^"]*)"/g, "“$1”") /* Curly quotes */
-        .replace(/\\,/g, "\u0044") /* Escaped commas */
-        .replace(/ \+ /g, "\u2006+\u2006") /* Spacing around plusses */
-        .split(/(, )/g)
-        .map((j, index) => {
-          if (index % 2 === 0) {
-            /* Style semicolons */
-            return j.split(/(; )/g).map((u, index2) => {
-              if (index2 % 2 === 0) {
-                return u;
-              }
-              return (
-                <span className="semicolon" key={index2}>
-                  ;{" "}
-                </span>
-              );
-            });
-          }
-          return (
-            <span className="comma" key={index}>
-              ,{" "}
-            </span>
-          );
-        })}
-    </span>
+    <span
+      dangerouslySetInnerHTML={{
+        __html: text
+          .replace(/"([^"]*)"/g, "“$1”") /* Curly quotes */
+          .replace(/\\,/g, "\u0044") /* Escaped commas */
+          .replace(/ \+ /g, "\u2006+\u2006") /* Spacing around plusses */,
+      }}
+    />
   );
+  // return (
+  //   <span>
+  //     {text
+  //       .replace(/"([^"]*)"/g, "“$1”") /* Curly quotes */
+  //       .replace(/\\,/g, "\u0044") /* Escaped commas */
+  //       .replace(/ \+ /g, "\u2006+\u2006") /* Spacing around plusses */
+  //       .split(/(, )/g)
+  //       .map((j, index) => {
+  //         if (index % 2 === 0) {
+  //           /* Style semicolons */
+  //           return j.split(/(; )/g).map((u, index2) => {
+  //             if (index2 % 2 === 0) {
+  //               return u;
+  //             }
+  //             return (
+  //               <span className="semicolon" key={index2}>
+  //                 ;{" "}
+  //               </span>
+  //             );
+  //           });
+  //         }
+  //         return (
+  //           <span className="comma" key={index}>
+  //             ,{" "}
+  //           </span>
+  //         );
+  //       })}
+  //   </span>
+  // );
 };

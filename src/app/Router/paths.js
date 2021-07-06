@@ -23,6 +23,12 @@ export const urls = {
     url: "/vocabulary/setup",
     component: VocabularyIntro,
   },
+  VOCABULARY_PLAY: {
+    title: "Vocabulary",
+    url: "/vocabulary/play",
+    component: VocabularyRunning,
+  },
+
   // /vocabulary/tutorial: {
   //   title: 'Vocabulary',
   //   url: '/vocabulary/tutorial',

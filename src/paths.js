@@ -7,8 +7,10 @@ export const unprocessed_image_url = `/api/images2`;
 /* File URLs */
 export const getDynamicFileUrl = (file) =>
   `/api/content?title=file/${encodeURIComponent(file.trim())}`;
-export const get_processed_image_url = (file) =>
-  `${processed_image_url}/${encodeURIComponent(file.trim())}`;
+export const get_processed_image_url = (file, audio) =>
+  `${processed_image_url}/${audio ? "audio/" : ""}${encodeURIComponent(
+    file.trim()
+  )}`;
 
 /* URL slugs */
 export const URL_title = (title) => {

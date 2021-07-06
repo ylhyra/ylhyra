@@ -6,7 +6,7 @@ import { MINUTES } from "app/Vocabulary/actions/session";
 import Link from "app/Router/Link";
 import { updateURL } from "app/Router/actions";
 
-export default () => (
+const r = (props) => (
   <div id="vocabulary">
     <div>
       <button
@@ -18,7 +18,18 @@ export default () => (
       </button>
       {" • "}
       <Link href="/vocabulary/tutorial">Tutorial</Link>
+      {" • "}
+      <button
+        onClick={() => {
+          store.dispatch({ type: "VOCABULARY_AUDIO_ONOFF" });
+        }}
+      >
+        Audio: {props.vocabulary.volume ? "On" : "Off"}
+      </button>
     </div>
     <GameContainer />
   </div>
 );
+export default connect((state) => ({
+  vocabulary: state.vocabulary,
+}))(r);

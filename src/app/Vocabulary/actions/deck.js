@@ -29,8 +29,9 @@ class Deck {
         // if(typeof cards[key] === 'function') return null;
         return cards[key];
       })
-      .filter(Boolean)
-      .sort((a, b) => a.sort - b.sort);
+      .filter(Boolean);
+    // .sort((a, b) => Boolean(b.sound) - Boolean(a.sound));
+    // .sort((a, b) => a.sort - b.sort);
     this.schedule = schedule || {};
 
     // /* TEMPORARY */

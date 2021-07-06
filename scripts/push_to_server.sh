@@ -7,6 +7,7 @@ rsync \
   --recursive \
   --compress \
   --exclude ./build/server/development \
+  --exclude ./build/images/audio/tmp \
   -e "ssh -p ${SERVER_SSH_PORT}" \
   ./build/ \
   ${SERVER_IP_AND_FOLDER}/build

@@ -23,13 +23,18 @@ const yaml = require("js-yaml");
 */
 const run = async () => {
   fs.readFile(filename, "utf8", (err, data) => {
-    console.log(data.slice(0, 30));
     const { terms, dependencies, alternative_ids, raw_sentences, cards } =
       parse_vocabulary_file(yaml.load(data));
 
     Object.keys(cards).forEach((card_id) => {
       const card = cards[card_id];
-      if (!card.english || !card.level) {
+      if (
+        !card.en ||
+        !card.level ||
+        card.should_teach === "no" ||
+        card["Laga?"] ||
+        card.eyða
+      ) {
         delete cards[card_id];
       }
     });

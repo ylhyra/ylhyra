@@ -3,7 +3,7 @@ import {
   getHash,
   getHashesFromCommaSeperated,
   getRawTextFromVocabularyEntry,
-  simplify_string,
+  GetLowercaseStringForAudioKey,
   parse_vocabulary_file,
 } from "app/VocabularyMaker/functions";
 import store from "app/App/store";
@@ -130,8 +130,8 @@ const setupSound = () => {
   missing_sound = [];
   current_word_recording = 0;
   Object.keys(raw_sentences).forEach((word) => {
-    const lowercase = simplify_string(word);
-    if (!sound.some((i) => simplify_string(i.recording_of) === lowercase)) {
+    const lowercase = GetLowercaseStringForAudioKey(word);
+    if (!sound.some((i) => GetLowercaseStringForAudioKey(i.recording_of) === lowercase)) {
       missing_sound.push(word);
     }
   });

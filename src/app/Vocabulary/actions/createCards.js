@@ -104,7 +104,7 @@ export default function createCards(options, deck_) {
   chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids, deck);
   chosen_ids = chosen_ids.slice(0, CARDS_TO_CREATE);
 
-  console.log(withDependencies(chosen_ids).map(printWord));
+  // console.log(withDependencies(chosen_ids).map(printWord));
 
   /* Depends on cards */
   chosen_ids = _.flatten(
