@@ -102,7 +102,7 @@ export default function createCards(options, deck_) {
   }
   for (
     let i = 0;
-    chosen_ids.length < Math.min(CARDS_TO_CREATE, total_options);
+    chosen_ids.length < Math.min(CARDS_TO_CREATE, total_options) && i < 1000;
     i++
   ) {
     if (i % newCardEvery === 0 && new_card_ids.length > 0) {

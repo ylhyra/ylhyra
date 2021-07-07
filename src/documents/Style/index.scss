@@ -27,11 +27,12 @@ $blue: #1161d9;
   overflow: hidden;
 }
 @import "reset";
-@import "Vocabulary/index.scss";
+@import "Vocabulary/container.scss";
+@import "Vocabulary/card-contents.scss";
 @import "Vocabulary/flashcard.scss";
 @import "Vocabulary/progress.scss";
 @import "Vocabulary/card.scss";
-//
+
 // @import './../Elements/Speed_reading/speed-reader';
 // @import './../../Editor/Style/index.scss';
 // @import './../../../server/inflection/styles/inflections/inflection.scss';

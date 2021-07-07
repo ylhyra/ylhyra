@@ -1,0 +1,28 @@
+#vocabulary-screen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #252726;
+  #vocabulary-header {
+    color: #8c8c8c;
+    font-size: 13px;
+    margin: 10px 15px;
+    display: flex;
+    .spacer {
+      flex: 1;
+    }
+    a,
+    .link {
+      color: #adbfcd;
+      &:hover {
+        color: white;
+      }
+    }
+  }
+  #game-container {
+    margin: 0 6px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}

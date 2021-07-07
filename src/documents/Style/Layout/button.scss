@@ -11,7 +11,7 @@
 .button > a,
 .button.playButton,
 a.button,
-button {
+button:not(.link) {
   background: #fff5f2;
   border: 1px solid #fcc6c4;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
@@ -46,6 +46,17 @@ button {
     &:hover {
       background: #e9eaf7;
     }
+  }
+}
+
+button.link {
+  background: none;
+  border: none;
+  padding: none;
+  cursor: pointer;
+  padding: 0;
+  &:hover {
+    text-decoration: underline;
   }
 }
 

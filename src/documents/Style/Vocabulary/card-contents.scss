@@ -1,0 +1,36 @@
+.vocabulary-card {
+  .occluded {
+    background: black;
+    > span {
+      opacity: 0;
+    }
+  }
+  .note {
+    font-size: 12px;
+    color: #1b1b1b;
+    @include sans-serif();
+    text-align: left;
+    b {
+      font-weight: normal;
+      // font-weight: 500;
+      color: #828282;
+    }
+  }
+
+  .show-after-answer {
+    opacity: 0;
+  }
+  .seperator {
+    color: #8c8c8c;
+    text-shadow: 0.5px 0.5px 0.5px rgba(white, 1);
+  }
+  .rate-how-well {
+    font-size: 12px;
+    padding-bottom: 4px;
+    color: gray;
+  }
+
+  .thu-merging {
+    color: #585858;
+  }
+}

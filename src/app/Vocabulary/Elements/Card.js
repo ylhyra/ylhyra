@@ -297,7 +297,7 @@ const hide = (input) => {
         .split("")
         .map((j, index) => {
           if (index >= hintsToShow && !/[.?!:;,]/.test(j))
-            return `<span class="occulted"><span>${j}</span></span>`;
+            return `<span class="occluded"><span>${j}</span></span>`;
           return j;
         })
         .join("");

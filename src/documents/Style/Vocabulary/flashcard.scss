@@ -50,41 +50,11 @@
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.34);
     z-index: 10;
   }
-  .note {
-    font-size: 12px;
-    color: #1b1b1b;
-    @include sans-serif();
-    text-align: left;
-    b {
-      font-weight: normal;
-      // font-weight: 500;
-      color: #828282;
-    }
-  }
-
-  .show-after-answer {
-    opacity: 0;
-  }
   &.answered {
     .show-after-answer {
       opacity: 1;
     }
   }
-
-  .seperator {
-    color: #707070;
-    text-shadow: 0.5px 0.5px 0.5px rgba(white, 1);
-  }
-  .rate-how-well {
-    font-size: 12px;
-    padding-bottom: 4px;
-    color: gray;
-  }
-
-  .thu-merging {
-    color: #585858;
-  }
-
   // .button-bad {
   //   color: #b10000;
   //   border-color: #d14f0a;

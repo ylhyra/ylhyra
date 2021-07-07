@@ -4,16 +4,6 @@
   margin-top: 29px;
   min-width: 220px;
   color: #393939;
-  @include sans-serif();
-  .name {
-    margin-top: 7px;
-    .level {
-      font-weight: bold;
-    }
-    .remaining {
-      font-size: 12px;
-    }
-  }
   .bar {
     height: 14px;
     background: white;
