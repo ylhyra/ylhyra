@@ -6,3 +6,19 @@ export const average = (arr = []) => {
 export const clamp = function (input, min, max) {
   return Math.min(Math.max(input, min), max);
 };
+
+export const mapValueToRange = ({
+  value,
+  input_from,
+  input_to,
+  output_from,
+  output_to,
+  ...options
+}) => {
+  const slope = (output_to - output_from) / (input_to - input_from);
+  const output = output_from + slope * (value - input_from);
+  if (options.clamp) {
+    return clamp(output, output_from, output_to);
+  }
+  return output;
+};

@@ -240,7 +240,9 @@ class Card extends Component {
           <div>
             <div>
               {card.counter <= 1 && (
-                <div className="gray">Rate how well you knew this:</div>
+                <div className="rate-how-well">
+                  Rate how well you knew this:
+                </div>
               )}
               <div>
                 <button

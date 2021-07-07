@@ -16,7 +16,8 @@ import { content_folder } from "paths_backend";
 const path = require("path");
 const fs = require("fs");
 
-const DECK = "_es";
+// const DECK = "_es";
+const DECK = "";
 const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
 const yaml = require("js-yaml");
 

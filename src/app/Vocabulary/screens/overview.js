@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 import store from "app/App/store";
 import { MINUTES } from "app/Vocabulary/actions/session";
 import {
-  MakeSummaryOfCardStatuses,
-  PercentageKnown,
+  PercentageKnownOverall,
   getCardIdsFromWords,
 } from "app/Vocabulary/actions/_functions";
 import Link from "app/Router/Link";
@@ -30,7 +29,7 @@ class Overview3 extends Component {
   render() {
     const { deck } = this.props.vocabulary;
     if (!deck) return null;
-    return <div>{PercentageKnown(Object.keys(deck.cards))}% known</div>;
+    return <div>{PercentageKnownOverall()}% known</div>;
   }
 }
 const Overview2 = connect((state) => ({

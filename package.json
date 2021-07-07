@@ -17,13 +17,14 @@
     "vocabulary": "npm run build_server && npm run vocabulary_only",
     "vocabulary_only": "node build/server/ylhyra_server.js --import-vocabulary",
     "vocabulary_testing": "node build/server/ylhyra_server.js --import-vocabulary --testing",
-    "prerender": "export NODE_ENV=production && rm -f build/prerender/* && node build/server/ylhyra_server.js --prerender",
-    "build_and_prerender": "./scripts/build_and_prerender.sh",
+    "prerender": "npm run build_server && npm run prerender_only",
+    "prerender_only": "export NODE_ENV=production && rm -f build/prerender/* && node build/server/ylhyra_server.js --prerender",
     "build_app": "./scripts/app.build.sh",
     "build_server": "export NODE_ENV=production && webpack --config ./scripts/server.webpack.js",
     "server": "export NODE_ENV=development && webpack --config ./scripts/server.webpack.js --color --watch",
+    "build_all": "./scripts/build_all.sh",
     "push_to_server": "./scripts/push_to_server.sh",
-    "xxdeploy": "npm run build_and_prerender && npm run push_to_server"
+    "deploy": "npm run build_all && npm run prerender && npm run push_to_server"
   },
   "proxy": "http://localhost:9123",
   "dependencies": {

@@ -8,9 +8,13 @@ import {
 } from "app/App/functions/localStorage";
 import { getUserFromCookie } from "app/User/actions";
 import { hour, day } from "app/App/functions/time";
-const DECK = process.env.NODE_ENV === "development" ? "_es" : ""; // TMP
+import { InitializeUser } from "app/User/actions";
 
 export const InitializeVocabulary = async () => {
+  const DECK =
+    process.env.NODE_ENV === "development" && getUserFromCookie() !== null
+      ? "_es"
+      : ""; // TMP
   const now = new Date().getTime();
   let database = getFromLocalStorage("vocabulary-database");
   let should_update = false;

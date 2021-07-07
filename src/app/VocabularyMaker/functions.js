@@ -14,7 +14,7 @@ export const formatVocabularyEntry = (input) => {
   if (!input) return "";
   return input
     .replace(/∆/g, ",")
-    .replace(/{{(ð?u)}}/g, `<i class="gray">$1</i>`)
+    .replace(/{{(ð?u)}}/g, `<span class="thu-merging">$1</span>`)
     .replace(/{{g(?:ray)?\|(.*?)}}/g, `<span class="gray">$1</span>`)
     .replace(/(\(note: .*?\))/g, `<small class="gray">$1</small>`)
     .replace(/'''(.+?)'''/g, "<b>$1</b>")

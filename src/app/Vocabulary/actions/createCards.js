@@ -6,9 +6,10 @@ import {
   printWord,
   getCardsWithSameTerm,
   withDependencies,
+  PercentageKnown,
   // filterOnlyCardsThatExist,
 } from "./_functions";
-const CARDS_TO_CREATE = 100;
+const CARDS_TO_CREATE = 30;
 const MAX_BAD_RATIO = 0.3;
 
 /**
@@ -93,12 +94,18 @@ export default function createCards(options, deck_) {
     new_card_ids.length;
   let chosen_ids = [];
   const total_overdue = overdue_bad_ids.length + overdue_good_ids.length;
-  const badratio = overdue_bad_ids.length / total_overdue;
-  // let newCardEvery = 9
-  // if(total_overdue > )
+  const badratio = PercentageKnown(overdue_bad_ids.concat(overdue_good_ids)); //overdue_bad_ids.length / total_overdue;
   console.log({ badratio });
-  for (let i = 0; chosen_ids.length < CARDS_TO_CREATE /*total_options*/; i++) {
-    if (i % 9 === 0 && new_card_ids.length > 0) {
+  let newCardEvery = 9;
+  if (overdue_bad_ids.length > 60) {
+    newCardEvery = 20;
+  }
+  for (
+    let i = 0;
+    chosen_ids.length < Math.min(CARDS_TO_CREATE, total_options);
+    i++
+  ) {
+    if (i % newCardEvery === 0 && new_card_ids.length > 0) {
       chosen_ids.push(new_card_ids.shift());
     }
     if (i % 1 === 0 && overdue_good_ids.length > 0) {

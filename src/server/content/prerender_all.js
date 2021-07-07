@@ -12,7 +12,6 @@ try {
 let n = 0;
 const run = async () => {
   process.stdout.write("Prerendering...");
-  return;
   /* Render empty shell */
   let to_render = Object.keys(url_to_info);
   // console.log(url_to_info);

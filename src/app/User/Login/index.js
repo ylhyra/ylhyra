@@ -107,19 +107,21 @@ class Form2 extends React.Component {
                 <Field type="text" name="username" />
               </label>
 
-              {isSignup && (
-                <label>
-                  <div>Email:</div>
-                  <ErrorMessage name="email" component="div" />
-                  <Field type="email" name="email" />
-                </label>
-              )}
-
               <label>
                 <div>{isSignup ? "Choose a password" : "Password:"}</div>
                 <ErrorMessage name="password" component="div" />
                 <Field type="password" name="password" />
               </label>
+
+              {isSignup && (
+                <label>
+                  <div>
+                    Email <span className="small gray">(optional)</span>:
+                  </div>
+                  <ErrorMessage name="email" component="div" />
+                  <Field type="email" name="email" />
+                </label>
+              )}
 
               {error}
               {message}

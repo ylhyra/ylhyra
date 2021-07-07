@@ -72,13 +72,19 @@
   }
 
   .seperator {
-    color: #a6a6a6;
+    color: #707070;
     text-shadow: 0.5px 0.5px 0.5px rgba(white, 1);
   }
-  .gray {
+  .rate-how-well {
     font-size: 12px;
     padding-bottom: 4px;
+    color: gray;
   }
+
+  .thu-merging {
+    color: #585858;
+  }
+
   // .button-bad {
   //   color: #b10000;
   //   border-color: #d14f0a;

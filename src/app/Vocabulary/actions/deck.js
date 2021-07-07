@@ -29,7 +29,7 @@ class Deck {
         // if(typeof cards[key] === 'function') return null;
         return cards[key];
       })
-      .sort((a, b) => a.sortKey - b.sortKey)
+      .sort((a, b) => a.level - b.level || a.sortKey - b.sortKey)
       .filter(Boolean);
     // .sort((a, b) => Boolean(b.sound) - Boolean(a.sound));
     // .sort((a, b) => a.sort - b.sort);
