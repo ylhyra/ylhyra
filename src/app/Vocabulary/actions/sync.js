@@ -12,8 +12,9 @@ import {
 export async function syncSchedule() {
   const deck = this;
   const { schedule } = deck;
+  if (!schedule) return;
   saveInLocalStorage("vocabulary-schedule", schedule);
-  if (store.getState().user && store.getState().user.user_id) {
+  if (!(store.getState().user && store.getState().user.user_id)) {
     console.log(`Not synced to server as user isn't logged in`);
     return;
   }
@@ -30,3 +31,4 @@ export async function syncSchedule() {
     await axios.post(`/api/vocabulary/save`, { schedule: tosave });
   }
 }
+// window.syncSchedule = syncSchedule;

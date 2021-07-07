@@ -35,7 +35,7 @@ export default function createCards(options, deck_) {
     .map((id) => ({ id, ...deck.schedule[id] }))
     .sort((a, b) => a.due - b.due)
     .forEach((i) => {
-      if (i.last_seen > now - 0.5 * day) {
+      if (i.last_seen < now - 0.5 * day) {
         if (i.adjusted_due < now + 0.5 * day) {
           if (i.score < 1.5) {
             overdue_bad_ids.push(i.id);
@@ -80,14 +80,21 @@ export default function createCards(options, deck_) {
   overdue_bad_ids = _.shuffle(overdue_bad_ids).concat(
     _.shuffle(unadjusted_overdue_bad_ids)
   );
-  not_overdue_bad_cards_ids = _.shuffle(not_overdue_bad_cards_ids);
+
+  // not_overdue_bad_cards_ids = _.shuffle(not_overdue_bad_cards_ids);
+  not_overdue_bad_cards_ids = SortIdsByWhetherTermWasRecentlySeen(
+    not_overdue_bad_cards_ids,
+    deck
+  );
   let total_options =
     overdue_bad_ids.length +
     overdue_good_ids.length +
     not_overdue_bad_cards_ids.length +
     new_card_ids.length;
   let chosen_ids = [];
-  for (let i = 0; chosen_ids.length < total_options; i++) {
+  const badratio =
+    overdue_bad_ids.length / (overdue_good_ids.length + overdue_bad_ids.length);
+  for (let i = 0; chosen_ids.length < CARDS_TO_CREATE /*total_options*/; i++) {
     if (i % 9 === 0 && new_card_ids.length > 0) {
       chosen_ids.push(new_card_ids.shift());
     }
@@ -97,12 +104,13 @@ export default function createCards(options, deck_) {
     if (i % 1 === 0 && overdue_bad_ids.length > 0) {
       chosen_ids.push(overdue_bad_ids.shift());
     }
-    if (i % 8 === 0 && not_overdue_bad_cards_ids.length > 0) {
+    /* Todo? */
+    if (i % 50 === 0 && not_overdue_bad_cards_ids.length > 0) {
       chosen_ids.push(not_overdue_bad_cards_ids.shift());
     }
   }
-  chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids, deck);
-  chosen_ids = chosen_ids.slice(0, CARDS_TO_CREATE);
+  // chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids, deck);
+  // chosen_ids = chosen_ids.slice(0, CARDS_TO_CREATE);
 
   // console.log(withDependencies(chosen_ids).map(printWord));
 

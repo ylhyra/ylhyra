@@ -15,7 +15,9 @@ import { content_folder } from "paths_backend";
 // } from "./functions";
 const path = require("path");
 const fs = require("fs");
-const filename = content_folder + "/not_data/vocabulary/vocabulary.yml";
+
+const DECK = "_es";
+const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
 const yaml = require("js-yaml");
 
 /*
@@ -23,17 +25,18 @@ const yaml = require("js-yaml");
 */
 const run = async () => {
   fs.readFile(filename, "utf8", (err, data) => {
-    const { terms, dependencies, alternative_ids, raw_sentences, cards } =
+    const { terms, dependencies, alternative_ids, plaintext_sentences, cards } =
       parse_vocabulary_file(yaml.load(data));
 
     Object.keys(cards).forEach((card_id) => {
       const card = cards[card_id];
       if (
-        !card.en ||
-        !card.level ||
-        card.should_teach === "no" ||
-        card["Laga?"] ||
-        card.eyða
+        !DECK &&
+        (!card.en ||
+          !card.level ||
+          card.should_teach === "no" ||
+          card["Laga?"] ||
+          card.eyða)
       ) {
         delete cards[card_id];
       }
@@ -42,7 +45,7 @@ const run = async () => {
     console.log(`${Object.keys(cards).length} cards`);
 
     fs.writeFileSync(
-      __basedir + "/build/vocabulary_database.json",
+      __basedir + `/build/vocabulary_database${DECK}.json`,
       JSON.stringify(
         {
           cards,

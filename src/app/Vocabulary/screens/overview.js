@@ -3,7 +3,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import store from "app/App/store";
 import { MINUTES } from "app/Vocabulary/actions/session";
-
+import {
+  MakeSummaryOfCardStatuses,
+  PercentageKnown,
+  getCardIdsFromWords,
+} from "app/Vocabulary/actions/_functions";
 import Link from "app/Router/Link";
 
 class Overview extends Component {
@@ -26,12 +30,7 @@ class Overview3 extends Component {
   render() {
     const { deck } = this.props.vocabulary;
     if (!deck) return null;
-    return (
-      <div>
-        {Object.keys(deck.schedule).length} seen out of total{" "}
-        {Object.keys(deck.cards).length} cards
-      </div>
-    );
+    return <div>{PercentageKnown(Object.keys(deck.cards))}% known</div>;
   }
 }
 const Overview2 = connect((state) => ({

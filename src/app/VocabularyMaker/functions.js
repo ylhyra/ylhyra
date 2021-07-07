@@ -54,8 +54,8 @@ export const getHash = (i) => {
     .replace(/[.?!]+$/, "")
     .toLowerCase();
   if (!string) return null;
-  return string; //TEMP
-  // return _hash(string);
+  // return string; //TEMP
+  return _hash(string);
 };
 
 export const getHashesFromCommaSeperated = (i) => {
@@ -229,7 +229,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
     terms,
     dependencies,
     alternative_ids,
-    sentences,
+    plaintext_sentences,
     cards,
   };
 };

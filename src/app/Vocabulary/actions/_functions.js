@@ -39,12 +39,18 @@ export const MakeSummaryOfCardStatuses = (card_ids) => {
 
 export const PercentageKnown = (card_ids) => {
   const summary = MakeSummaryOfCardStatuses(card_ids);
-  let done_count = summary.good + summary.easy * 1 + summary.bad * 1;
-  let remaining_count = summary.not_seen * 1 + summary.bad * 2;
-  let percentage = Math.ceil(
-    (done_count / (remaining_count + done_count)) * 100
-  );
-  if (percentage === 100 && done_count !== remaining_count) percentage = 99;
+  const done_count = summary.good + summary.easy * 1 + summary.bad * 1;
+  const remaining_count = summary.not_seen * 1 + summary.bad * 2;
+  const precision = card_ids.length > 200 ? 1000 : 100;
+  const ratio = done_count / (remaining_count + done_count);
+  let percentage;
+  if (card_ids.length < 200) {
+    percentage = Math.ceil(ratio * 100);
+    if (percentage === 100 && done_count !== remaining_count) percentage = 99;
+    return percentage;
+  } else {
+    percentage = (Math.ceil(ratio * 1000) / 10).toFixed(1);
+  }
   return percentage;
 };
 

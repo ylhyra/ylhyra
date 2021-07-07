@@ -16,23 +16,26 @@ let sound = [];
 let terms = {};
 let dependencies = {};
 let alternative_ids = {};
-let raw_sentences = {};
+let plaintext_sentences = {};
 
 export const MAX_PER_PAGE = 20;
 
 export const load = async () => {
   let vocabulary = (await axios.get(`/api/vocabulary_maker`, {})).data;
-  sound = vocabulary.sound;
-  rows = vocabulary.rows;
-  rows.forEach((i) => {
-    maxID = Math.max(maxID, i.row_id);
+  sound = (vocabulary && vocabulary.sound) || [];
+  rows = (vocabulary && vocabulary.rows) || [];
+  rows = rows.map((row, index) => {
+    maxID = Math.max(maxID, index);
+    row.row_id = index;
+    return row;
   });
+
   // const parsed = parse(vocabulary)
   // terms = parsed.terms
   // dependencies = parsed.dependencies
   // alternative_ids = parsed.alternative_ids
-  // raw_sentences = parsed.raw_sentences
-  ({ terms, dependencies, alternative_ids, raw_sentences } =
+  // plaintext_sentences = parsed.plaintext_sentences
+  ({ terms, dependencies, alternative_ids, plaintext_sentences } =
     parse_vocabulary_file(vocabulary));
   setupSound();
   findMissingDependencies();
@@ -52,7 +55,7 @@ export const refreshRows = (id) => {
         (a.level || 100) - (b.level || 100)
     );
   selectRows();
-  select(selected_rows[0].row_id);
+  select(selected_rows.length > 0 && selected_rows[0].row_id);
 };
 
 export const selectRows = () => {
@@ -64,10 +67,11 @@ export const selectRows = () => {
 };
 
 export const select = (id) => {
-  store.dispatch({
-    type: "VOCABULARY_MAKER_SELECT",
-    content: id,
-  });
+  id &&
+    store.dispatch({
+      type: "VOCABULARY_MAKER_SELECT",
+      content: id,
+    });
 };
 
 export const selectNext = (row_id) => {
@@ -112,8 +116,8 @@ const updateInterface = () => {
 };
 
 export const save = () => {
-  if (rows.length < 10) {
-    throw new Error();
+  if (rows.length < 1) {
+    throw new Error("No rows");
     return;
   }
   axios.post(`/api/vocabulary_maker`, {
@@ -129,9 +133,13 @@ let current_word_recording = 0;
 const setupSound = () => {
   missing_sound = [];
   current_word_recording = 0;
-  Object.keys(raw_sentences).forEach((word) => {
+  Object.keys(plaintext_sentences).forEach((word) => {
     const lowercase = GetLowercaseStringForAudioKey(word);
-    if (!sound.some((i) => GetLowercaseStringForAudioKey(i.recording_of) === lowercase)) {
+    if (
+      !sound.some(
+        (i) => GetLowercaseStringForAudioKey(i.recording_of) === lowercase
+      )
+    ) {
       missing_sound.push(word);
     }
   });
@@ -145,7 +153,7 @@ export const getNextWordToRecord = () => {
     100 -
     Math.ceil(
       ((missing_sound.length - current_word_recording) /
-        Object.keys(raw_sentences).length) *
+        Object.keys(plaintext_sentences).length) *
         100
     )
   }% done overall.`;
@@ -185,15 +193,24 @@ export const findMissingDependencies = () => {
 
 export const addRowsIfMissing = (text) => {
   text.split(/\n/g).forEach((row) => {
-    if (!(getHash(row) in terms) && !(getHash(row) in alternative_ids)) {
+    if (!row || !row.trim()) return;
+    const [is, en] = row.split(/(?: = |\t)/);
+    if (
+      !(getHash(is) in terms) &&
+      !(getHash(is) in alternative_ids) &&
+      !rows.some((j) => j.icelandic === is)
+    ) {
       rows.push({
         row_id: maxID++ + 1,
-        icelandic: row.trim(),
+        icelandic: is.trim(),
+        english: en && en.trim(),
         level: window.level || null,
       });
-      console.log("added " + row);
+      console.log("added " + is);
     }
   });
+  save();
+  refreshRows();
 };
 
 if (isBrowser) {

@@ -15,7 +15,7 @@ import { syncSchedule } from "./sync";
 import { spreadOutSchedule } from "./createSchedule";
 import { updateURL } from "app/Router/actions";
 import { BAD, GOOD, EASY } from "./card";
-
+import _ from "underscore";
 class Deck {
   constructor(database, schedule, session) {
     const deck = this;
@@ -24,11 +24,12 @@ class Deck {
     this.terms = terms;
     this.alternative_ids = alternative_ids;
     this.dependencies = dependencies;
-    this.cards_sorted = Object.keys(cards)
+    this.cards_sorted = _.shuffle(Object.keys(cards))
       .map((key) => {
         // if(typeof cards[key] === 'function') return null;
         return cards[key];
       })
+      .sort((a, b) => a.sortKey - b.sortKey)
       .filter(Boolean);
     // .sort((a, b) => Boolean(b.sound) - Boolean(a.sound));
     // .sort((a, b) => a.sort - b.sort);

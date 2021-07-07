@@ -6,6 +6,8 @@ import cors from "cors";
 const router = require("express").Router();
 const fs = require("fs");
 export const vocabulary_json = __basedir + "/build/vocabulary_database.json";
+export const vocabulary_json_es =
+  __basedir + "/build/vocabulary_database_es.json";
 
 router.all(
   "/vocabulary/get",
@@ -35,6 +37,11 @@ router.use(
   "/vocabulary/vocabulary_database.json",
   express.static(vocabulary_json)
 );
+router.use(
+  "/vocabulary/vocabulary_database_es.json",
+  express.static(vocabulary_json_es)
+);
+
 router.get("/vocabulary/database_last_updated", (req, res) => {
   fs.stat(vocabulary_json, (err, stats) => {
     if (err) {

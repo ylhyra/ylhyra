@@ -8,6 +8,7 @@ import {
 } from "app/App/functions/localStorage";
 import { getUserFromCookie } from "app/User/actions";
 import { hour, day } from "app/App/functions/time";
+const DECK = process.env.NODE_ENV === "development" ? "_es" : ""; // TMP
 
 export const InitializeVocabulary = async () => {
   const now = new Date().getTime();
@@ -31,8 +32,9 @@ export const InitializeVocabulary = async () => {
   }
   if (!database || should_update) {
     console.log("Downloading database");
-    database = (await axios.get(`/api/vocabulary/vocabulary_database.json`))
-      .data;
+    database = (
+      await axios.get(`/api/vocabulary/vocabulary_database${DECK}.json`)
+    ).data;
     saveInLocalStorage("vocabulary-database", database);
     saveInLocalStorage(
       "vocabulary-database-last-updated",

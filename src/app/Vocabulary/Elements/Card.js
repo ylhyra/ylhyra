@@ -311,10 +311,10 @@ const styleCommas = (text) => {
   return (
     <span
       dangerouslySetInnerHTML={{
-        __html: text
-          .replace(/"([^"]*)"/g, "“$1”") /* Curly quotes */
-          .replace(/\\,/g, "\u0044") /* Escaped commas */
-          .replace(/ \+ /g, "\u2006+\u2006") /* Spacing around plusses */,
+        __html: text,
+        // .replace(/"([^"]*)"/g, "“$1”") /* Curly quotes */
+        // .replace(/\\,/g, "\u0044") /* Escaped commas */
+        // .replace(/ \+ /g, "\u2006+\u2006") /* Spacing around plusses */,
       }}
     />
   );

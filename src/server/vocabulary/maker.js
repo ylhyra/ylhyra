@@ -11,10 +11,11 @@ import {
 import _ from "underscore";
 const router = require("express").Router();
 const fs = require("fs");
-const filename = content_folder + "/not_data/vocabulary/vocabulary.yml";
+const filename = content_folder + "/not_data/vocabulary/vocabulary_es";
 const yaml = require("js-yaml");
+
 router.get("/vocabulary_maker", (req, res) => {
-  fs.readFile(filename, "utf8", (err, data) => {
+  fs.readFile(filename + ".yml", "utf8", (err, data) => {
     if (err) {
       console.log(err);
       res.send(err);
@@ -29,24 +30,24 @@ router.post("/vocabulary_maker", (req, res) => {
   data = {
     rows: data.rows
       .filter((d) => d.icelandic)
-      .sort(
-        (a, b) =>
-          getRawTextFromVocabularyEntry(a.icelandic).localeCompare(
-            getRawTextFromVocabularyEntry(b.icelandic),
-            "is",
-            {
-              ignorePunctuation: true,
-            }
-          ) || a.row_id - b.row_id
-      )
+      // .sort((a, b) => a.row_id - b.row_id)
+      // .sort(
+      //   (a, b) =>
+      //     getRawTextFromVocabularyEntry(a.icelandic).localeCompare(
+      //       getRawTextFromVocabularyEntry(b.icelandic),
+      //       "is",
+      //       {
+      //         ignorePunctuation: true,
+      //       }
+      //     ) || a.row_id - b.row_id
+      // )
       .map((row) => {
         let out = {};
-
+        delete row.row_id;
         _.uniq([
           "icelandic",
           "english",
           ...row_titles,
-          "row_id",
           ...Object.keys(row),
         ]).forEach((key) => {
           if (!row[key]) return;
@@ -67,7 +68,7 @@ router.post("/vocabulary_maker", (req, res) => {
   };
 
   const y = yaml.dump(data, { lineWidth: -1, quotingType: '"' });
-  fs.writeFile(filename, y, (err) => {
+  fs.writeFile(filename + ".yml", y, (err) => {
     if (err) {
       console.log(err);
       res.send(err);
