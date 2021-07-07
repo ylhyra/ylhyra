@@ -92,8 +92,11 @@ export default function createCards(options, deck_) {
     not_overdue_bad_cards_ids.length +
     new_card_ids.length;
   let chosen_ids = [];
-  const badratio =
-    overdue_bad_ids.length / (overdue_good_ids.length + overdue_bad_ids.length);
+  const total_overdue = overdue_bad_ids.length + overdue_good_ids.length;
+  const badratio = overdue_bad_ids.length / total_overdue;
+  // let newCardEvery = 9
+  // if(total_overdue > )
+  console.log({ badratio });
   for (let i = 0; chosen_ids.length < CARDS_TO_CREATE /*total_options*/; i++) {
     if (i % 9 === 0 && new_card_ids.length > 0) {
       chosen_ids.push(new_card_ids.shift());
