@@ -106,7 +106,9 @@ export const getHash = (i) => {
     .replace(/[.?!]+$/, "")
     .toLowerCase();
   if (!string) return null;
-  // return string; //TEMP
+  if (isBrowser && window.skip_hash) {
+    return string;
+  }
   return _hash(string);
 };
 

@@ -10,6 +10,7 @@
 - sækja sync
 - occluded
 - hvað ef cards eru búin
+- mobile
 
 ### Annað
 

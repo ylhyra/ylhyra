@@ -21,6 +21,7 @@ let plaintext_sentences = {};
 export const MAX_PER_PAGE = 20;
 
 export const load = async () => {
+  window.skip_hash = true;
   let vocabulary = (await axios.get(`/api/vocabulary_maker`, {})).data;
   sound = (vocabulary && vocabulary.sound) || [];
   rows = (vocabulary && vocabulary.rows) || [];
@@ -36,7 +37,7 @@ export const load = async () => {
   // alternative_ids = parsed.alternative_ids
   // plaintext_sentences = parsed.plaintext_sentences
   ({ terms, dependencies, alternative_ids, plaintext_sentences } =
-    parse_vocabulary_file(vocabulary));
+    parse_vocabulary_file(vocabulary, true));
   setupSound();
   findMissingDependencies();
   refreshRows();

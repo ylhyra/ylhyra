@@ -148,12 +148,12 @@ class Card extends Component {
 
     literally = literally && (
       <div>
-        <span class="label">Literally:</span> {html(literally)}{" "}
+        <span className="label">Literally:</span> {html(literally)}{" "}
       </div>
     );
     lemmas = lemmas && (
       <div>
-        <span class="label">Dictionary form{/,/.test(lemmas) && "s"}:</span>{" "}
+        <span className="label">Dictionary form{/,/.test(lemmas) && "s"}:</span>{" "}
         {html(lemmas)}{" "}
       </div>
     );
@@ -214,20 +214,20 @@ class Card extends Component {
           <div className="note">
             {note_regarding_english && (
               <div className={from === "en" ? "" : "show-after-answer"}>
-                <span class="label">Note:</span> {note_regarding_english}
+                <span className="label">Note:</span> {note_regarding_english}
               </div>
             )}
             <div className="show-after-answer">
               {note && (
                 <div>
-                  <span class="label">Note:</span> {note}
+                  <span className="label">Note:</span> {note}
                 </div>
               )}
               {literally}
               {lemmas}
               {card.pronunciation && (
                 <div>
-                  <span class="label">Pronounced:</span>{" "}
+                  <span className="label">Pronounced:</span>{" "}
                   <i>{card.pronunciation}</i>
                 </div>
               )}
@@ -306,7 +306,7 @@ const hide = (input) => {
         .split("")
         .map((j, index) => {
           if (index >= hintsToShow && !/[.?!:;,]/.test(j))
-            return `<span class="occluded"><span>${j}</span></span>`;
+            return `<span className="occluded"><span>${j}</span></span>`;
           return j;
         })
         .join("");

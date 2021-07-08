@@ -8,7 +8,7 @@
   );
   border: 1px solid rgba($color, 0.1);
   box-shadow: inset $x_axis 1px 1px 0 rgba(255, 255, 255, 0.5),
-    inset $x_axis 0px 0px 0 rgba($color, 0.3);
+    inset 0 0px 0px 0 rgba($color, 0.3);
   &:hover {
     background-color: scale-color($bg, $lightness: -2%);
     border-top-color: rgba($color, 0.25);
