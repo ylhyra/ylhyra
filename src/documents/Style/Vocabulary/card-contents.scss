@@ -4,9 +4,7 @@
     color: #1b1b1b;
     @include sans-serif();
     text-align: left;
-    b {
-      font-weight: normal;
-      // font-weight: 500;
+    span.label {
       color: #828282;
     }
   }

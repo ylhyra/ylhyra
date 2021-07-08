@@ -13,6 +13,7 @@ class Session {
     this.history = [];
     this.counter = 0;
     this.lastSeenTerms = {};
+    this.dependencyHistory = []; // Stores deps of last three seen
     this.cardTypeLog = [];
     this.currentCard = null;
     this.cards = cards.map((card, index) => new Card(card, index, this));

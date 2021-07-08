@@ -85,7 +85,7 @@ export const printWord = (id) => {
   const deck = getDeck();
   if (id in deck.cards) {
     const card = deck.cards[id];
-    return card[card.from];
+    return card[card.from + "_plaintext"];
   } else if (id in deck.terms) {
     return printWord(deck.terms[id].cards[0]);
   } else {
@@ -140,9 +140,12 @@ export const withDependencies = (card_ids) => {
   const deck = getDeck();
   let returns = [];
   let terms = [];
-  card_ids.forEach(
-    (card_id) => (terms = terms.concat(deck.cards[card_id].terms))
-  );
+  if (typeof card_ids === "string") {
+    card_ids = [card_ids];
+  }
+  card_ids
+    .filter((card_id) => card_id in deck.cards)
+    .forEach((card_id) => (terms = terms.concat(deck.cards[card_id].terms)));
   terms = _.uniq(terms);
   terms.forEach((term) => {
     let terms = [{ term, sortKey: -1 }];
@@ -159,7 +162,7 @@ export const withDependencies = (card_ids) => {
       });
     });
   });
-  return _.uniq(returns);
+  return _.uniq(returns).filter((card_id) => card_id in deck.cards);
 };
 
 /**
@@ -178,11 +181,11 @@ const CreateDependencyChain = (
       const alreadySeen = [..._alreadySeen];
       if (alreadySeen.includes(term)) return;
       alreadySeen.push(term);
+      // if (term in deck.terms) {
       output[term] = Math.max(output[term] || 0, depth);
-      alreadySeen.push(term);
+      // }
       [
-        /* Direct dependency */
-        deck.dependencies[term],
+        term,
         /* Through alternative ids */
         ...(deck.alternative_ids[term] || []),
       ]

@@ -31,27 +31,13 @@ class Deck {
       })
       .sort(
         (a, b) =>
-          // //.test(b.is_plaintext) - //.test(a.is_plaintext) ||
+          //.test(b.is_plaintext) - //.test(a.is_plaintext) ||
           a.level - b.level ||
           a.sortKey - b.sortKey ||
-          // /* TEMP */
-          // /"occluded/.test(b.is_formatted) - /"occluded/.test(a.is_formatted) ||
-          // /"occluded/.test(b.en_formatted) - /"occluded/.test(a.en_formatted) ||
-          Boolean(b.note_regarding_english) - Boolean(a.note_regarding_english)
+          Boolean(b.sound) - Boolean(a.sound)
       )
       .filter(Boolean);
-    // .sort((a, b) => Boolean(b.sound) - Boolean(a.sound));
-    // .sort((a, b) => a.sort - b.sort);
     this.schedule = schedule || {};
-
-    // /* TEMPORARY */
-    // if (process.env.NODE_ENV === "development") {
-    //   window.addEventListener("keydown", (e) => {
-    //     if (e.keyCode === 27 /* ESC */) {
-    //       deck.sessionDone();
-    //     }
-    //   });
-    // }
     this.loadSessionFromLocalStorage();
   }
   generateSession() {

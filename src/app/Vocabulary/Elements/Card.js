@@ -148,12 +148,13 @@ class Card extends Component {
 
     literally = literally && (
       <div>
-        <b>Literally:</b> {html(literally)}{" "}
+        <span class="label">Literally:</span> {html(literally)}{" "}
       </div>
     );
     lemmas = lemmas && (
       <div>
-        <b>Dictionary form{/,/.test(lemmas) && "s"}:</b> {html(lemmas)}{" "}
+        <span class="label">Dictionary form{/,/.test(lemmas) && "s"}:</span>{" "}
+        {html(lemmas)}{" "}
       </div>
     );
     note_regarding_english = html(note_regarding_english);
@@ -213,20 +214,21 @@ class Card extends Component {
           <div className="note">
             {note_regarding_english && (
               <div className={from === "en" ? "" : "show-after-answer"}>
-                <b>Note:</b> {note_regarding_english}
+                <span class="label">Note:</span> {note_regarding_english}
               </div>
             )}
             <div className="show-after-answer">
               {note && (
                 <div>
-                  <b>Note:</b> {note}
+                  <span class="label">Note:</span> {note}
                 </div>
               )}
               {literally}
               {lemmas}
               {card.pronunciation && (
                 <div>
-                  <b>Pronounced:</b> <i>{card.pronunciation}</i>
+                  <span class="label">Pronounced:</span>{" "}
+                  <i>{card.pronunciation}</i>
                 </div>
               )}
             </div>
@@ -320,6 +322,7 @@ const html = (text) => {
 };
 
 const getFontSize = (text, lang) => {
+  if (!text) return null;
   let size = 20;
   if (text.length > 70) {
     size -= 5;

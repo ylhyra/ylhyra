@@ -1,5 +1,6 @@
 import { average, clamp } from "app/App/functions/math";
 import { printWord, getCardsWithSameTerm } from "./_functions";
+import _ from "underscore";
 
 export const BAD = 1;
 export const GOOD = 2;
@@ -67,6 +68,7 @@ class Card {
     const card = this;
     card.terms.forEach((term) => {
       card.session.cards.forEach((_card) => {
+        let newPosition;
         if (_card.id === card.id) return;
         if (_card.terms.includes(term)) {
           let max = 300;
@@ -77,10 +79,17 @@ class Card {
           ) {
             max = 10;
           }
-          const newPosition = _card.session.counter + Math.min(interval, max);
-          if (newPosition > _card.absoluteQueuePosition) {
-            _card.absoluteQueuePosition = newPosition;
-          }
+          newPosition = _card.session.counter + Math.min(interval, max);
+        }
+        // else if (
+        //   /* Shared dependencies */
+        //   _.intersection(_card.dependencies, card.dependencies).length > 0
+        // ) {
+        //   newPosition = _card.session.counter + 3;
+        // }
+
+        if (newPosition && newPosition > _card.absoluteQueuePosition) {
+          _card.absoluteQueuePosition = newPosition;
         }
       });
     });
@@ -95,6 +104,10 @@ class Card {
     }
 
     this.session.cardTypeLog.unshift(this.from);
+    this.session.dependencyHistory = [
+      this.dependencies,
+      ...this.session.dependencyHistory,
+    ].slice(0, 3);
   }
   getRanking() {
     let q = this.getQueuePosition();
@@ -134,8 +147,11 @@ class Card {
     //   q += 20
     // }
 
-    if (this.ticksSinceTermWasSeen() < 2) {
-      q += 5000 - this.ticksSinceTermWasSeen();
+    // if (this.ticksSinceTermWasSeen() < 2 || this.wasDependencyRecentlySeen()) {
+    //   q += 5000 - this.ticksSinceTermWasSeen();
+    // }
+    if (this.wasDependencyRecentlySeen()) {
+      q += 5000;
     }
     if (this.done) {
       q += 700;
@@ -161,22 +177,29 @@ class Card {
 Card.prototype.getQueuePosition = function () {
   return this.absoluteQueuePosition - this.session.counter;
 };
-Card.prototype.ticksSinceTermWasSeen = function () {
-  let last_seen = null;
-  this.terms.forEach((term) => {
-    if (
-      this.session.lastSeenTerms[term] &&
-      (last_seen === null || last_seen > this.session.lastSeenTerms[term])
-    ) {
-      last_seen = this.session.lastSeenTerms[term];
-    }
-  });
-  if (last_seen) {
-    return this.session.counter - last_seen;
-  } else {
-    return this.session.cards.length;
-  }
+// Card.prototype.ticksSinceTermWasSeen = function () {
+//   let last_seen = null;
+//   this.terms.forEach((term) => {
+//     if (
+//       this.session.lastSeenTerms[term] &&
+//       (last_seen === null || last_seen > this.session.lastSeenTerms[term])
+//     ) {
+//       last_seen = this.session.lastSeenTerms[term];
+//     }
+//   });
+//   if (last_seen) {
+//     return this.session.counter - last_seen;
+//   } else {
+//     return this.session.cards.length;
+//   }
+// };
+Card.prototype.wasDependencyRecentlySeen = function () {
+  return (
+    _.intersection(this.dependencies, _.flatten(this.session.dependencyHistory))
+      .length > 0
+  );
 };
+
 Card.prototype.getStatus = function () {
   if (!this.lastSeen) return null;
   return this.status;

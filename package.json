@@ -24,7 +24,7 @@
     "server": "export NODE_ENV=development && webpack --config ./scripts/server.webpack.js --color --watch",
     "build_all": "./scripts/build_all.sh",
     "push_to_server": "./scripts/push_to_server.sh",
-    "deploy": "npm run build_all && npm run prerender && npm run push_to_server"
+    "deploy": "npm run build_all && npm run prerender_only && npm run push_to_server"
   },
   "proxy": "http://localhost:9123",
   "dependencies": {

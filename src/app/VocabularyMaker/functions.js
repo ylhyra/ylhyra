@@ -52,7 +52,19 @@ export const formatVocabularyEntry = (input) => {
     .replace(/;/g, `<span class="seperator">,</span>`)
     .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
     .replace(/'/g, "’")
+    .replace(
+      /{{pron\|(.+?)}}/g,
+      `<span className="pron">[<span>$1</span>]</span>`
+    )
+    .replace(/{{small\|(.+?)}}/g, `<small>$1</small>`)
+    .replace(/{{kk}}/g, `<sup>(masculine)</sup>`)
+    .replace(/{{kvk}}/g, `<sup>(feminine)</sup>`)
+    .replace(/{{hv?k}}/g, `<sup>(neuter)</sup>`)
     .trim();
+
+  if (/{{/.test(input)) {
+    console.warn(`Unprocessed template: ${input.match(/({{.+?}})/)[1]}`);
+  }
 
   input = ProcessLinks(input);
   return input;
@@ -146,7 +158,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
     _terms.forEach((term) => {
       if (!terms[term]) {
         terms[term] = {
-          level: null,
+          // level: null,
           cards: [],
         };
       }
@@ -300,8 +312,11 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
           if (i === 0 && b === split.length) continue;
           const range = split.slice(i, b).join(" ");
           const hash = getHash(range);
-          if (hash in terms) {
-            AddToDependencyGraph(card.terms, [hash]);
+          const term = terms[hash];
+          if (term) {
+            if (term.cards.some((c) => c.level <= card.level)) {
+              AddToDependencyGraph(card.terms, [hash]);
+            }
           }
         }
       }

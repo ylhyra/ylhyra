@@ -95,9 +95,9 @@ export default function createCards(options, deck_) {
   let chosen_ids = [];
   const total_overdue = overdue_bad_ids.length + overdue_good_ids.length;
   const badratio = PercentageKnown(overdue_bad_ids.concat(overdue_good_ids)); //overdue_bad_ids.length / total_overdue;
-  console.log({ badratio });
+  // console.log({ badratio });
   let newCardEvery = 9;
-  if (overdue_bad_ids.length > 60) {
+  if (overdue_bad_ids.length > 40) {
     newCardEvery = 20;
   }
   for (
@@ -122,12 +122,14 @@ export default function createCards(options, deck_) {
   // chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids, deck);
   // chosen_ids = chosen_ids.slice(0, CARDS_TO_CREATE);
 
-  // console.log(withDependencies(chosen_ids).map(printWord));
+  /* Dependencies */
+  chosen_ids = withDependencies(chosen_ids);
 
-  /* Depends on cards */
+  /* Get direct siblings */
   chosen_ids = _.flatten(
     chosen_ids.map((id) => {
       let output = [id];
+      // console.log(id);
       getCardsWithSameTerm(id)
         .filter((sibling_card_id) => sibling_card_id !== id)
         .forEach((sibling_card_id) => {
@@ -148,11 +150,13 @@ export default function createCards(options, deck_) {
     })
   );
 
-  let chosen = _.uniq(chosen_ids)
-    .map((id) => {
-      return { id, ...deck.cards[id] };
-    })
-    .filter(Boolean);
+  let chosen = _.uniq(chosen_ids.filter(Boolean)).map((id) => {
+    return {
+      id,
+      ...deck.cards[id],
+      dependencies: withDependencies(id),
+    };
+  });
   return chosen;
 }
 
