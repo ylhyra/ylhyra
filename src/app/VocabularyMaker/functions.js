@@ -42,7 +42,7 @@ export const formatVocabularyEntry = (input) => {
     .replace(/'''(.+?)'''/g, "<b>$1</b>")
     .replace(/''(.+?)''/g, "<i>$1</i>")
     .replace(/( )?\*(.+?)\*( )?/g, (x, space_before, text, space_after) => {
-      return c`${space_before} <span class="occluded ${
+      return c`${space_before}<span class="occluded ${
         space_before && "space_before"
       }  ${
         space_after && "space_after"
@@ -51,7 +51,6 @@ export const formatVocabularyEntry = (input) => {
     .replace(/;;/g, `MAJOR_SEPERATOR`)
     .replace(/;/g, `<span class="seperator">,</span>`)
     .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
-    .replace(/%/g, "")
     .replace(/'/g, "’")
     .trim();
 
@@ -59,6 +58,14 @@ export const formatVocabularyEntry = (input) => {
   return input;
 };
 
+const formatLemmas = (input) => {
+  if (!input) return "";
+  input = formatVocabularyEntry(input)
+    .replace(/%/g, "")
+    .replace(/,/g, `<span class="seperator">,</span>`)
+    .replace(/(\(.+?\))/g, `<span class="gray">$1</span>`);
+  return input;
+};
 export const clean_string = (i) => {
   return getPlaintextFromVocabularyEntry(i);
   // return i
@@ -103,15 +110,17 @@ export const row_titles = [
   // "icelandic",
   // "english",
   "depends_on",
-  "basic_form",
+  "lemmas",
   "this is a minor variation of",
   "level",
   "dont_confuse",
   "related_items",
   "direction",
-  "note_bfr_show",
-  "note_after_show",
-  "note_after_show_is",
+  "note",
+  "note_regarding_english",
+  // "note_bfr_show",
+  // "note_after_show",
+  // "note_after_show_is",
   "grammar_note f/icelandic",
   "literally",
   "pronunciation",
@@ -154,7 +163,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       obj[id] = [...(obj[id] || []), ...second];
     });
   };
-  const getSound = (input) => {
+  const getSounds = (input) => {
     if (isBrowser) return;
     let output = [];
     input.split(/;+/g).forEach((i) => {
@@ -178,18 +187,16 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       let to_add = [];
 
       /* Can have multiple */
-      let plaintext_icelandic_strings = row.icelandic
-        .split(/;+/g)
-        .map(getPlaintextFromVocabularyEntry);
-      let formatted_icelandic_strings = row.icelandic
-        .split(/;+/g)
-        .map(formatVocabularyEntry);
-      const terms_in_this_line = plaintext_icelandic_strings.map(getHash);
+      let icelandic_strings = row.icelandic.split(/;+/g);
+      let formatted_icelandic_strings = icelandic_strings.map(
+        formatVocabularyEntry
+      );
+      const terms_in_this_line = icelandic_strings.map(getHash);
       let alternative_ids = getHashesFromCommaSeperated(row.alternative_id);
-      /* Match the "%" in basic_form, which serves to mark something as both the basic form and an alt_id */
-      const basic_form =
-        row.basic_form &&
-        row.basic_form.split(",").map((input) => {
+      /* Match the "%" in lemmas, which serves to mark something as both the basic form and an alt_id */
+      const lemmas =
+        row.lemmas &&
+        row.lemmas.split(",").map((input) => {
           const out = input.replace(/\(".+?"\)/g, "").replace(/%/g, "");
           if (/%/.test(input)) {
             alternative_ids.push(getHash(out));
@@ -198,7 +205,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         });
       const depends_on = [
         ...getHashesFromCommaSeperated(row.depends_on),
-        ...getHashesFromCommaSeperated(basic_form),
+        ...getHashesFromCommaSeperated(lemmas),
         ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
       ];
 
@@ -209,7 +216,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         throw new Error(`Unknown direction ${row.direction}`);
       }
 
-      plaintext_icelandic_strings.forEach((t) => {
+      icelandic_strings.forEach((t) => {
         plaintext_sentences[getPlaintextFromVocabularyEntry(t)] = true;
       });
 
@@ -218,17 +225,20 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         en_formatted: formatVocabularyEntry(row.english),
         terms: terms_in_this_line,
         level: row.level,
+        pronunciation: row.pronunciation,
         // sort: line_number,
-        basic_form: row.basic_form,
-        note_bfr_show: formatVocabularyEntry(row.note_bfr_show),
-        note_after_show: formatVocabularyEntry(row.note_after_show),
+        lemmas: formatLemmas(row.lemmas),
+        note_regarding_english: formatVocabularyEntry(
+          row.note_regarding_english
+        ),
+        note: formatVocabularyEntry(row.note),
         literally: formatVocabularyEntry(row.literally),
       };
 
       if (/{{(ð?u)}}/.test(row.icelandic)) {
         const [x, full, verb] = row.icelandic.match(/(([^ "„,.]+){{(?:ð?u)}})/);
-        card_skeleton.note_after_show =
-          card_skeleton.note_after_show +
+        card_skeleton.note =
+          card_skeleton.note +
           " " +
           formatVocabularyEntry(`
           ''${full.toLowerCase()}'' is made by combining ''${verb.toLowerCase()}'' + ''þú''.
@@ -237,16 +247,27 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
 
       /* Icelandic to English */
       if (row.direction !== "<-") {
-        plaintext_icelandic_strings.forEach((i, index) => {
+        if (row.should_split === "yes") {
+          icelandic_strings.forEach((i, index) => {
+            to_add.push({
+              is_plaintext: getPlaintextFromVocabularyEntry(i),
+              is_formatted: formatted_icelandic_strings[index],
+              from: "is",
+              id: getHash(i) + "_is",
+              sound: getSounds(i),
+              ...card_skeleton,
+            });
+          });
+        } else {
           to_add.push({
-            is_plaintext: i,
-            is_formatted: formatted_icelandic_strings[index],
+            is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
+            is_formatted: formatVocabularyEntry(row.icelandic),
             from: "is",
-            id: getHash(i) + "_is",
-            sound: getSound(i),
+            id: getHash(row.icelandic) + "_is",
+            sound: getSounds(row.icelandic),
             ...card_skeleton,
           });
-        });
+        }
       }
 
       /* English to Icelandic */
@@ -256,7 +277,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
           is_formatted: formatVocabularyEntry(row.icelandic),
           from: "en",
           id: getHash(row.icelandic) + "_en",
-          sound: getSound(row.icelandic),
+          sound: getSounds(row.icelandic),
           ...card_skeleton,
         });
       }
@@ -268,8 +289,25 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         cards[card.id] = card;
       });
     });
+
+  /* Automatic dependency graphs */
+  for (let [key, card] of Object.entries(cards)) {
+    card.is_plaintext.split(/[,;] ?/g).forEach((sentence) => {
+      const split = sentence.split(/ /g);
+      const min_len = 2;
+      for (let i = 0; i + min_len <= split.length && i <= 5; i++) {
+        for (let b = i + min_len; b <= split.length && b <= i + 5; b++) {
+          if (i === 0 && b === split.length) continue;
+          const range = split.slice(i, b).join(" ");
+          const hash = getHash(range);
+          if (hash in terms) {
+            AddToDependencyGraph(card.terms, [hash]);
+          }
+        }
+      }
+    });
+  }
   // console.log(JSON.stringify(terms).slice(0, 100));
-  //
   return {
     terms,
     dependencies,
@@ -278,7 +316,3 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
     cards,
   };
 };
-
-function ucfirst(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}

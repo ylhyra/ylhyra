@@ -11,7 +11,6 @@ const LOGGING = false;
 class Session {
   constructor(cards, deck) {
     this.history = [];
-    this.cards = {};
     this.counter = 0;
     this.lastSeenTerms = {};
     this.cardTypeLog = [];

@@ -50,28 +50,19 @@
     color: #4b4b4b;
   }
 
-  &:not(.answered) {
-    .flashcard-bottom {
-      .occluded {
-        text-shadow: none;
-        // background: #dad9d9;
-        // border-radius: 3px;
-        // // border: 1px solid gray;
-        // box-shadow: inset 0px 1px 1px 0 rgba(#656565, 0.36),
-        //   inset 1px 0px 2px 0 rgba(#656565, 0.36),
-        //   inset 0px 0px 0px 1px rgba(#656565, 0.2);
-        // margin: 0 1px;
-        border-bottom: 2px solid #acacac;
-        &.space_before {
-          margin-left: 4px;
-        }
-        &.space_after {
-          margin-right: 4px;
-        }
-        > span {
-          opacity: 0;
-        }
+  .flashcard-bottom {
+    .occluded {
+      text-shadow: none;
+      border-bottom: 2px solid #acacac;
+      &.space_before {
+        margin-left: 1px;
+      }
+      &.space_after {
+        margin-right: 1px;
       }
     }
+  }
+  &:not(.answered) .flashcard-bottom .occluded > span {
+    opacity: 0;
   }
 }

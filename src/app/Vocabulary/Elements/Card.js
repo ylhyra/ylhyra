@@ -138,7 +138,7 @@ class Card extends Component {
     // console.log(card)
     // console.log({card,answer})
     if (!card) return null;
-    let { from, basic_form, note_bfr_show, note_after_show, literally } = card;
+    let { from, lemmas, note_regarding_english, note, literally } = card;
     let Type = null;
     const is = card.is_formatted;
     const en = card.en_formatted;
@@ -151,13 +151,13 @@ class Card extends Component {
         <b>Literally:</b> {html(literally)}{" "}
       </div>
     );
-    basic_form = basic_form && (
+    lemmas = lemmas && (
       <div>
-        <b>Dictionary form{/,/.test(basic_form) && "s"}:</b> {html(basic_form)}{" "}
+        <b>Dictionary form{/,/.test(lemmas) && "s"}:</b> {html(lemmas)}{" "}
       </div>
     );
-    note_bfr_show = html(note_bfr_show);
-    note_after_show = html(note_after_show);
+    note_regarding_english = html(note_regarding_english);
+    note = html(note);
 
     return (
       <div
@@ -193,7 +193,7 @@ class Card extends Component {
           flashcard-prompt-${from !== "is" ? "icelandic" : "english"}
         `}
         >
-          {answered || /"occluded"/.test(from !== "is" ? is : en)
+          {answered || /"occluded/.test(from !== "is" ? is : en)
             ? [
                 <div
                   key={1}
@@ -211,19 +211,24 @@ class Card extends Component {
         </div>
         <div className="notes">
           <div className="note">
-            {note_bfr_show && (
-              <div>
-                <b>Note:</b> {note_bfr_show}
+            {note_regarding_english && (
+              <div className={from === "en" ? "" : "show-after-answer"}>
+                <b>Note:</b> {note_regarding_english}
               </div>
             )}
             <div className="show-after-answer">
-              {note_after_show && (
+              {note && (
                 <div>
-                  <b>Note:</b> {note_after_show}
+                  <b>Note:</b> {note}
                 </div>
               )}
               {literally}
-              {basic_form}
+              {lemmas}
+              {card.pronunciation && (
+                <div>
+                  <b>Pronounced:</b> <i>{card.pronunciation}</i>
+                </div>
+              )}
             </div>
           </div>
 

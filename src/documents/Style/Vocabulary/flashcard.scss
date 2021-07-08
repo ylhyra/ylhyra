@@ -68,10 +68,9 @@
     // align-items: center;
     flex-direction: column;
     line-height: 1.2;
-    margin: au
-    &:hover {
-      opacity: 1;
-    }
+  }
+  &.answered .notes:hover {
+    opacity: 1;
   }
 
   .flashcard-buttons {

@@ -31,14 +31,13 @@ class Deck {
       })
       .sort(
         (a, b) =>
+          // //.test(b.is_plaintext) - //.test(a.is_plaintext) ||
           a.level - b.level ||
           a.sortKey - b.sortKey ||
-          /* TEMP */
-          /"occluded"/.test(b.is_formatted) -
-            /"occluded"/.test(a.is_formatted) ||
-          /"occluded"/.test(b.en_formatted) -
-            /"occluded"/.test(a.en_formatted) ||
-          Boolean(b.note_after_show) - Boolean(a.note_after_show)
+          // /* TEMP */
+          // /"occluded/.test(b.is_formatted) - /"occluded/.test(a.is_formatted) ||
+          // /"occluded/.test(b.en_formatted) - /"occluded/.test(a.en_formatted) ||
+          Boolean(b.note_regarding_english) - Boolean(a.note_regarding_english)
       )
       .filter(Boolean);
     // .sort((a, b) => Boolean(b.sound) - Boolean(a.sound));

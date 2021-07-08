@@ -44,7 +44,7 @@ class Form2 extends React.Component {
           )
         ];
       // const el1 = document.querySelector("input[name=depends_on]");
-      // const el2 = document.querySelector("input[name=basic_form]");
+      // const el2 = document.querySelector("input[name=lemmas]");
       // el2.value = el1.value;
       // el1.value = "";
 
@@ -53,7 +53,7 @@ class Form2 extends React.Component {
         {
           ...row,
           depends_on: "",
-          basic_form: row.depends_on,
+          lemmas: row.depends_on,
         },
         false
       );

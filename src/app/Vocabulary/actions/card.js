@@ -99,6 +99,7 @@ class Card {
   getRanking() {
     let q = this.getQueuePosition();
     if (!this.terms) {
+      console.log(this);
       throw new Error("getRanking called on an uninitialized card");
       return;
     }
