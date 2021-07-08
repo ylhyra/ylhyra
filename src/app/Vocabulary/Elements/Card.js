@@ -5,6 +5,7 @@ import { answer } from "app/Vocabulary/actions/session";
 import store from "app/App/store";
 import AudioClip from "documents/Render/Audio/AudioClip.js";
 import { get_processed_image_url } from "paths";
+import { formatVocabularyEntry } from "app/VocabularyMaker/functions.js";
 class Card extends Component {
   state = {};
   componentDidMount() {
@@ -152,7 +153,7 @@ class Card extends Component {
     );
     basic_form = basic_form && (
       <div>
-        <b>Basic form:</b> {html(basic_form)}{" "}
+        <b>Dictionary form{/,/.test(basic_form) && "s"}:</b> {html(basic_form)}{" "}
       </div>
     );
     note_after_show = html(note_after_show);
@@ -210,7 +211,7 @@ class Card extends Component {
         `}
         >
           <div>{html(from === "is" ? is : en)}</div>
-          {note_above}
+          {/* {note_above} */}
         </div>
         <div
           className={`
@@ -219,9 +220,16 @@ class Card extends Component {
         `}
         >
           {answered
-            ? [<div key={1}>{html(from !== "is" ? is : en)}</div>, note_below]
+            ? [
+                <div key={1}>
+                  {html(from !== "is" ? is : en)}
+                </div> /*note_below*/,
+              ]
             : card.showHint && this.state.hint}
-
+        </div>
+        <div className="notes">
+          {note_above}
+          {note_below}
           {card.counter <= 1 && (
             <div className="rate-how-well">Rate how well you knew this:</div>
           )}
@@ -234,7 +242,7 @@ class Card extends Component {
                 className={`
               not-answered
               button-show-answer
-              nostyle 
+              nostyle
               ${this.state.clickingOnShowButton ? "selected" : ""}
             `}
               >
@@ -306,5 +314,13 @@ const hide = (input) => {
 
 const html = (text) => {
   if (!text) return null;
-  return <span dangerouslySetInnerHTML={{ __html: text }} />;
+  return (
+    <span
+      dangerouslySetInnerHTML={{
+        __html:
+          /* TEMP!!!*/
+          formatVocabularyEntry(text),
+      }}
+    />
+  );
 };

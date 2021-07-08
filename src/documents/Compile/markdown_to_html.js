@@ -4,6 +4,7 @@ import marked from "marked";
 import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
 import { html2json, json2html } from "app/App/functions/html2json";
 import Conversation from "documents/Compile/Templates/Conversations.js";
+import { ProcessLinks } from "documents/Compile/functions.js";
 // import TOC from "documents/Compile/Templates/TOC.js";
 let links = {};
 try {
@@ -96,42 +97,9 @@ const ProcessArray = (arr) => {
 };
 
 export const processText = (input) => {
-  input = RemoveUnwantedCharacters(input)
-    /* Internal links */
-    .replace(/\[\[(.+?)\]\]/g, (x, match) => {
-      let [link, target] = match.split("|");
-      link = link.trim();
-      target = (target || link).trim();
-      if (/^:?w:/i.test(link)) {
-        link = `http://en.wikipedia.org/wiki/${encodeURIComponent(
-          link.replace(/^w:/i, "")
-        )}`;
-      } else {
-        link = URL_title(link);
-        const [title, section] = link.split("#");
-
-        if (title && !(title in links)) {
-          return target;
-        }
-        if (links[title].redirect_to) {
-          link =
-            links[link].redirect_to +
-            (links[link].section ? "#" + links[link].section : "");
-        }
-        if (title) {
-          link = "/" + link;
-        }
-      }
-      return `<a href="${encodeURI(link)}">${target}</a>`;
-    })
-    /* Bare external links */
-    .replace(/\[((?:http|mailto)[^ ]+?)\]/g, (x, url) => {
-      return `&#91;<a href="${url}">link</a>&#93;`;
-    })
-    /* External links */
-    .replace(/\[((?:http|mailto)[^ ]+?) (.+?)\]/g, (x, url, text) => {
-      return `<a href="${url}">${text}</a>`;
-    })
+  input = RemoveUnwantedCharacters(input);
+  input = ProcessLinks(input, links);
+  input = input
     .replace(/^\*\*\*\n/gm, "\n<hr/>\n")
     /* Lists */
     .replace(/^(\*+) ?/gm, (x, bullets) => {

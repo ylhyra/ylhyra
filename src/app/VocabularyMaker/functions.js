@@ -1,6 +1,8 @@
 import _ from "underscore";
 import _hash from "app/App/functions/hash";
 import { isBrowser } from "app/App/functions/isBrowser";
+import { URL_title, section_id } from "paths.js";
+import { ProcessLinks } from "documents/Compile/functions.js";
 
 export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;
@@ -12,7 +14,7 @@ export const getPlaintextFromVocabularyEntry = (input) => {
 
 export const formatVocabularyEntry = (input) => {
   if (!input) return "";
-  return input
+  input = input
     .replace(/∆/g, ",")
     .replace(/"([^"]*)"/g, "“$1”") /* Curly quotes */
     .replace(/ \+ /g, "\u2006+\u2006") /* Spacing around plusses */
@@ -26,7 +28,10 @@ export const formatVocabularyEntry = (input) => {
     .replace(/;;/g, `MAJOR_SEPERATOR`)
     .replace(/;/g, `<span class="seperator">,</span>`)
     .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
-    .replace(/%/g, "");
+    .replace(/%/g, "")
+    .replace(/'/g, "’");
+  input = ProcessLinks(input);
+  return input;
 };
 
 export const clean_string = (i) => {
@@ -188,10 +193,20 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         level: row.level,
         // sort: line_number,
         basic_form: row.basic_form,
-        note_bfr_show: row.note_bfr_show,
-        note_after_show: row.note_after_show,
-        literally: row.literally,
+        note_bfr_show: formatVocabularyEntry(row.note_bfr_show),
+        note_after_show: formatVocabularyEntry(row.note_after_show),
+        literally: formatVocabularyEntry(row.literally),
       };
+
+      if (/{{(ð?u)}}/.test(row.icelandic)) {
+        const [full, verb] = row.icelandic.match(/\b((.+?){{(?:ð?u)}})/)[1];
+        card_skeleton.note_after_show =
+          card_skeleton.note_after_show +
+          " " +
+          formatVocabularyEntry(`
+          "${ucfirst(full)}" is made by combining "${verb}" and "þú".
+        `);
+      }
 
       /* Icelandic to English */
       if (row.direction !== "<-") {
@@ -236,3 +251,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
     cards,
   };
 };
+
+function ucfirst(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

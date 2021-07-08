@@ -54,12 +54,29 @@
     &.flashcard-prompt-english {
       background: rgba(#f7f7f7, 0.41);
       font-size: 19px;
+      + .notes {
+        background: rgba(#f7f7f7, 0.41);
+      }
+    }
+  }
+
+  .notes {
+    padding: 7px 9px;
+    text-align: center;
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+    line-height: 1.2;
+    &:hover {
+      opacity: 1;
     }
   }
 
   .flashcard-buttons {
-    background: orange;
     height: 78px;
+    @media (max-height: 450px) {
+      height: 48px;
+    }
     > div {
       display: flex;
       height: 100%;
