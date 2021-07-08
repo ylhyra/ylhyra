@@ -1,3 +1,29 @@
+@mixin button($color, $bg, $x_axis) {
+  color: $color;
+  background-color: $bg;
+  background-image: linear-gradient(
+    -180deg,
+    rgba(white, 0.05) 0%,
+    rgba(#c6c6c6, 0.1) 100%
+  );
+  border: 1px solid rgba($color, 0.1);
+  box-shadow: inset $x_axis 1px 1px 0 rgba(255, 255, 255, 0.5),
+    inset $x_axis 0px 0px 0 rgba($color, 0.3);
+  &:hover {
+    background-color: scale-color($bg, $lightness: -2%);
+    border-top-color: rgba($color, 0.25);
+    color: scale-color($color, $lightness: -70%);
+  }
+  &.selected,
+  &:active {
+    background-color: scale-color($bg, $lightness: -7%);
+    border-top-color: rgba($color, 0.4);
+    color: black;
+    box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.14);
+    z-index: 10;
+  }
+}
+
 /*
   Flashcard
 */
@@ -52,93 +78,25 @@
       cursor: pointer;
     }
 
-    button.selected,
-    button:active {
-      box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.14);
-      z-index: 10;
-    }
     .button-bad {
-      color: #5e0000;
-      background-color: #ffe6e6;
-      background-image: linear-gradient(
-        -180deg,
-        rgba(235, 0, 0, 0.05) 0%,
-        rgba(235, 0, 0, 0.1) 100%
-      );
-      border: 1px solid rgba(#c70606, 0.2);
+      @include button(#5e0000, #ffe6e6, 1px);
       border-right-color: rgba(#9fd142, 0.4);
       border-left: none;
-      box-shadow: inset 1px 1px 1px 0 rgba(255, 255, 255, 0.5),
-        inset 1px 0px 0px 0 rgba(#ce0000, 0.3);
-      &:hover,
-      &.selected,
-      &:active {
-        background-color: #f7d3d3;
-        border-color: rgba(#c70606, 0.3);
-        color: #490000;
-        &.selected,
-        &:active {
-          background-color: #ebbfbf;
-        }
-      }
     }
     .button-good {
-      color: #00ad6a;
-      background-color: #e6ffe8;
-      background-image: linear-gradient(
-        -180deg,
-        rgba(230, 255, 232, 0.5) 0%,
-        rgba(230, 255, 232, 0.9) 100%
-      );
-      border: 1px solid rgba(#0ad136, 0.1);
+      @include button(#1fc484, #e6ffe8, 0px);
       border-right-color: rgba(#9fd142, 0.4);
       border-left: none;
-      box-shadow: inset 0px 1px 1px 0 rgba(255, 255, 255, 0.5),
-        inset 0px 0px 0px 0 rgba(#618300, 0.3);
-      &:hover,
-      &.selected,
-      &:active {
-        background-color: #e1f9e3;
-        border-top-color: rgba(#0ad136, 0.3);
-        color: #07784c;
-        &.selected,
-        &:active {
-          background-color: #d6f2d9;
-        }
-      }
     }
     .button-easy {
-      color: #004186;
-      background-color: #e2f2f5;
-      background-image: linear-gradient(
-        -180deg,
-        rgba(#ebf9fb, 0.5) 0%,
-        rgba(#e2f2f5, 0.9) 100%
-      );
-      border: 1px solid rgba(#c9f2fa, 0.83);
-      border-right-color: rgba(#e2f2f5, 0.4);
+      @include button(#004186, #e2f2f5, -1px);
       border-left: none;
-      box-shadow: inset 0px 1px 1px 0 rgba(255, 255, 255, 0.5),
-        inset 0px 0px 0px 0 rgba(#e2f2f5, 0.3);
-      &:hover,
-      &.selected,
-      &:active {
-        background-color: #e2f2f5;
-        border-top-color: #aee7f2;
-        color: #002954;
-        &.selected,
-        &:active {
-          background-color: #d3e7eb;
-        }
-      }
+      border-right: none;
     }
-  }
-}
-
-@mixin button($property, $ltr-value, $rtl-value) {
-  #{$property}: $ltr-value;
-
-  [dir="rtl"] & {
-    #{$property}: $rtl-value;
+    .button-show-answer {
+      @include button(#669eda, #e9f4f6, -1px);
+      border-left: none;
+      border-right: none;
+    }
   }
 }
