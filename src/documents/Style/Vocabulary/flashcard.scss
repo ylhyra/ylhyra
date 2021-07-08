@@ -65,8 +65,10 @@
     text-align: center;
     opacity: 0.8;
     display: flex;
-    justify-content: center;
+    // align-items: center;
+    flex-direction: column;
     line-height: 1.2;
+    margin: au
     &:hover {
       opacity: 1;
     }

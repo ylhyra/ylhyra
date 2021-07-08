@@ -34,7 +34,11 @@ class Deck {
           a.level - b.level ||
           a.sortKey - b.sortKey ||
           /* TEMP */
-          a.note_after_show - b.note_after_show
+          /"occluded"/.test(b.is_formatted) -
+            /"occluded"/.test(a.is_formatted) ||
+          /"occluded"/.test(b.en_formatted) -
+            /"occluded"/.test(a.en_formatted) ||
+          Boolean(b.note_after_show) - Boolean(a.note_after_show)
       )
       .filter(Boolean);
     // .sort((a, b) => Boolean(b.sound) - Boolean(a.sound));

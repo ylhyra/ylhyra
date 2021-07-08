@@ -98,13 +98,16 @@ class Card {
   }
   getRanking() {
     let q = this.getQueuePosition();
+    if (!this.terms) {
+      throw new Error("getRanking called on an uninitialized card");
+      return;
+    }
 
     /* New terms are not relevant unless there are no overdue cards */
     if (!this.terms.some((term) => term in this.session.lastSeenTerms)) {
       q = this.absoluteQueuePosition + 1000;
     } else {
-
-    /* Seen cards */
+      /* Seen cards */
       /* Seen cards are not relevant if they are not overdue */
       if (q > 0) {
         q += 2000;

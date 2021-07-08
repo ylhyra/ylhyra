@@ -33,7 +33,7 @@ const run = async () => {
       const card = cards[card_id];
       if (
         !DECK &&
-        (!card.en ||
+        (!card.en_plaintext ||
           !card.level ||
           card.should_teach === "no" ||
           card["Laga?"] ||

@@ -5,7 +5,7 @@ import { answer } from "app/Vocabulary/actions/session";
 import store from "app/App/store";
 import AudioClip from "documents/Render/Audio/AudioClip.js";
 import { get_processed_image_url } from "paths";
-import { formatVocabularyEntry } from "app/VocabularyMaker/functions.js";
+
 class Card extends Component {
   state = {};
   componentDidMount() {
@@ -137,11 +137,11 @@ class Card extends Component {
     const answered = card.answered;
     // console.log(card)
     // console.log({card,answer})
-    if (!card || !card.is) return null;
+    if (!card) return null;
     let { from, basic_form, note_bfr_show, note_after_show, literally } = card;
     let Type = null;
     const is = card.is_formatted;
-    const en = card.en;
+    const en = card.en_formatted;
 
     let note_above = null;
     let note_below = null;
@@ -156,43 +156,8 @@ class Card extends Component {
         <b>Dictionary form{/,/.test(basic_form) && "s"}:</b> {html(basic_form)}{" "}
       </div>
     );
-    note_after_show = html(note_after_show);
     note_bfr_show = html(note_bfr_show);
-
-    if (from === "is") {
-      note_above = <div className="note show-after-answer">{basic_form}</div>;
-      note_below = (
-        <div className="note" key={2}>
-          {literally}
-          {(note_after_show || note_bfr_show) && (
-            <div>
-              <b>Note:</b> {note_after_show || note_bfr_show}{" "}
-            </div>
-          )}
-        </div>
-      );
-    } else {
-      note_above = (
-        <div className="note">
-          {note_bfr_show && (
-            <div>
-              <b>Note:</b> {note_bfr_show}{" "}
-            </div>
-          )}
-        </div>
-      );
-      note_below = (
-        <div className="note" key={2}>
-          {note_after_show && (
-            <div>
-              <b>Note:</b> {note_after_show}{" "}
-            </div>
-          )}
-          {literally}
-          {basic_form}
-        </div>
-      );
-    }
+    note_after_show = html(note_after_show);
 
     return (
       <div
@@ -210,7 +175,16 @@ class Card extends Component {
           flashcard-prompt-${from === "is" ? "icelandic" : "english"}
         `}
         >
-          <div>{html(from === "is" ? is : en)}</div>
+          <div
+            style={{
+              fontSize: getFontSize(
+                from === "is" ? card.is_plaintext : card.en_plaintext,
+                from === "is" ? "is" : "en"
+              ),
+            }}
+          >
+            {html(from === "is" ? is : en)}
+          </div>
           {/* {note_above} */}
         </div>
         <div
@@ -219,17 +193,40 @@ class Card extends Component {
           flashcard-prompt-${from !== "is" ? "icelandic" : "english"}
         `}
         >
-          {answered
+          {answered || /"occluded"/.test(from !== "is" ? is : en)
             ? [
-                <div key={1}>
+                <div
+                  key={1}
+                  style={{
+                    fontSize: getFontSize(
+                      from !== "is" ? card.is_plaintext : card.en_plaintext,
+                      from !== "is" ? "is" : "en"
+                    ),
+                  }}
+                >
                   {html(from !== "is" ? is : en)}
                 </div> /*note_below*/,
               ]
             : card.showHint && this.state.hint}
         </div>
         <div className="notes">
-          {note_above}
-          {note_below}
+          <div className="note">
+            {note_bfr_show && (
+              <div>
+                <b>Note:</b> {note_bfr_show}
+              </div>
+            )}
+            <div className="show-after-answer">
+              {note_after_show && (
+                <div>
+                  <b>Note:</b> {note_after_show}
+                </div>
+              )}
+              {literally}
+              {basic_form}
+            </div>
+          </div>
+
           {card.counter <= 1 && (
             <div className="rate-how-well">Rate how well you knew this:</div>
           )}
@@ -314,13 +311,19 @@ const hide = (input) => {
 
 const html = (text) => {
   if (!text) return null;
-  return (
-    <span
-      dangerouslySetInnerHTML={{
-        __html:
-          /* TEMP!!!*/
-          formatVocabularyEntry(text),
-      }}
-    />
-  );
+  return <span dangerouslySetInnerHTML={{ __html: text }} />;
+};
+
+const getFontSize = (text, lang) => {
+  let size = 20;
+  if (text.length > 70) {
+    size -= 5;
+  } else if (text.length > 50) {
+    size -= 4;
+  } else if (text.length > 40) {
+    size -= 3;
+  } else if (text.length > 25) {
+    size -= 2;
+  }
+  return size - (lang === "en" ? 1 : 0);
 };

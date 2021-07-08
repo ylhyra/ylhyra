@@ -1,3 +1,4 @@
+import c from "app/App/functions/no-undefined-in-template-literal.js";
 import _ from "underscore";
 import _hash from "app/App/functions/hash";
 import { isBrowser } from "app/App/functions/isBrowser";
@@ -16,20 +17,44 @@ export const formatVocabularyEntry = (input) => {
   if (!input) return "";
   input = input
     .replace(/∆/g, ",")
-    .replace(/"([^"]*)"/g, "“$1”") /* Curly quotes */
-    .replace(/ \+ /g, "\u2006+\u2006") /* Spacing around plusses */
-    .replace(/ \/ /g, "\u2006/\u2006") /* Spacing around "/" */
+    .replace(
+      /{{spp}}/g,
+      `This verb's form is the same in the past and the present tense.`
+    )
+    .replace(
+      /"([^"]*)"/g,
+      `<span class="darkgray">“</span>$1<span class="darkgray">”</span>`
+    ) /* Curly quotes */
+    .replace(
+      / \+ /g,
+      `\u2006<span class="darkgray">+</span>\u2006`
+    ) /* Spacing around plusses */
+    .replace(
+      / \/ /g,
+      `\u2006<span class="darkgray">/</span>\u2006`
+    ) /* Spacing around "/" */
     .replace(/{{(ð?u)}}/g, `<span class="thu-merging">$1</span>`)
     .replace(/{{g(?:ray)?\|(.*?)}}/g, `<span class="gray">$1</span>`)
-    .replace(/(\(note: .*?\))/g, `<small class="gray">$1</small>`)
+    .replace(
+      /\(note: (.*?)\)/g,
+      `<small class="gray inline-note">(<i>$1</i>)</small>`
+    )
     .replace(/'''(.+?)'''/g, "<b>$1</b>")
-    .replace(/'(.+?)''/g, "<i>$1</i>")
-    .replace(/\*(.+?)\*/g, `<span class="occluded">$1</span>`)
+    .replace(/''(.+?)''/g, "<i>$1</i>")
+    .replace(/( )?\*(.+?)\*( )?/g, (x, space_before, text, space_after) => {
+      return c`${space_before} <span class="occluded ${
+        space_before && "space_before"
+      }  ${
+        space_after && "space_after"
+      }"><span>${text}</span></span>${space_after}`;
+    })
     .replace(/;;/g, `MAJOR_SEPERATOR`)
     .replace(/;/g, `<span class="seperator">,</span>`)
     .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
     .replace(/%/g, "")
-    .replace(/'/g, "’");
+    .replace(/'/g, "’")
+    .trim();
+
   input = ProcessLinks(input);
   return input;
 };
@@ -153,8 +178,9 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       let to_add = [];
 
       /* Can have multiple */
-      let plaintext_icelandic_strings = row.icelandic.split(/;+/g);
-      // .map(getPlaintextFromVocabularyEntry);
+      let plaintext_icelandic_strings = row.icelandic
+        .split(/;+/g)
+        .map(getPlaintextFromVocabularyEntry);
       let formatted_icelandic_strings = row.icelandic
         .split(/;+/g)
         .map(formatVocabularyEntry);
@@ -188,7 +214,8 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       });
 
       let card_skeleton = {
-        en: formatVocabularyEntry(row.english),
+        en_plaintext: getPlaintextFromVocabularyEntry(row.english),
+        en_formatted: formatVocabularyEntry(row.english),
         terms: terms_in_this_line,
         level: row.level,
         // sort: line_number,
@@ -199,12 +226,12 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       };
 
       if (/{{(ð?u)}}/.test(row.icelandic)) {
-        const [full, verb] = row.icelandic.match(/\b((.+?){{(?:ð?u)}})/)[1];
+        const [x, full, verb] = row.icelandic.match(/(([^ "„,.]+){{(?:ð?u)}})/);
         card_skeleton.note_after_show =
           card_skeleton.note_after_show +
           " " +
           formatVocabularyEntry(`
-          "${ucfirst(full)}" is made by combining "${verb}" and "þú".
+          ''${full.toLowerCase()}'' is made by combining ''${verb.toLowerCase()}'' + ''þú''.
         `);
       }
 
@@ -212,7 +239,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       if (row.direction !== "<-") {
         plaintext_icelandic_strings.forEach((i, index) => {
           to_add.push({
-            is: i,
+            is_plaintext: i,
             is_formatted: formatted_icelandic_strings[index],
             from: "is",
             id: getHash(i) + "_is",
@@ -225,7 +252,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       /* English to Icelandic */
       if (row.direction !== "->") {
         to_add.push({
-          is: getPlaintextFromVocabularyEntry(row.icelandic),
+          is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
           is_formatted: formatVocabularyEntry(row.icelandic),
           from: "en",
           id: getHash(row.icelandic) + "_en",
