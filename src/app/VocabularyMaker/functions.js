@@ -14,6 +14,9 @@ export const formatVocabularyEntry = (input) => {
   if (!input) return "";
   return input
     .replace(/∆/g, ",")
+    .replace(/"([^"]*)"/g, "“$1”") /* Curly quotes */
+    .replace(/ \+ /g, "\u2006+\u2006") /* Spacing around plusses */
+    .replace(/ \/ /g, "\u2006/\u2006") /* Spacing around "/" */
     .replace(/{{(ð?u)}}/g, `<span class="thu-merging">$1</span>`)
     .replace(/{{g(?:ray)?\|(.*?)}}/g, `<span class="gray">$1</span>`)
     .replace(/(\(note: .*?\))/g, `<small class="gray">$1</small>`)

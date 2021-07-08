@@ -221,6 +221,10 @@ class Card extends Component {
           {answered
             ? [<div key={1}>{html(from !== "is" ? is : en)}</div>, note_below]
             : card.showHint && this.state.hint}
+
+          {card.counter <= 1 && (
+            <div className="rate-how-well">Rate how well you knew this:</div>
+          )}
         </div>
 
         <div className="flashcard-buttons">
@@ -230,6 +234,7 @@ class Card extends Component {
                 className={`
               not-answered
               button-show-answer
+              nostyle 
               ${this.state.clickingOnShowButton ? "selected" : ""}
             `}
               >
@@ -238,42 +243,33 @@ class Card extends Component {
             </div>
           ) : (
             <div>
-              <div>
-                {card.counter <= 1 && (
-                  <div className="rate-how-well">
-                    Rate how well you knew this:
-                  </div>
-                )}
-                <div>
-                  <button
-                    className={
-                      "button-bad " +
-                      (this.state.answer === BAD ? "selected" : "")
-                    }
-                    onClick={() => this.answer(BAD, false)}
-                  >
-                    Bad
-                  </button>
-                  <button
-                    className={
-                      "button-good " +
-                      (this.state.answer === GOOD ? "selected" : "")
-                    }
-                    onClick={() => this.answer(GOOD, false)}
-                  >
-                    Good
-                  </button>
-                  <button
-                    className={
-                      "button-easy " +
-                      (this.state.answer === EASY ? "selected" : "")
-                    }
-                    onClick={() => this.answer(EASY, false)}
-                  >
-                    Easy
-                  </button>
-                </div>
-              </div>
+              <button
+                className={
+                  "button-bad nostyle " +
+                  (this.state.answer === BAD ? "selected" : "")
+                }
+                onClick={() => this.answer(BAD, false)}
+              >
+                Bad
+              </button>
+              <button
+                className={
+                  "button-good nostyle " +
+                  (this.state.answer === GOOD ? "selected" : "")
+                }
+                onClick={() => this.answer(GOOD, false)}
+              >
+                Good
+              </button>
+              <button
+                className={
+                  "button-easy nostyle " +
+                  (this.state.answer === EASY ? "selected" : "")
+                }
+                onClick={() => this.answer(EASY, false)}
+              >
+                Easy
+              </button>
             </div>
           )}
         </div>
@@ -305,49 +301,10 @@ const hide = (input) => {
     })
     .join("");
 
-  //.replace(/\(/g, '<span className="parentheses">(').replace(/\)/g, ')</span>')
-  return <span dangerouslySetInnerHTML={{ __html: output }} />;
+  return html(output);
 };
 
 const html = (text) => {
   if (!text) return null;
-  return (
-    <span
-      dangerouslySetInnerHTML={{
-        __html: text,
-        // .replace(/"([^"]*)"/g, "“$1”") /* Curly quotes */
-        // .replace(/\\,/g, "\u0044") /* Escaped commas */
-        // .replace(/ \+ /g, "\u2006+\u2006") /* Spacing around plusses */,
-      }}
-    />
-  );
-  // return (
-  //   <span>
-  //     {text
-  //       .replace(/"([^"]*)"/g, "“$1”") /* Curly quotes */
-  //       .replace(/\\,/g, "\u0044") /* Escaped commas */
-  //       .replace(/ \+ /g, "\u2006+\u2006") /* Spacing around plusses */
-  //       .split(/(, )/g)
-  //       .map((j, index) => {
-  //         if (index % 2 === 0) {
-  //           /* Style semicolons */
-  //           return j.split(/(; )/g).map((u, index2) => {
-  //             if (index2 % 2 === 0) {
-  //               return u;
-  //             }
-  //             return (
-  //               <span className="semicolon" key={index2}>
-  //                 ;{" "}
-  //               </span>
-  //             );
-  //           });
-  //         }
-  //         return (
-  //           <span className="comma" key={index}>
-  //             ,{" "}
-  //           </span>
-  //         );
-  //       })}
-  //   </span>
-  // );
+  return <span dangerouslySetInnerHTML={{ __html: text }} />;
 };

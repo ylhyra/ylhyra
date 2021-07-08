@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-bottom: 20px;
+  // margin-bottom: 13px;
   .card-container {
     flex: 1;
     margin: auto;
@@ -18,7 +18,8 @@
 .vocabulary-card {
   // display: flex;
   // flex-direction: row;
-  background: #f4f4f4;
+  // background: #f4f4f4;
+  background: white;
   border-radius: 7px;
   @media (max-width: 380px) {
     border-radius: 0;

@@ -5,50 +5,35 @@
   display: flex;
   flex-direction: column;
   text-align: center;
-  > * {
+  .flashcard-bottom,
+  .flashcard-top {
     flex: 1;
     padding: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .flashcard-bottom,
-  .flashcard-top {
     flex-direction: column;
     font-size: 20px;
     text-shadow: 1px 1px 1px rgba(white, 0.2);
-  }
-  .flashcard-bottom {
-    border-top: 1px solid #dfdfdf;
-    transition: all 0.3s ease;
-    // &.not-answered {
-    //   background: #e6e6e6;
-    //   font-size: 14px;
-    //   color: #868686;
-    //   font-weight: 400;
-    // }
-  }
-  .flashcard-prompt-icelandic {
-    font-family: Georgia, serif;
-  }
-  .flashcard-prompt-english {
-    background: #f0eded;
-    font-size: 19px;
-    // &.flashcard-bottom + div {
-    //   background: #f0eded;
-    // }
+    > div {
+      animation: fadein 0.2s;
+    }
+    &.flashcard-bottom {
+      border-top: 1px solid #ebebeb;
+      transition: all 0.3s ease;
+    }
+    &.flashcard-prompt-icelandic {
+      font-family: Georgia, serif;
+    }
+    &.flashcard-prompt-english {
+      background: rgba(#f7f7f7, 0.41);
+      font-size: 19px;
+    }
   }
 
   .flashcard-buttons {
     background: orange;
-    height: 200px;
-    button {
-      height: auto;
-      flex: 1;
-      border-radius: 0;
-      border: none;
-      background: none;
-    }
+    height: 78px;
     > div {
       display: flex;
       height: 100%;
@@ -56,26 +41,104 @@
       flex: 1;
       // align-items: stretch;
     }
-  }
 
-  button.selected,
-  button:active {
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.34);
-    z-index: 10;
+    button {
+      height: auto;
+      flex: 1;
+      border-radius: 0;
+      border: none;
+      background: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    button.selected,
+    button:active {
+      box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.14);
+      z-index: 10;
+    }
+    .button-bad {
+      color: #5e0000;
+      background-color: #ffe6e6;
+      background-image: linear-gradient(
+        -180deg,
+        rgba(235, 0, 0, 0.05) 0%,
+        rgba(235, 0, 0, 0.1) 100%
+      );
+      border: 1px solid rgba(#c70606, 0.2);
+      border-right-color: rgba(#9fd142, 0.4);
+      border-left: none;
+      box-shadow: inset 1px 1px 1px 0 rgba(255, 255, 255, 0.5),
+        inset 1px 0px 0px 0 rgba(#ce0000, 0.3);
+      &:hover,
+      &.selected,
+      &:active {
+        background-color: #f7d3d3;
+        border-color: rgba(#c70606, 0.3);
+        color: #490000;
+        &.selected,
+        &:active {
+          background-color: #ebbfbf;
+        }
+      }
+    }
+    .button-good {
+      color: #00ad6a;
+      background-color: #e6ffe8;
+      background-image: linear-gradient(
+        -180deg,
+        rgba(230, 255, 232, 0.5) 0%,
+        rgba(230, 255, 232, 0.9) 100%
+      );
+      border: 1px solid rgba(#0ad136, 0.1);
+      border-right-color: rgba(#9fd142, 0.4);
+      border-left: none;
+      box-shadow: inset 0px 1px 1px 0 rgba(255, 255, 255, 0.5),
+        inset 0px 0px 0px 0 rgba(#618300, 0.3);
+      &:hover,
+      &.selected,
+      &:active {
+        background-color: #e1f9e3;
+        border-top-color: rgba(#0ad136, 0.3);
+        color: #07784c;
+        &.selected,
+        &:active {
+          background-color: #d6f2d9;
+        }
+      }
+    }
+    .button-easy {
+      color: #004186;
+      background-color: #e2f2f5;
+      background-image: linear-gradient(
+        -180deg,
+        rgba(#ebf9fb, 0.5) 0%,
+        rgba(#e2f2f5, 0.9) 100%
+      );
+      border: 1px solid rgba(#c9f2fa, 0.83);
+      border-right-color: rgba(#e2f2f5, 0.4);
+      border-left: none;
+      box-shadow: inset 0px 1px 1px 0 rgba(255, 255, 255, 0.5),
+        inset 0px 0px 0px 0 rgba(#e2f2f5, 0.3);
+      &:hover,
+      &.selected,
+      &:active {
+        background-color: #e2f2f5;
+        border-top-color: #aee7f2;
+        color: #002954;
+        &.selected,
+        &:active {
+          background-color: #d3e7eb;
+        }
+      }
+    }
   }
-  // .button-bad {
-  //   color: #b10000;
-  //   border-color: #d14f0a;
-  //   background-color: #ffe6e6;
-  // }
-  // .button-good {
-  //   color: #00ad6a;
-  //   border-color: #0ad136;
-  //   background-color: #e6ffe8;
-  // }
-  // .button-easy {
-  //   color: #618300;
-  //   border-color: #97d10a;
-  //   background-color: #faffe6;
-  // }
+}
+
+@mixin button($property, $ltr-value, $rtl-value) {
+  #{$property}: $ltr-value;
+
+  [dir="rtl"] & {
+    #{$property}: $rtl-value;
+  }
 }
