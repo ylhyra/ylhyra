@@ -147,16 +147,16 @@ class Card extends Component {
 
     literally = literally && (
       <div>
-        <b>Literally:</b> {styleCommas(literally)}{" "}
+        <b>Literally:</b> {html(literally)}{" "}
       </div>
     );
     basic_form = basic_form && (
       <div>
-        <b>Basic form:</b> {styleCommas(basic_form)}{" "}
+        <b>Basic form:</b> {html(basic_form)}{" "}
       </div>
     );
-    note_after_show = styleCommas(note_after_show);
-    note_bfr_show = styleCommas(note_bfr_show);
+    note_after_show = html(note_after_show);
+    note_bfr_show = html(note_bfr_show);
 
     if (from === "is") {
       note_above = <div className="note show-after-answer">{basic_form}</div>;
@@ -209,7 +209,7 @@ class Card extends Component {
           flashcard-prompt-${from === "is" ? "icelandic" : "english"}
         `}
         >
-          <div>{styleCommas(from === "is" ? is : en)}</div>
+          <div>{html(from === "is" ? is : en)}</div>
           {note_above}
         </div>
         <div
@@ -219,63 +219,64 @@ class Card extends Component {
         `}
         >
           {answered
-            ? [
-                <div key={1}>{styleCommas(from !== "is" ? is : en)}</div>,
-                note_below,
-              ]
+            ? [<div key={1}>{html(from !== "is" ? is : en)}</div>, note_below]
             : card.showHint && this.state.hint}
         </div>
-        {!answered ? (
-          <div>
-            <button
-              className={`
+
+        <div className="flashcard-buttons">
+          {!answered ? (
+            <div>
+              <button
+                className={`
               not-answered
+              button-show-answer
               ${this.state.clickingOnShowButton ? "selected" : ""}
             `}
-            >
-              Click to show answer
-            </button>
-          </div>
-        ) : (
-          <div>
+              >
+                Click to show answer
+              </button>
+            </div>
+          ) : (
             <div>
-              {card.counter <= 1 && (
-                <div className="rate-how-well">
-                  Rate how well you knew this:
-                </div>
-              )}
               <div>
-                <button
-                  className={
-                    "button-bad " +
-                    (this.state.answer === BAD ? "selected" : "")
-                  }
-                  onClick={() => this.answer(BAD, false)}
-                >
-                  Bad
-                </button>
-                <button
-                  className={
-                    "button-good " +
-                    (this.state.answer === GOOD ? "selected" : "")
-                  }
-                  onClick={() => this.answer(GOOD, false)}
-                >
-                  Good
-                </button>
-                <button
-                  className={
-                    "button-easy " +
-                    (this.state.answer === EASY ? "selected" : "")
-                  }
-                  onClick={() => this.answer(EASY, false)}
-                >
-                  Easy
-                </button>
+                {card.counter <= 1 && (
+                  <div className="rate-how-well">
+                    Rate how well you knew this:
+                  </div>
+                )}
+                <div>
+                  <button
+                    className={
+                      "button-bad " +
+                      (this.state.answer === BAD ? "selected" : "")
+                    }
+                    onClick={() => this.answer(BAD, false)}
+                  >
+                    Bad
+                  </button>
+                  <button
+                    className={
+                      "button-good " +
+                      (this.state.answer === GOOD ? "selected" : "")
+                    }
+                    onClick={() => this.answer(GOOD, false)}
+                  >
+                    Good
+                  </button>
+                  <button
+                    className={
+                      "button-easy " +
+                      (this.state.answer === EASY ? "selected" : "")
+                    }
+                    onClick={() => this.answer(EASY, false)}
+                  >
+                    Easy
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     );
   }
@@ -308,7 +309,7 @@ const hide = (input) => {
   return <span dangerouslySetInnerHTML={{ __html: output }} />;
 };
 
-const styleCommas = (text) => {
+const html = (text) => {
   if (!text) return null;
   return (
     <span

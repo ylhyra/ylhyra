@@ -30,7 +30,6 @@ class GameContainer extends Component {
         <div className="vocabulary-card-outer-container">
           <Card />
         </div>
-        {session.printTimeRemaining()}
         <Progress />
       </div>
     );

@@ -68,11 +68,13 @@ export const updateURL = (url, title, replace, prerender, is404) => {
     return;
   }
 
-  if (url !== window.location.pathname) {
-    if (replace) {
-      window.history.replaceState(null, "", url);
-    } else {
-      window.history.pushState(null, "", url);
+  if (url !== "/vocabulary/tutorial") {
+    if (url !== window.location.pathname) {
+      if (replace) {
+        window.history.replaceState(null, "", url);
+      } else {
+        window.history.pushState(null, "", url);
+      }
     }
   }
 

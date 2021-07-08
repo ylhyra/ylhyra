@@ -13,20 +13,6 @@
     max-width: 400px;
     display: flex;
     flex-direction: column;
-    &.answered.has-notes {
-      max-width: 800px;
-    }
-    &:not(.answered) {
-      .notes {
-        display: none;
-      }
-    }
-  }
-  .image {
-    img {
-      max-height: 300px;
-      width: auto;
-    }
   }
 }
 .vocabulary-card {
@@ -34,6 +20,9 @@
   // flex-direction: row;
   background: #f4f4f4;
   border-radius: 7px;
+  @media (max-width: 380px) {
+    border-radius: 0;
+  }
   box-shadow: 0 0 1px 0 rgba(black, 0.4), 0 2px 3px 0 rgba(black, 0.1);
   color: black;
   // display: flex;
@@ -72,9 +61,9 @@
   //   background: #f6f6f6;
   //   box-shadow: 0 0 0 2px #a0e477;
   // }
-  @media (max-width: 520px) {
-    border-radius: 9px;
-  }
+  // @media (max-width: 520px) {
+  //   border-radius: 9px;
+  // }
   > * {
     opacity: 1;
     transition: opacity 0.3s ease;

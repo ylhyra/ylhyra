@@ -14,11 +14,15 @@ class App extends React.Component {
     const url = this.props.url || this.props.route.pathname;
     if (url in components) {
       Element = components[url];
+      let Section2 = Section;
+      if (url === "/vocabulary/play") {
+        Section2 = (props) => props.children;
+      }
       return (
         <Layout>
-          <Section>
+          <Section2>
             <Element key={url} prerender={this.props.prerender} />
-          </Section>
+          </Section2>
         </Layout>
       );
     } else {
