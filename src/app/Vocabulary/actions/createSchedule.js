@@ -20,13 +20,16 @@ export const createSchedule = () => {
 
   cards.forEach((card) => {
     let due_in_days;
+    let due_in_days_adjusted;
     let score;
     let prevScore = card.score;
     let isNew = !prevScore;
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
     const sessionScore = average(sessionHistory);
-    const anyBad = sessionHistory.some((i) => i === BAD);
+    const badCount = sessionHistory.filter((i) => i === BAD).length;
+    const anyBad = badCount > 0;
+    const now = new Date().getTime();
 
     /* SCORE */
     if (isNew) {
@@ -50,11 +53,16 @@ export const createSchedule = () => {
     /* SCHEDULE */
     if (anyBad) {
       due_in_days = 1;
+      if (badCount === 1) {
+        due_in_days_adjusted = 2.5;
+      }
     } else if (isNew) {
       if (sessionScore === EASY) {
         due_in_days = 20;
+        due_in_days_adjusted = 100;
       } else if (sessionScore === GOOD) {
         due_in_days = 3;
+        due_in_days_adjusted = 6;
       }
     } else {
       const multiplier = sessionScore === EASY ? 6 : 2;
@@ -62,10 +70,11 @@ export const createSchedule = () => {
       /* TODO: Relative to actual interval */
       due_in_days = (card.last_interval_in_days || 1) * multiplier;
     }
-    const due = new Date().getTime() + daysToMs(due_in_days);
+    const due = now + daysToMs(due_in_days);
+    const adjusted_due = now + daysToMs(due_in_days_adjusted || due_in_days);
     deck.schedule[card.id] = {
       due,
-      adjusted_due: due,
+      adjusted_due,
       last_interval_in_days: Math.round(due_in_days),
       score,
       last_seen: new Date().getTime(),

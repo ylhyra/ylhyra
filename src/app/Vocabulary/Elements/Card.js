@@ -176,6 +176,7 @@ class Card extends Component {
           flashcard-prompt-${from === "is" ? "icelandic" : "english"}
         `}
         >
+          {card.sound && <div className="has-audio-icon" />}
           <div
             style={{
               fontSize: getFontSize(

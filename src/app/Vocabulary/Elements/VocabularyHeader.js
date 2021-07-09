@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Link from "app/Router/Link";
 import Button from "documents/Templates/Button";
-import { InitializeSession } from "app/Vocabulary/actions/session";
-import { updateURL } from "app/Router/actions";
 import {
   MakeSummaryOfCardStatuses,
   PercentageKnown,
   getCardIdsFromWords,
+  studyParticularIds,
 } from "app/Vocabulary/actions/_functions";
-import createCards from "app/Vocabulary/actions/createCards";
+
 class X extends Component {
   getCards = () => {
     const vocabulary_list = this.getList();
@@ -17,10 +16,7 @@ class X extends Component {
     return getCardIdsFromWords(vocabulary_list);
   };
   run = () => {
-    const { deck } = this.props.vocabulary;
-    const cards = createCards({ allowed_card_ids: this.getCards() }, deck); //.map(id => deck.cards[id])
-    InitializeSession(cards, deck);
-    updateURL("/vocabulary/play");
+    studyParticularIds(this.getCards());
   };
   getList = () => {
     return (

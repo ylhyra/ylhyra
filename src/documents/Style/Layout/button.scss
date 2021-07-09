@@ -1,3 +1,32 @@
+@mixin button($color, $bg, $x_axis) {
+  color: $color;
+  background-color: $bg;
+  background-image: linear-gradient(
+    -180deg,
+    rgba(white, 0.05) 0%,
+    rgba(#c6c6c6, 0.1) 100%
+  );
+  border: 1px solid rgba($color, 0.1);
+  box-shadow: inset $x_axis 1px 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 0px 0px 0 rgba($color, 0.3);
+  &:hover {
+    background-color: scale-color($bg, $lightness: -2%);
+    border-top-color: rgba($color, 0.25);
+    color: scale-color($color, $lightness: -70%);
+    text-decoration: none;
+  }
+  cursor: pointer;
+  &.selected,
+  &:active {
+    background-color: scale-color($bg, $lightness: -7%);
+    border-top-color: rgba($color, 0.4);
+    color: black;
+    box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.14);
+    z-index: 10;
+  }
+  text-decoration: none;
+}
+
 .button-container {
   display: flex;
 
@@ -12,41 +41,39 @@
 .button.playButton,
 a.button,
 button:not(.link):not(.nostyle) {
-  background: #fff5f2;
-  border: 1px solid #fcc6c4;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-  border-radius: 4px;
-  color: #eb5757;
-  padding: 9px 15px;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 14px;
-  position: relative;
-  @include sans_serif();
-  display: inline-block;
-  text-decoration: none;
+  @include button(#4e822e, #e0e2fb, 0);
 
-  &:hover {
-    background: #fdeae8;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    text-decoration: none;
-  }
+  // background: #fff5f2;
+  // border: 1px solid #fcc6c4;
+  // box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  border-radius: 5px;
+  // color: #eb5757;
+  padding: 6px 10px;
+  font-weight: 500;
+  font-size: 14px;
+  // position: relative;
+  // @include sans_serif();
+  display: inline-block;
 
   &.small {
     font-size: 12px;
     padding: 3px 6px;
   }
 
-  &.blue,
-  &:not(div):not(.red) {
-    border-color: #c4c9fc;
-    background: #f2f3ff;
-    color: #7791fe;
-
-    &:hover {
-      background: #e9eaf7;
-    }
+  &.red {
+    @include button(#a30600, #f67a57, 0);
   }
+
+  // &.blue,
+  // &:not(div):not(.red) {
+  //   border-color: #c4c9fc;
+  //   background: #f2f3ff;
+  //   color: #7791fe;
+  //
+  //   &:hover {
+  //     background: #e9eaf7;
+  //   }
+  // }
 }
 
 button.link,

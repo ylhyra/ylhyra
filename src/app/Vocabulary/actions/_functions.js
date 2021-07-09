@@ -1,6 +1,9 @@
+import createCards from "app/Vocabulary/actions/createCards";
 import { average, clamp, mapValueToRange } from "app/App/functions/math";
 import { getHash } from "app/VocabularyMaker/functions";
 import store from "app/App/store";
+import { InitializeSession } from "app/Vocabulary/actions/session";
+import { updateURL } from "app/Router/actions";
 /**
  * Various helper functions
  */
@@ -119,6 +122,7 @@ export const getCardIdsFromWords = (words) => {
   let card_ids = [];
   let missing = [];
   words.forEach((word) => {
+    if (!word) return;
     const hash = getHash(word.split(" = ")[0]);
     if (hash in deck.terms) {
       card_ids = card_ids.concat(deck.terms[hash].cards);
@@ -196,4 +200,11 @@ const CreateDependencyChain = (
     });
   }
   return output;
+};
+
+export const studyParticularIds = (allowed_card_ids) => {
+  const deck = getDeck();
+  const cards = createCards({ allowed_card_ids }, deck);
+  InitializeSession(cards, deck);
+  updateURL("/vocabulary/play");
 };

@@ -19,9 +19,10 @@ export const InitializeVocabulary = async () => {
   let database = getFromLocalStorage("vocabulary-database");
   let should_update = false;
   if (
-    database &&
-    getFromLocalStorage("vocabulary-database-last-updated") <
-      now - (process.env.NODE_ENV === "production" ? 3 * day : 0)
+    database
+    // &&
+    // getFromLocalStorage("vocabulary-database-last-updated") <
+    //   now - (process.env.NODE_ENV === "production" ? 3 * day : 0)
   ) {
     const database_last_updated = (
       await axios.get(`/api/vocabulary/database_last_updated`)

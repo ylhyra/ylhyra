@@ -4,7 +4,13 @@ import { ReactMic } from "react-mic";
 import Sound from "react-sound";
 import axios from "axios";
 import store from "app/App/store";
-import { load, select, submit, saveSound, getNextWordToRecord } from "./actions";
+import {
+  load,
+  select,
+  submit,
+  saveSound,
+  getNextWordToRecord,
+} from "./actions";
 
 const START_LAG_IN_MILLISECONDS = 0;
 // const START_LAG_IN_MILLISECONDS = 100;

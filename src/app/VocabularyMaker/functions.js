@@ -15,6 +15,9 @@ export const getPlaintextFromVocabularyEntry = (input) => {
 
 export const formatVocabularyEntry = (input) => {
   if (!input) return "";
+  if (typeof input !== "string") {
+    return input.toString();
+  }
   input = input
     .replace(/∆/g, ",")
     .replace(
@@ -34,6 +37,8 @@ export const formatVocabularyEntry = (input) => {
       `\u2006<span class="darkgray">/</span>\u2006`
     ) /* Spacing around "/" */
     .replace(/{{(ð?u)}}/g, `<span class="thu-merging">$1</span>`)
+    .replace(/\^([^ .!?:;-]?)/g, `{{gray|$1}}`)
+    .replace(/_(.+?)_/g, `{{gray|$1}}`)
     .replace(/{{g(?:ray)?\|(.*?)}}/g, `<span class="gray">$1</span>`)
     .replace(
       /\(note: (.*?)\)/g,
@@ -48,6 +53,7 @@ export const formatVocabularyEntry = (input) => {
         space_after && "space_after"
       }"><span>${text}</span></span>${space_after}`;
     })
+    .replace(/ - /g, ` <span class="gray">—</span> `)
     .replace(/;;/g, `MAJOR_SEPERATOR`)
     .replace(/;/g, `<span class="seperator">,</span>`)
     .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
@@ -123,10 +129,10 @@ export const getHashesFromCommaSeperated = (i) => {
 export const row_titles = [
   // "icelandic",
   // "english",
+  "level",
   "depends_on",
   "lemmas",
-  "this is a minor variation of",
-  "level",
+  "alternative_id",
   "dont_confuse",
   "related_items",
   "direction",
@@ -135,7 +141,6 @@ export const row_titles = [
   // "note_bfr_show",
   // "note_after_show",
   // "note_after_show_is",
-  "grammar_note f/icelandic",
   "literally",
   "pronunciation",
   "should_teach",
@@ -144,8 +149,7 @@ export const row_titles = [
   "importance",
   "show_hint",
   "should_split",
-  "alternative_id",
-  "Laga?",
+  "fix",
   "eyða",
 ];
 

@@ -3,7 +3,15 @@ import React from "react";
 import Link from "app/Router/Link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import errors from "app/App/Error/messages";
-import { load, select, submit, delete_row, selectNext } from "./actions";
+import {
+  load,
+  select,
+  submit,
+  delete_row,
+  selectNext,
+  search,
+  addEmpty,
+} from "./actions";
 import { formatVocabularyEntry, row_titles } from "./functions";
 import VocabularyMakerRecord from "app/VocabularyMaker/record";
 import AutosizeTextarea from "react-textarea-autosize";
@@ -68,6 +76,8 @@ class Form2 extends React.Component {
     return (
       <div className="vocabulary_maker">
         <h1>Voc</h1>
+        <button onClick={addEmpty}>Add</button>
+        <input placeholder="Search..." type="text" onKeyUp={search} />
         {this.props.vocabularyMaker.data.map((row, index) => {
           if (row.row_id === this.props.vocabularyMaker.selected) {
             let initialValues = row;
@@ -86,6 +96,9 @@ class Form2 extends React.Component {
                   if (/,/.test(values.english)) {
                     errors.english = "Comma not allowed";
                   }
+                  if (!values.level) {
+                    errors.level = "Required";
+                  }
                   return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
@@ -102,7 +115,15 @@ class Form2 extends React.Component {
                         <Field
                           // type={row_name === "level" ? "number" : "text"}
                           type="text"
-                          autoFocus={row_name === "english"}
+                          autoFocus={(() => {
+                            if (!row["icelandic"])
+                              return row_name === "icelandic";
+                            if (!row["english"]) return row_name === "english";
+                            if (!row["depends_on"])
+                              return row_name === "depends_on";
+                            if (!row["lemma"]) return row_name === "lemma";
+                            return false;
+                          })()}
                           name={row_name}
                           id={row_name}
                           size={
@@ -170,7 +191,13 @@ class Form2 extends React.Component {
                   {row_titles.map((row_name) =>
                     row[row_name] ? (
                       <span key={row_name}>
-                        <b>{row_name}</b>: {row[row_name]},{" "}
+                        <b>{row_name}</b>:{" "}
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: formatVocabularyEntry(row[row_name]),
+                          }}
+                        />
+                        ,{" "}
                       </span>
                     ) : null
                   )}

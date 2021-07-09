@@ -19,6 +19,8 @@ Stíll:
 - `'''feitletrun'''`
 - `%` – base form is also alt id
 - {{spp}} – "Same in past and present"
+- `^orð` verður grátt
+- `_orð_` verður grátt
 
 ## Cards
 

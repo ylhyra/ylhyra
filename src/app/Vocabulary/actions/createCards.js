@@ -96,9 +96,11 @@ export default function createCards(options, deck_) {
   const total_overdue = overdue_bad_ids.length + overdue_good_ids.length;
   const badratio = PercentageKnown(overdue_bad_ids.concat(overdue_good_ids)); //overdue_bad_ids.length / total_overdue;
   // console.log({ badratio });
-  let newCardEvery = 9;
-  if (overdue_bad_ids.length > 40) {
-    newCardEvery = 20;
+  let newCardEvery = 3;
+  if (overdue_bad_ids.length > 15) {
+    newCardEvery = 10;
+  } else if (overdue_bad_ids.length > 40) {
+    newCardEvery = 35;
   }
   for (
     let i = 0;
@@ -115,7 +117,7 @@ export default function createCards(options, deck_) {
       chosen_ids.push(overdue_bad_ids.shift());
     }
     /* Todo? */
-    if (i % 50 === 0 && not_overdue_bad_cards_ids.length > 0) {
+    if (i % 100 === 100 - 1 && not_overdue_bad_cards_ids.length > 0) {
       chosen_ids.push(not_overdue_bad_cards_ids.shift());
     }
   }
@@ -123,7 +125,20 @@ export default function createCards(options, deck_) {
   // chosen_ids = chosen_ids.slice(0, CARDS_TO_CREATE);
 
   /* Dependencies */
-  chosen_ids = withDependencies(chosen_ids);
+  let tmp = [];
+  withDependencies(chosen_ids).forEach((card_id) => {
+    if (forbidden_ids.includes(card_id)) return;
+    if (
+      /* Already chosen */
+      chosen_ids.includes(card_id) ||
+      /* Dependency that is not known */
+      !(card_id in deck.schedule) ||
+      deck.schedule[card_id].score < GOOD
+    ) {
+      return tmp.push(card_id);
+    }
+  });
+  chosen_ids = tmp;
 
   /* Get direct siblings */
   chosen_ids = _.flatten(

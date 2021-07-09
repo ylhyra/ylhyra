@@ -16,6 +16,8 @@ try {
  * Each HTML element in the original text is processed seperately to preserve HTML structure.
  */
 export default (input) => {
+  /* Laga töflur. Ekki mjög gott. */
+  input = input.replace(/(?:\s+)?(<\/?(tbody|td|th|tr) ?>?)(?:\s+)?/g, "$1");
   // return input;
   input = json2html(Traverse(html2json(input)));
   /* Fix anchor ids */
@@ -118,6 +120,8 @@ export const processText = (input) => {
     /* Bold */
     .replace(/'''/g, "**")
     .replace(/''/g, "*")
+    .replace(/->/g, "→")
+    .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
 
     /* Tags */
     .replace(/<([^> ]+)( [^>]+)?\/>/g, "<$1$2></$1>")
@@ -138,8 +142,13 @@ export const processText = (input) => {
 
   /* Markdown */
   if (!input.trim()) return input;
+  // console.log(input);
+  // if (/lambs/.test(input)) {
+  //   return input;
+  // }
   const [f, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/);
   let m = marked(middle).trim(); /* Á að trimma? */
+  /* TODO: Virkar ekki með töflur */
   if (!/\n\n/.test(middle)) {
     m = m.replace(/<p>(.+)<\/p>/, "$1");
   }

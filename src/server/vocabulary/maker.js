@@ -30,7 +30,7 @@ router.post("/vocabulary_maker", (req, res) => {
   data = {
     rows: data.rows
       .filter((d) => d.icelandic)
-      // .sort((a, b) => a.row_id - b.row_id)
+      .sort((a, b) => a.row_id - b.row_id)
       // .sort(
       //   (a, b) =>
       //     getRawTextFromVocabularyEntry(a.icelandic).localeCompare(
@@ -43,11 +43,12 @@ router.post("/vocabulary_maker", (req, res) => {
       // )
       .map((row) => {
         let out = {};
-        delete row.row_id;
+        // delete row.row_id;
         _.uniq([
           "icelandic",
           "english",
           ...row_titles,
+          "row_id",
           ...Object.keys(row),
         ]).forEach((key) => {
           if (!row[key]) return;

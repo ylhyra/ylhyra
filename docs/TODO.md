@@ -11,6 +11,7 @@
 - occluded
 - hvað ef cards eru búin
 - mobile
+- nota build_id til að reikna út hvort það ætti að sækja database
 
 ### Annað
 

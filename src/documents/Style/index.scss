@@ -27,6 +27,7 @@ $blue: #1161d9;
   overflow: hidden;
 }
 @import "reset";
+@import "Layout/button.scss";
 @import "Vocabulary/container.scss";
 @import "Vocabulary/card-contents.scss";
 @import "Vocabulary/flashcard.scss";
@@ -45,7 +46,6 @@ video {
 @import "AudioVideo/AudioVideo.scss";
 @import "Frontpage/frontpage-box.scss";
 @import "Frontpage/index.scss";
-@import "Layout/button.scss";
 @import "Layout/footer.scss";
 @import "Layout/form.scss";
 @import "Layout/grid.scss";

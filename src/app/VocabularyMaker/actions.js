@@ -2,7 +2,7 @@ import { isBrowser } from "app/App/functions/isBrowser";
 import {
   getHash,
   getHashesFromCommaSeperated,
-  getRawTextFromVocabularyEntry,
+  getPlaintextFromVocabularyEntry,
   GetLowercaseStringForAudioKey,
   parse_vocabulary_file,
 } from "app/VocabularyMaker/functions";
@@ -25,10 +25,10 @@ export const load = async () => {
   let vocabulary = (await axios.get(`/api/vocabulary_maker`, {})).data;
   sound = (vocabulary && vocabulary.sound) || [];
   rows = (vocabulary && vocabulary.rows) || [];
-  rows = rows.map((row, index) => {
-    maxID = Math.max(maxID, index);
-    row.row_id = index;
-    return row;
+  rows.forEach((row, index) => {
+    maxID = Math.max(maxID, row.row_id);
+    // row.row_id = index;
+    // return row;
   });
 
   // const parsed = parse(vocabulary)
@@ -49,6 +49,8 @@ export const refreshRows = (id) => {
     // _.shuffle(rows)
     rows.sort(
       (a, b) =>
+        // (b.level <= 3) - (a.level <= 3) ||
+        Boolean(a.icelandic) - Boolean(b.icelandic) ||
         Boolean(a["Laga?"]) - Boolean(b["Laga?"]) ||
         Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
         Boolean(a.last_seen) - Boolean(b.last_seen) ||
@@ -59,8 +61,16 @@ export const refreshRows = (id) => {
   select(selected_rows.length > 0 && selected_rows[0].row_id);
 };
 
-export const selectRows = () => {
-  selected_rows = rows.slice(0, MAX_PER_PAGE);
+export const selectRows = (noupdate) => {
+  if (!isSearching) {
+    selected_rows = rows
+      .filter((i) => i.level <= 3 || !i.level)
+      .slice(0, MAX_PER_PAGE);
+  } else if (!noupdate) {
+    selected_rows = selected_rows.map((s) =>
+      rows.find((j) => j.row_id === s.row_id)
+    );
+  }
   store.dispatch({
     type: "LOAD_VOCABULARY_MAKER_DATA",
     content: selected_rows,
@@ -192,6 +202,13 @@ export const findMissingDependencies = () => {
   console.log("Missing:\n" + missing.join("\n"));
 };
 
+export const addEmpty = () => {
+  rows.push({
+    row_id: maxID++ + 1,
+  });
+  refreshRows();
+};
+
 export const addRowsIfMissing = (text) => {
   text.split(/\n/g).forEach((row) => {
     if (!row || !row.trim()) return;
@@ -205,16 +222,45 @@ export const addRowsIfMissing = (text) => {
         row_id: maxID++ + 1,
         icelandic: is.trim(),
         english: en && en.trim(),
-        level: window.level || null,
+        level: window.term_level || 1,
       });
       console.log("added " + is);
     }
   });
+  // console.log(rows);
   save();
   refreshRows();
+};
+
+let isSearching = false;
+export const search = (e) => {
+  const text = e.target.value.trim();
+  if (!text) {
+    isSearching = false;
+  } else {
+    isSearching = true;
+    selected_rows = rows
+      .filter((j) =>
+        new RegExp(text, "i").test(
+          [
+            getPlaintextFromVocabularyEntry(j.icelandic),
+            j.lemmas,
+            j.depends_on,
+            j.note,
+            j.alternative_ids,
+            j.note_regarding_english,
+            j.related_items,
+            j["this is a minor variation of"],
+          ].join(" ")
+        )
+      )
+      .sort((a, b) => a.icelandic.length - b.icelandic.length);
+  }
+  selectRows(true);
 };
 
 if (isBrowser) {
   window.addRowsIfMissing = addRowsIfMissing;
   window.save = save;
+  window.rows = () => rows;
 }
