@@ -77,7 +77,7 @@ class Form2 extends React.Component {
       <div className="vocabulary_maker">
         <h1>Voc</h1>
         <button onClick={addEmpty}>Add</button>
-        <input placeholder="Search..." type="text" onKeyUp={search} />
+        <input placeholder="Search..." type="text" onKeyDown={search} />
         {this.props.vocabularyMaker.data.map((row, index) => {
           if (row.row_id === this.props.vocabularyMaker.selected) {
             let initialValues = row;

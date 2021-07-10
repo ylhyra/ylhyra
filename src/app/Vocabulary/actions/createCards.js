@@ -36,14 +36,14 @@ export default function createCards(options, deck_) {
     .map((id) => ({ id, ...deck.schedule[id] }))
     .sort((a, b) => a.due - b.due)
     .forEach((i) => {
-      if (i.last_seen < now - 0.5 * day) {
-        if (i.adjusted_due < now + 0.5 * day) {
+      if (i.last_seen < now - 0.7 * day) {
+        if (i.adjusted_due < now + 0.7 * day) {
           if (i.score < 1.5) {
             overdue_bad_ids.push(i.id);
           } else {
             overdue_good_ids.push(i.id);
           }
-        } else if (i.due < now + 0.5 * day) {
+        } else if (i.due < now + 0.7 * day) {
           if (i.score < 1.5) {
             unadjusted_overdue_bad_ids.push(i.id);
           } else {
@@ -81,8 +81,6 @@ export default function createCards(options, deck_) {
   overdue_bad_ids = _.shuffle(overdue_bad_ids).concat(
     _.shuffle(unadjusted_overdue_bad_ids)
   );
-
-  // not_overdue_bad_cards_ids = _.shuffle(not_overdue_bad_cards_ids);
   not_overdue_bad_cards_ids = SortIdsByWhetherTermWasRecentlySeen(
     not_overdue_bad_cards_ids,
     deck
@@ -94,8 +92,7 @@ export default function createCards(options, deck_) {
     new_card_ids.length;
   let chosen_ids = [];
   const total_overdue = overdue_bad_ids.length + overdue_good_ids.length;
-  const badratio = PercentageKnown(overdue_bad_ids.concat(overdue_good_ids)); //overdue_bad_ids.length / total_overdue;
-  // console.log({ badratio });
+  const badratio = PercentageKnown(overdue_bad_ids.concat(overdue_good_ids));
   let newCardEvery = 3;
   if (overdue_bad_ids.length > 15) {
     newCardEvery = 10;
@@ -110,14 +107,14 @@ export default function createCards(options, deck_) {
     if (i % newCardEvery === 0 && new_card_ids.length > 0) {
       chosen_ids.push(new_card_ids.shift());
     }
-    if (i % 1 === 0 && overdue_good_ids.length > 0) {
+    if (overdue_good_ids.length > 0) {
       chosen_ids.push(overdue_good_ids.shift());
     }
-    if (i % 1 === 0 && overdue_bad_ids.length > 0) {
+    if (overdue_bad_ids.length > 0) {
       chosen_ids.push(overdue_bad_ids.shift());
     }
     /* Todo? */
-    if (i % 100 === 100 - 1 && not_overdue_bad_cards_ids.length > 0) {
+    if (i % 50 === 50 - 1 && not_overdue_bad_cards_ids.length > 0) {
       chosen_ids.push(not_overdue_bad_cards_ids.shift());
     }
   }
@@ -133,7 +130,7 @@ export default function createCards(options, deck_) {
       chosen_ids.includes(card_id) ||
       /* Dependency that is not known */
       !(card_id in deck.schedule) ||
-      deck.schedule[card_id].score < GOOD
+      deck.schedule[card_id].score < 1.5
     ) {
       return tmp.push(card_id);
     }

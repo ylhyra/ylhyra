@@ -31,6 +31,14 @@ kbd {
 
 section,
 .section {
+  > div {
+    max-width: $max-width;
+    // max-width: 500px;
+    margin: auto;
+  }
+  > div:not(.content) {
+    padding: 25px 10px;
+  }
   &.content {
     padding: 55px 24px;
     margin: 0;
@@ -55,10 +63,6 @@ section,
       font-weight: 600;
       font-size: 20px;
     }
-  }
-  > div {
-    max-width: $max-width;
-    margin: auto;
   }
   &.odd {
     background: rgba(#fcfcfc, 0.8);
@@ -155,6 +159,15 @@ h1 {
     }
     &.seen {
       background: #dcf4d9;
+    }
+    b b,
+    b + span b,
+    .occluded {
+      text-decoration: underline;
+    }
+    .thu-merging {
+      color: gray;
+      font-style: italic;
     }
   }
   label {

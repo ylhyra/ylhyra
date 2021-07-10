@@ -8,6 +8,8 @@ const fs = require("fs");
 export const vocabulary_json = __basedir + "/build/vocabulary_database.json";
 export const vocabulary_json_es =
   __basedir + "/build/vocabulary_database_es.json";
+export const vocabulary_json_da =
+  __basedir + "/build/vocabulary_database_da.json";
 
 router.all(
   "/vocabulary/get",
@@ -40,6 +42,10 @@ router.use(
 router.use(
   "/vocabulary/vocabulary_database_es.json",
   express.static(vocabulary_json_es)
+);
+router.use(
+  "/vocabulary/vocabulary_database_da.json",
+  express.static(vocabulary_json_da)
 );
 
 router.get("/vocabulary/database_last_updated", (req, res) => {

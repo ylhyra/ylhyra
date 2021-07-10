@@ -1,5 +1,5 @@
 /*
-node build/server/ylhyra_server.js --compile-content
+node build/server/ylhyra_server.js --generate-links
 */
 // import urlSlug from 'src/app/App/functions/url-slug'
 import string_hash from "app/App/functions/hash";

@@ -7,13 +7,14 @@ import {
   PercentageKnown,
   getCardIdsFromWords,
   studyParticularIds,
+  withDependencies,
 } from "app/Vocabulary/actions/_functions";
 
 class X extends Component {
   getCards = () => {
     const vocabulary_list = this.getList();
     if (!vocabulary_list) return null;
-    return getCardIdsFromWords(vocabulary_list);
+    return withDependencies(getCardIdsFromWords(vocabulary_list));
   };
   run = () => {
     studyParticularIds(this.getCards());

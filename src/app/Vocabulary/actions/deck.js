@@ -33,6 +33,7 @@ class Deck {
         (a, b) =>
           //.test(b.is_plaintext) - //.test(a.is_plaintext) ||
           a.level - b.level ||
+          b.hasOwnProperty("sortKey") - a.hasOwnProperty("sortKey") ||
           a.sortKey - b.sortKey ||
           Boolean(b.sound) - Boolean(a.sound)
       )

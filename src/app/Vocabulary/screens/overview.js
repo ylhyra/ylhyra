@@ -8,6 +8,7 @@ import {
   PercentageKnownOverall,
   getCardIdsFromWords,
   studyParticularIds,
+  countTerms,
 } from "app/Vocabulary/actions/_functions";
 import Link from "app/Router/Link";
 import _ from "underscore";
@@ -50,7 +51,7 @@ class Overview3 extends Component {
           const ids = cards.map((c) => c.id);
           const level_name = ["A1", "A2", "B1"][level - 1];
           return (
-            <div>
+            <div key={level}>
               {PercentageKnown(ids)}% known in level {level_name} (out of{" "}
               {countTerms(cards)} terms).{" "}
               <button className="small" onClick={() => studyParticularIds(ids)}>
@@ -66,11 +67,3 @@ class Overview3 extends Component {
 const Overview2 = connect((state) => ({
   vocabulary: state.vocabulary,
 }))(Overview3);
-
-const countTerms = (cards) => {
-  return round(_.uniq(_.flatten(cards.map((c) => c.terms))).length, 50);
-};
-
-const round = (v, roundto) => {
-  return Math.round(v / roundto) * roundto;
-};

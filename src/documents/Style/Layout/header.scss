@@ -3,19 +3,19 @@
 header {
   height: 60px;
   // margin-top: 14px;
-
+  padding: 0 10px;
   > div {
     max-width: $max-width;
     margin: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 30px;
     height: 100%;
 
     #logo {
       background-size: contain;
       background-repeat: no-repeat;
+      min-width: 68px;
       // /* Sans serif */
       // background-image: url("http://localhost:3000/api/images2/assets/Ylhyra_logo_dark.svg");
       // width: 100px;
@@ -25,15 +25,21 @@ header {
       // width: 105px;
       // height: 105px * 36 / 112;
       // /* 36 / 112 is the image's ratio */
-      background-image: url("http://localhost:3000/api/images2/assets/Logo_serif_nocircle.svg"); /* TODO */
+      background-image: url("http://localhost:3000/api/images2/assets/Logo_serif_nocircle.svg"); /* Will be replaced in compile step */
       width: 68px;
-      height: 68px * 26/ 68;
+      height: 68px * 26 / 68;
       // height: math.div(68px * 26, 68);
       display: block;
       position: relative;
     }
 
+    &.navlinks {
+      display: flex;
+      flex: 1;
+      justify-content: space-around;
+    }
     ul {
+      // display: flex;
       li {
         display: inline-block;
         margin: 0 0 0 15px;
@@ -50,14 +56,33 @@ header {
             color: black;
           }
         }
-        @media screen and (max-width: 550px) {
-          margin-left: 9px;
+        @media (max-width: 550px) {
+          margin-left: 10px;
+          font-size: 14px;
+        }
+        @media (max-width: 450px) {
+          margin-left: 4px;
           font-size: 13px;
         }
       }
     }
-    @media screen and (max-width: 550px) {
-      padding: 0 5px;
+  }
+  .medium {
+    display: none;
+  }
+  @media (max-width: 350px) {
+    .large {
+      display: none;
     }
+    .medium {
+      display: initial;
+    }
+    // padding: 0 5px;
+    // > div {
+    //   display: block;
+    // }
+    // .navlinks {
+    //   border: 1px solid gray;
+    // }
   }
 }

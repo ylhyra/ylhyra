@@ -111,7 +111,7 @@ const prettyHost = customHost || "localhost";
 const port = process.env.SERVER_PORT || argv.port || 9123;
 
 /* Import steps */
-if (process.argv[2] === "--compile-content") {
+if (process.argv[2] === "--generate-links") {
   require("server/compiler/generate_links.js");
 } else if (process.argv[2] === "--prerender") {
   require("server/content/prerender_all.js");
@@ -120,7 +120,7 @@ if (process.argv[2] === "--compile-content") {
 } else if (process.argv[2] === "--generate-search-index") {
   // require("server/inflection/server/server-with-database/database/generateSearchIndex.js");
 } else if (process.argv[2] === "--import-vocabulary") {
-  require("server/vocabulary/setup/setup");
+  require("server/vocabulary/compile");
 } else {
   /* Or, start the app */
   app.listen(port, host, (err) => {

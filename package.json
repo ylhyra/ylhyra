@@ -13,7 +13,7 @@
   "scripts": {
     "start": "export BROWSER=none && react-scripts start",
     "links": "export NODE_ENV=production && npm run build_server && npm run links_only",
-    "links_only": "node build/server/ylhyra_server.js --compile-content",
+    "links_only": "node build/server/ylhyra_server.js --generate-links",
     "vocabulary": "npm run build_server && npm run vocabulary_only",
     "vocabulary_only": "node build/server/ylhyra_server.js --import-vocabulary",
     "vocabulary_testing": "node build/server/ylhyra_server.js --import-vocabulary --testing",

@@ -50,12 +50,14 @@ export const refreshRows = (id) => {
     rows.sort(
       (a, b) =>
         // (b.level <= 3) - (a.level <= 3) ||
+        Boolean(a.last_seen) - Boolean(b.last_seen) ||
         Boolean(a.icelandic) - Boolean(b.icelandic) ||
+        Boolean(a.english) - Boolean(b.english) ||
+        Boolean(b.row_id) - Boolean(a.row_id) ||
+        (a.level || 100) - (b.level || 100) ||
         Boolean(a["Laga?"]) - Boolean(b["Laga?"]) ||
         Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
-        Boolean(a.last_seen) - Boolean(b.last_seen) ||
-        Boolean(a.english) - Boolean(b.english) ||
-        (a.level || 100) - (b.level || 100)
+        false
     );
   selectRows();
   select(selected_rows.length > 0 && selected_rows[0].row_id);
@@ -67,9 +69,9 @@ export const selectRows = (noupdate) => {
       .filter((i) => i.level <= 3 || !i.level)
       .slice(0, MAX_PER_PAGE);
   } else if (!noupdate) {
-    selected_rows = selected_rows.map((s) =>
-      rows.find((j) => j.row_id === s.row_id)
-    );
+    selected_rows = selected_rows
+      .map((s) => rows.find((j) => j.row_id === s.row_id))
+      .filter(Boolean);
   }
   store.dispatch({
     type: "LOAD_VOCABULARY_MAKER_DATA",
@@ -234,6 +236,7 @@ export const addRowsIfMissing = (text) => {
 
 let isSearching = false;
 export const search = (e) => {
+  if (e.keyCode !== 13 /* Enter */) return;
   const text = e.target.value.trim();
   if (!text) {
     isSearching = false;

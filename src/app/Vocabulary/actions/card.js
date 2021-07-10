@@ -107,7 +107,7 @@ class Card {
     this.session.dependencyHistory = [
       this.dependencies,
       ...this.session.dependencyHistory,
-    ].slice(0, 3);
+    ].slice(0, 2);
   }
   getRanking() {
     let q = this.getQueuePosition();
@@ -194,9 +194,13 @@ Card.prototype.getQueuePosition = function () {
 //   }
 // };
 Card.prototype.wasDependencyRecentlySeen = function () {
+  /* TODO: Af hverju veldur "1" því að síðustu tveir séu skoðaðir? */
+  // const length = this.session.counter % 2 ? 2 : 1;
   return (
-    _.intersection(this.dependencies, _.flatten(this.session.dependencyHistory))
-      .length > 0
+    _.intersection(
+      this.dependencies,
+      _.flatten(this.session.dependencyHistory.slice(0, 1))
+    ).length > 0
   );
 };
 

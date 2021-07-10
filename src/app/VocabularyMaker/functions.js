@@ -53,7 +53,7 @@ export const formatVocabularyEntry = (input) => {
         space_after && "space_after"
       }"><span>${text}</span></span>${space_after}`;
     })
-    .replace(/ - /g, ` <span class="gray">—</span> `)
+    .replace(/ [-–] /g, ` <span class="gray">—</span> `)
     .replace(/;;/g, `MAJOR_SEPERATOR`)
     .replace(/;/g, `<span class="seperator">,</span>`)
     .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)

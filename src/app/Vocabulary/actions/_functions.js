@@ -1,5 +1,5 @@
 import createCards from "app/Vocabulary/actions/createCards";
-import { average, clamp, mapValueToRange } from "app/App/functions/math";
+import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
 import { getHash } from "app/VocabularyMaker/functions";
 import store from "app/App/store";
 import { InitializeSession } from "app/Vocabulary/actions/session";
@@ -47,12 +47,12 @@ export const PercentageKnown = (card_ids) => {
   let remaining = 0;
   card_ids.forEach((id) => {
     if (id in deck.schedule) {
-      /* 2.25 counts as fully known, while 1 counts as not known */
+      /* 2.02 counts as fully known, while 1 counts as not known */
       const output = mapValueToRange({
         value: deck.schedule[id].score,
         input_from: 1,
-        input_to: 2.1,
-        output_from: 0.2,
+        input_to: 1.8,
+        output_from: 0.05,
         output_to: 1,
         clamp: true,
       });
@@ -137,7 +137,7 @@ export const getCardIdsFromWords = (words) => {
   if (missing.length > 0) {
     console.log(`Missing terms:\n${missing.join("\n")}`);
   }
-  return withDependencies(_.uniq(card_ids));
+  return _.uniq(card_ids);
 };
 
 export const withDependencies = (card_ids) => {
@@ -207,4 +207,8 @@ export const studyParticularIds = (allowed_card_ids) => {
   const cards = createCards({ allowed_card_ids }, deck);
   InitializeSession(cards, deck);
   updateURL("/vocabulary/play");
+};
+
+export const countTerms = (cards) => {
+  return round(_.uniq(_.flatten(cards.map((c) => c.terms))).length, 50);
 };

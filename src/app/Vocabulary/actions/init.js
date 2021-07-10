@@ -13,7 +13,9 @@ import { InitializeUser } from "app/User/actions";
 export const InitializeVocabulary = async () => {
   const DECK =
     process.env.NODE_ENV === "development" && getUserFromCookie() !== null
-      ? "_es"
+      ? getUserFromCookie().username === "danska"
+        ? "_da"
+        : "_es"
       : ""; // TMP
   const now = new Date().getTime();
   let database = getFromLocalStorage("vocabulary-database");
