@@ -12,7 +12,7 @@ const r = (props) => (
       <button
         className="link"
         onClick={() => {
-          store.getState().vocabulary.deck.sessionDone();
+          props.vocabulary.deck.sessionDone();
         }}
       >
         Quit
@@ -20,14 +20,17 @@ const r = (props) => (
       <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
       <Link href="/vocabulary/tutorial">Tutorial</Link>
       <div className="spacer" />
-      <button
-        className="link"
-        onClick={() => {
-          store.dispatch({ type: "VOCABULARY_AUDIO_ONOFF" });
-        }}
-      >
-        Audio: <b>{props.vocabulary.volume ? "On" : "Off"}</b>
-      </button>
+      {props.vocabulary.session &&
+        props.vocabulary.session.cards.some((j) => j.sound) && (
+          <button
+            className="link"
+            onClick={() => {
+              store.dispatch({ type: "VOCABULARY_AUDIO_ONOFF" });
+            }}
+          >
+            Audio: <b>{props.vocabulary.volume ? "On" : "Off"}</b>
+          </button>
+        )}
     </div>
     <GameContainer />
   </div>

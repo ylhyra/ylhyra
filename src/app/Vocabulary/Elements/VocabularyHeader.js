@@ -9,6 +9,7 @@ import {
   studyParticularIds,
   withDependencies,
 } from "app/Vocabulary/actions/_functions";
+import _ from "underscore";
 
 class X extends Component {
   getCards = () => {
@@ -19,18 +20,16 @@ class X extends Component {
   run = () => {
     studyParticularIds(this.getCards());
   };
-  getList = () => {
-    return (
-      (this.props.header_data && this.props.header_data.vocabulary) ||
-      (this.props.route.data && this.props.route.data.header.vocabulary)
-    );
-  };
   render() {
-    if (this.props.route.pathname === "/") return null;
-    const vocabulary_list = this.getList();
+    const vocabulary_list =
+      this.props.header_data && this.props.header_data.vocabulary;
     const { deck } = this.props.vocabulary;
     if (!vocabulary_list || !deck) return null;
-    const cards = this.getCards();
+    const cards = getCardIdsFromWords(vocabulary_list);
+    const dependencies = _.difference(
+      withDependencies(getCardIdsFromWords(vocabulary_list)),
+      cards
+    );
     if (cards.length === 0) return null;
     if (this.props.button === false) {
       return (
@@ -41,7 +40,13 @@ class X extends Component {
       <div>
         <div>{PercentageKnown(cards, deck)}% known</div>
         {/* <div>{JSON.stringify(MakeSummaryOfCardStatuses(cards, deck))}</div> */}
-        <button onClick={this.run}>Study {cards.length} cards</button>
+        <button className="big" onClick={() => studyParticularIds(cards)}>
+          Study {cards.length} cards
+        </button>
+        <div className="gray">
+          Additionally includes {dependencies.length} prerequisite cards (
+          {PercentageKnown(dependencies, deck)}% known).
+        </div>
       </div>
     );
   }

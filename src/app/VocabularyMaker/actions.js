@@ -51,9 +51,9 @@ export const refreshRows = (id) => {
       (a, b) =>
         // (b.level <= 3) - (a.level <= 3) ||
         Boolean(a.last_seen) - Boolean(b.last_seen) ||
+        b.row_id - a.row_id ||
         Boolean(a.icelandic) - Boolean(b.icelandic) ||
         Boolean(a.english) - Boolean(b.english) ||
-        Boolean(b.row_id) - Boolean(a.row_id) ||
         (a.level || 100) - (b.level || 100) ||
         Boolean(a["Laga?"]) - Boolean(b["Laga?"]) ||
         Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
@@ -214,7 +214,7 @@ export const addEmpty = () => {
 export const addRowsIfMissing = (text) => {
   text.split(/\n/g).forEach((row) => {
     if (!row || !row.trim()) return;
-    const [is, en] = row.split(/(?: = |\t)/);
+    const [is, en, level, depends_on, lemmas] = row.split(/(?: = |\t)/g);
     if (
       !(getHash(is) in terms) &&
       !(getHash(is) in alternative_ids) &&
@@ -224,7 +224,9 @@ export const addRowsIfMissing = (text) => {
         row_id: maxID++ + 1,
         icelandic: is.trim(),
         english: en && en.trim(),
-        level: window.term_level || 1,
+        level: level || window.term_level || 1,
+        depends_on: depends_on || "",
+        lemmas: lemmas || "",
       });
       console.log("added " + is);
     }

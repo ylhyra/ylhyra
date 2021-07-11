@@ -60,7 +60,8 @@ router.post("/vocabulary_maker", (req, res) => {
               .trim()
               .replace(/\s+/g, " ")
               .replace(/^, ?/g, "")
-              .replace(/,$/g, "");
+              .replace(/,$/g, "")
+              .replace(/ [–—] /g, " - ");
           } else {
             out[key] = row[key];
           }

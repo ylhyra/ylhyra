@@ -21,21 +21,6 @@ let TESTING = false;
 /* TODO */
 let hash = shortid.generate();
 
-const header_links = `
-  <link href="/app/main.css?v=${hash}" rel="stylesheet" />
-`;
-let footer_links = `
-  ${
-    TESTING
-      ? `
-    <script src="http://localhost:3000/static/js/bundle.js"></script>
-    <script src="http://localhost:3000/static/js/vendors~main.chunk.js"></script>
-    <script src="http://localhost:3000/static/js/main.chunk.js"></script>
-  `
-      : `<script src="/app/ylhyra.main.js?v=${hash}"></script>`
-  }
-`;
-
 const css = fs.readFileSync(
   path.resolve(output_folder, `./app/main.css`),
   "utf8"
@@ -46,6 +31,21 @@ const html = fs.readFileSync(
 );
 
 const render = async ({ title, filename, css, is_content, callback }) => {
+  const header_links = `
+    <link href="/app/main.css?v=${hash}" rel="stylesheet" />
+  `;
+  let footer_links = `
+    ${
+      TESTING
+        ? `
+      <script src="http://localhost:3000/static/js/bundle.js"></script>
+      <script src="http://localhost:3000/static/js/vendors~main.chunk.js"></script>
+      <script src="http://localhost:3000/static/js/main.chunk.js"></script>
+    `
+        : `<script src="/app/ylhyra.main.js?v=${hash}"></script>`
+    }
+  `;
+
   let content, header, necessary_data, output, props;
   if (is_content) {
     const h = await generate_html(title);
@@ -56,6 +56,7 @@ const render = async ({ title, filename, css, is_content, callback }) => {
     props = { prerender: parsed };
     necessary_data = JSON.stringify({
       parsed,
+      header,
       flattenedData: {
         long_audio: flattenedData && flattenedData.long_audio,
       },
@@ -132,3 +133,15 @@ const render = async ({ title, filename, css, is_content, callback }) => {
 };
 
 export default render;
+
+/* Testing */
+// node build/server/development/ylhyra_server.development.js --prerender-single
+if (process.argv[2] === "--prerender-single") {
+  TESTING = true;
+  render({
+    title: "nokkrir",
+    filename: "nokkrir",
+    callback: process.exit,
+    is_content: true,
+  });
+}

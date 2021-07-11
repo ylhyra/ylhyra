@@ -52,12 +52,16 @@ button:not(.link):not(.nostyle) {
   font-weight: 500;
   font-size: 14px;
   // position: relative;
-  // @include sans_serif();
+  @include sans_serif();
   display: inline-block;
 
   &.small {
     font-size: 12px;
     padding: 3px 6px;
+  }
+  &.big {
+    font-size: 15px;
+    padding: 8px 14px;
   }
 
   &.red {

@@ -25,6 +25,7 @@ const yaml = require("js-yaml");
   Convert vocabulary data into a JavaScrip object
 */
 const run = async () => {
+  console.log("Making vocabulary...");
   /****************
    * Read the page "Course" and find the order of its vocabulary list
    ***************/
@@ -43,6 +44,8 @@ const run = async () => {
     });
     i++;
   });
+
+  console.log("Sortkeys generated");
 
   fs.readFile(filename, "utf8", (err, data) => {
     const { terms, dependencies, alternative_ids, plaintext_sentences, cards } =

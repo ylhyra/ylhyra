@@ -7,10 +7,11 @@ import { ProcessLinks } from "documents/Compile/functions.js";
 
 export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;
-  return formatVocabularyEntry(input)
-    .replace(/<.+?>/g, "")
-    .replace(/[\s]+/g, " ")
-    .trim();
+  return removeWhitespace(formatVocabularyEntry(input).replace(/<.+?>/g, ""));
+};
+export const removeWhitespace = (input) => {
+  if (!input) return "";
+  return input.replace(/[\s]+/g, " ").trim();
 };
 
 export const formatVocabularyEntry = (input) => {
@@ -76,6 +77,16 @@ export const formatVocabularyEntry = (input) => {
   return input;
 };
 
+const formatPrefixes = (first, second) => {
+  if (!first || !second) return first;
+  const re =
+    /(?:^| - )(hér eru?|um|frá|til|here is|here are|about|from|to)( )/g;
+  if (re.test(first) && re.test(second)) {
+    return first.replace(re, "$1{{gray|$2}}$3");
+  }
+  return first;
+};
+
 const formatLemmas = (input) => {
   if (!input) return "";
   input = formatVocabularyEntry(input)
@@ -84,6 +95,7 @@ const formatLemmas = (input) => {
     .replace(/(\(.+?\))/g, `<span class="gray">$1</span>`);
   return input;
 };
+
 export const clean_string = (i) => {
   return getPlaintextFromVocabularyEntry(i);
   // return i
@@ -240,7 +252,9 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
 
       let card_skeleton = {
         en_plaintext: getPlaintextFromVocabularyEntry(row.english),
-        en_formatted: formatVocabularyEntry(row.english),
+        en_formatted: formatVocabularyEntry(
+          formatPrefixes(row.english, row.icelandic)
+        ),
         terms: terms_in_this_line,
         level: row.level,
         pronunciation: row.pronunciation,
@@ -269,7 +283,11 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
           icelandic_strings.forEach((i, index) => {
             to_add.push({
               is_plaintext: getPlaintextFromVocabularyEntry(i),
-              is_formatted: formatted_icelandic_strings[index],
+              is_formatted: formatPrefixes(
+                formatted_icelandic_strings[index],
+                row.english
+              ),
+
               from: "is",
               id: getHash(i) + "_is",
               sound: getSounds(i),
@@ -279,7 +297,9 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         } else {
           to_add.push({
             is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
-            is_formatted: formatVocabularyEntry(row.icelandic),
+            is_formatted: formatVocabularyEntry(
+              formatPrefixes(row.icelandic, row.english)
+            ),
             from: "is",
             id: getHash(row.icelandic) + "_is",
             sound: getSounds(row.icelandic),

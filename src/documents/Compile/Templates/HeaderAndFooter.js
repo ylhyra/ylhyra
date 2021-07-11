@@ -1,11 +1,17 @@
 import c from "app/App/functions/no-undefined-in-template-literal.js";
 import markdown_to_html from "documents/Compile/markdown_to_html.js";
+var btoa = require("btoa");
 export default (input, header) => {
   let h = "";
   let f = "";
+  const VocabularyHeader = header.vocabulary
+    ? `<vocabularyheader header_data="${btoa(
+        JSON.stringify(header.vocabulary)
+      )}"/>`
+    : "";
   if (header.vocabulary || header.level || header.has_data) {
     h = c`<section class="content-header">
-      ${header.vocabulary && `<vocabularyheader/>`}
+      ${VocabularyHeader}
       ${header.level && `<level level="${header.level}"/>`}
       ${
         header.has_data &&
@@ -19,9 +25,11 @@ export default (input, header) => {
     header.published ||
     header.reflist
   ) {
-    f = c`<section class="last">
-      ${header.vocabulary && `<vocabularyheader/>`}
-    </section>
+    // <section class="last">
+    //   ${VocabularyHeader}
+    // </section>
+    f = c`
+    <section class="last"></section>
     <section class="content-footer">
       ${
         header.license === "CC0" &&

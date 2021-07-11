@@ -20,9 +20,10 @@ export const loadContent = (url, prerender_data, preload, section) => {
     store.dispatch({
       type: "LOAD_ROUTE_CONTENT",
       data: { parsed: prerender_data },
+      pathname: url,
     });
   } else if (url in cache) {
-    set(url, JSON.parse(cache[url]), preload, section);
+    set(url, cache[url], preload, section);
   } else {
     axios
       .get("/api/content", {
@@ -31,7 +32,7 @@ export const loadContent = (url, prerender_data, preload, section) => {
         },
       })
       .then(async ({ data }) => {
-        cache[url] = JSON.stringify(data);
+        cache[url] = data;
         set(url, data, preload, section);
       })
       .catch((error) => {
@@ -52,7 +53,7 @@ const set = async (url, data, preload, section) => {
   // console.log({ url, section });
   // throw new Error("");
   if (preload) return;
-  let parsed, flattenedData;
+  let parsed, flattenedData, header;
   if ("parsed" in data) {
     parsed = data.parsed;
     flattenedData = data.flattenedData;

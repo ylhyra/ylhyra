@@ -48,7 +48,7 @@ router.use(
   express.static(vocabulary_json_da)
 );
 
-router.get("/vocabulary/database_last_updated", (req, res) => {
+router.post("/vocabulary/database_last_updated", (req, res) => {
   fs.stat(vocabulary_json, (err, stats) => {
     if (err) {
       throw err;

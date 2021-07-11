@@ -115,6 +115,8 @@ if (process.argv[2] === "--generate-links") {
   require("server/compiler/generate_links.js");
 } else if (process.argv[2] === "--prerender") {
   require("server/content/prerender_all.js");
+} else if (process.argv[2] === "--prerender-single") {
+  require("server/content/prerender_single.js");
 } else if (process.argv[2] === "--import-inflections") {
   // require("server/inflection/server/server-with-database/database/ImportToDatabase.js");
 } else if (process.argv[2] === "--generate-search-index") {
