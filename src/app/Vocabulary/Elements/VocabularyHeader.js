@@ -37,7 +37,10 @@ class X extends Component {
       if (true || process.env.NODE_ENV === "development") {
         tmp = (
           <div className="temporary-vocabulary-list" key={2}>
-            {vocabulary_list.map(getPlaintextFromVocabularyEntry).join(" • ")}
+            {vocabulary_list
+              .map(getPlaintextFromVocabularyEntry)
+              // .map((j) => j.replace(/ /g, " "))
+              .join(" • ")}
           </div>
         );
       }

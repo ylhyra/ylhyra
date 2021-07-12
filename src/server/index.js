@@ -124,7 +124,7 @@ if (process.argv[2] === "--generate-links") {
 } else if (process.argv[2] === "--import-vocabulary") {
   require("server/vocabulary/compile");
 } else if (process.argv[2] === "--generate-sentences") {
-  require("server/vocabulary/generate-sentences");
+  require("server/vocabulary/generate_sentences");
 } else {
   /* Or, start the app */
   app.listen(port, host, (err) => {

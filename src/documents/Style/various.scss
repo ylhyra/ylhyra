@@ -22,6 +22,7 @@ kbd {
   }
   .temporary-vocabulary-list {
     color: gray;
+    line-height: 1.4;
     @include sans-serif();
     font-size: 11px;
   }
