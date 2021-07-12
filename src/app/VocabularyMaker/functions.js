@@ -79,9 +79,8 @@ export const formatVocabularyEntry = (input) => {
 
 const formatPrefixes = (first, second) => {
   if (!first || !second) return first;
-  const re =
-    /(?:^| - )(hér eru?|um|frá|til|here is|here are|about|from|to)( )/g;
-  if (re.test(first) && re.test(second)) {
+  const re = /(^| - )(hér eru?|um|frá|til|here is|here are|about|from|to)( )/g;
+  if (first.match(re) && second.match(re)) {
     return first.replace(re, "$1{{gray|$2}}$3");
   }
   return first;

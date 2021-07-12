@@ -68,7 +68,10 @@ router.post("/vocabulary_maker", (req, res) => {
         });
         return out;
       }),
-    sound: data.sound,
+    sound: data.sound.map((j) => {
+      delete j.lowercase;
+      return j;
+    }),
   };
 
   const y = yaml.dump(data, { lineWidth: -1, quotingType: '"' });

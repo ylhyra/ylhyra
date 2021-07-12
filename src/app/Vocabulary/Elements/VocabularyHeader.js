@@ -32,9 +32,20 @@ class X extends Component {
     );
     if (cards.length === 0) return null;
     if (this.props.button === false) {
-      return (
-        <small className="gray">{PercentageKnown(cards, deck)}% known</small>
-      );
+      let tmp;
+      if (process.env.NODE_ENV === "development") {
+        tmp = (
+          <small className="gray" key={2}>
+            {vocabulary_list.join(" • ")}
+          </small>
+        );
+      }
+      return [
+        <small className="gray" key={1}>
+          {PercentageKnown(cards, deck)}% known
+        </small>,
+        tmp,
+      ];
     }
     return (
       <div>

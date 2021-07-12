@@ -1,5 +1,5 @@
 import { URL_title } from "paths.js";
-import { ParseHeaderAndBody } from "server/content";
+import { ParseHeaderAndBody } from "documents/Compile/functions";
 import TOC from "documents/Compile/Templates/TOC";
 import forEachAsync from "app/App/functions/array-foreach-async";
 let links = {};

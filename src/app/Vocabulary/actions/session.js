@@ -5,7 +5,7 @@ import store from "app/App/store";
 import _ from "underscore";
 import Card, { BAD, GOOD, EASY } from "./card";
 export const MINUTES = 5;
-export const MAX_SECONDS_TO_COUNT_PER_ITEM = 15;
+export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 const LOGGING = false;
 
 class Session {

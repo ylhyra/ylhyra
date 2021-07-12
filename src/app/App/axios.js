@@ -1,7 +1,7 @@
 import { notify } from "app/App/Error";
 import axios from "axios";
 
-axios.defaults.timeout = 3000;
+axios.defaults.timeout = 5000;
 axios.interceptors.response.use(
   function (success) {
     return success;

@@ -146,13 +146,13 @@ let current_word_recording = 0;
 const setupSound = () => {
   missing_sound = [];
   current_word_recording = 0;
+  sound = sound.map((i) => ({
+    ...i,
+    lowercase: GetLowercaseStringForAudioKey(i.recording_of),
+  }));
   Object.keys(plaintext_sentences).forEach((word) => {
     const lowercase = GetLowercaseStringForAudioKey(word);
-    if (
-      !sound.some(
-        (i) => GetLowercaseStringForAudioKey(i.recording_of) === lowercase
-      )
-    ) {
+    if (!sound.some((i) => i.lowercase === lowercase)) {
       missing_sound.push(word);
     }
   });
@@ -214,7 +214,9 @@ export const addEmpty = () => {
 export const addRowsIfMissing = (text) => {
   text.split(/\n/g).forEach((row) => {
     if (!row || !row.trim()) return;
-    const [is, en, level, depends_on, lemmas] = row.split(/(?: = |\t)/g);
+    const [is, en, level, depends_on, lemmas] = row
+      .replace(/^- /, "")
+      .split(/(?: = |\t)/g);
     if (
       !(getHash(is) in terms) &&
       !(getHash(is) in alternative_ids) &&
