@@ -1,8 +1,5 @@
 import getSortKeys from "./sortKeys";
-import {
-  getHash,
-  GetLowercaseStringForAudioKey,
-} from "app/VocabularyMaker/functions";
+import { getHash } from "app/VocabularyMaker/functions";
 import { content_folder } from "paths_backend";
 import _ from "underscore";
 const fs = require("fs");
@@ -11,7 +8,7 @@ const filename = content_folder + `/not_data/vocabulary/vocabulary`;
 /*
   Finds sentences from dataset that only use easy terms
 */
-const spaces = /[ ,.";:\-–“„]/g;
+const spaces = /[ ,."?!;:\-–“„]/g;
 const run = () => {
   fs.readFile(
     __basedir + `/build/vocabulary_database.json`,
@@ -25,22 +22,34 @@ const run = () => {
           let sortKeys = await getSortKeys(true);
           Object.keys(vocabulary.cards).forEach((card_id) => {
             vocabulary.cards[card_id].is_plaintext.split(";+").forEach((s) => {
-              sortKeys[GetLowercaseStringForAudioKey(s)] = 1000;
+              const j = getHash(s, true);
+              if (!(j in sortKeys)) {
+                sortKeys[j] = 1000;
+              }
             });
           });
+
           let known_words = {};
+          let words_in_course = {};
           Object.keys(sortKeys).forEach((sentence) => {
             sentence
               .toLowerCase()
               .split(spaces)
               .forEach((word) => {
                 const sort_key = sortKeys[sentence];
-                known_words[word] = Math.max(known_words[word] || 0, sort_key);
+                known_words[word] = Math.min(
+                  known_words[word] || 2000,
+                  sort_key
+                );
+                if (sort_key < 1000) {
+                  words_in_course[word] = true;
+                }
               });
           });
 
           let matches = [];
           let seen = [];
+          let word_frequency = {};
           data
             .split("\n")
             .filter(Boolean)
@@ -51,7 +60,7 @@ const run = () => {
                 .forEach((line) => {
                   line = line.replace(/\s+/g, " ").trim();
                   if (!line) return;
-                  const lower = GetLowercaseStringForAudioKey(line);
+                  const lower = getHash(line, true) || "";
                   let max_sortkey = 0;
                   let fail = false;
                   if (lower in sortKeys) return;
@@ -63,6 +72,7 @@ const run = () => {
                     } else {
                       fail = true;
                     }
+                    word_frequency[word] = (word_frequency[word] || 0) + 1;
                   });
                   if (!fail && !seen.includes(lower)) {
                     seen.push(lower);
@@ -71,13 +81,28 @@ const run = () => {
                 });
             });
           fs.writeFileSync(
-            __basedir + "./../Desktop/Ylhýruskjöl/LÍNUR_matches.txt",
+            __basedir + "./../Desktop/Ylhýruskjöl/Orðtíðni.txt",
+            Object.keys(word_frequency)
+              .sort((a, b) => word_frequency[b] - word_frequency[a])
+              .filter((a) => word_frequency[a] > 10 && !(a in words_in_course))
+              .join("\n"),
+            (err) => {}
+          );
+          fs.writeFileSync(
+            __basedir +
+              "./../Desktop/Ylhýruskjöl/Setningar úr orðum sem eru í námskeiðinu.txt",
             matches
               .sort((a, b) => a.sort_key - b.sort_key)
-              .map((j) => j.line)
-              // .map((j) => j.line + "   (" + j.sort_key + ")")
+              // .map((j) => j.line)
+              .map(
+                (j) =>
+                  j.line +
+                  " ".repeat(Math.max(0, 50 - j.line.length)) +
+                  " (" +
+                  j.sort_key +
+                  ")"
+              )
               .join("\n"),
-            // Object.keys(known_words).join("\n"),
             (err) => {}
           );
           console.log("Done");

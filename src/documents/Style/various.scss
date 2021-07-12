@@ -250,3 +250,9 @@ h1 {
 a[href="/login"] {
   xdisplay: none;
 }
+
+.toc_subtitle {
+  font-size: 13px;
+  font-style: italic;
+  @include sans-serif();
+}

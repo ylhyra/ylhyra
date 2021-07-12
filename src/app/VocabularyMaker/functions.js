@@ -22,6 +22,9 @@ export const formatVocabularyEntry = (input) => {
   input = input
     .replace(/^- /g, "")
     .replace(/∆/g, ",")
+    .replace(/\b(mig|þig|hann|hana) (langar)/g, "^^$1^^ ^^$2^^")
+    .replace(/\^\^([^^])([^^]+?)?\^\^/g, "$1{{gray|$2}}")
+
     .replace(
       /{{spp}}/g,
       `This verb's form is the same in the past and the present tense.`
@@ -116,7 +119,7 @@ export const GetLowercaseStringForAudioKey = (i) => {
   return string;
 };
 
-export const getHash = (i) => {
+export const getHash = (i, skip_hash) => {
   if (Array.isArray(i)) {
     return getHash(i.map(clean_string).join(";"));
   }
@@ -124,7 +127,7 @@ export const getHash = (i) => {
     .replace(/[.?!]+$/, "")
     .toLowerCase();
   if (!string) return null;
-  if (isBrowser && window.skip_hash) {
+  if (skip_hash || (isBrowser && window.skip_hash)) {
     return string;
   }
   return _hash(string);

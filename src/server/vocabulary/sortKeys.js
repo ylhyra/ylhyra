@@ -10,7 +10,7 @@ export default async (getRawSentences) => {
    * Read the page "Course" and find the order of its vocabulary list
    ***************/
   const { content, header } = await generate_html("course");
-  let i = 0;
+  let i = 1;
   let sortKeys = {}; /* Term to sortKey */
   let sentences = {};
   content.replace(/header_data="(.+?)"/g, (x, data) => {
@@ -20,14 +20,15 @@ export default async (getRawSentences) => {
       value = value.split(" = ")[0];
       const hash = getHash(value);
       if (!(hash in sortKeys)) {
-        sortKeys[hash] = Math.round(i / 3);
+        sortKeys[hash] = i;
         if (getRawSentences) {
-          sentences[GetLowercaseStringForAudioKey(value)] = Math.round(i / 3);
+          sentences[GetLowercaseStringForAudioKey(value)] = i;
         }
+        i++;
       }
     });
-    i++;
   });
+  console.log(`${i} terms in course`);
   if (getRawSentences) return sentences;
   return sortKeys;
 };
