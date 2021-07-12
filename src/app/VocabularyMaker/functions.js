@@ -3,7 +3,7 @@ import _ from "underscore";
 import _hash from "app/App/functions/hash";
 import { isBrowser } from "app/App/functions/isBrowser";
 import { URL_title, section_id } from "paths.js";
-import { ProcessLinks } from "documents/Compile/functions.js";
+import { ProcessLinks } from "documents/Compile/functions/functions";
 
 export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;
@@ -20,6 +20,7 @@ export const formatVocabularyEntry = (input) => {
     return input.toString();
   }
   input = input
+    .replace(/^- /g, "")
     .replace(/∆/g, ",")
     .replace(
       /{{spp}}/g,

@@ -123,6 +123,8 @@ if (process.argv[2] === "--generate-links") {
   // require("server/inflection/server/server-with-database/database/generateSearchIndex.js");
 } else if (process.argv[2] === "--import-vocabulary") {
   require("server/vocabulary/compile");
+} else if (process.argv[2] === "--generate-sentences") {
+  require("server/vocabulary/generate-sentences");
 } else {
   /* Or, start the app */
   app.listen(port, host, (err) => {

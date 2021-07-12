@@ -9,6 +9,7 @@ import {
   studyParticularIds,
   withDependencies,
 } from "app/Vocabulary/actions/_functions";
+import { getPlaintextFromVocabularyEntry } from "app/VocabularyMaker/functions";
 import _ from "underscore";
 
 class X extends Component {
@@ -33,11 +34,11 @@ class X extends Component {
     if (cards.length === 0) return null;
     if (this.props.button === false) {
       let tmp;
-      if (process.env.NODE_ENV === "development") {
+      if (true || process.env.NODE_ENV === "development") {
         tmp = (
-          <small className="gray" key={2}>
-            {vocabulary_list.join(" • ")}
-          </small>
+          <div className="temporary-vocabulary-list" key={2}>
+            {vocabulary_list.map(getPlaintextFromVocabularyEntry).join(" • ")}
+          </div>
         );
       }
       return [

@@ -9,7 +9,7 @@ import stable_stringify from "json-stable-stringify";
 import { parse_vocabulary_file } from "app/VocabularyMaker/functions.js";
 import { content_folder } from "paths_backend";
 import generate_html from "documents/Compile";
-
+import getSortKeys from "./sortKeys";
 import atob from "atob";
 import { getCardIdsFromWords } from "app/Vocabulary/actions/_functions";
 import { getHash } from "app/VocabularyMaker/functions";
@@ -26,26 +26,8 @@ const yaml = require("js-yaml");
 */
 const run = async () => {
   console.log("Making vocabulary...");
-  /****************
-   * Read the page "Course" and find the order of its vocabulary list
-   ***************/
-  const { content, header } = await generate_html("course");
-  let i = 0;
-  let sortKeys = {}; /* Term to sortKey */
-  content.replace(/header_data="(.+?)"/g, (x, data) => {
-    const values = JSON.parse(atob(data));
-    if (!values) return;
-    values.forEach((value) => {
-      value = value.split(" = ")[0];
-      const hash = getHash(value);
-      if (!(hash in sortKeys)) {
-        sortKeys[hash] = Math.round(i / 3);
-      }
-    });
-    i++;
-  });
 
-  console.log("Sortkeys generated");
+  const sortKeys = await getSortKeys();
 
   fs.readFile(filename, "utf8", (err, data) => {
     const { terms, dependencies, alternative_ids, plaintext_sentences, cards } =

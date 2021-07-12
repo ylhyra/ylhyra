@@ -1,7 +1,8 @@
 import { URL_title } from "paths.js";
-import { ParseHeaderAndBody } from "documents/Compile/functions";
+import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
 import TOC from "documents/Compile/Templates/TOC";
 import forEachAsync from "app/App/functions/array-foreach-async";
+import { removeComments } from "documents/Compile/functions/functions";
 let links = {};
 try {
   links = require("build/links.js");
@@ -39,6 +40,10 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
        * pre-processing to access header data  */
       /* TODO: Move elsewhere */
       output = TOC(output);
+      let i = 0;
+      output = output.replace(/{{incr}}/g, () => {
+        return i++ + 1;
+      });
 
       if (depth < 1 && shouldGetData) {
         output = await TranscludeFromText(output, depth);
@@ -80,9 +85,13 @@ export const TranscludeFromText = async (input, depth) => {
       if (/(>>>)/.test(q)) {
         const [title_, param_] = q.split(">>>");
         const transclusion = await Transclude(title_, depth + 1);
-        output += btoa(
-          JSON.stringify(transclusion.header[param_])
-        ); /* TODO encodeURIComponent instead */
+        if (transclusion.header) {
+          output += btoa(
+            encodeURIComponent(
+              JSON.stringify(transclusion.header[param_]) || ""
+            )
+          ); /* TODO encodeURIComponent instead */
+        }
         // .replace(/"/g,'\\"')
       } else {
         /* Transclude */
@@ -132,6 +141,3 @@ const getData = async (header) => {
 };
 
 export default Transclude;
-
-export const removeComments = (i) =>
-  i.replace(/<!--([\s\S]+?)-->/g, "").replace(/\n<!--([\s\S]+?)-->\n/g, "\n");

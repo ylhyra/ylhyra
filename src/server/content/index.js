@@ -2,7 +2,7 @@ import generate_html from "documents/Compile";
 import { URL_title, FileSafeTitle } from "paths.js";
 import { removeComments } from "documents/Compile/transclude";
 import { url_to_info } from "app/Router/paths.js";
-import { ParseHeaderAndBody } from "documents/Compile/functions";
+import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
 const router = require("express").Router();
 var fs = require("fs");
 let links = {};

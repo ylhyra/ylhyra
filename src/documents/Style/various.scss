@@ -20,6 +20,11 @@ kbd {
     float: right;
     @include sans-serif();
   }
+  .temporary-vocabulary-list {
+    color: gray;
+    @include sans-serif();
+    font-size: 11px;
+  }
 }
 
 #page-not-found {
