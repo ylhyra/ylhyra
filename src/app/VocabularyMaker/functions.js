@@ -19,11 +19,12 @@ export const formatVocabularyEntry = (input) => {
   if (typeof input !== "string") {
     return input.toString();
   }
-  input = input
+  input = automaticThu(input)
     .replace(/^- /g, "")
     .replace(/∆/g, ",")
-    .replace(/\b(mig|þig|hann|hana) (langar)/g, "^^$1^^ ^^$2^^")
-    .replace(/\^\^([^^])([^^]+?)?\^\^/g, "$1{{gray|$2}}")
+    .replace(/\b(mig|þig|hann|hana) (langar)\b/gi, "^^$1^^ ^^$2^^")
+    .replace(/\b(langar) (mig|þig|hann|hana)\b/gi, "^^$1^^ ^^$2^^")
+    .replace(/\^\^([^^])([^^]+?)?\^\^/g, "$1*$2*")
 
     .replace(
       /{{spp}}/g,
@@ -144,10 +145,10 @@ export const getHashesFromCommaSeperated = (i) => {
 export const row_titles = [
   // "icelandic",
   // "english",
-  "level",
-  "depends_on",
   "lemmas",
+  "depends_on",
   "alternative_id",
+  "level",
   "dont_confuse",
   "related_items",
   "direction",
@@ -270,8 +271,10 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         literally: formatVocabularyEntry(row.literally),
       };
 
-      if (/{{(ð?u)}}/.test(row.icelandic)) {
-        const [x, full, verb] = row.icelandic.match(/(([^ "„,.]+){{(?:ð?u)}})/);
+      if (/{{(ð?u)}}/.test(automaticThu(row.icelandic))) {
+        const [x, full, verb] = automaticThu(row.icelandic).match(
+          /(([^ "„,.]+){{(?:ð?u)}})/
+        );
         card_skeleton.note =
           card_skeleton.note +
           " " +
@@ -359,4 +362,9 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
     plaintext_sentences,
     cards,
   };
+};
+const automaticThu = (input) => {
+  return input
+    .replace(/\b(ert)u\b/gi, "$1{{u}}")
+    .replace(/\b(ætlar)ðu\b/gi, "$1{{ðu}}");
 };

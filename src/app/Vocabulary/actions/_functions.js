@@ -117,10 +117,11 @@ export const getCardsWithSameTerm = (id) => {
 //   return card_ids.filter(id => id in deck.cards)
 // }
 
+let missing = [];
+let timer;
 export const getCardIdsFromWords = (words) => {
   const deck = getDeck();
   let card_ids = [];
-  let missing = [];
   words.forEach((word) => {
     if (!word) return;
     const hash = getHash(word.split(" = ")[0]);
@@ -135,7 +136,10 @@ export const getCardIdsFromWords = (words) => {
     }
   });
   if (missing.length > 0) {
-    console.log(`Missing terms:\n${missing.join("\n")}`);
+    timer && clearTimeout(timer);
+    timer = setTimeout(() => {
+      console.log(`Missing terms:\n${_.uniq(missing).join("\n")}`);
+    }, 1000);
   }
   return _.uniq(card_ids);
 };

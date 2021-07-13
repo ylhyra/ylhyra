@@ -7,9 +7,7 @@ import { Ref } from "documents/Compile/Templates/Ref.js";
 export default async (title) => {
   let { output, header } = await TranscludeFromTitle(title);
   if (!output) {
-    throw new Error(
-      `No output from transclude "${title}", possibly files have been changed since last link compilation`
-    );
+    console.log(`\n"${title}" has no body`);
   }
   output = Sections(output, header);
   const t = Ref(output, header);
