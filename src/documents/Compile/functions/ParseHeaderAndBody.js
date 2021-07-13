@@ -1,4 +1,5 @@
 import { removeComments } from "documents/Compile/functions/functions";
+import { getPlaintextFromVocabularyEntry } from "app/VocabularyMaker/functions";
 const yaml = require("js-yaml");
 
 export const ParseHeaderAndBody = (data, file) => {
@@ -25,7 +26,10 @@ export const ParseHeaderAndBody = (data, file) => {
   }
 
   body = body.replace(/<vocabulary>([\s\S]+?)<\/vocabulary>/g, (x, voc) => {
-    header.vocabulary = voc.split(/\n/g).filter(Boolean);
+    header.vocabulary = voc
+      .split(/\n/g)
+      .filter(Boolean)
+      .map(getPlaintextFromVocabularyEntry);
     return "";
   });
 

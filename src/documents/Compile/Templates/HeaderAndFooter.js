@@ -4,6 +4,7 @@ var btoa = require("btoa");
 export default (input, header) => {
   let h = "";
   let f = "";
+  // console.log(header.vocabulary);
   const VocabularyHeader = header.vocabulary
     ? `<vocabularyheader header_data="${btoa(
         JSON.stringify(header.vocabulary)

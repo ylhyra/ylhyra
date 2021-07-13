@@ -100,31 +100,18 @@ const formatLemmas = (input) => {
   return input;
 };
 
-export const clean_string = (i) => {
-  return getPlaintextFromVocabularyEntry(i);
-  // return i
-  //   .replace(/;;/g, "MAJOR_SEPERATOR")
-  //   .replace(/;/g, "MINOR_SEPERATOR")
-  //   .replace(/∆/g, ",")
-  //
-  //   .replace(/\*/g, "")
-  //   .replace(/\\,/g, ",")
-  //   .replace(/'{2,}/g, "")
-  //   .replace(/\s+/g, " ")
-  //   .replace(/%/g, "")
-  //   .trim();
-};
-
 export const GetLowercaseStringForAudioKey = (i) => {
-  const string = clean_string(i).replace(/[.]+$/, "").toLowerCase();
+  const string = getPlaintextFromVocabularyEntry(i)
+    .replace(/[.]+$/, "")
+    .toLowerCase();
   return string;
 };
 
 export const getHash = (i, skip_hash) => {
   if (Array.isArray(i)) {
-    return getHash(i.map(clean_string).join(";"));
+    return getHash(i.map(getPlaintextFromVocabularyEntry).join(";"));
   }
-  const string = clean_string(i)
+  const string = getPlaintextFromVocabularyEntry(i)
     .replace(/[.?!]+$/, "")
     .toLowerCase();
   if (!string) return null;
@@ -334,6 +321,21 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       });
     });
 
+  /* Automatic alt-ids */
+  for (let [key, card] of Object.entries(cards)) {
+    card.is_plaintext.split(/[,;-] ?/g).forEach((sentence) => {
+      const without = sentence.replace(
+        /^(hér er|um|frá|til|hann er|hún er|það er|að)/,
+        ""
+      );
+      if (sentence !== without) {
+        const hash = getHash(without);
+        if (hash in terms || hash in alternative_ids) return;
+        alternative_ids[hash] = card.terms;
+      }
+    });
+  }
+
   /* Automatic dependency graphs */
   for (let [key, card] of Object.entries(cards)) {
     card.is_plaintext.split(/[,;] ?/g).forEach((sentence) => {
@@ -344,7 +346,9 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
           if (i === 0 && b === split.length) continue;
           const range = split.slice(i, b).join(" ");
           const hash = getHash(range);
-          const term = terms[hash];
+          let term =
+            terms[hash] ||
+            (alternative_ids[hash] && alternative_ids[hash][0]); /*TODO*/
           if (term) {
             if (term.cards.some((c) => c.level <= card.level)) {
               AddToDependencyGraph(card.terms, [hash]);
@@ -354,6 +358,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       }
     });
   }
+
   // console.log(JSON.stringify(terms).slice(0, 100));
   return {
     terms,

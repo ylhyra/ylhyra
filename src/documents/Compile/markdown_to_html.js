@@ -5,6 +5,7 @@ import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters
 import { html2json, json2html } from "app/App/functions/html2json";
 import Conversation from "documents/Compile/Templates/Conversations.js";
 import { ProcessLinks } from "documents/Compile/functions/functions";
+
 // import TOC from "documents/Compile/Templates/TOC.js";
 let links = {};
 try {

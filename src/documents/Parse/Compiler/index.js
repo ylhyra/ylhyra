@@ -6,6 +6,7 @@ import CompileToHTML from "documents/Parse/Compiler/2_CompileToHTML/Traverse";
 import PrepareJSONForReact from "./PrepareJSONForReact";
 import ReactDOMServer from "react-dom/server";
 const entities = new Entities();
+// console.log(entities.decode(output));
 
 const TextCompiler = ({ json, data }) => {
   reset(); // TEMP
@@ -17,14 +18,16 @@ const TextCompiler = ({ json, data }) => {
   output = PrepareJSONForReact(output);
   output = CompileToHTML({ json: output, data });
   output = ReactDOMServer.renderToStaticMarkup(output);
+
+  output = entities.decode(output);
+
   // console.log(output);
   output = html2json(output);
   output = PrepareJSONForReact(output);
 
   // console.log(json2html(output));
   // console.log(JSON.stringify(output, null, 2));
-  // output = entities.decode(output)
+  // output = entities.decode(output);
   return output;
 };
-
 export default TextCompiler;
