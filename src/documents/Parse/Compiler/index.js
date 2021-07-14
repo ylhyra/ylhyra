@@ -20,7 +20,7 @@ const TextCompiler = ({ json, data }) => {
   output = ReactDOMServer.renderToStaticMarkup(output);
 
   output = entities.decode(output);
-
+  //
   // console.log(output);
   output = html2json(output);
   output = PrepareJSONForReact(output);

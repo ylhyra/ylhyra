@@ -7,7 +7,7 @@ export default (input, header) => {
   // console.log(header.vocabulary);
   const VocabularyHeader = header.vocabulary
     ? `<vocabularyheader header_data="${btoa(
-        JSON.stringify(header.vocabulary)
+        encodeURIComponent(JSON.stringify(header.vocabulary))
       )}"/>`
     : "";
   if (header.vocabulary || header.level || header.has_data) {

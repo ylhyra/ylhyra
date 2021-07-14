@@ -104,6 +104,7 @@ export const delete_row = (row_id) => {
     1
   );
   updateInterface();
+  save();
 };
 
 export const submit = (vals, gotonext = true) => {

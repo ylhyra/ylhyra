@@ -1,4 +1,5 @@
-import typeset from "typeset";
+// import typeset from "typeset";
+import typeset from "documents/Compile/functions/typeset.js";
 import { URL_title, section_id } from "paths.js";
 import marked from "marked";
 import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
@@ -28,9 +29,11 @@ export default (input) => {
       return first + section_id(middle) + final;
     }
   );
-  input = typeset(input, {
-    disable: ["hyphenate", "hangingPunctuation", "ligatures", "smallCaps"],
-  });
+  // input = typeset(input, {
+  //   disable: ["hyphenate", "hangingPunctuation", "ligatures", "smallCaps"],
+  // });
+  input = typeset(input);
+  // console.log(input);
   return input;
 };
 
