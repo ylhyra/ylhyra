@@ -184,6 +184,19 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       obj[id] = [...(obj[id] || []), ...second];
     });
   };
+
+  const getSpokenSentences = (input) => {
+    if (isBrowser) return;
+    let output = [];
+    input.split(/;+/g).forEach((i) => {
+      getPlaintextFromVocabularyEntry(i)
+        .split(/ [-–—] /g)
+        .forEach((j) => {
+          output.push(j);
+        });
+    });
+    return output;
+  };
   const getSounds = (input) => {
     if (isBrowser) return;
     let output = [];
@@ -238,7 +251,10 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       }
 
       icelandic_strings.forEach((t) => {
-        plaintext_sentences[getPlaintextFromVocabularyEntry(t)] = true;
+        const s = getPlaintextFromVocabularyEntry(t);
+        s.split(/ [-–—] /g).forEach((t) => {
+          plaintext_sentences[t] = true;
+        });
       });
 
       let card_skeleton = {
@@ -283,6 +299,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
 
               from: "is",
               id: getHash(i) + "_is",
+              spokenSentences: getSpokenSentences(i),
               sound: getSounds(i),
               ...card_skeleton,
             });
@@ -295,6 +312,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
             ),
             from: "is",
             id: getHash(row.icelandic) + "_is",
+            spokenSentences: getSpokenSentences(row.icelandic),
             sound: getSounds(row.icelandic),
             ...card_skeleton,
           });
@@ -308,6 +326,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
           is_formatted: formatVocabularyEntry(row.icelandic),
           from: "en",
           id: getHash(row.icelandic) + "_en",
+          spokenSentences: getSpokenSentences(row.icelandic),
           sound: getSounds(row.icelandic),
           ...card_skeleton,
         });

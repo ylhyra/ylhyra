@@ -17,8 +17,9 @@ const TextCompiler = ({ json, data }) => {
 
   output = PrepareJSONForReact(output);
   output = CompileToHTML({ json: output, data });
+  // try {
   output = ReactDOMServer.renderToStaticMarkup(output);
-
+  // } catch (e) {}
   output = entities.decode(output);
   //
   // console.log(output);

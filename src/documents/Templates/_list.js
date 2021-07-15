@@ -11,6 +11,7 @@ import H1 from "documents/Templates/H1";
 import Section from "documents/Templates/Section";
 
 export default (name) => {
+  // return null;
   switch (name.toLowerCase()) {
     case "frontpage":
       return Frontpage;

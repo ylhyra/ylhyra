@@ -9,6 +9,7 @@ import {
 import store from "app/App/store";
 import axios from "app/App/axios";
 import _ from "underscore";
+import { getDeck } from "app/Vocabulary/actions/_functions.js";
 
 let maxID = 0;
 let rows = [];
@@ -145,13 +146,25 @@ export const save = () => {
 let missing_sound = [];
 let current_word_recording = 0;
 const setupSound = () => {
+  const deck = getDeck();
+
+  let sentences = [];
+  deck.cards_sorted.forEach((card) => {
+    card.spokenSentences.forEach((sentence) => {
+      if (!sentences.includes(sentence)) {
+        sentences.push(sentence);
+      }
+    });
+  });
+
   missing_sound = [];
   current_word_recording = 0;
   sound = sound.map((i) => ({
     ...i,
     lowercase: GetLowercaseStringForAudioKey(i.recording_of),
   }));
-  Object.keys(plaintext_sentences).forEach((word) => {
+  // Object.keys(plaintext_sentences)
+  sentences.forEach((word) => {
     const lowercase = GetLowercaseStringForAudioKey(word);
     if (!sound.some((i) => i.lowercase === lowercase)) {
       missing_sound.push(word);
@@ -188,6 +201,7 @@ export const saveSound = ({ word, filename }) => {
     filename,
     speed: window.recording_metadata.speed,
     speaker: window.recording_metadata.speaker,
+    date: new Date().toISOString().substring(0, 10),
   });
   save();
 };

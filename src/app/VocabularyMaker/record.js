@@ -14,7 +14,7 @@ import {
 
 const START_LAG_IN_MILLISECONDS = 0;
 // const START_LAG_IN_MILLISECONDS = 100;
-const STOP_LAG_IN_MILLISECONDS = 300;
+const STOP_LAG_IN_MILLISECONDS = 700;
 
 window.recording_metadata = {
   speaker: "E",
@@ -143,6 +143,8 @@ class RecorderElement extends React.Component {
         <div
           onMouseEnter={this.start}
           onMouseLeave={this.stop}
+          onTouchStart={this.start}
+          onTouchEnd={this.stop}
           className={`recorder ${
             this.state.recording && this.state.interfaceShowsRecording
               ? "recording"
@@ -177,7 +179,9 @@ class RecorderElement extends React.Component {
 class Record extends React.Component {
   state = {};
   componentDidMount = async () => {
-    load();
+    setTimeout(() => {
+      load();
+    }, 1000);
   };
   render = () => {
     const { word, remaining } = this.props.vocabularyMaker.word_to_record;

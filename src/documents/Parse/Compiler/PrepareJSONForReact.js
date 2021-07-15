@@ -6,6 +6,8 @@ import convert from "react-attr-converter";
 import inlineStyle2Json from "app/App/functions/inline-style-2-json";
 import isBooleanAttribute from "is-boolean-attribute";
 import { removeNulls } from "documents/Parse/Compiler/2_CompileToHTML/Traverse.js";
+import GetTemplate from "documents/Templates/_list";
+
 const Traverse = (json) => {
   if (!json) return null;
   let { node, tag, attr, child, text } = json;
@@ -59,6 +61,8 @@ const Traverse = (json) => {
     if (Object.keys(attr_converted).length > 0) {
       out.attr = attr_converted;
     }
+
+    out.tag = (tag && tag.toLowerCase()) || tag; //GetTemplate(tag) || tag;
 
     return out;
   } else if (node === "text") {

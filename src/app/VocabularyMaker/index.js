@@ -72,6 +72,7 @@ class Form2 extends React.Component {
     }
   };
   render() {
+    // if (!this.props.vocabulary.deck) return null;
     if (!this.props.vocabularyMaker.data) return null;
     return (
       <div className="vocabulary_maker">
@@ -211,5 +212,6 @@ class Form2 extends React.Component {
   }
 }
 export default connect((state) => ({
+  vocabulary: state.vocabulary,
   vocabularyMaker: state.vocabularyMaker,
 }))(Form2);
