@@ -7,7 +7,11 @@ import { ProcessLinks } from "documents/Compile/functions/functions";
 
 export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;
-  return removeWhitespace(formatVocabularyEntry(input).replace(/<.+?>/g, ""));
+  return getPlaintextFromFormatted(formatVocabularyEntry(input));
+};
+export const getPlaintextFromFormatted = (input) => {
+  if (!input) return null;
+  return removeWhitespace(input.replace(/<.+?>/g, ""));
 };
 export const removeWhitespace = (input) => {
   if (!input) return "";
@@ -197,21 +201,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
     });
     return output;
   };
-  const getSounds = (input) => {
-    if (isBrowser) return;
-    let output = [];
-    input.split(/;+/g).forEach((i) => {
-      /* a very slow comparison */
-      let s = sound.filter(
-        (k) =>
-          GetLowercaseStringForAudioKey(k.recording_of) ===
-          GetLowercaseStringForAudioKey(i)
-      );
-      output = output.concat(s);
-    });
-    if (output.length > 0) return output;
-    return null;
-  };
+
   // console.log(rows.length);
 
   _.shuffle(rows)
@@ -300,7 +290,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
               from: "is",
               id: getHash(i) + "_is",
               spokenSentences: getSpokenSentences(i),
-              sound: getSounds(i),
+              // sound: getSounds(i),
               ...card_skeleton,
             });
           });
@@ -313,7 +303,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
             from: "is",
             id: getHash(row.icelandic) + "_is",
             spokenSentences: getSpokenSentences(row.icelandic),
-            sound: getSounds(row.icelandic),
+            // sound: getSounds(row.icelandic),
             ...card_skeleton,
           });
         }
@@ -327,7 +317,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
           from: "en",
           id: getHash(row.icelandic) + "_en",
           spokenSentences: getSpokenSentences(row.icelandic),
-          sound: getSounds(row.icelandic),
+          // sound: getSounds(row.icelandic),
           ...card_skeleton,
         });
       }
@@ -386,6 +376,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
     alternative_ids,
     plaintext_sentences,
     cards,
+    sound,
   };
 };
 const automaticThu = (input) => {

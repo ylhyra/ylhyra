@@ -6,13 +6,16 @@ import axios from "axios";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
 import stable_stringify from "json-stable-stringify";
-import { parse_vocabulary_file } from "app/VocabularyMaker/functions.js";
 import { content_folder } from "paths_backend";
 import generate_html from "documents/Compile";
 import getSortKeys from "./sortKeys";
 import atob from "atob";
 import { getCardIdsFromWords } from "app/Vocabulary/actions/_functions";
-import { getHash } from "app/VocabularyMaker/functions";
+import {
+  parse_vocabulary_file,
+  getHash,
+  GetLowercaseStringForAudioKey,
+} from "app/VocabularyMaker/functions";
 
 const path = require("path");
 const fs = require("fs");
@@ -30,8 +33,14 @@ const run = async () => {
   const sortKeys = await getSortKeys();
 
   fs.readFile(filename, "utf8", (err, data) => {
-    const { terms, dependencies, alternative_ids, plaintext_sentences, cards } =
-      parse_vocabulary_file(yaml.load(data));
+    const {
+      terms,
+      dependencies,
+      alternative_ids,
+      plaintext_sentences,
+      cards,
+      sound,
+    } = parse_vocabulary_file(yaml.load(data));
 
     Object.keys(cards).forEach((card_id) => {
       const card = cards[card_id];
@@ -49,6 +58,16 @@ const run = async () => {
       ) {
         delete cards[card_id];
       }
+
+      card.sound = getSounds(card.spokenSentences, sound);
+      delete card.spokenSentences;
+      delete card.is_plaintext;
+      delete card.en_plaintext;
+      Object.keys(card).forEach((j) => {
+        if (!card[j]) {
+          delete card[j];
+        }
+      });
     });
 
     /* Add sortKey */
@@ -78,9 +97,26 @@ const run = async () => {
       ),
       function () {}
     );
-    console.log("Done 1");
+    console.log("Done!");
     process.exit();
   });
 };
 
 run();
+
+const getSounds = (sentences, sound) => {
+  let output = [];
+  const sound_lowercase = sound.map((j) => ({
+    ...j,
+    recording_of: GetLowercaseStringForAudioKey(j.recording_of),
+  }));
+  sentences.forEach((i) => {
+    const b = GetLowercaseStringForAudioKey(i);
+    let s = sound_lowercase
+      .filter((k) => k.recording_of === b)
+      .map((j) => j.filename.replace(/\.mp3$/, ""));
+    output = output.concat(s);
+  });
+  if (output.length > 0) return output;
+  return null;
+};

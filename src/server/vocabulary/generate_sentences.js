@@ -21,6 +21,7 @@ const run = () => {
         async (err, data) => {
           let sortKeys = await getSortKeys(true);
           Object.keys(vocabulary.cards).forEach((card_id) => {
+            /* Hei þetta split() virkar ekki... */
             vocabulary.cards[card_id].is_plaintext.split(";+").forEach((s) => {
               const j = getHash(s, true);
               if (!(j in sortKeys)) {

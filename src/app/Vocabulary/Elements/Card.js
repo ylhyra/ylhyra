@@ -5,7 +5,7 @@ import { answer } from "app/Vocabulary/actions/session";
 import store from "app/App/store";
 import AudioClip from "documents/Render/Audio/AudioClip.js";
 import { get_processed_image_url } from "paths";
-
+import { getPlaintextFromFormatted } from "app/VocabularyMaker/functions";
 class Card extends Component {
   state = {};
   componentDidMount() {
@@ -106,7 +106,9 @@ class Card extends Component {
       try {
         // TODO more than one sound
         // TODO repeat
-        AudioClip.play(get_processed_image_url(card.sound[0].filename, true));
+        AudioClip.play(
+          get_processed_image_url(card.sound[0].filename + ".mp3", true)
+        );
       } catch (e) {
         console.warn(e);
       }
@@ -180,7 +182,9 @@ class Card extends Component {
           <div
             style={{
               fontSize: getFontSize(
-                from === "is" ? card.is_plaintext : card.en_plaintext,
+                getPlaintextFromFormatted(
+                  from === "is" ? card.is_plaintext : card.en_plaintext
+                ),
                 from === "is" ? "is" : "en"
               ),
             }}

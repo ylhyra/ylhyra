@@ -1,6 +1,9 @@
 import createCards from "app/Vocabulary/actions/createCards";
 import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
-import { getHash } from "app/VocabularyMaker/functions";
+import {
+  getHash,
+  getPlaintextFromFormatted,
+} from "app/VocabularyMaker/functions";
 import store from "app/App/store";
 import { InitializeSession } from "app/Vocabulary/actions/session";
 import { updateURL } from "app/Router/actions";
@@ -88,7 +91,7 @@ export const printWord = (id) => {
   const deck = getDeck();
   if (id in deck.cards) {
     const card = deck.cards[id];
-    return card[card.from + "_plaintext"];
+    return getPlaintextFromFormatted(card[card.from + "_formatted"]);
   } else if (id in deck.terms) {
     return printWord(deck.terms[id].cards[0]);
   } else {
