@@ -106,9 +106,7 @@ class Card extends Component {
       try {
         // TODO more than one sound
         // TODO repeat
-        AudioClip.play(
-          get_processed_image_url(card.sound[0].filename + ".mp3", true)
-        );
+        AudioClip.play(get_processed_image_url(card.sound[0] + ".mp3", true));
       } catch (e) {
         console.warn(e);
       }

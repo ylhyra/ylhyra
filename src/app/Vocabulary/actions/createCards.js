@@ -73,11 +73,11 @@ export default function createCards(options, deck_) {
       break;
     }
   }
-  // if (allowed_card_ids) {
-  //   new_card_ids.sort(
-  //     (a, b) => allowed_card_ids.indexOf(a) - allowed_card_ids.indexOf(b)
-  //   );
-  // }
+  if (allowed_card_ids) {
+    new_card_ids.sort(
+      (a, b) => allowed_card_ids.indexOf(a) - allowed_card_ids.indexOf(b)
+    );
+  }
 
   /* TODO? Not very efficient */
   overdue_good_ids = _.shuffle(overdue_good_ids).concat(

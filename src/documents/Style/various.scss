@@ -146,6 +146,7 @@ ul.plain {
 h1 {
   @include sans-serif();
   font-size: 29px;
+  line-height: 1.2;
   > span {
     border-bottom: 3px solid rgba(#d7d7d7, 0.4);
   }

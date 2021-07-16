@@ -67,29 +67,40 @@ class Card {
     /* Postpone related cards */
     const card = this;
     card.terms.forEach((term) => {
-      card.session.cards.forEach((_card) => {
+      card.session.cards.forEach((card2) => {
         let newPosition;
-        if (_card.id === card.id) return;
-        if (_card.terms.includes(term)) {
+        if (card2.id === card.id) return;
+
+        // Postpone same term
+        if (card2.terms.includes(term)) {
           let max = 300;
           if (
-            (_card.score && _card.score < GOOD) ||
+            (card2.score && card2.score < GOOD) ||
             card.history.includes(BAD) ||
-            _card.history.includes(BAD)
+            card2.history.includes(BAD)
           ) {
             max = 10;
           }
-          newPosition = _card.session.counter + Math.min(interval, max);
+          newPosition = card2.session.counter + Math.min(interval, max);
         }
-        // else if (
-        //   /* Shared dependencies */
-        //   _.intersection(_card.dependencies, card.dependencies).length > 0
-        // ) {
-        //   newPosition = _card.session.counter + 3;
-        // }
 
-        if (newPosition && newPosition > _card.absoluteQueuePosition) {
-          _card.absoluteQueuePosition = newPosition;
+        // Postpone cards that directly rely on this card
+        else if (
+          false
+          // _.intersection(card2.dependencies, card.dependencies).length > 0
+        ) {
+          newPosition = card2.session.counter + 3;
+        }
+
+        // Postpone cards that share the same dependencies
+        else if (
+          _.intersection(card2.dependencies, card.dependencies).length > 0
+        ) {
+          newPosition = card2.session.counter + 3;
+        }
+
+        if (newPosition && newPosition > card2.absoluteQueuePosition) {
+          card2.absoluteQueuePosition = newPosition;
         }
       });
     });
