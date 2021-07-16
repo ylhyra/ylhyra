@@ -10,7 +10,6 @@ import {
   saveInLocalStorage,
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
-import createCards from "./createCards";
 import { syncSchedule } from "./sync";
 import { spreadOutSchedule } from "./createSchedule";
 import { updateURL } from "app/Router/actions";
@@ -51,9 +50,11 @@ class Deck {
       type: "LOAD_SESSION",
       content: null,
     });
+    this.session.reset();
   }
   continueStudying() {
     updateURL("VOCABULARY_PLAY");
+    this.session.reset();
     this.session.InitializeSession();
   }
   saveSession(session, done) {
@@ -69,16 +70,15 @@ class Deck {
     // }
   }
   loadSessionFromLocalStorage() {
-    /* TODO: Clear after a day */
-    if (getFromLocalStorage("vocabulary-session")) {
-      this.session.InitializeSession(
-        getFromLocalStorage("vocabulary-session"),
-        this
-      );
-    }
+    // /* TODO: Clear after a day */
+    // if (getFromLocalStorage("vocabulary-session")) {
+    //   this.session.InitializeSession(
+    //     getFromLocalStorage("vocabulary-session"),
+    //     this
+    //   );
+    // }
   }
 }
-Deck.prototype.createCards = createCards;
 Deck.prototype.syncSchedule = syncSchedule;
 Deck.prototype.spreadOutSchedule = spreadOutSchedule;
 export default Deck;

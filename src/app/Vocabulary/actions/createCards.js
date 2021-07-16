@@ -2,25 +2,28 @@ import { average, clamp } from "app/App/functions/math";
 import { hour, day } from "app/App/functions/time";
 import _ from "underscore";
 import { BAD, GOOD, EASY } from "./card";
-import {
-  printWord,
-  getCardsWithSameTerm,
-  // filterOnlyCardsThatExist,
-} from "./functions";
+import { printWord, getCardsWithSameTerm } from "./functions";
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 
-const CARDS_TO_CREATE = 30;
-const MAX_BAD_RATIO = 0.3;
+const CARDS_TO_CREATE = 40;
 
 /**
- * @memberof Deck
+ * @memberof Session
  */
 export default function createCards(options) {
-  const deck = this;
+  const session = this;
+  const deck = this.deck;
   const now = new Date().getTime();
-  const forbidden_ids = (options && options.forbidden_ids) || [];
-  const allowed_card_ids = (options && options.allowed_card_ids) || null;
+  // let forbidden_ids = (options && options.forbidden_ids) || [];
+  let forbidden_ids = session.cards.map((i) => i.id);
+  let allowed_card_ids = session.allowed_card_ids || null;
+  if (
+    allowed_card_ids &&
+    allowed_card_ids.filter((i) => !forbidden_ids.includes(i)).length === 0
+  ) {
+    allowed_card_ids = null;
+  }
   const reset = (options && options.reset) || null;
 
   /* Previously seen cards */
@@ -130,9 +133,9 @@ export default function createCards(options) {
 
   /* Dependencies */
   let tmp = [];
-  console.log(chosen_ids.map(printWord).join(" • "));
-  console.log(withDependencies(chosen_ids).map(printWord).join(" • "));
-  console.log("---");
+  // console.log(chosen_ids.map(printWord).join(" • "));
+  // console.log(withDependencies(chosen_ids).map(printWord).join(" • "));
+  // console.log("---");
   withDependencies(chosen_ids).forEach((card_id) => {
     if (forbidden_ids.includes(card_id)) return;
     if (
@@ -174,7 +177,7 @@ export default function createCards(options) {
 
   chosen_ids = _.uniq(chosen_ids.filter(Boolean));
 
-  deck.session.loadCards(chosen_ids);
+  deck.session.loadCards(chosen_ids, options);
 }
 
 const ScoreByTimeSinceTermWasSeen = (id, deck, now) => {

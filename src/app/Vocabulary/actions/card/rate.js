@@ -12,11 +12,6 @@ export default function rate(rating) {
 
   /* Score */
   const lastTwoAverage = average(card.history.slice(0, 2));
-  card.score = Math.floor(lastTwoAverage);
-
-  if (rating !== BAD) {
-    card.goodRepetitions++;
-  }
 
   /* Schedule */
   let interval;
@@ -24,7 +19,7 @@ export default function rate(rating) {
     interval = 3;
     card.done = false;
     /* User is getting annoyed */
-    if (card.history.length > 10) {
+    if (card.history.length > 7) {
       // TODO improve
       interval = 10;
     }
@@ -46,18 +41,23 @@ export default function rate(rating) {
     interval = 800;
     card.done = true;
   }
-  card.showIn({ interval });
-  card.status = Math.round(lastTwoAverage);
-  card.postponeRelatedCards(interval);
+
+  // if(interval)
 
   /* Add related cards (in case they're missing) */
   if (rating === BAD) {
     Object.keys(card.dependencyDepth).forEach((related_card_id) => {
       if (related_card_id === card.id) return;
       if (card.session.cards.some((j) => j.id === related_card_id)) return;
-      // TODO
+      // Same term
+      if (card.dependencyDepth[related_card_id] === 0) {
+        card.session.loadCards([related_card_id]);
+      }
     });
   }
 
+  card.showIn({ interval });
+  card.status = Math.round(lastTwoAverage);
+  card.postponeRelatedCards(interval);
   card.session.cardTypeLog.unshift(card.from);
 }

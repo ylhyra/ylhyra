@@ -15,9 +15,7 @@ export const EASY = 3;
 class Card {
   constructor(data, index, session) {
     this.session = session;
-    this.progress = 0;
     this.history = [];
-    this.goodRepetitions = 0;
     this.absoluteQueuePosition = index;
     Object.assign(this, data);
   }

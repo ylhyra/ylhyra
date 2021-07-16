@@ -77,8 +77,11 @@ export const getCardsWithSameTerm = (id) => {
 
 export const studyParticularIds = (allowed_card_ids) => {
   const deck = getDeck();
-  deck.session.reset();
-  deck.createCards({ allowed_card_ids });
+  const { session } = deck;
+  session.reset();
+  session.allowed_card_ids = allowed_card_ids;
+  session.createCards();
+  session.InitializeSession();
   updateURL("/vocabulary/play");
 };
 

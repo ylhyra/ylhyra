@@ -11,6 +11,8 @@ import {
 } from "./functions";
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
+import createCards from "./createCards";
+
 export const MINUTES = 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 const LOGGING = true;
@@ -19,10 +21,9 @@ class Session {
   constructor(deck) {
     this.reset();
     this.deck = deck;
-    // this.loadCards(card_ids);
-    // this.checkIfCardsRemaining();
   }
   reset() {
+    this.allowed_card_ids = null;
     this.history = [];
     this.counter = 0;
     this.lastSeenTerms = {};
@@ -48,6 +49,8 @@ class Session {
         // TODO User-facing error?
       }
       return;
+    } else {
+      this.checkIfCardsRemaining();
     }
 
     let ranked = this.cards
@@ -63,8 +66,6 @@ class Session {
           Rank: Math.round(i.getRanking()),
           Queue: i.absoluteQueuePosition - i.session.counter,
           Prohib: (i.cannotBeShownBefore || 0) - i.session.counter,
-          cannotBeShownBefore: i.cannotBeShownBefore || 0,
-          cnt: i.session.counter,
           new: i.history.length > 0 ? "SEEN" : "NEW",
           word: printWord(i.id),
           schdl: deck.schedule[i.id]
@@ -80,7 +81,6 @@ class Session {
     });
 
     this.deck.saveSession(this);
-    this.checkIfCardsRemaining();
   }
 }
 
@@ -116,7 +116,7 @@ Session.prototype.getCard = function () {
 
 Session.prototype.checkIfCardsRemaining = function () {
   const areThereNewCardsRemaining = this.cards.some(
-    (i) => i.history.length === 0 && i.canBeShown()
+    (i) => i.history.length === 0 && !i.done && i.canBeShown()
   );
   if (!areThereNewCardsRemaining) {
     this.createMoreCards();
@@ -124,10 +124,7 @@ Session.prototype.checkIfCardsRemaining = function () {
 };
 
 Session.prototype.createMoreCards = function () {
-  this.deck.createCards({
-    forbidden_ids: this.cards.map((i) => i.id),
-    reset: false,
-  });
+  this.createCards();
   console.log("New cards generated");
 };
 
@@ -166,6 +163,7 @@ Session.prototype.answer = function (rating) {
 
 Session.prototype.InitializeSession = function (input) {
   const session = this;
+  // session.allowed_card_ids = null;
   if (Array.isArray(input)) {
     session.cards = input;
   }
@@ -178,19 +176,27 @@ Session.prototype.InitializeSession = function (input) {
   session.loadCard();
 };
 
-Session.prototype.loadCards = function (card_ids) {
-  const to_add = card_ids.map((id, index) => {
-    return new Card(
+Session.prototype.loadCards = function (card_ids, options) {
+  let insertAtPosition = this.cards.filter((i) => !i.done).length;
+  if (insertAtPosition) {
+    insertAtPosition += 200;
+  }
+
+  card_ids.forEach((id, index) => {
+    if (!(id in this.deck.cards)) return;
+    if (this.cards.some((c) => c.id === id)) return;
+    const card = new Card(
       {
         id,
         ...this.deck.cards[id],
         dependencyDepth: withDependencies(id, { showDepth: true }),
       },
-      index,
+      index + insertAtPosition,
       this
     );
+    this.cards.push(card);
   });
-  this.cards = this.cards.concat(to_add);
 };
 
+Session.prototype.createCards = createCards;
 export default Session;

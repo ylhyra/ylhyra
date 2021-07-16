@@ -268,6 +268,7 @@ export const search = (e) => {
         new RegExp(text, "i").test(
           [
             getPlaintextFromVocabularyEntry(j.icelandic),
+            getPlaintextFromVocabularyEntry(j.english),
             j.lemmas,
             j.depends_on,
             j.note,

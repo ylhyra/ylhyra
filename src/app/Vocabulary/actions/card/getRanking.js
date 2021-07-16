@@ -37,34 +37,22 @@ export default function getRanking() {
     q -= 50;
   }
 
-  // /* Bad cards first */
-  // if (
-  //   this.history.length > 0 &&
-  //   this.history[0] >= GOOD &&
-  //   this.session.counter % 3 < 2 /* (But not always, to prevent staleness) */
-  // ) {
-  //   q += 20
-  // }
-
-  // if (this.ticksSinceTermWasSeen() < 2 || this.wasDependencyRecentlySeen()) {
-  //   q += 5000 - this.ticksSinceTermWasSeen();
-  // }
-  // if (this.wasDependencyRecentlySeen()) {
-  //   q += 5000;
-  // }
-
   if (this.done) {
-    q += 700;
+    q += 7000;
   }
+
   /* Prevent rows of the same card type from appearing right next to each other too often */
-  if (
-    this.session.cardTypeLog[0] === this.from &&
-    (this.history.length > 0 ||
-      this.sessions_seen > 0) /* TODO verify sessions_seen is set */
-  ) {
+  if (this.session.cardTypeLog[0] === this.from) {
     q += 0.4;
     if (this.session.cardTypeLog[1] === this.from) {
-      q += 5;
+      /* Two in a row */
+      if (
+        this.history.length > 0 ||
+        this.sessions_seen > 0 /* TODO verify sessions_seen is set */
+      ) {
+        q += 5;
+      }
+      /* Three in a row */
       if (
         this.session.cardTypeLog[2] === this.from &&
         !this.session.history.slice(0, 3).some((i) => i === BAD)
