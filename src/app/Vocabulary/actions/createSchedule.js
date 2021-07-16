@@ -4,8 +4,8 @@ import { average, clamp } from "app/App/functions/math";
 import store from "app/App/store";
 import { BAD, GOOD, EASY } from "./card";
 import { daysToMs } from "app/App/functions/time";
+import { getCardsWithSameTerm } from "app/Vocabulary/actions/functions/index.js";
 const MAX_CARDS_PER_DAY = 100;
-
 /*
   Long-term scheduling
  */
@@ -81,6 +81,25 @@ export const createSchedule = () => {
       sessions_seen: (card.sessions_seen || 0) + 1,
       needsSyncing: true,
     };
+
+    /* Postpone siblings */
+    if (!anyBad) {
+      getCardsWithSameTerm(card.id)
+        .filter((id) => id !== card.id && !cards.some((j) => j.id === id))
+        .forEach((sibling_card_id) => {
+          const newDue = now + daysToMs(due_in_days * 0.5);
+          const actualDue =
+            deck.schedule[sibling_card_id] &&
+            deck.schedule[sibling_card_id].due;
+          if (!actualDue || actualDue < newDue) {
+            deck.schedule[sibling_card_id] = {
+              due: newDue,
+              adjusted_due: newDue,
+              needsSyncing: true,
+            };
+          }
+        });
+    }
   });
 
   deck.spreadOutSchedule();
