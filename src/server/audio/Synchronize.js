@@ -1,6 +1,6 @@
 const router = require("express").Router();
 import { exec } from "child_process";
-import { upload_path } from "server/index.js";
+import { upload_path } from "server/index";
 import fs from "fs";
 import path from "path";
 import shortid from "shortid";

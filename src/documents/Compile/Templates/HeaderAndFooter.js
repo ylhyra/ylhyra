@@ -1,5 +1,5 @@
-import c from "app/App/functions/no-undefined-in-template-literal.js";
-import markdown_to_html from "documents/Compile/markdown_to_html.js";
+import c from "app/App/functions/no-undefined-in-template-literal";
+import markdown_to_html from "documents/Compile/markdown_to_html";
 var btoa = require("btoa");
 export default (input, header) => {
   let h = "";

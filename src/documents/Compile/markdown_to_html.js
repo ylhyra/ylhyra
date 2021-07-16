@@ -1,13 +1,13 @@
 // import typeset from "typeset";
-import typeset from "documents/Compile/functions/typeset.js";
-import { URL_title, section_id } from "paths.js";
+import typeset from "documents/Compile/functions/typeset";
+import { URL_title, section_id } from "paths";
 import marked from "marked";
 import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
 import { html2json, json2html } from "app/App/functions/html2json";
-import Conversation from "documents/Compile/Templates/Conversations.js";
+import Conversation from "documents/Compile/Templates/Conversations";
 import { ProcessLinks } from "documents/Compile/functions/functions";
 
-// import TOC from "documents/Compile/Templates/TOC.js";
+// import TOC from "documents/Compile/Templates/TOC";
 let links = {};
 try {
   links = require("build/links.js");

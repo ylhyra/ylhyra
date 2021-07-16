@@ -4,7 +4,7 @@ import { url_to_info } from "app/Router/paths";
 import { urls as app_urls } from "app/Router/paths";
 import { isBrowser } from "app/App/functions/isBrowser";
 import { loadContent } from "./load";
-import { clear as ClearReadAlongSetup } from "documents/Render/Audio/ReadAlong.js";
+import { clear as ClearReadAlongSetup } from "documents/Render/Audio/ReadAlong";
 let HAS_LOADED = false;
 if (isBrowser) {
   window.addEventListener("popstate", (event) => {

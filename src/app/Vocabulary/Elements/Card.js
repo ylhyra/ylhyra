@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import { answer } from "app/Vocabulary/actions/session";
 import store from "app/App/store";
-import AudioClip from "documents/Render/Audio/AudioClip.js";
+import AudioClip from "documents/Render/Audio/AudioClip";
 import { get_processed_image_url } from "paths";
 import { getPlaintextFromFormatted } from "app/VocabularyMaker/functions";
 class Card extends Component {

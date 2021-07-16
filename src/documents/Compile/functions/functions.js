@@ -1,4 +1,4 @@
-import { URL_title, section_id } from "paths.js";
+import { URL_title, section_id } from "paths";
 
 export const ProcessLinks = (input, links) => {
   return (

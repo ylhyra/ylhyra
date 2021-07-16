@@ -5,7 +5,7 @@ import React, { lazy } from "react";
 import convert from "react-attr-converter";
 import inlineStyle2Json from "app/App/functions/inline-style-2-json";
 import isBooleanAttribute from "is-boolean-attribute";
-import { removeNulls } from "documents/Parse/Compiler/2_CompileToHTML/Traverse.js";
+import { removeNulls } from "documents/Parse/Compiler/2_CompileToHTML/Traverse";
 import GetTemplate from "documents/Templates/_list";
 
 const Traverse = (json) => {

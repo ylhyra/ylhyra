@@ -1,6 +1,6 @@
 import { html2json, json2html } from "app/App/functions/html2json";
-import c from "app/App/functions/no-undefined-in-template-literal.js";
-import markdown_to_html from "documents/Compile/markdown_to_html.js";
+import c from "app/App/functions/no-undefined-in-template-literal";
+import markdown_to_html from "documents/Compile/markdown_to_html";
 
 export default (json) => {
   let text = json2html(json);

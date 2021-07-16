@@ -6,7 +6,7 @@ import Frontpage from "app/Elements/Frontpage";
 import components from "app/Router/paths";
 import { connect } from "react-redux";
 import { isBrowser } from "app/App/functions/isBrowser";
-import Section from "documents/Templates/Section.js";
+import Section from "documents/Templates/Section";
 
 class App extends React.Component {
   render() {

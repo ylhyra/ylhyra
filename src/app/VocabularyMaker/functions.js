@@ -1,8 +1,8 @@
-import c from "app/App/functions/no-undefined-in-template-literal.js";
+import c from "app/App/functions/no-undefined-in-template-literal";
 import _ from "underscore";
 import _hash from "app/App/functions/hash";
 import { isBrowser } from "app/App/functions/isBrowser";
-import { URL_title, section_id } from "paths.js";
+import { URL_title, section_id } from "paths";
 import { ProcessLinks } from "documents/Compile/functions/functions";
 
 export const getPlaintextFromVocabularyEntry = (input) => {

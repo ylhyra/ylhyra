@@ -1,4 +1,4 @@
-import { getScrollingElement } from "documents/Render/helpers.js";
+import { getScrollingElement } from "documents/Render/helpers";
 
 let allowed = true;
 let temporaryStop;

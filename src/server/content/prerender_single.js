@@ -1,8 +1,8 @@
 import React from "react";
 // import Render from 'frontend/Render'
 import ReactDOMServer from "react-dom/server";
-import { URL_title } from "paths.js";
-import { content_folder, output_folder } from "paths_backend.js";
+import { URL_title } from "paths";
+import { content_folder, output_folder } from "paths_backend";
 import generate_html from "documents/Compile";
 import Parse from "documents/Parse";
 import { updateURL } from "app/Router/actions";

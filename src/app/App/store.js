@@ -11,7 +11,7 @@ import { vocabulary } from "app/Vocabulary/reducers";
 import { user } from "app/User/reducers";
 import error from "app/App/Error/reducers";
 import { route } from "app/Router/reducers";
-import { vocabularyMaker } from "app/VocabularyMaker/reducers.js";
+import { vocabularyMaker } from "app/VocabularyMaker/reducers";
 
 /*
   Logger

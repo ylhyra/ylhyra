@@ -1,7 +1,7 @@
 import generate_html from "documents/Compile";
-import { URL_title, FileSafeTitle } from "paths.js";
+import { URL_title, FileSafeTitle } from "paths";
 import { removeComments } from "documents/Compile/transclude";
-import { url_to_info } from "app/Router/paths.js";
+import { url_to_info } from "app/Router/paths";
 import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
 const router = require("express").Router();
 var fs = require("fs");

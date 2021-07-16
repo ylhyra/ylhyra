@@ -1,8 +1,8 @@
 import ScrollIntoView from "documents/Render/Audio/Scroll/ScrollIntoView";
-import { addClass, removeClass } from "documents/Render/helpers.js";
+import { addClass, removeClass } from "documents/Render/helpers";
 import store from "app/App/store";
 import _ from "underscore";
-import { getDynamicFileUrl } from "paths.js";
+import { getDynamicFileUrl } from "paths";
 
 /*
   Hasten all times by X seconds. It may be better to be a little quick,

@@ -1,4 +1,4 @@
-import c from "app/App/functions/no-undefined-in-template-literal.js";
+import c from "app/App/functions/no-undefined-in-template-literal";
 
 export default (text) => {
   if (!/<TOC>/.test(text)) return text;

@@ -4,7 +4,7 @@ import multer from "multer";
 import shortid from "shortid";
 import path from "path";
 import { exec } from "child_process";
-import { FileSafeTitle } from "paths.js";
+import { FileSafeTitle } from "paths";
 import { ylhyra_content_files } from "paths_backend";
 const router = express.Router();
 

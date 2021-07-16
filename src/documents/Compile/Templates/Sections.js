@@ -1,4 +1,4 @@
-import c from "app/App/functions/no-undefined-in-template-literal.js";
+import c from "app/App/functions/no-undefined-in-template-literal";
 export default (input, header) => {
   const is_course = /Course\//.test(header.title);
   if (true || is_course) {

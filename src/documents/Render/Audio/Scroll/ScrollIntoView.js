@@ -1,5 +1,5 @@
 import SmoothScroll from "./SmoothScroll";
-import { getScrollingElement } from "documents/Render/helpers.js";
+import { getScrollingElement } from "documents/Render/helpers";
 const ControlsHeight = 45;
 
 /*

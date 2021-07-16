@@ -2,7 +2,7 @@ import Greynir from "server/grammatical-analysis/icelandic";
 // import CreateIDs from './create-ids'
 // import List from './list'
 
-import { wordRegex } from "src/documents/Parse/Tokenize/IDs/CreateIDs.js";
+import { wordRegex } from "src/documents/Parse/Tokenize/IDs/CreateIDs";
 // import { diffArrays } from 'diff'
 
 /*

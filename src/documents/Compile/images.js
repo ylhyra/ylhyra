@@ -1,9 +1,9 @@
-import { URL_title } from "paths.js";
-import { image_output_folder } from "paths_backend.js";
+import { URL_title } from "paths";
+import { image_output_folder } from "paths_backend";
 import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
 import _ from "underscore";
 import Transclude from "./transclude";
-import { processed_image_url, output_folder } from "paths.js";
+import { processed_image_url, output_folder } from "paths";
 import forEachAsync from "app/App/functions/array-foreach-async";
 let links = {};
 try {

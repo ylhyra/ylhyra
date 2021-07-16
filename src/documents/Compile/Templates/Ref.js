@@ -1,4 +1,4 @@
-import c from "app/App/functions/no-undefined-in-template-literal.js";
+import c from "app/App/functions/no-undefined-in-template-literal";
 const r = /<(ref.?|note)(?: name="?(.+?)"?")?(?:>([\s\S]+?)<\/\1>|\/>)/g;
 const temp_r = /REF_(.+?)_REF/g;
 const l_alpha = "abcdefghijklmnopqrstuv";

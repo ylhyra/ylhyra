@@ -1,8 +1,8 @@
 import generate_html from "documents/Compile";
-import { URL_title, FileSafeTitle } from "paths.js";
+import { URL_title, FileSafeTitle } from "paths";
 import prerender from "./prerender_single";
 import forEachAsync from "app/App/functions/array-foreach-async";
-import { url_to_info } from "app/Router/paths.js";
+import { url_to_info } from "app/Router/paths";
 var fs = require("fs");
 let links = {};
 try {

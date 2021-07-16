@@ -1,9 +1,9 @@
 import markdown_to_html from "./markdown_to_html";
 import TranscludeFromTitle from "./transclude";
 import images from "./images";
-import WithHeaderAndFooter from "documents/Compile/Templates/HeaderAndFooter.js";
-import Sections from "documents/Compile/Templates/Sections.js";
-import { Ref } from "documents/Compile/Templates/Ref.js";
+import WithHeaderAndFooter from "documents/Compile/Templates/HeaderAndFooter";
+import Sections from "documents/Compile/Templates/Sections";
+import { Ref } from "documents/Compile/Templates/Ref";
 export default async (title) => {
   let { output, header } = await TranscludeFromTitle(title);
   if (!output) {

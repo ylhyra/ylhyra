@@ -38,7 +38,7 @@ import SplitAndWrap from "./2-SplitAndWrap";
 import InvertElementsThatOnlyContainOneThing from "./3-Invert";
 import MergeElementsThatHaveBeenSplitUnnecessarily from "./4-Merge";
 import GroupParagraphs from "documents/Parse/ExtractText/Paragraphs";
-import { newTitle } from "documents/Parse/index.js";
+import { newTitle } from "documents/Parse/index";
 
 /*
   Parse input and split paragraphs

@@ -9,7 +9,7 @@ import {
 import store from "app/App/store";
 import axios from "app/App/axios";
 import _ from "underscore";
-import { getDeck } from "app/Vocabulary/actions/_functions.js";
+import { getDeck } from "app/Vocabulary/actions/_functions";
 
 let maxID = 0;
 let rows = [];

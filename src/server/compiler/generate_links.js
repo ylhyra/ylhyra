@@ -5,8 +5,8 @@ node build/server/ylhyra_server.js --generate-links
 import string_hash from "app/App/functions/hash";
 import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
 import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
-import { URL_title, FileSafeTitle } from "paths.js";
-import { content_folder, output_folder } from "paths_backend.js";
+import { URL_title, FileSafeTitle } from "paths";
+import { content_folder, output_folder } from "paths_backend";
 var fs = require("fs");
 const path = require("path");
 let files = [];
