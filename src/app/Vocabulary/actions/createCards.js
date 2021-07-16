@@ -175,7 +175,8 @@ export default function createCards(options, deck_) {
     return {
       id,
       ...deck.cards[id],
-      dependencies: withDependencies(id),
+      // dependencies: withDependencies(id),
+      dependencyDepth: withDependencies(id, { showDepth: true }),
     };
   });
   return chosen;

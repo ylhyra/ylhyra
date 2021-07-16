@@ -14,7 +14,7 @@ import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnow
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 export const MINUTES = 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
-const LOGGING = false;
+const LOGGING = true;
 
 class Session {
   constructor(cards, deck) {
@@ -59,15 +59,19 @@ class Session {
       const deck = this.deck;
       console.log(
         ranked
-          .map(
-            (i) =>
-              `${i.getQueuePosition()}\t${Math.round(
-                i.getRanking()
-              )}\t${printWord(i.id)}\t${
-                deck.schedule[i.id]
-                  ? new Date(deck.schedule[i.id].last_seen)
-                  : ""
-              }\t${i.history.length > 0 ? "SEEN" : "NEW"}`
+          .map((i) =>
+            [
+              `Rank: ${Math.round(i.getRanking())}`,
+              `Queue: ${i.absoluteQueuePosition - i.session.counter}`,
+              `Prohib: ${(i.cannotBeShownBefore || 0) - i.session.counter}`,
+              `cannotBeShownBefore: ${i.cannotBeShownBefore || 0}`,
+              `cnt: ${i.session.counter}`,
+              `${i.history.length > 0 ? "SEEN" : "NEW"}`,
+              printWord(i.id),
+              deck.schedule[i.id]
+                ? new Date(deck.schedule[i.id].last_seen)
+                : "",
+            ].join("\t")
           )
           .join("\n")
       );

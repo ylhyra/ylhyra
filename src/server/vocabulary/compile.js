@@ -81,6 +81,34 @@ const run = async () => {
       }
     }
 
+    /* Delete unneeded terms & dependencies */
+    Object.keys(terms).forEach((term) => {
+      let out = [];
+      terms[term].cards.forEach((card_id) => {
+        if (card_id in cards) {
+          out.push(card_id);
+        }
+      });
+      if (out.length >= 1) {
+        terms[term].cards = out;
+      } else {
+        delete terms[term];
+      }
+    });
+    Object.keys(dependencies).forEach((from_term) => {
+      let out = [];
+      dependencies[from_term].forEach((to_term) => {
+        if (to_term in terms) {
+          out.push(to_term);
+        }
+      });
+      if (out.length >= 1) {
+        dependencies[from_term] = out;
+      } else {
+        delete dependencies[from_term];
+      }
+    });
+
     console.log(`${Object.keys(cards).length} cards`);
 
     fs.writeFileSync(

@@ -217,7 +217,8 @@ export const findMissingDependencies = () => {
     });
   });
   missing = _.uniq(missing);
-  console.log("Missing:\n" + missing.join("\n"));
+  console.log("Missing " + missing.length + " terms");
+  console.log({ missing: missing /*.join("\n")*/ });
 };
 
 export const addEmpty = () => {

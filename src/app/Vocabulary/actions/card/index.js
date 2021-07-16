@@ -27,19 +27,22 @@ Card.prototype.rate = rate;
 Card.prototype.getRanking = getRanking;
 Card.prototype.postponeRelatedCards = postponeRelatedCards;
 
-Card.prototype.getQueuePosition = function () {
-  return this.absoluteQueuePosition - this.session.counter;
-};
 Card.prototype.showIn = function ({ interval, minInterval }) {
   // if (!interval && ) return;
+  // if (interval) {
+  //   this.absoluteQueuePosition = this.session.counter + interval;
+  // } else
   if (interval) {
-    this.absoluteQueuePosition = this.session.counter + interval;
-  } else if (minInterval) {
-    const newPos = this.session.counter + minInterval;
+    const newPos = this.session.counter + interval;
     if (newPos > this.absoluteQueuePosition) {
       this.absoluteQueuePosition = newPos;
     }
   }
+
+  this.cannotBeShownBefore = Math.max(
+    this.cannotBeShownBefore || 0,
+    this.session.counter + (minInterval || 3)
+  );
 };
 // Card.prototype.ticksSinceTermWasSeen = function () {
 //   let last_seen = null;
@@ -57,16 +60,16 @@ Card.prototype.showIn = function ({ interval, minInterval }) {
 //     return this.session.cards.length;
 //   }
 // };
-Card.prototype.wasDependencyRecentlySeen = function () {
-  /* TODO: Af hverju veldur "1" því að síðustu tveir séu skoðaðir? */
-  // const length = this.session.counter % 2 ? 2 : 1;
-  return (
-    _.intersection(
-      this.dependencies,
-      _.flatten(this.session.dependencyHistory.slice(0, 1))
-    ).length > 0
-  );
-};
+// Card.prototype.wasDependencyRecentlySeen = function () {
+//   /* TODO: Af hverju veldur "1" því að síðustu tveir séu skoðaðir? */
+//   // const length = this.session.counter % 2 ? 2 : 1;
+//   return (
+//     _.intersection(
+//       this.dependencies,
+//       _.flatten(this.session.dependencyHistory.slice(0, 1))
+//     ).length > 0
+//   );
+// };
 
 Card.prototype.getStatus = function () {
   if (!this.lastSeen) return null;

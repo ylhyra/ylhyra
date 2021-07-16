@@ -4,7 +4,12 @@ import { BAD, GOOD, EASY } from "./index";
  * @memberof Card
  */
 export default function getRanking() {
-  let q = this.getQueuePosition();
+  /* Queue position relative to zero */
+  let q = this.absoluteQueuePosition - this.session.counter;
+  let canBeShown =
+    !this.cannotBeShownBefore ||
+    this.cannotBeShownBefore <= this.session.counter;
+
   if (!this.terms) {
     console.log(this);
     throw new Error("getRanking called on an uninitialized card");
@@ -17,9 +22,12 @@ export default function getRanking() {
   } else {
     /* Seen cards */
     /* Seen cards are not relevant if they are not overdue */
-    if (q > 0) {
+    if (q > 0 && canBeShown) {
       q += 2000;
     }
+  }
+  if (!canBeShown) {
+    q += 3000;
   }
 
   /* A bad card that is due exactly now has priority */

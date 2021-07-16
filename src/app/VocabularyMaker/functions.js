@@ -111,17 +111,19 @@ export const GetLowercaseStringForAudioKey = (i) => {
   return string;
 };
 
-export const getHash = (i, options) => {
-  if (Array.isArray(i)) {
-    return getHash(i.map(getPlaintextFromVocabularyEntry).join(";"));
+export const getHash = (input, options) => {
+  if (!input) return null;
+  if (Array.isArray(input)) {
+    return getHash(input.map(getPlaintextFromVocabularyEntry).join(";"));
   }
-  const string = getPlaintextFromVocabularyEntry(i)
+  const string = getPlaintextFromVocabularyEntry(input)
     .replace(/[.?!]+$/, "")
     .toLowerCase();
   if (!string) return null;
-  // if ((options && options.skip_hash) || (isBrowser && window.skip_hash)) {
-  //   return string;
-  // }
+  return string;
+  if (/*(options && options.skip_hash) ||*/ isBrowser && window.skip_hash) {
+    return string;
+  }
   return _hash(string);
 };
 
@@ -185,7 +187,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       obj = alternative_ids;
     }
     first.forEach((id) => {
-      obj[id] = [...(obj[id] || []), ...second];
+      obj[id] = _.uniq([...(obj[id] || []), ...second]).filter((j) => j !== id);
     });
   };
 
@@ -217,19 +219,22 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       );
       const terms_in_this_line = icelandic_strings.map(getHash);
       let alternative_ids = getHashesFromCommaSeperated(row.alternative_id);
+      let depends_on_lemmas = [];
       /* Match the "%" in lemmas, which serves to mark something as both the basic form and an alt_id */
       const lemmas =
         row.lemmas &&
         row.lemmas.split(",").map((input) => {
-          const out = input.replace(/\(".+?"\)/g, "").replace(/%/g, "");
+          const out = input.replace(/\(.+?\)/g, "").replace(/%/g, "");
           if (/%/.test(input)) {
             alternative_ids.push(getHash(out));
+          } else {
+            depends_on_lemmas.push(out);
           }
           return out;
         });
       const depends_on = [
         ...getHashesFromCommaSeperated(row.depends_on),
-        ...getHashesFromCommaSeperated(lemmas),
+        ...getHashesFromCommaSeperated(depends_on_lemmas),
         ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
       ];
 
@@ -331,36 +336,57 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
     });
 
   /* Automatic alt-ids */
+  let automatic_alt_ids = {};
   for (let [key, card] of Object.entries(cards)) {
     card.is_plaintext.split(/[,;-] ?/g).forEach((sentence) => {
       const without = sentence.replace(
-        /^(hér er|um|frá|til|hann er|hún er|það er|að) /,
+        /^(hér er|um|frá|til|hann er|hún er|það er|að|ég|þú|hann|hún|það|við) /i,
         ""
       );
-      if (sentence !== without && without) {
+      // if (sentence === "Hún er góð.") {
+      //   console.log(without);
+      // }
+      if (sentence !== without && !["að"].includes(without)) {
         const hash = getHash(without);
-        if (hash in terms || hash in alternative_ids) return;
-        alternative_ids[hash] = card.terms;
+        if (
+          hash in terms ||
+          hash in alternative_ids ||
+          hash in automatic_alt_ids
+        )
+          return;
+        automatic_alt_ids[hash] = card.terms;
       }
     });
   }
 
   /* Automatic dependency graphs */
+  // TODO: Sleppa þegar deps innihalda nú þegar þetta orð!
   for (let [key, card] of Object.entries(cards)) {
     card.is_plaintext.split(/[,;] ?/g).forEach((sentence) => {
-      const split = sentence.split(/ /g);
-      const min_len = 2;
+      const split = sentence.replace(/[,.!;:?"„“]/g, "").split(/ /g);
+      const min_len = 1;
       for (let i = 0; i + min_len <= split.length && i <= 5; i++) {
         for (let b = i + min_len; b <= split.length && b <= i + 5; b++) {
           if (i === 0 && b === split.length) continue;
           const range = split.slice(i, b).join(" ");
+
           const hash = getHash(range);
-          const term_ids = [hash, ...(alternative_ids[hash] || [])];
+          const term_ids = [
+            hash,
+            ...(alternative_ids[hash] || []),
+            ...(automatic_alt_ids[hash] || []),
+          ];
+
           term_ids.forEach((term_id) => {
-            let term = terms[hash];
+            let term = terms[term_id];
             if (term) {
-              if (term.cards.some((c) => c.level <= card.level)) {
-                AddToDependencyGraph(card.terms, [hash]);
+              if (
+                term.cards.some((card_id) => cards[card_id].level <= card.level)
+              ) {
+                // if (sentence === "Þetta er mjög auðvelt.") {
+                //   console.log(term_id);
+                // }
+                AddToDependencyGraph(card.terms, [term_id]);
               }
             }
           });
