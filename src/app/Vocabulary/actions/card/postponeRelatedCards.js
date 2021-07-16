@@ -20,27 +20,20 @@ export default function postponeRelatedCards(card1_interval) {
         ) {
           max = 10;
         }
-        card2.showIn({ interval: Math.min(card1_interval, max) });
+        card2.showIn({ minInterval: Math.min(card1_interval, max) });
       }
 
       // Cards that directly rely on this card
-      else if (
-        false
-        // _.intersection(card2.dependencies, card.dependencies).length > 0
-      ) {
-        card2.showIn({ minInterval: 10 });
+      else if (card2.dependencies.includes(term)) {
+        card2.showIn({ minInterval: 3 });
       }
 
       // Cards that share the same dependencies
       else if (
-        _.intersection(card2.dependencies, card1.dependencies).length > 0
+        _.intersection(card1.dependencies, card2.dependencies).length > 0
       ) {
-        card2_interval = 3;
+        card2.showIn({ minInterval: 3 });
       }
-
-      // if (card2_interval && card2_interval > card2.absoluteQueuePosition) {
-      //   card2.absoluteQueuePosition = card2_interval;
-      // }
     });
   });
 }

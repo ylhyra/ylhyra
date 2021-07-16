@@ -4,11 +4,12 @@ import Link from "app/Router/Link";
 import Button from "documents/Templates/Button";
 import {
   MakeSummaryOfCardStatuses,
-  PercentageKnown,
-  getCardIdsFromWords,
   studyParticularIds,
-  withDependencies,
-} from "app/Vocabulary/actions/_functions";
+} from "app/Vocabulary/actions/functions";
+import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
+
+import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
+import { getCardIdsFromWords } from "app/Vocabulary/actions/functions/getCardIdsFromWords";
 import { getPlaintextFromVocabularyEntry } from "app/VocabularyMaker/functions";
 import _ from "underscore";
 

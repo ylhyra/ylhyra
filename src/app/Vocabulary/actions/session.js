@@ -4,6 +4,14 @@
 import store from "app/App/store";
 import _ from "underscore";
 import Card, { BAD, GOOD, EASY } from "./card";
+import {
+  printWord,
+  getCardsWithSameTerm,
+  // filterOnlyCardsThatExist,
+} from "./functions";
+import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
+
+import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 export const MINUTES = 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 const LOGGING = false;
@@ -13,7 +21,7 @@ class Session {
     this.history = [];
     this.counter = 0;
     this.lastSeenTerms = {};
-    this.dependencyHistory = []; // Stores deps of last three seen
+    // this.dependencyHistory = []; // Stores deps of last three seen
     this.cardTypeLog = [];
     this.currentCard = null;
     this.cards = cards.map((card, index) => new Card(card, index, this));
@@ -53,9 +61,9 @@ class Session {
         ranked
           .map(
             (i) =>
-              `${i.getQueuePosition()}\t${Math.round(i.getRanking())}\t${
-                i.from === "is" ? i.is : i.en
-              }\t${
+              `${i.getQueuePosition()}\t${Math.round(
+                i.getRanking()
+              )}\t${printWord(i.id)}\t${
                 deck.schedule[i.id]
                   ? new Date(deck.schedule[i.id].last_seen)
                   : ""

@@ -6,6 +6,7 @@ import { BAD, GOOD, EASY } from "./index";
  */
 export default function rate(rating) {
   this.history.unshift(rating);
+  this.session.history.unshift(rating);
   this.lastSeen = this.session.counter;
 
   /* Score */
@@ -45,7 +46,6 @@ export default function rate(rating) {
     this.done = true;
   }
   this.showIn({ interval });
-  this.lastInterval = interval;
 
   this.status = Math.round(lastTwoAverage);
 
@@ -61,8 +61,8 @@ export default function rate(rating) {
   }
 
   this.session.cardTypeLog.unshift(this.from);
-  this.session.dependencyHistory = [
-    this.dependencies,
-    ...this.session.dependencyHistory,
-  ].slice(0, 2);
+  // this.session.dependencyHistory = [
+  //   this.dependencies,
+  //   ...this.session.dependencyHistory,
+  // ].slice(0, 2);
 }

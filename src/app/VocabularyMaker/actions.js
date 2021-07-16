@@ -9,7 +9,7 @@ import {
 import store from "app/App/store";
 import axios from "app/App/axios";
 import _ from "underscore";
-import { getDeck } from "app/Vocabulary/actions/_functions";
+import { getDeck } from "app/Vocabulary/actions/functions";
 
 let maxID = 0;
 let rows = [];
@@ -146,6 +146,7 @@ export const save = () => {
 let missing_sound = [];
 let current_word_recording = 0;
 const setupSound = () => {
+  return;
   const deck = getDeck();
 
   let sentences = [];

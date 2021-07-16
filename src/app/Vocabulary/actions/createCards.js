@@ -5,10 +5,11 @@ import { BAD, GOOD, EASY } from "./card";
 import {
   printWord,
   getCardsWithSameTerm,
-  withDependencies,
-  PercentageKnown,
   // filterOnlyCardsThatExist,
-} from "./_functions";
+} from "./functions";
+import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
+import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
+
 const CARDS_TO_CREATE = 30;
 const MAX_BAD_RATIO = 0.3;
 
@@ -128,6 +129,9 @@ export default function createCards(options, deck_) {
 
   /* Dependencies */
   let tmp = [];
+  console.log(chosen_ids.map(printWord).join(" • "));
+  console.log(withDependencies(chosen_ids).map(printWord).join(" • "));
+  console.log("---");
   withDependencies(chosen_ids).forEach((card_id) => {
     if (forbidden_ids.includes(card_id)) return;
     if (

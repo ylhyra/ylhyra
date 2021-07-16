@@ -2,7 +2,7 @@ import { average, clamp } from "app/App/functions/math";
 import {
   printWord,
   getCardsWithSameTerm,
-} from "app/Vocabulary/actions/_functions.js";
+} from "app/Vocabulary/actions/functions";
 import _ from "underscore";
 import getRanking from "app/Vocabulary/actions/card/getRanking";
 import rate from "app/Vocabulary/actions/card/rate";
@@ -30,9 +30,16 @@ Card.prototype.postponeRelatedCards = postponeRelatedCards;
 Card.prototype.getQueuePosition = function () {
   return this.absoluteQueuePosition - this.session.counter;
 };
-Card.prototype.showIn = function ({ interval }) {
-  if (!interval) return;
-  this.absoluteQueuePosition = this.session.counter + interval;
+Card.prototype.showIn = function ({ interval, minInterval }) {
+  // if (!interval && ) return;
+  if (interval) {
+    this.absoluteQueuePosition = this.session.counter + interval;
+  } else if (minInterval) {
+    const newPos = this.session.counter + minInterval;
+    if (newPos > this.absoluteQueuePosition) {
+      this.absoluteQueuePosition = newPos;
+    }
+  }
 };
 // Card.prototype.ticksSinceTermWasSeen = function () {
 //   let last_seen = null;

@@ -111,7 +111,7 @@ export const GetLowercaseStringForAudioKey = (i) => {
   return string;
 };
 
-export const getHash = (i, skip_hash) => {
+export const getHash = (i, options) => {
   if (Array.isArray(i)) {
     return getHash(i.map(getPlaintextFromVocabularyEntry).join(";"));
   }
@@ -119,9 +119,9 @@ export const getHash = (i, skip_hash) => {
     .replace(/[.?!]+$/, "")
     .toLowerCase();
   if (!string) return null;
-  if (skip_hash || (isBrowser && window.skip_hash)) {
-    return string;
-  }
+  // if ((options && options.skip_hash) || (isBrowser && window.skip_hash)) {
+  //   return string;
+  // }
   return _hash(string);
 };
 
@@ -369,7 +369,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
     });
   }
 
-  // console.log(JSON.stringify(terms).slice(0, 100));
+  // console.log(JSON.stringify(dependencies, null, 2).slice(0, 400));
   return {
     terms,
     dependencies,

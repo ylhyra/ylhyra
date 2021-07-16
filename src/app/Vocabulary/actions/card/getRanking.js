@@ -43,13 +43,14 @@ export default function getRanking() {
   // if (this.ticksSinceTermWasSeen() < 2 || this.wasDependencyRecentlySeen()) {
   //   q += 5000 - this.ticksSinceTermWasSeen();
   // }
-  if (this.wasDependencyRecentlySeen()) {
-    q += 5000;
-  }
+  // if (this.wasDependencyRecentlySeen()) {
+  //   q += 5000;
+  // }
+
   if (this.done) {
     q += 700;
   }
-  /* Prevent rows of the same card type from appearing right next to each other */
+  /* Prevent rows of the same card type from appearing right next to each other too often */
   if (
     this.session.cardTypeLog[0] === this.from &&
     (this.history.length > 0 ||
@@ -58,9 +59,12 @@ export default function getRanking() {
     q += 0.4;
     if (this.session.cardTypeLog[1] === this.from) {
       q += 5;
-      // if (this.session.cardTypeLog[2] === this.from) {
-      //   q += 2000
-      // }
+      if (
+        this.session.cardTypeLog[2] === this.from &&
+        !this.session.history.slice(0, 3).some((i) => i === BAD)
+      ) {
+        q += 2000;
+      }
     }
   }
   return q;

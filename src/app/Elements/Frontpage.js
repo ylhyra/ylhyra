@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Link from "app/Router/Link";
-import { PercentageKnownOverall } from "app/Vocabulary/actions/_functions";
+import { PercentageKnownOverall } from "app/Vocabulary/actions/functions/percentageKnown";
 
 const Screen = (props) => (
   <div>

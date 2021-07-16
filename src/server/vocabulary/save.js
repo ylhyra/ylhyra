@@ -10,7 +10,7 @@ import {
   msToS,
   daysToMs,
   roundMsToHour,
-} from "src/app/App/functions/time";
+} from "app/App/functions/time";
 const router = require("express").Router();
 
 router.post("/vocabulary/save", cors(), (req, res) => {

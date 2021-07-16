@@ -23,7 +23,7 @@ const run = () => {
           Object.keys(vocabulary.cards).forEach((card_id) => {
             /* Hei þetta split() virkar ekki... */
             vocabulary.cards[card_id].is_plaintext.split(";+").forEach((s) => {
-              const j = getHash(s, true);
+              const j = getHash(s, { skip_hash: true });
               if (!(j in sortKeys)) {
                 sortKeys[j] = 1000;
               }

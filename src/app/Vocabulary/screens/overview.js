@@ -4,12 +4,15 @@ import { connect } from "react-redux";
 import store from "app/App/store";
 import { MINUTES } from "app/Vocabulary/actions/session";
 import {
-  PercentageKnown,
-  PercentageKnownOverall,
-  getCardIdsFromWords,
   studyParticularIds,
   countTerms,
-} from "app/Vocabulary/actions/_functions";
+} from "app/Vocabulary/actions/functions";
+import {
+  PercentageKnown,
+  PercentageKnownOverall,
+} from "app/Vocabulary/actions/functions/percentageKnown";
+
+import { getCardIdsFromWords } from "app/Vocabulary/actions/functions/getCardIdsFromWords";
 import Link from "app/Router/Link";
 import _ from "underscore";
 
