@@ -5,7 +5,7 @@ import store from "app/App/store";
 import error from "app/App/Error";
 import axios from "app/App/axios";
 import { createSchedule } from "./createSchedule";
-import { InitializeSession } from "app/Vocabulary/actions/session";
+import Session from "app/Vocabulary/actions/session";
 import {
   saveInLocalStorage,
   getFromLocalStorage,
@@ -16,6 +16,7 @@ import { spreadOutSchedule } from "./createSchedule";
 import { updateURL } from "app/Router/actions";
 import { BAD, GOOD, EASY } from "./card";
 import _ from "underscore";
+
 class Deck {
   constructor(database, schedule, session) {
     const deck = this;
@@ -39,10 +40,8 @@ class Deck {
       )
       .filter(Boolean);
     this.schedule = schedule || {};
+    this.session = new Session(deck);
     this.loadSessionFromLocalStorage();
-  }
-  generateSession() {
-    InitializeSession(this.createCards(), this);
   }
   sessionDone() {
     createSchedule();
@@ -55,7 +54,7 @@ class Deck {
   }
   continueStudying() {
     updateURL("VOCABULARY_PLAY");
-    this.generateSession();
+    this.session.InitializeSession();
   }
   saveSession(session, done) {
     // if (!done) {
@@ -72,7 +71,10 @@ class Deck {
   loadSessionFromLocalStorage() {
     /* TODO: Clear after a day */
     if (getFromLocalStorage("vocabulary-session")) {
-      InitializeSession(getFromLocalStorage("vocabulary-session"), this);
+      this.session.InitializeSession(
+        getFromLocalStorage("vocabulary-session"),
+        this
+      );
     }
   }
 }

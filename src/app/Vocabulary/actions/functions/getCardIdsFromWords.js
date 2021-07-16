@@ -1,4 +1,3 @@
-import createCards from "app/Vocabulary/actions/createCards";
 import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
 import {
   getHash,

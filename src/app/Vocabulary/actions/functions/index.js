@@ -1,3 +1,4 @@
+import Session from "app/Vocabulary/actions/session";
 import createCards from "app/Vocabulary/actions/createCards";
 import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
 import {
@@ -5,7 +6,6 @@ import {
   getPlaintextFromFormatted,
 } from "app/VocabularyMaker/functions";
 import store from "app/App/store";
-import { InitializeSession } from "app/Vocabulary/actions/session";
 import { updateURL } from "app/Router/actions";
 import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import _ from "underscore";
@@ -77,8 +77,8 @@ export const getCardsWithSameTerm = (id) => {
 
 export const studyParticularIds = (allowed_card_ids) => {
   const deck = getDeck();
-  const cards = createCards({ allowed_card_ids }, deck);
-  InitializeSession(cards, deck);
+  deck.session.reset();
+  deck.createCards({ allowed_card_ids });
   updateURL("/vocabulary/play");
 };
 

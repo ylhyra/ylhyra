@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
-import { answer } from "app/Vocabulary/actions/session";
 import store from "app/App/store";
 import AudioClip from "documents/Render/Audio/AudioClip";
 import { get_processed_image_url } from "paths";
@@ -89,14 +88,15 @@ class Card extends Component {
   };
   answer = (i, timeout) => {
     if (this.state.answer) return;
+    const { session } = this.props.vocabulary;
     if (timeout === false) {
-      answer(i);
+      session.answer(i);
     } else {
       this.setState({
         answer: i,
       });
       setTimeout(() => {
-        answer(i);
+        session.answer(i);
       }, 100);
     }
   };
@@ -137,7 +137,8 @@ class Card extends Component {
     const answered = card.answered;
     // console.log(card)
     // console.log({card,answer})
-    if (!card) return null;
+    if (!card)
+      return <div>Unable to create cards. Please report this error.</div>;
     let { from, lemmas, note_regarding_english, note, literally } = card;
     let Type = null;
     const is = card.is_formatted;

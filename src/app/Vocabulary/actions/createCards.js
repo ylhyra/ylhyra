@@ -16,11 +16,12 @@ const MAX_BAD_RATIO = 0.3;
 /**
  * @memberof Deck
  */
-export default function createCards(options, deck_) {
-  const deck = deck_ || this;
+export default function createCards(options) {
+  const deck = this;
   const now = new Date().getTime();
   const forbidden_ids = (options && options.forbidden_ids) || [];
   const allowed_card_ids = (options && options.allowed_card_ids) || null;
+  const reset = (options && options.reset) || null;
 
   /* Previously seen cards */
   let overdue_good_ids = [];
@@ -171,15 +172,9 @@ export default function createCards(options, deck_) {
     })
   );
 
-  let chosen = _.uniq(chosen_ids.filter(Boolean)).map((id) => {
-    return {
-      id,
-      ...deck.cards[id],
-      // dependencies: withDependencies(id),
-      dependencyDepth: withDependencies(id, { showDepth: true }),
-    };
-  });
-  return chosen;
+  chosen_ids = _.uniq(chosen_ids.filter(Boolean));
+
+  deck.session.loadCards(chosen_ids);
 }
 
 const ScoreByTimeSinceTermWasSeen = (id, deck, now) => {

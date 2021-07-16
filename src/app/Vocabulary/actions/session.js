@@ -10,28 +10,29 @@ import {
   // filterOnlyCardsThatExist,
 } from "./functions";
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
-
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 export const MINUTES = 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 const LOGGING = true;
 
 class Session {
-  constructor(cards, deck) {
+  constructor(deck) {
+    this.reset();
+    this.deck = deck;
+    // this.loadCards(card_ids);
+    // this.checkIfCardsRemaining();
+  }
+  reset() {
     this.history = [];
     this.counter = 0;
     this.lastSeenTerms = {};
-    // this.dependencyHistory = []; // Stores deps of last three seen
     this.cardTypeLog = [];
     this.currentCard = null;
-    this.cards = cards.map((card, index) => new Card(card, index, this));
-    this.deck = deck;
+    this.cards = [];
     this.timeStarted = new Date().getTime();
-
     this.totalTime = MINUTES * 60 * 1000;
     this.remainingTime = this.totalTime;
     this.lastTimestamp = new Date().getTime();
-    this.checkIfCardsRemaining();
   }
   next(depth = 0) {
     this.counter++;
@@ -57,23 +58,19 @@ class Session {
     /* Logging */
     if ((LOGGING || window.logging) && process.env.NODE_ENV === "development") {
       const deck = this.deck;
-      console.log(
-        ranked
-          .map((i) =>
-            [
-              `Rank: ${Math.round(i.getRanking())}`,
-              `Queue: ${i.absoluteQueuePosition - i.session.counter}`,
-              `Prohib: ${(i.cannotBeShownBefore || 0) - i.session.counter}`,
-              `cannotBeShownBefore: ${i.cannotBeShownBefore || 0}`,
-              `cnt: ${i.session.counter}`,
-              `${i.history.length > 0 ? "SEEN" : "NEW"}`,
-              printWord(i.id),
-              deck.schedule[i.id]
-                ? new Date(deck.schedule[i.id].last_seen)
-                : "",
-            ].join("\t")
-          )
-          .join("\n")
+      console.table(
+        ranked.map((i) => ({
+          Rank: Math.round(i.getRanking()),
+          Queue: i.absoluteQueuePosition - i.session.counter,
+          Prohib: (i.cannotBeShownBefore || 0) - i.session.counter,
+          cannotBeShownBefore: i.cannotBeShownBefore || 0,
+          cnt: i.session.counter,
+          new: i.history.length > 0 ? "SEEN" : "NEW",
+          word: printWord(i.id),
+          schdl: deck.schedule[i.id]
+            ? new Date(deck.schedule[i.id].last_seen)
+            : "",
+        }))
       );
     }
 
@@ -87,10 +84,7 @@ class Session {
   }
 }
 
-/**
- * @extends Session
- */
-export const updateRemainingTime = function () {
+Session.prototype.updateRemainingTime = function () {
   const newTimestamp = new Date().getTime();
   const diff = Math.min(
     MAX_SECONDS_TO_COUNT_PER_ITEM * 1000,
@@ -104,17 +98,11 @@ export const updateRemainingTime = function () {
   }
 };
 
-/**
- * @extends Session
- */
-export const getAdjustedPercentageDone = function () {
+Session.prototype.getAdjustedPercentageDone = function () {
   return ((this.totalTime - this.remainingTime) / this.totalTime) * 100;
 };
 
-/**
- * @extends Session
- */
-export const printTimeRemaining = function () {
+Session.prototype.printTimeRemaining = function () {
   const time = Math.floor(this.remainingTime / 1000) || 1;
   const minutes = Math.floor(time / 60);
   const seconds = time - minutes * 60;
@@ -122,42 +110,28 @@ export const printTimeRemaining = function () {
   // return `${minutes} minute${minutes===1?'':''}, ${('0'+seconds).slice(-2)} second${seconds===1?'s':''}`
 };
 
-/**
- * @extends Session
- */
-export const getCard = function () {
+Session.prototype.getCard = function () {
   return this.currentCard;
 };
 
-/**
- * @extends Session
- */
-export const checkIfCardsRemaining = function () {
+Session.prototype.checkIfCardsRemaining = function () {
   const areThereNewCardsRemaining = this.cards.some(
-    (i) => i.history.length === 0
+    (i) => i.history.length === 0 && i.canBeShown()
   );
   if (!areThereNewCardsRemaining) {
     this.createMoreCards();
   }
 };
 
-/**
- * @extends Session
- */
-export const createMoreCards = function () {
-  const newCards = this.deck.createCards({
+Session.prototype.createMoreCards = function () {
+  this.deck.createCards({
     forbidden_ids: this.cards.map((i) => i.id),
+    reset: false,
   });
-  this.cards = this.cards.concat(
-    newCards.map((card, index) => new Card(card, index, this))
-  );
   console.log("New cards generated");
 };
 
-/**
- * @extends Session
- */
-export const getStatus = function () {
+Session.prototype.getStatus = function () {
   return {
     bad: this.cards.filter((card) => card.getStatus() === BAD).length,
     good: this.cards.filter((card) => card.getStatus() === GOOD).length,
@@ -168,16 +142,8 @@ export const getStatus = function () {
   };
 };
 
-Session.prototype.updateRemainingTime = updateRemainingTime;
-Session.prototype.getAdjustedPercentageDone = getAdjustedPercentageDone;
-Session.prototype.printTimeRemaining = printTimeRemaining;
-Session.prototype.getCard = getCard;
-Session.prototype.checkIfCardsRemaining = checkIfCardsRemaining;
-Session.prototype.createMoreCards = createMoreCards;
-Session.prototype.getStatus = getStatus;
-
-export const loadCard = () => {
-  const session = store.getState().vocabulary.session;
+Session.prototype.loadCard = function () {
+  const session = this;
   if (!session || !session.currentCard) return console.error("no cards");
   store.dispatch({
     type: "LOAD_CARD",
@@ -189,26 +155,42 @@ export const loadCard = () => {
   });
 };
 
-export const answer = (rating) => {
-  const session = store.getState().vocabulary.session;
+Session.prototype.answer = function (rating) {
+  const session = this;
   session.currentCard.rate(rating);
   session.next();
   if (!session.done) {
-    loadCard();
+    session.loadCard();
   }
 };
 
-export const InitializeSession = (input, deck) => {
-  if (!deck) throw new Error("Deck misssing");
+Session.prototype.InitializeSession = function (input) {
+  const session = this;
   if (Array.isArray(input)) {
-    const session = new Session(input, deck);
-    session.next();
-    store.dispatch({
-      type: "LOAD_SESSION",
-      content: session,
-    });
-    loadCard();
-  } else {
-    // ERROR
+    session.cards = input;
   }
+  session.checkIfCardsRemaining();
+  session.next();
+  store.dispatch({
+    type: "LOAD_SESSION",
+    content: session,
+  });
+  session.loadCard();
 };
+
+Session.prototype.loadCards = function (card_ids) {
+  const to_add = card_ids.map((id, index) => {
+    return new Card(
+      {
+        id,
+        ...this.deck.cards[id],
+        dependencyDepth: withDependencies(id, { showDepth: true }),
+      },
+      index,
+      this
+    );
+  });
+  this.cards = this.cards.concat(to_add);
+};
+
+export default Session;

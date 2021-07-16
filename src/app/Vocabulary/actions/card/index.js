@@ -27,12 +27,14 @@ Card.prototype.rate = rate;
 Card.prototype.getRanking = getRanking;
 Card.prototype.postponeRelatedCards = postponeRelatedCards;
 
-Card.prototype.showIn = function ({ interval, minInterval }) {
-  // if (!interval && ) return;
-  // if (interval) {
-  //   this.absoluteQueuePosition = this.session.counter + interval;
-  // } else
+Card.prototype.showIn = function ({
+  interval,
+  minInterval,
+  cannotBeShownBefore,
+}) {
   if (interval) {
+    this.absoluteQueuePosition = this.session.counter + interval;
+  } else if (minInterval) {
     const newPos = this.session.counter + interval;
     if (newPos > this.absoluteQueuePosition) {
       this.absoluteQueuePosition = newPos;
@@ -41,7 +43,8 @@ Card.prototype.showIn = function ({ interval, minInterval }) {
 
   this.cannotBeShownBefore = Math.max(
     this.cannotBeShownBefore || 0,
-    this.session.counter + (minInterval || 3)
+    this.session.counter +
+      (cannotBeShownBefore || (Math.random() > 0.3 ? 3 : 2))
   );
 };
 // Card.prototype.ticksSinceTermWasSeen = function () {
@@ -75,6 +78,13 @@ Card.prototype.getStatus = function () {
   if (!this.lastSeen) return null;
   return this.status;
 };
+Card.prototype.canBeShown = function () {
+  return (
+    !this.cannotBeShownBefore ||
+    this.cannotBeShownBefore <= this.session.counter
+  );
+};
+
 // Card.prototype.shouldShowHint = function () {
 //   const lastTwoAverage = average(this.history.slice(0, 2));
 //   return !(

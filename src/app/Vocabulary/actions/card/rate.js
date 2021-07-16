@@ -5,64 +5,59 @@ import { BAD, GOOD, EASY } from "./index";
  * @memberof Card
  */
 export default function rate(rating) {
-  this.history.unshift(rating);
-  this.session.history.unshift(rating);
-  this.lastSeen = this.session.counter;
+  const card = this;
+  card.history.unshift(rating);
+  card.session.history.unshift(rating);
+  card.lastSeen = card.session.counter;
 
   /* Score */
-  const lastTwoAverage = average(this.history.slice(0, 2));
-  this.score = Math.floor(lastTwoAverage);
+  const lastTwoAverage = average(card.history.slice(0, 2));
+  card.score = Math.floor(lastTwoAverage);
 
   if (rating !== BAD) {
-    this.goodRepetitions++;
+    card.goodRepetitions++;
   }
 
   /* Schedule */
   let interval;
   if (rating === BAD) {
     interval = 3;
-    this.done = false;
+    card.done = false;
     /* User is getting annoyed */
-    if (this.history.length > 10) {
+    if (card.history.length > 10) {
       // TODO improve
       interval = 10;
     }
   } else if (rating === GOOD) {
     interval = 200;
-    this.done = true;
-    if (this.score && this.score < GOOD) {
+    card.done = true;
+    if (card.score && card.score < GOOD) {
       interval = 15;
     }
-    if (this.history[1] >= GOOD) {
+    if (card.history[1] >= GOOD) {
       interval = 200;
-    } else if (this.history[1] === BAD) {
+    } else if (card.history[1] === BAD) {
       interval = 8;
-      this.done = false;
-    } else if (this.history[2] === BAD) {
+      card.done = false;
+    } else if (card.history[2] === BAD) {
       interval = 15;
     }
   } else if (rating === EASY) {
     interval = 800;
-    this.done = true;
+    card.done = true;
   }
-  this.showIn({ interval });
-
-  this.status = Math.round(lastTwoAverage);
-
-  this.postponeRelatedCards(interval);
+  card.showIn({ interval });
+  card.status = Math.round(lastTwoAverage);
+  card.postponeRelatedCards(interval);
 
   /* Add related cards (in case they're missing) */
   if (rating === BAD) {
-    // getCardsWithSameTerm(card.id)
-    //   .filter(sibling_id => !card.session.cards.some(j => j.id === sibling_id))
-    //   .forEach(sibling_id => {
-    //     /* TODO */
-    //   })
+    Object.keys(card.dependencyDepth).forEach((related_card_id) => {
+      if (related_card_id === card.id) return;
+      if (card.session.cards.some((j) => j.id === related_card_id)) return;
+      // TODO
+    });
   }
 
-  this.session.cardTypeLog.unshift(this.from);
-  // this.session.dependencyHistory = [
-  //   this.dependencies,
-  //   ...this.session.dependencyHistory,
-  // ].slice(0, 2);
+  card.session.cardTypeLog.unshift(card.from);
 }

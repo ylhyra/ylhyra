@@ -2,7 +2,6 @@ import {
   printWord,
   getCardsWithSameTerm,
 } from "app/Vocabulary/actions/functions";
-import createCards from "app/Vocabulary/actions/createCards";
 import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
 import {
   getHash,
@@ -30,7 +29,7 @@ export const withDependencies = (card_ids, options) => {
     .forEach((card_id) => (terms = terms.concat(deck.cards[card_id].terms)));
   terms = _.uniq(terms);
   terms.forEach((term) => {
-    let terms = [{ term, sortKey: -1 }];
+    let terms = [{ term, sortKey: 0 }];
     const chain = CreateDependencyChain(term, deck);
     // console.log(
     //   Object.keys(chain).map((j) => {
@@ -73,7 +72,7 @@ const CreateDependencyChain = (
   deck,
   _alreadySeen = [],
   output = [],
-  depth = 0
+  depth = 1
 ) => {
   if (from_term in deck.dependencies) {
     deck.dependencies[from_term].forEach((term) => {

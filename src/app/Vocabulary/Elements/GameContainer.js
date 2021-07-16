@@ -19,7 +19,7 @@ class GameContainer extends Component {
   componentDidUpdate = () => {
     const { deck, session } = this.props.vocabulary;
     if (deck && !session) {
-      deck.generateSession();
+      deck.session.InitializeSession();
     }
   };
   render() {

@@ -6,9 +6,7 @@ import { BAD, GOOD, EASY } from "./index";
 export default function getRanking() {
   /* Queue position relative to zero */
   let q = this.absoluteQueuePosition - this.session.counter;
-  let canBeShown =
-    !this.cannotBeShownBefore ||
-    this.cannotBeShownBefore <= this.session.counter;
+  let canBeShown = this.canBeShown();
 
   if (!this.terms) {
     console.log(this);
