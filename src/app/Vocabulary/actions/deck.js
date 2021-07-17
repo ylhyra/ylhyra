@@ -40,7 +40,6 @@ class Deck {
       .filter(Boolean);
     this.schedule = schedule || {};
     this.session = new Session(deck);
-    this.loadSessionFromLocalStorage();
   }
   continueStudying() {
     updateURL("VOCABULARY_PLAY");

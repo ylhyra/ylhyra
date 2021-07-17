@@ -7,16 +7,20 @@ import { BAD, GOOD, EASY } from "./card";
 import { daysToMs } from "app/App/functions/time";
 const MAX_CARDS_PER_DAY = 30;
 
-/*
-  Long-term scheduling
+/**
+ * Long-term scheduling
+ * @memberof Session
  */
-export const createSchedule = () => {
-  const { deck, session } = store.getState().vocabulary;
+export default function createSchedule() {
+  const session = this;
+  const deck = this.deck;
   if (!session) {
     console.error("createSchedule called without an active session!");
     return;
   }
   const cards = session.cards;
+  if (!cards || !cards.some((i) => i.history.length > 0)) return;
+
   deck.spreadOutSchedule();
 
   cards.forEach((card) => {
@@ -110,7 +114,7 @@ export const createSchedule = () => {
 
   deck.spreadOutSchedule();
   deck.syncSchedule();
-};
+}
 
 export async function spreadOutSchedule() {
   const { schedule } = this;
