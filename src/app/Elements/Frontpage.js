@@ -4,23 +4,29 @@ import Link from "app/Router/Link";
 import { PercentageKnownOverall } from "app/Vocabulary/actions/functions/percentageKnown";
 
 const Screen = (props) => (
-  <div>
-    {!props.user ? (
+  <div className="frontpage-splashscreen">
+    {!props.user &&
+    (!props.vocabulary.deck ||
+      Object.keys(props.vocabulary.deck.schedule).length < 2) ? (
       <div>
         <div>
-          <Link href="VOCABULARY_PLAY" className="button">
+          <Link href="VOCABULARY_PLAY" className="button dark-blue big">
             Start learning
           </Link>
         </div>
-        <Link href="LOG_IN">Already have an account?</Link>
+        <Link href="LOG_IN" className="below-button">
+          Already have an account?
+        </Link>
       </div>
     ) : (
       <div>
         <div>
-          <Link href="VOCABULARY_PLAY" className="button">
-            Play
+          <Link href="VOCABULARY_PLAY" className="button dark-blue big">
+            Start session
           </Link>
-          {/* {PercentageKnownOverall()}% known */}
+          <div className="below-button">
+            {PercentageKnownOverall()}% known overall
+          </div>
         </div>
       </div>
     )}
@@ -28,5 +34,6 @@ const Screen = (props) => (
 );
 
 export default connect((state) => ({
+  vocabulary: state.vocabulary,
   user: state.user,
 }))(Screen);

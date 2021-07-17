@@ -336,28 +336,55 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
     });
 
   /* Automatic alt-ids */
+  let prefixes = [
+    ["hér er", "here is"],
+    ["um", "about"],
+    ["frá", "from"],
+    ["til", "to"],
+    ["að", "to"],
+    ["ég", "I"],
+    ["þú", "you"],
+    ["hann er", "he is"],
+    ["hún er", "she is"],
+    ["það er", "it is"],
+    ["það er", "that is"],
+    ["hann", "he"],
+    ["hún", "she"],
+    ["það", "it"],
+    ["það", "that"],
+    ["við", "we"],
+  ];
+  const is_prefix = new RegExp(
+    `^(${prefixes.map((i) => i[0]).join("|")}) `,
+    "i"
+  );
+  const en_prefix = new RegExp(`${prefixes.map((i) => i[1]).join("|")} `, "i");
   let automatic_alt_ids = {};
   for (let [key, card] of Object.entries(cards)) {
+    if (!card.en_plaintext) continue;
     card.is_plaintext.split(/[,;-] ?/g).forEach((sentence) => {
-      const without = sentence.replace(
-        /^(hér er|um|frá|til|hann er|hún er|það er|að|ég|þú|hann|hún|það|við) /i,
-        ""
-      );
-      // if (sentence === "Hún er góð.") {
-      //   console.log(without);
-      // }
-      if (sentence !== without && !["að"].includes(without)) {
+      if (sentence.match(is_prefix) && card.en_plaintext.match(en_prefix)) {
+        const without = sentence.replace(is_prefix, "");
+        const score = prefixes
+          .map((i) => i[0])
+          .indexOf(sentence.match(is_prefix)[1].toLowerCase());
         const hash = getHash(without);
         if (
           hash in terms ||
           hash in alternative_ids ||
-          hash in automatic_alt_ids
+          (hash in automatic_alt_ids && automatic_alt_ids[hash].score < score)
         )
           return;
-        automatic_alt_ids[hash] = card.terms;
+        automatic_alt_ids[hash] = {
+          terms: card.terms,
+          score: score,
+        };
       }
     });
   }
+  Object.keys(automatic_alt_ids).forEach((i) => {
+    automatic_alt_ids[i] = automatic_alt_ids[i].terms;
+  });
 
   /* Automatic dependency graphs */
   // TODO: Sleppa þegar deps innihalda nú þegar þetta orð!

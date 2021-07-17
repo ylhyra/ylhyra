@@ -15,7 +15,7 @@ import createCards from "./createCards";
 
 export const MINUTES = 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
-const LOGGING = true;
+const LOGGING = false;
 
 class Session {
   constructor(deck) {

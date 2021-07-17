@@ -14,6 +14,9 @@
     border-top-color: rgba($color, 0.25);
     color: scale-color($color, $lightness: -70%);
     text-decoration: none;
+
+    box-shadow: inset $x_axis 1px 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 0px 0px 0 rgba($color, 0.3), 0 0px 1px 1px rgba(black, 0.04);
   }
   cursor: pointer;
   &.selected,
@@ -61,7 +64,7 @@ button:not(.link):not(.nostyle) {
   }
   &.big {
     font-size: 15px;
-    padding: 8px 14px;
+    padding: 8px 18px;
   }
 
   &.red {
@@ -79,6 +82,12 @@ button:not(.link):not(.nostyle) {
   //     background: #e9eaf7;
   //   }
   // }
+  //
+  &.dark-blue {
+    background: #102f36;
+    // @include button(white, #102f36, 0);
+    color: white;
+  }
 }
 
 button.link,

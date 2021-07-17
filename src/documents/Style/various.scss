@@ -257,3 +257,12 @@ a[href="/login"] {
   font-style: italic;
   @include sans-serif();
 }
+
+.frontpage-splashscreen {
+  @include sans-serif();
+  text-align: center;
+  .below-button {
+    opacity: 0.79;
+    font-size: 13px;
+  }
+}

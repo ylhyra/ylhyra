@@ -41,6 +41,7 @@ export default function createCards(options) {
     .map((id) => ({ id, ...deck.schedule[id] }))
     .sort((a, b) => a.due - b.due)
     .forEach((i) => {
+      // console.log(printWord(i.id));
       if (i.last_seen < now - 0.7 * day) {
         if (i.adjusted_due < now + 0.7 * day) {
           if (i.score < 1.5) {
@@ -161,7 +162,7 @@ export default function createCards(options) {
           if (
             /* Not seen */
             !(sibling_card_id in deck.schedule) ||
-            deck.schedule[sibling_card_id].score < GOOD
+            deck.schedule[sibling_card_id].score < 1.5
           ) {
             output.push(sibling_card_id);
           }

@@ -19,7 +19,7 @@ export const PercentageKnown = (card_ids) => {
   let done = 0;
   let remaining = 0;
   card_ids.forEach((id) => {
-    if (id in deck.schedule) {
+    if (id in deck.schedule && deck.schedule[id].score) {
       /* 2.02 counts as fully known, while 1 counts as not known */
       const output = mapValueToRange({
         value: deck.schedule[id].score,

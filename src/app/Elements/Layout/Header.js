@@ -11,17 +11,17 @@ export default (props) => (
           {/* <li>
           <Link href="/spænska">Spænska</Link>
         </li> */}
-          <li>
-            <Link href="/texts">Texts</Link>
-          </li>
-          <li>
+          {/* <li>
             <Link href="/vocabulary">
               <span className="large">Vocabulary</span>
               <span className="medium">Vocab.</span>
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link href="/course">Course</Link>
+          </li>
+          <li>
+            <Link href="/texts">Texts</Link>
           </li>
           <li>
             <Link href="/explanations">

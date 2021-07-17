@@ -24,11 +24,16 @@ export async function syncSchedule() {
   Object.keys(schedule).forEach((card_id) => {
     if (schedule[card_id].needsSyncing) {
       tosave[card_id] = schedule[card_id];
-      schedule[card_id].needsSyncing = false;
     }
   });
   if (Object.keys(tosave).length > 0) {
     await axios.post(`/api/vocabulary/save`, { schedule: tosave });
+    Object.keys(schedule).forEach((card_id) => {
+      if (schedule[card_id].needsSyncing) {
+        schedule[card_id].needsSyncing = false;
+      }
+    });
+    saveInLocalStorage("vocabulary-schedule", schedule);
   }
 }
 // window.syncSchedule = syncSchedule;

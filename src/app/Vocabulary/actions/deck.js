@@ -42,41 +42,10 @@ class Deck {
     this.session = new Session(deck);
     this.loadSessionFromLocalStorage();
   }
-  sessionDone() {
-    createSchedule();
-    this.saveSession(null, true);
-    updateURL(window.location.pathname);
-    store.dispatch({
-      type: "LOAD_SESSION",
-      content: null,
-    });
-    this.session.reset();
-  }
   continueStudying() {
     updateURL("VOCABULARY_PLAY");
     this.session.reset();
     this.session.InitializeSession();
-  }
-  saveSession(session, done) {
-    // if (!done) {
-    //   let to_save = session.cards.map(({ session, ...rest }) => rest);
-    //   if (!to_save.some((i) => i.history.length > 0)) {
-    //     to_save = null;
-    //   }
-    //   saveInLocalStorage("vocabulary-session", to_save);
-    //   saveInLocalStorage("vocabulary-session-saved-at", new Date().getTime());
-    // } else {
-    //   saveInLocalStorage("vocabulary-session", null);
-    // }
-  }
-  loadSessionFromLocalStorage() {
-    // /* TODO: Clear after a day */
-    // if (getFromLocalStorage("vocabulary-session")) {
-    //   this.session.InitializeSession(
-    //     getFromLocalStorage("vocabulary-session"),
-    //     this
-    //   );
-    // }
   }
 }
 Deck.prototype.syncSchedule = syncSchedule;
