@@ -23,7 +23,7 @@ export function updateRemainingTime() {
   this.remainingTime = Math.max(0, this.remainingTime - diff);
   this.lastTimestamp = newTimestamp;
   if (this.remainingTime <= 0) {
-    this.deck.sessionDone();
+    this.sessionDone();
     this.done = true;
   }
 }

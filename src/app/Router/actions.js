@@ -9,7 +9,6 @@ let HAS_LOADED = false;
 if (isBrowser) {
   window.addEventListener("popstate", (event) => {
     if (HAS_LOADED) {
-      console.log("haha");
       updateURL(window.location.pathname + window.location.hash);
     }
   });

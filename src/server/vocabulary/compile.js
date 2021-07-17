@@ -21,14 +21,18 @@ const path = require("path");
 const fs = require("fs");
 
 // const DECK = "_da";
-const DECK = "";
+const DECK = process.env.DECK || "";
 const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
 const yaml = require("js-yaml");
+
+// console.log(process.env.DECK);
+// process.exit();
+
 /*
   Convert vocabulary data into a JavaScrip object
 */
 const run = async () => {
-  console.log("Making vocabulary...");
+  console.log(`Making vocabulary... ${DECK}`);
 
   const sortKeys = await getSortKeys();
 

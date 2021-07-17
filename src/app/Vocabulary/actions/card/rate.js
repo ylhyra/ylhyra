@@ -1,11 +1,12 @@
 import { average, clamp } from "app/App/functions/math";
 import { BAD, GOOD, EASY } from "./index";
-
+import { printWord } from "app/Vocabulary/actions/functions/index.js";
 /**
  * @memberof Card
  */
 export default function rate(rating) {
   const card = this;
+  const deck = this.session.deck;
   card.history.unshift(rating);
   card.session.history.unshift(rating);
   card.lastSeen = card.session.counter;
@@ -51,6 +52,14 @@ export default function rate(rating) {
       if (card.session.cards.some((j) => j.id === related_card_id)) return;
       // Same term
       if (card.dependencyDepth[related_card_id] === 0) {
+        card.session.loadCards([related_card_id]);
+      }
+      // Directly above
+      else if (
+        card.dependencyDepth[related_card_id] === 1 &&
+        (!(related_card_id in deck.schedule) ||
+          deck.schedule[related_card_id].score < 1.5)
+      ) {
         card.session.loadCards([related_card_id]);
       }
     });

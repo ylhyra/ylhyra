@@ -56,7 +56,6 @@ export const InitializeVocabulary = async () => {
       new Date().getTime()
     );
     saveInLocalStorage("vocabulary-build-id", getBuildId());
-    saveInLocalStorage("vocabulary-session", null);
   }
 
   let schedule = getFromLocalStorage("vocabulary-schedule");
@@ -76,13 +75,14 @@ export const InitializeVocabulary = async () => {
     }
   }
 
-  const deck = new Deck(database, schedule);
+  // /* TODO: Clear after a day */
+  let session = getFromLocalStorage("vocabulary-session");
+
+  const deck = new Deck(database, schedule, session);
   store.dispatch({
     type: "LOAD_DECK",
     content: deck,
   });
-  /* For testing */
-  window.deck = deck;
 };
 
 let build_id;

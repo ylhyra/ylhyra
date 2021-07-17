@@ -15,17 +15,18 @@ import createCards from "app/Vocabulary/actions/createCards";
  */
 export function InitializeSession(input) {
   const session = this;
-  // session.allowed_card_ids = null;
+  this.reset();
+  // this.allowed_card_ids = null;
   if (Array.isArray(input)) {
-    session.cards = input;
+    this.loadCards(input);
   }
-  session.checkIfCardsRemaining();
-  session.nextCard();
+  this.checkIfCardsRemaining();
+  this.nextCard();
   store.dispatch({
     type: "LOAD_SESSION",
     content: session,
   });
-  session.loadCard();
+  this.loadCard();
 }
 
 /**

@@ -39,10 +39,13 @@ Card.prototype.showIn = function ({
     }
   }
 
+  const c =
+    cannotBeShownBefore ||
+    (this.history[0] === BAD && this.history[1] === BAD ? 2 : 3);
+
   this.cannotBeShownBefore = Math.max(
     this.cannotBeShownBefore || 0,
-    this.session.counter +
-      (cannotBeShownBefore || (Math.random() > 0.3 ? 3 : 2))
+    this.session.counter + c
   );
 };
 // Card.prototype.ticksSinceTermWasSeen = function () {

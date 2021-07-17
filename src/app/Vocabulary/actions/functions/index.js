@@ -12,7 +12,7 @@ import _ from "underscore";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
 
 export const getDeck = () => {
-  return store.getState().vocabulary.deck;
+  return store.getState().vocabulary.deck || window.deck;
 };
 
 export const MakeSummaryOfCardStatuses = (card_ids) => {

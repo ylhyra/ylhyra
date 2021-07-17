@@ -6,10 +6,7 @@ import error from "app/App/Error";
 import axios from "app/App/axios";
 import { createSchedule } from "./createSchedule";
 import Session from "app/Vocabulary/actions/session";
-import {
-  saveInLocalStorage,
-  getFromLocalStorage,
-} from "app/App/functions/localStorage";
+
 import { syncSchedule } from "./sync";
 import { spreadOutSchedule } from "./createSchedule";
 import { updateURL } from "app/Router/actions";
@@ -19,12 +16,18 @@ import _ from "underscore";
 class Deck {
   constructor(database, schedule, session) {
     const deck = this;
+    /* For testing */
+    window.deck = deck;
     const { cards, terms, alternative_ids, dependencies } = database;
     this.cards = cards;
     this.terms = terms;
     this.alternative_ids = alternative_ids;
     this.dependencies = dependencies;
-    this.cards_sorted = _.shuffle(Object.keys(cards))
+    const c =
+      process.env.NODE_ENV === "development"
+        ? Object.keys(cards)
+        : _.shuffle(Object.keys(cards));
+    this.cards_sorted = c
       .map((key) => {
         // if(typeof cards[key] === 'function') return null;
         return cards[key];
@@ -39,8 +42,11 @@ class Deck {
       )
       .filter(Boolean);
     this.schedule = schedule || {};
-    this.session = new Session(deck);
+    this.session = new Session(deck, session);
   }
+  // play() {
+  //   this.session.InitializeSession();
+  // }
   continueStudying() {
     updateURL("VOCABULARY_PLAY");
     this.session.reset();

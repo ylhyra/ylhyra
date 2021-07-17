@@ -11,7 +11,7 @@ const MAX_CARDS_PER_DAY = 30;
  * Long-term scheduling
  * @memberof Session
  */
-export default function createSchedule() {
+export function createSchedule() {
   const session = this;
   const deck = this.deck;
   if (!session) {
@@ -114,6 +114,7 @@ export default function createSchedule() {
 
   deck.spreadOutSchedule();
   deck.syncSchedule();
+  console.log("Schedule made");
 }
 
 export async function spreadOutSchedule() {

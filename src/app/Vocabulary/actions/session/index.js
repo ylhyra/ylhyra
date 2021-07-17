@@ -29,20 +29,26 @@ import {
 import { nextCard } from "app/Vocabulary/actions/session/nextCard.js";
 import { createSchedule } from "app/Vocabulary/actions/createSchedule.js";
 import { updateURL } from "app/Router/actions";
+import {
+  saveInLocalStorage,
+  getFromLocalStorage,
+} from "app/App/functions/localStorage";
 
-export const MINUTES = 5;
+export const MINUTES = process.env.NODE_ENV === "development" ? 1 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
 class Session {
-  constructor(deck) {
-    // this.reset();
+  constructor(deck, init) {
+    this.reset();
     this.deck = deck;
-    this.loadSessionFromLocalStorage();
+    if (init) {
+      // this.loadCards(init);
+      this.cards = init;
+      this.createSchedule();
+      this.saveSession(null, true);
+    }
   }
   reset() {
-    if (this.cards && this.cards.length > 0) {
-      this.createSchedule();
-    }
     this.allowed_card_ids = null;
     this.history = [];
     this.counter = 0;
@@ -65,26 +71,18 @@ class Session {
     });
     this.reset();
   }
-  saveSession(session, done) {
-    // if (!done) {
-    //   let to_save = session.cards.map(({ session, ...rest }) => rest);
-    //   if (!to_save.some((i) => i.history.length > 0)) {
-    //     to_save = null;
-    //   }
-    //   saveInLocalStorage("vocabulary-session", to_save);
-    //   saveInLocalStorage("vocabulary-session-saved-at", new Date().getTime());
-    // } else {
-    //   saveInLocalStorage("vocabulary-session", null);
-    // }
-  }
-  loadSessionFromLocalStorage() {
-    // /* TODO: Clear after a day */
-    // if (getFromLocalStorage("vocabulary-session")) {
-    //   this.session.InitializeSession(
-    //     getFromLocalStorage("vocabulary-session"),
-    //     this
-    //   );
-    // }
+  saveSession() {
+    const session = this;
+    if (!this.done) {
+      let to_save = session.cards.map(({ session, ...rest }) => rest);
+      if (!to_save.some((i) => i.history.length > 0)) {
+        to_save = null;
+      }
+      saveInLocalStorage("vocabulary-session", to_save);
+      saveInLocalStorage("vocabulary-session-saved-at", new Date().getTime());
+    } else {
+      saveInLocalStorage("vocabulary-session", null);
+    }
   }
 }
 
@@ -101,4 +99,5 @@ Session.prototype.answer = answer;
 Session.prototype.InitializeSession = InitializeSession;
 Session.prototype.loadCards = loadCards;
 Session.prototype.nextCard = nextCard;
+Session.prototype.createSchedule = createSchedule;
 export default Session;

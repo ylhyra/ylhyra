@@ -58,5 +58,5 @@ export function nextCard(depth = 0) {
     this.lastSeenTerms[id] = this.counter;
   });
 
-  this.deck.saveSession(this);
+  this.saveSession();
 }

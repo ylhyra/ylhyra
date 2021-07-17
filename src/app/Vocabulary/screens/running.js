@@ -12,7 +12,7 @@ const r = (props) => (
       <button
         className="link"
         onClick={() => {
-          props.vocabulary.deck.sessionDone();
+          props.vocabulary.session.sessionDone();
         }}
       >
         Quit

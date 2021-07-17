@@ -24,7 +24,16 @@ export default function postponeRelatedCards(card1_interval) {
           max = 500;
           card2.done = true;
         }
-        card2.showIn({ minInterval: Math.min(card1_interval, max) });
+        if (card1.history[0] === BAD && card1.history[1] === BAD) {
+          card2.showIn({ interval: 3 });
+          card1.showIn({ interval: 4 });
+        } else if (card1.history[0] === BAD) {
+          card2.showIn({ interval: 4 });
+        } else if (card2.history[0] === BAD && card1.history[0] !== BAD) {
+          card2.showIn({ minInterval: 8 });
+        } else {
+          card2.showIn({ minInterval: Math.min(card1_interval, max) });
+        }
       }
 
       // Cards that directly rely on this card
@@ -36,6 +45,18 @@ export default function postponeRelatedCards(card1_interval) {
           minInterval: min,
           cannotBeShownBefore: min,
         });
+      }
+
+      // Cards that this card depends directly on
+      else if (
+        card1.history[0] === BAD &&
+        Object.keys(card1.dependencyDepth).includes(card2.id) &&
+        card1.dependencyDepth[card2.id] === 1 &&
+        (card2.score < 1.1 || card2.history[0] === BAD) &&
+        Math.random() > 0.3
+      ) {
+        card1.showIn({ interval: 6 });
+        card2.showIn({ interval: 3 });
       }
 
       // Cards that share the same dependencies

@@ -31,6 +31,10 @@ header {
       // height: math.div(68px * 26, 68);
       display: block;
       position: relative;
+
+      // @media (max-width: 400px) {
+      //   display: none;
+      // }
     }
 
     &.navlinks {
