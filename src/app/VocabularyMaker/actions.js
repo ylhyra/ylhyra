@@ -10,11 +10,13 @@ import store from "app/App/store";
 import axios from "app/App/axios";
 import _ from "underscore";
 import { getDeck } from "app/Vocabulary/actions/functions";
+import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 
 let maxID = 0;
 let rows = [];
 let sound = [];
 let terms = {};
+let cards = {};
 let dependencies = {};
 let alternative_ids = {};
 let plaintext_sentences = {};
@@ -22,7 +24,7 @@ let plaintext_sentences = {};
 export const MAX_PER_PAGE = 20;
 
 export const load = async () => {
-  window.skip_hash = true;
+  // window.skip_hash = true;
   let vocabulary = (await axios.get(`/api/vocabulary_maker`, {})).data;
   sound = (vocabulary && vocabulary.sound) || [];
   rows = (vocabulary && vocabulary.rows) || [];
@@ -37,7 +39,7 @@ export const load = async () => {
   // dependencies = parsed.dependencies
   // alternative_ids = parsed.alternative_ids
   // plaintext_sentences = parsed.plaintext_sentences
-  ({ terms, dependencies, alternative_ids, plaintext_sentences } =
+  ({ terms, cards, dependencies, alternative_ids, plaintext_sentences } =
     parse_vocabulary_file(vocabulary, true));
   setupSound();
   findMissingDependencies();
@@ -146,17 +148,23 @@ export const save = () => {
 let missing_sound = [];
 let current_word_recording = 0;
 const setupSound = () => {
-  return;
   const deck = getDeck();
 
   let sentences = [];
-  deck.cards_sorted.forEach((card) => {
-    card.spokenSentences.forEach((sentence) => {
+  let ids = _.shuffle(deck.cards_sorted.filter((c) => c.sortKey))
+    .sort((a, b) => Math.floor(a.sortKey / 50) - Math.floor(b.sortKey / 50))
+    .map((c) => c.id);
+  ids = withDependencies(ids);
+  ids.forEach((id) => {
+    if (!(id in cards)) return;
+    cards[id].spokenSentences.forEach((sentence) => {
       if (!sentences.includes(sentence)) {
         sentences.push(sentence);
       }
     });
   });
+  console.log(sentences);
+  // sentences = _.shuffle(sentences);
 
   missing_sound = [];
   current_word_recording = 0;
@@ -167,7 +175,13 @@ const setupSound = () => {
   // Object.keys(plaintext_sentences)
   sentences.forEach((word) => {
     const lowercase = GetLowercaseStringForAudioKey(word);
-    if (!sound.some((i) => i.lowercase === lowercase)) {
+    if (
+      !sound.some(
+        (i) =>
+          i.lowercase === lowercase &&
+          i.speaker === window.recording_metadata.speaker
+      )
+    ) {
       missing_sound.push(word);
     }
   });

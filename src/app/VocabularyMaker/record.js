@@ -18,6 +18,7 @@ const STOP_LAG_IN_MILLISECONDS = 700;
 
 window.recording_metadata = {
   speaker: "E",
+  // speaker: "Imba",
   speed: "slow", // ["slow", "normal", "fast"]
 };
 

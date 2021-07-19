@@ -34,7 +34,7 @@ import {
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
 
-export const MINUTES = process.env.NODE_ENV === "development" ? 1 : 5;
+export const MINUTES = process.env.NODE_ENV === "development" ? 4 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
 class Session {
@@ -60,6 +60,7 @@ class Session {
     this.totalTime = MINUTES * 60 * 1000;
     this.remainingTime = this.totalTime;
     this.lastTimestamp = new Date().getTime();
+    this.done = false;
   }
   sessionDone() {
     this.createSchedule();

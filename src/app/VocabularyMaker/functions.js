@@ -192,7 +192,6 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
   };
 
   const getSpokenSentences = (input) => {
-    if (isBrowser) return;
     let output = [];
     input.split(/;+/g).forEach((i) => {
       getPlaintextFromVocabularyEntry(i)

@@ -16,6 +16,7 @@ const LOGGING = false;
 export function nextCard(depth = 0) {
   this.counter++;
   this.updateRemainingTime();
+  if (this.done) return;
   if (this.cards.length === 0) {
     console.error("No cards");
     this.createMoreCards();
