@@ -8,6 +8,8 @@ rsync \
   --compress \
   --exclude ./build/server/development \
   --exclude ./build/images/audio/tmp \
+  --exclude ./build/images/audio/tmp_ffmpeg \
+  --exclude ./build/images/audio/tmp_processed \
   -e "ssh -p ${SERVER_SSH_PORT}" \
   ./build/ \
   ${SERVER_IP_AND_FOLDER}/build
