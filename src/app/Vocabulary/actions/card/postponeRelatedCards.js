@@ -24,15 +24,20 @@ export default function postponeRelatedCards(card1_interval) {
           max = 500;
           card2.done = true;
         }
-        if (card1.history[0] === BAD && card1.history[1] === BAD) {
-          card2.showIn({ interval: 3 });
-          card1.showIn({ interval: 4 });
-        } else if (card1.history[0] === BAD) {
-          card2.showIn({ interval: 4 });
-        } else if (card2.history[0] === BAD && card1.history[0] !== BAD) {
+
+        if (card1.history[0] >= GOOD) {
+          // if (card2.history[0] === BAD) {
           card2.showIn({ minInterval: 8 });
-        } else {
-          card2.showIn({ minInterval: Math.min(card1_interval, max) });
+          // } else {
+          //   card2.showIn({ minInterval: Math.min(card1_interval, max) });
+          // }
+        } else if (card1.history[0] === BAD) {
+          if (card1.history[1] === BAD && !(card2.history[0] >= GOOD)) {
+            card1.showIn({ interval: 4 });
+            card2.showIn({ interval: 3 });
+          } else {
+            card2.showIn({ interval: 3 });
+          }
         }
       }
 

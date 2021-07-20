@@ -13,9 +13,9 @@ import createCards from "app/Vocabulary/actions/createCards";
 /**
  * @memberof Session
  */
-export function InitializeSession(input) {
+export function InitializeSession(input, shouldReset) {
   const session = this;
-  this.reset();
+  shouldReset !== false && this.reset();
   // this.allowed_card_ids = null;
   if (Array.isArray(input)) {
     this.loadCards(input);

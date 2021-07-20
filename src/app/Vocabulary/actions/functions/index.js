@@ -81,7 +81,7 @@ export const studyParticularIds = (allowed_card_ids) => {
   session.reset();
   session.allowed_card_ids = allowed_card_ids;
   session.createCards();
-  session.InitializeSession();
+  session.InitializeSession(null, false);
   updateURL("/vocabulary/play");
 };
 

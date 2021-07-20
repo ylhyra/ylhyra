@@ -18,12 +18,18 @@ export default function createCards(options) {
   // let forbidden_ids = (options && options.forbidden_ids) || [];
   let forbidden_ids = session.cards.map((i) => i.id);
   let allowed_card_ids = session.allowed_card_ids || null;
+  // console.log({
+  //   forbidden_ids,
+  //   allowed_card_ids,
+  //   k: allowed_card_ids.filter((i) => !forbidden_ids.includes(i)),
+  // });
   if (
     allowed_card_ids &&
     allowed_card_ids.filter((i) => !forbidden_ids.includes(i)).length === 0
   ) {
     allowed_card_ids = null;
   }
+  // console.log({ allowed_card_ids });
   const reset = (options && options.reset) || null;
 
   /* Previously seen cards */
@@ -32,8 +38,9 @@ export default function createCards(options) {
   let unadjusted_overdue_good_ids = [];
   let unadjusted_overdue_bad_ids = [];
   let not_overdue_bad_cards_ids = [];
+  let not_overdue_semi_bad_cards_ids = [];
   let not_overdue = [];
-  let allScores = [];
+  // let allScores = [];
   let scheduled = Object.keys(deck.schedule)
     .filter((id) => !forbidden_ids.includes(id))
     .filter((id) => !allowed_card_ids || allowed_card_ids.includes(id))
@@ -42,28 +49,24 @@ export default function createCards(options) {
     .sort((a, b) => a.due - b.due)
     .forEach((i) => {
       // console.log(printWord(i.id));
-      if (i.last_seen < now - 0.7 * day) {
-        if (i.adjusted_due < now + 0.7 * day) {
-          if (i.score < 1.5) {
-            overdue_bad_ids.push(i.id);
-          } else {
-            overdue_good_ids.push(i.id);
-          }
-        } else if (i.due < now + 0.7 * day) {
-          if (i.score < 1.5) {
-            unadjusted_overdue_bad_ids.push(i.id);
-          } else {
-            unadjusted_overdue_good_ids.push(i.id);
-          }
-        } else if (i.score < 1.5) {
-          not_overdue_bad_cards_ids.push(i.id);
+      if (i.due < now + 0.7 * day) {
+        if (i.score <= 1.75) {
+          overdue_bad_ids.push(i.id);
+        } else {
+          overdue_good_ids.push(i.id);
         }
-      } else {
-        not_overdue.push(i.id);
+      } else if (i.score < 1.5) {
+        not_overdue_bad_cards_ids.push(i.id);
+      } else if (i.score < 2.1) {
+        not_overdue_semi_bad_cards_ids.push(i.id);
       }
-      allScores.push(i.score);
+      //   console.log(i.score);
+      // } else {
+      //   not_overdue.push(i.id);
+      // }
+      // allScores.push(i.score);
     });
-  const averageScore = average(allScores);
+  // const averageScore = average(allScores);
 
   /* New cards */
   let new_card_ids = [];
@@ -103,41 +106,87 @@ export default function createCards(options) {
   overdue_bad_ids = SortBySortKey2(overdue_bad_ids, deck);
 
   not_overdue_bad_cards_ids = SortIdsByWhetherTermWasRecentlySeen(
-    not_overdue_bad_cards_ids,
+    SortBySortKey2(not_overdue_bad_cards_ids, deck),
     deck
   );
+  not_overdue_semi_bad_cards_ids = SortIdsByWhetherTermWasRecentlySeen(
+    SortBySortKey2(not_overdue_semi_bad_cards_ids, deck),
+    deck
+  );
+
   let total_options =
     overdue_bad_ids.length +
     overdue_good_ids.length +
     not_overdue_bad_cards_ids.length +
+    not_overdue_semi_bad_cards_ids.length +
     new_card_ids.length;
   let chosen_ids = [];
   const total_overdue = overdue_bad_ids.length + overdue_good_ids.length;
   const badratio = PercentageKnown(overdue_bad_ids.concat(overdue_good_ids));
-  let newCardEvery = 3;
-  if (overdue_bad_ids.length > 15) {
+  let newCardEvery = 5;
+  let bad_count = overdue_bad_ids.length + not_overdue_bad_cards_ids.length;
+  if (bad_count > 15) {
     newCardEvery = 10;
-  } else if (overdue_bad_ids.length > 40) {
+  }
+  if (bad_count > 40) {
     newCardEvery = 35;
   }
+  process.env.NODE_ENV === "development" &&
+    console.log({
+      overdue_bad_ids_length: overdue_bad_ids.length,
+      overdue_good_ids_length: overdue_good_ids.length,
+      new_card_ids_length: new_card_ids.length,
+      not_overdue_bad_cards_ids: not_overdue_bad_cards_ids.length,
+      not_overdue_semi_bad_cards_ids: not_overdue_semi_bad_cards_ids.length,
+      // overdue_bad_ids: overdue_bad_ids.map(printWord),
+      // overdue_good_ids: overdue_good_ids.map(printWord),
+      // new_card_ids: new_card_ids.map(printWord),
+      newCardEvery,
+    });
   for (
     let i = 0;
     chosen_ids.length < Math.min(CARDS_TO_CREATE, total_options) && i < 1000;
     i++
   ) {
-    if (i % newCardEvery === 0 && new_card_ids.length > 0) {
-      chosen_ids.push(new_card_ids.shift());
-    }
     if (overdue_good_ids.length > 0) {
       chosen_ids.push(overdue_good_ids.shift());
     }
     if (overdue_bad_ids.length > 0) {
       chosen_ids.push(overdue_bad_ids.shift());
     }
-    /* Todo? */
-    if (i % 50 === 50 - 1 && not_overdue_bad_cards_ids.length > 0) {
-      chosen_ids.push(not_overdue_bad_cards_ids.shift());
+    if (i % newCardEvery === newCardEvery - 1 && new_card_ids.length > 0) {
+      chosen_ids.push(new_card_ids.shift());
     }
+
+    if (
+      overdue_good_ids.length === 0 &&
+      overdue_bad_ids.length === 0 &&
+      allowed_card_ids === null
+    ) {
+      if (not_overdue_bad_cards_ids.length > 0) {
+        process.env.NODE_ENV === "development" &&
+          console.log(
+            `Not overdue bad card "${printWord(
+              not_overdue_bad_cards_ids[0]
+            )}" added`
+          );
+        chosen_ids.push(not_overdue_bad_cards_ids.shift());
+      }
+      if (i % 4 === 4 - 1 && not_overdue_semi_bad_cards_ids.length > 0) {
+        process.env.NODE_ENV === "development" &&
+          console.log(
+            `Not overdue good card "${printWord(
+              not_overdue_semi_bad_cards_ids[0]
+            )}" added`
+          );
+        chosen_ids.push(not_overdue_semi_bad_cards_ids.shift());
+      }
+    }
+
+    // /* Todo? */
+    // if (i % 50 === 50 - 1 && not_overdue_bad_cards_ids.length > 0) {
+    //   chosen_ids.push(not_overdue_bad_cards_ids.shift());
+    // }
   }
   // chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids, deck);
   // chosen_ids = chosen_ids.slice(0, CARDS_TO_CREATE);
@@ -162,32 +211,6 @@ export default function createCards(options) {
   });
   chosen_ids = tmp;
 
-  // /* Get direct siblings */
-  // chosen_ids = _.flatten(
-  //   chosen_ids.map((id) => {
-  //     let output = [id];
-  //     // console.log(id);
-  //     getCardsWithSameTerm(id)
-  //       .filter((sibling_card_id) => sibling_card_id !== id)
-  //       .forEach((sibling_card_id) => {
-  //         if (
-  //           /* Not seen */
-  //           !(sibling_card_id in deck.schedule) ||
-  //           (deck.schedule[sibling_card_id].score < 1.5 &&
-  //             deck.schedule[sibling_card_id].last_seen < now - 0.7 * day)
-  //         ) {
-  //           output.push(sibling_card_id);
-  //         }
-  //       });
-  //     /* Show Icelandic card before English */
-  //     output = output.sort((a, b) => {
-  //       if (a.endsWith("is")) return -1;
-  //       return 1;
-  //     });
-  //     return output;
-  //   })
-  // );
-
   chosen_ids = _.uniq(chosen_ids.filter(Boolean));
 
   deck.session.loadCards(chosen_ids, options);
@@ -209,6 +232,8 @@ const ScoreByTimeSinceTermWasSeen = (id, deck, now) => {
     return 2;
   } else if (hoursSinceSeen < 12) {
     return 1;
+  } else if (hoursSinceSeen < 30) {
+    return 0.5;
   } else {
     return 0;
   }
@@ -225,10 +250,11 @@ const SortIdsByWhetherTermWasRecentlySeen = (input, deck) => {
     .map((i) => i.id);
 };
 const SortBySortKey2 = (array, deck) => {
-  // const shuffle_in_range =
-  const x = array.sort((a, b) => a.sortKey2 - b.sortKey2);
+  const x = array.sort(
+    (a, b) => deck.cards[a].sortKey2 - deck.cards[b].sortKey2
+  );
   let out = [];
-  const shuffle_each = 30;
+  const shuffle_each = 20;
   for (let i = 0; i < x.length; i += shuffle_each) {
     out = out.concat(_.shuffle(x.slice(i, i + shuffle_each)));
   }

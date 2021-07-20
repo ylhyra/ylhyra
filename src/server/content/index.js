@@ -48,7 +48,15 @@ router.get(["/api/content", "*"], async (req, res) => {
     title = title.split(/[/:]/g).reverse().join("\u2006•\u2006");
 
     if (url.startsWith("file/")) {
-      res.sendFile(file.replace(/(\.[a-z]+)$/i, ""));
+      console.log(file);
+      res.sendFile(
+        file
+          .replace(/(\.[a-z]+)$/i, "") // Fjarlægir ".md"
+          .replace(
+            /^.+ylhyra_content/,
+            path.resolve(process.env.PWD, "./../ylhyra_content")
+          )
+      );
     } else {
       /* Client side rendering allowed in development */
       if (process.env.NODE_ENV === "development" && type === "json") {

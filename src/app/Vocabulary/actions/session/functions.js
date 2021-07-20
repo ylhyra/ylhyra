@@ -61,6 +61,7 @@ export function checkIfCardsRemaining() {
     (i) => i.history.length === 0 && !i.done && i.canBeShown()
   );
   if (!areThereNewCardsRemaining) {
+    console.log("No cards remaining");
     this.createMoreCards();
   }
 }

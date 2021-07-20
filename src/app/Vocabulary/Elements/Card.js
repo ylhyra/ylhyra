@@ -11,7 +11,7 @@ class Card extends Component {
     this.componentDidUpdate();
     window.addEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
-    this.sound();
+    // this.sound();
   }
   componentWillUnmount() {
     window.removeEventListener("keydown", this.checkKey);
@@ -86,7 +86,8 @@ class Card extends Component {
     }
     // console.log(e.keyCode)
   };
-  answer = (i, timeout) => {
+  answer = (i, timeout, e) => {
+    e && e.stopPropagation();
     if (this.state.answer) return;
     const { session } = this.props.vocabulary;
     if (timeout === false) {
@@ -104,9 +105,9 @@ class Card extends Component {
     const { card, volume } = this.props.vocabulary;
     if (volume && card.sound && (card.from === "is" || answered)) {
       try {
-        // TODO more than one sound
-        // TODO repeat
-        AudioClip.play(get_processed_image_url(card.sound[0] + ".mp3", true));
+        AudioClip.play(
+          card.sound.map((s) => get_processed_image_url(s + ".mp3", true))
+        );
       } catch (e) {
         console.warn(e);
       }
@@ -115,7 +116,10 @@ class Card extends Component {
     }
   };
   show = (timeout) => {
-    if (this.props.vocabulary.card.answered) return;
+    if (this.props.vocabulary.card.answered) {
+      this.sound(true);
+      return;
+    }
     if (timeout === false) {
       store.dispatch({
         type: "ANSWER_CARD",
@@ -133,7 +137,7 @@ class Card extends Component {
     this.sound(true);
   };
   render() {
-    const { card, status } = this.props.vocabulary;
+    const { card, status, volume } = this.props.vocabulary;
     const answered = card.answered;
     // console.log(card)
     // console.log({card,answer})
@@ -167,6 +171,7 @@ class Card extends Component {
           vocabulary-card
           flashcard
           ${answered ? "answered" : "not-answered"}
+          ${card.sound && volume ? "has-sound" : ""}
         `}
         key={status.counter}
         onClick={() => this.show(false)}
@@ -264,7 +269,7 @@ class Card extends Component {
                   "button-bad nostyle " +
                   (this.state.answer === BAD ? "selected" : "")
                 }
-                onClick={() => this.answer(BAD, false)}
+                onClick={(e) => this.answer(BAD, false, e)}
               >
                 Bad
               </button>
@@ -273,7 +278,7 @@ class Card extends Component {
                   "button-good nostyle " +
                   (this.state.answer === GOOD ? "selected" : "")
                 }
-                onClick={() => this.answer(GOOD, false)}
+                onClick={(e) => this.answer(GOOD, false, e)}
               >
                 Good
               </button>
@@ -282,7 +287,7 @@ class Card extends Component {
                   "button-easy nostyle " +
                   (this.state.answer === EASY ? "selected" : "")
                 }
-                onClick={() => this.answer(EASY, false)}
+                onClick={(e) => this.answer(EASY, false, e)}
               >
                 Easy
               </button>

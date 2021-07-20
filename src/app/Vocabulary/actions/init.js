@@ -20,22 +20,7 @@ export const InitializeVocabulary = async () => {
   const now = new Date().getTime();
   let database = getFromLocalStorage("vocabulary-database");
   let should_update = false;
-  if (
-    database
-    // &&
-    // getFromLocalStorage("vocabulary-database-last-updated") <
-    //   now - (process.env.NODE_ENV === "production" ? 3 * day : 0)
-  ) {
-    // const database_last_updated = (
-    //   await axios.post(`/api/vocabulary/database_last_updated`)
-    // ).data;
-    // if (
-    //   parseInt(database_last_updated) >
-    //   getFromLocalStorage("vocabulary-database-last-updated")
-    // ) {
-    //   should_update = true;
-    //   console.log("Reloading vocabulary database as it has been updated");
-    // }
+  if (database) {
     if (
       !getBuildId() ||
       getBuildId() !== getFromLocalStorage("vocabulary-build-id")
@@ -58,20 +43,20 @@ export const InitializeVocabulary = async () => {
     saveInLocalStorage("vocabulary-build-id", getBuildId());
   }
 
-  let schedule = getFromLocalStorage("vocabulary-schedule");
-  if (!schedule) {
-    schedule = {};
-    if (getUserFromCookie()) {
-      const r = (await axios.post(`/api/vocabulary/schedule`)).data;
-      r &&
-        r.forEach((i) => {
-          schedule[i.card_id] = { ...i, id: i.card_id };
-        });
+  let schedule = getFromLocalStorage("vocabulary-schedule") || {};
+  if (getUserFromCookie()) {
+    /* TODO: Selective sync */
+    const r = (await axios.post(`/api/vocabulary/schedule`)).data;
+    if (r) {
+      r.forEach((i) => {
+        schedule[i.card_id] = { ...i, id: i.card_id };
+      });
       saveInLocalStorage("vocabulary-schedule", schedule);
       saveInLocalStorage(
         "vocabulary-schedule-last-updated",
         new Date().getTime()
       );
+      console.log("Schedule downloaded");
     }
   }
 

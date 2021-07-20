@@ -371,7 +371,9 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         if (
           hash in terms ||
           hash in alternative_ids ||
-          (hash in automatic_alt_ids && automatic_alt_ids[hash].score < score)
+          (hash in automatic_alt_ids &&
+            automatic_alt_ids[hash].score < score) ||
+          ["að"].includes(without)
         )
           return;
         automatic_alt_ids[hash] = {

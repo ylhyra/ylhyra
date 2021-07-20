@@ -19,6 +19,7 @@ axios.interceptors.response.use(
     if (status !== 404) {
       notify(message, "error");
     }
+    console.log(error);
     return Promise.reject(error);
   }
 );

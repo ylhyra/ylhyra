@@ -19,6 +19,12 @@ class Card {
     this.absoluteQueuePosition = index;
     Object.assign(this, data);
   }
+  // lastRating(){
+  //   return this.history[0]
+  // }
+  // secondLastRating(){
+  //   return this.history[0]
+  // }
 }
 
 Card.prototype.rate = rate;
@@ -39,10 +45,7 @@ Card.prototype.showIn = function ({
     }
   }
 
-  const c =
-    cannotBeShownBefore ||
-    (this.history[0] === BAD && this.history[1] === BAD ? 2 : 3);
-
+  const c = cannotBeShownBefore || ((interval || minInterval) > 6 ? 6 : 3);
   this.cannotBeShownBefore = Math.max(
     this.cannotBeShownBefore || 0,
     this.session.counter + c

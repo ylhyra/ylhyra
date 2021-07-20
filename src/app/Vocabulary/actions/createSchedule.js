@@ -21,13 +21,17 @@ export function createSchedule() {
   const cards = session.cards;
   if (!cards || !cards.some((i) => i.history.length > 0)) return;
 
-  deck.spreadOutSchedule();
+  // deck.spreadOutSchedule();
 
   cards.forEach((card) => {
     let due_in_days;
     let due_in_days_adjusted;
-    let score;
-    let prevScore = card.score;
+    let prevScore = deck.schedule[card.id]
+      ? deck.schedule[card.id].score
+      : null;
+    let sessions_seen = deck.schedule[card.id]
+      ? deck.schedule[card.id].sessions_seen
+      : null;
     let isNew = !prevScore;
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
@@ -35,6 +39,8 @@ export function createSchedule() {
     const badCount = sessionHistory.filter((i) => i === BAD).length;
     const anyBad = badCount > 0;
     const now = new Date().getTime();
+
+    let score = prevScore || sessionScore;
 
     /* SCORE */
     if (isNew) {
@@ -48,10 +54,10 @@ export function createSchedule() {
         if (anyBad > 1) {
           score = BAD;
         } else {
-          score = clamp(prevScore - 0.25, BAD, BAD + 0.75);
+          score = clamp(score - 0.25, BAD, BAD + 0.75);
         }
       } else {
-        score = clamp(prevScore + 0.25, BAD, EASY + 1);
+        score = clamp(score + 0.35, BAD, EASY + 1);
       }
     }
 
@@ -83,9 +89,14 @@ export function createSchedule() {
       last_interval_in_days: Math.round(due_in_days),
       score,
       last_seen: new Date().getTime(),
-      sessions_seen: (card.sessions_seen || 0) + 1,
+      sessions_seen: (sessions_seen || 0) + 1,
       needsSyncing: true,
     };
+
+    process.env.NODE_ENV === "development" &&
+      console.log(
+        `${printWord(card.id)} - score: ${score} - days: ${due_in_days}`
+      );
 
     /* Postpone siblings */
     if (!anyBad) {
@@ -112,62 +123,62 @@ export function createSchedule() {
     }
   });
 
-  deck.spreadOutSchedule();
+  // deck.spreadOutSchedule();
   deck.syncSchedule();
   console.log("Schedule made");
 }
 
-export async function spreadOutSchedule() {
-  const { schedule } = this;
-  const now = new Date().getTime();
-  let maxDays = 0;
-  /* Buckets for each day relative to today */
-  const tmp_buckets = {};
-  for (const card_id in schedule) {
-    const due = schedule[card_id].adjusted_due;
-    const days = Math.max(0, Math.round((due - now) / day));
-    if (!tmp_buckets[days]) tmp_buckets[days] = [];
-    tmp_buckets[days].push(card_id);
-    maxDays = Math.max(days, maxDays);
-  }
-  let buckets = [];
-  /* Fill buckets */
-  for (let i = 0; i <= maxDays; i++) {
-    buckets[i] = tmp_buckets[i] || [];
-  }
-  /* Spread out */
-  while (buckets.some((i) => i.length > MAX_CARDS_PER_DAY)) {
-    for (let i = 0; i < buckets.length; i++) {
-      if (buckets[i].length <= MAX_CARDS_PER_DAY) continue;
-      const arr = _.shuffle(buckets[i]);
-      const will_remain = arr.slice(0, MAX_CARDS_PER_DAY);
-      const will_move = arr.slice(MAX_CARDS_PER_DAY);
-      /* Max 10% will be moved back */
-      let howManyWillMoveBack = 0;
-      if (i > 0 && buckets[i - 1].length > MAX_CARDS_PER_DAY) {
-        howManyWillMoveBack = Math.min(
-          buckets[i - 1].length - MAX_CARDS_PER_DAY,
-          Math.floor(will_move.length * 0.1)
-        );
-      }
-      const will_move_back = will_move.slice(0, howManyWillMoveBack);
-      const will_move_forward = will_move.slice(howManyWillMoveBack);
-      if (howManyWillMoveBack > 0) {
-        buckets[i - 1] = [...buckets[i - 1], ...will_move_back];
-      }
-      buckets[i] = will_remain;
-      buckets[i + 1] = [...(buckets[i + 1] || []), ...will_move_forward];
-    }
-  }
-  /* Save after having spread out */
-  for (let new_days in buckets) {
-    buckets[new_days].forEach((card_id) => {
-      const due = schedule[card_id].adjusted_due;
-      const days = Math.max(0, Math.round((due - now) / day));
-      if (Math.abs(days - new_days) > 1) {
-        schedule[card_id].adjusted_due = now + new_days * day;
-        schedule[card_id].needsSyncing = true;
-      }
-    });
-  }
-}
+// export async function spreadOutSchedule() {
+//   const { schedule } = this;
+//   const now = new Date().getTime();
+//   let maxDays = 0;
+//   /* Buckets for each day relative to today */
+//   const tmp_buckets = {};
+//   for (const card_id in schedule) {
+//     const due = schedule[card_id].adjusted_due;
+//     const days = Math.max(0, Math.round((due - now) / day));
+//     if (!tmp_buckets[days]) tmp_buckets[days] = [];
+//     tmp_buckets[days].push(card_id);
+//     maxDays = Math.max(days, maxDays);
+//   }
+//   let buckets = [];
+//   /* Fill buckets */
+//   for (let i = 0; i <= maxDays; i++) {
+//     buckets[i] = tmp_buckets[i] || [];
+//   }
+//   /* Spread out */
+//   while (buckets.some((i) => i.length > MAX_CARDS_PER_DAY)) {
+//     for (let i = 0; i < buckets.length; i++) {
+//       if (buckets[i].length <= MAX_CARDS_PER_DAY) continue;
+//       const arr = _.shuffle(buckets[i]);
+//       const will_remain = arr.slice(0, MAX_CARDS_PER_DAY);
+//       const will_move = arr.slice(MAX_CARDS_PER_DAY);
+//       /* Max 10% will be moved back */
+//       let howManyWillMoveBack = 0;
+//       if (i > 0 && buckets[i - 1].length > MAX_CARDS_PER_DAY) {
+//         howManyWillMoveBack = Math.min(
+//           buckets[i - 1].length - MAX_CARDS_PER_DAY,
+//           Math.floor(will_move.length * 0.1)
+//         );
+//       }
+//       const will_move_back = will_move.slice(0, howManyWillMoveBack);
+//       const will_move_forward = will_move.slice(howManyWillMoveBack);
+//       if (howManyWillMoveBack > 0) {
+//         buckets[i - 1] = [...buckets[i - 1], ...will_move_back];
+//       }
+//       buckets[i] = will_remain;
+//       buckets[i + 1] = [...(buckets[i + 1] || []), ...will_move_forward];
+//     }
+//   }
+//   /* Save after having spread out */
+//   for (let new_days in buckets) {
+//     buckets[new_days].forEach((card_id) => {
+//       const due = schedule[card_id].adjusted_due;
+//       const days = Math.max(0, Math.round((due - now) / day));
+//       if (Math.abs(days - new_days) > 1) {
+//         schedule[card_id].adjusted_due = now + new_days * day;
+//         schedule[card_id].needsSyncing = true;
+//       }
+//     });
+//   }
+// }

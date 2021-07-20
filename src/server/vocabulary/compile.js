@@ -16,6 +16,7 @@ import {
   getHash,
   GetLowercaseStringForAudioKey,
 } from "app/VocabularyMaker/functions";
+import _ from "underscore";
 
 const path = require("path");
 const fs = require("fs");
@@ -147,7 +148,7 @@ const getSounds = (sentences, sound) => {
     let s = sound_lowercase
       .filter((k) => k.recording_of === b)
       .map((j) => j.filename.replace(/\.mp3$/, ""));
-    output = output.concat(s);
+    output = output.concat(_.shuffle(s));
   });
   if (output.length > 0) return output;
   return null;

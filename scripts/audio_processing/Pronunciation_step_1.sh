@@ -1,4 +1,5 @@
 #!/bin/bash
+cd ${BASH_SOURCE%/*}/../../
 INPUT=./../ylhyra_content/not_data/files/audio/pronunciation
 OUTPUT=./build/images/audio
 mkdir "${OUTPUT}/tmp_ffmpeg/"

@@ -8,7 +8,7 @@ import { createSchedule } from "./createSchedule";
 import Session from "app/Vocabulary/actions/session";
 
 import { syncSchedule } from "./sync";
-import { spreadOutSchedule } from "./createSchedule";
+// import { spreadOutSchedule } from "./createSchedule";
 import { updateURL } from "app/Router/actions";
 import { BAD, GOOD, EASY } from "./card";
 import _ from "underscore";
@@ -72,5 +72,5 @@ class Deck {
   }
 }
 Deck.prototype.syncSchedule = syncSchedule;
-Deck.prototype.spreadOutSchedule = spreadOutSchedule;
+// Deck.prototype.spreadOutSchedule = spreadOutSchedule;
 export default Deck;

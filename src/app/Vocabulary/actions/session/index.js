@@ -34,7 +34,7 @@ import {
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
 
-export const MINUTES = process.env.NODE_ENV === "development" ? 4 : 5;
+export const MINUTES = process.env.NODE_ENV === "development" ? 2.5 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
 class Session {
@@ -45,7 +45,8 @@ class Session {
       // this.loadCards(init);
       this.cards = init;
       this.createSchedule();
-      this.saveSession(null, true);
+      this.saveSession(true);
+      // this.reset();
     }
   }
   reset() {
@@ -64,7 +65,7 @@ class Session {
   }
   sessionDone() {
     this.createSchedule();
-    this.saveSession(null, true);
+    this.saveSession(true);
     updateURL(window.location.pathname);
     store.dispatch({
       type: "LOAD_SESSION",
@@ -72,9 +73,9 @@ class Session {
     });
     this.reset();
   }
-  saveSession() {
+  saveSession(clear) {
     const session = this;
-    if (!this.done) {
+    if (!clear) {
       let to_save = session.cards.map(({ session, ...rest }) => rest);
       if (!to_save.some((i) => i.history.length > 0)) {
         to_save = null;

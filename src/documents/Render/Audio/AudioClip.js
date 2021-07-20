@@ -7,32 +7,34 @@ import store from "app/App/store";
 let audio;
 
 const AudioClip = {
-  play: (sound_files) => {
+  play: (files) => {
     if (store.getState().speed_reader && store.getState().speed_readerstarted)
       return;
+    AudioClip.pause();
+    if (!Array.isArray(files)) {
+      files = [files];
+    }
 
-    audio && audio.pause();
-    let file;
-    if (Array.isArray(sound_files)) {
-      file = sound_files[0];
-    } else if (/, /.test(sound_files)) {
-      file = sound_files.split(", ")[0];
-    } else {
-      file = sound_files;
-    }
-    // Attribution({ filename: file }); /* If we need to attribute a third party */
-    audio = new Audio(file);
-    const promise = audio.play();
-    if (promise) {
-      promise.catch((e) => {
-        console.warn(e);
-        // console.warn('Audio not played since user has not yet interacted with document')
-      });
-    }
+    audio = new Audio();
+    let i = 0;
+    const next = () => {
+      if (i < files.length) {
+        audio.src = files[i++];
+        audio.load();
+        const promise = audio.play();
+        promise.catch((e) => {
+          console.warn(e);
+        });
+      } else {
+        audio.removeEventListener("ended", next, false);
+      }
+    };
+    audio.addEventListener("ended", next);
+    next();
 
     store.dispatch({
       type: "CURRENTLY_PLAYING",
-      content: file,
+      content: files[0],
     });
   },
   pause: () => {

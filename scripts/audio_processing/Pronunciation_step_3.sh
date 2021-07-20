@@ -10,7 +10,6 @@ find "${INPUT}" -name "*.wav" | while read filename; do
 
   SILENCEREMOVE="silenceremove=
     start_periods=1:
-    start_duration=1:
     start_threshold=-60dB:
     start_silence=0.25:
     detection=peak,

@@ -71,6 +71,7 @@ button:not(.link):not(.nostyle) {
     @include button(#a30600, #f67a57, 0);
   }
   outline: none;
+  -webkit-tap-highlight-color: transparent;
 
   // &.blue,
   // &:not(div):not(.red) {
@@ -100,6 +101,7 @@ button.nostyle {
   padding: 0;
   font-size: inherit;
   outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 button.link:hover {
   text-decoration: underline;

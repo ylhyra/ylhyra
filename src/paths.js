@@ -1,4 +1,4 @@
-global.__basedir = __dirname + "/../";
+global.__basedir = process.env.PWD;
 
 export const contentUrl = "/api/content";
 export const processed_image_url = `/api/images`;

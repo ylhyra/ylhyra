@@ -178,7 +178,7 @@ class Audio extends React.PureComponent {
       >
         <Tag // controls
           ref={this.audio}
-          // preload="none" // TEMP
+          preload="none"
           loop={Boolean(video)}
           onLoadStart={this.loading}
           onPlaying={this.playing}
