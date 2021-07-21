@@ -6,7 +6,7 @@ import { printWord, getCardsWithSameTerm } from "./functions";
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 
-const CARDS_TO_CREATE = 40;
+const CARDS_TO_CREATE = 30;
 
 /**
  * @memberof Session
@@ -50,23 +50,17 @@ export default function createCards(options) {
     .forEach((i) => {
       // console.log(printWord(i.id));
       if (i.due < now + 0.7 * day) {
-        if (i.score <= 1.75) {
+        if (i.score && i.score <= 1.75) {
           overdue_bad_ids.push(i.id);
         } else {
           overdue_good_ids.push(i.id);
         }
-      } else if (i.score < 1.5) {
+      } else if (i.score && i.score < 1.45) {
         not_overdue_bad_cards_ids.push(i.id);
-      } else if (i.score < 2.1) {
+      } else if (i.score && i.score < 1.9) {
         not_overdue_semi_bad_cards_ids.push(i.id);
       }
-      //   console.log(i.score);
-      // } else {
-      //   not_overdue.push(i.id);
-      // }
-      // allScores.push(i.score);
     });
-  // const averageScore = average(allScores);
 
   /* New cards */
   let new_card_ids = [];
@@ -74,7 +68,7 @@ export default function createCards(options) {
     const id = deck.cards_sorted[i].id;
     if (forbidden_ids.includes(id)) continue;
     if (allowed_card_ids && !allowed_card_ids.includes(id)) continue;
-    if (new_card_ids.length < 50) {
+    if (new_card_ids.length < CARDS_TO_CREATE) {
       if (!(id in deck.schedule)) {
         new_card_ids.push(id);
       }
@@ -88,20 +82,6 @@ export default function createCards(options) {
     );
   }
 
-  /* TODO? Not very efficient */
-  // overdue_good_ids = _.shuffle(overdue_good_ids).concat(
-  //   _.shuffle(unadjusted_overdue_good_ids)
-  // )
-  // overdue_bad_ids = _.shuffle(overdue_bad_ids).concat(
-  //   _.shuffle(unadjusted_overdue_bad_ids)
-  // );
-  overdue_good_ids = SortBySortKey2(overdue_good_ids, deck).concat(
-    SortBySortKey2(unadjusted_overdue_good_ids, deck)
-  );
-  overdue_bad_ids = SortBySortKey2(overdue_bad_ids, deck).concat(
-    SortBySortKey2(unadjusted_overdue_bad_ids, deck)
-  );
-  /* TEMP, bara að prófa */
   overdue_good_ids = SortBySortKey2(overdue_good_ids, deck);
   overdue_bad_ids = SortBySortKey2(overdue_bad_ids, deck);
 
@@ -109,6 +89,12 @@ export default function createCards(options) {
     SortBySortKey2(not_overdue_bad_cards_ids, deck),
     deck
   );
+  const very_recently_seen_not_overdue_bad_cards =
+    SortIdsByWhetherTermWasRecentlySeen(
+      SortBySortKey2(not_overdue_bad_cards_ids, deck),
+      deck,
+      true
+    );
   not_overdue_semi_bad_cards_ids = SortIdsByWhetherTermWasRecentlySeen(
     SortBySortKey2(not_overdue_semi_bad_cards_ids, deck),
     deck
@@ -155,15 +141,27 @@ export default function createCards(options) {
     if (!empty(overdue_bad_ids)) {
       chosen_ids.push(overdue_bad_ids.shift());
     }
-    if (i % newCardEvery === newCardEvery - 1 && !empty(new_card_ids)) {
+    if (
+      i % newCardEvery === Math.floor(newCardEvery / 2) &&
+      !empty(new_card_ids)
+    ) {
       chosen_ids.push(new_card_ids.shift());
     }
 
-    if (
-      ((empty(overdue_good_ids) && empty(overdue_bad_ids)) ||
-        i % 8 === 8 - 1) &&
-      allowed_card_ids === null
-    ) {
+    /* Occasionally show a bad card that the user saw in the last session */
+    if (i % 10 === 5) {
+      if (!empty(very_recently_seen_not_overdue_bad_cards)) {
+        process.env.NODE_ENV === "development" &&
+          console.log(
+            `Very recently seen word "${printWord(
+              very_recently_seen_not_overdue_bad_cards[0]
+            )}" added`
+          );
+        chosen_ids.push(very_recently_seen_not_overdue_bad_cards.shift());
+      }
+    }
+
+    if (empty(overdue_good_ids) && empty(overdue_bad_ids)) {
       if (!empty(not_overdue_bad_cards_ids)) {
         process.env.NODE_ENV === "development" &&
           console.log(
@@ -173,12 +171,6 @@ export default function createCards(options) {
           );
         chosen_ids.push(not_overdue_bad_cards_ids.shift());
       }
-    }
-    if (
-      empty(overdue_good_ids) &&
-      empty(overdue_bad_ids) &&
-      allowed_card_ids === null
-    ) {
       if (i % 4 === 4 - 1 && !empty(not_overdue_semi_bad_cards_ids)) {
         process.env.NODE_ENV === "development" &&
           console.log(
@@ -210,7 +202,8 @@ export default function createCards(options) {
       chosen_ids.includes(card_id) ||
       /* Dependency that is not known */
       !(card_id in deck.schedule) ||
-      (deck.schedule[card_id].score < 1.4 &&
+      (deck.schedule[card_id].score &&
+        deck.schedule[card_id].score < 1.4 &&
         deck.schedule[card_id].last_seen < now - 0.7 * day)
     ) {
       return tmp.push(card_id);
@@ -246,15 +239,18 @@ const ScoreByTimeSinceTermWasSeen = (id, deck, now) => {
   }
   // return hoursSinceSeen
 };
-const SortIdsByWhetherTermWasRecentlySeen = (input, deck) => {
+const SortIdsByWhetherTermWasRecentlySeen = (input, deck, reverse) => {
   const now = new Date().getTime();
-  return input
+  let j = input
     .map((id) => ({
       id,
       hours_since_seen_score: ScoreByTimeSinceTermWasSeen(id, deck, now),
     }))
-    .sort((a, b) => a.hours_since_seen_score - b.hours_since_seen_score)
-    .map((i) => i.id);
+    .sort((a, b) => a.hours_since_seen_score - b.hours_since_seen_score);
+  if (reverse) {
+    j = j.reverse();
+  }
+  return j.map((i) => i.id);
 };
 const SortBySortKey2 = (array, deck) => {
   const x = array.sort(

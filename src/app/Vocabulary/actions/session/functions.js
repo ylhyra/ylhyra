@@ -102,6 +102,16 @@ export function loadCard() {
       status: session.getStatus(),
     },
   });
+  if (
+    this.deck.schedule[session.currentCard.id] &&
+    process.env.NODE_ENV === "development"
+  ) {
+    console.log(
+      `Score of current card: ${
+        this.deck.schedule[session.currentCard.id].score
+      }`
+    );
+  }
 }
 
 /**

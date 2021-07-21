@@ -55,7 +55,7 @@ export function createSchedule() {
       if (anyBad) {
         score = BAD + sessionScore_small;
       } else {
-        score = sessionScore - 0.25;
+        score = sessionScore - 0.05;
       }
     } else {
       if (anyBad) {
@@ -65,7 +65,7 @@ export function createSchedule() {
           score = clamp(score - 0.25, BAD, BAD + 0.75);
         }
       } else {
-        score = clamp(score + 0.35, BAD, EASY + 1);
+        score = clamp(score + 0.4, BAD, EASY + 1);
       }
     }
 

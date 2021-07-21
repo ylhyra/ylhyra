@@ -9,10 +9,9 @@
 - max bad ratio
 - sækja sync
 - occluded
-- hvað ef cards eru búin
 - mobile
 - betri sjálfvirk dependency
-- sæjka skyld spjöld þegar maður fellur
+- bæta við first_seen
 
 ### Annað
 
