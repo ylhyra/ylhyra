@@ -143,27 +143,28 @@ export default function createCards(options) {
       // new_card_ids: new_card_ids.map(printWord),
       newCardEvery,
     });
+
   for (
     let i = 0;
     chosen_ids.length < Math.min(CARDS_TO_CREATE, total_options) && i < 1000;
     i++
   ) {
-    if (overdue_good_ids.length > 0) {
+    if (!empty(overdue_good_ids)) {
       chosen_ids.push(overdue_good_ids.shift());
     }
-    if (overdue_bad_ids.length > 0) {
+    if (!empty(overdue_bad_ids)) {
       chosen_ids.push(overdue_bad_ids.shift());
     }
-    if (i % newCardEvery === newCardEvery - 1 && new_card_ids.length > 0) {
+    if (i % newCardEvery === newCardEvery - 1 && !empty(new_card_ids)) {
       chosen_ids.push(new_card_ids.shift());
     }
 
     if (
-      overdue_good_ids.length === 0 &&
-      overdue_bad_ids.length === 0 &&
+      ((empty(overdue_good_ids) && empty(overdue_bad_ids)) ||
+        i % 8 === 8 - 1) &&
       allowed_card_ids === null
     ) {
-      if (not_overdue_bad_cards_ids.length > 0) {
+      if (!empty(not_overdue_bad_cards_ids)) {
         process.env.NODE_ENV === "development" &&
           console.log(
             `Not overdue bad card "${printWord(
@@ -172,7 +173,13 @@ export default function createCards(options) {
           );
         chosen_ids.push(not_overdue_bad_cards_ids.shift());
       }
-      if (i % 4 === 4 - 1 && not_overdue_semi_bad_cards_ids.length > 0) {
+    }
+    if (
+      empty(overdue_good_ids) &&
+      empty(overdue_bad_ids) &&
+      allowed_card_ids === null
+    ) {
+      if (i % 4 === 4 - 1 && !empty(not_overdue_semi_bad_cards_ids)) {
         process.env.NODE_ENV === "development" &&
           console.log(
             `Not overdue good card "${printWord(
@@ -182,12 +189,12 @@ export default function createCards(options) {
         chosen_ids.push(not_overdue_semi_bad_cards_ids.shift());
       }
     }
-
     // /* Todo? */
     // if (i % 50 === 50 - 1 && not_overdue_bad_cards_ids.length > 0) {
     //   chosen_ids.push(not_overdue_bad_cards_ids.shift());
     // }
   }
+
   // chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids, deck);
   // chosen_ids = chosen_ids.slice(0, CARDS_TO_CREATE);
 
@@ -260,3 +267,4 @@ const SortBySortKey2 = (array, deck) => {
   }
   return out;
 };
+const empty = (array) => array.length === 0;

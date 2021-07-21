@@ -1,10 +1,10 @@
 import { printWord, getCardsWithSameTerm } from "./functions";
 import _ from "underscore";
 import { hour, day } from "app/App/functions/time";
-import { average, clamp } from "app/App/functions/math";
 import store from "app/App/store";
 import { BAD, GOOD, EASY } from "./card";
 import { daysToMs } from "app/App/functions/time";
+import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
 const MAX_CARDS_PER_DAY = 30;
 
 /**
@@ -39,20 +39,28 @@ export function createSchedule() {
     const badCount = sessionHistory.filter((i) => i === BAD).length;
     const anyBad = badCount > 0;
     const now = new Date().getTime();
+    const sessionScore_small = mapValueToRange({
+      value: sessionScore,
+      input_from: BAD,
+      input_to: EASY,
+      output_from: 0,
+      output_to: 0.25,
+      clamp: true,
+    });
 
     let score = prevScore || sessionScore;
 
     /* SCORE */
     if (isNew) {
       if (anyBad) {
-        score = 1;
+        score = BAD + sessionScore_small;
       } else {
         score = sessionScore - 0.25;
       }
     } else {
       if (anyBad) {
         if (anyBad > 1) {
-          score = BAD;
+          score = BAD + sessionScore_small;
         } else {
           score = clamp(score - 0.25, BAD, BAD + 0.75);
         }
