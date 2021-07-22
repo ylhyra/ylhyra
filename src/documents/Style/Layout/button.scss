@@ -88,6 +88,12 @@ button:not(.link):not(.nostyle) {
     background: #102f36;
     // @include button(white, #102f36, 0);
     color: white;
+    &:hover {
+      background: #243f46;
+    }
+    &:active {
+      background: #081e22;
+    }
   }
 }
 

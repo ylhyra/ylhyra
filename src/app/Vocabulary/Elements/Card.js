@@ -137,7 +137,7 @@ class Card extends Component {
     this.sound(true);
   };
   render() {
-    const { card, status, volume } = this.props.vocabulary;
+    const { card, status, volume, deck } = this.props.vocabulary;
     const answered = card.answered;
     // console.log(card)
     // console.log({card,answer})
@@ -164,7 +164,7 @@ class Card extends Component {
     );
     note_regarding_english = html(note_regarding_english);
     note = html(note);
-
+    const isNew = !(card.id in deck.schedule);
     return (
       <div
         className={`
@@ -172,6 +172,7 @@ class Card extends Component {
           flashcard
           ${answered ? "answered" : "not-answered"}
           ${card.sound && volume ? "has-sound" : ""}
+          ${isNew ? "new" : ""}
         `}
         key={status.counter}
         onClick={() => this.show(false)}

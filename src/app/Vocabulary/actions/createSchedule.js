@@ -125,6 +125,10 @@ export function createSchedule() {
               due: newDue,
               adjusted_due: newDue,
               needsSyncing: true,
+              // score:
+              //   (deck.schedule[sibling_card_id] &&
+              //     deck.schedule[sibling_card_id].score) ||
+              //   score,
             };
           }
         });

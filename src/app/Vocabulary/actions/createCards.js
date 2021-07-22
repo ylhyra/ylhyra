@@ -135,6 +135,10 @@ export default function createCards(options) {
     chosen_ids.length < Math.min(CARDS_TO_CREATE, total_options) && i < 1000;
     i++
   ) {
+    // const showEvery = () => {
+    //
+    // }
+
     if (!empty(overdue_good_ids)) {
       chosen_ids.push(overdue_good_ids.shift());
     }
@@ -149,7 +153,7 @@ export default function createCards(options) {
     }
 
     /* Occasionally show a bad card that the user saw in the last session */
-    if (i % 10 === 5) {
+    if (i % 4 === 2) {
       if (!empty(very_recently_seen_not_overdue_bad_cards)) {
         process.env.NODE_ENV === "development" &&
           console.log(
@@ -161,7 +165,7 @@ export default function createCards(options) {
       }
     }
 
-    if (empty(overdue_good_ids) && empty(overdue_bad_ids)) {
+    if ((empty(overdue_good_ids) && empty(overdue_bad_ids)) || i % 2 === 1) {
       if (!empty(not_overdue_bad_cards_ids)) {
         process.env.NODE_ENV === "development" &&
           console.log(
@@ -171,6 +175,8 @@ export default function createCards(options) {
           );
         chosen_ids.push(not_overdue_bad_cards_ids.shift());
       }
+    }
+    if (empty(overdue_good_ids) && empty(overdue_bad_ids)) {
       if (i % 4 === 4 - 1 && !empty(not_overdue_semi_bad_cards_ids)) {
         process.env.NODE_ENV === "development" &&
           console.log(

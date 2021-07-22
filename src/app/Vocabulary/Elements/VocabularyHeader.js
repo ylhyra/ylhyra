@@ -56,7 +56,10 @@ class X extends Component {
       <div>
         <div>{PercentageKnown(cards, deck)}% known</div>
         {/* <div>{JSON.stringify(MakeSummaryOfCardStatuses(cards, deck))}</div> */}
-        <button className="big" onClick={() => studyParticularIds(cards)}>
+        <button
+          className="big dark-blue"
+          onClick={() => studyParticularIds(cards)}
+        >
           Study {cards.length} cards
         </button>
         <div className="gray">

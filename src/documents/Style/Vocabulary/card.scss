@@ -70,6 +70,9 @@
   //   opacity: 1;
   //   transition: opacity 0.3s ease;
   // }
+  &.new {
+    border-top: 1px solid #79f1c23d;
+  }
   > div {
     padding: 0;
     border: none;
