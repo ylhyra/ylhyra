@@ -12,7 +12,7 @@ import {
   search,
   addEmpty,
 } from "./actions";
-import { formatVocabularyEntry, row_titles } from "./functions";
+import { formatVocabularyEntry, row_titles, DECK } from "./functions";
 import VocabularyMakerRecord from "app/VocabularyMaker/record";
 import AutosizeTextarea from "react-textarea-autosize";
 
@@ -97,7 +97,7 @@ class Form2 extends React.Component {
                   if (/,/.test(values.english)) {
                     errors.english = "Comma not allowed";
                   }
-                  if (!values.level) {
+                  if (!values.level && !DECK) {
                     errors.level = "Required";
                   }
                   return errors;

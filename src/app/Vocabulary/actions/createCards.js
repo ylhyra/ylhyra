@@ -89,12 +89,14 @@ export default function createCards(options) {
     SortBySortKey2(not_overdue_bad_cards_ids, deck),
     deck
   );
-  const very_recently_seen_not_overdue_bad_cards =
+  const very_recently_seen_not_overdue_bad_cards = shuffle_each(
     SortIdsByWhetherTermWasRecentlySeen(
       SortBySortKey2(not_overdue_bad_cards_ids, deck),
       deck,
       true
-    );
+    ),
+    10
+  );
   not_overdue_semi_bad_cards_ids = SortIdsByWhetherTermWasRecentlySeen(
     SortBySortKey2(not_overdue_semi_bad_cards_ids, deck),
     deck
@@ -129,6 +131,8 @@ export default function createCards(options) {
       // new_card_ids: new_card_ids.map(printWord),
       newCardEvery,
     });
+
+  new_card_ids = SortBySortKey2(new_card_ids, deck);
 
   for (
     let i = 0;
@@ -262,11 +266,13 @@ const SortBySortKey2 = (array, deck) => {
   const x = array.sort(
     (a, b) => deck.cards[a].sortKey2 - deck.cards[b].sortKey2
   );
+  return shuffle_each(x, 20);
+};
+const empty = (array) => array.length === 0;
+const shuffle_each = (array, range = 20) => {
   let out = [];
-  const shuffle_each = 20;
-  for (let i = 0; i < x.length; i += shuffle_each) {
-    out = out.concat(_.shuffle(x.slice(i, i + shuffle_each)));
+  for (let i = 0; i < array.length; i += range) {
+    out = out.concat(_.shuffle(array.slice(i, i + range)));
   }
   return out;
 };
-const empty = (array) => array.length === 0;

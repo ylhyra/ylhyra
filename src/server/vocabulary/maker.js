@@ -11,8 +11,9 @@ import {
 import _ from "underscore";
 const router = require("express").Router();
 const fs = require("fs");
+let DECK = "";
 // const DECK = "_da";
-const DECK = "";
+DECK = "_es";
 const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}`;
 const yaml = require("js-yaml");
 

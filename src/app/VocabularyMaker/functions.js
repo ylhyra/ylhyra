@@ -5,6 +5,8 @@ import { isBrowser } from "app/App/functions/isBrowser";
 import { URL_title, section_id } from "paths";
 import { ProcessLinks } from "documents/Compile/functions/functions";
 
+export const DECK = "_es";
+
 export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;
   return getPlaintextFromFormatted(formatVocabularyEntry(input));

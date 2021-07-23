@@ -53,17 +53,18 @@ export function createSchedule() {
     /* SCORE */
     if (isNew) {
       if (anyBad) {
-        score = BAD + sessionScore_small;
+        score = BAD; //+ sessionScore_small;
       } else {
         score = sessionScore - 0.05;
       }
     } else {
       if (anyBad) {
-        if (anyBad > 1) {
-          score = BAD + sessionScore_small;
-        } else {
-          score = clamp(score - 0.25, BAD, BAD + 0.75);
-        }
+        score = BAD;
+        // if (anyBad > 1) {
+        //   score = BAD + sessionScore_small;
+        // } else {
+        //   score = clamp(score - 0.25, BAD, BAD + 0.75);
+        // }
       } else {
         score = clamp(score + 0.4, BAD, EASY + 1);
       }

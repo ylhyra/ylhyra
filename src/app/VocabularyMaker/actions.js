@@ -11,6 +11,7 @@ import axios from "app/App/axios";
 import _ from "underscore";
 import { getDeck } from "app/Vocabulary/actions/functions";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
+import { DECK } from "./functions";
 
 let maxID = 0;
 let rows = [];
@@ -28,12 +29,17 @@ export const load = async () => {
   let vocabulary = (await axios.get(`/api/vocabulary_maker`, {})).data;
   sound = (vocabulary && vocabulary.sound) || [];
   rows = (vocabulary && vocabulary.rows) || [];
+
+  rows = rows.map((row, index) => {
+    row.row_id = index + 1;
+    return row;
+  });
   rows.forEach((row, index) => {
     maxID = Math.max(maxID, row.row_id);
     // row.row_id = index;
     // return row;
   });
-
+  console.log({ maxID });
   // const parsed = parse(vocabulary)
   // terms = parsed.terms
   // dependencies = parsed.dependencies
@@ -41,7 +47,10 @@ export const load = async () => {
   // plaintext_sentences = parsed.plaintext_sentences
   ({ terms, cards, dependencies, alternative_ids, plaintext_sentences } =
     parse_vocabulary_file(vocabulary, true));
-  setupSound();
+  setTimeout(() => {
+    setupSound();
+  }, 1000);
+
   findMissingDependencies();
   refreshRows();
 };
@@ -53,9 +62,9 @@ export const refreshRows = (id) => {
     rows.sort(
       (a, b) =>
         // (b.level <= 3) - (a.level <= 3) ||
-        Boolean(a.last_seen) - Boolean(b.last_seen) ||
-        b.row_id - a.row_id ||
-        Boolean(a.icelandic) - Boolean(b.icelandic) ||
+        // Boolean(a.last_seen) - Boolean(b.last_seen) ||
+        // b.row_id - a.row_id ||
+        // Boolean(a.icelandic) - Boolean(b.icelandic) ||
         Boolean(a.english) - Boolean(b.english) ||
         (a.level || 100) - (b.level || 100) ||
         Boolean(a["Laga?"]) - Boolean(b["Laga?"]) ||
@@ -245,9 +254,13 @@ export const addEmpty = () => {
 export const addRowsIfMissing = (text) => {
   text.split(/\n/g).forEach((row) => {
     if (!row || !row.trim()) return;
-    const [is, en, level, depends_on, lemmas] = row
+    let [is, en, level, depends_on, lemmas] = row
       .replace(/^- /, "")
       .split(/(?: = |\t)/g);
+    if (DECK) {
+      is = is && is.replace(/;/g, ";;").replace(/,/g, ";");
+      en = en && en.replace(/;/g, ";;").replace(/,/g, ";");
+    }
     if (
       !(getHash(is) in terms) &&
       !(getHash(is) in alternative_ids) &&
@@ -257,7 +270,7 @@ export const addRowsIfMissing = (text) => {
         row_id: maxID++ + 1,
         icelandic: is.trim(),
         english: en && en.trim(),
-        level: level || window.term_level || 1,
+        level: DECK ? null : level || window.term_level || 1,
         depends_on: depends_on || "",
         lemmas: lemmas || "",
       });

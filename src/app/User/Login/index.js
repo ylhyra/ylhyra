@@ -116,12 +116,31 @@ class Form2 extends React.Component {
               {isSignup && (
                 <label>
                   <div>
-                    Email <span className="small gray">(optional)</span>:
+                    Email <small className="small gray">(optional)</small>:
                   </div>
                   <ErrorMessage name="email" component="div" />
                   <Field type="email" name="email" />
                 </label>
               )}
+
+              {/* {process.env.NODE_ENV === "development" && (
+                <div>
+                  You have already studied X terms while logged out. Do you want
+                  to:
+                  <br />
+                  <input type="radio" id="save_progress" name="save" checked />
+                  <label for="save_progress">
+                    Continue with that schedule on my account
+                  </label>
+                  <br />
+                  <input type="radio" id="not_save_progress" name="save" />
+                  <label for="not_save_progress">
+                    Delete the logged-out study sessions and start from zero
+                    with this new account
+                  </label>
+                  <br />
+                </div>
+              )} */}
 
               {error}
               {message}

@@ -19,18 +19,34 @@ export const PercentageKnown = (card_ids) => {
   let done = 0;
   let remaining = 0;
   card_ids.forEach((id) => {
-    if (id in deck.schedule && deck.schedule[id].score) {
-      /* 2.02 counts as fully known, while 1 counts as not known */
-      const output = mapValueToRange({
-        value: deck.schedule[id].score,
-        input_from: 1,
-        input_to: 1.8,
-        output_from: 0.05,
-        output_to: 1,
-        clamp: true,
-      });
-      done += output;
-      remaining += 1 - output;
+    if (id in deck.schedule) {
+      let score = deck.schedule[id].score || 2;
+      let toAdd;
+      if (score < 1.9) {
+        toAdd = mapValueToRange({
+          value:
+            clamp(deck.schedule[id].sessions_seen, 0, 10) +
+            clamp((deck.schedule[id].sessions_seen - 10) / 3, 0, 10),
+          input_from: 0,
+          input_to: 20,
+          output_from: 0.1,
+          output_to: 0.85,
+          clamp: true,
+        });
+      } else {
+        toAdd = 1;
+      }
+      // /* 2.02 counts as fully known, while 1 counts as not known */
+      // const output = mapValueToRange({
+      //   value: score,
+      //   input_from: 1,
+      //   input_to: 1.8,
+      //   output_from: 0.05,
+      //   output_to: 1,
+      //   clamp: true,
+      // });
+      done += toAdd;
+      remaining += 1 - toAdd;
     } else {
       remaining++;
     }
