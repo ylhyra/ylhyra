@@ -117,14 +117,15 @@ export function createSchedule() {
         )
         .forEach((sibling_card_id) => {
           // console.log(printWord(sibling_card_id));
-          const newDue = now + daysToMs(Math.max(due_in_days * 0.5, 5));
+          const newDue = now + daysToMs(Math.min(due_in_days * 0.5, 7));
           const actualDue =
             deck.schedule[sibling_card_id] &&
             deck.schedule[sibling_card_id].due;
           if (!actualDue || actualDue < newDue) {
             deck.schedule[sibling_card_id] = {
+              ...(deck.schedule[sibling_card_id] || {}),
               due: newDue,
-              adjusted_due: newDue,
+              // adjusted_due: newDue,
               needsSyncing: true,
               // score:
               //   (deck.schedule[sibling_card_id] &&
@@ -132,6 +133,8 @@ export function createSchedule() {
               //   score,
             };
           }
+          process.env.NODE_ENV === "development" &&
+            console.log(`${printWord(sibling_card_id)} postponed`);
         });
     }
   });

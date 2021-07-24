@@ -9,13 +9,10 @@ import { updateURL } from "app/Router/actions";
 import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import _ from "underscore";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
-import {
-  getDeck,
-  MakeSummaryOfCardStatuses,
-} from "app/Vocabulary/actions/functions/index";
+import { MakeSummaryOfCardStatuses } from "app/Vocabulary/actions/functions/index";
+import { deck } from "app/Vocabulary/actions/deck.js";
 
 export const PercentageKnown = (card_ids) => {
-  const deck = getDeck();
   let done = 0;
   let remaining = 0;
   card_ids.forEach((id) => {
@@ -67,7 +64,6 @@ export const PercentageKnown = (card_ids) => {
 };
 
 export const PercentageKnownOverall = () => {
-  const deck = getDeck();
   if (!deck) return null;
   const card_ids = Object.keys(deck.cards);
   return PercentageKnown(card_ids);

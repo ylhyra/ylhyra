@@ -9,7 +9,7 @@ import {
 import store from "app/App/store";
 import axios from "app/App/axios";
 import _ from "underscore";
-import { getDeck } from "app/Vocabulary/actions/functions";
+import { deck } from "app/Vocabulary/actions/deck.js";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 import { DECK } from "./functions";
 
@@ -157,8 +157,6 @@ export const save = () => {
 let missing_sound = [];
 let current_word_recording = 0;
 const setupSound = () => {
-  const deck = getDeck();
-
   let sentences = [];
   let ids = _.shuffle(deck.cards_sorted.filter((c) => c.sortKey))
     .sort((a, b) => Math.floor(a.sortKey / 50) - Math.floor(b.sortKey / 50))

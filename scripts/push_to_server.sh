@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 export $(cat .env)
 cd ${BASH_SOURCE%/*}/../
 

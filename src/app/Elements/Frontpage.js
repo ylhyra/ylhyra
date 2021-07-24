@@ -2,12 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import Link from "app/Router/Link";
 import { PercentageKnownOverall } from "app/Vocabulary/actions/functions/percentageKnown";
+import { isUserLoggedIn, existsSchedule } from "app/User/actions";
 
 const Screen = (props) => (
   <div className="frontpage-splashscreen">
-    {!props.user &&
-    (!props.vocabulary.deck ||
-      Object.keys(props.vocabulary.deck.schedule).length < 2) ? (
+    {isUserLoggedIn() || existsSchedule() ? (
       <div>
         <div>
           <Link href="VOCABULARY_PLAY" className="button dark-blue big">

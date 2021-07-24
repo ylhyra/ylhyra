@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 cd ${BASH_SOURCE%/*}/../
 export NODE_ENV=production
 

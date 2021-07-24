@@ -8,10 +8,12 @@ import { updateURL } from "app/Router/actions";
 import axios from "app/App/axios";
 import { InitializeVocabulary } from "app/Vocabulary/actions/init";
 import { getCookie } from "app/App/functions/cookie";
+import { deck } from "app/Vocabulary/actions/deck.js";
 
 export const InitializeUser = () => {
   updateUser();
 };
+
 export const getUserFromCookie = () => {
   let cookie = getCookie("y");
   if (cookie) {
@@ -23,6 +25,18 @@ export const getUserFromCookie = () => {
   }
   return null;
 };
+
+export const isUserLoggedIn = () => {
+  const { user } = store.getState();
+  return Boolean(user);
+};
+
+export const existsSchedule = () => {
+  return deck && Object.keys(deck.schedule).length >= 2;
+};
+
+// export const isUserNotLoggedInAndHasUnsavedSchedule = () => {
+// };
 
 /* Called on route changes */
 export const updateUser = () => {

@@ -13,10 +13,9 @@ import { updateURL } from "app/Router/actions";
 import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import _ from "underscore";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
-import { getDeck } from "app/Vocabulary/actions/functions/index";
+import { deck } from "app/Vocabulary/actions/deck.js";
 
 export const withDependencies = (card_ids, options) => {
-  const deck = getDeck();
   const showDepth = options && options.showDepth;
   let returns = [];
   let terms = [];

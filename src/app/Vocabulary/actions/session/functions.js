@@ -107,8 +107,10 @@ export function loadCard() {
     process.env.NODE_ENV === "development"
   ) {
     console.log(
-      `Score of current card: ${
+      `Score of "${printWord(session.currentCard.id)}": ${
         this.deck.schedule[session.currentCard.id].score
+      } - last interval: ${
+        this.deck.schedule[session.currentCard.id].last_interval_in_days
       }`
     );
   }

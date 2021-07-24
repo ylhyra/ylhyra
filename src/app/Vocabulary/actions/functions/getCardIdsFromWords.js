@@ -9,12 +9,11 @@ import { updateURL } from "app/Router/actions";
 import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import _ from "underscore";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
-import { getDeck } from "app/Vocabulary/actions/functions/index";
+import { deck } from "app/Vocabulary/actions/deck.js";
 
 let missing = [];
 let timer;
 export const getCardIdsFromWords = (words) => {
-  const deck = getDeck();
   let card_ids = [];
   words.forEach((word) => {
     if (!word) return;

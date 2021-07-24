@@ -1,9 +1,14 @@
 import React from "react";
 import LoginButton from "app/User/LoginButton";
 import Link from "app/Router/Link";
-
+import { isUserLoggedIn, existsSchedule } from "app/User/actions";
 export default (props) => (
   <header>
+    {!isUserLoggedIn() && existsSchedule() && (
+      <div>
+        <Link href="/signup">Create an account to save your progress</Link>
+      </div>
+    )}
     <div>
       <Link href="/" id="logo"></Link>
       <div className="navlinks">

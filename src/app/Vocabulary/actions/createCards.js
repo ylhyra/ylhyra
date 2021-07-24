@@ -5,6 +5,7 @@ import { BAD, GOOD, EASY } from "./card";
 import { printWord, getCardsWithSameTerm } from "./functions";
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
+import { deck } from "app/Vocabulary/actions/deck.js";
 
 const CARDS_TO_CREATE = 30;
 
@@ -13,7 +14,6 @@ const CARDS_TO_CREATE = 30;
  */
 export default function createCards(options) {
   const session = this;
-  const deck = this.deck;
   const now = new Date().getTime();
   // let forbidden_ids = (options && options.forbidden_ids) || [];
   let forbidden_ids = session.cards.map((i) => i.id);
@@ -82,24 +82,21 @@ export default function createCards(options) {
     );
   }
 
-  overdue_good_ids = SortBySortKey2(overdue_good_ids, deck);
-  overdue_bad_ids = SortBySortKey2(overdue_bad_ids, deck);
+  overdue_good_ids = SortBySortKey2(overdue_good_ids);
+  overdue_bad_ids = SortBySortKey2(overdue_bad_ids);
 
   not_overdue_bad_cards_ids = SortIdsByWhetherTermWasRecentlySeen(
-    SortBySortKey2(not_overdue_bad_cards_ids, deck),
-    deck
+    SortBySortKey2(not_overdue_bad_cards_ids)
   );
   const very_recently_seen_not_overdue_bad_cards = shuffle_each(
     SortIdsByWhetherTermWasRecentlySeen(
-      SortBySortKey2(not_overdue_bad_cards_ids, deck),
-      deck,
+      SortBySortKey2(not_overdue_bad_cards_ids),
       true
     ),
     10
   );
   not_overdue_semi_bad_cards_ids = SortIdsByWhetherTermWasRecentlySeen(
-    SortBySortKey2(not_overdue_semi_bad_cards_ids, deck),
-    deck
+    SortBySortKey2(not_overdue_semi_bad_cards_ids)
   );
 
   let total_options =
@@ -132,7 +129,7 @@ export default function createCards(options) {
       newCardEvery,
     });
 
-  new_card_ids = SortBySortKey2(new_card_ids, deck);
+  new_card_ids = SortBySortKey2(new_card_ids);
 
   for (
     let i = 0;
@@ -197,7 +194,7 @@ export default function createCards(options) {
     // }
   }
 
-  // chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids, deck);
+  // chosen_ids = SortIdsByWhetherTermWasRecentlySeen(chosen_ids, );
   // chosen_ids = chosen_ids.slice(0, CARDS_TO_CREATE);
 
   /* Dependencies */
@@ -226,7 +223,7 @@ export default function createCards(options) {
   deck.session.loadCards(chosen_ids, options);
 }
 
-const ScoreByTimeSinceTermWasSeen = (id, deck, now) => {
+const ScoreByTimeSinceTermWasSeen = (id, now) => {
   let latest = null;
   getCardsWithSameTerm(id).forEach((sibling_card_id) => {
     if (deck.schedule[sibling_card_id]) {
@@ -249,12 +246,12 @@ const ScoreByTimeSinceTermWasSeen = (id, deck, now) => {
   }
   // return hoursSinceSeen
 };
-const SortIdsByWhetherTermWasRecentlySeen = (input, deck, reverse) => {
+const SortIdsByWhetherTermWasRecentlySeen = (input, reverse) => {
   const now = new Date().getTime();
   let j = input
     .map((id) => ({
       id,
-      hours_since_seen_score: ScoreByTimeSinceTermWasSeen(id, deck, now),
+      hours_since_seen_score: ScoreByTimeSinceTermWasSeen(id, now),
     }))
     .sort((a, b) => a.hours_since_seen_score - b.hours_since_seen_score);
   if (reverse) {
@@ -262,7 +259,7 @@ const SortIdsByWhetherTermWasRecentlySeen = (input, deck, reverse) => {
   }
   return j.map((i) => i.id);
 };
-const SortBySortKey2 = (array, deck) => {
+const SortBySortKey2 = (array) => {
   const x = array.sort(
     (a, b) => deck.cards[a].sortKey2 - deck.cards[b].sortKey2
   );

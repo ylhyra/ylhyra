@@ -13,11 +13,11 @@ import { updateURL } from "app/Router/actions";
 import { BAD, GOOD, EASY } from "./card";
 import _ from "underscore";
 
+export let deck;
+
 class Deck {
   constructor(database, schedule, session) {
-    const deck = this;
-    /* For testing */
-    window.deck = deck;
+    deck = this;
     const { cards, terms, alternative_ids, dependencies } = database;
     this.cards = cards;
     this.terms = terms;

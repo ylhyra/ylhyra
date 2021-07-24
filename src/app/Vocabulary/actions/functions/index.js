@@ -10,13 +10,9 @@ import { updateURL } from "app/Router/actions";
 import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import _ from "underscore";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
-
-export const getDeck = () => {
-  return store.getState().vocabulary.deck || window.deck;
-};
+import { deck } from "app/Vocabulary/actions/deck.js";
 
 export const MakeSummaryOfCardStatuses = (card_ids) => {
-  const deck = getDeck();
   let not_seen = 0;
   let bad = 0;
   let good = 0;
@@ -43,7 +39,6 @@ export const MakeSummaryOfCardStatuses = (card_ids) => {
 };
 
 export const printWord = (id) => {
-  const deck = getDeck();
   if (id in deck.cards) {
     const card = deck.cards[id];
     return getPlaintextFromFormatted(card[card.from + "_formatted"]);
@@ -60,7 +55,6 @@ export const printWord = (id) => {
 export const getCardsWithSameTerm = (id) => {
   if (typeof id === "undefined")
     throw new Error("Nothing passed to getCardsWithSameTerm");
-  const deck = getDeck();
   let out = [];
   deck.cards[id].terms.forEach((term) => {
     deck.terms[term].cards.forEach((sibling_card_id) => {
@@ -71,12 +65,10 @@ export const getCardsWithSameTerm = (id) => {
 };
 
 // export const filterOnlyCardsThatExist = (card_ids) => {
-//   const deck = getDeck()
 //   return card_ids.filter(id => id in deck.cards)
 // }
 
 export const studyParticularIds = (allowed_card_ids) => {
-  const deck = getDeck();
   const { session } = deck;
   session.reset();
   session.allowed_card_ids = allowed_card_ids;
