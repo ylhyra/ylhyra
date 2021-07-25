@@ -12,45 +12,45 @@ class Layout extends React.Component {
     return (
       <header>
         {!isUserLoggedIn() && existsSchedule() && !not_banner && (
-          <div>
-            <Link href="/signup">Create an account to save your progress</Link>
-          </div>
+          <Link href="SIGN_UP" className="notification please-log-in">
+            Create an account to save your progress
+          </Link>
         )}
         <div className="header-container">
-          <Link href="/" id="logo"></Link>
-          <div className="navlinks">
-            <ul>
-              {/* <li>
+          <div className="header-inner-container-top">
+            <Link href="/" id="logo"></Link>
+            <LoginButton />
+          </div>
+          <div className="header-inner-container-bottom">
+            <div className="navlinks">
+              <ul>
+                {/* <li>
           <Link href="/spænska">Spænska</Link>
         </li> */}
-              {/* <li>
+                {/* <li>
             <Link href="/vocabulary">
               <span className="large">Vocabulary</span>
               <span className="medium">Vocab.</span>
             </Link>
           </li> */}
-              <li>
-                <Link href="/course">Course</Link>
-              </li>
-              <li>
-                <Link href="/texts">Texts</Link>
-              </li>
-              <li>
-                <Link href="/explanations">
-                  <span className="large">Explanations</span>
-                  <span className="medium">Expl.</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/about">About</Link>
-              </li>
-            </ul>
+                <li>
+                  <Link href="/course">Course</Link>
+                </li>
+                <li>
+                  <Link href="/texts">Texts</Link>
+                </li>
+                <li>
+                  <Link href="/explanations">
+                    <span className="large">Explanations</span>
+                    <span className="medium">Expl.</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about">About</Link>
+                </li>
+              </ul>
+            </div>
           </div>
-          <ul>
-            <li>
-              <LoginButton />
-            </li>
-          </ul>
         </div>
       </header>
     );

@@ -36,6 +36,8 @@ export function createSchedule() {
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
     const sessionScore = average(sessionHistory);
+    const last_interval_in_days =
+      deck.schedule[card.id] && deck.schedule[card.id].last_interval_in_days;
     const badCount = sessionHistory.filter((i) => i === BAD).length;
     const anyBad = badCount > 0;
     const now = new Date().getTime();
@@ -88,7 +90,7 @@ export function createSchedule() {
       const multiplier = sessionScore === EASY ? 6 : 2;
 
       /* TODO: Relative to actual interval */
-      due_in_days = (card.last_interval_in_days || 1) * multiplier;
+      due_in_days = (last_interval_in_days || 1) * multiplier;
     }
     const due = now + daysToMs(due_in_days);
     const adjusted_due = now + daysToMs(due_in_days_adjusted || due_in_days);

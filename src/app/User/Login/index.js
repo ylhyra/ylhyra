@@ -162,7 +162,7 @@ class Form2 extends React.Component {
                   </label>
                   <label>
                     <Field type="radio" name="save_progress" value="no" />
-                    Discard progress and start afresh
+                    Discard progress
                   </label>
                   <br />
                 </div>

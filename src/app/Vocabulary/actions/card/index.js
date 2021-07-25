@@ -31,12 +31,14 @@ class Card {
     return !this.score && this.history.length === 0;
   }
   isNewTerm() {
+    // There exists at least one term
     return this.terms.some((term_id) =>
+      // Where every card is new
       deck.terms[term_id].cards.every(
         (card_id) =>
           !(card_id in deck.schedule) &&
-          !this.session.cards.find(
-            (c) => c.id === card_id && c.history.length === 0
+          !this.session.cards.some(
+            (c) => c.id === card_id && c.history.length > 0
           )
       )
     );

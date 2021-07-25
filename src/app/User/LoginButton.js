@@ -4,7 +4,7 @@ import Link from "app/Router/Link";
 
 const Button = (props) => {
   return (
-    <div>
+    <div className="login-buttons">
       {props.user ? (
         <b>
           <Link href="USER_PAGE">{props.user.username}</Link>
@@ -12,7 +12,9 @@ const Button = (props) => {
       ) : (
         <div>
           <Link href="LOG_IN">Log&nbsp;in</Link>{" "}
-          <Link href="SIGN_UP">Sign&nbsp;up</Link>
+          <Link href="SIGN_UP" className="signup">
+            Sign&nbsp;up
+          </Link>
         </div>
       )}
     </div>

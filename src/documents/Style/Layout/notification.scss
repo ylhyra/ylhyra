@@ -1,13 +1,29 @@
 .notification {
-  top: 0;
-  left: 0;
-  right: 0;
+  // top: 0;
+  // left: 0;
+  // right: 0;
   padding: 8px;
-  background: #ed4e00;
-  border-bottom: 1px solid #dc4800;
-  position: fixed;
+  // position: absolute;
   z-index: 999;
-  font-size: 12px;
+  display: block;
+  &.error {
+    background: #ed4e00;
+    font-size: 12px;
+    border-bottom: 1px solid #dc4800;
+  }
+  &.please-log-in {
+    background: rgba(#f4e180, 0.57);
+    border-bottom: 1px solid #e3bb31;
+    font-size: 12px;
+    color: #3c2204;
+    text-align: center;
+    padding: 6px;
+    &:hover {
+      background: #eed65d;
+      text-decoration: none;
+      color: black;
+    }
+  }
 }
 noscript {
   @extend .notification;

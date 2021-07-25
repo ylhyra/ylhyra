@@ -9,7 +9,7 @@ const Notification = (props) => {
   if (message in messages) {
     message = messages[message];
   }
-  return <div className="notification">{message}</div>;
+  return <div className="notification error">{message}</div>;
 };
 
 export default connect((state) => ({
@@ -17,6 +17,7 @@ export default connect((state) => ({
 }))(Notification);
 
 export const notify = (message) => {
+  window.scrollTo(0, 0);
   store.dispatch({
     type: "ERROR",
     content: {
