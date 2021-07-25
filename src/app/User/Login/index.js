@@ -150,7 +150,7 @@ class Form2 extends React.Component {
                 </label>
               )}
 
-              {existsSchedule() && (
+              {isSignup && existsSchedule() && (
                 <div className="form-section">
                   You have already studied {termsInSchedule()} term
                   {termsInSchedule() > 1 ? "s" : ""} while logged out. Do you
@@ -162,7 +162,7 @@ class Form2 extends React.Component {
                   </label>
                   <label>
                     <Field type="radio" name="save_progress" value="no" />
-                    Discard progress and start with a fresh account
+                    Discard progress and start afresh
                   </label>
                   <br />
                 </div>

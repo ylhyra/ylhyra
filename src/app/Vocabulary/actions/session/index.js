@@ -18,7 +18,6 @@ import {
   getCard,
   checkIfCardsRemaining,
   createMoreCards,
-  getStatus,
   loadCard,
   answer,
 } from "app/Vocabulary/actions/session/functions.js";
@@ -96,7 +95,6 @@ Session.prototype.printTimeRemaining = printTimeRemaining;
 Session.prototype.getCard = getCard;
 Session.prototype.checkIfCardsRemaining = checkIfCardsRemaining;
 Session.prototype.createMoreCards = createMoreCards;
-Session.prototype.getStatus = getStatus;
 Session.prototype.loadCard = loadCard;
 Session.prototype.answer = answer;
 Session.prototype.InitializeSession = InitializeSession;

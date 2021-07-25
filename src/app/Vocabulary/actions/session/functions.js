@@ -77,20 +77,6 @@ export function createMoreCards() {
 /**
  * @memberof Session
  */
-export function getStatus() {
-  return {
-    bad: this.cards.filter((card) => card.getStatus() === BAD).length,
-    good: this.cards.filter((card) => card.getStatus() === GOOD).length,
-    easy: this.cards.filter((card) => card.getStatus() === EASY).length,
-    total: this.cards.length,
-    wordsTotal: _.uniq(_.flatten(this.cards.map((i) => i.terms))).length,
-    counter: this.counter,
-  };
-}
-
-/**
- * @memberof Session
- */
 export function loadCard() {
   const session = this;
   if (!session || !session.currentCard) return console.error("no cards");
@@ -99,7 +85,6 @@ export function loadCard() {
     content: {
       ...session.getCard(),
       counter: session.counter,
-      status: session.getStatus(),
     },
   });
   if (
