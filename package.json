@@ -29,7 +29,8 @@
     "push_to_server": "./scripts/push_to_server.sh",
     "deploy": "npm run build_all && npm run prerender_only && npm run push_to_server",
     "audio1": "./scripts/audio_processing/Pronunciation_step_1.sh",
-    "audio3": "./scripts/audio_processing/Pronunciation_step_3.sh"
+    "audio3": "./scripts/audio_processing/Pronunciation_step_3.sh",
+    "test": "jest"
   },
   "proxy": "http://localhost:9123",
   "dependencies": {
@@ -117,7 +118,10 @@
     },
     "globals": {
       "__basedir": true,
-      "deck": true
+      "page": true,
+      "browser": true,
+      "context": true,
+      "jestPuppeteer": true
     }
   },
   "browserslist": {
@@ -135,8 +139,16 @@
   "devDependencies": {
     "hard-source-webpack-plugin": "^0.13.1",
     "jest": "^27.0.6",
+    "jest-puppeteer": "^5.0.4",
     "prettier": "2.3.1",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-license-plugin": "^4.1.2"
+  },
+  "jest": {
+    "preset": "jest-puppeteer",
+    "testPathIgnorePatterns": [
+      "/inflection/",
+      "/node_modules/"
+    ]
   }
 }

@@ -31,11 +31,12 @@ class Deck {
       })
       .sort(
         (a, b) =>
-          //.test(b.is_plaintext) - //.test(a.is_plaintext) ||
           a.level - b.level ||
           b.hasOwnProperty("sortKey") - a.hasOwnProperty("sortKey") ||
           a.sortKey - b.sortKey ||
-          Boolean(b.sound) - Boolean(a.sound)
+          Boolean(b.sound) - Boolean(a.sound) ||
+          (a.row_id % 15) - (b.row_id % 15) || // Hmm...
+          a.row_id - b.row_id
       )
       .forEach((c, index) => {
         cards[c.id].sortKey2 = index;

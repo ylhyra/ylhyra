@@ -51,7 +51,8 @@ class Session {
   }
   reset() {
     this.allowed_card_ids = null;
-    this.history = [];
+    this.ratingHistory = [];
+    this.cardHistory = [];
     this.counter = 0;
     this.lastSeenTerms = {};
     this.cardTypeLog = [];

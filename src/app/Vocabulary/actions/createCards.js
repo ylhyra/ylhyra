@@ -108,13 +108,13 @@ export default function createCards(options) {
   let chosen_ids = [];
   const total_overdue = overdue_bad_ids.length + overdue_good_ids.length;
   const badratio = PercentageKnown(overdue_bad_ids.concat(overdue_good_ids));
-  let newCardEvery = 5;
+  let newCardEvery = 3;
   let bad_count = overdue_bad_ids.length + not_overdue_bad_cards_ids.length;
   if (bad_count > 15) {
-    newCardEvery = 10;
+    newCardEvery = 5;
   }
   if (bad_count > 40) {
-    newCardEvery = 35;
+    newCardEvery = 20;
   }
   process.env.NODE_ENV === "development" &&
     console.log({
@@ -129,7 +129,9 @@ export default function createCards(options) {
       newCardEvery,
     });
 
+  // console.log({ new_card_ids: new_card_ids.slice(0, 10) });
   new_card_ids = SortBySortKey2(new_card_ids);
+  // console.log({ new_card_ids: new_card_ids.slice(0, 12).map(printWord) });
 
   for (
     let i = 0;
@@ -199,9 +201,6 @@ export default function createCards(options) {
 
   /* Dependencies */
   let tmp = [];
-  // console.log(chosen_ids.map(printWord).join(" • "));
-  // console.log(withDependencies(chosen_ids).map(printWord).join(" • "));
-  // console.log("---");
   withDependencies(chosen_ids).forEach((card_id) => {
     if (forbidden_ids.includes(card_id)) return;
     if (
@@ -217,6 +216,16 @@ export default function createCards(options) {
     }
   });
   chosen_ids = tmp;
+
+  // process.env.NODE_ENV === "development" &&
+  //   console.log(
+  //     chosen_ids
+  //       .filter((id) => !(id in deck.schedule))
+  //       .map(printWord)
+  //       .join(" • ")
+  //   );
+  // process.env.NODE_ENV === "development" &&
+  //   console.log(chosen_ids.filter((id) => !(id in deck.schedule)).join(" • "));
 
   chosen_ids = _.uniq(chosen_ids.filter(Boolean));
 

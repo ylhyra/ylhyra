@@ -28,15 +28,12 @@ export const getUserFromCookie = () => {
 
 export const isUserLoggedIn = () => {
   const { user } = store.getState();
-  return Boolean(user);
+  return user !== null;
 };
 
 export const existsSchedule = () => {
   return deck && Object.keys(deck.schedule).length >= 2;
 };
-
-// export const isUserNotLoggedInAndHasUnsavedSchedule = () => {
-// };
 
 /* Called on route changes */
 export const updateUser = () => {

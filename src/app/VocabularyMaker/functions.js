@@ -268,6 +268,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         ),
         note: formatVocabularyEntry(row.note),
         literally: formatVocabularyEntry(row.literally),
+        row_id: row.row_id,
       };
 
       if (/{{(ð?u)}}/.test(automaticThu(row.icelandic))) {

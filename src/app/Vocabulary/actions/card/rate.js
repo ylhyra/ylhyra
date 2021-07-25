@@ -8,7 +8,8 @@ export default function rate(rating) {
   const card = this;
   const deck = this.session.deck;
   card.history.unshift(rating);
-  card.session.history.unshift(rating);
+  card.session.ratingHistory.unshift(rating);
+  card.session.cardHistory.unshift(card);
   card.lastSeen = card.session.counter;
 
   /* Score */

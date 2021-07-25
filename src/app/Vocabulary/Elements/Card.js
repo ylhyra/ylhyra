@@ -164,7 +164,7 @@ class Card extends Component {
     );
     note_regarding_english = html(note_regarding_english);
     note = html(note);
-    const isNew = !(card.id in deck.schedule);
+    const isNew = !(card.id in deck.schedule) && card.history.length === 0;
     return (
       <div
         className={`

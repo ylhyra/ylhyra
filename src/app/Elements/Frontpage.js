@@ -6,7 +6,7 @@ import { isUserLoggedIn, existsSchedule } from "app/User/actions";
 
 const Screen = (props) => (
   <div className="frontpage-splashscreen">
-    {isUserLoggedIn() || existsSchedule() ? (
+    {!(isUserLoggedIn() || existsSchedule()) ? (
       <div>
         <div>
           <Link href="VOCABULARY_PLAY" className="button dark-blue big">

@@ -43,7 +43,16 @@ export const withDependencies = (card_ids, options) => {
       term = obj.term;
       [term, ...(deck.alternative_ids[term] || [])].forEach((j) => {
         if (j in deck.terms) {
-          returns = returns.concat(deck.terms[j].cards);
+          let card_ids = deck.terms[j].cards;
+          if (card_ids.some((id) => id in deck.schedule)) {
+            card_ids = _.shuffle(card_ids);
+          } else {
+            card_ids = card_ids.sort((a, b) => {
+              if (a.endsWith("is")) return -1;
+              return 1;
+            });
+          }
+          returns = returns.concat(card_ids);
           deck.terms[j].cards.forEach((card_id) => {
             depth[card_id] = Math.max(depth[card_id] || 0, obj.sortKey);
           });
