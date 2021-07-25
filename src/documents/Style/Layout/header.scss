@@ -1,10 +1,10 @@
 // @use "sass:math";
 
 header {
-  height: 60px;
+  min-height: 60px;
   // margin-top: 14px;
   padding: 0 10px;
-  > div {
+  .header-container {
     max-width: $max-width;
     margin: auto;
     display: flex;

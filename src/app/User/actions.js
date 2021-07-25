@@ -9,6 +9,7 @@ import axios from "app/App/axios";
 import { InitializeVocabulary } from "app/Vocabulary/actions/init";
 import { getCookie } from "app/App/functions/cookie";
 import { deck } from "app/Vocabulary/actions/deck.js";
+import _ from "underscore";
 
 export const InitializeUser = () => {
   updateUser();
@@ -32,7 +33,18 @@ export const isUserLoggedIn = () => {
 };
 
 export const existsSchedule = () => {
-  return deck && Object.keys(deck.schedule).length >= 2;
+  return deck && Object.keys(deck.schedule).length >= 6;
+};
+
+export const termsInSchedule = () => {
+  if (!deck) return null;
+  return _.uniq(
+    _.flatten(
+      Object.keys(deck.schedule).map(
+        (card_id) => deck.cards[card_id] && deck.cards[card_id].terms
+      )
+    )
+  ).length;
 };
 
 /* Called on route changes */
@@ -49,7 +61,7 @@ export const updateUser = () => {
   }
 };
 
-export const login = async ({ username, user_id }) => {
+export const login = async ({ username, user_id, save_progress }) => {
   store.dispatch({
     type: "LOAD_USER",
     content: {
@@ -57,10 +69,13 @@ export const login = async ({ username, user_id }) => {
       user_id,
     },
   });
-  /* TODO!!! Save logged-out schedule if new user */
-  saveInLocalStorage("vocabulary-schedule", null);
-  saveInLocalStorage("vocabulary-session", null);
-  InitializeVocabulary();
+  if (save_progress) {
+    deck.syncSchedule({ syncEntireSchedule: true });
+  } else {
+    saveInLocalStorage("vocabulary-schedule", null);
+    saveInLocalStorage("vocabulary-session", null);
+    InitializeVocabulary();
+  }
 };
 
 export const logout = async () => {

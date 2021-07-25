@@ -267,3 +267,19 @@ a[href="/login"] {
     font-size: 13px;
   }
 }
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  font-size: 16px;
+  min-width: 250px;
+  padding: 8px 12px;
+  border: 1px solid #aec2c1;
+  border-radius: 5px;
+  box-shadow: inset 1px 1px 1px 0 rgb(244, 231, 235);
+}
+
+form > label,
+form .form-section {
+  margin: 10px 0;
+}

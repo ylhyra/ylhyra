@@ -52,7 +52,7 @@ body.unscrollable {
   position: sticky;
   overflow: hidden;
 }
-label:not(input[type="radio"] + label) {
+label {
   display: block;
 }
 .p,

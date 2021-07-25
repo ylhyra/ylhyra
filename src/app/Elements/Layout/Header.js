@@ -16,7 +16,7 @@ class Layout extends React.Component {
             <Link href="/signup">Create an account to save your progress</Link>
           </div>
         )}
-        <div>
+        <div className="header-container">
           <Link href="/" id="logo"></Link>
           <div className="navlinks">
             <ul>

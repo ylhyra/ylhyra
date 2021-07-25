@@ -9,9 +9,10 @@ import {
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
 
-export async function syncSchedule() {
+export async function syncSchedule(options) {
   const deck = this;
   const { schedule } = deck;
+  const syncEntireSchedule = options && options.syncEntireSchedule;
   if (!schedule) return;
   saveInLocalStorage("vocabulary-schedule", schedule);
   if (!(store.getState().user && store.getState().user.user_id)) {
@@ -22,7 +23,7 @@ export async function syncSchedule() {
   /* Selective sync */
   let tosave = {};
   Object.keys(schedule).forEach((card_id) => {
-    if (schedule[card_id].needsSyncing) {
+    if (schedule[card_id].needsSyncing || syncEntireSchedule) {
       tosave[card_id] = schedule[card_id];
     }
   });

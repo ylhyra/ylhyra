@@ -7,6 +7,11 @@ import HCaptcha from "@hcaptcha/react-hcaptcha";
 import axios from "app/App/axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import store from "app/App/store";
+import {
+  isUserLoggedIn,
+  existsSchedule,
+  termsInSchedule,
+} from "app/User/actions";
 
 import errors from "app/App/Error/messages";
 
@@ -48,8 +53,13 @@ class Form2 extends React.Component {
       return;
     }
 
+    const save_progress = values.save_progress === "yes";
     const { user_id, username, did_user_exist } = response;
-    login({ username, user_id });
+    login({
+      username,
+      user_id,
+      save_progress,
+    });
 
     if (!did_user_exist) {
       if (process.env.REACT_APP_PWYW === "on") {
@@ -79,7 +89,12 @@ class Form2 extends React.Component {
         {this.props.above}
 
         <Formik
-          initialValues={{ username: "", email: "", password: "" }}
+          initialValues={{
+            username: "",
+            email: "",
+            password: "",
+            save_progress: "yes",
+          }}
           validate={(values) => {
             const errors = {};
             if (!values.username.trim()) {
@@ -103,44 +118,55 @@ class Form2 extends React.Component {
                 <div>
                   {isSignup ? "Choose a username" : "Username or email:"}
                 </div>
-                <ErrorMessage name="username" component="div" />
+                <ErrorMessage
+                  name="username"
+                  component="div"
+                  className="error"
+                />
                 <Field type="text" name="username" />
               </label>
 
               <label>
                 <div>{isSignup ? "Choose a password" : "Password:"}</div>
-                <ErrorMessage name="password" component="div" />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="error"
+                />
                 <Field type="password" name="password" />
               </label>
 
               {isSignup && (
                 <label>
                   <div>
-                    Email <small className="small gray">(optional)</small>:
+                    Email <span className="gray">(optional)</span>
                   </div>
-                  <ErrorMessage name="email" component="div" />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="error"
+                  />
                   <Field type="email" name="email" />
                 </label>
               )}
 
-              {/* {process.env.NODE_ENV === "development" && (
-                <div>
-                  You have already studied X terms while logged out. Do you want
-                  to:
+              {existsSchedule() && (
+                <div className="form-section">
+                  You have already studied {termsInSchedule()} term
+                  {termsInSchedule() > 1 ? "s" : ""} while logged out. Do you
+                  want to:
                   <br />
-                  <input type="radio" id="save_progress" name="save" checked />
-                  <label for="save_progress">
-                    Continue with that schedule on my account
+                  <label>
+                    <Field type="radio" name="save_progress" value="yes" />
+                    Save progress to your new account
                   </label>
-                  <br />
-                  <input type="radio" id="not_save_progress" name="save" />
-                  <label for="not_save_progress">
-                    Delete the logged-out study sessions and start from zero
-                    with this new account
+                  <label>
+                    <Field type="radio" name="save_progress" value="no" />
+                    Discard progress and start with a fresh account
                   </label>
                   <br />
                 </div>
-              )} */}
+              )}
 
               {error}
               {message}
@@ -160,7 +186,7 @@ class Form2 extends React.Component {
               )}
 
               <button type="submit" disabled={isSubmitting}>
-                Submit
+                Create account
               </button>
             </Form>
           )}
@@ -171,4 +197,5 @@ class Form2 extends React.Component {
 }
 export default connect((state) => ({
   route: state.route,
+  vocabulary: state.vocabulary,
 }))(Form2);

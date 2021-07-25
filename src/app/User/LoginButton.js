@@ -10,7 +10,10 @@ const Button = (props) => {
           <Link href="USER_PAGE">{props.user.username}</Link>
         </b>
       ) : (
-        <Link href="LOG_IN">Log&nbsp;in</Link>
+        <div>
+          <Link href="LOG_IN">Log&nbsp;in</Link>{" "}
+          <Link href="SIGN_UP">Sign&nbsp;up</Link>
+        </div>
       )}
     </div>
   );
