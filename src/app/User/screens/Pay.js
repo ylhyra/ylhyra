@@ -102,7 +102,7 @@ class Form2 extends React.Component {
             return errors;
           }}
           onSubmit={(values, { setSubmitting }) => {
-            pay(values);
+            // pay(values);
           }}
         >
           {({ isSubmitting }) => (
@@ -116,58 +116,16 @@ class Form2 extends React.Component {
                 <ErrorMessage name="price" className="error" component="div" />
               </label>
 
-              <div class="centered-button">
+              {/* <div class="centered-button">
                 <button type="submit" className="big" disabled={isSubmitting}>
                   Continue
                 </button>
-              </div>
+              </div> */}
 
               <div id="paypal-button-container"></div>
             </Form>
           )}
         </Formik>
-        <form
-          action="https://www.paypal.com/cgi-bin/webscr"
-          method="post"
-          target="_top"
-        >
-          {/* Identify your business so that you can collect the payments. */}
-          <input
-            type="hidden"
-            name="business"
-            value="Yourbusinessemail@paypal.com"
-          />{" "}
-          {/* Add your PayPal Seller/Business email address Required*/}
-          {/* Specify a Buy Now button. */}
-          <input type="hidden" name="cmd" value="_xclick" />
-          {/* Specify details about the item that buyers will purchase. */}
-          <input type="hidden" name="item_name" value="Ylhýra account" />{" "}
-          {/* Add Description e.g your room type Required*/}
-          <input type="hidden" name="amount" value="15" />{" "}
-          {/* Dynamically add Total Amount Required*/}
-          <input type="hidden" name="currency_code" value="USD" />{" "}
-          {/* Update to your currency */}
-          <input id="invoice" type="hidden" value="" name="invoice" />{" "}
-          {/* Add Unique invoice for each transaction */}
-          {/* <input
-            type="hidden"
-            name="notify_url"
-            value="www.yourwebsite.com/ipn.php"
-          />{" "} */}
-          {/* Please add IPN URL You can use this service to automate back-office and administrative functions, including fulfilling orders, tracking customers, and providing status and other information related to transactions. */}
-          <input type="hidden" name="cancel_return" value={`${url}/`} />{" "}
-          {/* Take customers to this URL when they cancel their checkout */}
-          <input
-            type="hidden"
-            name="return"
-            value={`${url}/pwyw/thanks`}
-          />{" "}
-          {/* Take customers to this URL when they finish their checkout  */}
-          {/* Display the payment button. */}
-          <button type="submit" name="submit">
-            Submit (test)
-          </button>
-        </form>
       </div>
     );
   }
