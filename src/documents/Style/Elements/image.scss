@@ -1,3 +1,8 @@
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
 .ylhyra_image {
   @include sans-serif();
   &.right {

@@ -11,7 +11,7 @@
 - occluded
 - mobile
 - betri sjálfvirk dependency
-- bæta við first_seen
+- bæta við first_seen og flokka frekar eftir því
 
 ### Annað
 
@@ -20,6 +20,6 @@
 - laga 'exit' takka
 - tables
 - subdomains https://stackoverflow.com/questions/19212952/express-js-vhost-subdomain-set-up
-- laga enskar gæsalappir
 - frontpage demo
 - tíst
+- uppfæra package.json á server þegar það eru breytingar

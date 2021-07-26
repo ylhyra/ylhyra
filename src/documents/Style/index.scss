@@ -1,66 +1,25 @@
-$max-width: 500px;
-$gray: #6b6b6b;
-$blue: #1161d9;
-@mixin serif() {
-  font-family: Georgia, serif;
-}
-@mixin sans_serif() {
-  font-family: Helvetica Neue, sans-serif;
-  // font-family: -apple-system, system-ui, "Segoe UI", sans-serif;
-}
-.sans-serif {
-  @include sans_serif();
-}
-@mixin underline_links() {
-  a {
-    border-bottom: 1px solid #e4e4e4;
-    color: black;
-    &:hover {
-      text-decoration: none;
-      border-bottom-color: #a7a7a7;
-      color: black;
-    }
-  }
-}
-@mixin card_shadow() {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.13), 0 1px 1px 0 rgba(0, 0, 0, 0.17);
-  overflow: hidden;
-}
-@import "reset";
-@import "Layout/button.scss";
-@import "Vocabulary/container.scss";
-@import "Vocabulary/card-contents.scss";
-@import "Vocabulary/flashcard.scss";
-@import "Vocabulary/progress.scss";
-@import "Vocabulary/card.scss";
+/*
+  find ./src/documents/Style -mindepth 2 -name \*.scss
+*/
 
-// @import './../Elements/Speed_reading/speed-reader';
-// @import './../../Editor/Style/index.scss';
-// @import './../../../server/inflection/styles/inflections/inflection.scss';
-// @import './../../../server/inflection/styles/inflections/table.scss';
-img,
-video {
-  max-width: 100%;
-  height: auto;
-}
-@import "AudioVideo/AudioVideo.scss";
+@import "mixins.scss";
+@import "reset";
+@import "various.scss";
+
+@import "Elements/AudioVideo.scss";
+@import "Elements/button.scss";
+@import "Elements/form.scss";
+@import "Elements/image.scss";
+@import "Elements/links.scss";
+@import "Elements/notification.scss";
 @import "Frontpage/frontpage-box.scss";
 @import "Frontpage/index.scss";
 @import "Layout/footer.scss";
-@import "Layout/form.scss";
 @import "Layout/grid.scss";
 @import "Layout/header.scss";
-@import "Layout/image.scss";
 @import "Layout/index.scss";
-@import "Layout/inflection.scss";
-@import "Layout/links.scss";
-@import "Layout/notification.scss";
 @import "Layout/print.scss";
 @import "Layout/text.scss";
-@import "Layout/title.scss";
-@import "Lessons/blockquote.scss";
-@import "Lessons/elements.scss";
-@import "Lessons/lesson.scss";
 @import "Templates/banner.scss";
 @import "Templates/book.scss";
 @import "Templates/Controls/Controls.scss";
@@ -84,4 +43,13 @@ video {
 @import "Text/Sentence.scss";
 @import "Text/Tooltip.scss";
 @import "Text/Word.scss";
-@import "various.scss";
+@import "Vocabulary/card-contents.scss";
+@import "Vocabulary/card.scss";
+@import "Vocabulary/container.scss";
+@import "Vocabulary/flashcard.scss";
+@import "Vocabulary/progress.scss";
+
+// @import './../Elements/Speed_reading/speed-reader';
+// @import './../../Editor/Style/index.scss';
+// @import './../../../server/inflection/styles/inflections/inflection.scss';
+// @import './../../../server/inflection/styles/inflections/table.scss';

@@ -1,4 +1,13 @@
 .inflection {
+  border: 1px solid $gray;
+  max-width: 310px;
+  position: fixed;
+  background: #f9f9f9;
+  border-radius: 3px;
+  right: 0;
+}
+
+.inflection {
   @include sans_serif();
   font-size: 13px;
   padding: 10px;

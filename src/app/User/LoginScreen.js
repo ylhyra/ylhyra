@@ -98,13 +98,13 @@ class Form2 extends React.Component {
           validate={(values) => {
             const errors = {};
             if (!values.username.trim()) {
-              errors.username = "Required";
+              errors.username = "(required)";
             }
             if (values.email && !/@/.test(values.email)) {
               errors.email = "Invalid email address";
             }
             if (!values.password) {
-              errors.password = "Required";
+              errors.password = "(required)";
             }
             return errors;
           }}
@@ -116,36 +116,38 @@ class Form2 extends React.Component {
             <Form>
               <label>
                 <div>
-                  {isSignup ? "Choose a username" : "Username or email:"}
+                  {isSignup ? "Choose a username:" : "Username or email:"}{" "}
+                  <ErrorMessage
+                    name="username"
+                    component="span"
+                    className="error"
+                  />
                 </div>
-                <ErrorMessage
-                  name="username"
-                  component="div"
-                  className="error"
-                />
                 <Field type="text" name="username" />
               </label>
 
               <label>
-                <div>{isSignup ? "Choose a password" : "Password:"}</div>
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="error"
-                />
+                <div>
+                  {isSignup ? "Choose a password:" : "Password:"}{" "}
+                  <ErrorMessage
+                    name="password"
+                    component="span"
+                    className="error"
+                  />
+                </div>
                 <Field type="password" name="password" />
               </label>
 
               {isSignup && (
                 <label>
                   <div>
-                    Email <span className="gray">(optional)</span>
+                    Email <span className="gray">(optional)</span>:{" "}
+                    <ErrorMessage
+                      name="email"
+                      component="span"
+                      className="error"
+                    />
                   </div>
-                  <ErrorMessage
-                    name="email"
-                    component="div"
-                    className="error"
-                  />
                   <Field type="email" name="email" />
                 </label>
               )}
@@ -186,7 +188,7 @@ class Form2 extends React.Component {
               )}
 
               <button type="submit" disabled={isSubmitting}>
-                Create account
+                {isSignup ? "Create account" : "Log in"}
               </button>
             </Form>
           )}

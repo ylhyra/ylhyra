@@ -2,13 +2,15 @@ import query from "server/database";
 import shortid from "shortid";
 import sql from "server/database/functions/SQL-template-literal";
 const router = require("express").Router();
-// var cors = require('cors')
-// app.use(cors({
-//   origin: 'https://ylhyra.is',
-// }))
-// app.options('/products/:id', cors()) // enable pre-flight request for DELETE request
 
-router.post("/a", (req, res) => {
+const rateLimit = require("express-rate-limit")({
+  windowMs: 1 * 60 * 1000,
+  max: 3,
+});
+
+// const MAX_TO_SAVE = 300;
+
+router.post("/a", rateLimit, (req, res) => {
   if (!req.session.session_id) {
     req.session.session_id = shortid.generate();
   }
@@ -43,8 +45,8 @@ router.post("/a", (req, res) => {
     });
   } else {
     /*
-    Page views
-  */
+      Page views
+    */
     query(
       `INSERT INTO interactions SET
       ip = ?,

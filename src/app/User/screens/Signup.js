@@ -1,14 +1,14 @@
 import React from "react";
 import Link from "app/Router/Link";
 
-import Login from "app/User/Login";
+import Login from "app/User/LoginScreen";
 
 export default () => (
   <Login
     type="signup"
     above={
       <div>
-        <Link href="LOG_IN">Already have an account?</Link>
+        {/* <Link href="LOG_IN">Already have an account?</Link> */}
         {process.env.REACT_APP_PWYW === "on" && (
           <div>
             Step 1: Create an account

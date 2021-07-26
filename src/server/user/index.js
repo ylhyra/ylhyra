@@ -13,15 +13,20 @@ const argon_verify = argon2.verify;
 const router = require("express").Router();
 const key = process.env.COOKIE_SECRET || "secret";
 var crypto = require("crypto");
-
-router.post("/user", async (req, res) => {
+const speedLimit = require("express-slow-down")({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  delayAfter: 5,
+  delayMs: 700,
+});
+const rateLimit = require("express-rate-limit")({
+  windowMs: 1 * 60 * 1000,
+  max: 5,
+});
+router.post("/user", speedLimit, rateLimit, async (req, res) => {
   let username = req.body.username?.trim().replace(/\s+/g, " ");
   const email = req.body.email?.trim();
   const { password, captcha_token, type } = req.body;
 
-  // if (!email || email.length > 255 || !/@/.test(email)) {
-  //   return res.send({ error: 'ERROR_INVALID_EMAIL' })
-  // }
   if (!username) {
     return res.send({ error: "ERROR_USERNAME_REQUIRED" });
   }
@@ -150,10 +155,6 @@ const captcha = (captcha_token, res, callback) => {
     }
   );
 };
-
-// const GetDerivedKey = (x, y) => {
-//   return sha256.hmac(key, x + '' + y)
-// }
 
 /* TODO: CSRF */
 router.post("/user/logout", async (req, res) => {
