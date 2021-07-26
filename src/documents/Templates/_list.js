@@ -9,9 +9,10 @@ import VocabularyHeader from "documents/Templates/VocabularyHeaderWrapper";
 import Audio from "documents/Templates/Audio";
 import H1 from "documents/Templates/H1";
 import Section from "documents/Templates/Section";
+import PWYW from "app/User/screens/Pay";
+import SignupSteps from "app/User/screens/SignupSteps.js";
 
 export default (name) => {
-  // return null;
   switch (name.toLowerCase()) {
     case "frontpage":
       return Frontpage;
@@ -22,9 +23,6 @@ export default (name) => {
     case "book":
       return Book;
       break;
-    // case "blær":
-    //   return Blær;
-    //   break;
     case "image":
       return Image;
       break;
@@ -45,6 +43,12 @@ export default (name) => {
       break;
     case "vocabularyheader":
       return VocabularyHeader;
+      break;
+    case "pwyw":
+      return PWYW;
+      break;
+    case "signupsteps":
+      return SignupSteps;
       break;
     default:
       return null;

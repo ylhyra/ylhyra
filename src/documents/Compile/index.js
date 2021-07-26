@@ -16,6 +16,9 @@ export default async (title) => {
   output = await images(output);
   output = markdown_to_html(output);
   output = WithHeaderAndFooter(output, header);
+  if (header.classes) {
+    output = `<div class="${header.classes.join(" ")}">${output}</div>`;
+  }
   // console.log(output)
   return { content: output, header };
 };

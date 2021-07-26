@@ -37,6 +37,7 @@
     "@gkt/microphone": "^1.0.3",
     "@google-cloud/translate": "^6.2.2",
     "@hcaptcha/react-hcaptcha": "^0.3.6",
+    "@paypal/paypal-js": "^4.0.6",
     "argon2": "^0.28.2",
     "array-sugar": "^1.2.2",
     "atob": "^2.1.2",

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "app/Router/Link";
 
-import Login from "app/User/LoginScreen";
+import Login from "app/User/LoginForm";
 
 export default () => (
   <Login

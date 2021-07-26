@@ -287,3 +287,51 @@ form .form-section {
 // label .error {
 //   display: inline;
 // }
+
+/* Used for pages that don't span that much */
+.small-screen {
+  max-width: 400px;
+  margin: auto;
+  line-height: 1.6;
+}
+
+#pwyw-form {
+  width: 250px;
+  margin: 40px auto 60px auto;
+  .shared-input {
+    display: flex;
+    height: 58px;
+    > input {
+      flex: 1;
+      font-weight: 600;
+      text-align: center;
+      height: inherit;
+      font-size: 24px;
+      min-width: 100px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: 1px solid #d8d8d8;
+    }
+    > div {
+      background: #f7f7f7;
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      height: inherit;
+      color: #595959;
+      white-space: nowrap;
+      border: 1px solid #aec2c1;
+      border-left: none;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+}
+
+.small {
+  font-size: 12px;
+  line-height: 1.4;
+  .p {
+    margin: 3px 0;
+  }
+}

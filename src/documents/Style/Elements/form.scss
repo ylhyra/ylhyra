@@ -2,5 +2,10 @@ form {
   .error {
     color: #bd001e;
     font-size: smaller;
+    line-height: 1.2;
+    &:not(label .error) {
+      font-size: 13px;
+      margin: 10px 0;
+    }
   }
 }

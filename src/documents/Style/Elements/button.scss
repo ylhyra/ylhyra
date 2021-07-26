@@ -39,6 +39,10 @@
     height: 100%;
   }
 }
+.centered-button {
+  display: flex;
+  justify-content: center;
+}
 
 .button > a,
 .button.playButton,
