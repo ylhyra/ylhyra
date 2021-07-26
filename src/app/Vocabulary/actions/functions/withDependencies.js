@@ -16,7 +16,7 @@ import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
 import { deck } from "app/Vocabulary/actions/deck.js";
 
 export const withDependencies = (card_ids, options) => {
-  const showDepth = options && options.showDepth;
+  const showDepth = options?.showDepth;
   let returns = [];
   let terms = [];
   let depth = {};

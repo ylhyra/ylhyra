@@ -30,7 +30,7 @@ export default function createCards(options) {
     allowed_card_ids = null;
   }
   // console.log({ allowed_card_ids });
-  const reset = (options && options.reset) || null;
+  const reset = options?.reset;
 
   /* Previously seen cards */
   let overdue_good_ids = [];

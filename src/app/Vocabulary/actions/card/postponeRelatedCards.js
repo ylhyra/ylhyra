@@ -14,7 +14,7 @@ export default function postponeRelatedCards(card1_interval) {
       if (card2.terms.includes(term)) {
         let max;
         if (
-          (card2.score && card2.score < GOOD) ||
+          (card2.getScore() && card2.getScore() < GOOD) ||
           card1.history.includes(BAD) ||
           card2.history.includes(BAD)
         ) {
@@ -57,7 +57,7 @@ export default function postponeRelatedCards(card1_interval) {
         card1.history[0] === BAD &&
         Object.keys(card1.dependencyDepth).includes(card2.id) &&
         card1.dependencyDepth[card2.id] === 1 &&
-        (card2.score < 1.1 || card2.history[0] === BAD) &&
+        (card2.getScore() < 1.1 || card2.history[0] === BAD) &&
         Math.random() > 0.3
       ) {
         card1.showIn({ interval: 6 });

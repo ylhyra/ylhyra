@@ -26,18 +26,13 @@ export function createSchedule() {
   cards.forEach((card) => {
     let due_in_days;
     let due_in_days_adjusted;
-    let prevScore = deck.schedule[card.id]
-      ? deck.schedule[card.id].score
-      : null;
-    let sessions_seen = deck.schedule[card.id]
-      ? deck.schedule[card.id].sessions_seen
-      : null;
+    let prevScore = deck.schedule[card.id]?.score;
+    let sessions_seen = deck.schedule[card.id]?.sessions_seen;
     let isNew = !prevScore;
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
     const sessionScore = average(sessionHistory);
-    const last_interval_in_days =
-      deck.schedule[card.id] && deck.schedule[card.id].last_interval_in_days;
+    const last_interval_in_days = deck.schedule[card.id]?.last_interval_in_days;
     const badCount = sessionHistory.filter((i) => i === BAD).length;
     const anyBad = badCount > 0;
     const now = new Date().getTime();
@@ -120,9 +115,7 @@ export function createSchedule() {
         .forEach((sibling_card_id) => {
           // console.log(printWord(sibling_card_id));
           const newDue = now + daysToMs(Math.min(due_in_days * 0.5, 7));
-          const actualDue =
-            deck.schedule[sibling_card_id] &&
-            deck.schedule[sibling_card_id].due;
+          const actualDue = deck.schedule[sibling_card_id]?.due;
           if (!actualDue || actualDue < newDue) {
             deck.schedule[sibling_card_id] = {
               ...(deck.schedule[sibling_card_id] || {}),

@@ -12,7 +12,7 @@ import {
 export async function syncSchedule(options) {
   const deck = this;
   const { schedule } = deck;
-  const syncEntireSchedule = options && options.syncEntireSchedule;
+  const syncEntireSchedule = options?.syncEntireSchedule;
   if (!schedule) return;
   saveInLocalStorage("vocabulary-schedule", schedule);
   if (!(store.getState().user && store.getState().user.user_id)) {

@@ -28,7 +28,7 @@ class Card {
   // }
   isNew() {
     // !(card.id in deck.schedule) && card.history.length === 0;
-    return !this.score && this.history.length === 0;
+    return !this.getScore() && this.history.length === 0;
   }
   isNewTerm() {
     // There exists at least one term
@@ -42,6 +42,9 @@ class Card {
           )
       )
     );
+  }
+  getScore() {
+    return deck.schedule[this.id]?.score;
   }
 }
 
