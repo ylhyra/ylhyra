@@ -24,9 +24,12 @@ class Form2 extends React.Component {
         paypal
           .Buttons({
             style: {
+              size: "small",
               shape: "rect",
               color: "blue",
               layout: "horizontal",
+              funding: { disallowed: [paypal.FUNDING.CREDIT] },
+              tagline: false,
               label: "pay",
             },
 
@@ -34,13 +37,15 @@ class Form2 extends React.Component {
               const price = parsePrice(
                 document.querySelector("input[name=price]").value
               );
+              console.log({ price });
+              if (price.error) return;
               return actions.order.create({
                 purchase_units: [
                   {
                     payee: {
                       // email_address: "ylhyra@ylhyra.is",
                       email_address: "sb-ljrih5537425@business.example.com",
-                      merchant_id: "sb-ljrih5537425@business.example.com",
+                      merchant_id: "7T9P5T6VVL8PC",
                     },
                     description: "Material for students of Icelandic",
                     // items: ["An account at ylhyra.is"],
@@ -58,11 +63,12 @@ class Form2 extends React.Component {
 
             onApprove: function (data, actions) {
               return actions.order.capture().then(function (details) {
-                alert(
-                  "Transaction completed by " +
-                    details.payer.name.given_name +
-                    "!"
-                );
+                console.log(details);
+                // alert(
+                //   "Transaction completed by " +
+                //     details.payer.name.given_name +
+                //     "!"
+                // );
               });
             },
 
@@ -77,6 +83,7 @@ class Form2 extends React.Component {
         console.error("failed to load the PayPal JS SDK script", err);
       });
   }
+  shouldComponentUpdate = () => false;
   render() {
     return (
       <div id="pwyw-form">

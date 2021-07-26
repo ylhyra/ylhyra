@@ -118,7 +118,7 @@ export const parsePrice = (price) => {
   if (cents < MIN_PRICE * 100) {
     return { error: "TOO_SMALL" };
   }
-  return Math.round(cents).toFixed(2);
+  return (cents / 100).toFixed(2);
   // const d1 = Math.floor(cents / 100);
   // const c1 = Math.floor(cents - d1 * 100);
   // return d1 + "." + c1;
