@@ -133,7 +133,7 @@ export default class RecorderElement extends React.Component {
           backgroundColor="#ffffff"
         />
 
-        {this.state.blob && this.state.blob.blobURL && !this.state.recording && (<div>
+        {this.state.blob?.blobURL && !this.state.recording && (<div>
           <Sound
             url={this.state.blob.blobURL}
             playStatus={Sound.status.PLAYING}

@@ -73,7 +73,7 @@ const isSaved = (state = true, action) => {
     case 'SOUND_BITE_FILES':
     case 'SOUND_BITE_FILE':
     case 'SOUND':
-      autosave && autosave.on()
+      autosave?.on()
       return false
     default:
       return state

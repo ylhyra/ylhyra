@@ -51,7 +51,7 @@ const CreateIDs = (documentTitle, paragraphs) => {
               (word, index) =>
                 !(
                   (index === 0 || index === sentence.length - 1) &&
-                  !(word.text && word.text.trim()) &&
+                  !word.text?.trim() &&
                   !word.trim()
                 )
             ),

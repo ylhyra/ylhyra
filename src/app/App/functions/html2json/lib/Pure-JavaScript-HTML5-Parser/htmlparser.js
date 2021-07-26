@@ -343,8 +343,7 @@
 
         if (structure[tagName] && typeof one[structure[tagName]] != "boolean")
           one[structure[tagName]].appendChild(elem);
-        else if (curParentNode && curParentNode.appendChild)
-          curParentNode.appendChild(elem);
+        else if (curParentNode?.appendChild) curParentNode.appendChild(elem);
 
         if (!unary) {
           elems.push(elem);

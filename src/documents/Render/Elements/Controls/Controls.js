@@ -43,7 +43,7 @@ const CheckIfAssistIsNeeded = (tree) => {
           needed = true;
         }
       } else {
-        !needed && child && child.map((e, i) => Traverse(e, i));
+        !needed && child?.map((e, i) => Traverse(e, i));
       }
     }
   };

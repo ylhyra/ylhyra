@@ -5,7 +5,7 @@ import Audio from "documents/Render/Audio";
 
 export default ({ card, answer, write }) => {
   // console.log(card)
-  const answered = answer && answer.answered;
+  const answered = answer?.answered;
   return (
     <div className="prompt-word">
       {(card.listen || write) && (

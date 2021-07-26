@@ -62,7 +62,7 @@ export const load = () => {
         let first = split[1];
         let middle = split[2];
         let end = split[3];
-        if (first && words[index - 1] && words[index - 1].text) {
+        if (first && words[index - 1]?.text) {
           words[index - 1].text += first;
           first = null;
         }
@@ -70,7 +70,7 @@ export const load = () => {
           end = first;
           first = null;
         }
-        if (end && words[index + 1] && words[index + 1].text) {
+        if (end && words[index + 1]?.text) {
           words[index + 1].text = end + words[index + 1].text;
           end = null;
         }
@@ -84,7 +84,7 @@ export const load = () => {
         return null;
       }
       if (item.type === "pause" && item.length === 1) {
-        if (words[index - 1] && words[index - 1].text) {
+        if (words[index - 1]?.text) {
           if (/[,;]$/.test(words[index - 1].text)) {
             return null;
           }

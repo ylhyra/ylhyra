@@ -27,8 +27,8 @@ export const MAX_PER_PAGE = 20;
 export const load = async () => {
   // window.skip_hash = true;
   let vocabulary = (await axios.get(`/api/vocabulary_maker`, {})).data;
-  sound = (vocabulary && vocabulary.sound) || [];
-  rows = (vocabulary && vocabulary.rows) || [];
+  sound = vocabulary?.sound || [];
+  rows = vocabulary?.rows || [];
 
   rows = rows.map((row, index) => {
     row.row_id = index + 1;
@@ -102,7 +102,7 @@ export const select = (id) => {
 export const selectNext = (row_id) => {
   const x =
     selected_rows[selected_rows.findIndex((j) => j.row_id === row_id) + 1];
-  if (x && x.row_id) {
+  if (x?.row_id) {
     select(x.row_id);
   } else {
     refreshRows();
@@ -256,8 +256,8 @@ export const addRowsIfMissing = (text) => {
       .replace(/^- /, "")
       .split(/(?: = |\t)/g);
     if (DECK) {
-      is = is && is.replace(/;/g, ";;").replace(/,/g, ";");
-      en = en && en.replace(/;/g, ";;").replace(/,/g, ";");
+      is = is?.replace(/;/g, ";;").replace(/,/g, ";");
+      en = en?.replace(/;/g, ";;").replace(/,/g, ";");
     }
     if (
       !(getHash(is) in terms) &&
@@ -267,7 +267,7 @@ export const addRowsIfMissing = (text) => {
       rows.push({
         row_id: maxID++ + 1,
         icelandic: is.trim(),
-        english: en && en.trim(),
+        english: en?.trim(),
         level: DECK ? null : level || window.term_level || 1,
         depends_on: depends_on || "",
         lemmas: lemmas || "",

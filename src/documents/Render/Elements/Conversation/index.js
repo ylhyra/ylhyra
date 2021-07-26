@@ -41,7 +41,7 @@ class Conversation extends React.Component {
         0,
         this.state.howManyToShow
       ).last;
-      if (last && last.type !== "message") {
+      if (last?.type !== "message") {
         // console.log({ last })
         this.setState({
           card: randomizeOptions(last),
@@ -70,7 +70,7 @@ class Conversation extends React.Component {
   submitAnswer = ({ correct, index }) => {
     /* Todo: This duplicates Vocabulary/index.js */
     const { answer } = this.state;
-    if (answer && answer.answered) {
+    if (answer?.answered) {
       return null;
     }
     this.setState({

@@ -11,7 +11,7 @@ import GetTemplate from "documents/Templates/_list";
 const Traverse = (json) => {
   if (!json) return null;
   let { node, tag, attr, child, text } = json;
-  if (attr && attr.id === null) {
+  if (attr?.id === null) {
     delete attr.id;
   }
   if (node === "element" || node === "root") {
@@ -62,7 +62,7 @@ const Traverse = (json) => {
       out.attr = attr_converted;
     }
 
-    out.tag = (tag && tag.toLowerCase()) || tag; //GetTemplate(tag) || tag;
+    out.tag = tag?.toLowerCase() || tag; //GetTemplate(tag) || tag;
 
     return out;
   } else if (node === "text") {

@@ -6,7 +6,6 @@ import GetTranslationFrame from "./helpers/TranslationFrame";
 import sql from "server/database/functions/SQL-template-literal";
 import { escape } from "sqlstring";
 
-
 /*
 
   ____                              _   _

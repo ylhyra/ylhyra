@@ -50,7 +50,7 @@ export const InitializeVocabulary = async () => {
     if (r) {
       r.forEach((i) => {
         /* TODO: Hvað ef server er undan á? */
-        if (schedule[i.card_id] && schedule[i.card_id].needsSyncing) return;
+        if (schedule[i.card_id]?.needsSyncing) return;
         schedule[i.card_id] = { ...i, id: i.card_id };
       });
       saveInLocalStorage("vocabulary-schedule", schedule);

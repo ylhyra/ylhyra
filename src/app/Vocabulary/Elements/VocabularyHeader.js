@@ -23,8 +23,7 @@ class X extends Component {
     studyParticularIds(this.getCards());
   };
   render() {
-    const vocabulary_list =
-      this.props.header_data && this.props.header_data.vocabulary;
+    const vocabulary_list = this.props.header_data?.vocabulary;
     const { deck } = this.props.vocabulary;
     if (!vocabulary_list || !deck) return null;
     const cards = getCardIdsFromWords(vocabulary_list);

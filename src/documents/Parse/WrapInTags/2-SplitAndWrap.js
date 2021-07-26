@@ -43,7 +43,7 @@ export default function (
             openTags.push(tagWithId);
             return tagWithId;
           } else if (b.startsWith("</")) {
-          /*
+            /*
             Tag closes
           */
             openTags = openTags.slice(0, openTags.length - 1);

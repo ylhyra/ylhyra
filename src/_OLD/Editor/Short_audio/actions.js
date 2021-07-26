@@ -103,17 +103,17 @@ const getTextFromIDs = (ids, list) => {
 //       const text = wordsAndPhrases[id]
 //       if (text) {
 //         idsToOutput[id] = {
-//           pronunciation: pronunciation[text] || (output && output.pronunciation[text]),
-//           sound: sound[text] || (output && output.sound[text]),
+//           pronunciation: pronunciation[text] || (output?.pronunciation[text]),
+//           sound: sound[text] || (output?.sound[text]),
 //         }
 //       }
 //     }
 //
 //     if ((output && Object.keys(output.pronunciation).length > 0) || (output && Object.keys(output.sound).length > 0)) {
-//       store && store.dispatch({
+//       store?.dispatch({
 //         type: 'PRONUNCIATION_AND_SOUND',
-//         pronunciation: output && output.pronunciation,
-//         sound: output && output.sound,
+//         pronunciation: output?.pronunciation,
+//         sound: output?.sound,
 //       })
 //     }
 //
@@ -132,15 +132,15 @@ const getTextFromIDs = (ids, list) => {
 //     if (!i) return i
 //     const { node, tag, attr, child } = i
 //     if (node === 'element' || node === 'root') {
-//       const id = (attr && attr.id) || null
-//       const definition = (attr && attr.definition) || null
+//       const id = (attr?.id) || null
+//       const definition = (attr?.definition) || null
 //       if (tag === 'word' /*|| tag === 'sentence'*/ ) {
 //         if (definition && !definition.hide_pronunciation) {
 //           const text = getTextFromIDs([id, ...definition.contains], list).toLowerCase()
 //           wordsAndPhrases[id] = text
 //         }
 //       }
-//       child && child.map(e => Traverse(e))
+//       child?.map(e => Traverse(e))
 //     }
 //     return i
 //   }
@@ -152,12 +152,12 @@ const getTextFromIDs = (ids, list) => {
 // const MergeOutputWithHTML = (input, idsToOutput) => {
 //   if (!input) return input
 //   const { node, tag, attr, child, text } = input
-//   const id = (attr && attr.id) || null
-//   const definition = (attr && attr.definition) || null
+//   const id = (attr?.id) || null
+//   const definition = (attr?.definition) || null
 //   if (tag === 'sentence' || tag === 'word') {
 //     return {
 //       ...input,
-//       child: child && child.map(e => MergeOutputWithHTML(e, idsToOutput)),
+//       child: child?.map(e => MergeOutputWithHTML(e, idsToOutput)),
 //       attr: {
 //         ...attr,
 //         definition: definition && {
@@ -169,7 +169,7 @@ const getTextFromIDs = (ids, list) => {
 //   }
 //   return {
 //     ...input,
-//     child: child && child.map(e => MergeOutputWithHTML(e, idsToOutput)),
+//     child: child?.map(e => MergeOutputWithHTML(e, idsToOutput)),
 //   }
 // }
 //

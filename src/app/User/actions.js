@@ -40,9 +40,7 @@ export const termsInSchedule = () => {
   if (!deck) return null;
   return _.uniq(
     _.flatten(
-      Object.keys(deck.schedule).map(
-        (card_id) => deck.cards[card_id] && deck.cards[card_id].terms
-      )
+      Object.keys(deck.schedule).map((card_id) => deck.cards[card_id]?.terms)
     )
   ).length;
 };
@@ -50,10 +48,7 @@ export const termsInSchedule = () => {
 /* Called on route changes */
 export const updateUser = () => {
   const x = getUserFromCookie();
-  if (
-    (store.getState().user && store.getState().user.user_id) !==
-    (x && x.user_id)
-  ) {
+  if (store.getState().user?.user_id !== x?.user_id) {
     store.dispatch({
       type: "LOAD_USER",
       content: x,

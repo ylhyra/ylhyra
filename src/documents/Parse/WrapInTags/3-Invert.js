@@ -12,7 +12,7 @@ const InvertElementsThatOnlyContainOneThing = (i) => {
     return i.map((x) => InvertElementsThatOnlyContainOneThing(x));
   } else {
     const { node, tag, attr, child, text } = i;
-    if (child && child.length > 0) {
+    if (child?.length > 0) {
       /*
         If element only wraps around one child,
         switch them around
@@ -41,8 +41,7 @@ const InvertElementsThatOnlyContainOneThing = (i) => {
       } else {
         return {
           ...i,
-          child:
-            child && child.map((x) => InvertElementsThatOnlyContainOneThing(x)),
+          child: child?.map((x) => InvertElementsThatOnlyContainOneThing(x)),
         };
       }
     }

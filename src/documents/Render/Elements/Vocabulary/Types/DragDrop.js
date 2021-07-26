@@ -155,7 +155,7 @@ class Element extends Component {
               {options &&
                 options.map((option, index) => {
                   const text = getText(option);
-                  if (answers && answers.includes(text)) {
+                  if (answers?.includes(text)) {
                     return null;
                   } else {
                     return (
@@ -169,10 +169,10 @@ class Element extends Component {
                     );
                   }
                 })}
-              {answer && answer.answered && answer.correct && (
+              {answer?.answered && answer.correct && (
                 <div className="green">Correct</div>
               )}
-              {answer && answer.answered && !answer.correct && (
+              {answer?.answered && !answer.correct && (
                 <div>
                   <div>The correct answer is:</div>
                   {card.icelandic}

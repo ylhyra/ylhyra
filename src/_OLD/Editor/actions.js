@@ -9,7 +9,7 @@ import stable_stringify from 'json-stable-stringify'
 
 export const openEditor = (page) => {
   const newUrl = mw.util.getUrl(mw.config.get('wgPageName'), { editor: page });
-  window && window.history.replaceState({}, '', newUrl)
+  window?.history.replaceState({}, '', newUrl)
   store.dispatch({
     type: 'OPEN_EDITOR',
     page,
@@ -21,7 +21,7 @@ export const closeEditor = () => {
     if (!ok) return;
   }
   const newUrl = mw.util.getUrl(mw.config.get('wgPageName'));
-  window && window.history.replaceState({}, '', newUrl)
+  window?.history.replaceState({}, '', newUrl)
   purgeCurrentPage()
   store.dispatch({
     type: 'CLOSE_EDITOR',
@@ -145,7 +145,7 @@ export const editPage = (info, callback) => {
       })
       .done(function(data) {
         // console.log(data)
-        if (data && data.edit && data.edit.result && data.edit.result == 'Success') {
+        if (data?.edit && data.edit.result && data.edit.result == 'Success') {
           console.log(`Page edited! https://ylhyra.is/Special:Redirect/page/${data.edit.pageid}`);
           callback && callback(true)
         } else {

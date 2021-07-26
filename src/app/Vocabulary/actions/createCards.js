@@ -15,7 +15,7 @@ const CARDS_TO_CREATE = 30;
 export default function createCards(options) {
   const session = this;
   const now = new Date().getTime();
-  // let forbidden_ids = (options && options.forbidden_ids) || [];
+  // let forbidden_ids = (options?.forbidden_ids) || [];
   let forbidden_ids = session.cards.map((i) => i.id);
   let allowed_card_ids = session.allowed_card_ids || null;
   // console.log({

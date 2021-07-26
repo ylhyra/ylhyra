@@ -64,8 +64,8 @@ class Card extends Component {
         !insideConversation && "vocabulary-card",
         card.type?.replace(/( )/g, "-"),
         card.game?.replace(/( )/g, "-"),
-        answer && answer.correct && "correct",
-        answer && answer.correct === false && "incorrect",
+        answer?.correct && "correct",
+        answer?.correct === false && "incorrect",
       ]
         .filter(Boolean)
         .join(" ");

@@ -58,7 +58,7 @@ const render = async ({ title, filename, css, is_content, callback }) => {
       parsed,
       header,
       flattenedData: {
-        long_audio: flattenedData && flattenedData.long_audio,
+        long_audio: flattenedData?.long_audio,
       },
     });
   } else {
@@ -82,10 +82,7 @@ const render = async ({ title, filename, css, is_content, callback }) => {
   }
 
   output = html
-    .replace(
-      "<title>",
-      "<title>" + (header && header.title ? header.title + " • " : "")
-    )
+    .replace("<title>", "<title>" + (header?.title ? header.title + " • " : ""))
     .replace(
       "<!-- Header items -->",
       "<!--TEMP-->" + header_links + "<!--TEMP-->"

@@ -38,7 +38,7 @@ export const nextWord = (direction, isAdding) => (dispatch, getState) => {
 export const selectWord = (id, adding) => (dispatch, getState) => {
   const translation = getState().editor.translation
   const definition = translation.definitions[translation.words[id]]
-  const containsMany = (definition && definition.contains.length > 1)
+  const containsMany = (definition?.contains.length > 1)
   recentlySelected = _.uniq([id, ...recentlySelected]).slice(0, 5)
 
   // Select

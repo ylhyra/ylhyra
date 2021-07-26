@@ -66,7 +66,7 @@ class Form2 extends React.Component {
         false
       );
     } else if (e.keyCode === 13 /* Enter */) {
-      // this.formRef.current && this.formRef.current.handleSubmit();
+      // this.formRef.current?.handleSubmit();
     } else if (e.keyCode === 27 /* Esc */) {
       selectNext(this.props.vocabularyMaker.selected);
     }

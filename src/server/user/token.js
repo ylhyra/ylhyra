@@ -13,8 +13,8 @@
 //
 // /* Sign up - Step 1: Email */
 // router.post('/user', async(req, res) => {
-//   const username = req.body.username && req.body.username.trim().replace(/\s+/g, ' ')
-//   const email = req.body.email && req.body.email.trim()
+//   const username = req.body.username?.trim().replace(/\s+/g, ' ')
+//   const email = req.body.email?.trim()
 //   const { password, captcha_token } = req.body
 //
 //   if (!email || email.length > 255) {

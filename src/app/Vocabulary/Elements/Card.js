@@ -19,7 +19,7 @@ class Card extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     const { card, status } = this.props.vocabulary;
-    const prevCard = prevProps && prevProps.vocabulary.card;
+    const prevCard = prevProps?.vocabulary.card;
     if (!prevProps || card.counter !== prevCard.counter) {
       this.setState({
         answer: null,
@@ -87,7 +87,7 @@ class Card extends Component {
     // console.log(e.keyCode)
   };
   answer = (i, timeout, e) => {
-    e && e.stopPropagation();
+    e?.stopPropagation();
     if (this.state.answer) return;
     const { session } = this.props.vocabulary;
     if (timeout === false) {

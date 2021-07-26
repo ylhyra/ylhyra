@@ -26,11 +26,11 @@ export default function init(input, id) {
 const NiceIDs = (input) => {
   if (!input) return input;
   const { node, tag, attr, child, text } = input;
-  const id = (attr && attr.id) || null;
+  const id = attr?.id || null;
   if (tag === "sentence" || tag === "word") {
     return {
       ...input,
-      child: child && child.map((e) => NiceIDs(e)),
+      child: child?.map((e) => NiceIDs(e)),
       attr: {
         ...attr,
         id:
@@ -45,7 +45,7 @@ const NiceIDs = (input) => {
   }
   return {
     ...input,
-    child: child && child.map((e) => NiceIDs(e)),
+    child: child?.map((e) => NiceIDs(e)),
   };
 };
 
@@ -55,24 +55,23 @@ const NiceIDs = (input) => {
 const UpdateReferencedIDs = (input, idsToOutput) => {
   if (!input) return input;
   const { node, tag, attr, child, text } = input;
-  const id = (attr && attr.id) || null;
-  const definition = (attr && attr.definition) || null;
+  const id = attr?.id || null;
+  const definition = attr?.definition || null;
   if (tag === "sentence" || tag === "word") {
     return {
       ...input,
-      child: child && child.map((e) => UpdateReferencedIDs(e, idsToOutput)),
+      child: child?.map((e) => UpdateReferencedIDs(e, idsToOutput)),
       attr: {
         ...attr,
         definition: definition && {
           ...definition,
-          contains:
-            definition.contains && definition.contains.map(getUpdatedID),
+          contains: definition.contains?.map(getUpdatedID),
         },
       },
     };
   }
   return {
     ...input,
-    child: child && child.map((e) => UpdateReferencedIDs(e, idsToOutput)),
+    child: child?.map((e) => UpdateReferencedIDs(e, idsToOutput)),
   };
 };

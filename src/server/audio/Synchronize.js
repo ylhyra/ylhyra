@@ -80,7 +80,7 @@ const synchronize = async ({ lang, filepath, xml }, res) => {
           `is_text_unparsed_id_regex=s[A-Za-z0-9_\\-]+"` +
           ` ${OUTPUT_JSON} `;
       } else {
-      /* WORD LEVEL */
+        /* WORD LEVEL */
         command =
           ` python -m aeneas.tools.execute_task ` +
           `  ${AUDIO_FILE_PATH} ` +

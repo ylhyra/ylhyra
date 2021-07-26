@@ -70,7 +70,7 @@ const GroupParagraphs = ({
       ) {
         group.push(element);
       } else {
-      /*
+        /*
         Else, our grouping is finished
       */
         // console.log(documents.last)
@@ -167,7 +167,7 @@ export const shouldSkip = ({ tag, attr }) => {
   if (!tag || typeof tag !== "string") {
     return false;
   }
-  if ((attr && attr.class === "instructions") || tag === "answers") {
+  if (attr?.class === "instructions" || tag === "answers") {
     return true;
   }
   return ["script", "style", "head" /* 'sup'*/].includes(tag.toLowerCase());

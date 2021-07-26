@@ -39,7 +39,7 @@ const open = () => {
 }
 
 const close = (message) => {
-  socket && socket.close()
+  socket?.close()
 }
 
 export const send = (message) => {

@@ -24,7 +24,7 @@ export default function (input, tokenizedSplit) {
       if (node === "element" || node === "root") {
         return {
           ...i,
-          child: child && child.map((x) => InsertSPLIT(x)),
+          child: child?.map((x) => InsertSPLIT(x)),
         };
       } else if (node === "text") {
         /*

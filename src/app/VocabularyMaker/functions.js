@@ -124,7 +124,7 @@ export const getHash = (input, options) => {
     .toLowerCase();
   if (!string) return null;
   // return string;
-  if (/*(options && options.skip_hash) ||*/ isBrowser && window.skip_hash) {
+  if (/*(options?.skip_hash) ||*/ isBrowser && window.skip_hash) {
     return string;
   }
   return _hash(string);

@@ -15,7 +15,7 @@ export async function syncSchedule(options) {
   const syncEntireSchedule = options?.syncEntireSchedule;
   if (!schedule) return;
   saveInLocalStorage("vocabulary-schedule", schedule);
-  if (!(store.getState().user && store.getState().user.user_id)) {
+  if (!store.getState().user?.user_id) {
     console.log(`Not synced to server as user isn't logged in`);
     return;
   }

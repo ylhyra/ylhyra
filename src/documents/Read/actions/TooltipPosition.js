@@ -92,7 +92,7 @@ export default function FindAGoodPositionForTooltip({
   // })
   //
   // // Multiline
-  // if (sentence_multiple_lines && sentence_multiple_lines.length > 1) {
+  // if (sentence_multiple_lines?.length > 1) {
   //   const firstInline = sentence_multiple_lines[0]
   //   const lastInline = sentence_multiple_lines[sentence_multiple_lines.length - 1]
   //

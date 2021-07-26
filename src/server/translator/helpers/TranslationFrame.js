@@ -40,7 +40,7 @@ export default (words, index, contains) => {
         ...word,
         text: simplifyString(word.text),
         position_relative_to_center_word: parseInt(key),
-        is_part_of_definition: contains && contains.includes(word.id),
+        is_part_of_definition: contains?.includes(word.id),
       };
     });
 };

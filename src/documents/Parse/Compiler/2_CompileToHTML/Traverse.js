@@ -18,8 +18,8 @@ const Traverse = ({ json, data, index }) => {
     }
     if (Tag) {
       return (
-        <Tag key={(attr && attr.id) || index} {...extraAttributes} {...attr}>
-          {child && child.map((e, i) => Traverse({ json: e, index: i, data }))}
+        <Tag key={attr?.id || index} {...extraAttributes} {...attr}>
+          {child?.map((e, i) => Traverse({ json: e, index: i, data }))}
         </Tag>
       );
     }

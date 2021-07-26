@@ -22,7 +22,7 @@ export default class WordBox extends React.PureComponent {
         hidden={true}
       >
         <span>
-          {definition.base && definition.base.trim() && (
+          {definition.base?.trim() && (
             <span className="base">
               <label>Base word</label>
               <span
@@ -32,7 +32,7 @@ export default class WordBox extends React.PureComponent {
               />
             </span>
           )}
-          {definition.base_meaning && definition.base_meaning.trim() && (
+          {definition.base_meaning?.trim() && (
             <span className="base_meaning">
               <label>Meaning of base word</label>
               <span
@@ -42,7 +42,7 @@ export default class WordBox extends React.PureComponent {
               />
             </span>
           )}
-          {definition.base_direct && definition.base_direct.trim() && (
+          {definition.base_direct?.trim() && (
             <span className="base_direct">
               <label>Literal meaning of base word</label>
               “
@@ -55,7 +55,7 @@ export default class WordBox extends React.PureComponent {
             </span>
           )}
 
-          {definition.direct && definition.direct.trim() && (
+          {definition.direct?.trim() && (
             <span className="">
               <label>Literal meaning of word</label>
               “
@@ -68,7 +68,7 @@ export default class WordBox extends React.PureComponent {
             </span>
           )}
 
-          {definition.note && definition.note.trim() && (
+          {definition.note?.trim() && (
             <span className="small">
               <label>Note</label>
               <span
@@ -87,7 +87,7 @@ export default class WordBox extends React.PureComponent {
               </span>
             )}
         </span>
-        {definition.sound && definition.sound.length > 0 && <span>🔈</span>}
+        {definition.sound?.length > 0 && <span>🔈</span>}
         {definition.pronunciation && (
           <span className="small">
             <label>Pronunciation</label>

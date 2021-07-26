@@ -26,7 +26,7 @@
 // let done = []
 // export const soundAttribution = ({ filename }) => {
 //   /* Attribution for ISLEX audio recordings */
-//   if(filename && filename.match(/islex/) && !done.includes('islex')) {
+//   if(filename?.match(/islex/) && !done.includes('islex')) {
 //     $('#license').append('<div>Short audio recordings from the <a rel="noopener" href="http://malfong.is/?pg=islexrecordings&amp;lang=en">ISLEX project</a>. <a rel="noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" class="license-link">CC BY-NC-ND</a>')
 //     done.push('islex')
 //   }

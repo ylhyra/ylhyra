@@ -96,7 +96,7 @@ const AudioXML = (input, index = 0) => {
         // console.log(input)
         Tag = 'span'
         attrs = {
-          id: (attr && attr.id),
+          id: (attr?.id),
         }
         if (attrs.id.startsWith('s')) {
           Tag = 'div'
@@ -114,11 +114,11 @@ const AudioXML = (input, index = 0) => {
       if (attrs.id) {
         return (
           <Tag {...attrs} key={index}>
-            {child && child.map((e,i) => AudioXML(e,i))}
+            {child?.map((e,i) => AudioXML(e,i))}
           </Tag>
         )
       } else {
-        return child && child.map((e, i) => AudioXML(e, i))
+        return child?.map((e, i) => AudioXML(e, i))
       }
     } else if (node === 'text') {
       return text

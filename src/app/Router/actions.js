@@ -95,7 +95,7 @@ export const updateURL = (url, title, replace, prerender, is404) => {
   } else {
     window.history.scrollRestoration = "manual";
     const el = document.getElementById(section);
-    el && el.scrollIntoView();
+    el?.scrollIntoView();
   }
 };
 

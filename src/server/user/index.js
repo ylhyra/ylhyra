@@ -15,9 +15,8 @@ const key = process.env.COOKIE_SECRET || "secret";
 var crypto = require("crypto");
 
 router.post("/user", async (req, res) => {
-  let username =
-    req.body.username && req.body.username.trim().replace(/\s+/g, " ");
-  const email = req.body.email && req.body.email.trim();
+  let username = req.body.username?.trim().replace(/\s+/g, " ");
+  const email = req.body.email?.trim();
   const { password, captcha_token, type } = req.body;
 
   // if (!email || email.length > 255 || !/@/.test(email)) {

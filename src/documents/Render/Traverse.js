@@ -19,7 +19,7 @@ const Traverse = ({ json, data, index }) => {
 
     /* IMG and HR tags are void tags */
     if (voidElementTags.includes(Tag)) {
-      return <Tag {...attr} key={(attr && attr.id) || index} />;
+      return <Tag {...attr} key={attr?.id || index} />;
     }
 
     /*
@@ -27,15 +27,15 @@ const Traverse = ({ json, data, index }) => {
       and add their name as a className
     */
     if (typeof Tag === "string") {
-      getCustomTag(Tag, attr && attr.className, (output) => {
+      getCustomTag(Tag, attr?.className, (output) => {
         Tag = output.tag;
         attr.className = output.className;
       });
     }
 
     return (
-      <Tag {...attr} key={(attr && attr.id) || index}>
-        {child && child.map((e, i) => Traverse({ json: e, data, index: i }))}
+      <Tag {...attr} key={attr?.id || index}>
+        {child?.map((e, i) => Traverse({ json: e, data, index: i }))}
       </Tag>
     );
   } else if (node === "text") {

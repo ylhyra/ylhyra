@@ -12,7 +12,6 @@ import query from "server/database";
 import _ from "underscore";
 const wordRegex = /([A-zÀ-ÿ·-]+)/g;
 
-
 const IPA_to_English = [
   ["ji", "yi"],
   ["ju", 'y<span class="close-back-rounded-vowel">oo</span>'],

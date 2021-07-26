@@ -130,8 +130,8 @@ class Word extends React.Component {
           className="word"
           hover={this.state.hover}
           selected={_.contains(selected, id)}
-          difficult_word={(definition && definition.difficult) || null}
-          translation_always_shown={(definition && definition.show_definition_above) || null}
+          difficult_word={(definition?.difficult) || null}
+          translation_always_shown={(definition?.show_definition_above) || null}
           has_definition={definition && !suggested}
           suggested={suggested}
         >

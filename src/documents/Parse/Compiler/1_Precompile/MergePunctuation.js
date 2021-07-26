@@ -15,7 +15,7 @@ const init = (tree, _translation) => {
 const Traverse = (input, siblings = []) => {
   if (!input) return input;
   const { node, tag, attr, child, text } = input;
-  const id = (attr && attr.id) || null;
+  const id = attr?.id || null;
   if (node === "element" || node === "root") {
     if (tag === "word") {
       if (removedIDs.includes(id)) return null;
@@ -31,7 +31,7 @@ const Traverse = (input, siblings = []) => {
     } else {
       return {
         ...input,
-        child: child && child.map((e) => Traverse(e, child)),
+        child: child?.map((e) => Traverse(e, child)),
       };
     }
   } else if (node === "text") {

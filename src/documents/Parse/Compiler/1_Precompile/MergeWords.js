@@ -17,7 +17,7 @@ const init = (tree, _translation) => {
 const Traverse = (input, siblings = []) => {
   if (!input) return input;
   const { node, tag, attr, child, text } = input;
-  const id = (attr && attr.id) || null;
+  const id = attr?.id || null;
   if (node === "element" || node === "root") {
     if (tag === "word") {
       if (removedIDs.includes(id)) return null;
@@ -27,7 +27,7 @@ const Traverse = (input, siblings = []) => {
       // console.log(definition)
 
       let addSiblings = [];
-      if (definition && definition.contains.length > 1) {
+      if (definition?.contains.length > 1) {
         addSiblings = readSiblings(siblings, id, definition.contains);
       }
       return {
@@ -37,7 +37,7 @@ const Traverse = (input, siblings = []) => {
           definition,
         },
         child: [
-          ...((child && child.map((e) => Traverse(e, child))) || []),
+          ...(child?.map((e) => Traverse(e, child)) || []),
           ...addSiblings,
         ],
       };
@@ -48,12 +48,12 @@ const Traverse = (input, siblings = []) => {
           ...input.attr,
           definition: translation.sentences[attr.id],
         },
-        child: child && child.map((e) => Traverse(e, child)),
+        child: child?.map((e) => Traverse(e, child)),
       };
     } else {
       return {
         ...input,
-        child: child && child.map((e) => Traverse(e, child)),
+        child: child?.map((e) => Traverse(e, child)),
       };
     }
   } else if (node === "text") {

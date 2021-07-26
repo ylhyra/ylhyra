@@ -13,7 +13,7 @@ window.assistOnOff = (element) => {
     element.closest(".container").setAttribute("assist", "true");
     fix_inline_translations();
   } else {
-  /*
+    /*
     Assist OFF
   */
     element.removeAttribute("data-checked");

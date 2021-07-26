@@ -38,7 +38,7 @@ const AudioClip = {
     });
   },
   pause: () => {
-    audio && audio.pause();
+    audio?.pause();
     audio = null;
   },
 };

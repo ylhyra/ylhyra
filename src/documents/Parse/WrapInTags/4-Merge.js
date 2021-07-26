@@ -18,7 +18,7 @@ const MergeElementsThatHaveBeenSplitUnnecessarily = (
     return i.map((x) => MergeElementsThatHaveBeenSplitUnnecessarily(x));
   } else {
     const { node, tag, attr, child, text } = i;
-    if (child && child.length > 0) {
+    if (child?.length > 0) {
       let newChildren = [];
       let tempElement = {};
       let lastId = null;

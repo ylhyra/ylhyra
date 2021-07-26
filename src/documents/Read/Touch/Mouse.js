@@ -122,7 +122,7 @@ const mousemove = (e) => {
       }
       return;
     }
-    // e && e.preventDefault()
+    // e?.preventDefault()
     turnOffDemonstration();
     if (word) {
       const id = word.getAttribute("id");

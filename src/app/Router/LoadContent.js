@@ -13,9 +13,7 @@ import { isBrowser } from "app/App/functions/isBrowser";
 class Content extends Component {
   render() {
     if (this.props.route.data === "404") return <NotFound />;
-    const parsed =
-      (this.props.route.data && this.props.route.data.parsed) ||
-      this.props.prerender;
+    const parsed = this.props.route.data?.parsed || this.props.prerender;
     if (!parsed) return <div>Loading...</div>;
     let out;
     return Render({ json: parsed });

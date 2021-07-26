@@ -7,22 +7,22 @@ export const checkKey = (e) => {
     e.preventDefault();
     startStop();
   } else if (e.keyCode === 27) {
-  /* Escape */
+    /* Escape */
     //
   } else if (e.keyCode === 37) {
-  /* Left */
+    /* Left */
     prevWord();
   } else if (e.keyCode === 39) {
-  /* Right */
+    /* Right */
     nextWord();
   } else if (e.keyCode === 38 && store.getState().wpm < 1000) {
-  /* Up */
+    /* Up */
     store.dispatch({
       type: "SPEED_READER_UPDATE",
       wpm: store.getState().wpm + 25,
     });
   } else if (e.keyCode === 40 && store.getState().wpm > 25) {
-  /* Down */
+    /* Down */
     store.dispatch({
       type: "SPEED_READER_UPDATE",
       wpm: store.getState().wpm - 25,

@@ -8,7 +8,7 @@ import Analytics from "app/Analytics/TextInteractions";
 */
 
 export const showSentence = (id) => {
-  document.body.classList && document.body.classList.add("sentence-shown");
+  document.body.classList?.add("sentence-shown");
   const relative = document.getElementById("content").getBoundingClientRect();
   ReadAlongSingleSentence(id);
 

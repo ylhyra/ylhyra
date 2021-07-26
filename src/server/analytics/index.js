@@ -42,7 +42,7 @@ router.post("/a", (req, res) => {
       );
     });
   } else {
-  /*
+    /*
     Page views
   */
     query(
