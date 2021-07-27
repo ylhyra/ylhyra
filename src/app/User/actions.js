@@ -91,12 +91,15 @@ export const logout = async () => {
 
 export const MIN_PRICE = 2;
 export const MAX_PRICE = 200;
-export const pay = ({ price }) => {
-  price = parsePrice(price);
-  if (price === "TOO_SMALL") {
-    updateURL("/");
-    return;
-  }
+export const continueAfterPaying = async ({ price, transaction_id }) => {
+  const response = (
+    await axios.post("/api/pwyw", {
+      price,
+      transaction_id,
+    })
+  ).data;
+  updateURL("/");
+  /* TODO: "Thank you" */
 };
 
 export const parsePrice = (price) => {
@@ -106,12 +109,14 @@ export const parsePrice = (price) => {
     .replace(/\$/g, "")
     .replace(/,([0-9]{1,2})$/, ".$1")
     .replace(/,/, "");
-  if (/[^0-9.]/.test(price)) {
+  price = price || "0";
+  if (/[^0-9.]/.test(price) || price.split(".").length > 2) {
     return { error: "INVALID_NUMBER" };
   }
   const [d, c] = price.split(".");
   const cents =
-    parseInt(d) * 100 + (c ? Math.floor((parseInt(c) / c.length) * 100) : 0);
+    parseInt(d) * 100 +
+    (c ? Math.floor((parseInt(c) / 10 ** c.length) * 100) : 0);
   if (cents > MAX_PRICE * 100) {
     return { error: "TOO_LARGE" };
   }
@@ -119,7 +124,4 @@ export const parsePrice = (price) => {
     return { error: "TOO_SMALL" };
   }
   return (cents / 100).toFixed(2);
-  // const d1 = Math.floor(cents / 100);
-  // const c1 = Math.floor(cents - d1 * 100);
-  // return d1 + "." + c1;
 };

@@ -40,9 +40,7 @@ export const updateURL = (url, title, replace, prerender, is404) => {
   if (!title && pathname in url_to_info) {
     title = url_to_info[pathname].title;
   }
-  if (title) {
-    window.document.title = (title ? title + "\u2006•\u2006" : "") + "Ylhýra";
-  }
+  window.document.title = (title ? title + "\u2006•\u2006" : "") + "Ylhýra";
 
   /*
     Force vocabulary game to keep the URL of the article it is started on

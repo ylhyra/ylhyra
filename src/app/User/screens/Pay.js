@@ -1,10 +1,16 @@
+import { notify } from "app/App/Error";
 import { connect } from "react-redux";
 import React from "react";
 import Link from "app/Router/Link";
 
 import { updateURL } from "app/Router/actions";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { pay, parsePrice, MAX_PRICE } from "app/User/actions";
+import {
+  continueAfterPaying,
+  parsePrice,
+  MAX_PRICE,
+  MIN_PRICE,
+} from "app/User/actions";
 import { loadScript } from "@paypal/paypal-js";
 const url =
   process.env.NODE_ENV === "development"
@@ -12,10 +18,91 @@ const url =
     : "https://ylhyra.is";
 
 class Form2 extends React.Component {
+  state = {
+    price: 20,
+  };
   componentDidMount() {
     if (!this.props.user) {
       updateURL("SIGN_UP");
     }
+  }
+  onChange = (e) => {
+    this.setState({ price: e.target.value });
+    const price = parsePrice(e.target.value);
+    process.env.NODE_ENV === "development" && console.log(price);
+    if (price.error) {
+      window.PayPalButtonActions?.disable();
+      if (price.error === "TOO_SMALL") {
+        this.setState({ error: "TOO_SMALL" });
+      } else if (price.error === "INVALID_NUMBER") {
+        this.setState({ error: `Please enter a valid number` });
+      } else if (price.error === "TOO_LARGE") {
+        this.setState({
+          error: `Thank you for your generosity, but the maximum allowed value is $${MAX_PRICE}.`,
+        });
+      }
+    } else if (this.state.error) {
+      window.PayPalButtonActions?.enable();
+      this.setState({ error: null });
+    }
+  };
+  render() {
+    return (
+      <div id="pwyw-form">
+        <label>
+          <div>Enter amount: </div>
+          <div className="shared-input">
+            <input
+              type="text"
+              name="price"
+              value={this.state.price}
+              onChange={this.onChange}
+            />
+            <div>U.S. dollars</div>
+          </div>
+          <div className="error">
+            {this.state.error !== "TOO_SMALL" && this.state.error} &nbsp;
+          </div>
+        </label>
+        <div
+          style={{
+            display: this.state.error === "TOO_SMALL" ? "none" : "block",
+            opacity: this.state.error ? 0.3 : 1,
+          }}
+        >
+          <PayPalButton />
+        </div>
+        {this.state.error === "TOO_SMALL" && (
+          <div className="centered-button">
+            <button
+              type="button"
+              className="big"
+              onClick={() =>
+                continueAfterPaying({
+                  price: 0,
+                })
+              }
+            >
+              Continue
+            </button>
+            {parseInt(this.state.price.trim() || 0) !== 0 && (
+              <div className="gray small center">
+                The smallest amount that can be processed is ${MIN_PRICE}, you
+                won't be charged.
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+}
+export default connect((state) => ({
+  user: state.user,
+}))(Form2);
+
+class PayPalButton extends React.Component {
+  componentDidMount() {
     loadScript({
       "client-id":
         "AaRxrdnGTCs8AD-yCjbvRq9bpMK5XT40mArnKz4wcExDVpEo8a7lHp_g8hikcvbCvuwloOQcl8Amx1LK",
@@ -32,12 +119,21 @@ class Form2 extends React.Component {
               tagline: false,
               label: "pay",
             },
+            onInit: function (data, actions) {
+              window.PayPalButtonActions = actions;
+            },
+            onClick: function (data, actions) {
+              const price = getPriceFromInput();
+              if (price.error) {
+                return actions.reject();
+              } else {
+                return actions.resolve();
+              }
+            },
 
             createOrder: function (data, actions) {
-              const price = parsePrice(
-                document.querySelector("input[name=price]").value
-              );
-              console.log({ price });
+              const price = getPriceFromInput();
+              console.log(price);
               if (price.error) return;
               return actions.order.create({
                 purchase_units: [
@@ -47,7 +143,7 @@ class Form2 extends React.Component {
                       email_address: "sb-ljrih5537425@business.example.com",
                       merchant_id: "7T9P5T6VVL8PC",
                     },
-                    description: "Material for students of Icelandic",
+                    description: "Icelandic language-learning material",
                     // items: ["An account at ylhyra.is"],
                     amount: {
                       currency_code: "USD",
@@ -63,6 +159,13 @@ class Form2 extends React.Component {
 
             onApprove: function (data, actions) {
               return actions.order.capture().then(function (details) {
+                const price = getPriceFromInput();
+                const transaction_id = details.id;
+                continueAfterPaying({
+                  price,
+                  transaction_id: details.id,
+                });
+                paypal.Buttons().close();
                 console.log(details);
                 // alert(
                 //   "Transaction completed by " +
@@ -80,56 +183,14 @@ class Form2 extends React.Component {
           .render("#paypal-button-container");
       })
       .catch((err) => {
-        console.error("failed to load the PayPal JS SDK script", err);
+        console.error(err);
+        notify("Sorry, an error has come up. Feel free to skip this step.");
       });
   }
   shouldComponentUpdate = () => false;
   render() {
-    return (
-      <div id="pwyw-form">
-        <Formik
-          initialValues={{ price: 20 }}
-          validate={(values) => {
-            const errors = {};
-            const price = parsePrice(values.price);
-            if (price && price.error !== "TOO_SMALL") {
-              if (price.error === "INVALID_NUMBER") {
-                errors.price = `Please enter a valid number`;
-              } else if (price.error === "TOO_LARGE") {
-                errors.price = `Thank you for your generosity, but the maximum allowed value is $${MAX_PRICE}.`;
-              }
-            }
-            return errors;
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            // pay(values);
-          }}
-        >
-          {({ isSubmitting }) => (
-            <Form>
-              <label>
-                <div>Enter amount: </div>
-                <div class="shared-input">
-                  <Field type="text" name="price" />
-                  <div>U.S. dollars</div>
-                </div>
-                <ErrorMessage name="price" className="error" component="div" />
-              </label>
-
-              {/* <div class="centered-button">
-                <button type="submit" className="big" disabled={isSubmitting}>
-                  Continue
-                </button>
-              </div> */}
-
-              <div id="paypal-button-container"></div>
-            </Form>
-          )}
-        </Formik>
-      </div>
-    );
+    return <div id="paypal-button-container"></div>;
   }
 }
-export default connect((state) => ({
-  user: state.user,
-}))(Form2);
+const getPriceFromInput = () =>
+  parsePrice(document.querySelector("input[name=price]").value);

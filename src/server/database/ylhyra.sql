@@ -147,7 +147,7 @@ CREATE TABLE users (
   username VARCHAR(255) UNIQUE,
   email VARCHAR(255) UNIQUE,
   password VARCHAR(120),
-  paid VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   INDEX (username),
   INDEX (email)
 ) ROW_FORMAT=COMPRESSED;
@@ -162,4 +162,16 @@ CREATE TABLE user_login_tokens (
   attempts INT(1),
   INDEX (email),
   INDEX (long_token)
+) ROW_FORMAT=COMPRESSED;
+
+/* Payments */
+DROP TABLE IF EXISTS payments;
+CREATE TABLE payments (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255),
+  price VARCHAR(20),
+  transaction_id VARCHAR(100),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  type ENUM('pwyw', 'donation'),
+  INDEX (username)
 ) ROW_FORMAT=COMPRESSED;

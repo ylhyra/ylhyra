@@ -14,7 +14,7 @@ export default (strings, ...values) =>
         value = null;
       } else if (value === false) {
         value = 0;
-      } else if (!value) {
+      } else if (!value && value !== 0) {
         value = ""; // ?
       }
       if (index !== strings.length - 1) {
