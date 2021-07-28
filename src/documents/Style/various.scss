@@ -335,3 +335,77 @@ form .form-section {
     margin: 3px 0;
   }
 }
+
+$height: 12px;
+$notactivecolor: #d0d0d0;
+#signup-steps {
+  display: flex;
+  > span {
+    display: block;
+    white-space: nowrap;
+    padding: 1px 12px;
+    font-size: 13px;
+    position: relative;
+    display: inline-block;
+    margin-left: 0.25%;
+    text-align: center;
+    text-decoration: none;
+    height: $height * 2;
+    &.active {
+      color: black;
+      background: #f5ddc8;
+      border: 1px solid #9a9898;
+      // box-shadow: 1px 1px 1px 0 rgba(158, 158, 158, 0.17);
+    }
+    &:not(.active) {
+      color: #787878;
+      background: $notactivecolor;
+      border: 1px solid #989898;
+      // box-shadow: inset 1px 1px 1px 0 rgba(99, 99, 99, 0.17);
+      &:after {
+        border-left: $height solid $notactivecolor;
+      }
+    }
+    &:before {
+      width: 0;
+      height: 0;
+      border-top: $height inset transparent;
+      border-bottom: $height inset transparent;
+      border-left: $height solid #fff;
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 0;
+    }
+    &:after {
+      width: 0;
+      height: 0;
+      border-top: $height inset transparent;
+      border-bottom: $height inset transparent;
+      border-left: $height solid #ebebeb;
+      position: absolute;
+      content: "";
+      top: 0;
+      right: -$height;
+      z-index: 2;
+    }
+    &:first-child {
+      border-top-left-radius: $height;
+      border-bottom-left-radius: $height;
+      margin-left: 0;
+      border-right: none;
+      &:before {
+        border: none !important;
+      }
+    }
+    &:last-child {
+      border-top-right-radius: $height;
+      border-bottom-right-radius: $height;
+      padding-left: 22px;
+      border-left: none;
+      &:after {
+        border: none !important;
+      }
+    }
+  }
+}

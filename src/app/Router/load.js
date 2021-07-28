@@ -78,6 +78,7 @@ const set = async (url, data, preload, section) => {
       header: data.header,
     },
   });
+  url = data.redirect_to || url;
   updateURL(url + (section ? "#" + section : ""), data.title, true);
   ReadAlongSetup(flattenedData); // TEMP
 };

@@ -4,13 +4,19 @@ import Link from "app/Router/Link";
 import { updateURL } from "app/Router/actions";
 
 class SignupSteps extends React.Component {
-  componentDidMount() {
-    if (!this.props.user) {
-      // updateURL("SIGN_UP");
-    }
-  }
+  componentDidMount() {}
   render() {
-    return <div></div>;
+    const isSignup = this.props.route.pathname === "/signup";
+    return (
+      <div id="signup-steps">
+        <span className={isSignup ? "active" : ""}>
+          <b>Step 1</b>: Create an account
+        </span>
+        <span className={!isSignup ? "active" : ""}>
+          <b>Step 2</b>: Pay what you want
+        </span>
+      </div>
+    );
   }
 }
 export default connect((state) => ({

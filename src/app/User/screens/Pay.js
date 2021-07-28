@@ -11,7 +11,7 @@ import {
   MAX_PRICE,
   MIN_PRICE,
 } from "app/User/actions";
-import { loadScript } from "@paypal/paypal-js";
+
 const url =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
@@ -102,8 +102,14 @@ export default connect((state) => ({
 }))(Form2);
 
 class PayPalButton extends React.Component {
-  componentDidMount() {
-    loadScript({
+  async componentDidMount() {
+    const loadPayPalScript = (
+      await import(
+        /* webpackChunkName: "paypal" */
+        "@paypal/paypal-js"
+      )
+    ).loadScript;
+    loadPayPalScript({
       "client-id":
         "AaRxrdnGTCs8AD-yCjbvRq9bpMK5XT40mArnKz4wcExDVpEo8a7lHp_g8hikcvbCvuwloOQcl8Amx1LK",
     })
@@ -176,8 +182,8 @@ class PayPalButton extends React.Component {
             },
 
             onError: function (err) {
-              // TODO
               console.log(err);
+              notify("Sorry, an error has come up.");
             },
           })
           .render("#paypal-button-container");
