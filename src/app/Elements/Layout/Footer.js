@@ -29,7 +29,9 @@ export default (props) => (
         </span>
         •
         <span className="footer-gray">
-          <Link href="/donate">Donate</Link>
+          {process.env.NODE_ENV === "development" && (
+            <Link href="/donate">Donate</Link>
+          )}
         </span>
         {/* • */}
       </span>

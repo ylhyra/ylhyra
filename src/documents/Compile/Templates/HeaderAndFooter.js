@@ -13,6 +13,8 @@ export default (input, header) => {
   if (header.vocabulary || header.level || header.has_data) {
     h = c`<section class="content-header">
       ${VocabularyHeader}
+    </section>
+    <section>
       ${header.level && `<level level="${header.level}"/>`}
       ${
         header.has_data &&
@@ -26,11 +28,10 @@ export default (input, header) => {
     header.published ||
     header.reflist
   ) {
-    // <section class="last">
-    //   ${VocabularyHeader}
-    // </section>
     f = c`
-    <section class="last"></section>
+    <section class="last content-header">
+      ${VocabularyHeader}
+    </section>
     <section class="content-footer">
       ${
         header.license === "CC0" &&

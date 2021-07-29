@@ -5,7 +5,7 @@ section,
     // max-width: 500px;
     margin: auto;
   }
-  > div:not(.content) {
+  > div {
     padding: 25px 10px;
   }
   &.content {
@@ -22,6 +22,12 @@ section,
     }
     &.first {
       padding-top: 0;
+      > div {
+        padding-top: 0;
+        .book {
+          margin-top: 0;
+        }
+      }
     }
     > div {
       max-width: 500px;

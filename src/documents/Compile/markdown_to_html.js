@@ -106,6 +106,7 @@ export const processText = (input) => {
   input = RemoveUnwantedCharacters(input);
   input = ProcessLinks(input, links);
   input = input
+    // .replace(/\n\n+/g, "\n\n")
     .replace(/^\*\*\*\n/gm, "\n<hr/>\n")
     /* Lists */
     .replace(/^(\*+) ?/gm, (x, bullets) => {
@@ -158,6 +159,7 @@ export const processText = (input) => {
   }
   input = (pre || "") + m + (post || "");
 
+  input = input.replace(/<p>([\s]+)?<\/p>/, "$1");
   // input = input.replace(/(<h[0-9] id=")/g, "$1s-");
   // console.log(input.slice(0,200))
 

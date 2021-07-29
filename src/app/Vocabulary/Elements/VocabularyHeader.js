@@ -47,18 +47,22 @@ class X extends Component {
       );
     }
     return (
-      <div>
-        <div>{PercentageKnown(cards, deck)}% known</div>
-        {/* <div>{JSON.stringify(MakeSummaryOfCardStatuses(cards, deck))}</div> */}
+      <div className="vocabulary-header">
         <button
           className="big dark-blue"
           onClick={() => studyParticularIds(cards)}
         >
           Study {cards.length} cards
         </button>
-        <div className="gray">
-          Additionally includes {dependencies.length} prerequisite cards (
-          {PercentageKnown(dependencies, deck)}% known).
+        <div>
+          <div>
+            You know <b>{PercentageKnown(cards, deck)}%</b> of this article’s
+            words.
+          </div>
+          <div className="gray small">
+            Additionally includes {dependencies.length} prerequisite cards (
+            {PercentageKnown(dependencies, deck)}% known).
+          </div>
         </div>
       </div>
     );

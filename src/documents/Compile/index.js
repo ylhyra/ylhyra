@@ -19,6 +19,7 @@ export default async (title) => {
   if (header.classes) {
     output = `<div class="${header.classes.join(" ")}">${output}</div>`;
   }
+
   // console.log(output)
   return { content: output, header };
 };
