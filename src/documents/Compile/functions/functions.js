@@ -12,6 +12,7 @@ export const ProcessLinks = (input, links) => {
           link = `http://en.wikipedia.org/wiki/${encodeURIComponent(
             link.replace(/^w:/i, "")
           )}`;
+          return `<a href="${link}">${target}</a>`;
         } else {
           link = URL_title(link);
           const [title, section] = link.split("#");

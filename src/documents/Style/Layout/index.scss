@@ -5,6 +5,11 @@ html {
 body {
   @include sans_serif();
   font-size: 14px;
+
+  -webkit-font-feature-settings: "tnum";
+  -moz-font-feature-settings: "tnum";
+  -ms-font-feature-settings: "tnum";
+  font-feature-settings: "tnum";
 }
 hr {
   margin: 40px 20px;
@@ -72,4 +77,24 @@ ol {
 }
 .center {
   text-align: center;
+}
+
+ul.plain {
+  list-style-type: none;
+}
+
+h1 {
+  @include sans-serif();
+  font-size: 29px;
+  line-height: 1.2;
+  > span {
+    border-bottom: 3px solid rgba(#d7d7d7, 0.4);
+  }
+}
+.small {
+  font-size: 12px;
+  line-height: 1.4;
+  .p {
+    margin: 3px 0;
+  }
 }

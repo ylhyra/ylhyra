@@ -1,0 +1,49 @@
+section,
+.section {
+  > div {
+    max-width: $max-width;
+    // max-width: 500px;
+    margin: auto;
+  }
+  > div:not(.content) {
+    padding: 25px 10px;
+  }
+  &.content {
+    padding: 55px 24px;
+    margin: 0;
+    box-sizing: content-box;
+    line-height: 1.7;
+    letter-spacing: 0.1px;
+    word-spacing: 0.6px;
+    @include serif();
+    font-size: 15px;
+    &:not(:last-child) {
+      border-bottom: 1px solid #edebeb;
+    }
+    &.first {
+      padding-top: 0;
+    }
+    > div {
+      max-width: 500px;
+    }
+    h2 {
+      @include sans-serif();
+      text-align: center;
+      font-weight: 600;
+      font-size: 20px;
+    }
+  }
+  &.odd {
+    background: rgba(#fcfcfc, 0.8);
+  }
+  li + li {
+    // margin-top: 8px;
+  }
+
+  &.last {
+    flex: 1;
+  }
+  &.content-footer {
+    background: #eeeeee;
+  }
+}

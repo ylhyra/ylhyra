@@ -17,39 +17,10 @@ class Layout extends React.Component {
           </Link>
         )}
         <div className="header-container">
-          <div className="header-inner-container-top">
-            <Link href="/" id="logo"></Link>
+          <div className="header-container-inner">
+            <Link href="/" id="logo" />
+            <Navlinks />
             <LoginButton />
-          </div>
-          <div className="header-inner-container-bottom">
-            <div className="navlinks">
-              <ul>
-                {/* <li>
-          <Link href="/spænska">Spænska</Link>
-        </li> */}
-                {/* <li>
-            <Link href="/vocabulary">
-              <span className="large">Vocabulary</span>
-              <span className="medium">Vocab.</span>
-            </Link>
-          </li> */}
-                <li>
-                  <Link href="/course">Course</Link>
-                </li>
-                <li>
-                  <Link href="/texts">Texts</Link>
-                </li>
-                <li>
-                  <Link href="/explanations">
-                    <span className="large">Explanations</span>
-                    <span className="medium">Expl.</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about">About</Link>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </header>
@@ -60,3 +31,34 @@ export default connect((state) => ({
   route: state.route,
   vocabulary: state.vocabulary,
 }))(Layout);
+
+const Navlinks = () => (
+  <div className="navlinks">
+    <ul>
+      {/* <li>
+      <Link href="/spænska">Spænska</Link>
+    </li> */}
+      <li>
+        <Link href="/vocabulary">
+          <span className="large">Vocabulary</span>
+          <span className="medium">Vocab.</span>
+        </Link>
+      </li>
+      <li>
+        <Link href="/course">Course</Link>
+      </li>
+      <li>
+        <Link href="/texts">Texts</Link>
+      </li>
+      <li>
+        <Link href="/explanations">
+          <span className="large">Explanations</span>
+          <span className="medium">Expl.</span>
+        </Link>
+      </li>
+      <li>
+        <Link href="/about">About</Link>
+      </li>
+    </ul>
+  </div>
+);

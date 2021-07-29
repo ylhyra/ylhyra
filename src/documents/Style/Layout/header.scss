@@ -1,23 +1,26 @@
 $logo-size: 68px;
 
+body {
+  // background: #fbfcfd;
+}
 header {
+  // background: #fbfcfd;
+  // border-bottom: 1px solid #f0f0f0;
   min-height: 60px;
   // margin-top: 14px;
   .header-container {
-    max-width: $max-width;
+    max-width: 800px;
+    // max-width: $max-width;
     margin: auto;
     height: 100%;
-    padding: 0 10px;
+    padding: 17px 10px;
 
-    .header-inner-container-top {
-      justify-content: space-between;
+    display: flex;
+    justify-content: center;
+    .header-container-inner {
       display: flex;
-      margin: 10px 0;
-    }
-    .header-inner-container-bottom {
-      // display: flex;
-      // align-items: center;
-      // justify-content: space-between;
+      justify-content: space-between;
+      align-items: center;
     }
 
     #logo {
@@ -29,24 +32,17 @@ header {
       height: $logo-size * 26 / 68;
       display: block;
       position: relative;
-
-      // @media (max-width: 400px) {
-      //   display: none;
-      // }
     }
 
-    &.navlinks {
-      // display: flex;
-      // flex: 1;
-      // justify-content: space-around;
+    .navlinks {
+      margin: 0 35px;
     }
     ul {
       margin: 0;
-      // display: flex;
       li {
         display: inline-block;
-        margin: 0 0 0 15px;
-        font-size: 15px;
+        margin: 0 0 0 10px;
+        font-size: 14px;
 
         a,
         a:visited {
@@ -107,6 +103,24 @@ header {
     //   background: white;
     //   text-decoration: none;
     // }
+    .logged-in-as {
+      border-radius: 40px;
+      background: rgba(140, 140, 130, 0.14);
+      padding: 4px 8px;
+      font-size: 11px;
+      color: #303630;
+      white-space: nowrap;
+      // position: absolute;
+      // top: 0;
+      // right: 0;
+      b {
+        // font-size: 12px;
+      }
+      &:hover:not(span) {
+        text-decoration: none;
+        background: rgba(140, 140, 130, 0.34);
+      }
+      @include notboldlink();
+    }
   }
-  background: #fbfcfd;
 }

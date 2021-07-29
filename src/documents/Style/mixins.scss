@@ -26,3 +26,10 @@ $blue: #1161d9;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.13), 0 1px 1px 0 rgba(0, 0, 0, 0.17);
   overflow: hidden;
 }
+@mixin notboldlink() {
+  &:not(a) {
+    > b {
+      font-weight: normal;
+    }
+  }
+}

@@ -13,10 +13,9 @@
     background-color: scale-color($bg, $lightness: -2%);
     border-top-color: rgba($color, 0.25);
     color: scale-color($color, $lightness: -70%);
-    text-decoration: none;
-
     box-shadow: inset $x_axis 1px 1px 0 rgba(255, 255, 255, 0.5),
       inset 0 0px 0px 0 rgba($color, 0.3), 0 0px 1px 1px rgba(black, 0.04);
+    text-decoration: none;
   }
   cursor: pointer;
   &.selected,
@@ -50,8 +49,6 @@
 .button.playButton,
 a.button,
 button:not(.link):not(.nostyle) {
-  @include button(#4e822e, #e0e2fb, 0);
-
   // background: #fff5f2;
   // border: 1px solid #fcc6c4;
   // box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
@@ -97,11 +94,15 @@ button:not(.link):not(.nostyle) {
   &:hover {
     background: #243f46;
     color: white;
+    text-decoration: none;
   }
   &:active {
     background: #081e22;
   }
   // }
+  &.playButton {
+    @include button(#4e822e, #e0e2fb, 0);
+  }
 }
 
 button.link,

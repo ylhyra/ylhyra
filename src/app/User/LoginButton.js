@@ -6,9 +6,14 @@ const Button = (props) => {
   return (
     <div className="login-buttons">
       {props.user ? (
-        <b>
-          <Link href="USER_PAGE">{props.user.username}</Link>
-        </b>
+        <Link href="USER_PAGE" className="logged-in-as">
+          Logged in as{" "}
+          <b>
+            {props.user.username.length > 20
+              ? props.user.username.slice(0, 15) + "..."
+              : props.user.username}
+          </b>
+        </Link>
       ) : (
         <div>
           <Link href="LOG_IN">Log&nbsp;in</Link>{" "}
