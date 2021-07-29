@@ -1,6 +1,7 @@
 /* VOCABULARY MAKER */
 .vocabulary_maker {
   padding: 10px;
+  // min-width: 700px;
   .row {
     font-size: 12px;
     line-height: 1.3;
@@ -45,6 +46,7 @@
       width: 100%;
       padding: 2px 5px;
       font-size: 12px;
+      min-width: 80px;
       // border-color: #94e099;
     }
   }

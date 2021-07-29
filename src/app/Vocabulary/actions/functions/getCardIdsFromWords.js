@@ -33,7 +33,7 @@ export const getCardIdsFromWords = (words) => {
     timer = setTimeout(() => {
       missing = _.uniq(missing);
       // console.log(`${missing.length} missing terms:\n${_.uniq(missing).join("\n")}`);
-      console.log({ missing });
+      console.log(missing.join("\n"));
     }, 1000);
   }
   return _.uniq(card_ids);

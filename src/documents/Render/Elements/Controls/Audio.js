@@ -50,7 +50,7 @@ export default (audioId, inlineAudioPlayer, editor) => {
     //   </audio>
     //   <div className="playButton"></div>
     //   <div className="loader"></div>
-    //   <div className="error"><span>Audio file missing.</span></div>
+    //   <div className="form-error"><span>Audio file missing.</span></div>
     //   <div className="time-wrapper">
     //     <span className="currentTime">-:--</span>
     //     <div className="slider-wrapper">

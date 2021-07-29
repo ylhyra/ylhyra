@@ -61,10 +61,10 @@ export const refreshRows = (id) => {
     // _.shuffle(rows)
     rows.sort(
       (a, b) =>
-        // (b.level <= 3) - (a.level <= 3) ||
-        // Boolean(a.last_seen) - Boolean(b.last_seen) ||
-        // b.row_id - a.row_id ||
-        // Boolean(a.icelandic) - Boolean(b.icelandic) ||
+        Boolean(a.icelandic) - Boolean(b.icelandic) ||
+        Boolean(a.last_seen) - Boolean(b.last_seen) ||
+        b.row_id - a.row_id ||
+        (b.level <= 3) - (a.level <= 3) ||
         Boolean(a.english) - Boolean(b.english) ||
         (a.level || 100) - (b.level || 100) ||
         Boolean(a["Laga?"]) - Boolean(b["Laga?"]) ||
@@ -239,7 +239,8 @@ export const findMissingDependencies = () => {
   });
   missing = _.uniq(missing);
   console.log("Missing " + missing.length + " terms");
-  console.log({ missing: missing /*.join("\n")*/ });
+  // console.log({ missing: missing /*.join("\n")*/ });
+  console.log({ missing: missing.join("\n") });
 };
 
 export const addEmpty = () => {

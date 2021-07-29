@@ -212,7 +212,7 @@ class Audio extends React.PureComponent {
         )} */}
         {this.state.loading && <div className="loader" />}
         {!inline && this.state.error && (
-          <div className="error">
+          <div className="form-error">
             <span>File missing.</span>
           </div>
         )}

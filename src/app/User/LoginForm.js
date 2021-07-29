@@ -74,7 +74,7 @@ class Form2 extends React.Component {
   render() {
     const submit = this.submit;
     const error = this.state.error && (
-      <div className="error">{this.state.error}</div>
+      <div className="form-error">{this.state.error}</div>
     );
     const message = this.state.message && (
       <div className="">
@@ -120,7 +120,7 @@ class Form2 extends React.Component {
                   <ErrorMessage
                     name="username"
                     component="span"
-                    className="error"
+                    className="form-error"
                   />
                 </div>
                 <Field type="text" name="username" />
@@ -132,7 +132,7 @@ class Form2 extends React.Component {
                   <ErrorMessage
                     name="password"
                     component="span"
-                    className="error"
+                    className="form-error"
                   />
                 </div>
                 <Field type="password" name="password" />
@@ -145,7 +145,7 @@ class Form2 extends React.Component {
                     <ErrorMessage
                       name="email"
                       component="span"
-                      className="error"
+                      className="form-error"
                     />
                   </div>
                   <Field type="email" name="email" />

@@ -60,7 +60,7 @@ class Form2 extends React.Component {
             />
             <div>U.S. dollars</div>
           </div>
-          <div className="error">
+          <div className="form-error">
             {this.state.error !== "TOO_SMALL" && this.state.error} &nbsp;
           </div>
         </label>

@@ -5,7 +5,8 @@ import { isBrowser } from "app/App/functions/isBrowser";
 import { URL_title, section_id } from "paths";
 import { ProcessLinks } from "documents/Compile/functions/functions";
 
-export const DECK = "_es";
+export const DECK = "";
+// export const DECK = "_es";
 
 export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;
@@ -58,7 +59,7 @@ export const formatVocabularyEntry = (input) => {
     )
     .replace(/'''(.+?)'''/g, "<b>$1</b>")
     .replace(/''(.+?)''/g, "<i>$1</i>")
-    .replace(/( )?\*(.+?)\*( )?/g, (x, space_before, text, space_after) => {
+    .replace(/( )?\*([^*;]+)\*?( )?/g, (x, space_before, text, space_after) => {
       return c`${space_before}<span class="occluded ${
         space_before && "space_before"
       }  ${

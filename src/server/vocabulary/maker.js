@@ -13,7 +13,7 @@ const router = require("express").Router();
 const fs = require("fs");
 let DECK = "";
 // const DECK = "_da";
-DECK = "_es";
+// DECK = "_es";
 const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}`;
 const yaml = require("js-yaml");
 
