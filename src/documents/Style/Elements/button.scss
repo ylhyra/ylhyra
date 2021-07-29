@@ -49,6 +49,7 @@
 .button.playButton,
 a.button,
 button:not(.link):not(.nostyle) {
+  @include button(#4e822e, #e0e2fb, 0);
   // background: #fff5f2;
   // border: 1px solid #fcc6c4;
   // box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
@@ -94,7 +95,6 @@ button:not(.link):not(.nostyle) {
   &:hover {
     background: #243f46;
     color: white;
-    text-decoration: none;
   }
   &:active {
     background: #081e22;

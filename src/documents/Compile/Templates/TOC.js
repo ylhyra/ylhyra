@@ -6,7 +6,9 @@ export default (text) => {
     return content.replace(/^- ([^|\n]+)(?:\|(.+))?/gm, (j, link, title) => {
       // const m = link.match(/\/(.+?)$/);
       title = title || link.replace("Course/", "");
-      return c`- [[${link}|${title}]]  <VocabularyStatus header_data="{{${link}>>>vocabulary}}"/>`;
+      return c`<VocabularyStatus header_data="{{${link}>>>vocabulary}}">
+        [[${link}|${title}]]
+      </VocabularyStatus>`;
     });
   });
   return `<div class="toc">${text}</div>`;

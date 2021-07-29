@@ -77,6 +77,16 @@ export const studyParticularIds = (allowed_card_ids) => {
   updateURL("/vocabulary/play");
 };
 
+export const studyNewTerms = () => {
+  const newTerms = [];
+  Object.keys(deck.cards).forEach((id) => {
+    if (!(id in deck.schedule)) {
+      newTerms.push(id);
+    }
+  });
+  studyParticularIds(newTerms);
+};
+
 export const countTerms = (cards) => {
   return round(_.uniq(_.flatten(cards.map((c) => c.terms))).length, 50);
 };

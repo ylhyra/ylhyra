@@ -51,7 +51,7 @@ export const PercentageKnown = (card_ids) => {
 
   const summary = MakeSummaryOfCardStatuses(card_ids);
   const done_count = summary.good + summary.easy * 1 + summary.bad * 0.3;
-  const ratio = done / (remaining + done);
+  const ratio = done / (remaining + done) || 0;
   let percentage;
   if (card_ids.length < 200) {
     percentage = Math.ceil(ratio * 100);
