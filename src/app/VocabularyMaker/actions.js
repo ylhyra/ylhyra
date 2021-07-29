@@ -9,7 +9,7 @@ import {
 import store from "app/App/store";
 import axios from "app/App/axios";
 import _ from "underscore";
-import { deck } from "app/Vocabulary/actions/deck.js";
+import { deck } from "app/Vocabulary/actions/deck";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 import { DECK } from "./functions";
 

@@ -9,8 +9,8 @@ import { updateURL } from "app/Router/actions";
 import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import _ from "underscore";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
-import { MakeSummaryOfCardStatuses } from "app/Vocabulary/actions/functions/index";
-import { deck } from "app/Vocabulary/actions/deck.js";
+import { MakeSummaryOfCardStatuses } from "app/Vocabulary/actions/functions";
+import { deck } from "app/Vocabulary/actions/deck";
 
 export const PercentageKnown = (card_ids) => {
   let done = 0;

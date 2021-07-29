@@ -8,7 +8,7 @@ import showWord from "documents/Read/actions/ShowWord";
 import ResetTooltips from "documents/Read/actions/Reset";
 import { highlightSentence } from "documents/Read/actions/HighlightSentence";
 import { showSentence } from "documents/Read/actions/ShowSentence";
-import { turnOffDemonstration } from "documents/Render/Frontpage/demo";
+import { turnOffDemonstration } from "app/Elements/Frontpage/demo";
 
 let startClickTime = null;
 let lastClickTime = null;

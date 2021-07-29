@@ -3,8 +3,10 @@ import store from "app/App/store";
 import { url_to_info } from "app/Router/paths";
 import { urls as app_urls } from "app/Router/paths";
 import { isBrowser } from "app/App/functions/isBrowser";
-import { loadContent } from "./load";
+import { loadContent, abortAnyOutstandingRequest } from "./load";
 import { clear as ClearReadAlongSetup } from "documents/Render/Audio/ReadAlong";
+import { isUserLoggedIn, existsSchedule } from "app/User/actions";
+
 let HAS_LOADED = false;
 if (isBrowser) {
   window.addEventListener("popstate", (event) => {
@@ -24,8 +26,18 @@ export const InitializeRouter = (prerender) => {
   );
 };
 
+export const isVocabularyTheFrontpage = () => {
+  return isUserLoggedIn() || existsSchedule();
+};
+
+export const getFrontpageURL = () => {
+  return isVocabularyTheFrontpage() ? "/front-page" : "/";
+  // return isVocabularyTheFrontpage() ? "/vocabulary" : "/";
+};
+
 export const updateURL = (url, title, replace, prerender, is404) => {
   HAS_LOADED = true;
+  abortAnyOutstandingRequest();
   if (url in app_urls) {
     url = app_urls[url].url;
   } else {

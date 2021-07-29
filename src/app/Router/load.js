@@ -1,3 +1,4 @@
+import { isVocabularyTheFrontpage } from "app/Router/actions";
 import axios from "app/App/axios";
 import components from "app/Router/paths";
 import { ReadAlongSetup } from "documents/Render/Audio/ReadAlong";
@@ -5,12 +6,16 @@ import { URL_title } from "paths";
 import store from "app/App/store";
 import { updateURL } from "./actions";
 let cache = {};
+let shouldAbort = false;
+export const abortAnyOutstandingRequest = () => {
+  shouldAbort = true;
+};
+
 export const loadContent = (url, prerender_data, preload, section) => {
   // console.log("loadContent");
   // console.log({ url, section });
   // throw new Error("");
-
-  if (url in components) {
+  if (url in components || (url === "/" && isVocabularyTheFrontpage())) {
     return;
   }
 
@@ -25,6 +30,7 @@ export const loadContent = (url, prerender_data, preload, section) => {
   } else if (url in cache) {
     set(url, cache[url], preload, section);
   } else {
+    shouldAbort = false;
     axios
       .get("/api/content", {
         params: {
@@ -33,7 +39,9 @@ export const loadContent = (url, prerender_data, preload, section) => {
       })
       .then(async ({ data }) => {
         cache[url] = data;
-        set(url, data, preload, section);
+        if (!shouldAbort) {
+          set(url, data, preload, section);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -79,10 +87,15 @@ const set = async (url, data, preload, section) => {
     },
   });
   url = data.redirect_to || url;
+
+  if (url === "/" && isVocabularyTheFrontpage()) {
+    url = "/front-page";
+  }
+
   updateURL(url + (section ? "#" + section : ""), data.title, true);
   ReadAlongSetup(flattenedData); // TEMP
 };
 
 export const preload = (url) => {
-  loadContent(url, null, true);
+  // loadContent(url, null, true);
 };

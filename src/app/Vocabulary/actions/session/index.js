@@ -20,13 +20,13 @@ import {
   createMoreCards,
   loadCard,
   answer,
-} from "app/Vocabulary/actions/session/functions.js";
+} from "app/Vocabulary/actions/session/functions";
 import {
   InitializeSession,
   loadCards,
-} from "app/Vocabulary/actions/session/initialize.js";
-import { nextCard } from "app/Vocabulary/actions/session/nextCard.js";
-import { createSchedule } from "app/Vocabulary/actions/createSchedule.js";
+} from "app/Vocabulary/actions/session/initialize";
+import { nextCard } from "app/Vocabulary/actions/session/nextCard";
+import { createSchedule } from "app/Vocabulary/actions/createSchedule";
 import { updateURL } from "app/Router/actions";
 import {
   saveInLocalStorage,

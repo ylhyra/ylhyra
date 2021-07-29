@@ -9,7 +9,7 @@ import {
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 import createCards from "app/Vocabulary/actions/createCards";
-import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session/index.js";
+import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
 
 /**
  * @memberof Session

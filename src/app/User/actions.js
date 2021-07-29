@@ -8,7 +8,7 @@ import { updateURL } from "app/Router/actions";
 import axios from "app/App/axios";
 import { InitializeVocabulary } from "app/Vocabulary/actions/init";
 import { getCookie } from "app/App/functions/cookie";
-import { deck } from "app/Vocabulary/actions/deck.js";
+import { deck } from "app/Vocabulary/actions/deck";
 import _ from "underscore";
 
 export const InitializeUser = () => {

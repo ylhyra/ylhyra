@@ -10,7 +10,7 @@ import Audio from "documents/Templates/Audio";
 import H1 from "documents/Templates/H1";
 import Section from "documents/Templates/Section";
 import PWYW from "app/User/screens/Pay";
-import SignupSteps from "app/User/screens/SignupSteps.js";
+import SignupSteps from "app/User/screens/SignupSteps";
 
 export default (name) => {
   switch (name.toLowerCase()) {

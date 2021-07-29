@@ -30,7 +30,7 @@ router.get(["/api/content", "*"], async (req, res) => {
       title = values.title;
       file = values.file;
       filename = values.filename;
-      if (values.redirect_to) {
+      if ("redirect_to" in values) {
         url = values.redirect_to;
         file = links[values.redirect_to].file;
         title = links[values.redirect_to].title;

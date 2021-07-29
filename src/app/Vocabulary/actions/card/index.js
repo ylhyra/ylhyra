@@ -7,7 +7,7 @@ import _ from "underscore";
 import getRanking from "app/Vocabulary/actions/card/getRanking";
 import rate from "app/Vocabulary/actions/card/rate";
 import postponeRelatedCards from "app/Vocabulary/actions/card/postponeRelatedCards";
-import { deck } from "app/Vocabulary/actions/deck.js";
+import { deck } from "app/Vocabulary/actions/deck";
 
 export const BAD = 1;
 export const GOOD = 2;

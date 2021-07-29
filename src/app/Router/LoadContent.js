@@ -14,7 +14,7 @@ class Content extends Component {
   render() {
     if (this.props.route.data === "404") return <NotFound />;
     const parsed = this.props.route.data?.parsed || this.props.prerender;
-    if (!parsed) return <div>Loading...</div>;
+    if (!parsed) return <div className="small gray center">Loading...</div>;
     let out;
     return Render({ json: parsed });
   }

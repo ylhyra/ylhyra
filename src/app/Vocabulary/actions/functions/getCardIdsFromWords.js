@@ -9,7 +9,7 @@ import { updateURL } from "app/Router/actions";
 import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import _ from "underscore";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
-import { deck } from "app/Vocabulary/actions/deck.js";
+import { deck } from "app/Vocabulary/actions/deck";
 
 let missing = [];
 let timer;

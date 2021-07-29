@@ -7,13 +7,20 @@ import components from "app/Router/paths";
 import { connect } from "react-redux";
 import { isBrowser } from "app/App/functions/isBrowser";
 import Section from "documents/Templates/Section";
+import { isVocabularyTheFrontpage, updateURL } from "app/Router/actions";
 
 class App extends React.Component {
   render() {
     let Element = () => null;
     const url = this.props.url || this.props.route.pathname;
+
+    if (url === "/" && isVocabularyTheFrontpage()) {
+      updateURL("/vocabulary");
+      return null;
+    }
+
     if (url in components) {
-      Element = components[url];
+      Element = components[url]; //|| components["/vocabulary"];
       let Section2 = Section;
       if (url === "/vocabulary/play") {
         Section2 = (props) => props.children;

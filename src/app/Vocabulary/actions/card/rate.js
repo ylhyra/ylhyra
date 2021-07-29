@@ -1,6 +1,6 @@
 import { average, clamp } from "app/App/functions/math";
 import { BAD, GOOD, EASY } from "./index";
-import { printWord } from "app/Vocabulary/actions/functions/index.js";
+import { printWord } from "app/Vocabulary/actions/functions";
 /**
  * @memberof Card
  */

@@ -5,7 +5,7 @@ import { BAD, GOOD, EASY } from "./card";
 import { printWord, getCardsWithSameTerm } from "./functions";
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
-import { deck } from "app/Vocabulary/actions/deck.js";
+import { deck } from "app/Vocabulary/actions/deck";
 
 const CARDS_TO_CREATE = 30;
 

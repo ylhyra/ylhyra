@@ -7,13 +7,14 @@ let on = true;
 let ids = [];
 let currentIndex = 0;
 export default () => {
-  // if (mw.config.get('wgPageName') === 'Ylhýra' || mw.config.get('wgPageName') === 'Text:Frontpage') {
-  //
-  //   ids = $('#frontpage-splash-screen-demo-text [data-word-has-definition]').map(function() {
-  //     return $(this).attr('id')
-  //   })
-  //   next()
-  // }
+  ids = [
+    ...document.querySelectorAll(
+      "#frontpage-splash-screen-demo-text [data-word-has-definition]"
+    ),
+  ].map(function (el) {
+    return el.getAttribute("id");
+  });
+  next();
 };
 
 const next = () => {

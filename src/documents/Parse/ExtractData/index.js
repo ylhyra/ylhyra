@@ -1,4 +1,4 @@
-import { newTitle } from "documents/Parse/index";
+import { newTitle } from "documents/Parse";
 import { AllHtmlEntities as Entities } from "html-entities";
 import atob from "atob";
 const entities = new Entities();

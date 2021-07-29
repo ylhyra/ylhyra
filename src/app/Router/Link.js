@@ -3,8 +3,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { urls as app_urls } from "app/Router/paths";
 import { URL_title } from "paths";
-import { updateURL } from "app/Router/actions";
+import { updateURL, getFrontpageURL } from "app/Router/actions";
 import { preload } from "./load";
+
 class Link extends React.Component {
   fn = (e, url) => {
     if (e.altKey || e.metaKey || e.ctrlKey) return;
@@ -32,6 +33,9 @@ class Link extends React.Component {
       !href.startsWith("#")
     ) {
       href = "/" + href;
+    }
+    if (href === "/") {
+      href = getFrontpageURL();
     }
     /* Todo: Hvað með section linka? */
     if ((route.pathname === href && !route.section) || !href) {
