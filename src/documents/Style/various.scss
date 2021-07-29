@@ -15,19 +15,6 @@ kbd {
   display: inline-block;
 }
 
-.toc {
-  small {
-    float: right;
-    @include sans-serif();
-  }
-  .temporary-vocabulary-list {
-    color: gray;
-    line-height: 1.4;
-    @include sans-serif();
-    font-size: 11px;
-  }
-}
-
 #page-not-found {
   text-align: center;
   padding-top: 30px;
@@ -89,12 +76,6 @@ sup.reference {
   }
 }
 
-.toc_subtitle {
-  font-size: 13px;
-  font-style: italic;
-  @include sans-serif();
-}
-
 .frontpage-splashscreen {
   @include sans-serif();
   text-align: center;
@@ -108,3 +89,38 @@ sup.reference {
 // label .error {
 //   display: inline;
 // }
+
+.toc {
+  .toc-vocabulary-list {
+    color: gray;
+    line-height: 1.4;
+    @include sans-serif();
+    font-size: 11px;
+  }
+  .toc_subtitle {
+    font-size: 13px;
+    font-style: italic;
+    @include sans-serif();
+    // font-weight: bold;
+  }
+
+  .chapter {
+    padding: 10px 5px;
+    margin: 0 -5px;
+    &:not(:first-child) {
+      border-top: 1px solid #ededed;
+    }
+    display: block;
+    &:hover {
+      text-decoration: none;
+      background: #f5f5f5;
+    }
+    .chapter-title {
+      display: flex;
+      align-items: center;
+      > :first-child {
+        flex: 1;
+      }
+    }
+  }
+}

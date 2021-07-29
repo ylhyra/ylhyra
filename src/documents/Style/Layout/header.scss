@@ -88,6 +88,7 @@ header {
     // }
   }
   .login-buttons {
+    font-size: 12px;
     .signup {
       margin-left: 6px;
     }
@@ -103,7 +104,9 @@ header {
     //   background: white;
     //   text-decoration: none;
     // }
-    .logged-in-as {
+    .logged-in-as,
+    .signup,
+    .login {
       border-radius: 40px;
       background: rgba(140, 140, 130, 0.14);
       padding: 4px 8px;

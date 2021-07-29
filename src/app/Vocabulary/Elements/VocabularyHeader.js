@@ -32,21 +32,19 @@ class X extends Component {
       cards
     );
     if (cards.length === 0) return null;
-    if (this.props.button === false) {
-      let tmp;
-      if (true || process.env.NODE_ENV === "development") {
-        tmp = (
-          <div className="temporary-vocabulary-list" key={2}>
-            {vocabulary_list.map(getPlaintextFromVocabularyEntry).join(" • ")}
-          </div>
-        );
-      }
-      return [
-        <small className="gray" key={1}>
+    if (this.props.onlyPercentage) {
+      return (
+        <small className="percentage-known sans-serif" key={1}>
           {PercentageKnown(cards, deck)}% known
-        </small>,
-        tmp,
-      ];
+        </small>
+      );
+    }
+    if (this.props.onlyWordList) {
+      return (
+        <div className="toc-vocabulary-list" key={2}>
+          {vocabulary_list.map(getPlaintextFromVocabularyEntry).join(" • ")}
+        </div>
+      );
     }
     return (
       <div>

@@ -62,15 +62,6 @@ button:not(.link):not(.nostyle) {
   @include sans_serif();
   display: inline-block;
 
-  &.small {
-    font-size: 12px;
-    padding: 3px 6px;
-  }
-  &.big {
-    font-size: 17px;
-    padding: 8px 22px;
-  }
-
   &.red {
     @include button(#a30600, #f67a57, 0);
   }
@@ -103,6 +94,16 @@ button:not(.link):not(.nostyle) {
   &.playButton {
     @include button(#4e822e, #e0e2fb, 0);
   }
+}
+.button.small > a,
+a.button.small {
+  font-size: 12px;
+  padding: 3px 6px;
+}
+.button.big > a,
+a.button.big {
+  font-size: 17px;
+  padding: 8px 22px;
 }
 
 button.link,

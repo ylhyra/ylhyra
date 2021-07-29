@@ -1,4 +1,5 @@
 import { URL_title, section_id } from "paths";
+import { url_to_info } from "app/Router/paths";
 
 export const ProcessLinks = (input, links) => {
   return (
@@ -17,10 +18,10 @@ export const ProcessLinks = (input, links) => {
           link = URL_title(link);
           const [title, section] = link.split("#");
           if (links) {
-            if (title && !(title in links)) {
+            if (title && !(title in links) && !("/" + link in url_to_info)) {
               return target;
             }
-            if (links[title].redirect_to) {
+            if (links[title]?.redirect_to) {
               link =
                 links[link].redirect_to +
                 (links[link].section ? "#" + links[link].section : "");

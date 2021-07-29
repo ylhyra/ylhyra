@@ -7,14 +7,14 @@ export default (props) => {
     props.header_data &&
     JSON.parse(decodeURIComponent(atob(props.header_data)));
   return (
-    <div>
-      <VocabularyHeader
-        header_data={{
-          vocabulary,
-        }}
-        button={false}
-      />
-      <h3>{props.children}</h3>
-    </div>
+    <a href={props.chapter_url} className="chapter">
+      <div className="chapter-title">
+        <div>{props.children}</div>
+        <VocabularyHeader header_data={{ vocabulary }} onlyPercentage={true} />
+      </div>
+      <div className="chapter-vocabulary-list">
+        <VocabularyHeader header_data={{ vocabulary }} onlyWordList={true} />
+      </div>
+    </a>
   );
 };

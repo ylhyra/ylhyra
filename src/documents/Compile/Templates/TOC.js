@@ -1,4 +1,5 @@
 import c from "app/App/functions/no-undefined-in-template-literal";
+import { URL_title, section_id } from "paths";
 
 export default (text) => {
   if (!/<TOC>/.test(text)) return text;
@@ -6,9 +7,9 @@ export default (text) => {
     return content.replace(/^- ([^|\n]+)(?:\|(.+))?/gm, (j, link, title) => {
       // const m = link.match(/\/(.+?)$/);
       title = title || link.replace("Course/", "");
-      return c`<VocabularyStatus header_data="{{${link}>>>vocabulary}}">
-        [[${link}|${title}]]
-      </VocabularyStatus>`;
+      return c`<VocabularyStatus header_data="{{${link}>>>vocabulary}}" chapter_url="${URL_title(
+        link
+      )}">${title}</VocabularyStatus>`;
     });
   });
   return `<div class="toc">${text}</div>`;
