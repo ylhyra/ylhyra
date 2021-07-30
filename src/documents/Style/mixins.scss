@@ -5,7 +5,7 @@ $blue: #1161d9;
   font-family: Georgia, serif;
 }
 @mixin sans_serif() {
-  font-family: Helvetica Neue, sans-serif;
+  font-family: Helvetica Neue, Helvetica, sans-serif;
   // font-family: -apple-system, system-ui, "Segoe UI", sans-serif;
 }
 .sans-serif {

@@ -58,7 +58,7 @@ const run = async () => {
         (!card.en_plaintext ||
           !card.level ||
           card.should_teach === "no" ||
-          card["Laga?"] ||
+          card["fix"] ||
           card.eyða)
       ) {
         delete cards[card_id];

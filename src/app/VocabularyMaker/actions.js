@@ -30,10 +30,10 @@ export const load = async () => {
   sound = vocabulary?.sound || [];
   rows = vocabulary?.rows || [];
 
-  rows = rows.map((row, index) => {
-    row.row_id = index + 1;
-    return row;
-  });
+  // rows = rows.map((row, index) => {
+  //   row.row_id = index + 1;
+  //   return row;
+  // });
   rows.forEach((row, index) => {
     maxID = Math.max(maxID, row.row_id);
     // row.row_id = index;
@@ -61,14 +61,14 @@ export const refreshRows = (id) => {
     // _.shuffle(rows)
     rows.sort(
       (a, b) =>
+        Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
         Boolean(a.icelandic) - Boolean(b.icelandic) ||
         Boolean(a.last_seen) - Boolean(b.last_seen) ||
         b.row_id - a.row_id ||
         (b.level <= 3) - (a.level <= 3) ||
         Boolean(a.english) - Boolean(b.english) ||
         (a.level || 100) - (b.level || 100) ||
-        Boolean(a["Laga?"]) - Boolean(b["Laga?"]) ||
-        Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
+        Boolean(a["fix"]) - Boolean(b["fix"]) ||
         false
     );
   selectRows();
@@ -78,12 +78,15 @@ export const refreshRows = (id) => {
 export const selectRows = (noupdate) => {
   if (!isSearching) {
     selected_rows = rows
-      .filter((i) => i.level <= 3 || !i.level)
+      .filter((i) => i.row_id > 1600 || i.level <= 3 || !i.level)
       .slice(0, MAX_PER_PAGE);
   } else if (!noupdate) {
-    selected_rows = selected_rows
-      .map((s) => rows.find((j) => j.row_id === s.row_id))
-      .filter(Boolean);
+    selected_rows = [
+      ...rows.filter((j) => !j.icelandic),
+      ...selected_rows
+        .map((s) => rows.find((j) => j.row_id === s.row_id))
+        .filter(Boolean),
+    ];
   }
   store.dispatch({
     type: "LOAD_VOCABULARY_MAKER_DATA",
@@ -92,11 +95,17 @@ export const selectRows = (noupdate) => {
 };
 
 export const select = (id) => {
-  id &&
+  if (id) {
     store.dispatch({
       type: "VOCABULARY_MAKER_SELECT",
       content: id,
     });
+  } else {
+    store.dispatch({
+      type: "VOCABULARY_MAKER_SELECT",
+      content: null,
+    });
+  }
 };
 
 export const selectNext = (row_id) => {
@@ -116,6 +125,16 @@ export const delete_row = (row_id) => {
     1
   );
   updateInterface();
+  save();
+};
+
+export const ignore_for_now = (row_id) => {
+  const v = rows.findIndex((j) => j.row_id === row_id);
+  rows[v] = {
+    ...rows[v],
+    eyða: "IGNORED",
+  };
+  selectNext(row_id);
   save();
 };
 
@@ -283,29 +302,32 @@ export const addRowsIfMissing = (text) => {
 
 let isSearching = false;
 export const search = (e) => {
-  if (e.keyCode !== 13 /* Enter */) return;
+  select(null);
+  // if (e.keyCode !== 13 /* Enter */) return;
   const text = e.target.value.trim();
   if (!text) {
     isSearching = false;
   } else {
     isSearching = true;
     selected_rows = rows
-      .filter((j) =>
-        new RegExp(text, "i").test(
-          [
-            getPlaintextFromVocabularyEntry(j.icelandic),
-            getPlaintextFromVocabularyEntry(j.english),
-            j.lemmas,
-            j.depends_on,
-            j.note,
-            j.alternative_ids,
-            j.note_regarding_english,
-            j.related_items,
-            j["this is a minor variation of"],
-          ].join(" ")
-        )
+      .filter(
+        (j) =>
+          !j.icelandic ||
+          new RegExp(text, "i").test(
+            [
+              getPlaintextFromVocabularyEntry(j.icelandic),
+              getPlaintextFromVocabularyEntry(j.english),
+              j.lemmas,
+              j.depends_on,
+              j.note,
+              j.alternative_ids,
+              j.note_regarding_english,
+              j.related_items,
+              j["this is a minor variation of"],
+            ].join(" ")
+          )
       )
-      .sort((a, b) => a.icelandic.length - b.icelandic.length);
+      .sort((a, b) => a.icelandic?.length - b.icelandic?.length);
   }
   selectRows(true);
 };

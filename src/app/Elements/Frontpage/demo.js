@@ -7,6 +7,7 @@ let on = true;
 let ids = [];
 let currentIndex = 0;
 export default () => {
+  if (process.env.NODE_ENV === "development") return;
   ids = [
     ...document.querySelectorAll(
       "#frontpage-splash-screen-demo-text [data-word-has-definition]"

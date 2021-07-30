@@ -79,6 +79,8 @@ export const formatVocabularyEntry = (input) => {
     .replace(/{{kk}}/g, `<sup>(masculine)</sup>`)
     .replace(/{{kvk}}/g, `<sup>(feminine)</sup>`)
     .replace(/{{hv?k}}/g, `<sup>(neuter)</sup>`)
+    .replace(/{{bhet}}/g, `Speaking to one person`)
+    .replace(/{{bhft}}/g, `Speaking to a group`)
     .trim();
 
   if (/{{/.test(input)) {
@@ -125,7 +127,10 @@ export const getHash = (input, options) => {
     .toLowerCase();
   if (!string) return null;
   // return string;
-  if (/*(options?.skip_hash) ||*/ isBrowser && window.skip_hash) {
+  if (
+    /*(options?.skip_hash) ||*/ (isBrowser && window.skip_hash) ||
+    window.location.pathname === "/maker"
+  ) {
     return string;
   }
   return _hash(string);

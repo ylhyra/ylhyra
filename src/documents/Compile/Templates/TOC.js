@@ -8,7 +8,6 @@ export default (text) => {
       /{{(link with percentage|link with vocabulary list|chapter)\|(.+?)(?:\|(.+?))?}}/g,
       (j, template, link, title) => {
         title = title || link.replace("Course/", "");
-        console.log(link);
         return c`<VocabularyStatus header_data="{{${link}>>>vocabulary}}"
           ${
             (template === "link with vocabulary list" ||

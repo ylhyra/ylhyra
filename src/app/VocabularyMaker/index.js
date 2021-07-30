@@ -11,6 +11,7 @@ import {
   selectNext,
   search,
   addEmpty,
+  ignore_for_now,
 } from "./actions";
 import { formatVocabularyEntry, row_titles, DECK } from "./functions";
 import VocabularyMakerRecord from "app/VocabularyMaker/record";
@@ -97,12 +98,13 @@ class Form2 extends React.Component {
                   if (/,/.test(values.english)) {
                     errors.english = "Comma not allowed";
                   }
-                  if (!values.level && !DECK) {
+                  if (!values.level && !DECK && values.english) {
                     errors.level = "Required";
                   }
                   return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
+                  // document.querySelector("[name=level]").focus();
                   submit(values);
                 }}
               >
@@ -117,13 +119,14 @@ class Form2 extends React.Component {
                           // type={row_name === "level" ? "number" : "text"}
                           type="text"
                           autoFocus={(() => {
+                            // return row_name === "level";
                             if (!row["icelandic"])
                               return row_name === "icelandic";
                             if (!row["english"]) return row_name === "english";
                             if (!row["depends_on"])
                               return row_name === "depends_on";
-                            if (!row["lemma"]) return row_name === "lemma";
-                            return false;
+                            if (!row["lemmas"]) return row_name === "lemmas";
+                            return row_name === "level";
                           })()}
                           name={row_name}
                           id={row_name}
@@ -158,6 +161,13 @@ class Form2 extends React.Component {
                       // disabled={isSubmitting}
                     >
                       Submit
+                    </button>
+                    <button
+                      type="button"
+                      className=""
+                      onClick={() => ignore_for_now(row.row_id)}
+                    >
+                      Ignore
                     </button>
                     <button
                       type="button"
