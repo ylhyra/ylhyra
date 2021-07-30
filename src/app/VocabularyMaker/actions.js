@@ -114,6 +114,7 @@ export const selectNext = (row_id) => {
   if (x?.row_id) {
     select(x.row_id);
   } else {
+    isSearching = false;
     refreshRows();
   }
 };
@@ -154,10 +155,10 @@ export const submit = (vals, gotonext = true) => {
 
 const updateInterface = () => {
   selectRows();
-  store.dispatch({
-    type: "LOAD_VOCABULARY_MAKER_DATA",
-    content: selected_rows,
-  });
+  // store.dispatch({
+  //   type: "LOAD_VOCABULARY_MAKER_DATA",
+  //   content: selected_rows,
+  // });
 };
 
 export const save = () => {
@@ -265,8 +266,10 @@ export const findMissingDependencies = () => {
 export const addEmpty = () => {
   rows.push({
     row_id: maxID++ + 1,
+    icelandic: document.querySelector("[name=search]").value,
   });
   refreshRows();
+  isSearching && reDoSearch?.();
 };
 
 export const addRowsIfMissing = (text) => {
@@ -288,7 +291,7 @@ export const addRowsIfMissing = (text) => {
         row_id: maxID++ + 1,
         icelandic: is.trim(),
         english: en?.trim(),
-        level: DECK ? null : level || window.term_level || 1,
+        // level: DECK ? null : level || window.term_level || 1,
         depends_on: depends_on || "",
         lemmas: lemmas || "",
       });
@@ -301,8 +304,12 @@ export const addRowsIfMissing = (text) => {
 };
 
 let isSearching = false;
+let reDoSearch;
 export const search = (e) => {
   select(null);
+  reDoSearch = () => {
+    search(e);
+  };
   // if (e.keyCode !== 13 /* Enter */) return;
   const text = e.target.value.trim();
   if (!text) {

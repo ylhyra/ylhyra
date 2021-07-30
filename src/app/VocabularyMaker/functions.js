@@ -59,12 +59,18 @@ export const formatVocabularyEntry = (input) => {
     )
     .replace(/'''(.+?)'''/g, "<b>$1</b>")
     .replace(/''(.+?)''/g, "<i>$1</i>")
-    .replace(/( )?\*([^*;]+)\*?( )?/g, (x, space_before, text, space_after) => {
-      return c`${space_before}<span class="occluded ${
-        space_before && "space_before"
-      }  ${
-        space_after && "space_after"
-      }"><span>${text}</span></span>${space_after}`;
+    .replace(
+      /( )?\*([^*;$]+)\*?( )?/g,
+      (x, space_before, text, space_after) => {
+        return c`${space_before}<span class="occluded ${
+          space_before && "space_before"
+        }  ${
+          space_after && "space_after"
+        }"><span>${text}</span></span>${space_after}`;
+      }
+    )
+    .replace(/\$([^ .!?;:]+)/g, (x, text) => {
+      return c`<span class="occluded"><span>${text}</span></span>`;
     })
     .replace(/ [-–] /g, ` <span class="gray">—</span> `)
     .replace(/;;/g, `MAJOR_SEPERATOR`)

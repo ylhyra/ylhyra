@@ -41,31 +41,48 @@ class Form2 extends React.Component {
     // this.isKeyDown = false;
   };
   checkKey = (e) => {
+    const set = (name, val) => {
+      let data = {};
+      ["icelandic", "english", ...row_titles].forEach((row_title) => {
+        data[row_title] =
+          document.querySelector(`[name=${row_title}]`)?.value || "";
+      });
+      console.log(data);
+      submit(
+        {
+          ...row,
+          ...data,
+          [name]: val,
+        },
+        false
+      );
+    };
+
     // console.log(e);
     // return;
     if (!this.props.vocabularyMaker.selected) return;
     const rows = this.props.vocabularyMaker.data;
-    if (e.metaKey && e.keyCode === 75 /* K */) {
-      const row =
-        rows[
-          rows.findIndex(
-            (j) => j.row_id === this.props.vocabularyMaker.selected
-          )
-        ];
-      // const el1 = document.querySelector("input[name=depends_on]");
-      // const el2 = document.querySelector("input[name=lemmas]");
-      // el2.value = el1.value;
-      // el1.value = "";
-
-      // console.log("haha");
-      submit(
-        {
-          ...row,
-          depends_on: "",
-          lemmas: row.depends_on,
-        },
-        false
-      );
+    const row =
+      rows[
+        rows.findIndex((j) => j.row_id === this.props.vocabularyMaker.selected)
+      ];
+    let number;
+    if (e.keyCode === 49) number = 1;
+    if (e.keyCode === 50) number = 2;
+    if (e.keyCode === 51) number = 3;
+    if (e.keyCode === 52) number = 4;
+    if (e.keyCode === 53) number = 5;
+    if (e.metaKey && e.keyCode === 75 /* Command K */) {
+      set("depends_on", "");
+      set("lemmas", row.depends_on);
+    } else if (e.metaKey && e.keyCode === 85 /* Command U */) {
+      set("lemmas", row.icelandic + "%");
+    } else if (e.metaKey && e.keyCode === 73 /* Command I */) {
+      set("alternative_id", row.icelandic);
+      e.preventDefault();
+    } else if ((e.altKey || e.metaKey) && number) {
+      set("level", number);
+      e.preventDefault();
     } else if (e.keyCode === 13 /* Enter */) {
       // this.formRef.current?.handleSubmit();
     } else if (e.keyCode === 27 /* Esc */) {
@@ -79,7 +96,12 @@ class Form2 extends React.Component {
       <div className="vocabulary_maker">
         <h1>Voc</h1>
         <button onClick={addEmpty}>Add</button>
-        <input placeholder="Search..." type="text" onKeyDown={search} />
+        <input
+          placeholder="Search..."
+          type="text"
+          name="search"
+          onKeyDown={search}
+        />
         {this.props.vocabularyMaker.data.map((row, index) => {
           if (row.row_id === this.props.vocabularyMaker.selected) {
             let initialValues = row;
@@ -114,7 +136,11 @@ class Form2 extends React.Component {
                       <label key={row_name} htmlFor={row_name}>
                         <b>{row_name}:</b>
                         <br />
-                        <ErrorMessage name={row_name} component="div" />
+                        <ErrorMessage
+                          name={row_name}
+                          component="div"
+                          className="form-error"
+                        />
                         <Field
                           // type={row_name === "level" ? "number" : "text"}
                           type="text"
