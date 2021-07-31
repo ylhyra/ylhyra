@@ -22,7 +22,7 @@ export const getCardIdsFromWords = (words) => {
       card_ids = card_ids.concat(deck.terms[hash].cards);
     } else if (hash in deck.alternative_ids) {
       deck.alternative_ids[hash].forEach((j) => {
-        card_ids = card_ids.concat(deck.terms[j].cards);
+        card_ids = card_ids.concat(deck.terms[j]?.cards || []);
       });
     } else {
       missing.push(word);

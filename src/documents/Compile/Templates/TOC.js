@@ -5,8 +5,8 @@ export default (text) => {
   if (!/<TOC>/.test(text)) return text;
   text = text.replace(/<TOC>([\s\S]+)<\/TOC>/g, (x, content) => {
     return content.replace(
-      /{{(link with percentage|link with vocabulary list|chapter)\|(.+?)(?:\|(.+?))?}}/g,
-      (j, template, link, title) => {
+      /{{(link with percentage|link with vocabulary list|chapter)\|([^|\n]+?)(?:\|([^|\n]+)?)?(?:\|([^|\n]+)?)?}}/g,
+      (j, template, link, title, small) => {
         title = title || link.replace("Course/", "");
         return c`<VocabularyStatus header_data="{{${link}>>>vocabulary}}"
           ${
@@ -14,7 +14,9 @@ export default (text) => {
               template === "chapter") &&
             'show_words="yes"'
           }
-          chapter_url="${URL_title(link)}">${title}</VocabularyStatus>`;
+          chapter_url="${URL_title(link)}">${title} ${
+          small && `<small>${small}</small>`
+        }</VocabularyStatus>`;
       }
     );
   });

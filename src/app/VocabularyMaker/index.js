@@ -47,7 +47,6 @@ class Form2 extends React.Component {
         data[row_title] =
           document.querySelector(`[name=${row_title}]`)?.value || "";
       });
-      console.log(data);
       submit(
         {
           ...row,

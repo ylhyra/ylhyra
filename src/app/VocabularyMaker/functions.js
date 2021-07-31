@@ -134,8 +134,8 @@ export const getHash = (input, options) => {
   if (!string) return null;
   // return string;
   if (
-    /*(options?.skip_hash) ||*/ (isBrowser && window.skip_hash) ||
-    window.location.pathname === "/maker"
+    /*(options?.skip_hash) ||*/ isBrowser &&
+    (window.skip_hash || window.location.pathname === "/maker")
   ) {
     return string;
   }

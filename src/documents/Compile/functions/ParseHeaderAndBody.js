@@ -26,10 +26,12 @@ export const ParseHeaderAndBody = (data, file) => {
   }
 
   body = body.replace(/<vocabulary>([\s\S]+?)<\/vocabulary>/g, (x, voc) => {
-    header.vocabulary = voc
-      .split(/\n/g)
-      .filter(Boolean)
-      .map(getPlaintextFromVocabularyEntry);
+    if (voc.trim().length > 0) {
+      header.vocabulary = voc
+        .split(/\n/g)
+        .filter(Boolean)
+        .map(getPlaintextFromVocabularyEntry);
+    }
     return "";
   });
 
