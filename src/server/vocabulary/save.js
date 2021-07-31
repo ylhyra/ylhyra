@@ -22,12 +22,7 @@ router.post("/vocabulary/save", cors(), (req, res) => {
     const item = schedule[id];
     if (!item.due) return "";
     // const due_milliseconds = (new Date()).getTime() + daysToMs(card.due_in_days)
-
     return sql`
-      DELETE FROM vocabulary_schedule
-        WHERE card_id = ${id}
-        AND user_id = ${user_id}
-        ;
       INSERT INTO vocabulary_schedule SET
         card_id = ${id},
         due = FROM_UNIXTIME(${msToS(roundMsToHour(item.due))}),

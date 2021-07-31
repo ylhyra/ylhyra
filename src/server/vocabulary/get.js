@@ -62,14 +62,28 @@ router.post("/vocabulary/schedule", (req, res) => {
   if (!req.session.user_id) {
     return res.status(401).send({ error: "ERROR_NOT_LOGGED_IN" });
   }
+
+  // SELECT *,
+  //   UNIX_TIMESTAMP(due) * 1000 as due,
+  //   UNIX_TIMESTAMP(adjusted_due) * 1000 as adjusted_due,
+  //   UNIX_TIMESTAMP(last_seen) * 1000 as last_seen
+  //   FROM vocabulary_schedule
+  // WHERE user_id = ${req.session.user_id}
   query(
     sql`
-    SELECT *,
-      UNIX_TIMESTAMP(due) * 1000 as due,
-      UNIX_TIMESTAMP(adjusted_due) * 1000 as adjusted_due,
-      UNIX_TIMESTAMP(last_seen) * 1000 as last_seen
-      FROM vocabulary_schedule
-    WHERE user_id = ${req.session.user_id}
+      SELECT a.*,
+        UNIX_TIMESTAMP(a.due) * 1000 as due,
+        UNIX_TIMESTAMP(a.adjusted_due) * 1000 as adjusted_due,
+        UNIX_TIMESTAMP(a.last_seen) * 1000 as last_seen
+      FROM vocabulary_schedule a
+      INNER JOIN (
+        SELECT max(id) id, card_id FROM vocabulary_schedule
+          WHERE user_id = ${req.session.user_id}
+          GROUP BY card_id
+      ) b
+      ON a.id = b.id
+      WHERE user_id = ${req.session.user_id}
+      ORDER BY id DESC
   `,
     (err, results) => {
       if (err) {
