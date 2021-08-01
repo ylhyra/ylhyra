@@ -14,7 +14,7 @@ class Screen extends React.Component {
   }
   render() {
     return (
-      <div className="frontpage-splashscreen">
+      <div className="frontpage-button">
         {!(isUserLoggedIn() || existsSchedule()) ? (
           <div>
             <div>

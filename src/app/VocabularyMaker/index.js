@@ -41,6 +41,7 @@ class Form2 extends React.Component {
     // this.isKeyDown = false;
   };
   checkKey = (e) => {
+    if (e.altKey && e.metaKey) return;
     const set = (name, val) => {
       let data = {};
       ["icelandic", "english", ...row_titles].forEach((row_title) => {

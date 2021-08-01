@@ -2,6 +2,7 @@ import getSortKeys from "./sortKeys";
 import { getHash } from "app/VocabularyMaker/functions";
 import { content_folder } from "paths_backend";
 import _ from "underscore";
+import { getPlaintextFromFormatted } from "app/VocabularyMaker/functions";
 const fs = require("fs");
 const path = require("path");
 const filename = content_folder + `/not_data/vocabulary/vocabulary`;
@@ -16,17 +17,25 @@ const run = () => {
     (err, data) => {
       const vocabulary = JSON.parse(data);
       fs.readFile(
-        path.resolve(__basedir + "./../Desktop/Ylhýruskjöl/LÍNUR.txt"),
+        path.resolve(
+          __basedir + "./../Desktop/Ylhýruskjöl/Línur_úr_Facebook_samræðum.txt"
+        ),
         "utf8",
         async (err, data) => {
           let sortKeys = await getSortKeys(true);
           Object.keys(vocabulary.cards).forEach((card_id) => {
             /* Hei þetta split() virkar ekki... */
-            vocabulary.cards[card_id].is_plaintext.split(";+").forEach((s) => {
-              const j = getHash(s, { skip_hash: true });
-              if (!(j in sortKeys)) {
-                sortKeys[j] = 1000;
-              }
+            [
+              getPlaintextFromFormatted(vocabulary.cards[card_id].is_formatted),
+              "lemmas",
+              "alternative_id",
+            ].forEach((c) => {
+              c.split(/[;,]+/g).forEach((s) => {
+                const j = getHash(s.replace("%", ""), { skip_hash: true });
+                if (!(j in sortKeys)) {
+                  sortKeys[j] = 1000;
+                }
+              });
             });
           });
 
@@ -54,17 +63,19 @@ const run = () => {
           data
             .split("\n")
             .filter(Boolean)
-            .forEach((full_line) => {
+            .forEach((full_line, i) => {
               full_line
                 .split(/[.!;:?]+/)
                 .filter(Boolean)
                 .forEach((line) => {
                   line = line.replace(/\s+/g, " ").trim();
                   if (!line) return;
-                  const lower = getHash(line, true) || "";
+                  const lower = getHash(line, { skip_hash: true }) || "";
                   let max_sortkey = 0;
                   let fail = false;
                   if (lower in sortKeys) return;
+                  // console.log(line);
+                  // if (i > 5) process.exit();
                   const split = lower.split(spaces);
                   if (split.length <= 2) return;
                   split.forEach((word) => {
@@ -81,17 +92,20 @@ const run = () => {
                   }
                 });
             });
+          console.log("data:" + data.length);
+          console.log("word_frequency:" + Object.keys(word_frequency).length);
           fs.writeFileSync(
-            __basedir + "./../Desktop/Ylhýruskjöl/Orðtíðni.txt",
+            __basedir + "/../Desktop/Ylhýruskjöl/Missing_words.txt",
             Object.keys(word_frequency)
               .sort((a, b) => word_frequency[b] - word_frequency[a])
-              .filter((a) => word_frequency[a] > 10 && !(a in words_in_course))
+              // .filter((a) => word_frequency[a] > 10 && !(a in words_in_course))
+              .filter((a) => !(a in known_words))
               .join("\n"),
             (err) => {}
           );
           fs.writeFileSync(
             __basedir +
-              "./../Desktop/Ylhýruskjöl/Setningar úr orðum sem eru í námskeiðinu.txt",
+              "/../Desktop/Ylhýruskjöl/Setningar úr orðum sem eru í námskeiðinu.txt",
             matches
               .sort((a, b) => a.sort_key - b.sort_key)
               // .map((j) => j.line)

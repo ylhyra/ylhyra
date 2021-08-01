@@ -14,7 +14,12 @@ export const getPlaintextFromVocabularyEntry = (input) => {
 };
 export const getPlaintextFromFormatted = (input) => {
   if (!input) return null;
-  return removeWhitespace(input.replace(/<.+?>/g, ""));
+  return removeWhitespace(
+    input
+      .replace(/<span class="seperator">,<\/span>/g, ";")
+      .replace(/<span class="seperator">;<\/span>/g, ";;")
+      .replace(/<.+?>/g, "")
+  );
 };
 export const removeWhitespace = (input) => {
   if (!input) return "";
@@ -54,13 +59,13 @@ export const formatVocabularyEntry = (input) => {
     .replace(/_(.+?)_/g, `{{gray|$1}}`)
     .replace(/{{g(?:ray)?\|(.*?)}}/g, `<span class="gray">$1</span>`)
     .replace(
-      /\(note: (.*?)\)/g,
+      /\(n(?:ote)?: (.*?)\)/g,
       `<small class="gray inline-note">(<i>$1</i>)</small>`
     )
     .replace(/'''(.+?)'''/g, "<b>$1</b>")
     .replace(/''(.+?)''/g, "<i>$1</i>")
     .replace(
-      /( )?\*([^*;$]+)\*?( )?/g,
+      /( )?\*([^*;$!.,]+)\*?( )?/g,
       (x, space_before, text, space_after) => {
         return c`${space_before}<span class="occluded ${
           space_before && "space_before"
@@ -69,7 +74,7 @@ export const formatVocabularyEntry = (input) => {
         }"><span>${text}</span></span>${space_after}`;
       }
     )
-    .replace(/\$([^ .!?;:]+)/g, (x, text) => {
+    .replace(/[$%]([^ .!?;:]+)/g, (x, text) => {
       return c`<span class="occluded"><span>${text}</span></span>`;
     })
     .replace(/ [-–] /g, ` <span class="gray">—</span> `)
@@ -134,8 +139,8 @@ export const getHash = (input, options) => {
   if (!string) return null;
   // return string;
   if (
-    /*(options?.skip_hash) ||*/ isBrowser &&
-    (window.skip_hash || window.location.pathname === "/maker")
+    options?.skip_hash ||
+    (isBrowser && (window.skip_hash || window.location.pathname === "/maker"))
   ) {
     return string;
   }
@@ -173,6 +178,7 @@ export const row_titles = [
   "importance",
   "show_hint",
   "should_split",
+  "athugasemd_til_min",
   "fix",
   "eyða",
 ];

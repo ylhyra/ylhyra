@@ -64,6 +64,7 @@ export const refreshRows = (id) => {
         Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
         Boolean(a.icelandic) - Boolean(b.icelandic) ||
         Boolean(a.last_seen) - Boolean(b.last_seen) ||
+        // a.last_seen?.localeCompare(b.last_seen) ||
         b.row_id - a.row_id ||
         (b.level <= 3) - (a.level <= 3) ||
         Boolean(a.english) - Boolean(b.english) ||
@@ -140,6 +141,7 @@ export const ignore_for_now = (row_id) => {
 };
 
 export const submit = (vals, gotonext = true) => {
+  // console.log(vals);
   vals.level = vals.level ? parseFloat(vals.level) : vals.level;
   rows[rows.findIndex((j) => j.row_id === vals.row_id)] = {
     ...vals,
@@ -327,7 +329,7 @@ export const search = (e) => {
               j.lemmas,
               j.depends_on,
               j.note,
-              j.alternative_ids,
+              j.alternative_id,
               j.note_regarding_english,
               j.related_items,
               j["this is a minor variation of"],
