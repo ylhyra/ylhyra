@@ -48,7 +48,7 @@ router.get(["/api/content", "*"], async (req, res) => {
     title = title.split(/[/:]/g).reverse().join("\u2006•\u2006");
 
     if (url.startsWith("file/")) {
-      console.log(file);
+      // console.log(file);
       res.sendFile(
         file
           .replace(/(\.[a-z]+)$/i, "") // Fjarlægir ".md"

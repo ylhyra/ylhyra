@@ -11,6 +11,7 @@ import H1 from "documents/Templates/H1";
 import Section from "documents/Templates/Section";
 import PWYW from "app/User/screens/Pay";
 import SignupSteps from "app/User/screens/SignupSteps";
+import Tweet from "documents/Templates/Tweet";
 
 export default (name) => {
   switch (name.toLowerCase()) {
@@ -49,6 +50,9 @@ export default (name) => {
       break;
     case "signupsteps":
       return SignupSteps;
+      break;
+    case "tweet":
+      return Tweet;
       break;
     default:
       return null;

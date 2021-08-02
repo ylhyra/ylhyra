@@ -103,13 +103,13 @@ export const formatVocabularyEntry = (input) => {
 };
 
 const formatPrefixes = (first, second) => {
-  return first;
-  // if (!first || !second) return first;
-  // const re = /(^| - )(hér eru?|um|frá|til|here is|here are|about|from|to)( )/g;
-  // if (first.match(re) && second.match(re)) {
-  //   return first.replace(re, "$1{{gray|$2}}$3");
-  // }
   // return first;
+  if (!first || !second) return first;
+  const re = /(^| - )(hér eru?|um|frá|til|here is|here are|about|from|to)( )/g;
+  if (first.match(re) && second.match(re)) {
+    return first.replace(re, `$1<span class="helper-prefix">$2</span>$3`);
+  }
+  return first;
 };
 
 const formatLemmas = (input) => {
@@ -407,6 +407,8 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
   }
   Object.keys(automatic_alt_ids).forEach((i) => {
     automatic_alt_ids[i] = automatic_alt_ids[i].terms;
+
+    alternative_ids[i] = automatic_alt_ids[i].terms;
   });
 
   /* Automatic dependency graphs */

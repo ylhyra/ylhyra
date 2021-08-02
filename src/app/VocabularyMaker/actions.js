@@ -128,13 +128,14 @@ export const delete_row = (row_id) => {
   );
   updateInterface();
   save();
+  // ignore_for_now(row_id, "DELETED");
 };
 
-export const ignore_for_now = (row_id) => {
+export const ignore_for_now = (row_id, message) => {
   const v = rows.findIndex((j) => j.row_id === row_id);
   rows[v] = {
     ...rows[v],
-    eyða: "IGNORED",
+    eyða: message || "IGNORED",
   };
   selectNext(row_id);
   save();
@@ -293,6 +294,7 @@ export const addRowsIfMissing = (text) => {
         row_id: maxID++ + 1,
         icelandic: is.trim(),
         english: en?.trim(),
+        alternative_id: is.trim(),
         // level: DECK ? null : level || window.term_level || 1,
         depends_on: depends_on || "",
         lemmas: lemmas || "",
