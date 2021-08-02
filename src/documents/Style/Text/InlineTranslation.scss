@@ -1,10 +1,11 @@
 .inline_translation {
   @extend .text-reset;
-  font-family: sans-serif;
+  @include sans-serif();
   font-size: 11px;
-  position: absolute;
+  // position: absolute;
   z-index: 1;
-  left: 1px;
+  padding-left: 1px;
+  // left: 1px;
   white-space: nowrap;
   line-height: 10px;
   color: #33608e;
@@ -12,7 +13,7 @@
   opacity: 0.6;
   font-weight: normal;
   -webkit-font-smoothing: subpixel-antialiased;
-  bottom: 26px;
+  // bottom: 26px;
   display: block;
 }
 [no-assist] .inline_translation {

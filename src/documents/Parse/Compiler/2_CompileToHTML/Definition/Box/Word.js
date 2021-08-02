@@ -20,6 +20,7 @@ export default class WordBox extends React.PureComponent {
         id={`${this.props.id}-box`}
         data-not-text="true"
         hidden={true}
+        lang="en"
       >
         <span>
           {definition.base?.trim() && (

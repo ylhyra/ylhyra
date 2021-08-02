@@ -47,17 +47,20 @@ class WordElement extends React.Component {
       classes.push("missing");
     }
 
+    const shouldShowInline = definition?.show_definition_above;
+    const Tag = shouldShowInline ? "ruby" : "span";
+
     // console.log(definition)
     return [
       <Box id={id} definition={definition} key={1} hidden={true} />,
       <Tooltip id={id} definition={definition} key={2} hidden={true} />,
-      <span className={`word-container ${classes.join(" ")}`} key={3}>
-        <InlineTranslation definition={definition} />
+      <Tag className={`word-container ${classes.join(" ")}`} key={3}>
         <span className="word" {...attrs} id={id} data-will-have-audio="true">
           {this.props.children}
         </span>
+        <InlineTranslation definition={definition} />
         {appendText}
-      </span>,
+      </Tag>,
     ];
   }
 }

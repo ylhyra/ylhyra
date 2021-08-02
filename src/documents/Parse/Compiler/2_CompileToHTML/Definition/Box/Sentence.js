@@ -18,6 +18,7 @@ export default class SentenceBox extends React.PureComponent {
         data-not-text="true"
         key={1}
         hidden={true}
+        lang="en"
       >
         {definition.meaning && (
           <span className="meaning">

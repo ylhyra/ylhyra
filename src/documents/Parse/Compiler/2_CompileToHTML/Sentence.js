@@ -24,6 +24,7 @@ class Sentence extends React.Component {
         id={id}
         data-will-have-audio="true"
         key={2}
+        lang="is"
       >
         {this.props.children}
       </span>,

@@ -92,6 +92,7 @@ export const formatVocabularyEntry = (input) => {
     .replace(/{{hv?k}}/g, `<sup>(neuter)</sup>`)
     .replace(/{{bhet}}/g, `Speaking to one person`)
     .replace(/{{bhft}}/g, `Speaking to a group`)
+    .replace(/{{ft}}/g, `<sup>(plural)</sup>`)
     .trim();
 
   if (/{{/.test(input)) {
