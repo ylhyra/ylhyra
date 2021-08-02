@@ -159,6 +159,19 @@ class Form2 extends React.Component {
                           size={
                             row[row_name] ? row[row_name].toString().length : 2
                           }
+                          spellCheck={(() => {
+                            if (row_name === "english") return true;
+                            if (row_name === "note") return true;
+                            if (row_name === "note_regarding_english")
+                              return true;
+                          })()}
+                          lang={(() => {
+                            if (row_name === "english") return "en";
+                            if (row_name === "note") return "en";
+                            if (row_name === "note_regarding_english")
+                              return "en";
+                            return "is";
+                          })()}
                           onKeyUp={(e) => {
                             e.target.setAttribute(
                               "size",

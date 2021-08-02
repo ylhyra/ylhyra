@@ -1,7 +1,6 @@
 import Frontpage from "app/Elements/Frontpage";
 import Level from "documents/Templates/Level";
 import Book from "documents/Templates/Book";
-// import Blær from "documents/Templates/Blær";
 import Image from "documents/Templates/Image";
 import Button from "documents/Templates/Button";
 import VocabularyStatus from "documents/Templates/VocabularyStatus";
@@ -12,6 +11,7 @@ import Section from "documents/Templates/Section";
 import PWYW from "app/User/screens/Pay";
 import SignupSteps from "app/User/screens/SignupSteps";
 import Tweet from "documents/Templates/Tweet";
+import Parts from "documents/Templates/Parts";
 
 export default (name) => {
   switch (name.toLowerCase()) {
@@ -53,6 +53,9 @@ export default (name) => {
       break;
     case "tweet":
       return Tweet;
+      break;
+    case "parts":
+      return Parts;
       break;
     default:
       return null;

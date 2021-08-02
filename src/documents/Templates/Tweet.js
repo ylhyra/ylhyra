@@ -7,7 +7,9 @@ export default (props) => {
   return (
     <div className="tweet">
       <div className="tweet-header">
-        <img src={getDynamicFileUrl(props.user_picture)} width="50" alt="" />
+        {props.user_picture && (
+          <img src={getDynamicFileUrl(props.user_picture)} width="50" alt="" />
+        )}
         <div className="tweet-author">
           <div className="tweet-username">
             <a href={`https://twitter.com/${props.handle}/status/${props.id}`}>

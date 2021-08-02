@@ -105,6 +105,11 @@ a.button.big {
   font-size: 17px;
   padding: 8px 22px;
 }
+.button.right > a,
+a.button.right {
+  float: right;
+  clear: both;
+}
 
 button.link,
 button.nostyle {

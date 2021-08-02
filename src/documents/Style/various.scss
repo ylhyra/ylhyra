@@ -147,3 +147,53 @@ sup.reference {
     }
   }
 }
+
+.parts {
+  @include sans-serif();
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  ul {
+    list-style-type: none;
+    li {
+      display: inline-block;
+      // font-weight: bold;
+      > * {
+        display: block;
+        padding: 5px 13px;
+      }
+      &.numbers {
+        > * {
+          background: #a6aa9d;
+        }
+        > a {
+          background: #dcdfd5;
+        }
+      }
+      &.next > * {
+        background: #1d87a8;
+        color: white;
+        font-weight: bold;
+      }
+      &.label > * {
+        background: none;
+        font-weight: normal;
+        // font-size: 13px;
+        color: #525252;
+      }
+      &.first > * {
+        border-top-left-radius: 40px;
+        border-bottom-left-radius: 40px;
+        padding-left: 15px;
+      }
+      &:last-child > * {
+        border-top-right-radius: 40px;
+        border-bottom-right-radius: 40px;
+        padding-right: 15px;
+      }
+      &:not(.first):not(.next):not(.label) > * {
+        border-left: 1px solid gray;
+      }
+    }
+  }
+}

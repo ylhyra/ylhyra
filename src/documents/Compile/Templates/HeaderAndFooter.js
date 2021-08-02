@@ -15,7 +15,7 @@ export default (input, header) => {
   if (header.vocabulary || header.level || header.has_data) {
     h = c`
       ${VocabularyHeader}
-      <section>
+      <section class="tiny">
         ${header.level && `<level level="${header.level}"/>`}
         ${
           header.has_data &&
@@ -23,15 +23,25 @@ export default (input, header) => {
         }
       </section>`;
   }
+
+  let FooterInfoFromPage;
+  input = input.replace(/<Footer>([\s\S]+)<\/Footer>/i, (x, data) => {
+    FooterInfoFromPage = data;
+    return "";
+  });
+
   if (
     header.vocabulary ||
     header.license ||
     header.published ||
-    header.reflist
+    header.reflist ||
+    FooterInfoFromPage
   ) {
     f = c`
       ${VocabularyHeader}
       <section class="content-footer">
+        ${FooterInfoFromPage}
+
         ${
           header.license === "CC0" &&
           `<div class="license">You are free to republish this article. <a href="https://creativecommons.org/publicdomain/zero/1.0/" class="license-link" rel="noopener">CC0 / Public Domain</a></div>`

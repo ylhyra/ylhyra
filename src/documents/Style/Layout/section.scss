@@ -8,6 +8,9 @@ section,
   > div {
     padding: 25px 10px;
   }
+  &.tiny {
+    padding: 5px 10px;
+  }
   &.content {
     padding: 55px 24px;
     margin: 0;

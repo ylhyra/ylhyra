@@ -23,3 +23,4 @@
 - frontpage demo
 - tíst
 - uppfæra package.json á server þegar það eru breytingar
+- vídjó

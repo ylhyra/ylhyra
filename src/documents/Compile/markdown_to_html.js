@@ -6,6 +6,8 @@ import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters
 import { html2json, json2html } from "app/App/functions/html2json";
 import Conversation from "documents/Compile/Templates/Conversations";
 import { ProcessLinks } from "documents/Compile/functions/functions";
+import { getText } from "documents/Parse/ExtractText/ExtractText";
+var sass = require("sass");
 
 // import TOC from "documents/Compile/Templates/TOC";
 let links = {};
@@ -45,6 +47,26 @@ const Traverse = (json) => {
       return Conversation(json);
     } else if (tag === "TOC") {
       // return TOC(json);
+    } else if (tag === "style") {
+      return {
+        node: "element",
+        tag: "style",
+        attr: {
+          ...attr,
+          type: "text/css",
+        },
+        child: [
+          {
+            node: "text",
+            text: sass
+              .renderSync({
+                data: getText(json),
+                outputStyle: "compressed",
+              })
+              .css.toString("utf8"),
+          },
+        ],
+      };
     }
     // for (const key in attr) {
     //   const val = attr[key];
