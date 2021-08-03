@@ -27,7 +27,7 @@ export const ProcessLinks = (input, links) => {
                 (links[link].section ? "#" + links[link].section : "");
             }
           }
-          if (title) {
+          if (!link.startsWith("/")) {
             link = "/" + link;
           }
         }

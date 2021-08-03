@@ -67,11 +67,11 @@ export const Ref = (input, header) => {
   input = replace(input);
   let notes = "";
   let sources = "";
-  input = input.replace(/<sources>([\s\S]+)?<\/sources>/, (j, o) => {
+  input = input.replace(/<sources>([\s\S]+)?<\/sources>/i, (j, o) => {
     sources = o;
     return "";
   });
-  input = input.replace(/<notes>([\s\S]+)?<\/notes>/, (j, o) => {
+  input = input.replace(/<notes>([\s\S]+)?<\/notes>/i, (j, o) => {
     notes = o;
     return "";
   });

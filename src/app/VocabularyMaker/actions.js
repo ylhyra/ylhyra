@@ -1,3 +1,4 @@
+import { formatVocabularyEntry, row_titles } from "./functions";
 import { isBrowser } from "app/App/functions/isBrowser";
 import {
   getHash,
@@ -14,7 +15,7 @@ import { withDependencies } from "app/Vocabulary/actions/functions/withDependenc
 import { DECK } from "./functions";
 
 let maxID = 0;
-let rows = [];
+export let rows = [];
 let sound = [];
 let terms = {};
 let cards = {};
@@ -276,6 +277,7 @@ export const addEmpty = () => {
 };
 
 export const addRowsIfMissing = (text) => {
+  let seen = [];
   text.split(/\n/g).forEach((row) => {
     if (!row || !row.trim()) return;
     let [is, en, level, depends_on, lemmas] = row
@@ -288,7 +290,8 @@ export const addRowsIfMissing = (text) => {
     if (
       !(getHash(is) in terms) &&
       !(getHash(is) in alternative_ids) &&
-      !rows.some((j) => j.icelandic === is)
+      !rows.some((j) => j.icelandic === is) &&
+      !seen.includes(getHash(is))
     ) {
       rows.push({
         row_id: maxID++ + 1,
@@ -300,6 +303,7 @@ export const addRowsIfMissing = (text) => {
         lemmas: lemmas || "",
       });
       console.log("added " + is);
+      seen.push(getHash(is));
     }
   });
   // console.log(rows);
@@ -348,3 +352,38 @@ if (isBrowser) {
   window.save = save;
   window.rows = () => rows;
 }
+
+export const didYouMeanSuggestions = (is) => {
+  const split = is.toLowerCase().split(/[ ;,]/g);
+  return rows
+    .map((r) => {
+      if (r.icelandic === is) return null;
+      const v = r.icelandic.toLowerCase().split(/[ ;,]/g).join(">");
+      let score = 0;
+      for (let i = 0; i < split.length; i++) {
+        for (let b = i + 1; b <= split.length; b++) {
+          const fragment = split.slice(i, b).join(">");
+          if (v.includes(fragment)) {
+            score += (b - i) * 2 + fragment.length;
+          }
+        }
+      }
+      return {
+        ...r,
+        score,
+      };
+    })
+    .filter((j) => j?.score > 2)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 1)
+    .map((j, i) => (
+      <div key={i}>
+        {" "}
+        <span
+          dangerouslySetInnerHTML={{
+            __html: formatVocabularyEntry(j.icelandic),
+          }}
+        />
+      </div>
+    ));
+};

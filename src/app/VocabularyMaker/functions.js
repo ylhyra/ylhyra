@@ -83,7 +83,7 @@ export const formatVocabularyEntry = (input) => {
     .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
     .replace(/'/g, "’")
     .replace(
-      /{{pron\|(.+?)}}/g,
+      /{{p(?:ron)?\|(.+?)}}/g,
       `<span className="pron">[<span>$1</span>]</span>`
     )
     .replace(/{{small\|(.+?)}}/g, `<small>$1</small>`)
@@ -179,6 +179,7 @@ export const row_titles = [
   "importance",
   "show_hint",
   "should_split",
+  "example_declension",
   "athugasemd_til_min",
   "fix",
   "eyða",

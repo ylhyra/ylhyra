@@ -77,7 +77,7 @@ class Card extends Component {
             id={this.props.id}
             submitAnswer={this.props.submitAnswer}
           />
-          {card.notes && <div className="notes">{card.notes}</div>}
+          {card.notes && <div className="card-notes">{card.notes}</div>}
         </div>
       );
     }

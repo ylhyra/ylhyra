@@ -154,9 +154,10 @@ sup.reference {
   display: flex;
   justify-content: center;
   ul {
+    display: flex;
     list-style-type: none;
     li {
-      display: inline-block;
+      display: block;
       // font-weight: bold;
       > * {
         display: block;
@@ -197,3 +198,8 @@ sup.reference {
     }
   }
 }
+
+// .notes {
+//   @include sans-serif();
+//
+// }

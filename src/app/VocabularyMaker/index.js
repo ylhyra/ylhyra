@@ -4,6 +4,7 @@ import Link from "app/Router/Link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import errors from "app/App/Error/messages";
 import {
+  rows,
   load,
   select,
   submit,
@@ -12,6 +13,7 @@ import {
   search,
   addEmpty,
   ignore_for_now,
+  didYouMeanSuggestions,
 } from "./actions";
 import { formatVocabularyEntry, row_titles, DECK } from "./functions";
 import VocabularyMakerRecord from "app/VocabularyMaker/record";
@@ -94,6 +96,11 @@ class Form2 extends React.Component {
     if (!this.props.vocabularyMaker.data) return null;
     return (
       <div className="vocabulary_maker">
+        <div>
+          {rows.filter((r) => !r.last_seen).length} new remaining.{" "}
+          {rows.filter((r) => r.last_seen && !r.english).length} old need
+          translation.
+        </div>
         <h1>Voc</h1>
         <button onClick={addEmpty}>Add</button>
         <input
@@ -132,6 +139,10 @@ class Form2 extends React.Component {
               >
                 {({ isSubmitting }) => (
                   <Form>
+                    <div>
+                      {!row["english"] &&
+                        didYouMeanSuggestions(row["icelandic"])}
+                    </div>
                     {["icelandic", "english", ...row_titles].map((row_name) => (
                       <label key={row_name} htmlFor={row_name}>
                         <b>{row_name}:</b>
