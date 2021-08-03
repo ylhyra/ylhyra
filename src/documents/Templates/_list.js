@@ -12,6 +12,7 @@ import PWYW from "app/User/screens/Pay";
 import SignupSteps from "app/User/screens/SignupSteps";
 import Tweet from "documents/Templates/Tweet";
 import Parts from "documents/Templates/Parts";
+import Instagram from "documents/Templates/Instagram";
 
 export default (name) => {
   switch (name.toLowerCase()) {
@@ -57,6 +58,10 @@ export default (name) => {
     case "parts":
       return Parts;
       break;
+    case "instagram":
+      return Instagram;
+      break;
+
     default:
       return null;
   }

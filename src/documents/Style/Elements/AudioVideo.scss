@@ -40,11 +40,11 @@
 
 /* VIDEO */
 .video-container {
-  display: flex;
-  background: #f4f4f4;
-  border-radius: 7px;
-  box-shadow: 0 0 1px 0 rgba(black, 0.4), 0 2px 3px 0 rgba(black, 0.1);
-  overflow: hidden;
+  // display: flex;
+  // background: #f4f4f4;
+  // border-radius: 7px;
+  // box-shadow: 0 0 1px 0 rgba(black, 0.4), 0 2px 3px 0 rgba(black, 0.1);
+  // overflow: hidden;
   .video {
     flex: 1;
     min-width: 300px;
@@ -54,10 +54,14 @@
     justify-content: center;
   }
   .video-sidebar {
-    background: inherit;
-    max-width: 326px;
+    .p {
+      margin: 4px 0;
+    }
+    // background: inherit;
+    // max-width: 326px;
     .video-sidebar-content {
-      padding: 10px 18px;
+      padding: 10px 10px;
+      padding-top: 30px;
       .video-explanation {
         @include sans_serif();
         margin-block-start: 10px;
@@ -73,8 +77,13 @@
     line-height: 1.4;
     background: white;
     border-bottom: 1px solid #dfdfdf;
-    padding: 3px;
+    padding: 7px 8px;
     @include sans_serif();
+
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    box-shadow: 0 0 1px 0 rgba(black, 0.4), 0 2px 3px 0 rgba(black, 0.1);
+
     img {
       border-radius: 100px;
     }

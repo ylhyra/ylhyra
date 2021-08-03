@@ -9,7 +9,9 @@ section,
     padding: 25px 10px;
   }
   &.tiny {
-    padding: 5px 10px;
+    > div {
+      padding: 5px 10px;
+    }
   }
   &.content {
     padding: 55px 24px;

@@ -21,8 +21,7 @@ const run = async () => {
       "redirect_to" in links[url] ||
       /^(Data|File|Text|Template):/.test(title) ||
       /\/drafts\//.test(file) ||
-      /(tweet|video|newsletter)/i.test(file) ||
-      /(villi|newsletter)/i.test(title)
+      /(newsletter)/i.test(file)
     )
       return;
     to_render.push(url);

@@ -19,30 +19,21 @@ class Audio extends React.PureComponent {
   constructor(props) {
     super(props);
     this.audio = React.createRef();
-    let data;
-    /* TODO: Cleanup */
-    data = {
-      filename: this.props.src,
-      filepath: this.props.src,
-    };
     this.state = {
-      data,
       playing: null,
       currentTimePercentage: 0,
       key: 0, // To force remounting if an error occurs
     };
   }
   componentDidMount = () => {
-    const { video } = this.state.data;
-    // /* Autoplay video */
-    // if(video) {
-    //   this.pausePlayButton()
+    // if (this.props.autoplay) {
+    //   this.pausePlayButton();
     // }
   };
   componentDidUpdate = (prevProps) => {
     const audio = this.audio.current;
     /* Pause if another audio element has taken over */
-    if (this.props.audio.currentlyPlaying !== this.state.data.filename) {
+    if (this.props.audio.currentlyPlaying !== this.props.src) {
       this.setState({ playing: false });
       audio?.pause();
     } else if (this.props.audio.begin !== prevProps.audio.begin) {
@@ -80,7 +71,7 @@ class Audio extends React.PureComponent {
   playing = (event) => {
     const audio = this.audio.current;
     event.persist();
-    ReadAlong(audio, "play", this.state.data.filename);
+    ReadAlong(audio, "play", this.props.src);
     if (audio.duration - audio.currentTime > 0.2) {
       // More than 0.1 seconds left
       this.setState({
@@ -119,14 +110,14 @@ class Audio extends React.PureComponent {
   play = (event) => {
     event?.persist();
     SmoothScroll.allow();
-    ReadAlong(this.audio.current, "play", this.state.data.filename);
+    ReadAlong(this.audio.current, "play", this.props.src);
     this.updateStore();
     this.setState({ playing: true });
   };
   pause = (event) => {
     event.persist();
     SmoothScroll.stop();
-    ReadAlong(this.audio.current, "pause", this.state.data.filename);
+    ReadAlong(this.audio.current, "pause", this.props.src);
     this.setState({ playing: false });
   };
   ended = () => {
@@ -139,47 +130,48 @@ class Audio extends React.PureComponent {
     this.setState({ playing: false });
   };
   updateStore = () => {
-    this.props.audio.currentlyPlaying !== this.state.data.filename &&
+    this.props.audio.currentlyPlaying !== this.props.src &&
       store.dispatch({
         type: "CURRENTLY_PLAYING",
-        content: this.state.data.filename,
+        content: this.props.src,
       });
   };
   error = (e) => {
     console.log(e);
-    console.warn(`File missing: ${this.state.data.filepath}`);
+    console.warn(`File missing: ${this.props.src}`);
     if (this.errorCount++ > 1) {
       return notify("Could not load file.", undefined, true);
     } else {
       this.setState({
         key: this.state.key + 1,
       });
-      console.warn(`Attempted to remount file: ${this.state.data.filepath}`);
+      console.warn(`Attempted to remount file: ${this.props.src}`);
     }
   };
   render() {
     const { playing, loading, error, currentTimePercentage } = this.state;
-    const { filepath, video, label } = this.state.data;
+    const { src, type, label } = this.props;
     const inline = this.props.inline;
-    if (!filepath) return null;
+    if (!src) return null;
     let ContainerTag = "div";
     if (inline) {
       ContainerTag = "span";
     }
-    let Tag = video ? "video" : "audio";
+    const isVideo = type === "video";
+    let Tag = isVideo ? "video" : "audio";
 
     return (
       <ContainerTag
         className={`audioPlayer ${playing ? playing : ""} ${
           error ? "error" : ""
-        } ${inline ? "inline" : ""} ${video ? "video" : ""}`}
+        } ${inline ? "inline" : ""} ${isVideo ? "video" : ""}`}
         data-ignore
         key={this.state.key}
       >
         <Tag // controls
           ref={this.audio}
-          preload="none"
-          loop={Boolean(video)}
+          preload={this.props.autoplay ? "metadata" : "none"}
+          loop={isVideo}
           onLoadStart={this.loading}
           onPlaying={this.playing}
           onTimeUpdate={this.playing}
@@ -189,10 +181,11 @@ class Audio extends React.PureComponent {
           onError={this.error}
           onEnded={this.ended}
           onStalled={this.error}
-          onClick={video ? () => {} : this.pausePlayButton}
-          controls={Boolean(video)}
+          onClick={isVideo ? () => {} : this.pausePlayButton}
+          controls={isVideo}
+          autoPlay={this.props.autoplay ? true : false}
         >
-          <source src={filepath} type={video ? "video/mp4" : "audio/mp3"} />
+          <source src={src} type={isVideo ? "video/mp4" : "audio/mp3"} />
         </Tag>
         <span
           className={`button small playButton ${playing ? playing : ""}`}
