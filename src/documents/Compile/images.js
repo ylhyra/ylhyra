@@ -91,6 +91,7 @@ const Images = (data) => {
           let transcluded = (await Transclude("File:" + filename_)).output;
           const big_to_small = [...boxes];
           const small_to_big = [...boxes].reverse();
+          // console.log(params);
           output.push(
             `<Image position="${params.position || ""}" style="${
               params.width ? `max-width:${params.width}px` : ""

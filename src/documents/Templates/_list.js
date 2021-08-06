@@ -13,6 +13,7 @@ import SignupSteps from "app/User/screens/SignupSteps";
 import Tweet from "documents/Templates/Tweet";
 import Parts from "documents/Templates/Parts";
 import Instagram from "documents/Templates/Instagram";
+import Collapse from "documents/Templates/Collapse";
 
 export default (name) => {
   switch (name.toLowerCase()) {
@@ -60,6 +61,9 @@ export default (name) => {
       break;
     case "instagram":
       return Instagram;
+      break;
+    case "collapse":
+      return Collapse;
       break;
 
     default:

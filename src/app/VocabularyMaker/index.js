@@ -92,14 +92,15 @@ class Form2 extends React.Component {
     }
   };
   render() {
+    // console.log(rows.filter((r) => !r.last_seen && !r["eyða"]));
     // if (!this.props.vocabulary.deck) return null;
     if (!this.props.vocabularyMaker.data) return null;
     return (
       <div className="vocabulary_maker">
         <div>
-          {rows.filter((r) => !r.last_seen).length} new remaining.{" "}
-          {rows.filter((r) => r.last_seen && !r.english).length} old need
-          translation.
+          {rows.filter((r) => !r.last_seen && !r["eyða"]).length} new remaining.{" "}
+          {rows.filter((r) => r.last_seen && !r["eyða"] && !r.english).length}{" "}
+          old need translation.
         </div>
         <h1>Voc</h1>
         <button onClick={addEmpty}>Add</button>
@@ -141,7 +142,7 @@ class Form2 extends React.Component {
                   <Form>
                     <div>
                       {!row["english"] &&
-                        didYouMeanSuggestions(row["icelandic"])}
+                        didYouMeanSuggestions(row["icelandic"], row.row_id)}
                     </div>
                     {["icelandic", "english", ...row_titles].map((row_name) => (
                       <label key={row_name} htmlFor={row_name}>

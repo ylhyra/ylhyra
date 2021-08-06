@@ -41,6 +41,7 @@ export default (input, header) => {
       ${VocabularyHeader}
       <section class="content-footer">
         ${FooterInfoFromPage}
+        ${header.reflist && markdown_to_html(header.reflist)}
 
         ${
           header.license === "CC0" &&
@@ -51,7 +52,6 @@ export default (input, header) => {
           `<small class="gray">Published ${header.published}</small>`
         }
 
-        ${header.reflist && markdown_to_html(header.reflist)}
       </section>`;
   }
   return h + input + f;

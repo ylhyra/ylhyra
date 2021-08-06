@@ -115,19 +115,15 @@ const run = async () => {
     });
 
     console.log(`${Object.keys(cards).length} cards`);
-
+    const full_deck = {
+      cards,
+      terms,
+      dependencies,
+      alternative_ids,
+    };
     fs.writeFileSync(
       __basedir + `/build/vocabulary_database${DECK}.json`,
-      JSON.stringify(
-        {
-          cards,
-          terms,
-          dependencies,
-          alternative_ids,
-        },
-        null,
-        2
-      ),
+      JSON.stringify(full_deck, null, 2),
       function () {}
     );
     console.log("Done!");

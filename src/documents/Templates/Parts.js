@@ -24,7 +24,10 @@ class X extends Component {
           {/* <Link>1</Link> */}
           <ul>
             {array.map((k, index) => (
-              <li className={`numbers ${index === 0 ? "first" : ""}`}>
+              <li
+                key={index}
+                className={`numbers ${index === 0 ? "first" : ""}`}
+              >
                 <Link to={f(k)}>{k}</Link>
               </li>
             ))}

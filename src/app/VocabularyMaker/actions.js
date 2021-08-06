@@ -80,7 +80,8 @@ export const refreshRows = (id) => {
 export const selectRows = (noupdate) => {
   if (!isSearching) {
     selected_rows = rows
-      .filter((i) => i.row_id > 1600 || i.level <= 3 || !i.level)
+      // .filter((i) => i.row_id > 1600 || i.level <= 3 || !i.level)
+      // .filter((r) => !r.last_seen && !r["eyða"])
       .slice(0, MAX_PER_PAGE);
   } else if (!noupdate) {
     selected_rows = [
@@ -353,16 +354,17 @@ if (isBrowser) {
   window.rows = () => rows;
 }
 
-export const didYouMeanSuggestions = (is) => {
+export const didYouMeanSuggestions = (is, input_row_id) => {
   const split = is.toLowerCase().split(/[ ;,]/g);
-  return rows
+  const v = rows
     .map((r) => {
       if (r.icelandic === is) return null;
-      const v = r.icelandic.toLowerCase().split(/[ ;,]/g).join(">");
+      const v = ">" + r.icelandic.toLowerCase().split(/[ ;,]/g).join(">") + ">";
       let score = 0;
       for (let i = 0; i < split.length; i++) {
         for (let b = i + 1; b <= split.length; b++) {
-          const fragment = split.slice(i, b).join(">");
+          const fragment = ">" + split.slice(i, b).join(">") + ">";
+          if (fragment.length < 6) continue;
           if (v.includes(fragment)) {
             score += (b - i) * 2 + fragment.length;
           }
@@ -373,17 +375,34 @@ export const didYouMeanSuggestions = (is) => {
         score,
       };
     })
-    .filter((j) => j?.score > 2)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 1)
-    .map((j, i) => (
-      <div key={i}>
-        {" "}
-        <span
-          dangerouslySetInnerHTML={{
-            __html: formatVocabularyEntry(j.icelandic),
-          }}
-        />
-      </div>
-    ));
+    .filter((j) => j?.score > 10)
+    .sort((a, b) => b.score - a.score);
+
+  if (v.length === 0) return null;
+  if (v[0].score === v[5]?.score) return null;
+
+  const u = v.slice(0, 1).map((j, i) => (
+    <div
+      key={i}
+      onClick={() => {
+        // i.row_id
+        const x = rows.findIndex((f) => f.row_id === j.row_id);
+        const vals = rows[x];
+        rows[x] = {
+          ...vals,
+          alternative_id: vals.alternative_id + ", " + is,
+        };
+
+        delete_row(input_row_id);
+        // select(j.row_id);
+      }}
+    >
+      <span
+        dangerouslySetInnerHTML={{
+          __html: formatVocabularyEntry(j.icelandic),
+        }}
+      />
+    </div>
+  ));
+  return <div className="small gray">Did you mean: {u}</div>;
 };
