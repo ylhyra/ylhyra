@@ -47,6 +47,11 @@ const run = async () => {
       sound,
     } = parse_vocabulary_file(yaml.load(data));
 
+    const sound_lowercase = sound.map((j) => ({
+      ...j,
+      recording_of: GetLowercaseStringForAudioKey(j.recording_of),
+    }));
+
     Object.keys(cards).forEach((card_id) => {
       const card = cards[card_id];
       // console.log(card);
@@ -64,7 +69,7 @@ const run = async () => {
         delete cards[card_id];
       }
 
-      card.sound = getSounds(card.spokenSentences, sound);
+      card.sound = getSounds(card.spokenSentences, sound_lowercase);
       delete card.spokenSentences;
       delete card.is_plaintext;
       delete card.en_plaintext;
@@ -123,7 +128,12 @@ const run = async () => {
     };
     fs.writeFileSync(
       __basedir + `/build/vocabulary_database${DECK}.json`,
-      JSON.stringify(full_deck, null, 2),
+      JSON.stringify(full_deck, null, 0),
+      function () {}
+    );
+    fs.writeFileSync(
+      __basedir + `/build/vocabulary_database_simplified${DECK}.json`,
+      JSON.stringify(simplify(full_deck), null, 0),
       function () {}
     );
     console.log("Done!");
@@ -133,12 +143,8 @@ const run = async () => {
 
 run();
 
-const getSounds = (sentences, sound) => {
+const getSounds = (sentences, sound_lowercase) => {
   let output = [];
-  const sound_lowercase = sound.map((j) => ({
-    ...j,
-    recording_of: GetLowercaseStringForAudioKey(j.recording_of),
-  }));
   sentences.forEach((i) => {
     const b = GetLowercaseStringForAudioKey(i);
     let s = sound_lowercase
@@ -148,4 +154,34 @@ const getSounds = (sentences, sound) => {
   });
   if (output.length > 0) return output;
   return null;
+};
+
+const simplify = (d) => {
+  let terms = {};
+  let cards = {};
+  Object.keys(d.terms).forEach((term_id) => {
+    const term = d.terms[term_id];
+    Object.keys(d.cards[term.cards[0]]).forEach((key) => {
+      const val = d.cards[term.cards[0]][key];
+      if (
+        term.cards.every(
+          (card_id) =>
+            JSON.stringify(d.cards[card_id][key]) === JSON.stringify(val)
+        )
+      ) {
+        term[key] = val;
+        term.cards.forEach((card_id) => {
+          delete d.cards[card_id][key];
+        });
+      }
+      term.cards.forEach((card_id) => {
+        cards[card_id] = d.cards[card_id];
+      });
+    });
+    terms[term_id] = term;
+  });
+  return {
+    terms,
+    cards,
+  };
 };

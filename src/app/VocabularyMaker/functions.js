@@ -58,6 +58,7 @@ export const formatVocabularyEntry = (input) => {
     .replace(/\^([^ .!?:;-]?)/g, `{{gray|$1}}`)
     .replace(/_(.+?)_/g, `{{gray|$1}}`)
     .replace(/{{g(?:ray)?\|(.*?)}}/g, `<span class="gray">$1</span>`)
+    .replace(/{{prefix\|(.*?)}}/g, `<span class="helper-prefix">$1</span>`)
     .replace(
       /\(n(?:ote)?: (.*?)\)/g,
       `<small class="gray inline-note">(<i>$1</i>)</small>`
@@ -108,7 +109,7 @@ const formatPrefixes = (first, second) => {
   if (!first || !second) return first;
   const re = /(^| - )(hér eru?|um|frá|til|here is|here are|about|from|to)( )/g;
   if (first.match(re) && second.match(re)) {
-    return first.replace(re, `$1<span class="helper-prefix">$2</span>$3`);
+    // return first.replace(re, `$1{{prefix|$2}}$3`);
   }
   return first;
 };
@@ -255,7 +256,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
           return out;
         });
       const depends_on = [
-        ...getHashesFromCommaSeperated(row.depends_on),
+        ...getHashesFromCommaSeperated(row.depends_on?.replace(/%/g, "")),
         ...getHashesFromCommaSeperated(depends_on_lemmas),
         ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
       ];
