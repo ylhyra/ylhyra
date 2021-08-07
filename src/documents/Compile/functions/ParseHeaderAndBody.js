@@ -6,8 +6,8 @@ export const ParseHeaderAndBody = (data, file) => {
   data = removeComments(data);
   const match = data.trim().match(/^---\n([\s\S]+?)\n---([\s\S]+)?/);
   if (!match) {
-    throw new Error("Failed to parse\n\n" + data);
-    return;
+    console.warn("Failed to parse\n\n" + data);
+    return {};
   }
   let [j, header, body] = match;
 

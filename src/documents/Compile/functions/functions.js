@@ -5,21 +5,21 @@ export const ProcessLinks = (input, links) => {
   return (
     input
       /* Internal links */
-      .replace(/\[\[(.+?)\]\]/g, (x, match) => {
-        let [link, target] = match.split("|");
+      .replace(/\[\[(.+?)\]\]([a-záéíúóðþýöæ]+)?/gi, (x, match, after) => {
+        let [link, text] = match.split("|");
         link = link.trim();
-        target = (target || link).trim();
+        text = (text || link).trim() + (after || "");
         if (/^:?w:/i.test(link)) {
           link = `http://en.wikipedia.org/wiki/${encodeURIComponent(
             link.replace(/^w:/i, "")
           )}`;
-          return `<a href="${link}">${target}</a>`;
+          return `<a href="${link}">${text}</a>`;
         } else {
           link = URL_title(link);
           const [title, section] = link.split("#");
           if (links) {
             if (title && !(title in links) && !("/" + link in url_to_info)) {
-              return target;
+              return text;
             }
             if (links[title]?.redirect_to) {
               link =
@@ -31,7 +31,7 @@ export const ProcessLinks = (input, links) => {
             link = "/" + link;
           }
         }
-        return `<a href="${encodeURI(link)}">${target}</a>`;
+        return `<a href="${encodeURI(link)}">${text}</a>`;
       })
       /* Bare external links */
       .replace(/\[((?:http|mailto)[^ ]+?)\]/g, (x, url) => {

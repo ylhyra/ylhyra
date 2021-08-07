@@ -33,7 +33,7 @@ const run = () => {
               c.split(/[;,]+/g).forEach((s) => {
                 const j = getHash(s.replace("%", ""), { skip_hash: true });
                 if (!(j in sortKeys)) {
-                  sortKeys[j] = 1000;
+                  sortKeys[j] = 1000 * (vocabulary.cards[card_id].level || 6);
                 }
               });
             });

@@ -279,6 +279,7 @@ export const addEmpty = () => {
 
 export const addRowsIfMissing = (text) => {
   let seen = [];
+  let prompt_level = window.prompt("Level:");
   text.split(/\n/g).forEach((row) => {
     if (!row || !row.trim()) return;
     let [is, en, level, depends_on, lemmas] = row
@@ -300,6 +301,7 @@ export const addRowsIfMissing = (text) => {
         english: en?.trim(),
         alternative_id: is.trim(),
         // level: DECK ? null : level || window.term_level || 1,
+        level: level || prompt_level || null,
         depends_on: depends_on || "",
         lemmas: lemmas || "",
       });

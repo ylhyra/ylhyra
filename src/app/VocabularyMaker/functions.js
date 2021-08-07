@@ -19,6 +19,7 @@ export const getPlaintextFromFormatted = (input) => {
       .replace(/<span class="seperator">,<\/span>/g, ";")
       .replace(/<span class="seperator">;<\/span>/g, ";;")
       .replace(/<.+?>/g, "")
+      .replace(/[—–]/g, "-")
   );
 };
 export const removeWhitespace = (input) => {
@@ -78,7 +79,7 @@ export const formatVocabularyEntry = (input) => {
     .replace(/[$%]([^ .!?;:]+)/g, (x, text) => {
       return c`<span class="occluded"><span>${text}</span></span>`;
     })
-    .replace(/ [-–] /g, ` <span class="gray">—</span> `)
+    .replace(/ [-–] /g, ` <span class="gray">–</span> `)
     .replace(/;;/g, `MAJOR_SEPERATOR`)
     .replace(/;/g, `<span class="seperator">,</span>`)
     .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
@@ -386,7 +387,20 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
   let automatic_alt_ids = {};
   for (let [key, card] of Object.entries(cards)) {
     if (!card.en_plaintext) continue;
-    card.is_plaintext.split(/[,;-] ?/g).forEach((sentence) => {
+    card.is_plaintext.split(/ ?[,;-] ?/g).forEach((sentence) => {
+      /* Notað til að bæta við strengjum sem eru splittaðir með bandstriki */
+      const sentence_hash = getHash(sentence);
+      if (!(sentence_hash in terms) && !(sentence_hash in alternative_ids)) {
+        automatic_alt_ids[sentence_hash] = {
+          terms: card.terms,
+          score: 0,
+        };
+      }
+      // if (sentence.match(/um þig/)) {
+      //   console.log(sentence);
+      // }
+
+      /* Prefixar */
       if (sentence.match(is_prefix) && card.en_plaintext.match(en_prefix)) {
         const without = sentence.replace(is_prefix, "");
         const score = prefixes

@@ -22,6 +22,7 @@ const run = () => {
     let data = fs.readFileSync(files[file], "utf8");
     data = RemoveUnwantedCharacters(data);
     let { header, body } = ParseHeaderAndBody(data);
+    if (!header) continue;
     const filename = FileSafeTitle(header.title); //+ '_' + string_hash(body)
     if (URL_title(header.title) in links) {
       throw new Error(`"${header.title}" already exists`);

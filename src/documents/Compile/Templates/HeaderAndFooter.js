@@ -6,7 +6,7 @@ export default (input, header) => {
   let f = "";
   // console.log(header.vocabulary);
   const VocabularyHeader = header.vocabulary
-    ? `<section class="last content-header">
+    ? `<section class="content-header">
       <vocabularyheader header_data="${btoa(
         encodeURIComponent(JSON.stringify(header.vocabulary))
       )}"/>
@@ -30,15 +30,16 @@ export default (input, header) => {
     return "";
   });
 
+  input += '<div class="spacer-below-content"></div>';
+  input += VocabularyHeader;
+
   if (
-    header.vocabulary ||
     header.license ||
     header.published ||
     header.reflist ||
     FooterInfoFromPage
   ) {
     f = c`
-      ${VocabularyHeader}
       <section class="content-footer">
         ${FooterInfoFromPage}
         ${header.reflist && markdown_to_html(header.reflist)}
