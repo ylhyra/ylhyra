@@ -88,6 +88,7 @@ export const updateURL = (url, title, replace, prerender, is404) => {
   }
 
   if (!replace) {
+    // const x = () => {
     if (!prerender) {
       ClearReadAlongSetup();
       store.dispatch({
@@ -99,6 +100,14 @@ export const updateURL = (url, title, replace, prerender, is404) => {
       });
     }
     loadContent(pathname, prerender, null, section);
+    //
+    // };
+    // if (!(url in app_urls)) {
+    //   loadContent(pathname, prerender, null, section, x);
+    //   return;
+    // } else {
+    //   x();
+    // }
   }
   if (!section) {
     window.scrollTo(0, 0);

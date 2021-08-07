@@ -11,7 +11,13 @@ export const abortAnyOutstandingRequest = () => {
   shouldAbort = true;
 };
 
-export const loadContent = (url, prerender_data, preload, section) => {
+export const loadContent = (
+  url,
+  prerender_data,
+  preload,
+  section,
+  callback
+) => {
   // console.log("loadContent");
   // console.log({ url, section });
   // throw new Error("");
@@ -28,7 +34,7 @@ export const loadContent = (url, prerender_data, preload, section) => {
       pathname: url,
     });
   } else if (url in cache) {
-    set(url, cache[url], preload, section);
+    set(url, cache[url], preload, section, callback);
   } else {
     shouldAbort = false;
     axios
@@ -40,7 +46,7 @@ export const loadContent = (url, prerender_data, preload, section) => {
       .then(async ({ data }) => {
         cache[url] = data;
         if (!shouldAbort) {
-          set(url, data, preload, section);
+          set(url, data, preload, section, callback);
         }
       })
       .catch((error) => {
@@ -56,7 +62,7 @@ export const loadContent = (url, prerender_data, preload, section) => {
   }
 };
 
-const set = async (url, data, preload, section) => {
+const set = async (url, data, preload, section, callback) => {
   // console.log("set");
   // console.log({ url, section });
   // throw new Error("");
@@ -92,6 +98,7 @@ const set = async (url, data, preload, section) => {
     url = "/front-page";
   }
 
+  callback?.();
   updateURL(url + (section ? "#" + section : ""), data.title, true);
   ReadAlongSetup(flattenedData); // TEMP
 };

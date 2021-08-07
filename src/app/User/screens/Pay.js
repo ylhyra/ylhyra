@@ -110,8 +110,7 @@ class PayPalButton extends React.Component {
       )
     ).loadScript;
     loadPayPalScript({
-      "client-id":
-        "AaRxrdnGTCs8AD-yCjbvRq9bpMK5XT40mArnKz4wcExDVpEo8a7lHp_g8hikcvbCvuwloOQcl8Amx1LK",
+      "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
     })
       .then((paypal) => {
         paypal
@@ -145,12 +144,10 @@ class PayPalButton extends React.Component {
                 purchase_units: [
                   {
                     payee: {
-                      // email_address: "ylhyra@ylhyra.is",
-                      email_address: "sb-ljrih5537425@business.example.com",
-                      merchant_id: "7T9P5T6VVL8PC",
+                      email_address: process.env.REACT_APP_PAYPAL_EMAIL,
+                      merchant_id: process.env.REACT_APP_MERCHANT_ID,
                     },
                     description: "Icelandic language-learning material",
-                    // items: ["An account at ylhyra.is"],
                     amount: {
                       currency_code: "USD",
                       value: price,
