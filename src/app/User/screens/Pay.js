@@ -22,8 +22,14 @@ class Form2 extends React.Component {
     price: 20,
   };
   componentDidMount() {
-    if (!this.props.user) {
-      updateURL("SIGN_UP");
+    console.log({
+      u: this.props.user,
+      off: !process.env.REACT_APP_PWYW,
+    });
+    if (!this.props.user || !process.env.REACT_APP_PWYW) {
+      setTimeout(() => {
+        // updateURL("/sign-up");
+      }, 100);
     }
   }
   onChange = (e) => {
@@ -103,6 +109,8 @@ export default connect((state) => ({
 
 class PayPalButton extends React.Component {
   async componentDidMount() {
+    if (!process.env.REACT_APP_PWYW || !process.env.REACT_APP_PAYPAL_CLIENT_ID)
+      return;
     const loadPayPalScript = (
       await import(
         /* webpackChunkName: "paypal" */
@@ -144,7 +152,7 @@ class PayPalButton extends React.Component {
                 purchase_units: [
                   {
                     payee: {
-                      email_address: process.env.REACT_APP_PAYPAL_EMAIL,
+                      // email_address: process.env.REACT_APP_PAYPAL_EMAIL,
                       merchant_id: process.env.REACT_APP_MERCHANT_ID,
                     },
                     description: "Icelandic language-learning material",
@@ -180,7 +188,7 @@ class PayPalButton extends React.Component {
 
             onError: function (err) {
               console.log(err);
-              notify("Sorry, an error has come up.");
+              // notify("Sorry, an error has come up.");
             },
           })
           .render("#paypal-button-container");

@@ -6,7 +6,7 @@ import VocabularyOverview from "app/Vocabulary/screens/overview";
 import VocabularyRunning from "app/Vocabulary/screens/running";
 import VocabularyIntro from "app/Vocabulary/screens/setup";
 import LogIn from "app/User/screens/Login";
-import Signup from "app/User/screens/Signup";
+// import Signup from "app/User/screens/Signup";
 import Settings from "app/User/screens/Settings";
 import Pay from "app/User/screens/Pay";
 import NotFound from "documents/Templates/404";
@@ -39,15 +39,15 @@ export const urls = {
     url: "/login",
     component: LogIn,
   },
-  SIGN_UP: {
-    title: "Sign up",
-    url: "/signup",
-    component: Signup,
-  },
-  PAY: {
-    url: "/signup/pwyw",
-    component: Pay,
-  },
+  // /sign-up: {
+  //   title: "Sign up",
+  //   url: "/signup",
+  //   component: Signup,
+  // },
+  // PAY: {
+  //   url: "/signup/pwyw",
+  //   component: Pay,
+  // },
   USER_PAGE: {
     url: "/settings",
     component: Settings,

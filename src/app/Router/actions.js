@@ -3,7 +3,7 @@ import store from "app/App/store";
 import { url_to_info } from "app/Router/paths";
 import { urls as app_urls } from "app/Router/paths";
 import { isBrowser } from "app/App/functions/isBrowser";
-import { loadContent, abortAnyOutstandingRequest } from "./load";
+import { loadContent, abortAllThatAreNot } from "./load";
 import { clear as ClearReadAlongSetup } from "documents/Render/Audio/ReadAlong";
 import { isUserLoggedIn, existsSchedule } from "app/User/actions";
 
@@ -37,7 +37,7 @@ export const getFrontpageURL = () => {
 
 export const updateURL = (url, title, replace, prerender, is404) => {
   HAS_LOADED = true;
-  abortAnyOutstandingRequest();
+  let is_component = url in app_urls;
   if (url in app_urls) {
     url = app_urls[url].url;
   } else {
@@ -47,6 +47,7 @@ export const updateURL = (url, title, replace, prerender, is404) => {
     url = "/" + url;
   }
   url = decodeURI(url);
+  abortAllThatAreNot(url);
 
   const [pathname, section] = url.split("#");
   if (!title && pathname in url_to_info) {
@@ -87,6 +88,14 @@ export const updateURL = (url, title, replace, prerender, is404) => {
     }
   }
 
+  if (!section) {
+    window.scrollTo(0, 0);
+  } else {
+    window.history.scrollRestoration = "manual";
+    const el = document.getElementById(section);
+    el?.scrollIntoView();
+  }
+
   if (!replace) {
     // const x = () => {
     if (!prerender) {
@@ -100,21 +109,13 @@ export const updateURL = (url, title, replace, prerender, is404) => {
       });
     }
     loadContent(pathname, prerender, null, section);
-    //
     // };
-    // if (!(url in app_urls)) {
+    // if (!is_component) {
     //   loadContent(pathname, prerender, null, section, x);
     //   return;
     // } else {
     //   x();
     // }
-  }
-  if (!section) {
-    window.scrollTo(0, 0);
-  } else {
-    window.history.scrollRestoration = "manual";
-    const el = document.getElementById(section);
-    el?.scrollIntoView();
   }
 };
 

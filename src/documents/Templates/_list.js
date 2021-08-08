@@ -14,7 +14,7 @@ import Tweet from "documents/Templates/Tweet";
 import Parts from "documents/Templates/Parts";
 import Instagram from "documents/Templates/Instagram";
 import Collapse from "documents/Templates/Collapse";
-
+import Login from "app/User/LoginForm.js";
 export default (name) => {
   switch (name.toLowerCase()) {
     case "frontpage":
@@ -64,6 +64,9 @@ export default (name) => {
       break;
     case "collapse":
       return Collapse;
+      break;
+    case "login":
+      return Login;
       break;
 
     default:

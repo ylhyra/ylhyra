@@ -24,6 +24,14 @@ class Form2 extends React.Component {
       type: this.props.type, // Either "signup" or "login"
     };
   }
+  componentDidMount = () => {
+    if (this.props.user) {
+      setTimeout(() => {
+        // VIRKAR EKKI! Er keyrt aftur eftir submit af einhverjum ástæðum
+        // updateURL("/settings");
+      }, 100);
+    }
+  };
   submit = async (values, setSubmitting) => {
     this.setState({ ...values });
 
@@ -63,7 +71,7 @@ class Form2 extends React.Component {
 
     if (!did_user_exist) {
       if (process.env.REACT_APP_PWYW === "on") {
-        updateURL("PAY");
+        updateURL("/pay-what-you-want");
       } else {
         updateURL("/");
       }
@@ -187,8 +195,8 @@ class Form2 extends React.Component {
                 />
               )}
 
-              <button type="submit" disabled={isSubmitting}>
-                {isSignup ? "Create account" : "Log in"}
+              <button type="submit" className="big" disabled={isSubmitting}>
+                {isSignup ? "Continue" : "Log in"}
               </button>
             </Form>
           )}
@@ -199,5 +207,6 @@ class Form2 extends React.Component {
 }
 export default connect((state) => ({
   route: state.route,
+  user: state.user,
   vocabulary: state.vocabulary,
 }))(Form2);

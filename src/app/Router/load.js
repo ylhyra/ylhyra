@@ -6,9 +6,9 @@ import { URL_title } from "paths";
 import store from "app/App/store";
 import { updateURL } from "./actions";
 let cache = {};
-let shouldAbort = false;
-export const abortAnyOutstandingRequest = () => {
-  shouldAbort = true;
+let expectedUrl = false;
+export const abortAllThatAreNot = (url) => {
+  expectedUrl = url;
 };
 
 export const loadContent = (
@@ -36,7 +36,9 @@ export const loadContent = (
   } else if (url in cache) {
     set(url, cache[url], preload, section, callback);
   } else {
-    shouldAbort = false;
+    if (!preload) {
+      expectedUrl = url;
+    }
     axios
       .get("/api/content", {
         params: {
@@ -45,7 +47,7 @@ export const loadContent = (
       })
       .then(async ({ data }) => {
         cache[url] = data;
-        if (!shouldAbort) {
+        if (expectedUrl === url) {
           set(url, data, preload, section, callback);
         }
       })
@@ -85,6 +87,7 @@ const set = async (url, data, preload, section, callback) => {
     parsed = out.parsed;
     flattenedData = out.flattenedData;
   }
+
   store.dispatch({
     type: "LOAD_ROUTE_CONTENT",
     data: {
@@ -104,5 +107,5 @@ const set = async (url, data, preload, section, callback) => {
 };
 
 export const preload = (url) => {
-  // loadContent(url, null, true);
+  loadContent(url, null, true);
 };

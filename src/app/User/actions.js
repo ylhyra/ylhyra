@@ -75,6 +75,7 @@ export const login = async ({ username, user_id, save_progress }) => {
 
 export const logout = async () => {
   const response = (await axios.post(`/api/user/logout`)).data;
+  updateURL("/front-page");
   store.dispatch({
     type: "LOAD_USER",
     content: null,
@@ -86,7 +87,6 @@ export const logout = async () => {
   saveInLocalStorage("vocabulary-schedule", null);
   saveInLocalStorage("vocabulary-session", null);
   InitializeVocabulary();
-  updateURL("/");
 };
 
 export const MIN_PRICE = 2;

@@ -25,3 +25,4 @@
 - uppfæra package.json á server þegar það eru breytingar
 - vídjó
 - bíða með load þangað til bold er sett á
+- ekki loada ef preload er enn í gangi

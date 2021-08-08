@@ -50,8 +50,11 @@
   }
 }
 
-$height: 12px;
-$notactivecolor: #d0d0d0;
+$height: 11px;
+$activebgcolor: #f0f0f0;
+$activeborder: #a4a4a4;
+$notactivebgcolor: #d0d0d0;
+$notactiveborder: #c2c2c2;
 #signup-steps {
   display: flex;
   > span {
@@ -61,23 +64,23 @@ $notactivecolor: #d0d0d0;
     font-size: 13px;
     position: relative;
     display: inline-block;
-    margin-left: 0.25%;
+    // margin-left: 0.25%;
     text-align: center;
     text-decoration: none;
-    height: $height * 2;
+    height: $height * 2 + 2;
     &.active {
       color: black;
-      background: #f5ddc8;
-      border: 1px solid #9a9898;
+      background: $activebgcolor;
+      border: 1px solid $activeborder;
       // box-shadow: 1px 1px 1px 0 rgba(158, 158, 158, 0.17);
     }
     &:not(.active) {
-      color: #787878;
-      background: $notactivecolor;
-      border: 1px solid #989898;
+      color: #6f6f6f;
+      background: $notactivebgcolor;
+      border: 1px solid $notactiveborder;
       // box-shadow: inset 1px 1px 1px 0 rgba(99, 99, 99, 0.17);
       &:after {
-        border-left: $height solid $notactivecolor;
+        border-left: $height solid $notactivebgcolor;
       }
     }
     &:before {
@@ -85,7 +88,7 @@ $notactivecolor: #d0d0d0;
       height: 0;
       border-top: $height inset transparent;
       border-bottom: $height inset transparent;
-      border-left: $height solid #fff;
+      border-left: $height solid $activeborder;
       position: absolute;
       content: "";
       top: 0;
@@ -96,7 +99,7 @@ $notactivecolor: #d0d0d0;
       height: 0;
       border-top: $height inset transparent;
       border-bottom: $height inset transparent;
-      border-left: $height solid #ebebeb;
+      border-left: $height solid $activebgcolor;
       position: absolute;
       content: "";
       top: 0;
