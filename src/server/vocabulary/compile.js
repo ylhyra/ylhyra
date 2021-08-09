@@ -105,19 +105,19 @@ const run = async () => {
         delete terms[term];
       }
     });
-    Object.keys(dependencies).forEach((from_term) => {
-      let out = [];
-      dependencies[from_term].forEach((to_term) => {
-        if (to_term in terms) {
-          out.push(to_term);
-        }
-      });
-      if (out.length >= 1) {
-        dependencies[from_term] = out;
-      } else {
-        delete dependencies[from_term];
-      }
-    });
+    // Object.keys(dependencies).forEach((from_term) => {
+    //   let out = [];
+    //   dependencies[from_term].forEach((to_term) => {
+    //     if (to_term in terms) {
+    //       out.push(to_term);
+    //     }
+    //   });
+    //   if (out.length >= 1) {
+    //     dependencies[from_term] = out;
+    //   } else {
+    //     delete dependencies[from_term];
+    //   }
+    // });
 
     console.log(`${Object.keys(cards).length} cards`);
     const full_deck = {
@@ -126,14 +126,15 @@ const run = async () => {
       dependencies,
       alternative_ids,
     };
+    deck = full_deck;
     fs.writeFileSync(
       __basedir + `/build/vocabulary_database${DECK}.json`,
-      JSON.stringify(full_deck, null, 0),
+      JSON.stringify(full_deck, null, 2),
       function () {}
     );
     fs.writeFileSync(
       __basedir + `/build/vocabulary_database_simplified${DECK}.json`,
-      JSON.stringify(simplify(full_deck), null, 0),
+      JSON.stringify(simplify(full_deck), null, 2),
       function () {}
     );
     console.log("Done!");
@@ -156,32 +157,201 @@ const getSounds = (sentences, sound_lowercase) => {
   return null;
 };
 
-const simplify = (d) => {
+let deck;
+const simplify = () => {
+  /* Add sortkey */
+  let card_ids = Object.keys(deck.cards)
+    .map((key) => {
+      return deck.cards[key];
+    })
+    .sort(
+      (a, b) =>
+        a.level - b.level ||
+        b.hasOwnProperty("sortKey") - a.hasOwnProperty("sortKey") ||
+        a.sortKey - b.sortKey ||
+        Boolean(b.sound) - Boolean(a.sound) ||
+        (a.row_id % 15) - (b.row_id % 15) || // Hmm...
+        a.row_id - b.row_id
+    )
+    .map((card) => {
+      return card.id;
+    });
+  card_ids = withDependencies(card_ids);
+  card_ids.forEach((card_id, index) => {
+    deck.cards[card_id].sortKey = index;
+    delete deck.cards[card_id].row_id;
+  });
+
+  Object.keys(deck.terms).forEach((term_id) => {
+    const deps = CreateDependencyChain(term_id, deck);
+    const allDependencies = Object.keys(deps);
+    const directDependencies = Object.keys(deps).filter(
+      (dep) => deps[dep] === 1
+    );
+    if (directDependencies.length > 0) {
+      deck.terms[term_id].dependsOn = directDependencies;
+    }
+    if (allDependencies.length > 0) {
+      // deck.terms[term_id].allDependencies = allDependencies;
+    }
+  });
+
   let terms = {};
   let cards = {};
-  Object.keys(d.terms).forEach((term_id) => {
-    const term = d.terms[term_id];
-    Object.keys(d.cards[term.cards[0]]).forEach((key) => {
-      const val = d.cards[term.cards[0]][key];
+  Object.keys(deck.terms).forEach((term_id) => {
+    const term = deck.terms[term_id];
+    let minSortKey;
+    Object.keys(deck.cards[term.cards[0]]).forEach((key) => {
+      if (key === "sortKey") return;
+      const val = deck.cards[term.cards[0]][key];
       if (
         term.cards.every(
           (card_id) =>
-            JSON.stringify(d.cards[card_id][key]) === JSON.stringify(val)
+            JSON.stringify(deck.cards[card_id][key]) === JSON.stringify(val)
         )
       ) {
         term[key] = val;
+        // minSortKey =
         term.cards.forEach((card_id) => {
-          delete d.cards[card_id][key];
+          delete deck.cards[card_id][key];
         });
       }
       term.cards.forEach((card_id) => {
-        cards[card_id] = d.cards[card_id];
+        cards[card_id] = deck.cards[card_id];
+        minSortKey = Math.min(
+          deck.cards[card_id].sortKey,
+          minSortKey || Infinity
+        );
       });
     });
+    term.sortKey = minSortKey;
     terms[term_id] = term;
   });
+
+  terms = sortObject(terms, "sortKey");
+  cards = sortObject(cards, "sortKey");
+  Object.keys(terms).forEach((term_id) => {
+    delete terms[term_id].sortKey;
+  });
+  // Object.keys(cards).forEach((card_id) => {
+  //   delete cards[card_id].sortKey;
+  // });
+
   return {
     terms,
     cards,
   };
+};
+
+const sortObject = (obj, sortKey, replace) => {
+  let out = {};
+  Object.keys(obj)
+    .sort((a, b) => obj[a][sortKey] - obj[b][sortKey])
+    .forEach((k, index) => {
+      out[k] = obj[k];
+      if (replace) {
+        out[k][sortKey] = index + 1;
+      }
+    });
+  return out;
+};
+
+export const withDependencies = (card_ids, options) => {
+  const showDepth = options?.showDepth;
+  let returns = [];
+  let terms = [];
+  let depth = {};
+  if (typeof card_ids === "string") {
+    card_ids = [card_ids];
+  }
+  card_ids
+    .filter((card_id) => card_id in deck.cards)
+    .forEach((card_id) => (terms = terms.concat(deck.cards[card_id].terms)));
+  terms = _.uniq(terms);
+  terms.forEach((term) => {
+    let terms = [{ term, dependencySortKey: 0 }];
+    const chain = CreateDependencyChain(term, deck);
+    // console.log(
+    //   Object.keys(chain).map((j) => {
+    //     return [printWord(j), chain[j]];
+    //   })
+    // );
+    Object.keys(chain).forEach((k) => {
+      terms.push({ term: k, dependencySortKey: chain[k] });
+    });
+    terms = terms.sort((a, b) => b.dependencySortKey - a.dependencySortKey); //.map((i) => i.term);
+    terms.forEach((obj) => {
+      term = obj.term;
+      [term, ...(deck.alternative_ids[term] || [])].forEach((j) => {
+        if (j in deck.terms) {
+          let card_ids = deck.terms[j].cards;
+          // if (card_ids.some((id) => id in deck.schedule)) {
+          //   card_ids = _.shuffle(card_ids);
+          // } else {
+          card_ids = card_ids.sort((a, b) => {
+            if (a.endsWith("is")) return -1;
+            return 1;
+          });
+          // }
+          returns = returns.concat(card_ids);
+          deck.terms[j].cards.forEach((card_id) => {
+            depth[card_id] = Math.max(
+              depth[card_id] || 0,
+              obj.dependencySortKey
+            );
+          });
+        }
+      });
+    });
+  });
+  const out = _.uniq(returns).filter((card_id) => card_id in deck.cards);
+  if (showDepth) {
+    let k = {};
+    out.forEach((card_id) => {
+      k[card_id] = depth[card_id];
+    });
+    return k;
+  } else {
+    return out;
+  }
+};
+
+/**
+ * Returns an object on the form { [key]: [depth] }
+ */
+const CreateDependencyChain = (
+  from_term,
+  deck,
+  _alreadySeen = [],
+  output = [],
+  depth = 1
+) => {
+  if (from_term in deck.dependencies) {
+    deck.dependencies[from_term].forEach((term) => {
+      /* Deep copy in order to only watch direct parents */
+      const alreadySeen = [..._alreadySeen];
+      if (alreadySeen.includes(term)) return;
+      alreadySeen.push(term);
+      // if (term in deck.terms) {
+      output[term] = Math.max(output[term] || 0, depth);
+      // }
+      [
+        term,
+        /* Through alternative ids */
+        ...(deck.alternative_ids[term] || []),
+      ]
+        .filter(Boolean)
+        .forEach((j) => {
+          const isThroughAltId = j !== term;
+          CreateDependencyChain(
+            j,
+            deck,
+            alreadySeen,
+            output,
+            depth + (isThroughAltId ? 0 : 1)
+          );
+        });
+    });
+  }
+  return output;
 };

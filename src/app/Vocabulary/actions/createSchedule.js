@@ -75,7 +75,7 @@ export function createSchedule() {
       }
     } else if (isNew) {
       if (sessionScore === EASY) {
-        due_in_days = 20;
+        due_in_days = 60;
         due_in_days_adjusted = 100;
       } else if (sessionScore === GOOD) {
         due_in_days = 3;

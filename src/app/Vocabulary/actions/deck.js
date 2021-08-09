@@ -24,24 +24,6 @@ class Deck {
     this.alternative_ids = alternative_ids;
     this.dependencies = dependencies;
 
-    /* tmp */
-    Object.keys(cards)
-      .map((key) => {
-        return cards[key];
-      })
-      .sort(
-        (a, b) =>
-          a.level - b.level ||
-          b.hasOwnProperty("sortKey") - a.hasOwnProperty("sortKey") ||
-          a.sortKey - b.sortKey ||
-          Boolean(b.sound) - Boolean(a.sound) ||
-          (a.row_id % 15) - (b.row_id % 15) || // Hmm...
-          a.row_id - b.row_id
-      )
-      .forEach((c, index) => {
-        cards[c.id].sortKey2 = index;
-      });
-
     const c =
       process.env.NODE_ENV === "development"
         ? Object.keys(cards)

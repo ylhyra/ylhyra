@@ -12,7 +12,7 @@ import {
   PercentageKnown,
   PercentageKnownOverall,
 } from "app/Vocabulary/actions/functions/percentageKnown";
-
+import Spacer from "documents/Templates/Spacer.js";
 import { getCardIdsFromWords } from "app/Vocabulary/actions/functions/getCardIdsFromWords";
 import Link from "app/Router/Link";
 import _ from "underscore";
@@ -24,16 +24,16 @@ class Overview extends Component {
     return (
       <div>
         <h1>Vocabulary</h1>
+        <Link to="/vocabulary/tutorial">Tutorial</Link>
+        <Spacer space="70" />
         <div className="centered-button">
           <Link href="VOCABULARY_PLAY" className="button dark-blue big">
             {session ? "Continue" : "Start a study session"}
           </Link>
           {PercentageKnownOverall()}% known out of{" "}
-          {countTerms(deck.cards_sorted)}{" "}
+          {countTerms(deck.cards_sorted)} terms
         </div>
-        <br />
-        <br />
-        <br />
+        <Spacer space="70" />
         <hr />
         <div>
           <b>Status by level</b>
