@@ -27,6 +27,7 @@ export const readDeck = () => {
       "utf8"
     )
   );
+  deck.schedule = {};
   setDeck(deck);
 };
 

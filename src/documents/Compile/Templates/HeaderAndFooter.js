@@ -47,7 +47,7 @@ export default (input, header) => {
 
         ${
           header.license === "CC0" &&
-          `<div class="license">You are free to republish this article. <a href="https://creativecommons.org/publicdomain/zero/1.0/" class="license-link" rel="noopener">CC0 / Public Domain</a></div>`
+          `<div class="license">You are free to republish this article <span class="license-link">(<a href="https://creativecommons.org/publicdomain/zero/1.0/"  rel="noopener" target="_blank">CC0 / public domain</a>)</span></div>`
         }
         ${
           header.published &&

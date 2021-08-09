@@ -92,7 +92,9 @@ export const countTerms = (cards) => {
 };
 
 export const getCardIdsFromTermIds = (term_ids) => {
-  return _.uniq(_.flatten(term_ids.map((t) => deck.terms[t].cards)));
+  return _.uniq(
+    _.flatten(term_ids.map((t) => deck.terms[t]?.cards)).filter(Boolean)
+  );
 };
 
 export const getTermsFromCards = (card_ids) => {

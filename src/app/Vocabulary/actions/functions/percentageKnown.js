@@ -13,7 +13,7 @@ import { MakeSummaryOfCardStatuses } from "app/Vocabulary/actions/functions";
 import { deck } from "app/Vocabulary/actions/deck";
 
 export const PercentageKnown = (card_ids) => {
-  if (!deck) return 0;
+  if (!deck || !deck.schedule) return 0;
   let done = 0;
   let remaining = 0;
   card_ids.forEach((id) => {

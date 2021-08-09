@@ -57,6 +57,9 @@ section,
   // }
   &.content-footer {
     background: #eeeeee;
+    > div {
+      padding: 5px 10px;
+    }
   }
 }
 

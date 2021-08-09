@@ -33,7 +33,7 @@ export const isUserLoggedIn = () => {
 };
 
 export const existsSchedule = () => {
-  return deck && Object.keys(deck.schedule).length >= 6;
+  return deck && deck.schedule && Object.keys(deck.schedule).length >= 6;
 };
 
 export const termsInSchedule = () => {

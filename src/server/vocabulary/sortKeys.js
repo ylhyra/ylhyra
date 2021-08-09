@@ -17,20 +17,29 @@ export default async (getRawSentences) => {
   let i = 1;
   let sortKeys = {}; /* Term to sortKey */
   let sentences = {};
-  content.replace(/header_data="(.+?)"/g, (x, data) => {
-    const values = DecodeDataInHTML(data);
-    if (!values) return;
-    values.forEach((value) => {
-      value = value.split(" = ")[0];
-      const hash = getHash(value);
-      if (!(hash in sortKeys)) {
-        sortKeys[hash] = i;
-        if (getRawSentences) {
-          sentences[GetLowercaseStringForAudioKey(value)] = i;
-        }
+  content.replace(/data="(.+?)"/g, (x, data) => {
+    const v = DecodeDataInHTML(data);
+    if (!v) return;
+    v.terms.forEach((term_id) => {
+      if (!(term_id in sortKeys)) {
+        sortKeys[term_id] = i;
+        // if (getRawSentences) {
+        //   sentences[GetLowercaseStringForAudioKey(value)] = i;
+        // }
         i++;
       }
     });
+    // values.forEach((value) => {
+    //   value = value.split(" = ")[0];
+    //   const hash = getHash(value);
+    //   if (!(hash in sortKeys)) {
+    //     sortKeys[hash] = i;
+    //     if (getRawSentences) {
+    //       sentences[GetLowercaseStringForAudioKey(value)] = i;
+    //     }
+    //     i++;
+    //   }
+    // });
   });
   console.log(`${i} terms in course`);
   if (getRawSentences) return sentences;

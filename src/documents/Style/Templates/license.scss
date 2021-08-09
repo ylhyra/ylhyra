@@ -1,8 +1,8 @@
 .license {
-  text-align: right;
-  float: right;
-  color: #929292;
-  font-size: 11px;
+  // text-align: right;
+  // float: right;
+  color: #8b8b8b;
+  font-size: 12px;
   line-height: inherit;
   margin-top: 2px;
   @include sans_serif();
@@ -10,7 +10,8 @@
     color: inherit;
   }
   .license-link {
-    font-size: 9px;
+    font-size: 11px;
+    opacity: 0.9;
   }
   .info {
     background: #e6e6e6;
