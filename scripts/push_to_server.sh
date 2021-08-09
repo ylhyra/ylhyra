@@ -22,4 +22,4 @@ rsync \
 # pm2 reload ylhyra_new
 ssh -p "${SERVER_SSH_PORT}" ${SERVER_IP} pm2 reload ylhyra_new
 
-ssh -p "${SERVER_SSH_PORT}" ${SERVER_IP} "cd /home/egill/ylhyra_content && git pull origin content"
+ssh -p "${SERVER_SSH_PORT}" ${SERVER_IP} "cd /home/egill/ylhyra_content && git pull  origin content &> /dev/null"

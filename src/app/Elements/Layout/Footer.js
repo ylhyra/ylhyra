@@ -28,10 +28,8 @@ export default (props) => (
           <Link href="/Project:Become_a_collaborator">Collaborate</Link>
         </span> */}
         •
-        <span className="footer-gray">
-          {process.env.NODE_ENV === "development" && (
-            <Link href="/donate">Donate</Link>
-          )}
+        <span className="footer-gray pwyw-on">
+          <Link href="/donate">Donate</Link>
         </span>
         {/* • */}
       </span>
