@@ -9,11 +9,11 @@ import { updateURL } from "app/Router/actions";
 import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import _ from "underscore";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
-import { deck } from "app/Vocabulary/actions/deck";
+// import { deck } from "app/Vocabulary/actions/deck";
 
 let missing = [];
 let timer;
-export const getCardIdsFromWords = (words) => {
+export const getCardIdsFromWords = (words, deck) => {
   let card_ids = [];
   words.forEach((word) => {
     if (!word) return;
@@ -37,4 +37,12 @@ export const getCardIdsFromWords = (words) => {
     }, 1000);
   }
   return _.uniq(card_ids);
+};
+
+export const getTermsFromCards = (card_ids, deck) => {
+  let terms = [];
+  card_ids.forEach((id) => {
+    terms = terms.concat(deck.cards[id].terms);
+  });
+  return _.uniq(terms);
 };

@@ -28,7 +28,7 @@ export const InitializeVocabulary = async () => {
       should_update = true;
     }
   }
-  if (!database || should_update) {
+  if (!database || should_update || !database.cards) {
     console.log("Downloading database");
     database = (
       await axios.get(

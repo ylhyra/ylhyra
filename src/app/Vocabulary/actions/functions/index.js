@@ -90,3 +90,7 @@ export const studyNewTerms = () => {
 export const countTerms = (cards) => {
   return round(_.uniq(_.flatten(cards.map((c) => c.terms))).length, 50);
 };
+
+export const getCardIdsFromTermIds = (term_ids) => {
+  return _.uniq(_.flatten(term_ids.map((t) => deck.terms[t].cards)));
+};

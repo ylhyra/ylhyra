@@ -18,29 +18,16 @@ export let deck;
 class Deck {
   constructor(database, schedule, session) {
     deck = this;
-    const { cards, terms, alternative_ids, dependencies } = database;
+    const { cards, terms } = database;
     this.cards = cards;
     this.terms = terms;
-    this.alternative_ids = alternative_ids;
-    this.dependencies = dependencies;
 
-    const c =
-      process.env.NODE_ENV === "development"
-        ? Object.keys(cards)
-        : _.shuffle(Object.keys(cards));
-    this.cards_sorted = c
+    this.cards_sorted = Object.keys(cards)
       .map((key) => {
         // if(typeof cards[key] === 'function') return null;
         return cards[key];
       })
-      .sort(
-        (a, b) =>
-          //.test(b.is_plaintext) - //.test(a.is_plaintext) ||
-          a.level - b.level ||
-          b.hasOwnProperty("sortKey") - a.hasOwnProperty("sortKey") ||
-          a.sortKey - b.sortKey ||
-          Boolean(b.sound) - Boolean(a.sound)
-      )
+      .sort((a, b) => a.sortKey - b.sortKey)
       .filter(Boolean);
     this.schedule = schedule || {};
     this.session = new Session(deck, session);
@@ -55,5 +42,7 @@ class Deck {
   }
 }
 Deck.prototype.syncSchedule = syncSchedule;
+
+export const setDeck = (j) => (deck = j);
 // Deck.prototype.spreadOutSchedule = spreadOutSchedule;
 export default Deck;

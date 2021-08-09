@@ -6,10 +6,6 @@ import cors from "cors";
 const router = require("express").Router();
 const fs = require("fs");
 export const vocabulary_json = __basedir + "/build/vocabulary_database.json";
-export const vocabulary_json_es =
-  __basedir + "/build/vocabulary_database_es.json";
-export const vocabulary_json_da =
-  __basedir + "/build/vocabulary_database_da.json";
 
 // router.all(
 //   "/vocabulary/get",
@@ -35,27 +31,14 @@ export const vocabulary_json_da =
 //   }
 // );
 
-router.use(
-  "/vocabulary/vocabulary_database.json",
-  express.static(vocabulary_json)
-);
-router.use(
-  "/vocabulary/vocabulary_database_es.json",
-  express.static(vocabulary_json_es)
-);
-router.use(
-  "/vocabulary/vocabulary_database_da.json",
-  express.static(vocabulary_json_da)
-);
-
-router.post("/vocabulary/database_last_updated", (req, res) => {
-  fs.stat(vocabulary_json, (err, stats) => {
-    if (err) {
-      throw err;
-    }
-    res.send(new Date(stats.mtime).getTime().toString());
-  });
-});
+// router.post("/vocabulary/database_last_updated", (req, res) => {
+//   fs.stat(vocabulary_json, (err, stats) => {
+//     if (err) {
+//       throw err;
+//     }
+//     res.send(new Date(stats.mtime).getTime().toString());
+//   });
+// });
 
 /* Get schedule */
 router.post("/vocabulary/schedule", (req, res) => {
@@ -95,5 +78,7 @@ router.post("/vocabulary/schedule", (req, res) => {
     }
   );
 });
+
+router.use("/vocabulary/", express.static(__basedir + "/build/vocabulary"));
 
 export default router;

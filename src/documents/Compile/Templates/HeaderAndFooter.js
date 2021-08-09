@@ -1,18 +1,19 @@
 import c from "app/App/functions/no-undefined-in-template-literal";
 import markdown_to_html from "documents/Compile/markdown_to_html";
-var btoa = require("btoa");
+import { parseVocabularyList } from "documents/Compile/vocabulary.js";
+import { EncodeDataInHTML } from "documents/Compile/functions/functions.js";
+
 export default (input, header) => {
   let h = "";
   let f = "";
   // console.log(header.vocabulary);
-  const VocabularyHeader = header.vocabulary
+  const vocabulary_data = parseVocabularyList(header.vocabulary);
+  const VocabularyHeader = vocabulary_data
     ? `<section class="content-header">
-      <vocabularyheader header_data="${btoa(
-        encodeURIComponent(JSON.stringify(header.vocabulary))
-      )}"/>
+      <vocabularyheader data="${EncodeDataInHTML(vocabulary_data)}"/>
     </section>`
     : "";
-  if (header.vocabulary || header.level || header.has_data) {
+  if (vocabulary_data || header.level || header.has_data) {
     h = c`
       ${VocabularyHeader}
       <section class="tiny">

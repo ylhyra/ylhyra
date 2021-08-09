@@ -28,7 +28,7 @@ export const withDependencies = (card_ids, options) => {
     .forEach((card_id) => (terms = terms.concat(deck.cards[card_id].terms)));
   terms = _.uniq(terms);
   terms.forEach((term) => {
-    let terms = [{ term, sortKey: 0 }];
+    let terms = [{ term, dependencySortKey: 0 }];
     const chain = CreateDependencyChain(term, deck);
     // console.log(
     //   Object.keys(chain).map((j) => {
@@ -36,27 +36,24 @@ export const withDependencies = (card_ids, options) => {
     //   })
     // );
     Object.keys(chain).forEach((k) => {
-      terms.push({ term: k, sortKey: chain[k] });
+      terms.push({ term: k, dependencySortKey: chain[k] });
     });
-    terms = terms.sort((a, b) => b.sortKey - a.sortKey); //.map((i) => i.term);
+    terms = terms.sort((a, b) => b.dependencySortKey - a.dependencySortKey); //.map((i) => i.term);
     terms.forEach((obj) => {
       term = obj.term;
-      [term, ...(deck.alternative_ids[term] || [])].forEach((j) => {
-        if (j in deck.terms) {
-          let card_ids = deck.terms[j].cards;
-          if (card_ids.some((id) => id in deck.schedule)) {
-            card_ids = _.shuffle(card_ids);
-          } else {
-            card_ids = card_ids.sort((a, b) => {
-              if (a.endsWith("is")) return -1;
-              return 1;
-            });
-          }
-          returns = returns.concat(card_ids);
-          deck.terms[j].cards.forEach((card_id) => {
-            depth[card_id] = Math.max(depth[card_id] || 0, obj.sortKey);
-          });
-        }
+      if (!deck.terms[term]) return;
+      let card_ids = deck.terms[term].cards;
+      if (deck.schedule && card_ids.some((id) => id in deck.schedule)) {
+        card_ids = _.shuffle(card_ids);
+      } else {
+        card_ids = card_ids.sort((a, b) => {
+          if (a.endsWith("is")) return -1;
+          return 1;
+        });
+      }
+      returns = returns.concat(card_ids);
+      deck.terms[term].cards.forEach((card_id) => {
+        depth[card_id] = Math.max(depth[card_id] || 0, obj.dependencySortKey);
       });
     });
   });
@@ -76,31 +73,19 @@ export const withDependencies = (card_ids, options) => {
  * Returns an object on the form { [key]: [depth] }
  */
 const CreateDependencyChain = (
-  from_term,
+  from_term_id,
   deck,
   _alreadySeen = [],
   output = [],
   depth = 1
 ) => {
-  if (from_term in deck.dependencies) {
-    deck.dependencies[from_term].forEach((term) => {
-      /* Deep copy in order to only watch direct parents */
-      const alreadySeen = [..._alreadySeen];
-      if (alreadySeen.includes(term)) return;
-      alreadySeen.push(term);
-      // if (term in deck.terms) {
-      output[term] = Math.max(output[term] || 0, depth);
-      // }
-      [
-        term,
-        /* Through alternative ids */
-        ...(deck.alternative_ids[term] || []),
-      ]
-        .filter(Boolean)
-        .forEach((j) => {
-          CreateDependencyChain(j, deck, alreadySeen, output, depth + 1);
-        });
-    });
-  }
+  deck.terms[from_term_id]?.dependsOn?.forEach((term) => {
+    /* Deep copy in order to only watch direct parents */
+    const alreadySeen = [..._alreadySeen];
+    if (alreadySeen.includes(term)) return;
+    alreadySeen.push(term);
+    output[term] = Math.max(output[term] || 0, depth);
+    CreateDependencyChain(term, deck, alreadySeen, output, depth + 1);
+  });
   return output;
 };

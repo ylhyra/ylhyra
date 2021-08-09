@@ -105,19 +105,19 @@ const run = async () => {
         delete terms[term];
       }
     });
-    // Object.keys(dependencies).forEach((from_term) => {
-    //   let out = [];
-    //   dependencies[from_term].forEach((to_term) => {
-    //     if (to_term in terms) {
-    //       out.push(to_term);
-    //     }
-    //   });
-    //   if (out.length >= 1) {
-    //     dependencies[from_term] = out;
-    //   } else {
-    //     delete dependencies[from_term];
-    //   }
-    // });
+    Object.keys(dependencies).forEach((from_term) => {
+      let out = [];
+      dependencies[from_term].forEach((to_term) => {
+        if (to_term in terms) {
+          out.push(to_term);
+        }
+      });
+      if (out.length >= 1) {
+        dependencies[from_term] = out;
+      } else {
+        delete dependencies[from_term];
+      }
+    });
 
     console.log(`${Object.keys(cards).length} cards`);
     const full_deck = {
@@ -127,14 +127,16 @@ const run = async () => {
       alternative_ids,
     };
     deck = full_deck;
+    if (!DECK) {
+      fs.writeFileSync(
+        __basedir + `/build/vocabulary/alternative_ids.json`,
+        JSON.stringify(alternative_ids, null, ""),
+        function () {}
+      );
+    }
     fs.writeFileSync(
-      __basedir + `/build/vocabulary_database${DECK}.json`,
-      JSON.stringify(full_deck, null, 2),
-      function () {}
-    );
-    fs.writeFileSync(
-      __basedir + `/build/vocabulary_database_simplified${DECK}.json`,
-      JSON.stringify(simplify(full_deck), null, 2),
+      __basedir + `/build/vocabulary/vocabulary_database${DECK}.json`,
+      JSON.stringify(simplify(full_deck), null, ""),
       function () {}
     );
     console.log("Done!");
@@ -204,18 +206,18 @@ const simplify = () => {
     Object.keys(deck.cards[term.cards[0]]).forEach((key) => {
       if (key === "sortKey") return;
       const val = deck.cards[term.cards[0]][key];
-      if (
-        term.cards.every(
-          (card_id) =>
-            JSON.stringify(deck.cards[card_id][key]) === JSON.stringify(val)
-        )
-      ) {
-        term[key] = val;
-        // minSortKey =
-        term.cards.forEach((card_id) => {
-          delete deck.cards[card_id][key];
-        });
-      }
+      // if (
+      //   term.cards.every(
+      //     (card_id) =>
+      //       JSON.stringify(deck.cards[card_id][key]) === JSON.stringify(val)
+      //   )
+      // ) {
+      //   term[key] = val;
+      //   // minSortKey =
+      //   term.cards.forEach((card_id) => {
+      //     delete deck.cards[card_id][key];
+      //   });
+      // }
       term.cards.forEach((card_id) => {
         cards[card_id] = deck.cards[card_id];
         minSortKey = Math.min(

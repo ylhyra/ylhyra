@@ -4,7 +4,7 @@ import Book from "documents/Templates/Book";
 import Image from "documents/Templates/Image";
 import Button from "documents/Templates/Button";
 import VocabularyStatus from "documents/Templates/VocabularyStatus";
-import VocabularyHeader from "documents/Templates/VocabularyHeaderWrapper";
+import VocabularyHeader from "app/Vocabulary/Elements/VocabularyHeader.js";
 import Audio from "documents/Templates/Audio";
 import H1 from "documents/Templates/H1";
 import Section from "documents/Templates/Section";
