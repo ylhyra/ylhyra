@@ -8,9 +8,8 @@ import {
   getCardIdsFromTermIds,
 } from "app/Vocabulary/actions/functions";
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
-import { DecodeDataInHTML } from "documents/Compile/functions/functions.js";
+import { DecodeDataInHTML } from "documents/Compile/functions/functions";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
-import { getCardIdsFromWords } from "app/Vocabulary/actions/functions/getCardIdsFromWords";
 import _ from "underscore";
 
 class X extends Component {
@@ -23,9 +22,9 @@ class X extends Component {
     // studyParticularIds(this.getCards());
   };
   render() {
-    const { terms, dependencyTerms } = this.props.data;
-    const cards = getCardIdsFromTermIds(terms);
-    const dependencyCards = getCardIdsFromTermIds(dependencyTerms);
+    const { terms, dependencyTerms, cards, dependencyCards } = this.props.data;
+    // const cards = getCardIdsFromTermIds(terms);
+    // const dependencyCards = getCardIdsFromTermIds(dependencyTerms);
     if (cards.length === 0) return null;
 
     return (
@@ -34,7 +33,7 @@ class X extends Component {
           className="big dark-blue"
           onClick={() => studyParticularIds(cards)}
         >
-          Study {cards.length} cards
+          Study {terms.length} terms
         </button>
         <div>
           <div>

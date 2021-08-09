@@ -1,7 +1,7 @@
 import c from "app/App/functions/no-undefined-in-template-literal";
 import markdown_to_html from "documents/Compile/markdown_to_html";
-import { parseVocabularyList } from "documents/Compile/vocabulary.js";
-import { EncodeDataInHTML } from "documents/Compile/functions/functions.js";
+import { parseVocabularyList } from "documents/Compile/vocabulary";
+import { EncodeDataInHTML } from "documents/Compile/functions/functions";
 
 export default (input, header) => {
   let h = "";

@@ -10,7 +10,6 @@ import { content_folder } from "paths_backend";
 import generate_html from "documents/Compile";
 import getSortKeys from "./sortKeys";
 import atob from "atob";
-import { getCardIdsFromWords } from "app/Vocabulary/actions/functions/getCardIdsFromWords";
 import {
   parse_vocabulary_file,
   getHash,

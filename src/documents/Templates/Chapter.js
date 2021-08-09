@@ -1,26 +1,37 @@
-import React from "react";
-import VocabularyHeader from "app/Vocabulary/Elements/VocabularyHeader";
+import { connect } from "react-redux";
+import React, { Component } from "react";
+import ChapterWords from "app/Vocabulary/Elements/ChapterWords";
+import ChapterPercentage from "app/Vocabulary/Elements/ChapterPercentage";
 import {
   EncodeDataInHTML,
   DecodeDataInHTML,
 } from "documents/Compile/functions/functions";
+import Link from "app/Router/Link";
 
-export default (props) => {
-  const vocabulary = DecodeDataInHTML(props.header_data);
-  return (
-    <a
-      href={props.chapter_url}
-      className={props.show_words ? "chapter" : "link-with-percentage"}
-    >
-      <div className="chapter-title">
-        <div>{props.children}</div>
-        <VocabularyHeader header_data={{ vocabulary }} onlyPercentage={true} />
-      </div>
-      {props.show_words && (
-        <div className="chapter-vocabulary-list">
-          <VocabularyHeader header_data={{ vocabulary }} onlyWordList={true} />
+class X extends Component {
+  render() {
+    // if (!this.props.vocabulary.deck) return null;
+    const vocabulary = DecodeDataInHTML(this.props.data);
+    // console.log(vocabulary)
+    return (
+      <Link
+        href={this.props.chapter_url}
+        className={this.props.show_words ? "chapter" : "link-with-percentage"}
+      >
+        <div className="chapter-title">
+          <div>{this.props.children}</div>
+          {vocabulary && <ChapterPercentage data={vocabulary} />}
         </div>
-      )}
-    </a>
-  );
-};
+        {this.props.show_words && (
+          <div className="chapter-vocabulary-list">
+            {vocabulary && <ChapterWords data={vocabulary} />}
+          </div>
+        )}
+      </Link>
+    );
+  }
+}
+export default connect((state) => ({
+  vocabulary: state.vocabulary,
+  route: state.route,
+}))(X);

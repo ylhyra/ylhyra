@@ -12,8 +12,7 @@ import {
   PercentageKnown,
   PercentageKnownOverall,
 } from "app/Vocabulary/actions/functions/percentageKnown";
-import Spacer from "documents/Templates/Spacer.js";
-import { getCardIdsFromWords } from "app/Vocabulary/actions/functions/getCardIdsFromWords";
+import Spacer from "documents/Templates/Spacer";
 import Link from "app/Router/Link";
 import _ from "underscore";
 

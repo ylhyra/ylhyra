@@ -3,8 +3,8 @@ import Level from "documents/Templates/Level";
 import Book from "documents/Templates/Book";
 import Image from "documents/Templates/Image";
 import Button from "documents/Templates/Button";
-import Chapter from "documents/Templates/Chapter.js";
-import VocabularyHeader from "app/Vocabulary/Elements/VocabularyHeader.js";
+import Chapter from "documents/Templates/Chapter";
+import VocabularyHeader from "app/Vocabulary/Elements/VocabularyHeader";
 import Audio from "documents/Templates/Audio";
 import H1 from "documents/Templates/H1";
 import Section from "documents/Templates/Section";
@@ -14,7 +14,7 @@ import Tweet from "documents/Templates/Tweet";
 import Parts from "documents/Templates/Parts";
 import Instagram from "documents/Templates/Instagram";
 import Collapse from "documents/Templates/Collapse";
-import Login from "app/User/LoginForm.js";
+import Login from "app/User/LoginForm";
 export default (name) => {
   switch (name.toLowerCase()) {
     case "frontpage":

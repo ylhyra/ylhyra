@@ -13,7 +13,7 @@ import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
 
 let missing = [];
 let timer;
-export const getCardIdsFromWords = (words, deck) => {
+export const getCardIdsFromWords = (words, deck, returnMissing) => {
   let card_ids = [];
   words.forEach((word) => {
     if (!word) return;
@@ -28,13 +28,16 @@ export const getCardIdsFromWords = (words, deck) => {
       missing.push(word);
     }
   });
-  if (missing.length > 0) {
-    timer && clearTimeout(timer);
-    timer = setTimeout(() => {
-      missing = _.uniq(missing);
-      // console.log(`${missing.length} missing terms:\n${_.uniq(missing).join("\n")}`);
-      console.log(missing.join("\n"));
-    }, 1000);
+  // if (missing.length > 0) {
+  //   timer && clearTimeout(timer);
+  //   timer = setTimeout(() => {
+  //     missing = _.uniq(missing);
+  //     // console.log(`${missing.length} missing terms:\n${_.uniq(missing).join("\n")}`);
+  //     // console.log(missing.join("\n"));
+  //   }, 1000);
+  // }
+  if (returnMissing) {
+    return missing;
   }
   return _.uniq(card_ids);
 };

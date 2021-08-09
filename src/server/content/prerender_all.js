@@ -3,6 +3,7 @@ import { URL_title, FileSafeTitle } from "paths";
 import prerender from "./prerender_single";
 import forEachAsync from "app/App/functions/array-foreach-async";
 import { url_to_info } from "app/Router/paths";
+import { readDeck } from "documents/Compile/vocabulary";
 var fs = require("fs");
 let links = {};
 try {
@@ -12,6 +13,7 @@ try {
 let n = 0;
 const run = async () => {
   process.stdout.write("Prerendering...");
+  readDeck();
   /* Render empty shell */
   let to_render = Object.keys(url_to_info);
   // console.log(url_to_info);

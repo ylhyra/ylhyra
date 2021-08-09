@@ -10,6 +10,7 @@ import { isUserLoggedIn, existsSchedule } from "app/User/actions";
 let HAS_LOADED = false;
 if (isBrowser) {
   window.addEventListener("popstate", (event) => {
+    // console.log(window.location.pathname);
     if (HAS_LOADED) {
       updateURL(window.location.pathname + window.location.hash);
     }
@@ -79,7 +80,7 @@ export const updateURL = (url, title, replace, prerender, is404) => {
   }
 
   if (url !== "/vocabulary/tutorial") {
-    if (url !== window.location.pathname) {
+    if (encodeURI(url) !== window.location.pathname) {
       if (replace) {
         window.history.replaceState(null, "", url);
       } else {

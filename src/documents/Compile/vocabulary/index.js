@@ -4,17 +4,17 @@ import {
   printWord,
 } from "app/Vocabulary/actions/functions";
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
-
-import { getTermsFromCards } from "app/Vocabulary/actions/functions/index.js";
+import { getCardIdsFromTermIds } from "app/Vocabulary/actions/functions";
+import { getTermsFromCards } from "app/Vocabulary/actions/functions/index";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
-import { getCardIdsFromWords } from "app/Vocabulary/actions/functions/getCardIdsFromWords";
+import { getCardIdsFromWords } from "documents/Compile/vocabulary/getCardIdsFromWords";
 import { getPlaintextFromVocabularyEntry } from "app/VocabularyMaker/functions";
 import _ from "underscore";
-import { setDeck } from "app/Vocabulary/actions/deck.js";
+import { setDeck } from "app/Vocabulary/actions/deck";
 const path = require("path");
 const fs = require("fs");
 let deck;
-const readDeck = () => {
+export const readDeck = () => {
   deck = JSON.parse(
     fs.readFileSync(
       __basedir + `/build/vocabulary/vocabulary_database.json`,
@@ -36,6 +36,7 @@ export const parseVocabularyList = (vocabulary_list) => {
   const card_ids = getCardIdsFromWords(vocabulary_list, deck).filter(
     (id) => id in deck.cards
   );
+  const missing = getCardIdsFromWords(vocabulary_list, deck, true);
   const terms = getTermsFromCards(card_ids, deck);
   const dependencyTerms = getTermsFromCards(
     _.difference(withDependencies(card_ids), card_ids)
@@ -46,5 +47,12 @@ export const parseVocabularyList = (vocabulary_list) => {
     return printWord(term_id);
   });
 
-  return { terms, dependencyTerms, sentences };
+  const cards = getCardIdsFromTermIds(terms);
+  const dependencyCards = getCardIdsFromTermIds(dependencyTerms);
+
+  let out = { terms, dependencyTerms, cards, dependencyCards, sentences };
+  if (missing) {
+    out.missing = missing;
+  }
+  return out;
 };
