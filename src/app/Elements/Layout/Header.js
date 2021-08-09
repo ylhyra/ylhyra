@@ -20,8 +20,12 @@ class Layout extends React.Component {
           <div className="header-container-inner">
             <Link href="/" id="logo" />
             <Navlinks />
+            {/* <div className="spacer" hidden /> */}
             <LoginButton />
           </div>
+        </div>
+        <div className="header-container-below hidden" hidden>
+          <Navlinks />
         </div>
       </header>
     );
@@ -33,7 +37,7 @@ export default connect((state) => ({
 }))(Layout);
 
 const Navlinks = () => (
-  <div className="navlinks">
+  <nav className="navlinks">
     <ul>
       {/* <li>
       <Link href="/spænska">Spænska</Link>
@@ -60,5 +64,5 @@ const Navlinks = () => (
         <Link href="/about">About</Link>
       </li>
     </ul>
-  </div>
+  </nav>
 );

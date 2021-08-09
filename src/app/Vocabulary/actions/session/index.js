@@ -86,6 +86,29 @@ class Session {
       saveInLocalStorage("vocabulary-session", null);
     }
   }
+  undo() {
+    const card = this.cardHistory[0];
+    if (!card) return;
+    card.history.shift();
+    this.currentCard = card;
+    this.cardHistory.shift();
+    this.lastUndid = this.counter;
+    this.loadCard();
+  }
+  undoable() {
+    return this.cardHistory.length > 0 && this.lastUndid !== this.counter;
+  }
+  keyDown(e) {
+    if (
+      e.keyCode === 90 &&
+      (e.ctrlKey || e.metaKey) &&
+      !e.altKey &&
+      this.undoable()
+    ) {
+      e.preventDefault();
+      this.undo();
+    }
+  }
 }
 
 Session.prototype.createCards = createCards;

@@ -16,7 +16,9 @@ const Button = (props) => {
         </Link>
       ) : (
         <div>
-          <Link href="LOG_IN">Log&nbsp;in</Link>{" "}
+          <Link href="LOG_IN" className="login">
+            Log&nbsp;in
+          </Link>
           <Link href="/sign-up" className="signup">
             Sign&nbsp;up
           </Link>

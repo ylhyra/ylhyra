@@ -14,6 +14,7 @@ const LOGGING = false;
  * @memberof Session
  */
 export function nextCard(depth = 0) {
+  // this.saveSnapshotForUndo();
   this.counter++;
   this.updateRemainingTime();
   if (this.done) return;

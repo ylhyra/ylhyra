@@ -12,7 +12,10 @@
 @import "Layout/grid.scss";
 @import "Layout/section.scss";
 @import "Layout/screens.scss";
-@import "Layout/header.scss";
+@import "Layout/header/header.scss";
+@import "Layout/header/login-buttons.scss";
+@import "Layout/header/logo.scss";
+@import "Layout/header/navlinks.scss";
 @import "Layout/footer.scss";
 @import "Elements/form.scss";
 @import "Elements/image.scss";

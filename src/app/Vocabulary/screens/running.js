@@ -6,35 +6,59 @@ import { MINUTES } from "app/Vocabulary/actions/session";
 import Link from "app/Router/Link";
 import { updateURL } from "app/Router/actions";
 
-const r = (props) => (
-  <div id="vocabulary-screen">
-    <div id="vocabulary-header">
-      <button
-        className="link"
-        onClick={() => {
-          props.vocabulary.session.sessionDone();
-        }}
-      >
-        Quit
-      </button>
-      <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
-      <Link href="/vocabulary/tutorial">Tutorial</Link>
-      <div className="spacer" />
-      {props.vocabulary.session &&
-        props.vocabulary.session.cards.some((j) => j.sound) && (
+class R extends Component {
+  componentDidMount() {
+    window.addEventListener("keydown", this.checkKey);
+  }
+  componentWillUnmount() {
+    window.removeEventListener("keydown", this.checkKey);
+  }
+  checkKey = (e) => {
+    this.props.vocabulary?.session?.keyDown(e);
+  };
+  render() {
+    return (
+      <div id="vocabulary-screen">
+        <div id="vocabulary-header">
           <button
             className="link"
             onClick={() => {
-              store.dispatch({ type: "VOCABULARY_AUDIO_ONOFF" });
+              this.props.vocabulary.session.sessionDone();
             }}
           >
-            Audio: <b>{props.vocabulary.volume ? "On" : "Off"}</b>
+            Quit
           </button>
-        )}
-    </div>
-    <GameContainer />
-  </div>
-);
+          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+          <Link href="/vocabulary/tutorial">Tutorial</Link>
+          {this.props.vocabulary.session?.undoable() && [
+            <div key={1}>&nbsp;&nbsp;•&nbsp;&nbsp;</div>,
+            <button
+              key={2}
+              className="link"
+              onClick={() => {
+                this.props.vocabulary.session.undo();
+              }}
+            >
+              Undo
+            </button>,
+          ]}
+          <div className="spacer" />
+          {this.props.vocabulary.session?.cards.some((j) => j.sound) && (
+            <button
+              className="link"
+              onClick={() => {
+                store.dispatch({ type: "VOCABULARY_AUDIO_ONOFF" });
+              }}
+            >
+              Audio: <b>{this.props.vocabulary.volume ? "On" : "Off"}</b>
+            </button>
+          )}
+        </div>
+        <GameContainer />
+      </div>
+    );
+  }
+}
 export default connect((state) => ({
   vocabulary: state.vocabulary,
-}))(r);
+}))(R);
