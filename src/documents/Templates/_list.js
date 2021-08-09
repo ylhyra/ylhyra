@@ -3,7 +3,7 @@ import Level from "documents/Templates/Level";
 import Book from "documents/Templates/Book";
 import Image from "documents/Templates/Image";
 import Button from "documents/Templates/Button";
-import VocabularyStatus from "documents/Templates/VocabularyStatus";
+import Chapter from "documents/Templates/Chapter.js";
 import VocabularyHeader from "app/Vocabulary/Elements/VocabularyHeader.js";
 import Audio from "documents/Templates/Audio";
 import H1 from "documents/Templates/H1";
@@ -32,8 +32,8 @@ export default (name) => {
     case "button":
       return Button;
       break;
-    case "vocabularystatus":
-      return VocabularyStatus;
+    case "chapter":
+      return Chapter;
       break;
     case "audio":
       return Audio;

@@ -5,11 +5,9 @@ import {
 } from "app/Vocabulary/actions/functions";
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
 
+import { getTermsFromCards } from "app/Vocabulary/actions/functions/index.js";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
-import {
-  getCardIdsFromWords,
-  getTermsFromCards,
-} from "app/Vocabulary/actions/functions/getCardIdsFromWords";
+import { getCardIdsFromWords } from "app/Vocabulary/actions/functions/getCardIdsFromWords";
 import { getPlaintextFromVocabularyEntry } from "app/VocabularyMaker/functions";
 import _ from "underscore";
 import { setDeck } from "app/Vocabulary/actions/deck.js";
@@ -39,14 +37,14 @@ export const parseVocabularyList = (vocabulary_list) => {
     (id) => id in deck.cards
   );
   const terms = getTermsFromCards(card_ids, deck);
-  const dependencies = getTermsFromCards(
+  const dependencyTerms = getTermsFromCards(
     _.difference(withDependencies(card_ids), card_ids)
   );
-  if (terms.length < 0) return null;
+  if (terms.length === 0) return null;
 
   const sentences = terms.map((term_id) => {
     return printWord(term_id);
   });
 
-  return { terms, dependencies, sentences };
+  return { terms, dependencyTerms, sentences };
 };

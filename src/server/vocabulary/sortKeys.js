@@ -4,6 +4,10 @@ import {
   getHash,
   GetLowercaseStringForAudioKey,
 } from "app/VocabularyMaker/functions";
+import {
+  EncodeDataInHTML,
+  DecodeDataInHTML,
+} from "documents/Compile/functions/functions";
 
 export default async (getRawSentences) => {
   /****************
@@ -14,7 +18,7 @@ export default async (getRawSentences) => {
   let sortKeys = {}; /* Term to sortKey */
   let sentences = {};
   content.replace(/header_data="(.+?)"/g, (x, data) => {
-    const values = JSON.parse(decodeURIComponent(atob(data)));
+    const values = DecodeDataInHTML(data);
     if (!values) return;
     values.forEach((value) => {
       value = value.split(" = ")[0];

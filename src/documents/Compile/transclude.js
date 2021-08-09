@@ -2,14 +2,16 @@ import { URL_title } from "paths";
 import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
 import TOC from "documents/Compile/Templates/TOC";
 import forEachAsync from "app/App/functions/array-foreach-async";
-import { removeComments } from "documents/Compile/functions/functions";
+import {
+  removeComments,
+  EncodeDataInHTML,
+} from "documents/Compile/functions/functions";
 let links = {};
 try {
   links = require("build/links.js");
 } catch (e) {}
 
 var fs = require("fs");
-var btoa = require("btoa");
 
 const Transclude = (title, depth = 0, shouldGetData = true) => {
   return new Promise((resolve, reject) => {
@@ -39,7 +41,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
       /* Certain templates currently require
        * pre-processing to access header data  */
       /* TODO: Move elsewhere */
-      output = TOC(output);
+      output = await TOC(output);
       let i = 0;
       output = output.replace(/{{incr}}/g, () => {
         return i++ + 1;
@@ -55,7 +57,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
             `<span data-document-start="${
               (data2 || header).title
             }" data-data="${
-              data2 ? btoa(encodeURIComponent(data2.output)) : ""
+              data2 ? EncodeDataInHTML(data2.output) : ""
             }"></span>` +
             output +
             `<span data-document-end="${(data2 || header).title}"></span>`;
@@ -86,11 +88,7 @@ export const TranscludeFromText = async (input, depth) => {
         const [title_, param_] = q.split(">>>");
         const transclusion = await Transclude(title_, depth + 1);
         if (transclusion.header) {
-          output += btoa(
-            encodeURIComponent(
-              JSON.stringify(transclusion.header[param_]) || ""
-            )
-          ); /* TODO encodeURIComponent instead */
+          output += EncodeDataInHTML(transclusion.header[param_]);
         }
         // .replace(/"/g,'\\"')
       } else {

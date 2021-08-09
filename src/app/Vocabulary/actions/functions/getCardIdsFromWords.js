@@ -38,11 +38,3 @@ export const getCardIdsFromWords = (words, deck) => {
   }
   return _.uniq(card_ids);
 };
-
-export const getTermsFromCards = (card_ids, deck) => {
-  let terms = [];
-  card_ids.forEach((id) => {
-    terms = terms.concat(deck.cards[id].terms);
-  });
-  return _.uniq(terms);
-};

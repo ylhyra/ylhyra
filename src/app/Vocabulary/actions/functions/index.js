@@ -94,3 +94,11 @@ export const countTerms = (cards) => {
 export const getCardIdsFromTermIds = (term_ids) => {
   return _.uniq(_.flatten(term_ids.map((t) => deck.terms[t].cards)));
 };
+
+export const getTermsFromCards = (card_ids) => {
+  let terms = [];
+  card_ids.forEach((id) => {
+    terms = terms.concat(deck.cards[id].terms);
+  });
+  return _.uniq(terms);
+};

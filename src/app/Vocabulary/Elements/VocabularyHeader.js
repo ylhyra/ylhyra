@@ -5,12 +5,12 @@ import Button from "documents/Templates/Button";
 import {
   MakeSummaryOfCardStatuses,
   studyParticularIds,
+  getCardIdsFromTermIds,
 } from "app/Vocabulary/actions/functions";
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
-
+import { DecodeDataInHTML } from "documents/Compile/functions/functions.js";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 import { getCardIdsFromWords } from "app/Vocabulary/actions/functions/getCardIdsFromWords";
-import { getPlaintextFromVocabularyEntry } from "app/VocabularyMaker/functions";
 import _ from "underscore";
 
 class X extends Component {
@@ -23,29 +23,11 @@ class X extends Component {
     // studyParticularIds(this.getCards());
   };
   render() {
-    // const vocabulary_list = this.props.header_data?.vocabulary;
-    // const { deck } = this.props.vocabulary;
-    // if (!vocabulary_list || !deck) return null;
-    // const cards = getCardIdsFromWords(vocabulary_list);
-    // const dependencies = _.difference(
-    //   withDependencies(getCardIdsFromWords(vocabulary_list)),
-    //   cards
-    // );
+    const { terms, dependencyTerms } = this.props.data;
+    const cards = getCardIdsFromTermIds(terms);
+    const dependencyCards = getCardIdsFromTermIds(dependencyTerms);
     if (cards.length === 0) return null;
-    if (this.props.onlyPercentage) {
-      return (
-        <small className="percentage-known sans-serif" key={1}>
-          {PercentageKnown(cards, deck)}% known
-        </small>
-      );
-    }
-    if (this.props.onlyWordList) {
-      return (
-        <div className="toc-vocabulary-list" key={2}>
-          {vocabulary_list.map(getPlaintextFromVocabularyEntry).join(" • ")}
-        </div>
-      );
-    }
+
     return (
       <div className="vocabulary-header">
         <button
@@ -56,19 +38,23 @@ class X extends Component {
         </button>
         <div>
           <div>
-            You know <b>{PercentageKnown(cards, deck)}%</b> of this article’s
-            words.
+            You know <b>{PercentageKnown(cards)}%</b> of this article’s words.
           </div>
           <div className="gray small">
-            Additionally includes {dependencies.length} prerequisite cards (
-            {PercentageKnown(dependencies, deck)}% known).
+            Additionally includes {dependencyTerms.length} prerequisite terms (
+            {PercentageKnown(dependencyCards)}% known).
           </div>
         </div>
       </div>
     );
   }
 }
-export default connect((state) => ({
+const VocabularyHeader = connect((state) => ({
   vocabulary: state.vocabulary,
   route: state.route,
 }))(X);
+
+export default (props) => {
+  // if (!isBrowser) return <div />;
+  return <VocabularyHeader data={DecodeDataInHTML(props.data)} />;
+};

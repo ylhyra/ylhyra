@@ -1,6 +1,9 @@
 import { newTitle } from "documents/Parse";
 import { AllHtmlEntities as Entities } from "html-entities";
-import atob from "atob";
+import {
+  EncodeDataInHTML,
+  DecodeDataInHTML,
+} from "documents/Compile/functions/functions";
 const entities = new Entities();
 
 /*
@@ -34,8 +37,7 @@ const Traverse = (input, callback) => {
     try {
       let data = attr["data-data"];
       // console.log((decodeURIComponent(atob(data))))
-      data =
-        data && JSON.parse(/*entities.decode*/ decodeURIComponent(atob(data)));
+      data = DecodeDataInHTML(data);
       data &&
         callback({
           documentTitle: attr["data-document-start"],

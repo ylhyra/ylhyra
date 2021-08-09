@@ -1,11 +1,12 @@
 import React from "react";
 import VocabularyHeader from "app/Vocabulary/Elements/VocabularyHeader";
-import atob from "atob";
+import {
+  EncodeDataInHTML,
+  DecodeDataInHTML,
+} from "documents/Compile/functions/functions";
 
 export default (props) => {
-  const vocabulary =
-    props.header_data &&
-    JSON.parse(decodeURIComponent(atob(props.header_data)));
+  const vocabulary = DecodeDataInHTML(props.header_data);
   return (
     <a
       href={props.chapter_url}
