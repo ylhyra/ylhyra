@@ -91,7 +91,7 @@ export const TranscludeFromText = async (input, depth) => {
         /* Transclude */
         let [name, ...params] = q.split(/\|/);
         const transclusion = await Transclude(name, depth + 1);
-        let output2 = transclusion.output;
+        let output2 = transclusion?.output;
         if (output2) {
           if (params) {
             output2 = output2.replace(/(\$([0-9]*))/g, (q, w, number) => {

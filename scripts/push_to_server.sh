@@ -4,6 +4,8 @@ set -e
 export $(cat .env)
 cd ${BASH_SOURCE%/*}/../
 
+sleep 1
+
 echo "Running rsync..."
 rsync \
   --recursive \

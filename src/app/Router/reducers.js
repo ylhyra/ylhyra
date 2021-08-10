@@ -1,6 +1,7 @@
+import { isBrowser } from "app/App/functions/isBrowser";
 export const route = (
   state = {
-    pathname: "/",
+    pathname: isBrowser ? window.location.pathname : "/",
   },
   action
 ) => {

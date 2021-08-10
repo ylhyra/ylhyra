@@ -14,7 +14,7 @@ export const getOrder = async (withDepth) => {
   content.replace(/(?:Unit (\d+)|chapter_url="(.+?)")/g, (x, unit, _url) => {
     if (unit) {
       currentUnit = unit;
-      index = 1;
+      // index = 1;
       return;
     }
     const { url } = getValuesForURL(_url);

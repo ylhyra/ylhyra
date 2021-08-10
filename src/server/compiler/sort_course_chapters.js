@@ -26,7 +26,7 @@ const run = async () => {
 
     const dir = //content_folder + `/not_data/content/course/A1`;
       content_folder + `/not_data/content/course/A1/${prefixZeroes(item.unit)}`;
-    rename(file, dir + `/${prefixZeroes(item.prefix)}-${filename}`);
+    rename(file, dir + `/${prefixZeroes(item.prefix, 2)}-${filename}`);
   });
   process.exit();
 };
@@ -40,6 +40,8 @@ const rename = (from, to) => {
   fs.renameSync(from, to);
 };
 
-const prefixZeroes = (input) => {
-  return ("00" + input.toString()).slice(-Math.max(2, input.toString().length));
+const prefixZeroes = (input, min = 2) => {
+  return ("00" + input.toString()).slice(
+    -Math.max(min, input.toString().length)
+  );
 };
