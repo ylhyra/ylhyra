@@ -28,7 +28,7 @@ class Form2 extends React.Component {
     });
     if (!this.props.user || !process.env.REACT_APP_PWYW) {
       setTimeout(() => {
-        // updateURL("/sign-up");
+        // updateURL("/signup");
       }, 100);
     }
   }

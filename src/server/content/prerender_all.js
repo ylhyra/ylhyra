@@ -4,11 +4,8 @@ import prerender from "./prerender_single";
 import forEachAsync from "app/App/functions/array-foreach-async";
 import { url_to_info } from "app/Router/paths";
 import { readDeck } from "documents/Compile/vocabulary";
+import { links, getValuesForURL } from "server/content/links.js";
 var fs = require("fs");
-let links = {};
-try {
-  links = require("build/links.js");
-} catch (e) {}
 
 let n = 0;
 const run = async () => {

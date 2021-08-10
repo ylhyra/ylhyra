@@ -7,7 +7,7 @@ class SignupSteps extends React.Component {
   componentDidMount() {}
   render() {
     if (!process.env.REACT_APP_PWYW) return null;
-    const isSignup = this.props.route.pathname === "/sign-up";
+    const isSignup = this.props.route.pathname === "/signup";
     return (
       <div id="signup-steps" className="pwyw-on">
         <span className={isSignup ? "active" : ""}>

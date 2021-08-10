@@ -28,12 +28,12 @@ class X extends Component {
                 key={index}
                 className={`numbers ${index === 0 ? "first" : ""}`}
               >
-                <Link to={f(k)}>{k}</Link>
+                <Link href={f(k)}>{k}</Link>
               </li>
             ))}
             {next && (
               <li class="next">
-                <Link to={f(next)}>Next</Link>
+                <Link href={f(next)}>Next</Link>
               </li>
             )}
           </ul>

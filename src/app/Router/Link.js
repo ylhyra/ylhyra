@@ -23,6 +23,9 @@ class Link extends React.Component {
     if (href in app_urls) {
       href = app_urls[href].url;
     }
+    if (href.startsWith("//")) {
+      console.warn(`Did you mean to do ${href}?`);
+    }
     // if (href.startsWith("/")) {
     //   href = URL_title(href);
     // }

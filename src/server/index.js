@@ -114,6 +114,8 @@ const port = process.env.SERVER_PORT || argv.port || 9123;
 /* Import steps */
 if (process.argv[2] === "--generate-links") {
   require("server/compiler/generate_links.js");
+} else if (process.argv[2] === "--sort_course_chapters") {
+  require("server/compiler/sort_course_chapters.js");
 } else if (process.argv[2] === "--prerender") {
   require("server/content/prerender_all.js");
 } else if (process.argv[2] === "--prerender-single") {

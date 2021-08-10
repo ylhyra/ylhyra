@@ -6,32 +6,28 @@ import {
   removeComments,
   EncodeDataInHTML,
 } from "documents/Compile/functions/functions";
-let links = {};
-try {
-  links = require("build/links.js");
-} catch (e) {}
+import { links, getValuesForURL } from "server/content/links.js";
 
 var fs = require("fs");
 
 const Transclude = (title, depth = 0, shouldGetData = true) => {
   return new Promise((resolve, reject) => {
-    let url = URL_title((depth > 0 ? "Template:" : "") + title);
-    if (!(url in links)) {
-      url = URL_title(title);
-      if (!(url in links)) {
-        return resolve(`\nNo template named "${title}"\n`);
+    let values = getValuesForURL((depth > 0 ? "Template:" : "") + title);
+    // console.log({ title, values });
+    if (!values.file) {
+      values = getValuesForURL(title);
+      if (!values.file) {
+        console.log(`\nNo template named "${title}"\n`);
+        return resolve();
       }
     }
-    if (links[url].redirect_to) {
-      url = links[url].redirect_to;
-    }
 
-    fs.readFile(links[url].file, "utf8", async (err, data) => {
+    fs.readFile(values.file, "utf8", async (err, data) => {
       if (err) {
         console.log(err);
         return resolve(`\nFailed to read file for ${title}\n`);
       }
-      let { header, body } = ParseHeaderAndBody(data, links[url].file);
+      let { header, body } = ParseHeaderAndBody(data, values.file);
 
       let output = body;
 

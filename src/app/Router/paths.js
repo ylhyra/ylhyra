@@ -39,7 +39,7 @@ export const urls = {
     url: "/login",
     component: LogIn,
   },
-  // /sign-up: {
+  // /signup: {
   //   title: "Sign up",
   //   url: "/signup",
   //   component: Signup,

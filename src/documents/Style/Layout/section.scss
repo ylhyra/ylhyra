@@ -15,11 +15,17 @@ section,
   }
   &.content {
     padding: 55px 24px;
+    @media (max-width: 400px) {
+      padding: 20px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
     margin: 0;
     box-sizing: content-box;
-    line-height: 1.7;
+    line-height: 1.65;
     letter-spacing: 0.1px;
     word-spacing: 0.6px;
+    word-spacing: 0.9px;
     @include serif();
     font-size: 15px;
     &:not(.first):not(.last) {
@@ -63,6 +69,7 @@ section,
   }
 }
 
-.spacer-below-content {
+// .spacer-below-content
+main {
   flex: 1;
 }

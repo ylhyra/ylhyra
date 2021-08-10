@@ -18,10 +18,10 @@ class Layout extends React.Component {
       <div id="container">
         <Error />
         {!is_fullscreen && <Header />}
-        <main id="content">
+        <div id="content">
           {!is_fullscreen && <Session />}
           {this.props.children}
-        </main>
+        </div>
         {!is_fullscreen && <Footer />}
       </div>
     );

@@ -75,7 +75,7 @@ export const login = async ({ username, user_id, save_progress }) => {
 
 export const logout = async () => {
   const response = (await axios.post(`/api/user/logout`)).data;
-  updateURL("/front-page");
+  updateURL("/frontpage");
   store.dispatch({
     type: "LOAD_USER",
     content: null,

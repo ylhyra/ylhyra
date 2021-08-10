@@ -1,7 +1,7 @@
 import c from "app/App/functions/no-undefined-in-template-literal";
 import markdown_to_html from "documents/Compile/markdown_to_html";
 export default (input, header) => {
-  return input.replace(/{\| class="wikitable"([\s\S]+?)\|}/g, (x, content) => {
+  return input?.replace(/{\| class="wikitable"([\s\S]+?)\|}/g, (x, content) => {
     return `<table class="wikitable">
     <tbody>
       ${content

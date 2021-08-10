@@ -44,9 +44,11 @@ export const parseVocabularyList = (vocabulary_list) => {
   );
   if (terms.length === 0) return null;
 
-  const sentences = terms.map((term_id) => {
-    return printWord(term_id);
-  });
+  const sentences = _.flatten(
+    terms.map((term_id) => {
+      return printWord(term_id).split(/;+ /g);
+    })
+  );
 
   const cards = getCardIdsFromTermIds(terms);
   const dependencyCards = getCardIdsFromTermIds(dependencyTerms);

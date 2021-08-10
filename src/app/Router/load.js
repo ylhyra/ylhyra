@@ -98,7 +98,7 @@ const set = async (url, data, preload, section, callback) => {
   url = data.redirect_to || url;
 
   if (url === "/" && isVocabularyTheFrontpage()) {
-    url = "/front-page";
+    url = "/frontpage";
   }
 
   callback?.();

@@ -8,7 +8,7 @@ export default () => (
     type="login"
     above={
       <div>
-        <Link href="/sign-up">Sign up</Link>
+        <Link href="/signup">Sign up</Link>
         <h2>Log in</h2>
       </div>
     }

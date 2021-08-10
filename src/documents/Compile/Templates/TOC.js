@@ -27,7 +27,7 @@ export default async (text) => {
                   template === "chapter") &&
                 'show_words="yes"'
               }
-              chapter_url="/${URL_title(link)}">${title} ${
+              chapter_url="${URL_title(link)}">${title} ${
             small && `<small>${small}</small>`
           }</Chapter>`;
         }

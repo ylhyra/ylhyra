@@ -33,7 +33,9 @@ export default async (input, header) => {
     return "";
   });
 
-  input += '<div class="spacer-below-content"></div>';
+  input = `<main>${input}</main>`;
+
+  // input += '<div class="spacer-below-content"></div>';
 
   /* Prev and next for course articles */
   const url = URL_title(header.title);
@@ -45,10 +47,10 @@ export default async (input, header) => {
       const next = order[i + 1];
       let y = "";
       if (prev) {
-        y += `<a href="/${prev}" className="button gray small">Previous article</a>`;
+        y += `<a href="${prev}" className="button gray small">Previous article</a>`;
       }
       if (next) {
-        y += `<a href="/${next}" className="button right gray small">Next article</a>`;
+        y += `<a href="${next}" className="button right gray small">Next article</a><div className="clear"></div>`;
       }
       input += `<section>${y}</section>`;
     }

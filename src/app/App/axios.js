@@ -27,7 +27,7 @@ axios.interceptors.response.use(
       message = response.message || response.error;
     }
     if (typeof message !== "string") {
-      message = "Server returned an error";
+      message = "Server returned an error. Please try reloading.";
     }
     if (status !== 404) {
       notify(message, "error");

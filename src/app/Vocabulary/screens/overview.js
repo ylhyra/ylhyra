@@ -23,7 +23,7 @@ class Overview extends Component {
     return (
       <div>
         <h1>Vocabulary</h1>
-        <Link to="/vocabulary/tutorial">Tutorial</Link>
+        <Link href="/vocabulary/tutorial">Tutorial</Link>
         <Spacer space="70" />
         <div className="centered-button">
           <Link href="VOCABULARY_PLAY" className="button dark-blue big">

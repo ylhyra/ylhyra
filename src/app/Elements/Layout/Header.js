@@ -12,7 +12,7 @@ class Layout extends React.Component {
     return (
       <header>
         {!isUserLoggedIn() && existsSchedule() && !not_banner && (
-          <Link href="/sign-up" className="notification please-log-in">
+          <Link href="/signup" className="notification please-log-in">
             Create an account to save your progress
           </Link>
         )}

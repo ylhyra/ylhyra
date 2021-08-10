@@ -3,17 +3,13 @@ import { URL_title, FileSafeTitle } from "paths";
 import { removeComments } from "documents/Compile/transclude";
 import { url_to_info } from "app/Router/paths";
 import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
+import { getValuesForURL } from "server/content/links";
 const router = require("express").Router();
 var fs = require("fs");
-let links = {};
-try {
-  links = require("build/links.js");
-} catch (e) {}
+
 const yaml = require("js-yaml");
 const path = require("path");
 const build_folder = path.resolve(__basedir, `./build`);
-
-export const _links = links;
 
 router.get(["/api/content", "*"], async (req, res) => {
   let url;
@@ -24,28 +20,9 @@ router.get(["/api/content", "*"], async (req, res) => {
   } else {
     url = URL_title(req.path);
   }
-  let values = links[url];
-  if (values || url_to_info["/" + url]) {
-    let output = {};
-    let title, file, filename;
-    if (values) {
-      title = values.title;
-      file = values.file;
-      filename = values.filename;
-      if ("redirect_to" in values) {
-        url = values.redirect_to;
-        file = links[values.redirect_to].file;
-        title = links[values.redirect_to].title;
-        filename = links[values.redirect_to].filename;
-        output.redirect_to = values.redirect_to;
-        output.section = values.section;
-      } else if (req.query.title !== url) {
-        output.redirect_to = url;
-      }
-    } else {
-      title = "";
-      filename = FileSafeTitle(url);
-    }
+  let values = getValuesForURL(url, req.query.title);
+  if (values) {
+    let { title, file, filename } = values;
 
     title = title.split(/[/:]/g).reverse().join("\u2006•\u2006");
 
@@ -67,7 +44,7 @@ router.get(["/api/content", "*"], async (req, res) => {
           return res.send(content);
         }
         res.send({
-          ...output,
+          ...values,
           content,
           title,
           header,

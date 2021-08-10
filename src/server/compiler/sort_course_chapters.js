@@ -1,5 +1,5 @@
 /*
-node build/server/ylhyra_server.js --generate-links
+npm run chapters
 */
 // import urlSlug from 'src/app/App/functions/url-slug'
 import string_hash from "app/App/functions/hash";
@@ -11,8 +11,6 @@ var fs = require("fs");
 const path = require("path");
 let files = [];
 const links = {};
-
-// fs.mkdirSync(output_folder)
 
 const run = () => {
   getFilesRecursively(content_folder);

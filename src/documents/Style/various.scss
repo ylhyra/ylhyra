@@ -101,12 +101,22 @@ sup.reference {
       border-top: 1px solid #ededed;
     }
     display: block;
+    background-color: white;
     &:hover {
       text-decoration: none;
-      background: #f5f5f5;
+      background-color: #f5f5f5;
+    }
+    &:visited:not(&:hover) {
+      background-color: #fbfbfb;
+      .chapter-title {
+        > :first-child {
+          color: #5c5666;
+        }
+      }
     }
   }
   .chapter-title {
+    color: black;
     display: flex;
     // align-items: center;
     > :first-child {
@@ -139,10 +149,22 @@ sup.reference {
   }
   .vocabulary-header {
     display: flex;
+    align-items: center;
     > :last-child {
       flex: 1;
       margin-left: 10px;
       > :not(.gray) {
+      }
+    }
+    @media (max-width: 380px) {
+      flex-direction: column;
+      align-items: center;
+      // > :first-child {
+      // max-width: 250px;
+      // }
+      > :last-child {
+        margin-left: 0px;
+        margin-top: 8px;
       }
     }
   }
@@ -227,4 +249,8 @@ sup.reference {
 
 .pwyw-on {
   display: none !important;
+}
+
+.clear {
+  clear: both;
 }

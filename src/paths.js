@@ -14,16 +14,17 @@ export const get_processed_image_url = (file, audio) =>
 
 /* URL slugs */
 export const URL_title = (title) => {
-  if (!title) return title;
+  if (!title) return "/";
   let [path, section] = title.split("#");
   path = path
     .toLowerCase()
     .trim()
-    .replace(/([_ ])/g, "-")
+    .replace(/([_ –—])/g, "-")
+    .replace(/[(),!?;]/g, "")
     .replace(/-+/g, "-")
-    .replace(/(\?)/g, "")
     .replace(/:/g, "/")
     .replace(/^\//g, "");
+  path = "/" + path;
   section = section_id(section);
   return path + (section ? "#" + section : "");
 };
@@ -44,6 +45,8 @@ export const FileSafeTitle = (title) => {
     URL_title(title)
       .replace(/(\/)/g, "_")
       .replace(/(:)/g, "_")
+      .replace(/^_/g, "")
+      .replace(/_+/g, "_")
       .replace(/[()]/g, "") || "frontpage"
   );
 };

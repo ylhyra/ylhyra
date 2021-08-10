@@ -29,10 +29,7 @@ class X extends Component {
 
     return (
       <div className="vocabulary-header">
-        <button
-          className="big dark-blue"
-          onClick={() => studyParticularIds(cards)}
-        >
+        <button className="dark-blue" onClick={() => studyParticularIds(cards)}>
           Study {terms.length} terms
         </button>
         <div>

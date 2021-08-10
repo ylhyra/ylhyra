@@ -32,18 +32,20 @@ export const isVocabularyTheFrontpage = () => {
 };
 
 export const getFrontpageURL = () => {
-  return isVocabularyTheFrontpage() ? "/front-page" : "/";
+  return isVocabularyTheFrontpage() ? "/frontpage" : "/";
   // return isVocabularyTheFrontpage() ? "/vocabulary" : "/";
 };
 
 export const updateURL = (url, title, replace, prerender, is404) => {
   HAS_LOADED = true;
   let is_component = url in app_urls;
+  // console.log({ url });
   if (url in app_urls) {
     url = app_urls[url].url;
   } else {
     url = URL_title(url);
   }
+  // console.log({ url });
   if (!url.startsWith("/")) {
     url = "/" + url;
   }
