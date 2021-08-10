@@ -8,6 +8,7 @@ try {
 export const links = _links;
 
 export const getValuesForURL = (url, user_input_url) => {
+  if (!url && url !== "") return {};
   url = URL_title(url);
   let values = links[url];
   if (values) {

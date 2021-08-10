@@ -2,7 +2,7 @@ import c from "app/App/functions/no-undefined-in-template-literal";
 import markdown_to_html from "documents/Compile/markdown_to_html";
 import { parseVocabularyList } from "documents/Compile/vocabulary";
 import { EncodeDataInHTML } from "documents/Compile/functions/functions";
-import { getOrder } from "./next";
+import { getOrder } from "./getOrderOfChapters";
 import { URL_title, FileSafeTitle } from "paths";
 
 export default async (input, header) => {
