@@ -16,22 +16,29 @@ const path = require("path");
 
 const run = async () => {
   const order = await getOrder(true);
-  console.log(order);
+  // console.log(order);
   order.forEach((item) => {
-    const { filename } = getValuesForURL(item.url);
-    const dir =
+    const { file } = getValuesForURL(item.url);
+    const filename = file.replace(/^.+\//, "").replace(/^\d+-(\d+-)?/, "");
+    // const tmpFile =
+    // content_folder + `/not_data/content/course/unused/${prefixZeroes(item.unit)}`;
+    // rename(file, )
+
+    const dir = //content_folder + `/not_data/content/course/A1`;
       content_folder + `/not_data/content/course/A1/${prefixZeroes(item.unit)}`;
-    // if (!fs.existsSync(dir)) {
-    //   fs.mkdirSync(dir, { recursive: true });
-    // }
-    // fs.renameSync(
-    //   filename,
-    //   dir + `/${prefixZeroes(item.prefix)}-${filename.replace(/^\d+-/, "")}`
-    // );
+    rename(file, dir + `/${prefixZeroes(item.prefix)}-${filename}`);
   });
   process.exit();
 };
 run();
+
+const rename = (from, to) => {
+  const dir = to.replace(/^(.+)\/(.+)/, "$1");
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  fs.renameSync(from, to);
+};
 
 const prefixZeroes = (input) => {
   return ("00" + input.toString()).slice(-Math.max(2, input.toString().length));
