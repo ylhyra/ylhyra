@@ -97,6 +97,9 @@ button:not(.link):not(.nostyle) {
   &.playButton {
     @include button(#4e822e, #e0e2fb, 0);
   }
+  &.gray {
+    @include button(#7e817d, #e0e2fb, 0);
+  }
 }
 .button.small > a,
 a.button.small {

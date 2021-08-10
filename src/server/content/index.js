@@ -13,6 +13,8 @@ const yaml = require("js-yaml");
 const path = require("path");
 const build_folder = path.resolve(__basedir, `./build`);
 
+export const _links = links;
+
 router.get(["/api/content", "*"], async (req, res) => {
   let url;
   let type = "html";

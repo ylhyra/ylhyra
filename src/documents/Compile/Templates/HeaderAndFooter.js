@@ -2,8 +2,10 @@ import c from "app/App/functions/no-undefined-in-template-literal";
 import markdown_to_html from "documents/Compile/markdown_to_html";
 import { parseVocabularyList } from "documents/Compile/vocabulary";
 import { EncodeDataInHTML } from "documents/Compile/functions/functions";
+import { getOrder } from "./next";
+import { URL_title, FileSafeTitle } from "paths";
 
-export default (input, header) => {
+export default async (input, header) => {
   let h = "";
   let f = "";
   // console.log(header.vocabulary);
@@ -32,6 +34,26 @@ export default (input, header) => {
   });
 
   input += '<div class="spacer-below-content"></div>';
+
+  /* Prev and next for course articles */
+  const url = URL_title(header.title);
+  if (header.title !== "Course") {
+    const order = await getOrder();
+    if (order.includes(url)) {
+      const i = order.indexOf(url);
+      const prev = i >= 0 && order[i - 1];
+      const next = order[i + 1];
+      let y = "";
+      if (prev) {
+        y += `<a href="/${prev}" className="button gray small">Previous article</a>`;
+      }
+      if (next) {
+        y += `<a href="/${next}" className="button right gray small">Next article</a>`;
+      }
+      input += `<section>${y}</section>`;
+    }
+  }
+
   input += VocabularyHeader;
 
   if (

@@ -143,7 +143,14 @@ class Card extends Component {
     // console.log({card,answer})
     if (!card)
       return <div>Unable to create cards. Please report this error.</div>;
-    let { from, lemmas, note_regarding_english, note, literally } = card;
+    let {
+      from,
+      lemmas,
+      note_regarding_english,
+      note,
+      literally,
+      example_declension,
+    } = card;
     let Type = null;
     const is = card.is_formatted;
     const en = card.en_formatted;
@@ -153,13 +160,19 @@ class Card extends Component {
 
     literally = literally && (
       <div>
-        <span className="label">Literally:</span> {html(literally)}{" "}
+        <span className="label">Literally:</span> {html(literally)}
       </div>
     );
     lemmas = lemmas && (
       <div>
         <span className="label">Dictionary form{/,/.test(lemmas) && "s"}:</span>{" "}
-        {html(lemmas)}{" "}
+        {html(lemmas)}
+      </div>
+    );
+    example_declension = example_declension && (
+      <div>
+        <span className="label">Example inflection:</span>{" "}
+        {html(example_declension)}
       </div>
     );
     note_regarding_english = html(note_regarding_english);
@@ -235,6 +248,7 @@ class Card extends Component {
               )}
               {literally}
               {lemmas}
+              {example_declension}
               {card.pronunciation && (
                 <div>
                   <span className="label">Pronounced:</span>{" "}

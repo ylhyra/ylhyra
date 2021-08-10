@@ -10,10 +10,3 @@ We keep track of two things:
 
 - **terms** – A term is an identifier for a particular word or sentence.
 - **cards** – Belongs to one or more terms.
-
-## Scoring
-
-1 – bad, 2 – good, 3 – easy
-
-
-
