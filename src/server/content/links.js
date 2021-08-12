@@ -1,10 +1,11 @@
 import { url_to_info } from "app/Router/paths";
 import { URL_title, FileSafeTitle } from "paths";
+const fs = require("fs");
 
 let _links = {};
 try {
-  _links = require("build/links.js");
-} catch (e) {}
+  _links = JSON.parse(fs.readFileSync(__basedir + `/build/links.json`, "utf8"));
+} catch (err) {}
 export const links = _links;
 
 export const getValuesForURL = (url, user_input_url) => {
@@ -12,15 +13,12 @@ export const getValuesForURL = (url, user_input_url) => {
   url = URL_title(url);
   let values = links[url];
   if (values) {
-    values.url = url;
     if ("redirect_to" in values) {
-      values.url = values.redirect_to;
-      values.file = links[values.redirect_to].file;
-      values.title = links[values.redirect_to].title;
-      values.filename = links[values.redirect_to].filename;
+      values = links[values.redirect_to];
     } else if (user_input_url && user_input_url !== url) {
       values.redirect_to = url;
     }
+    values.url = url;
     return values;
   } else if (url_to_info[url]) {
     return {

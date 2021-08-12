@@ -71,6 +71,12 @@ Card.prototype.showIn = function ({
     this.cannotBeShownBefore || 0,
     this.session.counter + c
   );
+
+  console.log(
+    `${printWord(this.id)} – cannotBeShownBefore ${
+      this.cannotBeShownBefore
+    }, qp ${this.absoluteQueuePosition} `
+  );
 };
 Card.prototype.canBeShown = function () {
   return (

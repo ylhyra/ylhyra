@@ -6,13 +6,13 @@ import string_hash from "app/App/functions/hash";
 import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
 import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
 import { URL_title, FileSafeTitle } from "paths";
-import { content_folder, output_folder } from "paths_backend";
+import { content_folder, build_folder } from "paths_backend";
 var fs = require("fs");
 const path = require("path");
 let files = [];
 const links = {};
 
-// fs.mkdirSync(output_folder)
+// fs.mkdirSync(build_folder)
 
 const run = () => {
   getFilesRecursively(content_folder);
@@ -32,6 +32,8 @@ const run = () => {
       title: header.title,
       filename,
       file: files[file],
+      shouldBeCreated: shouldBeCreated(file, header),
+      shouldBeIndexed: shouldBeIndexed(file, header),
     };
     header.redirects &&
       header.redirects.forEach((r) => {
@@ -47,15 +49,12 @@ const run = () => {
         };
       });
     // // console.log(data)
-    // fs.writeFileSync(output_folder + `${filename}.html`, body)
+    // fs.writeFileSync(build_folder + `${filename}.html`, body)
     // break;
   }
   // console.log(done);
   /* Write links */
-  fs.writeFileSync(
-    "build/links.js",
-    `module.exports = ` + JSON.stringify(links, null, 2)
-  );
+  fs.writeFileSync("build/links.json", JSON.stringify(links, null, 2));
   process.exit();
 };
 
@@ -73,4 +72,21 @@ const getFilesRecursively = (directory) => {
     }
   }
 };
+
+export const shouldBeCreated = (file, header) => {
+  return (
+    /^(Data|File|Text|Template):/.test(header.title) ||
+    /\/drafts\//i.test(file) ||
+    /(newsletter)/i.test(file)
+  );
+};
+
+export const shouldBeIndexed = (file, header) => {
+  return (
+    shouldBeCreated(file, header) &&
+    header.index !== "no" &&
+    !file.includes("/project/")
+  );
+};
+
 run();

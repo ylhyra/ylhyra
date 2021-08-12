@@ -10,6 +10,7 @@ import requestIp from "request-ip";
 import path from "path";
 import { unprocessed_image_url, processed_image_url } from "paths";
 import { ylhyra_content_files, image_output_folder } from "paths_backend";
+import { build_folder } from "paths_backend";
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
 const argv = argvFactory(process.argv.slice(2));
@@ -32,7 +33,6 @@ app.use(
     maxAge: 5 * 365 * 24 * 60 * 60 * 1000, // 5 years
   })
 );
-const build_folder = path.resolve(__basedir, `./build`);
 
 if (!process.env.COOKIE_SECRET) {
   console.warn("Missing COOKIE_SECRET");
@@ -114,6 +114,8 @@ const port = process.env.SERVER_PORT || argv.port || 9123;
 /* Import steps */
 if (process.argv[2] === "--generate-links") {
   require("server/compiler/generate_links.js");
+} else if (process.argv[2] === "--sitemap") {
+  require("server/compiler/generate_sitemap.js");
 } else if (process.argv[2] === "--sort_course_chapters") {
   require("server/compiler/sort_course_chapters.js");
 } else if (process.argv[2] === "--prerender") {

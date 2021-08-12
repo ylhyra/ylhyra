@@ -10,6 +10,11 @@ video {
     float: right;
     clear: right;
     margin: 0 0 12px 12px;
+    @media (max-width: 600px) {
+      float: none;
+      margin: auto;
+      margin-bottom: 12px;
+    }
   }
   &:not(.right) {
     margin: 20px 0;
@@ -47,3 +52,12 @@ video {
     padding-top: 2px;
   }
 }
+
+// .section.has-image {
+//   div {
+//     display: flex;
+//   }
+//   .ylhyra_image.right {
+//     margin-right: -100px;
+//   }
+// }

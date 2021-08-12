@@ -24,6 +24,7 @@ export default (input, header) => {
           ${isContent && "content"}
           ${i === 0 && "first"}
           ${i++ % 2 !== 0 && "odd"}
+          ${/Image.+position="right/.test(content) && "has-image"}
         ">${content}</section>`;
       }
     );

@@ -6,6 +6,7 @@ import error from "app/App/Error";
 import axios from "app/App/axios";
 import { createSchedule } from "./createSchedule";
 import Session from "app/Vocabulary/actions/session";
+import { isBrowser } from "app/App/functions/isBrowser";
 
 import { syncSchedule } from "./sync";
 // import { spreadOutSchedule } from "./createSchedule";
@@ -18,6 +19,10 @@ export let deck;
 class Deck {
   constructor(database, schedule, session) {
     deck = this;
+    if (isBrowser) {
+      window.deck = deck;
+    }
+
     const { cards, terms } = database;
     this.cards = cards;
     this.terms = terms;

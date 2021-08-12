@@ -33,7 +33,11 @@ export default async (input, header) => {
     return "";
   });
 
-  input = `<main>${input}</main>`;
+  if (input.trim()) {
+    input = c`<main class="${
+      /Image position="right/.test(input) && "has-image"
+    }">${input}</main>`;
+  }
 
   // input += '<div class="spacer-below-content"></div>';
 

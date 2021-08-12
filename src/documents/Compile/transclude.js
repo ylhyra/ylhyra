@@ -53,7 +53,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
             `<span data-document-start="${
               (data2 || header).title
             }" data-data="${
-              data2 ? EncodeDataInHTML(data2.output) : ""
+              data2 ? EncodeDataInHTML(data2.output, true) : ""
             }"></span>` +
             output +
             `<span data-document-end="${(data2 || header).title}"></span>`;

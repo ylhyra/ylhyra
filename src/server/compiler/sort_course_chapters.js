@@ -9,7 +9,7 @@ import string_hash from "app/App/functions/hash";
 import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
 import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
 import { URL_title, FileSafeTitle } from "paths";
-import { content_folder, output_folder } from "paths_backend";
+import { content_folder, build_folder } from "paths_backend";
 import { links, getValuesForURL } from "server/content/links.js";
 var fs = require("fs");
 const path = require("path");

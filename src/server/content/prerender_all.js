@@ -15,14 +15,8 @@ const run = async () => {
   let to_render = Object.keys(url_to_info);
   // console.log(url_to_info);
   Object.keys(links).forEach((url) => {
-    const { redirect_to, title, file, filename } = links[url];
-    if (
-      "redirect_to" in links[url] ||
-      /^(Data|File|Text|Template):/.test(title) ||
-      /\/drafts\//.test(file) ||
-      /(newsletter)/i.test(file)
-    )
-      return;
+    const { redirect_to, title, file, filename, shouldBeCreated } = links[url];
+    if (!shouldBeCreated) return;
     to_render.push(url);
   });
   let i = 0;

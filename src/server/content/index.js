@@ -4,12 +4,12 @@ import { removeComments } from "documents/Compile/transclude";
 import { url_to_info } from "app/Router/paths";
 import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
 import { getValuesForURL } from "server/content/links";
+import { build_folder } from "paths_backend";
 const router = require("express").Router();
 var fs = require("fs");
 
 const yaml = require("js-yaml");
 const path = require("path");
-const build_folder = path.resolve(__basedir, `./build`);
 
 router.get(["/api/content", "*"], async (req, res) => {
   let url;
@@ -26,7 +26,7 @@ router.get(["/api/content", "*"], async (req, res) => {
 
     title = title.split(/[/:]/g).reverse().join("\u2006•\u2006");
 
-    if (url.startsWith("file/")) {
+    if (url.startsWith("/file/")) {
       // console.log(file);
       res.sendFile(
         file

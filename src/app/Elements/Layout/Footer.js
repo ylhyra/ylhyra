@@ -6,11 +6,7 @@ export default (props) => (
   <div id="footer">
     <div id="footer-info">
       <span className="footer-gray">
-        <Link
-          id="footer-logo"
-          title="Kennitala: 480520-0170"
-          href="/Project:About"
-        >
+        <Link id="footer-logo" href="/about">
           Ylhýra
         </Link>
       </span>
@@ -27,9 +23,11 @@ export default (props) => (
         <span className="footer-gray">
           <Link href="/Project:Become_a_collaborator">Collaborate</Link>
         </span> */}
-        •
-        <span className="footer-gray pwyw-on">
-          <Link href="/donate">Donate</Link>
+        <span className="pwyw-on">
+          •
+          <span className="footer-gray">
+            <Link href="/donate">Donate</Link>
+          </span>
         </span>
         {/* • */}
       </span>

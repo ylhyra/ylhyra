@@ -15,6 +15,8 @@
     "links": "./../ylhyra_content/scripts/cleanup.sh && export NODE_ENV=production && npm run build_server && npm run links_only",
     "links_only": "node build/server/ylhyra_server.js --generate-links",
     "chapters": "npm run links && node build/server/ylhyra_server.js --sort_course_chapters",
+    "sitemap": "npm run links && npm run sitemap_only",
+    "sitemap_only": "node build/server/ylhyra_server.js --sitemap",
     "vocabulary": "npm run build_server && npm run vocabulary_only",
     "vocabulary_es": "export DECK='_es' && npm run build_server && npm run vocabulary_only",
     "vocabulary_da": "export DECK='_da' && npm run build_server && npm run vocabulary_only",

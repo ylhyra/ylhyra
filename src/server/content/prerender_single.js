@@ -2,7 +2,7 @@ import React from "react";
 // import Render from 'frontend/Render'
 import ReactDOMServer from "react-dom/server";
 import { URL_title } from "paths";
-import { content_folder, output_folder } from "paths_backend";
+import { content_folder, build_folder } from "paths_backend";
 import generate_html from "documents/Compile";
 import Parse from "documents/Parse";
 import { updateURL } from "app/Router/actions";
@@ -16,13 +16,12 @@ var now = require("performance-now");
 var fs = require("fs");
 const path = require("path");
 const critical = require("critical");
-const build_folder = path.resolve(__basedir, `./build`);
 let TESTING = false;
 /* TODO */
 let hash = shortid.generate();
 
 const css = fs.readFileSync(
-  path.resolve(output_folder, `./app/main.css`),
+  path.resolve(build_folder, `./app/main.css`),
   "utf8"
 );
 const html = fs.readFileSync(

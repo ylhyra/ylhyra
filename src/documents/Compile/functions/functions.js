@@ -6,9 +6,11 @@ var btoa = require("btoa");
 export const removeComments = (i) =>
   i.replace(/<!--([\s\S]+?)-->/g, "").replace(/\n<!--([\s\S]+?)-->\n/g, "\n");
 
-export const EncodeDataInHTML = (input) => {
+export const EncodeDataInHTML = (input, alreadyStringified) => {
   if (!input) return;
-  return btoa(encodeURIComponent(JSON.stringify(input)));
+  return btoa(
+    encodeURIComponent(alreadyStringified ? input : JSON.stringify(input))
+  );
 };
 
 export const DecodeDataInHTML = (input) => {

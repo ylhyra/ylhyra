@@ -3,7 +3,7 @@ import { image_output_folder } from "paths_backend";
 import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
 import _ from "underscore";
 import Transclude from "./transclude";
-import { processed_image_url, output_folder } from "paths";
+import { processed_image_url, build_folder } from "paths";
 import forEachAsync from "app/App/functions/array-foreach-async";
 import { links, getValuesForURL } from "server/content/links.js";
 
@@ -91,7 +91,10 @@ const Images = (data) => {
           // console.log(params);
           output.push(
             `<Image position="${params.position || ""}" style="${
-              params.width ? `max-width:${params.width}px` : ""
+              params.width &&
+              !(params.position === "right" && params.width > 250)
+                ? `max-width:${params.width}px`
+                : ""
             }">
             <div class="image-and-metadata">
               <picture>
