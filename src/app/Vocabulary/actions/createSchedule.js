@@ -3,7 +3,7 @@ import _ from "underscore";
 import { hour, day } from "app/App/functions/time";
 import store from "app/App/store";
 import { BAD, GOOD, EASY } from "./card";
-import { daysToMs } from "app/App/functions/time";
+import { daysToMs, msToDays, hours } from "app/App/functions/time";
 import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
 const MAX_CARDS_PER_DAY = 30;
 
@@ -21,8 +21,6 @@ export function createSchedule() {
   const cards = session.cards;
   if (!cards || !cards.some((i) => i.history.length > 0)) return;
 
-  // deck.spreadOutSchedule();
-
   cards.forEach((card) => {
     let due_in_days;
     let due_in_days_adjusted;
@@ -33,6 +31,8 @@ export function createSchedule() {
     if (sessionHistory.length === 0) return;
     const sessionScore = average(sessionHistory);
     const last_interval_in_days = deck.schedule[card.id]?.last_interval_in_days;
+    const last_due = deck.schedule[card.id]?.due;
+    const last_seen = deck.schedule[card.id]?.last_seen;
     const badCount = sessionHistory.filter((i) => i === BAD).length;
     const anyBad = badCount > 0;
     const now = new Date().getTime();
@@ -50,18 +50,13 @@ export function createSchedule() {
     /* SCORE */
     if (isNew) {
       if (anyBad) {
-        score = BAD; //+ sessionScore_small;
+        score = BAD;
       } else {
         score = sessionScore - 0.05;
       }
     } else {
       if (anyBad) {
         score = BAD;
-        // if (anyBad > 1) {
-        //   score = BAD + sessionScore_small;
-        // } else {
-        //   score = clamp(score - 0.25, BAD, BAD + 0.75);
-        // }
       } else {
         score = clamp(score + 0.4, BAD, EASY + 1);
       }
@@ -70,28 +65,35 @@ export function createSchedule() {
     /* SCHEDULE */
     if (anyBad) {
       due_in_days = 1;
-      if (badCount === 1) {
-        due_in_days_adjusted = 2.5;
-      }
     } else if (isNew) {
       if (sessionScore === EASY) {
-        due_in_days = 60;
-        due_in_days_adjusted = 100;
+        due_in_days = 40;
       } else if (sessionScore === GOOD) {
         due_in_days = 3;
-        due_in_days_adjusted = 6;
       }
     } else {
       const multiplier = sessionScore === EASY ? 6 : 2;
-
-      /* TODO: Relative to actual interval */
       due_in_days = (last_interval_in_days || 1) * multiplier;
+
+      /*
+        If we showed the item far in advance of the scheduled due date,
+        then we give the user the same interval as last time
+      */
+      const actual_interval_in_days = msToDays(now - last_seen);
+      if (actual_interval_in_days / last_interval_in_days < 0.5) {
+        const new_due_in_days = last_interval_in_days;
+        process.env.NODE_ENV === "development" &&
+          console.warn(
+            `${printWord(
+              card.id
+            )} - given ${new_due_in_days} instead of ${due_in_days}`
+          );
+        due_in_days = new_due_in_days;
+      }
     }
     const due = now + daysToMs(due_in_days);
-    const adjusted_due = now + daysToMs(due_in_days_adjusted || due_in_days);
     deck.schedule[card.id] = {
       due,
-      adjusted_due,
       last_interval_in_days: Math.round(due_in_days),
       score,
       last_seen: new Date().getTime(),
@@ -120,12 +122,7 @@ export function createSchedule() {
             deck.schedule[sibling_card_id] = {
               ...(deck.schedule[sibling_card_id] || {}),
               due: newDue,
-              // adjusted_due: newDue,
               needsSyncing: true,
-              // score:
-              //   (deck.schedule[sibling_card_id] &&
-              //     deck.schedule[sibling_card_id].score) ||
-              //   score,
             };
           }
           process.env.NODE_ENV === "development" &&
@@ -134,7 +131,6 @@ export function createSchedule() {
     }
   });
 
-  // deck.spreadOutSchedule();
   deck.syncSchedule();
   console.log("Schedule made");
 }

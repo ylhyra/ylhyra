@@ -14,20 +14,20 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
   return new Promise((resolve, reject) => {
     let values = getValuesForURL((depth > 0 ? "Template:" : "") + title);
     // console.log({ title, values });
-    if (!values.file) {
+    if (!values.filepath) {
       values = getValuesForURL(title);
-      if (!values.file) {
+      if (!values.filepath) {
         console.log(`\nNo template named "${title}"\n`);
         return resolve();
       }
     }
 
-    fs.readFile(values.file, "utf8", async (err, data) => {
+    fs.readFile(values.filepath, "utf8", async (err, data) => {
       if (err) {
         console.log(err);
         return resolve(`\nFailed to read file for ${title}\n`);
       }
-      let { header, body } = ParseHeaderAndBody(data, values.file);
+      let { header, body } = ParseHeaderAndBody(data, values.filepath);
 
       let output = body;
 

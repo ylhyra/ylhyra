@@ -7,15 +7,15 @@ const path = require("path");
 const run = async () => {
   let sitemap = "";
   Object.keys(links).forEach((url) => {
-    const { title, file, filename, shouldBeCreated } = links[url];
-    if (!shouldBeCreated) return;
-    const mtime = fs.statSync(file).mtime;
+    const { title, filepath, filename, shouldBeIndexed } = links[url];
+    if (!shouldBeIndexed) return;
+    const mtime = fs.statSync(filepath).mtime;
     sitemap += c`
       <url>
-        <loc>https://ylhyra.is${url}</loc>
-        <lastmod>${mtime}</lastmod>
+        <loc>https://ylhyra.is${encodeURI(url)}</loc>
+        <lastmod>${new Date(mtime).toISOString()}</lastmod>
         ${getPriority(url) && `<priority>${getPriority(url)}</priority>`}
-        <changefreq>monthly</changefreq>
+        <changefreq>${getPriority(url) ? `weekly` : `monthly`}</changefreq>
       </url>
     `;
   });
@@ -26,14 +26,15 @@ const run = async () => {
 
   fs.writeFileSync(
     path.resolve(build_folder, `./sitemap.xml`),
-    sitemap.replace(/^ +/gm, "")
+    sitemap.replace(/^ +/gm, "").replace(/\n\n+/g, "\n")
   );
+  process.exit();
 };
 
 const getPriority = (url) => {
   if (url === "/") return 1;
   if (url === "/course") return 0.9;
-  if (url === "/texts") return 0.9;
+  if (url === "/texts") return 0.8;
 };
 
 run();

@@ -41,7 +41,7 @@ const Images = (data) => {
           reject2();
           return;
         }
-        const file = links[URL_title("File:" + filename_)].file.replace(
+        const file = links[URL_title("File:" + filename_)].filepath.replace(
           /\.md$/,
           ""
         );

@@ -84,9 +84,9 @@ export const updateURL = (url, title, replace, prerender, is404) => {
   if (url !== "/vocabulary/tutorial") {
     if (encodeURI(url) !== window.location.pathname) {
       if (replace) {
-        window.history.replaceState(null, "", url);
+        window.history.replaceState(null, "", encodeURI(url));
       } else {
-        window.history.pushState(null, "", url);
+        window.history.pushState(null, "", encodeURI(url));
       }
     }
   }
@@ -124,4 +124,15 @@ export const updateURL = (url, title, replace, prerender, is404) => {
 
 export const getURL = () => {
   return decodeURI(window.location.pathname).replace(/^\//, "");
+};
+
+let isIndexed;
+export const index = (shouldIndex) => {
+  if (!isBrowser) return;
+  if (isIndexed !== Boolean(shouldIndex)) {
+    document
+      .querySelector('meta[name="robots"]')
+      .setAttribute("content", shouldIndex ? "index" : "noindex");
+  }
+  isIndexed = shouldIndex;
 };

@@ -17,9 +17,10 @@ const links = {};
 const run = () => {
   getFilesRecursively(content_folder);
 
-  for (const file in files) {
-    if (typeof files[file] !== "string") continue;
-    let data = fs.readFileSync(files[file], "utf8");
+  for (const index in files) {
+    const filepath = files[index];
+    if (typeof filepath !== "string") continue;
+    let data = fs.readFileSync(filepath, "utf8");
     data = RemoveUnwantedCharacters(data);
     let { header, body } = ParseHeaderAndBody(data);
     if (!header) continue;
@@ -31,14 +32,18 @@ const run = () => {
     links[url] = {
       title: header.title,
       filename,
-      file: files[file],
-      shouldBeCreated: shouldBeCreated(file, header),
-      shouldBeIndexed: shouldBeIndexed(file, header),
+      filepath,
     };
+    if (shouldBeCreated(filepath, header)) {
+      links[url].shouldBeCreated = true;
+    }
+    if (shouldBeIndexed(filepath, header)) {
+      links[url].shouldBeIndexed = true;
+    }
     header.redirects &&
       header.redirects.forEach((r) => {
         if (!r) {
-          console.log(files[file]);
+          console.log(filepath);
         }
         const [r_title, r_section] = r.split("#");
         if (links[URL_title(r_title)]) return;
@@ -52,7 +57,6 @@ const run = () => {
     // fs.writeFileSync(build_folder + `${filename}.html`, body)
     // break;
   }
-  // console.log(done);
   /* Write links */
   fs.writeFileSync("build/links.json", JSON.stringify(links, null, 2));
   process.exit();
@@ -73,19 +77,19 @@ const getFilesRecursively = (directory) => {
   }
 };
 
-export const shouldBeCreated = (file, header) => {
+export const shouldBeCreated = (filepath, header) => {
   return (
-    /^(Data|File|Text|Template):/.test(header.title) ||
-    /\/drafts\//i.test(file) ||
-    /(newsletter)/i.test(file)
+    !/^(Data|File|Text|Template):/.test(header.title) &&
+    !/\/(drafts?|test|newsletter)\//i.test(filepath) &&
+    header.status !== "draft"
   );
 };
 
-export const shouldBeIndexed = (file, header) => {
+export const shouldBeIndexed = (filepath, header) => {
   return (
-    shouldBeCreated(file, header) &&
+    shouldBeCreated(filepath, header) &&
     header.index !== "no" &&
-    !file.includes("/project/")
+    !filepath.includes("/project/")
   );
 };
 

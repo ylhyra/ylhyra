@@ -4,7 +4,7 @@ import components from "app/Router/paths";
 import { ReadAlongSetup } from "documents/Render/Audio/ReadAlong";
 import { URL_title } from "paths";
 import store from "app/App/store";
-import { updateURL } from "./actions";
+import { updateURL, index } from "./actions";
 let cache = {};
 let expectedUrl = false;
 export const abortAllThatAreNot = (url) => {
@@ -87,6 +87,7 @@ const set = async (url, data, preload, section, callback) => {
     parsed = out.parsed;
     flattenedData = out.flattenedData;
   }
+  index(data.shouldBeIndexed);
 
   store.dispatch({
     type: "LOAD_ROUTE_CONTENT",

@@ -99,17 +99,17 @@ const ProcessArray = (arr) => {
         // }
         return j.text;
       }
-      return `SUBSTITUTION${i}%`;
+      return `%SUBSTITUTION${i}%`;
     })
     .join("");
   // if (!anyText) {
   //   return arr.map((e) => Traverse(e));
   // }
   return processText(substituted)
-    .split(/(SUBSTITUTION[0-9]+%)/g)
+    .split(/(%SUBSTITUTION[0-9]+%)/g)
     .map((j, i) => {
-      if (j.startsWith("SUBSTITUTION")) {
-        const x = j.match(/SUBSTITUTION([0-9]+)%/)[1];
+      if (j.startsWith("%SUBSTITUTION")) {
+        const x = j.match(/%SUBSTITUTION([0-9]+)%/)[1];
         const element = arr[parseInt(x)];
         return Traverse(element);
       }

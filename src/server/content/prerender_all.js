@@ -15,8 +15,7 @@ const run = async () => {
   let to_render = Object.keys(url_to_info);
   // console.log(url_to_info);
   Object.keys(links).forEach((url) => {
-    const { redirect_to, title, file, filename, shouldBeCreated } = links[url];
-    if (!shouldBeCreated) return;
+    if (!links[url].shouldBeCreated) return;
     to_render.push(url);
   });
   let i = 0;
@@ -43,6 +42,7 @@ const run = async () => {
         filename,
         css: true,
         is_content,
+        shouldBeIndexed: links[url]?.shouldBeIndexed,
         callback: resolve2,
       });
     });

@@ -1,5 +1,5 @@
 import { average, clamp } from "app/App/functions/math";
-import { hour, day } from "app/App/functions/time";
+import { hour, day, hours, days } from "app/App/functions/time";
 import _ from "underscore";
 import { BAD, GOOD, EASY } from "./card";
 import { printWord, getCardsWithSameTerm } from "./functions";
@@ -49,7 +49,7 @@ export default function createCards(options) {
     .sort((a, b) => a.due - b.due)
     .forEach((i) => {
       // console.log(printWord(i.id));
-      if (i.due < now + 0.7 * day) {
+      if (i.due < now + 16 * hours) {
         if (i.score && i.score <= 1.75) {
           overdue_bad_ids.push(i.id);
         } else {
@@ -82,21 +82,21 @@ export default function createCards(options) {
     );
   }
 
-  overdue_good_ids = SortBySortKey2(overdue_good_ids);
-  overdue_bad_ids = SortBySortKey2(overdue_bad_ids);
+  overdue_good_ids = SortBySortKey(overdue_good_ids);
+  overdue_bad_ids = SortBySortKey(overdue_bad_ids);
 
   not_overdue_bad_cards_ids = SortIdsByWhetherTermWasRecentlySeen(
-    SortBySortKey2(not_overdue_bad_cards_ids)
+    SortBySortKey(not_overdue_bad_cards_ids)
   );
   const very_recently_seen_not_overdue_bad_cards = shuffle_each(
     SortIdsByWhetherTermWasRecentlySeen(
-      SortBySortKey2(not_overdue_bad_cards_ids),
+      SortBySortKey(not_overdue_bad_cards_ids),
       true
     ),
     10
   );
   not_overdue_semi_bad_cards_ids = SortIdsByWhetherTermWasRecentlySeen(
-    SortBySortKey2(not_overdue_semi_bad_cards_ids)
+    SortBySortKey(not_overdue_semi_bad_cards_ids)
   );
 
   let total_options =
@@ -130,7 +130,7 @@ export default function createCards(options) {
     });
 
   // console.log({ new_card_ids: new_card_ids.slice(0, 10) });
-  new_card_ids = SortBySortKey2(new_card_ids);
+  new_card_ids = SortBySortKey(new_card_ids);
   // console.log({ new_card_ids: new_card_ids.slice(0, 12).map(printWord) });
 
   for (
@@ -210,7 +210,7 @@ export default function createCards(options) {
       !(card_id in deck.schedule) ||
       (deck.schedule[card_id].score &&
         deck.schedule[card_id].score < 1.4 &&
-        deck.schedule[card_id].last_seen < now - 0.7 * day)
+        deck.schedule[card_id].last_seen < now - 12 * hours)
     ) {
       return tmp.push(card_id);
     }
@@ -268,10 +268,8 @@ const SortIdsByWhetherTermWasRecentlySeen = (input, reverse) => {
   }
   return j.map((i) => i.id);
 };
-const SortBySortKey2 = (array) => {
-  const x = array.sort(
-    (a, b) => deck.cards[a].sortKey2 - deck.cards[b].sortKey2
-  );
+const SortBySortKey = (array) => {
+  const x = array.sort((a, b) => deck.cards[a].sortKey - deck.cards[b].sortKey);
   return shuffle_each(x, 20);
 };
 const empty = (array) => array.length === 0;

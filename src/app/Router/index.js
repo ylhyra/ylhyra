@@ -7,7 +7,7 @@ import components from "app/Router/paths";
 import { connect } from "react-redux";
 import { isBrowser } from "app/App/functions/isBrowser";
 import Section from "documents/Templates/Section";
-import { isVocabularyTheFrontpage, updateURL } from "app/Router/actions";
+import { isVocabularyTheFrontpage, updateURL, index } from "app/Router/actions";
 
 class App extends React.Component {
   render() {
@@ -25,6 +25,7 @@ class App extends React.Component {
       if (url === "/vocabulary/play") {
         Section2 = (props) => props.children;
       }
+      index(false);
       return (
         <Layout>
           <Section2>

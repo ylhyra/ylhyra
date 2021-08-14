@@ -21,7 +21,7 @@ router.get(["/api/content", "*"], async (req, res) => {
     url = URL_title(req.path);
   }
   let values = getValuesForURL(url, req.query.title);
-  if (values) {
+  if (values?.filepath) {
     let { title, file, filename } = values;
 
     title = title.split(/[/:]/g).reverse().join("\u2006•\u2006");

@@ -29,7 +29,14 @@ const html = fs.readFileSync(
   "utf8"
 );
 
-const render = async ({ title, filename, css, is_content, callback }) => {
+const render = async ({
+  title,
+  filename,
+  css,
+  is_content,
+  shouldBeIndexed,
+  callback,
+}) => {
   const header_links = `
     <link href="/app/main.css?v=${hash}" rel="stylesheet" />
   `;
@@ -55,10 +62,11 @@ const render = async ({ title, filename, css, is_content, callback }) => {
     props = { prerender: parsed };
     necessary_data = JSON.stringify({
       parsed,
-      header,
       flattenedData: {
         long_audio: flattenedData?.long_audio,
       },
+      header,
+      shouldBeIndexed,
     });
   } else {
     props = { url: title };
@@ -85,9 +93,19 @@ const render = async ({ title, filename, css, is_content, callback }) => {
     .replace(
       "<!-- Header items -->",
       "<!--TEMP-->" + header_links + "<!--TEMP-->"
+      // + shouldBeIndexed
+      //   ? `<meta name="robots" content="index">`
+      //   : `<meta name="robots" content="noindex">`
     )
     .replace("<!-- Content -->", output || "")
     .replace("<!-- Footer items -->", footer_items + "<!-- Remaining CSS -->");
+
+  if (shouldBeIndexed) {
+    html.replace(
+      /<meta name="robots" content="noindex" \/>/,
+      '<meta name="robots" content="noindex">'
+    );
+  }
 
   necessary_data &&
     fs.writeFileSync(

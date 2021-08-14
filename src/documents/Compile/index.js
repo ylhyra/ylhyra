@@ -21,6 +21,12 @@ export default async (title) => {
   if (header.classes) {
     output = `<div class="${header.classes.join(" ")}">${output}</div>`;
   }
+  if (output.includes("SUBSTITUTION")) {
+    console.error(`"${title}" included SUBSTITUTION`);
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("");
+    }
+  }
 
   // console.log(output)
   return { content: output, header };
