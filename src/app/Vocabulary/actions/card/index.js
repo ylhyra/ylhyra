@@ -75,7 +75,9 @@ Card.prototype.showIn = function ({
   console.log(
     `${printWord(this.id)} – cannotBeShownBefore ${
       this.cannotBeShownBefore
-    }, qp ${this.absoluteQueuePosition} `
+    }, queue position: ${
+      this.absoluteQueuePosition - this.session.counter
+    }. Input: ${JSON.stringify({ interval, minInterval, cannotBeShownBefore })}`
   );
 };
 Card.prototype.canBeShown = function () {

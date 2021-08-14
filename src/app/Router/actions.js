@@ -128,11 +128,11 @@ export const getURL = () => {
 
 let isIndexed;
 export const index = (shouldIndex) => {
-  if (!isBrowser) return;
-  if (isIndexed !== Boolean(shouldIndex)) {
-    document
-      .querySelector('meta[name="robots"]')
-      .setAttribute("content", shouldIndex ? "index" : "noindex");
-  }
-  isIndexed = shouldIndex;
+  // if (!isBrowser) return;
+  // if (isIndexed !== Boolean(shouldIndex)) {
+  //   document
+  //     .querySelector('meta[name="robots"]')
+  //     .setAttribute("content", shouldIndex ? "index" : "noindex");
+  // }
+  // isIndexed = shouldIndex;
 };

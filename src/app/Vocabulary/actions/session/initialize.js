@@ -32,12 +32,11 @@ export function InitializeSession(input, shouldReset) {
 /**
  * @memberof Session
  */
-export function loadCards(card_ids, options) {
+export function loadCards(card_ids) {
   let insertAtPosition = this.cards.filter((i) => !i.done).length;
   if (insertAtPosition) {
     insertAtPosition += 200;
   }
-
   card_ids.forEach((id, index) => {
     if (!(id in this.deck.cards)) return;
     if (this.cards.some((c) => c.id === id)) return;

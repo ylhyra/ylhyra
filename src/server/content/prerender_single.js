@@ -93,18 +93,16 @@ const render = async ({
     .replace(
       "<!-- Header items -->",
       "<!--TEMP-->" + header_links + "<!--TEMP-->"
-      // + shouldBeIndexed
-      //   ? `<meta name="robots" content="index">`
-      //   : `<meta name="robots" content="noindex">`
     )
     .replace("<!-- Content -->", output || "")
     .replace("<!-- Footer items -->", footer_items + "<!-- Remaining CSS -->");
 
   if (shouldBeIndexed) {
-    html.replace(
-      /<meta name="robots" content="noindex" \/>/,
-      '<meta name="robots" content="noindex">'
-    );
+    // // tmp
+    // html.replace(
+    //   /<meta name="robots" content="noindex" \/>/,
+    //   '<meta name="robots" content="noindex">'
+    // );
   }
 
   necessary_data &&

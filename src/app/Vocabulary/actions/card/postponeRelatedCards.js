@@ -13,11 +13,7 @@ export default function postponeRelatedCards(card1_interval) {
       // Same term
       if (card2.terms.includes(term)) {
         let max;
-        if (
-          (card2.getScore() && card2.getScore() < GOOD) ||
-          card1.history.includes(BAD) ||
-          card2.history.includes(BAD)
-        ) {
+        if (card1.history.includes(BAD) || card2.history.includes(BAD)) {
           max = 10;
           card2.done = false;
         } else {
@@ -26,11 +22,7 @@ export default function postponeRelatedCards(card1_interval) {
         }
 
         if (card1.history[0] >= GOOD) {
-          // if (card2.history[0] === BAD) {
           card2.showIn({ minInterval: 8 });
-          // } else {
-          //   card2.showIn({ minInterval: Math.min(card1_interval, max) });
-          // }
         } else if (card1.history[0] === BAD) {
           if (card1.history[1] === BAD && !(card2.history[0] >= GOOD)) {
             card1.showIn({ interval: 4 });

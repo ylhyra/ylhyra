@@ -1,6 +1,7 @@
 import Session from "app/Vocabulary/actions/session";
 import createCards from "app/Vocabulary/actions/createCards";
 import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
+import { isBrowser } from "app/App/functions/isBrowser";
 import {
   getHash,
   getPlaintextFromFormatted,
@@ -104,3 +105,10 @@ export const getTermsFromCards = (card_ids) => {
   });
   return _.uniq(terms);
 };
+
+if (isBrowser) {
+  window.studyParticularWords = (...words) => {
+    studyParticularIds(getCardIdsFromTermIds(words.map(getHash)));
+  };
+  window.studyParticularIds = studyParticularIds;
+}

@@ -10,6 +10,7 @@
 ### Annað
 
 - noindex - https://github.com/s-yadav/react-meta-tags
+- X-Robots-Tag
 - sitemap
 - subdomains https://stackoverflow.com/questions/19212952/express-js-vhost-subdomain-set-up
 - uppfæra package.json á server þegar það eru breytingar

@@ -14,6 +14,7 @@ import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import _ from "underscore";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
 import { deck } from "app/Vocabulary/actions/deck";
+import { SortIdsByScore } from "app/Vocabulary/actions/createCards.js";
 
 export const withDependencies = (card_ids, options) => {
   const showDepth = options?.showDepth;
@@ -44,7 +45,8 @@ export const withDependencies = (card_ids, options) => {
       if (!deck.terms[term]) return;
       let card_ids = deck.terms[term].cards;
       if (deck.schedule && card_ids.some((id) => id in deck.schedule)) {
-        card_ids = _.shuffle(card_ids);
+        // card_ids = _.shuffle(card_ids);
+        card_ids = SortIdsByScore(card_ids);
       } else {
         card_ids = card_ids.sort((a, b) => {
           if (a.endsWith("is")) return -1;
