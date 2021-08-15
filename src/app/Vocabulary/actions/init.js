@@ -62,7 +62,6 @@ export const InitializeVocabulary = async () => {
     }
   }
 
-  // /* TODO: Clear after a day */
   let session = getFromLocalStorage("vocabulary-session");
 
   const deck = new Deck(database, schedule, session);

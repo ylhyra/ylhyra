@@ -1,12 +1,15 @@
 import { average, clamp } from "app/App/functions/math";
 import { BAD, GOOD, EASY } from "./index";
 import { printWord } from "app/Vocabulary/actions/functions";
+import { keepTrackOfUserStatus } from "app/Vocabulary/actions/session/keepTrackOfUserStatus.js";
+
 /**
  * @memberof Card
  */
 export default function rate(rating) {
   const card = this;
   const deck = this.session.deck;
+  const isNew = card.history.length === 0;
   card.history.unshift(rating);
   card.session.ratingHistory.unshift(rating);
   card.session.cardHistory.unshift(card);
@@ -70,4 +73,6 @@ export default function rate(rating) {
   card.status = Math.round(lastTwoAverage);
   card.postponeRelatedCards(interval);
   card.session.cardTypeLog.unshift(card.from);
+
+  keepTrackOfUserStatus(rating, isNew);
 }

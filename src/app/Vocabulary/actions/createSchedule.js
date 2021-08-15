@@ -1,11 +1,12 @@
 import { printWord, getCardsWithSameTerm } from "./functions";
-import _ from "underscore";
-import { hour, day } from "app/App/functions/time";
-import store from "app/App/store";
+// import _ from "underscore";
+// import { hour, day } from "app/App/functions/time";
+// import store from "app/App/store";
 import { BAD, GOOD, EASY } from "./card";
 import { daysToMs, msToDays, hours } from "app/App/functions/time";
 import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
-const MAX_CARDS_PER_DAY = 30;
+// const MAX_CARDS_PER_DAY = 30;
+export const INCR = 0.4; /* Increment score by how much? */
 
 /**
  * Long-term scheduling
@@ -23,7 +24,6 @@ export function createSchedule() {
 
   cards.forEach((card) => {
     let due_in_days;
-    let due_in_days_adjusted;
     let prevScore = deck.schedule[card.id]?.score;
     let sessions_seen = deck.schedule[card.id]?.sessions_seen;
     let isNew = !prevScore;
@@ -31,19 +31,19 @@ export function createSchedule() {
     if (sessionHistory.length === 0) return;
     const sessionScore = average(sessionHistory);
     const last_interval_in_days = deck.schedule[card.id]?.last_interval_in_days;
-    const last_due = deck.schedule[card.id]?.due;
+    // const last_due = deck.schedule[card.id]?.due;
     const last_seen = deck.schedule[card.id]?.last_seen;
     const badCount = sessionHistory.filter((i) => i === BAD).length;
     const anyBad = badCount > 0;
     const now = new Date().getTime();
-    const sessionScore_small = mapValueToRange({
-      value: sessionScore,
-      input_from: BAD,
-      input_to: EASY,
-      output_from: 0,
-      output_to: 0.25,
-      clamp: true,
-    });
+    // const sessionScore_small = mapValueToRange({
+    //   value: sessionScore,
+    //   input_from: BAD,
+    //   input_to: EASY,
+    //   output_from: 0,
+    //   output_to: 0.25,
+    //   clamp: true,
+    // });
 
     let score = prevScore || sessionScore;
 
@@ -58,7 +58,7 @@ export function createSchedule() {
       if (anyBad) {
         score = BAD;
       } else {
-        score = clamp(score + 0.4, BAD, EASY + 1);
+        score = clamp(score + INCR, BAD, EASY + 1);
       }
     }
 
@@ -95,7 +95,7 @@ export function createSchedule() {
     deck.schedule[card.id] = {
       due,
       last_interval_in_days: Math.round(due_in_days),
-      score,
+      score: Math.round(score * 100) / 100,
       last_seen: new Date().getTime(),
       sessions_seen: (sessions_seen || 0) + 1,
       needsSyncing: true,

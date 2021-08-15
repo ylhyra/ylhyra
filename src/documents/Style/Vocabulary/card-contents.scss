@@ -1,6 +1,21 @@
 .vocabulary-card {
   position: relative;
-  .note {
+
+  .card-notes {
+    @include sans-serif();
+    padding: 7px 9px;
+    text-align: center;
+    opacity: 0.8;
+    display: flex;
+    // align-items: center;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+  &.answered .card-notes:hover {
+    opacity: 1;
+  }
+
+  .card-note {
     font-size: 12px;
     color: #1b1b1b;
     @include sans-serif();

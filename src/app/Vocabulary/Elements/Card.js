@@ -233,8 +233,8 @@ class Card extends Component {
               ]
             : card.showHint && this.state.hint}
         </div>
-        <div className="notes">
-          <div className="note">
+        <div className="card-notes">
+          <div className="card-note">
             {note_regarding_english && (
               <div className={from === "en" ? "" : "show-after-answer"}>
                 <span className="label">Note:</span> {note_regarding_english}

@@ -40,20 +40,6 @@
     }
   }
 
-  .card-notes {
-    @include sans-serif();
-    padding: 7px 9px;
-    text-align: center;
-    opacity: 0.8;
-    display: flex;
-    // align-items: center;
-    flex-direction: column;
-    line-height: 1.2;
-  }
-  &.answered .card-notes:hover {
-    opacity: 1;
-  }
-
   .flashcard-buttons {
     height: 78px;
     @media (max-height: 450px) {
