@@ -171,7 +171,7 @@ const simplify = () => {
         b.hasOwnProperty("sortKey") - a.hasOwnProperty("sortKey") ||
         a.sortKey - b.sortKey ||
         Boolean(b.sound) - Boolean(a.sound) ||
-        (a.row_id % 15) - (b.row_id % 15) || // Hmm...
+        (a.row_id % 100) - (b.row_id % 100) ||
         a.row_id - b.row_id
     )
     .map((card) => {

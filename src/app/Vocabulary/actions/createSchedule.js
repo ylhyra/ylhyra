@@ -29,30 +29,21 @@ export function createSchedule() {
     let isNew = !prevScore;
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
-    const sessionScore = average(sessionHistory);
+    const avgRating = average(sessionHistory);
     const last_interval_in_days = deck.schedule[card.id]?.last_interval_in_days;
-    // const last_due = deck.schedule[card.id]?.due;
     const last_seen = deck.schedule[card.id]?.last_seen;
     const badCount = sessionHistory.filter((i) => i === BAD).length;
     const anyBad = badCount > 0;
     const now = new Date().getTime();
-    // const sessionScore_small = mapValueToRange({
-    //   value: sessionScore,
-    //   input_from: BAD,
-    //   input_to: EASY,
-    //   output_from: 0,
-    //   output_to: 0.25,
-    //   clamp: true,
-    // });
 
-    let score = prevScore || sessionScore;
+    let score = prevScore || avgRating;
 
     /* SCORE */
     if (isNew) {
       if (anyBad) {
         score = BAD;
       } else {
-        score = sessionScore - 0.05;
+        score = avgRating; //- 0.05;
       }
     } else {
       if (anyBad) {
@@ -66,13 +57,13 @@ export function createSchedule() {
     if (anyBad) {
       due_in_days = 1;
     } else if (isNew) {
-      if (sessionScore === EASY) {
+      if (avgRating === EASY) {
         due_in_days = 40;
-      } else if (sessionScore === GOOD) {
+      } else if (avgRating === GOOD) {
         due_in_days = 3;
       }
     } else {
-      const multiplier = sessionScore === EASY ? 6 : 2;
+      const multiplier = avgRating === EASY ? 6 : 2;
       due_in_days = (last_interval_in_days || 1) * multiplier;
 
       /*

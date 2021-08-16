@@ -1,0 +1,94 @@
+/**
+ * Encapsulated styles for reprinting an inflectional page go here.
+ */
+.inflection
+  sans-serif()
+  font-size 13px
+  padding: 10px;
+  // color #494949
+  b
+    color black
+  &.small
+    card-shadow()
+    background: #fdfdfd;
+    border-radius: 3px;
+    max-width: 270px;
+    position: fixed;
+    bottom: 10px;
+    z-index: 100;
+    right: 10px;
+  table.table
+    margin: 10px 0
+    &.not-center
+      margin-left initial
+  hr
+    margin: 7px 0;
+  .gray
+    // font-size 12px
+    font-weight normal
+    white-space nowrap
+  .light-gray
+    color #b0b0b0
+    font-weight normal
+
+  .main
+    a:not(table a)
+      &.plainlink
+        text-decoration underline!important
+      // border-bottom 1px solid rgba(#c8c8c8, 0.2)
+  td.highlight
+    background white
+
+  /* Base word heading */
+  h4.base_word
+    margin: 0 0 6px 0;
+    line-height: 1;
+    font-size: 18px;
+    color black
+    word-spacing 1px
+  .word_description
+    color #676767
+    margin 6px 0 3px 0
+    font-size 15px
+    a:not(:hover)
+      color inherit
+  .principal_parts
+    b
+      font-weight normal
+
+
+  div + .indent
+    margin-top: 20px
+  .indent
+    margin-top 5px
+    &:first-child
+      margin-top 1px
+      dt
+        padding-top 2px
+    dt
+      font-size 15px
+      font-weight 500
+      // padding-top 5px
+      padding-bottom 5px
+    dd
+      border-left: 3px solid #ebe9e9;
+      padding-left: 12px;
+
+  .license
+    display none
+  hr /* <hr> in license */
+    margin 40px 20px
+    border none
+    border-bottom 1px solid #e6e6e6
+
+
+  .umlaut
+    color #b00030
+  // .elision
+  //   text-decoration underline
+
+  .note
+    background #f0f0f0
+    border-radius 3px
+    padding 6px 10px
+    margin 4px 0

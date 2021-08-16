@@ -64,7 +64,7 @@ export const InitializeVocabulary = async () => {
 
   let session = getFromLocalStorage("vocabulary-session");
 
-  const deck = new Deck(database, schedule, session);
+  const deck = new Deck({ database, schedule, session });
   store.dispatch({
     type: "LOAD_DECK",
     content: deck,

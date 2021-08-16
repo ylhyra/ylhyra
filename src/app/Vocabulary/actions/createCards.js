@@ -129,10 +129,7 @@ export default function createCards(options) {
     if (!isEmpty(overdue_bad_ids)) {
       chosen_ids.push(overdue_bad_ids.shift());
     }
-    if (
-      i % newCardEvery === Math.floor(newCardEvery / 2) &&
-      !isEmpty(new_card_ids)
-    ) {
+    if (i % newCardEvery === 1 && !isEmpty(new_card_ids)) {
       chosen_ids.push(new_card_ids.shift());
     }
 

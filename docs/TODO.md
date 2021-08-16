@@ -6,6 +6,7 @@
 - bæta við first_seen og flokka frekar eftir því
 - Related cards
 - skrá sessions
+- uppfæra schedule á gluggum sem hafa verið opnir lengi
 
 ### Annað
 
