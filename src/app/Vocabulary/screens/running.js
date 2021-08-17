@@ -19,42 +19,44 @@ class R extends Component {
   render() {
     return (
       <div id="vocabulary-screen">
-        <div id="vocabulary-header">
-          <button
-            className="link"
-            onClick={() => {
-              this.props.vocabulary.session.sessionDone();
-            }}
-          >
-            Quit
-          </button>
-          <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
-          <Link href="/vocabulary/tutorial">Tutorial</Link>
-          {this.props.vocabulary.session?.undoable() && [
-            <div key={1}>&nbsp;&nbsp;•&nbsp;&nbsp;</div>,
-            <button
-              key={2}
-              className="link"
-              onClick={() => {
-                this.props.vocabulary.session.undo();
-              }}
-            >
-              Undo
-            </button>,
-          ]}
-          <div className="spacer" />
-          {this.props.vocabulary.session?.cards.some((j) => j.sound) && (
+        <div id="vocabulary-screen-inner">
+          <div id="vocabulary-header">
             <button
               className="link"
               onClick={() => {
-                store.dispatch({ type: "VOCABULARY_AUDIO_ONOFF" });
+                this.props.vocabulary.session.sessionDone();
               }}
             >
-              Audio: <b>{this.props.vocabulary.volume ? "On" : "Off"}</b>
+              Quit
             </button>
-          )}
+            <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
+            <Link href="/vocabulary/tutorial">Tutorial</Link>
+            {this.props.vocabulary.session?.undoable() && [
+              <div key={1}>&nbsp;&nbsp;•&nbsp;&nbsp;</div>,
+              <button
+                key={2}
+                className="link"
+                onClick={() => {
+                  this.props.vocabulary.session.undo();
+                }}
+              >
+                Undo
+              </button>,
+            ]}
+            <div className="spacer" />
+            {this.props.vocabulary.session?.cards.some((j) => j.sound) && (
+              <button
+                className="link"
+                onClick={() => {
+                  store.dispatch({ type: "VOCABULARY_AUDIO_ONOFF" });
+                }}
+              >
+                Audio: <b>{this.props.vocabulary.volume ? "On" : "Off"}</b>
+              </button>
+            )}
+          </div>
+          <GameContainer />
         </div>
-        <GameContainer />
       </div>
     );
   }

@@ -71,7 +71,7 @@ export function createSchedule() {
         then we give the user the same interval as last time
       */
       const actual_interval_in_days = msToDays(now - last_seen);
-      if (actual_interval_in_days / last_interval_in_days < 0.5) {
+      if (actual_interval_in_days / last_interval_in_days < 0.3) {
         const new_due_in_days = last_interval_in_days;
         process.env.NODE_ENV === "development" &&
           console.warn(
@@ -82,7 +82,11 @@ export function createSchedule() {
         due_in_days = new_due_in_days;
       }
     }
-    const due = now + daysToMs(due_in_days);
+    let due = now + daysToMs(due_in_days);
+    /* Add some randomness to large intervals */
+    if (due_in_days > 20) {
+      due += daysToMs(Math.random() * 3);
+    }
     deck.schedule[card.id] = {
       due,
       last_interval_in_days: Math.round(due_in_days),

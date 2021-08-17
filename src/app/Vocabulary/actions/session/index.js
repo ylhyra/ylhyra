@@ -62,6 +62,7 @@ class Session {
     this.remainingTime = this.totalTime;
     this.lastTimestamp = new Date().getTime();
     this.done = false;
+    this.lastUndid = 0;
   }
   sessionDone() {
     this.createSchedule();
@@ -96,6 +97,9 @@ class Session {
     this.loadCard();
   }
   undoable() {
+    // if (!(this.lastUndid !== this.counter)) {
+    //   console.warn("Unmatching counter");
+    // }
     return this.cardHistory.length > 0 && this.lastUndid !== this.counter;
   }
   keyDown(e) {

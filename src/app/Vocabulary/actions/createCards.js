@@ -129,7 +129,7 @@ export default function createCards(options) {
     if (!isEmpty(overdue_bad_ids)) {
       chosen_ids.push(overdue_bad_ids.shift());
     }
-    if (i % newCardEvery === 1 && !isEmpty(new_card_ids)) {
+    if (i % newCardEvery === 0 && !isEmpty(new_card_ids)) {
       chosen_ids.push(new_card_ids.shift());
     }
 
@@ -279,9 +279,9 @@ const SortBySortKey = (array) => {
 };
 const isEmpty = (array) => array.length === 0;
 const shuffle_each = (array, range = 20) => {
-  if (process.env.NODE_ENV === "development") {
-    return array; // test
-  }
+  // if (process.env.NODE_ENV === "development") {
+  //   return array;
+  // }
   let out = [];
   for (let i = 0; i < array.length; i += range) {
     out = out.concat(_.shuffle(array.slice(i, i + range)));
