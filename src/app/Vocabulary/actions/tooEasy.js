@@ -13,7 +13,7 @@ export const keepTrackOfUserStatus = (rating, isNew) => {
     if (rating === EASY) {
       easyInARow++;
       if (easyInARow === 2) {
-        // deck.session.
+        user_level++;
       }
     } else {
       easyInARow = 0;

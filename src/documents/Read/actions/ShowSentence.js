@@ -1,7 +1,7 @@
 import { getScrollingElement } from "documents/Render/helpers";
 import { ReadAlongSingleSentence } from "documents/Render/Audio/ReadAlong";
 import { logShown } from "./Reset";
-import Analytics from "app/Analytics/TextInteractions";
+
 
 /*
   Show sentence
@@ -70,5 +70,5 @@ export const showSentence = (id) => {
     width: ${sentenceOverlayDimensions.width}px;
   `;
 
-  Analytics.show({ type: "sentence", id });
+  
 };

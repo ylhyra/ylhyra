@@ -2,83 +2,61 @@ import query from "server/database";
 import shortid from "shortid";
 import sql from "server/database/functions/SQL-template-literal";
 const router = require("express").Router();
+const { Crawler, middleware } = require("es6-crawler-detect");
 
 const rateLimit = require("express-rate-limit")({
   windowMs: 1 * 60 * 1000,
-  max: 3,
+  max: 10,
 });
 
 // const MAX_TO_SAVE = 300;
 
 router.post("/a", rateLimit, (req, res) => {
+  /* Ignore robots */
+  if (new Crawler(req).isCrawler()) {
+    return res.sendStatus(200);
+  }
+
   if (!req.session.session_id) {
     req.session.session_id = shortid.generate();
   }
+
+  // req.session.user_id
+
   /*
-    Text interactions
+    Page views
   */
-  if (req.body.seen) {
-    req.body.seen.forEach((item) => {
-      query(
-        `INSERT INTO interactions SET
-        user_session = ?,
-        page_name = ?,
-        item_id = ?,
-        item_seen_at = FROM_UNIXTIME(?),
-        item_time_seen = ?,
-        type = "text"
-        `,
-        [
-          req.session.session_id,
-          req.body.pageName,
-          item.id,
-          Math.round(item.seenAt / 1000), // To UNIX time
-          item.timeSeen,
-        ],
-        (err, results) => {
-          if (err) {
-            console.error(err);
-          } else {
-          }
-        }
-      );
-    });
-  } else {
-    /*
-      Page views
-    */
-    query(
-      `INSERT INTO interactions SET
-      ip = ?,
-      browser = ?,
-      version = ?,
-      os = ?,
-      platform = ?,
-      is_mobile = ?,
-      user_session = ?,
-      page_name = ?,
-      type = "view",
-      country = ?
-      `,
-      [
-        req.clientIp,
-        req.useragent.browser,
-        req.useragent.version.split(".")[0],
-        req.useragent.os,
-        req.useragent.platform,
-        req.useragent.isMobile,
-        req.session.session_id,
-        req.body.pageName,
-        req.get("CF-IPCountry"),
-      ],
-      (err, results) => {
-        if (err) {
-          console.error(err);
-        } else {
-        }
+  query(
+    `INSERT INTO interactions SET
+    ip = ?,
+    browser = ?,
+    version = ?,
+    os = ?,
+    platform = ?,
+    is_mobile = ?,
+    user_session = ?,
+    page_name = ?,
+    type = "view",
+    country = ?
+    `,
+    [
+      req.clientIp,
+      req.useragent.browser,
+      req.useragent.version.split(".")[0],
+      req.useragent.os,
+      req.useragent.platform,
+      req.useragent.isMobile,
+      req.session.session_id,
+      req.body.pageName,
+      req.get("CF-IPCountry"),
+    ],
+    (err, results) => {
+      if (err) {
+        console.error(err);
+      } else {
       }
-    );
-  }
+    }
+  );
   res.sendStatus(200);
 });
 

@@ -1,6 +1,5 @@
 import AudioClip from "documents/Render/Audio/AudioClip";
 import store from "app/App/store";
-import Analytics from "app/Analytics/TextInteractions";
 
 var shownElements = [];
 export const logShown = (id) => {
@@ -12,8 +11,6 @@ export const logShown = (id) => {
 */
 export default function reset() {
   AudioClip.pause();
-
-  Analytics.reset();
 
   shownElements.forEach((id) => {
     // console.log(id)

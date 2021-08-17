@@ -1,7 +1,7 @@
 import { average, clamp } from "app/App/functions/math";
 import { BAD, GOOD, EASY } from "./index";
 import { printWord } from "app/Vocabulary/actions/functions";
-import { keepTrackOfUserStatus } from "app/Vocabulary/actions/session/keepTrackOfUserStatus.js";
+import { keepTrackOfUserStatus } from "app/Vocabulary/actions/tooEasy.js";
 
 /**
  * @memberof Card

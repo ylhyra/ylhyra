@@ -2,25 +2,16 @@
   Tracks time spent on page
 */
 import axios from "app/App/axios";
-// axios.defaults.withCredentials = true;
-
-import TextAnalytics from "app/Analytics/TextInteractions";
-
-require("./Element");
 
 // window.onbeforeunload = function(event) {
 //   send()
 // };
 
+let referrer = document.referrer;
+
 const send = () => {
-  if (
-    mw.config.get("wgUserGroups").includes("sysop") ||
-    mw.config.get("wgUserGroups").includes("editor")
-  )
-    return;
-  if (window.developmentMode) return;
   axios.post(`/api/a`, {
-    pageName: mw.config.get("wgPageName"),
+    // pageName: mw.config.get("wgPageName"),
   });
 };
 
@@ -29,7 +20,7 @@ setTimeout(() => {
 }, 5000);
 
 window.addEventListener("blur", function () {
-  TextAnalytics.close();
+  // TextAnalytics.close();
 });
 // window.addEventListener('focus', function() {
 // });

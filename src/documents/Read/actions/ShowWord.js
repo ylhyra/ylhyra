@@ -1,7 +1,7 @@
 import FindAGoodPositionForTooltip from "documents/Read/actions/TooltipPosition";
 import AudioClip from "documents/Render/Audio/AudioClip";
 import { logShown } from "./Reset";
-import Analytics from "app/Analytics/TextInteractions";
+
 import { ShowInflectionTable } from "documents/Render/Elements/Inflection/actions";
 
 /*
@@ -70,7 +70,7 @@ export default function showWord(id) {
   addClass(`${id}-box`, "shown");
   logShown(`${id}-box`);
 
-  Analytics.show({ type: "word", id });
+  
 }
 
 const addClass = (id, css) => {

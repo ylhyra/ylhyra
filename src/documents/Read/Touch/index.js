@@ -6,7 +6,7 @@ import {
   MouseEventListenerOn,
   MouseEventListenerOff,
 } from "documents/Read/Touch/Mouse";
-import Analytics from "app/Analytics/TextInteractions";
+
 import { isBrowser, supportsTouch } from "app/App/functions/isBrowser";
 
 export const TextEventListenersOn = () => {
@@ -14,7 +14,7 @@ export const TextEventListenersOn = () => {
     window.listenerCount = 1;
     if (supportsTouch) {
       TouchEventListenerOn();
-      Analytics.setTouchMode();
+      // 
       document.addEventListener("DOMContentLoaded", () => {
         document.body.classList &&
           document.body.classList.add("supports-touch");
