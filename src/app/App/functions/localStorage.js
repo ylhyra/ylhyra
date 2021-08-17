@@ -1,5 +1,6 @@
 import { decompressFromBase64, compressToBase64 } from "lz-string";
-const ANALYTICS_LOCALSTORAGE_LABEL = "_a";
+import { isBrowser } from "app/App/functions/isBrowser";
+export const ANALYTICS_LOCALSTORAGE_LABEL = "_a";
 
 let compressed_keys = [
   "vocabulary-database",
@@ -9,9 +10,10 @@ let compressed_keys = [
 
 /* Helper functions to stringify in local storage */
 export const saveInLocalStorage = (name, obj) => {
+  if (!isBrowser) return;
   let data = JSON.stringify(obj);
 
-  if (compressed_keys.includes(name)) {
+  if (data && compressed_keys.includes(name)) {
     data = compressToBase64(data);
   }
 
@@ -19,6 +21,7 @@ export const saveInLocalStorage = (name, obj) => {
 };
 
 export const getFromLocalStorage = (name) => {
+  if (!isBrowser) return;
   let data = localStorage.getItem(name);
   if (!data) return null;
 

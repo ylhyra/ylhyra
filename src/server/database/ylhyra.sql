@@ -114,12 +114,15 @@ CREATE TABLE analytics (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
   user_id INT UNSIGNED,
-  user_session VARCHAR(14),
+  session_id VARCHAR(14),
   country VARCHAR(2),
   type VARCHAR(40), /* "page_view" / "vocabulary" */
   page_name VARCHAR(120),
+  user_languages VARCHAR(30),
   referrer VARCHAR(120),
   seconds_spent SMALLINT UNSIGNED,
+  INDEX (user_id),
+  INDEX (session_id),
   INDEX (page_name),
   INDEX (referrer)
 ) ROW_FORMAT=COMPRESSED;

@@ -1,6 +1,7 @@
 import query from "server/database";
 import shortid from "shortid";
 import sql from "server/database/functions/SQL-template-literal";
+import _ from "underscore";
 const router = require("express").Router();
 const { Crawler, middleware } = require("es6-crawler-detect");
 
@@ -23,32 +24,43 @@ router.post("/a", rateLimit, (req, res) => {
 
   // ip = ${req.clientIp},
 
-  if (!req.body.queue) {
+  if (!req.body.queue || req.body.queue.length > 40) {
     return res.sendStatus(400);
   }
 
-  req.body.queue.forEach?.((entry) => {
-    /*
+  let languages = [];
+  req.headers["accept-language"]?.replace(/\b([a-z]{2,3})\b/g, (lang) => {
+    languages.push(lang);
+  });
+
+  /*
       Page views
     */
-    query(
-      sql`INSERT INTO analytics SET
-          user_id = ${req.session.user_id},
-          session_id = ${req.session.session_id},
-          country = ${req.get("CF-IPCountry")}
-          interaction_type = ${entry?.interaction_type},
-          page_name = ${entry?.url},
-          seconds_spent = ${entry?.seconds},
-          referrer = ${entry?.referrer}
-        `,
-      (err, results) => {
-        if (err) {
-          console.error(err);
-        } else {
-        }
+  query(
+    req.body.queue
+      .map?.(
+        (entry) =>
+          sql`INSERT INTO analytics SET
+            user_id = ${req.session.user_id || null},
+            session_id = ${req.session.session_id},
+            country = ${req.get("CF-IPCountry")},
+            type = ${entry?.interaction_type},
+            page_name = ${entry?.url},
+            seconds_spent = ${entry?.seconds || null},
+            user_languages = ${_.uniq(languages).slice(0, 4).join(",")},
+            referrer = ${entry?.referrer}
+            ;
+          `
+      )
+      .join(""),
+    (err, results) => {
+      if (err) {
+        console.error(err);
+      } else {
+        // console.log(results);
       }
-    );
-  });
+    }
+  );
 
   res.sendStatus(200);
 });
