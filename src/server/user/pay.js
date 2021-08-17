@@ -27,7 +27,7 @@ router.post("/pwyw", speedLimit, async (req, res) => {
   const { price, transaction_id } = req.body;
   query(
     sql`INSERT INTO payments SET
-      username = ${user_id || "session_" + req.session.session_id},
+      user_id = ${user_id || "session_" + req.session.session_id},
       price = ${price},
       transaction_id = ${transaction_id},
       type = "pwyw"

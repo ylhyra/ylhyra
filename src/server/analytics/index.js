@@ -6,7 +6,7 @@ const { Crawler, middleware } = require("es6-crawler-detect");
 
 const rateLimit = require("express-rate-limit")({
   windowMs: 1 * 60 * 1000,
-  max: 10,
+  max: 3,
 });
 
 // const MAX_TO_SAVE = 300;
@@ -21,42 +21,35 @@ router.post("/a", rateLimit, (req, res) => {
     req.session.session_id = shortid.generate();
   }
 
-  // req.session.user_id
+  // ip = ${req.clientIp},
 
-  /*
-    Page views
-  */
-  query(
-    `INSERT INTO interactions SET
-    ip = ?,
-    browser = ?,
-    version = ?,
-    os = ?,
-    platform = ?,
-    is_mobile = ?,
-    user_session = ?,
-    page_name = ?,
-    type = "view",
-    country = ?
-    `,
-    [
-      req.clientIp,
-      req.useragent.browser,
-      req.useragent.version.split(".")[0],
-      req.useragent.os,
-      req.useragent.platform,
-      req.useragent.isMobile,
-      req.session.session_id,
-      req.body.pageName,
-      req.get("CF-IPCountry"),
-    ],
-    (err, results) => {
-      if (err) {
-        console.error(err);
-      } else {
+  if (!req.body.queue) {
+    return res.sendStatus(400);
+  }
+
+  req.body.queue.forEach?.((entry) => {
+    /*
+      Page views
+    */
+    query(
+      sql`INSERT INTO analytics SET
+          user_id = ${req.session.user_id},
+          session_id = ${req.session.session_id},
+          country = ${req.get("CF-IPCountry")}
+          interaction_type = ${entry?.interaction_type},
+          page_name = ${entry?.url},
+          seconds_spent = ${entry?.seconds},
+          referrer = ${entry?.referrer}
+        `,
+      (err, results) => {
+        if (err) {
+          console.error(err);
+        } else {
+        }
       }
-    }
-  );
+    );
+  });
+
   res.sendStatus(200);
 });
 

@@ -6,6 +6,7 @@ import { isBrowser } from "app/App/functions/isBrowser";
 import { loadContent, abortAllThatAreNot } from "./load";
 import { clear as ClearReadAlongSetup } from "documents/Render/Audio/ReadAlong";
 import { isUserLoggedIn, existsSchedule } from "app/User/actions";
+import Analytics from "app/Analytics";
 
 let HAS_LOADED = false;
 if (isBrowser) {
@@ -42,6 +43,7 @@ export const updateURL = (url, title, replace, prerender, is404) => {
   // console.log({ url });
   if (url in app_urls) {
     url = app_urls[url].url;
+    Analytics.stopReadingPage();
   } else {
     url = URL_title(url);
   }

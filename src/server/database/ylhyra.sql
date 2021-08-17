@@ -105,33 +105,24 @@ CREATE TABLE sounds (
 );
 CREATE INDEX _text ON sounds (text);
 
+
 /*
   Analytics
 */
-DROP TABLE IF EXISTS interactions;
-CREATE TABLE interactions (
-  id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  timestamp TIMESTAMP,
-
-  ip VARCHAR(120),
-  browser VARCHAR(120),
-  version VARCHAR(120),
-  os VARCHAR(120),
-  platform VARCHAR(120),
-  is_mobile BOOLEAN,
-
-  user_session VARCHAR(120),
-  page_name VARCHAR(120),
-  item_id VARCHAR(40),
-  item_seen_at DATETIME,
-  item_time_seen INT UNSIGNED, -- Milliseconds
+DROP TABLE IF EXISTS analytics;
+CREATE TABLE analytics (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+  user_id INT UNSIGNED,
+  user_session VARCHAR(14),
   country VARCHAR(2),
-
-  type VARCHAR(40) -- "text" for text interaction, "view" for a page view
+  type VARCHAR(40), /* "page_view" / "vocabulary" */
+  page_name VARCHAR(120),
+  referrer VARCHAR(120),
+  seconds_spent SMALLINT UNSIGNED,
+  INDEX (page_name),
+  INDEX (referrer)
 ) ROW_FORMAT=COMPRESSED;
--- Other data:
--- inflection/database.sql
--- vocabulary/database.sql
 
 
 /*
@@ -147,31 +138,38 @@ CREATE TABLE users (
   username VARCHAR(255) UNIQUE,
   email VARCHAR(255) UNIQUE,
   password VARCHAR(120),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   INDEX (username),
   INDEX (email)
 ) ROW_FORMAT=COMPRESSED;
 
-DROP TABLE IF EXISTS user_login_tokens;
-CREATE TABLE user_login_tokens (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  email VARCHAR(255),
-  short_token VARCHAR(4),
-  long_token VARCHAR(20),
-  expires VARCHAR(20),
-  attempts INT(1),
-  INDEX (email),
-  INDEX (long_token)
-) ROW_FORMAT=COMPRESSED;
+-- DROP TABLE IF EXISTS user_login_tokens;
+-- CREATE TABLE user_login_tokens (
+--   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+--   email VARCHAR(255),
+--   short_token VARCHAR(4),
+--   long_token VARCHAR(20),
+--   expires VARCHAR(20),
+--   attempts INT(1),
+--   INDEX (email),
+--   INDEX (long_token)
+-- ) ROW_FORMAT=COMPRESSED;
 
 /* Payments */
 DROP TABLE IF EXISTS payments;
 CREATE TABLE payments (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(255),
+  user_id INT UNSIGNED,
   price VARCHAR(20),
   transaction_id VARCHAR(100),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   type ENUM('pwyw', 'donation'),
-  INDEX (username)
+  verified BOOL,
+  INDEX (user_id)
 ) ROW_FORMAT=COMPRESSED;
+
+
+
+-- Other data:
+-- inflection/database.sql
+-- vocabulary/database.sql

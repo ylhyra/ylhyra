@@ -5,6 +5,7 @@ import { ReadAlongSetup } from "documents/Render/Audio/ReadAlong";
 import { URL_title } from "paths";
 import store from "app/App/store";
 import { updateURL, index } from "./actions";
+import Analytics from "app/Analytics";
 let cache = {};
 let expectedUrl = false;
 export const abortAllThatAreNot = (url) => {
@@ -65,6 +66,7 @@ export const loadContent = (
 };
 
 const set = async (url, data, preload, section, callback) => {
+  Analytics.startReadingPage(url);
   // console.log("set");
   // console.log({ url, section });
   // throw new Error("");
@@ -104,7 +106,7 @@ const set = async (url, data, preload, section, callback) => {
 
   callback?.();
   updateURL(url + (section ? "#" + section : ""), data.title, true);
-  ReadAlongSetup(flattenedData); // TEMP
+  ReadAlongSetup(flattenedData); // TEMP?
 };
 
 export const preload = (url) => {

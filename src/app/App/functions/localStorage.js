@@ -1,6 +1,11 @@
 import { decompressFromBase64, compressToBase64 } from "lz-string";
+const ANALYTICS_LOCALSTORAGE_LABEL = "_a";
 
-let compressed_keys = ["vocabulary-database", "vocabulary-schedule"];
+let compressed_keys = [
+  "vocabulary-database",
+  "vocabulary-schedule",
+  ANALYTICS_LOCALSTORAGE_LABEL,
+];
 
 /* Helper functions to stringify in local storage */
 export const saveInLocalStorage = (name, obj) => {
