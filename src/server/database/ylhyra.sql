@@ -143,7 +143,8 @@ CREATE TABLE users (
   password VARCHAR(120),
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   INDEX (username),
-  INDEX (email)
+  INDEX (email),
+  INDEX (created_at)
 ) ROW_FORMAT=COMPRESSED;
 
 -- DROP TABLE IF EXISTS user_login_tokens;

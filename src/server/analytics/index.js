@@ -34,8 +34,8 @@ router.post("/a", rateLimit, (req, res) => {
   });
 
   /*
-      Page views
-    */
+    Page views
+  */
   query(
     req.body.queue
       .map?.(
@@ -44,7 +44,7 @@ router.post("/a", rateLimit, (req, res) => {
             user_id = ${req.session.user_id || null},
             session_id = ${req.session.session_id},
             country = ${req.get("CF-IPCountry")},
-            type = ${entry?.interaction_type},
+            type = ${entry?.type},
             page_name = ${entry?.url},
             seconds_spent = ${entry?.seconds || null},
             user_languages = ${_.uniq(languages).slice(0, 4).join(",")},

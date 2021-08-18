@@ -72,6 +72,7 @@ app.use("/api", require("server/audio/recorder").default);
 // app.use('/api', require('server/audio/Synchronize').default)
 // app.use('/api', require('server/translator/save').default)
 app.use("/api", require("server/analytics").default);
+app.use("/api", require("server/analytics/overview").default);
 app.use("/api", require("server/user").default);
 app.use("/api", require("server/user/pay").default);
 app.use("/api", require("server/vocabulary/get").default);

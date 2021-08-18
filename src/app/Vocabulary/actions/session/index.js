@@ -32,6 +32,7 @@ import {
   saveInLocalStorage,
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
+import Analytics from "app/Analytics";
 
 export const MINUTES = process.env.NODE_ENV === "development" ? 2.5 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
@@ -72,6 +73,16 @@ class Session {
       type: "LOAD_SESSION",
       content: null,
     });
+    /* Analytics */
+    const seconds_spent = Math.round(
+      (this.totalTime - Math.max(0, this.remainingTime)) / 1000
+    );
+    if (seconds_spent > 20) {
+      Analytics.log({
+        type: "vocabulary",
+        seconds: seconds_spent,
+      });
+    }
     this.reset();
   }
   saveSession(clear) {

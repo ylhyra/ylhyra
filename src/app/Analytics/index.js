@@ -29,17 +29,23 @@ class Analytics {
     const timeDiff = new Date().getTime() - this.startTime;
     /* Discard if page was only seen for <10 seconds */
     if (timeDiff > 10 * 1000 && !ignoredUrls.includes(this.currentPage)) {
-      this.queue.push({
-        url: this.currentPage,
-        seconds: Math.min(4 * 60, Math.round(timeDiff / 1000 / 10) * 10),
-        interaction_type: "page_view",
-        referrer: this.referrer,
-      });
+      this.log(
+        {
+          url: this.currentPage,
+          seconds: Math.min(4 * 60, Math.round(timeDiff / 1000 / 10) * 10),
+          type: "page_view",
+          referrer: this.referrer,
+        },
+        options
+      );
       this.referrer = null;
       this.currentPage = null;
-      this.save();
     }
     this.currentPage = null;
+  };
+  log = (data, options) => {
+    this.queue.push(data);
+    this.save();
     this.timer && clearTimeout(this.timer);
     if (options?.dontSync) return;
     if (this.queue.length > 15) {
