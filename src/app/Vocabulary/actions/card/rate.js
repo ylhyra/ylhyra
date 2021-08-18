@@ -1,7 +1,6 @@
 import { average, clamp } from "app/App/functions/math";
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import { printWord } from "app/Vocabulary/actions/functions";
-import { keepTrackOfUserStatus } from "app/Vocabulary/actions/tooEasy";
 
 /**
  * @memberof Card

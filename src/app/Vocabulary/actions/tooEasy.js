@@ -7,13 +7,15 @@ let easyInARow = 0;
  * Ef notandi ýtir þrisvar sinnum á easy þá þarf levelið hans að stökkva fram.
  * @memberof Deck
  */
-export const keepTrackOfUserStatus = (rating, isNew) => {
+export function keepTrackOfUserStatus(rating, isNew) {
   const deck = this;
   if (isNew) {
     if (rating === EASY) {
       easyInARow++;
       deck.easinessLevel = 50;
-      deck.session.cards = [];
+      deck.session.cards = deck.session.cards.filter(
+        (j) => j.history.length > 0
+      );
       deck.session.createCards();
       // if (easyInARow === 2) {
       //   user_level++;
@@ -22,4 +24,4 @@ export const keepTrackOfUserStatus = (rating, isNew) => {
       easyInARow = 0;
     }
   }
-};
+}
