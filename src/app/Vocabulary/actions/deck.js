@@ -40,6 +40,9 @@ class Deck {
     this.session.reset();
     this.session.InitializeSession();
   }
+  reset() {
+    this.schedule = {};
+  }
 }
 Deck.prototype.syncSchedule = syncSchedule;
 Deck.prototype.keepTrackOfUserStatus = keepTrackOfUserStatus;

@@ -12,10 +12,11 @@ export function keepTrackOfUserStatus(rating, isNew) {
   if (isNew) {
     if (rating === EASY) {
       easyInARow++;
-      deck.easinessLevel = 50;
-      deck.session.cards = deck.session.cards.filter(
-        (j) => j.history.length > 0
-      );
+      deck.easinessLevel = 200;
+      deck.session.cards = [];
+      // deck.session.cards.filter(
+      //   (j) => j.history.length > 0 || j.cannotBeShownBefore
+      // )  ;
       deck.session.createCards();
       // if (easyInARow === 2) {
       //   user_level++;

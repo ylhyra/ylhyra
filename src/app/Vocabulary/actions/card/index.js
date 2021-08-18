@@ -72,13 +72,13 @@ Card.prototype.showIn = function ({
     this.session.counter + c
   );
 
-  console.log(
-    `${printWord(this.id)} – cannotBeShownBefore ${
-      this.cannotBeShownBefore
-    }, queue position: ${
-      this.absoluteQueuePosition - this.session.counter
-    }. Input: ${JSON.stringify({ interval, minInterval, cannotBeShownBefore })}`
-  );
+  // console.log(
+  //   `${printWord(this.id)} – cannotBeShownBefore ${
+  //     this.cannotBeShownBefore
+  //   }, queue position: ${
+  //     this.absoluteQueuePosition - this.session.counter
+  //   }. Input: ${JSON.stringify({ interval, minInterval, cannotBeShownBefore })}`
+  // );
 };
 Card.prototype.canBeShown = function () {
   return (

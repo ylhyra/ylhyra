@@ -55,7 +55,7 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
     const id = deck.cards_sorted[i].id;
     if (forbidden_ids.includes(id)) continue;
     if (allowed_card_ids && !allowed_card_ids.includes(id)) continue;
-    if (new_card_ids.length < CARDS_TO_CREATE) {
+    if (new_card_ids.length < CARDS_TO_CREATE || deck.easinessLevel) {
       if (!(id in deck.schedule)) {
         new_card_ids.push(id);
       }
@@ -69,8 +69,6 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
     );
   }
   if (deck.easinessLevel) {
-    console.log("Before");
-    console.log(_.uniq(new_card_ids.slice(0, 15).map(printWord)).join(" - "));
     new_card_ids = new_card_ids
       .map((id) => {
         const { sortKey } = deck.cards[id];
@@ -81,8 +79,9 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
       })
       .sort((a, b) => a.key - b.key)
       .map((v) => v.id);
-    console.log("After");
-    console.log(_.uniq(new_card_ids.slice(0, 15).map(printWord)).join(" - "));
+    // console.log(_.uniq(new_card_ids.slice(0, 15).map(printWord)).join(" - "));
+  } else {
+    new_card_ids = SortBySortKey(new_card_ids);
   }
 
   overdue_good_ids = SortBySortKey(overdue_good_ids);
@@ -107,7 +106,6 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
     ),
     10
   );
-  new_card_ids = SortBySortKey(new_card_ids);
 
   return {
     overdue_bad_ids,

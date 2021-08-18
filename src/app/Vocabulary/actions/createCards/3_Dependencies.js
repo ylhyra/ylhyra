@@ -1,7 +1,10 @@
 import { hour, day, hours, days } from "app/App/functions/time";
 import _ from "underscore";
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
-import { printWord, getCardsWithSameTerm } from "app/Vocabulary/actions/functions";
+import {
+  printWord,
+  getCardsWithSameTerm,
+} from "app/Vocabulary/actions/functions";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 import { deck } from "app/Vocabulary/actions/deck";
 import { INCR } from "app/Vocabulary/actions/createSchedule";
