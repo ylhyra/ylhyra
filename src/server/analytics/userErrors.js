@@ -2,7 +2,7 @@ import query from "server/database";
 import shortid from "shortid";
 import sql from "server/database/functions/SQL-template-literal";
 import _ from "underscore";
-import { notifyOfError } from "./errors";
+import { notifyOfError } from "server/errors";
 const router = require("express").Router();
 const { Crawler, middleware } = require("es6-crawler-detect");
 

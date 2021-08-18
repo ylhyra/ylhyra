@@ -4,7 +4,7 @@ import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import store from "app/App/store";
 import AudioClip from "documents/Render/Audio/AudioClip";
 import { get_processed_image_url } from "paths";
-import { getPlaintextFromFormatted } from "app/VocabularyMaker/functions";
+import { getPlaintextFromFormatted } from "maker/VocabularyMaker/functions";
 class Card extends Component {
   state = {};
   componentDidMount() {

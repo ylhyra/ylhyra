@@ -16,7 +16,7 @@ import {
   didYouMeanSuggestions,
 } from "./actions";
 import { formatVocabularyEntry, row_titles, DECK } from "./functions";
-import VocabularyMakerRecord from "app/VocabularyMaker/record";
+import VocabularyMakerRecord from "maker/VocabularyMaker/record";
 import AutosizeTextarea from "react-textarea-autosize";
 
 class Form2 extends React.Component {

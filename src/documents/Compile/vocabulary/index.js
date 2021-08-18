@@ -8,7 +8,7 @@ import { getCardIdsFromTermIds } from "app/Vocabulary/actions/functions";
 import { getTermsFromCards } from "app/Vocabulary/actions/functions/index";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 import { getCardIdsFromWords } from "documents/Compile/vocabulary/getCardIdsFromWords";
-import { getPlaintextFromVocabularyEntry } from "app/VocabularyMaker/functions";
+import { getPlaintextFromVocabularyEntry } from "maker/VocabularyMaker/functions";
 import _ from "underscore";
 import { setDeck } from "app/Vocabulary/actions/deck";
 const path = require("path");

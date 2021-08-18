@@ -18,9 +18,10 @@
 - ekki loada ef preload er enn í gangi
 - skrá hvaða greinar notandi hefur lesið
 
-uppfæra í gagnagrunni
--payments (+verified)
--users (timestamp->datetime)
+# uppfæra í gagnagrunni
+
+- payments (+verified)
+- users (timestamp->datetime)
 
 # MVP
 

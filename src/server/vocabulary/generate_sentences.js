@@ -1,8 +1,8 @@
 import getSortKeys from "./sortKeys";
-import { getHash } from "app/VocabularyMaker/functions";
+import { getHash } from "maker/VocabularyMaker/functions";
 import { content_folder } from "paths_backend";
 import _ from "underscore";
-import { getPlaintextFromFormatted } from "app/VocabularyMaker/functions";
+import { getPlaintextFromFormatted } from "maker/VocabularyMaker/functions";
 const fs = require("fs");
 const path = require("path");
 const filename = content_folder + `/not_data/vocabulary/vocabulary`;

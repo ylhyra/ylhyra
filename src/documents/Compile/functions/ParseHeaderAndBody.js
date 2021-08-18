@@ -1,5 +1,5 @@
 import { removeComments } from "documents/Compile/functions/functions";
-import { getPlaintextFromVocabularyEntry } from "app/VocabularyMaker/functions";
+import { getPlaintextFromVocabularyEntry } from "maker/VocabularyMaker/functions";
 const yaml = require("js-yaml");
 
 export const ParseHeaderAndBody = (data, file) => {

@@ -14,7 +14,7 @@ import {
   parse_vocabulary_file,
   getHash,
   GetLowercaseStringForAudioKey,
-} from "app/VocabularyMaker/functions";
+} from "maker/VocabularyMaker/functions";
 import _ from "underscore";
 
 const path = require("path");

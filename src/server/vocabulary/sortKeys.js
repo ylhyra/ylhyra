@@ -3,7 +3,7 @@ import generate_html from "documents/Compile";
 import {
   getHash,
   GetLowercaseStringForAudioKey,
-} from "app/VocabularyMaker/functions";
+} from "maker/VocabularyMaker/functions";
 import {
   EncodeDataInHTML,
   DecodeDataInHTML,

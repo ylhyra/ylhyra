@@ -64,7 +64,7 @@ if (process.env.NODE_ENV === "development" && isBrowser) {
     component: React.lazy(() =>
       import(
         /* webpackChunkName: "vocmak" */
-        "./../../app/VocabularyMaker"
+        "./../../maker/VocabularyMaker"
       )
     ),
   };
@@ -73,7 +73,7 @@ if (process.env.NODE_ENV === "development" && isBrowser) {
     component: React.lazy(() =>
       import(
         /* webpackChunkName: "vocmakr" */
-        "./../../app/VocabularyMaker/record"
+        "./../../maker/VocabularyMaker/record"
       )
     ),
   };

@@ -2,7 +2,7 @@ import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
 import {
   getHash,
   getPlaintextFromFormatted,
-} from "app/VocabularyMaker/functions";
+} from "maker/VocabularyMaker/functions";
 import store from "app/App/store";
 import { InitializeSession } from "app/Vocabulary/actions/session";
 import { updateURL } from "app/Router/actions";

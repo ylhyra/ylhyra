@@ -5,7 +5,7 @@ import { isBrowser } from "app/App/functions/isBrowser";
 import {
   getHash,
   getPlaintextFromFormatted,
-} from "app/VocabularyMaker/functions";
+} from "maker/VocabularyMaker/functions";
 import store from "app/App/store";
 import { updateURL } from "app/Router/actions";
 import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
