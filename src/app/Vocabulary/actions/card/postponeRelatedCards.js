@@ -1,4 +1,4 @@
-import { BAD, GOOD, EASY } from "./index";
+import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import _ from "underscore";
 
 /**

@@ -6,7 +6,7 @@ import {
   removeComments,
   EncodeDataInHTML,
 } from "documents/Compile/functions/functions";
-import { links, getValuesForURL } from "server/content/links.js";
+import { links, getValuesForURL } from "server/content/links";
 
 var fs = require("fs");
 

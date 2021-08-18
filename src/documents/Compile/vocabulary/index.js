@@ -5,7 +5,7 @@ import {
 } from "app/Vocabulary/actions/functions";
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
 import { getCardIdsFromTermIds } from "app/Vocabulary/actions/functions";
-import { getTermsFromCards } from "app/Vocabulary/actions/functions/index";
+import { getTermsFromCards } from "app/Vocabulary/actions/functions";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 import { getCardIdsFromWords } from "documents/Compile/vocabulary/getCardIdsFromWords";
 import { getPlaintextFromVocabularyEntry } from "maker/VocabularyMaker/functions";

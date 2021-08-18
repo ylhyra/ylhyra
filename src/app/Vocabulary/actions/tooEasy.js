@@ -1,20 +1,23 @@
-import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card/index.js";
-
-/*
-
-Ef notandi ýtir þrisvar sinnum á easy þá þarf levelið hans að stökkva fram.
-
-*/
+import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 
 let user_level = 0;
 let easyInARow = 0;
+
+/**
+ * Ef notandi ýtir þrisvar sinnum á easy þá þarf levelið hans að stökkva fram.
+ * @memberof Deck
+ */
 export const keepTrackOfUserStatus = (rating, isNew) => {
+  const deck = this;
   if (isNew) {
     if (rating === EASY) {
       easyInARow++;
-      if (easyInARow === 2) {
-        user_level++;
-      }
+      deck.easinessLevel = 50;
+      deck.session.cards = [];
+      deck.session.createCards();
+      // if (easyInARow === 2) {
+      //   user_level++;
+      // }
     } else {
       easyInARow = 0;
     }

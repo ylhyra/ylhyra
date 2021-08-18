@@ -4,7 +4,7 @@ import { BAD, GOOD, EASY } from "./card";
 import { printWord, getCardsWithSameTerm } from "./functions";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 import { deck } from "app/Vocabulary/actions/deck";
-import { INCR } from "app/Vocabulary/actions/createSchedule.js";
+import { INCR } from "app/Vocabulary/actions/createSchedule";
 const CARDS_TO_CREATE = 30;
 
 /**
@@ -70,12 +70,27 @@ export default function createCards(options) {
       (a, b) => allowed_card_ids.indexOf(a) - allowed_card_ids.indexOf(b)
     );
   }
+  if (deck.easinessLevel) {
+    new_card_ids = new_card_ids
+      .map((id) => {
+        const { sortKey } = deck.cards[id];
+        return {
+          key: sortKey > deck.easinessLevel ? sortKey : 100000 - sortKey,
+          id,
+        };
+      })
+      .sort((a, b) => a.key - b.key)
+      .map((v) => v.id);
+  }
 
   overdue_good_ids = SortBySortKey(overdue_good_ids);
   overdue_bad_ids = SortBySortKey(overdue_bad_ids);
 
-  not_overdue_bad_cards_ids = SortIdsByWhetherTermWasRecentlySeen(
-    SortBySortKey(not_overdue_bad_cards_ids)
+  not_overdue_bad_cards_ids = shuffle_each(
+    SortIdsByWhetherTermWasRecentlySeen(
+      SortBySortKey(not_overdue_bad_cards_ids)
+    ),
+    10
   );
   const very_recently_seen_not_overdue_bad_cards = shuffle_each(
     SortIdsByWhetherTermWasRecentlySeen(
@@ -84,8 +99,11 @@ export default function createCards(options) {
     ),
     10
   );
-  not_overdue_semi_bad_cards_ids = SortIdsByWhetherTermWasRecentlySeen(
-    SortBySortKey(not_overdue_semi_bad_cards_ids)
+  not_overdue_semi_bad_cards_ids = shuffle_each(
+    SortIdsByWhetherTermWasRecentlySeen(
+      SortBySortKey(not_overdue_semi_bad_cards_ids)
+    ),
+    10
   );
 
   let total_options =
@@ -118,6 +136,9 @@ export default function createCards(options) {
 
   new_card_ids = SortBySortKey(new_card_ids);
 
+  /*
+    Loop to select chosen cards
+  */
   for (
     let i = 0;
     chosen_ids.length < Math.min(CARDS_TO_CREATE, total_options) && i < 1000;
@@ -185,11 +206,12 @@ export default function createCards(options) {
     if (
       /* Already chosen */
       chosen_ids.includes(card_id) ||
-      /* Dependency that is not known */
-      !(card_id in deck.schedule) ||
-      (deck.schedule[card_id].score &&
-        deck.schedule[card_id].score < 1.4 &&
-        deck.schedule[card_id].last_seen < now - 12 * hours)
+      /* Ignore cards that are below user's easiness level */
+      (deck.cards[card_id].sortKey > (deck.easinessLevel || 0) &&
+        /* Dependency that is not known */
+        (!(card_id in deck.schedule) ||
+          (deck.schedule[card_id].score &&
+            deck.schedule[card_id].score <= BAD + INCR)))
     ) {
       return tmp.push(card_id);
     }

@@ -14,10 +14,10 @@ import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import _ from "underscore";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
 import { deck } from "app/Vocabulary/actions/deck";
-import { SortIdsByScore } from "app/Vocabulary/actions/createCards.js";
+import { SortIdsByScore } from "app/Vocabulary/actions/createCards";
 
-export const withDependencies = (card_ids, options) => {
-  const showDepth = options?.showDepth;
+export const withDependencies = (card_ids, options = {}) => {
+  const { showDepth } = options;
   let returns = [];
   let terms = [];
   let depth = {};

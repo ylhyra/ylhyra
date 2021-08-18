@@ -8,7 +8,7 @@ import { syncSchedule } from "./sync";
 import { updateURL } from "app/Router/actions";
 import { BAD, GOOD, EASY } from "./card";
 import _ from "underscore";
-// import { keepTrackOfUserStatus } from "app/Vocabulary/actions/tooEasy.js";
+import { keepTrackOfUserStatus } from "app/Vocabulary/actions/tooEasy";
 
 export let deck;
 
@@ -42,7 +42,7 @@ class Deck {
   }
 }
 Deck.prototype.syncSchedule = syncSchedule;
-// Deck.prototype.keepTrackOfUserStatus = keepTrackOfUserStatus;
+Deck.prototype.keepTrackOfUserStatus = keepTrackOfUserStatus;
 export default Deck;
 
 /* Hack used for server side rendering*/

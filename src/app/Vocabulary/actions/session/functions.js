@@ -74,6 +74,14 @@ export function createMoreCards() {
   console.log("New cards generated");
 }
 
+// /**
+//  * @memberof Session
+//  */
+// export function clearUnseenCards() {
+//   this.createCards();
+//   console.log("New cards generated");
+// }
+
 /**
  * @memberof Session
  */

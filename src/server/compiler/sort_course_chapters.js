@@ -3,14 +3,14 @@ npm run chapters
 */
 // import urlSlug from 'src/app/App/functions/url-slug'
 //
-import { getOrder } from "documents/Compile/Templates/getOrderOfChapters.js";
+import { getOrder } from "documents/Compile/Templates/getOrderOfChapters";
 //
 import string_hash from "app/App/functions/hash";
 import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
 import RemoveUnwantedCharacters from "app/App/functions/RemoveUnwantedCharacters";
 import { URL_title, FileSafeTitle } from "paths";
 import { content_folder, build_folder } from "paths_backend";
-import { links, getValuesForURL } from "server/content/links.js";
+import { links, getValuesForURL } from "server/content/links";
 var fs = require("fs");
 const path = require("path");
 

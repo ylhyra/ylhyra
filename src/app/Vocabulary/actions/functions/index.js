@@ -106,6 +106,14 @@ export const getTermsFromCards = (card_ids) => {
   return _.uniq(terms);
 };
 
+// export const getTermsFromCards = (card_ids) => {
+//   let terms = [];
+//   card_ids.forEach((id) => {
+//     terms = terms.concat(deck.cards[id].terms);
+//   });
+//   return _.uniq(terms);
+// };
+
 if (isBrowser) {
   window.studyParticularWords = (...words) => {
     studyParticularIds(getCardIdsFromTermIds(words.map(getHash)));

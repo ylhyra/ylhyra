@@ -1,6 +1,6 @@
 import { URL_title, section_id } from "paths";
 import { url_to_info } from "app/Router/paths";
-// import { links, getValuesForURL } from "server/content/links.js";
+// import { links, getValuesForURL } from "server/content/links";
 
 export const ProcessLinks = (input, links) => {
   return (

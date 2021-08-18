@@ -177,14 +177,14 @@ const simplify = () => {
     .map((card) => {
       return card.id;
     });
-  card_ids = withDependencies(card_ids);
+  card_ids = withDependencies__backend(card_ids);
   card_ids.forEach((card_id, index) => {
     deck.cards[card_id].sortKey = index;
     delete deck.cards[card_id].row_id;
   });
 
   Object.keys(deck.terms).forEach((term_id) => {
-    const deps = CreateDependencyChain(term_id, deck);
+    const deps = CreateDependencyChain__backend(term_id, deck);
     const allDependencies = Object.keys(deps);
     const directDependencies = Object.keys(deps).filter(
       (dep) => deps[dep] === 1
@@ -257,7 +257,7 @@ const sortObject = (obj, sortKey, replace) => {
   return out;
 };
 
-export const withDependencies = (card_ids, options) => {
+export const withDependencies__backend = (card_ids, options) => {
   const showDepth = options?.showDepth;
   let returns = [];
   let terms = [];
@@ -271,7 +271,7 @@ export const withDependencies = (card_ids, options) => {
   terms = _.uniq(terms);
   terms.forEach((term) => {
     let terms = [{ term, dependencySortKey: 0 }];
-    const chain = CreateDependencyChain(term, deck);
+    const chain = CreateDependencyChain__backend(term, deck);
     // console.log(
     //   Object.keys(chain).map((j) => {
     //     return [printWord(j), chain[j]];
@@ -320,7 +320,7 @@ export const withDependencies = (card_ids, options) => {
 /**
  * Returns an object on the form { [key]: [depth] }
  */
-const CreateDependencyChain = (
+const CreateDependencyChain__backend = (
   from_term,
   deck,
   _alreadySeen = [],
@@ -344,7 +344,7 @@ const CreateDependencyChain = (
         .filter(Boolean)
         .forEach((j) => {
           const isThroughAltId = j !== term;
-          CreateDependencyChain(
+          CreateDependencyChain__backend(
             j,
             deck,
             alreadySeen,

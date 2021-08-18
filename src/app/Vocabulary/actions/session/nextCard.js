@@ -8,7 +8,7 @@ import {
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 import createCards from "app/Vocabulary/actions/createCards";
-const LOGGING = true;
+const LOGGING = false;
 
 /**
  * @memberof Session

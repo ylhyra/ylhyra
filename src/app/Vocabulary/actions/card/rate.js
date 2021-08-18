@@ -1,7 +1,7 @@
 import { average, clamp } from "app/App/functions/math";
-import { BAD, GOOD, EASY } from "./index";
+import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import { printWord } from "app/Vocabulary/actions/functions";
-import { keepTrackOfUserStatus } from "app/Vocabulary/actions/tooEasy.js";
+import { keepTrackOfUserStatus } from "app/Vocabulary/actions/tooEasy";
 
 /**
  * @memberof Card
@@ -74,5 +74,5 @@ export default function rate(rating) {
   card.postponeRelatedCards(interval);
   card.session.cardTypeLog.unshift(card.from);
 
-  keepTrackOfUserStatus(rating, isNew);
+  card.session.deck.keepTrackOfUserStatus(rating, isNew);
 }

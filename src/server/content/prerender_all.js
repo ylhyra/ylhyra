@@ -4,7 +4,7 @@ import prerender from "./prerender_single";
 import forEachAsync from "app/App/functions/array-foreach-async";
 import { url_to_info } from "app/Router/paths";
 import { readDeck } from "documents/Compile/vocabulary";
-import { links, getValuesForURL } from "server/content/links.js";
+import { links, getValuesForURL } from "server/content/links";
 var fs = require("fs");
 
 let n = 0;

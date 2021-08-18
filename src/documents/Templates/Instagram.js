@@ -3,7 +3,7 @@ import Link from "app/Router/Link";
 import Audio from "documents/Render/Audio";
 import Image from "documents/Templates/Image";
 import { getDynamicFileUrl } from "paths";
-import Video from "documents/Render/Audio/index";
+import Video from "documents/Render/Audio";
 export default (props) => {
   return (
     <div className="video-container">

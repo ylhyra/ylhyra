@@ -1,6 +1,6 @@
 import _ from "underscore";
 import generate_html from "documents/Compile";
-import { getValuesForURL } from "server/content/links.js";
+import { getValuesForURL } from "server/content/links";
 import { URL_title, FileSafeTitle } from "paths";
 let order;
 
