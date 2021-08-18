@@ -11,74 +11,74 @@ SET sql_mode = '';
 -- CREATE USER 'example_user'@'localhost' IDENTIFIED BY 'example_password';
 -- GRANT ALL ON `ylhyra`.* TO 'example_user'@'localhost';
 
--- Sentence analysis from Greinir
-DROP TABLE IF EXISTS analysis;
-CREATE TABLE analysis (
-  lang VARCHAR(3),
-  text_hash VARCHAR(20),
-  text MEDIUMTEXT,
-  analysis MEDIUMTEXT
-);
-CREATE INDEX _text_hash ON analysis (text_hash);
-
-
---    ____        __ _       _ _   _
---   |  _ \  ___ / _(_)_ __ (_) |_(_) ___  _ __  ___
---   | | | |/ _ \ |_| | '_ \| | __| |/ _ \| '_ \/ __|
---   | |_| |  __/  _| | | | | | |_| | (_) | | | \__ \
---   |____/ \___|_| |_|_| |_|_|\__|_|\___/|_| |_|___/
-
-DROP TABLE IF EXISTS words_and_sentences;
-CREATE TABLE words_and_sentences (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  from_lang VARCHAR(3),
-  to_lang VARCHAR(3),
-  text_hash VARCHAR(20),
-  translation_frame_hash VARCHAR(20), # Used by words
-  definition_hash VARCHAR(20),        # Used by sentences
-  document_id INT UNSIGNED
-);
-CREATE INDEX _from_lang ON words_and_sentences (from_lang);
-CREATE INDEX _to_lang ON words_and_sentences (to_lang);
-CREATE INDEX _text_hash ON words_and_sentences (text_hash);
-CREATE INDEX _document_id ON words_and_sentences (document_id);
-
-DROP TABLE IF EXISTS translation_frames;
-CREATE TABLE translation_frames (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  translation_frame_hash VARCHAR(20),
-  -- position_in_translation_frame INT,
-  definition_hash VARCHAR(20)
-);
-CREATE UNIQUE INDEX _translation_frame_hash ON translation_frames (translation_frame_hash);
-
-DROP TABLE IF EXISTS words_in_translation_frame;
-CREATE TABLE words_in_translation_frame (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  translation_frame_hash VARCHAR(20),
-  position_relative_to_center_word INT, # [-3,-2,-1,0,1,2,3]
-  -- position_in_translation_frame INT,
-  word VARCHAR(32),
-  is_part_of_definition BOOL
-);
-CREATE INDEX _translation_frame_hash ON words_in_translation_frame (translation_frame_hash);
-CREATE INDEX _word ON words_in_translation_frame (word);
-
-DROP TABLE IF EXISTS definitions;
-CREATE TABLE definitions (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  definition_hash VARCHAR(20),
-  definition MEDIUMTEXT
-);
-CREATE UNIQUE INDEX _definition_hash ON definitions (definition_hash);
-
-DROP TABLE IF EXISTS google_translate;
-CREATE TABLE google_translate (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  hash VARCHAR(25),
-  translation MEDIUMTEXT
-);
-CREATE UNIQUE INDEX _google_translate_hash ON google_translate (hash);
+-- -- Sentence analysis from Greinir
+-- DROP TABLE IF EXISTS analysis;
+-- CREATE TABLE analysis (
+--   lang VARCHAR(3),
+--   text_hash VARCHAR(20),
+--   text MEDIUMTEXT,
+--   analysis MEDIUMTEXT
+-- );
+-- CREATE INDEX _text_hash ON analysis (text_hash);
+--
+--
+-- --    ____        __ _       _ _   _
+-- --   |  _ \  ___ / _(_)_ __ (_) |_(_) ___  _ __  ___
+-- --   | | | |/ _ \ |_| | '_ \| | __| |/ _ \| '_ \/ __|
+-- --   | |_| |  __/  _| | | | | | |_| | (_) | | | \__ \
+-- --   |____/ \___|_| |_|_| |_|_|\__|_|\___/|_| |_|___/
+--
+-- DROP TABLE IF EXISTS words_and_sentences;
+-- CREATE TABLE words_and_sentences (
+--   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+--   from_lang VARCHAR(3),
+--   to_lang VARCHAR(3),
+--   text_hash VARCHAR(20),
+--   translation_frame_hash VARCHAR(20), # Used by words
+--   definition_hash VARCHAR(20),        # Used by sentences
+--   document_id INT UNSIGNED
+-- );
+-- CREATE INDEX _from_lang ON words_and_sentences (from_lang);
+-- CREATE INDEX _to_lang ON words_and_sentences (to_lang);
+-- CREATE INDEX _text_hash ON words_and_sentences (text_hash);
+-- CREATE INDEX _document_id ON words_and_sentences (document_id);
+--
+-- DROP TABLE IF EXISTS translation_frames;
+-- CREATE TABLE translation_frames (
+--   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+--   translation_frame_hash VARCHAR(20),
+--   -- position_in_translation_frame INT,
+--   definition_hash VARCHAR(20)
+-- );
+-- CREATE UNIQUE INDEX _translation_frame_hash ON translation_frames (translation_frame_hash);
+--
+-- DROP TABLE IF EXISTS words_in_translation_frame;
+-- CREATE TABLE words_in_translation_frame (
+--   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+--   translation_frame_hash VARCHAR(20),
+--   position_relative_to_center_word INT, # [-3,-2,-1,0,1,2,3]
+--   -- position_in_translation_frame INT,
+--   word VARCHAR(32),
+--   is_part_of_definition BOOL
+-- );
+-- CREATE INDEX _translation_frame_hash ON words_in_translation_frame (translation_frame_hash);
+-- CREATE INDEX _word ON words_in_translation_frame (word);
+--
+-- DROP TABLE IF EXISTS definitions;
+-- CREATE TABLE definitions (
+--   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+--   definition_hash VARCHAR(20),
+--   definition MEDIUMTEXT
+-- );
+-- CREATE UNIQUE INDEX _definition_hash ON definitions (definition_hash);
+--
+-- DROP TABLE IF EXISTS google_translate;
+-- CREATE TABLE google_translate (
+--   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+--   hash VARCHAR(25),
+--   translation MEDIUMTEXT
+-- );
+-- CREATE UNIQUE INDEX _google_translate_hash ON google_translate (hash);
 
 
 
@@ -121,8 +121,10 @@ CREATE TABLE analytics (
   user_languages VARCHAR(30),
   referrer VARCHAR(120),
   seconds_spent SMALLINT UNSIGNED,
+  INDEX (timestamp),
   INDEX (user_id),
   INDEX (session_id),
+  INDEX (type),
   INDEX (page_name),
   INDEX (referrer)
 ) ROW_FORMAT=COMPRESSED;

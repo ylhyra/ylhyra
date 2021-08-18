@@ -8,6 +8,9 @@ export default (strings, ...values) =>
       if (Array.isArray(value)) {
         value = value.join("");
       }
-      return string + (value || "");
+      if (!value && value !== 0) {
+        value = "";
+      }
+      return string + value;
     })
     .join("");

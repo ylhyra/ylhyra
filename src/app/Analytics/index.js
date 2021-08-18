@@ -68,6 +68,10 @@ class Analytics {
     this.queue = [];
     this.save();
   };
+  error = (message) => {
+    if (!likelyNotABot) return;
+    axios.post(`/api/error`, { message, url: window.location.pathname });
+  };
   test = () => {
     if (process.env.NODE_ENV !== "development") return;
     this.queue.push({ url: "testing" });

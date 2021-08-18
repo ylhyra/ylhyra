@@ -2,7 +2,6 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import express from "express";
-import logger from "./logger";
 import bodyParser from "body-parser";
 import argvFactory from "minimist";
 import query from "./database";
@@ -11,6 +10,8 @@ import path from "path";
 import { unprocessed_image_url, processed_image_url } from "paths";
 import { ylhyra_content_files, image_output_folder } from "paths_backend";
 import { build_folder } from "paths_backend";
+import { exec } from "child_process";
+import { notifyOfError } from "./errors";
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
 const argv = argvFactory(process.argv.slice(2));
@@ -73,6 +74,7 @@ app.use("/api", require("server/audio/recorder").default);
 // app.use('/api', require('server/translator/save').default)
 app.use("/api", require("server/analytics").default);
 app.use("/api", require("server/analytics/overview").default);
+app.use("/api", require("server/analytics/userErrors").default);
 app.use("/api", require("server/user").default);
 app.use("/api", require("server/user/pay").default);
 app.use("/api", require("server/vocabulary/get").default);
@@ -142,12 +144,11 @@ if (process.argv[2] === "--generate-links") {
   /* Or, start the app */
   app.listen(port, host, (err) => {
     if (err) {
-      return logger.error(err.message);
+      return notifyOfError(err.message);
     }
     if (process.env.NODE_ENV === "development") {
       console.log(`Running on port ${port}`);
     }
-    logger.appStarted(port, prettyHost);
   });
 }
 
@@ -159,5 +160,12 @@ process.on("SIGINT", function () {
 });
 
 process.on("uncaughtException", (err) => {
+  if (process.env.NODE_ENV === "development") {
+    exec(
+      `terminal-notifier -group 'ylhyra' -title '⚠️' -message 'Server has crashed'`
+    );
+  } else {
+    notifyOfError(err.toString());
+  }
   console.error(err);
 });

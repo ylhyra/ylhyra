@@ -17,3 +17,13 @@
 - uppfæra package.json á server þegar það eru breytingar
 - ekki loada ef preload er enn í gangi
 - skrá hvaða greinar notandi hefur lesið
+
+uppfæra í gagnagrunni
+-payments (+verified)
+-users (timestamp->datetime)
+
+# MVP
+
+- fleiri upptökur
+- skrá sessions
+- klára að fara yfir

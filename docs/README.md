@@ -13,6 +13,6 @@
 ## Documentation
 
 - [Document parsing overview](document_parsing/Code_overview.md)
-- [Acknowledgments](Acknowledgments.md)
+<!-- - [Acknowledgments](Acknowledgments.md) -->
 
 Documentation is limited, so feel free to [contact me](mailto:egill@egill.xyz) for assistance.
