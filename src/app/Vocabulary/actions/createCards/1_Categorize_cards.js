@@ -55,7 +55,7 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
     const id = deck.cards_sorted[i].id;
     if (forbidden_ids.includes(id)) continue;
     if (allowed_card_ids && !allowed_card_ids.includes(id)) continue;
-    if (new_card_ids.length < CARDS_TO_CREATE || deck.easinessLevel) {
+    if (new_card_ids.length < CARDS_TO_CREATE || deck.isEasinessLevelOn()) {
       if (!(id in deck.schedule)) {
         new_card_ids.push(id);
       }
@@ -68,7 +68,7 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
       (a, b) => allowed_card_ids.indexOf(a) - allowed_card_ids.indexOf(b)
     );
   }
-  if (deck.easinessLevel) {
+  if (deck.isEasinessLevelOn()) {
     new_card_ids = new_card_ids
       .map((id) => {
         const { sortKey } = deck.cards[id];

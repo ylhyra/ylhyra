@@ -18,7 +18,8 @@ export default ({ chosen_ids, forbidden_ids }) => {
       /* Already chosen */
       chosen_ids.includes(card_id) ||
       /* Ignore cards that are below user's easiness level */
-      (deck.cards[card_id].sortKey > (deck.easinessLevel || 0) &&
+      (deck.cards[card_id].sortKey >=
+        ((deck.isEasinessLevelOn() && deck.easinessLevel) || 0) &&
         /* Dependency that is not known */
         (!(card_id in deck.schedule) ||
           (deck.schedule[card_id].score &&

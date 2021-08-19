@@ -30,7 +30,7 @@ export const withDependencies = (card_ids, options = {}) => {
   terms = _.uniq(terms);
   terms.forEach((term) => {
     let terms = [{ term, dependencySortKey: 0 }];
-    const chain = CreateDependencyChain(term, deck);
+    const chain = CreateDependencyChain(term);
     // console.log(
     //   Object.keys(chain).map((j) => {
     //     return [printWord(j), chain[j]];
@@ -76,7 +76,6 @@ export const withDependencies = (card_ids, options = {}) => {
  */
 const CreateDependencyChain = (
   from_term_id,
-  deck,
   _alreadySeen = [],
   output = [],
   depth = 1
@@ -87,7 +86,7 @@ const CreateDependencyChain = (
     if (alreadySeen.includes(term)) return;
     alreadySeen.push(term);
     output[term] = Math.max(output[term] || 0, depth);
-    CreateDependencyChain(term, deck, alreadySeen, output, depth + 1);
+    CreateDependencyChain(term, alreadySeen, output, depth + 1);
   });
   return output;
 };
