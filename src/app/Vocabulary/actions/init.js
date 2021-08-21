@@ -37,10 +37,6 @@ export const InitializeVocabulary = async () => {
       )
     ).data;
     saveInLocalStorage("vocabulary-database", database);
-    saveInLocalStorage(
-      "vocabulary-database-last-updated",
-      new Date().getTime()
-    );
     saveInLocalStorage("vocabulary-build-id", getBuildId());
   }
 

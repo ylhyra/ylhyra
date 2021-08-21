@@ -24,10 +24,11 @@
 
 - payments (+verified)
 - users (timestamp->datetime)
+- eyða vocabulary_session_log, bæta við vocabulary_sessions
+- schedule bæta við timestamp
 
 # MVP
 
 - fleiri upptökur
 - skrá sessions
 - klára að fara yfir
-- eyða vocabulary_session_log, bæta við vocabulary_sessions

@@ -167,10 +167,10 @@ CREATE TABLE user_settings (
   user_id INT UNSIGNED,
   name VARCHAR(20),
   value VARCHAR(255),
-  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   INDEX (user_id),
   INDEX (name),
-  INDEX (timestamp)
+  INDEX (created_at)
 ) ROW_FORMAT=COMPRESSED;
 
 /* Payments */
