@@ -1,6 +1,7 @@
 import { average, clamp } from "app/App/functions/math";
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import { printWord } from "app/Vocabulary/actions/functions";
+import { addRelatedCards } from "./addRelatedCards";
 
 /**
  * @memberof Card
@@ -13,9 +14,6 @@ export default function rate(rating) {
   card.session.ratingHistory.unshift(rating);
   card.session.cardHistory.unshift(card);
   card.lastSeen = card.session.counter;
-
-  /* Score */
-  const lastTwoAverage = average(card.history.slice(0, 2));
 
   /* Schedule */
   let interval;
@@ -46,30 +44,11 @@ export default function rate(rating) {
     card.done = true;
   }
 
-  // if(interval)
-
-  /* Add related cards (in case they're missing) */
   if (rating === BAD) {
-    Object.keys(card.dependencyDepth).forEach((related_card_id) => {
-      if (related_card_id === card.id) return;
-      if (card.session.cards.some((j) => j.id === related_card_id)) return;
-      // Same term
-      if (card.dependencyDepth[related_card_id] === 0) {
-        card.session.loadCards([related_card_id]);
-      }
-      // Directly above
-      else if (
-        card.dependencyDepth[related_card_id] === 1 &&
-        (!(related_card_id in deck.schedule) ||
-          deck.schedule[related_card_id].score < 1.5)
-      ) {
-        card.session.loadCards([related_card_id]);
-      }
-    });
+    addRelatedCards(card);
   }
 
   card.showIn({ interval });
-  card.status = Math.round(lastTwoAverage);
   card.postponeRelatedCards(interval);
   card.session.cardTypeLog.unshift(card.from);
 

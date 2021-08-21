@@ -6,7 +6,7 @@ import {
   saveInLocalStorage,
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
-import { getUserFromCookie } from "app/User/actions";
+import { getUserFromCookie, isUserLoggedIn } from "app/User/actions";
 import { hour, day } from "app/App/functions/time";
 import { InitializeUser } from "app/User/actions";
 
@@ -44,7 +44,9 @@ export const InitializeVocabulary = async () => {
   }
 
   let schedule = getFromLocalStorage("vocabulary-schedule") || {};
-  if (getUserFromCookie()) {
+  let easinessLevel = getFromLocalStorage("vocabulary-easiness-level") || 0;
+
+  if (isUserLoggedIn()) {
     /* TODO: Selective sync */
     const r = (await axios.post(`/api/vocabulary/schedule`)).data;
     if (r) {
@@ -64,7 +66,7 @@ export const InitializeVocabulary = async () => {
 
   let session = getFromLocalStorage("vocabulary-session");
 
-  const deck = new Deck({ database, schedule, session });
+  const deck = new Deck({ database, schedule, session, easinessLevel });
   store.dispatch({
     type: "LOAD_DECK",
     content: deck,
@@ -74,8 +76,10 @@ export const InitializeVocabulary = async () => {
 let build_id;
 const getBuildId = () => {
   if (build_id) return build_id || "";
-  const el = document.querySelector('link[href^="/app/main.css"]');
-  if (!el) return "";
-  build_id = el.getAttribute("href").match(/v=(.+)/)[1] || "";
-  return build_id || "";
+  build_id =
+    document
+      .querySelector('link[href^="/app/main.css"]')
+      ?.getAttribute("href")
+      .match(/v=(.+)/)?.[1] || "";
+  return build_id;
 };

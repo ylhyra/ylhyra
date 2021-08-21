@@ -12,6 +12,10 @@ import {
   keepTrackOfUserStatus,
   isEasinessLevelOn,
 } from "app/Vocabulary/actions/tooEasy";
+import {
+  saveInLocalStorage,
+  getFromLocalStorage,
+} from "app/App/functions/localStorage";
 
 export let deck;
 
@@ -45,6 +49,7 @@ class Deck {
   }
   reset() {
     this.schedule = {};
+    saveInLocalStorage("vocabulary-schedule", null);
   }
 }
 Deck.prototype.syncSchedule = syncSchedule;

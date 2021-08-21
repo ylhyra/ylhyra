@@ -54,6 +54,12 @@ router.get(["/api/content", "*"], async (req, res) => {
           path.resolve(build_folder, `./prerender/${filename}.${type}`),
           "utf8",
           async (err, data) => {
+            res.set(
+              "Cache-Control",
+              `public, max-age=${24 * 60 * 60 /* Einn dagur */}`
+            );
+            // Last-Modified:
+
             if (err) {
               send404(res);
             } else {

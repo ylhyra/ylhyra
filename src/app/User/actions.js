@@ -28,8 +28,9 @@ export const getUserFromCookie = () => {
 };
 
 export const isUserLoggedIn = () => {
-  const { user } = store.getState();
-  return user !== null;
+  return getUserFromCookie() !== null;
+  // const { user } = store.getState();
+  // return user !== null;
 };
 
 export const existsSchedule = () => {

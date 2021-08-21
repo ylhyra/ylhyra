@@ -1,12 +1,16 @@
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import { deck } from "app/Vocabulary/actions/deck";
+import {
+  saveInLocalStorage,
+  getFromLocalStorage,
+} from "app/App/functions/localStorage";
 
 let easyInARow = 0;
-const MIN_JUMP = 30;
+const MIN_JUMP = 50;
 const MAX_JUMP = 200;
+const DEFAULT_JUMP_DOWN = 100;
 let last_jump_up;
-let last_jump_down;
-let RatingHistoryForNewCards = [];
+// let RatingHistoryForNewCards = [];
 
 /**
  * Ef notandi ýtir þrisvar sinnum á easy þá þarf levelið hans að stökkva fram.
@@ -15,47 +19,80 @@ let RatingHistoryForNewCards = [];
 export function keepTrackOfUserStatus(rating, isNew) {
   if (process.env.NODE_ENV !== "development") return;
   if (this.session.allowed_card_ids) return;
-  if (!deck.isEasinessLevelOn()) return;
   if (isNew) {
     if (rating === EASY) {
       easyInARow++;
-      if (easyInARow > 2) {
-        setEasinessLevel(last_jump_up * 2);
-        deck.session.cards = [];
-        // TODO
-        // deck.session.cards.filter(
-        //   (j) => j.history.length > 0 || j.cannotBeShownBefore
-        // )  ;
-        deck.session.createCards();
-        console.log(`Easiness level increased to ${deck.easinessLevel}`);
+      if (easyInARow >= 2) {
+        let change = Math.min(last_jump_up * 2 || MIN_JUMP, MAX_JUMP);
+        last_jump_up = change;
+        const newValue = Math.min(
+          Math.max(0, (deck.easinessLevel || 0) + change),
+          getLowestBadSortKey() || getMaxSortKey() || deck.cards_sorted.length
+        );
+        if (newValue !== deck.easinessLevel) {
+          setEasinessLevel(newValue);
+          recreateAfterChangingEasinessLevel();
+        }
       }
     } else {
       easyInARow = 0;
-      console.log(`Easiness level lowered to ${deck.easinessLevel}`);
     }
     if (rating === BAD && deck.easinessLevel) {
-      setEasinessLevel(last_jump_down * 2);
+      let min = deck.session.currentCard.sortKey - DEFAULT_JUMP_DOWN;
+      if (min < deck.easinessLevel) {
+        setEasinessLevel(Math.max(0, min));
+      }
     }
-    RatingHistoryForNewCards.unshift(rating);
+    // RatingHistoryForNewCards.unshift(rating);
   }
 }
 
-const setEasinessLevel = (incr) => {
-  let change = Math.min(Math.abs(incr || 0) || MIN_JUMP, MAX_JUMP);
-  if (incr > 0) {
-    last_jump_up = change;
-    last_jump_down = null;
-  } else {
-    change = -change;
-    last_jump_down = change;
-    last_jump_up = null;
-  }
-  deck.easinessLevel = (deck.easinessLevel || 0) + change;
+const getLowestBadSortKey = () => {
+  return (
+    deck.cards_sorted.find(
+      (card) => deck.schedule[card.id] && deck.schedule[card.id].score < GOOD
+    )?.sortKey || null
+  );
+};
+
+/* Maximum is to a B2 level */
+// TODO: þegar b2 vill svo til að sé innan í lægra leveli!!!
+const getMaxSortKey = () => {
+  return deck.cards_sorted.find((card) => card.level === 4)?.sortKey || null;
+};
+
+const setEasinessLevel = (val) => {
+  deck.easinessLevel = val;
+  saveInLocalStorage("vocabulary-easiness-level", val);
+  console.log(`Easiness level set to ${val}`);
+};
+
+/* Create new cards */
+const recreateAfterChangingEasinessLevel = () => {
+  const oldCards = [...deck.session.cards];
+  deck.session.cards = deck.session.cards.filter(
+    (card) => card.history.length > 0 || card.cannotBeShownBefore || card.done
+  );
+  let tmp_index = 0;
+  deck.session.cards.forEach((card) => {
+    if (card.sortKey < deck.easinessLevel) {
+      card.showIn({ minInterval: 100 });
+    }
+    // else if (
+    //   !card.done &&
+    //   change < 0 &&
+    //   card.sortKey > deck.easinessLevel &&
+    //   card.sortKey <= deck.easinessLevel - change
+    // ) {
+    //   card.showIn({ minInterval: tmp_index });
+    // }
+  });
+  deck.session.createCards();
 };
 
 /**
  * @memberof Deck
  */
 export function isEasinessLevelOn() {
-  return !this.session.allowed_card_ids && this.easinessLevel;
+  return Boolean(!this.session.allowed_card_ids && this.easinessLevel);
 }

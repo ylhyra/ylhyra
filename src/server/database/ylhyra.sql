@@ -161,6 +161,18 @@ CREATE TABLE users (
 --   INDEX (long_token)
 -- ) ROW_FORMAT=COMPRESSED;
 
+DROP TABLE IF EXISTS user_settings;
+CREATE TABLE user_settings (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id INT UNSIGNED,
+  name VARCHAR(20),
+  value VARCHAR(255),
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX (user_id),
+  INDEX (name),
+  INDEX (timestamp)
+) ROW_FORMAT=COMPRESSED;
+
 /* Payments */
 DROP TABLE IF EXISTS payments;
 CREATE TABLE payments (

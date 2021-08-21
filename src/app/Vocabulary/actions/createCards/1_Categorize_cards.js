@@ -1,13 +1,13 @@
 import { hour, day, hours, days } from "app/App/functions/time";
 import _ from "underscore";
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
+import { INCR } from "app/Vocabulary/actions/createSchedule";
 import {
   printWord,
   getCardsWithSameTerm,
 } from "app/Vocabulary/actions/functions";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 import { deck } from "app/Vocabulary/actions/deck";
-import { INCR } from "app/Vocabulary/actions/createSchedule";
 import { CARDS_TO_CREATE } from "./index";
 import {
   ScoreByTimeSinceTermWasSeen,
