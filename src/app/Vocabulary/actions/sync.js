@@ -15,6 +15,13 @@ export const sync = async (options = {}) => {
   let { schedule, session_log, easinessLevel, lastSynced } =
     deck || savedUserData || {};
 
+  saveInLocalStorage("user-data", {
+    schedule,
+    session_log,
+    easinessLevel,
+    lastSynced,
+  });
+
   if (!isUserLoggedIn()) {
     console.log(`Not synced to server as user isn't logged in`);
     return;
@@ -47,6 +54,17 @@ export const sync = async (options = {}) => {
   return data;
 };
 // window.syncSchedule = syncSchedule;
+
+export const syncIfNecessary = async () => {
+  if (!deck) return;
+
+  await sync();
+};
+
+export const saveUserData = () => {
+  // saveInLocalStorage(key, value);
+  // saveInLocalStorage(key+'', val);
+};
 
 const getUnsynced = (obj, options) => {
   if (!obj) return null;

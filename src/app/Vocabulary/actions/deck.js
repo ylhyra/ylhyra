@@ -10,7 +10,7 @@ import _ from "underscore";
 import {
   keepTrackOfUserStatus,
   isEasinessLevelOn,
-} from "app/Vocabulary/actions/tooEasy";
+} from "app/Vocabulary/actions/easinessLevel";
 import {
   saveInLocalStorage,
   getFromLocalStorage,

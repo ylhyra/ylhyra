@@ -42,11 +42,9 @@ class Session {
     this.reset();
     this.deck = deck;
     if (init) {
-      // this.loadCards(init);
       this.cards = init;
       this.createSchedule();
       this.clearInLocalStorage();
-      // this.reset();
     }
   }
   reset() {
@@ -85,18 +83,17 @@ class Session {
     }
     this.reset();
   }
-  saveSession(options = {}) {
+  saveSessionInLocalStorage() {
     const session = this;
-    if (!options.clear) {
-      let to_save = session.cards.map(({ session, ...rest }) => rest);
-      if (!to_save.some((i) => i.history.length > 0)) {
-        to_save = null;
-      }
-      saveInLocalStorage("vocabulary-session", to_save);
-      saveInLocalStorage("vocabulary-session-remaining", this.remainingTime);
-    } else {
-      saveInLocalStorage("vocabulary-session", null);
+    let to_save = session.cards.map(({ session, ...rest }) => rest);
+    if (!to_save.some((i) => i.history.length > 0)) {
+      to_save = null;
     }
+    saveInLocalStorage("vocabulary-session", to_save);
+    saveInLocalStorage("vocabulary-session-remaining", this.remainingTime);
+  }
+  clearInLocalStorage() {
+    saveInLocalStorage("vocabulary-session", null);
   }
   undo() {
     const card = this.cardHistory[0];

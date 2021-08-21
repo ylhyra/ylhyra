@@ -9,11 +9,13 @@ import {
 import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 import createCards from "app/Vocabulary/actions/createCards";
+import { syncIfNecessary } from "app/Vocabulary/actions/sync.js";
 
 /**
  * @memberof Session
  */
-export function InitializeSession(input, shouldReset) {
+export async function InitializeSession(input, shouldReset) {
+  await syncIfNecessary();
   const session = this;
   shouldReset !== false && this.reset();
   // this.allowed_card_ids = null;
