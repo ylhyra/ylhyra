@@ -20,39 +20,31 @@ export const sync = async (options = {}) => {
     return;
   }
 
-  const response = await axios.post(`/api/vocabulary/sync`, {
-    schedule: schedule && getUnsynced(schedule, options),
-    session_log: session_log && getUnsynced(session_log, options),
-    easinessLevel,
-    lastSynced: lastSynced,
-  });
+  schedule = schedule || {};
+  session_log = session_log || [];
 
-  schedule = saveScheduleResponse(schedule, response.schedule);
-  session_log = saveSessionLogResponse(session_log, response.session_log);
-  easinessLevel = response.easinessLevel || easinessLevel || 0;
-  lastSynced = response.lastSynced;
-
-  saveInLocalStorage("user-data", {
-    schedule,
-    easinessLevel,
-    session_log,
-    lastSynced,
-  });
-  console.log("Data synced");
-
-  if (deck) {
-    deck.schedule = schedule;
-    deck.easinessLevel = easinessLevel;
-    deck.session_log = session_log;
-    deck.lastSynced = lastSynced;
-  } else {
-    return {
-      schedule,
+  const response = (
+    await axios.post(`/api/vocabulary/sync`, {
+      schedule: getUnsynced(schedule, options),
+      session_log: getUnsynced(session_log, options),
       easinessLevel,
-      session_log,
-      lastSynced,
-    };
+      lastSynced: lastSynced,
+    })
+  ).data;
+
+  const data = {
+    schedule: saveScheduleResponse(schedule, response.schedule),
+    session_log: saveSessionLogResponse(session_log, response.session_log),
+    easinessLevel: response.easinessLevel || easinessLevel || 0,
+    lastSynced: response.lastSynced,
+  };
+
+  saveInLocalStorage("user-data", data);
+  if (deck) {
+    Object.assign(deck, data);
   }
+  console.log("Data synced");
+  return data;
 };
 // window.syncSchedule = syncSchedule;
 
@@ -77,9 +69,9 @@ const saveScheduleResponse = (schedule, updated) => {
       schedule[card_id].needsSyncing = false;
     }
   });
-  updated.forEach((i) => {
-    if (schedule[i.card_id]?.needsSyncing) return;
-    schedule[i.card_id] = { ...i, id: i.card_id };
+  Object.keys(updated).forEach((card_id) => {
+    if (schedule[card_id]?.needsSyncing) return;
+    schedule[card_id] = updated[card_id];
   });
   return schedule;
 };

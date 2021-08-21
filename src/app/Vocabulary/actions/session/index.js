@@ -45,7 +45,7 @@ class Session {
       // this.loadCards(init);
       this.cards = init;
       this.createSchedule();
-      this.saveSession(true);
+      this.clearInLocalStorage();
       // this.reset();
     }
   }
@@ -67,7 +67,7 @@ class Session {
   }
   sessionDone() {
     this.createSchedule();
-    this.saveSession(true);
+    this.clearInLocalStorage();
     updateURL(window.location.pathname);
     store.dispatch({
       type: "LOAD_SESSION",
@@ -85,15 +85,15 @@ class Session {
     }
     this.reset();
   }
-  saveSession(clear) {
+  saveSession(options = {}) {
     const session = this;
-    if (!clear) {
+    if (!options.clear) {
       let to_save = session.cards.map(({ session, ...rest }) => rest);
       if (!to_save.some((i) => i.history.length > 0)) {
         to_save = null;
       }
       saveInLocalStorage("vocabulary-session", to_save);
-      saveInLocalStorage("vocabulary-session-saved-at", new Date().getTime());
+      saveInLocalStorage("vocabulary-session-remaining", this.remainingTime);
     } else {
       saveInLocalStorage("vocabulary-session", null);
     }

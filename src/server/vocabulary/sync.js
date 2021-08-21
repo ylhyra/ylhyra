@@ -21,8 +21,8 @@ router.post("/vocabulary/sync", async (req, res) => {
     const unsyncedSessionsFromServer = await syncSessions(req);
     const unsyncedSettings = await syncSettings(req);
     res.send({
-      schedule: unsyncedScheduleFromServer,
-      session_log: unsyncedSessionsFromServer,
+      schedule: unsyncedScheduleFromServer || {},
+      session_log: unsyncedSessionsFromServer || [],
       ...unsyncedSettings,
       lastSynced: now,
     });
@@ -37,7 +37,7 @@ router.post("/vocabulary/sync", async (req, res) => {
 const syncSchedule = async (req) => {
   const { schedule } = req.body;
   if (!schedule) return {};
-  const unsyncedScheduleFromServer = await getSchedule(req).filter(
+  const unsyncedScheduleFromServer = (await getSchedule(req)).filter(
     (row) => row.last_seen > (schedule[row.card_id]?.last_seen || 0)
   );
   const unsyncedScheduleFromUser = Object.keys(schedule)
@@ -47,7 +47,11 @@ const syncSchedule = async (req) => {
         !unsyncedScheduleFromServer.find((j) => j.card_id === row.card_id)
     );
   await saveSchedule(req, unsyncedScheduleFromUser);
-  return unsyncedScheduleFromServer;
+  let out = {};
+  unsyncedScheduleFromServer.forEach((j) => {
+    out[j.card_id] = j;
+  });
+  return out;
 };
 const getSchedule = (req) => {
   return new Promise((resolve) => {
@@ -124,14 +128,13 @@ const saveSchedule = (req, unsyncedScheduleFromUser) => {
 const syncSessions = async (req) => {
   const { session_log } = req.body;
   if (!session_log) return [];
-  const unsyncedSessionsFromServer = await getSessions(req).filter(
+  const unsyncedSessionsFromServer = (await getSessions(req)).filter(
     (row) => row.timestamp > (session_log[row.card_id]?.timestamp || 0)
   );
   const unsyncedSessionsFromUser = session_log.filter(
     (row) =>
       !unsyncedSessionsFromServer.find((j) => j.timestamp === row.timestamp)
   );
-  console.log({ session_log, unsyncedSessionsFromUser });
   await saveSessions(req, unsyncedSessionsFromUser);
   return unsyncedSessionsFromServer;
 };
@@ -210,18 +213,18 @@ const getSettings = (req) => {
     const queries = key_value_fields
       .map(
         (name) => sql`
-        SELECT a.name, a.value
-        FROM user_settings a
-        INNER JOIN (
-          SELECT max(id) id, name FROM user_settings
-            WHERE user_id = ${req.session.user_id}
-            GROUP BY name
-        ) b
-        ON a.id = b.id
-        WHERE user_id = ${req.session.user_id}
-        AND a.name = ${name}
-        AND created_at > FROM_UNIXTIME(${msToS(req.body.lastSynced) || 0})
-    `
+          SELECT a.name, a.value
+          FROM user_settings a
+          INNER JOIN (
+            SELECT max(id) id, name FROM user_settings
+              WHERE user_id = ${req.session.user_id}
+              GROUP BY name
+          ) b
+          ON a.id = b.id
+          WHERE user_id = ${req.session.user_id}
+          AND a.name = ${name}
+          AND created_at > FROM_UNIXTIME(${msToS(req.body.lastSynced) || 0})
+        `
       )
       .join("");
     query(queries, (err, results) => {

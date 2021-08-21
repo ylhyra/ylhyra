@@ -10,11 +10,13 @@ const compressed_keys = [
 ];
 
 /* Helper functions to stringify in local storage */
-export const saveInLocalStorage = (name, obj) => {
+export const saveInLocalStorage = (name, input) => {
   if (!isBrowser) return;
-  let data = JSON.stringify(obj);
-  if (Array.isArray(obj) && obj.length === 0) {
+  let data;
+  if (!input || (Array.isArray(input) && input.length === 0)) {
     data = "";
+  } else {
+    data = JSON.stringify(input);
   }
 
   if (data && compressed_keys.includes(name)) {
