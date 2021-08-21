@@ -66,7 +66,7 @@ export const login = async ({ username, user_id, save_progress }) => {
     },
   });
   if (save_progress) {
-    deck.syncSchedule({ syncEntireSchedule: true });
+    deck.syncSchedule({ syncEverything: true });
   } else {
     saveInLocalStorage("vocabulary-schedule", null);
     saveInLocalStorage("vocabulary-session", null);

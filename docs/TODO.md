@@ -30,3 +30,4 @@
 - fleiri upptökur
 - skrá sessions
 - klára að fara yfir
+- eyða vocabulary_session_log, bæta við vocabulary_sessions

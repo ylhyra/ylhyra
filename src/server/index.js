@@ -77,8 +77,7 @@ app.use("/api", require("server/analytics/overview").default);
 app.use("/api", require("server/analytics/userErrors").default);
 app.use("/api", require("server/user").default);
 app.use("/api", require("server/user/pay").default);
-app.use("/api", require("server/vocabulary/get").default);
-app.use("/api", require("server/vocabulary/save").default);
+app.use("/api", require("server/vocabulary/sync").default);
 app.use("/api", require("server/vocabulary/maker").default);
 app.use("/", require("server/content").default);
 

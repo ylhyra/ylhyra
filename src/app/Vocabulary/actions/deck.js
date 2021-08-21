@@ -4,7 +4,7 @@ import axios from "app/App/axios";
 import { createSchedule } from "./createSchedule";
 import Session from "app/Vocabulary/actions/session";
 import { isBrowser } from "app/App/functions/isBrowser";
-import { syncSchedule } from "./sync";
+import sync from "./sync";
 import { updateURL } from "app/Router/actions";
 import { BAD, GOOD, EASY } from "./card";
 import _ from "underscore";
@@ -47,12 +47,12 @@ class Deck {
     this.session.reset();
     this.session.InitializeSession();
   }
-  reset() {
-    this.schedule = {};
-    saveInLocalStorage("vocabulary-schedule", null);
-  }
+  // reset() {
+  //   this.schedule = {};
+  //   saveInLocalStorage("vocabulary-schedule", null);
+  // }
 }
-Deck.prototype.syncSchedule = syncSchedule;
+Deck.prototype.sync = sync;
 Deck.prototype.keepTrackOfUserStatus = keepTrackOfUserStatus;
 Deck.prototype.isEasinessLevelOn = isEasinessLevelOn;
 

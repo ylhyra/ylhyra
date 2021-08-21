@@ -9,6 +9,7 @@ import {
 import { getUserFromCookie, isUserLoggedIn } from "app/User/actions";
 import { hour, day } from "app/App/functions/time";
 import { InitializeUser } from "app/User/actions";
+import sync from "./sync";
 
 export const InitializeVocabulary = async () => {
   const DECK =
@@ -28,7 +29,7 @@ export const InitializeVocabulary = async () => {
       should_update = true;
     }
   }
-  if (!database || should_update || !database.cards) {
+  if (!database?.cards || should_update) {
     console.log("Downloading database");
     database = (
       await axios.get(
@@ -43,30 +44,17 @@ export const InitializeVocabulary = async () => {
     saveInLocalStorage("vocabulary-build-id", getBuildId());
   }
 
-  let schedule = getFromLocalStorage("vocabulary-schedule") || {};
-  let easinessLevel = getFromLocalStorage("vocabulary-easiness-level") || 0;
-
-  if (isUserLoggedIn()) {
-    /* TODO: Selective sync */
-    const r = (await axios.post(`/api/vocabulary/schedule`)).data;
-    if (r) {
-      r.forEach((i) => {
-        /* TODO: Hvað ef server er undan á? */
-        if (schedule[i.card_id]?.needsSyncing) return;
-        schedule[i.card_id] = { ...i, id: i.card_id };
-      });
-      saveInLocalStorage("vocabulary-schedule", schedule);
-      saveInLocalStorage(
-        "vocabulary-schedule-last-updated",
-        new Date().getTime()
-      );
-      console.log("Schedule downloaded");
-    }
-  }
+  let { schedule, easinessLevel, sessions, lastSynced } = sync();
 
   let session = getFromLocalStorage("vocabulary-session");
 
-  const deck = new Deck({ database, schedule, session, easinessLevel });
+  const deck = new Deck({
+    database,
+    schedule,
+    session,
+    easinessLevel,
+    lastSynced,
+  });
   store.dispatch({
     type: "LOAD_DECK",
     content: deck,

@@ -16,30 +16,25 @@ CREATE TABLE vocabulary_cards (
   INDEX (level)
 ) ROW_FORMAT=COMPRESSED;
 
-DROP TABLE IF EXISTS vocabulary_card_relations;
-CREATE TABLE vocabulary_card_relations (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  from_id VARCHAR(20),
-  to_id VARCHAR(20),
-  relation_type ENUM('belongs_to', 'depends_on', 'related'),
-  relation_depth INT(2),
-  INDEX (from_id),
-  INDEX (to_id)
-) ROW_FORMAT=COMPRESSED;
+-- DROP TABLE IF EXISTS vocabulary_card_relations;
+-- CREATE TABLE vocabulary_card_relations (
+--   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+--   from_id VARCHAR(20),
+--   to_id VARCHAR(20),
+--   relation_type ENUM('belongs_to', 'depends_on', 'related'),
+--   relation_depth INT(2),
+--   INDEX (from_id),
+--   INDEX (to_id)
+-- ) ROW_FORMAT=COMPRESSED;
 
-/* Log created after each session */
-DROP TABLE IF EXISTS vocabulary_session_log;
-CREATE TABLE vocabulary_session_log (
+DROP TABLE IF EXISTS vocabulary_sessions;
+CREATE TABLE vocabulary_sessions (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_id VARCHAR(32),
-  card_id VARCHAR(20),
-  score VARCHAR(20),
-  times_seen INT(2) UNSIGNED, -- Times seen in this session
-  fails INT(2) UNSIGNED,
-  `timestamp` DATETIME,
-  INDEX (card_id),
-  INDEX (`timestamp`),
-  INDEX (user_id)
+  seconds_spent INT UNSIGNED,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX (user_id),
+  INDEX (timestamp)
 ) ROW_FORMAT=COMPRESSED;
 
 /* Stores both due and score */
