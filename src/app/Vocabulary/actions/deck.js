@@ -4,7 +4,6 @@ import axios from "app/App/axios";
 import { createSchedule } from "./createSchedule";
 import Session from "app/Vocabulary/actions/session";
 import { isBrowser } from "app/App/functions/isBrowser";
-import sync from "./sync";
 import { updateURL } from "app/Router/actions";
 import { BAD, GOOD, EASY } from "./card";
 import _ from "underscore";
@@ -23,7 +22,14 @@ export let deck;
  * The deck contains all terms
  */
 class Deck {
-  constructor({ database, schedule, session }) {
+  constructor({
+    database,
+    schedule,
+    session,
+    session_log,
+    easinessLevel,
+    lastSynced,
+  }) {
     deck = this;
     if (isBrowser) {
       window.deck = deck;
@@ -31,6 +37,9 @@ class Deck {
 
     this.cards = database.cards;
     this.terms = database.terms;
+    this.easinessLevel = easinessLevel || 0;
+    this.lastSynced = lastSynced;
+    this.session_log = session_log;
 
     this.cards_sorted = Object.keys(this.cards)
       .map((key) => {
@@ -52,7 +61,6 @@ class Deck {
   //   saveInLocalStorage("vocabulary-schedule", null);
   // }
 }
-Deck.prototype.sync = sync;
 Deck.prototype.keepTrackOfUserStatus = keepTrackOfUserStatus;
 Deck.prototype.isEasinessLevelOn = isEasinessLevelOn;
 

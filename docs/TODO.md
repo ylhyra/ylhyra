@@ -9,6 +9,7 @@
 - uppfæra schedule á gluggum sem hafa verið opnir lengi
 - // TODO: þegar b2 vill svo til að sé innan í lægra leveli!!!
 - þegar level er lækkað ætti að sýna neðsta gæjann
+- database backup
 
 ### Annað
 

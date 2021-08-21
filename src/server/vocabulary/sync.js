@@ -22,17 +22,21 @@ router.post("/vocabulary/sync", async (req, res) => {
     const unsyncedSettings = await syncSettings(req);
     res.send({
       schedule: unsyncedScheduleFromServer,
-      sessions: unsyncedSessionsFromServer,
+      session_log: unsyncedSessionsFromServer,
       ...unsyncedSettings,
       lastSynced: now,
     });
   } catch (e) {
+    if (typeof e !== "string") {
+      console.error(e);
+    }
     res.status(400).send(e.toString() || "");
   }
 });
 
 const syncSchedule = async (req) => {
   const { schedule } = req.body;
+  if (!schedule) return {};
   const unsyncedScheduleFromServer = await getSchedule(req).filter(
     (row) => row.last_seen > (schedule[row.card_id]?.last_seen || 0)
   );
@@ -84,10 +88,11 @@ const saveSchedule = (req, unsyncedScheduleFromUser) => {
       throw new Error("Too long");
     }
 
-    const queries = unsyncedScheduleFromUser.map((item) => {
-      if (!item.due) return "";
-      // const due_milliseconds = (new Date()).getTime() + daysToMs(card.due_in_days)
-      return sql`
+    const queries = unsyncedScheduleFromUser
+      .map((item) => {
+        if (!item.due) return "";
+        // const due_milliseconds = (new Date()).getTime() + daysToMs(card.due_in_days)
+        return sql`
         INSERT INTO vocabulary_schedule SET
           user_id = ${req.session.user_id},
           card_id = ${item.card_id},
@@ -100,9 +105,12 @@ const saveSchedule = (req, unsyncedScheduleFromUser) => {
           sessions_seen = ${item.sessions_seen || null}
           ;
       `;
-    });
+      })
+      .join("");
 
-    query(queries.join(""), (err, results) => {
+    if (!queries) return resolve();
+
+    query(queries, (err, results) => {
       if (err) {
         console.error(err);
         throw new Error();
@@ -114,14 +122,16 @@ const saveSchedule = (req, unsyncedScheduleFromUser) => {
 };
 
 const syncSessions = async (req) => {
-  const { sessions } = req.body;
+  const { session_log } = req.body;
+  if (!session_log) return [];
   const unsyncedSessionsFromServer = await getSessions(req).filter(
-    (row) => row.timestamp > (sessions[row.card_id]?.timestamp || 0)
+    (row) => row.timestamp > (session_log[row.card_id]?.timestamp || 0)
   );
-  const unsyncedSessionsFromUser = sessions.filter(
+  const unsyncedSessionsFromUser = session_log.filter(
     (row) =>
       !unsyncedSessionsFromServer.find((j) => j.timestamp === row.timestamp)
   );
+  console.log({ session_log, unsyncedSessionsFromUser });
   await saveSessions(req, unsyncedSessionsFromUser);
   return unsyncedSessionsFromServer;
 };
@@ -155,17 +165,21 @@ const saveSessions = (req, sessions) => {
       throw new Error("Too long");
     }
 
-    const queries = sessions.map((item) => {
-      return sql`
+    const queries = sessions
+      .map((item) => {
+        return sql`
         INSERT INTO vocabulary_sessions SET
           user_id = ${req.session.user_id},
           seconds_spent = ${item.seconds_spent},
           created_at = FROM_UNIXTIME(${msToS(roundMsToHour(item.due))}),
           ;
       `;
-    });
+      })
+      .join("");
 
-    query(queries.join(""), (err, results) => {
+    if (!queries) return resolve();
+
+    query(queries, (err, results) => {
       if (err) {
         console.error(err);
         throw new Error();
@@ -180,30 +194,36 @@ const syncSettings = async (req) => {
   const unsyncedFromServer = await getSettings(req);
   let unsyncedFromUser = {};
   key_value_fields.forEach((name) => {
-    if (!(name in unsyncedFromServer) && name in req.body) {
-      unsyncedFromUser[name] = req.body.name;
+    if (
+      !(name in unsyncedFromServer) &&
+      name in req.body &&
+      req.body[name] !== unsyncedFromServer[name]
+    ) {
+      unsyncedFromUser[name] = req.body[name];
     }
   });
-  await saveSessions(req, unsyncedFromUser);
+  await saveSettings(req, unsyncedFromUser);
   return unsyncedFromServer;
 };
 const getSettings = (req) => {
   return new Promise((resolve) => {
-    const queries = key_value_fields.map(
-      (name) => sql`
-        SELECT name, value
+    const queries = key_value_fields
+      .map(
+        (name) => sql`
+        SELECT a.name, a.value
         FROM user_settings a
         INNER JOIN (
           SELECT max(id) id, name FROM user_settings
-            WHERE user_settings = ${req.session.user_id}
+            WHERE user_id = ${req.session.user_id}
             GROUP BY name
         ) b
         ON a.id = b.id
         WHERE user_id = ${req.session.user_id}
-        AND name = ${name}
+        AND a.name = ${name}
         AND created_at > FROM_UNIXTIME(${msToS(req.body.lastSynced) || 0})
     `
-    );
+      )
+      .join("");
     query(queries, (err, results) => {
       if (err) {
         console.error(err);
@@ -232,13 +252,12 @@ const saveSettings = (req, unsyncedFromUser) => {
             ;
         `;
       })
-      .filter(Boolean);
+      .filter(Boolean)
+      .join("");
 
-    if (queries.length === 0) {
-      return resolve();
-    }
+    if (!queries) return resolve();
 
-    query(queries.join(""), (err, results) => {
+    query(queries, (err, results) => {
       if (err) {
         console.error(err);
         throw new Error();

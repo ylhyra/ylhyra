@@ -9,7 +9,7 @@ import {
 import { getUserFromCookie, isUserLoggedIn } from "app/User/actions";
 import { hour, day } from "app/App/functions/time";
 import { InitializeUser } from "app/User/actions";
-import sync from "./sync";
+import { sync } from "./sync";
 
 export const InitializeVocabulary = async () => {
   const DECK =
@@ -40,7 +40,7 @@ export const InitializeVocabulary = async () => {
     saveInLocalStorage("vocabulary-build-id", getBuildId());
   }
 
-  let { schedule, easinessLevel, sessions, lastSynced } = sync();
+  let { schedule, session_log, easinessLevel, lastSynced } = sync();
 
   let session = getFromLocalStorage("vocabulary-session");
 
@@ -48,6 +48,7 @@ export const InitializeVocabulary = async () => {
     database,
     schedule,
     session,
+    session_log,
     easinessLevel,
     lastSynced,
   });
