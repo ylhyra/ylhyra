@@ -1,3 +1,7 @@
 {
-  "plugins": [["remove-console", "off"]]
+  "rules": {
+    "remove-console": "off",
+    "remove-process-exit": "off",
+    "convert-to-arrow-function": "off"
+  }
 }
