@@ -33,6 +33,7 @@ import {
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
 import Analytics from "app/Analytics";
+import { undo, undoable, checkForUndoOnKeyDown } from "./undo";
 
 export const MINUTES = process.env.NODE_ENV === "development" ? 2.5 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
@@ -41,10 +42,10 @@ class Session {
   constructor(deck, init) {
     this.reset();
     this.deck = deck;
-    if (init) {
-      this.cards = init;
-      this.createSchedule();
-      this.clearInLocalStorage();
+    /* Used to save the progress of a session that was prematurely closed */
+    if (init?.cards) {
+      Object.assign(this, init);
+      this.sessionDone({ isInitializing: true });
     }
   }
   reset() {
@@ -62,26 +63,32 @@ class Session {
     this.lastTimestamp = new Date().getTime();
     this.done = false;
     this.lastUndid = 0;
+    this.savedAt = null;
   }
-  sessionDone() {
+  sessionDone(options = {}) {
     this.createSchedule();
     this.clearInLocalStorage();
-    updateURL(window.location.pathname);
-    store.dispatch({
-      type: "LOAD_SESSION",
-      content: null,
-    });
+    if (!options.isInitializing) {
+      updateURL(window.location.pathname);
+      store.dispatch({
+        type: "LOAD_SESSION",
+        content: null,
+      });
+    }
     /* Analytics */
-    const seconds_spent = Math.round(
-      (this.totalTime - Math.max(0, this.remainingTime)) / 1000
-    );
-    if (seconds_spent > 20) {
+    if (this.getSecondsSpent() > 20) {
+      // TODO: Ignore logged in users?
       Analytics.log({
         type: "vocabulary",
-        seconds: seconds_spent,
+        seconds: this.getSecondsSpent(),
       });
     }
     this.reset();
+  }
+  getSecondsSpent() {
+    return Math.round(
+      (this.totalTime - Math.max(0, this.remainingTime)) / 1000
+    );
   }
   saveSessionInLocalStorage() {
     const session = this;
@@ -89,37 +96,22 @@ class Session {
     if (!to_save.some((i) => i.history.length > 0)) {
       to_save = null;
     }
-    saveInLocalStorage("vocabulary-session", to_save);
-    saveInLocalStorage("vocabulary-session-remaining", this.remainingTime);
+    saveInLocalStorage("vocabulary-session", {
+      remainingTime: this.remainingTime,
+      savedAt: new Date().getTime(),
+      cards: to_save,
+    });
   }
   clearInLocalStorage() {
     saveInLocalStorage("vocabulary-session", null);
-    saveInLocalStorage("vocabulary-session-remaining", null);
   }
-  undo() {
-    const card = this.cardHistory[0];
-    if (!card) return;
-    card.history.shift();
-    this.currentCard = card;
-    this.cardHistory.shift();
-    this.lastUndid = this.counter;
-    this.loadCard();
-  }
-  undoable() {
-    // if (!(this.lastUndid !== this.counter)) {
-    //   console.warn("Unmatching counter");
-    // }
-    return this.cardHistory.length > 0 && this.lastUndid !== this.counter;
-  }
-  keyDown(e) {
-    if (
-      e.keyCode === 90 &&
-      (e.ctrlKey || e.metaKey) &&
-      !e.altKey &&
-      this.undoable()
-    ) {
-      e.preventDefault();
-      this.undo();
+  saveSessionLog() {
+    if (this.getSecondsSpent() > 10) {
+      this.deck.session_log.push({
+        seconds_spent: this.getSecondsSpent(),
+        timestamp: this.savedAt || new Date().getTime(),
+        needsSyncing: true,
+      });
     }
   }
 }
@@ -137,4 +129,7 @@ Session.prototype.InitializeSession = InitializeSession;
 Session.prototype.loadCards = loadCards;
 Session.prototype.nextCard = nextCard;
 Session.prototype.createSchedule = createSchedule;
+Session.prototype.undo = undo;
+Session.prototype.undoable = undoable;
+Session.prototype.checkForUndoOnKeyDown = checkForUndoOnKeyDown;
 export default Session;

@@ -8,7 +8,7 @@ import { updateURL } from "app/Router/actions";
 import { BAD, GOOD, EASY } from "./card";
 import _ from "underscore";
 import {
-  keepTrackOfUserStatus,
+  trackEasiness,
   isEasinessLevelOn,
 } from "app/Vocabulary/actions/easinessLevel";
 import {
@@ -32,9 +32,6 @@ class Deck {
     lastSynced,
   }) {
     deck = this;
-    if (isBrowser) {
-      window.deck = deck;
-    }
 
     this.cards = database.cards;
     this.terms = database.terms;
@@ -51,13 +48,10 @@ class Deck {
 
     this.schedule = schedule || {};
     this.session = new Session(deck, session);
-  }
-  saveSessionLog(ms) {
-    this.session_log.push({
-      seconds_spent: MINUTES * 60 - Math.max(0, Math.round(ms / 1000)),
-      timestamp: new Date().getTime(),
-      needsSyncing: true,
-    });
+
+    if (isBrowser) {
+      window.deck = this;
+    }
   }
   continueStudying() {
     updateURL("VOCABULARY_PLAY");
@@ -69,7 +63,7 @@ class Deck {
   //   saveInLocalStorage("vocabulary-schedule", null);
   // }
 }
-Deck.prototype.keepTrackOfUserStatus = keepTrackOfUserStatus;
+Deck.prototype.trackEasiness = trackEasiness;
 Deck.prototype.isEasinessLevelOn = isEasinessLevelOn;
 
 export default Deck;

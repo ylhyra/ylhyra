@@ -123,10 +123,10 @@
       "react-app"
     ],
     "rules": {
-      "no-unused-vars": "off",
-      "import/no-anonymous-default-export": "off",
-      "jsx-a11y/anchor-has-content": "off",
-      "no-unreachable": "off"
+      "no-unused-vars": 1,
+      "import/no-anonymous-default-export": 0,
+      "jsx-a11y/anchor-has-content": 0,
+      "no-unreachable": 0
     },
     "globals": {
       "__basedir": true,
@@ -153,6 +153,7 @@
     "jest": "^27.0.6",
     "jest-puppeteer": "^5.0.4",
     "prettier": "2.3.1",
+    "putout": "^18.16.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-license-plugin": "^4.1.2"
   },

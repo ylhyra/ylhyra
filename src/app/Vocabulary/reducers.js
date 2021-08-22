@@ -1,5 +1,8 @@
 import { combineReducers } from "redux";
-
+import {
+  saveInLocalStorage,
+  getFromLocalStorage,
+} from "app/App/functions/localStorage";
 const deck = (state = null, action) => {
   switch (action.type) {
     case "LOAD_DECK":
@@ -61,9 +64,13 @@ const screen = (state = {}, action) => {
   }
 };
 
-const volume = (state = true, action) => {
+const volume = (
+  state = getFromLocalStorage("volume") === "off" ? false : true,
+  action
+) => {
   switch (action.type) {
     case "VOCABULARY_AUDIO_ONOFF":
+      saveInLocalStorage("volume", !state ? "on" : "off");
       return !state;
     default:
       return state;

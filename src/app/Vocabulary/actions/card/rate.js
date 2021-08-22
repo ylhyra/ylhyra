@@ -52,5 +52,5 @@ export default function rate(rating) {
   card.postponeRelatedCards(interval);
   card.session.cardTypeLog.unshift(card.from);
 
-  card.session.deck.keepTrackOfUserStatus(rating, isNew);
+  card.session.deck.trackEasiness(rating, isNew);
 }

@@ -14,7 +14,7 @@ class R extends Component {
     window.removeEventListener("keydown", this.checkKey);
   }
   checkKey = (e) => {
-    this.props.vocabulary?.session?.keyDown(e);
+    this.props.vocabulary?.session?.checkForUndoOnKeyDown(e);
   };
   render() {
     return (

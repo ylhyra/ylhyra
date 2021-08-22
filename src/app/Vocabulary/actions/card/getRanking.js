@@ -46,12 +46,10 @@ export default function getRanking() {
     q += 0.4;
     if (this.session.cardTypeLog[1] === this.from) {
       /* Two in a row */
-      if (
-        this.history.length > 0 ||
-        this.sessions_seen > 0 /* TODO verify sessions_seen is set */
-      ) {
+      if (this.history.length > 0 || !this.isNew()) {
         q += 5;
       }
+
       /* Three in a row */
       if (
         this.session.cardTypeLog[2] === this.from &&

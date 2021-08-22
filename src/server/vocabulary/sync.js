@@ -174,7 +174,7 @@ const saveSessions = (req, sessions) => {
         INSERT INTO vocabulary_sessions SET
           user_id = ${req.session.user_id},
           seconds_spent = ${item.seconds_spent},
-          created_at = FROM_UNIXTIME(${msToS(roundMsToHour(item.due))}),
+          created_at = FROM_UNIXTIME(${msToS(roundMsToHour(item.due))})
           ;
       `;
       })

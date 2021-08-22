@@ -126,5 +126,6 @@ export function createSchedule() {
   });
 
   console.log("Schedule made");
+  this.saveSessionLog();
   sync();
 }

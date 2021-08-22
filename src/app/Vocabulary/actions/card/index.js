@@ -27,8 +27,9 @@ class Card {
   //   return this.history[0]
   // }
   isNew() {
+    return !(this.id in deck.schedule);
     // !(card.id in deck.schedule) && card.history.length === 0;
-    return !this.getScore() && this.history.length === 0;
+    // return !this.getScore() && this.history.length === 0;
   }
   isNewTerm() {
     // There exists at least one term

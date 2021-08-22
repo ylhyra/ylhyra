@@ -17,7 +17,7 @@ let last_jump_up;
  * Ef notandi ýtir þrisvar sinnum á easy þá þarf levelið hans að stökkva fram.
  * @memberof Deck
  */
-export function keepTrackOfUserStatus(rating, isNew) {
+export function trackEasiness(rating, isNew) {
   if (process.env.NODE_ENV !== "development") return;
   if (this.session.allowed_card_ids) return;
   if (isNew) {
