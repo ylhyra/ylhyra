@@ -8,7 +8,7 @@ import { addRelatedCards } from "./addRelatedCards";
  */
 export default function rate(rating) {
   const card = this;
-  const deck = this.session.deck;
+  const { deck } = this.session;
   const isNew = card.history.length === 0;
   card.history.unshift(rating);
   card.session.ratingHistory.unshift(rating);

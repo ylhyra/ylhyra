@@ -52,7 +52,7 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
   /* New cards */
   let new_card_ids = [];
   for (let i = 0; i < deck.cards_sorted.length; i++) {
-    const id = deck.cards_sorted[i].id;
+    const { id } = deck.cards_sorted[i];
     if (forbidden_ids.includes(id)) continue;
     if (allowed_card_ids && !allowed_card_ids.includes(id)) continue;
     if (new_card_ids.length < CARDS_TO_CREATE || deck.isEasinessLevelOn()) {

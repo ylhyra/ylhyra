@@ -34,7 +34,7 @@ export const isUserLoggedIn = () => {
 };
 
 export const existsSchedule = () => {
-  return deck && deck.schedule && Object.keys(deck.schedule).length >= 6;
+  return deck?.schedule && Object.keys(deck.schedule).length >= 6;
 };
 
 export const termsInSchedule = () => {
@@ -57,7 +57,7 @@ export const updateUser = () => {
   }
 };
 
-export const login = async ({ username, user_id, save_progress }) => {
+export const login = ({ username, user_id, save_progress }) => {
   store.dispatch({
     type: "LOAD_USER",
     content: {

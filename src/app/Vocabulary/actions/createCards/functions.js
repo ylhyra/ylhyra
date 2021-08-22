@@ -1,17 +1,21 @@
 import { hour, day, hours, days } from "app/App/functions/time";
 import _ from "underscore";
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
-import { printWord, getCardsWithSameTerm } from "app/Vocabulary/actions/functions";
+import {
+  printWord,
+  getCardsWithSameTerm,
+} from "app/Vocabulary/actions/functions";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
 import { deck } from "app/Vocabulary/actions/deck";
 
 const ScoreByTimeSinceTermWasSeen = (id, now) => {
   let latest = null;
   getCardsWithSameTerm(id).forEach((sibling_card_id) => {
-    if (deck.schedule[sibling_card_id]) {
-      if (deck.schedule[sibling_card_id].last_seen > latest) {
-        latest = deck.schedule[sibling_card_id].last_seen;
-      }
+    if (
+      deck.schedule[sibling_card_id] &&
+      deck.schedule[sibling_card_id].last_seen > latest
+    ) {
+      latest = deck.schedule[sibling_card_id].last_seen;
     }
   });
   let hoursSinceSeen = (now - latest) / hour;

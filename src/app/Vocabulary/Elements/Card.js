@@ -138,7 +138,7 @@ class Card extends Component {
   };
   render() {
     const { card, status, volume, deck } = this.props.vocabulary;
-    const answered = card.answered;
+    const { answered } = card;
     // console.log(card)
     // console.log({card,answer})
     if (!card)

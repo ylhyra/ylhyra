@@ -5,8 +5,7 @@ require("./lib/Pure-JavaScript-HTML5-Parser/htmlparser.js");
 const DEBUG = false;
 var debug = DEBUG ? console.log.bind(console) : function () {};
 
-if (typeof module === "object" && typeof module.exports === "object") {
-}
+typeof module === "object" && typeof module.exports === "object";
 
 function q(v) {
   return '"' + v + '"';

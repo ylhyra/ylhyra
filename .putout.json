@@ -13,5 +13,9 @@
     "regexp/optimize": "off",
     "remove-unused-variables": "off"
   },
-  "ignore": ["src/index.js"]
+  "ignore": ["src/index.js"],
+  "processors": [
+    ["markdown", "off"],
+    ["json", "off"]
+  ]
 }

@@ -65,14 +65,14 @@ export const syncIfNecessary = async () => {
   /* Localstorage data has been updated in another tab, so we reload */
   if (userData) {
     if (userData.lastSaved > deck.lastSaved) {
-      saveUserDataInLocalStorage(userData, true);
-    }
+    saveUserDataInLocalStorage(userData, true);
+  }
   }
   if (isUserLoggedIn()) {
     /* Sync if more than 10 minutes since sync */
     if (new Date().getTime() > deck.lastSynced + 10 * 60 * 1000) {
-      await sync();
-    }
+    await sync();
+  }
   }
 };
 
@@ -88,8 +88,8 @@ export const saveUserDataInLocalStorage = (input, assign) => {
   saveInLocalStorage("vocabulary-user-data", toSave);
   if (assign) {
     if (deck) {
-      Object.assign(deck, toSave);
-    }
+    Object.assign(deck, toSave);
+  }
   }
 };
 

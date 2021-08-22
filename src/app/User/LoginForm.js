@@ -33,7 +33,7 @@ class Form2 extends React.Component {
     }
   };
   submit = async (values, setSubmitting) => {
-    this.setState({ ...values });
+    this.setState(values);
 
     /* Execute invisible captcha */
     if (!this.state.captcha_token && process.env.REACT_APP_HCAPTCHA_SITEKEY) {
@@ -80,7 +80,7 @@ class Form2 extends React.Component {
     }
   };
   render() {
-    const submit = this.submit;
+    const { submit } = parent;
     const error = this.state.error && (
       <div className="form-error">{this.state.error}</div>
     );

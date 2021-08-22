@@ -13,12 +13,11 @@ export const INCR = 0.4;
  */
 export function createSchedule() {
   const session = this;
-  const deck = this.deck;
+  const { deck, cards } = session;
   if (!session) {
     console.error("createSchedule called without an active session!");
     return;
   }
-  const cards = session.cards;
   if (!cards || !cards.some((i) => i.history.length > 0)) return;
 
   cards.forEach((card) => {

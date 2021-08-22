@@ -11,7 +11,6 @@ export default function getRanking() {
   if (!this.terms) {
     console.log(this);
     throw new Error("getRanking called on an uninitialized card");
-    return;
   }
 
   /* New terms are not relevant unless there are no overdue cards */

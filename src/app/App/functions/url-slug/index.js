@@ -15,8 +15,8 @@ const REVERT_CAMEL_CASE_REGEXP = /([a-z])([A-Z])/g;
 function UrlSlug(separator, transform) {
   /* Set defaults */
 
-  separator = null == separator ? "-" : separator;
-  transform = null == transform ? "lowercase" : transform;
+  if (null === separator) separator = "-";
+  if (null === transform) transform = "lowercase";
 
   /* Validate through prepare method */
 
@@ -51,7 +51,7 @@ UrlSlug.prototype.transformers = {
  * Check and return validated options
  */
 UrlSlug.prototype.prepare = function (separator, transform) {
-  if (null == separator) {
+  if (null === separator) {
     separator = this.separator;
   } else if ("string" !== typeof separator) {
     throw new Error(
@@ -63,7 +63,7 @@ UrlSlug.prototype.prepare = function (separator, transform) {
     );
   }
 
-  if (null == transform) {
+  if (null === transform) {
     transform = this.transform;
   } else if (false === transform) {
     transform = false;

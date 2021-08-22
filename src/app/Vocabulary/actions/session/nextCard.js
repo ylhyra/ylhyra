@@ -40,7 +40,7 @@ export function nextCard(depth = 0) {
 
   /* Logging */
   if ((LOGGING || window.logging) && process.env.NODE_ENV === "development") {
-    const deck = this.deck;
+    const { deck } = this;
     console.table(
       ranked.map((i) => ({
         Rank: Math.round(i.getRanking()),

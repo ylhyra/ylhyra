@@ -18,7 +18,7 @@ if (isBrowser) {
   });
 }
 export const InitializeRouter = (prerender) => {
-  const is404 = window.is404;
+  const { is404 } = window;
   updateURL(
     window.location.pathname + window.location.hash,
     null,
@@ -83,13 +83,14 @@ export const updateURL = (url, title, replace, prerender, is404) => {
     return;
   }
 
-  if (url !== "/vocabulary/tutorial") {
-    if (encodeURI(url) !== window.location.pathname) {
-      if (replace) {
-        window.history.replaceState(null, "", encodeURI(url));
-      } else {
-        window.history.pushState(null, "", encodeURI(url));
-      }
+  if (
+    url !== "/vocabulary/tutorial" &&
+    encodeURI(url) !== window.location.pathname
+  ) {
+    if (replace) {
+      window.history.replaceState(null, "", encodeURI(url));
+    } else {
+      window.history.pushState(null, "", encodeURI(url));
     }
   }
 

@@ -25,12 +25,12 @@ export const InitializeVocabulary = async () => {
   let database = getFromLocalStorage("vocabulary-database");
   let should_update = false;
   if (database) {
-    if (
+  if (
       !getBuildId() ||
       getBuildId() !== getFromLocalStorage("vocabulary-build-id")
-    ) {
-      should_update = true;
-    }
+  ) {
+    should_update = true;
+  }
   }
   if (!database?.cards || should_update) {
     console.log("Downloading database");

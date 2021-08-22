@@ -35,7 +35,7 @@
     "audio3": "./scripts/audio_processing/Pronunciation_step_3.sh",
     "test": "jest",
     "remove_unused1": "npx putout src --plugins remove-unused-variables --fix; npx prettier src --write",
-    "remove_unused": "npx putout src/app/App/Error --plugins remove-unused-variables --enable remove-unused-variables --disable-all --fix; npx prettier src/app/App/Error --write"
+    "remove_unused": "npx putout src/app --fix; npx prettier src/app --write"
   },
   "proxy": "http://localhost:9123",
   "dependencies": {
