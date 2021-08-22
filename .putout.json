@@ -1,4 +1,5 @@
 {
+  "plugins": ["remove-unused-variables"],
   "rules": {
     "remove-console": "off",
     "remove-process-exit": "off",
