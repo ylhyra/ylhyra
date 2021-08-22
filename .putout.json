@@ -1,5 +1,4 @@
 {
-  "plugins": ["remove-unused-variables"],
   "rules": {
     "remove-console": "off",
     "remove-process-exit": "off",
@@ -11,7 +10,8 @@
     "convert-array-copy-to-slice": "off",
     "regexp/remove-useless-group": "off",
     "regexp/convert-to-string": "off",
-    "regexp/optimize": "off"
+    "regexp/optimize": "off",
+    "remove-unused-variables": "off"
   },
   "ignore": ["src/index.js"]
 }
