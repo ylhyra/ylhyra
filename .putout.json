@@ -2,6 +2,13 @@
   "rules": {
     "remove-console": "off",
     "remove-process-exit": "off",
-    "convert-to-arrow-function": "off"
-  }
+    "convert-to-arrow-function": "off",
+    "strict-mode": "off",
+    "apply-destructuring/array": "off",
+    "convert-for-each-to-for-of": "off",
+    "convert-map-to-for-of": "off",
+    "convert-array-copy-to-slice": "off",
+    "regexp/remove-useless-group": "off"
+  },
+  "ignore": ["src/index.js"]
 }
