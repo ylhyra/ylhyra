@@ -4,7 +4,7 @@ export const ANALYTICS_LOCALSTORAGE_LABEL = "_a";
 
 const compressed_keys = [
   "vocabulary-database",
-  "user-data",
+  "vocabulary-user-data",
   "vocabulary-schedule", // Temporary, to be removed after migration
   ANALYTICS_LOCALSTORAGE_LABEL,
 ];

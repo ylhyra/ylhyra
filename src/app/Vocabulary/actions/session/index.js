@@ -94,6 +94,7 @@ class Session {
   }
   clearInLocalStorage() {
     saveInLocalStorage("vocabulary-session", null);
+    saveInLocalStorage("vocabulary-session-remaining", null);
   }
   undo() {
     const card = this.cardHistory[0];

@@ -2,7 +2,7 @@ import store from "app/App/store";
 import error from "app/App/Error";
 import axios from "app/App/axios";
 import { createSchedule } from "./createSchedule";
-import Session from "app/Vocabulary/actions/session";
+import Session, { MINUTES } from "app/Vocabulary/actions/session";
 import { isBrowser } from "app/App/functions/isBrowser";
 import { updateURL } from "app/Router/actions";
 import { BAD, GOOD, EASY } from "./card";
@@ -15,6 +15,7 @@ import {
   saveInLocalStorage,
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
+import { saveUserDataInLocalStorage } from "app/Vocabulary/actions/sync.js";
 
 export let deck;
 
@@ -39,7 +40,7 @@ class Deck {
     this.terms = database.terms;
     this.easinessLevel = easinessLevel || 0;
     this.lastSynced = lastSynced;
-    this.session_log = session_log;
+    this.session_log = session_log || [];
 
     this.cards_sorted = Object.keys(this.cards)
       .map((key) => {
@@ -50,6 +51,13 @@ class Deck {
 
     this.schedule = schedule || {};
     this.session = new Session(deck, session);
+  }
+  saveSessionLog(ms) {
+    this.session_log.push({
+      seconds_spent: MINUTES * 60 - Math.max(0, Math.round(ms / 1000)),
+      timestamp: new Date().getTime(),
+      needsSyncing: true,
+    });
   }
   continueStudying() {
     updateURL("VOCABULARY_PLAY");

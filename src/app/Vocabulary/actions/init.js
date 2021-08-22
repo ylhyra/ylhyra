@@ -12,12 +12,15 @@ import { InitializeUser } from "app/User/actions";
 import { sync } from "./sync";
 
 export const InitializeVocabulary = async () => {
-  const DECK =
-    process.env.NODE_ENV === "development" && getUserFromCookie() !== null
-      ? getUserFromCookie().username === "danska"
-        ? "_da"
-        : "_es"
-      : ""; // TMP
+  let DECK = "";
+  if (process.env.NODE_ENV === "development") {
+    if (getUserFromCookie()?.username === "danska") {
+      DECK = "_da";
+    }
+    if (getUserFromCookie()?.username === "spænska") {
+      DECK = "_es";
+    }
+  }
   const now = new Date().getTime();
   let database = getFromLocalStorage("vocabulary-database");
   let should_update = false;

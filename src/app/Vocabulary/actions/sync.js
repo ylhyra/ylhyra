@@ -11,11 +11,21 @@ import {
 import { deck } from "app/Vocabulary/actions/deck";
 
 export const sync = async (options = {}) => {
-  const savedUserData = getFromLocalStorage("user-data");
+  const userData = getFromLocalStorage("vocabulary-user-data");
   let { schedule, session_log, easinessLevel, lastSynced } =
-    deck || savedUserData || {};
+    deck || userData || {};
 
-  saveInLocalStorage("user-data", {
+  schedule = schedule || {};
+  session_log = session_log || [];
+
+  if (getFromLocalStorage("vocabulary-session-remaining")) {
+    session_log.push({
+      //       seconds_spent
+      // timestamp
+    });
+  }
+
+  saveInLocalStorage("vocabulary-user-data", {
     schedule,
     session_log,
     easinessLevel,
@@ -26,9 +36,6 @@ export const sync = async (options = {}) => {
     console.log(`Not synced to server as user isn't logged in`);
     return;
   }
-
-  schedule = schedule || {};
-  session_log = session_log || [];
 
   const response = (
     await axios.post(`/api/vocabulary/sync`, {
@@ -46,10 +53,7 @@ export const sync = async (options = {}) => {
     lastSynced: response.lastSynced,
   };
 
-  saveInLocalStorage("user-data", data);
-  if (deck) {
-    Object.assign(deck, data);
-  }
+  saveUserDataInLocalStorage(data, true);
   console.log("Data synced");
   return data;
 };
@@ -57,13 +61,36 @@ export const sync = async (options = {}) => {
 
 export const syncIfNecessary = async () => {
   if (!deck) return;
-
-  await sync();
+  const userData = getFromLocalStorage("vocabulary-user-data");
+  /* Localstorage data has been updated in another tab, so we reload */
+  if (userData) {
+    if (userData.lastSaved > deck.lastSaved) {
+      saveUserDataInLocalStorage(userData, true);
+    }
+  }
+  if (isUserLoggedIn()) {
+    /* Sync if more than 10 minutes since sync */
+    if (new Date().getTime() > deck.lastSynced + 10 * 60 * 1000) {
+      await sync();
+    }
+  }
 };
 
-export const saveUserData = () => {
-  // saveInLocalStorage(key, value);
-  // saveInLocalStorage(key+'', val);
+export const saveUserDataInLocalStorage = (input, assign) => {
+  if (!input && !deck) return;
+  const toSave = {
+    schedule: (input || deck)?.schedule,
+    session_log: (input || deck)?.session_log,
+    easinessLevel: (input || deck)?.easinessLevel,
+    lastSynced: (input || deck)?.lastSynced,
+    lastSaved: new Date().getTime(),
+  };
+  saveInLocalStorage("vocabulary-user-data", toSave);
+  if (assign) {
+    if (deck) {
+      Object.assign(deck, toSave);
+    }
+  }
 };
 
 const getUnsynced = (obj, options) => {
