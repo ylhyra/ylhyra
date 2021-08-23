@@ -10,6 +10,7 @@ import { InitializeVocabulary } from "app/Vocabulary/actions/init";
 import { getCookie } from "app/App/functions/cookie";
 import { deck } from "app/Vocabulary/actions/deck";
 import _ from "underscore";
+import { sync } from "app/Vocabulary/actions/sync.js";
 
 export const InitializeUser = () => {
   updateUser();
@@ -66,7 +67,7 @@ export const login = ({ username, user_id, save_progress }) => {
     },
   });
   if (save_progress) {
-    deck.syncSchedule({ syncEverything: true });
+    sync({ syncEverything: true });
   } else {
     saveInLocalStorage("vocabulary-schedule", null);
     saveInLocalStorage("vocabulary-session", null);

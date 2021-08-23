@@ -80,7 +80,6 @@ class Form2 extends React.Component {
     }
   };
   render() {
-    const { submit } = parent;
     const error = this.state.error && (
       <div className="form-error">{this.state.error}</div>
     );
@@ -90,6 +89,7 @@ class Form2 extends React.Component {
       </div>
     );
     const parent = this;
+    const { submit } = parent;
     const isSignup = this.props.type === "signup";
 
     return (

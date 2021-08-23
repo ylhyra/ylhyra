@@ -6,6 +6,7 @@ export default {
     "Your token has expired. Please reload this page and start over.",
   ERROR_USER_ALREADY_EXIST:
     "It appears that you have already signed up. Please log in instead.",
+  ERROR_USERNAME_EXISTS: "This username is already in use.",
   ERROR_USERNAME_DOES_NOT_EXIST: "No user with that name exists. ",
 
   ERROR_EMAIL_COULD_NOT_BE_SENT: "Failed to send email",

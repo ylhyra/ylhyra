@@ -34,7 +34,6 @@
     "audio1": "./scripts/audio_processing/Pronunciation_step_1.sh",
     "audio3": "./scripts/audio_processing/Pronunciation_step_3.sh",
     "test": "jest",
-    "remove_unused1": "npx putout src --plugins remove-unused-variables --fix; npx prettier src --write",
     "remove_unused": "npx putout src/app --fix; npx prettier src/app --write"
   },
   "proxy": "http://localhost:9123",
@@ -91,6 +90,7 @@
     "npm": "^7.20.6",
     "omit-empty": "^1.0.0",
     "performance-now": "^2.1.0",
+    "putout": "^19.0.0",
     "react": "^17.0.2",
     "react-attr-converter": "^0.3.1",
     "react-dom": "^17.0.2",
@@ -155,7 +155,6 @@
     "jest": "^27.0.6",
     "jest-puppeteer": "^5.0.4",
     "prettier": "2.3.1",
-    "putout": "^18.16.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-license-plugin": "^4.1.2"
   },

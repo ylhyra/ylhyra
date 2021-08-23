@@ -47,13 +47,14 @@ export const sync = async (options = {}) => {
   ).data;
 
   const data = {
-    schedule: saveScheduleResponse(schedule, response.schedule),
-    session_log: saveSessionLogResponse(session_log, response.session_log),
+    schedule: saveScheduleResponse(schedule, response.schedule) || {},
+    session_log:
+      saveSessionLogResponse(session_log, response.session_log) || [],
     easinessLevel: response.easinessLevel || easinessLevel || 0,
     lastSynced: response.lastSynced,
   };
 
-  saveUserDataInLocalStorage(data, true);
+  saveUserDataInLocalStorage(data, { assignToDeck: true });
   console.log("Data synced");
   return data;
 };
@@ -65,18 +66,18 @@ export const syncIfNecessary = async () => {
   /* Localstorage data has been updated in another tab, so we reload */
   if (userData) {
     if (userData.lastSaved > deck.lastSaved) {
-    saveUserDataInLocalStorage(userData, true);
-  }
+      saveUserDataInLocalStorage(userData, { assignToDeck: true });
+    }
   }
   if (isUserLoggedIn()) {
     /* Sync if more than 10 minutes since sync */
     if (new Date().getTime() > deck.lastSynced + 10 * 60 * 1000) {
-    await sync();
-  }
+      await sync();
+    }
   }
 };
 
-export const saveUserDataInLocalStorage = (input, assign) => {
+export const saveUserDataInLocalStorage = (input, options = {}) => {
   if (!input && !deck) return;
   const toSave = {
     schedule: (input || deck)?.schedule,
@@ -86,10 +87,12 @@ export const saveUserDataInLocalStorage = (input, assign) => {
     lastSaved: new Date().getTime(),
   };
   saveInLocalStorage("vocabulary-user-data", toSave);
-  if (assign) {
+  if (options.assignToDeck) {
     if (deck) {
-    Object.assign(deck, toSave);
-  }
+      console.log({ toSave });
+      Object.assign(deck, toSave);
+      console.log({ session_log: deck.session_log });
+    }
   }
 };
 

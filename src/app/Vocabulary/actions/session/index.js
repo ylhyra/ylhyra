@@ -47,6 +47,7 @@ class Session {
       Object.assign(this, init);
       this.sessionDone({ isInitializing: true });
     }
+    console.log({ session_log: this.deck.session_log });
   }
   reset() {
     this.allowed_card_ids = null;
@@ -107,6 +108,12 @@ class Session {
   }
   saveSessionLog() {
     if (this.getSecondsSpent() > 10) {
+      if (!this.deck.session_log) {
+        console.error("No session_log");
+        console.log({ deck: this.deck });
+        return;
+      }
+      // this.deck.session_log = this.deck.session_log || [];
       this.deck.session_log.push({
         seconds_spent: this.getSecondsSpent(),
         timestamp: this.savedAt || new Date().getTime(),
