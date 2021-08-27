@@ -5,6 +5,7 @@ import {
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
 import { saveUserDataInLocalStorage } from "app/Vocabulary/actions/sync.js";
+import { B1 } from "constants";
 
 let easyInARow = 0;
 const MIN_JUMP = 50;
@@ -56,10 +57,15 @@ const getLowestBadSortKey = () => {
   );
 };
 
-/* Maximum is to a B2 level */
-// TODO: þegar b2 vill svo til að sé innan í lægra leveli!!!
+/* Maximum is to jump to the end of the B1 level */
 const getMaxSortKey = () => {
-  return deck.cards_sorted.find((card) => card.level === 4)?.sortKey || null;
+  return (
+    deck.cards_sorted
+      .slice()
+      /* Goes backwards to find the last card that is on a B1 level */
+      .reverse()
+      .find((card) => card.level === B1)?.sortKey || null
+  );
 };
 
 const setEasinessLevel = (val) => {

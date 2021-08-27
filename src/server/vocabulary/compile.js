@@ -15,6 +15,10 @@ import {
   getHash,
   GetLowercaseStringForAudioKey,
 } from "maker/VocabularyMaker/functions";
+import {
+  printWord,
+  getCardsWithSameTerm,
+} from "app/Vocabulary/actions/functions";
 import _ from "underscore";
 
 const path = require("path");
@@ -160,7 +164,7 @@ const getSounds = (sentences, sound_lowercase) => {
 
 let deck;
 const simplify = () => {
-  /* Add sortkey */
+  /* Add sortkey for all items */
   let card_ids = Object.keys(deck.cards)
     .map((key) => {
       return deck.cards[key];
@@ -182,6 +186,29 @@ const simplify = () => {
     deck.cards[card_id].sortKey = index;
     delete deck.cards[card_id].row_id;
   });
+
+  // /* Regularize levels (don't allow a high to come before a low) */
+  // let maxSortKeyPerLevel = {};
+  // card_ids.forEach((card_id) => {
+  //   const { level, sortKey } = deck.cards[card_id];
+  //   maxSortKeyPerLevel[level] = Math.max(maxSortKeyPerLevel[level], sortKey);
+  // });
+  // card_ids.forEach((card_id) => {
+  //   const { level, sortKey } = deck.cards[card_id];
+  //   for (let i = 1; i <= 6; i++) {
+  //     if (
+  //       maxSortKeyPerLevel[i] < sortKey &&
+  //       (sortKey <= maxSortKeyPerLevel[i + 1] || !maxSortKeyPerLevel[i + 1])
+  //     ) {
+  //       console.log(
+  //         printWord(card_id) +
+  //           ` changed its level from ${deck.cards[card_id].level} to ${i}`
+  //       );
+  //       deck.cards[card_id].level = i;
+  //       break;
+  //     }
+  //   }
+  // });
 
   Object.keys(deck.terms).forEach((term_id) => {
     const deps = CreateDependencyChain__backend(term_id, deck);
