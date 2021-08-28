@@ -8,7 +8,7 @@ import VocabularyIntro from "app/Vocabulary/screens/setup";
 import LogIn from "app/User/screens/Login";
 // import Signup from "app/User/screens/Signup";
 import Settings from "app/User/screens/Settings";
-import Pay from "app/User/screens/Pay";
+import Pay from "app/User/payments/Pay";
 import NotFound from "documents/Templates/404";
 import { isBrowser } from "app/App/functions/isBrowser";
 

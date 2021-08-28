@@ -20,6 +20,7 @@
     "vocabulary": "npm run build_server && npm run vocabulary_only",
     "vocabulary_es": "export DECK='_es' && npm run build_server && npm run vocabulary_only",
     "vocabulary_da": "export DECK='_da' && npm run build_server && npm run vocabulary_only",
+    "vocabulary_no": "export DECK='_no' && npm run build_server && npm run vocabulary_only",
     "vocabulary_only": "node build/server/ylhyra_server.js --import-vocabulary",
     "vocabulary_testing": "node build/server/ylhyra_server.js --import-vocabulary --testing",
     "generate_sentences": "npm run build_server && node build/server/ylhyra_server.js --generate-sentences",
@@ -34,6 +35,7 @@
     "audio1": "./scripts/audio_processing/Pronunciation_step_1.sh",
     "audio3": "./scripts/audio_processing/Pronunciation_step_3.sh",
     "test": "jest",
+    "start_test_server": "export SERVER_PORT=9999 && node build/server/ylhyra_server.js",
     "remove_unused": "npx putout src/app --fix; npx prettier src/app --write"
   },
   "proxy": "http://localhost:9123",

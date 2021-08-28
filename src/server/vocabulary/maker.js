@@ -11,21 +11,22 @@ import {
 import _ from "underscore";
 const router = require("express").Router();
 const fs = require("fs");
-let DECK = "";
-// const DECK = "_da";
-// DECK = "_es";
-const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}`;
+const filename = content_folder + `/not_data/vocabulary/vocabulary`;
 const yaml = require("js-yaml");
 
-router.get("/vocabulary_maker", (req, res) => {
-  fs.readFile(filename + ".yml", "utf8", (err, data) => {
-    if (err) {
-      console.log(err);
-      res.send(err);
-    } else {
-      res.send(yaml.load(data));
+router.post("/vocabulary_maker/get", (req, res) => {
+  fs.readFile(
+    filename + (req.body.deckName || "") + ".yml",
+    "utf8",
+    (err, data) => {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.send(yaml.load(data));
+      }
     }
-  });
+  );
 });
 router.post("/vocabulary_maker", (req, res) => {
   if (process.env.NODE_ENV !== "development") return res.sendStatus(500);
@@ -76,7 +77,7 @@ router.post("/vocabulary_maker", (req, res) => {
   };
 
   const y = yaml.dump(data, { lineWidth: -1, quotingType: '"' });
-  fs.writeFile(filename + ".yml", y, (err) => {
+  fs.writeFile(filename + (req.body.deckName || "") + ".yml", y, (err) => {
     if (err) {
       console.log(err);
       res.send(err);
@@ -87,7 +88,9 @@ router.post("/vocabulary_maker", (req, res) => {
   /* Backup */
   fs.writeFile(
     content_folder +
-      `/not_data/vocabulary/BACKUP/vocabulary.${new Date().getTime()}.yml`,
+      `/not_data/vocabulary/BACKUP/vocabulary${
+        req.body.deckName || ""
+      }.${new Date().getTime()}.yml`,
     y,
     (err) => {}
   );

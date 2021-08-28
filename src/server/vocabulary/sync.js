@@ -37,11 +37,12 @@ router.post("/vocabulary/sync", async (req, res) => {
 const syncSchedule = async (req) => {
   const { schedule } = req.body;
   if (!schedule) return {};
-  const unsyncedScheduleFromServer = (await getSchedule(req)).filter(
-    (row) => row.last_seen > (schedule[row.card_id]?.last_seen || 0)
-  );
+  const unsyncedScheduleFromServer = await getSchedule(req);
   const unsyncedScheduleFromUser = Object.keys(schedule)
-    .map((card_id) => schedule[card_id])
+    .map((card_id) => ({
+      card_id: card_id,
+      ...schedule[card_id],
+    }))
     .filter(
       (row) =>
         !unsyncedScheduleFromServer.find((j) => j.card_id === row.card_id)

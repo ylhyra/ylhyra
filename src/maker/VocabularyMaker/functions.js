@@ -4,9 +4,23 @@ import _hash from "app/App/functions/hash";
 import { isBrowser } from "app/App/functions/isBrowser";
 import { URL_title, section_id } from "paths";
 import { ProcessLinks } from "documents/Compile/functions/links";
+import { getUserFromCookie, isUserLoggedIn } from "app/User/actions";
 
-export const DECK = "";
-// export const DECK = "_es";
+/* Only used for testing */
+export const getDeckName = () => {
+  if (process.env.NODE_ENV === "development") {
+    if (getUserFromCookie()?.username === "danska") {
+      return "_da";
+    }
+    if (getUserFromCookie()?.username === "spænska") {
+      return "_es";
+    }
+    if (getUserFromCookie()?.username === "norska") {
+      return "_no";
+    }
+  }
+  return "";
+};
 
 export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;

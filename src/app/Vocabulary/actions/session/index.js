@@ -47,7 +47,7 @@ class Session {
       Object.assign(this, init);
       this.sessionDone({ isInitializing: true });
     }
-    console.log({ session_log: this.deck.session_log });
+    // console.log({ session_log: this.deck.session_log });
   }
   reset() {
     this.allowed_card_ids = null;
@@ -107,7 +107,7 @@ class Session {
     saveInLocalStorage("vocabulary-session", null);
   }
   saveSessionLog() {
-    if (this.getSecondsSpent() > 10) {
+    if (this.cardHistory.length > 0) {
       if (!this.deck.session_log) {
         console.error("No session_log");
         console.log({ deck: this.deck });
@@ -115,10 +115,14 @@ class Session {
       }
       // this.deck.session_log = this.deck.session_log || [];
       this.deck.session_log.push({
+        // deck2.session_log.push({
         seconds_spent: this.getSecondsSpent(),
         timestamp: this.savedAt || new Date().getTime(),
         needsSyncing: true,
       });
+      // console.log({ blabla: this.deck.session_log });
+    } else {
+      console.log("Not logged");
     }
   }
 }

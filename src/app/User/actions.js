@@ -12,6 +12,35 @@ import { deck } from "app/Vocabulary/actions/deck";
 import _ from "underscore";
 import { sync } from "app/Vocabulary/actions/sync.js";
 
+export const login = ({ username, user_id, save_progress }) => {
+  if (save_progress) {
+    sync({ syncEverything: true });
+  } else {
+    deck.reset();
+  }
+  store.dispatch({
+    type: "LOAD_USER",
+    content: {
+      username,
+      user_id,
+    },
+  });
+};
+
+export const logout = async () => {
+  const response = (await axios.post(`/api/user/logout`)).data;
+  deck.reset();
+  store.dispatch({
+    type: "LOAD_USER",
+    content: null,
+  });
+  store.dispatch({
+    type: "LOAD_SESSION",
+    content: null,
+  });
+  updateURL("/frontpage");
+};
+
 export const InitializeUser = () => {
   updateUser();
 };
@@ -56,74 +85,4 @@ export const updateUser = () => {
       content: x,
     });
   }
-};
-
-export const login = ({ username, user_id, save_progress }) => {
-  store.dispatch({
-    type: "LOAD_USER",
-    content: {
-      username,
-      user_id,
-    },
-  });
-  if (save_progress) {
-    sync({ syncEverything: true });
-  } else {
-    saveInLocalStorage("vocabulary-schedule", null);
-    saveInLocalStorage("vocabulary-session", null);
-    InitializeVocabulary();
-  }
-};
-
-export const logout = async () => {
-  const response = (await axios.post(`/api/user/logout`)).data;
-  updateURL("/frontpage");
-  store.dispatch({
-    type: "LOAD_USER",
-    content: null,
-  });
-  store.dispatch({
-    type: "LOAD_SESSION",
-    content: null,
-  });
-  saveInLocalStorage("vocabulary-schedule", null);
-  saveInLocalStorage("vocabulary-session", null);
-  InitializeVocabulary();
-};
-
-export const MIN_PRICE = 2;
-export const MAX_PRICE = 200;
-export const continueAfterPaying = async ({ price, transaction_id }) => {
-  const response = (
-    await axios.post("/api/pwyw", {
-      price,
-      transaction_id,
-    })
-  ).data;
-  updateURL("/");
-  /* TODO: "Thank you" */
-};
-
-export const parsePrice = (price) => {
-  price = price
-    .toString()
-    .replace(/\s/g, "")
-    .replace(/\$/g, "")
-    .replace(/,([0-9]{1,2})$/, ".$1")
-    .replace(/,/, "");
-  price = price || "0";
-  if (/[^0-9.]/.test(price) || price.split(".").length > 2) {
-    return { error: "INVALID_NUMBER" };
-  }
-  const [d, c] = price.split(".");
-  const cents =
-    parseInt(d) * 100 +
-    (c ? Math.floor((parseInt(c) / 10 ** c.length) * 100) : 0);
-  if (cents > MAX_PRICE * 100) {
-    return { error: "TOO_LARGE" };
-  }
-  if (cents < MIN_PRICE * 100) {
-    return { error: "TOO_SMALL" };
-  }
-  return (cents / 100).toFixed(2);
 };

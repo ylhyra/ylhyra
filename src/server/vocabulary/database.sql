@@ -21,8 +21,8 @@ CREATE TABLE vocabulary_sessions (
 DROP TABLE IF EXISTS vocabulary_schedule;
 CREATE TABLE vocabulary_schedule (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  user_id VARCHAR(32),
-  card_id VARCHAR(20),
+  user_id VARCHAR(32) NOT NULL,
+  card_id VARCHAR(20) NOT NULL,
   due DATETIME,
   score DECIMAL(3,2) UNSIGNED, -- Range from 0 to 3
   last_seen DATETIME,

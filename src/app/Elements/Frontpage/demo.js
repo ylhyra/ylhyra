@@ -8,13 +8,14 @@ let ids = [];
 let currentIndex = 0;
 export default () => {
   if (process.env.NODE_ENV === "development") return;
-  ids = document
-    .querySelectorAll(
+  ids = [
+    /* Spread in order to loop over node list */
+    ...document.querySelectorAll(
       "#frontpage-splash-screen-demo-text [data-word-has-definition]"
-    )
-    .map(function (el) {
-      return el.getAttribute("id");
-    });
+    ),
+  ].map(function (el) {
+    return el.getAttribute("id");
+  });
   next();
 };
 

@@ -12,7 +12,7 @@ import axios from "app/App/axios";
 import _ from "underscore";
 import { deck } from "app/Vocabulary/actions/deck";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
-import { DECK } from "./functions";
+import { getDeckName } from "./functions";
 
 let maxID = 0;
 export let rows = [];
@@ -27,7 +27,12 @@ export const MAX_PER_PAGE = 20;
 
 export const load = async () => {
   // window.skip_hash = true;
-  let vocabulary = (await axios.get(`/api/vocabulary_maker`, {})).data;
+  console.log(getDeckName());
+  let vocabulary = (
+    await axios.post(`/api/vocabulary_maker/get`, {
+      deckName: getDeckName(),
+    })
+  ).data;
   sound = vocabulary?.sound || [];
   rows = vocabulary?.rows || [];
 
@@ -176,12 +181,14 @@ export const save = () => {
       rows: rows,
       sound: sound,
     },
+    deckName: getDeckName(),
   });
 };
 
 let missing_sound = [];
 let current_word_recording = 0;
 const setupSound = () => {
+  if (getDeckName()) return;
   let sentences = [];
   let ids = _.shuffle(deck.cards_sorted.filter((c) => c.sortKey))
     .sort((a, b) => Math.floor(a.sortKey / 50) - Math.floor(b.sortKey / 50))
@@ -285,9 +292,9 @@ export const addRowsIfMissing = (text) => {
     let [is, en, level, depends_on, lemmas] = row
       .replace(/^- /, "")
       .split(/(?: = |\t)/g);
-    if (DECK) {
-      is = is?.replace(/;/g, ";;").replace(/,/g, ";");
-      en = en?.replace(/;/g, ";;").replace(/,/g, ";");
+    if (getDeckName()) {
+      is = is?.replace(/;+/g, ";;").replace(/,/g, ";");
+      en = en?.replace(/;+/g, ";;").replace(/,/g, ";");
     }
     if (
       !(getHash(is) in terms) &&

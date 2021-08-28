@@ -10,7 +10,7 @@ import {
   parsePrice,
   MAX_PRICE,
   MIN_PRICE,
-} from "app/User/actions";
+} from "app/User/payments/actions";
 
 const url =
   process.env.NODE_ENV === "development"

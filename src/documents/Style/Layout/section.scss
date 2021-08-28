@@ -13,6 +13,11 @@ section,
       padding: 5px 10px;
     }
   }
+  &:first-child {
+    > div {
+      padding-top: 20px;
+    }
+  }
   &.content {
     padding: 55px 24px;
     @media (max-width: 400px) {

@@ -57,7 +57,7 @@ export const getCardsWithSameTerm = (id) => {
   if (typeof id === "undefined")
     throw new Error("Nothing passed to getCardsWithSameTerm");
   let out = [];
-  deck.cards[id].terms.forEach((term) => {
+  deck.cards[id]?.terms.forEach((term) => {
     deck.terms[term].cards.forEach((sibling_card_id) => {
       out.push(sibling_card_id);
     });

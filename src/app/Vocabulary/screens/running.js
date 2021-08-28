@@ -30,7 +30,14 @@ class R extends Component {
               Quit
             </button>
             <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
-            <Link href="/vocabulary/tutorial">Tutorial</Link>
+            <button
+              className="link"
+              onClick={() => {
+                updateURL("/vocabulary/tutorial");
+              }}
+            >
+              Tutorial
+            </button>
             {this.props.vocabulary.session?.undoable() && [
               <div key={1}>&nbsp;&nbsp;•&nbsp;&nbsp;</div>,
               <button

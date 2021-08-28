@@ -89,9 +89,9 @@ export const saveUserDataInLocalStorage = (input, options = {}) => {
   saveInLocalStorage("vocabulary-user-data", toSave);
   if (options.assignToDeck) {
     if (deck) {
-      console.log({ toSave });
+      // console.log({ toSave });
       Object.assign(deck, toSave);
-      console.log({ session_log: deck.session_log });
+      // console.log({ session_log: deck.session_log });
     }
   }
 };
@@ -124,7 +124,7 @@ const saveScheduleResponse = (schedule, updated) => {
   return schedule;
 };
 const saveSessionLogResponse = (session_log, updated) => {
-  session_log = session_log
+  return session_log
     .map((j) => ({
       ...j,
       needsSyncing: false,

@@ -129,7 +129,7 @@ export const getURL = () => {
   return decodeURI(window.location.pathname).replace(/^\//, "");
 };
 
-let isIndexed;
+// let isIndexed;
 export const index = (shouldIndex) => {
   // if (!isBrowser) return;
   // if (isIndexed !== Boolean(shouldIndex)) {

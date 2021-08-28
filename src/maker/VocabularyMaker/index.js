@@ -15,9 +15,10 @@ import {
   ignore_for_now,
   didYouMeanSuggestions,
 } from "./actions";
-import { formatVocabularyEntry, row_titles, DECK } from "./functions";
+import { formatVocabularyEntry, row_titles } from "./functions";
 import VocabularyMakerRecord from "maker/VocabularyMaker/record";
 import AutosizeTextarea from "react-textarea-autosize";
+import { getDeckName } from "./functions";
 
 class Form2 extends React.Component {
   componentDidMount = async () => {
@@ -128,7 +129,7 @@ class Form2 extends React.Component {
                   if (/,/.test(values.english)) {
                     errors.english = "Comma not allowed";
                   }
-                  if (!values.level && !DECK && values.english) {
+                  if (!values.level && !getDeckName() && values.english) {
                     errors.level = "Required";
                   }
                   return errors;

@@ -5,7 +5,6 @@ import {
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
 import { saveUserDataInLocalStorage } from "app/Vocabulary/actions/sync.js";
-import { B1 } from "constants";
 
 let easyInARow = 0;
 const MIN_JUMP = 50;
@@ -64,7 +63,7 @@ const getMaxSortKey = () => {
       .slice()
       /* Goes backwards to find the last card that is on a B1 level */
       .reverse()
-      .find((card) => card.level === B1)?.sortKey || null
+      .find((card) => card.level === 3)?.sortKey || null
   );
 };
 

@@ -10,27 +10,20 @@ import { getUserFromCookie, isUserLoggedIn } from "app/User/actions";
 import { hour, day } from "app/App/functions/time";
 import { InitializeUser } from "app/User/actions";
 import { sync } from "./sync";
+import { getDeckName } from "maker/VocabularyMaker/functions.js";
 
 export const InitializeVocabulary = async () => {
-  let DECK = "";
-  if (process.env.NODE_ENV === "development") {
-    if (getUserFromCookie()?.username === "danska") {
-      DECK = "_da";
-    }
-    if (getUserFromCookie()?.username === "spænska") {
-      DECK = "_es";
-    }
-  }
+  let DECK = getDeckName(); /* Only used for testing */
+
   const now = new Date().getTime();
   let database = getFromLocalStorage("vocabulary-database");
   let should_update = false;
-  if (database) {
-    if (
-      !getBuildId() ||
-      getBuildId() !== getFromLocalStorage("vocabulary-build-id")
-    ) {
-      should_update = true;
-    }
+  if (
+    database &&
+    (!getBuildId() ||
+      getBuildId() !== getFromLocalStorage("vocabulary-build-id"))
+  ) {
+    should_update = true;
   }
   if (!database?.cards || should_update) {
     console.log("Downloading database");
@@ -43,7 +36,8 @@ export const InitializeVocabulary = async () => {
     saveInLocalStorage("vocabulary-build-id", getBuildId());
   }
 
-  let { schedule, session_log, easinessLevel, lastSynced } = await sync();
+  let { schedule, session_log, easinessLevel, lastSynced } =
+    (await sync()) || {};
 
   let session = getFromLocalStorage("vocabulary-session");
 

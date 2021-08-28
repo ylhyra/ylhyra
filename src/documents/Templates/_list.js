@@ -8,7 +8,7 @@ import VocabularyHeader from "app/Vocabulary/Elements/VocabularyHeader";
 import Audio from "documents/Templates/Audio";
 import H1 from "documents/Templates/H1";
 import Section from "documents/Templates/Section";
-import PWYW from "app/User/screens/Pay";
+import PWYW from "app/User/payments/Pay";
 import SignupSteps from "app/User/screens/SignupSteps";
 import Tweet from "documents/Templates/Tweet";
 import Parts from "documents/Templates/Parts";

@@ -58,10 +58,13 @@ class Deck {
     this.session.reset();
     this.session.InitializeSession();
   }
-  // reset() {
-  //   this.schedule = {};
-  //   saveInLocalStorage("vocabulary-schedule", null);
-  // }
+  reset() {
+    this.schedule = {};
+    this.session_log = [];
+    this.easinessLevel = 0;
+    saveInLocalStorage("vocabulary-schedule", null);
+    saveInLocalStorage("vocabulary-session", null);
+  }
 }
 Deck.prototype.trackEasiness = trackEasiness;
 Deck.prototype.isEasinessLevelOn = isEasinessLevelOn;
