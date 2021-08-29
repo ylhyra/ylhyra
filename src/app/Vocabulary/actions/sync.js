@@ -55,7 +55,7 @@ export const sync = async (options = {}) => {
   };
 
   saveUserDataInLocalStorage(data, { assignToDeck: true });
-  console.log("Data synced");
+  console.warn("Data synced");
   return data;
 };
 // window.syncSchedule = syncSchedule;

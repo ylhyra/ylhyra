@@ -4,7 +4,6 @@ import { updateUser } from "app/User/actions";
 import LoadContent from "./LoadContent";
 import VocabularyOverview from "app/Vocabulary/screens/overview";
 import VocabularyRunning from "app/Vocabulary/screens/running";
-import VocabularyIntro from "app/Vocabulary/screens/setup";
 import LogIn from "app/User/screens/Login";
 // import Signup from "app/User/screens/Signup";
 import Settings from "app/User/screens/Settings";
@@ -17,11 +16,6 @@ export const urls = {
     title: "Vocabulary",
     url: "/vocabulary",
     component: VocabularyOverview,
-  },
-  VOCABULARY_SETUP: {
-    title: "Vocabulary",
-    url: "/vocabulary/setup",
-    component: VocabularyIntro,
   },
   VOCABULARY_PLAY: {
     title: "Vocabulary",

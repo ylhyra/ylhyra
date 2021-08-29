@@ -22,6 +22,7 @@
 - uppfæra package.json á server þegar það eru breytingar
 - ekki loada ef preload er enn í gangi
 - skrá hvaða greinar notandi hefur lesið
+- reloada reglulega, t.d. ef notandi skráir sig inn í öðrum glugga
 
 # uppfæra í gagnagrunni
 

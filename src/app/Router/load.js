@@ -12,13 +12,13 @@ export const abortAllThatAreNot = (url) => {
   expectedUrl = url;
 };
 
-export const loadContent = (
+export const loadContent = ({
   url,
   prerender_data,
   preload,
   section,
-  callback
-) => {
+  callback,
+}) => {
   // console.log("loadContent");
   // console.log({ url, section });
   // throw new Error("");
@@ -113,5 +113,5 @@ const set = async (url, data, preload, section, callback) => {
 };
 
 export const preload = (url) => {
-  loadContent(url, null, true);
+  loadContent({ url, preload: true });
 };

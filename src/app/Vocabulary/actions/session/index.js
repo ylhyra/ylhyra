@@ -66,8 +66,8 @@ class Session {
     this.lastUndid = 0;
     this.savedAt = null;
   }
-  sessionDone(options = {}) {
-    this.createSchedule();
+  async sessionDone(options = {}) {
+    await this.createSchedule();
     this.clearInLocalStorage();
     if (!options.isInitializing) {
       updateURL(window.location.pathname);

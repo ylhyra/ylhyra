@@ -35,48 +35,27 @@ class Form2 extends React.Component {
   submit = async (values, setSubmitting) => {
     this.setState(values);
 
-    /* Execute invisible captcha */
-    if (!this.state.captcha_token && process.env.REACT_APP_HCAPTCHA_SITEKEY) {
-      this.setState({
-        message: "Verifying...",
-        awaitingCaptcha: true,
-      });
-      this.captcha_element.current.execute();
-      setSubmitting && setSubmitting(false);
-      return;
-    }
+    // /* Execute invisible captcha */
+    // if (!this.state.captcha_token && process.env.REACT_APP_HCAPTCHA_SITEKEY) {
+    //   this.setState({
+    //     message: "Verifying...",
+    //     awaitingCaptcha: true,
+    //   });
+    //   this.captcha_element.current.execute();
+    //   setSubmitting && setSubmitting(false);
+    //   return;
+    // }
 
-    const response = (
-      await axios.post("/api/user", {
-        ...this.state,
-        ...values,
-      })
-    ).data;
-
-    setSubmitting && setSubmitting(false);
-    if (response.error) {
-      this.setState({
-        error: errors[response.error] || response.error,
-      });
-      return;
-    }
-
-    const save_progress = values.save_progress === "yes";
-    const { user_id, username, did_user_exist } = response;
-    login({
-      username,
-      user_id,
-      save_progress,
+    const error = await login({
+      ...this.state,
+      ...values,
     });
 
-    if (!did_user_exist) {
-      if (process.env.REACT_APP_PWYW === "on") {
-        updateURL("/pay-what-you-want");
-      } else {
-        updateURL("/");
-      }
-    } else {
-      updateURL("/");
+    if (error) {
+      setSubmitting && setSubmitting(false);
+      this.setState({
+        error: errors[error] || error,
+      });
     }
   };
   render() {
@@ -104,6 +83,8 @@ class Form2 extends React.Component {
             save_progress: "yes",
           }}
           validate={(values) => {
+            console.log(values);
+            return;
             const errors = {};
             if (!values.username.trim()) {
               errors.username = "(required)";

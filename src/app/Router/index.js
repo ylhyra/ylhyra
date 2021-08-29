@@ -10,14 +10,15 @@ import Section from "documents/Templates/Section";
 import { isVocabularyTheFrontpage, updateURL, index } from "app/Router/actions";
 
 class App extends React.Component {
+  componentDidMount() {
+    const url = this.props.url || this.props.route.pathname;
+    if (url === "/" && isVocabularyTheFrontpage()) {
+      updateURL("/vocabulary");
+    }
+  }
   render() {
     let Element = () => null;
     const url = this.props.url || this.props.route.pathname;
-
-    if (url === "/" && isVocabularyTheFrontpage()) {
-      updateURL("/vocabulary");
-      return null;
-    }
 
     if (url in components) {
       Element = components[url]; //|| components["/vocabulary"];

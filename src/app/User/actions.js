@@ -13,12 +13,11 @@ import _ from "underscore";
 import { sync } from "app/Vocabulary/actions/sync.js";
 import { isBrowser } from "app/App/functions/isBrowser";
 
-export const login = ({ username, user_id, save_progress }) => {
-  if (save_progress) {
-    sync({ syncEverything: true });
-  } else {
-    deck.reset();
-  }
+export const login = async (values) => {
+  const response = (await axios.post("/api/user", values)).data;
+  const { user_id, username, did_user_exist, error } = response;
+  if (error) return error;
+
   store.dispatch({
     type: "LOAD_USER",
     content: {
@@ -26,6 +25,26 @@ export const login = ({ username, user_id, save_progress }) => {
       user_id,
     },
   });
+
+  if (!did_user_exist) {
+    if (values.save_progress !== "no") {
+      await sync({ syncEverything: true });
+    } else {
+      console.log("Data not synced");
+      deck.reset();
+    }
+
+    if (process.env.REACT_APP_PWYW === "on") {
+      updateURL("/pay-what-you-want");
+    } else {
+      updateURL("/");
+    }
+  } else {
+    /* TODO!!!!! */
+    deck.reset();
+    await sync();
+    updateURL("/");
+  }
 };
 
 export const logout = async () => {

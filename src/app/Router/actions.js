@@ -34,7 +34,7 @@ export const getFrontpageURL = () => {
   // return isVocabularyTheFrontpage() ? "/vocabulary" : "/";
 };
 
-export const updateURL = (url, options = {}) => {
+export const updateURL = async (url, options = {}) => {
   let { title, replace, prerender, is404, dontChangeUrl } = options;
   HAS_LOADED = true;
   let is_component = url in app_urls;
@@ -44,6 +44,9 @@ export const updateURL = (url, options = {}) => {
     Analytics.stopReadingPage();
   } else {
     url = URL_title(url);
+  }
+  if (url === "/") {
+    url = getFrontpageURL();
   }
   // console.log({ url });
   if (!url.startsWith("/")) {
@@ -109,7 +112,13 @@ export const updateURL = (url, options = {}) => {
         },
       });
     }
-    loadContent(pathname, prerender, null, section);
+
+    loadContent({
+      url: pathname,
+      prerender_data: prerender,
+      section,
+    });
+
     // };
     // if (!is_component) {
     //   loadContent(pathname, prerender, null, section, x);

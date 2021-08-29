@@ -11,7 +11,7 @@ export const INCR = 0.4;
  * Long-term scheduling
  * @memberof Session
  */
-export function createSchedule() {
+export async function createSchedule() {
   const session = this;
   const { deck, cards } = session;
   if (!session) {
@@ -126,5 +126,5 @@ export function createSchedule() {
 
   console.log("Schedule made");
   this.saveSessionLog();
-  sync();
+  await sync();
 }
