@@ -75,7 +75,7 @@ const set = async (url, data, preload, section, callback) => {
   if ("parsed" in data) {
     parsed = data.parsed;
     flattenedData = data.flattenedData;
-  } else {
+  } else if (process.env.NODE_ENV === "development") {
     /* Only allowed in development mode */
     const Parse = (
       await import(

@@ -10,7 +10,6 @@ import { InitializeVocabulary } from "app/Vocabulary/actions/init";
 import { InitializeRouter } from "app/Router/actions";
 import { TextEventListenersOn } from "documents/Read/Touch";
 import { isBrowser } from "app/App/functions/isBrowser";
-import Render from "documents/Render";
 import "documents/Style/index.scss";
 
 let prerender;
@@ -38,3 +37,13 @@ if (prerender /*|| window.is404*/) {
 } else {
   ReactDOM.render(Root, document.getElementById("root"));
 }
+
+/* Frontend testing */
+window.testing = async () => {
+  (
+    await import(
+      /* webpackChunkName: "test" */
+      "./test/index.js"
+    )
+  ).default();
+};

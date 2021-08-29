@@ -1,5 +1,6 @@
 import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
 import { deck } from "app/Vocabulary/actions/deck";
+import { isBrowser } from "app/App/functions/isBrowser";
 
 export const PercentageKnown = (card_ids) => {
   if (!deck || !deck.schedule) return 0;
@@ -47,3 +48,7 @@ export const PercentageKnownOverall = () => {
   const card_ids = Object.keys(deck.cards);
   return PercentageKnown(card_ids);
 };
+
+if (isBrowser) {
+  window.PercentageKnownOverall = PercentageKnownOverall;
+}
