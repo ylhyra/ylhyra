@@ -19,13 +19,10 @@ if (isBrowser) {
 }
 export const InitializeRouter = (prerender) => {
   const { is404 } = window;
-  updateURL(
-    window.location.pathname + window.location.hash,
-    null,
-    null,
+  updateURL(window.location.pathname + window.location.hash, {
     prerender,
-    is404
-  );
+    is404,
+  });
 };
 
 export const isVocabularyTheFrontpage = () => {
@@ -37,7 +34,8 @@ export const getFrontpageURL = () => {
   // return isVocabularyTheFrontpage() ? "/vocabulary" : "/";
 };
 
-export const updateURL = (url, title, replace, prerender, is404) => {
+export const updateURL = (url, options = {}) => {
+  let { title, replace, prerender, is404, dontChangeUrl } = options;
   HAS_LOADED = true;
   let is_component = url in app_urls;
   // console.log({ url });
@@ -83,10 +81,7 @@ export const updateURL = (url, title, replace, prerender, is404) => {
     return;
   }
 
-  if (
-    url !== "/vocabulary/tutorial" &&
-    encodeURI(url) !== window.location.pathname
-  ) {
+  if (!dontChangeUrl && encodeURI(url) !== window.location.pathname) {
     if (replace) {
       window.history.replaceState(null, "", encodeURI(url));
     } else {
@@ -129,13 +124,13 @@ export const getURL = () => {
   return decodeURI(window.location.pathname).replace(/^\//, "");
 };
 
-// let isIndexed;
+let isIndexed;
 export const index = (shouldIndex) => {
-  // if (!isBrowser) return;
-  // if (isIndexed !== Boolean(shouldIndex)) {
-  //   document
-  //     .querySelector('meta[name="robots"]')
-  //     .setAttribute("content", shouldIndex ? "index" : "noindex");
-  // }
-  // isIndexed = shouldIndex;
+  if (!isBrowser) return;
+  if (isIndexed !== Boolean(shouldIndex)) {
+    document
+      .querySelector('meta[name="robots"]')
+      .setAttribute("content", shouldIndex ? "index" : "noindex");
+  }
+  isIndexed = shouldIndex;
 };

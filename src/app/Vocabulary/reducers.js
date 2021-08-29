@@ -65,7 +65,8 @@ const screen = (state = {}, action) => {
 };
 
 const volume = (
-  state = getFromLocalStorage("volume") === "off" ? false : true,
+  state = process.env.NODE_ENV !== "development" &&
+    (getFromLocalStorage("volume") === "off" ? false : true),
   action
 ) => {
   switch (action.type) {

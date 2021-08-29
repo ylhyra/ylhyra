@@ -105,7 +105,10 @@ const set = async (url, data, preload, section, callback) => {
   }
 
   callback?.();
-  updateURL(url + (section ? "#" + section : ""), data.title, true);
+  updateURL(url + (section ? "#" + section : ""), {
+    title: data.title,
+    replace: true,
+  });
   ReadAlongSetup(flattenedData); // TEMP?
 };
 

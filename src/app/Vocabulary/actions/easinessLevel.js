@@ -18,7 +18,6 @@ let last_jump_up;
  * @memberof Deck
  */
 export function trackEasiness(rating, isNew) {
-  if (process.env.NODE_ENV !== "development") return;
   if (this.session.allowed_card_ids) return;
   if (isNew) {
     if (rating === EASY) {

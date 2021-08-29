@@ -9,7 +9,6 @@
   "license": "MIT",
   "private": false,
   "homepage": "https://ylhyra.is",
-  "xxtype": "module",
   "scripts": {
     "start": "export BROWSER=none && react-scripts start",
     "links": "./../ylhyra_content/scripts/cleanup.sh && export NODE_ENV=production && npm run build_server && npm run links_only",

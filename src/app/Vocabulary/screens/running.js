@@ -33,7 +33,7 @@ class R extends Component {
             <button
               className="link"
               onClick={() => {
-                updateURL("/vocabulary/tutorial");
+                updateURL("/vocabulary/tutorial", { dontChangeUrl: true });
               }}
             >
               Tutorial
