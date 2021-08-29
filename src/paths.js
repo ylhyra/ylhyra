@@ -23,7 +23,9 @@ export const URL_title = (title) => {
     .replace(/[(),!?;]/g, "")
     .replace(/-+/g, "-")
     .replace(/:/g, "/")
-    .replace(/^\//g, "");
+    .replace(/[/]+/g, "/")
+    .replace(/^\//g, "")
+    .replace(/\/$/g, "");
   path = "/" + path;
   section = section_id(section);
   return path + (section ? "#" + section : "");

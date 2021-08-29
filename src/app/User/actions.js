@@ -11,6 +11,7 @@ import { getCookie } from "app/App/functions/cookie";
 import { deck } from "app/Vocabulary/actions/deck";
 import _ from "underscore";
 import { sync } from "app/Vocabulary/actions/sync.js";
+import { isBrowser } from "app/App/functions/isBrowser";
 
 export const login = ({ username, user_id, save_progress }) => {
   if (save_progress) {
@@ -46,6 +47,7 @@ export const InitializeUser = () => {
 };
 
 export const getUserFromCookie = () => {
+  if (!isBrowser) return null;
   let cookie = getCookie("y");
   if (cookie) {
     cookie = JSON.parse(atob(cookie));

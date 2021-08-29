@@ -7,6 +7,7 @@ let timer = null;
 
 export const notifyOfError = (descr) => {
   if (!process.env.NOTIFY_APP_KEY) return;
+  if (process.platform === "darwin") return; //Mac
   if (descr) {
     queue.push(descr);
   }

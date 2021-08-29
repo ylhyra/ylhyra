@@ -60,8 +60,7 @@ const getBuildId = () => {
   if (build_id) return build_id || "";
   build_id =
     document
-      .querySelector('link[href^="/app/main.css"]')
-      ?.getAttribute("href")
-      .match(/v=(.+)/)?.[1] || "";
+      .querySelector('meta[name="vocabulary_id"]')
+      ?.getAttribute("content") || "";
   return build_id;
 };

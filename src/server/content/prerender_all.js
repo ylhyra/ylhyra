@@ -21,6 +21,11 @@ const run = async () => {
   let i = 0;
   await forEachAsync(to_render, async (url, index) => {
     return new Promise(async (resolve2, reject2) => {
+      /* Used for testing */
+      if (process.env.ONLY && URL_title(process.env.ONLY) !== url) {
+        return resolve2();
+      }
+
       // if (i < 200) {
       //   i++;
       //   resolve2();

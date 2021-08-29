@@ -21,7 +21,7 @@ class Overview extends Component {
     const { deck, session } = this.props.vocabulary;
     if (!deck) return null;
     return (
-      <div>
+      <div className="deck-loaded">
         <h1>Vocabulary</h1>
         <Link href="/vocabulary/tutorial">Tutorial</Link>
         <Spacer space="70" />

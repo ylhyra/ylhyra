@@ -11,14 +11,15 @@ import { connect, Provider } from "react-redux";
 import store from "app/App/store";
 import Router from "app/Router";
 import shortid from "shortid";
+import hash from "app/App/functions/hash";
+import argvFactory from "minimist";
+const argv = argvFactory(process.argv.slice(2));
 const router = require("express").Router();
 var now = require("performance-now");
 var fs = require("fs");
 const path = require("path");
 const critical = require("critical");
 let TESTING = false;
-/* TODO */
-let hash = shortid.generate();
 
 const css = fs.readFileSync(
   path.resolve(build_folder, `./app/main.css`),
@@ -29,6 +30,21 @@ const html = fs.readFileSync(
   "utf8"
 );
 
+const fileHash = (file) => {
+  return hash(fs.readFileSync(file, "utf8"));
+};
+const css_hash = fileHash(path.resolve(build_folder, `./app/main.css`));
+const js_hash = fileHash(path.resolve(build_folder, `./app/ylhyra.main.js`));
+const voc_hash = fileHash(
+  path.resolve(build_folder, `./vocabulary/vocabulary_database.json`)
+);
+
+/*
+
+  To test, run
+  export ONLY=page_name; npm run prerender_single
+
+*/
 const render = async ({
   title,
   filename,
@@ -38,7 +54,8 @@ const render = async ({
   callback,
 }) => {
   const header_links = `
-    <link href="/app/main.css?v=${hash}" rel="stylesheet" />
+    <meta name="vocabulary_id" content="${voc_hash}"/>
+    <link href="/app/main.css?v=${css_hash}" rel="stylesheet" />
   `;
   let footer_links = `
     ${
@@ -48,7 +65,7 @@ const render = async ({
       <script src="http://localhost:3000/static/js/vendors~main.chunk.js"></script>
       <script src="http://localhost:3000/static/js/main.chunk.js"></script>
     `
-        : `<script src="/app/ylhyra.main.js?v=${hash}"></script>`
+        : `<script src="/app/ylhyra.main.js?v=${js_hash}"></script>`
     }
   `;
 
@@ -71,6 +88,14 @@ const render = async ({
   } else {
     props = { url: title };
   }
+
+  // store.dispatch({
+  //   type: "ROUTE",
+  //   content: {
+  //     pathname: URL_title(title),
+  //   },
+  // });
+
   output = ReactDOMServer.renderToStaticMarkup(
     <Provider store={store}>
       <Router {...props} />
@@ -98,7 +123,7 @@ const render = async ({
     .replace("<!-- Footer items -->", footer_items + "<!-- Remaining CSS -->");
 
   if (shouldBeIndexed) {
-    // // tmp
+    // // TODO
     // html.replace(
     //   /<meta name="robots" content="noindex" \/>/,
     //   '<meta name="robots" content="noindex">'
@@ -145,15 +170,3 @@ const render = async ({
 };
 
 export default render;
-
-/* Testing */
-// node build/server/development/ylhyra_server.development.js --prerender-single
-if (process.argv[2] === "--prerender-single") {
-  TESTING = true;
-  render({
-    title: "nokkrir",
-    filename: "nokkrir",
-    callback: process.exit,
-    is_content: true,
-  });
-}

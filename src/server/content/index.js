@@ -5,7 +5,7 @@ import { url_to_info } from "app/Router/paths";
 import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
 import { getValuesForURL } from "server/content/links";
 import { build_folder } from "paths_backend";
-const router = require("express").Router();
+const router = require("express").Router({ strict: true });
 var fs = require("fs");
 
 const yaml = require("js-yaml");
@@ -21,10 +21,16 @@ router.get(["/api/content", "*"], async (req, res) => {
     url = URL_title(req.path);
   }
   let values = getValuesForURL(url, req.query.title);
-  if (values?.filepath) {
+
+  if (values?.filename) {
     let { title, file, filename } = values;
 
     title = title.split(/[/:]/g).reverse().join("\u2006•\u2006");
+
+    res.set(
+      "Cache-Control",
+      `public, max-age=${24 * 60 * 60 /* Einn dagur */}`
+    );
 
     if (url.startsWith("/file/")) {
       // console.log(file);
@@ -38,7 +44,11 @@ router.get(["/api/content", "*"], async (req, res) => {
       );
     } else {
       /* Client side rendering allowed in development */
-      if (process.env.NODE_ENV === "development" && type === "json") {
+      if (
+        process.env.NODE_ENV === "development" &&
+        type === "json" &&
+        values.filepath
+      ) {
         const { content, header } = await generate_html(url);
         if ("html" in req.query) {
           return res.send(content);
@@ -54,12 +64,8 @@ router.get(["/api/content", "*"], async (req, res) => {
           path.resolve(build_folder, `./prerender/${filename}.${type}`),
           "utf8",
           async (err, data) => {
-            res.set(
-              "Cache-Control",
-              `public, max-age=${24 * 60 * 60 /* Einn dagur */}`
-            );
             // Last-Modified:
-
+            // console.log(err);
             if (err) {
               send404(res);
             } else {

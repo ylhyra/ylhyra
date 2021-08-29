@@ -34,6 +34,7 @@ app.use(
     maxAge: 5 * 365 * 24 * 60 * 60 * 1000, // 5 years
   })
 );
+app.enable("strict routing");
 
 if (!process.env.COOKIE_SECRET) {
   console.warn("Missing COOKIE_SECRET");
@@ -121,23 +122,21 @@ const prettyHost = customHost || "localhost";
 const port = process.env.SERVER_PORT || argv.port || 9123;
 
 /* Import steps */
-if (process.argv[2] === "--generate-links") {
+if (argv["generate-links"]) {
   require("server/compiler/generate_links.js");
-} else if (process.argv[2] === "--sitemap") {
+} else if (argv["sitemap"]) {
   require("server/compiler/generate_sitemap.js");
-} else if (process.argv[2] === "--sort_course_chapters") {
+} else if (argv["sort_course_chapters"]) {
   require("server/compiler/sort_course_chapters.js");
-} else if (process.argv[2] === "--prerender") {
+} else if (argv["prerender"]) {
   require("server/content/prerender_all.js");
-} else if (process.argv[2] === "--prerender-single") {
-  require("server/content/prerender_single.js");
-} else if (process.argv[2] === "--import-inflections") {
+} else if (argv["import-inflections"]) {
   // require("server/inflection/server/server-with-database/database/ImportToDatabase.js");
-} else if (process.argv[2] === "--generate-search-index") {
+} else if (argv["generate-search-index"]) {
   // require("server/inflection/server/server-with-database/database/generateSearchIndex.js");
-} else if (process.argv[2] === "--import-vocabulary") {
+} else if (argv["import-vocabulary"]) {
   require("server/vocabulary/compile");
-} else if (process.argv[2] === "--generate-sentences") {
+} else if (argv["generate-sentences"]) {
   require("server/vocabulary/generate_sentences");
 } else {
   /* Or, start the app */
