@@ -89,7 +89,8 @@ export const studyNewTerms = () => {
 };
 
 export const countTerms = (cards) => {
-  return round(_.uniq(_.flatten(cards.map((c) => c.terms))).length, 50);
+  const i = _.uniq(_.flatten(cards.map((c) => c.terms))).length;
+  return round(i, i > 200 ? 50 : 5);
 };
 
 export const getCardIdsFromTermIds = (term_ids) => {

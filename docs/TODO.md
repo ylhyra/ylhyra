@@ -12,6 +12,7 @@
 - database backup
 - gefa einn dag ef nýtt orð var séð stuttu eftir hina hliðina en notandi valdi gott
 - fara yfir easinesslevel
+- ef maður skráir sig inn, blanda progress
 
 ### Annað
 

@@ -23,4 +23,13 @@ export default {
     const known2 = PercentageKnownOverall();
     shouldEqual(known1, known2);
   },
+  "Vocabulary same after having logged out": async () => {
+    const username = await mock_signup();
+    await mock_vocabulary_session();
+    const known1 = PercentageKnownOverall();
+    await reset();
+    await mock_login(username);
+    const known2 = PercentageKnownOverall();
+    shouldEqual(known1, known2);
+  },
 };

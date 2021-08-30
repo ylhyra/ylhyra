@@ -129,7 +129,7 @@ if (argv["generate-links"]) {
 } else if (argv["sort_course_chapters"]) {
   require("server/compiler/sort_course_chapters.js");
 } else if (argv["prerender"]) {
-  require("server/content/prerender_all.js");
+  require("server/compiler/prerender_all.js");
 } else if (argv["import-inflections"]) {
   // require("server/inflection/server/server-with-database/database/ImportToDatabase.js");
 } else if (argv["generate-search-index"]) {

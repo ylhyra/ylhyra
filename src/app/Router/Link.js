@@ -6,8 +6,14 @@ import { URL_title } from "paths";
 import { updateURL, getFrontpageURL } from "app/Router/actions";
 import { preload } from "./load";
 
+const start = new Date().getTime();
+
 class Link extends React.Component {
   fn = (e, url) => {
+    // /* Do a full refresh if window is more than 10 minutes old */
+    // if (new Date().getTime() - start > 10 * 60 * 1000) {
+    //   return;
+    // }
     if (e.altKey || e.metaKey || e.ctrlKey) return;
     e.preventDefault();
     updateURL(url);
