@@ -22,21 +22,14 @@ export let deck;
  * The deck contains all terms
  */
 class Deck {
-  constructor({
-    database,
-    schedule,
-    session,
-    session_log,
-    easinessLevel,
-    lastSynced,
-  }) {
+  constructor({ database, schedule, session, user_data }) {
     deck = this;
 
     this.cards = database.cards;
     this.terms = database.terms;
-    this.easinessLevel = easinessLevel || 0;
-    this.lastSynced = lastSynced;
-    this.session_log = session_log || [];
+    this.user_data = user_data || {};
+    this.schedule = schedule || {};
+    this.session = new Session(deck, session);
 
     this.cards_sorted = Object.keys(this.cards)
       .map((key) => {
@@ -44,9 +37,6 @@ class Deck {
       })
       .filter(Boolean)
       .sort((a, b) => a.sortKey - b.sortKey);
-
-    this.schedule = schedule || {};
-    this.session = new Session(deck, session);
 
     if (isBrowser) {
       window.deck = this;

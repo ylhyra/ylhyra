@@ -11,55 +11,64 @@ import {
 import { deck } from "app/Vocabulary/actions/deck";
 import { now } from "app/App/functions/time.js";
 
-export const sync = async (options = {}) => {
-  const userData = getFromLocalStorage("vocabulary-user-data");
-  let { schedule, session_log, easinessLevel, lastSynced } =
-    deck || userData || {};
-
-  schedule = schedule || {};
-  session_log = session_log || [];
-
-  if (getFromLocalStorage("vocabulary-session-remaining")) {
-    session_log.push({
-      //       seconds_spent
-      // timestamp
-    });
+/*
+  User data is stored on {
+    user_id,
+    lastSynced,
+    data: { key: value }
   }
 
-  saveInLocalStorage("vocabulary-user-data", {
-    schedule,
-    session_log,
-    easinessLevel,
-    lastSynced,
-  });
+  TODO: skrá notanda í gögn!
+*/
+export const sync = async (options = {}) => {
+  const userData = getFromLocalStorage("vocabulary-user-data");
+  // let { schedule, session_log, easinessLevel, lastSynced } =
+  //   deck || userData || {};
+
+  // schedule = schedule || {};
+  // session_log = session_log || [];
+
+  // if (getFromLocalStorage("vocabulary-session-remaining")) {
+  //   session_log.push({
+  //     //       seconds_spent
+  //     // timestamp
+  //   });
+  // }
+
+  // saveInLocalStorage("vocabulary-user-data", {
+  //   schedule,
+  //   session_log,
+  //   easinessLevel,
+  //   lastSynced,
+  // });
 
   if (!isUserLoggedIn()) {
     console.log(`Not synced to server as user isn't logged in`);
     return;
   }
 
+  const unsyncedArray = getUnsyncedArray(data);
+
   const response = (
     await axios.post(`/api/vocabulary/sync`, {
-      schedule: getUnsynced(schedule, options),
-      session_log: getUnsynced(session_log, options),
-      easinessLevel,
-      lastSynced: lastSynced,
+      unsyncedArray,
+      lastSynced: (unsyncedArray.length > 0 && lastSynced) || 0,
     })
   ).data;
 
-  // console.log({ response });
+  // // console.log({ response });
 
-  const data = {
-    schedule: saveScheduleResponse(schedule, response.schedule) || {},
-    session_log:
-      saveSessionLogResponse(session_log, response.session_log) || [],
-    easinessLevel: parseInt(response.easinessLevel || 0) || easinessLevel || 0,
-    lastSynced: response.lastSynced,
-  };
+  // const data = {
+  //   schedule: saveScheduleResponse(schedule, response.schedule) || {},
+  //   session_log:
+  //     saveSessionLogResponse(session_log, response.session_log) || [],
+  //   easinessLevel: parseInt(response.easinessLevel || 0) || easinessLevel || 0,
+  //   lastSynced: response.lastSynced,
+  // };
 
-  saveUserDataInLocalStorage(data, { assignToDeck: true });
-  console.log("Data synced");
-  return data;
+  // saveUserDataInLocalStorage(data, { assignToDeck: true });
+  // console.log("Data synced");
+  // return data;
 };
 
 export const syncIfNecessary = async () => {
@@ -119,23 +128,23 @@ const getUnsynced = (obj, options) => {
     return to_save;
   }
 };
-const saveScheduleResponse = (schedule, updated) => {
-  Object.keys(schedule).forEach((card_id) => {
-    if (schedule[card_id].needsSyncing) {
-      schedule[card_id].needsSyncing = false;
-    }
-  });
-  Object.keys(updated).forEach((card_id) => {
-    if (schedule[card_id]?.needsSyncing) return;
-    schedule[card_id] = updated[card_id];
-  });
-  return schedule;
-};
-const saveSessionLogResponse = (session_log, updated) => {
-  return session_log
-    .map((j) => ({
-      ...j,
-      needsSyncing: false,
-    }))
-    .concat(updated);
-};
+// const saveScheduleResponse = (schedule, updated) => {
+//   Object.keys(schedule).forEach((card_id) => {
+//     if (schedule[card_id].needsSyncing) {
+//       schedule[card_id].needsSyncing = false;
+//     }
+//   });
+//   Object.keys(updated).forEach((card_id) => {
+//     if (schedule[card_id]?.needsSyncing) return;
+//     schedule[card_id] = updated[card_id];
+//   });
+//   return schedule;
+// };
+// const saveSessionLogResponse = (session_log, updated) => {
+//   return session_log
+//     .map((j) => ({
+//       ...j,
+//       needsSyncing: false,
+//     }))
+//     .concat(updated);
+// };
