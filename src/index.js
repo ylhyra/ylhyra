@@ -39,11 +39,17 @@ if (prerender /*|| window.is404*/) {
 }
 
 /* Frontend testing */
-window.testing = async () => {
+window.testing = async (only_run) => {
   (
     await import(
       /* webpackChunkName: "test" */
       "./test/index.js"
     )
-  ).default();
+  ).default(only_run);
 };
+if (process.env.NODE_ENV === "development") {
+  import(
+    /* webpackChunkName: "test" */
+    "./test/index.js"
+  );
+}

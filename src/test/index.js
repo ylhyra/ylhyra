@@ -11,14 +11,20 @@ import { InitializeVocabulary } from "app/Vocabulary/actions/init";
 import vocabulary_tests from "test/vocabulary.test.js";
 
 /* Main test runner */
-export default async () => {
+export default async (only_run) => {
   const tests = {
     ...vocabulary_tests,
   };
   await forEachAsync(Object.keys(tests), async (key) => {
     await new Promise(async (resolve) => {
+      if (only_run && key !== only_run) return resolve();
       await reset();
-      await tests[key]();
+      try {
+        await tests[key]();
+      } catch (e) {
+        console.error(e);
+        return;
+      }
       console.log(`The test "${key}" is good!`);
       resolve();
     });
@@ -38,31 +44,50 @@ export const reset = async () => {
   InitializeVocabulary();
 };
 
-export const mock_vocabulary_session = async () => {
-  updateURL("VOCABULARY_PLAY");
-  await deck.session.InitializeSession();
-  for (let i = 0; i < 10; i++) {
-    deck.session.answer(Math.ceil(Math.random() * 3));
-  }
-  await deck.session.sessionDone();
-};
-
-export const mock_signup = async () => {
-  const username = "test_" + Math.round(Math.random() * 100000);
-  await login({
-    type: "signup",
-    username,
-    password: username,
-  });
-  return username;
-};
-
-export const mock_login = async (username) => {
-  await login({
-    type: "login",
-    username,
-    password: username,
-  });
+export const run = {
+  vocabulary_session: async (...vals) => {
+    updateURL("VOCABULARY_PLAY");
+    await deck.session.InitializeSession();
+    if (vals) {
+      vals.forEach((v) => {
+        deck.session.answer(v);
+      });
+    } else {
+      for (let i = 0; i < 10; i++) {
+        deck.session.answer(Math.ceil(Math.random() * 3));
+      }
+    }
+    await deck.session.sessionDone();
+  },
+  signup: async () => {
+    const username = "test_" + Math.round(Math.random() * 100000);
+    await login({
+      type: "signup",
+      username,
+      password: username,
+    });
+    window.last_username = username;
+    return username;
+  },
+  login: async (username) => {
+    username = username || window.last_username;
+    if (!username) {
+      throw new Error("No username");
+    }
+    await login({
+      type: "login",
+      username,
+      password: username,
+    });
+  },
+  signup_logout_login: async () => {
+    await run.signup();
+    await run.reset_and_login();
+  },
+  reset_and_login: async () => {
+    await reset();
+    await run.login();
+  },
 };
 
 export const wait = (ms) => {
@@ -70,3 +95,5 @@ export const wait = (ms) => {
     setTimeout(resolve, ms || 20);
   });
 };
+
+window.run = run;

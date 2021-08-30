@@ -186,8 +186,18 @@ CREATE TABLE payments (
   INDEX (user_id)
 ) ROW_FORMAT=COMPRESSED;
 
-
-
 -- Other data:
 -- inflection/database.sql
--- vocabulary/database.sql
+
+/* User data that is always kept in sync */
+DROP TABLE IF EXISTS user_data;
+CREATE TABLE user_data (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id INT UNSIGNED,
+  `key` VARCHAR(20) NOT NULL,
+  `value` JSON,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX (user_id),
+  INDEX (`key`),
+  INDEX (created_at)
+) ROW_FORMAT=COMPRESSED;

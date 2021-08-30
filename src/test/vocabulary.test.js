@@ -4,32 +4,31 @@ import {
   PercentageKnownOverall,
 } from "app/Vocabulary/actions/functions/percentageKnown";
 import { updateURL } from "app/Router/actions";
-import {
-  mock_login,
-  mock_signup,
-  mock_vocabulary_session,
-  shouldEqual,
-  reset,
-  wait,
-} from "test/index.js";
+import { run, shouldEqual, reset, wait } from "test/index.js";
+import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 
 export default {
   "Progress saved upon signup": async () => {
-    await mock_vocabulary_session();
+    await run.vocabulary_session();
     const known1 = PercentageKnownOverall();
-    const username = await mock_signup();
-    await reset();
-    await mock_login(username);
+    await run.signup_logout_login();
     const known2 = PercentageKnownOverall();
     shouldEqual(known1, known2);
   },
   "Vocabulary same after having logged out": async () => {
-    const username = await mock_signup();
-    await mock_vocabulary_session();
+    await run.signup();
+    await run.vocabulary_session();
     const known1 = PercentageKnownOverall();
-    await reset();
-    await mock_login(username);
+    await run.reset_and_login();
     const known2 = PercentageKnownOverall();
     shouldEqual(known1, known2);
   },
+  "Easiness level": async () => {
+    await run.vocabulary_session(EASY, EASY, EASY, EASY, EASY, EASY, EASY);
+    const e1 = deck.easinessLevel;
+    await run.signup_logout_login();
+    shouldEqual(e1, deck.easinessLevel);
+  },
+  // Unfinished session correctly scheduled and logged
+  // Unfinished session not scheduled if user is accidentally logged out
 };

@@ -9,6 +9,7 @@ import {
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
 import { deck } from "app/Vocabulary/actions/deck";
+import { now } from "app/App/functions/time.js";
 
 export const sync = async (options = {}) => {
   const userData = getFromLocalStorage("vocabulary-user-data");
@@ -46,11 +47,13 @@ export const sync = async (options = {}) => {
     })
   ).data;
 
+  // console.log({ response });
+
   const data = {
     schedule: saveScheduleResponse(schedule, response.schedule) || {},
     session_log:
       saveSessionLogResponse(session_log, response.session_log) || [],
-    easinessLevel: response.easinessLevel || easinessLevel || 0,
+    easinessLevel: parseInt(response.easinessLevel || 0) || easinessLevel || 0,
     lastSynced: response.lastSynced,
   };
 
@@ -58,7 +61,6 @@ export const sync = async (options = {}) => {
   console.log("Data synced");
   return data;
 };
-// window.syncSchedule = syncSchedule;
 
 export const syncIfNecessary = async () => {
   if (!deck) return;
@@ -71,10 +73,17 @@ export const syncIfNecessary = async () => {
   }
   if (isUserLoggedIn()) {
     /* Sync if more than 10 minutes since sync */
-    if (new Date().getTime() > deck.lastSynced + 10 * 60 * 1000) {
+    if (now() > deck.lastSynced + 10 * 60 * 1000) {
       await sync();
     }
   }
+};
+
+export const setUserSetting = (key, val) => {
+  deck[key] = val;
+  deck.userSettingsThatNeedSyncing = deck.userSettingsThatNeedSyncing || {};
+  deck.userSettingsThatNeedSyncing[key] = now();
+  saveUserDataInLocalStorage();
 };
 
 export const saveUserDataInLocalStorage = (input, options = {}) => {
@@ -83,15 +92,14 @@ export const saveUserDataInLocalStorage = (input, options = {}) => {
     schedule: (input || deck)?.schedule,
     session_log: (input || deck)?.session_log,
     easinessLevel: (input || deck)?.easinessLevel,
+    userSettingsThatNeedSyncing: (input || deck)?.userSettingsThatNeedSyncing,
     lastSynced: (input || deck)?.lastSynced,
-    lastSaved: new Date().getTime(),
+    lastSaved: now(),
   };
   saveInLocalStorage("vocabulary-user-data", toSave);
   if (options.assignToDeck) {
     if (deck) {
-      // console.log({ toSave });
       Object.assign(deck, toSave);
-      // console.log({ session_log: deck.session_log });
     }
   }
 };

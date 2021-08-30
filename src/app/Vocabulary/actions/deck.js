@@ -15,7 +15,6 @@ import {
   saveInLocalStorage,
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
-import { saveUserDataInLocalStorage } from "app/Vocabulary/actions/sync.js";
 
 export let deck;
 
