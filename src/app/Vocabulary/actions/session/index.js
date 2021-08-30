@@ -34,7 +34,7 @@ import {
 } from "app/App/functions/localStorage";
 import Analytics from "app/Analytics";
 import { undo, undoable, checkForUndoOnKeyDown } from "./undo";
-
+import { SESSION_PREFIX, setUserData } from "app/Vocabulary/actions/sync";
 export const MINUTES = process.env.NODE_ENV === "development" ? 2.5 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
@@ -108,19 +108,11 @@ class Session {
   }
   saveSessionLog() {
     if (this.cardHistory.length > 0) {
-      if (!this.deck.session_log) {
-        console.error("No session_log");
-        console.log({ deck: this.deck });
-        return;
-      }
-      // this.deck.session_log = this.deck.session_log || [];
-      this.deck.session_log.push({
-        // deck2.session_log.push({
+      const timestamp = this.savedAt || new Date().getTime();
+      setUserData(SESSION_PREFIX + timestamp, {
         seconds_spent: this.getSecondsSpent(),
-        timestamp: this.savedAt || new Date().getTime(),
-        needsSyncing: true,
+        timestamp,
       });
-      // console.log({ blabla: this.deck.session_log });
     } else {
       console.log("Not logged");
     }

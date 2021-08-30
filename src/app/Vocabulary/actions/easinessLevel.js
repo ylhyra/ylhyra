@@ -4,7 +4,7 @@ import {
   saveInLocalStorage,
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
-import { setUserSetting } from "app/Vocabulary/actions/sync.js";
+import { setUserData } from "app/Vocabulary/actions/sync.js";
 
 let easyInARow = 0;
 const MIN_JUMP = 50;
@@ -67,8 +67,7 @@ const getMaxSortKey = () => {
 };
 
 const setEasinessLevel = (val) => {
-  // deck.easinessLevel = val;
-  setUserSetting("easinessLevel", val);
+  setUserData("easinessLevel", val);
   console.log(`Easiness level set to ${val}`);
 };
 

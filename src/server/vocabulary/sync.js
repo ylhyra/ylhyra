@@ -6,6 +6,7 @@ import cors from "cors";
 import { round, msToS, daysToMs, roundMsToHour } from "app/App/functions/time";
 import stable_stringify from "json-stable-stringify";
 import removeNullKeys from "app/App/functions/removeNullKeys.js";
+import { now } from "app/App/functions/time.js";
 
 const router = require("express").Router();
 const fs = require("fs");
@@ -18,16 +19,19 @@ router.post("/vocabulary/sync", async (req, res) => {
   if (!req.session.user_id) {
     return res.status(401).send({ error: "ERROR_NOT_LOGGED_IN" });
   }
-  const now = new Date().getTime();
   try {
-    const unsyncedScheduleFromServer = await syncSchedule(req);
-    const unsyncedSessionsFromServer = await syncSessions(req);
-    const unsyncedSettings = await syncSettings(req);
+    const unsyncedFromServer = await getUserData(req);
+    const unsyncedFromUser = Object.keys(req.body.unsynced).map((key) => ({
+      key,
+      ...req.body.unsynced[key],
+    }));
+    // // Filter based on time?
+    // .filter(item=>{
+    // })
+    await saveUserData(req, unsyncedFromUser);
     res.send({
-      schedule: unsyncedScheduleFromServer || {},
-      session_log: unsyncedSessionsFromServer || [],
-      ...unsyncedSettings,
-      lastSynced: now,
+      user_data: unsyncedFromServer || {},
+      lastSynced: now(),
     });
   } catch (e) {
     if (typeof e !== "string") {
@@ -37,26 +41,6 @@ router.post("/vocabulary/sync", async (req, res) => {
   }
 });
 
-const syncSchedule = async (req) => {
-  const { schedule } = req.body;
-  if (!schedule) return {};
-  const unsyncedScheduleFromServer = await getSchedule(req);
-  const unsyncedScheduleFromUser = Object.keys(schedule)
-    .map((card_id) => ({
-      card_id: card_id,
-      ...schedule[card_id],
-    }))
-    .filter(
-      (row) =>
-        !unsyncedScheduleFromServer.find((j) => j.card_id === row.card_id)
-    );
-  await saveSchedule(req, unsyncedScheduleFromUser);
-  let out = {};
-  unsyncedScheduleFromServer.forEach((j) => {
-    out[j.card_id] = j;
-  });
-  return out;
-};
 const getUserData = (req) => {
   return new Promise((resolve) => {
     query(
@@ -79,7 +63,13 @@ const getUserData = (req) => {
           console.error(err);
           throw new Error();
         } else {
-          resolve(results);
+          let out = {};
+          results.forEach(({ key, value }) => {
+            out[key] = {
+              value: JSON.parse(value),
+            };
+          });
+          resolve(out);
         }
       }
     );

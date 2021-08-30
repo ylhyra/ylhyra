@@ -2,7 +2,7 @@ import { printWord, getCardsWithSameTerm } from "./functions";
 import { BAD, GOOD, EASY } from "./card";
 import { daysToMs, msToDays, hours } from "app/App/functions/time";
 import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
-import { sync } from "app/Vocabulary/actions/sync.js";
+import { sync, saveScheduleForCardId } from "app/Vocabulary/actions/sync.js";
 
 /* Increment score by how much? */
 export const INCR = 0.4;
@@ -91,8 +91,8 @@ export async function createSchedule() {
       score: Math.round(score * 100) / 100,
       last_seen: new Date().getTime(),
       sessions_seen: (sessions_seen || 0) + 1,
-      needsSyncing: true,
     };
+    saveScheduleForCardId(card.id);
 
     process.env.NODE_ENV === "development" &&
       console.log(
@@ -115,8 +115,8 @@ export async function createSchedule() {
             deck.schedule[sibling_card_id] = {
               ...(deck.schedule[sibling_card_id] || {}),
               due: newDue,
-              needsSyncing: true,
             };
+            saveScheduleForCardId(sibling_card_id);
           }
           process.env.NODE_ENV === "development" &&
             console.log(`${printWord(sibling_card_id)} postponed`);
