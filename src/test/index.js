@@ -26,11 +26,11 @@ export default async (only_run) => {
         console.error(e);
         return;
       }
-      console.log(`The test "${key}" is good!`);
+      console.log(`%cThe test "${key}" is good!`, "font-size: large");
       resolve();
     });
   });
-  console.log("All tests good!");
+  console.log("%cAll tests good!", "font-size: x-large");
 };
 
 export const shouldEqual = (first, second) => {

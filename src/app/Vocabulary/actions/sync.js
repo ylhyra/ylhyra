@@ -1,15 +1,13 @@
-import store from "app/App/store";
-import error from "app/App/Error";
 import axios from "app/App/axios";
-import { createSchedule } from "./createSchedule";
-// import { InitializeSession } from 'app/Vocabulary/actions/session'
-import { getUserFromCookie, isUserLoggedIn } from "app/User/actions";
+import { isBrowser } from "app/App/functions/isBrowser";
 import {
-  saveInLocalStorage,
   getFromLocalStorage,
+  saveInLocalStorage,
 } from "app/App/functions/localStorage";
-import { deck } from "app/Vocabulary/actions/deck";
 import { now } from "app/App/functions/time.js";
+// import { InitializeSession } from 'app/Vocabulary/actions/session'
+import { isUserLoggedIn } from "app/User/actions";
+import { deck } from "app/Vocabulary/actions/deck";
 export const SESSION_PREFIX = "s_";
 
 /*
@@ -37,7 +35,7 @@ export const sync = async (options = {}) => {
   saveUserDataInLocalStorage({ rows });
 
   if (!isUserLoggedIn()) {
-    console.log(`Not synced to server as user isn't logged in`);
+    console.warn(`Not synced to server as user isn't logged in`);
     return;
   }
 
@@ -66,7 +64,7 @@ export const sync = async (options = {}) => {
   };
 
   saveUserDataInLocalStorage({ rows }, { assignToDeck: true });
-  console.log("Data synced");
+  console.warn("Data synced");
   return {
     user_data,
     schedule,
@@ -74,6 +72,10 @@ export const sync = async (options = {}) => {
 };
 
 export const setUserData = (key, value, type) => {
+  if (!("rows" in deck.user_data)) {
+    console.error(`deck.user_data didn't have rows`);
+    deck.user_data.rows = {};
+  }
   deck.user_data.rows[key] = {
     value,
     needsSyncing: now(),
@@ -83,13 +85,17 @@ export const setUserData = (key, value, type) => {
 };
 
 export const getUserData = (key) => {
-  const val = deck.user_data?.rows?.[key];
+  const val = deck.user_data?.rows?.[key]?.value;
   if (key === "easinessLevel") {
     if (!val) return 0;
+    return val;
     return parseInt(val);
   }
-  return val;
+  return val || null;
 };
+if (isBrowser) {
+  window.getUserData = getUserData;
+}
 
 export const saveScheduleForCardId = (card_id) => {
   setUserData(card_id, deck.schedule[card_id], "schedule");
@@ -122,6 +128,10 @@ export const saveUserDataInLocalStorage = (user_data = {}, options = {}) => {
     lastSaved: now(),
   };
   if (deck && options.assignToDeck) {
+    if (!toSave.rows) {
+      console.warn({ toSave, user_data_input: user_data });
+      throw new Error(`saveUserDataInLocalStorage didn't receive rows`);
+    }
     Object.assign(deck, toSave);
   }
   timer && clearTimeout(timer);

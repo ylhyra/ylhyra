@@ -1,12 +1,10 @@
-import express from "express";
-import query from "server/database";
-import shortid from "shortid";
-import sql from "server/database/functions/SQL-template-literal";
-import cors from "cors";
-import { round, msToS, daysToMs, roundMsToHour } from "app/App/functions/time";
-import stable_stringify from "json-stable-stringify";
 import removeNullKeys from "app/App/functions/removeNullKeys.js";
+import { msToS } from "app/App/functions/time";
 import { now } from "app/App/functions/time.js";
+import express from "express";
+import stable_stringify from "json-stable-stringify";
+import query from "server/database";
+import sql from "server/database/functions/SQL-template-literal";
 
 const router = require("express").Router();
 const fs = require("fs");
@@ -86,12 +84,16 @@ const saveUserData = (req, object) => {
 
     const queries = Object.keys(object)
       .map((key) => {
+        let value = object[key].value;
+        if (typeof value !== "string" && typeof value !== "number") {
+          stable_stringify(removeNullKeys(value));
+        }
         return sql`
           INSERT INTO user_data SET
             user_id = ${req.session.user_id},
             type = ${object[key].type},
             \`key\` = ${key},
-            value = ${stable_stringify(removeNullKeys(object[key].value))}
+            value = ${value}
           ;
         `;
       })
@@ -109,3 +111,12 @@ const saveUserData = (req, object) => {
 };
 
 export default router;
+
+export const delete_test_data = () => {
+  return sql`
+    DELETE FROM user_data 
+      JOIN users ON user_data.user_id = users.id
+      WHERE username LIKE 'test_%;
+    DELETE FROM users WHERE username LIKE 'test_%';
+  `;
+};

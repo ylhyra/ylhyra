@@ -38,14 +38,13 @@ export const InitializeVocabulary = async () => {
 
   let { user_data, schedule } = (await sync()) || {};
 
+  let session = getFromLocalStorage("vocabulary-session");
   // if (getFromLocalStorage("vocabulary-session-remaining")) {
   //   session_log.push({
   //     //       seconds_spent
   //     // timestamp
   //   });
   // }
-
-  let session = getFromLocalStorage("vocabulary-session");
 
   const deck = new Deck({
     database,

@@ -1,16 +1,16 @@
 // import "core-js/stable";
-import "regenerator-runtime/runtime";
-import React, { Suspense } from "react";
-import ReactDOM from "react-dom";
-import Router from "app/Router";
-import { connect, Provider } from "react-redux";
+import { isBrowser } from "app/App/functions/isBrowser";
 import store from "app/App/store";
+import Router from "app/Router";
+import { InitializeRouter } from "app/Router/actions";
 import { InitializeUser } from "app/User/actions";
 import { InitializeVocabulary } from "app/Vocabulary/actions/init";
-import { InitializeRouter } from "app/Router/actions";
 import { TextEventListenersOn } from "documents/Read/Touch";
-import { isBrowser } from "app/App/functions/isBrowser";
 import "documents/Style/index.scss";
+import React, { Suspense } from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import "regenerator-runtime/runtime";
 
 let prerender;
 if (isBrowser && window.ylhyra_data) {

@@ -69,8 +69,9 @@ class Analytics {
     this.save();
   };
   error = (message) => {
-    if (!likelyNotABot) return;
-    axios.post(`/api/error`, { message, url: window.location.pathname });
+    // TODO! Does not work as this results in an infinite loop
+    // if (!likelyNotABot) return;
+    // axios.post(`/api/error`, { message, url: window.location.pathname });
   };
   test = () => {
     if (process.env.NODE_ENV !== "development") return;

@@ -16,11 +16,11 @@ var crypto = require("crypto");
 const speedLimit = require("express-slow-down")({
   windowMs: 15 * 60 * 1000, // 15 minutes
   delayAfter: 5,
-  delayMs: 700,
+  delayMs: process.env.TESTING ? 0 : 700,
 });
 const rateLimit = require("express-rate-limit")({
   windowMs: 1 * 60 * 1000,
-  max: 5,
+  max: process.env.TESTING ? Infinity : 5,
 });
 router.post("/user", speedLimit, rateLimit, async (req, res) => {
   let username = req.body.username?.trim().replace(/\s+/g, " ");

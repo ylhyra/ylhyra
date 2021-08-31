@@ -37,13 +37,13 @@ export const login = async (values) => {
     if (process.env.REACT_APP_PWYW === "on") {
       updateURL("/pay-what-you-want");
     } else {
-      updateURL("/");
+      updateURL("/vocabulary");
     }
   } else {
     /* TODO!!!!! */
     deck.reset();
     await sync();
-    updateURL("/");
+    updateURL("/vocabulary");
   }
 };
 

@@ -17,7 +17,7 @@ export const run = {
   reset: async () => {
     await logout();
     localStorage.clear();
-    InitializeVocabulary();
+    await InitializeVocabulary();
   },
   start_session: async () => {
     updateURL("VOCABULARY_PLAY");
@@ -39,6 +39,8 @@ export const run = {
     }
     await run.end_session();
   },
+  // fake_reload: async () => {
+  // },
   signup: async () => {
     const username = "test_" + Math.round(Math.random() * 100000);
     await login({

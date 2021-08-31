@@ -25,13 +25,16 @@ export default {
     const known2 = PercentageKnownOverall();
     shouldEqual(known1, known2);
   },
-  "Easiness level": async () => {
+  "Easiness level correctly saved": async () => {
     await run.vocabulary_session(EASY, EASY, EASY, EASY, EASY, EASY, EASY);
     const e1 = getUserData("easinessLevel");
     await run.signup_logout_login();
     assert(e1 !== 0);
     shouldEqual(e1, getUserData("easinessLevel"));
   },
-  // Unfinished session correctly scheduled and logged
-  // Unfinished session not scheduled if user is accidentally logged out
+  "Unfinished session correctly scheduled and logged": async () => {
+    // await run.fake_reload();
+  },
+  "Unfinished session not scheduled if user is accidentally logged out":
+    async () => {},
 };
