@@ -2,9 +2,10 @@ import { eraseCookie } from "app/App/functions/cookie";
 import { EASY } from "app/Vocabulary/actions/card";
 import { deck } from "app/Vocabulary/actions/deck";
 import { PercentageKnownOverall } from "app/Vocabulary/actions/functions/percentageKnown";
-import { getUserData } from "app/Vocabulary/actions/sync.js";
-import { assert, notNull, shouldEqual } from "test/index.js";
+import { getUserData } from "app/Vocabulary/actions/sync";
+import { assert, notNull, shouldEqual } from "test/index";
 import { run } from "test/run";
+import { studyParticularIds } from "app/Vocabulary/actions/functions/index";
 
 export default {
   "Progress saved upon signup": async () => {
@@ -48,5 +49,13 @@ export default {
       await run.fakeReload();
       assert(Object.keys(deck.schedule).length === 0);
     },
-  // studyParticularIds
+
+  studyParticularIds: async () => {
+    studyParticularIds();
+    await run.signup();
+    await run.vocabulary_session({ dontEnd: true });
+    eraseCookie();
+    await run.fakeReload();
+    assert(Object.keys(deck.schedule).length === 0);
+  },
 };

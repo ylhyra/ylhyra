@@ -1,5 +1,5 @@
 import { updateURL } from "app/Router/actions";
-import { login, logout } from "app/User/actions.js";
+import { login, logout } from "app/User/actions";
 import { deck } from "app/Vocabulary/actions/deck";
 import { InitializeVocabulary } from "app/Vocabulary/actions/init";
 import { eraseCookie } from "../app/App/functions/cookie";

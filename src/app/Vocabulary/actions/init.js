@@ -10,7 +10,7 @@ import { getUserFromCookie, isUserLoggedIn } from "app/User/actions";
 import { hour, day } from "app/App/functions/time";
 import { InitializeUser } from "app/User/actions";
 import { sync } from "./sync";
-import { getDeckName } from "maker/VocabularyMaker/functions.js";
+import { getDeckName } from "maker/VocabularyMaker/functions";
 
 export const InitializeVocabulary = async () => {
   let DECK = getDeckName(); /* Only used for testing */

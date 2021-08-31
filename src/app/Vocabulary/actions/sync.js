@@ -4,7 +4,7 @@ import {
   getFromLocalStorage,
   saveInLocalStorage,
 } from "app/App/functions/localStorage";
-import { now } from "app/App/functions/time.js";
+import { now } from "app/App/functions/time";
 // import { InitializeSession } from 'app/Vocabulary/actions/session'
 import { isUserLoggedIn } from "app/User/actions";
 import { deck } from "app/Vocabulary/actions/deck";

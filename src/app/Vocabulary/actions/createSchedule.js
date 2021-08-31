@@ -1,6 +1,6 @@
 import { average, clamp } from "app/App/functions/math";
 import { daysToMs, msToDays } from "app/App/functions/time";
-import { saveScheduleForCardId, sync } from "app/Vocabulary/actions/sync.js";
+import { saveScheduleForCardId, sync } from "app/Vocabulary/actions/sync";
 import { BAD, EASY, GOOD } from "./card";
 import { getCardsWithSameTerm, printWord } from "./functions";
 

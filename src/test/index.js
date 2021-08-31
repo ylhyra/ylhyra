@@ -1,5 +1,5 @@
 import forEachAsync from "app/App/functions/array-foreach-async";
-import vocabulary_tests from "test/vocabulary.test.js";
+import vocabulary_tests from "test/vocabulary.test";
 import { run } from "./run";
 
 /* Main test runner */

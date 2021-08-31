@@ -10,7 +10,7 @@ import { InitializeVocabulary } from "app/Vocabulary/actions/init";
 import { getCookie } from "app/App/functions/cookie";
 import { deck } from "app/Vocabulary/actions/deck";
 import _ from "underscore";
-import { sync } from "app/Vocabulary/actions/sync.js";
+import { sync } from "app/Vocabulary/actions/sync";
 import { isBrowser } from "app/App/functions/isBrowser";
 
 export const login = async (values) => {

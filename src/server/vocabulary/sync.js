@@ -1,4 +1,4 @@
-import removeNullKeys from "app/App/functions/removeNullKeys.js";
+import removeNullKeys from "app/App/functions/removeNullKeys";
 import { msToS } from "app/App/functions/time";
 import express from "express";
 import stable_stringify from "json-stable-stringify";

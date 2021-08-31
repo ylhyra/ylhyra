@@ -4,7 +4,7 @@ import {
   saveInLocalStorage,
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
-import { setUserData, getUserData } from "app/Vocabulary/actions/sync.js";
+import { setUserData, getUserData } from "app/Vocabulary/actions/sync";
 
 let easyInARow = 0;
 const MIN_JUMP = 50;

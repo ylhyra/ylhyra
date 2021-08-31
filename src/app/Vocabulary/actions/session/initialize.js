@@ -1,7 +1,7 @@
 import store from "app/App/store";
 import Card from "app/Vocabulary/actions/card";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
-import { syncIfNecessary } from "app/Vocabulary/actions/sync.js";
+import { syncIfNecessary } from "app/Vocabulary/actions/sync";
 
 /**
  * @memberof Session

@@ -1,7 +1,7 @@
 import { hour, day, hours, days } from "app/App/functions/time";
 import _ from "underscore";
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
-import { setUserData, getUserData } from "app/Vocabulary/actions/sync.js";
+import { setUserData, getUserData } from "app/Vocabulary/actions/sync";
 import {
   printWord,
   getCardsWithSameTerm,
