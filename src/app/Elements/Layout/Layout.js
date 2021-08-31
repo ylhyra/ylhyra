@@ -1,13 +1,8 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-
-import LoginButton from "app/User/LoginButton";
-import Link from "app/Router/Link";
-
 import Error from "app/App/Error";
-import Header from "app/Elements/Layout/Header";
 import Footer from "app/Elements/Layout/Footer";
-import Session from "app/Vocabulary/Elements/Session";
+import Header from "app/Elements/Layout/Header";
+import React from "react";
+import { connect } from "react-redux";
 
 class Layout extends React.Component {
   render() {
@@ -18,10 +13,7 @@ class Layout extends React.Component {
       <div id="container">
         <Error />
         {!is_fullscreen && <Header />}
-        <div id="content">
-          {!is_fullscreen && <Session />}
-          {this.props.children}
-        </div>
+        <div id="content">{this.props.children}</div>
         {!is_fullscreen && <Footer />}
       </div>
     );

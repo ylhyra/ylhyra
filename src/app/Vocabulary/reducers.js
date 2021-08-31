@@ -3,25 +3,11 @@ import {
   saveInLocalStorage,
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
+
 const deck = (state = null, action) => {
   switch (action.type) {
     case "LOAD_DECK":
       return action.content;
-    default:
-      return state;
-  }
-};
-
-/*
-  - started_at
-  - data
-*/
-const session = (state = null, action) => {
-  switch (action.type) {
-    case "LOAD_SESSION":
-      return action.content;
-    case "SCREEN_DONE":
-      return null;
     default:
       return state;
   }
@@ -44,26 +30,6 @@ const card = (state = {}, action) => {
   }
 };
 
-const status = (state = {}, action) => {
-  switch (action.type) {
-    case "LOAD_CARD":
-      return action.content.status || state;
-    // return flattenData(action.data)
-    default:
-      return state;
-  }
-};
-
-const screen = (state = {}, action) => {
-  switch (action.type) {
-    case "VOCABULARY_SCREEN":
-      return action.content || state;
-    // return flattenData(action.data)
-    default:
-      return state;
-  }
-};
-
 const volume = (
   state = process.env.NODE_ENV !== "development" &&
     (getFromLocalStorage("volume") === "off" ? false : true),
@@ -80,9 +46,6 @@ const volume = (
 
 export const vocabulary = combineReducers({
   deck,
-  session,
   card,
-  status,
-  screen,
   volume,
 });

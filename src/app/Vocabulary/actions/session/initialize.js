@@ -1,38 +1,29 @@
 import store from "app/App/store";
-import _ from "underscore";
-import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
-import {
-  printWord,
-  getCardsWithSameTerm,
-  // filterOnlyCardsThatExist,
-} from "app/Vocabulary/actions/functions";
-import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
+import Card from "app/Vocabulary/actions/card";
 import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
-import createCards from "app/Vocabulary/actions/createCards";
 import { syncIfNecessary } from "app/Vocabulary/actions/sync.js";
 
 /**
  * @memberof Session
  */
-export async function InitializeSession(input, shouldReset) {
+export async function InitializeSession(options = {}) {
   await syncIfNecessary();
   const session = this;
-  shouldReset !== false && this.reset();
-  // this.allowed_card_ids = null;
-  if (Array.isArray(input)) {
-    this.loadCards(input);
+  if (options.shouldReset !== false) {
+    this.reset();
   }
+  // this.allowed_card_ids = null;
+  // if (Array.isArray(input)) {
+  //   this.loadCards(input);
+  // }
   this.checkIfCardsRemaining();
   this.nextCard();
-  store.dispatch({
-    type: "LOAD_SESSION",
-    content: session,
-  });
   this.loadCard();
 }
 
 /**
  * @memberof Session
+ * Used to load more cards into an already ongoing session
  */
 export function loadCards(card_ids) {
   let insertAtPosition = this.cards.filter((i) => !i.done).length;

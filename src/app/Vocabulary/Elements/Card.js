@@ -89,7 +89,7 @@ class Card extends Component {
   answer = (i, timeout, e) => {
     e?.stopPropagation();
     if (this.state.answer) return;
-    const { session } = this.props.vocabulary;
+    const { session } = this.props.vocabulary.deck;
     if (timeout === false) {
       session.answer(i);
     } else {
@@ -137,7 +137,7 @@ class Card extends Component {
     this.sound(true);
   };
   render() {
-    const { card, status, volume, deck } = this.props.vocabulary;
+    const { card, volume, deck } = this.props.vocabulary;
     const { answered } = card;
     // console.log(card)
     // console.log({card,answer})
@@ -187,7 +187,7 @@ class Card extends Component {
           ${card.sound && volume ? "has-sound" : ""}
           ${isNew ? "new" : ""}
         `}
-        key={status.counter}
+        // key={status.counter}
         onClick={() => this.show(false)}
       >
         <div

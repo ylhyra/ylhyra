@@ -54,10 +54,6 @@ export const logout = async () => {
     type: "LOAD_USER",
     content: null,
   });
-  store.dispatch({
-    type: "LOAD_SESSION",
-    content: null,
-  });
   updateURL("/frontpage");
 };
 

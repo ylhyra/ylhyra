@@ -1,17 +1,13 @@
-import Session from "app/Vocabulary/actions/session";
-import createCards from "app/Vocabulary/actions/createCards";
-import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
 import { isBrowser } from "app/App/functions/isBrowser";
+import { round } from "app/App/functions/math";
+import { updateURL } from "app/Router/actions";
+import { EASY, GOOD } from "app/Vocabulary/actions/card";
+import { deck } from "app/Vocabulary/actions/deck";
 import {
   getHash,
   getPlaintextFromFormatted,
 } from "maker/VocabularyMaker/functions";
-import store from "app/App/store";
-import { updateURL } from "app/Router/actions";
-import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import _ from "underscore";
-import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
-import { deck } from "app/Vocabulary/actions/deck";
 
 export const MakeSummaryOfCardStatuses = (card_ids) => {
   let not_seen = 0;
@@ -69,12 +65,12 @@ export const getCardsWithSameTerm = (id) => {
 //   return card_ids.filter(id => id in deck.cards)
 // }
 
-export const studyParticularIds = (allowed_card_ids) => {
+export const studyParticularIds = async (allowed_card_ids) => {
   const { session } = deck;
   session.reset();
   session.allowed_card_ids = allowed_card_ids;
   session.createCards();
-  session.InitializeSession(null, false);
+  await session.InitializeSession({ shouldReset: false });
   updateURL("/vocabulary/play");
 };
 

@@ -1,5 +1,4 @@
 import store from "app/App/store";
-import { printWord } from "app/Vocabulary/actions/functions";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
 
 /**
@@ -51,7 +50,6 @@ export function checkIfCardsRemaining() {
   const areThereNewCardsRemaining = this.cards.some(
     (i) => i.history.length === 0 && !i.done && i.canBeShown()
   );
-  console.log(this.cards);
   if (!areThereNewCardsRemaining) {
     console.log("No cards remaining");
     this.createMoreCards();
@@ -79,7 +77,7 @@ export function createMoreCards() {
  */
 export function loadCard() {
   const session = this;
-  if (!session || !session.currentCard) return console.error("no cards");
+  if (!session?.currentCard) return console.error("no cards");
   store.dispatch({
     type: "LOAD_CARD",
     content: {
@@ -87,18 +85,18 @@ export function loadCard() {
       counter: session.counter,
     },
   });
-  if (
-    this.deck.schedule[session.currentCard.id] &&
-    process.env.NODE_ENV === "development"
-  ) {
-    console.log(
-      `Score of "${printWord(session.currentCard.id)}": ${
-        this.deck.schedule[session.currentCard.id].score
-      } - last interval: ${
-        this.deck.schedule[session.currentCard.id].last_interval_in_days
-      }`
-    );
-  }
+  // if (
+  //   this.deck.schedule[session.currentCard.id] &&
+  //   process.env.NODE_ENV === "development"
+  // ) {
+  //   console.log(
+  //     `Score of "${printWord(session.currentCard.id)}": ${
+  //       this.deck.schedule[session.currentCard.id].score
+  //     } - last interval: ${
+  //       this.deck.schedule[session.currentCard.id].last_interval_in_days
+  //     }`
+  //   );
+  // }
 }
 
 /**

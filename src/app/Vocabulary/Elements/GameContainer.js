@@ -18,13 +18,16 @@ class GameContainer extends Component {
   };
   componentDidUpdate = () => {
     const { deck, session } = this.props.vocabulary;
-    if (deck && !session) {
+    if (!deck.session.currentCard) {
+      console.log(
+        "No current card when GameContainer was loaded, initializing"
+      );
       deck.session.InitializeSession();
     }
   };
   render() {
-    const { status, session } = this.props.vocabulary;
-    if (!session) return null;
+    // const { deck, status, session } = this.props.vocabulary;
+    // if (!session) return null;
     return (
       <div id="game-container">
         <div className="vocabulary-card-outer-container">

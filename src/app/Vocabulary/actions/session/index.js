@@ -71,10 +71,6 @@ class Session {
     this.clearInLocalStorage();
     if (!options.isInitializing) {
       updateURL(window.location.pathname);
-      store.dispatch({
-        type: "LOAD_SESSION",
-        content: null,
-      });
     }
     /* Analytics */
     if (this.getSecondsSpent() > 20) {
