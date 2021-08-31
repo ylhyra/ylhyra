@@ -1,13 +1,4 @@
-import { deck } from "app/Vocabulary/actions/deck";
-import {
-  PercentageKnown,
-  PercentageKnownOverall,
-} from "app/Vocabulary/actions/functions/percentageKnown";
-import { updateURL } from "app/Router/actions";
 import forEachAsync from "app/App/functions/array-foreach-async";
-import { login, logout } from "app/User/actions.js";
-import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
-import { InitializeVocabulary } from "app/Vocabulary/actions/init";
 import vocabulary_tests from "test/vocabulary.test.js";
 import { run } from "./run";
 
@@ -43,6 +34,12 @@ export const assert = (i) => {
   if (!i) {
     throw new Error();
   }
+};
+
+export const notNull = (...vals) => {
+  vals.forEach((val) => {
+    assert(val && val !== "0");
+  });
 };
 
 export const wait = (ms) => {

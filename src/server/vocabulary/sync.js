@@ -79,6 +79,7 @@ const saveUserData = (req, object) => {
     if (Object.keys(object).length === 0) {
       return resolve();
     } else if (Object.keys(object).length > 10000) {
+      // TODO
       throw new Error("Too long");
     }
 
@@ -86,7 +87,7 @@ const saveUserData = (req, object) => {
       .map((key) => {
         let value = object[key].value;
         if (typeof value !== "string" && typeof value !== "number") {
-          stable_stringify(removeNullKeys(value));
+          value = stable_stringify(removeNullKeys(value));
         }
         return sql`
           INSERT INTO user_data SET

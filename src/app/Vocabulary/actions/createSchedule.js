@@ -1,8 +1,8 @@
-import { printWord, getCardsWithSameTerm } from "./functions";
-import { BAD, GOOD, EASY } from "./card";
-import { daysToMs, msToDays, hours } from "app/App/functions/time";
-import { average, clamp, mapValueToRange, round } from "app/App/functions/math";
-import { sync, saveScheduleForCardId } from "app/Vocabulary/actions/sync.js";
+import { average, clamp } from "app/App/functions/math";
+import { daysToMs, msToDays } from "app/App/functions/time";
+import { saveScheduleForCardId, sync } from "app/Vocabulary/actions/sync.js";
+import { BAD, EASY, GOOD } from "./card";
+import { getCardsWithSameTerm, printWord } from "./functions";
 
 /* Increment score by how much? */
 export const INCR = 0.4;
@@ -72,7 +72,7 @@ export async function createSchedule() {
       if (actual_interval_in_days / last_interval_in_days < 0.3) {
         const new_due_in_days = last_interval_in_days;
         process.env.NODE_ENV === "development" &&
-          console.warn(
+          console.log(
             `${printWord(
               card.id
             )} - given ${new_due_in_days} instead of ${due_in_days}`

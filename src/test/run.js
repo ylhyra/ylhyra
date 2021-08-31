@@ -1,14 +1,8 @@
-import { deck } from "app/Vocabulary/actions/deck";
-import {
-  PercentageKnown,
-  PercentageKnownOverall,
-} from "app/Vocabulary/actions/functions/percentageKnown";
 import { updateURL } from "app/Router/actions";
-import forEachAsync from "app/App/functions/array-foreach-async";
 import { login, logout } from "app/User/actions.js";
-import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
+import { deck } from "app/Vocabulary/actions/deck";
 import { InitializeVocabulary } from "app/Vocabulary/actions/init";
-import vocabulary_tests from "test/vocabulary.test.js";
+import { eraseCookie } from "../app/App/functions/cookie";
 
 /* 
   Various smaller recipes 
@@ -17,6 +11,7 @@ export const run = {
   reset: async () => {
     await logout();
     localStorage.clear();
+    eraseCookie();
     await InitializeVocabulary();
   },
   start_session: async () => {
@@ -26,10 +21,10 @@ export const run = {
   end_session: async () => {
     await deck.session.sessionDone();
   },
-  vocabulary_session: async (...vals) => {
+  vocabulary_session: async (options = {}) => {
     await run.start_session();
-    if (vals) {
-      vals.forEach((v) => {
+    if (options.values) {
+      options.values.forEach((v) => {
         deck.session.answer(v);
       });
     } else {
@@ -37,10 +32,14 @@ export const run = {
         deck.session.answer(Math.ceil(Math.random() * 3));
       }
     }
-    await run.end_session();
+    if (!options.dontEnd) {
+      await run.end_session();
+    }
   },
-  // fake_reload: async () => {
-  // },
+  fakeReload: async () => {
+    deck.reset();
+    await InitializeVocabulary();
+  },
   signup: async () => {
     const username = "test_" + Math.round(Math.random() * 100000);
     await login({

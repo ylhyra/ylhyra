@@ -20,6 +20,6 @@ export function getCookie(name) {
   return null;
 }
 
-function eraseCookie(name) {
+export function eraseCookie(name) {
   document.cookie = name + "=; Max-Age=-99999999;";
 }

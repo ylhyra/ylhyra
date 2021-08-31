@@ -28,7 +28,8 @@ export const SESSION_PREFIX = "s_";
   - tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
 */
 export const sync = async (options = {}) => {
-  let user_data = deck || getFromLocalStorage("vocabulary-user-data") || {};
+  let user_data =
+    deck?.user_data || getFromLocalStorage("vocabulary-user-data") || {};
   let rows = user_data.rows || {};
   const { lastSynced } = user_data;
 
