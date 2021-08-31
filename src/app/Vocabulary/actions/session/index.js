@@ -109,10 +109,15 @@ class Session {
   saveSessionLog() {
     if (this.cardHistory.length > 0) {
       const timestamp = this.savedAt || new Date().getTime();
-      setUserData(SESSION_PREFIX + timestamp, {
-        seconds_spent: this.getSecondsSpent(),
-        timestamp,
-      });
+      const timestamp_in_seconds = Math.round(timestamp / 1000);
+      setUserData(
+        SESSION_PREFIX + timestamp_in_seconds,
+        {
+          seconds_spent: this.getSecondsSpent(),
+          timestamp,
+        },
+        "session"
+      );
     } else {
       console.log("Not logged");
     }

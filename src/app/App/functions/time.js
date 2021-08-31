@@ -12,7 +12,7 @@ export const days = day;
 export const hour = msInHour;
 export const hours = hour;
 
-export const now = new Date().getTime();
+export const now = () => new Date().getTime();
 
 export const round = (input, zeroes) => {
   const i = 10 ** zeroes;

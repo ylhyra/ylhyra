@@ -194,10 +194,12 @@ DROP TABLE IF EXISTS user_data;
 CREATE TABLE user_data (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_id INT UNSIGNED,
+  `type` VARCHAR(10),
   `key` VARCHAR(20) NOT NULL,
   `value` JSON,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   INDEX (user_id),
+  INDEX (type),
   INDEX (`key`),
   INDEX (created_at)
 ) ROW_FORMAT=COMPRESSED;

@@ -21,10 +21,7 @@ router.post("/vocabulary/sync", async (req, res) => {
   }
   try {
     const unsyncedFromServer = await getUserData(req);
-    const unsyncedFromUser = Object.keys(req.body.unsynced).map((key) => ({
-      key,
-      ...req.body.unsynced[key],
-    }));
+    const unsyncedFromUser = req.body.unsynced;
     // // Filter based on time?
     // .filter(item=>{
     // })
@@ -47,7 +44,8 @@ const getUserData = (req) => {
       sql`
         SELECT
           a.key,
-          a.value
+          a.value,
+          a.type
         FROM user_data a
         INNER JOIN (
           SELECT max(id) id, \`key\` FROM user_data
@@ -64,9 +62,10 @@ const getUserData = (req) => {
           throw new Error();
         } else {
           let out = {};
-          results.forEach(({ key, value }) => {
+          results.forEach(({ key, value, type }) => {
             out[key] = {
               value: JSON.parse(value),
+              type,
             };
           });
           resolve(out);
@@ -76,26 +75,26 @@ const getUserData = (req) => {
   });
 };
 
-const saveUserData = (req, unsyncedScheduleFromUser) => {
+const saveUserData = (req, object) => {
   return new Promise((resolve) => {
-    if (unsyncedScheduleFromUser.length > 10000) {
+    if (Object.keys(object).length === 0) {
+      return resolve();
+    } else if (Object.keys(object).length > 10000) {
       throw new Error("Too long");
     }
 
-    const queries = unsyncedScheduleFromUser
-      .map((item) => {
-        if (!item.due) return "";
+    const queries = Object.keys(object)
+      .map((key) => {
         return sql`
           INSERT INTO user_data SET
             user_id = ${req.session.user_id},
-            key = ${item.card_id},
-            value = ${stable_stringify(removeNullKeys())}
-            ;
+            type = ${object[key].type},
+            \`key\` = ${key},
+            value = ${stable_stringify(removeNullKeys(object[key].value))}
+          ;
         `;
       })
       .join("");
-
-    if (!queries) return resolve();
 
     query(queries, (err, results) => {
       if (err) {

@@ -10,19 +10,20 @@ import {
 } from "app/App/functions/localStorage";
 import { deck } from "app/Vocabulary/actions/deck";
 import { now } from "app/App/functions/time.js";
-export const SESSION_PREFIX = "session_";
+export const SESSION_PREFIX = "s_";
 
 /*
-  User data is stored on {
-    user_id,
-    lastSynced,
-    data: { 
-      key: { 
-        value,
-        needsSyncing,
+  User data is stored on 
+    {
+      user_id,
+      lastSynced,
+      user_data: { 
+        key: { 
+          value,
+          needsSyncing,
+        }
       }
     }
-  }
 
   TODO: skrá notanda í gögn!
 */
@@ -30,7 +31,7 @@ export const sync = async (options = {}) => {
   let { user_data, lastSynced } =
     deck || getFromLocalStorage("vocabulary-user-data") || {};
 
-  // schedule = schedule || {};
+  user_data = user_data || {};
 
   // if (getFromLocalStorage("vocabulary-session-remaining")) {
   //   session_log.push({
@@ -39,19 +40,14 @@ export const sync = async (options = {}) => {
   //   });
   // }
 
-  // saveInLocalStorage("vocabulary-user-data", {
-  //   schedule,
-  //   session_log,
-  //   easinessLevel,
-  //   lastSynced,
-  // });
+  saveUserDataInLocalStorage(user_data);
 
   if (!isUserLoggedIn()) {
     console.log(`Not synced to server as user isn't logged in`);
     return;
   }
 
-  const unsynced = getUnsynced(user_data);
+  const unsynced = getUnsynced(user_data, options);
 
   const response = (
     await axios.post(`/api/vocabulary/sync`, {
@@ -60,62 +56,72 @@ export const sync = async (options = {}) => {
     })
   ).data;
 
-  // // console.log({ response });
+  user_data = mergeResponse(user_data, response.user_data);
+  const schedule = {};
+  Object.keys(user_data).forEach((key) => {
+    if (user_data[key].type === "schedule") {
+      schedule[key] = user_data[key].value;
+    }
+  });
 
   const data = {
-    user_data: mergeResponse(user_data, response.user_data),
+    user_data,
+    schedule,
     lastSynced: response.lastSynced,
   };
+  console.log({ data });
 
-  // saveUserDataInLocalStorage(data, { assignToDeck: true });
-  // console.log("Data synced");
-  // return data;
+  saveUserDataInLocalStorage(data, { assignToDeck: true });
+  console.log("Data synced");
+  return data;
 };
 
-export const setUserData = (key, value) => {
+export const setUserData = (key, value, type) => {
   deck.user_data[key] = {
     value,
     needsSyncing: now(),
+    type,
   };
   saveUserDataInLocalStorage();
 };
 export const saveScheduleForCardId = (card_id) => {
-  setUserData(card_id, deck.schedule[card_id]);
+  setUserData(card_id, deck.schedule[card_id], "schedule");
 };
 
 export const syncIfNecessary = async () => {
-  // if (!deck) return;
-  // const user_data = getFromLocalStorage("vocabulary-user-data");
-  // /* Localstorage data has been updated in another tab, so we reload */
-  // if (user_data) {
-  //   if (user_data.lastSaved > deck.lastSaved) {
-  //     saveUserDataInLocalStorage(user_data, { assignToDeck: true });
-  //   }
-  // }
-  // if (isUserLoggedIn()) {
-  //   /* Sync if more than 10 minutes since sync */
-  //   if (now() > deck.lastSynced + 10 * 60 * 1000) {
-  //     await sync();
-  //   }
-  // }
+  if (!deck) return;
+  const data = getFromLocalStorage("vocabulary-user-data");
+  /* Localstorage data has been updated in another tab, so we reload */
+  if (data) {
+    if (data.lastSaved > deck.lastSaved) {
+      saveUserDataInLocalStorage(data, { assignToDeck: true });
+    }
+  }
+  if (isUserLoggedIn()) {
+    /* Sync if more than 10 minutes since sync */
+    if (now() > deck.lastSynced + 10 * 60 * 1000) {
+      // TODO
+      await sync();
+    }
+  }
 };
 
-/* TODO set timeout */
-export const saveUserDataInLocalStorage = (input, options = {}) => {
-  // if (!input && !deck) return;
-  // const toSave = {
-  //   schedule: (input || deck)?.schedule,
-  //   session_log: (input || deck)?.session_log,
-  //   easinessLevel: (input || deck)?.easinessLevel,
-  //   lastSynced: (input || deck)?.lastSynced,
-  //   lastSaved: now(),
-  // };
-  // saveInLocalStorage("vocabulary-user-data", toSave);
-  // if (options.assignToDeck) {
-  //   if (deck) {
-  //     Object.assign(deck, toSave);
-  //   }
-  // }
+let timer;
+export const saveUserDataInLocalStorage = (data, options = {}) => {
+  if (!data && !deck) return;
+  const toSave = {
+    ...data,
+    lastSaved: now(),
+  };
+  if (options.assignToDeck) {
+    if (deck) {
+      Object.assign(deck, toSave);
+    }
+  }
+  timer && clearTimeout(timer);
+  timer = setTimeout(() => {
+    saveInLocalStorage("vocabulary-user-data", toSave);
+  }, 1000);
 };
 
 const getUnsynced = (obj, options) => {
@@ -134,7 +140,7 @@ const mergeResponse = (local, server) => {
     delete local[key].needsSyncing;
   });
   Object.keys(server).forEach((key) => {
-    local[key] = { value: server[key] };
+    local[key] = server[key];
   });
   return local;
 };
