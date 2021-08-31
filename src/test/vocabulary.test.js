@@ -6,6 +6,8 @@ import { getUserData } from "app/Vocabulary/actions/sync";
 import { assert, notNull, shouldEqual } from "test/index";
 import { run } from "test/run";
 import { studyParticularIds } from "app/Vocabulary/actions/functions/index";
+import _ from "underscore";
+import { printWord } from "app/Vocabulary/actions/functions";
 
 export default {
   "Progress saved upon signup": async () => {
@@ -51,11 +53,17 @@ export default {
     },
 
   studyParticularIds: async () => {
-    studyParticularIds();
-    await run.signup();
-    await run.vocabulary_session({ dontEnd: true });
-    eraseCookie();
-    await run.fakeReload();
-    assert(Object.keys(deck.schedule).length === 0);
+    const card_ids = _.shuffle(Object.keys(deck.cards)).slice(0, 4);
+    await studyParticularIds(card_ids);
+    assert(
+      card_ids.every((card_id) =>
+        deck.session.cards.some((card) => card_id === card.id)
+      ),
+      `\nExpected session to include\n> ${card_ids
+        .map(printWord)
+        .join(", ")}\nbut got \n> ${deck.session.cards
+        .map((c) => printWord(c.id))
+        .join(", ")}`
+    );
   },
 };

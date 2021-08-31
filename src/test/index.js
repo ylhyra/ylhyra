@@ -30,9 +30,9 @@ export const shouldEqual = (first, second) => {
   }
 };
 
-export const assert = (i) => {
+export const assert = (i, desc) => {
   if (!i) {
-    throw new Error();
+    throw new Error(desc);
   }
 };
 
