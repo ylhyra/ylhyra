@@ -2,6 +2,7 @@ import { hour, day, hours, days } from "app/App/functions/time";
 import _ from "underscore";
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
 import { INCR } from "app/Vocabulary/actions/createSchedule";
+import { setUserData, getUserData } from "app/Vocabulary/actions/sync.js";
 import {
   printWord,
   getCardsWithSameTerm,
@@ -73,7 +74,8 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
       .map((id) => {
         const { sortKey } = deck.cards[id];
         return {
-          key: sortKey > deck.easinessLevel ? sortKey : 100000 - sortKey,
+          key:
+            sortKey > getUserData("easinessLevel") ? sortKey : 100000 - sortKey,
           id,
         };
       })

@@ -4,8 +4,10 @@ import {
   PercentageKnownOverall,
 } from "app/Vocabulary/actions/functions/percentageKnown";
 import { updateURL } from "app/Router/actions";
-import { run, shouldEqual, reset, wait } from "test/index.js";
+import { shouldEqual, assert, reset, wait } from "test/index.js";
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
+import { setUserData, getUserData } from "app/Vocabulary/actions/sync.js";
+import { run } from "./run";
 
 export default {
   "Progress saved upon signup": async () => {
@@ -25,9 +27,10 @@ export default {
   },
   "Easiness level": async () => {
     await run.vocabulary_session(EASY, EASY, EASY, EASY, EASY, EASY, EASY);
-    const e1 = deck.easinessLevel;
+    const e1 = getUserData("easinessLevel");
     await run.signup_logout_login();
-    shouldEqual(e1, deck.easinessLevel);
+    assert(e1 !== 0);
+    shouldEqual(e1, getUserData("easinessLevel"));
   },
   // Unfinished session correctly scheduled and logged
   // Unfinished session not scheduled if user is accidentally logged out

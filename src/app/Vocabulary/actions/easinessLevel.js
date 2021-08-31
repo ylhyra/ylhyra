@@ -4,7 +4,7 @@ import {
   saveInLocalStorage,
   getFromLocalStorage,
 } from "app/App/functions/localStorage";
-import { setUserData } from "app/Vocabulary/actions/sync.js";
+import { setUserData, getUserData } from "app/Vocabulary/actions/sync.js";
 
 let easyInARow = 0;
 const MIN_JUMP = 50;
@@ -26,10 +26,10 @@ export function trackEasiness(rating, isNew) {
         let change = Math.min(last_jump_up * 2 || MIN_JUMP, MAX_JUMP);
         last_jump_up = change;
         const newValue = Math.min(
-          Math.max(0, (deck.easinessLevel || 0) + change),
+          Math.max(0, (getUserData("easinessLevel") || 0) + change),
           getLowestBadSortKey() || getMaxSortKey() || deck.cards_sorted.length
         );
-        if (newValue !== deck.easinessLevel) {
+        if (newValue !== getUserData("easinessLevel")) {
           setEasinessLevel(newValue);
           recreateAfterChangingEasinessLevel();
         }
@@ -37,9 +37,9 @@ export function trackEasiness(rating, isNew) {
     } else {
       easyInARow = 0;
     }
-    if (rating === BAD && deck.easinessLevel) {
+    if (rating === BAD && getUserData("easinessLevel")) {
       let min = deck.session.currentCard.sortKey - DEFAULT_JUMP_DOWN;
-      if (min < deck.easinessLevel) {
+      if (min < getUserData("easinessLevel")) {
         setEasinessLevel(Math.max(0, min));
       }
     }
@@ -79,14 +79,14 @@ const recreateAfterChangingEasinessLevel = () => {
   );
   let tmp_index = 0;
   deck.session.cards.forEach((card) => {
-    if (card.sortKey < deck.easinessLevel) {
+    if (card.sortKey < getUserData("easinessLevel")) {
       card.showIn({ minInterval: 100 });
     }
     // else if (
     //   !card.done &&
     //   change < 0 &&
-    //   card.sortKey > deck.easinessLevel &&
-    //   card.sortKey <= deck.easinessLevel - change
+    //   card.sortKey > getUserData('easinessLevel') &&
+    //   card.sortKey <= getUserData('easinessLevel') - change
     // ) {
     //   card.showIn({ minInterval: tmp_index });
     // }

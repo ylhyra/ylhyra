@@ -27,7 +27,8 @@ router.post("/vocabulary/sync", async (req, res) => {
     // })
     await saveUserData(req, unsyncedFromUser);
     res.send({
-      user_data: unsyncedFromServer || {},
+      user_id: req.session.user_id,
+      rows: unsyncedFromServer || {},
       lastSynced: now(),
     });
   } catch (e) {

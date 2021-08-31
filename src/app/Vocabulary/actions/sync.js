@@ -25,7 +25,9 @@ export const SESSION_PREFIX = "s_";
       }
     }
 
-  TODO: skrá notanda í gögn!
+  TODO: 
+  - skrá notanda í gögn!
+  - tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
 */
 export const sync = async (options = {}) => {
   let user_data = deck || getFromLocalStorage("vocabulary-user-data") || {};
@@ -48,7 +50,9 @@ export const sync = async (options = {}) => {
     })
   ).data;
 
-  rows = mergeResponse(rows, response.user_data);
+  // response.user_id
+
+  rows = mergeResponse(rows, response.rows);
   const schedule = {};
   Object.keys(rows).forEach((key) => {
     if (rows[key].type === "schedule") {
@@ -76,6 +80,15 @@ export const setUserData = (key, value, type) => {
     type,
   };
   saveUserDataInLocalStorage();
+};
+
+export const getUserData = (key) => {
+  const val = deck.user_data?.rows?.[key];
+  if (key === "easinessLevel") {
+    if (!val) return 0;
+    return parseInt(val);
+  }
+  return val;
 };
 
 export const saveScheduleForCardId = (card_id) => {
@@ -128,6 +141,7 @@ const getUnsynced = (obj, options) => {
   });
   return to_save;
 };
+
 const mergeResponse = (local, server) => {
   Object.keys(local).forEach((key) => {
     delete local[key].needsSyncing;

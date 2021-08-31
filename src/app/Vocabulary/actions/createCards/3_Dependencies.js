@@ -1,6 +1,7 @@
 import { hour, day, hours, days } from "app/App/functions/time";
 import _ from "underscore";
 import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
+import { setUserData, getUserData } from "app/Vocabulary/actions/sync.js";
 import {
   printWord,
   getCardsWithSameTerm,
@@ -19,7 +20,7 @@ export default ({ chosen_ids, forbidden_ids }) => {
       chosen_ids.includes(card_id) ||
       /* Ignore cards that are below user's easiness level */
       (deck.cards[card_id].sortKey >=
-        ((deck.isEasinessLevelOn() && deck.easinessLevel) || 0) &&
+        ((deck.isEasinessLevelOn() && getUserData("easinessLevel")) || 0) &&
         /* Dependency that is not known */
         (!(card_id in deck.schedule) ||
           (deck.schedule[card_id].score &&
