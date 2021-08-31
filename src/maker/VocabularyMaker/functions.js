@@ -1,10 +1,9 @@
-import c from "app/App/functions/no-undefined-in-template-literal";
-import _ from "underscore";
 import _hash from "app/App/functions/hash";
 import { isBrowser } from "app/App/functions/isBrowser";
-import { URL_title, section_id } from "paths";
+import c from "app/App/functions/no-undefined-in-template-literal";
+import { getUserFromCookie } from "app/User/actions";
 import { ProcessLinks } from "documents/Compile/functions/links";
-import { getUserFromCookie, isUserLoggedIn } from "app/User/actions";
+import _ from "underscore";
 
 /* Only used for testing */
 export const getDeckName = () => {
@@ -32,8 +31,10 @@ export const getPlaintextFromFormatted = (input) => {
     input
       .replace(/<span class="seperator">,<\/span>/g, ";")
       .replace(/<span class="seperator">;<\/span>/g, ";;")
+      .replace(/<\/li><li>/g, ";; ")
       .replace(/<.+?>/g, "")
       .replace(/[—–]/g, "-")
+      .replace(/  +/g, " ")
   );
 };
 export const removeWhitespace = (input) => {
@@ -94,9 +95,10 @@ export const formatVocabularyEntry = (input) => {
       return c`<span class="occluded"><span>${text}</span></span>`;
     })
     .replace(/ [-–] /g, ` <span class="gray">–</span> `)
-    .replace(/;;/g, `MAJOR_SEPERATOR`)
+    .replace(/;;+/g, `MAJOR_SEPERATOR`)
     .replace(/;/g, `<span class="seperator">,</span>`)
-    .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
+    // .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
+    // .replace(/(.+)MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
     .replace(/'/g, "’")
     .replace(
       /{{p(?:ron)?\|(.+?)}}/g,
@@ -110,6 +112,13 @@ export const formatVocabularyEntry = (input) => {
     .replace(/{{bhft}}/g, `Speaking to a group`)
     .replace(/{{ft}}/g, `<sup>(plural)</sup>`)
     .trim();
+
+  if (/MAJOR_SEPERATOR/.test(input)) {
+    input = `<ol>${input
+      .split(/MAJOR_SEPERATOR ?/)
+      .map((i) => `<li>${i}</li>`)
+      .join("")}</ol>`;
+  }
 
   if (/{{/.test(input)) {
     console.warn(`Unprocessed template: ${input.match(/({{.+?}})/)[1]}`);

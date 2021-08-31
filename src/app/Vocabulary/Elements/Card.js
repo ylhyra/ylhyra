@@ -1,10 +1,10 @@
+import store from "app/App/store";
+import { BAD, EASY, GOOD } from "app/Vocabulary/actions/card";
+import AudioClip from "documents/Render/Audio/AudioClip";
+import { getPlaintextFromFormatted } from "maker/VocabularyMaker/functions";
+import { get_processed_image_url } from "paths";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
-import store from "app/App/store";
-import AudioClip from "documents/Render/Audio/AudioClip";
-import { get_processed_image_url } from "paths";
-import { getPlaintextFromFormatted } from "maker/VocabularyMaker/functions";
 class Card extends Component {
   state = {};
   componentDidMount() {
@@ -177,7 +177,7 @@ class Card extends Component {
     );
     note_regarding_english = html(note_regarding_english);
     note = html(note);
-    const isNew = deck.session.currentCard.isNewTerm();
+    const isNew = deck.session.currentCard?.isNewTerm();
     return (
       <div
         className={`

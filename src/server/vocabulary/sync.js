@@ -1,6 +1,5 @@
 import removeNullKeys from "app/App/functions/removeNullKeys.js";
 import { msToS } from "app/App/functions/time";
-import { now } from "app/App/functions/time.js";
 import express from "express";
 import stable_stringify from "json-stable-stringify";
 import query from "server/database";
@@ -27,7 +26,7 @@ router.post("/vocabulary/sync", async (req, res) => {
     res.send({
       user_id: req.session.user_id,
       rows: unsyncedFromServer || {},
-      lastSynced: now(),
+      lastSynced: new Date().getTime(),
     });
   } catch (e) {
     if (typeof e !== "string") {

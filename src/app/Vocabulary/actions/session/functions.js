@@ -1,14 +1,5 @@
 import store from "app/App/store";
-import _ from "underscore";
-import Card, { BAD, GOOD, EASY } from "app/Vocabulary/actions/card";
-import {
-  printWord,
-  getCardsWithSameTerm,
-  // filterOnlyCardsThatExist,
-} from "app/Vocabulary/actions/functions";
-import { PercentageKnown } from "app/Vocabulary/actions/functions/percentageKnown";
-import { withDependencies } from "app/Vocabulary/actions/functions/withDependencies";
-import createCards from "app/Vocabulary/actions/createCards";
+import { printWord } from "app/Vocabulary/actions/functions";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/Vocabulary/actions/session";
 
 /**
@@ -60,6 +51,7 @@ export function checkIfCardsRemaining() {
   const areThereNewCardsRemaining = this.cards.some(
     (i) => i.history.length === 0 && !i.done && i.canBeShown()
   );
+  console.log(this.cards);
   if (!areThereNewCardsRemaining) {
     console.log("No cards remaining");
     this.createMoreCards();

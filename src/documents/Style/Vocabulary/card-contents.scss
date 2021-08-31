@@ -63,6 +63,16 @@
     display: none;
   }
 
+  ol {
+    text-align: left;
+    li ::marker {
+      color: #8c8c8c;
+      font-weight: 300;
+      font-size: 95%;
+      @include sans-serif();
+    }
+  }
+
   /* Þú-merging */
   &.answered {
     .flashcard-top,

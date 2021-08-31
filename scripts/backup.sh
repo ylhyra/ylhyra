@@ -5,4 +5,4 @@ mysqldump \
   --skip-extended-insert \
   ylhyra \
   user_data payments analytics users \
-  | gzip > backup.$(date +%F.%H-%M-%S).sql
+  | gzip > ylhyra.$(date +%F.%H-%M-%S).sql.gz

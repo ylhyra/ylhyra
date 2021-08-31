@@ -1,15 +1,8 @@
-import atob from "atob";
 import generate_html from "documents/Compile";
-import {
-  getHash,
-  GetLowercaseStringForAudioKey,
-} from "maker/VocabularyMaker/functions";
-import {
-  EncodeDataInHTML,
-  DecodeDataInHTML,
-} from "documents/Compile/functions/functions";
+import { DecodeDataInHTML } from "documents/Compile/functions/functions";
 
 export default async (getRawSentences) => {
+  if (process.env.DECK) return {};
   /****************
    * Read the page "Course" and find the order of its vocabulary list
    ***************/

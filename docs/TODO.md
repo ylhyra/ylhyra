@@ -23,6 +23,7 @@
 - TODO ekki loada ef preload er enn í gangi
 - TODO skrá hvaða greinar notandi hefur lesið
 - TODO reloada reglulega, t.d. ef notandi skráir sig inn í öðrum glugga
+- TODO axios retry
 
 # uppfæra í gagnagrunni
 
