@@ -41,7 +41,7 @@ export const run = {
     await InitializeVocabulary();
   },
   signup: async () => {
-    const username = "test_" + Math.round(Math.random() * 100000);
+    const username = "test_" + Math.round(Math.random() * 1000000);
     await login({
       type: "signup",
       username,

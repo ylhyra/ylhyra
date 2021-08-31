@@ -1,3 +1,4 @@
+import { eraseCookie } from "app/App/functions/cookie";
 import { EASY } from "app/Vocabulary/actions/card";
 import { deck } from "app/Vocabulary/actions/deck";
 import { PercentageKnownOverall } from "app/Vocabulary/actions/functions/percentageKnown";
@@ -40,5 +41,11 @@ export default {
     // TODO logging
   },
   "Unfinished session not scheduled if user is accidentally logged out":
-    async () => {},
+    async () => {
+      await run.signup();
+      await run.vocabulary_session({ dontEnd: true });
+      eraseCookie();
+      await run.fakeReload();
+      assert(Object.keys(deck.schedule).length === 0);
+    },
 };

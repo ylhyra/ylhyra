@@ -87,6 +87,9 @@ module.exports = {
       // },
     ],
   },
+  cache: {
+    type: "filesystem",
+  },
   plugins: [
     // new HardSourceWebpackPlugin(),
     new NodemonPlugin(),
@@ -99,7 +102,7 @@ module.exports = {
       resolve("src/documents/Render"),
       resolve("src/documents/Style"),
       resolve("src/documents/Templates"),
-      resolve("src/app"),
+      // resolve("src/app"),
     ]),
   ],
 };

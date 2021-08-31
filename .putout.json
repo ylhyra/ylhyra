@@ -10,7 +10,6 @@
     "convert-array-copy-to-slice": "off",
     "remove-unused-variables": "off",
     "remove-boolean-from-assertions": "off",
-    "remove-unused-variables": "off",
     "merge-duplicate-imports": "off",
     "remove-empty/import": [
       "on",

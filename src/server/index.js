@@ -1,16 +1,19 @@
 // import 'source-map-support/register'
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-import express from "express";
 import bodyParser from "body-parser";
-import argvFactory from "minimist";
-import query from "./database";
-import requestIp from "request-ip";
-import path from "path";
-import { unprocessed_image_url, processed_image_url } from "paths";
-import { ylhyra_content_files, image_output_folder } from "paths_backend";
-import { build_folder } from "paths_backend";
 import { exec } from "child_process";
+import "core-js/stable";
+import express from "express";
+import argvFactory from "minimist";
+import path from "path";
+import { processed_image_url, unprocessed_image_url } from "paths";
+import {
+  build_folder,
+  image_output_folder,
+  ylhyra_content_files,
+} from "paths_backend";
+import "regenerator-runtime/runtime";
+import requestIp from "request-ip";
+import query from "./database";
 import { notifyOfError } from "./errors";
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
@@ -138,6 +141,8 @@ if (argv["generate-links"]) {
   require("server/vocabulary/compile");
 } else if (argv["generate-sentences"]) {
   require("server/vocabulary/generate_sentences");
+} else if (argv["migration_vocabulary_2021_08"]) {
+  require("server/database/migrations/vocabulary_2021_08.js");
 } else {
   /* Or, start the app */
   app.listen(port, host, (err) => {

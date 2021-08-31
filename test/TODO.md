@@ -1,8 +1,0 @@
-- signup
-  - að schedule vistist þegar maður býr til aðgang
-  - að schedule vistist rétt á server
-- voc
-  -
-- greinar
-  - að hljóð virki
-  - að hover virki (sér að rétt hafi verið parsað)

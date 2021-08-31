@@ -12,7 +12,7 @@ const fs = require("fs");
 /* Download vocabulary database file */
 router.use("/vocabulary/", express.static(__basedir + "/build/vocabulary"));
 
-/* Sync user data*/
+/* Sync user data */
 router.post("/vocabulary/sync", async (req, res) => {
   if (!req.session.user_id) {
     return res.status(401).send({ error: "ERROR_NOT_LOGGED_IN" });
