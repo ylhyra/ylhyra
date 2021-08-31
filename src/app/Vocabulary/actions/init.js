@@ -36,8 +36,14 @@ export const InitializeVocabulary = async () => {
     saveInLocalStorage("vocabulary-build-id", getBuildId());
   }
 
-  let { schedule, session_log, easinessLevel, lastSynced } =
-    (await sync()) || {};
+  let { user_data, schedule } = (await sync()) || {};
+
+  // if (getFromLocalStorage("vocabulary-session-remaining")) {
+  //   session_log.push({
+  //     //       seconds_spent
+  //     // timestamp
+  //   });
+  // }
 
   let session = getFromLocalStorage("vocabulary-session");
 
@@ -45,9 +51,7 @@ export const InitializeVocabulary = async () => {
     database,
     schedule,
     session,
-    session_log,
-    easinessLevel,
-    lastSynced,
+    user_data,
   });
   store.dispatch({
     type: "LOAD_DECK",

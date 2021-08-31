@@ -14,10 +14,10 @@ export const SESSION_PREFIX = "s_";
 
 /*
   User data is stored on 
-    {
+    user_data = {
       user_id,
       lastSynced,
-      user_data: { 
+      rows: { 
         key: { 
           value,
           needsSyncing,
@@ -28,26 +28,18 @@ export const SESSION_PREFIX = "s_";
   TODO: skrá notanda í gögn!
 */
 export const sync = async (options = {}) => {
-  let { user_data, lastSynced } =
-    deck || getFromLocalStorage("vocabulary-user-data") || {};
+  let user_data = deck || getFromLocalStorage("vocabulary-user-data") || {};
+  let rows = user_data.rows || {};
+  const { lastSynced } = user_data;
 
-  user_data = user_data || {};
-
-  // if (getFromLocalStorage("vocabulary-session-remaining")) {
-  //   session_log.push({
-  //     //       seconds_spent
-  //     // timestamp
-  //   });
-  // }
-
-  saveUserDataInLocalStorage(user_data);
+  saveUserDataInLocalStorage({ rows });
 
   if (!isUserLoggedIn()) {
     console.log(`Not synced to server as user isn't logged in`);
     return;
   }
 
-  const unsynced = getUnsynced(user_data, options);
+  const unsynced = getUnsynced(rows, options);
 
   const response = (
     await axios.post(`/api/vocabulary/sync`, {
@@ -56,67 +48,68 @@ export const sync = async (options = {}) => {
     })
   ).data;
 
-  user_data = mergeResponse(user_data, response.user_data);
+  rows = mergeResponse(rows, response.user_data);
   const schedule = {};
-  Object.keys(user_data).forEach((key) => {
-    if (user_data[key].type === "schedule") {
-      schedule[key] = user_data[key].value;
+  Object.keys(rows).forEach((key) => {
+    if (rows[key].type === "schedule") {
+      schedule[key] = rows[key].value;
     }
   });
 
-  const data = {
-    user_data,
-    schedule,
+  user_data = {
+    rows,
     lastSynced: response.lastSynced,
   };
-  console.log({ data });
 
-  saveUserDataInLocalStorage(data, { assignToDeck: true });
+  saveUserDataInLocalStorage({ rows }, { assignToDeck: true });
   console.log("Data synced");
-  return data;
+  return {
+    user_data,
+    schedule,
+  };
 };
 
 export const setUserData = (key, value, type) => {
-  deck.user_data[key] = {
+  deck.user_data.rows[key] = {
     value,
     needsSyncing: now(),
     type,
   };
   saveUserDataInLocalStorage();
 };
+
 export const saveScheduleForCardId = (card_id) => {
   setUserData(card_id, deck.schedule[card_id], "schedule");
 };
 
 export const syncIfNecessary = async () => {
   if (!deck) return;
-  const data = getFromLocalStorage("vocabulary-user-data");
-  /* Localstorage data has been updated in another tab, so we reload */
-  if (data) {
-    if (data.lastSaved > deck.lastSaved) {
-      saveUserDataInLocalStorage(data, { assignToDeck: true });
-    }
-  }
-  if (isUserLoggedIn()) {
-    /* Sync if more than 10 minutes since sync */
-    if (now() > deck.lastSynced + 10 * 60 * 1000) {
-      // TODO
-      await sync();
-    }
-  }
+  // TODO
+  // const data = getFromLocalStorage("vocabulary-user-data");
+  // /* Localstorage data has been updated in another tab, so we reload */
+  // if (data) {
+  //   if (data.lastSaved > deck.lastSaved) {
+  //     saveUserDataInLocalStorage(data, { assignToDeck: true });
+  //   }
+  // }
+  // if (isUserLoggedIn()) {
+  //   /* Sync if more than 10 minutes since sync */
+  //   if (now() > deck.lastSynced + 10 * 60 * 1000) {
+  //     // TODO
+  //     await sync();
+  //   }
+  // }
 };
 
 let timer;
-export const saveUserDataInLocalStorage = (data, options = {}) => {
-  if (!data && !deck) return;
+export const saveUserDataInLocalStorage = (user_data = {}, options = {}) => {
   const toSave = {
-    ...data,
+    ...(deck?.user_data || {}),
+    ...user_data,
     lastSaved: now(),
   };
-  if (options.assignToDeck) {
-    if (deck) {
-      Object.assign(deck, toSave);
-    }
+  if (deck && options.assignToDeck) {
+    Object.assign(deck, toSave);
   }
   timer && clearTimeout(timer);
   timer = setTimeout(() => {
