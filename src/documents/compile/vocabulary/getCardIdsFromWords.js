@@ -1,18 +1,8 @@
-import { average, clamp, mapValueToRange, round } from "app/app/functions/math";
-import {
-  getHash,
-  getPlaintextFromFormatted,
-} from "maker/vocabulary_maker/functions";
-import store from "app/app/store";
-import { InitializeSession } from "app/vocabulary/actions/session";
-import { updateURL } from "app/router/actions";
-import Card, { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
+import { getHash } from "maker/vocabulary_maker/functions";
 import _ from "underscore";
-import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
 // import { deck } from "app/Vocabulary/actions/deck";
 
 let missing = [];
-let timer;
 export const getCardIdsFromWords = (words, deck, returnMissing) => {
   let card_ids = [];
   words.forEach((word) => {

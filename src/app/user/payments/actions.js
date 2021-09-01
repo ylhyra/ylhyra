@@ -1,21 +1,8 @@
-import {
-  saveInLocalStorage,
-  getFromLocalStorage,
-} from "app/app/functions/localStorage";
 import { updateURL } from "app/router/actions";
-import axios from "app/app/axios";
-import { deck } from "app/vocabulary/actions/deck";
-import _ from "underscore";
 
 export const MIN_PRICE = 2;
 export const MAX_PRICE = 200;
-export const continueAfterPaying = async ({ price, transaction_id }) => {
-  const response = (
-    await axios.post("/api/pwyw", {
-      price,
-      transaction_id,
-    })
-  ).data;
+export const continueAfterPaying = async ({}) => {
   updateURL("/");
   /* TODO: "Thank you" */
 };

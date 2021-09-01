@@ -6,7 +6,7 @@ export default async (getRawSentences) => {
   /****************
    * Read the page "Course" and find the order of its vocabulary list
    ***************/
-  const { content, header } = await generate_html("course");
+  const { content } = await generate_html("course");
   let i = 1;
   let sortKeys = {}; /* Term to sortKey */
   let sentences = {};

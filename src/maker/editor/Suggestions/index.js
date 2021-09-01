@@ -1,8 +1,3 @@
-/*
-  Documentation:
-  https://ylhyra.is/Software:Suggestions
-*/
-import React from "react";
 import store from "app/app/store";
 import { send } from "Editor/web-socket";
 import error from "app/app/error";
@@ -45,11 +40,11 @@ export const MakeSuggestions = () => {
 export const receiveSuggestions = async (action) => {
   /* Suggest analysis */
   let grammatical_analysis = {};
-  store.getState().list.arrayOfAllWordIDs.forEachAsync((id) => {
-    return new Promise(async (resolve) => {});
+  store.getState().list.arrayOfAllWordIDs.forEachAsync(() => {
+    return new Promise(async () => {});
   });
 
-  await action.analysis.forEachAsync((item, index) => {
+  await action.analysis.forEachAsync((item) => {
     return new Promise(async (resolve) => {
       /* Temporary, only allow one word at a time */
       if (!item.ids || item.ids.length > 1) return resolve();

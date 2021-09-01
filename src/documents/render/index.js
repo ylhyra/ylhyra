@@ -1,4 +1,3 @@
-import React from "react";
 import Traverse from "./Traverse";
 
 export default ({ json, data }) => {

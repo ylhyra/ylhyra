@@ -1,4 +1,3 @@
-import store from "app/app/store";
 import Card from "app/vocabulary/actions/card";
 import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 import { syncIfNecessary } from "app/vocabulary/actions/sync";
@@ -8,7 +7,6 @@ import { syncIfNecessary } from "app/vocabulary/actions/sync";
  */
 export async function InitializeSession(options = {}) {
   await syncIfNecessary();
-  const session = this;
   if (options.shouldReset !== false) {
     this.reset();
   }

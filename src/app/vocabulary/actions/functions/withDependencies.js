@@ -1,18 +1,4 @@
-import {
-  printWord,
-  getCardsWithSameTerm,
-} from "app/vocabulary/actions/functions";
-import { average, clamp, mapValueToRange, round } from "app/app/functions/math";
-import {
-  getHash,
-  getPlaintextFromFormatted,
-} from "maker/vocabulary_maker/functions";
-import store from "app/app/store";
-import { InitializeSession } from "app/vocabulary/actions/session";
-import { updateURL } from "app/router/actions";
-import Card, { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
 import _ from "underscore";
-import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
 import { deck } from "app/vocabulary/actions/deck";
 import { SortIdsByScore } from "app/vocabulary/actions/createCards/functions";
 
@@ -48,7 +34,7 @@ export const withDependencies = (card_ids, options = {}) => {
         // card_ids = _.shuffle(card_ids);
         card_ids = SortIdsByScore(card_ids);
       } else {
-        card_ids = card_ids.sort((a, b) => {
+        card_ids = card_ids.sort((a) => {
           if (a.endsWith("is")) return -1;
           return 1;
         });

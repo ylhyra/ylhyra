@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "app/router/Link";
 import Login from "app/user/LoginForm";
 
 export default () => (

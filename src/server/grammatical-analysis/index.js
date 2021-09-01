@@ -12,7 +12,7 @@ import { wordRegex } from "documents/parse/Tokenize/IDs/CreateIDs";
   We merge regex-based and NLP-based tokenization because Greynir can return very long sentences and misplaced punctuation marks.
 */
 export default (tokenized) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async (resolve) => {
     let input_sentences = [];
     let output_sentences = {};
 

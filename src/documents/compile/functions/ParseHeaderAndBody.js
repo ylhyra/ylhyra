@@ -9,9 +9,8 @@ export const ParseHeaderAndBody = (data, file) => {
     console.warn("Failed to parse\n\n" + data);
     return {};
   }
-  let [j, header, body] = match;
+  let [, header, body] = match;
 
-  let output = {};
   // header = header.replace(/: (.+):/g, ': $1\\:')
   header = yaml.load(header);
   body = (body || "").trim();

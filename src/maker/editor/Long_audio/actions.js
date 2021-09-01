@@ -1,9 +1,6 @@
 import store from "app/app/store";
-import { getText } from "documents/parse/ExtractText/ExtractText";
-import { getTextFromTokenized } from "documents/parse/WrapInTags/1-InsertSplit.js";
-import hash from "app/app/functions/hash";
 import NotifyError from "app/app/error";
-import { html2json, json2html } from "app/app/functions/html2json";
+import { html2json } from "app/app/functions/html2json";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 
@@ -11,7 +8,7 @@ import ReactDOMServer from "react-dom/server";
   Allows just a single audio file
 */
 export default () => {
-  const { parsed, tokenized } = store.getState().editor;
+  const { parsed } = store.getState().editor;
   if (!parsed) {
     return NotifyError(
       "There is no {parsed} for Long audio. Consider turning off server-side rendering."
@@ -65,7 +62,7 @@ const findAreasWithAudioFile = (i, callback) => {
   if (Array.isArray(i)) {
     return i.map((x) => findAreasWithAudioFile(x, callback));
   } else {
-    let { node, tag, attr, child, text } = i;
+    let { attr, child } = i;
     if (child) {
       if (attr && attr["data-audio-file"]) {
         // console.warn('------')

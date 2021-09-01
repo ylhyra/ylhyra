@@ -4,7 +4,7 @@ let i = 0;
 
 export const TempIDs = (input) => {
   if (!input) return input;
-  const { node, tag, attr, child, text } = input;
+  const { attr, child } = input;
   const id = attr?.id || null;
   return {
     ...input,
@@ -18,7 +18,7 @@ export const TempIDs = (input) => {
 
 export const RemoveTempIDs = (input) => {
   if (!input) return input;
-  const { node, tag, attr, child, text } = input;
+  const { attr, child } = input;
   let id = attr?.id || "";
   if (id.match(/^temp__/)) {
     id = null;

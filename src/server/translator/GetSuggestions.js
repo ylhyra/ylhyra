@@ -25,7 +25,7 @@ import { escape } from "sqlstring";
 */
 
 const request = ({ list }) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async (resolve) => {
     let queries = [];
 
     for (let sentence_id in list.sentences) {

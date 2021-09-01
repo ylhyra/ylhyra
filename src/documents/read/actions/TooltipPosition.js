@@ -7,7 +7,6 @@ export default function FindAGoodPositionForTooltip({
   relative,
   tooltip,
   sentence,
-  sentence_multiple_lines,
 }) {
   if (!tooltip)
     return {

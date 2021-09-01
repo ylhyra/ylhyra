@@ -1,7 +1,6 @@
 import { isBrowser } from "app/app/functions/isBrowser";
 import { round } from "app/app/functions/math";
 import { updateURL } from "app/router/actions";
-import { EASY, GOOD } from "app/vocabulary/actions/card";
 import { deck } from "app/vocabulary/actions/deck";
 import {
   getHash,

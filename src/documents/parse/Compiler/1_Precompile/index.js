@@ -1,6 +1,5 @@
 import MergeWords from "./MergeWords";
 import MergePunctuation from "./MergePunctuation";
-import NiceIDs from "./NiceIDs";
 import { TempIDs, RemoveTempIDs } from "./TempIDs";
 // import PronunciationAndSound from './PronunciationAndSound'
 // import WrapInTags from 'Editor/2-Parse/2.3-WrapInTags'

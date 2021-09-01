@@ -124,7 +124,7 @@ const lookup = (input, callback) => {
   query(
     "SELECT * FROM pronunciation WHERE word = ?",
     [input],
-    (error, results, fields) => {
+    (error, results) => {
       if (error) throw error;
       if (results.length) {
         if (results[0].guessed) {
@@ -178,7 +178,7 @@ const Guess_IPA = (input, callback) => {
 
   query(
     `SELECT * FROM pronunciation WHERE (${select}) AND guessed IS NULL ORDER BY LENGTH(word) DESC`,
-    (error, results, fields) => {
+    (error, results) => {
       if (error) {
         console.error(error);
       }
@@ -256,7 +256,7 @@ const FindPossibleWaysToFit = (input, list) => {
 const save_guess = (word, pronunciation, callback) => {
   query(
     `INSERT INTO pronunciation (word,pronunciation,guessed) VALUES ('${word}', "${pronunciation}", TRUE)`,
-    (error, results, fields) => {
+    (error) => {
       if (error) throw error;
       callback();
     }

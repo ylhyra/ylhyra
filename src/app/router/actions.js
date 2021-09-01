@@ -10,7 +10,7 @@ import Analytics from "app/Analytics/analytics";
 
 let HAS_LOADED = false;
 if (isBrowser) {
-  window.addEventListener("popstate", (event) => {
+  window.addEventListener("popstate", () => {
     // console.log(window.location.pathname);
     if (HAS_LOADED) {
       updateURL(window.location.pathname + window.location.hash);
@@ -37,7 +37,6 @@ export const getFrontpageURL = () => {
 export const updateURL = async (url, options = {}) => {
   let { title, replace, prerender, is404, dontChangeUrl } = options;
   HAS_LOADED = true;
-  let is_component = url in app_urls;
   // console.log({ url });
   if (url in app_urls) {
     url = app_urls[url].url;

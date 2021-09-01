@@ -1,10 +1,10 @@
 import query from "server/database";
-const router = require("express").Router();
 import string_hash from "app/app/functions/hash";
-require("src/app/App/functions/sortByArray");
 import simplifyString from "./helpers/simplifyString";
 import GetTranslationFrame from "./helpers/TranslationFrame";
 import SQL_helper from "./helpers/SQL_helper";
+const router = require("express").Router();
+require("src/app/App/functions/sortByArray");
 
 router.put("/save", (req, res) => {
   const { document_id, from, to, translation, list } = req.body.data;
@@ -73,7 +73,7 @@ const SaveTranslator = ({ document_id, from, to, translation, list }) => {
     */
     if (translation.sentences[sentence.id]) {
       const definition = translation.sentences[sentence.id];
-      const { contains, ...definition_pure } = definition;
+      const { ...definition_pure } = definition;
       const text_hash = string_hash(simplifyString(sentence.text));
       const definition_hash = string_hash(definition_pure);
 
@@ -188,7 +188,7 @@ const SaveTranslator = ({ document_id, from, to, translation, list }) => {
 
   if (!SQL.getQueries()) return;
 
-  query(SQL.getQueries(), SQL.getValues(), (err, results) => {
+  query(SQL.getQueries(), SQL.getValues(), (err) => {
     if (err) {
       console.error(err);
     } else {

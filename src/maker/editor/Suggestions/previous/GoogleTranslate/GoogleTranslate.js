@@ -1,5 +1,3 @@
-import axios from "app/app/axios";
-
 /*
   Hér er hægt að sjá leiðbeiningar um hvað hægt er að biðja GoogleTranslate um:
   https://stackoverflow.com/questions/26714426/what-is-the-meaning-of-google-translate-query-params
@@ -40,12 +38,7 @@ export default async function ({
   return [...goodFitInContext, ...suggestions].filter((i) => i);
 }
 
-const GoogleTranslate = async (
-  sourceText,
-  sourceLang,
-  targetLang,
-  isInContext = false
-) => {
+const GoogleTranslate = async (sourceText) => {
   sourceText = (sourceText || "").trim();
   // console.log(sourceText)
   if (!sourceText) return [];

@@ -1,13 +1,9 @@
-import React, { Suspense, lazy } from "react";
-import Layout from "app/elements/layout/Layout";
-import { updateUser } from "app/user/actions";
-import LoadContent from "./load/Content";
+import React from "react";
 import VocabularyOverview from "app/vocabulary/screens/overview";
 import VocabularyRunning from "app/vocabulary/screens/running";
 import LogIn from "app/user/screens/Login";
 // import Signup from "app/User/screens/Signup";
 import Settings from "app/user/screens/Settings";
-import Pay from "app/user/payments/Pay";
 import NotFound from "documents/templates/404";
 import { isBrowser } from "app/app/functions/isBrowser";
 

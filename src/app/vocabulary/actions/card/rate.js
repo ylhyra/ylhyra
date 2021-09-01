@@ -1,6 +1,4 @@
-import { average, clamp } from "app/app/functions/math";
 import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
-import { printWord } from "app/vocabulary/actions/functions";
 import { addRelatedCards } from "./addRelatedCards";
 
 /**
@@ -8,7 +6,6 @@ import { addRelatedCards } from "./addRelatedCards";
  */
 export default function rate(rating) {
   const card = this;
-  const { deck } = this.session;
   const isNew = card.history.length === 0;
   card.history.unshift(rating);
   card.session.ratingHistory.unshift(rating);

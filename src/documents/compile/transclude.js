@@ -11,7 +11,7 @@ import { links, getValuesForURL } from "server/content/links";
 var fs = require("fs");
 
 const Transclude = (title, depth = 0, shouldGetData = true) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     let values = getValuesForURL((depth > 0 ? "Template:" : "") + title);
     // console.log({ title, values });
     if (!values.filepath) {
@@ -73,7 +73,7 @@ export const TranscludeFromText = async (input, depth) => {
     .replace(/{{{+/g, "&lbrace;&lbrace;&lbrace;")
     .replace(/}}}+/g, "&rbrace;&rbrace;&rbrace;");
   await forEachAsync(input.split(/{{([^{}]+)}}/g), async (q, index) => {
-    await new Promise(async (resolve2, reject2) => {
+    await new Promise(async (resolve2) => {
       if (index % 2 === 0) {
         output += q;
         return resolve2();

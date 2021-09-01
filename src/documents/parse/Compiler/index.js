@@ -1,6 +1,6 @@
 import Precompile from "./1_Precompile";
 import { reset } from "./1_Precompile/UpdateID";
-import { html2json, json2html } from "app/app/functions/html2json";
+import { html2json } from "app/app/functions/html2json";
 import { AllHtmlEntities as Entities } from "html-entities";
 import CompileToHTML from "documents/parse/Compiler/2_CompileToHTML/Traverse";
 import PrepareJSONForReact from "./PrepareJSONForReact";

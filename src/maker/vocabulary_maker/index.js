@@ -1,8 +1,6 @@
 import { connect } from "react-redux";
 import React from "react";
-import Link from "app/router/Link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import errors from "app/app/error/messages";
 import {
   rows,
   load,
@@ -16,8 +14,6 @@ import {
   didYouMeanSuggestions,
 } from "./actions";
 import { formatVocabularyEntry, row_titles } from "./functions";
-import VocabularyMakerRecord from "maker/vocabulary_maker/record";
-import AutosizeTextarea from "react-textarea-autosize";
 import { getDeckName } from "./functions";
 
 class Form2 extends React.Component {
@@ -111,7 +107,7 @@ class Form2 extends React.Component {
           name="search"
           onKeyDown={search}
         />
-        {this.props.vocabularyMaker.data.map((row, index) => {
+        {this.props.vocabularyMaker.data.map((row) => {
           if (row.row_id === this.props.vocabularyMaker.selected) {
             let initialValues = row;
             row_titles.forEach((i) => (initialValues[i] = row[i] || ""));
@@ -134,12 +130,12 @@ class Form2 extends React.Component {
                   }
                   return errors;
                 }}
-                onSubmit={(values, { setSubmitting }) => {
+                onSubmit={(values) => {
                   // document.querySelector("[name=level]").focus();
                   submit(values);
                 }}
               >
-                {({ isSubmitting }) => (
+                {() => (
                   <Form>
                     <div>
                       {!row["english"] &&
@@ -194,17 +190,17 @@ class Form2 extends React.Component {
                         />
 
                         {/* <AutosizeTextarea
-                          // className="write-textbox"
-                          autoComplete="false"
-                          name={row_name}
-                          // value={answered ? correctAnswer : this.state.value}
-                          // onKeyDown={this.checkForSubmit}
-                          // onChange={this.handleChange}
-                          // readOnly={answered}
-                          // inputRef={(input) => {
-                          //   this.textInput = input;
-                          // }}
-                        /> */}
+                        // className="write-textbox"
+                        autoComplete="false"
+                        name={row_name}
+                        // value={answered ? correctAnswer : this.state.value}
+                        // onKeyDown={this.checkForSubmit}
+                        // onChange={this.handleChange}
+                        // readOnly={answered}
+                        // inputRef={(input) => {
+                        //   this.textInput = input;
+                        // }}
+                      /> */}
                       </label>
                     ))}
 

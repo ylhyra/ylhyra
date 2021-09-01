@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "app/router/Link";
 
 export default (props) => {
   return (

@@ -1,7 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { connect, Provider } from "react-redux";
-import store from "app/app/store";
+import { connect } from "react-redux";
 // import { ParseHTMLtoObject } from 'documents/Render/Elements/parse'
 // import Word from './word'
 // import { without } from 'underscore'

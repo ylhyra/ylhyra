@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 import { synchronize } from "Editor/Long_audio/Synchronize";
 import React from "react";
-import store from "app/app/store";
 // import Upload from './Upload'
 import findAudioSections from "./actions";
 

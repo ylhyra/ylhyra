@@ -1,16 +1,6 @@
 import query from "server/database";
-import shortid from "shortid";
-import sql from "server/database/functions/SQL-template-literal";
-import _ from "underscore";
-import tableify from "tableify";
 import c from "app/app/functions/no-undefined-in-template-literal";
-import {
-  round,
-  msToS,
-  daysToMs,
-  roundMsToHour,
-  days,
-} from "app/app/functions/time";
+import { days } from "app/app/functions/time";
 const router = require("express").Router();
 router.get("/analytics", async (req, res) => {
   if (
@@ -37,7 +27,7 @@ router.get("/analytics", async (req, res) => {
   res.send(html);
 });
 
-const CountPayments = async ({ daysBack, active }) => {
+const CountPayments = async ({ daysBack }) => {
   return new Promise((resolve) => {
     query(
       c`
@@ -60,7 +50,7 @@ const CountPayments = async ({ daysBack, active }) => {
   });
 };
 
-const CountUniqueVisitors = async ({ daysBack, active }) => {
+const CountUniqueVisitors = async ({ daysBack }) => {
   return new Promise((resolve) => {
     query(
       `
@@ -84,7 +74,7 @@ const CountUniqueVisitors = async ({ daysBack, active }) => {
   });
 };
 
-const CountUsers = async ({ daysBack, active }) => {
+const CountUsers = async ({ daysBack }) => {
   return new Promise((resolve) => {
     query(
       c`
@@ -115,7 +105,7 @@ const CountUsers = async ({ daysBack, active }) => {
 /*
   List most popular pages by unique visitors
 */
-router.get("/a", (req, res) => {
+router.get("/a", () => {
   // query(sql`
   //   SELECT
   //     page_name,

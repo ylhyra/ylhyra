@@ -2,7 +2,6 @@ import RenderTable from "tables/render_table";
 import { without, flatten } from "lodash";
 import { types } from "tables/classification/classification";
 import link, { ucfirst_link } from "tables/link";
-import { isNumber } from "tables/tree";
 
 /**
  * Finds a single relevant table

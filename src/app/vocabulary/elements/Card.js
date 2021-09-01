@@ -17,8 +17,8 @@ class Card extends Component {
     window.removeEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
   }
-  componentDidUpdate(prevProps, prevState) {
-    const { card, status } = this.props.vocabulary;
+  componentDidUpdate(prevProps) {
+    const { card } = this.props.vocabulary;
     const prevCard = prevProps?.vocabulary.card;
     if (!prevProps || card.counter !== prevCard.counter) {
       this.setState({
@@ -152,12 +152,8 @@ class Card extends Component {
       example_declension,
       pronunciation,
     } = card;
-    let Type = null;
     const is = card.is_formatted;
     const en = card.en_formatted;
-
-    let note_above = null;
-    let note_below = null;
 
     literally = literally && (
       <div>
@@ -317,29 +313,6 @@ class Card extends Component {
 export default connect((state) => ({
   vocabulary: state.vocabulary,
 }))(Card);
-
-const hide = (input) => {
-  if (!input) return null;
-  if (input.split(" ").length > 2) return null; // Temp
-  const output = input
-    .split(/([,;/ ])/g)
-    .map((i) => {
-      if (i.match(/[,;/ ]/)) return i;
-      let hintsToShow = Math.min(Math.ceil(Math.random() * 3), i.length - 2);
-      // if(i.length <= 2) hintsToShow = 0;
-      return i
-        .split("")
-        .map((j, index) => {
-          if (index >= hintsToShow && !/[.?!:;,]/.test(j))
-            return `<span className="occluded"><span>${j}</span></span>`;
-          return j;
-        })
-        .join("");
-    })
-    .join("");
-
-  return html(output);
-};
 
 const html = (text) => {
   if (!text) return null;

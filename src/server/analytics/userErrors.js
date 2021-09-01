@@ -1,10 +1,6 @@
-import query from "server/database";
-import shortid from "shortid";
-import sql from "server/database/functions/SQL-template-literal";
-import _ from "underscore";
 import { notifyOfError } from "server/errors";
 const router = require("express").Router();
-const { Crawler, middleware } = require("es6-crawler-detect");
+const { Crawler } = require("es6-crawler-detect");
 
 const rateLimit = require("express-rate-limit")({
   windowMs: 5 * 60 * 1000,

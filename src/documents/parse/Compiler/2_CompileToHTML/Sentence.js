@@ -4,7 +4,6 @@ import exists from "app/app/functions/exists";
 
 class Sentence extends React.Component {
   render() {
-    const { selected } = this.props;
     const { id, definition } = this.props;
     let attrs = {};
     let classes = [];

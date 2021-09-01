@@ -1,16 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { ReactMic } from "react-mic";
 import Sound from "react-sound";
 import axios from "axios";
-import store from "app/app/store";
-import {
-  load,
-  select,
-  submit,
-  saveSound,
-  getNextWordToRecord,
-} from "./actions";
+import { load, saveSound, getNextWordToRecord } from "./actions";
 
 const START_LAG_IN_MILLISECONDS = 0;
 // const START_LAG_IN_MILLISECONDS = 100;

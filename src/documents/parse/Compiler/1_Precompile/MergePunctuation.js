@@ -14,7 +14,7 @@ const init = (tree, _translation) => {
 
 const Traverse = (input, siblings = []) => {
   if (!input) return input;
-  const { node, tag, attr, child, text } = input;
+  const { node, tag, attr, child } = input;
   const id = attr?.id || null;
   if (node === "element" || node === "root") {
     if (tag === "word") {
@@ -44,7 +44,7 @@ const Traverse = (input, siblings = []) => {
 const findTextSiblings = (siblings, startId) => {
   let listening = false;
   let returnString = "";
-  siblings.forEach((element, index) => {
+  siblings.forEach((element) => {
     if (!element) return;
     if (removedIDs.includes(element.attr.id)) return;
 

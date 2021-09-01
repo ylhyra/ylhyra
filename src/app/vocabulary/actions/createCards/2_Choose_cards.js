@@ -1,21 +1,6 @@
-import { hour, day, hours, days } from "app/app/functions/time";
-import _ from "underscore";
-import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
-import {
-  printWord,
-  getCardsWithSameTerm,
-} from "app/vocabulary/actions/functions";
-import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
-import { deck } from "app/vocabulary/actions/deck";
-import { INCR } from "app/vocabulary/actions/createSchedule";
+import { printWord } from "app/vocabulary/actions/functions";
 import { CARDS_TO_CREATE } from "./index";
-import {
-  ScoreByTimeSinceTermWasSeen,
-  SortIdsByWhetherTermWasRecentlySeen,
-  SortIdsByScore,
-  SortBySortKey,
-  shuffle_each,
-} from "./functions";
+import { SortIdsByScore } from "./functions";
 
 export default ({
   overdue_bad_ids,

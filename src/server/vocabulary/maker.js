@@ -1,13 +1,5 @@
-import express from "express";
-import query from "server/database";
-import shortid from "shortid";
-import sql from "server/database/functions/SQL-template-literal";
-import cors from "cors";
 import { content_folder } from "paths_backend";
-import {
-  getRawTextFromVocabularyEntry,
-  row_titles,
-} from "maker/vocabulary_maker/functions";
+import { row_titles } from "maker/vocabulary_maker/functions";
 import _ from "underscore";
 const router = require("express").Router();
 const fs = require("fs");
@@ -92,7 +84,7 @@ router.post("/vocabulary_maker", (req, res) => {
         req.body.deckName || ""
       }.${new Date().getTime()}.yml`,
     y,
-    (err) => {}
+    () => {}
   );
 });
 

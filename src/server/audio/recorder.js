@@ -1,10 +1,6 @@
 import express from "express";
 import fs from "fs";
-import multer from "multer";
-import shortid from "shortid";
 import path from "path";
-import { exec } from "child_process";
-import { FileSafeTitle } from "paths";
 import { ylhyra_content_files } from "paths_backend";
 const router = express.Router();
 
@@ -28,7 +24,7 @@ router.post("/recorder/save", (req, res) => {
   let filepath = output_folder + `/${filename}`;
 
   /* Check if filename is in use */
-  fs.stat(filepath + ".mp3.md", function (err, stat) {
+  fs.stat(filepath + ".mp3.md", function (err) {
     if (err == null) {
       /* Filename already exists */
       filename += "_" + Math.ceil(Math.random() * 999);
@@ -47,7 +43,7 @@ router.post("/recorder/save", (req, res) => {
       .replace(/^ +/gm, "")
       .trim();
 
-    fs.writeFileSync(filepath + ".mp3.md", desc, (err) => {});
+    fs.writeFileSync(filepath + ".mp3.md", desc, () => {});
     fs.writeFile(filepath + ".wav", buffer, (err) => {
       if (err) {
         console.error(err);

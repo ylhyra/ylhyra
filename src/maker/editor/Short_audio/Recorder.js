@@ -1,20 +1,14 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { connect } from "react-redux";
+import React from "react";
 import { ReactMic } from "react-mic";
 import Sound from "react-sound";
 import axios from "app/app/axios";
 import store from "app/app/store";
-import { findSoundBites } from "./actions";
-// import { saveEditor } from 'Editor/actions'
-import { send } from "Editor/web-socket";
 
 const START_LAG_IN_MILLISECONDS = 100;
 const STOP_LAG_IN_MILLISECONDS = 300;
 
 const TESTING_WITH_LOCALHOST = false;
 const url = TESTING_WITH_LOCALHOST ? "https://localhost:8000" : "";
-var FormData = require("form-data");
 
 export default class RecorderElement extends React.Component {
   state = {
@@ -48,7 +42,6 @@ export default class RecorderElement extends React.Component {
   };
   save = () => {
     var reader = new window.FileReader();
-    var api = new mw.Api();
     reader.readAsDataURL(this.state.blob.blob);
     reader.onloadend = async () => {
       if (!reader.result) {

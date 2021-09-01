@@ -44,7 +44,7 @@ export default function (text, callback) {
               analysis = ?;
               `,
                   [lang, text_hash, text, JSON.stringify(JSON.parse(body))],
-                  (err, results) => {
+                  (err) => {
                     if (err) {
                       console.error(err);
                       callback(null);

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { connect, Provider } from "react-redux";
+import { Provider } from "react-redux";
 import store from "app/app/store";
 import Recorder from "./Recorder";
 

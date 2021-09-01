@@ -1,4 +1,4 @@
-export default (input, id) => {
+export default (input) => {
   return {
     // urls: {
     //   nested: `https://ylhyra.is/api/inflection?id=${id}`,

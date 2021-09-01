@@ -8,7 +8,6 @@
 */
 
 import { receiveSuggestions } from "Editor/Suggestions";
-import error from "app/app/error";
 import tweet from "Source_editor/Tweets";
 import store from "app/app/store";
 const protocol = process.env.NODE_ENV === "production" ? "wss" : "ws";
@@ -41,7 +40,7 @@ const open = () => {
   };
 };
 
-const close = (message) => {
+const close = () => {
   socket?.close();
 };
 

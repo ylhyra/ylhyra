@@ -1,5 +1,5 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
-import { URL_title, section_id } from "paths";
+import { URL_title } from "paths";
 import Transclude from "documents/compile/transclude";
 import { EncodeDataInHTML } from "documents/compile/functions/functions";
 import { parseVocabularyList } from "documents/compile/vocabulary";

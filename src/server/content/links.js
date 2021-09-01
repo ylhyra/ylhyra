@@ -5,7 +5,7 @@ const fs = require("fs");
 let _links = {};
 try {
   _links = JSON.parse(fs.readFileSync(__basedir + `/build/links.json`, "utf8"));
-} catch (err) {}
+} catch {}
 export const links = _links;
 
 export const getValuesForURL = (url, user_input_url) => {

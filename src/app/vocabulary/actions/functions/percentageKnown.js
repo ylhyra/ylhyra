@@ -1,4 +1,4 @@
-import { average, clamp, mapValueToRange, round } from "app/app/functions/math";
+import { clamp, mapValueToRange } from "app/app/functions/math";
 import { deck } from "app/vocabulary/actions/deck";
 import { isBrowser } from "app/app/functions/isBrowser";
 

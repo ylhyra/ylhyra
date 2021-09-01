@@ -1,19 +1,19 @@
-import React from 'react'
-import { updateDefinitionValue, wordsHash }  from 'Editor/Translator/actions'
-import { connect } from 'react-redux'
+import React from "react";
+import { updateDefinitionValue, wordsHash } from "Editor/Translator/actions";
+import { connect } from "react-redux";
 
 class Field extends React.Component {
   handleChange = (e) => {
     this.props.updateDefinitionValue({
       name: this.props.name,
-      value: e.target.type === 'checkbox' ? e.target.checked : e.target.value,
-    })
-  }
+      value: e.target.type === "checkbox" ? e.target.checked : e.target.value,
+    });
+  };
   render() {
-    const { translation, selected, name } = this.props
-    const definition = translation.definitions[wordsHash(selected)] || {}
-    const value = definition[name] ||  ''
-    const Element = this.props.component
+    const { translation, selected, name } = this.props;
+    const definition = translation.definitions[wordsHash(selected)] || {};
+    const value = definition[name] || "";
+    const Element = this.props.component;
     return (
       <Element
         value={value}
@@ -23,16 +23,19 @@ class Field extends React.Component {
         placeholder={this.props.placeholder}
         id={this.props.id}
         autoComplete="off"
-        onChange={this.handleChange}>
+        onChange={this.handleChange}
+      >
         {this.props.children}
       </Element>
-    )
+    );
   }
 }
 export default connect(
-  state => ({
+  (state) => ({
     translation: state.editor.translation,
     selected: state.editor.selected,
-  }), {
+  }),
+  {
     updateDefinitionValue,
-  })(Field)
+  }
+)(Field);

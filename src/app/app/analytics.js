@@ -68,7 +68,7 @@ class Analytics {
     this.queue = [];
     this.save();
   };
-  error = (message) => {
+  error = () => {
     // TODO! Does not work as this results in an infinite loop
     // if (!likelyNotABot) return;
     // axios.post(`/api/error`, { message, url: window.location.pathname });
@@ -91,7 +91,7 @@ if (isBrowser) {
   // });
   // window.addEventListener('focus', function() {
   // });
-  window.onbeforeunload = function (event) {
+  window.onbeforeunload = function () {
     analytics.stopReadingPage({ dontSync: true });
   };
 

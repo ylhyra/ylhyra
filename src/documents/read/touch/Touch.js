@@ -11,8 +11,6 @@ import { showSentence } from "documents/read/actions/ShowSentence";
 import { turnOffDemonstration } from "app/elements/frontpage/demo";
 
 let startClickTime = null;
-let lastClickTime = null;
-let lastMoveTime = null;
 let startLocation = null;
 let lastKnownLocation = null;
 let detectScrollTimer = null;
@@ -92,7 +90,7 @@ const touchmove = (e) => {
 /*
   TOUCH END
 */
-const touchend = (e) => {
+const touchend = () => {
   /*
     User has been dragging finger around.
     Allow tooltip to remain.

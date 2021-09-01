@@ -1,8 +1,7 @@
-import { formatVocabularyEntry, row_titles } from "./functions";
+import { formatVocabularyEntry } from "./functions";
 import { isBrowser } from "app/app/functions/isBrowser";
 import {
   getHash,
-  getHashesFromCommaSeperated,
   getPlaintextFromVocabularyEntry,
   GetLowercaseStringForAudioKey,
   parse_vocabulary_file,
@@ -40,7 +39,7 @@ export const load = async () => {
   //   row.row_id = index + 1;
   //   return row;
   // });
-  rows.forEach((row, index) => {
+  rows.forEach((row) => {
     maxID = Math.max(maxID, row.row_id);
     // row.row_id = index;
     // return row;
@@ -62,7 +61,7 @@ export const load = async () => {
 };
 
 let selected_rows = [];
-export const refreshRows = (id) => {
+export const refreshRows = () => {
   rows =
     // _.shuffle(rows)
     rows.sort(

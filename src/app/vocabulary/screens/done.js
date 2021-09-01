@@ -1,8 +1,5 @@
-import GameContainer from "app/vocabulary/elements/GameContainer";
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React from "react";
 import store from "app/app/store";
-import { MINUTES } from "app/vocabulary/actions/session";
 import Link from "app/router/Link";
 
 export default () => (

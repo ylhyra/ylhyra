@@ -1,21 +1,12 @@
 import { notify } from "app/app/error";
 import { connect } from "react-redux";
 import React from "react";
-import Link from "app/router/Link";
-
-import { updateURL } from "app/router/actions";
-import { Formik, Form, Field, ErrorMessage } from "formik";
 import {
   continueAfterPaying,
   parsePrice,
   MAX_PRICE,
   MIN_PRICE,
 } from "app/user/payments/actions";
-
-const url =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
-    : "https://ylhyra.is";
 
 class Form2 extends React.Component {
   state = {
@@ -171,7 +162,6 @@ class PayPalButton extends React.Component {
             onApprove: function (data, actions) {
               return actions.order.capture().then(function (details) {
                 const price = getPriceFromInput();
-                const transaction_id = details.id;
                 continueAfterPaying({
                   price,
                   transaction_id: details.id,

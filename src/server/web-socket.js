@@ -3,11 +3,10 @@ import express from "express";
 import Translate from "server/translator";
 import Tweet from "server/tweets";
 import Sound from "server/audio";
-import Recorder from "server/audio/recorder";
 const router = express.Router();
 // import GoogleTranslate from 'server/translator/GoogleTranslate'
 
-router.ws("/", (websocket, req) => {
+router.ws("/", (websocket) => {
   const send = (message) => websocket.send(JSON.stringify(message));
   websocket.on("message", (message) => {
     message = JSON.parse(message);

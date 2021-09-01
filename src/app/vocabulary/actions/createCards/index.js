@@ -1,12 +1,5 @@
-import { hour, day, hours, days } from "app/app/functions/time";
 import _ from "underscore";
-import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
-import {
-  printWord,
-  getCardsWithSameTerm,
-} from "app/vocabulary/actions/functions";
 import { deck } from "app/vocabulary/actions/deck";
-import { INCR } from "app/vocabulary/actions/createSchedule";
 import CategorizeCards from "./1_Categorize_cards";
 import ChooseCards from "./2_Choose_cards";
 import Dependencies from "./3_Dependencies";

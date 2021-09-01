@@ -1,30 +1,18 @@
 import React from "react";
 // import Render from 'frontend/Render'
 import ReactDOMServer from "react-dom/server";
-import { URL_title } from "paths";
-import { content_folder, build_folder } from "paths_backend";
+import { build_folder } from "paths_backend";
 import generate_html from "documents/compile";
 import Parse from "documents/parse";
-import { updateURL } from "app/router/actions";
-import Render from "documents/render";
-import { connect, Provider } from "react-redux";
+import { Provider } from "react-redux";
 import store from "app/app/store";
 import Router from "app/router";
-import shortid from "shortid";
 import hash from "app/app/functions/hash";
-import argvFactory from "minimist";
-const argv = argvFactory(process.argv.slice(2));
-const router = require("express").Router();
-var now = require("performance-now");
 var fs = require("fs");
 const path = require("path");
 const critical = require("critical");
 let TESTING = false;
 
-const css = fs.readFileSync(
-  path.resolve(build_folder, `./app/main.css`),
-  "utf8"
-);
 const html = fs.readFileSync(
   path.resolve(__basedir, `./public/index.html`),
   "utf8"
@@ -75,7 +63,7 @@ const render = async ({
     content = h.content;
     header = h.header;
     const out = await Parse({ html: content });
-    const { parsed, tokenized, data, flattenedData } = out;
+    const { parsed, flattenedData } = out;
     props = { prerender: parsed };
     necessary_data = JSON.stringify({
       parsed,

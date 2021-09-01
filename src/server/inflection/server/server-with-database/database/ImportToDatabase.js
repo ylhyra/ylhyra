@@ -2,13 +2,13 @@
   To run:
   node build/server/ylhyra_server.js --import-inflections
 */
-var LineByLineReader = require("line-by-line");
 // var inflections = require('./inflections.js')
 import query from "server/database";
-
-let count = 0;
 import path from "path";
 import sql from "server/database/functions/SQL-template-literal";
+var LineByLineReader = require("line-by-line");
+
+let count = 0;
 
 const CSV_FILE_NAME = "KRISTINsnid.csv";
 const CSV_FILE_LINES = 6334181; // Number of lines, calculated with "wc -l"
@@ -75,7 +75,7 @@ lr.on("line", (line) => {
           various_feature_markers = ${various_feature_markers},
           alternative_entry = ${alternative_entry}
       `,
-      (error, results, fields) => {
+      (error) => {
         if (error) {
           console.error(error);
         }

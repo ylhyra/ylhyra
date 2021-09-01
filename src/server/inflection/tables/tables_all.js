@@ -2,7 +2,7 @@ import link, { ucfirst } from "tables/link";
 import Word, { WordFromTree } from "tables/word";
 import RenderTable, { renderCell } from "tables/render_table";
 import { types } from "tables/classification/classification";
-import tree, { isNumber } from "tables/tree";
+import { isNumber } from "tables/tree";
 
 /**
  * getTables - Prints all tables for a given word

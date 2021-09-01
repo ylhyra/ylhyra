@@ -1,9 +1,5 @@
 import path from "path";
-import {
-  contentUrl,
-  processed_image_url,
-  unprocessed_image_url,
-} from "./paths";
+import { unprocessed_image_url } from "./paths";
 
 /* Folders */
 export const content_folder = path.resolve(__basedir, "./../ylhyra_content");

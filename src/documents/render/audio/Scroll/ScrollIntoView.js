@@ -1,5 +1,4 @@
 import SmoothScroll from "./SmoothScroll";
-import { getScrollingElement } from "documents/render/helpers";
 const ControlsHeight = 45;
 
 /*
@@ -10,7 +9,7 @@ const ControlsHeight = 45;
 export default function ScrollIntoView(ids) {
   if (!ids) return;
   ids = Array.isArray(ids) ? ids : [ids];
-  ids.forEach((id) => {
+  ids.forEach(() => {
     // const element = document.getElementById(id)
     // if (!element) return;
     // element.classList.add(cssClass)

@@ -1,4 +1,3 @@
-import c from "app/app/functions/no-undefined-in-template-literal";
 const r = /<(ref.?|note)(?: name="?(.+?)"?")?(?:>([\s\S]+?)<\/\1>|\/>)/g;
 const temp_r = /REF_(.+?)_REF/g;
 const l_alpha = "abcdefghijklmnopqrstuv";
@@ -6,7 +5,6 @@ const l_alpha = "abcdefghijklmnopqrstuv";
  * Nested refs must use <ref1><ref2>bla bla </ref2></ref1>
  */
 export const Ref = (input, header) => {
-  let i = 0;
   let refs = {};
   let order = [];
   let type_order = {

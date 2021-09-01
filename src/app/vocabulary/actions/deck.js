@@ -1,20 +1,11 @@
-import store from "app/app/store";
-import error from "app/app/error";
-import axios from "app/app/axios";
-import { createSchedule } from "./createSchedule";
-import Session, { MINUTES } from "app/vocabulary/actions/session";
+import Session from "app/vocabulary/actions/session";
 import { isBrowser } from "app/app/functions/isBrowser";
 import { updateURL } from "app/router/actions";
-import { BAD, GOOD, EASY } from "./card";
-import _ from "underscore";
 import {
   trackEasiness,
   isEasinessLevelOn,
 } from "app/vocabulary/actions/easinessLevel";
-import {
-  saveInLocalStorage,
-  getFromLocalStorage,
-} from "app/app/functions/localStorage";
+import { saveInLocalStorage } from "app/app/functions/localStorage";
 
 export let deck;
 

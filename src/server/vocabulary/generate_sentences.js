@@ -1,11 +1,8 @@
 import getSortKeys from "./sortKeys";
 import { getHash } from "maker/vocabulary_maker/functions";
-import { content_folder } from "paths_backend";
-import _ from "underscore";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/functions";
 const fs = require("fs");
 const path = require("path");
-const filename = content_folder + `/not_data/vocabulary/vocabulary`;
 /*
   Finds sentences from dataset that only use easy terms
 */
@@ -63,7 +60,7 @@ const run = () => {
           data
             .split("\n")
             .filter(Boolean)
-            .forEach((full_line, i) => {
+            .forEach((full_line) => {
               full_line
                 .split(/[.!;:?]+/)
                 .filter(Boolean)
@@ -101,7 +98,7 @@ const run = () => {
               // .filter((a) => word_frequency[a] > 10 && !(a in words_in_course))
               .filter((a) => !(a in known_words))
               .join("\n"),
-            (err) => {}
+            () => {}
           );
           fs.writeFileSync(
             __basedir +
@@ -118,7 +115,7 @@ const run = () => {
                   ")"
               )
               .join("\n"),
-            (err) => {}
+            () => {}
           );
           console.log("Done");
           process.exit();

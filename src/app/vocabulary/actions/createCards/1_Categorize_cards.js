@@ -1,19 +1,11 @@
-import { hour, day, hours, days } from "app/app/functions/time";
-import _ from "underscore";
-import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
+import { hours } from "app/app/functions/time";
+import { BAD } from "app/vocabulary/actions/card";
 import { INCR } from "app/vocabulary/actions/createSchedule";
-import { setUserData, getUserData } from "app/vocabulary/actions/sync";
-import {
-  printWord,
-  getCardsWithSameTerm,
-} from "app/vocabulary/actions/functions";
-import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
+import { getUserData } from "app/vocabulary/actions/sync";
 import { deck } from "app/vocabulary/actions/deck";
 import { CARDS_TO_CREATE } from "./index";
 import {
-  ScoreByTimeSinceTermWasSeen,
   SortIdsByWhetherTermWasRecentlySeen,
-  SortIdsByScore,
   SortBySortKey,
   shuffle_each,
 } from "./functions";

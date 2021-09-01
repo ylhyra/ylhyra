@@ -1,11 +1,8 @@
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import Layout from "app/elements/layout/Layout";
-import { updateUser } from "app/user/actions";
 import LoadContent from "./load/Content";
-import Frontpage from "app/elements/frontpage";
 import components from "app/router/paths";
 import { connect } from "react-redux";
-import { isBrowser } from "app/app/functions/isBrowser";
 import Section from "documents/templates/Section";
 import { isVocabularyTheFrontpage, updateURL, index } from "app/router/actions";
 

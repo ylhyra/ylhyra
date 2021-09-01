@@ -1,6 +1,4 @@
 import assert from "assert";
-import classify from "./../tables/classification/BIN_classification";
-import Word from "./../tables/word";
 import { stripHTML } from "./../tables/link";
 import { get } from "./get";
 /*

@@ -1,6 +1,6 @@
 // import typeset from "typeset";
 import typeset from "documents/compile/functions/typeset";
-import { URL_title, section_id } from "paths";
+import { section_id } from "paths";
 import marked from "marked";
 import RemoveUnwantedCharacters from "app/app/functions/RemoveUnwantedCharacters";
 import { html2json, json2html } from "app/app/functions/html2json";
@@ -8,7 +8,7 @@ import Conversation from "documents/compile/templates/Conversations";
 import { ProcessLinks } from "documents/compile/functions/links";
 import { getText } from "documents/parse/ExtractText/ExtractText";
 
-import { links, getValuesForURL } from "server/content/links";
+import { links } from "server/content/links";
 var sass = require("sass");
 
 /**
@@ -107,7 +107,7 @@ const ProcessArray = (arr) => {
   // }
   return processText(substituted)
     .split(/(%SUBSTITUTION[0-9]+%)/g)
-    .map((j, i) => {
+    .map((j) => {
       if (j.startsWith("%SUBSTITUTION")) {
         const x = j.match(/%SUBSTITUTION([0-9]+)%/)[1];
         const element = arr[parseInt(x)];
@@ -169,7 +169,7 @@ export const processText = (input) => {
   // if (/lambs/.test(input)) {
   //   return input;
   // }
-  const [f, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/);
+  const [, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/);
   let m = marked(middle).trim(); /* Á að trimma? */
   /* TODO: Virkar ekki með töflur */
   if (!/\n\n/.test(middle)) {

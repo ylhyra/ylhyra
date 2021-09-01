@@ -16,7 +16,7 @@ const init = (tree, _translation) => {
 
 const Traverse = (input, siblings = []) => {
   if (!input) return input;
-  const { node, tag, attr, child, text } = input;
+  const { node, tag, attr, child } = input;
   const id = attr?.id || null;
   if (node === "element" || node === "root") {
     if (tag === "word") {
@@ -76,7 +76,7 @@ const readSiblings = (siblings, startId, wordGroupContents) => {
   */
   let maybeReturn = [];
   let maybeRemove = [];
-  siblings.forEach((element, index) => {
+  siblings.forEach((element) => {
     if (removedIDs.includes(element.attr.id)) return;
 
     if (element.attr.id === startId) {

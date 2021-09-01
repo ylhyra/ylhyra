@@ -121,7 +121,6 @@ app.set("json spaces", 2);
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST;
 const host = customHost || null; // Let http.Server use its default IPv6/4 host
-const prettyHost = customHost || "localhost";
 const port = process.env.SERVER_PORT || argv.port || 9123;
 
 /* Import steps */

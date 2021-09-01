@@ -63,7 +63,7 @@ export const clearSelection = () => ({ type: "CLEAR_SELECTION" });
 /* Update entire definition object at once */
 export const updateDefinition =
   ({ definition, selected }) =>
-  (dispatch, getState) => {
+  (dispatch) => {
     dispatch({
       type: "UPDATE_DEFINITION",
       definition,
@@ -82,7 +82,7 @@ export const updateDefinitionValue =
       selected,
     });
   };
-export const updateSentence = (data) => (dispatch, getState) => {
+export const updateSentence = (data) => (dispatch) => {
   dispatch({
     type: "UPDATE_SENTENCE_VALUE",
     sentence_id: data.sentence_id,

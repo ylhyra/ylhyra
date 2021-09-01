@@ -37,7 +37,7 @@ export const getFromLocalStorage = (name) => {
 
   try {
     return JSON.parse(data);
-  } catch (e) {
+  } catch {
     return null;
   }
 };

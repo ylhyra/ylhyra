@@ -56,7 +56,7 @@ const Traverse = (json) => {
 
     let out = json;
     if (child) {
-      out.child = child.map((e, i) => Traverse(e)).filter(removeNulls);
+      out.child = child.map((e) => Traverse(e)).filter(removeNulls);
     }
     if (Object.keys(attr_converted).length > 0) {
       out.attr = attr_converted;

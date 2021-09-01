@@ -358,7 +358,6 @@ class Word {
   }
   /* Returns array */
   renderForms() {
-    let word = this;
     return this.rows.map((row) => {
       /* formattedOutput contains umlaut higlights */
       let out = row.formattedOutput || row.inflectional_form;
@@ -369,7 +368,7 @@ class Word {
     });
   }
   /* Returns string with helper words */
-  render(options) {
+  render() {
     let output =
       this.getHelperWordsBefore() +
       " " +

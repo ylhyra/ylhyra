@@ -1,7 +1,6 @@
 import ScrollIntoView from "documents/render/audio/Scroll/ScrollIntoView";
 import { addClass, removeClass } from "documents/render/helpers";
 import store from "app/app/store";
-import _ from "underscore";
 import { getDynamicFileUrl } from "paths";
 
 /*
@@ -105,22 +104,6 @@ const FindIndexFromTime = (time) => {
   return list[currentAudioId].findIndex(({ begin, end }) => {
     return begin <= time && (time < end || end === null);
   });
-};
-const FindIndexRangeFromID = (id) => {
-  return {
-    first: list[currentAudioId].findIndex(({ elements }) => {
-      return elements.includes(id);
-    }),
-    last:
-      list[currentAudioId].length -
-      1 -
-      list[currentAudioId]
-        .slice()
-        .reverse()
-        .findIndex(({ elements }) => {
-          return elements.includes(id);
-        }),
-  };
 };
 
 /*

@@ -1,7 +1,6 @@
 // import { createBrowserHistory, createHashHistory } from 'history'
-import { createStore, applyMiddleware, compose, combineReducers } from "redux";
+import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
-import createLogger from "redux-logger";
 import { isBrowser } from "app/app/functions/isBrowser";
 
 // import { data } from 'documents/Render/reducers'

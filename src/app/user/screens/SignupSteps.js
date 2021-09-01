@@ -1,7 +1,5 @@
 import { connect } from "react-redux";
 import React from "react";
-import Link from "app/router/Link";
-import { updateURL } from "app/router/actions";
 
 class SignupSteps extends React.Component {
   componentDidMount() {}

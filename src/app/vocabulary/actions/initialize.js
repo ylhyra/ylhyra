@@ -1,21 +1,15 @@
 import store from "app/app/store";
-import error from "app/app/error";
 import axios from "app/app/axios";
 import Deck from "./deck";
 import {
   saveInLocalStorage,
   getFromLocalStorage,
 } from "app/app/functions/localStorage";
-import { getUserFromCookie, isUserLoggedIn } from "app/user/actions";
-import { hour, day } from "app/app/functions/time";
-import { InitializeUser } from "app/user/actions";
 import { sync } from "./sync";
 import { getDeckName } from "maker/vocabulary_maker/functions";
 
 export const InitializeVocabulary = async () => {
   let DECK = getDeckName(); /* Only used for testing */
-
-  const now = new Date().getTime();
   let database = getFromLocalStorage("vocabulary-database");
   let should_update = false;
   if (

@@ -1,10 +1,10 @@
-const router = require("express").Router();
 import { exec } from "child_process";
 import { upload_path } from "server";
 import fs from "fs";
 import path from "path";
 import shortid from "shortid";
 import fileExtension from "file-extension";
+const router = require("express").Router();
 /*
   TODO: This should be put as a queued process
 */
@@ -24,9 +24,6 @@ router.post("/audio/synchronize", (req, res) => {
 });
 
 const DownloadFile = (filename, res, callback) => {
-  const url = `https://ylhyra.is/index.php?title=Special:Filepath/${encodeURIComponent(
-    filename
-  )}`;
   const tmp_filepath = path.resolve(
     upload_path,
     `tmp_${shortid.generate()}.${fileExtension(filename)}`
@@ -57,7 +54,7 @@ const synchronize = async ({ lang, filepath, xml }, res) => {
 
   // console.log(xml)
   // console.log(INPUT_XML)
-  await new Promise((resolve, reject) => {
+  await new Promise((resolve) => {
     fs.writeFile(INPUT_XML, `<xml id="root">${xml}</xml>`, (err) => {
       if (err) throw err;
       resolve();
@@ -111,7 +108,7 @@ const synchronize = async ({ lang, filepath, xml }, res) => {
     return res.send(e);
   }
 
-  const json = await new Promise((resolve, reject) => {
+  const json = await new Promise((resolve) => {
     fs.readFile(OUTPUT_JSON, "utf8", (err, data) => {
       if (err) throw err;
       // console.log(data)
@@ -121,9 +118,9 @@ const synchronize = async ({ lang, filepath, xml }, res) => {
 
   res.send(json);
 
-  fs.unlink(OUTPUT_JSON, (err) => {});
-  fs.unlink(INPUT_XML, (err) => {});
-  fs.unlink(AUDIO_FILE_PATH, (err) => {});
+  fs.unlink(OUTPUT_JSON, () => {});
+  fs.unlink(INPUT_XML, () => {});
+  fs.unlink(AUDIO_FILE_PATH, () => {});
 };
 
 export default router;

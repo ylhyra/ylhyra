@@ -31,21 +31,22 @@
   ]
 */
 const Read = (input) => {
-  let elements = []
+  let elements = [];
   const Flatten = (input) => {
-    if (!input) return
-    Array.isArray(input) && input.forEach(i => {
-      if (i.id !== 'root') {
-        elements.push({
-          begin: Math.max(0, parseFloat(i.begin)),
-          end: Math.max(0, parseFloat(i.end)),
-          id: i.id,
-        })
-      }
-      Flatten(i.children)
-    })
-  }
-  Flatten(input)
-  return elements
-}
-export default Read
+    if (!input) return;
+    Array.isArray(input) &&
+      input.forEach((i) => {
+        if (i.id !== "root") {
+          elements.push({
+            begin: Math.max(0, parseFloat(i.begin)),
+            end: Math.max(0, parseFloat(i.end)),
+            id: i.id,
+          });
+        }
+        Flatten(i.children);
+      });
+  };
+  Flatten(input);
+  return elements;
+};
+export default Read;

@@ -1,6 +1,6 @@
 import Word from "tables/word";
 import { normalizeTag, types } from "tables/classification/classification";
-import link, { ucfirst_link } from "tables/link";
+import link from "tables/link";
 import { sort_by_classification } from "server/inflection/tables/classification/sort_by_classification";
 
 export default (rows, options, more_options /* todo: merge */) => {

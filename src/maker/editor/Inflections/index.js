@@ -1,9 +1,5 @@
-import axios from "app/app/axios";
-
 import { connect } from "react-redux";
-import { synchronize } from "Editor/Long_audio/Synchronize";
 import React from "react";
-import store from "app/app/store";
 
 class Inflections extends React.Component {
   state = {};
@@ -26,8 +22,6 @@ class Inflections extends React.Component {
     // })
   };
   render() {
-    const { analysis, list } = this.props.editor;
-
     return (
       <div className="">
         Uncertain:

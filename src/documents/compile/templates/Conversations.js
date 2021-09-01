@@ -1,4 +1,4 @@
-import { html2json, json2html } from "app/app/functions/html2json";
+import { json2html } from "app/app/functions/html2json";
 import c from "app/app/functions/no-undefined-in-template-literal";
 import markdown_to_html from "documents/compile/markdown_to_html";
 

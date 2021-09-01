@@ -1,5 +1,4 @@
-import { html2json, json2html } from "app/app/functions/html2json";
-import markdown from "marked";
+import { html2json } from "app/app/functions/html2json";
 import { AllHtmlEntities as Entities } from "html-entities";
 import ExtractData from "./ExtractData";
 import ExtractText from "./ExtractText/ExtractText";
@@ -9,12 +8,11 @@ import Compiler from "./Compiler";
 import { notify } from "app/app/error";
 import isEmpty from "is-empty-object";
 const entities = new Entities();
-var now = require("performance-now");
 
 /*
   Parser
 */
-export default ({ html, title }) => {
+export default ({ html }) => {
   if (!html) return null;
   // console.log(html)
   try {

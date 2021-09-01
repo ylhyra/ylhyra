@@ -2,7 +2,6 @@ import { isVocabularyTheFrontpage } from "app/router/actions";
 import axios from "app/app/axios";
 import components from "app/router/paths";
 import { ReadAlongSetup } from "documents/render/audio/ReadAlong";
-import { URL_title } from "paths";
 import store from "app/app/store";
 import { updateURL, index } from "../actions";
 import Analytics from "app/Analytics/analytics";
@@ -71,7 +70,7 @@ const set = async (url, data, preload, section, callback) => {
   // console.log({ url, section });
   // throw new Error("");
   if (preload) return;
-  let parsed, flattenedData, header;
+  let parsed, flattenedData;
   if ("parsed" in data) {
     parsed = data.parsed;
     flattenedData = data.flattenedData;

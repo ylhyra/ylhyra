@@ -1,12 +1,10 @@
-import _ from "underscore";
 import generate_html from "documents/compile";
 import { getValuesForURL } from "server/content/links";
-import { URL_title, FileSafeTitle } from "paths";
 let order;
 
 export const getOrder = async (withDepth) => {
   if (order) return order;
-  const { content, header } = await generate_html("course");
+  const { content } = await generate_html("course");
   let currentUnit = 0;
   let index = 1;
   let urls = [];

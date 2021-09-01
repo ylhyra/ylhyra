@@ -1,7 +1,5 @@
-import React from "react";
 import axios from "app/app/axios";
 import store from "app/app/store";
-import ReactDOMServer from "react-dom/server";
 import error from "app/app/error";
 
 import MergeShortWords from "./2-Merge-short-words";

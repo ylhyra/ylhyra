@@ -6,12 +6,12 @@
 
 */
 import express from "express";
-const router = express.Router();
 import cors from "cors";
 import render from "./../tables";
 import tree from "./../tables/tree";
 import withLicense from "./server-with-database/license";
 import layout from "./views/layout";
+const router = express.Router();
 
 /**
  * @param {boolean} use_database

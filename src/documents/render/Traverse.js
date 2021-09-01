@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React from "react";
 import GetTemplate from "documents/templates/_list";
 import Link from "app/router/Link";
 

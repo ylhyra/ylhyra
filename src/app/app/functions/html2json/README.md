@@ -18,8 +18,7 @@ $ npm install html2json
 ```
 
 ```javascript
-var html2json = require("html2json").html2json;
-var json2html = require("html2json").json2html;
+
 ```
 
 ### API

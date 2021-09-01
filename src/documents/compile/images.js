@@ -1,17 +1,16 @@
 import { URL_title } from "paths";
 import { image_output_folder } from "paths_backend";
-import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
 import _ from "underscore";
 import Transclude from "./transclude";
-import { processed_image_url, build_folder } from "paths";
+import { processed_image_url } from "paths";
 import forEachAsync from "app/app/functions/array-foreach-async";
-import { links, getValuesForURL } from "server/content/links";
+import { links } from "server/content/links";
 
 var fs = require("fs");
 const { exec } = require("child_process");
 
 const Images = (data) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async (resolve) => {
     let input = [];
     let output = [];
     let r = /<Image (.+)?\/>/g;
@@ -24,9 +23,9 @@ const Images = (data) => {
       return params;
     });
     /* Run */
-    await forEachAsync(input, async (z, index) => {
+    await forEachAsync(input, async (z) => {
       await new Promise(async (resolve2, reject2) => {
-        let [o, filename_, rest] = z.match(/src="(.+?)"(.+)?\/>/);
+        let [, filename_, rest] = z.match(/src="(.+?)"(.+)?\/>/);
         if (!/(png|jpe?g)$/i.test(filename_)) {
           console.log(filename_ + " file type not yet supported");
           output.push("");
@@ -46,11 +45,11 @@ const Images = (data) => {
           ""
         );
         const filename = links[URL_title("File:" + filename_)].filename;
-        const [k, name, ending] = filename.match(/(.+)\.(.+?)$/);
+        const [, name, ending] = filename.match(/(.+)\.(.+?)$/);
 
-        exec(`identify ${file}`, async (error, stdout, stderr) => {
+        exec(`identify ${file}`, async (error, stdout) => {
           if (error) return console.error(`exec error: ${error}`);
-          const [j, original_width, original_height] = stdout.match(
+          const [, original_width, original_height] = stdout.match(
             /^[^ ]+ [^ ]+ ([0-9]+)x([0-9]+)/
           );
 
@@ -100,7 +99,7 @@ const Images = (data) => {
               <picture>
                 ${small_to_big
                   .map(
-                    (i, index) => `
+                    (i) => `
                   <source
                     ${i[0] !== 800 ? `media="(max-width: ${i[0]}px)"` : ""}
                     srcset="
@@ -141,7 +140,7 @@ const Images = (data) => {
 
           fs.stat(
             `${image_output_folder}/${name}-${boxes[0][2]}x${boxes[0][3]}.${ending}`,
-            function (err, stat) {
+            function (err) {
               if (err == null) {
                 // File exists
                 return resolve2();
@@ -155,7 +154,7 @@ const Images = (data) => {
                 `
                     )
                     .join(""),
-                  (error2, stdout2, stderr2) => {
+                  (error2) => {
                     if (error2) return console.error(`exec error: ${error2}`);
                     return resolve2();
                   }
@@ -172,7 +171,7 @@ const Images = (data) => {
     // console.log(output)
     /* Insert */
     let u = 0;
-    data = data.replace(r, (params) => {
+    data = data.replace(r, () => {
       // input.push(params)
       // return `<Image src="/api/images/${output[u++]}"/>`
       return output[u++];

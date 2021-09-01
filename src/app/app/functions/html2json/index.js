@@ -107,7 +107,7 @@ export const html2json = function html2json(html) {
         parent.child.push(node);
       }
     },
-    comment: function (text) {
+    comment() {
       return;
       // debug(text);
       // var node = {

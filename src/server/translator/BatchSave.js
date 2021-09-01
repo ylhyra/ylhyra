@@ -2,9 +2,6 @@
 
 const axios = require("axios");
 
-const url = process.env.TESTING ? "http://localhost:9123" : "https://ylhyra.is";
-
-let done = 0;
 const run = async (apcontinue = "") => {
   const page_list = (
     await axios.get(
@@ -13,7 +10,6 @@ const run = async (apcontinue = "") => {
   ).data;
 
   await page_list.query.allpages.forEachAsync(async (data_info) => {
-    const datapageid = data_info.pageid;
     const datatitle = data_info.title;
     await new Promise(async (resolve) => {
       const title = datatitle.replace(/^Data:/, "");

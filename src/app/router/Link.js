@@ -1,12 +1,8 @@
-import store from "app/app/store";
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { urls as app_urls } from "app/router/paths";
-import { URL_title } from "paths";
 import { updateURL, getFrontpageURL } from "app/router/actions";
 import { preload } from "./load/actions";
-
-const start = new Date().getTime();
 
 class Link extends React.Component {
   fn = (e, url) => {

@@ -1,5 +1,3 @@
-import { URL_title, section_id } from "paths";
-import { url_to_info } from "app/router/paths";
 import atob from "atob";
 var btoa = require("btoa");
 

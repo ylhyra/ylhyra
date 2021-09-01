@@ -8,7 +8,7 @@ var client = new Twitter({
 });
 
 const Tweet = (id, send) => {
-  client.get("statuses/show", { id }, function (error, tweets, response) {
+  client.get("statuses/show", { id }, function (error, tweets) {
     if (!error) {
       send({
         type: "TWEET",

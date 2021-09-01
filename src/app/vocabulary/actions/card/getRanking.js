@@ -1,4 +1,4 @@
-import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
+import { BAD } from "app/vocabulary/actions/card";
 
 /**
  * @memberof Card

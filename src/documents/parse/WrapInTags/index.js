@@ -29,8 +29,6 @@
   order to encapsulate the text into <sentence/> tags.
 
 */
-
-import { html2json, json2html } from "app/app/functions/html2json";
 import { getText } from "documents/parse/ExtractText/ExtractText";
 
 import InsertSplit from "./1-InsertSplit";
@@ -141,7 +139,7 @@ const RemoveData = (input) => {
   if (Array.isArray(input)) {
     return input.map(RemoveData);
   }
-  const { node, tag, attr, child, text } = input;
+  const { node, attr, child } = input;
   if (node === "element" || node === "root") {
     if (attr && (attr["data-document-start"] || attr["data-document-end"])) {
       return { node: "text", text: "" }; // Hlýtur að vera betri leið til að henda út greinum...

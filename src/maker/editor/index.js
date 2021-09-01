@@ -9,7 +9,6 @@ import LongAudio from "Editor/Long_audio";
 import Inflections from "Editor/Inflections";
 import Sound from "Editor/Short_audio";
 import { openEditor, purgeCurrentPage } from "./actions";
-let timer;
 
 @connect((state) => ({
   editor: state.editor,

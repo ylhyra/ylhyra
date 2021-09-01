@@ -1,41 +1,36 @@
-
 export const suggestions = (state = {}, action) => {
-  let update = {}
+  let update = {};
   switch (action.type) {
-    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
+    case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       // console.warn(action)
-      return action.currentDocumentData?.suggestions || {}
-    case 'SUGGEST':
+      return action.currentDocumentData?.suggestions || {};
+    case "SUGGEST":
       /* Suggest translation */
-      Object.keys(action.definitions).forEach(id => {
-        update[id] = [
-          ...(state[id] || []),
-          ...(action.definitions[id] || []),
-        ]
-      })
+      Object.keys(action.definitions).forEach((id) => {
+        update[id] = [...(state[id] || []), ...(action.definitions[id] || [])];
+      });
       return {
         ...state,
         ...update,
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
 export const analysis = (state = {}, action) => {
-  let update = {}
   switch (action.type) {
-    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
-      return action.currentDocumentData?.analysis || {}
-    case 'GRAMMATICAL_ANALYSIS':
+    case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
+      return action.currentDocumentData?.analysis || {};
+    case "GRAMMATICAL_ANALYSIS":
       return {
         ...state,
         ...action.grammatical_analysis,
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
 /*
 Analysis is returned on the form:

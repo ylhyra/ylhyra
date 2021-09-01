@@ -1,4 +1,4 @@
-import { html2json, json2html } from "app/app/functions/html2json";
+import { json2html } from "app/app/functions/html2json";
 // import SplitIntoUnicodeCharacters from './helpers/runes'
 // import { getTextFromTokenized } from 'server/api/translate/tokenizer/create-ids'
 
@@ -20,7 +20,7 @@ export default function (input, tokenizedSplit) {
     if (Array.isArray(i)) {
       return i.map((x) => InsertSPLIT(x));
     } else {
-      const { node, tag, attr, child, text } = i;
+      const { node, child, text } = i;
       if (node === "element" || node === "root") {
         return {
           ...i,

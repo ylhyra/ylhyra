@@ -1,3 +1,4 @@
+/* Match the "%" in lemmas, which serves to mark something as both the basic form and an alt_id */
 import _hash from "app/app/functions/hash";
 import { isBrowser } from "app/app/functions/isBrowser";
 import c from "app/app/functions/no-undefined-in-template-literal";
@@ -267,18 +268,6 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       const terms_in_this_line = icelandic_strings.map(getHash);
       let alternative_ids = getHashesFromCommaSeperated(row.alternative_id);
       let depends_on_lemmas = [];
-      /* Match the "%" in lemmas, which serves to mark something as both the basic form and an alt_id */
-      const lemmas =
-        row.lemmas &&
-        row.lemmas.split(",").map((input) => {
-          const out = input.replace(/\(.+?\)/g, "").replace(/%/g, "");
-          if (/%/.test(input)) {
-            alternative_ids.push(getHash(out));
-          } else {
-            depends_on_lemmas.push(out);
-          }
-          return out;
-        });
       const depends_on = [
         ...getHashesFromCommaSeperated(row.depends_on?.replace(/%/g, "")),
         ...getHashesFromCommaSeperated(depends_on_lemmas),
@@ -319,15 +308,15 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       };
 
       if (/{{(ð?u)}}/.test(automaticThu(row.icelandic))) {
-        const [x, full, verb] = automaticThu(row.icelandic).match(
+        const [, full, verb] = automaticThu(row.icelandic).match(
           /(([^ "„,.]+){{(?:ð?u)}})/
         );
         card_skeleton.note =
           card_skeleton.note +
           " " +
           formatVocabularyEntry(`
-          ''${full.toLowerCase()}'' is made by combining ''${verb.toLowerCase()}'' + ''þú''.
-        `);
+        ''${full.toLowerCase()}'' is made by combining ''${verb.toLowerCase()}'' + ''þú''.
+      `);
       }
 
       /* Icelandic to English */

@@ -1,10 +1,10 @@
-import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
+import { BAD, GOOD } from "app/vocabulary/actions/card";
 import _ from "underscore";
 
 /**
  * @memberof Card
  */
-export default function postponeRelatedCards(card1_interval) {
+export default function postponeRelatedCards() {
   const card1 = this;
   card1.terms.forEach((term) => {
     card1.session.cards.forEach((card2) => {

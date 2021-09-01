@@ -1,15 +1,3 @@
-/**
- * A single study session.
- */
-import store from "app/app/store";
-import _ from "underscore";
-import Card, { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
-import {
-  printWord,
-  getCardsWithSameTerm,
-} from "app/vocabulary/actions/functions";
-import { PercentageKnown } from "app/vocabulary/actions/functions/percentageKnown";
-import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 import createCards from "app/vocabulary/actions/createCards";
 import {
   updateRemainingTime,
@@ -28,10 +16,7 @@ import {
 import { nextCard } from "app/vocabulary/actions/session/nextCard";
 import { createSchedule } from "app/vocabulary/actions/createSchedule";
 import { updateURL } from "app/router/actions";
-import {
-  saveInLocalStorage,
-  getFromLocalStorage,
-} from "app/app/functions/localStorage";
+import { saveInLocalStorage } from "app/app/functions/localStorage";
 import Analytics from "app/Analytics/analytics";
 import { undo, undoable, checkForUndoOnKeyDown } from "./undo";
 import { SESSION_PREFIX, setUserData } from "app/vocabulary/actions/sync";

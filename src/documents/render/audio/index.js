@@ -1,14 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { connect, Provider } from "react-redux";
-import { ReadAlong, ReadAlongSetup } from "./ReadAlong";
+import { connect } from "react-redux";
+import { ReadAlong } from "./ReadAlong";
 import SmoothScroll from "./Scroll/SmoothScroll";
 import store from "app/app/store";
-import {
-  ParseHTMLtoObject,
-  ParseHTMLtoArray,
-} from "documents/render/elements/parse";
-import tapOrClick from "react-tap-or-click";
 import { notify } from "app/app/error";
 require("./KeyboardListener");
 require("array-sugar");
@@ -95,14 +89,12 @@ class Audio extends React.PureComponent {
       }, (this.state.stopAt - audio.currentTime) * 1000);
     }
   };
-  loading = (event) => {
-    const audio = this.audio.current;
+  loading = () => {
     this.setState({
       loading: true,
     });
   };
-  canplay = (event) => {
-    const audio = this.audio.current;
+  canplay = () => {
     this.setState({
       loading: false,
     });
@@ -149,7 +141,7 @@ class Audio extends React.PureComponent {
     }
   };
   render() {
-    const { playing, loading, error, currentTimePercentage } = this.state;
+    const { playing, error, currentTimePercentage } = this.state;
     const { src, type, label } = this.props;
     const inline = this.props.inline;
     if (!src) return null;

@@ -1,15 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Link from "app/router/Link";
-import Button from "documents/templates/Button";
-import {
-  studyParticularIds,
-  getCardIdsFromTermIds,
-} from "app/vocabulary/actions/functions";
+import { studyParticularIds } from "app/vocabulary/actions/functions";
 import { PercentageKnown } from "app/vocabulary/actions/functions/percentageKnown";
 import { DecodeDataInHTML } from "documents/compile/functions/functions";
-import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
-import _ from "underscore";
 
 class X extends Component {
   getCards = () => {

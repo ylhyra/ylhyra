@@ -1,17 +1,9 @@
-import { updateURL } from "app/router/actions";
 import { connect } from "react-redux";
 import React from "react";
-import Link from "app/router/Link";
 import { login } from "app/user/actions";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import axios from "app/app/axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import store from "app/app/store";
-import {
-  isUserLoggedIn,
-  existsSchedule,
-  termsInSchedule,
-} from "app/user/actions";
+import { existsSchedule, termsInSchedule } from "app/user/actions";
 
 import errors from "app/app/error/messages";
 

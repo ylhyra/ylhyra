@@ -1,13 +1,4 @@
-import store from "app/app/store";
-import _ from "underscore";
-import Card, { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
-import {
-  printWord,
-  getCardsWithSameTerm,
-} from "app/vocabulary/actions/functions";
-import { PercentageKnown } from "app/vocabulary/actions/functions/percentageKnown";
-import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
-import createCards from "app/vocabulary/actions/createCards";
+import { printWord } from "app/vocabulary/actions/functions";
 const LOGGING = false;
 
 /**

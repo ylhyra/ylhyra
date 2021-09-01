@@ -1,84 +1,84 @@
-import { combineReducers } from 'redux'
-import { translation, selected } from 'Editor/Translator/reducers'
-import { suggestions, analysis } from 'Editor/Suggestions/reducers'
-import MakeList from 'Parse/Tokenize/List'
-import long_audio from 'Editor/Long_audio/reducers'
-import short_audio from 'Editor/Short_audio/reducers'
-import getParameter from 'get-parameter'
-let autosave
-if (typeof window !== 'undefined') {
-  autosave = require('./actions').autosave
+import { combineReducers } from "redux";
+import { translation, selected } from "Editor/Translator/reducers";
+import { suggestions, analysis } from "Editor/Suggestions/reducers";
+import MakeList from "Parse/Tokenize/List";
+import long_audio from "Editor/Long_audio/reducers";
+import short_audio from "Editor/Short_audio/reducers";
+import getParameter from "get-parameter";
+let autosave;
+if (typeof window !== "undefined") {
+  autosave = require("./actions").autosave;
 }
 
-const isOpen = typeof window !== 'undefined' ? getParameter('editor') : false
+const isOpen = typeof window !== "undefined" ? getParameter("editor") : false;
 const open = (state = isOpen, action) => {
   switch (action.type) {
-    case 'OPEN_EDITOR':
-      return action.page
-    case 'CLOSE_EDITOR':
-      return false
+    case "OPEN_EDITOR":
+      return action.page;
+    case "CLOSE_EDITOR":
+      return false;
     default:
-      return state
+      return state;
   }
-}
+};
 
 const parsed = (state = null, action) => {
   switch (action.type) {
-    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
-      return action.parsed || state
+    case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
+      return action.parsed || state;
     default:
-      return state
+      return state;
   }
-}
+};
 
 const tokenized = (state = [], action) => {
   switch (action.type) {
-    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
-      return action.currentDocument || state
+    case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
+      return action.currentDocument || state;
     default:
-      return state
+      return state;
   }
-}
+};
 
 const list = (state = {}, action) => {
   switch (action.type) {
-    case 'INITIALIZE_WITH_TOKENIZED_AND_DATA':
+    case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       if (action.currentDocument) {
-        return MakeList(action.currentDocument)
+        return MakeList(action.currentDocument);
       } else {
-        return state
+        return state;
       }
     default:
-      return state
+      return state;
   }
-}
+};
 
 const isSaved = (state = true, action) => {
   switch (action.type) {
-    case 'LOAD_EDITOR':
-    case 'SAVED':
-      return true
-    case 'AUDIO_SECTIONS':
-    case 'AUDIO_FILE':
-    case 'DELETE_WORD':
-    case 'PRONUNCIATION_AND_SOUND':
-    case 'SUGGEST':
-    case 'SYNC':
-    case 'UPDATE_DEFINITION_VALUE':
-    case 'UPDATE_DEFINITION':
-    case 'UPDATE_INPUT':
-    case 'UPDATE_METADATA_SINGLE':
-    case 'UPDATE_PARSED':
-    case 'UPDATE_SENTENCE_VALUE':
-    case 'SOUND_BITE_FILES':
-    case 'SOUND_BITE_FILE':
-    case 'SOUND':
-      autosave?.on()
-      return false
+    case "LOAD_EDITOR":
+    case "SAVED":
+      return true;
+    case "AUDIO_SECTIONS":
+    case "AUDIO_FILE":
+    case "DELETE_WORD":
+    case "PRONUNCIATION_AND_SOUND":
+    case "SUGGEST":
+    case "SYNC":
+    case "UPDATE_DEFINITION_VALUE":
+    case "UPDATE_DEFINITION":
+    case "UPDATE_INPUT":
+    case "UPDATE_METADATA_SINGLE":
+    case "UPDATE_PARSED":
+    case "UPDATE_SENTENCE_VALUE":
+    case "SOUND_BITE_FILES":
+    case "SOUND_BITE_FILE":
+    case "SOUND":
+      autosave?.on();
+      return false;
     default:
-      return state
+      return state;
   }
-}
+};
 
 export const editor = combineReducers({
   open,
@@ -94,8 +94,7 @@ export const editor = combineReducers({
   parsed,
   // audio,
   // pronunciation,
-})
-
+});
 
 // import audio from 'Editor/4-Audio/reducers'
 // import pronunciation from 'Editor/4-Audio/Pronunciation'

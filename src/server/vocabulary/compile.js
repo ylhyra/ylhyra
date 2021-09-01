@@ -2,26 +2,14 @@
   To run:
   npm run vocabulary
 */
-import axios from "axios";
-import query from "server/database";
-import sql from "server/database/functions/SQL-template-literal";
-import stable_stringify from "json-stable-stringify";
 import { content_folder } from "paths_backend";
-import generate_html from "documents/compile";
 import getSortKeys from "./sortKeys";
-import atob from "atob";
 import {
   parse_vocabulary_file,
-  getHash,
   GetLowercaseStringForAudioKey,
 } from "maker/vocabulary_maker/functions";
-import {
-  printWord,
-  getCardsWithSameTerm,
-} from "app/vocabulary/actions/functions";
 import _ from "underscore";
 
-const path = require("path");
 const fs = require("fs");
 
 // const DECK = "_da";
@@ -41,14 +29,8 @@ const run = async () => {
   const sortKeys = await getSortKeys();
 
   fs.readFile(filename, "utf8", (err, data) => {
-    const {
-      terms,
-      dependencies,
-      alternative_ids,
-      plaintext_sentences,
-      cards,
-      sound,
-    } = parse_vocabulary_file(yaml.load(data));
+    const { terms, dependencies, alternative_ids, cards, sound } =
+      parse_vocabulary_file(yaml.load(data));
 
     const sound_lowercase = sound.map((j) => ({
       ...j,
@@ -231,7 +213,6 @@ const simplify = () => {
     let minSortKey;
     Object.keys(deck.cards[term.cards[0]]).forEach((key) => {
       if (key === "sortKey") return;
-      const val = deck.cards[term.cards[0]][key];
       // if (
       //   term.cards.every(
       //     (card_id) =>
@@ -316,7 +297,7 @@ export const withDependencies__backend = (card_ids, options) => {
           // if (card_ids.some((id) => id in deck.schedule)) {
           //   card_ids = _.shuffle(card_ids);
           // } else {
-          card_ids = card_ids.sort((a, b) => {
+          card_ids = card_ids.sort((a) => {
             if (a.endsWith("is")) return -1;
             return 1;
           });

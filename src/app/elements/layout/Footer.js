@@ -1,8 +1,7 @@
 import React from "react";
-import LoginButton from "app/user/LoginButton";
 import Link from "app/router/Link";
 
-export default (props) => (
+export default () => (
   <div id="footer">
     <div id="footer-info">
       <span className="footer-gray">
@@ -20,9 +19,9 @@ export default (props) => (
           <a href="mailto:ylhyra@ylhyra.is">Report errors</a>
         </span>
         {/* •
-        <span className="footer-gray">
-          <Link href="/Project:Become_a_collaborator">Collaborate</Link>
-        </span> */}
+      <span className="footer-gray">
+        <Link href="/Project:Become_a_collaborator">Collaborate</Link>
+      </span> */}
         <span className="pwyw-on">
           •
           <span className="footer-gray">
@@ -32,8 +31,8 @@ export default (props) => (
         {/* • */}
       </span>
       {/* <span className="footer-gray">
-      <a href="/Special:Search">Search</a>
-      </span> */}
+    <a href="/Special:Search">Search</a>
+    </span> */}
     </div>
   </div>
 );

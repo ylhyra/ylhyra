@@ -1,6 +1,4 @@
 import { omit, uniq } from "underscore";
-import store from "app/app/store";
-import { combineReducers } from "redux";
 import { wordsHash } from "Editor/Translator/actions";
 require("app/app/functions/sortByArray");
 

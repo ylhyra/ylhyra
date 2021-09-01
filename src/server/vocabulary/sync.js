@@ -6,7 +6,6 @@ import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
 
 const router = require("express").Router();
-const fs = require("fs");
 
 /* Download vocabulary database file */
 router.use("/vocabulary/", express.static(__basedir + "/build/vocabulary"));
@@ -99,7 +98,7 @@ const saveUserData = (req, object) => {
       })
       .join("");
 
-    query(queries, (err, results) => {
+    query(queries, (err) => {
       if (err) {
         console.error(err);
         throw new Error();

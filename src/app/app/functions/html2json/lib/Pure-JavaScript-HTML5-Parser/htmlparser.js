@@ -252,7 +252,7 @@
     var results = "";
 
     HTMLParser(html, {
-      start: function (tag, attrs, unary) {
+      start(tag, attrs) {
         results += "<" + tag;
 
         for (var i = 0; i < attrs.length; i++)
@@ -350,7 +350,7 @@
           curParentNode = elem;
         }
       },
-      end: function (tag) {
+      end() {
         elems.length -= 1;
 
         // Init the new parentNode
@@ -359,7 +359,7 @@
       chars: function (text) {
         curParentNode.appendChild(doc.createTextNode(text));
       },
-      comment: function (text) {
+      comment() {
         // create comment node
       },
     });

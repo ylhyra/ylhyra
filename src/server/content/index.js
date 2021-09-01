@@ -1,14 +1,10 @@
 import generate_html from "documents/compile";
-import { URL_title, FileSafeTitle } from "paths";
-import { removeComments } from "documents/compile/transclude";
-import { url_to_info } from "app/router/paths";
-import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
+import { URL_title } from "paths";
 import { getValuesForURL } from "server/content/links";
 import { build_folder } from "paths_backend";
 const router = require("express").Router({ strict: true });
 var fs = require("fs");
 
-const yaml = require("js-yaml");
 const path = require("path");
 
 router.get(["/api/content", "*"], async (req, res) => {

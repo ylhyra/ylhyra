@@ -1,9 +1,3 @@
-import { average, clamp } from "app/app/functions/math";
-import {
-  printWord,
-  getCardsWithSameTerm,
-} from "app/vocabulary/actions/functions";
-import _ from "underscore";
 import getRanking from "app/vocabulary/actions/card/getRanking";
 import rate from "app/vocabulary/actions/card/rate";
 import postponeRelatedCards from "app/vocabulary/actions/card/postponeRelatedCards";

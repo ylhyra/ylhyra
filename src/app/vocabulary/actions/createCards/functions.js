@@ -1,11 +1,6 @@
-import { hour, day, hours, days } from "app/app/functions/time";
+import { hour } from "app/app/functions/time";
 import _ from "underscore";
-import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
-import {
-  printWord,
-  getCardsWithSameTerm,
-} from "app/vocabulary/actions/functions";
-import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
+import { getCardsWithSameTerm } from "app/vocabulary/actions/functions";
 import { deck } from "app/vocabulary/actions/deck";
 
 const ScoreByTimeSinceTermWasSeen = (id, now) => {

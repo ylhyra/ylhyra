@@ -1,10 +1,5 @@
 import { newTitle } from "documents/parse";
-import { AllHtmlEntities as Entities } from "html-entities";
-import {
-  EncodeDataInHTML,
-  DecodeDataInHTML,
-} from "documents/compile/functions/functions";
-const entities = new Entities();
+import { DecodeDataInHTML } from "documents/compile/functions/functions";
 
 /*
   Returns an object containing:
@@ -14,7 +9,6 @@ const ExtractData = (input) => {
   let output = {};
 
   const getNewTitle = new newTitle();
-  let temp = [];
   Traverse(input, ({ documentTitle, data }) => {
     const title = getNewTitle.get(documentTitle);
     // console.log(data)
@@ -24,7 +18,7 @@ const ExtractData = (input) => {
 };
 
 const Traverse = (input, callback) => {
-  const { node, tag, attr, child, text } = input;
+  const { node, attr } = input;
   if (typeof input === "string") return;
   if (node === "text") return;
   if (Array.isArray(input)) {
@@ -55,7 +49,7 @@ export default ExtractData;
   //TODO!
   Prepend title to all IDs to prevent clashing
 */
-const updateIDs = (data, title) => {
+const updateIDs = (data) => {
   // console.log(data)
   return data;
 };

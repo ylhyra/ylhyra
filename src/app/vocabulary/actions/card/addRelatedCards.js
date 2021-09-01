@@ -1,4 +1,4 @@
-import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
+import { BAD } from "app/vocabulary/actions/card";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { deck } from "app/vocabulary/actions/deck";
 

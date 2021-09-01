@@ -29,7 +29,7 @@ export default (input) => {
 
   return tmp
     .split(/(SUBSTITUTION[0-9]+%)/g)
-    .map((j, i) => {
+    .map((j) => {
       if (j.startsWith("SUBSTITUTION")) {
         const x = j.match(/SUBSTITUTION([0-9]+)%/)[1];
         return split[parseInt(x)];

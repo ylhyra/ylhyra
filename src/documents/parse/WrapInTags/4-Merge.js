@@ -1,4 +1,3 @@
-import { html2json, json2html } from "app/app/functions/html2json";
 /*
   STEP 4:
 
@@ -17,7 +16,7 @@ const MergeElementsThatHaveBeenSplitUnnecessarily = (
   if (Array.isArray(i)) {
     return i.map((x) => MergeElementsThatHaveBeenSplitUnnecessarily(x));
   } else {
-    const { node, tag, attr, child, text } = i;
+    const { child } = i;
     if (child?.length > 0) {
       let newChildren = [];
       let tempElement = {};

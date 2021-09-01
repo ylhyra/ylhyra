@@ -3,7 +3,7 @@ import shortid from "shortid";
 import sql from "server/database/functions/SQL-template-literal";
 import _ from "underscore";
 const router = require("express").Router();
-const { Crawler, middleware } = require("es6-crawler-detect");
+const { Crawler } = require("es6-crawler-detect");
 
 const rateLimit = require("express-rate-limit")({
   windowMs: 1 * 60 * 1000,
@@ -53,7 +53,7 @@ router.post("/a", rateLimit, (req, res) => {
           `
       )
       .join(""),
-    (err, results) => {
+    (err) => {
       if (err) {
         console.error(err);
       } else {
@@ -68,7 +68,7 @@ router.post("/a", rateLimit, (req, res) => {
 /*
   List most popular pages by unique visitors
 */
-router.get("/a", (req, res) => {
+router.get("/a", () => {
   // query(sql`
   //   SELECT
   //     page_name,

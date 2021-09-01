@@ -1,5 +1,5 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
-import { content_folder, build_folder } from "paths_backend";
+import { build_folder } from "paths_backend";
 import { links } from "server/content/links";
 var fs = require("fs");
 const path = require("path");
@@ -7,7 +7,7 @@ const path = require("path");
 const run = async () => {
   let sitemap = "";
   Object.keys(links).forEach((url) => {
-    const { title, filepath, filename, shouldBeIndexed } = links[url];
+    const { filepath, shouldBeIndexed } = links[url];
     if (!shouldBeIndexed) return;
     const mtime = fs.statSync(filepath).mtime;
     sitemap += c`

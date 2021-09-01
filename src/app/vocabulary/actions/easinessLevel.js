@@ -1,9 +1,5 @@
 import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
 import { deck } from "app/vocabulary/actions/deck";
-import {
-  saveInLocalStorage,
-  getFromLocalStorage,
-} from "app/app/functions/localStorage";
 import { setUserData, getUserData } from "app/vocabulary/actions/sync";
 
 let easyInARow = 0;
@@ -73,11 +69,9 @@ const setEasinessLevel = (val) => {
 
 /* Create new cards */
 const recreateAfterChangingEasinessLevel = () => {
-  const oldCards = [...deck.session.cards];
   deck.session.cards = deck.session.cards.filter(
     (card) => card.history.length > 0 || card.cannotBeShownBefore || card.done
   );
-  let tmp_index = 0;
   deck.session.cards.forEach((card) => {
     if (card.sortKey < getUserData("easinessLevel")) {
       card.showIn({ minInterval: 100 });

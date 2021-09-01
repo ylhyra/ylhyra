@@ -1,5 +1,4 @@
 import _ from "underscore";
-import axios from "app/app/axios";
 import store from "app/app/store";
 import isEmpty from "is-empty-object";
 import { send } from "Editor/web-socket";
@@ -7,7 +6,7 @@ require("app/app/functions/sortByArray");
 // import { saveEditor } from 'Editor/actions'
 
 export const findSoundBites = async () => {
-  const { tokenized, translation, list, short_audio } = store.getState().editor;
+  const { tokenized, translation, list } = store.getState().editor;
 
   // console.log(tokenized)
 

@@ -13,7 +13,6 @@ class X extends Component {
       array.push(i);
     }
     let next = part + 1 <= parts ? part + 1 : null;
-    const nextUrl = basename + "/" + (part + 1);
     const f = (j) => basename + j.toString();
     return (
       <div>

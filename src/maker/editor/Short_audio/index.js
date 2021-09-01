@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import React from "react";
-import store from "app/app/store";
 import { findSoundBites } from "./actions";
 import Recorder from "./Recorder";
 
@@ -8,7 +7,7 @@ class Sounds extends React.Component {
   componentDidMount = () => {
     this.load();
   };
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     this.load();
   }
   load = () => {
@@ -17,7 +16,7 @@ class Sounds extends React.Component {
     }
   };
   render() {
-    const { short_audio, editor, match } = this.props;
+    const { short_audio } = this.props;
     return (
       <div className="center">
         <table className="wikitable">

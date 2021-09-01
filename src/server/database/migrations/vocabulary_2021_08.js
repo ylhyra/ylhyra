@@ -25,7 +25,7 @@ query(
       await forEachAsync(
         results,
         async ({ id, user_id, card_id, created_at, ...row }) => {
-          return new Promise((resolve, reject) => {
+          return new Promise((resolve) => {
             query(
               sql`
             INSERT INTO user_data SET
@@ -35,7 +35,7 @@ query(
               value = ${stable_stringify(removeNullKeys(row))},
               created_at = ${created_at}
             ;`,
-              async (err, results) => {
+              async () => {
                 resolve();
               }
             );

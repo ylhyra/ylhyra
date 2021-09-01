@@ -25,7 +25,7 @@ export default function init(input, id) {
 
 const NiceIDs = (input) => {
   if (!input) return input;
-  const { node, tag, attr, child, text } = input;
+  const { tag, attr, child } = input;
   const id = attr?.id || null;
   if (tag === "sentence" || tag === "word") {
     return {
@@ -54,7 +54,7 @@ const NiceIDs = (input) => {
 */
 const UpdateReferencedIDs = (input, idsToOutput) => {
   if (!input) return input;
-  const { node, tag, attr, child, text } = input;
+  const { tag, attr, child } = input;
   const id = attr?.id || null;
   const definition = attr?.definition || null;
   if (tag === "sentence" || tag === "word") {

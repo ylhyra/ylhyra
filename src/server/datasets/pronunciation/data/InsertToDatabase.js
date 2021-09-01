@@ -26,7 +26,7 @@ query(`TRUNCATE TABLE pronunciation`, () => {
 
       query(
         `INSERT INTO pronunciation (word,pronunciation) VALUES ('${word}', "${pronunciation}")`,
-        (error, results, fields) => {
+        (error) => {
           if (error) throw error;
           if (count % 1000 === 0) {
             console.log(word);

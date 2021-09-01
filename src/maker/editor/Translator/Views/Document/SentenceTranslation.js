@@ -1,54 +1,60 @@
-import React from 'react'
-import { updateSentence } from 'Editor/Translator/actions'
-import { connect } from 'react-redux'
-import AutosizeTextarea from 'react-textarea-autosize'
+import React from "react";
+import { updateSentence } from "Editor/Translator/actions";
+import { connect } from "react-redux";
+import AutosizeTextarea from "react-textarea-autosize";
 
 class SentenceTranslation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      focus: false
-    }
+      focus: false,
+    };
   }
   handleEnter = (e) => {
     if (e.which === 13) {
-      e.preventDefault()
+      e.preventDefault();
     }
-  }
+  };
   onFocus = () => {
     this.setState({
-      focus: true
-    })
-  }
+      focus: true,
+    });
+  };
   onBlur = () => {
-     this.setState({
-       focus: false
-     })
-  }
+    this.setState({
+      focus: false,
+    });
+  };
   handleChange = (e, fieldName) => {
     this.props.updateSentence({
-      sentence_id:    this.props.id,
-      fieldName:      fieldName,
-      value:          e.target.value,
-    })
-  }
-  shouldComponentUpdate = (nextProps, nextState) => {
-    const { id } = this.props
-    if (this.props.suggestions !== nextProps.suggestions && this.props.suggestions[id] !== nextProps.suggestions[id]) {
-      return true
+      sentence_id: this.props.id,
+      fieldName: fieldName,
+      value: e.target.value,
+    });
+  };
+  shouldComponentUpdate = (nextProps) => {
+    const { id } = this.props;
+    if (
+      this.props.suggestions !== nextProps.suggestions &&
+      this.props.suggestions[id] !== nextProps.suggestions[id]
+    ) {
+      return true;
     }
-    if(this.props.translation.sentences[id] !== nextProps.translation.sentences[id]) {
-      return true
+    if (
+      this.props.translation.sentences[id] !==
+      nextProps.translation.sentences[id]
+    ) {
+      return true;
     }
-    return false
-  }
+    return false;
+  };
   render() {
-    const { translation, id, suggestions } = this.props
-    const sentence = translation.sentences[id] || {}
+    const { translation, id, suggestions } = this.props;
+    const sentence = translation.sentences[id] || {};
 
-    let placeholder = ''
+    let placeholder = "";
     if (suggestions && id in suggestions && suggestions[id].length > 0) {
-      placeholder =suggestions[id][0].definition.meaning
+      placeholder = suggestions[id][0].definition.meaning;
     }
 
     return (
@@ -61,43 +67,46 @@ class SentenceTranslation extends React.Component {
           <AutosizeTextarea
             className="textarea"
             // focus={this.state.focus}
-            value={sentence.meaning || ''}
+            value={sentence.meaning || ""}
             onKeyPress={this.handleEnter}
-            onChange={(e,v)=>this.handleChange(e,'meaning')}
+            onChange={(e) => this.handleChange(e, "meaning")}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             placeholder={placeholder}
-            ref="meaning"/>
+            ref="meaning"
+          />
         </div>
 
         <div
-          //className={(this.state.focus || sentence.direct) ? 'visible' : 'hidden'}
-          >
+        //className={(this.state.focus || sentence.direct) ? 'visible' : 'hidden'}
+        >
           <b>Direct translation</b>
           <AutosizeTextarea
             className="textarea"
             // isFocused={this.state.focus}
-            value={sentence.direct || ''}
+            value={sentence.direct || ""}
             onKeyPress={this.handleEnter}
-            onChange={(e,v)=>this.handleChange(e,'direct')}
+            onChange={(e) => this.handleChange(e, "direct")}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
-            ref="direct"/>
+            ref="direct"
+          />
         </div>
 
         <div
-          //className={(this.state.focus || sentence.note) ? 'visible' : 'hidden'}
-          >
+        //className={(this.state.focus || sentence.note) ? 'visible' : 'hidden'}
+        >
           <b>Note</b>
           <AutosizeTextarea
             className="textarea"
             // focus={this.state.focus}
             onKeyPress={this.handleEnter}
-            value={sentence.note || ''}
-            onChange={(e,v)=>this.handleChange(e,'note')}
+            value={sentence.note || ""}
+            onChange={(e) => this.handleChange(e, "note")}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
-            ref="note"/>
+            ref="note"
+          />
         </div>
         {/* <div>
           <label>
@@ -112,9 +121,9 @@ class SentenceTranslation extends React.Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     translation: state.editor.translation,
     suggestions: state.editor.suggestions,
   }),
   { updateSentence }
-)(SentenceTranslation)
+)(SentenceTranslation);

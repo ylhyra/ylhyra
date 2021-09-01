@@ -1,4 +1,4 @@
-import { URL_title, section_id } from "paths";
+import { URL_title } from "paths";
 import { url_to_info } from "app/router/paths";
 // import { links, getValuesForURL } from "server/content/links";
 
@@ -17,7 +17,7 @@ export const ProcessLinks = (input, links) => {
           return `<a href="${link}">${text}</a>`;
         } else {
           link = URL_title(link);
-          const [title, section] = link.split("#");
+          const [title] = link.split("#");
           if (links) {
             if (title && !(title in links) && !(link in url_to_info)) {
               return text;

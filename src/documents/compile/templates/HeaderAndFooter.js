@@ -3,7 +3,7 @@ import markdown_to_html from "documents/compile/markdown_to_html";
 import { parseVocabularyList } from "documents/compile/vocabulary";
 import { EncodeDataInHTML } from "documents/compile/functions/functions";
 import { getOrder } from "./getOrderOfChapters";
-import { URL_title, FileSafeTitle } from "paths";
+import { URL_title } from "paths";
 
 export default async (input, header) => {
   let h = "";

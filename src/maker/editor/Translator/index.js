@@ -7,7 +7,6 @@ import WordSidebar, {
   isMacintosh,
 } from "Editor/Translator/Views/Sidebar/Sidebar";
 import Suggestions from "Editor/Suggestions/Views/List";
-import store from "app/app/store";
 import { MakeSuggestions, applySuggestions } from "Editor/Suggestions";
 
 class TranslatingEditor extends React.Component {
@@ -25,7 +24,6 @@ class TranslatingEditor extends React.Component {
   };
   render() {
     const { editor, selected } = this.props;
-    const ready = new Boolean(editor.tokenized);
     return (
       <div className="translator-container">
         <div className="translator-content">
