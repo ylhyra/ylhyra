@@ -7,7 +7,7 @@ import { content_folder } from "paths_backend";
 import {
   getRawTextFromVocabularyEntry,
   row_titles,
-} from "maker/VocabularyMaker/functions";
+} from "maker/vocabulary_maker/functions";
 import _ from "underscore";
 const router = require("express").Router();
 const fs = require("fs");

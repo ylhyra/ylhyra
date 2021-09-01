@@ -1,0 +1,63 @@
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+.ylhyra_image {
+  @include sans-serif();
+  &.right {
+    max-width: 250px;
+    float: right;
+    clear: right;
+    margin: 0 0 12px 12px;
+    @media (max-width: 600px) {
+      float: none;
+      margin: auto;
+      margin-bottom: 12px;
+    }
+  }
+  &:not(.right) {
+    margin: 20px 0;
+  }
+  .image-and-metadata {
+    position: relative;
+    margin-bottom: 3px;
+    picture {
+      display: block;
+    }
+    img {
+      display: block;
+    }
+    .image-metadata {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: rgba(242, 242, 242, 0.85);
+      word-break: break-all;
+      padding: 0 3px;
+      font-size: 10px;
+      text-align: right;
+      display: none;
+      opacity: 0.9;
+    }
+    &:hover {
+      .image-metadata {
+        display: block;
+      }
+    }
+  }
+  .caption {
+    font-size: 13px;
+    line-height: 1.4;
+    padding-top: 2px;
+  }
+}
+
+// .section.has-image {
+//   div {
+//     display: flex;
+//   }
+//   .ylhyra_image.right {
+//     margin-right: -100px;
+//   }
+// }

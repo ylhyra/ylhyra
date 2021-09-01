@@ -3,14 +3,14 @@ import shortid from "shortid";
 import sql from "server/database/functions/SQL-template-literal";
 import _ from "underscore";
 import tableify from "tableify";
-import c from "app/App/functions/no-undefined-in-template-literal";
+import c from "app/app/functions/no-undefined-in-template-literal";
 import {
   round,
   msToS,
   daysToMs,
   roundMsToHour,
   days,
-} from "app/App/functions/time";
+} from "app/app/functions/time";
 const router = require("express").Router();
 router.get("/analytics", async (req, res) => {
   if (

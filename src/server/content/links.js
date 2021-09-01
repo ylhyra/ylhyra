@@ -1,4 +1,4 @@
-import { url_to_info } from "app/Router/paths";
+import { url_to_info } from "app/router/paths";
 import { URL_title, FileSafeTitle } from "paths";
 const fs = require("fs");
 

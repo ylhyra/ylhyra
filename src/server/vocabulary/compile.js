@@ -7,18 +7,18 @@ import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
 import stable_stringify from "json-stable-stringify";
 import { content_folder } from "paths_backend";
-import generate_html from "documents/Compile";
+import generate_html from "documents/compile";
 import getSortKeys from "./sortKeys";
 import atob from "atob";
 import {
   parse_vocabulary_file,
   getHash,
   GetLowercaseStringForAudioKey,
-} from "maker/VocabularyMaker/functions";
+} from "maker/vocabulary_maker/functions";
 import {
   printWord,
   getCardsWithSameTerm,
-} from "app/Vocabulary/actions/functions";
+} from "app/vocabulary/actions/functions";
 import _ from "underscore";
 
 const path = require("path");

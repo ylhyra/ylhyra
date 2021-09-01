@@ -1,8 +1,8 @@
-import { updateURL } from "app/Router/actions";
-import { login, logout } from "app/User/actions";
-import { deck } from "app/Vocabulary/actions/deck";
-import { InitializeVocabulary } from "app/Vocabulary/actions/init";
-import { eraseCookie } from "../app/App/functions/cookie";
+import { updateURL } from "app/router/actions";
+import { login, logout } from "app/user/actions";
+import { deck } from "app/vocabulary/actions/deck";
+import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
+import { eraseCookie } from "../app/app/functions/cookie";
 
 /* 
   Various smaller recipes 

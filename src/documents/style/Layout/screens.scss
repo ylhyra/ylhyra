@@ -1,0 +1,128 @@
+/* Used for pages that don't span that much */
+.small-screen {
+  max-width: 400px;
+  margin: auto;
+  line-height: 1.6;
+}
+.wide-screen {
+  // max-width: 600px;
+  section.content > div {
+    max-width: 600px;
+  }
+}
+.sans-serif .content {
+  @include sans-serif();
+}
+.brown-screen {
+  // background: #fbfcfd;
+}
+
+#pwyw-form {
+  width: 250px;
+  margin: 40px auto 60px auto;
+  .shared-input {
+    display: flex;
+    height: 58px;
+    > input {
+      flex: 1;
+      font-weight: 600;
+      text-align: center;
+      height: inherit;
+      font-size: 24px;
+      min-width: 100px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right: 1px solid #d8d8d8;
+    }
+    > div {
+      background: #f7f7f7;
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      height: inherit;
+      color: #595959;
+      white-space: nowrap;
+      border: 1px solid #aec2c1;
+      border-left: none;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+}
+
+$height: 11px;
+$activebgcolor: #f0f0f0;
+$activeborder: #a4a4a4;
+$notactivebgcolor: #d0d0d0;
+$notactiveborder: #c2c2c2;
+#signup-steps {
+  display: flex;
+  > span {
+    display: block;
+    white-space: nowrap;
+    padding: 1px 12px;
+    font-size: 13px;
+    position: relative;
+    display: inline-block;
+    // margin-left: 0.25%;
+    text-align: center;
+    text-decoration: none;
+    height: $height * 2 + 2;
+    &.active {
+      color: black;
+      background: $activebgcolor;
+      border: 1px solid $activeborder;
+      // box-shadow: 1px 1px 1px 0 rgba(158, 158, 158, 0.17);
+    }
+    &:not(.active) {
+      color: #6f6f6f;
+      background: $notactivebgcolor;
+      border: 1px solid $notactiveborder;
+      // box-shadow: inset 1px 1px 1px 0 rgba(99, 99, 99, 0.17);
+      &:after {
+        border-left: $height solid $notactivebgcolor;
+      }
+    }
+    &:before {
+      width: 0;
+      height: 0;
+      border-top: $height inset transparent;
+      border-bottom: $height inset transparent;
+      border-left: $height solid $activeborder;
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 0;
+    }
+    &:after {
+      width: 0;
+      height: 0;
+      border-top: $height inset transparent;
+      border-bottom: $height inset transparent;
+      border-left: $height solid $activebgcolor;
+      position: absolute;
+      content: "";
+      top: 0;
+      right: -$height;
+      z-index: 2;
+    }
+    &:first-child {
+      border-top-left-radius: $height;
+      border-bottom-left-radius: $height;
+      margin-left: 0;
+      border-right: none;
+      &:before {
+        border: none !important;
+      }
+    }
+    &:last-child {
+      border-top-right-radius: $height;
+      border-bottom-right-radius: $height;
+      padding-left: 22px;
+      border-left: none;
+      &:after {
+        border: none !important;
+      }
+    }
+  }
+}

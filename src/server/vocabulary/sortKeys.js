@@ -1,5 +1,5 @@
-import generate_html from "documents/Compile";
-import { DecodeDataInHTML } from "documents/Compile/functions/functions";
+import generate_html from "documents/compile";
+import { DecodeDataInHTML } from "documents/compile/functions/functions";
 
 export default async (getRawSentences) => {
   if (process.env.DECK) return {};

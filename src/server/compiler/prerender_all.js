@@ -1,9 +1,9 @@
-import generate_html from "documents/Compile";
+import generate_html from "documents/compile";
 import { URL_title, FileSafeTitle } from "paths";
 import prerender from "./prerender_single";
-import forEachAsync from "app/App/functions/array-foreach-async";
-import { url_to_info } from "app/Router/paths";
-import { readDeck } from "documents/Compile/vocabulary";
+import forEachAsync from "app/app/functions/array-foreach-async";
+import { url_to_info } from "app/router/paths";
+import { readDeck } from "documents/compile/vocabulary";
 import { links, getValuesForURL } from "server/content/links";
 var fs = require("fs");
 

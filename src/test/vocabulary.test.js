@@ -1,13 +1,13 @@
-import { eraseCookie } from "app/App/functions/cookie";
-import { EASY } from "app/Vocabulary/actions/card";
-import { deck } from "app/Vocabulary/actions/deck";
-import { PercentageKnownOverall } from "app/Vocabulary/actions/functions/percentageKnown";
-import { getUserData } from "app/Vocabulary/actions/sync";
+import { eraseCookie } from "app/app/functions/cookie";
+import { EASY } from "app/vocabulary/actions/card";
+import { deck } from "app/vocabulary/actions/deck";
+import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
+import { getUserData } from "app/vocabulary/actions/sync";
 import { assert, notNull, shouldEqual } from "test/index";
 import { run } from "test/run";
-import { studyParticularIds } from "app/Vocabulary/actions/functions/index";
+import { studyParticularIds } from "app/vocabulary/actions/functions/index";
 import _ from "underscore";
-import { printWord } from "app/Vocabulary/actions/functions";
+import { printWord } from "app/vocabulary/actions/functions";
 
 export default {
   "Progress saved upon signup": async () => {

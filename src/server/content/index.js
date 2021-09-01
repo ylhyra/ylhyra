@@ -1,8 +1,8 @@
-import generate_html from "documents/Compile";
+import generate_html from "documents/compile";
 import { URL_title, FileSafeTitle } from "paths";
-import { removeComments } from "documents/Compile/transclude";
-import { url_to_info } from "app/Router/paths";
-import { ParseHeaderAndBody } from "documents/Compile/functions/ParseHeaderAndBody";
+import { removeComments } from "documents/compile/transclude";
+import { url_to_info } from "app/router/paths";
+import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
 import { getValuesForURL } from "server/content/links";
 import { build_folder } from "paths_backend";
 const router = require("express").Router({ strict: true });

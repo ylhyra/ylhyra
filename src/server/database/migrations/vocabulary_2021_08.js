@@ -1,5 +1,5 @@
-import forEachAsync from "app/App/functions/array-foreach-async";
-import removeNullKeys from "app/App/functions/removeNullKeys";
+import forEachAsync from "app/app/functions/array-foreach-async";
+import removeNullKeys from "app/app/functions/removeNullKeys";
 import stable_stringify from "json-stable-stringify";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";

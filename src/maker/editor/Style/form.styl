@@ -1,0 +1,45 @@
+form, .form
+  // padding 20px
+  font-size 14px
+  color #383838
+  font-weight 500
+  line-height 1.5em
+  > div
+    padding-right 40px
+  select
+    font-size 14px
+
+
+label
+  display block
+  b
+    padding-bottom 3px
+    display block
+    small
+      font-weight normal
+      b
+        display inline
+  + label
+    margin-top 8px
+
+textarea,
+input[type="text"]
+  outline none
+  padding 6px
+  font-family Helvetica Neue, sans-serif
+  font-size 15px
+  background white
+  display block
+  width 100%
+  border 1px solid #cbcbcb
+  box-shadow inset 1px 1px 1px 0 rgba(0, 0, 0, 0.08)
+  border-radius 2px
+  &:focus
+    box-shadow 0 0 0 3px #C1DFFE
+    border 1px solid #006FC7
+  &[disabled]
+    background #f3f3f3
+
+input[type="checkbox"]
+  height 15px
+  width 15px

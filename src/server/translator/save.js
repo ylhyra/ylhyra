@@ -1,6 +1,6 @@
 import query from "server/database";
 const router = require("express").Router();
-import string_hash from "app/App/functions/hash";
+import string_hash from "app/app/functions/hash";
 require("src/app/App/functions/sortByArray");
 import simplifyString from "./helpers/simplifyString";
 import GetTranslationFrame from "./helpers/TranslationFrame";

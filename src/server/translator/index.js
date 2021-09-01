@@ -1,4 +1,4 @@
-import string_hash from "app/App/functions/hash";
+import string_hash from "app/app/functions/hash";
 import GoogleTranslate from "./GoogleTranslate";
 import GetSuggestions from "./GetSuggestions";
 import GrammaticalAnalysis from "server/grammatical-analysis";

@@ -36,7 +36,7 @@ import {
 } from "./../fuzzy_search";
 import path from "path";
 import _ from "underscore";
-import flattenArray from "app/App/functions/flattenArray";
+import flattenArray from "app/app/functions/flattenArray";
 var LineByLineReader = require("line-by-line");
 
 const CSV_FILE_NAME = "ordalisti.csv";

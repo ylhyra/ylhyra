@@ -1,4 +1,4 @@
-import c from "app/App/functions/no-undefined-in-template-literal";
+import c from "app/app/functions/no-undefined-in-template-literal";
 import { content_folder, build_folder } from "paths_backend";
 import { links } from "server/content/links";
 var fs = require("fs");
