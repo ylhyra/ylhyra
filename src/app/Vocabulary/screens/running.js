@@ -12,19 +12,15 @@ class R extends Component {
     window.removeEventListener("keydown", this.checkKey);
   }
   checkKey = (e) => {
-    this.props.vocabulary?.session?.checkForUndoOnKeyDown(e);
+    this.props.vocabulary.deck?.session?.checkForUndoOnKeyDown(e);
   };
   render() {
+    const session = this.props.vocabulary.deck?.session;
     return (
       <div id="vocabulary-screen">
         <div id="vocabulary-screen-inner">
           <div id="vocabulary-header">
-            <button
-              className="link"
-              onClick={() => {
-                this.props.vocabulary.session.sessionDone();
-              }}
-            >
+            <button className="link" onClick={() => session?.sessionDone()}>
               Quit
             </button>
             <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
@@ -36,20 +32,20 @@ class R extends Component {
             >
               Tutorial
             </button>
-            {this.props.vocabulary.session?.undoable() && [
+            {session.undoable() && [
               <div key={1}>&nbsp;&nbsp;•&nbsp;&nbsp;</div>,
               <button
                 key={2}
                 className="link"
                 onClick={() => {
-                  this.props.vocabulary.session.undo();
+                  session.undo();
                 }}
               >
                 Undo
               </button>,
             ]}
             <div className="spacer" />
-            {this.props.vocabulary.session?.cards.some((j) => j.sound) && (
+            {session?.cards.some((j) => j.sound) && (
               <button
                 className="link"
                 onClick={() => {

@@ -150,6 +150,7 @@ class Card extends Component {
       note,
       literally,
       example_declension,
+      pronunciation,
     } = card;
     let Type = null;
     const is = card.is_formatted;
@@ -234,7 +235,7 @@ class Card extends Component {
             : card.showHint && this.state.hint}
         </div>
         <div className="card-notes">
-          <div className="card-note">
+          <div className="card-notes-inner">
             {note_regarding_english && (
               <div className={from === "en" ? "" : "show-after-answer"}>
                 <span className="label">Note:</span> {note_regarding_english}
@@ -249,18 +250,18 @@ class Card extends Component {
               {literally}
               {lemmas}
               {example_declension}
-              {card.pronunciation && (
+              {pronunciation && (
                 <div>
                   <span className="label">Pronounced:</span>{" "}
-                  <i>{card.pronunciation}</i>
+                  <i>{pronunciation}</i>
                 </div>
               )}
             </div>
           </div>
 
-          {card.counter <= 1 && (
+          {/* {card.counter <= 1 && (
             <div className="rate-how-well">Rate how well you knew this:</div>
-          )}
+          )} */}
         </div>
 
         <div className="flashcard-buttons">

@@ -10,19 +10,17 @@
     // align-items: center;
     flex-direction: column;
     line-height: 1.2;
+    .card-notes-inner {
+      font-size: 12px;
+      color: #1b1b1b;
+      text-align: left;
+      span.label {
+        color: #828282;
+      }
+    }
   }
   &.answered .card-notes:hover {
     opacity: 1;
-  }
-
-  .card-note {
-    font-size: 12px;
-    color: #1b1b1b;
-    @include sans-serif();
-    text-align: left;
-    span.label {
-      color: #828282;
-    }
   }
 
   .show-after-answer {
@@ -65,11 +63,16 @@
 
   ol {
     text-align: left;
-    li ::marker {
-      color: #8c8c8c;
-      font-weight: 300;
-      font-size: 95%;
-      @include sans-serif();
+    // list-style: none;
+    // counter-reset: item;
+    li {
+      // counter-increment: item;
+      &::marker {
+        color: #ababab;
+        font-size: 90%;
+        @include sans-serif();
+        // content: counter(item);
+      }
     }
   }
 

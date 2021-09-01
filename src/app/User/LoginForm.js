@@ -83,8 +83,6 @@ class Form2 extends React.Component {
             save_progress: "yes",
           }}
           validate={(values) => {
-            console.log(values);
-            return;
             const errors = {};
             if (!values.username.trim()) {
               errors.username = "(required)";
