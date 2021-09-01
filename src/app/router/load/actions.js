@@ -4,7 +4,7 @@ import components from "app/router/paths";
 import { ReadAlongSetup } from "documents/render/audio/ReadAlong";
 import store from "app/app/store";
 import { updateURL, index } from "app/router/actions";
-import Analytics from "app/Analytics/analytics";
+import Analytics from "app/app/analytics";
 let cache = {};
 let expectedUrl = false;
 export const abortAllThatAreNot = (url) => {
@@ -52,7 +52,6 @@ export const loadContent = ({
         }
       })
       .catch((error) => {
-        console.log(error);
         if (preload) return;
         if (error.response?.status === 404) {
           store.dispatch({
@@ -66,9 +65,6 @@ export const loadContent = ({
 
 const set = async (url, data, preload, section, callback) => {
   Analytics.startReadingPage(url);
-  // console.log("set");
-  // console.log({ url, section });
-  // throw new Error("");
   if (preload) return;
   let parsed, flattenedData;
   if ("parsed" in data) {

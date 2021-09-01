@@ -30,12 +30,15 @@ const run = () => {
       throw new Error(`"${header.title}" already exists`);
     }
     links[url] = {
-      title: header.title,
-      filename,
       filepath,
     };
     if (shouldBeCreated(filepath, header)) {
-      links[url].shouldBeCreated = true;
+      links[url] = {
+        ...links[url],
+        shouldBeCreated: true,
+        title: header.title,
+        filename,
+      };
     }
     if (shouldBeIndexed(filepath, header)) {
       links[url].shouldBeIndexed = true;

@@ -2,7 +2,7 @@ import { updateURL } from "app/router/actions";
 
 export const MIN_PRICE = 2;
 export const MAX_PRICE = 200;
-export const continueAfterPaying = async ({}) => {
+export const continueAfterPaying = async () => {
   updateURL("/");
   /* TODO: "Thank you" */
 };

@@ -6,7 +6,7 @@ import { InitializeRouter } from "app/router/actions";
 import { InitializeUser } from "app/user/actions";
 import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
 import { TextEventListenersOn } from "documents/read/touch";
-import "documents/Style/index.scss";
+import "documents/style/index.scss";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";

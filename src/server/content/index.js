@@ -18,6 +18,15 @@ router.get(["/api/content", "*"], async (req, res) => {
   }
   let values = getValuesForURL(url, req.query.title);
 
+  /* Turn off indexing for testing site */
+  if (req.subdomains.includes("test")) {
+    res.set("X-Robots-Tag", "noindex,nofollow");
+  } else if (values?.shouldBeIndexed) {
+    res.set("X-Robots-Tag", "index,noimageindex");
+  } else {
+    res.set("X-Robots-Tag", "noindex");
+  }
+
   if (values?.filename) {
     let { title, file, filename } = values;
 

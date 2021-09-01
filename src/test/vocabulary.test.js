@@ -3,7 +3,7 @@ import { EASY } from "app/vocabulary/actions/card";
 import { deck } from "app/vocabulary/actions/deck";
 import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
 import { getUserData } from "app/vocabulary/actions/sync";
-import { assert, notNull, shouldEqual } from "test/index";
+import { assert, notNull, shouldEqual, wait } from "test/index";
 import { run } from "test/run";
 import { studyParticularIds } from "app/vocabulary/actions/functions/index";
 import _ from "underscore";
@@ -13,7 +13,9 @@ export default {
   "Progress saved upon signup": async () => {
     await run.vocabulary_session();
     const known1 = PercentageKnownOverall();
+    await wait(1000);
     await run.signup_logout_login();
+    await wait(1000);
     const known2 = PercentageKnownOverall();
     assert(getUserData("easinessLevel") === 0);
     notNull(known1, known2);

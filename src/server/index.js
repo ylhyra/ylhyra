@@ -1,5 +1,4 @@
 // import 'source-map-support/register'
-import bodyParser from "body-parser";
 import { exec } from "child_process";
 import "core-js/stable";
 import express from "express";
@@ -20,11 +19,9 @@ require("dotenv").config({ path: "./../.env" });
 const argv = argvFactory(process.argv.slice(2));
 const app = express();
 require("express-ws")(app);
-// export const upload_path = path.resolve(__dirname, './../../uploads')
-// export const image_path = path.resolve(__dirname, './../output/images')
 var cors = require("cors");
-app.use(bodyParser.json({ limit: "5mb" }));
-app.use(bodyParser.urlencoded({ limit: "5mb", extended: true }));
+app.use(express.json({ limit: "5mb" }));
+app.use(express.urlencoded({ limit: "5mb", extended: true }));
 app.use(requestIp.mw());
 app.use(require("express-useragent").express());
 app.use(
@@ -53,7 +50,7 @@ app.use(function (req, res, next) {
 query(`SET sql_mode = ''`, () => {});
 setTimeout(() => {
   query(`SET sql_mode = ''`, () => {});
-}, 10000);
+}, 30 * 1000);
 
 app.use(processed_image_url, express.static(image_output_folder));
 app.use(unprocessed_image_url, express.static(ylhyra_content_files));
@@ -89,7 +86,6 @@ app.use("/", require("server/content").default);
 // // app.use('/api', require('server/audio').default)
 // // app.use('/api', require('server/translator/Google').default)
 // // app.use('/api', require('server/api/audio/Upload').default)
-
 // app.use('/api/temp_files/', express.static(upload_path))
 
 /*
@@ -156,11 +152,9 @@ if (argv["generate-links"]) {
 
 process.on("SIGINT", function () {
   process.exit(0);
-  // db.stop(function(err) {
-  //   process.exit(err ? 1 : 0);
-  // });
 });
 
+/* Error notifications */
 process.on("uncaughtException", (err) => {
   if (process.env.NODE_ENV === "development") {
     exec(

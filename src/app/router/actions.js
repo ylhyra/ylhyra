@@ -6,7 +6,7 @@ import { isBrowser } from "app/app/functions/isBrowser";
 import { loadContent, abortAllThatAreNot } from "app/router/load/actions";
 import { clear as ClearReadAlongSetup } from "documents/render/audio/ReadAlong";
 import { isUserLoggedIn, existsSchedule } from "app/user/actions";
-import Analytics from "app/Analytics/analytics";
+import Analytics from "app/app/analytics";
 
 let HAS_LOADED = false;
 if (isBrowser) {

@@ -38,7 +38,9 @@ export const assert = (i, desc) => {
 
 export const notNull = (...vals) => {
   vals.forEach((val) => {
-    assert(val && val !== "0");
+    if (!(val && val !== "0")) {
+      throw new Error("Received a null");
+    }
   });
 };
 

@@ -61,7 +61,7 @@ const getUserData = (req) => {
           let out = {};
           results.forEach(({ key, value, type }) => {
             out[key] = {
-              value: JSON.parse(value),
+              value: value.startsWith("{") ? JSON.parse(value) : value,
               type,
             };
           });

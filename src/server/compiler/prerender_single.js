@@ -111,11 +111,10 @@ const render = async ({
     .replace("<!-- Footer items -->", footer_items + "<!-- Remaining CSS -->");
 
   if (shouldBeIndexed) {
-    // // TODO
-    // html.replace(
-    //   /<meta name="robots" content="noindex" \/>/,
-    //   '<meta name="robots" content="noindex">'
-    // );
+    html.replace(
+      /<meta name="robots" content="noindex" \/>/,
+      '<meta name="robots" content="noindex">'
+    );
   }
 
   necessary_data &&

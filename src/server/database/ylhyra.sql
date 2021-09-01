@@ -196,7 +196,7 @@ CREATE TABLE user_data (
   user_id INT UNSIGNED,
   `type` VARCHAR(10),
   `key` VARCHAR(20) NOT NULL,
-  `value` JSON,
+  `value` TEXT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   INDEX (user_id),
   INDEX (type),
