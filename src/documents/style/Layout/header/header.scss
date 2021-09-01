@@ -1,0 +1,43 @@
+$logo-size: 68px;
+header {
+  // background: #fbfcfd;
+  // border-bottom: 1px solid #f0f0f0;
+  min-height: 60px;
+  // margin-top: 14px;
+  .header-container {
+    max-width: 630px;
+    // max-width: $max-width;
+    margin: auto;
+    height: 100%;
+    padding: 17px 10px;
+
+    display: flex;
+    justify-content: center;
+    .header-container-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 700px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .header-container {
+      padding: 10px 10px 7px 10px;
+    }
+    .header-container-inner nav {
+      display: none;
+    }
+    .header-container-below {
+      background: #f2f2f2;
+      display: flex;
+      padding: 9px 5px 10px 5px;
+      text-align: center;
+      border-top: 1px solid #e2e2e2;
+      border-bottom: 1px solid #e2e2e2;
+      justify-content: center;
+      min-width: 220px;
+    }
+  }
+}

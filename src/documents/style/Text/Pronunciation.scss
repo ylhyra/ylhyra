@@ -1,0 +1,85 @@
+.pronunciation {
+  font-size: 16px;
+  line-height: 1.4em;
+  word-spacing: 2px;
+  text-align: center;
+
+  & > span {
+    word-break: keep-all;
+  }
+
+  .punctuation {
+    color: #9a9a9a;
+    font-weight: 300;
+  }
+
+  .thorn {
+    font-weight: bold;
+  }
+
+  .h {
+    color: #939393;
+  }
+
+  .eth {
+    color: #939393;
+    font-weight: 300;
+  }
+
+  .voiceless-velar-fricative {
+    color: #d66319;
+
+    &:before {
+      content: "(";
+    }
+
+    &:after {
+      content: ")";
+    }
+  }
+
+  .voiced-velar-fricative {
+    color: #009ec1;
+    font-weight: bold;
+  }
+
+  .voiceless-palatal-fricative {
+    font-weight: bold;
+  }
+
+  .close-front-unrounded-vowel {
+    color: #2268e0;
+  }
+
+  .close-back-rounded-vowel {
+    color: #2268e0;
+  }
+
+  .open-mid-front-rounded-vowel {
+    font-style: italic;
+  }
+}
+
+.pronunciation[brackets="true"] {
+  color: #4a4a4a;
+  font-size: 12px;
+}
+
+.pronunciation[brackets="true"]:empty {
+  display: none;
+}
+
+.pronunciation[brackets="true"]:after,
+.pronunciation[brackets="true"]:before {
+  color: #818181;
+  margin: 0 1px;
+  font-weight: 300;
+}
+
+.pronunciation[brackets="true"]:before {
+  content: "[";
+}
+
+.pronunciation[brackets="true"]:after {
+  content: "]";
+}

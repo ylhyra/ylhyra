@@ -1,0 +1,21 @@
+.inline_translation {
+  @extend .text-reset;
+  @include sans-serif();
+  font-size: 11px;
+  // position: absolute;
+  z-index: 1;
+  padding-left: 1px;
+  // left: 1px;
+  white-space: nowrap;
+  line-height: 10px;
+  color: #33608e;
+  color: #466e96;
+  opacity: 0.6;
+  font-weight: normal;
+  -webkit-font-smoothing: subpixel-antialiased;
+  // bottom: 26px;
+  display: block;
+}
+[no-assist] .inline_translation {
+  display: none;
+}

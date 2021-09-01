@@ -1,0 +1,60 @@
+.instructions-header {
+  color: #272727;
+  border: 1px solid #c9c9c9;
+  margin: auto auto 30px;
+  padding-bottom: 30px;
+  background: #f9f9f9;
+  padding: 10px 15px;
+  max-width: 410px;
+  border-radius: 3px;
+  @include sans-serif();
+  font-size: 13px;
+  line-height: 1.4;
+  color: #323232;
+  .p {
+    margin: 6px 0;
+  }
+}
+.instructions {
+  font-size: 11px;
+  margin: auto;
+  line-height: 1.3em;
+  color: #636363;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  @include sans_serif();
+  ul {
+    list-style-type: none;
+    li {
+      display: flex;
+      margin-bottom: 3px;
+      > :first-child {
+        width: 20px;
+        padding: 0 5px;
+        text-align: right;
+      }
+      > :last-child {
+        flex: 1;
+      }
+      &.gray {
+        opacity: 0.8;
+      }
+    }
+  }
+  .touch {
+    display: none;
+  }
+}
+/* Desktop computer */
+body:not(.supports-touch) {
+  .only-mobile {
+    display: none;
+  }
+}
+/* Mobile device */
+body.supports-touch {
+  .only-desktop {
+    display: none;
+  }
+}

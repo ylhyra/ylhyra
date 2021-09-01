@@ -1,0 +1,31 @@
+a {
+  color: $blue;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:visited {
+    color: #0f3ba5;
+  }
+
+  &.new,
+  li.new & {
+    color: #ba0000;
+  }
+}
+
+a.selflink {
+  color: inherit;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.plainlink,
+.plainlink:visited {
+  color: inherit;
+
+  &:hover {
+    color: $blue;
+  }
+}

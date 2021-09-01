@@ -1,0 +1,58 @@
+/* Container to keep footer at bottom on large screens */
+#container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+#content {
+  line-height: 1.37;
+  width: 100%;
+  // max-width: $max-width;
+  // padding: 0 30px;
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  @media screen and (max-width: 600px) {
+    // padding: 0 5px;
+  }
+  > *:first-child {
+    margin-top: 0;
+    .ylhyra_image:not(.right) {
+      margin-top: 0;
+    }
+  }
+}
+/* Used to reset styles on tooltips */
+.text-reset {
+  color: black;
+  font-size: 14px;
+  line-height: 1.3em;
+  letter-spacing: 0;
+  text-transform: initial;
+  font-style: initial;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+h2 {
+  font-size: 18px;
+}
+.short-translated-text {
+  background: #edf0f157;
+  padding: 2px 4px;
+  margin: -2px 0;
+  border-radius: 2px;
+  border: 1px solid #abc6de57;
+}
+h2 {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-weight: normal;
+  color: #181818;
+  font-size: 21px;
+}
+h3 {
+  @include sans-serif();
+}
