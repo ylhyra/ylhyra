@@ -1,7 +1,6 @@
 import { send } from 'Editor/web-socket'
 import hash from 'app/app/functions/hash'
 import { editPage } from 'Editor/actions'
-import urlSlug from 'app/app/functions/url-slug'
 
 window.getTweet = (id) => {
   send({ type: 'TWEET', id, })
