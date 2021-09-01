@@ -1,5 +1,5 @@
 import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
-import { addRelatedCards } from "./addRelatedCards";
+import { addRelatedCards } from "app/vocabulary/actions/card/addRelatedCards";
 
 /**
  * @memberof Card

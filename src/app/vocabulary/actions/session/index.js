@@ -18,7 +18,11 @@ import { createSchedule } from "app/vocabulary/actions/createSchedule";
 import { updateURL } from "app/router/actions";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 import Analytics from "app/Analytics/analytics";
-import { undo, undoable, checkForUndoOnKeyDown } from "./undo";
+import {
+  undo,
+  undoable,
+  checkForUndoOnKeyDown,
+} from "app/vocabulary/actions/session/undo";
 import { SESSION_PREFIX, setUserData } from "app/vocabulary/actions/sync";
 export const MINUTES = process.env.NODE_ENV === "development" ? 2.5 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;

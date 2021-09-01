@@ -1,5 +1,5 @@
-import routes from "./../routes";
-import Search from "./search";
-import Get_by_id from "./get_by_id";
+import routes from "server/inflection/server/routes";
+import Search from "server/inflection/server/server-with-database/search";
+import Get_by_id from "server/inflection/server/server-with-database/get_by_id";
 
 export default routes(Search, Get_by_id);

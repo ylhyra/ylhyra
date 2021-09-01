@@ -6,7 +6,7 @@ import {
   updateDefinitionValue,
 } from "Editor/Translator/actions";
 import { connect } from "react-redux";
-import Field from "./Field";
+import Field from "maker/editor/Translator/Views/Sidebar/Field";
 // import { getLanguage } from 'server/datasets/languages'
 
 class WordSidebar extends React.Component {

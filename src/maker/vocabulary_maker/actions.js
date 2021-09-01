@@ -1,4 +1,4 @@
-import { formatVocabularyEntry } from "./functions";
+import { formatVocabularyEntry } from "maker/vocabulary_maker/functions";
 import { isBrowser } from "app/app/functions/isBrowser";
 import {
   getHash,
@@ -11,7 +11,7 @@ import axios from "app/app/axios";
 import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
 import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
-import { getDeckName } from "./functions";
+import { getDeckName } from "maker/vocabulary_maker/functions";
 
 let maxID = 0;
 export let rows = [];

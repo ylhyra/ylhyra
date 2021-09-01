@@ -12,7 +12,7 @@
 
 */
 
-import GroupParagraphs from "./Paragraphs";
+import GroupParagraphs from "documents/parse/ExtractText/Paragraphs";
 import hash from "app/app/functions/hash";
 import emoji_strip from "emoji-strip";
 import { newTitle } from "documents/parse";

@@ -1,5 +1,5 @@
 import store from "app/app/store";
-import GoogleTranslate from "./GoogleTranslate";
+import GoogleTranslate from "maker/editor/Suggestions/previous/GoogleTranslate/GoogleTranslate";
 import { get_ISO_639_1 } from "server/datasets/languages";
 // import { saveEditor } from 'Editor/actions'
 

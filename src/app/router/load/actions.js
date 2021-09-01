@@ -3,7 +3,7 @@ import axios from "app/app/axios";
 import components from "app/router/paths";
 import { ReadAlongSetup } from "documents/render/audio/ReadAlong";
 import store from "app/app/store";
-import { updateURL, index } from "../actions";
+import { updateURL, index } from "app/router/actions";
 import Analytics from "app/Analytics/analytics";
 let cache = {};
 let expectedUrl = false;

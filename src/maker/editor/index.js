@@ -8,7 +8,7 @@ import Header from "Editor/Header";
 import LongAudio from "Editor/Long_audio";
 import Inflections from "Editor/Inflections";
 import Sound from "Editor/Short_audio";
-import { openEditor, purgeCurrentPage } from "./actions";
+import { openEditor, purgeCurrentPage } from "maker/editor/actions";
 
 @connect((state) => ({
   editor: state.editor,

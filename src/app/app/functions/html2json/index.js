@@ -1,6 +1,6 @@
 /*eslint-disable */
 
-require("./lib/Pure-JavaScript-HTML5-Parser/htmlparser.js");
+require("app/app/functions/html2json/lib/Pure-JavaScript-HTML5-Parser/htmlparser.js");
 
 const DEBUG = false;
 var debug = DEBUG ? console.log.bind(console) : function () {};

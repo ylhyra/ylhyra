@@ -1,8 +1,8 @@
 import query from "server/database";
 import string_hash from "app/app/functions/hash";
 import flattenArray from "app/app/functions/flattenArray";
-import simplifyString from "./helpers/simplifyString";
-import GetTranslationFrame from "./helpers/TranslationFrame";
+import simplifyString from "server/translator/helpers/simplifyString";
+import GetTranslationFrame from "server/translator/helpers/TranslationFrame";
 import sql from "server/database/functions/SQL-template-literal";
 import { escape } from "sqlstring";
 

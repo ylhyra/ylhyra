@@ -2,9 +2,9 @@ import axios from "app/app/axios";
 import store from "app/app/store";
 import error from "app/app/error";
 
-import MergeShortWords from "./2-Merge-short-words";
-import Flatten from "./3-Flatten";
-import MakeList from "./4-Make-list";
+import MergeShortWords from "maker/editor/Long_audio/Synchronize/2-Merge-short-words";
+import Flatten from "maker/editor/Long_audio/Synchronize/3-Flatten";
+import MakeList from "maker/editor/Long_audio/Synchronize/4-Make-list";
 
 // const TESTING_WITH_LOCALHOST = true
 

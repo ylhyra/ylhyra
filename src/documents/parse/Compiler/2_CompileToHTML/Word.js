@@ -1,8 +1,8 @@
 import React from "react";
-import Tooltip from "./Definition/Tooltip";
-import InlineTranslation from "./Definition/InlineTranslation";
+import Tooltip from "documents/parse/Compiler/2_CompileToHTML/Definition/Tooltip";
+import InlineTranslation from "documents/parse/Compiler/2_CompileToHTML/Definition/InlineTranslation";
 import exists from "app/app/functions/exists";
-import Box from "./Definition/Box/Word";
+import Box from "documents/parse/Compiler/2_CompileToHTML/Definition/Box/Word";
 import { getUpdatedID } from "documents/parse/Compiler/1_Precompile/UpdateID";
 import _ from "underscore";
 // import GetSound from 'documents/Parse/Compiler/2_CompileToHTML/Sound'

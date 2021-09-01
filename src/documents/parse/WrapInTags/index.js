@@ -31,10 +31,10 @@
 */
 import { getText } from "documents/parse/ExtractText/ExtractText";
 
-import InsertSplit from "./1-InsertSplit";
-import SplitAndWrap from "./2-SplitAndWrap";
-import InvertElementsThatOnlyContainOneThing from "./3-Invert";
-import MergeElementsThatHaveBeenSplitUnnecessarily from "./4-Merge";
+import InsertSplit from "documents/parse/WrapInTags/1-InsertSplit";
+import SplitAndWrap from "documents/parse/WrapInTags/2-SplitAndWrap";
+import InvertElementsThatOnlyContainOneThing from "documents/parse/WrapInTags/3-Invert";
+import MergeElementsThatHaveBeenSplitUnnecessarily from "documents/parse/WrapInTags/4-Merge";
 import GroupParagraphs from "documents/parse/ExtractText/Paragraphs";
 import { newTitle } from "documents/parse";
 

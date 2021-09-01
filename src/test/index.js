@@ -1,6 +1,6 @@
 import forEachAsync from "app/app/functions/array-foreach-async";
 import vocabulary_tests from "test/vocabulary.test";
-import { run } from "./run";
+import { run } from "test/run";
 
 /* Main test runner */
 export default async (only_run) => {

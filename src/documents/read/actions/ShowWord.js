@@ -1,6 +1,6 @@
 import FindAGoodPositionForTooltip from "documents/read/actions/TooltipPosition";
 import AudioClip from "documents/render/audio/AudioClip";
-import { logShown } from "./Reset";
+import { logShown } from "documents/read/actions/Reset";
 
 import { ShowInflectionTable } from "documents/render/elements/Inflection/actions";
 

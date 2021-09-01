@@ -1,8 +1,11 @@
 import { average, clamp } from "app/app/functions/math";
 import { daysToMs, msToDays } from "app/app/functions/time";
 import { saveScheduleForCardId, sync } from "app/vocabulary/actions/sync";
-import { BAD, EASY, GOOD } from "./card";
-import { getCardsWithSameTerm, printWord } from "./functions";
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
+import {
+  getCardsWithSameTerm,
+  printWord,
+} from "app/vocabulary/actions/functions";
 
 /* Increment score by how much? */
 export const INCR = 0.4;

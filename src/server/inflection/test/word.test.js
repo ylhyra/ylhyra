@@ -1,6 +1,6 @@
 import assert from "assert";
-import { stripHTML } from "./../tables/link";
-import { get } from "./get";
+import { stripHTML } from "server/inflection/tables/link";
+import { get } from "server/inflection/test/get";
 /*
 Other words that might be interesting:
 - dró

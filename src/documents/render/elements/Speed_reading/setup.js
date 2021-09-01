@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { connect, Provider } from "react-redux";
 import store from "app/app/store";
 import SpeedReader from "documents/render/elements/Speed_reading";
-import { open } from "./actions/actions";
+import { open } from "documents/render/elements/Speed_reading/actions/actions";
 
 export const SpeedReaderSetup = () => {
   /* Book not found */

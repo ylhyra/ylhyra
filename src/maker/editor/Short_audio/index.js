@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import React from "react";
-import { findSoundBites } from "./actions";
-import Recorder from "./Recorder";
+import { findSoundBites } from "maker/editor/Short_audio/actions";
+import Recorder from "maker/editor/Short_audio/Recorder";
 
 class Sounds extends React.Component {
   componentDidMount = () => {

@@ -10,10 +10,10 @@
 */
 
 import _ from "underscore";
-import CreateIDs from "./IDs/CreateIDs";
+import CreateIDs from "documents/parse/Tokenize/IDs/CreateIDs";
 import hash from "app/app/functions/hash";
-import PreserveIDs from "./IDs/PreserveIDs";
-import tokenizer from "./Tokenizer";
+import PreserveIDs from "documents/parse/Tokenize/IDs/PreserveIDs";
+import tokenizer from "documents/parse/Tokenize/Tokenizer";
 
 export default function (documents, data) {
   let tokenized = {};

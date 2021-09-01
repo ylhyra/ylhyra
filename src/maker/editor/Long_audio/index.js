@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { synchronize } from "Editor/Long_audio/Synchronize";
 import React from "react";
 // import Upload from './Upload'
-import findAudioSections from "./actions";
+import findAudioSections from "maker/editor/Long_audio/actions";
 
 class LongAudio extends React.Component {
   componentDidMount = () => {

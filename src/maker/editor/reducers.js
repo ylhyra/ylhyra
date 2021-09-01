@@ -7,7 +7,7 @@ import short_audio from "Editor/Short_audio/reducers";
 import getParameter from "get-parameter";
 let autosave;
 if (typeof window !== "undefined") {
-  autosave = require("./actions").autosave;
+  autosave = require("maker/editor/actions").autosave;
 }
 
 const isOpen = typeof window !== "undefined" ? getParameter("editor") : false;

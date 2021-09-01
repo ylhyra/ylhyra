@@ -12,9 +12,12 @@ import {
   addEmpty,
   ignore_for_now,
   didYouMeanSuggestions,
-} from "./actions";
-import { formatVocabularyEntry, row_titles } from "./functions";
-import { getDeckName } from "./functions";
+} from "maker/vocabulary_maker/actions";
+import {
+  formatVocabularyEntry,
+  row_titles,
+} from "maker/vocabulary_maker/functions";
+import { getDeckName } from "maker/vocabulary_maker/functions";
 
 class Form2 extends React.Component {
   componentDidMount = async () => {

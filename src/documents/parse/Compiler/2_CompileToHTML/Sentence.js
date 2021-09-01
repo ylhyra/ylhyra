@@ -1,5 +1,5 @@
 import React from "react";
-import Box from "./Definition/Box/Sentence";
+import Box from "documents/parse/Compiler/2_CompileToHTML/Definition/Box/Sentence";
 import exists from "app/app/functions/exists";
 
 class Sentence extends React.Component {

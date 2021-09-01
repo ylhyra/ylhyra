@@ -2,7 +2,7 @@ import { updateURL } from "app/router/actions";
 import { login, logout } from "app/user/actions";
 import { deck } from "app/vocabulary/actions/deck";
 import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
-import { eraseCookie } from "../app/app/functions/cookie";
+import { eraseCookie } from "app/app/functions/cookie";
 
 /* 
   Various smaller recipes 

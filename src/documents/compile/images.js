@@ -1,7 +1,7 @@
 import { URL_title } from "paths";
 import { image_output_folder } from "paths_backend";
 import _ from "underscore";
-import Transclude from "./transclude";
+import Transclude from "documents/compile/transclude";
 import { processed_image_url } from "paths";
 import forEachAsync from "app/app/functions/array-foreach-async";
 import { links } from "server/content/links";

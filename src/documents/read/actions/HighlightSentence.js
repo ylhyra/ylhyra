@@ -1,4 +1,4 @@
-import { logShown } from "./Reset";
+import { logShown } from "documents/read/actions/Reset";
 
 /*
   Hightlight sentence

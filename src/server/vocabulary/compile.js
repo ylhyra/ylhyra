@@ -3,7 +3,7 @@
   npm run vocabulary
 */
 import { content_folder } from "paths_backend";
-import getSortKeys from "./sortKeys";
+import getSortKeys from "server/vocabulary/sortKeys";
 import {
   parse_vocabulary_file,
   GetLowercaseStringForAudioKey,

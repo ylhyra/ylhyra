@@ -1,5 +1,5 @@
 // npm run test_random
-import { get } from "./get";
+import { get } from "server/inflection/test/get";
 import _ from "lodash";
 
 if (!"npm_package_devDependencies_mocha" in process.env) {

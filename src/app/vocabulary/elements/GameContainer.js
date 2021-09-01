@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Card from "./Card";
-import Progress from "./Progress";
+import Card from "app/vocabulary/elements/Card";
+import Progress from "app/vocabulary/elements/Progress";
 import { connect } from "react-redux";
 
 class GameContainer extends Component {

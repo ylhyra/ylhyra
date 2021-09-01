@@ -1,11 +1,11 @@
 import store from "app/app/store";
 import axios from "app/app/axios";
-import Deck from "./deck";
+import Deck from "app/vocabulary/actions/deck";
 import {
   saveInLocalStorage,
   getFromLocalStorage,
 } from "app/app/functions/localStorage";
-import { sync } from "./sync";
+import { sync } from "app/vocabulary/actions/sync";
 import { getDeckName } from "maker/vocabulary_maker/functions";
 
 export const InitializeVocabulary = async () => {

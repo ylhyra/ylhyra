@@ -8,7 +8,7 @@ include htmlparser.js & html2json.js scripts:
 
 ```html
 <script src="https://cdn.rawgit.com/blowsie/Pure-JavaScript-HTML5-Parser/master/htmlparser.js"></script>
-<script src="src/html2json.js"></script>
+<script src="html2json.js"></script>
 ```
 
 ### node

@@ -1,8 +1,8 @@
 import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
-import CategorizeCards from "./1_Categorize_cards";
-import ChooseCards from "./2_Choose_cards";
-import Dependencies from "./3_Dependencies";
+import CategorizeCards from "app/vocabulary/actions/createCards/1_Categorize_cards";
+import ChooseCards from "app/vocabulary/actions/createCards/2_Choose_cards";
+import Dependencies from "app/vocabulary/actions/createCards/3_Dependencies";
 export const CARDS_TO_CREATE = 30;
 
 /**

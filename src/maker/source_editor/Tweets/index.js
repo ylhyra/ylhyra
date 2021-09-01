@@ -1,34 +1,38 @@
-import { send } from 'Editor/web-socket'
-import hash from 'app/app/functions/hash'
-import { editPage } from 'Editor/actions'
+import { send } from "Editor/web-socket";
+import hash from "app/app/functions/hash";
+import { editPage } from "Editor/actions";
 
 window.getTweet = (id) => {
-  send({ type: 'TWEET', id, })
-}
+  send({ type: "TWEET", id });
+};
 
 const Tweet = (tweet) => {
-  console.log(tweet)
+  console.log(tweet);
   tweet = {
     ...tweet,
-    photos: tweet.photos.map(url => UploadTwitterImage(tweet, url)),
+    photos: tweet.photos.map((url) => UploadTwitterImage(tweet, url)),
     user: {
       ...tweet.user,
-      picture: UploadTwitterImage(tweet, tweet.user.picture)
-    }
-  }
+      picture: UploadTwitterImage(tweet, tweet.user.picture),
+    },
+  };
   const wikicode = `
     {{tweet
       |text=${tweet.tweet}
-      ${tweet.photos.map((photo,index)=>`|photo${index+1}=${photo}`).join('\n')}
+      ${tweet.photos
+        .map((photo, index) => `|photo${index + 1}=${photo}`)
+        .join("\n")}
       |id=${tweet.id}
       |date=${tweet.date}
-      |favorites=${tweet.favorites||''}
-      |username=${tweet.user.name||''}
-      |handle=${tweet.user.handle||''}
-      |user_picture=${tweet.user.picture||''}
-      |verified=${tweet.user.verified||''}
+      |favorites=${tweet.favorites || ""}
+      |username=${tweet.user.name || ""}
+      |handle=${tweet.user.handle || ""}
+      |user_picture=${tweet.user.picture || ""}
+      |verified=${tweet.user.verified || ""}
     }}
-  `.replace(/\n +/g, '\n').trim()
+  `
+    .replace(/\n +/g, "\n")
+    .trim();
 
   const doc = `
     {{start|{{subst:FULLPAGENAME}}}}
@@ -37,36 +41,46 @@ const Tweet = (tweet) => {
     [[Category:Tweets]]
     [[Category:${tweet.user.handle}]]
     </noinclude>
-  `.replace(/\n +/g, '\n').trim()
+  `
+    .replace(/\n +/g, "\n")
+    .trim();
 
   editPage({
-    title: `${tweet.user.handle}/${tweet.tweet.replace(/[\n"]/g,'').match(/(.{0,33})[^ ]+/)[0].trim()}`,
+    title: `${tweet.user.handle}/${tweet.tweet
+      .replace(/[\n"]/g, "")
+      .match(/(.{0,33})[^ ]+/)[0]
+      .trim()}`,
     text: doc,
-    summary: '+',
-  })
-}
-export default Tweet
+    summary: "+",
+  });
+};
+export default Tweet;
 
 const UploadTwitterImage = (tweet, url) => {
-  if (!url) return '';
+  if (!url) return "";
   // return;
-  var api = new mw.Api()
-  const filename = `Tweet-${tweet.user.handle}-${hash(url)}${url.match(/\.([^.]+)$/)[0]}`
-  api.postWithToken('csrf', {
-    filename,
-    text: `© '''${tweet.user.handle}''' – `,
-    url: url,
-    action: 'upload',
-    ignorewarnings: '1',
-    format: 'json'
-  }).done(function(data) {
-    console.log(data);
-  }).fail(function(error) {
-    if(error ==='fileexists-no-change') return;
-    console.error(error)
-  })
-  return filename
-}
+  var api = new mw.Api();
+  const filename = `Tweet-${tweet.user.handle}-${hash(url)}${
+    url.match(/\.([^.]+)$/)[0]
+  }`;
+  api
+    .postWithToken("csrf", {
+      filename,
+      text: `© '''${tweet.user.handle}''' – `,
+      url: url,
+      action: "upload",
+      ignorewarnings: "1",
+      format: "json",
+    })
+    .done(function (data) {
+      console.log(data);
+    })
+    .fail(function (error) {
+      if (error === "fileexists-no-change") return;
+      console.error(error);
+    });
+  return filename;
+};
 
 window.BatchImport = (tweet, url) => {
   // .map(i=>{
@@ -75,10 +89,7 @@ window.BatchImport = (tweet, url) => {
   //   var description = `Image by ${i.user.name} at [${i.links.html} Unsplash].\n\n${i.description}\n\n[[Category:Unsplash]]`
   //
   // })
-}
-
-
-
+};
 
 // getTweet('844721596359159811')
 // /api/tweets/844721596359159811

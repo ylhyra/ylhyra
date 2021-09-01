@@ -1,9 +1,9 @@
-import Precompile from "./1_Precompile";
-import { reset } from "./1_Precompile/UpdateID";
+import Precompile from "documents/parse/Compiler/1_Precompile";
+import { reset } from "documents/parse/Compiler/1_Precompile/UpdateID";
 import { html2json } from "app/app/functions/html2json";
 import { AllHtmlEntities as Entities } from "html-entities";
 import CompileToHTML from "documents/parse/Compiler/2_CompileToHTML/Traverse";
-import PrepareJSONForReact from "./PrepareJSONForReact";
+import PrepareJSONForReact from "documents/parse/Compiler/PrepareJSONForReact";
 import ReactDOMServer from "react-dom/server";
 const entities = new Entities();
 // console.log(entities.decode(output));

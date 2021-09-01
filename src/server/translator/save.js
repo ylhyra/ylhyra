@@ -1,10 +1,10 @@
 import query from "server/database";
 import string_hash from "app/app/functions/hash";
-import simplifyString from "./helpers/simplifyString";
-import GetTranslationFrame from "./helpers/TranslationFrame";
-import SQL_helper from "./helpers/SQL_helper";
+import simplifyString from "server/translator/helpers/simplifyString";
+import GetTranslationFrame from "server/translator/helpers/TranslationFrame";
+import SQL_helper from "server/translator/helpers/SQL_helper";
 const router = require("express").Router();
-require("src/app/App/functions/sortByArray");
+require("app/App/functions/sortByArray");
 
 router.put("/save", (req, res) => {
   const { document_id, from, to, translation, list } = req.body.data;

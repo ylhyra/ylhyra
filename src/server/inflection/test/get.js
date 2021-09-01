@@ -1,5 +1,5 @@
-import Word from "./../tables/word";
-import get_by_id from "./../server/server-standalone/get_by_id";
+import Word from "server/inflection/tables/word";
+import get_by_id from "server/inflection/server/server-standalone/get_by_id";
 
 /*
   Testing helper function

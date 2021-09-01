@@ -3,12 +3,12 @@ import { BAD } from "app/vocabulary/actions/card";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { getUserData } from "app/vocabulary/actions/sync";
 import { deck } from "app/vocabulary/actions/deck";
-import { CARDS_TO_CREATE } from "./index";
+import { CARDS_TO_CREATE } from "app/vocabulary/actions/createCards/index";
 import {
   SortIdsByWhetherTermWasRecentlySeen,
   SortBySortKey,
   shuffle_each,
-} from "./functions";
+} from "app/vocabulary/actions/createCards/functions";
 
 export default ({ forbidden_ids, allowed_card_ids }) => {
   const now = new Date().getTime();

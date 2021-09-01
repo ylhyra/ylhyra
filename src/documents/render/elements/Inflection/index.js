@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 // import Word from './word'
 // import { without } from 'underscore'
 // import link from './link'
-import { ShowInflectionTable } from "./actions";
+import { ShowInflectionTable } from "documents/render/elements/Inflection/actions";
 
 class Inflection extends React.Component {
   // state = {

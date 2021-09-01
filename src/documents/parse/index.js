@@ -1,10 +1,10 @@
 import { html2json } from "app/app/functions/html2json";
 import { AllHtmlEntities as Entities } from "html-entities";
-import ExtractData from "./ExtractData";
-import ExtractText from "./ExtractText/ExtractText";
-import Tokenizer from "./Tokenize";
-import WrapInTags from "./WrapInTags";
-import Compiler from "./Compiler";
+import ExtractData from "documents/parse/ExtractData";
+import ExtractText from "documents/parse/ExtractText/ExtractText";
+import Tokenizer from "documents/parse/Tokenize";
+import WrapInTags from "documents/parse/WrapInTags";
+import Compiler from "documents/parse/Compiler";
 import { notify } from "app/app/error";
 import isEmpty from "is-empty-object";
 const entities = new Entities();

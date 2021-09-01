@@ -1,5 +1,5 @@
 import { URL_title, FileSafeTitle } from "paths";
-import prerender from "./prerender_single";
+import prerender from "server/compiler/prerender_single";
 import forEachAsync from "app/app/functions/array-foreach-async";
 import { url_to_info } from "app/router/paths";
 import { readDeck } from "documents/compile/vocabulary";

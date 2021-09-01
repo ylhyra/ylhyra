@@ -1,4 +1,4 @@
-import { reset } from "./ReadAlong";
+import { reset } from "documents/render/audio/ReadAlong";
 // import { getAudioElement, pausePlay, updateInterface } from './AudioPlayer'
 
 // /*

@@ -2,7 +2,7 @@ import assert from "assert";
 import {
   splitOnVowelRegions,
   removeLastVowelCluster,
-} from "./../tables/functions/vowels";
+} from "server/inflection/tables/functions/vowels";
 
 it("splitOnVowelRegions", () => {
   assert.deepEqual(splitOnVowelRegions("Kjartan"), ["K", "ja", "rt", "a", "n"]);

@@ -1,4 +1,4 @@
-import simplifyString from "./simplifyString";
+import simplifyString from "server/translator/helpers/simplifyString";
 export default (words, index, contains) => {
   let translation_frame = {};
   let spaces = 0;

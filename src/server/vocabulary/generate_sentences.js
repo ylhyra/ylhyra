@@ -1,4 +1,4 @@
-import getSortKeys from "./sortKeys";
+import getSortKeys from "server/vocabulary/sortKeys";
 import { getHash } from "maker/vocabulary_maker/functions";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/functions";
 const fs = require("fs");

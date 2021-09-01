@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "app/elements/layout/Layout";
-import LoadContent from "./load/Content";
+import LoadContent from "app/router/load/Content";
 import components from "app/router/paths";
 import { connect } from "react-redux";
 import Section from "documents/templates/Section";

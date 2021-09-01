@@ -3,7 +3,7 @@ import store from "app/app/store";
 import { url_to_info } from "app/router/paths";
 import { urls as app_urls } from "app/router/paths";
 import { isBrowser } from "app/app/functions/isBrowser";
-import { loadContent, abortAllThatAreNot } from "./load/actions";
+import { loadContent, abortAllThatAreNot } from "app/router/load/actions";
 import { clear as ClearReadAlongSetup } from "documents/render/audio/ReadAlong";
 import { isUserLoggedIn, existsSchedule } from "app/user/actions";
 import Analytics from "app/Analytics/analytics";

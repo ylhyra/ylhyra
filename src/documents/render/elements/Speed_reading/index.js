@@ -3,9 +3,18 @@ import ReactDOM from "react-dom";
 import { connect, Provider } from "react-redux";
 import store from "app/app/store";
 // require('array-sugar')
-import { checkKey, mouseListener } from "./actions/eventListeners";
-import { start, startStop, prevWord, close, reset } from "./actions/actions";
-import { load } from "./actions/load";
+import {
+  checkKey,
+  mouseListener,
+} from "documents/render/elements/Speed_reading/actions/eventListeners";
+import {
+  start,
+  startStop,
+  prevWord,
+  close,
+  reset,
+} from "documents/render/elements/Speed_reading/actions/actions";
+import { load } from "documents/render/elements/Speed_reading/actions/load";
 import {
   isBrowser,
   hasLocalStorage,

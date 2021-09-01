@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ReadAlong } from "./ReadAlong";
-import SmoothScroll from "./Scroll/SmoothScroll";
+import { ReadAlong } from "documents/render/audio/ReadAlong";
+import SmoothScroll from "documents/render/audio/Scroll/SmoothScroll";
 import store from "app/app/store";
 import { notify } from "app/app/error";
-require("./KeyboardListener");
+require("documents/render/audio/KeyboardListener");
 require("array-sugar");
 let timer;
 

@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { clearSelection } from "./actions";
+import { clearSelection } from "maker/editor/Translator/actions";
 import React from "react";
 import SentenceTranslation from "Editor/Translator/Views/Document/SentenceTranslation";
 import Word from "Editor/Translator/Views/Document/Word";

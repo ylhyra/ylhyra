@@ -33,7 +33,7 @@ import {
   WITHOUT_SPECIAL_CHARACTERS_MARKER,
   WITH_SPELLING_ERROR_MARKER,
   PHONETIC_MARKER,
-} from "./../fuzzy_search";
+} from "server/inflection/server/server-with-database/fuzzy_search";
 import path from "path";
 import _ from "underscore";
 import flattenArray from "app/app/functions/flattenArray";

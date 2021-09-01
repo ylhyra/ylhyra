@@ -3,7 +3,11 @@ import { connect } from "react-redux";
 import { ReactMic } from "react-mic";
 import Sound from "react-sound";
 import axios from "axios";
-import { load, saveSound, getNextWordToRecord } from "./actions";
+import {
+  load,
+  saveSound,
+  getNextWordToRecord,
+} from "maker/vocabulary_maker/actions";
 
 const START_LAG_IN_MILLISECONDS = 0;
 // const START_LAG_IN_MILLISECONDS = 100;

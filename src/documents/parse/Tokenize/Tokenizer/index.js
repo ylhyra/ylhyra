@@ -1,5 +1,5 @@
-import sentence_tokenizer from "./sentence-tokenizer";
-import word_tokenizer from "./word-tokenizer";
+import sentence_tokenizer from "documents/parse/Tokenize/Tokenizer/sentence-tokenizer";
+import word_tokenizer from "documents/parse/Tokenize/Tokenizer/word-tokenizer";
 
 const Tokenize = ({ paragraphs }) => {
   return paragraphs.map(({ hash, text }) => {

@@ -1,6 +1,6 @@
 import { getScrollingElement } from "documents/render/helpers";
 import { ReadAlongSingleSentence } from "documents/render/audio/ReadAlong";
-import { logShown } from "./Reset";
+import { logShown } from "documents/read/actions/Reset";
 
 /*
   Show sentence
