@@ -2,7 +2,7 @@ import axios from "app/app/axios";
 import { getCookie } from "app/app/functions/cookie";
 import { isBrowser } from "app/app/functions/isBrowser";
 import store from "app/app/store";
-import { updateURL } from "app/router/actions";
+import { updateURL } from "app/router/actions/updateURL";
 import { deck } from "app/vocabulary/actions/deck";
 import { sync } from "app/vocabulary/actions/sync";
 import _ from "underscore";

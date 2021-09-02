@@ -1,5 +1,5 @@
 import store from "app/app/store";
-import { updateURL } from "app/router/actions";
+import { updateURL } from "app/router/actions/updateURL";
 import GameContainer from "app/vocabulary/elements/GameContainer";
 import React, { Component } from "react";
 import { connect } from "react-redux";

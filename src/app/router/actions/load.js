@@ -3,7 +3,8 @@ import axios from "app/app/axios";
 import components from "app/router/paths";
 import { ReadAlongSetup } from "documents/render/audio/ReadAlong";
 import store from "app/app/store";
-import { updateURL, index } from "app/router/actions";
+import { index } from "app/router/actions";
+import { updateURL } from "app/router/actions/updateURL";
 import Analytics from "app/app/analytics";
 let cache = {};
 let expectedUrl = false;
@@ -18,9 +19,6 @@ export const loadContent = ({
   section,
   callback,
 }) => {
-  // console.log("loadContent");
-  // console.log({ url, section });
-  // throw new Error("");
   if (url in components || (url === "/" && isVocabularyTheFrontpage())) {
     return;
   }
@@ -104,7 +102,7 @@ const set = async (url, data, preload, section, callback) => {
     title: data.title,
     replace: true,
   });
-  ReadAlongSetup(flattenedData); // TEMP?
+  ReadAlongSetup(flattenedData);
 };
 
 export const preload = (url) => {

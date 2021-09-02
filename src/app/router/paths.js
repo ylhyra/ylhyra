@@ -2,7 +2,6 @@ import React from "react";
 import VocabularyOverview from "app/vocabulary/screens/overview";
 import VocabularyRunning from "app/vocabulary/screens/running";
 import LogIn from "app/user/screens/Login";
-// import Signup from "app/User/screens/Signup";
 import Settings from "app/user/screens/Settings";
 import NotFound from "documents/templates/404";
 import { isBrowser } from "app/app/functions/isBrowser";
@@ -18,12 +17,6 @@ export const urls = {
     url: "/vocabulary/play",
     component: VocabularyRunning,
   },
-
-  // /vocabulary/tutorial: {
-  //   title: 'Vocabulary',
-  //   url: '/vocabulary/tutorial',
-  //   component: VocabularyTutorial
-  // },
   LOG_IN: {
     title: "Log in",
     url: "/login",

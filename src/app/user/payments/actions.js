@@ -1,4 +1,4 @@
-import { updateURL } from "app/router/actions";
+import { updateURL } from "app/router/actions/updateURL";
 
 export const MIN_PRICE = 2;
 export const MAX_PRICE = 200;

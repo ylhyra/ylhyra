@@ -1,4 +1,4 @@
-import { updateURL } from "app/router/actions";
+import { updateURL } from "app/router/actions/updateURL";
 import { login, logout } from "app/user/actions";
 import { deck } from "app/vocabulary/actions/deck";
 import { InitializeVocabulary } from "app/vocabulary/actions/initialize";

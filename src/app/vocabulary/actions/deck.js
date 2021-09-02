@@ -1,6 +1,6 @@
 import Session from "app/vocabulary/actions/session";
 import { isBrowser } from "app/app/functions/isBrowser";
-import { updateURL } from "app/router/actions";
+import { updateURL } from "app/router/actions/updateURL";
 import {
   trackEasiness,
   isEasinessLevelOn,

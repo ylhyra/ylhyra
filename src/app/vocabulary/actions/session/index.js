@@ -15,7 +15,7 @@ import {
 } from "app/vocabulary/actions/session/initialize";
 import { nextCard } from "app/vocabulary/actions/session/nextCard";
 import { createSchedule } from "app/vocabulary/actions/createSchedule";
-import { updateURL } from "app/router/actions";
+import { updateURL } from "app/router/actions/updateURL";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 import Analytics from "app/app/analytics";
 import {

@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { urls as app_urls } from "app/router/paths";
-import { updateURL, getFrontpageURL } from "app/router/actions";
-import { preload } from "app/router/load/actions";
+import { getFrontpageURL } from "app/router/actions";
+import { updateURL } from "app/router/actions/updateURL";
+import { preload } from "app/router/actions/load";
 
 class Link extends React.Component {
   fn = (e, url) => {
