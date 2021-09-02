@@ -31,13 +31,13 @@ const run = () => {
     }
     links[url] = {
       filepath,
+      filename,
     };
     if (shouldBeCreated(filepath, header)) {
       links[url] = {
         ...links[url],
         shouldBeCreated: true,
         title: header.title,
-        filename,
       };
     }
     if (shouldBeIndexed(filepath, header)) {

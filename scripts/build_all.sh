@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+trap "kill 0" SIGINT
+
 cd ${BASH_SOURCE%/*}/../
 export NODE_ENV=production
 

@@ -16,6 +16,7 @@ class R extends Component {
   };
   render() {
     const session = this.props.vocabulary.deck?.session;
+    if (!session) return null;
     return (
       <div id="vocabulary-screen">
         <div id="vocabulary-screen-inner">

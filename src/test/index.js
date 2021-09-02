@@ -17,11 +17,11 @@ export default async (only_run) => {
         console.error(e);
         return;
       }
-      console.log(`%cThe test "${key}" is good!`, "font-size: large");
+      console.log(`%cThe test "${key}" is good!`, "font-size: larger");
       resolve();
     });
   });
-  console.log("%cAll tests good!", "font-size: x-large");
+  !only_run && console.log("%cAll tests good!", "font-size: x-large");
 };
 
 export const shouldEqual = (first, second) => {

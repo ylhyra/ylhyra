@@ -1,4 +1,3 @@
-- voc
 - greinar
   - TODO að hljóð virki
   - TODO að hover virki (sér að rétt hafi verið parsað)

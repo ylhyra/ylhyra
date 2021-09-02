@@ -28,6 +28,7 @@ export const SESSION_PREFIX = "s_";
   - tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
 */
 export const sync = async (options = {}) => {
+  // let {isInitializing}=options
   let user_data =
     deck?.user_data || getFromLocalStorage("vocabulary-user-data") || {};
   let rows = user_data.rows || {};
@@ -65,7 +66,11 @@ export const sync = async (options = {}) => {
   };
 
   saveUserDataInLocalStorage({ rows }, { assignToDeck: true });
-  console.warn("Data synced");
+  if (deck) {
+    deck.schedule = schedule;
+  }
+  console.log("Data synced");
+
   return {
     user_data,
     schedule,
@@ -89,7 +94,6 @@ export const getUserData = (key) => {
   const val = deck.user_data?.rows?.[key]?.value;
   if (key === "easinessLevel") {
     if (!val) return 0;
-    return val;
     return parseInt(val);
   }
   return val || null;
@@ -133,7 +137,7 @@ export const saveUserDataInLocalStorage = (user_data = {}, options = {}) => {
       console.warn({ toSave, user_data_input: user_data });
       throw new Error(`saveUserDataInLocalStorage didn't receive rows`);
     }
-    Object.assign(deck, toSave);
+    deck.user_data = toSave;
   }
   timer && clearTimeout(timer);
   timer = setTimeout(() => {

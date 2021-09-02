@@ -13,9 +13,7 @@ export default {
   "Progress saved upon signup": async () => {
     await run.vocabulary_session();
     const known1 = PercentageKnownOverall();
-    await wait(1000);
     await run.signup_logout_login();
-    await wait(1000);
     const known2 = PercentageKnownOverall();
     assert(getUserData("easinessLevel") === 0);
     notNull(known1, known2);
