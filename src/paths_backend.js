@@ -1,5 +1,6 @@
 import path from "path";
 import { unprocessed_image_url } from "paths";
+global.__basedir = process.env.PWD;
 
 /* Folders */
 export const content_folder = path.resolve(__basedir, "./../ylhyra_content");

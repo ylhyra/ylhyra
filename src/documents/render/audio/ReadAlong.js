@@ -214,7 +214,7 @@ export const ReadAlongMessage = (message, audioId) => {
 */
 
 /*
-  // Dev testing for seeing events fired by audio
+  // process.env.NODE_ENV === "development" testing for seeing events fired by audio
 
   setTimeout(() => {
    const myObj = document.querySelector('audio[data-id]')

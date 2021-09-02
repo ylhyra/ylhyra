@@ -32,10 +32,12 @@ router.get(["/api/content", "*"], async (req, res) => {
 
     title = title.split(/[/:]/g).reverse().join("\u2006•\u2006");
 
-    res.set(
-      "Cache-Control",
-      `public, max-age=${24 * 60 * 60 /* Einn dagur */}`
-    );
+    if (!process.env.NODE_ENV === "development") {
+      res.set(
+        "Cache-Control",
+        `public, max-age=${24 * 60 * 60 /* Einn dagur */}`
+      );
+    }
 
     if (url.startsWith("/file/")) {
       // console.log(file);
@@ -54,6 +56,7 @@ router.get(["/api/content", "*"], async (req, res) => {
         type === "json" &&
         values.filepath
       ) {
+        console.log("haha1");
         const { content, header } = await generate_html(url);
         if ("html" in req.query) {
           return res.send(content);
@@ -65,6 +68,7 @@ router.get(["/api/content", "*"], async (req, res) => {
           header,
         });
       } else {
+        console.log("haha2");
         fs.readFile(
           path.resolve(build_folder, `./prerender/${filename}.${type}`),
           "utf8",
