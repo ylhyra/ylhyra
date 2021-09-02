@@ -28,9 +28,9 @@ router.get(["/api/content", "*"], async (req, res) => {
   }
 
   if (values?.filename) {
-    let { title, file, filename } = values;
+    let { title, filepath, filename } = values;
 
-    title = title.split(/[/:]/g).reverse().join("\u2006•\u2006");
+    title = title?.split(/[/:]/g).reverse().join("\u2006•\u2006");
 
     if (!process.env.NODE_ENV === "development") {
       res.set(
@@ -40,9 +40,9 @@ router.get(["/api/content", "*"], async (req, res) => {
     }
 
     if (url.startsWith("/file/")) {
-      // console.log(file);
+      // console.log(filepath);
       res.sendFile(
-        file
+        filepath
           .replace(/(\.[a-z]+)$/i, "") // Fjarlægir ".md"
           .replace(
             /^.+ylhyra_content/,
@@ -56,7 +56,6 @@ router.get(["/api/content", "*"], async (req, res) => {
         type === "json" &&
         values.filepath
       ) {
-        console.log("haha1");
         const { content, header } = await generate_html(url);
         if ("html" in req.query) {
           return res.send(content);

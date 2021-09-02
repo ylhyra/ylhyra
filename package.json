@@ -29,6 +29,7 @@
     "build_app": "./scripts/app.build.sh",
     "build_server": "export NODE_ENV=production && webpack --config ./scripts/server.webpack.js",
     "server": "export NODE_ENV=development && webpack --config ./scripts/server.webpack.js --color --watch",
+    "server2": "export NODE_ENV=development &&  nodemon --exec 'webpack --config ./scripts/server.webpack.js --color && node build/server/development/ylhyra_server.development.js' --watch src/server --watch package.json",
     "build_all": "./scripts/build_all.sh",
     "push_to_server": "./scripts/push_to_server.sh",
     "deploy": "./scripts/deploy.sh",
@@ -136,8 +137,6 @@
     },
     "globals": {
       "__basedir": true,
-      "log": true,
-      "DEV": true,
       "page": true,
       "browser": true,
       "context": true,

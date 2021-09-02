@@ -169,7 +169,9 @@ export const processText = (input) => {
   // if (/lambs/.test(input)) {
   //   return input;
   // }
-  const [, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/);
+  let [, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/);
+  /* Lagfæra lista */
+  middle = middle.replace(/(\n-[^\n]+)\n([^-])/g, "$1\n\n$2");
   let m = marked(middle).trim(); /* Á að trimma? */
   /* TODO: Virkar ekki með töflur */
   if (!/\n\n/.test(middle)) {

@@ -120,6 +120,7 @@ class Form2 extends React.Component {
                 initialValues={initialValues}
                 innerRef={this.formRef}
                 enableReinitialize={true}
+                validateOnChange={false}
                 validate={(values) => {
                   const errors = {};
                   if (/,/.test(values.icelandic)) {

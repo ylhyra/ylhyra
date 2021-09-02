@@ -3,7 +3,7 @@ const nodeExternals = require("webpack-node-externals");
 const webpack = require("webpack");
 const resolve = (input) => path.resolve(__dirname, "./../" + input);
 const NodemonPlugin = require("nodemon-webpack-plugin");
-// var HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
+var HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 
 // const polyfills = resolve('scripts/webpack/utils/config/polyfills.js')
 const modules = [
@@ -12,7 +12,9 @@ const modules = [
 ];
 module.exports = {
   target: "node",
-  devtool: "source-map",
+  // devtool: "source-map",
+  devtool: "inline-source-map",
+
   node: {
     __dirname: true,
     __filename: false,
@@ -61,7 +63,17 @@ module.exports = {
   },
   // bail: true,
   watchOptions: {
-    ignored: ["node_modules/**"],
+    ignored: [
+      "node_modules/**",
+      "src/documents/Parse/**",
+      "src/documents/Read/**",
+      "src/documents/Render/**",
+      "src/documents/Style/**",
+      "src/documents/Templates/**",
+      "src/app/**",
+      "src/maker/**",
+    ],
+    aggregateTimeout: 50,
   },
   module: {
     strictExportPresence: true,
@@ -91,18 +103,18 @@ module.exports = {
     type: "filesystem",
   },
   plugins: [
-    // new HardSourceWebpackPlugin(),
+    new HardSourceWebpackPlugin(),
     new NodemonPlugin(),
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1,
     }),
-    new webpack.WatchIgnorePlugin([
-      resolve("src/documents/Parse"),
-      resolve("src/documents/Read"),
-      resolve("src/documents/Render"),
-      resolve("src/documents/Style"),
-      resolve("src/documents/Templates"),
-      resolve("src/app"),
-    ]),
+    // new webpack.WatchIgnorePlugin([
+    //   resolve("src/documents/Parse"),
+    //   resolve("src/documents/Read"),
+    //   resolve("src/documents/Render"),
+    //   resolve("src/documents/Style"),
+    //   resolve("src/documents/Templates"),
+    //   resolve("src/app"),
+    // ]),
   ],
 };
