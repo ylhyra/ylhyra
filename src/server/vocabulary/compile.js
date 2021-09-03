@@ -7,7 +7,7 @@ import getSortKeys from "server/vocabulary/sortKeys";
 import {
   parse_vocabulary_file,
   GetLowercaseStringForAudioKey,
-} from "maker/vocabulary_maker/compile";
+} from "maker/vocabulary_maker/compile/parseFile";
 import _ from "underscore";
 import { simplify } from "./simplify";
 

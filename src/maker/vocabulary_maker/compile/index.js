@@ -1,34 +1,35 @@
-import c from "app/app/functions/no-undefined-in-template-literal";
-import { getUserFromCookie } from "app/user/actions";
-import { ProcessLinks } from "documents/compile/functions/links";
+import automaticAltIds from "src/maker/vocabulary_maker/compile/dependencies/automaticAltIds.js";
+import automaticDependencies from "src/maker/vocabulary_maker/compile/dependencies/automaticDependencies.js";
+import parse_vocabulary_file from "src/maker/vocabulary_maker/compile/parseFile.js";
 import _ from "underscore";
-import { getHash } from "./functions";
-import { getPlaintextFromVocabularyEntry } from "maker/vocabulary_maker/functions";
 
-export const parse_vocabulary_file = ({ rows, sound }) => {
-  let terms = {};
-  let dependencies = {};
-  let alternative_ids = {};
-  let plaintext_sentences = [];
-  let cards = {};
+let obj;
 
-  const TermsToCardId = (_terms, id) => {
+class WIPDeck {
+  constructor() {
+    this.terms = {};
+    this.dependencies = {};
+    this.alternative_ids = {};
+    this.plaintext_sentences = [];
+    this.cards = {};
+    obj = this;
+  }
+  TermsToCardId(_terms, id) {
     _terms.forEach((term) => {
-      if (!terms[term]) {
-        terms[term] = {
+      if (!this.terms[term]) {
+        this.terms[term] = {
           // level: null,
           cards: [],
         };
       }
-      terms[term].cards.push(id);
+      this.terms[term].cards.push(id);
     });
-  };
-
-  const AddToDependencyGraph = (first, second, type) => {
+  }
+  AddToDependencyGraph(first, second, type) {
     if (!second || second.length === 0) return;
-    let obj = dependencies;
+    let obj = this.dependencies;
     if (type === "alt_ids") {
-      obj = alternative_ids;
+      obj = this.alternative_ids;
     }
     first.forEach((id) => {
       obj[id] = _.uniq([...(obj[id] || []), ...second]).filter((j) => j !== id);
@@ -36,269 +37,12 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         delete obj[id];
       }
     });
-  };
-
-  const getSpokenSentences = (input) => {
-    let output = [];
-    input.split(/;+/g).forEach((i) => {
-      getPlaintextFromVocabularyEntry(i)
-        .split(/ [-–—] /g)
-        .forEach((j) => {
-          output.push(j);
-        });
-    });
-    return output;
-  };
-
-  // console.log(rows.length);
-
-  _.shuffle(rows)
-    .sort((a, b) => (a.level || 100) - (b.level || 100))
-    .forEach((row) => {
-      if (!row.icelandic) return;
-      let to_add = [];
-
-      /* Can have multiple */
-      let icelandic_strings = row.icelandic.split(/;+/g);
-      let formatted_icelandic_strings = icelandic_strings.map(
-        formatVocabularyEntry
-      );
-      const terms_in_this_line = icelandic_strings.map(getHash);
-      let alternative_ids = getHashesFromCommaSeperated(row.alternative_id);
-      let depends_on_lemmas = [];
-      /* Match the "%" in lemmas, which serves to mark something as both the basic form and an alt_id */
-      const depends_on = [
-        ...getHashesFromCommaSeperated(row.depends_on?.replace(/%/g, "")),
-        ...getHashesFromCommaSeperated(depends_on_lemmas),
-        ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
-      ];
-
-      AddToDependencyGraph(terms_in_this_line, depends_on);
-      AddToDependencyGraph(alternative_ids, terms_in_this_line, "alt_ids");
-
-      if (row.direction && row.direction !== "<-" && row.direction !== "->") {
-        throw new Error(`Unknown direction ${row.direction}`);
-      }
-
-      icelandic_strings.forEach((t) => {
-        const s = getPlaintextFromVocabularyEntry(t);
-        s.split(/ [-–—] /g).forEach((t) => {
-          plaintext_sentences[t] = true;
-        });
-      });
-
-      let card_skeleton = {
-        en_plaintext: getPlaintextFromVocabularyEntry(row.english),
-        en_formatted: formatVocabularyEntry(
-          formatPrefixes(row.english, row.icelandic)
-        ),
-        terms: terms_in_this_line,
-        level: row.level,
-        pronunciation: row.pronunciation,
-        // sort: line_number,
-        lemmas: formatLemmas(row.lemmas),
-        note_regarding_english: formatVocabularyEntry(
-          row.note_regarding_english
-        ),
-        note: formatVocabularyEntry(row.note),
-        literally: formatVocabularyEntry(row.literally),
-        row_id: row.row_id,
-        example_declension: row.example_declension,
-      };
-
-      if (/{{(ð?u)}}/.test(automaticThu(row.icelandic))) {
-        const [, full, verb] = automaticThu(row.icelandic).match(
-          /(([^ "„,.]+){{(?:ð?u)}})/
-        );
-        card_skeleton.note =
-          card_skeleton.note +
-          " " +
-          formatVocabularyEntry(`
-        ''${full.toLowerCase()}'' is made by combining ''${verb.toLowerCase()}'' + ''þú''.
-      `);
-      }
-
-      /* Icelandic to English */
-      if (row.direction !== "<-") {
-        if (row.should_split === "yes") {
-          icelandic_strings.forEach((i, index) => {
-            to_add.push({
-              is_plaintext: getPlaintextFromVocabularyEntry(i),
-              is_formatted: formatPrefixes(
-                formatted_icelandic_strings[index],
-                row.english
-              ),
-
-              from: "is",
-              id: getHash(i) + "_is",
-              spokenSentences: getSpokenSentences(i),
-              // sound: getSounds(i),
-              ...card_skeleton,
-            });
-          });
-        } else {
-          to_add.push({
-            is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
-            is_formatted: formatVocabularyEntry(
-              formatPrefixes(row.icelandic, row.english)
-            ),
-            from: "is",
-            id: getHash(row.icelandic) + "_is",
-            spokenSentences: getSpokenSentences(row.icelandic),
-            // sound: getSounds(row.icelandic),
-            ...card_skeleton,
-          });
-        }
-      }
-
-      /* English to Icelandic */
-      if (row.direction !== "->") {
-        to_add.push({
-          is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
-          is_formatted: formatVocabularyEntry(row.icelandic),
-          from: "en",
-          id: getHash(row.icelandic) + "_en",
-          spokenSentences: getSpokenSentences(row.icelandic),
-          // sound: getSounds(row.icelandic),
-          ...card_skeleton,
-        });
-      }
-
-      to_add.forEach((card) => {
-        if (cards[card.id])
-          return console.log(`"${row.icelandic}" already exists`);
-        TermsToCardId(terms_in_this_line, card.id);
-        cards[card.id] = card;
-      });
-    });
-
-  /* Automatic alt-ids */
-  let prefixes = [
-    ["hér er", "here is"],
-    ["hér eru", "here are"],
-    ["um", "about"],
-    ["frá", "from"],
-    ["til", "to"],
-    ["að", "to"],
-    ["ég", "I"],
-    ["þú", "you"],
-    ["hann er", "he is"],
-    ["hún er", "she is"],
-    ["það er", "it is"],
-    ["það er", "that is"],
-    ["hann", "he"],
-    ["hún", "she"],
-    ["það", "it"],
-    ["það", "that"],
-    ["við", "we"],
-  ];
-  const is_prefix = new RegExp(
-    `^(${prefixes.map((i) => i[0]).join("|")}) `,
-    "i"
-  );
-  const en_prefix = new RegExp(`${prefixes.map((i) => i[1]).join("|")} `, "i");
-
-  let automatic_alt_ids = {};
-  for (let [key, card] of Object.entries(cards)) {
-    if (!card.en_plaintext) continue;
-    card.is_plaintext.split(/ ?[,;-] ?/g).forEach((sentence) => {
-      /* Bæta við strengjum sem eru splittaðir með bandstriki */
-      const sentence_hash = getHash(sentence);
-      if (!(sentence_hash in terms) && !(sentence_hash in alternative_ids)) {
-        automatic_alt_ids[sentence_hash] = {
-          terms: card.terms,
-          score: 0,
-        };
-      }
-      // if (sentence.match(/um þig/)) {
-      //   console.log(sentence);
-      // }
-
-      /* Prefixar */
-      if (sentence.match(is_prefix) && card.en_plaintext.match(en_prefix)) {
-        const without = sentence.replace(is_prefix, "");
-        const score = prefixes
-          .map((i) => i[0])
-          .indexOf(sentence.match(is_prefix)[1].toLowerCase());
-        const hash = getHash(without);
-        if (
-          hash in terms ||
-          hash in alternative_ids ||
-          (hash in automatic_alt_ids &&
-            automatic_alt_ids[hash].score < score) ||
-          ["að"].includes(without)
-        )
-          return;
-        automatic_alt_ids[hash] = {
-          terms: card.terms,
-          score: score,
-        };
-      }
-    });
   }
-  Object.keys(automatic_alt_ids).forEach((i) => {
-    automatic_alt_ids[i] = automatic_alt_ids[i].terms;
-    alternative_ids[i] = automatic_alt_ids[i].terms;
-  });
+}
+WIPDeck.prototype.automaticAltIds = automaticAltIds;
+WIPDeck.prototype.automaticDependencies = automaticDependencies;
+WIPDeck.prototype.parse_vocabulary_file = parse_vocabulary_file;
 
-  /* Automatic dependency graphs */
-  // TODO: Sleppa þegar deps innihalda nú þegar þetta orð!
-  for (let [key, card] of Object.entries(cards)) {
-    card.is_plaintext.split(/(?:[,;] ?| - )/g).forEach((sentence) => {
-      const split = sentence.replace(/[,.!;:?"„“]/g, "").split(/ /g);
-      const min_len = 1;
-      for (let i = 0; i + min_len <= split.length && i <= 5; i++) {
-        for (let b = i + min_len; b <= split.length && b <= i + 5; b++) {
-          if (i === 0 && b === split.length) continue;
-          const range = split.slice(i, b).join(" ");
+new WIPDeck();
 
-          /* Checks if the hash of a particular range exists */
-          const hash = getHash(range);
-          if (hash === getHash(sentence) || hash === getHash(card.is_plaintext))
-            continue;
-          const term_ids = [
-            hash,
-            ...(alternative_ids[hash] || []),
-            ...(automatic_alt_ids[hash] || []),
-          ];
-
-          term_ids.forEach((term_id) => {
-            let term = terms[term_id];
-            if (term) {
-              if (
-                term.cards.some((card_id) => cards[card_id].level <= card.level)
-              ) {
-                // if (/r einhver anna/.test(sentence)) {
-                //   console.log(term_id);
-                //   console.log({
-                //     t: card.terms,
-                //     term_id,
-                //   });
-                // }
-                AddToDependencyGraph(card.terms, [term_id]);
-              }
-            }
-          });
-        }
-      }
-    });
-  }
-
-  console.log(dependencies[getHash("einhver annar")]);
-  window.dependencies = dependencies;
-
-  // console.log(JSON.stringify(dependencies, null, 2).slice(0, 400));
-  return {
-    terms,
-    dependencies,
-    alternative_ids,
-    plaintext_sentences,
-    cards,
-    sound,
-  };
-};
-const automaticThu = (input) => {
-  return input
-    .replace(/\b(ert)u\b/gi, "$1{{u}}")
-    .replace(/\b(ætlar)ðu\b/gi, "$1{{ðu}}");
-};
+export default obj;

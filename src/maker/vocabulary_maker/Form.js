@@ -16,8 +16,8 @@ import {
 import {
   formatVocabularyEntry,
   row_titles,
-} from "maker/vocabulary_maker/compile";
-import { getDeckName } from "maker/vocabulary_maker/compile";
+} from "maker/vocabulary_maker/compile/parseFile";
+import { getDeckName } from "maker/vocabulary_maker/compile/parseFile";
 
 class Form2 extends React.Component {
   componentDidMount = async () => {

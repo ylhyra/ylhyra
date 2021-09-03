@@ -2,7 +2,7 @@ import { isBrowser } from "app/app/functions/isBrowser";
 import { round } from "app/app/functions/math";
 import { updateURL } from "app/router/actions/updateURL";
 import { deck } from "app/vocabulary/actions/deck";
-import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile";
+import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/parseFile";
 import { getHash } from "maker/vocabulary_maker/getHash";
 import _ from "underscore";
 

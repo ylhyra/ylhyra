@@ -1,7 +1,7 @@
 import store from "app/app/store";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
 import AudioClip from "documents/render/audio/AudioClip";
-import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile";
+import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/parseFile";
 import { get_processed_image_url } from "paths";
 import React, { Component } from "react";
 import { connect } from "react-redux";

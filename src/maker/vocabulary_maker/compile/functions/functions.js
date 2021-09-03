@@ -1,6 +1,7 @@
 import _hash from "app/app/functions/hash";
 import { isBrowser } from "app/app/functions/isBrowser";
-import { getPlaintextFromVocabularyEntry } from "./index";
+import { getPlaintextFromVocabularyEntry } from "./parseFile";
+import { getUserFromCookie } from "app/user/actions";
 
 export const row_titles = [
   // "icelandic",
@@ -23,8 +24,7 @@ export const row_titles = [
   "categories",
   "grammar_tags",
   "importance",
-  "import { getUserFromCookie } from 'app/user/actions';
-show_hint",
+  "show_hint",
   "should_split",
   "example_declension",
   "athugasemd_til_min",
@@ -82,4 +82,22 @@ export const getDeckName = () => {
     }
   }
   return "";
+};
+
+export const automaticThu = (input) => {
+  return input
+    .replace(/\b(ert)u\b/gi, "$1{{u}}")
+    .replace(/\b(ætlar)ðu\b/gi, "$1{{ðu}}");
+};
+
+const getSpokenSentences = (input) => {
+  let output = [];
+  input.split(/;+/g).forEach((i) => {
+    getPlaintextFromVocabularyEntry(i)
+      .split(/ [-–—] /g)
+      .forEach((j) => {
+        output.push(j);
+      });
+  });
+  return output;
 };
