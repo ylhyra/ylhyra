@@ -146,6 +146,8 @@ const getSounds = (sentences, sound_lowercase) => {
 
 let deck;
 const simplify = () => {
+  RemoveCyclicalDependencies();
+
   /* Add sortkey for all items */
   let card_ids = Object.keys(deck.cards)
     .map((key) => {
@@ -163,37 +165,18 @@ const simplify = () => {
     .map((card) => {
       return card.id;
     });
+
+  /* Run empty to remove cyclical dependencies */
+  withDependencies__backend(card_ids);
+  /* Run again now that  cyclical dependencies are gone */
   card_ids = withDependencies__backend(card_ids);
   card_ids.forEach((card_id, index) => {
     deck.cards[card_id].sortKey = index;
     delete deck.cards[card_id].row_id;
   });
 
-  // /* Regularize levels (don't allow a high to come before a low) */
-  // let maxSortKeyPerLevel = {};
-  // card_ids.forEach((card_id) => {
-  //   const { level, sortKey } = deck.cards[card_id];
-  //   maxSortKeyPerLevel[level] = Math.max(maxSortKeyPerLevel[level], sortKey);
-  // });
-  // card_ids.forEach((card_id) => {
-  //   const { level, sortKey } = deck.cards[card_id];
-  //   for (let i = 1; i <= 6; i++) {
-  //     if (
-  //       maxSortKeyPerLevel[i] < sortKey &&
-  //       (sortKey <= maxSortKeyPerLevel[i + 1] || !maxSortKeyPerLevel[i + 1])
-  //     ) {
-  //       console.log(
-  //         printWord(card_id) +
-  //           ` changed its level from ${deck.cards[card_id].level} to ${i}`
-  //       );
-  //       deck.cards[card_id].level = i;
-  //       break;
-  //     }
-  //   }
-  // });
-
   Object.keys(deck.terms).forEach((term_id) => {
-    const deps = CreateDependencyChain__backend(term_id, deck);
+    const deps = CreateDependencyChain__backend(term_id);
     const allDependencies = Object.keys(deps);
     const directDependencies = Object.keys(deps).filter(
       (dep) => deps[dep] === 1
@@ -279,7 +262,7 @@ export const withDependencies__backend = (card_ids, options) => {
   terms = _.uniq(terms);
   terms.forEach((term) => {
     let terms = [{ term, dependencySortKey: 0 }];
-    const chain = CreateDependencyChain__backend(term, deck);
+    const chain = CreateDependencyChain__backend(term);
     // console.log(
     //   Object.keys(chain).map((j) => {
     //     return [printWord(j), chain[j]];
@@ -325,22 +308,32 @@ export const withDependencies__backend = (card_ids, options) => {
   }
 };
 
+const RemoveCyclicalDependencies = () => {};
+
+const DeleteDependency = (from_term, to_term) => {
+  deck.dependencies[from_term] = deck.dependencies[from_term].filter(
+    (j) => j !== to_term
+  );
+};
+
 /**
  * Returns an object on the form { [key]: [depth] }
  */
 const CreateDependencyChain__backend = (
   from_term,
-  deck,
-  _alreadySeen = [],
+  _alreadySeenDirectParents = [],
   output = [],
   depth = 1
 ) => {
   if (from_term in deck.dependencies) {
     deck.dependencies[from_term].forEach((term) => {
       /* Deep copy in order to only watch direct parents */
-      const alreadySeen = [..._alreadySeen];
-      if (alreadySeen.includes(term)) return;
-      alreadySeen.push(term);
+      const alreadySeenDirectParents = [..._alreadySeenDirectParents];
+      if (alreadySeenDirectParents.includes(term)) {
+        DeleteDependency(from_term, term);
+        return;
+      }
+      alreadySeenDirectParents.push(term);
       // if (term in deck.terms) {
       output[term] = Math.max(output[term] || 0, depth);
       // }
@@ -354,8 +347,7 @@ const CreateDependencyChain__backend = (
           const isThroughAltId = j !== term;
           CreateDependencyChain__backend(
             j,
-            deck,
-            alreadySeen,
+            alreadySeenDirectParents,
             output,
             depth + (isThroughAltId ? 0 : 1)
           );

@@ -6,7 +6,7 @@
     "module": "commonjs"
   },
   "include": ["src/**/*.js"],
-  "exclude": ["build"],
+  "exclude": ["build", "node_modules"],
   "typeAcquisition": {
     "exclude": ["crc-32"]
   }
