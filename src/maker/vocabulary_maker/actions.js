@@ -1,17 +1,17 @@
-import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/parseFile";
+import { formatVocabularyEntry } from "maker/vocabulary_maker/functions";
 import { isBrowser } from "app/app/functions/isBrowser";
 import {
   getPlaintextFromVocabularyEntry,
   GetLowercaseStringForAudioKey,
   parse_vocabulary_file,
-} from "maker/vocabulary_maker/compile/parseFile";
-import { getHash } from "maker/vocabulary_maker/getHash";
+} from "maker/vocabulary_maker/functions";
+import { getHash } from "maker/vocabulary_maker/functions";
 import store from "app/app/store";
 import axios from "app/app/axios";
 import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
 import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
-import { getDeckName } from "maker/vocabulary_maker/compile/parseFile";
+import { getDeckName } from "maker/vocabulary_maker/functions";
 
 let maxID = 0;
 export let rows = [];

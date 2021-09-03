@@ -4,7 +4,7 @@ import _ from "underscore";
 /**
  * @memberof Card
  */
-export default function postponeRelatedCards() {
+export default function postponeRelatedCards(card1interval) {
   const card1 = this;
   card1.terms.forEach((term) => {
     card1.session.cards.forEach((card2) => {
@@ -12,12 +12,9 @@ export default function postponeRelatedCards() {
 
       // Same term
       if (card2.terms.includes(term)) {
-        let max;
         if (card1.history.includes(BAD) || card2.history.includes(BAD)) {
-          max = 10;
           card2.done = false;
         } else {
-          max = 500;
           card2.done = true;
         }
 
@@ -25,10 +22,10 @@ export default function postponeRelatedCards() {
           card2.showIn({ minInterval: 8 });
         } else if (card1.history[0] === BAD) {
           if (card1.history[1] === BAD && !(card2.history[0] >= GOOD)) {
-            card1.showIn({ interval: 4 });
-            card2.showIn({ interval: 3 });
+            card1.showIn({ interval: card1interval + 1 });
+            card2.showIn({ interval: card1interval });
           } else {
-            card2.showIn({ interval: 3 });
+            card2.showIn({ interval: card1interval });
           }
         }
       }

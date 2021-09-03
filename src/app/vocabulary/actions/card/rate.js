@@ -16,25 +16,27 @@ export default function rate(rating) {
   let interval;
   if (rating === BAD) {
     interval = 3;
+    if (card.history[1] === BAD) {
+      if (card.history[2] === BAD || Math.random() < 0.5) {
+        interval = 2;
+      }
+    }
     card.done = false;
     /* User is getting annoyed */
     if (card.history.length > 7) {
       // TODO improve
-      interval = 10;
+      interval = 8;
     }
   } else if (rating === GOOD) {
     interval = 200;
     card.done = true;
-    if (card.getScore() && card.getScore() < GOOD) {
-      interval = 15;
-    }
-    if (card.history[1] >= GOOD) {
-      interval = 200;
+    if (card.getScore() && card.getScore() === BAD) {
+      interval = 12;
     } else if (card.history[1] === BAD) {
-      interval = 8;
+      interval = 5;
       card.done = false;
     } else if (card.history[2] === BAD) {
-      interval = 15;
+      interval = 10;
     }
   } else if (rating === EASY) {
     interval = 800;

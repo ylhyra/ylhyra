@@ -36,6 +36,7 @@ export const getPlaintextFromFormatted = (input) => {
       .replace(/<.+?>/g, "")
       .replace(/[—–]/g, "-")
       .replace(/  +/g, " ")
+      .replace(/†/g, "")
   );
 };
 export const removeWhitespace = (input) => {
@@ -112,6 +113,7 @@ export const formatVocabularyEntry = (input) => {
     .replace(/{{bhet}}/g, `Speaking to one person`)
     .replace(/{{bhft}}/g, `Speaking to a group`)
     .replace(/{{ft}}/g, `<sup>(plural)</sup>`)
+    .replace(/#/g, `<sup class="red"><small>†</small></sup>`) // Notað í norska datasettinu ∗
     .trim();
 
   if (/MAJOR_SEPERATOR/.test(input)) {

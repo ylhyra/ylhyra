@@ -39,6 +39,9 @@ Card.prototype.rate = rate;
 Card.prototype.getRanking = getRanking;
 Card.prototype.postponeRelatedCards = postponeRelatedCards;
 
+/*
+  An interval of "1" means that the card will be shown immediately
+*/
 Card.prototype.showIn = function ({
   interval,
   minInterval,
@@ -53,7 +56,10 @@ Card.prototype.showIn = function ({
     }
   }
 
-  const c = cannotBeShownBefore || ((interval || minInterval) > 6 ? 6 : 3);
+  let c = cannotBeShownBefore || ((interval || minInterval) > 6 ? 6 : 3);
+  if (interval) {
+    c = Math.min(c, interval);
+  }
   this.cannotBeShownBefore = Math.max(
     this.cannotBeShownBefore || 0,
     this.session.counter + c
