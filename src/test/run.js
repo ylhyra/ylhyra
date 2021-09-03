@@ -38,7 +38,9 @@ export const run = {
     }
   },
   fakeReload: async () => {
-    deck.reset();
+    deck.reset({ dontClear: true });
+    updateURL("/vocabulary");
+    await wait(500);
     await InitializeVocabulary();
   },
   signup: async () => {
