@@ -1,6 +1,6 @@
 import getSortKeys from "server/vocabulary/sortKeys";
-import { getHash } from "maker/vocabulary_maker/functions";
-import { getPlaintextFromFormatted } from "maker/vocabulary_maker/functions";
+import { getHash } from "maker/vocabulary_maker/getHash";
+import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile";
 const fs = require("fs");
 const path = require("path");
 /*

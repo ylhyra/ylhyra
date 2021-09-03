@@ -60,8 +60,7 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
     new_card_ids.sort(
       (a, b) => allowed_card_ids.indexOf(a) - allowed_card_ids.indexOf(b)
     );
-  }
-  if (deck.isEasinessLevelOn()) {
+  } else if (deck.isEasinessLevelOn()) {
     new_card_ids = new_card_ids
       .map((id) => {
         const { sortKey } = deck.cards[id];

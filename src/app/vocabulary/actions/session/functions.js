@@ -1,5 +1,6 @@
 import store from "app/app/store";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
+import { printWord, getTermsFromCards } from "app/vocabulary/actions/functions";
 
 /**
  * @memberof Session
@@ -64,14 +65,6 @@ export function createMoreCards() {
   console.log("New cards generated");
 }
 
-// /**
-//  * @memberof Session
-//  */
-// export function clearUnseenCards() {
-//   this.createCards();
-//   console.log("New cards generated");
-// }
-
 /**
  * @memberof Session
  */
@@ -85,6 +78,13 @@ export function loadCard() {
       counter: session.counter,
     },
   });
+  if (process.env.NODE_ENV === "development") {
+    console.log(
+      getTermsFromCards(Object.keys(session.currentCard.dependencyDepth)).map(
+        printWord
+      )
+    );
+  }
   // if (
   //   this.deck.schedule[session.currentCard.id] &&
   //   process.env.NODE_ENV === "development"

@@ -19,9 +19,10 @@ export const saveInLocalStorage = (name, input) => {
     data = JSON.stringify(input);
   }
 
-  if (data && compressed_keys.includes(name)) {
-    data = compressToBase64(data);
-  }
+  // TODO!! Too slow
+  // if (data && compressed_keys.includes(name)) {
+  //   data = compressToBase64(data);
+  // }
 
   localStorage.setItem(name, data);
 };
@@ -31,9 +32,9 @@ export const getFromLocalStorage = (name) => {
   let data = localStorage.getItem(name);
   if (!data) return null;
 
-  if (compressed_keys.includes(name) && !data.startsWith("{")) {
-    data = decompressFromBase64(data) || data;
-  }
+  // if (compressed_keys.includes(name) && !data.startsWith("{")) {
+  //   data = decompressFromBase64(data) || data;
+  // }
 
   try {
     return JSON.parse(data);

@@ -1,6 +1,7 @@
 import { BAD } from "app/vocabulary/actions/card";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { deck } from "app/vocabulary/actions/deck";
+import { printWord } from "app/vocabulary/actions/functions";
 
 /*
   If a card gets a bad rating, then we make sure
@@ -20,6 +21,7 @@ export const addRelatedCards = (card) => {
       (!(related_card_id in deck.schedule) ||
         deck.schedule[related_card_id].score <= BAD + INCR * 2)
     ) {
+      console.log(`Direct dependency "${printWord(related_card_id)}" added`);
       card.session.loadCards([related_card_id]);
     }
   });

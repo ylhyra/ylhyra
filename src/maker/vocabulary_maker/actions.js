@@ -1,17 +1,17 @@
-import { formatVocabularyEntry } from "maker/vocabulary_maker/functions";
+import { formatVocabularyEntry } from "maker/vocabulary_maker/compile";
 import { isBrowser } from "app/app/functions/isBrowser";
 import {
-  getHash,
   getPlaintextFromVocabularyEntry,
   GetLowercaseStringForAudioKey,
   parse_vocabulary_file,
-} from "maker/vocabulary_maker/functions";
+} from "maker/vocabulary_maker/compile";
+import { getHash } from "maker/vocabulary_maker/getHash";
 import store from "app/app/store";
 import axios from "app/app/axios";
 import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
 import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
-import { getDeckName } from "maker/vocabulary_maker/functions";
+import { getDeckName } from "maker/vocabulary_maker/compile";
 
 let maxID = 0;
 export let rows = [];
@@ -201,7 +201,7 @@ const setupSound = () => {
       }
     });
   });
-  console.log(sentences);
+  // console.log(sentences);
   // sentences = _.shuffle(sentences);
 
   missing_sound = [];

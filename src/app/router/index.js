@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "app/elements/layout/Layout";
 import LoadContent from "app/router/Content";
-import components from "app/router/paths";
+import { app_urls } from "app/router/paths";
 import { connect } from "react-redux";
 import Section from "documents/templates/Section";
 import { isVocabularyTheFrontpage, index } from "app/router/actions";
@@ -18,8 +18,8 @@ class App extends React.Component {
     let Element = () => null;
     const url = this.props.url || this.props.route.pathname;
 
-    if (url in components) {
-      Element = components[url]; //|| components["/vocabulary"];
+    if (url in app_urls) {
+      Element = app_urls[url].component; //|| components["/vocabulary"];
       let Section2 = Section;
       if (url === "/vocabulary/play") {
         Section2 = (props) => props.children;

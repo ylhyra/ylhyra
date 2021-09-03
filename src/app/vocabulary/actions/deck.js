@@ -34,7 +34,7 @@ class Deck {
     }
   }
   continueStudying() {
-    updateURL("VOCABULARY_PLAY");
+    updateURL("/vocabulary/play");
     this.session.reset();
     this.session.InitializeSession();
   }

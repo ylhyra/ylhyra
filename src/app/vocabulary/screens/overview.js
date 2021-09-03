@@ -21,7 +21,7 @@ class Overview extends Component {
         <Link href="/vocabulary/tutorial">Tutorial</Link>
         <Spacer space="70" />
         <div className="centered-button">
-          <Link href="VOCABULARY_PLAY" className="button dark-blue big">
+          <Link href="/vocabulary/play" className="button dark-blue big">
             {session ? "Continue" : "Start a study session"}
           </Link>
           {deck && (

@@ -1,11 +1,10 @@
-import { isVocabularyTheFrontpage } from "app/router/actions";
-import axios from "app/app/axios";
-import components from "app/router/paths";
-import { ReadAlongSetup } from "documents/render/audio/ReadAlong";
-import store from "app/app/store";
-import { index } from "app/router/actions";
-import { updateURL } from "app/router/actions/updateURL";
 import Analytics from "app/app/analytics";
+import axios from "app/app/axios";
+import store from "app/app/store";
+import { index, isVocabularyTheFrontpage } from "app/router/actions";
+import { updateURL } from "app/router/actions/updateURL";
+import { app_urls } from "app/router/paths";
+import { ReadAlongSetup } from "documents/render/audio/ReadAlong";
 let cache = {};
 let expectedUrl = false;
 export const abortAllThatAreNot = (url) => {
@@ -19,7 +18,7 @@ export const loadContent = ({
   section,
   callback,
 }) => {
-  if (url in components || (url === "/" && isVocabularyTheFrontpage())) {
+  if (url in app_urls || (url === "/" && isVocabularyTheFrontpage())) {
     return;
   }
 

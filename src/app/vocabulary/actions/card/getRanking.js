@@ -45,7 +45,7 @@ export default function getRanking() {
     q += 0.4;
     if (this.session.cardTypeLog[1] === this.from) {
       /* Two in a row */
-      if (this.history.length > 0 || !this.isNew()) {
+      if (this.history.length > 0 || !this.isNewCard()) {
         q += 5;
       }
 
@@ -55,7 +55,7 @@ export default function getRanking() {
         // Only if a user says "Good" to all three previous
         !this.session.ratingHistory.slice(0, 3).some((i) => i === BAD) &&
         // And all of them were new cards
-        this.session.cardHistory.slice(0, 3).every((i) => i.isNew())
+        this.session.cardHistory.slice(0, 3).every((i) => i.isNewCard())
       ) {
         q += 2000;
       }

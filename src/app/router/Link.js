@@ -1,9 +1,8 @@
+import { getFrontpageURL } from "app/router/actions";
+import { preload } from "app/router/actions/load";
+import { updateURL } from "app/router/actions/updateURL";
 import React from "react";
 import { connect } from "react-redux";
-import { urls as app_urls } from "app/router/paths";
-import { getFrontpageURL } from "app/router/actions";
-import { updateURL } from "app/router/actions/updateURL";
-import { preload } from "app/router/actions/load";
 
 class Link extends React.Component {
   fn = (e, url) => {
@@ -22,9 +21,6 @@ class Link extends React.Component {
       console.warn("Missing href:");
       console.log(children);
       return "";
-    }
-    if (href in app_urls) {
-      href = app_urls[href].url;
     }
     if (href.startsWith("//")) {
       console.warn(`Did you mean to do ${href}?`);

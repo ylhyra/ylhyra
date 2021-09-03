@@ -1,14 +1,14 @@
 import { URL_title, FileSafeTitle } from "paths";
 import prerender from "server/compiler/prerender_single";
 import forEachAsync from "app/app/functions/array-foreach-async";
-import { url_to_info } from "app/router/paths";
+import { app_urls } from "app/router/paths";
 import { readDeck } from "documents/compile/vocabulary";
 import { links } from "server/content/links";
 const run = async () => {
   process.stdout.write("Prerendering...");
   readDeck();
   /* Render empty shell */
-  let to_render = Object.keys(url_to_info);
+  let to_render = Object.keys(app_urls);
   // console.log(url_to_info);
   Object.keys(links).forEach((url) => {
     if (!links[url].shouldBeCreated) return;

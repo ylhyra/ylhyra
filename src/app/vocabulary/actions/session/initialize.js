@@ -21,7 +21,8 @@ export async function InitializeSession(options = {}) {
 
 /**
  * @memberof Session
- * Used to load more cards into an already ongoing session
+ * Used to load more cards into an already ongoing session.
+ * Called from createCards.
  */
 export function loadCards(card_ids) {
   let insertAtPosition = this.cards.filter((i) => !i.done).length;

@@ -1,7 +1,6 @@
 import { URL_title } from "paths";
 import store from "app/app/store";
-import { url_to_info } from "app/router/paths";
-import { urls as app_urls } from "app/router/paths";
+import { app_urls } from "app/router/paths";
 import { loadContent, abortAllThatAreNot } from "app/router/actions/load";
 import { clear as ClearReadAlongSetup } from "documents/render/audio/ReadAlong";
 import Analytics from "app/app/analytics";
@@ -13,12 +12,12 @@ export async function updateURL(url, options = {}) {
   if (isBrowser) {
     window.HAS_LOADED = true;
   }
-  const isComponent = url in app_urls;
+  url = URL_title(url);
+  const [pathname, section] = url.split("#");
+
+  const isComponent = pathname in app_urls;
   if (isComponent) {
-    url = app_urls[url].url;
     Analytics.stopReadingPage();
-  } else {
-    url = URL_title(url);
   }
   if (url === "/") {
     url = getFrontpageURL();
@@ -29,9 +28,8 @@ export async function updateURL(url, options = {}) {
   url = decodeURI(url);
   abortAllThatAreNot(url);
 
-  const [pathname, section] = url.split("#");
-  if (!title && pathname in url_to_info) {
-    title = url_to_info[pathname].title;
+  if (!title && isComponent) {
+    title = app_urls[pathname].title;
   }
   window.document.title = (title ? title + "\u2006•\u2006" : "") + "Ylhýra";
 
@@ -80,7 +78,8 @@ export async function updateURL(url, options = {}) {
       section,
     });
   }
-  if (!prerender && replace) {
+
+  if ((!prerender && replace) || isComponent) {
     ClearReadAlongSetup();
     store.dispatch({
       type: "ROUTE",

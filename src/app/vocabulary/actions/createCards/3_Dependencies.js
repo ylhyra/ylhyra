@@ -15,10 +15,11 @@ export default ({ chosen_ids, forbidden_ids }) => {
       /* Ignore cards that are below user's easiness level */
       (deck.cards[card_id].sortKey >=
         ((deck.isEasinessLevelOn() && getUserData("easinessLevel")) || 0) &&
-        /* Dependency that is not known */
-        (!(card_id in deck.schedule) ||
-          (deck.schedule[card_id].score &&
-            deck.schedule[card_id].score <= BAD + INCR)))
+        // /* Dependency that is not known */
+        // !(card_id in deck.schedule) ||
+        /* Dependency with a bad score */
+        deck.schedule[card_id]?.score &&
+        deck.schedule[card_id].score <= BAD + INCR)
     ) {
       return new_word_order.push(card_id);
     }

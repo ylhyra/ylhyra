@@ -14,16 +14,8 @@ class Card {
     this.absoluteQueuePosition = index;
     Object.assign(this, data);
   }
-  // lastRating(){
-  //   return this.history[0]
-  // }
-  // secondLastRating(){
-  //   return this.history[0]
-  // }
-  isNew() {
+  isNewCard() {
     return !(this.id in deck.schedule);
-    // !(card.id in deck.schedule) && card.history.length === 0;
-    // return !this.getScore() && this.history.length === 0;
   }
   isNewTerm() {
     // There exists at least one term
@@ -81,13 +73,5 @@ Card.prototype.canBeShown = function () {
     this.cannotBeShownBefore <= this.session.counter
   );
 };
-
-// Card.prototype.shouldShowHint = function () {
-//   const lastTwoAverage = average(this.history.slice(0, 2));
-//   return !(
-//     this.history[0] === EASY ||
-//     (this.history.length >= 2 && lastTwoAverage >= GOOD)
-//   );
-// };
 
 export default Card;

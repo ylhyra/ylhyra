@@ -1,5 +1,5 @@
 import { URL_title } from "paths";
-import { url_to_info } from "app/router/paths";
+import { app_urls } from "app/router/paths";
 // import { links, getValuesForURL } from "server/content/links";
 
 export const ProcessLinks = (input, links) => {
@@ -19,7 +19,7 @@ export const ProcessLinks = (input, links) => {
           link = URL_title(link);
           const [title] = link.split("#");
           if (links) {
-            if (title && !(title in links) && !(link in url_to_info)) {
+            if (title && !(title in links) && !(link in app_urls)) {
               return text;
             }
             if (links[title]?.redirect_to) {

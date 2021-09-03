@@ -16,7 +16,7 @@ export const run = {
     await InitializeVocabulary();
   },
   start_session: async () => {
-    updateURL("VOCABULARY_PLAY");
+    updateURL("/vocabulary/play");
     await deck.session.InitializeSession();
   },
   end_session: async () => {

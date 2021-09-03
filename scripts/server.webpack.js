@@ -62,19 +62,19 @@ module.exports = {
     publicPath: false,
   },
   // bail: true,
-  watchOptions: {
-    ignored: [
-      "node_modules/**",
-      "src/documents/Parse/**",
-      "src/documents/Read/**",
-      "src/documents/Render/**",
-      "src/documents/Style/**",
-      "src/documents/Templates/**",
-      "src/app/**",
-      "src/maker/**",
-    ],
-    aggregateTimeout: 50,
-  },
+  // watchOptions: {
+  //   ignored: [
+  //     resolve("node_modules/**"),
+  //     resolve("src/documents/Parse/**"),
+  //     resolve("src/documents/Read/**"),
+  //     resolve("src/documents/Render/**"),
+  //     resolve("src/documents/Style/**"),
+  //     resolve("src/documents/Templates/**"),
+  //     resolve("src/app/**"),
+  //     resolve("src/maker/**"),
+  //   ],
+  //   aggregateTimeout: 50,
+  // },
   module: {
     strictExportPresence: true,
     rules: [
@@ -99,22 +99,20 @@ module.exports = {
       // },
     ],
   },
-  cache: {
-    type: "filesystem",
-  },
+  cache: false,
   plugins: [
-    new HardSourceWebpackPlugin(),
+    // new HardSourceWebpackPlugin(),
     new NodemonPlugin(),
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1,
     }),
-    // new webpack.WatchIgnorePlugin([
-    //   resolve("src/documents/Parse"),
-    //   resolve("src/documents/Read"),
-    //   resolve("src/documents/Render"),
-    //   resolve("src/documents/Style"),
-    //   resolve("src/documents/Templates"),
-    //   resolve("src/app"),
-    // ]),
+    new webpack.WatchIgnorePlugin([
+      resolve("src/documents/Parse"),
+      resolve("src/documents/Read"),
+      resolve("src/documents/Render"),
+      resolve("src/documents/Style"),
+      resolve("src/documents/Templates"),
+      resolve("src/app"),
+    ]),
   ],
 };

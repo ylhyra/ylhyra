@@ -18,18 +18,18 @@ class Screen extends React.Component {
         {!(isUserLoggedIn() || existsSchedule()) ? (
           <div>
             <div>
-              <Link href="VOCABULARY_PLAY" className="button dark-blue big">
+              <Link href="/vocabulary/play" className="button dark-blue big">
                 Start learning
               </Link>
             </div>
-            <Link href="LOG_IN" className="below-button">
+            <Link href="/login" className="below-button">
               Already have an account?
             </Link>
           </div>
         ) : (
           <div>
             <div>
-              <Link href="VOCABULARY_PLAY" className="button dark-blue big">
+              <Link href="/vocabulary/play" className="button dark-blue big">
                 Start session
               </Link>
               <div className="below-button">

@@ -1,4 +1,4 @@
-import { url_to_info } from "app/router/paths";
+import { app_urls } from "app/router/paths";
 import { URL_title, FileSafeTitle } from "paths";
 const fs = require("fs");
 
@@ -20,7 +20,7 @@ export const getValuesForURL = (url, user_input_url) => {
     }
     values.url = url;
     return values;
-  } else if (url_to_info[url]) {
+  } else if (url in app_urls) {
     return {
       title: "",
       filename: FileSafeTitle(url),

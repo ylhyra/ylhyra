@@ -6,9 +6,10 @@ import {
   getFromLocalStorage,
 } from "app/app/functions/localStorage";
 import { sync } from "app/vocabulary/actions/sync";
-import { getDeckName } from "maker/vocabulary_maker/functions";
+import { getDeckName } from "maker/vocabulary_maker/compile";
 
 export const InitializeVocabulary = async () => {
+  console.warn("init");
   let DECK = getDeckName(); /* Only used for testing */
   let database = getFromLocalStorage("vocabulary-database");
   let should_update = false;
