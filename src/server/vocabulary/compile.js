@@ -9,6 +9,9 @@ import {
   GetLowercaseStringForAudioKey,
 } from "maker/vocabulary_maker/functions";
 import _ from "underscore";
+import { getHash } from "maker/vocabulary_maker/functions";
+import { printWord } from "app/vocabulary/actions/functions/index";
+import stable_stringify from "json-stable-stringify";
 
 const fs = require("fs");
 
@@ -124,6 +127,11 @@ const run = async () => {
       JSON.stringify(simplify(full_deck), null, ""),
       function () {}
     );
+    fs.writeFileSync(
+      __basedir + `/build/vocabulary/vocabulary_terms${DECK}.json`,
+      JSON.stringify(simplify(full_deck).terms, null, ""),
+      function () {}
+    );
     console.log("Done!");
     process.exit();
   });
@@ -146,8 +154,6 @@ const getSounds = (sentences, sound_lowercase) => {
 
 let deck;
 const simplify = () => {
-  RemoveCyclicalDependencies();
-
   /* Add sortkey for all items */
   let card_ids = Object.keys(deck.cards)
     .map((key) => {
@@ -166,9 +172,9 @@ const simplify = () => {
       return card.id;
     });
 
-  /* Run empty to remove cyclical dependencies */
-  withDependencies__backend(card_ids);
-  /* Run again now that  cyclical dependencies are gone */
+  // /* Run empty to remove cyclical dependencies */
+  // withDependencies__backend(card_ids);
+  // /* Run again now that  cyclical dependencies are gone */
   card_ids = withDependencies__backend(card_ids);
   card_ids.forEach((card_id, index) => {
     deck.cards[card_id].sortKey = index;
@@ -177,15 +183,41 @@ const simplify = () => {
 
   Object.keys(deck.terms).forEach((term_id) => {
     const deps = CreateDependencyChain__backend(term_id);
-    const allDependencies = Object.keys(deps);
-    const directDependencies = Object.keys(deps).filter(
-      (dep) => deps[dep] === 1
-    );
-    if (directDependencies.length > 0) {
-      deck.terms[term_id].dependsOn = directDependencies;
-    }
-    if (allDependencies.length > 0) {
+    // const directDependencies = Object.keys(deps).filter(
+    //   (dep) => deps[dep] === 1
+    // );
+
+    /* The chain above isn't perfect and sometimes skips over values */
+    let lowestDep = Infinity;
+    Object.keys(deps).forEach((dep) => {
+      lowestDep = Math.min(lowestDep, deps[dep]);
+    });
+    Object.keys(deps).forEach((dep) => {
+      deps[dep] -= lowestDep - 1;
+    });
+
+    // if (term_id === getHash("einhver annar")) {
+    //   Object.keys(deps).forEach((j) => {
+    //     console.log({ word: printWord(j), level: deps[j] });
+    //   });
+    //   console.log({ deps });
+    // }
+    // if (term_id === "1ydhbm") {
+    //   console.log({ deps });
+    // }
+
+    // if (directDependencies.length > 0) {
+    //   deck.terms[term_id].dependsOn = directDependencies;
+    // }
+    if (Object.keys(deps).length > 0) {
       // deck.terms[term_id].allDependencies = allDependencies;
+      deck.terms[term_id].dependencies = deps;
+    }
+    if (Object.keys(deps).length > 30) {
+      console.log(`very long deps for ${printWord(term_id)}`);
+      Object.keys(deps).forEach((j) => {
+        console.log({ word: printWord(j), level: deps[j] });
+      });
     }
   });
 
@@ -196,18 +228,23 @@ const simplify = () => {
     let minSortKey;
     Object.keys(deck.cards[term.cards[0]]).forEach((key) => {
       if (key === "sortKey") return;
-      // if (
-      //   term.cards.every(
-      //     (card_id) =>
-      //       JSON.stringify(deck.cards[card_id][key]) === JSON.stringify(val)
-      //   )
-      // ) {
-      //   term[key] = val;
-      //   // minSortKey =
-      //   term.cards.forEach((card_id) => {
-      //     delete deck.cards[card_id][key];
-      //   });
-      // }
+      if (key === "terms") return;
+      const val = deck.cards[term.cards[0]][key];
+
+      if (
+        term.cards.every(
+          (card_id) =>
+            deck.cards[card_id].terms.length === 1 &&
+            key in deck.cards[card_id] &&
+            stable_stringify(deck.cards[card_id][key]) === stable_stringify(val)
+        )
+      ) {
+        term[key] = val;
+        term.cards.forEach((card_id) => {
+          delete deck.cards[card_id][key];
+        });
+      }
+
       term.cards.forEach((card_id) => {
         cards[card_id] = deck.cards[card_id];
         minSortKey = Math.min(
@@ -308,13 +345,11 @@ export const withDependencies__backend = (card_ids, options) => {
   }
 };
 
-const RemoveCyclicalDependencies = () => {};
-
-const DeleteDependency = (from_term, to_term) => {
-  deck.dependencies[from_term] = deck.dependencies[from_term].filter(
-    (j) => j !== to_term
-  );
-};
+// const DeleteDependency = (from_term, to_term) => {
+//   deck.dependencies[from_term] = deck.dependencies[from_term].filter(
+//     (j) => j !== to_term
+//   );
+// };
 
 /**
  * Returns an object on the form { [key]: [depth] }
@@ -322,21 +357,33 @@ const DeleteDependency = (from_term, to_term) => {
 const CreateDependencyChain__backend = (
   from_term,
   _alreadySeenDirectParents = [],
-  output = [],
-  depth = 1
+  output = {},
+  depth = 1,
+  type = "deep" // or "shallow"
 ) => {
   if (from_term in deck.dependencies) {
     deck.dependencies[from_term].forEach((term) => {
+      if (!term) return;
       /* Deep copy in order to only watch direct parents */
       const alreadySeenDirectParents = [..._alreadySeenDirectParents];
       if (alreadySeenDirectParents.includes(term)) {
-        DeleteDependency(from_term, term);
+        // DeleteDependency(from_term, term);
         return;
       }
       alreadySeenDirectParents.push(term);
-      // if (term in deck.terms) {
-      output[term] = Math.max(output[term] || 0, depth);
+
+      // if (from_term === "1ydhbm") {
+      //   console.log({
+      //     depth,
+      //     output,
+      //     term,
+      //   });
       // }
+      if (type === "shallow") {
+        output[term] = Math.min(output[term] || 100, depth);
+      } else if (type === "deep") {
+        output[term] = Math.max(output[term] || 0, depth);
+      }
       [
         term,
         /* Through alternative ids */
@@ -349,7 +396,8 @@ const CreateDependencyChain__backend = (
             j,
             alreadySeenDirectParents,
             output,
-            depth + (isThroughAltId ? 0 : 1)
+            depth + (isThroughAltId ? 0 : 1),
+            type
           );
         });
     });
