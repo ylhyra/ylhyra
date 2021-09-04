@@ -51,7 +51,11 @@ const getUserData = (req) => {
         ) b
         ON a.id = b.id
         WHERE user_id = ${req.session.user_id}
-        AND created_at > FROM_UNIXTIME(${msToS(req.body.lastSynced) || 0})
+        AND 
+        (
+          created_at > FROM_UNIXTIME(${msToS(req.body.lastSynced) || 0})
+          OR created_at IS NULL
+        )
       `,
       (err, results) => {
         if (err) {

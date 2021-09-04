@@ -3,8 +3,7 @@ import {
   CreateDependencyChain__backend,
   withDependencies__backend,
 } from "server/vocabulary/compile/dependencies";
-
-export let deck;
+import { deck } from "./index";
 export const simplify = () => {
   /* Add sortkey for all items */
   let card_ids = Object.keys(deck.cards)

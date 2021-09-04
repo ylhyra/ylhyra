@@ -67,7 +67,6 @@ router.get(["/api/content", "*"], async (req, res) => {
           header,
         });
       } else {
-        console.log("haha2");
         fs.readFile(
           path.resolve(build_folder, `./prerender/${filename}.${type}`),
           "utf8",

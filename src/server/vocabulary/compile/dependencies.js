@@ -1,5 +1,5 @@
 import _ from "underscore";
-import { deck } from "server/vocabulary/compile/simplify";
+import { deck } from "./index";
 
 export const withDependencies__backend = (card_ids, options) => {
   const showDepth = options?.showDepth;

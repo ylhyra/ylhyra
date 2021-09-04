@@ -3,7 +3,7 @@ import { deck } from "app/vocabulary/actions/deck";
 import CategorizeCards from "app/vocabulary/actions/createCards/1_Categorize_cards";
 import ChooseCards from "app/vocabulary/actions/createCards/2_Choose_cards";
 import Dependencies from "app/vocabulary/actions/createCards/3_Dependencies";
-export const CARDS_TO_CREATE = 30;
+export const CARDS_TO_CREATE = 50;
 
 /**
  * @module Session

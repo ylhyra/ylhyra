@@ -156,6 +156,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.15.0",
     "hard-source-webpack-plugin": "^0.13.1",
     "jest": "^27.0.6",
     "jest-puppeteer": "^5.0.4",
@@ -174,6 +175,9 @@
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react"
+    ],
+    "plugins": [
+      ["@babel/transform-runtime"]
     ]
   }
 }

@@ -6,8 +6,9 @@ import { content_folder } from "paths_backend";
 import getSortKeys from "server/vocabulary/sortKeys";
 import { GetLowercaseStringForAudioKey } from "maker/vocabulary_maker/compile/functions";
 import _ from "underscore";
-import { deck, simplify } from "./simplify";
+import { simplify } from "./simplify";
 import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
+export let deck;
 
 const fs = require("fs");
 
