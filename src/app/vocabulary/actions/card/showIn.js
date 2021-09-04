@@ -12,13 +12,14 @@ export function showIn({ interval, minInterval, cannotBeShownBefore }) {
     }
   }
 
-  let c = cannotBeShownBefore || ((interval || minInterval) > 6 ? 6 : 3);
+  let _cannotBeShownBefore =
+    cannotBeShownBefore || ((interval || minInterval) > 6 ? 6 : 3);
   if (interval) {
-    c = Math.min(c, interval);
+    _cannotBeShownBefore = Math.min(_cannotBeShownBefore, interval);
   }
   this.cannotBeShownBefore = Math.max(
     this.cannotBeShownBefore || 0,
-    this.session.counter + c
+    this.session.counter + _cannotBeShownBefore
   );
 
   // console.log(

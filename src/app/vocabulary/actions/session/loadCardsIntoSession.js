@@ -25,4 +25,5 @@ export function loadCardsIntoSession(card_ids) {
     );
     this.cards.push(card);
   });
+  // this.cardHistory.slice(0, 3);
 }
