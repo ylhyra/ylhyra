@@ -2,9 +2,9 @@ import { isBrowser } from "app/app/functions/isBrowser";
 import { round } from "app/app/functions/math";
 import { updateURL } from "app/router/actions/updateURL";
 import { deck } from "app/vocabulary/actions/deck";
-import { getPlaintextFromFormatted } from "maker/vocabulary_maker/functions";
-import { getHash } from "maker/vocabulary_maker/functions";
+import { getHash } from "maker/vocabulary_maker/compile/functions";
 import _ from "underscore";
+import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 
 export const printWord = (id) => {
   if (id in deck.cards) {

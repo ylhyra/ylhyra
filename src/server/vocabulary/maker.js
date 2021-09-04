@@ -1,5 +1,5 @@
 import { content_folder } from "paths_backend";
-import { row_titles } from "maker/vocabulary_maker/functions";
+import { row_titles } from "maker/vocabulary_maker/compile/functions";
 import _ from "underscore";
 const router = require("express").Router();
 const fs = require("fs");

@@ -13,11 +13,9 @@ import {
   ignore_for_now,
   didYouMeanSuggestions,
 } from "maker/vocabulary_maker/actions";
-import {
-  formatVocabularyEntry,
-  row_titles,
-} from "maker/vocabulary_maker/functions";
-import { getDeckName } from "maker/vocabulary_maker/functions";
+import { row_titles } from "maker/vocabulary_maker/compile/functions";
+import { getDeckName } from "maker/vocabulary_maker/compile/functions";
+import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/format";
 
 class Form2 extends React.Component {
   componentDidMount = async () => {

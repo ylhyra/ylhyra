@@ -6,7 +6,7 @@ import {
   getFromLocalStorage,
 } from "app/app/functions/localStorage";
 import { sync } from "app/vocabulary/actions/sync";
-import { getDeckName } from "maker/vocabulary_maker/functions";
+import { getDeckName } from "maker/vocabulary_maker/compile/functions";
 
 export const InitializeVocabulary = async () => {
   console.warn("init");

@@ -1,4 +1,4 @@
-import { getHash } from "maker/vocabulary_maker/functions";
+import { getHash } from "maker/vocabulary_maker/compile/functions";
 import _ from "underscore";
 // import { deck } from "app/Vocabulary/actions/deck";
 

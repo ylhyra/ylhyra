@@ -1,10 +1,10 @@
 import store from "app/app/store";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
 import AudioClip from "documents/render/audio/AudioClip";
-import { getPlaintextFromFormatted } from "maker/vocabulary_maker/functions";
 import { get_processed_image_url } from "paths";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 class Card extends Component {
   state = {};
   componentDidMount() {
