@@ -28,9 +28,6 @@
 # uppfæra í gagnagrunni
 
 - payments (+verified)
-- users (timestamp->datetime)
-- eyða vocabulary_session_log, bæta við vocabulary_sessions
-- schedule bæta við timestamp
 
 # MVP
 

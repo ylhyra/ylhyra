@@ -5,12 +5,19 @@ import { withDependencies } from "app/vocabulary/actions/functions/withDependenc
  * @module Session
  * Used to load more cards into an already ongoing session.
  * Called from createCards.
+ * Options:
+ * - insertImmediately
  */
-export function loadCardsIntoSession(card_ids) {
-  let insertAtPosition = this.cards.filter((i) => !i.done).length;
-  if (insertAtPosition) {
-    insertAtPosition += 200;
+export function loadCardsIntoSession(card_ids, options = {}) {
+  let insertAtPosition = 0;
+  if (!options.insertImmediately) {
+    /* Insert new cards after the current cards */
+    insertAtPosition = this.cards.filter((i) => !i.done).length;
+    if (insertAtPosition) {
+      insertAtPosition += 200;
+    }
   }
+
   card_ids.forEach((id, index) => {
     if (!(id in this.deck.cards)) return;
     if (this.cards.some((c) => c.id === id)) return;

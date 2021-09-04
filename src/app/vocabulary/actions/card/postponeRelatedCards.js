@@ -8,7 +8,6 @@ import { printWord } from "app/vocabulary/actions/functions";
 export default function postponeRelatedCards(card1interval) {
   const card1 = this;
   console.log({ card1 });
-  // card1.terms.forEach((term_id) => {});
 
   card1.session.cards.forEach((card2) => {
     if (card2.id === card1.id) return;
@@ -64,9 +63,9 @@ export default function postponeRelatedCards(card1interval) {
       ).length > 0
     ) {
       card2.showIn({ cannotBeShownBefore: 2 });
-      console.log(`"${printWord(card2.id)}" postponed`);
+      // console.log(`"${printWord(card2.id)}" postponed`);
     } else {
-      console.log(`NOT POSTPONED "${printWord(card2.id)}"`);
+      // console.log(`NOT POSTPONED "${printWord(card2.id)}"`);
     }
   });
 }

@@ -13,7 +13,9 @@ export const addRelatedCards = (card) => {
     if (card.session.cards.some((j) => j.id === related_card_id)) return;
     // Add cards with the same term
     if (card.dependenciesAndSameTerm[related_card_id] === 0) {
-      card.session.loadCardsIntoSession([related_card_id]);
+      card.session.loadCardsIntoSession([related_card_id], {
+        insertImmediately: true,
+      });
     }
     // Add cards that this term directly depends on
     else if (
@@ -27,7 +29,9 @@ export const addRelatedCards = (card) => {
         deck.schedule[related_card_id].score <= BAD + INCR * 2)
     ) {
       console.log(`Direct dependency "${printWord(related_card_id)}" added`);
-      card.session.loadCardsIntoSession([related_card_id]);
+      card.session.loadCardsIntoSession([related_card_id], {
+        insertImmediately: true,
+      });
     }
   });
 };
