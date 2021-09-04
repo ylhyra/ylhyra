@@ -99,14 +99,3 @@ export function answer(rating) {
     session.loadCard();
   }
 }
-
-// /**
-//  * @memberof Session
-//  */
-// export function printTimeRemaining() {
-//   const time = Math.floor(this.remainingTime / 1000) || 1;
-//   const minutes = Math.floor(time / 60);
-//   const seconds = time - minutes * 60;
-//   return `${minutes}:${("0" + seconds).slice(-2)}`;
-//   // return `${minutes} minute${minutes===1?'':''}, ${('0'+seconds).slice(-2)} second${seconds===1?'s':''}`
-// }

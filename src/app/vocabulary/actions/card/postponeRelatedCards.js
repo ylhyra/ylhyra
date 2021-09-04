@@ -61,6 +61,9 @@ export default function postponeRelatedCards(card1interval) {
         ).length > 0
       ) {
         card2.showIn({ cannotBeShownBefore: 2 });
+        console.log(`"${printWord(card2.id)}" postponed`);
+      } else {
+        console.log(`"${printWord(card2.id)}" not postponed`);
       }
     });
   });

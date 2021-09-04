@@ -1,5 +1,5 @@
 import { printWord } from "app/vocabulary/actions/functions";
-const LOGGING = false;
+const LOGGING = true;
 
 /**
  * @memberof Session
