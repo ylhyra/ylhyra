@@ -1,3 +1,6 @@
+import Card from "app/vocabulary/actions/card";
+import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
+
 /**
  * @module Session
  * Used to load more cards into an already ongoing session.

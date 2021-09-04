@@ -2,6 +2,7 @@ import getRanking from "app/vocabulary/actions/card/getRanking";
 import rate from "app/vocabulary/actions/card/rate";
 import postponeRelatedCards from "app/vocabulary/actions/card/postponeRelatedCards";
 import { deck } from "app/vocabulary/actions/deck";
+import { canBeShown, showIn } from "app/vocabulary/actions/card/showIn";
 
 export const BAD = 1;
 export const GOOD = 2;
@@ -38,46 +39,7 @@ class Card {
 Card.prototype.rate = rate;
 Card.prototype.getRanking = getRanking;
 Card.prototype.postponeRelatedCards = postponeRelatedCards;
-
-/*
-  An interval of "1" means that the card will be shown immediately
-*/
-Card.prototype.showIn = function ({
-  interval,
-  minInterval,
-  cannotBeShownBefore,
-}) {
-  if (interval) {
-    this.absoluteQueuePosition = this.session.counter + interval;
-  } else if (minInterval) {
-    const newPos = this.session.counter + interval;
-    if (newPos > this.absoluteQueuePosition) {
-      this.absoluteQueuePosition = newPos;
-    }
-  }
-
-  let c = cannotBeShownBefore || ((interval || minInterval) > 6 ? 6 : 3);
-  if (interval) {
-    c = Math.min(c, interval);
-  }
-  this.cannotBeShownBefore = Math.max(
-    this.cannotBeShownBefore || 0,
-    this.session.counter + c
-  );
-
-  // console.log(
-  //   `${printWord(this.id)} – cannotBeShownBefore ${
-  //     this.cannotBeShownBefore
-  //   }, queue position: ${
-  //     this.absoluteQueuePosition - this.session.counter
-  //   }. Input: ${JSON.stringify({ interval, minInterval, cannotBeShownBefore })}`
-  // );
-};
-Card.prototype.canBeShown = function () {
-  return (
-    !this.cannotBeShownBefore ||
-    this.cannotBeShownBefore <= this.session.counter
-  );
-};
+Card.prototype.showIn = showIn;
+Card.prototype.canBeShown = canBeShown;
 
 export default Card;

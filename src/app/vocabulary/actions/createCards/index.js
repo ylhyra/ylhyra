@@ -42,5 +42,5 @@ export default function createCards(options) {
     return this.createCards({ depth: 1 });
   }
 
-  deck.session.loadCards(chosen_ids);
+  deck.session.loadCardsIntoSession(chosen_ids);
 }

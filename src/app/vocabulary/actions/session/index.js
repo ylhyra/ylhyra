@@ -20,7 +20,7 @@ import {
 } from "app/vocabulary/actions/session/undo";
 import { SESSION_PREFIX, setUserData } from "app/vocabulary/actions/sync";
 import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
-import { loadCard } from "app/vocabulary/actions/session/loadCardInInterface";
+import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
 export const MINUTES = process.env.NODE_ENV === "development" ? 4 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
@@ -112,7 +112,7 @@ Session.prototype.getAdjustedPercentageDone = getAdjustedPercentageDone;
 Session.prototype.getCard = getCard;
 Session.prototype.checkIfCardsRemaining = checkIfCardsRemaining;
 Session.prototype.createMoreCards = createMoreCards;
-Session.prototype.loadCard = loadCard;
+Session.prototype.loadCardInInterface = loadCardInInterface;
 Session.prototype.answer = answer;
 Session.prototype.InitializeSession = InitializeSession;
 Session.prototype.loadCardsIntoSession = loadCardsIntoSession;

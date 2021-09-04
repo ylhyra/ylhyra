@@ -4,7 +4,7 @@ import { getTermsFromCards, printWord } from "app/vocabulary/actions/functions";
 /**
  * @module Session
  */
-export function loadCard() {
+export function loadCardInInterface() {
   const session = this;
   if (!session?.currentCard) return console.error("no cards");
   store.dispatch({

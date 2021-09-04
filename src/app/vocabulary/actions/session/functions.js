@@ -1,6 +1,7 @@
 import store from "app/app/store";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
 import { printWord, getTermsFromCards } from "app/vocabulary/actions/functions";
+import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
 
 /**
  * @module Session
@@ -62,6 +63,6 @@ export function answer(rating) {
   session.currentCard.rate(rating);
   session.nextCard();
   if (!session.done) {
-    session.loadCard();
+    session.loadCardInInterface();
   }
 }

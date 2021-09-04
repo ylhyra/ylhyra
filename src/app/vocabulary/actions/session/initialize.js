@@ -12,9 +12,9 @@ export async function InitializeSession(options = {}) {
   }
   // this.allowed_card_ids = null;
   // if (Array.isArray(input)) {
-  //   this.loadCards(input);
+  //   this.loadCardsIntoSession(input);
   // }
   this.checkIfCardsRemaining();
   this.nextCard();
-  this.loadCard();
+  this.loadCardInInterface();
 }

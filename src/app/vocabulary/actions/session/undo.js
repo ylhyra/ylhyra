@@ -8,7 +8,7 @@ export function undo() {
   this.currentCard = card;
   this.cardHistory.shift();
   this.lastUndid = this.counter;
-  this.loadCard();
+  this.loadCardInInterface();
 }
 /**
  * @module Session
