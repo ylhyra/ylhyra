@@ -127,11 +127,11 @@ const run = async () => {
       JSON.stringify(simplify(full_deck), null, ""),
       function () {}
     );
-    fs.writeFileSync(
-      __basedir + `/build/vocabulary/vocabulary_terms${DECK}.json`,
-      JSON.stringify(simplify(full_deck).terms, null, ""),
-      function () {}
-    );
+    // fs.writeFileSync(
+    //   __basedir + `/build/vocabulary/vocabulary_terms${DECK}.json`,
+    //   JSON.stringify(simplify(full_deck).terms, null, ""),
+    //   function () {}
+    // );
     console.log("Done!");
     process.exit();
   });
@@ -206,6 +206,13 @@ const simplify = () => {
     //   console.log({ deps });
     // }
 
+    // if (term_id === getHash("frá einhverjum öðrum - til einhvers annars")) {
+    //   Object.keys(deps).forEach((j) => {
+    //     console.log({ word: printWord(j), level: deps[j] });
+    //   });
+    //   // console.log({ deps });
+    // }
+
     // if (directDependencies.length > 0) {
     //   deck.terms[term_id].dependsOn = directDependencies;
     // }
@@ -231,19 +238,19 @@ const simplify = () => {
       if (key === "terms") return;
       const val = deck.cards[term.cards[0]][key];
 
-      if (
-        term.cards.every(
-          (card_id) =>
-            deck.cards[card_id].terms.length === 1 &&
-            key in deck.cards[card_id] &&
-            stable_stringify(deck.cards[card_id][key]) === stable_stringify(val)
-        )
-      ) {
-        term[key] = val;
-        term.cards.forEach((card_id) => {
-          delete deck.cards[card_id][key];
-        });
-      }
+      // if (
+      //   term.cards.every(
+      //     (card_id) =>
+      //       deck.cards[card_id].terms.length === 1 &&
+      //       key in deck.cards[card_id] &&
+      //       stable_stringify(deck.cards[card_id][key]) === stable_stringify(val)
+      //   )
+      // ) {
+      //   term[key] = val;
+      //   term.cards.forEach((card_id) => {
+      //     delete deck.cards[card_id][key];
+      //   });
+      // }
 
       term.cards.forEach((card_id) => {
         cards[card_id] = deck.cards[card_id];

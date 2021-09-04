@@ -20,7 +20,7 @@ export const withDependencies = (card_ids, options = {}) => {
   term_ids.forEach((term_id) => {
     let terms = [{ term_id, dependencySortKey: 0 }];
     // const chain = CreateDependencyChain(term_id);
-    const chain = deck.terms[term_id].allDependencies || {};
+    const chain = deck.terms[term_id].dependencies || {};
     // console.log(
     //   Object.keys(chain).map((j) => {
     //     return [printWord(j), chain[j]];

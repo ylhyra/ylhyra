@@ -19,12 +19,16 @@ export const saveInLocalStorage = (name, input) => {
     data = JSON.stringify(input);
   }
 
-  // TODO!! Too slow
+  // // TODO!! Too slow?
   // if (data && compressed_keys.includes(name)) {
+  //   console.time("Data compression");
   //   data = compressToBase64(data);
+  //   console.timeEnd("Data compression");
   // }
 
+  // console.time("Saving in localstorage");
   localStorage.setItem(name, data);
+  // console.timeEnd("Saving in localstorage");
 };
 
 export const getFromLocalStorage = (name) => {

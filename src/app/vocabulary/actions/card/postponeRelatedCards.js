@@ -31,10 +31,10 @@ export default function postponeRelatedCards(card1interval) {
       }
 
       // Cards that directly rely on this card
-      else if (Object.keys(card2.dependencyDepth).includes(card1.id)) {
+      else if (Object.keys(card2.dependenciesAndSameTerm).includes(card1.id)) {
         const min =
           (card1.history[0] === BAD ? 5 : 2) +
-          card2.dependencyDepth[card1.id] * 3;
+          card2.dependenciesAndSameTerm[card1.id] * 3;
         card2.showIn({
           minInterval: min,
           cannotBeShownBefore: min,
@@ -44,8 +44,8 @@ export default function postponeRelatedCards(card1interval) {
       // Cards that this card depends directly on
       else if (
         card1.history[0] === BAD &&
-        Object.keys(card1.dependencyDepth).includes(card2.id) &&
-        card1.dependencyDepth[card2.id] === 1 &&
+        Object.keys(card1.dependenciesAndSameTerm).includes(card2.id) &&
+        card1.dependenciesAndSameTerm[card2.id] === 1 &&
         (card2.getScore() < 1.1 || card2.history[0] === BAD) &&
         Math.random() > 0.3
       ) {
@@ -56,8 +56,8 @@ export default function postponeRelatedCards(card1interval) {
       // Cards that share the same dependencies
       else if (
         _.intersection(
-          Object.keys(card1.dependencyDepth),
-          Object.keys(card2.dependencyDepth)
+          Object.keys(card1.dependenciesAndSameTerm),
+          Object.keys(card2.dependenciesAndSameTerm)
         ).length > 0
       ) {
         card2.showIn({ cannotBeShownBefore: 2 });

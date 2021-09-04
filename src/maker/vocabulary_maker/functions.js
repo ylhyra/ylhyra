@@ -268,11 +268,25 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         formatVocabularyEntry
       );
       const terms_in_this_line = icelandic_strings.map(getHash);
-      let alternative_ids = getHashesFromCommaSeperated(row.alternative_id);
-      let depends_on_lemmas = [];
+
+      let altid_lemmas = [];
+      let dependson_lemmas = [];
+      row.lemmas?.split(/[,;]/g).forEach((lemma) => {
+        if (/%/.test(lemma)) {
+          altid_lemmas.push(lemma);
+        } else {
+          dependson_lemmas.push(lemma);
+        }
+      });
+
+      let alternative_ids = [
+        ...getHashesFromCommaSeperated(row.alternative_id),
+        ...altid_lemmas.map(getHash),
+      ];
+
       const depends_on = [
         ...getHashesFromCommaSeperated(row.depends_on?.replace(/%/g, "")),
-        ...getHashesFromCommaSeperated(depends_on_lemmas),
+        ...dependson_lemmas.map(getHash),
         ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
       ];
 

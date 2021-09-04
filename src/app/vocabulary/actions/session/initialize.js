@@ -36,7 +36,7 @@ export function loadCards(card_ids) {
       {
         id,
         ...this.deck.cards[id],
-        dependencyDepth: withDependencies(id, { showDepth: true }),
+        dependenciesAndSameTerm: withDependencies(id, { showDepth: true }),
       },
       index + insertAtPosition,
       this

@@ -80,9 +80,9 @@ export function loadCard() {
   });
   if (process.env.NODE_ENV === "development") {
     console.log(
-      getTermsFromCards(Object.keys(session.currentCard.dependencyDepth)).map(
-        printWord
-      )
+      getTermsFromCards(
+        Object.keys(session.currentCard.dependenciesAndSameTerm)
+      ).map(printWord)
     );
   }
   // if (

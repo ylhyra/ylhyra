@@ -39,9 +39,11 @@ export const parseVocabularyList = (vocabulary_list) => {
 
   const sentences = _.uniq(
     _.flatten(
-      terms.map((term_id) => {
-        return printWord(term_id).split(/;+ /g);
-      })
+      terms
+        .map((term_id) => {
+          return printWord(term_id)?.split(/;+ /g);
+        })
+        .filter(Boolean)
     )
   );
 
