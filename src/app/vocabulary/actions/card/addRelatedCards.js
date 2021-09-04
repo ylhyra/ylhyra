@@ -19,7 +19,7 @@ export const addRelatedCards = (card) => {
     else if (
       card.dependenciesAndSameTerm[related_card_id] === 1 &&
       // Ignore cyclical dependencies
-      !Object.keys(deck.cards[related_card_id]?.dependencies).includes(
+      !Object.keys(deck.cards[related_card_id]?.dependencies || {}).includes(
         card.id
       ) &&
       // Ignore good cards

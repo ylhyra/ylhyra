@@ -13,7 +13,7 @@ const ScoreByTimeSinceTermWasSeen = (id, now) => {
       latest = deck.schedule[sibling_card_id].last_seen;
     }
   });
-  let hoursSinceSeen = (now - latest) / hour;
+  const hoursSinceSeen = (now - latest) / hour;
   if (hoursSinceSeen < 0.3) {
     return 3;
   } else if (hoursSinceSeen < 2) {
@@ -25,7 +25,6 @@ const ScoreByTimeSinceTermWasSeen = (id, now) => {
   } else {
     return 0;
   }
-  // return hoursSinceSeen
 };
 export const SortIdsByWhetherTermWasRecentlySeen = (input, reverse) => {
   const now = new Date().getTime();

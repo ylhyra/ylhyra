@@ -2,7 +2,6 @@ import createCards from "app/vocabulary/actions/createCards";
 import {
   updateRemainingTime,
   getAdjustedPercentageDone,
-  printTimeRemaining,
   getCard,
   checkIfCardsRemaining,
   createMoreCards,
@@ -24,7 +23,7 @@ import {
   checkForUndoOnKeyDown,
 } from "app/vocabulary/actions/session/undo";
 import { SESSION_PREFIX, setUserData } from "app/vocabulary/actions/sync";
-export const MINUTES = process.env.NODE_ENV === "development" ? 2.5 : 5;
+export const MINUTES = process.env.NODE_ENV === "development" ? 4 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
 class Session {
@@ -112,7 +111,6 @@ class Session {
 Session.prototype.createCards = createCards;
 Session.prototype.updateRemainingTime = updateRemainingTime;
 Session.prototype.getAdjustedPercentageDone = getAdjustedPercentageDone;
-Session.prototype.printTimeRemaining = printTimeRemaining;
 Session.prototype.getCard = getCard;
 Session.prototype.checkIfCardsRemaining = checkIfCardsRemaining;
 Session.prototype.createMoreCards = createMoreCards;

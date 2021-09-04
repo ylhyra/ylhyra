@@ -17,6 +17,8 @@ export const printWord = (id) => {
   }
 };
 
+export const printWord = (id) => {};
+
 /**
  * Get cards that have the same term
  */
