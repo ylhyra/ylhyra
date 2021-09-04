@@ -33,7 +33,7 @@ query(
               type = "schedule",
               \`key\` = ${card_id},
               value = ${stable_stringify(removeNullKeys(row))},
-              created_at = ${created_at}
+              created_at = ${created_at || null}
             ;`,
               async () => {
                 resolve();
