@@ -11,7 +11,8 @@ export const EncodeDataInHTML = (input, alreadyStringified) => {
   );
 };
 
-export const DecodeDataInHTML = (input) => {
+export const DecodeDataInHTML = (input, isString) => {
   if (!input) return;
-  return JSON.parse(decodeURIComponent(atob(input)));
+  const v = decodeURIComponent(atob(input));
+  return isString ? v : JSON.parse(v);
 };

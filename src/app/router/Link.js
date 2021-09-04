@@ -4,12 +4,14 @@ import { updateURL } from "app/router/actions/updateURL";
 import React from "react";
 import { connect } from "react-redux";
 
+const start = new Date().getTime();
+
 class Link extends React.Component {
   fn = (e, url) => {
-    // /* Do a full refresh if window is more than 10 minutes old */
-    // if (new Date().getTime() - start > 10 * 60 * 1000) {
-    //   return;
-    // }
+    /* Do a full refresh if window is more than 10 minutes old */
+    if (new Date().getTime() - start > 10 * 60 * 1000) {
+      return;
+    }
     if (e.altKey || e.metaKey || e.ctrlKey) return;
     e.preventDefault();
     updateURL(url);

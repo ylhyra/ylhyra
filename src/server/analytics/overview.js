@@ -5,7 +5,7 @@ const router = require("express").Router();
 router.get("/analytics", async (req, res) => {
   if (
     process.env.NODE_ENV !== "development" &&
-    !req.session.user_name === "egill"
+    !req.session.username === "egill"
   ) {
     return res.sendStatus(200);
   }

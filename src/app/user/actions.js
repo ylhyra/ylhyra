@@ -6,6 +6,7 @@ import { updateURL } from "app/router/actions/updateURL";
 import { deck } from "app/vocabulary/actions/deck";
 import { sync } from "app/vocabulary/actions/sync";
 import _ from "underscore";
+import { DecodeDataInHTML } from "documents/compile/functions/functions";
 
 export const login = async (values) => {
   const response = (await axios.post("/api/user", values)).data;
@@ -60,7 +61,13 @@ export const getUserFromCookie = () => {
   let cookie = getCookie("y");
   if (cookie) {
     cookie = JSON.parse(atob(cookie));
-    const { user_id, username } = cookie;
+    let { user_id, username, username_encoded } = cookie;
+    /* "username" is no longer used but is kept here for
+     users who halready have that cookie set */
+    if (username_encoded) {
+      username = DecodeDataInHTML(username_encoded, true);
+    }
+    console.log(cookie);
     if (user_id) {
       return { user_id, username };
     }

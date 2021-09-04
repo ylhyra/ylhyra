@@ -1,6 +1,7 @@
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
 import request from "request";
+import { EncodeDataInHTML } from "documents/compile/functions/functions";
 // import { hash as argon_hash, verify as argon_verify } from 'argon2'
 const argon2 = require("argon2");
 const argon_hash = argon2.hash;
@@ -17,7 +18,7 @@ const rateLimit = require("express-rate-limit")({
 });
 router.post("/user", speedLimit, rateLimit, async (req, res) => {
   let username = req.body.username?.trim().replace(/\s+/g, " ");
-  const email = req.body.email?.trim();
+  const email = req.body.email?.trim().toLowerCase();
   const { password, captcha_token, type } = req.body;
 
   if (!username) {
@@ -48,7 +49,7 @@ router.post("/user", speedLimit, rateLimit, async (req, res) => {
     }
 
     req.session.user_id = user_id;
-    req.session.username = username;
+    req.session.username_encoded = EncodeDataInHTML(username, true);
     return res.send({ user_id, username, did_user_exist });
   });
 });
@@ -82,7 +83,7 @@ const check_if_user_exists = async ({ email, username }) => {
   return new Promise((resolve) => {
     let q;
     if (email) {
-      q = sql`SELECT * FROM users WHERE email = ${email} OR username = ${username}`;
+      q = sql`SELECT * FROM users WHERE email = ${email.toLowerCase()} OR username = ${username}`;
     } else {
       q = sql`SELECT * FROM users WHERE username = ${username}`;
     }
@@ -105,7 +106,7 @@ const create_user = ({ username, email, password, res }) => {
     query(
       sql`INSERT INTO users SET
       username = ${username},
-      email = ${email || null},
+      email = ${email?.toLowerCase() || null},
       password = ${hash}
       `,
       (err, results2) => {
@@ -153,6 +154,7 @@ const captcha = (captcha_token, res, callback) => {
 router.post("/user/logout", async (req, res) => {
   req.session.user_id = null;
   req.session.username = null;
+  req.session.username_encoded = null;
   return res.sendStatus(200);
 });
 
