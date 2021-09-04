@@ -18,9 +18,11 @@ export const addRelatedCards = (card) => {
     // Add cards that this term directly depends on
     else if (
       card.dependenciesAndSameTerm[related_card_id] === 1 &&
-      // TODO Ignore cyclical dependencies
-      // !(deck.cards[related_card_id].dependencies) &&
-
+      // Ignore cyclical dependencies
+      !Object.keys(deck.cards[related_card_id]?.dependencies).includes(
+        card.id
+      ) &&
+      // Ignore good cards
       (!(related_card_id in deck.schedule) ||
         deck.schedule[related_card_id].score <= BAD + INCR * 2)
     ) {
