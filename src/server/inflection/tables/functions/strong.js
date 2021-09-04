@@ -4,7 +4,7 @@ import { endsInConsonant } from "tables/functions/vowels";
  * Strong or weak inflection
  * TODO: Pronouns
  *
- * @memberof Word
+ * @module Word
  * @return {?boolean}
  */
 export function isStrong() {
@@ -43,7 +43,7 @@ export function isStrong() {
 /**
  * Opposite of the above
  *
- * @memberof Word
+ * @module Word
  * @return {?boolean}
  */
 export function isWeak() {

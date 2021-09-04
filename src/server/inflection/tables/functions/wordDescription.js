@@ -1,7 +1,7 @@
 import link from "tables/link";
 
 /**
- * @memberof Word
+ * @module Word
  * @return {?string}
  */
 export function getWordDescription() {

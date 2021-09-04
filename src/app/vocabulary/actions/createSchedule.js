@@ -12,7 +12,7 @@ export const INCR = 0.4;
 
 /**
  * Long-term scheduling
- * @memberof Session
+ * @module Session
  */
 export async function createSchedule() {
   const session = this;

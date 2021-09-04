@@ -7,7 +7,7 @@ import { isNumber } from "tables/tree";
 /**
  * getTables - Prints all tables for a given word
  *
- * @memberof Word
+ * @module Word
  * @return {string} HTML as string
  */
 export default function getTables() {

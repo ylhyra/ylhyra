@@ -2,7 +2,7 @@ import link from "tables/link";
 
 /**
  * Before
- * @memberof Word
+ * @module Word
  * @return {string} HTML as string
  */
 export function getHelperWordsBefore() {
@@ -107,7 +107,7 @@ export function getHelperWordsBefore() {
 
 /**
  * After
- * @memberof Word
+ * @module Word
  * @return {string} HTML string
  */
 export function getHelperWordsAfter() {

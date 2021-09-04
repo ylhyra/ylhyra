@@ -3,7 +3,7 @@ import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
 import { printWord, getTermsFromCards } from "app/vocabulary/actions/functions";
 
 /**
- * @memberof Session
+ * @module Session
  */
 export function updateRemainingTime() {
   const newTimestamp = new Date().getTime();
@@ -20,21 +20,21 @@ export function updateRemainingTime() {
 }
 
 /**
- * @memberof Session
+ * @module Session
  */
 export function getAdjustedPercentageDone() {
   return ((this.totalTime - this.remainingTime) / this.totalTime) * 100;
 }
 
 /**
- * @memberof Session
+ * @module Session
  */
 export function getCard() {
   return this.currentCard;
 }
 
 /**
- * @memberof Session
+ * @module Session
  */
 export function checkIfCardsRemaining() {
   const areThereNewCardsRemaining = this.cards.some(
@@ -47,7 +47,7 @@ export function checkIfCardsRemaining() {
 }
 
 /**
- * @memberof Session
+ * @module Session
  */
 export function createMoreCards() {
   this.createCards();
@@ -55,41 +55,7 @@ export function createMoreCards() {
 }
 
 /**
- * @memberof Session
- */
-export function loadCard() {
-  const session = this;
-  if (!session?.currentCard) return console.error("no cards");
-  store.dispatch({
-    type: "LOAD_CARD",
-    content: {
-      ...session.getCard(),
-      counter: session.counter,
-    },
-  });
-  if (process.env.NODE_ENV === "development") {
-    console.log(
-      getTermsFromCards(
-        Object.keys(session.currentCard.dependenciesAndSameTerm)
-      ).map(printWord)
-    );
-  }
-  // if (
-  //   this.deck.schedule[session.currentCard.id] &&
-  //   process.env.NODE_ENV === "development"
-  // ) {
-  //   console.log(
-  //     `Score of "${printWord(session.currentCard.id)}": ${
-  //       this.deck.schedule[session.currentCard.id].score
-  //     } - last interval: ${
-  //       this.deck.schedule[session.currentCard.id].last_interval_in_days
-  //     }`
-  //   );
-  // }
-}
-
-/**
- * @memberof Session
+ * @module Session
  */
 export function answer(rating) {
   const session = this;

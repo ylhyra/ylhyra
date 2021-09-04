@@ -11,7 +11,7 @@ let last_jump_up;
 
 /**
  * Ef notandi ýtir þrisvar sinnum á easy þá þarf levelið hans að stökkva fram.
- * @memberof Deck
+ * @module Deck
  */
 export function trackEasiness(rating, isNew) {
   if (this.session.allowed_card_ids) return;
@@ -89,7 +89,7 @@ const recreateAfterChangingEasinessLevel = () => {
 };
 
 /**
- * @memberof Deck
+ * @module Deck
  */
 export function isEasinessLevelOn() {
   return Boolean(!this.session.allowed_card_ids && this.easinessLevel);

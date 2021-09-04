@@ -1,7 +1,7 @@
 import { BAD } from "app/vocabulary/actions/card";
 
 /**
- * @memberof Card
+ * @module Card
  */
 export default function getRanking() {
   /* Queue position relative to zero */

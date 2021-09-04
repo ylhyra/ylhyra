@@ -11,7 +11,7 @@ import _ from "lodash";
 /**
  * Gets the stem of a word. See: https://is.wikipedia.org/wiki/Stofn_(málfræði)
  *
- * @memberof Word
+ * @module Word
  * @param {object} options
  *   - masculinizeAdjectiveStem {boolean}
  *   - trimExtra {boolean}

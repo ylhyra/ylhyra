@@ -6,7 +6,7 @@ import link, { ucfirst_link } from "tables/link";
 /**
  * Finds a single relevant table
  *
- * @memberof Word
+ * @module Word
  * @return {string} HTML as string
  */
 export default function getSingleTable({

@@ -5,13 +5,9 @@ import {
   getCard,
   checkIfCardsRemaining,
   createMoreCards,
-  loadCard,
   answer,
 } from "app/vocabulary/actions/session/functions";
-import {
-  InitializeSession,
-  loadCards,
-} from "app/vocabulary/actions/session/initialize";
+import { InitializeSession } from "app/vocabulary/actions/session/initialize";
 import { nextCard } from "app/vocabulary/actions/session/nextCard";
 import { createSchedule } from "app/vocabulary/actions/createSchedule";
 import { updateURL } from "app/router/actions/updateURL";
@@ -23,6 +19,8 @@ import {
   checkForUndoOnKeyDown,
 } from "app/vocabulary/actions/session/undo";
 import { SESSION_PREFIX, setUserData } from "app/vocabulary/actions/sync";
+import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
+import { loadCard } from "app/vocabulary/actions/session/loadCardInInterface";
 export const MINUTES = process.env.NODE_ENV === "development" ? 4 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
@@ -117,7 +115,7 @@ Session.prototype.createMoreCards = createMoreCards;
 Session.prototype.loadCard = loadCard;
 Session.prototype.answer = answer;
 Session.prototype.InitializeSession = InitializeSession;
-Session.prototype.loadCards = loadCards;
+Session.prototype.loadCardsIntoSession = loadCardsIntoSession;
 Session.prototype.nextCard = nextCard;
 Session.prototype.createSchedule = createSchedule;
 Session.prototype.undo = undo;

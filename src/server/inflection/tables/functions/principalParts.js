@@ -1,6 +1,6 @@
 /**
  * Principal parts (kennimyndir)
- * @memberof Word
+ * @module Word
  * @return {?boolean}
  */
 export function getPrincipalParts() {

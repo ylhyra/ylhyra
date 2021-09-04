@@ -6,7 +6,7 @@ import Dependencies from "app/vocabulary/actions/createCards/3_Dependencies";
 export const CARDS_TO_CREATE = 30;
 
 /**
- * @memberof Session
+ * @module Session
  */
 export default function createCards(options) {
   const session = this;

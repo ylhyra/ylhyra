@@ -3,7 +3,7 @@ import { withDependencies } from "app/vocabulary/actions/functions/withDependenc
 import { syncIfNecessary } from "app/vocabulary/actions/sync";
 
 /**
- * @memberof Session
+ * @module Session
  */
 export async function InitializeSession(options = {}) {
   await syncIfNecessary();
@@ -17,30 +17,4 @@ export async function InitializeSession(options = {}) {
   this.checkIfCardsRemaining();
   this.nextCard();
   this.loadCard();
-}
-
-/**
- * @memberof Session
- * Used to load more cards into an already ongoing session.
- * Called from createCards.
- */
-export function loadCards(card_ids) {
-  let insertAtPosition = this.cards.filter((i) => !i.done).length;
-  if (insertAtPosition) {
-    insertAtPosition += 200;
-  }
-  card_ids.forEach((id, index) => {
-    if (!(id in this.deck.cards)) return;
-    if (this.cards.some((c) => c.id === id)) return;
-    const card = new Card(
-      {
-        id,
-        ...this.deck.cards[id],
-        dependenciesAndSameTerm: withDependencies(id, { showDepth: true }),
-      },
-      index + insertAtPosition,
-      this
-    );
-    this.cards.push(card);
-  });
 }

@@ -1,5 +1,5 @@
 /**
- * @memberof Word
+ * @module Word
  * @return {?string}
  */
 export function getWordNotes() {

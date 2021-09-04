@@ -10,7 +10,7 @@ import {
 import Word from "tables/word";
 
 /**
- * @memberof Word
+ * @module Word
  */
 export function FindIrregularities() {
   let word = this;

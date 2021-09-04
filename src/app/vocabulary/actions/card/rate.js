@@ -2,7 +2,7 @@ import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
 import { addRelatedCards } from "app/vocabulary/actions/card/addRelatedCards";
 
 /**
- * @memberof Card
+ * @module Card
  */
 export default function rate(rating) {
   const card = this;

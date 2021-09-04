@@ -1,5 +1,5 @@
 /**
- * @memberof Session
+ * @module Session
  */
 export function undo() {
   const card = this.cardHistory[0];
@@ -11,7 +11,7 @@ export function undo() {
   this.loadCard();
 }
 /**
- * @memberof Session
+ * @module Session
  */
 export function undoable() {
   // if (!(this.lastUndid !== this.counter)) {
@@ -20,7 +20,7 @@ export function undoable() {
   return this.cardHistory.length > 0 && this.lastUndid !== this.counter;
 }
 /**
- * @memberof Session
+ * @module Session
  */
 export function checkForUndoOnKeyDown(e) {
   if (

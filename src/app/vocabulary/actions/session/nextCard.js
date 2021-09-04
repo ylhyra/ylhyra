@@ -2,7 +2,7 @@ import { printWord } from "app/vocabulary/actions/functions";
 const LOGGING = true;
 
 /**
- * @memberof Session
+ * @module Session
  */
 export function nextCard(depth = 0) {
   // this.saveSnapshotForUndo();
