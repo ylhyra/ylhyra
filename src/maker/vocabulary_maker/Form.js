@@ -12,7 +12,7 @@ import {
   addEmpty,
   ignore_for_now,
   didYouMeanSuggestions,
-} from "maker/vocabulary_maker/actions";
+} from "maker/vocabulary_maker/actions/actions";
 import { row_titles } from "maker/vocabulary_maker/compile/functions";
 import { getDeckName } from "maker/vocabulary_maker/compile/functions";
 import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/format";

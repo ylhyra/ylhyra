@@ -1,8 +1,5 @@
 import { isBrowser } from "app/app/functions/isBrowser";
-import {
-  GetLowercaseStringForAudioKey,
-  parse_vocabulary_file,
-} from "maker/vocabulary_maker/compile/functions";
+import { GetLowercaseStringForAudioKey } from "maker/vocabulary_maker/compile/functions";
 import { getHash } from "maker/vocabulary_maker/compile/functions";
 import store from "app/app/store";
 import axios from "app/app/axios";
@@ -14,15 +11,16 @@ import {
   formatVocabularyEntry,
   getPlaintextFromVocabularyEntry,
 } from "maker/vocabulary_maker/compile/format";
+import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
 
-let maxID = 0;
+export let maxID = 0;
 export let rows = [];
-let sound = [];
-let terms = {};
-let cards = {};
-let dependencies = {};
-let alternative_ids = {};
-let plaintext_sentences = {};
+export let sound = [];
+export let terms = {};
+export let cards = {};
+export let dependencies = {};
+export let alternative_ids = {};
+export let plaintext_sentences = {};
 
 export const MAX_PER_PAGE = 20;
 
@@ -62,7 +60,7 @@ export const load = async () => {
   refreshRows();
 };
 
-let selected_rows = [];
+export let selected_rows = [];
 export const refreshRows = () => {
   rows =
     // _.shuffle(rows)
@@ -188,7 +186,7 @@ export const save = () => {
 
 let missing_sound = [];
 let current_word_recording = 0;
-const setupSound = () => {
+export const setupSound = () => {
   if (getDeckName()) return;
   let sentences = [];
   let ids = _.shuffle(deck.cards_sorted.filter((c) => c.sortKey))

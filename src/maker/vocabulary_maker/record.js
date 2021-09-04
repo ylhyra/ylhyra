@@ -7,7 +7,7 @@ import {
   load,
   saveSound,
   getNextWordToRecord,
-} from "maker/vocabulary_maker/actions";
+} from "maker/vocabulary_maker/actions/actions";
 
 const START_LAG_IN_MILLISECONDS = 0;
 // const START_LAG_IN_MILLISECONDS = 100;
