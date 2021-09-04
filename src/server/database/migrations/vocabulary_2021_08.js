@@ -17,7 +17,9 @@ query(
   SELECT * ,
     UNIX_TIMESTAMP(due) * 1000 as due,
     UNIX_TIMESTAMP(last_seen) * 1000 as last_seen
-  FROM vocabulary_schedule_BACKUP`,
+  FROM vocabulary_schedule_BACKUP
+  ORDER BY id ASC
+  `,
   async (err, results) => {
     if (err) {
       console.error(err);
