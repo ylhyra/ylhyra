@@ -12,3 +12,4 @@ package-lock.json
 build/*
 .secret
 .putout.json*
+.idea/**
