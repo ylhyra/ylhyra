@@ -8,14 +8,16 @@ import {
   submit,
   delete_row,
   selectNext,
-  search,
   addEmpty,
   ignore_for_now,
-  didYouMeanSuggestions,
 } from "maker/vocabulary_maker/actions/actions";
 import { row_titles } from "maker/vocabulary_maker/compile/functions";
 import { getDeckName } from "maker/vocabulary_maker/compile/functions";
 import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/format";
+import {
+  didYouMeanSuggestions,
+  search,
+} from "maker/vocabulary_maker/actions/search";
 
 class Form2 extends React.Component {
   componentDidMount = async () => {
