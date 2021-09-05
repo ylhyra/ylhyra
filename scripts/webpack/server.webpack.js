@@ -1,7 +1,7 @@
 const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 const webpack = require("webpack");
-const resolve = (input) => path.resolve(__dirname, "./../" + input);
+const resolve = (input) => path.resolve(__dirname, "./../../" + input);
 const NodemonPlugin = require("nodemon-webpack-plugin");
 var HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 

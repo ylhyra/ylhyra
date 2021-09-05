@@ -55,7 +55,11 @@ class Session {
     await this.createSchedule();
     this.clearInLocalStorage();
     if (!options.isInitializing) {
-      updateURL(window.location.pathname);
+      let url = window.location.pathname;
+      if (url === "/vocabulary/play") {
+        url = "/vocabulary";
+      }
+      updateURL(url);
     }
     /* Analytics */
     if (this.getSecondsSpent() > 20) {
