@@ -92,5 +92,7 @@ const recreateAfterChangingEasinessLevel = () => {
  * @module Deck
  */
 export function isEasinessLevelOn() {
-  return Boolean(!this.session.allowed_card_ids && this.easinessLevel);
+  return Boolean(
+    !this.session.allowed_card_ids && getUserData("easinessLevel")
+  );
 }

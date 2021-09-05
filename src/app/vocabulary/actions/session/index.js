@@ -2,7 +2,6 @@ import createCards from "app/vocabulary/actions/createCards";
 import {
   updateRemainingTime,
   getAdjustedPercentageDone,
-  getCard,
   checkIfCardsRemaining,
   createMoreCards,
   answer,
@@ -106,19 +105,18 @@ class Session {
   }
 }
 
-Session.prototype.createCards = createCards;
-Session.prototype.updateRemainingTime = updateRemainingTime;
-Session.prototype.getAdjustedPercentageDone = getAdjustedPercentageDone;
-Session.prototype.getCard = getCard;
-Session.prototype.checkIfCardsRemaining = checkIfCardsRemaining;
-Session.prototype.createMoreCards = createMoreCards;
-Session.prototype.loadCardInInterface = loadCardInInterface;
-Session.prototype.answer = answer;
 Session.prototype.InitializeSession = InitializeSession;
+Session.prototype.answer = answer;
+Session.prototype.checkForUndoOnKeyDown = checkForUndoOnKeyDown;
+Session.prototype.checkIfCardsRemaining = checkIfCardsRemaining;
+Session.prototype.createCards = createCards;
+Session.prototype.createMoreCards = createMoreCards;
+Session.prototype.createSchedule = createSchedule;
+Session.prototype.getAdjustedPercentageDone = getAdjustedPercentageDone;
+Session.prototype.loadCardInInterface = loadCardInInterface;
 Session.prototype.loadCardsIntoSession = loadCardsIntoSession;
 Session.prototype.nextCard = nextCard;
-Session.prototype.createSchedule = createSchedule;
 Session.prototype.undo = undo;
 Session.prototype.undoable = undoable;
-Session.prototype.checkForUndoOnKeyDown = checkForUndoOnKeyDown;
+Session.prototype.updateRemainingTime = updateRemainingTime;
 export default Session;

@@ -40,10 +40,8 @@ class Deck {
   }
   reset(options) {
     this.schedule = {};
-    this.session_log = [];
-    this.easinessLevel = 0;
     if (!options?.dontClear) {
-      saveInLocalStorage("vocabulary-schedule", null);
+      saveInLocalStorage("vocabulary-user-data", null);
       saveInLocalStorage("vocabulary-session", null);
     }
   }

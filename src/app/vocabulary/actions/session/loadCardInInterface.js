@@ -14,13 +14,17 @@ export function loadCardInInterface() {
       counter: session.counter,
     },
   });
-  if (process.env.NODE_ENV === "development") {
-    console.log(
-      getTermsFromCards(
-        Object.keys(session.currentCard.dependenciesAndSameTerm)
-      ).map(printWord)
-    );
-  }
+
+  // // Debug: Show dependencies
+  // if (process.env.NODE_ENV === "development") {
+  //   console.log(
+  //     getTermsFromCards(
+  //       Object.keys(session.currentCard.dependenciesAndSameTerm)
+  //     ).map(printWord)
+  //   );
+  // }
+
+  // // Debug: Show score
   // if (
   //   this.deck.schedule[session.currentCard.id] &&
   //   process.env.NODE_ENV === "development"
