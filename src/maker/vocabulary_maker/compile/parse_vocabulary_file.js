@@ -37,6 +37,9 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
     }
     first.forEach((id) => {
       obj[id] = _.uniq([...(obj[id] || []), ...second]).filter((j) => j !== id);
+      if (obj[id].length === 0) {
+        delete obj[id];
+      }
     });
   };
 

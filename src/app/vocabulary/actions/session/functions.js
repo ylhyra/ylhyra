@@ -30,13 +30,6 @@ export function getAdjustedPercentageDone() {
 /**
  * @module Session
  */
-export function getCard() {
-  return this.currentCard;
-}
-
-/**
- * @module Session
- */
 export function checkIfCardsRemaining() {
   const areThereNewCardsRemaining = this.cards.some(
     (i) => i.history.length === 0 && !i.done && i.canBeShown()
@@ -60,7 +53,7 @@ export function createMoreCards() {
  */
 export function answer(rating) {
   const session = this;
-  session.currentCard.rate(rating);
+  session.currentCard?.rate(rating);
   session.nextCard();
   if (!session.done) {
     session.loadCardInInterface();

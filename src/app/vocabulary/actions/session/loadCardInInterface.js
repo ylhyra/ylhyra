@@ -10,7 +10,7 @@ export function loadCardInInterface() {
   store.dispatch({
     type: "LOAD_CARD",
     content: {
-      ...session.getCard(),
+      ...session.currentCard,
       counter: session.counter,
     },
   });
