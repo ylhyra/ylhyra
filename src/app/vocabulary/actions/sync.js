@@ -10,23 +10,23 @@ import { isUserLoggedIn } from "app/user/actions";
 import { deck } from "app/vocabulary/actions/deck";
 export const SESSION_PREFIX = "s_";
 
-/*
-  User data is stored on 
-    user_data = {
-      user_id,
-      lastSynced,
-      rows: { 
-        key: { 
-          value,
-          needsSyncing,
-        }
-      }
-    }
-
-  TODO: 
-  - skrá notanda í gögn!
-  - tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
-*/
+/**
+ * @module Deck
+ * User data is stored on
+ *   user_data = {
+ *        user_id,
+ *        lastSynced,
+ *        rows: {
+ *          key: {
+ *            value,
+ *            needsSyncing,
+ *          }
+ *        }
+ *      }
+ * TODO:
+ * - skrá notanda í gögn!
+ * - tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
+ */
 export const sync = async (options = {}) => {
   // let {isInitializing}=options
   let user_data =
