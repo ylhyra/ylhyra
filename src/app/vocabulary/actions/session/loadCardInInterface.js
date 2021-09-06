@@ -17,7 +17,7 @@ export function loadCardInInterface() {
 
   // // Debug: Show dependencies
   // if (isDev) {
-  //   console.log(
+  //   log(
   //     getTermsFromCards(
   //       Object.keys(session.currentCard.dependenciesAndSameTerm)
   //     ).map(printWord)
@@ -29,7 +29,7 @@ export function loadCardInInterface() {
   //   this.deck.schedule[session.currentCard.id] &&
   //   isDev
   // ) {
-  //   console.log(
+  //   log(
   //     `Score of "${printWord(session.currentCard.id)}": ${
   //       this.deck.schedule[session.currentCard.id].score
   //     } - last interval: ${

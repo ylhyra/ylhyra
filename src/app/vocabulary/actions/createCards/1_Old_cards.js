@@ -24,7 +24,7 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
     .map((id) => ({ id, ...deck.schedule[id] }))
     .sort((a, b) => a.due - b.due)
     .forEach((schedule_item) => {
-      // console.log(printWord(i.id));
+      // log(printWord(i.id));
       if (schedule_item.due < now + 16 * hours) {
         if (schedule_item.score && schedule_item.score <= BAD + INCR * 2) {
           overdue_bad_ids.push(schedule_item.id);

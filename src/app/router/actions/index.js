@@ -5,7 +5,7 @@ import { updateURL } from "./updateURL";
 if (isBrowser) {
   window.HAS_LOADED = false;
   window.addEventListener("popstate", () => {
-    // console.log(window.location.pathname);
+    // log(window.location.pathname);
     if (window.HAS_LOADED) {
       updateURL(window.location.pathname + window.location.hash);
     }

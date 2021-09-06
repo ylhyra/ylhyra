@@ -21,7 +21,7 @@ export const withDependencies = (card_ids, options = {}) => {
     let terms = [{ term_id, dependencySortKey: 0 }];
     // const chain = CreateDependencyChain(term_id);
     const chain = deck.terms[term_id].dependencies || {};
-    // console.log(
+    // log(
     //   Object.keys(chain).map((j) => {
     //     return [printWord(j), chain[j]];
     //   })
@@ -50,7 +50,7 @@ export const withDependencies = (card_ids, options = {}) => {
     });
   });
   if (card_ids[1] === "150u9fq_is" && card_ids.length === 1) {
-    console.log(depth);
+    log(depth);
   }
   const out = _.uniq(returns).filter((card_id) => card_id in deck.cards);
   if (showDepth) {

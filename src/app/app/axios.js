@@ -5,7 +5,7 @@ import axios from "axios";
 // axiosRetry(axios, {
 //   retries: 2,
 //   retryDelay: (retryCount) => {
-//     console.log(`Retrying to connect to server: ${retryCount}`);
+//     log(`Retrying to connect to server: ${retryCount}`);
 //     return retryCount * 2000;
 //   },
 //   retryCondition: (error) => {
@@ -31,7 +31,7 @@ axios.interceptors.response.use(
     if (status !== 404) {
       notify(message, "error");
     }
-    console.log(error);
+    log(error);
     return Promise.reject(error);
   }
 );

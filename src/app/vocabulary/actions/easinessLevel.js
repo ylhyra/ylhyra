@@ -51,7 +51,9 @@ const getLowestBadSortKey = () => {
   );
 };
 
-/* Maximum is to jump to the end of the B1 level */
+/**
+ * Maximum is to jump to the end of the B1 level
+ */
 const getMaxSortKey = () => {
   return (
     deck.cards_sorted
@@ -64,7 +66,7 @@ const getMaxSortKey = () => {
 
 const setEasinessLevel = (val) => {
   setUserData("easinessLevel", val);
-  console.log(`Easiness level set to ${val}`);
+  log(`Easiness level set to ${val}`);
 };
 
 /* Create new cards */

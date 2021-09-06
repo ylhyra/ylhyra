@@ -10,9 +10,7 @@ class GameContainer extends Component {
   componentDidUpdate = () => {
     const { deck } = this.props.vocabulary;
     if (!deck.session.currentCard) {
-      console.log(
-        "No current card when GameContainer was loaded, initializing"
-      );
+      log("No current card when GameContainer was loaded, initializing");
       deck.session.InitializeSession();
     }
   };

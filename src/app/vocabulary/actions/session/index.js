@@ -33,7 +33,7 @@ class Session {
       Object.assign(this, init);
       this.sessionDone({ isInitializing: true });
     }
-    // console.log({ session_log: this.deck.session_log });
+    // log({ session_log: this.deck.session_log });
   }
   reset() {
     this.allowed_card_ids = null;
@@ -105,7 +105,7 @@ class Session {
         "session"
       );
     } else {
-      console.log("Not logged");
+      log("Not logged");
     }
   }
 }

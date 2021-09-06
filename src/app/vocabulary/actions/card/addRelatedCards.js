@@ -28,7 +28,7 @@ export const addRelatedCards = (card) => {
       (!(related_card_id in deck.schedule) ||
         deck.schedule[related_card_id].score <= BAD + INCR * 2)
     ) {
-      console.log(`Direct dependency "${printWord(related_card_id)}" added`);
+      log(`Direct dependency "${printWord(related_card_id)}" added`);
       card.session.loadCardsIntoSession([related_card_id], {
         insertImmediately: true,
       });

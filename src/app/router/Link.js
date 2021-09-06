@@ -21,7 +21,7 @@ class Link extends React.Component {
     href = href || to;
     if (!href) {
       console.warn("Missing href:");
-      console.log(children);
+      log(children);
       return "";
     }
     if (href.startsWith("//")) {

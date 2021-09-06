@@ -21,7 +21,7 @@ export const InitializeVocabulary = async () => {
     should_update = true;
   }
   if (!database?.cards || should_update) {
-    console.log("Downloading database");
+    log("Downloading database");
     database = (
       await axios.get(
         `/api/vocabulary/vocabulary_database${DECK}.json?v=${getBuildId()}`

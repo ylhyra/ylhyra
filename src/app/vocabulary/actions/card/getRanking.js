@@ -9,7 +9,7 @@ export default function getRanking() {
   let canBeShown = this.canBeShown();
 
   if (!this.terms) {
-    console.log(this);
+    log(this);
     throw new Error("getRanking called on an uninitialized card");
   }
 

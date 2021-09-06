@@ -8,7 +8,7 @@ import Header from "maker/editor/Header";
 import LongAudio from "maker/editor/Long_audio";
 import Inflections from "maker/editor/Inflections";
 import Sound from "maker/editor/Short_audio";
-import { openEditor, purgeCurrentPage } from "maker/editor/actions";
+import { openEditor } from "maker/editor/actions";
 
 @connect((state) => ({
   editor: state.editor,
@@ -46,9 +46,6 @@ const RenderEditor = ({ currentDocument }) => {
     <Provider store={store}>
       <div>
         <div>
-          <button className="editor-button" onClick={purgeCurrentPage}>
-            Purge cache
-          </button>
           <button className="editor-button" onClick={window.showRaw}>
             Show raw
           </button>

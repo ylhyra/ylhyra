@@ -25,7 +25,7 @@ export const login = async (values) => {
     if (values.save_progress !== "no") {
       await sync({ syncEverything: true });
     } else {
-      console.log("Data not synced");
+      log("Data not synced");
       deck.reset();
     }
 
@@ -67,7 +67,6 @@ export const getUserFromCookie = () => {
     if (username_encoded) {
       username = DecodeDataInHTML(username_encoded, true);
     }
-    console.log(cookie);
     if (user_id) {
       return { user_id, username };
     }

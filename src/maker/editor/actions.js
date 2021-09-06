@@ -20,7 +20,6 @@ export const closeEditor = () => {
   }
   const newUrl = mw.util.getUrl(mw.config.get("wgPageName"));
   window?.history.replaceState({}, "", newUrl);
-  purgeCurrentPage();
   store.dispatch({
     type: "CLOSE_EDITOR",
   });
@@ -162,31 +161,6 @@ export const editPage = (info, callback) => {
       });
   });
 };
-export const purgeCurrentPage = () => {
-  $.ajax({
-    url: mw.util.wikiScript("api"),
-    type: "POST",
-    dataType: "json",
-    data: {
-      format: "json",
-      action: "purge",
-      titles: mw.config.get("wgPageName"),
-      // token: mw.user.tokens.get('editToken')
-    },
-  })
-    .done(function (data) {
-      if (data && !data.warnings) {
-        console.log("Page purged!");
-        location.reload();
-      } else {
-        console.warn("The purge query returned an error. =(");
-        console.log(data);
-      }
-    })
-    .fail(function () {
-      console.warn("The ajax request failed.");
-    });
-};
 
 /*
   "Are you sure you want to close your window?"
@@ -200,17 +174,3 @@ if (process.env.NODE_ENV === "production" && window) {
     }
   };
 }
-
-export const getNewEditToken = (callback) => {
-  var api = new mw.Api();
-  api
-    .get({
-      action: "query",
-      meta: "tokens",
-      type: "csrf",
-      format: "json",
-    })
-    .done(function (data) {
-      callback(data.query.tokens.csrftoken);
-    });
-};

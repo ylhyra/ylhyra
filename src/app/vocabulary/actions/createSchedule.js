@@ -6,7 +6,7 @@ import {
   getCardsWithSameTerm,
   printWord,
 } from "app/vocabulary/actions/functions";
-import { log } from "app/app/functions/log";
+import { log, logDev } from "app/app/functions/log";
 
 /* Increment score by how much? */
 export const INCR = 0.4;
@@ -108,7 +108,7 @@ export async function createSchedule() {
             !cards.some((j) => j.id === id && j.history.length > 0)
         )
         .forEach((sibling_card_id) => {
-          // console.log(printWord(sibling_card_id));
+          // log(printWord(sibling_card_id));
           const newDue = now + daysToMs(Math.min(due_in_days * 0.5, 7));
           const actualDue = deck.schedule[sibling_card_id]?.due;
           if (!actualDue || actualDue < newDue) {
@@ -123,7 +123,7 @@ export async function createSchedule() {
     }
   });
 
-  console.log("Schedule made");
+  log("Schedule made");
   this.saveSessionLog();
   await sync();
 }

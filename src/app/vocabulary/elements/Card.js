@@ -33,7 +33,7 @@ class Card extends Component {
     //   prevCard.id !== card.id ||
     //   this.state.answer !== prevState.answer
     // ) {
-    //   console.log(card.sound && card.sound[0].recording_of);
+    //   log(card.sound && card.sound[0].recording_of);
     //
     //   this.sound();
     // }
@@ -45,7 +45,7 @@ class Card extends Component {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (this.isKeyDown) return;
     const { answered } = this.props.vocabulary.card;
-    // console.log(e.keyCode)
+    // log(e.keyCode)
     this.isKeyDown = true;
     if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */) {
       if (answered) {
@@ -84,7 +84,7 @@ class Card extends Component {
       }
       e.preventDefault();
     }
-    // console.log(e.keyCode)
+    // log(e.keyCode)
   };
   answer = (i, timeout, e) => {
     e?.stopPropagation();
@@ -139,8 +139,8 @@ class Card extends Component {
   render() {
     const { card, volume, deck } = this.props.vocabulary;
     const { answered } = card;
-    // console.log(card)
-    // console.log({card,answer})
+    // log(card)
+    // log({card,answer})
     if (!card)
       return <div>Unable to create cards. Please report this error.</div>;
     let {

@@ -22,7 +22,7 @@ export function showIn({ interval, minInterval, cannotBeShownBefore }) {
     this.session.counter + _cannotBeShownBefore
   );
 
-  // console.log(
+  // log(
   //   `${printWord(this.id)} – cannotBeShownBefore ${
   //     this.cannotBeShownBefore
   //   }, queue position: ${

@@ -31,10 +31,8 @@ const logMissing = (input) => {
     missing = missing.concat(input);
     timer = setTimeout(() => {
       missing = _.uniq(missing);
-      console.log(
-        `${missing.length} missing terms:\n${_.uniq(missing).join("\n")}`
-      );
-      // console.log(missing.join("\n"));
+      log(`${missing.length} missing terms:\n${_.uniq(missing).join("\n")}`);
+      // log(missing.join("\n"));
     }, 1000);
   }
 };

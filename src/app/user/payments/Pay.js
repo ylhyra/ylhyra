@@ -7,14 +7,14 @@ import {
   MAX_PRICE,
   MIN_PRICE,
 } from "app/user/payments/actions";
-import { log } from "app/app/functions/log";
+import { log, logDev } from "app/app/functions/log";
 
 class Form2 extends React.Component {
   state = {
     price: 20,
   };
   componentDidMount() {
-    console.log({
+    log({
       u: this.props.user,
       off: !process.env.REACT_APP_PWYW,
     });
@@ -138,7 +138,7 @@ class PayPalButton extends React.Component {
 
             createOrder: function (data, actions) {
               const price = getPriceFromInput();
-              console.log(price);
+              log(price);
               if (price.error) return;
               return actions.order.create({
                 purchase_units: [
@@ -168,7 +168,7 @@ class PayPalButton extends React.Component {
                   transaction_id: details.id,
                 });
                 paypal.Buttons().close();
-                console.log(details);
+                log(details);
                 // alert(
                 //   "Transaction completed by " +
                 //     details.payer.name.given_name +
@@ -178,7 +178,7 @@ class PayPalButton extends React.Component {
             },
 
             onError: function (err) {
-              console.log(err);
+              log(err);
               // notify("Sorry, an error has come up.");
             },
           })

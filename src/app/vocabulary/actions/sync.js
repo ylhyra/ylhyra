@@ -69,7 +69,7 @@ export const sync = async (options = {}) => {
   if (deck) {
     deck.schedule = schedule;
   }
-  console.log("Data synced");
+  log("Data synced");
 
   return {
     user_data,

@@ -35,7 +35,7 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
       })
       .sort((a, b) => a.key - b.key)
       .map((v) => v.id);
-    // console.log(_.uniq(new_card_ids.slice(0, 15).map(printWord)).join(" - "));
+    // log(_.uniq(new_card_ids.slice(0, 15).map(printWord)).join(" - "));
   } else {
     new_card_ids = SortBySortKey(new_card_ids);
   }

@@ -13,7 +13,7 @@ export const printWord = (id) => {
   } else if (id in deck.terms) {
     return printWord(deck.terms[id].cards[0]);
   } else {
-    console.log(`No id ${id}`);
+    log(`No id ${id}`);
   }
 };
 
