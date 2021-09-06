@@ -1,3 +1,4 @@
+import { log, logDev } from "app/app/functions/log";
 import store from "app/app/store";
 import axios from "app/app/axios";
 import Deck from "app/vocabulary/actions/deck";
@@ -9,7 +10,6 @@ import { sync } from "app/vocabulary/actions/sync";
 import { getDeckName } from "maker/vocabulary_maker/compile/functions";
 
 export const InitializeVocabulary = async () => {
-  console.warn("init");
   let DECK = getDeckName(); /* Only used for testing */
   let database = getFromLocalStorage("vocabulary-database");
   let should_update = false;
@@ -34,6 +34,7 @@ export const InitializeVocabulary = async () => {
   let { user_data, schedule } = (await sync()) || {};
 
   let session = getFromLocalStorage("vocabulary-session");
+  // TODO:
   // if (getFromLocalStorage("vocabulary-session-remaining")) {
   //   session_log.push({
   //     //       seconds_spent

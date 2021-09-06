@@ -1,3 +1,4 @@
+import { log, logDev } from "app/app/functions/log";
 import axios from "app/app/axios";
 import { isBrowser } from "app/app/functions/isBrowser";
 import {

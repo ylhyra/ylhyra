@@ -1,3 +1,4 @@
+import { log, logDev } from "app/app/functions/log";
 import createCards from "app/vocabulary/actions/createCards";
 import {
   updateRemainingTime,

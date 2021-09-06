@@ -1,3 +1,4 @@
+import { log, logDev } from "app/app/functions/log";
 import { notify } from "app/app/error";
 import axios from "axios";
 

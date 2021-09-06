@@ -1,3 +1,4 @@
+import { log, logDev } from "app/app/functions/log";
 import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
 import { deck } from "app/vocabulary/actions/deck";
 import { setUserData, getUserData } from "app/vocabulary/actions/sync";

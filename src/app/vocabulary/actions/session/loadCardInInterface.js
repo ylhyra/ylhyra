@@ -1,3 +1,4 @@
+import { log, logDev } from "app/app/functions/log";
 import store from "app/app/store";
 import { getTermsFromCards, printWord } from "app/vocabulary/actions/functions";
 

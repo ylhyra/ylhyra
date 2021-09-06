@@ -1,3 +1,4 @@
+import { log, logDev } from "app/app/functions/log";
 import store from "app/app/store";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
 import { printWord, getTermsFromCards } from "app/vocabulary/actions/functions";

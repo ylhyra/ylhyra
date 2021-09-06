@@ -1,3 +1,4 @@
+import { log, logDev } from "app/app/functions/log";
 import React, { Component } from "react";
 import Card from "app/vocabulary/elements/Card";
 import Progress from "app/vocabulary/elements/Progress";

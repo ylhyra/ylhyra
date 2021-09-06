@@ -1,3 +1,4 @@
+import { log, logDev } from "app/app/functions/log";
 import store from "app/app/store";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
 import AudioClip from "documents/render/audio/AudioClip";

@@ -8,7 +8,7 @@ import { isDev } from "app/app/functions/isDev";
 export const log = (...items) => {
   items.forEach((item) => {
     if (typeof item === "string" && isBrowser) {
-      console.log("%c " + item, "color: gray");
+      console.log("%c " + item, "color: #CBCBCB");
     } else {
       console.log(item);
     }
@@ -18,7 +18,7 @@ export const log = (...items) => {
 /**
  * Logs in development mode
  */
-export const log_dev = (...items) => {
+export const logDev = (...items) => {
   if (isDev) {
     log(...items);
   }

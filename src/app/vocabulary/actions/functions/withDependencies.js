@@ -1,3 +1,4 @@
+import { log, logDev } from "app/app/functions/log";
 import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
 import { SortIdsByScore } from "app/vocabulary/actions/createCards/functions";

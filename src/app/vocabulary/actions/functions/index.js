@@ -1,3 +1,4 @@
+import { log, logDev } from "app/app/functions/log";
 import { isBrowser } from "app/app/functions/isBrowser";
 import { round } from "app/app/functions/math";
 import { updateURL } from "app/router/actions/updateURL";
