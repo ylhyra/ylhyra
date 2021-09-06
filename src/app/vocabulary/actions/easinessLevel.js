@@ -1,20 +1,20 @@
+import { getEasinessLevel, setUserData } from "app/vocabulary/actions/sync";
 import { log } from "app/app/functions/log";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
 import { deck } from "app/vocabulary/actions/deck";
-import { setUserData } from "app/vocabulary/actions/sync";
 
 let easyInARow = 0;
 const MIN_JUMP = 50;
 const MAX_JUMP = 200;
 const DEFAULT_JUMP_DOWN = 100;
 let last_jump_up;
-// let RatingHistoryForNewCards = [];
 
 /**
- * Ef notandi ýtir þrisvar sinnum á easy þá þarf levelið hans að stökkva fram.
- * @module Deck
+ * If the user clicks on "Easy" several times in a row,
+ * then we increase the "easinessLevel". EasinessLevel is a
+ * number that stores the lowest card.sortKey we're interested in.
  */
-export function trackEasiness(rating, isNew) {
+export function keepTrackOfEasiness(rating, isNew) {
   if (this.session.allowed_card_ids) return;
   if (isNew) {
     if (rating === EASY) {
@@ -92,7 +92,6 @@ const recreateAfterChangingEasinessLevel = () => {
 };
 
 /**
- * @module Deck
  */
 export function isEasinessLevelOn() {
   return Boolean(!this.session.allowed_card_ids && getEasinessLevel());

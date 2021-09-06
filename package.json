@@ -74,6 +74,7 @@
     "formik": "^2.2.9",
     "globalthis": "^1.0.2",
     "html-entities": "^1.4.0",
+    "import-js": "^4.0.2",
     "install": "^0.13.0",
     "is-boolean-attribute": "0.0.1",
     "is-empty-object": "^1.1.1",
@@ -177,7 +178,9 @@
       "@babel/preset-react"
     ],
     "plugins": [
-      ["@babel/transform-runtime"]
+      [
+        "@babel/transform-runtime"
+      ]
     ]
   }
 }

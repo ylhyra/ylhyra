@@ -1,10 +1,6 @@
 import Session from "app/vocabulary/actions/session";
 import { isBrowser } from "app/app/functions/isBrowser";
 import { updateURL } from "app/router/actions/updateURL";
-import {
-  isEasinessLevelOn,
-  trackEasiness,
-} from "app/vocabulary/actions/easinessLevel";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 
 export let deck;
@@ -46,8 +42,6 @@ class Deck {
     }
   }
 }
-Deck.prototype.trackEasiness = trackEasiness;
-Deck.prototype.isEasinessLevelOn = isEasinessLevelOn;
 
 export default Deck;
 

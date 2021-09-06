@@ -1,5 +1,6 @@
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
 import { addRelatedCards } from "app/vocabulary/actions/card/addRelatedCards";
+import { keepTrackOfEasiness } from "app/vocabulary/actions/easinessLevel";
 
 /**
  * @module Card
@@ -51,5 +52,5 @@ export default function rate(rating) {
   card.postponeRelatedCards(interval);
   card.session.cardTypeLog.unshift(card.from);
 
-  card.session.deck.trackEasiness(rating, isNew);
+  keepTrackOfEasiness(rating, isNew);
 }
