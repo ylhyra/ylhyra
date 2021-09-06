@@ -12,7 +12,7 @@ export default () => (
       •
       <span className="anonymous-show">
         <span className="footer-gray">
-          <a href="http://inflections.ylhyra.is/">Look up inflections</a>
+          <a href="https://inflections.ylhyra.is/">Look up inflections</a>
         </span>
         •
         <span className="footer-gray">

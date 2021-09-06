@@ -23,7 +23,7 @@ import { relevant_BIN_domains } from "tables/classification/BIN_classification";
 class Word {
   /**
    * @param {array} rows
-   * @param {?Word} original
+   * @param {Word=} original
    */
   constructor(rows, original) {
     if (!Array.isArray(rows) && rows !== undefined) {

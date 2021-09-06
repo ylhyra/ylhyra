@@ -46,7 +46,7 @@ export default function (input, tokenizedSplit) {
 
               /*
                 When we have finished looping through each character in the current array string
-                we insert a delimeter, here the text "{{SPLIT HERE}}".
+                we insert a delimiter, here the text "{{SPLIT HERE}}".
                 (Assumes empty strings have been filtered out)
               */
               if (

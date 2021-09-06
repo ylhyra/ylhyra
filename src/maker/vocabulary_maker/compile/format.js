@@ -10,8 +10,8 @@ export const getPlaintextFromFormatted = (input) => {
   if (!input) return null;
   return removeWhitespace(
     input
-      .replace(/<span class="seperator">,<\/span>/g, ";")
-      .replace(/<span class="seperator">;<\/span>/g, ";;")
+      .replace(/<span class="separator">,<\/span>/g, ";")
+      .replace(/<span class="separator">;<\/span>/g, ";;")
       .replace(/<\/li><li>/g, ";; ")
       .replace(/<.+?>/g, "")
       .replace(/[—–]/g, "-")
@@ -76,10 +76,10 @@ export const formatVocabularyEntry = (input) => {
       return c`<span class="occluded"><span>${text}</span></span>`;
     })
     .replace(/ [-–] /g, ` <span class="gray">–</span> `)
-    .replace(/;;+/g, `MAJOR_SEPERATOR`)
-    .replace(/;/g, `<span class="seperator">,</span>`)
-    // .replace(/MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
-    // .replace(/(.+)MAJOR_SEPERATOR/g, `<span class="seperator">;</span>`)
+    .replace(/;;+/g, `MAJOR_SEPARATOR`)
+    .replace(/;/g, `<span class="separator">,</span>`)
+    // .replace(/MAJOR_SEPARATOR/g, `<span class="separator">;</span>`)
+    // .replace(/(.+)MAJOR_SEPARATOR/g, `<span class="separator">;</span>`)
     .replace(/'/g, "’")
     .replace(
       /{{p(?:ron)?\|(.+?)}}/g,
@@ -95,9 +95,9 @@ export const formatVocabularyEntry = (input) => {
     .replace(/#/g, `<sup class="red"><small>†</small></sup>`) // Notað í norska datasettinu ∗
     .trim();
 
-  if (/MAJOR_SEPERATOR/.test(input)) {
+  if (/MAJOR_SEPARATOR/.test(input)) {
     input = `<ol>${input
-      .split(/MAJOR_SEPERATOR ?/)
+      .split(/MAJOR_SEPARATOR ?/)
       .map((i) => `<li>${i}</li>`)
       .join("")}</ol>`;
   }
@@ -122,7 +122,7 @@ export const formatLemmas = (input) => {
   if (!input) return "";
   input = formatVocabularyEntry(input)
     .replace(/%/g, "")
-    .replace(/,/g, `<span class="seperator">,</span>`)
+    .replace(/,/g, `<span class="separator">,</span>`)
     .replace(/(\(.+?\))/g, `<span class="gray">$1</span>`);
   return input;
 };

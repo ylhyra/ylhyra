@@ -2,8 +2,8 @@
 
 Chars:
 
-- Minor seperator: `;`
-- Major seperator: `;;`
+- Minor separator: `;`
+- Major separator: `;;`
 - Comma substitute: `∆`
 
 Þú:

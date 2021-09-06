@@ -20,7 +20,7 @@ import { reset } from "documents/render/audio/ReadAlong";
 //   /*
 //     Skip 10 seconds ahead with Left/Right arrows.
 //     TODO: This should ideally jump forwards to NEXT SENTENCE,
-//           not just based on seconds. But this functionaily is
+//           not just based on seconds. But this functionality is
 //           probably not necessary.
 //   */
 //   // Left

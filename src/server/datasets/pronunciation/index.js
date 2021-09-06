@@ -200,9 +200,9 @@ const Guess_IPA = (input, callback) => {
               .reduce((p, c) => {
                 return p + c;
               }) / split.length;
-          const einstæðar = split.filter((part) => part.length == 1).length;
-          const tvístæðar = split.filter((part) => part.length == 2).length;
-          const þrístæðar = split.filter((part) => part.length == 3).length;
+          const einstæðar = split.filter((part) => part.length === 1).length;
+          const tvístæðar = split.filter((part) => part.length === 2).length;
+          const þrístæðar = split.filter((part) => part.length === 3).length;
           const score =
             average_part_length /
             parts /

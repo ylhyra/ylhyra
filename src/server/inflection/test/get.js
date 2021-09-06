@@ -17,7 +17,6 @@ export const get = (id, done, input_function, dont_keep_in_cache) => {
     get_by_id(id, (server_results) => {
       if (server_results === null) {
         throw new Error("Server request failed");
-        return;
       }
       if (!dont_keep_in_cache) {
         cache[id] = server_results;

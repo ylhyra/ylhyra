@@ -30,7 +30,7 @@ const parseTweet = (tweet) => {
   let photos = [];
   if (tweet.extended_entities) {
     photos = tweet.extended_entities.media
-      .filter((media) => media.type == "photo")
+      .filter((media) => media.type === "photo")
       .map((media) => {
         return media.media_url_https;
       });

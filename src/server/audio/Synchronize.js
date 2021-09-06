@@ -34,7 +34,6 @@ const DownloadFile = (filename, res, callback) => {
 
       res.status(500);
       res.send({ error: err || stderr });
-    } else if (stderr) {
     } else {
       callback(tmp_filepath);
     }

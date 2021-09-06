@@ -32,7 +32,7 @@ const card = (state = {}, action) => {
 
 const volume = (
   state = process.env.NODE_ENV !== "development" &&
-    (getFromLocalStorage("volume") === "off" ? false : true),
+    getFromLocalStorage("volume") !== "off",
   action
 ) => {
   switch (action.type) {

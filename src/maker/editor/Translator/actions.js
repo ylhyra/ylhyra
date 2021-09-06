@@ -13,7 +13,7 @@ export const nextWord = (direction, isAdding) => (dispatch, getState) => {
   const arrayOfAllWordIDs = getState().editor.list.arrayOfAllWordIDs;
 
   if (selected.length > 1) {
-    // TODO - If the selections are non-adjacent we need to find out where to jump to next based on recentlySeleted
+    // TODO - If the selections are non-adjacent we need to find out where to jump to next based on recentlySelected
   }
 
   if (selected.length === 0) {

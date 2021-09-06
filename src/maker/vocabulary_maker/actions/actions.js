@@ -45,7 +45,7 @@ export const load = async () => {
   // alternative_ids = parsed.alternative_ids
   // plaintext_sentences = parsed.plaintext_sentences
   ({ terms, cards, dependencies, alternative_ids, plaintext_sentences } =
-    parse_vocabulary_file(vocabulary, true));
+    parse_vocabulary_file(vocabulary));
   setTimeout(() => {
     setupSound();
   }, 1000);
@@ -167,7 +167,6 @@ const updateInterface = () => {
 export const save = () => {
   if (rows.length < 1) {
     throw new Error("No rows");
-    return;
   }
   axios.post(`/api/vocabulary_maker`, {
     data: {

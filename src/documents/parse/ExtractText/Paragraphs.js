@@ -32,7 +32,7 @@ const GroupParagraphs = ({
     /*
       Look for inline elements & text.
       We group together inline elements before splitting into
-      sentences so that "Blah <i>blah</i> blah." will be assesed together.
+      sentences so that "Blah <i>blah</i> blah." will be assessed together.
     */
     let returns = [];
     let group = [];

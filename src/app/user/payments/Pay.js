@@ -7,6 +7,7 @@ import {
   MAX_PRICE,
   MIN_PRICE,
 } from "app/user/payments/actions";
+import { log } from "app/app/functions/log";
 
 class Form2 extends React.Component {
   state = {

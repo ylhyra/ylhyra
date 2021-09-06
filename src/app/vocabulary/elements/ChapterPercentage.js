@@ -3,6 +3,7 @@ import { PercentageKnown } from "app/vocabulary/actions/functions/percentageKnow
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import _ from "underscore";
+import { isDev } from "app/app/functions/isDev";
 
 class X extends Component {
   render() {
@@ -24,7 +25,7 @@ let timer;
 let missing = [];
 const logMissing = (input) => {
   if (!input) return;
-  if (!process.env.NODE_ENV !== "development") return;
+  if (!isDev) return;
   if (input.length > 0) {
     timer && clearTimeout(timer);
     missing = missing.concat(input);

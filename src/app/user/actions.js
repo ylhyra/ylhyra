@@ -63,7 +63,7 @@ export const getUserFromCookie = () => {
     cookie = JSON.parse(atob(cookie));
     let { user_id, username, username_encoded } = cookie;
     /* "username" is no longer used but is kept here for
-     users who halready have that cookie set */
+     users who already have that cookie set */
     if (username_encoded) {
       username = DecodeDataInHTML(username_encoded, true);
     }

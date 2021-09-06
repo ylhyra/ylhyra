@@ -13,7 +13,9 @@ import store from "app/app/store";
 const protocol = process.env.NODE_ENV === "production" ? "wss" : "ws";
 // import {host} from 'app/index.js'
 const host =
-  process.env.NODE_ENV === "production" ? location.host : "localhost:9123";
+  process.env.NODE_ENV === "production"
+    ? window.location.host
+    : "localhost:9123";
 let socket;
 let queued = [];
 

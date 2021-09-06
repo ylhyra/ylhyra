@@ -5,6 +5,7 @@ import { index, isVocabularyTheFrontpage } from "app/router/actions";
 import { updateURL } from "app/router/actions/updateURL";
 import { app_urls } from "app/router/paths";
 import { ReadAlongSetup } from "documents/render/audio/ReadAlong";
+import { isDev } from "app/app/functions/isDev";
 let cache = {};
 let expectedUrl = false;
 export const abortAllThatAreNot = (url) => {

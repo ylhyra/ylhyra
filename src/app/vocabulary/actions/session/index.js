@@ -20,6 +20,7 @@ import {
 import { SESSION_PREFIX, setUserData } from "app/vocabulary/actions/sync";
 import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
 import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
+import { isDev } from "app/app/functions/isDev";
 export const MINUTES = isDev ? 4 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 

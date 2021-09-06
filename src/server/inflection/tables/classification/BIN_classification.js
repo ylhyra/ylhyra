@@ -147,7 +147,7 @@ const tagRegex = (() => {
 })();
 
 /*
-  We are only interested in knowing wether a word is a name or not
+  We are only interested in knowing whether a word is a name or not
   See https://bin.arnastofnun.is/ordafordi/hlutiBIN/
 */
 export const relevant_BIN_domains = {

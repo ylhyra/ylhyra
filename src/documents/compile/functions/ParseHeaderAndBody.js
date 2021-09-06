@@ -17,7 +17,6 @@ export const ParseHeaderAndBody = (data, file) => {
 
   if (!header.title && header.title !== "") {
     throw new Error("Missing title\n\n" + data);
-    return;
   }
 
   if (!header.level && /\/[abc][123]\//i.test(file)) {
