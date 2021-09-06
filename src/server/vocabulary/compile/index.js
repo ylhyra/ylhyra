@@ -8,6 +8,7 @@ import { GetLowercaseStringForAudioKey } from "maker/vocabulary_maker/compile/fu
 import _ from "underscore";
 import { simplify } from "server/vocabulary/compile/simplify";
 import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
+
 export let deck;
 
 const fs = require("fs");

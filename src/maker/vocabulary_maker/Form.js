@@ -1,18 +1,20 @@
 import { connect } from "react-redux";
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import {
-  rows,
-  load,
-  select,
-  submit,
-  delete_row,
-  selectNext,
   addEmpty,
+  delete_row,
   ignore_for_now,
+  load,
+  rows,
+  select,
+  selectNext,
+  submit,
 } from "maker/vocabulary_maker/actions/actions";
-import { row_titles } from "maker/vocabulary_maker/compile/functions";
-import { getDeckName } from "maker/vocabulary_maker/compile/functions";
+import {
+  getDeckName,
+  row_titles,
+} from "maker/vocabulary_maker/compile/functions";
 import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/format";
 import {
   didYouMeanSuggestions,

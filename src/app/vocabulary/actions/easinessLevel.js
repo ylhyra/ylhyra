@@ -1,7 +1,7 @@
-import { log, logDev } from "app/app/functions/log";
-import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
+import { log } from "app/app/functions/log";
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
 import { deck } from "app/vocabulary/actions/deck";
-import { setUserData, getUserData } from "app/vocabulary/actions/sync";
+import { setUserData } from "app/vocabulary/actions/sync";
 
 let easyInARow = 0;
 const MIN_JUMP = 50;

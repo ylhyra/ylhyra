@@ -5,6 +5,7 @@ import WithHeaderAndFooter from "documents/compile/templates/HeaderAndFooter";
 import Sections from "documents/compile/templates/Sections";
 import Table from "documents/compile/templates/Table";
 import { Ref } from "documents/compile/templates/Ref";
+
 export default async (title) => {
   let { output, header } = await TranscludeFromTitle(title);
   if (!output) {

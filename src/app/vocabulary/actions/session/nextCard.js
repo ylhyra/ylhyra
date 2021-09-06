@@ -1,5 +1,6 @@
 import { printWord } from "app/vocabulary/actions/functions";
 import { isDev } from "app/app/functions/isDev";
+
 const LOGGING = false;
 
 /**

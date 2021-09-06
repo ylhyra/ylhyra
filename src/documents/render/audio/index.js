@@ -4,6 +4,7 @@ import { ReadAlong } from "documents/render/audio/ReadAlong";
 import SmoothScroll from "documents/render/audio/Scroll/SmoothScroll";
 import store from "app/app/store";
 import { notify } from "app/app/error";
+
 require("documents/render/audio/KeyboardListener");
 require("array-sugar");
 let timer;

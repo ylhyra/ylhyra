@@ -2,6 +2,7 @@ import React from "react";
 import Audio from "documents/render/audio";
 import Image from "documents/templates/Image";
 import { getDynamicFileUrl } from "app/app/paths";
+
 export default (props) => {
   return (
     <div className="tweet">

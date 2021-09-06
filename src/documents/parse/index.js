@@ -7,6 +7,7 @@ import WrapInTags from "documents/parse/WrapInTags";
 import Compiler from "documents/parse/Compiler";
 import { notify } from "app/app/error";
 import isEmpty from "is-empty-object";
+
 const entities = new Entities();
 
 /*

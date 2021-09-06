@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import store from "app/app/store";
 import Router from "app/router";
 import hash from "app/app/functions/hash";
+
 var fs = require("fs");
 const path = require("path");
 const critical = require("critical");

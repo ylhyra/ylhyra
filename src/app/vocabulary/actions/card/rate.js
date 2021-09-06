@@ -1,4 +1,4 @@
-import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
 import { addRelatedCards } from "app/vocabulary/actions/card/addRelatedCards";
 
 /**

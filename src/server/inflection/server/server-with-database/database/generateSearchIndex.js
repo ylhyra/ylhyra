@@ -21,22 +21,18 @@
 
 */
 import query from "server/database";
-import sql from "server/database/functions/SQL-template-literal";
 import { escape } from "sqlstring";
 
 import {
   cleanInput,
   phonetic,
-  without_special_characters,
-  with_spelling_errors,
   removeTemporaryMarkers,
-  WITHOUT_SPECIAL_CHARACTERS_MARKER,
-  WITH_SPELLING_ERROR_MARKER,
-  PHONETIC_MARKER,
+  with_spelling_errors,
+  without_special_characters,
 } from "server/inflection/server/server-with-database/fuzzy_search";
 import path from "path";
-import _ from "underscore";
 import flattenArray from "app/app/functions/flattenArray";
+
 var LineByLineReader = require("line-by-line");
 
 const CSV_FILE_NAME = "ordalisti.csv";

@@ -1,5 +1,5 @@
 import RenderTable from "tables/render_table";
-import { without, flatten } from "lodash";
+import { flatten, without } from "lodash";
 import { types } from "tables/classification/classification";
 import link, { ucfirst_link } from "tables/link";
 

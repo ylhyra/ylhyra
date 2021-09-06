@@ -1,11 +1,11 @@
-import { log, logDev } from "app/app/functions/log";
+import { log } from "app/app/functions/log";
 import createCards from "app/vocabulary/actions/createCards";
 import {
-  updateRemainingTime,
-  getAdjustedPercentageDone,
+  answer,
   checkIfCardsRemaining,
   createMoreCards,
-  answer,
+  getAdjustedPercentageDone,
+  updateRemainingTime,
 } from "app/vocabulary/actions/session/functions";
 import { InitializeSession } from "app/vocabulary/actions/session/initialize";
 import { nextCard } from "app/vocabulary/actions/session/nextCard";
@@ -14,14 +14,15 @@ import { updateURL } from "app/router/actions/updateURL";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 import Analytics from "app/app/analytics";
 import {
+  checkForUndoOnKeyDown,
   undo,
   undoable,
-  checkForUndoOnKeyDown,
 } from "app/vocabulary/actions/session/undo";
 import { SESSION_PREFIX, setUserData } from "app/vocabulary/actions/sync";
 import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
 import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
 import { isDev } from "app/app/functions/isDev";
+
 export const MINUTES = isDev ? 4 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 

@@ -1,4 +1,4 @@
-import { log, logDev } from "app/app/functions/log";
+import { log } from "app/app/functions/log";
 import { BAD } from "app/vocabulary/actions/card";
 
 /**

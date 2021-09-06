@@ -1,7 +1,8 @@
 import React from "react";
 import Audio from "documents/render/audio";
-import { getDynamicFileUrl } from "app/app/paths";
 import Video from "documents/render/audio";
+import { getDynamicFileUrl } from "app/app/paths";
+
 export default (props) => {
   return (
     <div className="video-container">

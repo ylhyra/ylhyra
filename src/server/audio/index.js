@@ -1,5 +1,5 @@
-import Pronunciation from "datasets/pronunciation";
 import Sound from "datasets/sounds";
+
 const router = require("express").Router();
 
 /*

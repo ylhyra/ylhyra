@@ -1,10 +1,13 @@
-import { printWord } from "app/vocabulary/actions/functions";
-import { getCardIdsFromTermIds } from "app/vocabulary/actions/functions";
-import { getTermsFromCards } from "app/vocabulary/actions/functions";
+import {
+  getCardIdsFromTermIds,
+  getTermsFromCards,
+  printWord,
+} from "app/vocabulary/actions/functions";
 import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 import { getCardIdsFromWords } from "documents/compile/vocabulary/getCardIdsFromWords";
 import _ from "underscore";
 import { setDeck } from "app/vocabulary/actions/deck";
+
 const fs = require("fs");
 let deck;
 export const readDeck = () => {

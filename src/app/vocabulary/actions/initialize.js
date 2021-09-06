@@ -1,10 +1,10 @@
-import { log, logDev } from "app/app/functions/log";
+import { log } from "app/app/functions/log";
 import store from "app/app/store";
 import axios from "app/app/axios";
 import Deck from "app/vocabulary/actions/deck";
 import {
-  saveInLocalStorage,
   getFromLocalStorage,
+  saveInLocalStorage,
 } from "app/app/functions/localStorage";
 import { sync } from "app/vocabulary/actions/sync";
 import { getDeckName } from "maker/vocabulary_maker/compile/functions";

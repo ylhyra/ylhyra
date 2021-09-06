@@ -2,6 +2,7 @@ import query from "server/database";
 import c from "app/app/functions/no-undefined-in-template-literal";
 import { days } from "app/app/functions/time";
 import { isDev } from "app/app/functions/isDev";
+
 const router = require("express").Router();
 
 router.get("/analytics", async (req, res) => {

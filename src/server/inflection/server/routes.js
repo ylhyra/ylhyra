@@ -11,6 +11,7 @@ import render from "server/inflection/tables";
 import tree from "server/inflection/tables/tree";
 import withLicense from "server/inflection/server/server-with-database/license";
 import layout from "server/inflection/server/views/layout";
+
 const router = express.Router();
 
 /**

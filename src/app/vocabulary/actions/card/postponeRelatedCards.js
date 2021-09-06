@@ -1,7 +1,6 @@
-import { log, logDev } from "app/app/functions/log";
+import { log } from "app/app/functions/log";
 import { BAD, GOOD } from "app/vocabulary/actions/card";
 import _ from "underscore";
-import { printWord } from "app/vocabulary/actions/functions";
 
 /**
  * @module Card

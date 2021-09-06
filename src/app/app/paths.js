@@ -32,17 +32,21 @@ export const URL_title = (title) => {
 const prefix = "section-";
 export const section_id = (title) => {
   if (!title || title.startsWith(prefix)) return title;
-  return prefix +
-  encodeURIComponent(URL_title(title))
-    .replace(/%/g, ".")
-    .replace(/([^a-z0-9.])/g, "_");
+  return (
+    prefix +
+    encodeURIComponent(URL_title(title))
+      .replace(/%/g, ".")
+      .replace(/([^a-z0-9.])/g, "_")
+  );
 };
 
 export const FileSafeTitle = (title) => {
-  return URL_title(title)
-    .replace(/(\/)/g, "_")
-    .replace(/(:)/g, "_")
-    .replace(/^_/g, "")
-    .replace(/_+/g, "_")
-    .replace(/[()]/g, "") || "frontpage";
+  return (
+    URL_title(title)
+      .replace(/(\/)/g, "_")
+      .replace(/(:)/g, "_")
+      .replace(/^_/g, "")
+      .replace(/_+/g, "_")
+      .replace(/[()]/g, "") || "frontpage"
+  );
 };

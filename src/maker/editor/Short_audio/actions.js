@@ -2,6 +2,7 @@ import _ from "underscore";
 import store from "app/app/store";
 import isEmpty from "is-empty-object";
 import { send } from "maker/editor/web-socket";
+
 require("app/app/functions/sortByArray");
 // import { saveEditor } from 'Editor/actions'
 

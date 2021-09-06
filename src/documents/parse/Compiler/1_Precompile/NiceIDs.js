@@ -1,6 +1,6 @@
 import {
-  updateID,
   getUpdatedID,
+  updateID,
 } from "documents/parse/Compiler/1_Precompile/UpdateID";
 
 /*

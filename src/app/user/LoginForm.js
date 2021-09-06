@@ -1,9 +1,8 @@
 import { connect } from "react-redux";
 import React from "react";
-import { login } from "app/user/actions";
+import { existsSchedule, login, termsInSchedule } from "app/user/actions";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { existsSchedule, termsInSchedule } from "app/user/actions";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 
 import errors from "app/app/error/messages";
 

@@ -1,8 +1,8 @@
 import MergeWords from "documents/parse/Compiler/1_Precompile/MergeWords";
 import MergePunctuation from "documents/parse/Compiler/1_Precompile/MergePunctuation";
 import {
-  TempIDs,
   RemoveTempIDs,
+  TempIDs,
 } from "documents/parse/Compiler/1_Precompile/TempIDs";
 // import PronunciationAndSound from './PronunciationAndSound'
 // import WrapInTags from 'Editor/2-Parse/2.3-WrapInTags'

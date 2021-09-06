@@ -1,8 +1,8 @@
-import { save, closeEditor, openEditor } from "maker/editor/actions";
+import { closeEditor, openEditor, save } from "maker/editor/actions";
 // import MakeSuggestions from 'Editor/Suggestions'
-
 import React from "react";
 import { connect } from "react-redux";
+
 class App extends React.Component {
   componentDidMount = () => {
     // MakeSuggestions()

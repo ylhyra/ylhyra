@@ -1,5 +1,5 @@
-import { decompressFromBase64, compressToBase64 } from "lz-string";
 import { isBrowser } from "app/app/functions/isBrowser";
+
 export const ANALYTICS_LOCALSTORAGE_LABEL = "_a";
 
 const compressed_keys = [

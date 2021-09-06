@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import {
-  saveInLocalStorage,
   getFromLocalStorage,
+  saveInLocalStorage,
 } from "app/app/functions/localStorage";
 
 const deck = (state = null, action) => {

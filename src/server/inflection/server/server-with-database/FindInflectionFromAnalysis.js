@@ -2,7 +2,6 @@
 //   Note: This file currently relies on being a submodule of Ylhýra.
 // */
 //
-import express from "express";
 
 // const router = express.Router()
 // import query from 'server/database'

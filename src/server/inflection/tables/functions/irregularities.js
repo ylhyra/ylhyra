@@ -1,11 +1,11 @@
 import {
+  getVowelClusters,
   removeVowellikeClusters,
   splitOnVowels,
-  getVowelClusters,
 } from "tables/functions/vowels";
 import {
-  removeInflectionalPattern,
   isHighlyIrregular,
+  removeInflectionalPattern,
 } from "tables/functions/patterns";
 import Word from "tables/word";
 

@@ -1,4 +1,4 @@
-import { log, logDev } from "app/app/functions/log";
+import { log } from "app/app/functions/log";
 import { getCardIdsFromTermIds } from "app/vocabulary/actions/functions";
 import { PercentageKnown } from "app/vocabulary/actions/functions/percentageKnown";
 import React, { Component } from "react";

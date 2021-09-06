@@ -1,4 +1,5 @@
 import { Pool, Query } from "server/database/functions/connection";
+
 require("dotenv").config();
 
 if (!process.env.YLHYRA_DATABASE_USER) {

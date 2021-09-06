@@ -2,6 +2,7 @@
   Various helper functions
 */
 import Word from "tables/word";
+
 export const characters = "a-záéíóúýðþæö";
 export const vowels = "aeiouyáéíóúýæö";
 export const dipthongs = "au|e[yi]";

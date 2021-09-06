@@ -1,4 +1,3 @@
-import assert from "assert";
 // import { stripBeforeComparingToStem } from './../tables/functions/stem'
 
 // it('stripBeforeComparingToStem', () => {

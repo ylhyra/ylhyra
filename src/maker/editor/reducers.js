@@ -1,10 +1,11 @@
 import { combineReducers } from "redux";
-import { translation, selected } from "maker/editor/Translator/reducers";
-import { suggestions, analysis } from "maker/editor/Suggestions/reducers";
+import { selected, translation } from "maker/editor/Translator/reducers";
+import { analysis, suggestions } from "maker/editor/Suggestions/reducers";
 import MakeList from "Parse/Tokenize/List";
 import long_audio from "maker/editor/Long_audio/reducers";
 import short_audio from "maker/editor/Short_audio/reducers";
 import getParameter from "get-parameter";
+
 let autosave;
 if (typeof window !== "undefined") {
   autosave = require("maker/editor/actions").autosave;

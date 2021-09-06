@@ -1,6 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { connect, Provider } from "react-redux";
+import { connect } from "react-redux";
 import store from "app/app/store";
 // require('array-sugar')
 import {
@@ -8,21 +7,17 @@ import {
   mouseListener,
 } from "documents/render/elements/Speed_reading/actions/eventListeners";
 import {
+  close,
+  prevWord,
+  reset,
   start,
   startStop,
-  prevWord,
-  close,
-  reset,
 } from "documents/render/elements/Speed_reading/actions/actions";
 import { load } from "documents/render/elements/Speed_reading/actions/load";
+import { supportsTouch } from "app/app/functions/isBrowser";
 import {
-  isBrowser,
-  hasLocalStorage,
-  supportsTouch,
-} from "app/app/functions/isBrowser";
-import {
-  TextEventListenersOn,
   TextEventListenersOff,
+  TextEventListenersOn,
 } from "documents/read/touch";
 
 @connect((state) => ({

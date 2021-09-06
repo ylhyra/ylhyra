@@ -6,6 +6,7 @@ npm run chapters
 import { getOrder } from "documents/compile/templates/getOrderOfChapters";
 import { content_folder } from "server/paths_backend";
 import { getValuesForURL } from "server/content/links";
+
 var fs = require("fs");
 
 const run = async () => {

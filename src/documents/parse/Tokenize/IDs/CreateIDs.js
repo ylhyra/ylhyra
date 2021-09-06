@@ -1,5 +1,6 @@
 import shortid from "shortid";
 import hash from "app/app/functions/hash";
+
 require("array-sugar");
 
 /*

@@ -1,7 +1,7 @@
 import { printWord } from "app/vocabulary/actions/functions";
 import { CARDS_TO_CREATE } from "app/vocabulary/actions/createCards/index";
 import { SortIdsByScore } from "app/vocabulary/actions/createCards/functions";
-import { log, logDev } from "app/app/functions/log";
+import { log } from "app/app/functions/log";
 
 export default ({
   overdue_bad_ids,

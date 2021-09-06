@@ -15,6 +15,7 @@
 */
 
 import r from "xregexp";
+
 const startOfSentence = '(?:\\p{Uppercase letter}|[„"¿(])';
 const endOfSentence = '[.!?;]+?(?:[“")])? ';
 

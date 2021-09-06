@@ -15,6 +15,7 @@ import Parts from "documents/templates/Parts";
 import Instagram from "documents/templates/Instagram";
 import Collapse from "documents/templates/Collapse";
 import Login from "app/user/LoginForm";
+
 export default (name) => {
   switch (name.toLowerCase()) {
     case "frontpage":

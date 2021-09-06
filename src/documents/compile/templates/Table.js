@@ -1,4 +1,5 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
+
 export default (input) => {
   return input?.replace(/{\| class="wikitable"([\s\S]+?)\|}/g, (x, content) => {
     return `<table class="wikitable">

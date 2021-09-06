@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+
 // import { ItalicsAndBold } from 'Parse/Compiler/2_CompileToHTML/Definition/Tooltip'
 
 class InlineTranslation extends React.PureComponent {

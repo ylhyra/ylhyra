@@ -3,6 +3,7 @@ import string_hash from "app/app/functions/hash";
 import simplifyString from "server/translator/helpers/simplifyString";
 import GetTranslationFrame from "server/translator/helpers/TranslationFrame";
 import SQL_helper from "server/translator/helpers/SQL_helper";
+
 const router = require("express").Router();
 require("app/App/functions/sortByArray");
 

@@ -1,5 +1,4 @@
-import { log, logDev } from "app/app/functions/log";
-import { getEasinessLevel, getUserData } from "app/vocabulary/actions/sync";
+import { getEasinessLevel } from "app/vocabulary/actions/sync";
 import { deck } from "app/vocabulary/actions/deck";
 import { CARDS_TO_CREATE } from "app/vocabulary/actions/createCards/index";
 import { SortBySortKey } from "app/vocabulary/actions/createCards/functions";

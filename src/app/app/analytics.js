@@ -3,9 +3,9 @@
 */
 import axios from "app/app/axios";
 import {
-  saveInLocalStorage,
-  getFromLocalStorage,
   ANALYTICS_LOCALSTORAGE_LABEL,
+  getFromLocalStorage,
+  saveInLocalStorage,
 } from "app/app/functions/localStorage";
 import { isBrowser } from "app/app/functions/isBrowser";
 import { isDev } from "app/app/functions/isDev";

@@ -14,6 +14,7 @@ import "regenerator-runtime/runtime";
 import requestIp from "request-ip";
 import query from "server/database";
 import { notifyOfError } from "server/errors";
+
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
 const argv = argvFactory(process.argv.slice(2));

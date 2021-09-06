@@ -1,4 +1,5 @@
 import store from "app/app/store";
+
 export const load = () => {
   let words = [];
   let book = $(".book").clone();

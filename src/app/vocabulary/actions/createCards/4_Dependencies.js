@@ -1,5 +1,5 @@
 import { BAD } from "app/vocabulary/actions/card";
-import { getEasinessLevel, getUserData } from "app/vocabulary/actions/sync";
+import { getEasinessLevel } from "app/vocabulary/actions/sync";
 import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 import { deck } from "app/vocabulary/actions/deck";
 import { INCR } from "app/vocabulary/actions/createSchedule";

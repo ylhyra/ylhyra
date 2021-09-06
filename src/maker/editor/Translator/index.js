@@ -7,7 +7,7 @@ import WordSidebar, {
   isMacintosh,
 } from "maker/editor/Translator/Views/Sidebar/Sidebar";
 import Suggestions from "maker/editor/Suggestions/Views/List";
-import { MakeSuggestions, applySuggestions } from "maker/editor/Suggestions";
+import { applySuggestions, MakeSuggestions } from "maker/editor/Suggestions";
 
 class TranslatingEditor extends React.Component {
   UNSAFE_componentWillMount() {

@@ -1,4 +1,5 @@
 import atob from "atob";
+
 var btoa = require("btoa");
 
 export const removeComments = (i) =>

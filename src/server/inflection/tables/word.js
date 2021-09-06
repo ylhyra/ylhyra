@@ -2,8 +2,8 @@ import getTables from "tables/tables_all";
 import getSingleTable from "tables/tables_single";
 import tree, { isNumber } from "tables/tree";
 import {
-  getHelperWordsBefore,
   getHelperWordsAfter,
+  getHelperWordsBefore,
 } from "tables/functions/helperWords";
 import { getPrincipalParts } from "tables/functions/principalParts";
 import { getWordDescription } from "tables/functions/wordDescription";
@@ -12,9 +12,9 @@ import { getStem } from "tables/functions/stem";
 import { isStrong, isWeak } from "tables/functions/strong";
 import { discardUnnecessaryForms } from "tables/functions/discard";
 import {
-  types,
-  normalizeTag,
   getTagInfo,
+  normalizeTag,
+  types,
 } from "tables/classification/classification";
 import { flatten } from "lodash";
 import { FindIrregularities } from "tables/functions/irregularities";

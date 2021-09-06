@@ -1,7 +1,7 @@
 import { URL_title } from "app/app/paths";
 import store from "app/app/store";
 import { app_urls } from "app/router/appUrls";
-import { loadContent, abortAllThatAreNot } from "app/router/actions/load";
+import { abortAllThatAreNot, loadContent } from "app/router/actions/load";
 import { clear as ClearReadAlongSetup } from "documents/render/audio/ReadAlong";
 import Analytics from "app/app/analytics";
 import { getFrontpageURL } from "./index";

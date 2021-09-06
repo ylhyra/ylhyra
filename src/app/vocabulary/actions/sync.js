@@ -1,4 +1,4 @@
-import { log, logDev } from "app/app/functions/log";
+import { log } from "app/app/functions/log";
 import axios from "app/app/axios";
 import { isBrowser } from "app/app/functions/isBrowser";
 import {
@@ -9,6 +9,7 @@ import { now } from "app/app/functions/time";
 // import { InitializeSession } from 'app/Vocabulary/actions/session'
 import { isUserLoggedIn } from "app/user/actions";
 import { deck } from "app/vocabulary/actions/deck";
+
 export const SESSION_PREFIX = "s_";
 
 /**

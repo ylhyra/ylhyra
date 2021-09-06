@@ -1,10 +1,10 @@
 import {
-  TouchEventListenerOn,
   TouchEventListenerOff,
+  TouchEventListenerOn,
 } from "documents/read/touch/Touch";
 import {
-  MouseEventListenerOn,
   MouseEventListenerOff,
+  MouseEventListenerOn,
 } from "documents/read/touch/Mouse";
 
 import { supportsTouch } from "app/app/functions/isBrowser";

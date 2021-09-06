@@ -1,9 +1,10 @@
 import store from "app/app/store";
 import {
-  startStop,
-  prevWord,
   nextWord,
+  prevWord,
+  startStop,
 } from "documents/render/elements/Speed_reading/actions/actions";
+
 export const checkKey = (e) => {
   // console.log((e.keyCode))
   /* Space */

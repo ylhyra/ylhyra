@@ -2,11 +2,12 @@ import React from "react";
 import {
   clearSelection,
   nextWord,
-  wordsHash,
   updateDefinitionValue,
+  wordsHash,
 } from "maker/editor/Translator/actions";
 import { connect } from "react-redux";
 import Field from "maker/editor/Translator/Views/Sidebar/Field";
+
 // import { getLanguage } from 'server/datasets/languages'
 
 class WordSidebar extends React.Component {

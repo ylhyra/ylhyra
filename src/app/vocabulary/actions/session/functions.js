@@ -1,8 +1,5 @@
-import { log, logDev } from "app/app/functions/log";
-import store from "app/app/store";
+import { log } from "app/app/functions/log";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
-import { printWord, getTermsFromCards } from "app/vocabulary/actions/functions";
-import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
 
 /**
  * @module Session

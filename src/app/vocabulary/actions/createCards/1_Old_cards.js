@@ -1,4 +1,4 @@
-import { log, logDev } from "app/app/functions/log";import { hours } from "app/app/functions/time";
+import { hours } from "app/app/functions/time";
 import { BAD } from "app/vocabulary/actions/card";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { deck } from "app/vocabulary/actions/deck";

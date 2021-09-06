@@ -1,7 +1,7 @@
 import assert from "assert";
 import {
-  splitOnVowelRegions,
   removeLastVowelCluster,
+  splitOnVowelRegions,
 } from "server/inflection/tables/functions/vowels";
 
 it("splitOnVowelRegions", () => {

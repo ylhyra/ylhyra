@@ -4,7 +4,7 @@ import LoadContent from "app/router/Content";
 import { app_urls } from "app/router/appUrls";
 import { connect } from "react-redux";
 import Section from "documents/templates/Section";
-import { isVocabularyTheFrontpage, index } from "app/router/actions";
+import { index, isVocabularyTheFrontpage } from "app/router/actions";
 import { updateURL } from "app/router/actions/updateURL";
 
 class App extends React.Component {

@@ -1,5 +1,6 @@
 import { types } from "tables/classification/classification";
 import { without } from "lodash";
+
 const splittableRegexEndingsFromArray = (string) => {
   return new RegExp(
     `(${string.sort((a, b) => b.length - a.length).join("|")})$`

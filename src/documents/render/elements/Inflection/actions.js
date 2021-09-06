@@ -1,10 +1,6 @@
-import axios from "app/app/axios"; //process.env.NODE_ENV === 'development' ? 'https://localhost:8000' : ''
 import React from "react";
-import ReactDOM from "react-dom";
 // import Inflection from 'documents/Render/Elements/Inflection'
-import store from "app/app/store";
 // import classify from 'server/inflection/tables/classification/BIN_classification.js'
-import { without } from "underscore";
 const url = "";
 let cache = {};
 

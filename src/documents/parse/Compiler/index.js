@@ -5,6 +5,7 @@ import { AllHtmlEntities as Entities } from "html-entities";
 import CompileToHTML from "documents/parse/Compiler/2_CompileToHTML/Traverse";
 import PrepareJSONForReact from "documents/parse/Compiler/PrepareJSONForReact";
 import ReactDOMServer from "react-dom/server";
+
 const entities = new Entities();
 // console.log(entities.decode(output));
 

@@ -2,11 +2,11 @@
 node build/server/ylhyra_server.js --generate-links
 */
 // import urlSlug from 'src/app/App/functions/url-slug'
-import string_hash from "app/app/functions/hash";
 import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
 import RemoveUnwantedCharacters from "app/app/functions/RemoveUnwantedCharacters";
-import { URL_title, FileSafeTitle } from "app/app/paths";
-import { content_folder, build_folder } from "server/paths_backend";
+import { FileSafeTitle, URL_title } from "app/app/paths";
+import { content_folder } from "server/paths_backend";
+
 var fs = require("fs");
 const path = require("path");
 let files = [];

@@ -3,10 +3,10 @@ import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBo
 import TOC from "documents/compile/templates/TOC";
 import forEachAsync from "app/app/functions/array-foreach-async";
 import {
-  removeComments,
   EncodeDataInHTML,
+  removeComments,
 } from "documents/compile/functions/functions";
-import { links, getValuesForURL } from "server/content/links";
+import { getValuesForURL, links } from "server/content/links";
 
 var fs = require("fs");
 

@@ -1,13 +1,8 @@
-import { eraseCookie } from "app/app/functions/cookie";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
 import { deck } from "app/vocabulary/actions/deck";
-import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
-import { getEasinessLevel, getUserData } from "app/vocabulary/actions/sync";
+import { getEasinessLevel } from "app/vocabulary/actions/sync";
 import { assert, notNull, shouldEqual } from "test/index";
 import { run } from "test/functions";
-import { studyParticularIds } from "app/vocabulary/actions/functions";
-import _ from "underscore";
-import { printWord } from "app/vocabulary/actions/functions";
 
 export default {
   "Easiness level correctly saved": async () => {

@@ -1,6 +1,5 @@
-import { log, logDev } from "app/app/functions/log";
 import { isBrowser } from "app/app/functions/isBrowser";
-import { isUserLoggedIn, existsSchedule } from "app/user/actions";
+import { existsSchedule, isUserLoggedIn } from "app/user/actions";
 import { updateURL } from "./updateURL";
 
 if (isBrowser) {

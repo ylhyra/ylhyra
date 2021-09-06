@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Link from "app/router/Link";
 import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
-import { isUserLoggedIn, existsSchedule } from "app/user/actions";
+import { existsSchedule, isUserLoggedIn } from "app/user/actions";
 import demo, { turnOffDemonstration } from "app/elements/frontpage/demo";
 
 class Screen extends React.Component {

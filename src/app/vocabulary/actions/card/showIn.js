@@ -1,4 +1,3 @@
-import { log, logDev } from "app/app/functions/log";
 /**
  * @module Card
  * An interval of "1" means that the card will be shown immediately

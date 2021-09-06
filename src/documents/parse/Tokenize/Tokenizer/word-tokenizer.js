@@ -9,6 +9,7 @@
 */
 
 import r from "xregexp";
+
 const startOfWord = "[A-zÀ-ÿ·-]";
 const middleOfWord = "[A-zÀ-ÿ·\\-'’.,:0-9]";
 const endOfWord = "[A-zÀ-ÿ·\\-']";

@@ -1,6 +1,7 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
 import { build_folder } from "server/paths_backend";
 import { links } from "server/content/links";
+
 var fs = require("fs");
 const path = require("path");
 

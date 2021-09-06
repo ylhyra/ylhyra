@@ -1,6 +1,7 @@
 // import { hash as argon_hash, verify as argon_verify } from 'argon2'
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
+
 const router = require("express").Router();
 const speedLimit = require("express-slow-down")({
   windowMs: 15 * 60 * 1000, // 15 minutes

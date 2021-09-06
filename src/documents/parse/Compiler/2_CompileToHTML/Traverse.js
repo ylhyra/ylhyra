@@ -1,6 +1,7 @@
 import React from "react";
 import Sentence from "documents/parse/Compiler/2_CompileToHTML/Sentence";
 import Word from "documents/parse/Compiler/2_CompileToHTML/Word";
+
 const Traverse = ({ json, data, index }) => {
   if (!json) return null;
   const { node, tag, attr, child, text } = json;

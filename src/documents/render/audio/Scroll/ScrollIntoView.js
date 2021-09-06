@@ -1,4 +1,5 @@
 import SmoothScroll from "documents/render/audio/Scroll/SmoothScroll";
+
 const ControlsHeight = 45;
 
 /*
