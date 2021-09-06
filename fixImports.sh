@@ -1,17 +1,19 @@
 #!/bin/bash
 set -e
+cd ${BASH_SOURCE%/*}
 
 #cd src
 
-eslint src --format unix |\
-grep 'Error/no-undef' |\
-awk -F  ":" '{print $1}' |\
-sort -u |\
-while read -r filename ; do
-  npx importjs fix --overwrite "${filename}"
-  echo $filename
-  echo "haha"
-#  npx prettier "$filename" --write
+files="$(eslint src --format unix |\
+  grep 'Error/no-undef' |\
+  awk -F  ":" '{print $1}' |\
+  sort -u)"
+
+for file in $files
+do
+  echo "$file"
+  npx importjs fix "$file"
+  npx prettier "$file" --write
 done
 
 #cd ..
