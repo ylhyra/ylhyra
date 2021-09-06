@@ -1,7 +1,8 @@
 import generate_html from "documents/compile";
-import { URL_title } from "paths";
+import { URL_title } from "app/app/paths";
 import { getValuesForURL } from "server/content/links";
-import { build_folder } from "paths_backend";
+import { build_folder } from "server/paths_backend";
+import { isDev } from "app/app/functions/isDev";
 const router = require("express").Router({ strict: true });
 var fs = require("fs");
 
@@ -32,7 +33,7 @@ router.get(["/api/content", "*"], async (req, res) => {
 
     title = title?.split(/[/:]/g).reverse().join("\u2006•\u2006");
 
-    if (!process.env.NODE_ENV === "development") {
+    if (!isDev) {
       res.set(
         "Cache-Control",
         `public, max-age=${24 * 60 * 60 /* Einn dagur */}`

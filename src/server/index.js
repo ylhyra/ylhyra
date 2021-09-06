@@ -4,12 +4,12 @@ import "core-js/stable";
 import express from "express";
 import argvFactory from "minimist";
 import path from "path";
-import { processed_image_url, unprocessed_image_url } from "paths";
+import { processed_image_url, unprocessed_image_url } from "app/app/paths";
 import {
   build_folder,
   image_output_folder,
   ylhyra_content_files,
-} from "paths_backend";
+} from "server/paths_backend";
 import "regenerator-runtime/runtime";
 import requestIp from "request-ip";
 import query from "server/database";

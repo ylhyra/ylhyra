@@ -5,8 +5,6 @@ require("app/app/functions/html2json/lib/Pure-JavaScript-HTML5-Parser/htmlparser
 const DEBUG = false;
 var debug = DEBUG ? console.log.bind(console) : function () {};
 
-typeof module === "object" && typeof module.exports === "object";
-
 function q(v) {
   return '"' + v + '"';
 }

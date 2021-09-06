@@ -1,4 +1,4 @@
-import { URL_title } from "paths";
+import { URL_title } from "app/app/paths";
 import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
 import TOC from "documents/compile/templates/TOC";
 import forEachAsync from "app/app/functions/array-foreach-async";

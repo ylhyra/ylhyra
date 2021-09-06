@@ -144,7 +144,7 @@ export const editPage = (info, callback) => {
     })
       .done(function (data) {
         // console.log(data)
-        if (data?.edit && data.edit.result && data.edit.result == "Success") {
+        if (data?.edit && data.edit.result && data.edit.result === "Success") {
           console.log(
             `Page edited! https://ylhyra.is/Special:Redirect/page/${data.edit.pageid}`
           );

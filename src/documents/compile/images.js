@@ -1,8 +1,8 @@
-import { URL_title } from "paths";
-import { image_output_folder } from "paths_backend";
+import { URL_title } from "app/app/paths";
+import { image_output_folder } from "server/paths_backend";
 import _ from "underscore";
 import Transclude from "documents/compile/transclude";
-import { processed_image_url } from "paths";
+import { processed_image_url } from "app/app/paths";
 import forEachAsync from "app/app/functions/array-foreach-async";
 import { links } from "server/content/links";
 
@@ -141,7 +141,7 @@ const Images = (data) => {
           fs.stat(
             `${image_output_folder}/${name}-${boxes[0][2]}x${boxes[0][3]}.${ending}`,
             function (err) {
-              if (err == null) {
+              if (err === null) {
                 // File exists
                 return resolve2();
               } else if (err.code === "ENOENT") {

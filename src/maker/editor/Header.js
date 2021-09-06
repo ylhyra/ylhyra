@@ -1,4 +1,4 @@
-import { save, closeEditor, openEditor } from "Editor/actions";
+import { save, closeEditor, openEditor } from "maker/editor/actions";
 // import MakeSuggestions from 'Editor/Suggestions'
 
 import React from "react";

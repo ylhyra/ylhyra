@@ -1,12 +1,11 @@
 import query from "server/database";
 import c from "app/app/functions/no-undefined-in-template-literal";
 import { days } from "app/app/functions/time";
+import { isDev } from "app/app/functions/isDev";
 const router = require("express").Router();
+
 router.get("/analytics", async (req, res) => {
-  if (
-    process.env.NODE_ENV !== "development" &&
-    !req.session.username === "egill"
-  ) {
+  if (!isDev && req.session.username !== "egill") {
     return res.sendStatus(200);
   }
   let html = "";

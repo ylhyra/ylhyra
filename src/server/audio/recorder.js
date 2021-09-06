@@ -1,7 +1,7 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
-import { ylhyra_content_files } from "paths_backend";
+import { ylhyra_content_files } from "server/paths_backend";
 const router = express.Router();
 
 router.post("/recorder/save", (req, res) => {
@@ -25,7 +25,7 @@ router.post("/recorder/save", (req, res) => {
 
   /* Check if filename is in use */
   fs.stat(filepath + ".mp3.md", function (err) {
-    if (err == null) {
+    if (err === null) {
       /* Filename already exists */
       filename += "_" + Math.ceil(Math.random() * 999);
       filepath = output_folder + `/${filename}`;

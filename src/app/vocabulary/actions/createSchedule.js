@@ -6,6 +6,7 @@ import {
   getCardsWithSameTerm,
   printWord,
 } from "app/vocabulary/actions/functions";
+import { log } from "app/app/functions/log";
 
 /* Increment score by how much? */
 export const INCR = 0.4;

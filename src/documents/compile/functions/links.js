@@ -1,5 +1,5 @@
-import { URL_title } from "paths";
-import { app_urls } from "app/router/paths";
+import { URL_title } from "app/app/paths";
+import { app_urls } from "app/router/appUrls";
 // import { links, getValuesForURL } from "server/content/links";
 
 export const ProcessLinks = (input, links) => {

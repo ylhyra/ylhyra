@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "app/elements/layout/Layout";
 import LoadContent from "app/router/Content";
-import { app_urls } from "app/router/paths";
+import { app_urls } from "app/router/appUrls";
 import { connect } from "react-redux";
 import Section from "documents/templates/Section";
 import { isVocabularyTheFrontpage, index } from "app/router/actions";

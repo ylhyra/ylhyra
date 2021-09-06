@@ -1,5 +1,5 @@
-import { app_urls } from "app/router/paths";
-import { URL_title, FileSafeTitle } from "paths";
+import { app_urls } from "app/router/appUrls";
+import { URL_title, FileSafeTitle } from "app/app/paths";
 const fs = require("fs");
 
 let _links = {};

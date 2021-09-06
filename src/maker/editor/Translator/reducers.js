@@ -1,5 +1,5 @@
 import { omit, uniq } from "underscore";
-import { wordsHash } from "Editor/Translator/actions";
+import { wordsHash } from "maker/editor/Translator/actions";
 require("app/app/functions/sortByArray");
 
 /*

@@ -2,7 +2,7 @@
   To run:
   npm run vocabulary
 */
-import { content_folder } from "paths_backend";
+import { content_folder } from "server/paths_backend";
 import getSortKeys from "server/vocabulary/sortKeys";
 import { GetLowercaseStringForAudioKey } from "maker/vocabulary_maker/compile/functions";
 import _ from "underscore";

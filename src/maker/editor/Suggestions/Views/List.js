@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { updateDefinition } from "Editor/Translator/actions";
+import { updateDefinition } from "maker/editor/Translator/actions";
 import store from "app/app/store";
 
 class Suggestions extends React.Component {

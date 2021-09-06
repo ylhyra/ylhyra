@@ -20,7 +20,7 @@ lr.on("error", (err) => {
 
 lr.on("line", (line) => {
   lr.pause();
-  if (line.trim() == "") {
+  if (line.trim() === "") {
     lr.resume();
   } else {
     /*

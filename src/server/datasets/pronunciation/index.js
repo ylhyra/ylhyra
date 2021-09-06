@@ -168,7 +168,7 @@ const Guess_IPA = (input, callback) => {
       const word = input.substr(start, end);
       if (
         word.length > 1 ||
-        (word.length == 1 && /[aeioóú]/.test(word)) /* Vowels can be single */
+        (word.length === 1 && /[aeioóú]/.test(word)) /* Vowels can be single */
       ) {
         select.push(` word = '${word}' `);
       }
@@ -235,7 +235,7 @@ const FindPossibleWaysToFit = (input, list) => {
   for (var end = 1; end <= input.length; end++) {
     const text = input.substr(0, end);
     if (list[text]) {
-      if (end == input.length) {
+      if (end === input.length) {
         possibilities.push({
           text: text,
           pronunciation: list[text],
@@ -271,12 +271,12 @@ const save_guess = (word, pronunciation, callback) => {
 const apply_replacements = (text) => {
   let i, r;
   for (i = 0; i < IPA_to_English.length; i++) {
-    if (IPA_to_English[i][0] == "") continue;
+    if (IPA_to_English[i][0] === "") continue;
     r = new RegExp(IPA_to_English[i][0], "g");
     text = text.replace(r, `~${i}~`);
   }
   for (i = 0; i < IPA_to_English.length; i++) {
-    if (IPA_to_English[i][0] == "") continue;
+    if (IPA_to_English[i][0] === "") continue;
     r = new RegExp(`~${i}~`, "g");
     text = text.replace(r, IPA_to_English[i][1]);
   }

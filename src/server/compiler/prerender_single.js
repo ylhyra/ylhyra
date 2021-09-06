@@ -1,7 +1,7 @@
 import React from "react";
 // import Render from 'frontend/Render'
 import ReactDOMServer from "react-dom/server";
-import { build_folder } from "paths_backend";
+import { build_folder } from "server/paths_backend";
 import generate_html from "documents/compile";
 import Parse from "documents/parse";
 import { Provider } from "react-redux";

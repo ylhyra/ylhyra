@@ -10,7 +10,7 @@ export default (rows, options, more_options /* todo: merge */) => {
   let input_string = more_options?.input_string;
 
   // console.log(rows.slice(0,10))
-  // rows = rows.filter(row => row.correctness_grade_of_inflectional_form == 1
+  // rows = rows.filter(row => row.correctness_grade_of_inflectional_form === 1
   let word = new Word(rows.sort(sort_by_classification));
   // .highlight(input_string) // temp
   // console.log('hah')

@@ -1,13 +1,13 @@
 import { connect } from "react-redux";
 import { clearSelection } from "maker/editor/Translator/actions";
 import React from "react";
-import SentenceTranslation from "Editor/Translator/Views/Document/SentenceTranslation";
-import Word from "Editor/Translator/Views/Document/Word";
+import SentenceTranslation from "maker/editor/Translator/Views/Document/SentenceTranslation";
+import Word from "maker/editor/Translator/Views/Document/Word";
 import WordSidebar, {
   isMacintosh,
-} from "Editor/Translator/Views/Sidebar/Sidebar";
-import Suggestions from "Editor/Suggestions/Views/List";
-import { MakeSuggestions, applySuggestions } from "Editor/Suggestions";
+} from "maker/editor/Translator/Views/Sidebar/Sidebar";
+import Suggestions from "maker/editor/Suggestions/Views/List";
+import { MakeSuggestions, applySuggestions } from "maker/editor/Suggestions";
 
 class TranslatingEditor extends React.Component {
   UNSAFE_componentWillMount() {

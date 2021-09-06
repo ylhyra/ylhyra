@@ -1,5 +1,8 @@
 import React from "react";
-import { updateDefinitionValue, wordsHash } from "Editor/Translator/actions";
+import {
+  updateDefinitionValue,
+  wordsHash,
+} from "maker/editor/Translator/actions";
 import { connect } from "react-redux";
 
 class Field extends React.Component {

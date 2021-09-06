@@ -1,6 +1,6 @@
 // import typeset from "typeset";
 import typeset from "documents/compile/functions/typeset";
-import { section_id } from "paths";
+import { section_id } from "app/app/paths";
 import marked from "marked";
 import RemoveUnwantedCharacters from "app/app/functions/RemoveUnwantedCharacters";
 import { html2json, json2html } from "app/app/functions/html2json";

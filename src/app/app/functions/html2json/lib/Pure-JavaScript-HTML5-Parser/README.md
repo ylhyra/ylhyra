@@ -34,14 +34,14 @@ Handles tag, text, and comments with callbacks. For example, let’s say you wan
       }
     });
 
-    results == '<p id="test">hello <i>world</i></p>"
+    results === '<p id="test">hello <i>world</i></p>"
 
 ### XML Serializer
 
 Now, there’s no need to worry about implementing the above, since it’s included directly in the library, as well. Just feed in HTML and it spits back an XML string.
 
     var results = HTMLtoXML("<p>Data: <input disabled>")
-    results == '<p>Data: <input disabled="disabled"></p>'
+    results === '<p>Data: <input disabled="disabled"></p>'
 
 ### DOM Builder
 
@@ -66,27 +66,27 @@ A couple points are enforced by this method:
 You would use the method like so:
 
     var dom = HTMLtoDOM("<p>Data: <input disabled>");
-    dom.getElementsByTagName("body").length == 1
-    dom.getElementsByTagName("p").length == 1
+    dom.getElementsByTagName("body").length === 1
+    dom.getElementsByTagName("p").length === 1
 
 While this library doesn’t cover the full gamut of possible weirdness that HTML provides, it does handle a lot of the most obvious stuff. All of the following are accounted for:
 
 **Unclosed Tags:**
 
-    HTMLtoXML("<p><b>Hello") == '<p><b>Hello</b></p>'
+    HTMLtoXML("<p><b>Hello") === '<p><b>Hello</b></p>'
 
 **Empty Elements:**
 
-    HTMLtoXML("<img src=test.jpg>") == '<img src="test.jpg">'
+    HTMLtoXML("<img src=test.jpg>") === '<img src="test.jpg">'
 
 **Block vs. Inline Elements:**
 
-    HTMLtoXML("<b>Hello <p>John") == '<b>Hello </b><p>John</p>'
+    HTMLtoXML("<b>Hello <p>John") === '<b>Hello </b><p>John</p>'
 
 **Self-closing Elements:**
 
-    HTMLtoXML("<p>Hello<p>World") == '<p>Hello</p><p>World</p>'
+    HTMLtoXML("<p>Hello<p>World") === '<p>Hello</p><p>World</p>'
 
 **Attributes Without Values:**
 
-    HTMLtoXML("<input disabled>") == '<input disabled="disabled">'
+    HTMLtoXML("<input disabled>") === '<input disabled="disabled">'

@@ -1,4 +1,4 @@
-import { send } from "Editor/web-socket";
+import { send } from "maker/editor/web-socket";
 import store from "app/app/store";
 import React from "react";
 // import GoogleTranslate from './GoogleTranslate'

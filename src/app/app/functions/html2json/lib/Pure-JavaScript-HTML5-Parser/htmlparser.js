@@ -125,7 +125,7 @@
       // Make sure we're not in a script or style element
       if (!stack[stack.length - 1] || !special[stack[stack.length - 1]]) {
         // Comment
-        if (html.indexOf("<!--") == 0) {
+        if (html.indexOf("<!--") === 0) {
           index = html.indexOf("-->");
 
           if (index >= 0) {
@@ -135,7 +135,7 @@
           }
 
           // end tag
-        } else if (html.indexOf("</") == 0) {
+        } else if (html.indexOf("</") === 0) {
           match = html.match(endTag);
 
           if (match) {
@@ -145,7 +145,7 @@
           }
 
           // start tag
-        } else if (html.indexOf("<") == 0) {
+        } else if (html.indexOf("<") === 0) {
           match = html.match(startTag);
 
           if (match) {
@@ -180,7 +180,7 @@
         parseEndTag("", stack[stack.length - 1]);
       }
 
-      if (html == last) throw "html2json Parse Error: " + html.slice(0, 120);
+      if (html === last) throw "html2json Parse Error: " + html.slice(0, 120);
       last = html;
     }
 
@@ -196,7 +196,7 @@
         }
       }
 
-      if (closeSelf[tagName] && stack[stack.length - 1] == tagName) {
+      if (closeSelf[tagName] && stack[stack.length - 1] === tagName) {
         parseEndTag("", tagName);
       }
 
@@ -235,7 +235,7 @@
       // Find the closest opened tag of the same type
       else
         for (var pos = stack.length - 1; pos >= 0; pos--)
-          if (stack[pos] == tagName) break;
+          if (stack[pos] === tagName) break;
 
       if (pos >= 0) {
         // Close all the open elements, up the stack

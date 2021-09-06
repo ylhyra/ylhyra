@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import _ from "underscore";
-import { selectWord, deleteWord } from "Editor/Translator/actions";
+import { selectWord, deleteWord } from "maker/editor/Translator/actions";
 import InlineTranslation from "maker/editor/Translator/Views/Document/InlineTranslation";
 
 const Container = styled.span`

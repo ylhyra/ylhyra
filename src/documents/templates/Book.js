@@ -1,6 +1,6 @@
 import React from "react";
 import Audio from "documents/render/audio";
-import { getDynamicFileUrl } from "paths";
+import { getDynamicFileUrl } from "app/app/paths";
 export default (props) => {
   return (
     <div className="book" data-translate="true">
