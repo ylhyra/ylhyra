@@ -7,7 +7,6 @@ import _ from "underscore";
  */
 export default function postponeRelatedCards(card1interval) {
   const card1 = this;
-  log({ card1 });
 
   card1.session.cards.forEach((card2) => {
     if (card2.id === card1.id) return;

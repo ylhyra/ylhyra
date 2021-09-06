@@ -21,16 +21,17 @@ export const increaseEasinessLevel = (currentCardSortKey) => {
   const newValue = Math.min(newBasedOnCurrentEasinessLevel, getMaxSortKey());
   if (newValue - getEasinessLevel() > MIN_JUMP_UP) {
     setEasinessLevel(newValue);
-    recreateAfterChangingEasinessLevel();
+    recreateSessionCardsAfterChangingEasinessLevel();
   }
 };
 
 export const easinessLevelShouldBeLowerThan = (currentCardSortKey) => {
-  let min = currentCardSortKey - DEFAULT_JUMP_DOWN;
-  if (min < getEasinessLevel() && getEasinessLevel() - min > 10) {
-    setEasinessLevel(Math.max(0, min));
-    if (getEasinessLevel() - min > DEFAULT_JUMP_DOWN) {
-      // recreateAfterChangingEasinessLevel();
+  let min = Math.max(0, currentCardSortKey - DEFAULT_JUMP_DOWN);
+  const change = min - getEasinessLevel();
+  if (change < -10) {
+    setEasinessLevel(min);
+    if (Math.abs(change) > DEFAULT_JUMP_DOWN) {
+      // recreateSessionCardsAfterChangingEasinessLevel(change);
     }
   }
 };
@@ -56,14 +57,17 @@ export const getMaxSortKey = () => {
   );
 };
 
-export const recreateAfterChangingEasinessLevel = () => {
+export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
   deck.session.cards = deck.session.cards.filter(
     (card) => card.history.length > 0 || card.cannotBeShownBefore || card.done
   );
   deck.session.cards.forEach((card) => {
+    /* Card too easy */
     if (card.sortKey < getEasinessLevel()) {
       card.showIn({ minInterval: 100 });
     }
+    // /* Card too difficult */
+    // TODO
     // else if (
     //   !card.done &&
     //   change < 0 &&
@@ -84,6 +88,7 @@ export const setEasinessLevel = (val) => {
 export const getEasinessLevel = () => {
   return getUserData("easinessLevel");
 };
+
 export function isEasinessLevelOn() {
-  return Boolean(!this.session.allowed_card_ids && getEasinessLevel());
+  return Boolean(!deck.session.allowed_card_ids && getEasinessLevel());
 }

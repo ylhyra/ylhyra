@@ -6,10 +6,10 @@ import {
 } from "app/vocabulary/actions/easinessLevel/functions";
 import { deck } from "app/vocabulary/actions/deck";
 
-let easyInARow = 0;
 export const MIN_JUMP_UP = 50;
 export const MAX_JUMP_UP = 200;
 export const DEFAULT_JUMP_DOWN = 100;
+let easyInARow = 0;
 
 /**
  * If the user clicks on "Easy" several times in a row,
