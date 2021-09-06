@@ -11,8 +11,8 @@ files="$(eslint src --format unix |\
 
 for file in $files
 do
-  echo "$file"
-  npx importjs fix "$file"
+  #  echo "$file"
+  npx importjs fix --overwrite "$file"
   npx prettier "$file" --write
 done
 

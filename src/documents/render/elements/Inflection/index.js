@@ -1,9 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-// import { ParseHTMLtoObject } from 'documents/Render/Elements/parse'
-// import Word from './word'
-// import { without } from 'underscore'
-// import link from './link'
 import { ShowInflectionTable } from "documents/render/elements/Inflection/actions";
 
 class Inflection extends React.Component {

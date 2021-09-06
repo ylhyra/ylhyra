@@ -1,3 +1,4 @@
+import { isEasinessLevelOn } from "app/vocabulary/actions/easinessLevel";
 import { BAD } from "app/vocabulary/actions/card";
 import { getEasinessLevel } from "app/vocabulary/actions/sync";
 import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
