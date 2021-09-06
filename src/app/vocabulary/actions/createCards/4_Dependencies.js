@@ -1,5 +1,5 @@
 import { BAD } from "app/vocabulary/actions/card";
-import { getUserData } from "app/vocabulary/actions/sync";
+import { getEasinessLevel, getUserData } from "app/vocabulary/actions/sync";
 import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 import { deck } from "app/vocabulary/actions/deck";
 import { INCR } from "app/vocabulary/actions/createSchedule";
@@ -14,7 +14,7 @@ export default ({ chosen_ids, forbidden_ids }) => {
       chosen_ids.includes(card_id) ||
       /* Ignore cards that are below user's easiness level */
       (deck.cards[card_id].sortKey >=
-        ((deck.isEasinessLevelOn() && getUserData("easinessLevel")) || 0) &&
+        ((deck.isEasinessLevelOn() && getEasinessLevel()) || 0) &&
         // /* Dependency that is not known */
         // !(card_id in deck.schedule) ||
         /* Dependency with a bad score */

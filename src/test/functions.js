@@ -39,6 +39,25 @@ export const run = {
       await run.end_session();
     }
   },
+  start_vocabulary_session: async (options = {}) => {
+    await run.vocabulary_session({
+      values: options.values,
+      dontEnd: true,
+    });
+  },
+  continue_vocabulary_session: async (options = {}) => {
+    await run.vocabulary_session({
+      values: options.values,
+      dontStart: true,
+      dontEnd: true,
+    });
+  },
+  end_vocabulary_session: async (options = {}) => {
+    await run.vocabulary_session({
+      values: options.values,
+      dontStart: true,
+    });
+  },
   fakeReload: async () => {
     deck.reset({ dontClear: true });
     updateURL("/vocabulary");

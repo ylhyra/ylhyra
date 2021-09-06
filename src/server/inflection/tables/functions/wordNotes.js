@@ -17,6 +17,8 @@ export function getWordNotes() {
     case "4":
       notes.push(`Never use this word, it considered to be incorrect`);
       break;
+    default:
+      break;
   }
   if (notes.length > 0) {
     return '<div class="note"><b>Note:</b> ' + notes.join("<br/>") + "</div>";

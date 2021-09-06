@@ -1,19 +1,21 @@
 import forEachAsync from "app/app/functions/array-foreach-async";
-import articles from "test/vocabulary/articles";
-import easiness from "test/vocabulary/easiness";
-import session from "test/vocabulary/session";
-import vocabulary_signup_and_login from "test/vocabulary/signup_and_login";
+import vocabulary_articles from "test/vocabulary/articles";
+import vocabulary_easiness from "test/vocabulary/easiness";
+import vocabulary_session from "test/vocabulary/session";
+import vocabulary_signup_and_login from "test/vocabulary/sync";
 import { run } from "test/functions";
+import _ from "underscore";
+import { log } from "app/app/functions/log";
 
 /* Main test runner */
 export default async (only_run) => {
   const toRun = {
     ...vocabulary_signup_and_login,
-    ...articles,
-    ...easiness,
-    ...session,
+    ...vocabulary_articles,
+    ...vocabulary_easiness,
+    ...vocabulary_session,
   };
-  await forEachAsync(Object.keys(toRun), async (key) => {
+  await forEachAsync(_.shuffle(Object.keys(toRun)), async (key) => {
     await new Promise(async (resolve) => {
       if (only_run && key !== only_run) return resolve();
       await run.reset();
@@ -36,15 +38,18 @@ export const shouldEqual = (first, second) => {
   }
 };
 
-export const assert = (i, desc) => {
+export const assert = (i, ...description) => {
   if (!i) {
-    throw new Error(desc);
+    log(description);
+    console.trace();
+    throw new Error();
   }
 };
 
 export const notNull = (...vals) => {
   vals.forEach((val) => {
     if (!(val && val !== "0")) {
+      console.trace();
       throw new Error("Received a null");
     }
   });

@@ -2,7 +2,7 @@ import { eraseCookie } from "app/app/functions/cookie";
 import { EASY } from "app/vocabulary/actions/card";
 import { deck } from "app/vocabulary/actions/deck";
 import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
-import { getUserData } from "app/vocabulary/actions/sync";
+import { getEasinessLevel, getUserData } from "app/vocabulary/actions/sync";
 import { assert, notNull, shouldEqual } from "test/index";
 import { run } from "test/functions";
 import { studyParticularIds } from "app/vocabulary/actions/functions";
@@ -15,7 +15,7 @@ export default {
     const known1 = PercentageKnownOverall();
     await run.signup_logout_login();
     const known2 = PercentageKnownOverall();
-    assert(getUserData("easinessLevel") === 0);
+    assert(getEasinessLevel() === 0);
     notNull(known1, known2);
     shouldEqual(known1, known2);
   },

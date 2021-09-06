@@ -1,7 +1,11 @@
 import { log, logDev } from "app/app/functions/log";
 import { BAD, GOOD, EASY } from "app/vocabulary/actions/card";
 import { deck } from "app/vocabulary/actions/deck";
-import { setUserData, getUserData } from "app/vocabulary/actions/sync";
+import {
+  setUserData,
+  getUserData,
+  getEasinessLevel,
+} from "app/vocabulary/actions/sync";
 
 let easyInARow = 0;
 const MIN_JUMP = 50;
@@ -23,10 +27,10 @@ export function trackEasiness(rating, isNew) {
         let change = Math.min(last_jump_up * 2 || MIN_JUMP, MAX_JUMP);
         last_jump_up = change;
         const newValue = Math.min(
-          Math.max(0, (getUserData("easinessLevel") || 0) + change),
+          Math.max(0, (getEasinessLevel() || 0) + change),
           getLowestBadSortKey() || getMaxSortKey() || deck.cards_sorted.length
         );
-        if (newValue !== getUserData("easinessLevel")) {
+        if (newValue !== getEasinessLevel()) {
           setEasinessLevel(newValue);
           recreateAfterChangingEasinessLevel();
         }
@@ -34,9 +38,9 @@ export function trackEasiness(rating, isNew) {
     } else {
       easyInARow = 0;
     }
-    if (rating === BAD && getUserData("easinessLevel")) {
+    if (rating === BAD && getEasinessLevel()) {
       let min = deck.session.currentCard.sortKey - DEFAULT_JUMP_DOWN;
-      if (min < getUserData("easinessLevel")) {
+      if (min < getEasinessLevel()) {
         setEasinessLevel(Math.max(0, min));
       }
     }
@@ -76,7 +80,7 @@ const recreateAfterChangingEasinessLevel = () => {
     (card) => card.history.length > 0 || card.cannotBeShownBefore || card.done
   );
   deck.session.cards.forEach((card) => {
-    if (card.sortKey < getUserData("easinessLevel")) {
+    if (card.sortKey < getEasinessLevel()) {
       card.showIn({ minInterval: 100 });
     }
     // else if (
@@ -95,7 +99,5 @@ const recreateAfterChangingEasinessLevel = () => {
  * @module Deck
  */
 export function isEasinessLevelOn() {
-  return Boolean(
-    !this.session.allowed_card_ids && getUserData("easinessLevel")
-  );
+  return Boolean(!this.session.allowed_card_ids && getEasinessLevel());
 }

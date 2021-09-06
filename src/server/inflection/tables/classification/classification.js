@@ -458,7 +458,7 @@ labels_array.forEach((label) => {
   s.push(label.icelandic_title);
   s.forEach((shortcut, index) => {
     if (shortcuts[shortcut]) {
-      throw `SHORTCUT ALREADY EXISTS ${shortcut}`;
+      throw new Error(`SHORTCUT ALREADY EXISTS ${shortcut}`);
     }
     shortcuts[shortcut] = label.title;
     if (index === 0) {

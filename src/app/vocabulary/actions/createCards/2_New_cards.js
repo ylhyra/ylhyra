@@ -1,5 +1,5 @@
 import { log, logDev } from "app/app/functions/log";
-import { getUserData } from "app/vocabulary/actions/sync";
+import { getEasinessLevel, getUserData } from "app/vocabulary/actions/sync";
 import { deck } from "app/vocabulary/actions/deck";
 import { CARDS_TO_CREATE } from "app/vocabulary/actions/createCards/index";
 import { SortBySortKey } from "app/vocabulary/actions/createCards/functions";
@@ -29,8 +29,7 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
       .map((id) => {
         const { sortKey } = deck.cards[id];
         return {
-          key:
-            sortKey > getUserData("easinessLevel") ? sortKey : 100000 - sortKey,
+          key: sortKey > getEasinessLevel() ? sortKey : 100000 - sortKey,
           id,
         };
       })
