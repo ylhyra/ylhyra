@@ -1,18 +1,24 @@
 import forEachAsync from "app/app/functions/array-foreach-async";
-import vocabulary_tests from "test/vocabulary.test";
-import { run } from "test/run";
+import articles from "test/vocabulary/articles";
+import easiness from "test/vocabulary/easiness";
+import session from "test/vocabulary/session";
+import vocabulary_signup_and_login from "test/vocabulary/signup_and_login";
+import { run } from "test/functions";
 
 /* Main test runner */
 export default async (only_run) => {
-  const tests = {
-    ...vocabulary_tests,
+  const toRun = {
+    ...vocabulary_signup_and_login,
+    ...articles,
+    ...easiness,
+    ...session,
   };
-  await forEachAsync(Object.keys(tests), async (key) => {
+  await forEachAsync(Object.keys(toRun), async (key) => {
     await new Promise(async (resolve) => {
       if (only_run && key !== only_run) return resolve();
       await run.reset();
       try {
-        await tests[key]();
+        await toRun[key]();
       } catch (e) {
         console.error(e);
         return;

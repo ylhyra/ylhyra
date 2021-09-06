@@ -3,7 +3,7 @@ import { isDev } from "app/app/functions/isDev";
 
 /**
  * Helper functions for debugging
- * Logs for everyone
+ * Log for everyone
  */
 export const log = (...items) => {
   items.forEach((item) => {
@@ -16,7 +16,7 @@ export const log = (...items) => {
 };
 
 /**
- * Logs in development mode
+ * Log in development mode
  */
 export const logDev = (...items) => {
   if (isDev) {

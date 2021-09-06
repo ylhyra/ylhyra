@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import React from "react";
 import {
   continueAfterPaying,
-  parsePrice,
   MAX_PRICE,
   MIN_PRICE,
+  parsePrice,
 } from "app/user/payments/actions";
-import { log, logDev } from "app/app/functions/log";
+import { log } from "app/app/functions/log";
 
 class Form2 extends React.Component {
   state = {

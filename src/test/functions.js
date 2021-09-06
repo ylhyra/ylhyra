@@ -16,14 +16,16 @@ export const run = {
     await InitializeVocabulary();
   },
   start_session: async () => {
-    updateURL("/vocabulary/play");
+    await updateURL("/vocabulary/play");
     await deck.session.InitializeSession();
   },
   end_session: async () => {
     await deck.session.sessionDone();
   },
   vocabulary_session: async (options = {}) => {
-    await run.start_session();
+    if (!options.dontStart) {
+      await run.start_session();
+    }
     if (options.values) {
       options.values.forEach((v) => {
         deck.session.answer(v);

@@ -11,6 +11,7 @@ import {
 import Spacer from "documents/templates/Spacer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { updateURL } from "app/router/actions/updateURL";
 
 class Overview extends Component {
   render() {
@@ -21,9 +22,12 @@ class Overview extends Component {
         <Link href="/vocabulary/tutorial">Tutorial</Link>
         <Spacer space="70" />
         <div className="centered-button">
-          <Link href="/vocabulary/play" className="button dark-blue big">
+          <button
+            onClick={() => updateURL("/vocabulary/play")}
+            className="button dark-blue big"
+          >
             {session ? "Continue" : "Start a study session"}
-          </Link>
+          </button>
           {deck && (
             <div>
               {PercentageKnownOverall()}% known out of{" "}

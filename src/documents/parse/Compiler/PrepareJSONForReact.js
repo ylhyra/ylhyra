@@ -20,7 +20,7 @@ const Traverse = (json) => {
       Here we merge them together with spaces
     */
     let attr_converted = {};
-    for (const property of Object.keys(attr)) {
+    for (const property of Object.keys(attr || {})) {
       // Converts HTML attribute into React attribute
       if (property in attr && !property.startsWith("data-temp")) {
         const value = attr[property];
