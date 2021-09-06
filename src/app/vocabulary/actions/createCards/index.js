@@ -1,8 +1,9 @@
 import _ from "underscore";
-import { deck } from "app/vocabulary/actions/deck";
-import CategorizeCards from "app/vocabulary/actions/createCards/1_Categorize_cards";
-import ChooseCards from "app/vocabulary/actions/createCards/2_Choose_cards";
-import Dependencies from "app/vocabulary/actions/createCards/3_Dependencies";
+import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
+import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
+import ChooseCards from "app/vocabulary/actions/createCards/3_Choose_cards";
+import Dependencies from "app/vocabulary/actions/createCards/4_Dependencies";
+
 export const CARDS_TO_CREATE = 50;
 
 /**
@@ -20,12 +21,16 @@ export default function createCards(options) {
   }
 
   /* Create cards */
-  let chosen_ids = ChooseCards(
-    CategorizeCards({
+  let chosen_ids = ChooseCards({
+    ...OldCards({
       forbidden_ids,
       allowed_card_ids,
-    })
-  );
+    }),
+    ...NewCards({
+      forbidden_ids,
+      allowed_card_ids,
+    }),
+  });
   /* Add dependencies */
   chosen_ids = Dependencies({ chosen_ids, forbidden_ids });
   chosen_ids = _.uniq(chosen_ids.filter(Boolean));
@@ -42,5 +47,5 @@ export default function createCards(options) {
     return this.createCards({ depth: 1 });
   }
 
-  deck.session.loadCardsIntoSession(chosen_ids);
+  this.loadCardsIntoSession(chosen_ids);
 }

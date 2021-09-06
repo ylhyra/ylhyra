@@ -60,9 +60,9 @@ class Analytics {
       this.queue.length > 0 ? this.queue : null
     );
   };
-  sync = (options) => {
+  sync = async (options) => {
     if (!options?.force && (!likelyNotABot || this.queue.length <= 1)) return;
-    axios.post(`/api/a`, {
+    await axios.post(`/api/a`, {
       queue: this.queue.slice(0, 20),
     });
     this.queue = [];
