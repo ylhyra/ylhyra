@@ -4,20 +4,20 @@
   Note: This file currently relies on being a submodule of Ylhýra.
 */
 import express from "express";
-const router = express.Router();
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
-require("array-sugar");
 import { colognePhonetic } from "cologne-phonetic";
 import { remove as remove_diacritics } from "diacritics";
 import Word from "server/inflection/tables/word";
 import phoneticHash from "server/inflection/server/server-with-database/phoneticHash";
 import { removeLinks } from "server/inflection/tables/link";
+import classify from "server/inflection/tables/classification/BIN_classification";
+import { sort_by_classification } from "server/inflection/tables/classification/sort_by_classification";
+const router = express.Router();
+require("array-sugar");
 export const WITHOUT_SPECIAL_CHARACTERS_MARKER = "@";
 export const WITH_SPELLING_ERROR_MARKER = "^";
 export const PHONETIC_MARKER = "~";
-import classify from "server/inflection/tables/classification/BIN_classification";
-import { sort_by_classification } from "server/inflection/tables/classification/sort_by_classification";
 
 export default ({ word, return_rows_if_only_one_match }, callback) => {
   query(
@@ -157,12 +157,10 @@ export const without_special_characters = (string) => {
 };
 
 export const with_spelling_errors = (string) => {
-  return (
-    WITH_SPELLING_ERROR_MARKER +
-    removeTemporaryMarkers(without_special_characters(string))
-      .replace(/y/g, "i")
-      .replace(/([^\w\s])|(.)(?=\2)/g, "")
-  ); // Remove two in a row
+  return WITH_SPELLING_ERROR_MARKER +
+  removeTemporaryMarkers(without_special_characters(string))
+    .replace(/y/g, "i")
+    .replace(/([^\w\s])|(.)(?=\2)/g, ""); // Remove two in a row
 };
 
 export const phonetic = (string) => {

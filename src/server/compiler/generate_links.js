@@ -81,11 +81,9 @@ const getFilesRecursively = (directory) => {
 };
 
 export const shouldBeCreated = (filepath, header) => {
-  return (
-    !/^(Data|File|Text|Template):/.test(header.title) &&
-    !/\/(drafts?|test|newsletter)\//i.test(filepath) &&
-    header.status !== "draft"
-  );
+  return !/^(Data|File|Text|Template):/.test(header.title) &&
+  !/\/(drafts?|test|newsletter)\//i.test(filepath) &&
+  header.status !== "draft";
 };
 
 export const shouldBeIndexed = (filepath, header) => {

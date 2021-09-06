@@ -1,9 +1,9 @@
-const { TranslationServiceClient } = require("@google-cloud/translate").v3beta1;
-const { GOOGLE_API_PROJECT_ID } = process.env;
 import { AllHtmlEntities as Entities } from "html-entities";
-const entities = new Entities();
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
+const { TranslationServiceClient } = require("@google-cloud/translate").v3beta1;
+const { GOOGLE_API_PROJECT_ID } = process.env;
+const entities = new Entities();
 
 export default async (translation_hashes) => {
   let done = await GetFromDatabase(translation_hashes);

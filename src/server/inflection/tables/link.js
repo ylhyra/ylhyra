@@ -38,14 +38,12 @@ export const removeLinks = (string) => {
 };
 
 export const stripHTML = (string) => {
-  return (
-    string &&
-    string
-      .replace(/<\/[a-z]+>/g, "")
-      .replace(/<[a-z]+ ?([^>]+)?>/g, "")
-      .replace(/\s+/g, " ")
-      .trim()
-  );
+  return string &&
+  string
+    .replace(/<\/[a-z]+>/g, "")
+    .replace(/<[a-z]+ ?([^>]+)?>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 };
 
 export const ucfirst = (input) =>
