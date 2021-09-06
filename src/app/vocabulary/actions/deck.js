@@ -1,7 +1,7 @@
-import Session from "app/vocabulary/actions/session";
 import { isBrowser } from "app/app/functions/isBrowser";
-import { updateURL } from "app/router/actions/updateURL";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
+import { updateURL } from "app/router/actions/updateURL";
+import Session from "app/vocabulary/actions/session";
 
 export let deck;
 

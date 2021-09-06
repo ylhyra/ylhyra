@@ -4,8 +4,9 @@ import { app_urls } from "app/router/appUrls";
 import { abortAllThatAreNot, loadContent } from "app/router/actions/load";
 import { clear as ClearReadAlongSetup } from "documents/render/audio/ReadAlong";
 import Analytics from "app/app/analytics";
-import { getFrontpageURL } from "./index";
 import { isBrowser } from "app/app/functions/isBrowser";
+
+import { getFrontpageURL } from "./index";
 
 export async function updateURL(url, options = {}) {
   let { title, replace, prerender, is404, dontChangeUrl } = options;

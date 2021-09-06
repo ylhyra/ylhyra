@@ -2,10 +2,7 @@
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunk from "redux-thunk";
 import { isBrowser } from "app/app/functions/isBrowser";
-
-// import { data } from 'documents/Render/reducers'
 import { audio } from "documents/render/audio/reducers";
-// import { speed_reader } from 'documents/Render/Elements/Speed_reading/reducers'
 import { vocabulary } from "app/vocabulary/reducers";
 import { user } from "app/user/reducers";
 import error from "app/app/error/reducers";

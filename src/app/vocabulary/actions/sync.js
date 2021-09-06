@@ -1,14 +1,13 @@
-import { log } from "app/app/functions/log";
-import axios from "app/app/axios";
-import { isBrowser } from "app/app/functions/isBrowser";
+import { deck } from "app/vocabulary/actions/deck";
 import {
   getFromLocalStorage,
   saveInLocalStorage,
 } from "app/app/functions/localStorage";
-import { now } from "app/app/functions/time";
-// import { InitializeSession } from 'app/Vocabulary/actions/session'
+import { isBrowser } from "app/app/functions/isBrowser";
 import { isUserLoggedIn } from "app/user/actions";
-import { deck } from "app/vocabulary/actions/deck";
+import { log } from "app/app/functions/log";
+import { now } from "app/app/functions/time";
+import axios from "app/app/axios";
 
 export const SESSION_PREFIX = "s_";
 

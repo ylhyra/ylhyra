@@ -1,5 +1,6 @@
 import { isBrowser } from "app/app/functions/isBrowser";
 import { existsSchedule, isUserLoggedIn } from "app/user/actions";
+
 import { updateURL } from "./updateURL";
 
 if (isBrowser) {

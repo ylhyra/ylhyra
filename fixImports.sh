@@ -9,16 +9,17 @@ set -e
 # Prerequesites:
 # - Add ImportJS (https://github.com/Galooshi/import-js) to your project.
 
-folder="src"
+#folder="src"
+#
+#files="$(eslint "$folder" --format unix |\
+#  grep 'Error/no-undef' |\
+#  awk -F  ":" '{print $1}' |\
+#  sort -u)"
+#
+#for file in $files
+#do
+#  npx importjs fix --overwrite "$file"
+#  npx prettier "$file" --write
+#done
 
-files="$(eslint "$folder" --format unix |\
-  grep 'Error/no-undef' |\
-  awk -F  ":" '{print $1}' |\
-  sort -u)"
-
-for file in $files
-do
-  npx importjs fix --overwrite "$file"
-  npx prettier "$file" --write
-done
-
+find ./src/app -name "**.js*" -exec npx importjs fix --overwrite {} \;

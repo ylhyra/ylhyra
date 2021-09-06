@@ -1,13 +1,13 @@
-import { log } from "app/app/functions/log";
-import store from "app/app/store";
-import axios from "app/app/axios";
-import Deck from "app/vocabulary/actions/deck";
+import { getDeckName } from "maker/vocabulary_maker/compile/functions";
 import {
   getFromLocalStorage,
   saveInLocalStorage,
 } from "app/app/functions/localStorage";
+import { log } from "app/app/functions/log";
 import { sync } from "app/vocabulary/actions/sync";
-import { getDeckName } from "maker/vocabulary_maker/compile/functions";
+import Deck from "app/vocabulary/actions/deck";
+import axios from "app/app/axios";
+import store from "app/app/store";
 
 export const InitializeVocabulary = async () => {
   let DECK = getDeckName(); /* Only used for testing */

@@ -1,8 +1,8 @@
-import _ from "underscore";
-import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
-import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
 import ChooseCards from "app/vocabulary/actions/createCards/3_Choose_cards";
 import Dependencies from "app/vocabulary/actions/createCards/4_Dependencies";
+import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
+import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
+import _ from "underscore";
 
 export const CARDS_TO_CREATE = 50;
 

@@ -3,7 +3,6 @@ import React from "react";
 import { existsSchedule, login, termsInSchedule } from "app/user/actions";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-
 import errors from "app/app/error/messages";
 
 class Form2 extends React.Component {

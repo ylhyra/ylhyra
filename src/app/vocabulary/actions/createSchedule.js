@@ -1,12 +1,12 @@
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
 import { average, clamp } from "app/app/functions/math";
 import { daysToMs, msToDays } from "app/app/functions/time";
-import { saveScheduleForCardId, sync } from "app/vocabulary/actions/sync";
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
 import {
   getCardsWithSameTerm,
   printWord,
 } from "app/vocabulary/actions/functions";
 import { log } from "app/app/functions/log";
+import { saveScheduleForCardId, sync } from "app/vocabulary/actions/sync";
 
 /* Increment score by how much? */
 export const INCR = 0.4;
