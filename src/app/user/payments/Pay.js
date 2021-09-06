@@ -26,7 +26,7 @@ class Form2 extends React.Component {
   onChange = (e) => {
     this.setState({ price: e.target.value });
     const price = parsePrice(e.target.value);
-    process.env.NODE_ENV === "development" && console.log(price);
+    log(price);
     if (price.error) {
       window.PayPalButtonActions?.disable();
       if (price.error === "TOO_SMALL") {

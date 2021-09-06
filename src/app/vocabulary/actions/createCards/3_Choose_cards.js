@@ -1,6 +1,7 @@
 import { printWord } from "app/vocabulary/actions/functions";
 import { CARDS_TO_CREATE } from "app/vocabulary/actions/createCards/index";
 import { SortIdsByScore } from "app/vocabulary/actions/createCards/functions";
+import { log } from "app/app/functions/log";
 
 export default ({
   overdue_bad_ids,
@@ -50,12 +51,11 @@ export default ({
     /* Occasionally show a bad card that the user saw in the last session */
     if (i % 4 === 2) {
       if (!isEmpty(very_recently_seen_not_overdue_bad_cards)) {
-        process.env.NODE_ENV === "development" &&
-          console.log(
-            `Very recently seen word "${printWord(
-              very_recently_seen_not_overdue_bad_cards[0]
-            )}" added`
-          );
+        log(
+          `Very recently seen word "${printWord(
+            very_recently_seen_not_overdue_bad_cards[0]
+          )}" added`
+        );
         chosen_ids.push(very_recently_seen_not_overdue_bad_cards.shift());
       }
     }
@@ -65,23 +65,21 @@ export default ({
       i % 2 === 1
     ) {
       if (!isEmpty(not_overdue_bad_cards_ids)) {
-        process.env.NODE_ENV === "development" &&
-          console.log(
-            `Not overdue bad card "${printWord(
-              not_overdue_bad_cards_ids[0]
-            )}" added`
-          );
+        log(
+          `Not overdue bad card "${printWord(
+            not_overdue_bad_cards_ids[0]
+          )}" added`
+        );
         chosen_ids.push(not_overdue_bad_cards_ids.shift());
       }
     }
     if (isEmpty(overdue_good_ids) && isEmpty(overdue_bad_ids)) {
       if (i % 4 === 4 - 1 && !isEmpty(not_overdue_semi_bad_cards_ids)) {
-        process.env.NODE_ENV === "development" &&
-          console.log(
-            `Not overdue good card "${printWord(
-              not_overdue_semi_bad_cards_ids[0]
-            )}" added`
-          );
+        log(
+          `Not overdue good card "${printWord(
+            not_overdue_semi_bad_cards_ids[0]
+          )}" added`
+        );
         chosen_ids.push(not_overdue_semi_bad_cards_ids.shift());
       }
     }

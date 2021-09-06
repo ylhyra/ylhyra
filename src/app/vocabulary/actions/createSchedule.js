@@ -74,12 +74,11 @@ export async function createSchedule() {
       const actual_interval_in_days = msToDays(now - last_seen);
       if (actual_interval_in_days / last_interval_in_days < 0.3) {
         const new_due_in_days = last_interval_in_days;
-        process.env.NODE_ENV === "development" &&
-          console.log(
-            `${printWord(
-              card.id
-            )} - given ${new_due_in_days} instead of ${due_in_days}`
-          );
+        log(
+          `${printWord(
+            card.id
+          )} - given ${new_due_in_days} instead of ${due_in_days}`
+        );
         due_in_days = new_due_in_days;
       }
     }
@@ -97,10 +96,7 @@ export async function createSchedule() {
     };
     saveScheduleForCardId(card.id);
 
-    process.env.NODE_ENV === "development" &&
-      console.log(
-        `${printWord(card.id)} - score: ${score} - days: ${due_in_days}`
-      );
+    log(`${printWord(card.id)} - score: ${score} - days: ${due_in_days}`);
 
     /* Postpone siblings */
     if (!anyBad) {
@@ -121,8 +117,7 @@ export async function createSchedule() {
             };
             saveScheduleForCardId(sibling_card_id);
           }
-          process.env.NODE_ENV === "development" &&
-            console.log(`${printWord(sibling_card_id)} postponed`);
+          log(`${printWord(sibling_card_id)} postponed`);
         });
     }
   });

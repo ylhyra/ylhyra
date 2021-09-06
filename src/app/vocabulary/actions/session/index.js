@@ -20,7 +20,7 @@ import {
 import { SESSION_PREFIX, setUserData } from "app/vocabulary/actions/sync";
 import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
 import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
-export const MINUTES = process.env.NODE_ENV === "development" ? 4 : 5;
+export const MINUTES = isDev ? 4 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
 class Session {

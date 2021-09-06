@@ -58,7 +58,7 @@ export const SortBySortKey = (array) => {
   return shuffle_each(x, 20);
 };
 export const shuffle_each = (array, range = 20) => {
-  // if (process.env.NODE_ENV === "development") {
+  // if (isDev) {
   //   return array;
   // }
   let out = [];

@@ -9,7 +9,7 @@ const splittableRegexEndingsFromArray = (string) => {
 /**
  * Removes inflectional pattern and returns the rest
  * @param {string} input
- * @param {word} Word
+ * @param {Word} word
  * @return {?string}
  */
 export const removeInflectionalPattern = (input, word) => {

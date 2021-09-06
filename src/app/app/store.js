@@ -38,7 +38,7 @@ const store = createStore(
     error,
     route,
 
-    /* TEMP only for process.env.NODE_ENV === "development" */
+    /* TEMP only for isDev */
     vocabularyMaker,
   }),
   applyMiddleware(

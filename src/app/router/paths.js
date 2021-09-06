@@ -5,6 +5,7 @@ import LogIn from "app/user/screens/Login";
 import Settings from "app/user/screens/Settings";
 import NotFound from "documents/templates/404";
 import { isBrowser } from "app/app/functions/isBrowser";
+import { isDev } from "app/app/functions/isDev";
 
 export const app_urls = {
   "/vocabulary": {
@@ -28,7 +29,7 @@ export const app_urls = {
   },
 };
 
-if (process.env.NODE_ENV === "development" && isBrowser) {
+if (isDev && isBrowser) {
   app_urls["/maker"] = {
     component: React.lazy(() =>
       import(

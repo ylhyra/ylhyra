@@ -30,7 +30,7 @@ export function nextCard(depth = 0) {
   this.currentCard = ranked[0];
 
   /* Logging */
-  if ((LOGGING || window.logging) && process.env.NODE_ENV === "development") {
+  if ((LOGGING || window.logging) && isDev) {
     const { deck } = this;
     console.table(
       ranked.map((i) => ({

@@ -8,6 +8,8 @@ import {
   ANALYTICS_LOCALSTORAGE_LABEL,
 } from "app/app/functions/localStorage";
 import { isBrowser } from "app/app/functions/isBrowser";
+import { isDev } from "app/app/functions/isDev";
+
 const ignoredUrls = ["/", "/frontpage"];
 
 let likelyNotABot = null;
@@ -83,7 +85,7 @@ const analytics = new Analytics();
 export default analytics;
 
 if (isBrowser) {
-  if (process.env.NODE_ENV === "development") {
+  if (isDev) {
     window.analytics = analytics;
   }
   // window.addEventListener("blur", function () {

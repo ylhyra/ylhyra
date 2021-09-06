@@ -16,7 +16,7 @@ export function loadCardInInterface() {
   });
 
   // // Debug: Show dependencies
-  // if (process.env.NODE_ENV === "development") {
+  // if (isDev) {
   //   console.log(
   //     getTermsFromCards(
   //       Object.keys(session.currentCard.dependenciesAndSameTerm)
@@ -27,7 +27,7 @@ export function loadCardInInterface() {
   // // Debug: Show score
   // if (
   //   this.deck.schedule[session.currentCard.id] &&
-  //   process.env.NODE_ENV === "development"
+  //   isDev
   // ) {
   //   console.log(
   //     `Score of "${printWord(session.currentCard.id)}": ${
