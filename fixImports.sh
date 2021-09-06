@@ -2,7 +2,12 @@
 set -e
 
 # A script to automatically fix all missing imports in a JavaScript project.
+# Passes files with missing variables to ImportJS
+# (which is by itself too slow to run on an
+#  entire project through the command line)
 #
+# Prerequesites:
+# - Add ImportJS (https://github.com/Galooshi/import-js) to your project.
 
 folder="src"
 

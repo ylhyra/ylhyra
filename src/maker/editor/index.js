@@ -2,13 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { connect, Provider } from "react-redux";
 import store from "app/app/store";
-// require('app/Editor/Style/index.styl')
 import Translator from "maker/editor/Translator";
 import Header from "maker/editor/Header";
 import LongAudio from "maker/editor/Long_audio";
 import Inflections from "maker/editor/Inflections";
 import Sound from "maker/editor/Short_audio";
 import { openEditor } from "maker/editor/actions";
+require("maker/editor/Style/index.styl");
 
 @connect((state) => ({
   editor: state.editor,
