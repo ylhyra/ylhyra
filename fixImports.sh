@@ -1,11 +1,18 @@
 #!/bin/bash
 set -e
 
-eslint src/maker/editor/Short_audio/ --format unix |\
+#cd src
+
+eslint src --format unix |\
 grep 'Error/no-undef' |\
 awk -F  ":" '{print $1}' |\
 sort -u |\
 while read -r filename ; do
-  echo $line
-  npx importjs fix --overwrite "$line"
+  npx importjs fix --overwrite "${filename}"
+  echo $filename
+  echo "haha"
+#  npx prettier "$filename" --write
 done
+
+#cd ..
+
