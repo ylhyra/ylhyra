@@ -15,7 +15,7 @@ export const increaseEasinessLevel = () => {
   last_jump_up = change;
   const newValue = Math.min(
     Math.max(0, (getEasinessLevel() || 0) + change),
-    getLowestBadSortKey() || getMaxSortKey() || deck.cards_sorted.length
+    getMaxSortKey()
   );
   if (newValue !== getEasinessLevel()) {
     setEasinessLevel(newValue);
@@ -30,36 +30,27 @@ export const decreaseEasinessLevel = () => {
   }
 };
 
-export const getLowestBadSortKey = () => {
-  return (
+export const getMaxSortKey = () => {
+  /* Can not go higher than the lowest bad card */
+  const lowestBadCard =
     deck.cards_sorted.find(
       (card) => deck.schedule[card.id] && deck.schedule[card.id].score < GOOD
-    )?.sortKey || null
-  );
-};
+    )?.sortKey || Infinity;
 
-/**
- * Maximum is to jump to the end of the B1 level
- */
-export const getMaxSortKey = () => {
-  return (
+  /* Can not go higher than level B1 */
+  const highestCardInLevelB1 =
     deck.cards_sorted
       .slice()
       /* Goes backwards to find the last card that is on a B1 level */
       .reverse()
-      .find((card) => card.level === 3)?.sortKey || null
+      .find((card) => card.level === 3)?.sortKey || Infinity;
+
+  return Math.min(
+    Math.min(lowestBadCard, highestCardInLevelB1),
+    deck.cards_sorted.length - MAX_JUMP_UP
   );
 };
 
-export const setEasinessLevel = (val) => {
-  setUserData("easinessLevel", val);
-  log(`Easiness level set to ${val}`);
-};
-
-export const getEasinessLevel = () => {
-  return getUserData("easinessLevel");
-};
-/* Create new cards */
 export const recreateAfterChangingEasinessLevel = () => {
   deck.session.cards = deck.session.cards.filter(
     (card) => card.history.length > 0 || card.cannotBeShownBefore || card.done
@@ -80,8 +71,14 @@ export const recreateAfterChangingEasinessLevel = () => {
   deck.session.createCards();
 };
 
-/**
- */
+export const setEasinessLevel = (val) => {
+  setUserData("easinessLevel", val);
+  log(`Easiness level set to ${val}`);
+};
+
+export const getEasinessLevel = () => {
+  return getUserData("easinessLevel");
+};
 export function isEasinessLevelOn() {
   return Boolean(!this.session.allowed_card_ids && getEasinessLevel());
 }

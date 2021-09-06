@@ -4,6 +4,7 @@ import {
   getEasinessLevel,
   increaseEasinessLevel,
 } from "app/vocabulary/actions/easinessLevel/functions";
+import { deck } from "app/vocabulary/actions/deck";
 
 let easyInARow = 0;
 export const MIN_JUMP_UP = 50;
@@ -16,8 +17,9 @@ export const DEFAULT_JUMP_DOWN = 100;
  * number that stores the lowest card.sortKey we're interested in.
  */
 export function keepTrackOfEasiness(rating, isNew) {
-  /* Currently only turned on for the overall game and not article-specific games */
-  if (this.session.allowed_card_ids) return;
+  /* Currently only turned on for the overall
+     game and not article-specific games */
+  if (deck.session.allowed_card_ids) return;
 
   /* Tracks only new cards in a row */
   if (isNew) {
@@ -29,8 +31,9 @@ export function keepTrackOfEasiness(rating, isNew) {
     } else {
       easyInARow = 0;
     }
-    if (rating === BAD && getEasinessLevel()) {
-      decreaseEasinessLevel();
-    }
+  }
+
+  if (rating === BAD) {
+    decreaseEasinessLevel();
   }
 }
