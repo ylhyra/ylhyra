@@ -103,10 +103,6 @@ if (isBrowser) {
   window.getUserData = getUserData;
 }
 
-export const getEasinessLevel = () => {
-  return getUserData("easinessLevel");
-};
-
 export const saveScheduleForCardId = (card_id) => {
   setUserData(card_id, deck.schedule[card_id], "schedule");
 };

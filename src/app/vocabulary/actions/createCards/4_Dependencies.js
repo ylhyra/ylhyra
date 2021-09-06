@@ -1,9 +1,11 @@
-import { isEasinessLevelOn } from "app/vocabulary/actions/easinessLevel";
 import { BAD } from "app/vocabulary/actions/card";
-import { getEasinessLevel } from "app/vocabulary/actions/sync";
 import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 import { deck } from "app/vocabulary/actions/deck";
 import { INCR } from "app/vocabulary/actions/createSchedule";
+import {
+  getEasinessLevel,
+  isEasinessLevelOn,
+} from "app/vocabulary/actions/easinessLevel/functions";
 
 export default ({ chosen_ids, forbidden_ids }) => {
   /* Dependencies */

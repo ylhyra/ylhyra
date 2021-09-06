@@ -1,8 +1,8 @@
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
 import { deck } from "app/vocabulary/actions/deck";
-import { getEasinessLevel } from "app/vocabulary/actions/sync";
 import { assert, notNull, shouldEqual } from "test/index";
 import { run } from "test/functions";
+import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 
 export default {
   "Easiness level correctly saved": async () => {
