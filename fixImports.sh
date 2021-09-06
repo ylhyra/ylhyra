@@ -1,20 +1,19 @@
 #!/bin/bash
 set -e
-cd ${BASH_SOURCE%/*}
 
-#cd src
+# A script to automatically fix all missing imports in a JavaScript project.
+#
 
-files="$(eslint src --format unix |\
+folder="src"
+
+files="$(eslint "$folder" --format unix |\
   grep 'Error/no-undef' |\
   awk -F  ":" '{print $1}' |\
   sort -u)"
 
 for file in $files
 do
-  #  echo "$file"
   npx importjs fix --overwrite "$file"
   npx prettier "$file" --write
 done
-
-#cd ..
 
