@@ -10,23 +10,28 @@ import {
 
 let last_jump_up;
 
-export const increaseEasinessLevel = () => {
+export const increaseEasinessLevel = (currentCardSortKey) => {
   let change = Math.min(last_jump_up * 2 || MIN_JUMP_UP, MAX_JUMP_UP);
   last_jump_up = change;
-  const newValue = Math.min(
-    Math.max(0, (getEasinessLevel() || 0) + change),
-    getMaxSortKey()
-  );
-  if (newValue !== getEasinessLevel()) {
+  const newBasedOnCurrentCard = currentCardSortKey + change;
+  const newBasedOnCurrentEasinessLevel = getEasinessLevel() + change;
+  if (newBasedOnCurrentCard < getEasinessLevel()) {
+    return;
+  }
+  const newValue = Math.min(newBasedOnCurrentEasinessLevel, getMaxSortKey());
+  if (newValue - getEasinessLevel() > MIN_JUMP_UP) {
     setEasinessLevel(newValue);
     recreateAfterChangingEasinessLevel();
   }
 };
 
-export const decreaseEasinessLevel = () => {
-  let min = deck.session.currentCard.sortKey - DEFAULT_JUMP_DOWN;
-  if (min < getEasinessLevel()) {
+export const easinessLevelShouldBeLowerThan = (currentCardSortKey) => {
+  let min = currentCardSortKey - DEFAULT_JUMP_DOWN;
+  if (min < getEasinessLevel() && getEasinessLevel() - min > 10) {
     setEasinessLevel(Math.max(0, min));
+    if (getEasinessLevel() - min > DEFAULT_JUMP_DOWN) {
+      // recreateAfterChangingEasinessLevel();
+    }
   }
 };
 

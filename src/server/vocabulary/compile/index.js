@@ -9,7 +9,7 @@ import _ from "underscore";
 import { simplify } from "server/vocabulary/compile/simplify";
 import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
 
-export let deck;
+export let _deck;
 
 const fs = require("fs");
 
@@ -112,7 +112,7 @@ const run = async () => {
       dependencies,
       alternative_ids,
     };
-    deck = full_deck;
+    _deck = full_deck;
     if (!DECK) {
       fs.writeFileSync(
         __basedir + `/build/vocabulary/alternative_ids.json`,

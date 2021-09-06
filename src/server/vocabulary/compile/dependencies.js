@@ -1,5 +1,5 @@
 import _ from "underscore";
-import { deck } from "./index";
+import { _deck } from "./index";
 
 export const withDependencies__backend = (card_ids, options) => {
   const showDepth = options?.showDepth;
@@ -10,8 +10,8 @@ export const withDependencies__backend = (card_ids, options) => {
     card_ids = [card_ids];
   }
   card_ids
-    .filter((card_id) => card_id in deck.cards)
-    .forEach((card_id) => (terms = terms.concat(deck.cards[card_id].terms)));
+    .filter((card_id) => card_id in _deck.cards)
+    .forEach((card_id) => (terms = terms.concat(_deck.cards[card_id].terms)));
   terms = _.uniq(terms);
   terms.forEach((term) => {
     let terms = [{ term, dependencySortKey: 0 }];
@@ -27,9 +27,9 @@ export const withDependencies__backend = (card_ids, options) => {
     terms = terms.sort((a, b) => b.dependencySortKey - a.dependencySortKey); //.map((i) => i.term);
     terms.forEach((obj) => {
       term = obj.term;
-      [term, ...(deck.alternative_ids[term] || [])].forEach((j) => {
-        if (j in deck.terms) {
-          let card_ids = deck.terms[j].cards;
+      [term, ...(_deck.alternative_ids[term] || [])].forEach((j) => {
+        if (j in _deck.terms) {
+          let card_ids = _deck.terms[j].cards;
           // if (card_ids.some((id) => id in deck.schedule)) {
           //   card_ids = _.shuffle(card_ids);
           // } else {
@@ -39,7 +39,7 @@ export const withDependencies__backend = (card_ids, options) => {
           });
           // }
           returns = returns.concat(card_ids);
-          deck.terms[j].cards.forEach((card_id) => {
+          _deck.terms[j].cards.forEach((card_id) => {
             depth[card_id] = Math.max(
               depth[card_id] || 0,
               obj.dependencySortKey
@@ -49,7 +49,7 @@ export const withDependencies__backend = (card_ids, options) => {
       });
     });
   });
-  const out = _.uniq(returns).filter((card_id) => card_id in deck.cards);
+  const out = _.uniq(returns).filter((card_id) => card_id in _deck.cards);
   if (showDepth) {
     let k = {};
     out.forEach((card_id) => {
@@ -70,8 +70,8 @@ export const CreateDependencyChain__backend = (
   depth = 1,
   type = "deep" // or "shallow"
 ) => {
-  if (from_term in deck.dependencies) {
-    deck.dependencies[from_term].forEach((term) => {
+  if (from_term in _deck.dependencies) {
+    _deck.dependencies[from_term].forEach((term) => {
       if (!term) return;
       /* Deep copy in order to only watch direct parents */
       const alreadySeenDirectParents = [..._alreadySeenDirectParents];
@@ -96,7 +96,7 @@ export const CreateDependencyChain__backend = (
       [
         term,
         /* Through alternative ids */
-        ...(deck.alternative_ids[term] || []),
+        ...(_deck.alternative_ids[term] || []),
       ]
         .filter(Boolean)
         .forEach((j) => {

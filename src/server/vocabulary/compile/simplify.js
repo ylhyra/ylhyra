@@ -3,13 +3,13 @@ import {
   CreateDependencyChain__backend,
   withDependencies__backend,
 } from "server/vocabulary/compile/dependencies";
-import { deck } from "./index";
+import { _deck } from "./index";
 
 export const simplify = () => {
   /* Add sortkey for all items */
-  let card_ids = Object.keys(deck.cards)
+  let card_ids = Object.keys(_deck.cards)
     .map((key) => {
-      return deck.cards[key];
+      return _deck.cards[key];
     })
     .sort(
       (a, b) =>
@@ -29,11 +29,11 @@ export const simplify = () => {
   // /* Run again now that  cyclical dependencies are gone */
   card_ids = withDependencies__backend(card_ids);
   card_ids.forEach((card_id, index) => {
-    deck.cards[card_id].sortKey = index;
-    delete deck.cards[card_id].row_id;
+    _deck.cards[card_id].sortKey = index;
+    delete _deck.cards[card_id].row_id;
   });
 
-  Object.keys(deck.terms).forEach((term_id) => {
+  Object.keys(_deck.terms).forEach((term_id) => {
     const deps = CreateDependencyChain__backend(term_id);
     // const directDependencies = Object.keys(deps).filter(
     //   (dep) => deps[dep] === 1
@@ -70,7 +70,7 @@ export const simplify = () => {
     // }
     if (Object.keys(deps).length > 0) {
       // deck.terms[term_id].allDependencies = allDependencies;
-      deck.terms[term_id].dependencies = deps;
+      _deck.terms[term_id].dependencies = deps;
     }
     if (Object.keys(deps).length > 30) {
       console.log(`very long deps for ${printWord(term_id)}`);
@@ -82,13 +82,13 @@ export const simplify = () => {
 
   let terms = {};
   let cards = {};
-  Object.keys(deck.terms).forEach((term_id) => {
-    const term = deck.terms[term_id];
+  Object.keys(_deck.terms).forEach((term_id) => {
+    const term = _deck.terms[term_id];
     let minSortKey;
-    Object.keys(deck.cards[term.cards[0]]).forEach((key) => {
+    Object.keys(_deck.cards[term.cards[0]]).forEach((key) => {
       if (key === "sortKey") return;
       if (key === "terms") return;
-      const val = deck.cards[term.cards[0]][key];
+      const val = _deck.cards[term.cards[0]][key];
 
       // if (
       //   term.cards.every(
@@ -105,9 +105,9 @@ export const simplify = () => {
       // }
 
       term.cards.forEach((card_id) => {
-        cards[card_id] = deck.cards[card_id];
+        cards[card_id] = _deck.cards[card_id];
         minSortKey = Math.min(
-          deck.cards[card_id].sortKey,
+          _deck.cards[card_id].sortKey,
           minSortKey || Infinity
         );
       });

@@ -1,6 +1,6 @@
 import { BAD, EASY } from "app/vocabulary/actions/card";
 import {
-  decreaseEasinessLevel,
+  easinessLevelShouldBeLowerThan,
   getEasinessLevel,
   increaseEasinessLevel,
 } from "app/vocabulary/actions/easinessLevel/functions";
@@ -26,7 +26,7 @@ export function keepTrackOfEasiness(rating, isNew) {
     if (rating === EASY) {
       easyInARow++;
       if (easyInARow >= 2) {
-        increaseEasinessLevel();
+        increaseEasinessLevel(deck.session.currentCard.sortKey);
       }
     } else {
       easyInARow = 0;
@@ -34,6 +34,6 @@ export function keepTrackOfEasiness(rating, isNew) {
   }
 
   if (rating === BAD) {
-    decreaseEasinessLevel();
+    easinessLevelShouldBeLowerThan(deck.session.currentCard.sortKey);
   }
 }
