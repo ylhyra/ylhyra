@@ -73,7 +73,7 @@ export const Ref = (input, header) => {
     notes = o;
     return "";
   });
-  for (const key in refs) {
+  for (const key of Object.keys(refs)) {
     refs[key].content = replace(refs[key].content);
   }
   let reflist = "";

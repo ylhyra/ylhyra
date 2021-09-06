@@ -64,7 +64,7 @@ const Traverse = (json) => {
         ],
       };
     }
-    // for (const key in attr) {
+    // for (const key of Object.keys(attr)) {
     //   const val = attr[key];
     //   if (/(''|\[)/.test(val)) {
     //     attr[key] = processText(val);

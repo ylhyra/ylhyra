@@ -50,7 +50,7 @@ if (isDev && isBrowser) {
 
 // const components = {};
 // const url_to_info_ = {};
-// for (const name in urls) {
+// for (const name of Object.keys(urls)) {
 //   components[urls[name].url] = urls[name].component;
 //   url_to_info_[urls[name].url] = { ...urls[name], name };
 // }

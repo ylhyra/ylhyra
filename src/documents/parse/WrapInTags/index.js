@@ -48,7 +48,7 @@ export default function ({ json, tokenized }) {
   */
   let tokenizedFlattened = [];
   for (const documentTitle of Object.keys(tokenized)) {
-    for (const i in tokenized[documentTitle]) {
+    for (const i of Object.keys(tokenized[documentTitle])) {
       if (!tokenized[documentTitle].hasOwnProperty(i)) continue;
       tokenizedFlattened.push({
         documentTitle,

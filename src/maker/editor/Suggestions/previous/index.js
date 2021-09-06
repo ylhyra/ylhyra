@@ -60,7 +60,7 @@ export const receiveSuggestions = (action) => {
 
 export const applySuggestions = () => {
   const { list, translation, suggestions } = store.getState().editor;
-  for (let id in suggestions) {
+  for (let id of Object.keys(suggestions)) {
     if (!(id in translation.words) && !(id in translation.sentences)) {
       if (id in list.words) {
         store.dispatch({

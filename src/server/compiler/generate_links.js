@@ -17,7 +17,7 @@ const links = {};
 const run = () => {
   getFilesRecursively(content_folder);
 
-  for (const index in files) {
+  for (const index of Object.keys(files)) {
     const filepath = files[index];
     if (typeof filepath !== "string") continue;
     let data = fs.readFileSync(filepath, "utf8");
@@ -81,9 +81,11 @@ const getFilesRecursively = (directory) => {
 };
 
 export const shouldBeCreated = (filepath, header) => {
-  return !/^(Data|File|Text|Template):/.test(header.title) &&
-  !/\/(drafts?|test|newsletter)\//i.test(filepath) &&
-  header.status !== "draft";
+  return (
+    !/^(Data|File|Text|Template):/.test(header.title) &&
+    !/\/(drafts?|test|newsletter)\//i.test(filepath) &&
+    header.status !== "draft"
+  );
 };
 
 export const shouldBeIndexed = (filepath, header) => {

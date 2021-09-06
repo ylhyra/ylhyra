@@ -28,7 +28,7 @@ const request = ({ list }) => {
   return new Promise(async (resolve) => {
     let queries = [];
 
-    for (let sentence_id in list.sentences) {
+    for (let sentence_id of Object.keys(list.sentences)) {
       const sentence = list.sentences[sentence_id];
 
       /*

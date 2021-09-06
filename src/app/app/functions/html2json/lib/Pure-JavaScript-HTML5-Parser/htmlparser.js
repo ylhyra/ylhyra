@@ -318,7 +318,7 @@
 
     // Find all the unique elements
     if (doc.getElementsByTagName)
-      for (var i in one) one[i] = doc.getElementsByTagName(i)[0];
+      for (var i of Object.keys(one)) one[i] = doc.getElementsByTagName(i)[0];
 
     // If we're working with a document, inject contents into
     // the body element
@@ -338,7 +338,7 @@
 
         var elem = doc.createElement(tagName);
 
-        for (var attr in attrs)
+        for (var attr of Object.keys(attrs))
           elem.setAttribute(attrs[attr].name, attrs[attr].value);
 
         if (structure[tagName] && typeof one[structure[tagName]] != "boolean")

@@ -102,7 +102,7 @@ const getTextFromIDs = (ids, list) => {
 //       Merge output with IDs
 //     */
 //     let idsToOutput = {}
-//     for (const id in wordsAndPhrases) {
+//     for (const id of Object.keys(wordsAndPhrases)) {
 //       const text = wordsAndPhrases[id]
 //       if (text) {
 //         idsToOutput[id] = {

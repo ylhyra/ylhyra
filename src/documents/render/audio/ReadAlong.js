@@ -77,7 +77,7 @@ export const ReadAlongSetup = (data) => {
     return clear();
   }
   const { long_audio } = data;
-  for (let filename in long_audio) {
+  for (let filename of Object.keys(long_audio)) {
     const synclist = long_audio[filename].sync.list;
     list[getDynamicFileUrl(filename)] = synclist;
     /* Temp solution, would be better to do this in the audio synchronization step */
@@ -224,7 +224,7 @@ export const ReadAlongMessage = (message, audioId) => {
    const myFunction = (event) => {
      console.log(event.type + " is fired")
    }
-   for (var key in myObj) {
+   for (var key of Object.keys(myObj)) {
      if (key.search('on') === 0) {
        if (key === 'onmousemove') return
        if (key === 'onpointermove') return
@@ -236,7 +236,7 @@ export const ReadAlongMessage = (message, audioId) => {
 
 //
 // const myObj = document.querySelector('audio > source')
-// for (var key in myObj) {
+// for (var key of Object.keys(myObj)) {
 //   if (key.search('on') === 0) {
 //     console.log(key)
 //   }

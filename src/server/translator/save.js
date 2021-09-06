@@ -62,7 +62,7 @@ const SaveTranslator = ({ document_id, from, to, translation, list }) => {
   //   GROUP BY translation_frame_hash
   //   ;
 
-  for (let sentence_id in list.sentences) {
+  for (let sentence_id of Object.keys(list.sentences)) {
     const sentence = list.sentences[sentence_id];
 
     // TODO: Save sentence definition
