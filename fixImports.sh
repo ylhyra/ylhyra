@@ -7,5 +7,5 @@ awk -F  ":" '{print $1}' |\
 sort -u |\
 while read -r filename ; do
   echo $line
-  npx importjs fix --overwrite $line
+  npx importjs fix --overwrite "$line"
 done
