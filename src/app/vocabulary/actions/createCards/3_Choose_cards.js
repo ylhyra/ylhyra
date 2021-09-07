@@ -1,5 +1,5 @@
 import { CARDS_TO_CREATE } from "app/vocabulary/actions/createCards/index";
-import { SortIdsByScore } from "app/vocabulary/actions/createCards/functions";
+import { sortCardsByScore } from "app/vocabulary/actions/createCards/functions";
 import { log } from "app/app/functions/log";
 import { printWord } from "app/vocabulary/actions/functions";
 
@@ -10,7 +10,7 @@ export default ({
   not_overdue_semi_bad,
   new_cards,
   very_recently_seen_not_overdue_bad,
-  not_overdue_ids,
+  not_overdue,
 }) => {
   let total_options = sumOfArrayLengths(
     overdue_bad,
@@ -81,7 +81,7 @@ export default ({
    * we simply return cards that are not overdue.
    */
   if (chosen_cards.length === 0) {
-    chosen_cards = SortIdsByScore(not_overdue_ids);
+    chosen_cards = sortCardsByScore(not_overdue);
   }
 
   return chosen_cards;

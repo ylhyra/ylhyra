@@ -9,23 +9,20 @@ import {
 
 export default ({ chosen_cards, forbidden_ids }) => {
   /* Dependencies */
-  let new_word_order = [];
-  withDependencies(chosen_cards).forEach((card_id) => {
-    if (forbidden_ids.includes(card_id)) return;
+  let out = [];
+  withDependencies(chosen_cards).forEach((card) => {
     if (
+      !card.isAllowed({ forbidden_ids }) ||
       /* Already chosen */
-      chosen_cards.includes(card_id) ||
+      chosen_cards.some((i) => i.getId() === card.getId()) ||
       /* Ignore cards that are below user's easiness level */
-      (deck.cards[card_id].sortKey >=
-        ((isEasinessLevelOn() && getEasinessLevel()) || 0) &&
-        // /* Dependency that is not known */
-        // !(card_id in deck.schedule) ||
-        /* Dependency with a bad score */
-        deck.schedule[card_id]?.score &&
-        deck.schedule[card_id].score <= BAD + INCR)
+      card.isBelowEasinessLevel() ||
+      /* Ignore dependencies with a good score */
+      card.getLowestAvailableTermScore() > BAD + INCR
     ) {
-      return new_word_order.push(card_id);
+      return;
     }
+    out.push(card);
   });
-  return new_word_order;
+  return out;
 };

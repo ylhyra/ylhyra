@@ -5,7 +5,12 @@ import {
 } from "app/vocabulary/actions/functions";
 import { now } from "app/app/functions/time";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
-import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
+import {
+  getEasinessLevel,
+  isEasinessLevelOn,
+} from "app/vocabulary/actions/easinessLevel/functions";
+import { BAD } from "app/vocabulary/actions/cardInSession";
+import { INCR } from "app/vocabulary/actions/createSchedule";
 
 export class Card {
   constructor(data) {
@@ -35,6 +40,18 @@ export class Card {
   isScoreLowerThanOrEqualTo(value) {
     return this.getScore() && this.getScore() <= value;
   }
+  getLowestAvailableTermScore() {
+    let lowest = null;
+    this.getSiblingCards({ all: true }).forEach((card) => {
+      if (card.getScore()) {
+        lowest = Math.min(lowest, card.getScore());
+      }
+    });
+    return lowest;
+  }
+  isBelowEasinessLevel() {
+    return isEasinessLevelOn() && this.sortKey < getEasinessLevel();
+  }
   isInSchedule() {
     return this.getId() in deck.schedule;
   }
@@ -57,11 +74,11 @@ export class Card {
   /**
    * Cards with the same term
    */
-  getSiblingCards() {
+  getSiblingCards(options = {}) {
     let out = [];
     this.getTerms().forEach((term) => {
       term.getCards().forEach((siblingCard) => {
-        if (siblingCard.getId() !== this.getId()) {
+        if (options.all || siblingCard.getId() !== this.getId()) {
           out.push(siblingCard);
         }
       });

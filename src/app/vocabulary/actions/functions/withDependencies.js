@@ -1,7 +1,7 @@
 import { log } from "app/app/functions/log";
 import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
-import { SortIdsByScore } from "app/vocabulary/actions/createCards/functions";
+import { sortCardsByScore } from "app/vocabulary/actions/createCards/functions";
 
 export const withDependencies = (card_ids, options = {}) => {
   const { showDepth } = options;
@@ -37,7 +37,7 @@ export const withDependencies = (card_ids, options = {}) => {
       let card_ids = deck.terms[term_id2].cards;
       if (deck.schedule && card_ids.some((id) => id in deck.schedule)) {
         // card_ids = _.shuffle(card_ids);
-        card_ids = SortIdsByScore(card_ids);
+        card_ids = sortCardsByScore(card_ids);
       } else {
         card_ids = card_ids.sort((a) => {
           if (a.endsWith("is")) return -1;

@@ -1,6 +1,6 @@
 import { deck } from "app/vocabulary/actions/deck";
 import { CARDS_TO_CREATE } from "app/vocabulary/actions/createCards/index";
-import { SortBySortKey } from "app/vocabulary/actions/createCards/functions";
+import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
 import {
   getEasinessLevel,
   isEasinessLevelOn,
@@ -25,7 +25,7 @@ export default ({ forbidden_ids, allowed_ids }) => {
         b.getSortKeyAdjustedForEasinessLevel()
     );
   } else {
-    new_cards = SortBySortKey(new_cards);
+    new_cards = sortBySortKey(new_cards);
   }
 
   return {
