@@ -1,5 +1,5 @@
 import CardInSession from "app/vocabulary/actions/cardInSession";
-import { withDependencies } from "app/vocabulary/actions/card/dependencies";
+import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 
 /**
  * @module Session

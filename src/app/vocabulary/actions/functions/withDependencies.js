@@ -2,6 +2,7 @@ import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
 import { sortCardsByScore } from "app/vocabulary/actions/createCards/functions";
 import { getCardsByIds } from "app/vocabulary/actions/card/functions";
+import { getTermsFromCards } from "app/vocabulary/actions/functions/index";
 
 /**
  * Returns an array of cards with all
@@ -9,17 +10,17 @@ import { getCardsByIds } from "app/vocabulary/actions/card/functions";
  */
 export const withDependencies = (cards) => {
   let returns = [];
-  let term_ids = [];
-  let depth = {};
-  cards.forEach((card) => (term_ids = term_ids.concat(card.getTermIds())));
-  term_ids = _.uniq(term_ids);
-  term_ids.forEach((term_id) => {
-    let terms = [{ term_id, dependencySortKey: 0 }];
-    const chain = deck.terms[term_id].dependencies || {};
+  getTermsFromCards(cards).forEach((term) => {
+    term.getDependenciesAsCardIdToDepth;
+
+    let terms = [{ term_id, temporaryDependencySortKey: 0 }];
+    const chain = term.dependencies || {};
     Object.keys(chain).forEach((k) => {
-      terms.push({ term_id: k, dependencySortKey: chain[k] });
+      terms.push({ term_id: k, temporaryDependencySortKey: chain[k] });
     });
-    terms = terms.sort((a, b) => b.dependencySortKey - a.dependencySortKey); //.map((i) => i.term_id);
+    terms = terms.sort(
+      (a, b) => b.temporaryDependencySortKey - a.temporaryDependencySortKey
+    );
     terms.forEach((obj) => {
       const term_id2 = obj.term_id;
       if (!deck.terms[term_id2]) return;
@@ -34,9 +35,12 @@ export const withDependencies = (cards) => {
         });
       }
       returns = returns.concat(card_ids);
-      deck.terms[term_id2].cards.forEach((card_id) => {
-        depth[card_id] = Math.max(depth[card_id] || 0, obj.dependencySortKey);
-      });
+      // deck.terms[term_id2].cards.forEach((card_id) => {
+      //   depth[card_id] = Math.max(
+      //     depth[card_id] || 0,
+      //     obj.temporaryDependencySortKey
+      //   );
+      // });
     });
   });
   return getCardsByIds(_.uniq(returns));

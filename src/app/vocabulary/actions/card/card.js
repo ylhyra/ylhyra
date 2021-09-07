@@ -11,6 +11,7 @@ import {
 } from "app/vocabulary/actions/easinessLevel/functions";
 import { BAD } from "app/vocabulary/actions/cardInSession";
 import { INCR } from "app/vocabulary/actions/createSchedule";
+import { minIgnoreFalsy } from "app/app/functions/math";
 
 export class Card {
   constructor(data) {
@@ -103,10 +104,29 @@ export class Card {
       : 100000 - this.sortKey;
   }
   getTermLastSeen() {
-    return Math.min(
+    return Math.max(
       ...this.getAllCardsWithSameTerm()
         .map((card) => card.getLastSeen())
         .filter(Boolean)
     );
   }
+  // getDependencies() {
+  //   let out = {};
+  //   this.getTerms().forEach((term) => {
+  //     Object.keys(term.dependencies).forEach((dependency_term_id) => {
+  //       out[dependency_term_id] = minIgnoreFalsy(
+  //         out[dependency_term_id],
+  //         term.dependencies[dependency_term_id]
+  //       );
+  //     });
+  //   });
+  //   return out;
+  // }
+  // getDependenciesAndSameTerm() {
+  //   let out = this.getDependencies();
+  //   this.getTermIds().forEach((term_id) => {
+  //     out[term_id] = 0;
+  //   });
+  //   return out;
+  // }
 }

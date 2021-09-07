@@ -5,7 +5,7 @@ import {
 } from "maker/vocabulary_maker/compile/functions";
 import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
-import { withDependencies } from "app/vocabulary/actions/card/dependencies";
+import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 import {
   cards,
   plaintext_sentences,

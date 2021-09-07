@@ -26,3 +26,7 @@ export const mapValueToRange = ({
 export const round = (v, roundby) => {
   return Math.round(v / roundby) * roundby;
 };
+
+export const minIgnoreFalsy = (...values) => {
+  return Math.min(...values.filter(Boolean));
+};

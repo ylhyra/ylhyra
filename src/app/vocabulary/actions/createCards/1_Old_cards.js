@@ -19,7 +19,7 @@ export default ({ forbidden_ids, allowed_ids }) => {
   let not_overdue_semi_bad = [];
   let not_overdue = [];
 
-  (getCardsInSchedule() |> sortBySortKey)
+  sortBySortKey(getCardsInSchedule())
     .filter((card) =>
       card.isAllowed({
         forbidden_ids,
@@ -43,12 +43,14 @@ export default ({ forbidden_ids, allowed_ids }) => {
       }
     });
 
+  overdue_bad = shuffleEach(overdue_bad);
+  overdue_good = shuffleEach(overdue_good);
   not_overdue_bad = shuffleEach(oldestFirst(not_overdue_bad), 10);
-  const very_recently_seen_not_overdue_bad = shuffleEach(
+  let very_recently_seen_not_overdue_bad = shuffleEach(
     newestFirst(not_overdue_bad),
     10
   );
-  not_overdue_semi_bad = shuffleEach(oldestFirst(not_overdue_semi_bad), 10);
+  not_overdue_semi_bad = shuffleEach(oldestFirst(not_overdue_semi_bad));
 
   return {
     overdue_bad,

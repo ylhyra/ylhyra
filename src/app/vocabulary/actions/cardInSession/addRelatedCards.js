@@ -9,7 +9,7 @@ import { printWord } from "app/vocabulary/actions/functions";
   to add very related cards the session.
 */
 export const addRelatedCards = (card) => {
-  Object.keys(card.dependenciesAndSameTerm).forEach((related_card_id) => {
+  card.getDependencies().forEach((related_card) => {
     if (related_card_id === card.id) return;
     if (card.session.cards.some((j) => j.id === related_card_id)) return;
     // Add cards with the same term

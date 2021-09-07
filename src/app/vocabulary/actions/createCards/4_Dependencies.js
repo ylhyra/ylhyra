@@ -1,5 +1,5 @@
 import { BAD } from "app/vocabulary/actions/cardInSession";
-import { withDependencies } from "app/vocabulary/actions/card/dependencies";
+import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 
 export default ({ chosen_cards, forbidden_ids }) => {
