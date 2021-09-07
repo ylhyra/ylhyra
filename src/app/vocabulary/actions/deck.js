@@ -2,6 +2,7 @@ import { isBrowser } from "app/app/functions/isBrowser";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 import { updateURL } from "app/router/actions/updateURL";
 import Session from "app/vocabulary/actions/session";
+import { Card, Term } from "app/vocabulary/actions/cards_and_terms";
 
 export let deck;
 
@@ -12,8 +13,14 @@ class Deck {
   constructor({ database, schedule, session, user_data }) {
     deck = this;
 
-    this.cards = database.cards;
-    this.terms = database.terms;
+    this.cards = {};
+    this.terms = {};
+    Object.keys(database.cards).forEach(
+      (card_id) => (this.cards[card_id] = new Card(database.cards[card_id]))
+    );
+    Object.keys(database.terms).forEach(
+      (term_id) => (this.terms[term_id] = new Term(database.terms[term_id]))
+    );
     this.user_data = user_data || {};
     this.schedule = schedule || {};
     this.session = new Session(deck, session);
