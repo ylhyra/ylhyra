@@ -1,6 +1,6 @@
+import { average, clamp } from "app/app/functions/math";
+import { daysToMs, msToDays, now } from "app/app/functions/time";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
-import { average, clamp, mapValueToRange } from "app/app/functions/math";
-import { daysToMs, msToDays } from "app/app/functions/time";
 import {
   getCardsWithSameTerm,
   printWord,
@@ -36,7 +36,6 @@ export async function createSchedule() {
     const last_seen = deck.schedule[card.id]?.last_seen;
     const badCount = sessionHistory.filter((i) => i === BAD).length;
     const anyBad = badCount > 0;
-    const now = new Date().getTime();
 
     let score = prevScore || avgRating;
 
@@ -72,7 +71,7 @@ export async function createSchedule() {
         If we showed the item far in advance of the scheduled due date,
         then we give the user the same interval as last time
       */
-      const actual_interval_in_days = msToDays(now - last_seen);
+      const actual_interval_in_days = msToDays(now() - last_seen);
       if (actual_interval_in_days / last_interval_in_days < 0.3) {
         const new_due_in_days = last_interval_in_days;
         log(
@@ -83,12 +82,12 @@ export async function createSchedule() {
         due_in_days = new_due_in_days;
       }
     }
-    let due = now + daysToMs(addSomeRandomness(due_in_days));
+    let due = now() + daysToMs(addSomeRandomness(due_in_days));
     deck.schedule[card.id] = {
       due,
       last_interval_in_days: Math.round(due_in_days),
       score: Math.round(score * 100) / 100,
-      last_seen: new Date().getTime(),
+      last_seen: now(),
       sessions_seen: (sessions_seen || 0) + 1,
     };
     saveScheduleForCardId(card.id);
@@ -105,7 +104,7 @@ export async function createSchedule() {
         )
         .forEach((sibling_card_id) => {
           // log(printWord(sibling_card_id));
-          const newDue = now + daysToMs(Math.min(due_in_days * 0.5, 7));
+          const newDue = now() + daysToMs(Math.min(due_in_days * 0.5, 7));
           const actualDue = deck.schedule[sibling_card_id]?.due;
           if (!actualDue || actualDue < newDue) {
             deck.schedule[sibling_card_id] = {

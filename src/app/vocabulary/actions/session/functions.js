@@ -1,3 +1,4 @@
+import { now } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
 
@@ -5,7 +6,7 @@ import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
  * @module Session
  */
 export function updateRemainingTime() {
-  const newTimestamp = new Date().getTime();
+  const newTimestamp = now();
   const diff = Math.min(
     MAX_SECONDS_TO_COUNT_PER_ITEM * 1000,
     newTimestamp - this.lastTimestamp

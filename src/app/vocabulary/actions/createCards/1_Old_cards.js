@@ -1,7 +1,7 @@
+import { hours, now } from 'app/app/functions/time';
 import { BAD } from "app/vocabulary/actions/cardInSession";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { deck } from "app/vocabulary/actions/deck";
-import { hours } from "app/app/functions/time";
 import {
   SortBySortKey,
   SortIdsByWhetherTermWasRecentlySeen,
@@ -9,7 +9,7 @@ import {
 import { shuffleEach } from "app/app/functions/shuffleEach";
 
 export default ({ forbidden_ids, allowed_card_ids }) => {
-  const now = new Date().getTime();
+
 
   /* Previously seen cards */
   let overdue_good_ids = [];
@@ -25,7 +25,7 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
     .sort((a, b) => a.due - b.due)
     .forEach((schedule_item) => {
       // log(printWord(i.id));
-      if (schedule_item.due < now + 16 * hours) {
+      if (schedule_item.due < now() + 16 * hours) {
         if (schedule_item.score && schedule_item.score <= BAD + INCR * 2) {
           overdue_bad_ids.push(schedule_item.id);
         } else {

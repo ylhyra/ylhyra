@@ -3,7 +3,7 @@ import { getCardsWithSameTerm } from "app/vocabulary/actions/functions";
 import { deck } from "app/vocabulary/actions/deck";
 import { shuffleEach } from "app/app/functions/shuffleEach";
 
-const ScoreByTimeSinceTermWasSeen = (id, now) => {
+const ScoreByTimeSinceTermWasSeen = (id) => {
   let latest = null;
   getCardsWithSameTerm(id).forEach((sibling_card_id) => {
     if (
@@ -13,7 +13,7 @@ const ScoreByTimeSinceTermWasSeen = (id, now) => {
       latest = deck.schedule[sibling_card_id].last_seen;
     }
   });
-  const hoursSinceSeen = (now - latest) / hour;
+  const hoursSinceSeen = (now() - latest) / hour;
   if (hoursSinceSeen < 0.3) {
     return 3;
   } else if (hoursSinceSeen < 2) {
@@ -28,11 +28,10 @@ const ScoreByTimeSinceTermWasSeen = (id, now) => {
 };
 
 export const SortIdsByWhetherTermWasRecentlySeen = (input, reverse) => {
-  const now = new Date().getTime();
   let j = input
     .map((id) => ({
       id,
-      hours_since_term_seen_score: ScoreByTimeSinceTermWasSeen(id, now),
+      hours_since_term_seen_score: ScoreByTimeSinceTermWasSeen(id),
       card_last_seen: deck.schedule[id]?.last_seen,
     }))
     .sort(

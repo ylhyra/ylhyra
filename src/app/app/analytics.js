@@ -1,6 +1,7 @@
 /*
   Tracks time spent on page
 */
+import { now } from "app/app/functions/time";
 import axios from "app/app/axios";
 import {
   ANALYTICS_LOCALSTORAGE_LABEL,
@@ -24,11 +25,11 @@ class Analytics {
     if (url === this.currentPage) return;
     this.stopReadingPage();
     this.currentPage = url;
-    this.startTime = new Date().getTime();
+    this.startTime = now();
   };
   stopReadingPage = (options) => {
     if (!likelyNotABot || !this.currentPage || !this.startTime) return;
-    const timeDiff = new Date().getTime() - this.startTime;
+    const timeDiff = now() - this.startTime;
     /* Discard if page was only seen for <10 seconds */
     if (timeDiff > 10 * 1000 && !ignoredUrls.includes(this.currentPage)) {
       this.log(

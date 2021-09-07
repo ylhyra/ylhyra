@@ -1,3 +1,4 @@
+import { minutes, now } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
 import createCards from "app/vocabulary/actions/createCards";
 import {
@@ -22,7 +23,6 @@ import { SESSION_PREFIX, setUserData } from "app/vocabulary/actions/sync";
 import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
 import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
 import { constants } from "app/app/constants";
-import { minutes } from "app/app/functions/time";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
@@ -46,10 +46,10 @@ class Session {
     this.cardTypeLog = [];
     this.currentCard = null;
     this.cards = [];
-    this.timeStarted = new Date().getTime();
+    this.timeStarted = now();
     this.totalTime = constants.EACH_SESSION_LASTS_X_MINUTES * minutes;
     this.remainingTime = this.totalTime;
-    this.lastTimestamp = new Date().getTime();
+    this.lastTimestamp = now();
     this.done = false;
     this.lastUndid = 0;
     this.savedAt = null;
@@ -87,7 +87,7 @@ class Session {
     }
     saveInLocalStorage("vocabulary-session", {
       remainingTime: this.remainingTime,
-      savedAt: new Date().getTime(),
+      savedAt: now(),
       cards: to_save,
     });
   }
@@ -96,7 +96,7 @@ class Session {
   }
   saveSessionLog() {
     if (this.cardHistory.length > 0) {
-      const timestamp = this.savedAt || new Date().getTime();
+      const timestamp = this.savedAt || now();
       const timestamp_in_seconds = Math.round(timestamp / 1000);
       setUserData(
         SESSION_PREFIX + timestamp_in_seconds,
