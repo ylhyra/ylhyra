@@ -42,7 +42,7 @@ export class Card {
   }
   getLowestAvailableTermScore() {
     let lowest = null;
-    this.getSiblingCards({ all: true }).forEach((card) => {
+    this.getAllCardsWithSameTerm().forEach((card) => {
       if (card.getScore()) {
         lowest = Math.min(lowest, card.getScore());
       }
@@ -71,16 +71,22 @@ export class Card {
   getTerms() {
     return this.terms.map((term_id) => deck.terms[term_id]);
   }
+  getTermIds() {
+    return this.terms;
+  }
   /**
-   * Cards with the same term
+   * Cards with the same term that are not this card
    */
-  getSiblingCards(options = {}) {
+  getSiblingCards() {
+    return this.getAllCardsWithSameTerm().filter(
+      (siblingCard) => siblingCard.getId() !== this.getId()
+    );
+  }
+  getAllCardsWithSameTerm() {
     let out = [];
     this.getTerms().forEach((term) => {
-      term.getCards().forEach((siblingCard) => {
-        if (options.all || siblingCard.getId() !== this.getId()) {
-          out.push(siblingCard);
-        }
+      term.getCards().forEach((card) => {
+        out.push(card);
       });
     });
     return out;
@@ -95,5 +101,12 @@ export class Card {
     return this.sortKey > getEasinessLevel()
       ? this.sortKey
       : 100000 - this.sortKey;
+  }
+  getTermLastSeen() {
+    return Math.min(
+      ...this.getAllCardsWithSameTerm()
+        .map((card) => card.getLastSeen())
+        .filter(Boolean)
+    );
   }
 }

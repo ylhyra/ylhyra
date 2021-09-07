@@ -3,7 +3,7 @@ import {
   getTermsFromCards,
   printWord,
 } from "app/vocabulary/actions/functions";
-import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
+import { withDependencies } from "app/vocabulary/actions/card/dependencies";
 import { getCardIdsFromWords } from "documents/compile/vocabulary/getCardIdsFromWords";
 import _ from "underscore";
 import { setDeck } from "app/vocabulary/actions/deck";

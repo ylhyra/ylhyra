@@ -1,6 +1,4 @@
 import { deck } from "app/vocabulary/actions/deck";
-import { CARDS_TO_CREATE } from "app/vocabulary/actions/createCards";
-import { isEasinessLevelOn } from "app/vocabulary/actions/easinessLevel/functions";
 
 export const getCardById = (card_id) => {
   return deck.cards[card_id] || null;

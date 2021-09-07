@@ -3,6 +3,8 @@ import { BAD } from "app/vocabulary/actions/cardInSession";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { deck } from "app/vocabulary/actions/deck";
 import {
+  newestFirst,
+  oldestFirst,
   sortBySortKey,
   sortCardsByWhetherTermWasRecentlySeen,
 } from "app/vocabulary/actions/createCards/functions";
@@ -17,7 +19,7 @@ export default ({ forbidden_ids, allowed_ids }) => {
   let not_overdue_semi_bad = [];
   let not_overdue = [];
 
-  getCardsInSchedule()
+  (getCardsInSchedule() |> sortBySortKey)
     .filter((card) =>
       card.isAllowed({
         forbidden_ids,
@@ -41,21 +43,12 @@ export default ({ forbidden_ids, allowed_ids }) => {
       }
     });
 
-  overdue_good = sortBySortKey(overdue_good);
-  overdue_bad = sortBySortKey(overdue_bad);
-
-  not_overdue_bad = shuffleEach(
-    sortCardsByWhetherTermWasRecentlySeen(sortBySortKey(not_overdue_bad)),
-    10
-  );
+  not_overdue_bad = shuffleEach(oldestFirst(not_overdue_bad), 10);
   const very_recently_seen_not_overdue_bad = shuffleEach(
-    sortCardsByWhetherTermWasRecentlySeen(sortBySortKey(not_overdue_bad), true),
+    newestFirst(not_overdue_bad),
     10
   );
-  not_overdue_semi_bad = shuffleEach(
-    sortCardsByWhetherTermWasRecentlySeen(sortBySortKey(not_overdue_semi_bad)),
-    10
-  );
+  not_overdue_semi_bad = shuffleEach(oldestFirst(not_overdue_semi_bad), 10);
 
   return {
     overdue_bad,

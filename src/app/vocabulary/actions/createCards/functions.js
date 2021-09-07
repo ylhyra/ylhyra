@@ -27,18 +27,12 @@ import { shuffleEach } from "app/app/functions/shuffleEach";
 //   }
 // };
 
-export const sortCardsByWhetherTermWasRecentlySeen = (cards, reverse) => {
-  return cards;
-  // let j = cards
-  //   .sort(
-  //     (a, b) =>
-  //       a.hours_since_term_seen_score - b.hours_since_term_seen_score ||
-  //       a.getLastSeen() - b.getLastSeen()
-  //   );
-  // if (reverse) {
-  //   j = j.reverse();
-  // }
-  // return j.map((i) => i.id);
+export const oldestFirst = (cards) => {
+  return cards.sort((a, b) => a.getTermLastSeen() - b.getTermLastSeen());
+};
+
+export const newestFirst = (cards) => {
+  return oldestFirst(cards).reverse();
 };
 
 export const sortCardsByScore = (cards) => {
@@ -46,6 +40,5 @@ export const sortCardsByScore = (cards) => {
 };
 
 export const sortBySortKey = (cards) => {
-  const x = cards.sort((a, b) => a.sortKey - b.sortKey);
-  return shuffleEach(x, 20);
+  return cards.sort((a, b) => a.sortKey - b.sortKey);
 };
