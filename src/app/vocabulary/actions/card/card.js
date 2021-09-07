@@ -12,6 +12,7 @@ import {
 import { BAD } from "app/vocabulary/actions/cardInSession";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { minIgnoreFalsy } from "app/app/functions/math";
+import { getCardsFromTermIds } from "app/vocabulary/actions/card/functions";
 
 export class Card {
   constructor(data) {
@@ -110,18 +111,14 @@ export class Card {
         .filter(Boolean)
     );
   }
-  // getDependencies() {
-  //   let out = {};
-  //   this.getTerms().forEach((term) => {
-  //     Object.keys(term.dependencies).forEach((dependency_term_id) => {
-  //       out[dependency_term_id] = minIgnoreFalsy(
-  //         out[dependency_term_id],
-  //         term.dependencies[dependency_term_id]
-  //       );
-  //     });
-  //   });
-  //   return out;
-  // }
+  getDependenciesAsTermIdToDepth() {
+    return this.getTerms()[0]?.getDependenciesAsTermIdToDepth();
+  }
+  getDependencies() {
+    return getCardsFromTermIds(
+      Object.keys(this.getDependenciesAsTermIdToDepth())
+    ).filter((card) => card.getId() !== this.getId());
+  }
   // getDependenciesAndSameTerm() {
   //   let out = this.getDependencies();
   //   this.getTermIds().forEach((term_id) => {

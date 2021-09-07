@@ -21,6 +21,10 @@ export const getCardsFromTermId = (term_id) => {
   return _.uniq(_.flatten(getTermById(term_id).getCards()));
 };
 
+export const getCardsFromTermIds = (term_ids) => {
+  return term_ids.map(getCardsFromTermId).filter(Boolean);
+};
+
 export const getCardsInSchedule = () => {
   return Object.keys(deck.schedule).map(getCardById).filter(Boolean);
 };
