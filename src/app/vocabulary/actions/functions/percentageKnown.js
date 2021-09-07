@@ -1,20 +1,21 @@
 import { clamp, mapValueToRange } from "app/app/functions/math";
 import { deck } from "app/vocabulary/actions/deck";
 import { isBrowser } from "app/app/functions/isBrowser";
+import { getCardsByIds } from "app/vocabulary/actions/card/functions";
 
 export const PercentageKnown = (card_ids) => {
-  if (!deck || !deck.schedule) return 0;
+  if (!deck?.schedule) return 0;
   let done = 0;
   let remaining = 0;
-  card_ids.forEach((id) => {
-    if (id in deck.schedule) {
-      let score = deck.schedule[id].score || 2;
+  getCardsByIds(card_ids).forEach((card) => {
+    if (card.isInSchedule()) {
+      let score = card.getScore() || 2;
       let toAdd;
       if (score < 1.9) {
         toAdd = mapValueToRange({
           value:
-            clamp(deck.schedule[id].sessions_seen, 0, 10) +
-            clamp((deck.schedule[id].sessions_seen - 10) / 3, 0, 10),
+            clamp(card.getSessionsSeen(), 0, 10) +
+            clamp((card.getSessionsSeen() - 10) / 3, 0, 10),
           input_from: 0,
           input_to: 20,
           output_from: 0.1,
@@ -45,8 +46,7 @@ export const PercentageKnown = (card_ids) => {
 
 export const PercentageKnownOverall = () => {
   if (!deck) return 0;
-  const card_ids = Object.keys(deck.cards);
-  return PercentageKnown(card_ids);
+  return PercentageKnown(Object.keys(deck.cards));
 };
 
 if (isBrowser) {

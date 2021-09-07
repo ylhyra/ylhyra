@@ -1,6 +1,6 @@
 import { log } from "app/app/functions/log";
 import React, { Component } from "react";
-import Card from "app/vocabulary/elements/Card";
+import Card from "app/vocabulary/elements/CardElement";
 import Progress from "app/vocabulary/elements/Progress";
 import { connect } from "react-redux";
 

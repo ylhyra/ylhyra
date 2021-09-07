@@ -6,7 +6,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 
-class Card extends Component {
+class CardElement extends Component {
   state = {};
   componentDidMount() {
     this.componentDidUpdate();
@@ -313,7 +313,7 @@ class Card extends Component {
 }
 export default connect((state) => ({
   vocabulary: state.vocabulary,
-}))(Card);
+}))(CardElement);
 
 const html = (text) => {
   if (!text) return null;

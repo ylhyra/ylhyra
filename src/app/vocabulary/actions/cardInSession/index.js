@@ -6,20 +6,19 @@ import {
   canBeShown,
   showIn,
 } from "app/vocabulary/actions/cardInSession/showIn";
+import { Card } from "app/vocabulary/actions/card/card";
 
 export const BAD = 1;
 export const GOOD = 2;
 export const EASY = 3;
 
-class CardInSession {
+class CardInSession extends Card {
   constructor(data, index, session) {
+    super();
     this.session = session;
     this.history = [];
     this.absoluteQueuePosition = index;
     Object.assign(this, data);
-  }
-  isNewCard() {
-    return !(this.id in deck.schedule);
   }
   isNewTerm() {
     // There exists at least one term
@@ -33,9 +32,6 @@ class CardInSession {
           )
       )
     );
-  }
-  getScore() {
-    return deck.schedule[this.id]?.score;
   }
 }
 

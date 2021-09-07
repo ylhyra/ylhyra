@@ -26,14 +26,14 @@ export async function createSchedule() {
 
   cards.forEach((card) => {
     let due_in_days;
-    let prevScore = deck.schedule[card.id]?.score;
-    let sessions_seen = deck.schedule[card.id]?.sessions_seen;
+    let prevScore = card.getScore();
+    let sessions_seen = card.getSessionsSeen();
     let isNew = !prevScore;
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
     const avgRating = average(sessionHistory);
-    const last_interval_in_days = deck.schedule[card.id]?.last_interval_in_days;
-    const last_seen = deck.schedule[card.id]?.last_seen;
+    const last_interval_in_days = card.getLastIntervalInDays();
+    const last_seen = card.getLastSeen();
     const badCount = sessionHistory.filter((i) => i === BAD).length;
     const anyBad = badCount > 0;
 
@@ -75,9 +75,7 @@ export async function createSchedule() {
       if (actual_interval_in_days / last_interval_in_days < 0.3) {
         const new_due_in_days = last_interval_in_days;
         log(
-          `${printWord(
-            card.id
-          )} - given ${new_due_in_days} instead of ${due_in_days}`
+          `${card.printWord()} - given ${new_due_in_days} instead of ${due_in_days}`
         );
         due_in_days = new_due_in_days;
       }
