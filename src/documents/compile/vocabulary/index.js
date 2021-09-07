@@ -53,7 +53,13 @@ export const parseVocabularyList = (vocabulary_list) => {
   const cards = getCardIdsFromTermIds(terms);
   const dependencyCards = getCardIdsFromTermIds(dependencyTerms);
 
-  let out = { terms, dependencyTerms, cards, dependencyCards, sentences };
+  let out = {
+    terms,
+    dependencyTerms,
+    cards,
+    dependencyCards,
+    sentences,
+  };
   if (missing) {
     out.missing = missing;
   }

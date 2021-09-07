@@ -7,3 +7,5 @@ export const getCardById = (card_id) => {
 export const getCardsInSchedule = () => {
   return Object.keys(deck.schedule).map(getCardById).filter(Boolean);
 };
+
+export const getNewCardsSorted = () => {};

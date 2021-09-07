@@ -94,7 +94,9 @@ export default class WordBox extends React.PureComponent {
             <label>Pronunciation</label>
             <span
               className="pronunciation"
-              dangerouslySetInnerHTML={{ __html: definition.pronunciation }}
+              dangerouslySetInnerHTML={{
+                __html: definition.pronunciation,
+              }}
             />
           </span>
         )}

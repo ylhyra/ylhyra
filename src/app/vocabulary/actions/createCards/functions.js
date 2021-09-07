@@ -1,4 +1,4 @@
-import { hour } from "app/app/functions/time";
+import { hour, now } from "app/app/functions/time";
 import { getCardsWithSameTerm } from "app/vocabulary/actions/functions";
 import { deck } from "app/vocabulary/actions/deck";
 import { shuffleEach } from "app/app/functions/shuffleEach";

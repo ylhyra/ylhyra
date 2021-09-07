@@ -1,8 +1,11 @@
-import { hours, now } from 'app/app/functions/time';
+import { hours, now } from "app/app/functions/time";
 import { BAD } from "app/vocabulary/actions/cardInSession";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { deck } from "app/vocabulary/actions/deck";
-import { SortBySortKey, SortIdsByWhetherTermWasRecentlySeen, } from "app/vocabulary/actions/createCards/functions";
+import {
+  SortBySortKey,
+  SortIdsByWhetherTermWasRecentlySeen,
+} from "app/vocabulary/actions/createCards/functions";
 import { shuffleEach } from "app/app/functions/shuffleEach";
 import { getCardsInSchedule } from "app/vocabulary/actions/card/functions";
 
@@ -15,24 +18,26 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
   let not_overdue_ids = [];
 
   getCardsInSchedule()
-    .filter((card) => !forbidden_ids.includes(card.getId()) &&(!allowed_card_ids || allowed_card_ids.includes(card.getId())))
+    .filter(
+      (card) =>
+        !forbidden_ids.includes(card.getId()) &&
+        (!allowed_card_ids || allowed_card_ids.includes(card.getId()))
+    )
     .sort((a, b) => a.getDue() - b.getDue())
     .forEach((card) => {
-
-
-      // if (schedule_item.due < now() + 16 * hours) {
-      //   if (schedule_item.score && schedule_item.score <= BAD + INCR * 2) {
-      //     overdue_bad_ids.push(schedule_item.id);
-      //   } else {
-      //     overdue_good_ids.push(schedule_item.id);
-      //   }
-      // } else if (schedule_item.score && schedule_item.score === BAD) {
-      //   not_overdue_bad_cards_ids.push(schedule_item.id);
-      // } else if (schedule_item.score && schedule_item.score <= BAD + INCR) {
-      //   not_overdue_semi_bad_cards_ids.push(schedule_item.id);
-      // } else {
-      //   not_overdue_ids.push(schedule_item.id);
-      // }
+      if (card.getDue() < now() + 16 * hours) {
+        if (card.isScoreLowerThanOrEqualTo(BAD + INCR * 2)) {
+          overdue_bad_ids.push(card.getId());
+        } else {
+          overdue_good_ids.push(card.getId());
+        }
+      } else if (card.getScore() === BAD) {
+        not_overdue_bad_cards_ids.push(card.getId());
+      } else if (card.isScoreLowerThanOrEqualTo(BAD + INCR)) {
+        not_overdue_semi_bad_cards_ids.push(card.getId());
+      } else {
+        not_overdue_ids.push(card.getId());
+      }
     });
 
   overdue_good_ids = SortBySortKey(overdue_good_ids);

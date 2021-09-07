@@ -23,7 +23,11 @@ export default (rows, options, more_options /* todo: merge */) => {
     row_names = cleanRowOrColum__temporary(row_names);
     word = word.get(...give_me);
     if (word.rows.length > 0) {
-      table = word.getSingleTable({ give_me, column_names, row_names });
+      table = word.getSingleTable({
+        give_me,
+        column_names,
+        row_names,
+      });
     } else {
       table = `<b>Error:</b> No rows found with the requested values`;
     }

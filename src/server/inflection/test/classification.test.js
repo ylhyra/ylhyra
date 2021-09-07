@@ -13,8 +13,10 @@ it("BÍN classification", () => {
     ["plural", "accusative", "without definite article", 2]
   );
   assert.deepEqual(
-    classify({ word_categories: "so", grammatical_tag: "GM-VH-ÞT-2P-ET2" })
-      .inflectional_form_categories,
+    classify({
+      word_categories: "so",
+      grammatical_tag: "GM-VH-ÞT-2P-ET2",
+    }).inflectional_form_categories,
     ["active voice", "subjunctive", "past tense", "2nd person", "singular", 2]
   );
 

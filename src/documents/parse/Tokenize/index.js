@@ -37,7 +37,9 @@ const tokenize = ({ documentTitle, paragraphs, previousData }) => {
     paragraphs.filter((p) => !oldHashes.includes(p.hash))
   );
 
-  let tokenized = tokenizer({ paragraphs: paragraphsMissingTokenization });
+  let tokenized = tokenizer({
+    paragraphs: paragraphsMissingTokenization,
+  });
 
   /*
     Since we only calculated tokenization for things that have changed,

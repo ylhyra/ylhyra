@@ -32,7 +32,10 @@ export function FindIrregularities() {
   )
     return;
 
-  let stem = word.getStem({ masculinizeAdjectiveStem: true, trimExtra: true });
+  let stem = word.getStem({
+    masculinizeAdjectiveStem: true,
+    trimExtra: true,
+  });
   if (!stem) {
     // console.log(stem)
     if (process.env.NODE_ENV === "development") {

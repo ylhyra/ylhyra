@@ -31,7 +31,9 @@ class InlineTranslation extends React.PureComponent {
     return (
       <div className="inline-translation">
         <span
-          dangerouslySetInnerHTML={{ __html: ItalicsAndBold(this.props.text) }}
+          dangerouslySetInnerHTML={{
+            __html: ItalicsAndBold(this.props.text),
+          }}
         />
       </div>
     );

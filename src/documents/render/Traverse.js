@@ -49,10 +49,10 @@ export default Traverse;
   Allow for specific custom elements.
 */
 const customTags = {
-  p: "div",
-  center: "div",
-  translate: "span",
-  isl: "span",
+  "p": "div",
+  "center": "div",
+  "translate": "span",
+  "isl": "span",
   "small-box": "span",
 };
 const getCustomTag = (tag, className, callback) => {

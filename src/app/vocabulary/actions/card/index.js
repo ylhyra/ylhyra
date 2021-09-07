@@ -13,6 +13,12 @@ export class Card {
   getDue() {
     return this.getSchedule()?.due;
   }
+  getScore() {
+    return this.getSchedule()?.score;
+  }
+  isScoreLowerThanOrEqualTo(value) {
+    return this.getScore() && this.getScore() <= value;
+  }
 }
 
 export class Term {

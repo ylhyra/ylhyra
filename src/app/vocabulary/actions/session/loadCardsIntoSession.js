@@ -25,7 +25,9 @@ export function loadCardsIntoSession(card_ids, options = {}) {
       {
         id,
         ...this.deck.cards[id],
-        dependenciesAndSameTerm: withDependencies(id, { showDepth: true }),
+        dependenciesAndSameTerm: withDependencies(id, {
+          showDepth: true,
+        }),
       },
       index + insertAtPosition,
       this

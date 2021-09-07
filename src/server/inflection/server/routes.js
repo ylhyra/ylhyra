@@ -109,7 +109,9 @@ export default (Search, Get_by_id) => {
               layout({
                 title: rows[0].base_word || "",
                 string: word,
-                results: render(rows, req.query, { input_string: word }),
+                results: render(rows, req.query, {
+                  input_string: word,
+                }),
                 id,
                 embed,
               })
@@ -179,7 +181,9 @@ export default (Search, Get_by_id) => {
                   layout({
                     title: rows[0].base_word || "",
                     string: word,
-                    results: render(rows, req.query, { input_string: word }),
+                    results: render(rows, req.query, {
+                      input_string: word,
+                    }),
                     did_you_mean_in_footer: did_you_mean_string,
                     id: rows[0].BIN_id,
                     embed,

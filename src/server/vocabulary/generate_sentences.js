@@ -29,7 +29,9 @@ const run = () => {
               "alternative_id",
             ].forEach((c) => {
               c.split(/[;,]+/g).forEach((s) => {
-                const j = getHash(s.replace("%", ""), { skip_hash: true });
+                const j = getHash(s.replace("%", ""), {
+                  skip_hash: true,
+                });
                 if (!(j in sortKeys)) {
                   sortKeys[j] = 1000 * (vocabulary.cards[card_id].level || 6);
                 }

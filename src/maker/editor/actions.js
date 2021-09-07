@@ -7,7 +7,9 @@ import stable_stringify from "json-stable-stringify";
 // var relaxedJsonParser = require('really-relaxed-json').createParser()
 
 export const openEditor = (page) => {
-  const newUrl = mw.util.getUrl(mw.config.get("wgPageName"), { editor: page });
+  const newUrl = mw.util.getUrl(mw.config.get("wgPageName"), {
+    editor: page,
+  });
   window?.history.replaceState({}, "", newUrl);
   store.dispatch({
     type: "OPEN_EDITOR",
@@ -81,7 +83,9 @@ export const save = async () => {
         {
           title: `Data:${title}`,
           text: stable_stringify(data_to_save, {
-            space: { toString: () => "" /*Workaround for zero spaces*/ },
+            space: {
+              toString: () => "" /*Workaround for zero spaces*/,
+            },
           }),
           summary: "✏️",
         },
