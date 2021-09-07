@@ -165,6 +165,9 @@
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-license-plugin": "^4.1.2"
   },
+  "prettier": {
+    "arrowParens": "avoid"
+  },
   "jest": {
     "preset": "jest-puppeteer",
     "testPathIgnorePatterns": [
