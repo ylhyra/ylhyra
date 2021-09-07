@@ -13,6 +13,10 @@ export const getTermById = (term_ids) => {
   return deck.terms[term_ids] || null;
 };
 
+export const getTermsByIds = (term_ids) => {
+  return term_ids.map(getTermById).filter(Boolean);
+};
+
 export const getCardsFromTermId = (term_id) => {
   return _.uniq(_.flatten(getTermById(term_id).getCards()));
 };
