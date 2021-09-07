@@ -86,7 +86,9 @@ export const setEasinessLevel = (val) => {
 };
 
 export const getEasinessLevel = () => {
-  return getUserData("easinessLevel");
+  const val = getUserData("easinessLevel");
+  if (!val) return 0;
+  return parseInt(val);
 };
 
 export function isEasinessLevelOn() {

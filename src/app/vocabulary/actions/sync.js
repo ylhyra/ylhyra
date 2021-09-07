@@ -91,12 +91,7 @@ export const setUserData = (key, value, type) => {
 };
 
 export const getUserData = (key) => {
-  const val = deck.user_data?.rows?.[key]?.value;
-  if (key === "easinessLevel") {
-    if (!val) return 0;
-    return parseInt(val);
-  }
-  return val || null;
+  return deck.user_data?.rows?.[key]?.value || null;
 };
 if (isBrowser) {
   window.getUserData = getUserData;
