@@ -1,7 +1,7 @@
 import { hour } from "app/app/functions/time";
-import _ from "underscore";
 import { getCardsWithSameTerm } from "app/vocabulary/actions/functions";
 import { deck } from "app/vocabulary/actions/deck";
+import { shuffleEach } from "app/app/functions/shuffleEach";
 
 const ScoreByTimeSinceTermWasSeen = (id, now) => {
   let latest = null;
@@ -58,16 +58,5 @@ export const SortIdsByScore = (input) => {
 
 export const SortBySortKey = (array) => {
   const x = array.sort((a, b) => deck.cards[a].sortKey - deck.cards[b].sortKey);
-  return shuffle_each(x, 20);
-};
-
-export const shuffle_each = (array, range = 20) => {
-  // if (isDev) {
-  //   return array;
-  // }
-  let out = [];
-  for (let i = 0; i < array.length; i += range) {
-    out = out.concat(_.shuffle(array.slice(i, i + range)));
-  }
-  return out;
+  return shuffleEach(x, 20);
 };

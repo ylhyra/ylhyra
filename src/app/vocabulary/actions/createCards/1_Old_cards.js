@@ -3,10 +3,10 @@ import { INCR } from "app/vocabulary/actions/createSchedule";
 import { deck } from "app/vocabulary/actions/deck";
 import { hours } from "app/app/functions/time";
 import {
-  shuffle_each,
   SortBySortKey,
   SortIdsByWhetherTermWasRecentlySeen,
 } from "app/vocabulary/actions/createCards/functions";
+import { shuffleEach } from "app/app/functions/shuffleEach";
 
 export default ({ forbidden_ids, allowed_card_ids }) => {
   const now = new Date().getTime();
@@ -44,20 +44,20 @@ export default ({ forbidden_ids, allowed_card_ids }) => {
   overdue_good_ids = SortBySortKey(overdue_good_ids);
   overdue_bad_ids = SortBySortKey(overdue_bad_ids);
 
-  not_overdue_bad_cards_ids = shuffle_each(
+  not_overdue_bad_cards_ids = shuffleEach(
     SortIdsByWhetherTermWasRecentlySeen(
       SortBySortKey(not_overdue_bad_cards_ids)
     ),
     10
   );
-  const very_recently_seen_not_overdue_bad_cards = shuffle_each(
+  const very_recently_seen_not_overdue_bad_cards = shuffleEach(
     SortIdsByWhetherTermWasRecentlySeen(
       SortBySortKey(not_overdue_bad_cards_ids),
       true
     ),
     10
   );
-  not_overdue_semi_bad_cards_ids = shuffle_each(
+  not_overdue_semi_bad_cards_ids = shuffleEach(
     SortIdsByWhetherTermWasRecentlySeen(
       SortBySortKey(not_overdue_semi_bad_cards_ids)
     ),
