@@ -1,7 +1,6 @@
 import { BAD, EASY } from "app/vocabulary/actions/card";
 import {
   easinessLevelShouldBeLowerThan,
-  getEasinessLevel,
   increaseEasinessLevel,
 } from "app/vocabulary/actions/easinessLevel/functions";
 import { deck } from "app/vocabulary/actions/deck";

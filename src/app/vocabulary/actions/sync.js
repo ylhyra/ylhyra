@@ -12,7 +12,6 @@ import axios from "app/app/axios";
 export const SESSION_PREFIX = "s_";
 
 /**
- * @module Deck
  * User data is stored on
  *   user_data = {
  *        user_id,
