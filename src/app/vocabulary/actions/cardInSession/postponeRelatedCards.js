@@ -11,7 +11,7 @@ export default function postponeRelatedCards(card1interval) {
 
   this.getOtherCardsInSession().forEach((card2) => {
     // Same term
-    if (_.intersection(card1.getTermIds(), card2.getTermIds()).length > 0) {
+    if (card1.hasTermsInCommonWith(card2)) {
       if (card1.history.includes(BAD) || card2.history.includes(BAD)) {
         card2.done = false;
       } else {
@@ -48,8 +48,7 @@ export default function postponeRelatedCards(card1interval) {
       // And other card is new
       ((!card2.isInSchedule() && !card2.wasSeenInSession()) ||
         // Or other card is bad (includes some randomness
-        ((card2.isScoreLowerThanOrEqualTo(BAD) || card2.history[0] === BAD) &&
-          Math.random() > 0.5))
+        ((card2.isBad || card2.history[0] === BAD) && Math.random() > 0.5))
     ) {
       card1.showIn({ interval: 6 });
       card2.showIn({ interval: 3 });

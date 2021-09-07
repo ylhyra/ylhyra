@@ -28,7 +28,7 @@ export const addRelatedCards = (card) => {
     // Add cards that this term directly depends on
     if (
       card.dependencyDepthOfCard(related_card) === 1 &&
-      related_card.isScoreLowerThanOrEqualTo(BAD + INCR * 2)
+      related_card.isNotGood()
     ) {
       log(`Direct dependency "${related_card.printWord()}" added`);
       to_add.push(related_card);

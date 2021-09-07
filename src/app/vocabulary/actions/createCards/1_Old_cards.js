@@ -29,14 +29,14 @@ export default ({ forbidden_ids, allowed_ids }) => {
     .sort((a, b) => a.getDue() - b.getDue())
     .forEach((card) => {
       if (card.getDue() < now() + 16 * hours) {
-        if (card.isScoreLowerThanOrEqualTo(BAD + INCR * 2)) {
+        if (card.isNotGood()) {
           overdue_bad.push(card.getId());
         } else {
           overdue_good.push(card.getId());
         }
       } else if (card.getScore() === BAD) {
         not_overdue_bad.push(card.getId());
-      } else if (card.isScoreLowerThanOrEqualTo(BAD + INCR)) {
+      } else if (card.isFairlyBad()) {
         not_overdue_semi_bad.push(card.getId());
       } else {
         not_overdue.push(card.getId());

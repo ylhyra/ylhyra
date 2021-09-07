@@ -9,6 +9,9 @@ import {
   getCardsFromTermId,
   getCardsFromTermIds,
 } from "app/vocabulary/actions/card/functions";
+import _ from "underscore";
+import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
+import { INCR } from "app/vocabulary/actions/createSchedule";
 
 export class Card {
   constructor(data) {
@@ -39,11 +42,20 @@ export class Card {
   isScoreLowerThanOrEqualTo(value) {
     return this.getScore() && this.getScore() <= value;
   }
+  isBad() {
+    return this.getScore() === BAD;
+  }
+  isFairlyBad() {
+    return this.isScoreLowerThanOrEqualTo(BAD + INCR);
+  }
+  isNotGood() {
+    return this.getScore() && this.getScore() < GOOD;
+  }
   getLowestAvailableTermScore() {
     let lowest = null;
     this.getAllCardsWithSameTerm().forEach((card) => {
       if (card.getScore()) {
-        lowest = Math.min(lowest, card.getScore());
+        lowest = Math.min(lowest || 0, card.getScore());
       }
     });
     return lowest;
@@ -129,11 +141,7 @@ export class Card {
   dependencyDepthOfCard(related_card) {
     return this.getDependenciesAsCardIdToDepth()[related_card.getId()];
   }
-  // getDependenciesAndSameTerm() {
-  //   let out = this.getDependencies();
-  //   this.getTermIds().forEach((term_id) => {
-  //     out[term_id] = 0;
-  //   });
-  //   return out;
-  // }
+  hasTermsInCommonWith(card2) {
+    return _.intersection(this.getTermIds(), card2.getTermIds()).length > 0;
+  }
 }

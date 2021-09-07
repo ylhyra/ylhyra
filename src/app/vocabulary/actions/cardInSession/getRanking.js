@@ -15,7 +15,9 @@ export default function getRanking() {
   }
 
   /* New terms are not relevant unless there are no overdue cards */
-  if (!this.terms.some((term) => term in this.session.lastSeenTerms)) {
+  if (
+    !this.getTermIds().some((term_id) => term_id in this.session.lastSeenTerms)
+  ) {
     q = this.absoluteQueuePosition + 1000;
   } else {
     /* Seen cards */

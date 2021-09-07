@@ -31,6 +31,7 @@ export const easinessLevelShouldBeLowerThan = (currentCardSortKey) => {
   if (change < -10) {
     setEasinessLevel(min);
     if (Math.abs(change) > DEFAULT_JUMP_DOWN) {
+      // TODO
       // recreateSessionCardsAfterChangingEasinessLevel(change);
     }
   }
@@ -39,9 +40,7 @@ export const easinessLevelShouldBeLowerThan = (currentCardSortKey) => {
 export const getMaxSortKey = () => {
   /* Can not go higher than the lowest bad cardInSession */
   const lowestBadCard =
-    deck.cards_sorted.find(
-      (card) => deck.schedule[card.id] && deck.schedule[card.id].score < GOOD
-    )?.sortKey || Infinity;
+    deck.cards_sorted.find((card) => card.isNotGood())?.sortKey || Infinity;
 
   /* Can not go higher than level B1 */
   const highestCardInLevelB1 =

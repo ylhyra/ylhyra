@@ -31,7 +31,7 @@ export default function rate(rating) {
   } else if (rating === GOOD) {
     interval = 200;
     card.done = true;
-    if (card.getScore() && card.getScore() === BAD) {
+    if (card.getScore() === BAD) {
       interval = 12;
     } else if (card.history[1] === BAD) {
       interval = 5;
@@ -52,5 +52,5 @@ export default function rate(rating) {
   card.postponeRelatedCards(interval);
   card.session.cardTypeLog.unshift(card.from);
 
-  keepTrackOfEasiness(rating, isNew);
+  keepTrackOfEasiness({ rating, isNew, card });
 }

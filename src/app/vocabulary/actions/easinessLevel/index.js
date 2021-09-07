@@ -15,7 +15,7 @@ let easyInARow = 0;
  * then we increase the "easinessLevel". EasinessLevel is a
  * number that stores the lowest cardInSession.sortKey we're interested in.
  */
-export function keepTrackOfEasiness(rating, isNew) {
+export function keepTrackOfEasiness({ rating, isNew, card }) {
   /* Currently only turned on for the overall
      game and not article-specific games */
   if (deck.session.allowed_ids) return;
@@ -25,7 +25,7 @@ export function keepTrackOfEasiness(rating, isNew) {
     if (rating === EASY) {
       easyInARow++;
       if (easyInARow >= 2) {
-        increaseEasinessLevel(deck.session.currentCard.sortKey);
+        increaseEasinessLevel(card.sortKey);
       }
     } else {
       easyInARow = 0;
@@ -33,6 +33,6 @@ export function keepTrackOfEasiness(rating, isNew) {
   }
 
   if (rating === BAD) {
-    easinessLevelShouldBeLowerThan(deck.session.currentCard.sortKey);
+    easinessLevelShouldBeLowerThan(card.sortKey);
   }
 }
