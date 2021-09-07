@@ -12,6 +12,7 @@ import {
 import _ from "underscore";
 import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
 import { INCR } from "app/vocabulary/actions/createSchedule";
+import { log } from "app/app/functions/log";
 
 export class Card {
   constructor(data) {
@@ -134,6 +135,7 @@ export class Card {
     return out;
   }
   getDependenciesAsArrayOfCards() {
+    console.log(this.getDependenciesAsTermIdToDepth());
     return getCardsFromTermIds(
       Object.keys(this.getDependenciesAsTermIdToDepth())
     ).filter((card) => card.getId() !== this.getId());

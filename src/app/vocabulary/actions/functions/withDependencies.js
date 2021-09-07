@@ -8,6 +8,9 @@ import { getTermsFromCards } from "app/vocabulary/actions/functions/index";
  */
 export const withDependencies = (cards) => {
   let card_ids = [];
+  // console.log({
+  //   j: getTermsFromCards(cards)[0].getSortedCardDependencies(),
+  // });
   getTermsFromCards(cards).forEach((term) => {
     term.getSortedCardDependencies().forEach((card) => {
       card_ids.push(card.getId());

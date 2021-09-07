@@ -7,6 +7,7 @@ import { round } from "app/app/functions/math";
 import { updateURL } from "app/router/actions/updateURL";
 import _ from "underscore";
 import { isDev } from "app/app/functions/isDev";
+import { getTermById } from "app/vocabulary/actions/card/functions";
 
 export const printWord = (id) => {
   if (id in deck.cards) {
@@ -49,7 +50,11 @@ export const getCardIdsFromTermIds = (term_ids) => {
   );
 };
 
-export const getTermsFromCards = (card_ids) => {
+export const getTermsFromCards = (cards) => {
+  return getTermIdsFromCardIds(cards.map((c) => c.getId())).map(getTermById);
+};
+
+export const getTermIdsFromCardIds = (card_ids) => {
   let terms = [];
   card_ids.forEach((id) => {
     terms = terms.concat(deck.cards[id].terms);

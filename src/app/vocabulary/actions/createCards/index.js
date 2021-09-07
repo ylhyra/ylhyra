@@ -31,6 +31,7 @@ export default function createCards(options) {
       allowed_ids,
     }),
   });
+
   /* Add dependencies */
   chosen_cards = Dependencies({ chosen_cards, forbidden_ids });
   chosen_cards = _.uniq(chosen_cards.filter(Boolean));

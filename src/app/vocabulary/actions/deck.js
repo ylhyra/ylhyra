@@ -20,7 +20,8 @@ class Deck {
       (card_id) => (this.cards[card_id] = new Card(database.cards[card_id]))
     );
     Object.keys(database.terms).forEach(
-      (term_id) => (this.terms[term_id] = new Term(database.terms[term_id]))
+      (term_id) =>
+        (this.terms[term_id] = new Term(database.terms[term_id], term_id))
     );
     this.user_data = user_data || {};
     this.schedule = schedule || {};

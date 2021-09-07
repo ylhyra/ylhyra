@@ -5,8 +5,9 @@ import {
 import _ from "underscore";
 
 export class Term {
-  constructor(data) {
+  constructor(data, id) {
     Object.assign(this, data);
+    this.id = id;
   }
   getId() {
     return this.id;
@@ -19,7 +20,7 @@ export class Term {
   }
   getDependenciesAsTermIdToDepth() {
     return {
-      ...this.dependencies,
+      ...(this.dependencies || {}),
       [this.getId()]: 0,
     };
   }
@@ -39,10 +40,11 @@ export class Term {
       )
     );
   }
-  // deck.terms[term_id2].cards.forEach((card_id) => {
-  //   depth[card_id] = Math.max(
-  //     depth[card_id] || 0,
-  //     obj.temporaryDependencySortKey
-  //   );
-  // });
 }
+
+// deck.terms[term_id2].cards.forEach((card_id) => {
+//   depth[card_id] = Math.max(
+//     depth[card_id] || 0,
+//     obj.temporaryDependencySortKey
+//   );
+// });

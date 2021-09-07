@@ -89,13 +89,13 @@ class Session {
   }
   saveSessionInLocalStorage() {
     const session = this;
+    if (!session.cards.some((i) => i.wasSeenInSession())) {
+      return;
+    }
     let to_save = session.cards.map((card) => ({
       id: card.getId(),
       history: card.history,
     }));
-    if (!to_save.some((i) => i.wasSeenInSession())) {
-      to_save = null;
-    }
     saveInLocalStorage("vocabulary-session", {
       remainingTime: this.remainingTime,
       savedAt: now(),

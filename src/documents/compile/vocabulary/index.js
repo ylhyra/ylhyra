@@ -1,5 +1,6 @@
 import {
   getCardIdsFromTermIds,
+  getTermIdsFromCardIds,
   getTermsFromCards,
   printWord,
 } from "app/vocabulary/actions/functions";
@@ -34,8 +35,8 @@ export const parseVocabularyList = (vocabulary_list) => {
     (id) => id in deck.cards
   );
   const missing = getCardIdsFromWords(vocabulary_list, deck, true);
-  const terms = getTermsFromCards(card_ids, deck);
-  const dependencyTerms = getTermsFromCards(
+  const terms = getTermIdsFromCardIds(card_ids, deck);
+  const dependencyTerms = getTermIdsFromCardIds(
     _.difference(withDependencies(card_ids), card_ids)
   );
   if (terms.length === 0) return null;
