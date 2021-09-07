@@ -21,9 +21,9 @@ import {
 import { SESSION_PREFIX, setUserData } from "app/vocabulary/actions/sync";
 import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
 import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
-import { isDev } from "app/app/functions/isDev";
+import { constants } from "app/app/constants";
+import { minutes } from "app/app/functions/time";
 
-export const MINUTES = isDev ? 4 : 5;
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
 class Session {
@@ -47,7 +47,7 @@ class Session {
     this.currentCard = null;
     this.cards = [];
     this.timeStarted = new Date().getTime();
-    this.totalTime = MINUTES * 60 * 1000;
+    this.totalTime = constants.EACH_SESSION_LASTS_X_MINUTES * minutes;
     this.remainingTime = this.totalTime;
     this.lastTimestamp = new Date().getTime();
     this.done = false;

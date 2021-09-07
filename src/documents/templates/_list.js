@@ -15,11 +15,15 @@ import Parts from "documents/templates/Parts";
 import Instagram from "documents/templates/Instagram";
 import Collapse from "documents/templates/Collapse";
 import Login from "app/user/LoginForm";
+import Constant from "app/user/LoginForm";
 
-export default (name) => {
+export default async (name) => {
   switch (name.toLowerCase()) {
     case "frontpage":
       return Frontpage;
+      break;
+    case "constant":
+      return Constant;
       break;
     case "level":
       return Level;

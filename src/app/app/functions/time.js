@@ -11,6 +11,8 @@ export const day = msInDay;
 export const days = day;
 export const hour = msInHour;
 export const hours = hour;
+export const minute = 60 * 1000;
+export const minutes = minute;
 
 export const now = () => {
   return new Date().getTime();

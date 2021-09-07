@@ -8,10 +8,11 @@ import {
   parsePrice,
 } from "app/user/payments/actions";
 import { log } from "app/app/functions/log";
+import { constants } from "app/app/constants";
 
 class Form2 extends React.Component {
   state = {
-    price: 20,
+    price: constants.RECOMMENDED_PRICE_IN_US_DOLLARS,
   };
   componentDidMount() {
     log({
