@@ -1,5 +1,5 @@
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
-import { average, clamp } from "app/app/functions/math";
+import { average, clamp, mapValueToRange } from "app/app/functions/math";
 import { daysToMs, msToDays } from "app/app/functions/time";
 import {
   getCardsWithSameTerm,
@@ -83,11 +83,7 @@ export async function createSchedule() {
         due_in_days = new_due_in_days;
       }
     }
-    let due = now + daysToMs(due_in_days);
-    /* Add some randomness to large intervals */
-    if (due_in_days > 20) {
-      due += daysToMs(Math.random() * 3);
-    }
+    let due = now + daysToMs(addSomeRandomness(due_in_days));
     deck.schedule[card.id] = {
       due,
       last_interval_in_days: Math.round(due_in_days),
@@ -127,3 +123,10 @@ export async function createSchedule() {
   this.saveSessionLog();
   await sync();
 }
+
+/**
+ * Randomly adds or subtracts up to 10% of the input
+ */
+const addSomeRandomness = (input) => {
+  return input + input * 0.1 * Math.random() * (Math.random() > 0.5 ? 1 : -1);
+};
