@@ -1,5 +1,4 @@
 import CardInSession from "app/vocabulary/actions/cardInSession";
-import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 
 /**
  * Used to load more cards into an already ongoing session.

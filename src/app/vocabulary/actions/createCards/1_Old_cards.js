@@ -1,12 +1,9 @@
 import { hours, now } from "app/app/functions/time";
 import { BAD } from "app/vocabulary/actions/cardInSession";
-import { INCR } from "app/vocabulary/actions/createSchedule";
-import { deck } from "app/vocabulary/actions/deck";
 import {
   newestFirst,
   oldestFirst,
   sortBySortKey,
-  sortCardsByWhetherTermWasRecentlySeen,
 } from "app/vocabulary/actions/createCards/functions";
 import { shuffleEach } from "app/app/functions/shuffleEach";
 import { getCardsInSchedule } from "app/vocabulary/actions/card/functions";

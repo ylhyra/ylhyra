@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 class Progress extends Component {
   render() {
     const percentageDone =
-      this.props.vocabulary.deck?.session?.getAdjustedPercentageDone();
+      this.props.vocabulary.deck?.session?.getPercentageDone();
     return (
       <div className="vocabulary-progress">
         <div className="bar">

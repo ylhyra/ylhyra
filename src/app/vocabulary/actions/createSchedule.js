@@ -1,12 +1,9 @@
 import { average, clamp } from "app/app/functions/math";
 import { daysToMs, msToDays, now } from "app/app/functions/time";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
-import {
-  getCardsWithSameTerm,
-  printWord,
-} from "app/vocabulary/actions/functions";
+import { printWord } from "app/vocabulary/actions/functions";
 import { log } from "app/app/functions/log";
-import { saveScheduleForCardId, sync } from "app/vocabulary/actions/sync";
+import { sync } from "app/vocabulary/actions/sync";
 
 /* Increment score by how much? */
 export const INCR = 0.4;
@@ -92,8 +89,8 @@ export async function createSchedule() {
 
     /* Postpone siblings */
     if (!anyBad) {
-      card.getSiblingCards();
-      getCardsWithSameTerm(card.id)
+      card
+        .getSiblingCards()
         /* Ignore cards that were seen in this session */
         .filter(
           (sibling_card) =>

@@ -1,7 +1,5 @@
-import { log } from "app/app/functions/log";
 import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
 import _ from "underscore";
-import { getCardsInSession } from "app/vocabulary/actions/session/functions";
 
 /**
  * @module CardInSession

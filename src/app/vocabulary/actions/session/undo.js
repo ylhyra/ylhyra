@@ -10,15 +10,14 @@ export function undo() {
   this.lastUndid = this.counter;
   this.loadCardInInterface();
 }
+
 /**
  * @module Session
  */
 export function undoable() {
-  // if (!(this.lastUndid !== this.counter)) {
-  //   console.warn("Unmatching counter");
-  // }
   return this.cardHistory.length > 0 && this.lastUndid !== this.counter;
 }
+
 /**
  * @module Session
  */

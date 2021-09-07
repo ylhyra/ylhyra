@@ -1,9 +1,7 @@
 import {
   getCardsByIds,
-  getCardsFromTermId,
   getTermsByIds,
 } from "app/vocabulary/actions/card/functions";
-import { deck } from "app/vocabulary/actions/deck";
 import _ from "underscore";
 
 export class Term {

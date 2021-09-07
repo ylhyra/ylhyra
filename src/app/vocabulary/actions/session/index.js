@@ -5,7 +5,7 @@ import {
   answer,
   checkIfCardsRemaining,
   createMoreCards,
-  getAdjustedPercentageDone,
+  getPercentageDone,
   updateRemainingTime,
 } from "app/vocabulary/actions/session/functions";
 import { InitializeSession } from "app/vocabulary/actions/session/initialize";
@@ -23,6 +23,8 @@ import { SESSION_PREFIX, setUserData } from "app/vocabulary/actions/sync";
 import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
 import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
 import { constants } from "app/app/constants";
+import CardInSession from "app/vocabulary/actions/cardInSession";
+import { getCardById } from "app/vocabulary/actions/card/functions";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
@@ -33,6 +35,12 @@ class Session {
     /* Used to save the progress of a session that was prematurely closed */
     if (init?.cards) {
       Object.assign(this, init);
+      this.cards = this.cards.map(({ id, history }) => {
+        return new CardInSession({
+          data: getCardById(id),
+          history,
+        });
+      });
       this.sessionDone({ isInitializing: true });
     }
     // log({ session_log: this.deck.session_log });
@@ -81,7 +89,10 @@ class Session {
   }
   saveSessionInLocalStorage() {
     const session = this;
-    let to_save = session.cards.map(({ session, ...rest }) => rest);
+    let to_save = session.cards.map((card) => ({
+      id: card.getId(),
+      history: card.history,
+    }));
     if (!to_save.some((i) => i.wasSeenInSession())) {
       to_save = null;
     }
@@ -119,7 +130,7 @@ Session.prototype.checkIfCardsRemaining = checkIfCardsRemaining;
 Session.prototype.createCards = createCards;
 Session.prototype.createMoreCards = createMoreCards;
 Session.prototype.createSchedule = createSchedule;
-Session.prototype.getAdjustedPercentageDone = getAdjustedPercentageDone;
+Session.prototype.getPercentageDone = getPercentageDone;
 Session.prototype.loadCardInInterface = loadCardInInterface;
 Session.prototype.loadCardsIntoSession = loadCardsIntoSession;
 Session.prototype.nextCard = nextCard;

@@ -6,6 +6,7 @@ import { log } from "app/app/functions/log";
 import { round } from "app/app/functions/math";
 import { updateURL } from "app/router/actions/updateURL";
 import _ from "underscore";
+import { isDev } from "app/app/functions/isDev";
 
 export const printWord = (id) => {
   if (id in deck.cards) {
@@ -17,25 +18,6 @@ export const printWord = (id) => {
     log(`No id ${id}`);
   }
 };
-
-/**
- * Get cards that have the same term
- */
-export const getCardsWithSameTerm = (id) => {
-  if (typeof id === "undefined")
-    throw new Error("Nothing passed to getCardsWithSameTerm");
-  let out = [];
-  deck.cards[id]?.terms.forEach((term) => {
-    deck.terms[term].cards.forEach((sibling_card_id) => {
-      out.push(sibling_card_id);
-    });
-  });
-  return out;
-};
-
-// export const filterOnlyCardsThatExist = (card_ids) => {
-//   return card_ids.filter(id => id in deck.cards)
-// }
 
 export const studyParticularIds = async (allowed_ids) => {
   const { session } = deck;
@@ -75,9 +57,9 @@ export const getTermsFromCards = (card_ids) => {
   return _.uniq(terms);
 };
 
-if (isBrowser) {
-  window.studyParticularWords = (...words) => {
-    studyParticularIds(getCardIdsFromTermIds(words.map(getHash)));
+if (isBrowser && isDev) {
+  window.studyParticularWords = async (...words) => {
+    await studyParticularIds(getCardIdsFromTermIds(words.map(getHash)));
   };
   window.studyParticularIds = studyParticularIds;
 }

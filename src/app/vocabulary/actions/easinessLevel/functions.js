@@ -1,4 +1,3 @@
-import { GOOD } from "app/vocabulary/actions/cardInSession";
 import { deck } from "app/vocabulary/actions/deck";
 import { getUserData, setUserData } from "app/vocabulary/actions/sync";
 import { log } from "app/app/functions/log";

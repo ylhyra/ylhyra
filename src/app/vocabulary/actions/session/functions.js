@@ -22,7 +22,7 @@ export function updateRemainingTime() {
 /**
  * @module Session
  */
-export function getAdjustedPercentageDone() {
+export function getPercentageDone() {
   return ((this.totalTime - this.remainingTime) / this.totalTime) * 100;
 }
 
@@ -58,7 +58,3 @@ export function answer(rating) {
     session.loadCardInInterface();
   }
 }
-//
-// export const getCardsInSession = () => {
-//   return deck.session.cards;
-// };

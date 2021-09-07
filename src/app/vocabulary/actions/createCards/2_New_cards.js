@@ -1,10 +1,5 @@
-import { deck } from "app/vocabulary/actions/deck";
-import { CARDS_TO_CREATE } from "app/vocabulary/actions/createCards/index";
 import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
-import {
-  getEasinessLevel,
-  isEasinessLevelOn,
-} from "app/vocabulary/actions/easinessLevel/functions";
+import { isEasinessLevelOn } from "app/vocabulary/actions/easinessLevel/functions";
 import { getNewCards } from "app/vocabulary/actions/card/functions";
 
 /* New cards */

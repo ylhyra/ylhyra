@@ -1,6 +1,4 @@
 import _ from "underscore";
-import { deck } from "app/vocabulary/actions/deck";
-import { sortCardsByScore } from "app/vocabulary/actions/createCards/functions";
 import { getCardsByIds } from "app/vocabulary/actions/card/functions";
 import { getTermsFromCards } from "app/vocabulary/actions/functions/index";
 

@@ -1,8 +1,4 @@
 import { log } from "app/app/functions/log";
-import { BAD } from "app/vocabulary/actions/cardInSession";
-import { INCR } from "app/vocabulary/actions/createSchedule";
-import { deck } from "app/vocabulary/actions/deck";
-import { printWord } from "app/vocabulary/actions/functions";
 
 /*
   If a cardInSession gets a bad rating, then we make sure

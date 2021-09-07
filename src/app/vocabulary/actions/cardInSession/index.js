@@ -13,10 +13,10 @@ export const GOOD = 2;
 export const EASY = 3;
 
 class CardInSession extends Card {
-  constructor({ data, insertAtPosition, session }) {
+  constructor({ data, insertAtPosition, session, history }) {
     super(data);
     this.session = session;
-    this.history = [];
+    this.history = history || [];
     this.absoluteQueuePosition = session.counter + insertAtPosition;
   }
   isNewTerm() {
