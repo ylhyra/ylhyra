@@ -7,14 +7,14 @@ import {
   isEasinessLevelOn,
 } from "app/vocabulary/actions/easinessLevel/functions";
 
-export default ({ chosen_ids, forbidden_ids }) => {
+export default ({ chosen_cards, forbidden_ids }) => {
   /* Dependencies */
   let new_word_order = [];
-  withDependencies(chosen_ids).forEach((card_id) => {
+  withDependencies(chosen_cards).forEach((card_id) => {
     if (forbidden_ids.includes(card_id)) return;
     if (
       /* Already chosen */
-      chosen_ids.includes(card_id) ||
+      chosen_cards.includes(card_id) ||
       /* Ignore cards that are below user's easiness level */
       (deck.cards[card_id].sortKey >=
         ((isEasinessLevelOn() && getEasinessLevel()) || 0) &&

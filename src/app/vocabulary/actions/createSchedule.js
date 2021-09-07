@@ -17,14 +17,13 @@ export const INCR = 0.4;
  */
 export async function createSchedule() {
   const session = this;
-  const { deck, cards } = session;
   if (!session) {
     console.error("createSchedule called without an active session!");
     return;
   }
-  if (!cards || !cards.some((i) => i.history.length > 0)) return;
+  if (!session.cards?.some((i) => i.wasSeenInSession())) return;
 
-  cards.forEach((card) => {
+  session.cards.forEach((card) => {
     let due_in_days;
     let prevScore = card.getScore();
     let sessions_seen = card.getSessionsSeen();
@@ -81,37 +80,36 @@ export async function createSchedule() {
       }
     }
     let due = now() + daysToMs(addSomeRandomness(due_in_days));
-    deck.schedule[card.id] = {
+    card.setSchedule({
       due,
       last_interval_in_days: Math.round(due_in_days),
       score: Math.round(score * 100) / 100,
       last_seen: now(),
       sessions_seen: (sessions_seen || 0) + 1,
-    };
-    saveScheduleForCardId(card.id);
+    });
 
     log(`${printWord(card.id)} - score: ${score} - days: ${due_in_days}`);
 
     /* Postpone siblings */
     if (!anyBad) {
+      card.getSiblingCards();
       getCardsWithSameTerm(card.id)
+        /* Ignore cards that were seen in this session */
         .filter(
-          (id) =>
-            id !== card.id &&
-            !cards.some((j) => j.id === id && j.history.length > 0)
+          (sibling_card) =>
+            !session.cards.some(
+              (c) => c.getId() === sibling_card.getId() && c.wasSeenInSession()
+            )
         )
-        .forEach((sibling_card_id) => {
-          // log(printWord(sibling_card_id));
+        .forEach((sibling_card) => {
           const newDue = now() + daysToMs(Math.min(due_in_days * 0.5, 7));
-          const actualDue = deck.schedule[sibling_card_id]?.due;
+          const actualDue = sibling_card.getDue();
           if (!actualDue || actualDue < newDue) {
-            deck.schedule[sibling_card_id] = {
-              ...(deck.schedule[sibling_card_id] || {}),
+            sibling_card.setSchedule({
               due: newDue,
-            };
-            saveScheduleForCardId(sibling_card_id);
+            });
+            log(`${sibling_card.printWord()} postponed`);
           }
-          log(`${printWord(sibling_card_id)} postponed`);
         });
     }
   });

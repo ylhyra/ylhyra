@@ -46,7 +46,7 @@ export default function getRanking() {
     q += 0.4;
     if (this.session.cardTypeLog[1] === this.from) {
       /* Two in a row */
-      if (this.history.length > 0 || !this.isNewCard()) {
+      if (this.wasSeenInSession() || !this.isNewCard()) {
         q += 5;
       }
 

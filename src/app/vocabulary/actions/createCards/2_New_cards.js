@@ -5,44 +5,30 @@ import {
   getEasinessLevel,
   isEasinessLevelOn,
 } from "app/vocabulary/actions/easinessLevel/functions";
+import { getNewCards } from "app/vocabulary/actions/card/functions";
 
-export default ({ forbidden_ids, allowed_card_ids }) => {
-  /* New cards */
-  let new_card_ids = [];
-  for (let i = 0; i < deck.cards_sorted.length; i++) {
-    const { id } = deck.cards_sorted[i];
-    if (forbidden_ids.includes(id)) continue;
-    if (allowed_card_ids && !allowed_card_ids.includes(id)) continue;
-    if (new_card_ids.length < CARDS_TO_CREATE || isEasinessLevelOn()) {
-      if (!(id in deck.schedule)) {
-        new_card_ids.push(id);
-      }
-    } else {
-      break;
-    }
-  }
+/* New cards */
+export default ({ forbidden_ids, allowed_ids }) => {
+  let new_cards = getNewCards().filter((card) =>
+    card.isAllowed({ forbidden_ids, allowed_ids })
+  );
+
   /* Sort new cards */
-  if (allowed_card_ids) {
-    new_card_ids.sort(
-      (a, b) => allowed_card_ids.indexOf(a) - allowed_card_ids.indexOf(b)
+  if (allowed_ids) {
+    new_cards.sort(
+      (a, b) => allowed_ids.indexOf(a.getId()) - allowed_ids.indexOf(b.getId())
     );
   } else if (isEasinessLevelOn()) {
-    new_card_ids = new_card_ids
-      .map((id) => {
-        const { sortKey } = deck.cards[id];
-        return {
-          key: sortKey > getEasinessLevel() ? sortKey : 100000 - sortKey,
-          id,
-        };
-      })
-      .sort((a, b) => a.key - b.key)
-      .map((v) => v.id);
-    // log(_.uniq(new_card_ids.slice(0, 15).map(printWord)).join(" - "));
+    new_cards = new_cards.sort(
+      (a, b) =>
+        a.getSortKeyAdjustedForEasinessLevel() -
+        b.getSortKeyAdjustedForEasinessLevel()
+    );
   } else {
-    new_card_ids = SortBySortKey(new_card_ids);
+    new_cards = SortBySortKey(new_cards);
   }
 
   return {
-    new_card_ids,
+    new_cards,
   };
 };

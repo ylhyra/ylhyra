@@ -38,7 +38,7 @@ class Session {
     // log({ session_log: this.deck.session_log });
   }
   reset() {
-    this.allowed_card_ids = null;
+    this.allowed_ids = null;
     this.ratingHistory = [];
     this.cardHistory = [];
     this.counter = 0;
@@ -82,7 +82,7 @@ class Session {
   saveSessionInLocalStorage() {
     const session = this;
     let to_save = session.cards.map(({ session, ...rest }) => rest);
-    if (!to_save.some((i) => i.history.length > 0)) {
+    if (!to_save.some((i) => i.wasSeenInSession())) {
       to_save = null;
     }
     saveInLocalStorage("vocabulary-session", {

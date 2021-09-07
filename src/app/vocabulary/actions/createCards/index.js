@@ -12,40 +12,40 @@ export const CARDS_TO_CREATE = 50;
 export default function createCards(options) {
   const session = this;
   let forbidden_ids = session.cards.map((i) => i.id);
-  let allowed_card_ids = session.allowed_card_ids || null;
+  let allowed_ids = session.allowed_ids || null;
   if (
-    allowed_card_ids &&
-    allowed_card_ids.filter((i) => !forbidden_ids.includes(i)).length === 0
+    allowed_ids &&
+    allowed_ids.filter((i) => !forbidden_ids.includes(i)).length === 0
   ) {
-    allowed_card_ids = null;
+    allowed_ids = null;
   }
 
   /* Create cards */
-  let chosen_ids = ChooseCards({
+  let chosen_cards = ChooseCards({
     ...OldCards({
       forbidden_ids,
-      allowed_card_ids,
+      allowed_ids,
     }),
     ...NewCards({
       forbidden_ids,
-      allowed_card_ids,
+      allowed_ids,
     }),
   });
   /* Add dependencies */
-  chosen_ids = Dependencies({ chosen_ids, forbidden_ids });
-  chosen_ids = _.uniq(chosen_ids.filter(Boolean));
+  chosen_cards = Dependencies({ chosen_cards, forbidden_ids });
+  chosen_cards = _.uniq(chosen_cards.filter(Boolean));
 
   /*
     Failed to generate cards,
     turn off allowed cards and try again
   */
-  if (chosen_ids.length === 0 && !(options?.depth > 0)) {
+  if (chosen_cards.length === 0 && !(options?.depth > 0)) {
     console.warn(
       `Failed to generate more cards using the allowed ones, switching to all cards.`
     );
-    session.allowed_card_ids = null;
+    session.allowed_ids = null;
     return this.createCards({ depth: 1 });
   }
 
-  this.loadCardsIntoSession(chosen_ids);
+  this.loadCardsIntoSession(chosen_cards);
 }

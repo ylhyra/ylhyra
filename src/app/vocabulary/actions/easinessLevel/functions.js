@@ -59,7 +59,7 @@ export const getMaxSortKey = () => {
 
 export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
   deck.session.cards = deck.session.cards.filter(
-    (card) => card.history.length > 0 || card.cannotBeShownBefore || card.done
+    (card) => card.wasSeenInSession() || card.cannotBeShownBefore || card.done
   );
   deck.session.cards.forEach((card) => {
     /* Card too easy */
@@ -92,5 +92,5 @@ export const getEasinessLevel = () => {
 };
 
 export function isEasinessLevelOn() {
-  return Boolean(!deck.session.allowed_card_ids && getEasinessLevel());
+  return Boolean(!deck.session.allowed_ids && getEasinessLevel());
 }

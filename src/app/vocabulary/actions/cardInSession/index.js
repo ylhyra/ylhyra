@@ -14,11 +14,10 @@ export const EASY = 3;
 
 class CardInSession extends Card {
   constructor(data, index, session) {
-    super();
+    super(data);
     this.session = session;
     this.history = [];
     this.absoluteQueuePosition = index;
-    Object.assign(this, data);
   }
   isNewTerm() {
     // There exists at least one term
@@ -28,10 +27,13 @@ class CardInSession extends Card {
         (card_id) =>
           !(card_id in deck.schedule) &&
           !this.session.cards.some(
-            (c) => c.id === card_id && c.history.length > 0
+            (c) => c.id === card_id && c.wasSeenInSession()
           )
       )
     );
+  }
+  wasSeenInSession() {
+    return this.history.length > 0;
   }
 }
 

@@ -9,66 +9,60 @@ import {
 import { shuffleEach } from "app/app/functions/shuffleEach";
 import { getCardsInSchedule } from "app/vocabulary/actions/card/functions";
 
-export default ({ forbidden_ids, allowed_card_ids }) => {
+export default ({ forbidden_ids, allowed_ids }) => {
   /* Previously seen cards */
-  let overdue_good_ids = [];
-  let overdue_bad_ids = [];
-  let not_overdue_bad_cards_ids = [];
-  let not_overdue_semi_bad_cards_ids = [];
+  let overdue_good = [];
+  let overdue_bad = [];
+  let not_overdue_bad = [];
+  let not_overdue_semi_bad = [];
   let not_overdue_ids = [];
 
   getCardsInSchedule()
-    .filter(
-      (card) =>
-        !forbidden_ids.includes(card.getId()) &&
-        (!allowed_card_ids || allowed_card_ids.includes(card.getId()))
+    .filter((card) =>
+      card.isAllowed({
+        forbidden_ids,
+        allowed_ids,
+      })
     )
     .sort((a, b) => a.getDue() - b.getDue())
     .forEach((card) => {
       if (card.getDue() < now() + 16 * hours) {
         if (card.isScoreLowerThanOrEqualTo(BAD + INCR * 2)) {
-          overdue_bad_ids.push(card.getId());
+          overdue_bad.push(card.getId());
         } else {
-          overdue_good_ids.push(card.getId());
+          overdue_good.push(card.getId());
         }
       } else if (card.getScore() === BAD) {
-        not_overdue_bad_cards_ids.push(card.getId());
+        not_overdue_bad.push(card.getId());
       } else if (card.isScoreLowerThanOrEqualTo(BAD + INCR)) {
-        not_overdue_semi_bad_cards_ids.push(card.getId());
+        not_overdue_semi_bad.push(card.getId());
       } else {
         not_overdue_ids.push(card.getId());
       }
     });
 
-  overdue_good_ids = SortBySortKey(overdue_good_ids);
-  overdue_bad_ids = SortBySortKey(overdue_bad_ids);
+  overdue_good = SortBySortKey(overdue_good);
+  overdue_bad = SortBySortKey(overdue_bad);
 
-  not_overdue_bad_cards_ids = shuffleEach(
-    SortIdsByWhetherTermWasRecentlySeen(
-      SortBySortKey(not_overdue_bad_cards_ids)
-    ),
+  not_overdue_bad = shuffleEach(
+    SortIdsByWhetherTermWasRecentlySeen(SortBySortKey(not_overdue_bad)),
     10
   );
-  const very_recently_seen_not_overdue_bad_cards = shuffleEach(
-    SortIdsByWhetherTermWasRecentlySeen(
-      SortBySortKey(not_overdue_bad_cards_ids),
-      true
-    ),
+  const very_recently_seen_not_overdue_bad = shuffleEach(
+    SortIdsByWhetherTermWasRecentlySeen(SortBySortKey(not_overdue_bad), true),
     10
   );
-  not_overdue_semi_bad_cards_ids = shuffleEach(
-    SortIdsByWhetherTermWasRecentlySeen(
-      SortBySortKey(not_overdue_semi_bad_cards_ids)
-    ),
+  not_overdue_semi_bad = shuffleEach(
+    SortIdsByWhetherTermWasRecentlySeen(SortBySortKey(not_overdue_semi_bad)),
     10
   );
 
   return {
-    overdue_bad_ids,
-    overdue_good_ids,
-    not_overdue_bad_cards_ids,
-    not_overdue_semi_bad_cards_ids,
-    very_recently_seen_not_overdue_bad_cards,
+    overdue_bad,
+    overdue_good,
+    not_overdue_bad,
+    not_overdue_semi_bad,
+    very_recently_seen_not_overdue_bad,
     not_overdue_ids,
   };
 };

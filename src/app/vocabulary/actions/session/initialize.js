@@ -8,7 +8,7 @@ export async function InitializeSession(options = {}) {
   if (options.shouldReset !== false) {
     this.reset();
   }
-  // this.allowed_card_ids = null;
+  // this.allowed_ids = null;
   // if (Array.isArray(input)) {
   //   this.loadCardsIntoSession(input);
   // }

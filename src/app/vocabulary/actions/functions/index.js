@@ -37,10 +37,10 @@ export const getCardsWithSameTerm = (id) => {
 //   return card_ids.filter(id => id in deck.cards)
 // }
 
-export const studyParticularIds = async (allowed_card_ids) => {
+export const studyParticularIds = async (allowed_ids) => {
   const { session } = deck;
   session.reset();
-  session.allowed_card_ids = allowed_card_ids;
+  session.allowed_ids = allowed_ids;
   session.createCards();
   await session.InitializeSession({ shouldReset: false });
   updateURL("/vocabulary/play");
