@@ -1,9 +1,9 @@
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
-import { addRelatedCards } from "app/vocabulary/actions/card/addRelatedCards";
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
+import { addRelatedCards } from "app/vocabulary/actions/cardInSession/addRelatedCards";
 import { keepTrackOfEasiness } from "app/vocabulary/actions/easinessLevel";
 
 /**
- * @module Card
+ * @module CardInSession
  */
 export default function rate(rating) {
   const card = this;

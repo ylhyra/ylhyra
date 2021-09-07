@@ -40,7 +40,7 @@ const run = async () => {
 
     Object.keys(cards).forEach((card_id) => {
       const card = cards[card_id];
-      // console.log(card);
+      // console.log(cardInSession);
       // process.exit();
 
       /* Delete junk cards */

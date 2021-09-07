@@ -1,11 +1,11 @@
 import { log } from "app/app/functions/log";
-import { BAD } from "app/vocabulary/actions/card";
+import { BAD } from "app/vocabulary/actions/cardInSession";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { deck } from "app/vocabulary/actions/deck";
 import { printWord } from "app/vocabulary/actions/functions";
 
 /*
-  If a card gets a bad rating, then we make sure
+  If a cardInSession gets a bad rating, then we make sure
   to add very related cards the session.
 */
 export const addRelatedCards = (card) => {

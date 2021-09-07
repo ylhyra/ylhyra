@@ -1,8 +1,8 @@
 import { log } from "app/app/functions/log";
-import { BAD } from "app/vocabulary/actions/card";
+import { BAD } from "app/vocabulary/actions/cardInSession";
 
 /**
- * @module Card
+ * @module CardInSession
  */
 export default function getRanking() {
   /* Queue position relative to zero */
@@ -11,7 +11,7 @@ export default function getRanking() {
 
   if (!this.terms) {
     log(this);
-    throw new Error("getRanking called on an uninitialized card");
+    throw new Error("getRanking called on an uninitialized cardInSession");
   }
 
   /* New terms are not relevant unless there are no overdue cards */
@@ -28,7 +28,7 @@ export default function getRanking() {
     q += 3000;
   }
 
-  /* A bad card that is due exactly now has priority */
+  /* A bad cardInSession that is due exactly now has priority */
   if (
     this.history[0] === BAD &&
     q === 0 &&
@@ -41,7 +41,7 @@ export default function getRanking() {
     q += 7000;
   }
 
-  /* Prevent rows of the same card type from appearing right next to each other too often */
+  /* Prevent rows of the same cardInSession type from appearing right next to each other too often */
   if (this.session.cardTypeLog[0] === this.from) {
     q += 0.4;
     if (this.session.cardTypeLog[1] === this.from) {

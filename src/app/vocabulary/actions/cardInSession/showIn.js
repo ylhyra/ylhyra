@@ -1,6 +1,6 @@
 /**
- * @module Card
- * An interval of "1" means that the card will be shown immediately
+ * @module CardInSession
+ * An interval of "1" means that the cardInSession will be shown immediately
  */
 export function showIn({ interval, minInterval, cannotBeShownBefore }) {
   if (interval) {
@@ -32,7 +32,7 @@ export function showIn({ interval, minInterval, cannotBeShownBefore }) {
 }
 
 /**
- * @module Card
+ * @module CardInSession
  */
 export function canBeShown() {
   return (

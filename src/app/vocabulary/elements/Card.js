@@ -1,5 +1,5 @@
 import store from "app/app/store";
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import AudioClip from "documents/render/audio/AudioClip";
 import { get_processed_image_url } from "app/app/paths";
 import React, { Component } from "react";
@@ -25,16 +25,16 @@ class Card extends Component {
       this.setState({
         answer: null,
         clickingOnShowButton: null,
-        // hint: hide(from !== 'is' ? card.is : card.en)
+        // hint: hide(from !== 'is' ? cardInSession.is : cardInSession.en)
       });
       this.sound();
     }
     // if (
     //   !prevProps ||
-    //   prevCard.id !== card.id ||
+    //   prevCard.id !== cardInSession.id ||
     //   this.state.answer !== prevState.answer
     // ) {
-    //   log(card.sound && card.sound[0].recording_of);
+    //   log(cardInSession.sound && cardInSession.sound[0].recording_of);
     //
     //   this.sound();
     // }
@@ -140,8 +140,8 @@ class Card extends Component {
   render() {
     const { card, volume, deck } = this.props.vocabulary;
     const { answered } = card;
-    // log(card)
-    // log({card,answer})
+    // log(cardInSession)
+    // log({cardInSession,answer})
     if (!card)
       return <div>Unable to create cards. Please report this error.</div>;
     let {
@@ -256,7 +256,7 @@ class Card extends Component {
             </div>
           </div>
 
-          {/* {card.counter <= 1 && (
+          {/* {cardInSession.counter <= 1 && (
             <div className="rate-how-well">Rate how well you knew this:</div>
           )} */}
         </div>

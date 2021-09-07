@@ -1,9 +1,9 @@
 import { log } from "app/app/functions/log";
-import { BAD, GOOD } from "app/vocabulary/actions/card";
+import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
 import _ from "underscore";
 
 /**
- * @module Card
+ * @module CardInSession
  */
 export default function postponeRelatedCards(card1interval) {
   const card1 = this;
@@ -31,7 +31,7 @@ export default function postponeRelatedCards(card1interval) {
       }
     }
 
-    // Cards that directly rely on this card
+    // Cards that directly rely on this cardInSession
     else if (Object.keys(card2.dependenciesAndSameTerm).includes(card1.id)) {
       const min =
         (card1.history[0] === BAD ? 5 : 2) +
@@ -42,7 +42,7 @@ export default function postponeRelatedCards(card1interval) {
       });
     }
 
-    // Cards that this card depends directly on
+    // Cards that this cardInSession depends directly on
     else if (
       card1.history[0] === BAD &&
       Object.keys(card1.dependenciesAndSameTerm).includes(card2.id) &&

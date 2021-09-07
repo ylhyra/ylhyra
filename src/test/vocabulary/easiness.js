@@ -1,4 +1,4 @@
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import { deck } from "app/vocabulary/actions/deck";
 import { assert, notNull, shouldEqual } from "test/index";
 import { run } from "test/functions";

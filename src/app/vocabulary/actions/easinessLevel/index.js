@@ -1,4 +1,4 @@
-import { BAD, EASY } from "app/vocabulary/actions/card";
+import { BAD, EASY } from "app/vocabulary/actions/cardInSession";
 import {
   easinessLevelShouldBeLowerThan,
   increaseEasinessLevel,
@@ -13,7 +13,7 @@ let easyInARow = 0;
 /**
  * If the user clicks on "Easy" several times in a row,
  * then we increase the "easinessLevel". EasinessLevel is a
- * number that stores the lowest card.sortKey we're interested in.
+ * number that stores the lowest cardInSession.sortKey we're interested in.
  */
 export function keepTrackOfEasiness(rating, isNew) {
   /* Currently only turned on for the overall

@@ -48,7 +48,7 @@ export default ({
       chosen_ids.push(new_card_ids.shift());
     }
 
-    /* Occasionally show a bad card that the user saw in the last session */
+    /* Occasionally show a bad cardInSession that the user saw in the last session */
     if (i % 4 === 2) {
       if (!isEmpty(very_recently_seen_not_overdue_bad_cards)) {
         log(

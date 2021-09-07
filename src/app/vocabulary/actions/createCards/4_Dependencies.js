@@ -1,4 +1,4 @@
-import { BAD } from "app/vocabulary/actions/card";
+import { BAD } from "app/vocabulary/actions/cardInSession";
 import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 import { deck } from "app/vocabulary/actions/deck";
 import { INCR } from "app/vocabulary/actions/createSchedule";

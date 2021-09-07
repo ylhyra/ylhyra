@@ -1,4 +1,4 @@
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/card";
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import { average, clamp, mapValueToRange } from "app/app/functions/math";
 import { daysToMs, msToDays } from "app/app/functions/time";
 import {

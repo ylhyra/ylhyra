@@ -1,4 +1,4 @@
-import Card from "app/vocabulary/actions/card";
+import CardInSession from "app/vocabulary/actions/cardInSession";
 import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 
 /**
@@ -21,7 +21,7 @@ export function loadCardsIntoSession(card_ids, options = {}) {
   card_ids.forEach((id, index) => {
     if (!(id in this.deck.cards)) return;
     if (this.cards.some((c) => c.id === id)) return;
-    const card = new Card(
+    const card = new CardInSession(
       {
         id,
         ...this.deck.cards[id],
