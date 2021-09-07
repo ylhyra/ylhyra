@@ -1,6 +1,7 @@
 import { log } from "app/app/functions/log";
 import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
 import _ from "underscore";
+import { getCardsInSession } from "app/vocabulary/actions/session/functions";
 
 /**
  * @module CardInSession
@@ -8,11 +9,9 @@ import _ from "underscore";
 export default function postponeRelatedCards(card1interval) {
   const card1 = this;
 
-  card1.session.cards.forEach((card2) => {
-    if (card2.id === card1.id) return;
-
+  this.getOtherCardsInSession().forEach((card2) => {
     // Same term
-    if (_.intersection(card1.terms, card2.terms).length > 0) {
+    if (_.intersection(card1.getTermIds(), card2.getTermIds()).length > 0) {
       if (card1.history.includes(BAD) || card2.history.includes(BAD)) {
         card2.done = false;
       } else {
@@ -31,24 +30,26 @@ export default function postponeRelatedCards(card1interval) {
       }
     }
 
-    // Cards that directly rely on this cardInSession
-    else if (Object.keys(card2.dependenciesAndSameTerm).includes(card1.id)) {
+    // Cards that directly rely on this card
+    else if (card2.getDependenciesAsArrayOfCards().includes(card1.getId())) {
       const min =
         (card1.history[0] === BAD ? 5 : 2) +
-        card2.dependenciesAndSameTerm[card1.id] * 3;
+        card2.dependencyDepthOfCard(card1) * 3;
       card2.showIn({
         minInterval: min,
         cannotBeShownBefore: min,
       });
     }
 
-    // Cards that this cardInSession depends directly on
+    // Cards that this card depends directly on
     else if (
       card1.history[0] === BAD &&
-      Object.keys(card1.dependenciesAndSameTerm).includes(card2.id) &&
-      card1.dependenciesAndSameTerm[card2.id] === 1 &&
-      (card2.getScore() < 1.1 || card2.history[0] === BAD) &&
-      Math.random() > 0.3
+      card1.dependencyDepthOfCard(card2) === 1 &&
+      // And other card is new
+      ((!card2.isInSchedule() && !card2.wasSeenInSession()) ||
+        // Or other card is bad (includes some randomness
+        ((card2.isScoreLowerThanOrEqualTo(BAD) || card2.history[0] === BAD) &&
+          Math.random() > 0.5))
     ) {
       card1.showIn({ interval: 6 });
       card2.showIn({ interval: 3 });
@@ -57,8 +58,8 @@ export default function postponeRelatedCards(card1interval) {
     // Cards that share the same dependencies
     else if (
       _.intersection(
-        Object.keys(card1.dependenciesAndSameTerm),
-        Object.keys(card2.dependenciesAndSameTerm)
+        card1.getDependenciesAsArrayOfCards(),
+        card2.getDependenciesAsArrayOfCards()
       ).length > 0
     ) {
       card2.showIn({ cannotBeShownBefore: 2 });

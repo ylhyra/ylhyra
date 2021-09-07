@@ -2,13 +2,13 @@ import CardInSession from "app/vocabulary/actions/cardInSession";
 import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 
 /**
- * @module Session
  * Used to load more cards into an already ongoing session.
  * Called from createCards.
  * Options:
  * - insertImmediately
+ * @module Session
  */
-export function loadCardsIntoSession(card_ids, options = {}) {
+export function loadCardsIntoSession(cards, options = {}) {
   let insertAtPosition = 0;
   if (!options.insertImmediately) {
     /* Insert new cards after the current cards */
@@ -18,21 +18,13 @@ export function loadCardsIntoSession(card_ids, options = {}) {
     }
   }
 
-  card_ids.forEach((id, index) => {
-    if (!(id in this.deck.cards)) return;
-    if (this.cards.some((c) => c.id === id)) return;
-    const card = new CardInSession(
-      {
-        id,
-        ...this.deck.cards[id],
-        dependenciesAndSameTerm: withDependencies(id, {
-          showDepth: true,
-        }),
-      },
-      index + insertAtPosition,
-      this
+  cards.forEach((card, index) => {
+    this.cards.push(
+      new CardInSession({
+        data: card.data,
+        insertAtPosition: insertAtPosition + index,
+        session: this,
+      })
     );
-    this.cards.push(card);
   });
-  // this.cardHistory.slice(0, 3);
 }

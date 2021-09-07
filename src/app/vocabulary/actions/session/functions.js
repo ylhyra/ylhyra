@@ -58,3 +58,7 @@ export function answer(rating) {
     session.loadCardInInterface();
   }
 }
+//
+// export const getCardsInSession = () => {
+//   return deck.session.cards;
+// };

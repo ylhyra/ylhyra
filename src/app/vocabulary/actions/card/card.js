@@ -1,22 +1,19 @@
 import { deck } from "app/vocabulary/actions/deck";
-import {
-  getCardsWithSameTerm,
-  printWord,
-} from "app/vocabulary/actions/functions";
-import { now } from "app/app/functions/time";
+import { printWord } from "app/vocabulary/actions/functions";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 import {
   getEasinessLevel,
   isEasinessLevelOn,
 } from "app/vocabulary/actions/easinessLevel/functions";
-import { BAD } from "app/vocabulary/actions/cardInSession";
-import { INCR } from "app/vocabulary/actions/createSchedule";
-import { minIgnoreFalsy } from "app/app/functions/math";
-import { getCardsFromTermIds } from "app/vocabulary/actions/card/functions";
+import {
+  getCardsFromTermId,
+  getCardsFromTermIds,
+} from "app/vocabulary/actions/card/functions";
 
 export class Card {
   constructor(data) {
     Object.assign(this, data);
+    this.data = data;
   }
   getId() {
     return this.id;
@@ -114,10 +111,23 @@ export class Card {
   getDependenciesAsTermIdToDepth() {
     return this.getTerms()[0]?.getDependenciesAsTermIdToDepth();
   }
-  getDependencies() {
+  getDependenciesAsCardIdToDepth() {
+    let out = [];
+    const deps = this.getDependenciesAsTermIdToDepth;
+    Object.keys(deps).forEach((term_id) => {
+      getCardsFromTermId(term_id).forEach((card) => {
+        out[card.getId()] = deps[term_id];
+      });
+    });
+    return out;
+  }
+  getDependenciesAsArrayOfCards() {
     return getCardsFromTermIds(
       Object.keys(this.getDependenciesAsTermIdToDepth())
     ).filter((card) => card.getId() !== this.getId());
+  }
+  dependencyDepthOfCard(related_card) {
+    return this.getDependenciesAsCardIdToDepth()[related_card.getId()];
   }
   // getDependenciesAndSameTerm() {
   //   let out = this.getDependencies();

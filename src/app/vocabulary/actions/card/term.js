@@ -25,16 +25,6 @@ export class Term {
       [this.getId()]: 0,
     };
   }
-  getDependenciesAsCardIdToDepth() {
-    let out = [];
-    const deps = this.getDependenciesAsTermIdToDepth;
-    Object.keys(deps).forEach((term_id) => {
-      getCardsFromTermId(term_id).forEach((card) => {
-        out[card.getId()] = deps[term_id];
-      });
-    });
-    return out;
-  }
   getSortedTermDependencies() {
     const dependenciesAsTermIdToDepth = this.getDependenciesAsTermIdToDepth();
     const term_ids = Object.keys(dependenciesAsTermIdToDepth).sort(

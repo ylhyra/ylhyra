@@ -9,30 +9,34 @@ import { printWord } from "app/vocabulary/actions/functions";
   to add very related cards the session.
 */
 export const addRelatedCards = (card) => {
-  card.getDependencies().forEach((related_card) => {
-    if (related_card_id === card.id) return;
-    if (card.session.cards.some((j) => j.id === related_card_id)) return;
+  let to_add = [];
+  card.getDependenciesAsArrayOfCards().forEach((related_card) => {
+    // Ignore cards already in session
+    if (card.session.cards.some((j) => j.getId() === related_card.getId()))
+      return;
+
     // Add cards with the same term
-    if (card.dependenciesAndSameTerm[related_card_id] === 0) {
-      card.session.loadCardsIntoSession([related_card_id], {
-        insertImmediately: true,
-      });
+    if (card.dependencyDepthOfCard(related_card) === 0) {
+      return to_add.push(related_card);
     }
+
+    // Ignore cyclical dependencies
+    if (related_card.dependencyDepthOfCard(card) > 0) {
+      return;
+    }
+
     // Add cards that this term directly depends on
-    else if (
-      card.dependenciesAndSameTerm[related_card_id] === 1 &&
-      // Ignore cyclical dependencies
-      !Object.keys(deck.cards[related_card_id]?.dependencies || {}).includes(
-        card.id
-      ) &&
-      // Ignore good cards
-      (!(related_card_id in deck.schedule) ||
-        deck.schedule[related_card_id].score <= BAD + INCR * 2)
+    if (
+      card.dependencyDepthOfCard(related_card) === 1 &&
+      related_card.isScoreLowerThanOrEqualTo(BAD + INCR * 2)
     ) {
-      log(`Direct dependency "${printWord(related_card_id)}" added`);
-      card.session.loadCardsIntoSession([related_card_id], {
-        insertImmediately: true,
-      });
+      log(`Direct dependency "${related_card.printWord()}" added`);
+      to_add.push(related_card);
     }
   });
+  if (to_add.length) {
+    card.session.loadCardsIntoSession(to_add, {
+      insertImmediately: true,
+    });
+  }
 };

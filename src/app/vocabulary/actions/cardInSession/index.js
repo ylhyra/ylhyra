@@ -13,11 +13,11 @@ export const GOOD = 2;
 export const EASY = 3;
 
 class CardInSession extends Card {
-  constructor(data, index, session) {
+  constructor({ data, insertAtPosition, session }) {
     super(data);
     this.session = session;
     this.history = [];
-    this.absoluteQueuePosition = index;
+    this.absoluteQueuePosition = session.counter + insertAtPosition;
   }
   isNewTerm() {
     // There exists at least one term
@@ -34,6 +34,9 @@ class CardInSession extends Card {
   }
   wasSeenInSession() {
     return this.history.length > 0;
+  }
+  getOtherCardsInSession() {
+    return deck.session.cards.filter((card) => card.getId() !== this.getId());
   }
 }
 
