@@ -32,4 +32,5 @@ const TextCompiler = ({ json, data }) => {
   // output = entities.decode(output);
   return output;
 };
+
 export default TextCompiler;

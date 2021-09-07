@@ -6,6 +6,7 @@ export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;
   return getPlaintextFromFormatted(formatVocabularyEntry(input));
 };
+
 export const getPlaintextFromFormatted = (input) => {
   if (!input) return null;
   return removeWhitespace(
@@ -19,10 +20,12 @@ export const getPlaintextFromFormatted = (input) => {
       .replace(/†/g, "")
   );
 };
+
 export const removeWhitespace = (input) => {
   if (!input) return "";
   return input.replace(/[\s]+/g, " ").trim();
 };
+
 export const formatVocabularyEntry = (input) => {
   if (!input) return "";
   if (typeof input !== "string") {
@@ -109,6 +112,7 @@ export const formatVocabularyEntry = (input) => {
   input = ProcessLinks(input);
   return input;
 };
+
 export const formatPrefixes = (first, second) => {
   // return first;
   if (!first || !second) return first;
@@ -118,6 +122,7 @@ export const formatPrefixes = (first, second) => {
   }
   return first;
 };
+
 export const formatLemmas = (input) => {
   if (!input) return "";
   input = formatVocabularyEntry(input)

@@ -106,6 +106,7 @@ const classify = (input) => {
     // ...input,
   };
 };
+
 export default classify;
 
 /*
@@ -126,9 +127,11 @@ const BIN_overrides = {
     st: "clipped imperative",
   },
 };
+
 export const get_label_for_BIN_word = (tag) => {
   return BIN_overrides.word_overrides[tag] || normalizeTag(tag) || "";
 };
+
 export const get_label_for_BIN_inflection_form = (tag) => {
   return (
     BIN_overrides.inflection_form_overrides[tag] || normalizeTag(tag) || ""

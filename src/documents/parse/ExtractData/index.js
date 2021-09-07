@@ -43,6 +43,7 @@ const Traverse = (input, callback) => {
     }
   }
 };
+
 export default ExtractData;
 
 /*

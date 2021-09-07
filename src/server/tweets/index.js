@@ -51,4 +51,5 @@ const parseTweet = (tweet) => {
     favorites: tweet.favorite_count,
   };
 };
+
 export default Tweet;

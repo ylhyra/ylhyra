@@ -46,6 +46,7 @@ const init = {
   words: {},
   definitions: {},
 };
+
 export const translation = (state = init, action) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":

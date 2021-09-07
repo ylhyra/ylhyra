@@ -5,4 +5,5 @@ const flattenArray = (data) => {
   );
   return r;
 };
+
 export default flattenArray;

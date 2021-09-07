@@ -90,6 +90,7 @@ export const updateSentence = (data) => (dispatch) => {
     value: data.value,
   });
 };
+
 export const deleteWord = (id) => ({
   type: "DELETE_WORD",
   id,

@@ -26,6 +26,7 @@ const ScoreByTimeSinceTermWasSeen = (id, now) => {
     return 0;
   }
 };
+
 export const SortIdsByWhetherTermWasRecentlySeen = (input, reverse) => {
   const now = new Date().getTime();
   let j = input
@@ -44,6 +45,7 @@ export const SortIdsByWhetherTermWasRecentlySeen = (input, reverse) => {
   }
   return j.map((i) => i.id);
 };
+
 export const SortIdsByScore = (input) => {
   return input
     .map((id) => ({
@@ -53,10 +55,12 @@ export const SortIdsByScore = (input) => {
     .sort((a, b) => a.score - b.score)
     .map((i) => i.id);
 };
+
 export const SortBySortKey = (array) => {
   const x = array.sort((a, b) => deck.cards[a].sortKey - deck.cards[b].sortKey);
   return shuffle_each(x, 20);
 };
+
 export const shuffle_each = (array, range = 20) => {
   // if (isDev) {
   //   return array;

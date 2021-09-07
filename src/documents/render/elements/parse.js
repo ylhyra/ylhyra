@@ -32,6 +32,7 @@ export const ParseHTMLtoObject = (children) => {
   Traverse(children);
   return output;
 };
+
 export const ParseHTMLtoArray = (children) => {
   let output = [];
   const Traverse = (input) => {
@@ -67,6 +68,7 @@ export const ParseHTMLtoArray = (children) => {
   Traverse(children);
   return output;
 };
+
 export const getTextFromReactElement = (input) => {
   let output = "";
   const Traverse = (input) => {

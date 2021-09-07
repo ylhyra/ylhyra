@@ -46,4 +46,5 @@ const MergeShortWords = (input) => {
     return input;
   }
 };
+
 export default MergeShortWords;

@@ -48,4 +48,5 @@ const InvertElementsThatOnlyContainOneThing = (i) => {
     return i;
   }
 };
+
 export default InvertElementsThatOnlyContainOneThing;

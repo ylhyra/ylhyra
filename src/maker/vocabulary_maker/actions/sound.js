@@ -54,6 +54,7 @@ export const setupSound = () => {
   });
   getNextWordToRecord();
 };
+
 export const getNextWordToRecord = () => {
   const remaining = `${current_word_recording} done today, ${
     missing_sound.length - current_word_recording
@@ -74,6 +75,7 @@ export const getNextWordToRecord = () => {
     },
   });
 };
+
 export const saveSound = ({ word, filename }) => {
   console.log(filename);
   sound.push({

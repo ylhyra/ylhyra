@@ -45,6 +45,7 @@ export const search = (e) => {
   }
   selectRows(true);
 };
+
 export const didYouMeanSuggestions = (is, input_row_id) => {
   const split = is.toLowerCase().split(/[ ;,]/g);
   const v = rows

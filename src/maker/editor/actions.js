@@ -14,6 +14,7 @@ export const openEditor = (page) => {
     page,
   });
 };
+
 export const closeEditor = () => {
   if (!store.getState().editor.isSaved) {
     let ok = confirm("Are you sure you want to discard changes?");

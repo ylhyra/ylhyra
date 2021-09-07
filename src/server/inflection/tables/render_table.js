@@ -43,6 +43,7 @@ const AlsoMakeTablesThatFitOnSmallScreens = (
   }
   return output;
 };
+
 export default AlsoMakeTablesThatFitOnSmallScreens;
 
 /**

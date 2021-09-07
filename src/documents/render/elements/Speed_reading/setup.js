@@ -29,6 +29,7 @@ export const SpeedReaderSetup = () => {
     document.getElementById("speed-reader-container")
   );
 };
+
 export default SpeedReaderSetup;
 
 @connect((state) => ({

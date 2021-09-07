@@ -101,6 +101,7 @@ export const open = () => {
     currentlyPlaying: null,
   });
 };
+
 export const close = () => {
   $("#container, header").show();
 
