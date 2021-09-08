@@ -31,7 +31,7 @@ export default function rate(rating) {
   } else if (rating === GOOD) {
     interval = 200;
     card.done = true;
-    if (card.getScore() === BAD) {
+    if (card.isBad()) {
       interval = 12;
     } else if (card.history[1] === BAD) {
       interval = 5;

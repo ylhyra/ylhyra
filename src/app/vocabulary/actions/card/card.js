@@ -1,18 +1,34 @@
 import { deck } from "app/vocabulary/actions/deck";
 import { printWord } from "app/vocabulary/actions/functions";
-import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 import {
   getEasinessLevel,
   isEasinessLevelOn,
 } from "app/vocabulary/actions/easinessLevel/functions";
 import {
-  getCardsFromTermId,
-  getCardsFromTermIds,
-} from "app/vocabulary/actions/card/functions";
-import _ from "underscore";
-import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
-import { INCR } from "app/vocabulary/actions/createSchedule";
-import { log } from "app/app/functions/log";
+  dependencyDepthOfCard,
+  getAllCardsWithSameTerm,
+  getDependenciesAsArrayOfCards,
+  getDependenciesAsCardIdToDepth,
+  getDependenciesAsTermIdToDepth,
+  getSiblingCards,
+  hasTermsInCommonWith,
+} from "app/vocabulary/actions/card/dependencies";
+import {
+  getDue,
+  getLastIntervalInDays,
+  getLastSeen,
+  getLowestAvailableTermScore,
+  getSchedule,
+  getScore,
+  getSessionsSeen,
+  getTermLastSeen,
+  isBad,
+  isFairlyBad,
+  isInSchedule,
+  isNewCard,
+  isNotGood,
+  setSchedule,
+} from "app/vocabulary/actions/card/schedule";
 
 export class Card {
   constructor(data) {
@@ -22,86 +38,17 @@ export class Card {
   getId() {
     return this.id;
   }
-  getSchedule() {
-    return deck.schedule[this.getId()];
-  }
-  getDue() {
-    return this.getSchedule()?.due;
-  }
-  getScore() {
-    return this.getSchedule()?.score;
-  }
-  getSessionsSeen() {
-    return this.getSchedule()?.sessions_seen;
-  }
-  getLastIntervalInDays() {
-    return this.getSchedule()?.last_interval_in_days;
-  }
-  getLastSeen() {
-    return this.getSchedule()?.last_seen;
-  }
-  isScoreLowerThanOrEqualTo(value) {
-    return this.getScore() && this.getScore() <= value;
-  }
-  isBad() {
-    return this.getScore() === BAD;
-  }
-  isFairlyBad() {
-    return this.isScoreLowerThanOrEqualTo(BAD + INCR);
-  }
-  isNotGood() {
-    return this.getScore() && this.getScore() < GOOD;
-  }
-  getLowestAvailableTermScore() {
-    let lowest = null;
-    this.getAllCardsWithSameTerm().forEach((card) => {
-      if (card.getScore()) {
-        lowest = Math.min(lowest || 0, card.getScore());
-      }
-    });
-    return lowest;
-  }
   isBelowEasinessLevel() {
     return isEasinessLevelOn() && this.sortKey < getEasinessLevel();
   }
-  isInSchedule() {
-    return this.getId() in deck.schedule;
-  }
-  isNewCard() {
-    return !this.isInSchedule();
-  }
   printWord() {
     return printWord(this.getId());
-  }
-  setSchedule(data) {
-    deck.schedule[this.getId()] = {
-      ...(deck.schedule[this.getId()] || {}),
-      ...data,
-    };
-    saveScheduleForCardId(this.getId());
   }
   getTerms() {
     return this.terms.map((term_id) => deck.terms[term_id]);
   }
   getTermIds() {
     return this.terms;
-  }
-  /**
-   * Cards with the same term that are not this card
-   */
-  getSiblingCards() {
-    return this.getAllCardsWithSameTerm().filter(
-      (siblingCard) => siblingCard.getId() !== this.getId()
-    );
-  }
-  getAllCardsWithSameTerm() {
-    let out = [];
-    this.getTerms().forEach((term) => {
-      term.getCards().forEach((card) => {
-        out.push(card);
-      });
-    });
-    return out;
   }
   isAllowed({ forbidden_ids, allowed_ids }) {
     return (
@@ -114,36 +61,26 @@ export class Card {
       ? this.sortKey
       : 100000 - this.sortKey;
   }
-  getTermLastSeen() {
-    return Math.max(
-      ...this.getAllCardsWithSameTerm()
-        .map((card) => card.getLastSeen())
-        .filter(Boolean)
-    );
-  }
-  getDependenciesAsTermIdToDepth() {
-    return this.getTerms()[0]?.getDependenciesAsTermIdToDepth();
-  }
-  getDependenciesAsCardIdToDepth() {
-    let out = [];
-    const deps = this.getDependenciesAsTermIdToDepth;
-    Object.keys(deps).forEach((term_id) => {
-      getCardsFromTermId(term_id).forEach((card) => {
-        out[card.getId()] = deps[term_id];
-      });
-    });
-    return out;
-  }
-  getDependenciesAsArrayOfCards() {
-    console.log(this.getDependenciesAsTermIdToDepth());
-    return getCardsFromTermIds(
-      Object.keys(this.getDependenciesAsTermIdToDepth())
-    ).filter((card) => card.getId() !== this.getId());
-  }
-  dependencyDepthOfCard(related_card) {
-    return this.getDependenciesAsCardIdToDepth()[related_card.getId()];
-  }
-  hasTermsInCommonWith(card2) {
-    return _.intersection(this.getTermIds(), card2.getTermIds()).length > 0;
-  }
 }
+
+Card.prototype.dependencyDepthOfCard = dependencyDepthOfCard;
+Card.prototype.getAllCardsWithSameTerm = getAllCardsWithSameTerm;
+Card.prototype.getDependenciesAsArrayOfCards = getDependenciesAsArrayOfCards;
+Card.prototype.getDependenciesAsCardIdToDepth = getDependenciesAsCardIdToDepth;
+Card.prototype.getDependenciesAsTermIdToDepth = getDependenciesAsTermIdToDepth;
+Card.prototype.getSiblingCards = getSiblingCards;
+Card.prototype.hasTermsInCommonWith = hasTermsInCommonWith;
+Card.prototype.getSchedule = getSchedule;
+Card.prototype.getDue = getDue;
+Card.prototype.getScore = getScore;
+Card.prototype.getSessionsSeen = getSessionsSeen;
+Card.prototype.getLastIntervalInDays = getLastIntervalInDays;
+Card.prototype.getLastSeen = getLastSeen;
+Card.prototype.isBad = isBad;
+Card.prototype.isFairlyBad = isFairlyBad;
+Card.prototype.isNotGood = isNotGood;
+Card.prototype.getLowestAvailableTermScore = getLowestAvailableTermScore;
+Card.prototype.getTermLastSeen = getTermLastSeen;
+Card.prototype.isInSchedule = isInSchedule;
+Card.prototype.isNewCard = isNewCard;
+Card.prototype.setSchedule = setSchedule;

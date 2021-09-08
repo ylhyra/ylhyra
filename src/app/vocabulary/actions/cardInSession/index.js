@@ -17,7 +17,7 @@ class CardInSession extends Card {
     super(data);
     this.session = session;
     this.history = history || [];
-    this.absoluteQueuePosition = session.counter + insertAtPosition;
+    this.absoluteQueuePosition = session?.counter || 0 + insertAtPosition;
   }
   isNewTerm() {
     // There exists at least one term

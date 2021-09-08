@@ -4,10 +4,10 @@ import {
   getTermsFromCards,
   printWord,
 } from "app/vocabulary/actions/functions";
-import { withDependencies } from "app/vocabulary/actions/functions/withDependencies";
 import { getCardIdsFromWords } from "documents/compile/vocabulary/getCardIdsFromWords";
 import _ from "underscore";
 import { setDeck } from "app/vocabulary/actions/deck";
+import { withDependencies } from "app/vocabulary/actions/card/dependencies";
 
 const fs = require("fs");
 let deck;
