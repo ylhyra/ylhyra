@@ -11,7 +11,7 @@ import {
   save,
   sound,
 } from "maker/vocabulary_maker/actions/actions";
-import { withDependencies } from "app/vocabulary/actions/card/dependencies";
+import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
 
 let missing_sound = [];
 let current_word_recording = 0;

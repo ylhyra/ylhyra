@@ -1,4 +1,4 @@
-import { withDependencies } from "app/vocabulary/actions/card/dependencies";
+import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
 import { getLowestBadCardSortKey } from "app/vocabulary/actions/easinessLevel/functions";
 
 export default ({ chosen_cards, forbidden_ids }) => {

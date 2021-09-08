@@ -4,33 +4,15 @@ import {
   getEasinessLevel,
   isEasinessLevelOn,
 } from "app/vocabulary/actions/easinessLevel/functions";
+import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
+import { INCR } from "app/vocabulary/actions/createSchedule";
+import { minIgnoreFalsy } from "app/app/functions/math";
+import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 import {
-  dependencyDepthOfCard,
-  getAllCardsWithSameTerm,
-  getDependenciesAsArrayOfCards,
-  getDependenciesAsCardIdToDepth,
-  getDependenciesAsTermIdToDepth,
-  getSiblingCards,
-  hasTermsInCommonWith,
-} from "app/vocabulary/actions/card/dependencies";
-import {
-  getDue,
-  getLastIntervalInDays,
-  getLastSeen,
-  getLowestAvailableTermScore,
-  getSchedule,
-  getScore,
-  getSessionsSeen,
-  getTermLastSeen,
-  isBad,
-  isFairlyBad,
-  isInSchedule,
-  isNewCard,
-  isBelowGood,
-  setSchedule,
-  isTermUnknownOrNotGood,
-  isUnseenOrNotGood,
-} from "app/vocabulary/actions/card/schedule";
+  getCardsFromTermId,
+  getCardsFromTermIds,
+} from "app/vocabulary/actions/card/functions";
+import _ from "underscore";
 
 export class Card {
   constructor(data) {
@@ -63,28 +45,113 @@ export class Card {
       ? this.sortKey
       : 100000 - this.sortKey;
   }
-}
 
-Card.prototype.dependencyDepthOfCard = dependencyDepthOfCard;
-Card.prototype.getAllCardsWithSameTerm = getAllCardsWithSameTerm;
-Card.prototype.getDependenciesAsArrayOfCards = getDependenciesAsArrayOfCards;
-Card.prototype.getDependenciesAsCardIdToDepth = getDependenciesAsCardIdToDepth;
-Card.prototype.getDependenciesAsTermIdToDepth = getDependenciesAsTermIdToDepth;
-Card.prototype.getSiblingCards = getSiblingCards;
-Card.prototype.hasTermsInCommonWith = hasTermsInCommonWith;
-Card.prototype.getSchedule = getSchedule;
-Card.prototype.getDue = getDue;
-Card.prototype.getScore = getScore;
-Card.prototype.getSessionsSeen = getSessionsSeen;
-Card.prototype.getLastIntervalInDays = getLastIntervalInDays;
-Card.prototype.getLastSeen = getLastSeen;
-Card.prototype.isBad = isBad;
-Card.prototype.isFairlyBad = isFairlyBad;
-Card.prototype.isBelowGood = isBelowGood;
-Card.prototype.isUnseenOrNotGood = isUnseenOrNotGood;
-Card.prototype.isTermUnknownOrNotGood = isTermUnknownOrNotGood;
-Card.prototype.getLowestAvailableTermScore = getLowestAvailableTermScore;
-Card.prototype.getTermLastSeen = getTermLastSeen;
-Card.prototype.isInSchedule = isInSchedule;
-Card.prototype.isNewCard = isNewCard;
-Card.prototype.setSchedule = setSchedule;
+  /**************/
+  getSchedule() {
+    return deck.schedule[this.getId()];
+  }
+  getDue() {
+    return this.getSchedule()?.due;
+  }
+  getScore() {
+    return this.getSchedule()?.score;
+  }
+  getSessionsSeen() {
+    return this.getSchedule()?.sessions_seen;
+  }
+  getLastIntervalInDays() {
+    return this.getSchedule()?.last_interval_in_days;
+  }
+  getLastSeen() {
+    return this.getSchedule()?.last_seen;
+  }
+  isBad() {
+    return this.getScore() === BAD;
+  }
+  isFairlyBad() {
+    return this.getScore() && this.getScore() <= BAD + INCR;
+  }
+  isBelowGood() {
+    return this.getScore() && this.getScore() < GOOD;
+  }
+  isUnseenOrNotGood() {
+    return !this.getScore() || this.getScore() < GOOD;
+  }
+  isTermUnknownOrNotGood() {
+    const lowest = this.getLowestAvailableTermScore();
+    return !lowest || lowest < GOOD;
+  }
+  getLowestAvailableTermScore() {
+    let lowest = null;
+    this.getAllCardsWithSameTerm().forEach((card) => {
+      if (card.getScore()) {
+        lowest = minIgnoreFalsy(lowest, card.getScore());
+      }
+    });
+    return lowest;
+  }
+  getTermLastSeen() {
+    return Math.max(
+      ...this.getAllCardsWithSameTerm()
+        .map((card) => card.getLastSeen())
+        .filter(Boolean)
+    );
+  }
+  isInSchedule() {
+    return this.getId() in deck.schedule;
+  }
+  isNewCard() {
+    return !this.isInSchedule();
+  }
+  setSchedule(data) {
+    deck.schedule[this.getId()] = {
+      ...(deck.schedule[this.getId()] || {}),
+      ...data,
+    };
+    saveScheduleForCardId(this.getId());
+  }
+  /********/
+
+  /**
+   * Cards with the same term that are not this card
+   * @module Card
+   */
+  getSiblingCards() {
+    return this.getAllCardsWithSameTerm().filter(
+      (siblingCard) => siblingCard.getId() !== this.getId()
+    );
+  }
+  getAllCardsWithSameTerm() {
+    let out = [];
+    this.getTerms().forEach((term) => {
+      term.getCards().forEach((card) => {
+        out.push(card);
+      });
+    });
+    return out;
+  }
+  getDependenciesAsTermIdToDepth() {
+    return this.getTerms()[0]?.getDependenciesAsTermIdToDepth();
+  }
+  getDependenciesAsCardIdToDepth() {
+    let out = [];
+    const deps = this.getDependenciesAsTermIdToDepth;
+    Object.keys(deps).forEach((term_id) => {
+      getCardsFromTermId(term_id).forEach((card) => {
+        out[card.getId()] = deps[term_id];
+      });
+    });
+    return out;
+  }
+  getDependenciesAsArrayOfCards() {
+    return getCardsFromTermIds(
+      Object.keys(this.getDependenciesAsTermIdToDepth())
+    ).filter((card) => card.getId() !== this.getId());
+  }
+  dependencyDepthOfCard(related_card) {
+    return this.getDependenciesAsCardIdToDepth()[related_card.getId()];
+  }
+  hasTermsInCommonWith(card2) {
+    return _.intersection(this.getTermIds(), card2.getTermIds()).length > 0;
+  }
+}

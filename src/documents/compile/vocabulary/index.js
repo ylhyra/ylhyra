@@ -7,7 +7,7 @@ import {
 import { getCardIdsFromWords } from "documents/compile/vocabulary/getCardIdsFromWords";
 import _ from "underscore";
 import { setDeck } from "app/vocabulary/actions/deck";
-import { withDependencies } from "app/vocabulary/actions/card/dependencies";
+import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
 
 const fs = require("fs");
 let deck;
