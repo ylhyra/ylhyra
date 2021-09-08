@@ -2,6 +2,7 @@ import { deck } from "app/vocabulary/actions/deck";
 import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
+import { minIgnoreFalsy } from "app/app/functions/math";
 
 /**
  * @module Card
@@ -62,8 +63,23 @@ export function isFairlyBad() {
 /**
  * @module Card
  */
-export function isNotGood() {
+export function isBelowGood() {
   return this.getScore() && this.getScore() < GOOD;
+}
+
+/**
+ * @module Card
+ */
+export function isUnseenOrNotGood() {
+  return !this.getScore() || this.getScore() < GOOD;
+}
+
+/**
+ * @module Card
+ */
+export function isTermUnknownOrNotGood() {
+  const lowest = this.getLowestAvailableTermScore();
+  return !lowest || lowest < GOOD;
 }
 
 /**
@@ -73,7 +89,7 @@ export function getLowestAvailableTermScore() {
   let lowest = null;
   this.getAllCardsWithSameTerm().forEach((card) => {
     if (card.getScore()) {
-      lowest = Math.min(lowest || 0, card.getScore());
+      lowest = minIgnoreFalsy(lowest, card.getScore());
     }
   });
   return lowest;

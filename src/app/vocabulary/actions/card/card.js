@@ -26,8 +26,10 @@ import {
   isFairlyBad,
   isInSchedule,
   isNewCard,
-  isNotGood,
+  isBelowGood,
   setSchedule,
+  isTermUnknownOrNotGood,
+  isUnseenOrNotGood,
 } from "app/vocabulary/actions/card/schedule";
 
 export class Card {
@@ -78,7 +80,9 @@ Card.prototype.getLastIntervalInDays = getLastIntervalInDays;
 Card.prototype.getLastSeen = getLastSeen;
 Card.prototype.isBad = isBad;
 Card.prototype.isFairlyBad = isFairlyBad;
-Card.prototype.isNotGood = isNotGood;
+Card.prototype.isBelowGood = isBelowGood;
+Card.prototype.isUnseenOrNotGood = isUnseenOrNotGood;
+Card.prototype.isTermUnknownOrNotGood = isTermUnknownOrNotGood;
 Card.prototype.getLowestAvailableTermScore = getLowestAvailableTermScore;
 Card.prototype.getTermLastSeen = getTermLastSeen;
 Card.prototype.isInSchedule = isInSchedule;

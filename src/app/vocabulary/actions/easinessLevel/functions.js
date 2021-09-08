@@ -36,10 +36,15 @@ export const easinessLevelShouldBeLowerThan = (currentCardSortKey) => {
   }
 };
 
+export const getLowestBadCardSortKey = () => {
+  return (
+    deck.cards_sorted.find((card) => card.isBelowGood())?.sortKey || Infinity
+  );
+};
+
 export const getMaxSortKey = () => {
   /* Can not go higher than the lowest bad cardInSession */
-  const lowestBadCard =
-    deck.cards_sorted.find((card) => card.isNotGood())?.sortKey || Infinity;
+  const lowestBadCard = getLowestBadCardSortKey();
 
   /* Can not go higher than level B1 */
   const highestCardInLevelB1 =

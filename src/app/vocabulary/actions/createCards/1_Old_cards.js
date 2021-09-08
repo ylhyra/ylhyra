@@ -26,7 +26,7 @@ export default ({ forbidden_ids, allowed_ids }) => {
     .sort((a, b) => a.getDue() - b.getDue())
     .forEach((card) => {
       if (card.getDue() < now() + 16 * hours) {
-        if (card.isNotGood()) {
+        if (card.isBelowGood()) {
           overdue_bad.push(card);
         } else {
           overdue_good.push(card);
