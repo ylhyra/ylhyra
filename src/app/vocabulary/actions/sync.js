@@ -34,11 +34,13 @@ export const sync = async (options = {}) => {
   let rows = user_data.rows || {};
   const { lastSynced } = user_data;
 
-  saveUserDataInLocalStorage({ rows });
+  if (!options.isInitializing) {
+    saveUserDataInLocalStorage({ rows });
+  }
 
   if (!isUserLoggedIn()) {
     console.warn(`Not synced to server as user isn't logged in`);
-    return;
+    return user_data;
   }
 
   const unsynced = getUnsynced(rows, options);
@@ -50,15 +52,7 @@ export const sync = async (options = {}) => {
     })
   ).data;
 
-  // response.user_id
-
   rows = mergeResponse(rows, response.rows);
-  const schedule = {};
-  Object.keys(rows).forEach((key) => {
-    if (rows[key].type === "schedule") {
-      schedule[key] = rows[key].value;
-    }
-  });
 
   user_data = {
     rows,
@@ -67,14 +61,21 @@ export const sync = async (options = {}) => {
 
   saveUserDataInLocalStorage({ rows }, { assignToDeck: true });
   if (deck) {
-    deck.schedule = schedule;
+    deck.schedule = getScheduleFromUserData(user_data);
   }
   log("Data synced");
 
-  return {
-    user_data,
-    schedule,
-  };
+  return user_data;
+};
+
+export const getScheduleFromUserData = (user_data) => {
+  const schedule = {};
+  Object.keys(user_data?.rows || {}).forEach((key) => {
+    if (user_data.rows[key].type === "schedule") {
+      schedule[key] = user_data.rows[key].value;
+    }
+  });
+  return schedule;
 };
 
 export const setUserData = (key, value, type) => {

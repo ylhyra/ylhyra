@@ -1,43 +1,29 @@
-import {
-  getCardIdsFromTermIds,
-  getTermIdsFromCardIds,
-  getTermsFromCards,
-  printWord,
-} from "app/vocabulary/actions/functions";
+import { printWord } from "app/vocabulary/actions/functions";
 import { getCardIdsFromWords } from "documents/compile/vocabulary/getCardIdsFromWords";
 import _ from "underscore";
-import { setDeck } from "app/vocabulary/actions/deck";
+import { deck } from "app/vocabulary/actions/deck";
 import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
-
-const fs = require("fs");
-let deck;
-export const readDeck = () => {
-  deck = JSON.parse(
-    fs.readFileSync(
-      __basedir + `/build/vocabulary/vocabulary_database.json`,
-      "utf8"
-    )
-  );
-  deck.alternative_ids = JSON.parse(
-    fs.readFileSync(
-      __basedir + `/build/vocabulary/alternative_ids.json`,
-      "utf8"
-    )
-  );
-  deck.schedule = {};
-  setDeck(deck);
-};
+import { initializeDeckFromFile } from "documents/compile/vocabulary/initializeDeckFromFile";
+import {
+  getCardIdsFromTermIds,
+  getCardsByIds,
+  getIdsFromCards,
+  getTermIdsFromCardIds,
+} from "app/vocabulary/actions/card/functions";
 
 export const parseVocabularyList = (vocabulary_list) => {
   if (!vocabulary_list) return;
-  if (!deck) readDeck();
-  const card_ids = getCardIdsFromWords(vocabulary_list, deck).filter(
+  if (!deck) initializeDeckFromFile();
+  const card_ids = getCardIdsFromWords(vocabulary_list).filter(
     (id) => id in deck.cards
   );
-  const missing = getCardIdsFromWords(vocabulary_list, deck, true);
-  const terms = getTermIdsFromCardIds(card_ids, deck);
+  const missing = getCardIdsFromWords(vocabulary_list, true);
+  const terms = getTermIdsFromCardIds(card_ids);
   const dependencyTerms = getTermIdsFromCardIds(
-    _.difference(withDependencies(card_ids), card_ids)
+    _.difference(
+      getIdsFromCards(withDependencies(getCardsByIds(card_ids))),
+      card_ids
+    )
   );
   if (terms.length === 0) return null;
 

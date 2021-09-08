@@ -4,13 +4,12 @@ import {
   saveInLocalStorage,
 } from "app/app/functions/localStorage";
 import { log } from "app/app/functions/log";
-import { sync } from "app/vocabulary/actions/sync";
-import Deck from "app/vocabulary/actions/deck";
+import { getScheduleFromUserData, sync } from "app/vocabulary/actions/sync";
+import Deck, { deck } from "app/vocabulary/actions/deck";
 import axios from "app/app/axios";
 import store from "app/app/store";
 
 export const InitializeVocabulary = async () => {
-  let DECK = getDeckName(); /* Only used for testing */
   let database = getFromLocalStorage("vocabulary-database");
   let should_update = false;
   if (
@@ -24,14 +23,16 @@ export const InitializeVocabulary = async () => {
     log("Downloading database");
     database = (
       await axios.get(
-        `/api/vocabulary/vocabulary_database${DECK}.json?v=${getBuildId()}`
+        `/api/vocabulary/vocabulary_database${getDeckName()}.json?v=${getBuildId()}`
       )
     ).data;
     saveInLocalStorage("vocabulary-database", database);
     saveInLocalStorage("vocabulary-build-id", getBuildId());
   }
 
-  let { user_data, schedule } = (await sync()) || {};
+  let user_data = (await sync({ isInitializing: true })) || {};
+
+  schedule = getScheduleFromUserData(user_data);
 
   let session = getFromLocalStorage("vocabulary-session");
   // TODO:

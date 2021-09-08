@@ -9,6 +9,10 @@ export const getCardsByIds = (card_ids) => {
   return card_ids.map(getCardById).filter(Boolean);
 };
 
+export const getIdsFromCards = (cards) => {
+  return cards.map((c) => c.getId());
+};
+
 export const getTermById = (term_id) => {
   return deck.terms[term_id] || null;
 };
@@ -31,4 +35,19 @@ export const getCardsInSchedule = () => {
 
 export const getNewCards = () => {
   return deck.cards_sorted.filter((card) => !card.isInSchedule());
+};
+export const getCardIdsFromTermIds = (term_ids) => {
+  return _.uniq(
+    _.flatten(term_ids.map((t) => deck.terms[t]?.cards)).filter(Boolean)
+  );
+};
+export const getTermsFromCards = (cards) => {
+  return getTermIdsFromCardIds(cards.map((c) => c.getId())).map(getTermById);
+};
+export const getTermIdsFromCardIds = (card_ids) => {
+  let terms = [];
+  card_ids.forEach((id) => {
+    terms = terms.concat(deck.cards[id].terms);
+  });
+  return _.uniq(terms);
 };

@@ -2,12 +2,12 @@ import { FileSafeTitle, URL_title } from "app/app/paths";
 import prerender from "server/compiler/prerender_single";
 import forEachAsync from "app/app/functions/array-foreach-async";
 import { app_urls } from "app/router/appUrls";
-import { readDeck } from "documents/compile/vocabulary";
 import { links } from "server/content/links";
+import { initializeDeckFromFile } from "documents/compile/vocabulary/initializeDeckFromFile";
 
 const run = async () => {
   process.stdout.write("Prerendering...");
-  readDeck();
+  initializeDeckFromFile();
   /* Render empty shell */
   let to_render = Object.keys(app_urls);
   // console.log(url_to_info);

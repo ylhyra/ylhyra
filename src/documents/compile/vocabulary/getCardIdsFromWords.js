@@ -1,9 +1,9 @@
 import { getHash } from "maker/vocabulary_maker/compile/functions";
 import _ from "underscore";
-// import { deck } from "app/Vocabulary/actions/deck";
+import { deck } from "app/vocabulary/actions/deck";
 
-let missing = [];
-export const getCardIdsFromWords = (words, deck, returnMissing) => {
+export const getCardIdsFromWords = (words, returnMissing) => {
+  let missing = [];
   let card_ids = [];
   words.forEach((word) => {
     if (!word) return;
@@ -18,14 +18,6 @@ export const getCardIdsFromWords = (words, deck, returnMissing) => {
       missing.push(word);
     }
   });
-  // if (missing.length > 0) {
-  //   timer && clearTimeout(timer);
-  //   timer = setTimeout(() => {
-  //     missing = _.uniq(missing);
-  //     // console.log(`${missing.length} missing terms:\n${_.uniq(missing).join("\n")}`);
-  //     // console.log(missing.join("\n"));
-  //   }, 1000);
-  // }
   if (returnMissing) {
     return missing;
   }

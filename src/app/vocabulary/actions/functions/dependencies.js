@@ -1,6 +1,8 @@
-import { getCardsByIds } from "app/vocabulary/actions/card/functions";
+import {
+  getCardsByIds,
+  getTermsFromCards,
+} from "app/vocabulary/actions/card/functions";
 import _ from "underscore";
-import { getTermsFromCards } from "app/vocabulary/actions/functions/index";
 
 /**
  * Returns an array of cards with all

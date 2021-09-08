@@ -53,6 +53,3 @@ class Deck {
 }
 
 export default Deck;
-
-/* Hack used for server side rendering*/
-export const setDeck = (j) => (deck = j);
