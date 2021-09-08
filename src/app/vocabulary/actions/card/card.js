@@ -135,7 +135,7 @@ export class Card {
   }
   getDependenciesAsCardIdToDepth() {
     let out = [];
-    const deps = this.getDependenciesAsTermIdToDepth;
+    const deps = this.getDependenciesAsTermIdToDepth();
     Object.keys(deps).forEach((term_id) => {
       getCardsFromTermId(term_id).forEach((card) => {
         out[card.getId()] = deps[term_id];

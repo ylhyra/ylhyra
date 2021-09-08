@@ -20,8 +20,6 @@ export const addRelatedCards = (card) => {
     if (related_card.dependencyDepthOfCard(card) > 0) {
       return;
     }
-    console.log(related_card);
-    console.log(card.dependencyDepthOfCard(related_card));
 
     // Add cards that this term directly depends on
     if (

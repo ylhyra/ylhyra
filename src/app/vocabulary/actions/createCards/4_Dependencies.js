@@ -13,12 +13,10 @@ export default ({ chosen_cards, forbidden_ids }) => {
       (chosen_cards.some((i) => i.getId() === card.getId()) ||
         /* Include bad dependencies */
         card.isFairlyBad() ||
-        /* And dependencies that are not well known and semi-close
+        /* And dependencies that are not well known and close
            to the difficulty level of the chosen cards */
         (card.isTermUnknownOrNotGood() &&
           (card.sortKey >= lowestBadCardSortKey ||
-            card.sortKey >= lowestSortKeyOfChosenCards - 100)))
+            card.sortKey >= lowestSortKeyOfChosenCards - 200)))
   );
 };
-// /* Ignore cards that are below user's easiness level */
-// !card.isBelowEasinessLevel() &&
