@@ -7,9 +7,6 @@ import { Term } from "app/vocabulary/actions/card/term";
 
 export let deck;
 
-/**
- * The deck contains all terms
- */
 class Deck {
   constructor({ database, schedule, session, user_data }) {
     deck = this;
@@ -45,6 +42,7 @@ class Deck {
   }
   reset(options) {
     this.schedule = {};
+    this.user_data = {};
     if (!options?.dontClear) {
       saveInLocalStorage("vocabulary-user-data", null);
       saveInLocalStorage("vocabulary-session", null);

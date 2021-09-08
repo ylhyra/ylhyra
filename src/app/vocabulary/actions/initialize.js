@@ -30,12 +30,10 @@ export const InitializeVocabulary = async () => {
     saveInLocalStorage("vocabulary-build-id", getBuildId());
   }
 
-  let user_data = (await sync({ isInitializing: true })) || {};
-
-  schedule = getScheduleFromUserData(user_data);
-
-  let session = getFromLocalStorage("vocabulary-session");
-  // TODO:
+  const user_data = (await sync({ isInitializing: true })) || {};
+  const schedule = getScheduleFromUserData(user_data);
+  const session = getFromLocalStorage("vocabulary-session");
+  // TODO: log
   // if (getFromLocalStorage("vocabulary-session-remaining")) {
   //   session_log.push({
   //     //       seconds_spent
@@ -57,7 +55,7 @@ export const InitializeVocabulary = async () => {
 
 let build_id;
 const getBuildId = () => {
-  if (build_id) return build_id || "";
+  if (build_id) return build_id;
   build_id =
     document
       .querySelector('meta[name="vocabulary_id"]')

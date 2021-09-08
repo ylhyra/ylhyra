@@ -3,7 +3,8 @@ import { login, logout } from "app/user/actions";
 import { deck } from "app/vocabulary/actions/deck";
 import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
 import { eraseCookie } from "app/app/functions/cookie";
-import { wait } from "test/index";
+import { assert, wait } from "test/index";
+import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
 
 /* 
   Various smaller recipes 
@@ -14,6 +15,7 @@ export const run = {
     localStorage.clear();
     eraseCookie();
     await InitializeVocabulary();
+    assert(PercentageKnownOverall() === 0);
   },
   start_session: async () => {
     await updateURL("/vocabulary/play");

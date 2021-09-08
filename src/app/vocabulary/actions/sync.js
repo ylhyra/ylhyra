@@ -28,9 +28,12 @@ export const SESSION_PREFIX = "s_";
  * - tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
  */
 export const sync = async (options = {}) => {
-  // let {isInitializing}=options
-  let user_data =
-    deck?.user_data || getFromLocalStorage("vocabulary-user-data") || {};
+  let user_data;
+  if (Object.keys(deck?.user_data?.rows || {}).length > 0) {
+    user_data = deck.user_data;
+  } else {
+    user_data = getFromLocalStorage("vocabulary-user-data") || {};
+  }
   let rows = user_data.rows || {};
   const { lastSynced } = user_data;
 
@@ -59,7 +62,7 @@ export const sync = async (options = {}) => {
     lastSynced: response.lastSynced,
   };
 
-  saveUserDataInLocalStorage({ rows }, { assignToDeck: true });
+  saveUserDataInLocalStorage(user_data, { assignToDeck: true });
   if (deck) {
     deck.schedule = getScheduleFromUserData(user_data);
   }
