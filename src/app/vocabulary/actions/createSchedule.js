@@ -3,7 +3,6 @@ import { daysToMs, msToDays, now } from "app/app/functions/time";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import { printWord } from "app/vocabulary/actions/functions";
 import { log } from "app/app/functions/log";
-import { sync } from "app/vocabulary/actions/sync";
 
 /* Increment score by how much? */
 export const INCR = 0.4;
@@ -12,7 +11,7 @@ export const INCR = 0.4;
  * Long-term scheduling
  * @module Session
  */
-export async function createSchedule() {
+export function createSchedule() {
   const session = this;
   if (!session) {
     console.error("createSchedule called without an active session!");
@@ -112,8 +111,6 @@ export async function createSchedule() {
   });
 
   log("Schedule made");
-  this.saveSessionLog();
-  await sync();
 }
 
 /**

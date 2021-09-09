@@ -19,7 +19,7 @@ import {
   undo,
   undoable,
 } from "app/vocabulary/actions/session/undo";
-import { SESSION_PREFIX, setUserData } from "app/vocabulary/actions/sync";
+import { SESSION_PREFIX, setUserData, sync } from "app/vocabulary/actions/sync";
 import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
 import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
 import { constants } from "app/app/constants";
@@ -72,6 +72,7 @@ class Session {
       }
       updateURL(url);
     }
+    await sync();
     /* Analytics */
     if (this.getSecondsSpent() > 20) {
       // TODO: Ignore logged in users?
