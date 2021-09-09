@@ -14,6 +14,7 @@ export const run = {
     await logout();
     localStorage.clear();
     eraseCookie();
+    deck.reset();
     await InitializeVocabulary();
     assert(PercentageKnownOverall() === 0);
   },

@@ -41,12 +41,11 @@ class Deck {
     this.session.InitializeSession();
   }
   reset(options) {
-    this.schedule = {};
-    this.user_data = {};
     if (!options?.dontClear) {
       saveInLocalStorage("vocabulary-user-data", null);
       saveInLocalStorage("vocabulary-session", null);
     }
+    deck = null;
   }
 }
 
