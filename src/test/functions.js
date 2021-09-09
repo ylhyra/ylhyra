@@ -5,6 +5,7 @@ import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
 import { eraseCookie } from "app/app/functions/cookie";
 import { assert, wait } from "test/index";
 import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
+import axios from "app/app/axios";
 
 /* 
   Various smaller recipes 
@@ -87,6 +88,12 @@ export const run = {
       username,
       password: username,
     });
+  },
+  logout: async () => {
+    await logout();
+  },
+  logout_only_in_backend: async () => {
+    await axios.post(`/api/user/logout`);
   },
   signup_logout_login: async () => {
     await run.signup();

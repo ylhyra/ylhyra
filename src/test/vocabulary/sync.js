@@ -13,7 +13,7 @@ export default {
     notNull(known1, known2);
     shouldEqual(known1, known2);
   },
-  "Vocabulary same after having logged out": async () => {
+  "Vocabulary same after having logged out and logged in": async () => {
     await run.signup();
     await run.vocabulary_session();
     const known1 = PercentageKnownOverall();
@@ -21,5 +21,11 @@ export default {
     const known2 = PercentageKnownOverall();
     notNull(known1, known2);
     shouldEqual(known1, known2);
+  },
+  "Vocabulary empty on log out": async () => {
+    await run.signup();
+    await run.vocabulary_session();
+    await run.logout();
+    shouldEqual(PercentageKnownOverall(), 0);
   },
 };
