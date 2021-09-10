@@ -6,7 +6,6 @@ import store from "app/app/store";
 import { updateURL } from "app/router/actions/updateURL";
 import { deck } from "app/vocabulary/actions/deck";
 import { sync } from "app/vocabulary/actions/sync";
-import _ from "underscore";
 import { DecodeDataInHTML } from "documents/compile/functions/functions";
 
 export const login = async (values) => {
@@ -33,6 +32,7 @@ export const login = async (values) => {
     if (process.env.REACT_APP_PWYW === "on") {
       updateURL("/pay-what-you-want");
     } else {
+      // TODO: "Thank you for ..."
       updateURL("/vocabulary");
     }
   } else {
@@ -63,7 +63,7 @@ export const getUserFromCookie = () => {
   if (cookie) {
     cookie = JSON.parse(atob(cookie));
     let { user_id, username, username_encoded } = cookie;
-    /* "username" is no longer used but is kept here for
+    /* "username" is no longer used but is kept here temporarily for
      users who already have that cookie set */
     if (username_encoded) {
       username = DecodeDataInHTML(username_encoded, true);
@@ -77,30 +77,20 @@ export const getUserFromCookie = () => {
 
 export const isUserLoggedIn = () => {
   return getUserFromCookie() !== null;
-  // const { user } = store.getState();
-  // return user !== null;
 };
 
 export const existsSchedule = () => {
   return deck?.schedule && Object.keys(deck.schedule).length >= 6;
 };
 
-export const termsInSchedule = () => {
-  if (!deck) return null;
-  return _.uniq(
-    _.flatten(
-      Object.keys(deck.schedule).map((card_id) => deck.cards[card_id]?.terms)
-    )
-  ).length;
-};
-
 /* Called on route changes */
+// TODO!! Should sync
 export const updateUser = () => {
-  const x = getUserFromCookie();
-  if (store.getState().user?.user_id !== x?.user_id) {
+  const user = getUserFromCookie();
+  if (store.getState().user?.user_id !== user?.user_id) {
     store.dispatch({
       type: "LOAD_USER",
-      content: x,
+      content: user,
     });
   }
 };

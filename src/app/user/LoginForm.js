@@ -1,9 +1,10 @@
 import { connect } from "react-redux";
 import React from "react";
-import { existsSchedule, login, termsInSchedule } from "app/user/actions";
+import { existsSchedule, login } from "app/user/actions";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import errors from "app/app/error/messages";
+import { countTermsInSchedule } from "app/vocabulary/actions/functions";
 
 class Form2 extends React.Component {
   constructor(props) {
@@ -131,9 +132,9 @@ class Form2 extends React.Component {
 
               {isSignup && existsSchedule() && (
                 <div className="form-section">
-                  You have already studied {termsInSchedule()} term
-                  {termsInSchedule() > 1 ? "s" : ""} while logged out. Do you
-                  want to:
+                  You have already studied {countTermsInSchedule()} term
+                  {countTermsInSchedule() > 1 ? "s" : ""} while logged out. Do
+                  you want to:
                   <br />
                   <label>
                     <Field type="radio" name="save_progress" value="yes" />

@@ -44,6 +44,15 @@ export const countTerms = (cards) => {
   return round(i, i > 200 ? 50 : 5);
 };
 
+export const countTermsInSchedule = () => {
+  if (!deck) return null;
+  return _.uniq(
+    _.flatten(
+      Object.keys(deck.schedule).map((card_id) => deck.cards[card_id]?.terms)
+    )
+  ).length;
+};
+
 if (isBrowser && isDev) {
   window.studyParticularWords = async (...words) => {
     await studyParticularIds(getCardIdsFromTermIds(words.map(getHash)));
