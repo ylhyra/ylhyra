@@ -5,7 +5,7 @@ import CardInSession from "app/vocabulary/actions/cardInSession";
  * Called from createCards.
  * Options:
  * - insertImmediately
- * @memberOf Session
+ * @class Session.loadCardsIntoSession
  */
 export function loadCardsIntoSession(cards, options = {}) {
   let insertAtPosition = 0;
