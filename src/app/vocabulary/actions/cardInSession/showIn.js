@@ -1,6 +1,5 @@
 /**
- * @class showIn
- * @extends CardInSession
+ * @class CardInSession.showIn
  * All values are relative to the currently shown card, which is at 0.
  * @param interval
  *   An interval of "1" means that the cardInSession will be shown immediately.
@@ -9,10 +8,6 @@
  *   Used to push a card back without pushing it to the front.
  * @param cannotBeShownBefore
  *   Adds hard requirements for when a card can be shown.
- */
-/**
- * @class showIn
- * @extends CardInSession
  */
 export function showIn({ interval, minInterval, cannotBeShownBefore }) {
   /* Set queue position (soft requirements) */
