@@ -38,6 +38,9 @@ class CardInSession extends Card {
   getOtherCardsInSession() {
     return deck.session.cards.filter((card) => card.getId() !== this.getId());
   }
+  getQueuePosition() {
+    return this.absoluteQueuePosition - this.session.counter;
+  }
 }
 
 CardInSession.prototype.rate = rate;

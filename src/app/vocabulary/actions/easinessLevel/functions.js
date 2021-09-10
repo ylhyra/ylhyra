@@ -40,6 +40,12 @@ export const getLowestBadCardSortKey = () => {
   return (
     deck.cards_sorted.find((card) => card.isBelowGood())?.sortKey || Infinity
   );
+
+  Math.min(
+    ...deck.session.cards
+      .filter((card) => card.history.includes(BAD))
+      .map((card) => card.sortKey)
+  );
 };
 
 export const getMaxSortKey = () => {
@@ -69,16 +75,18 @@ export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
     if (card.sortKey < getEasinessLevel()) {
       card.showIn({ minInterval: 100 });
     }
-    // /* Card too difficult */
-    // TODO
-    // else if (
-    //   !cardInSession.done &&
-    //   change < 0 &&
-    //   cardInSession.sortKey > getUserData('easinessLevel') &&
-    //   cardInSession.sortKey <= getUserData('easinessLevel') - change
-    // ) {
-    //   cardInSession.showIn({ minInterval: tmp_index });
-    // }
+    /*
+     /* Card too difficult * /
+     TODO
+     else if (
+       !cardInSession.done &&
+       change < 0 &&
+       cardInSession.sortKey > getUserData('easinessLevel') &&
+       cardInSession.sortKey <= getUserData('easinessLevel') - change
+     ) {
+       cardInSession.showIn({ minInterval: tmp_index });
+     }
+    */
   });
   deck.session.createCards();
 };

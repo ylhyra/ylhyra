@@ -9,7 +9,7 @@ export default {
     await run.vocabulary_session({
       values: [EASY, EASY, EASY, EASY, EASY, EASY, EASY],
     });
-    const e1 = getEasinessLevel();
+    let e1 = getEasinessLevel();
     await run.signup_logout_login();
     notNull(e1);
     shouldEqual(e1, getEasinessLevel());
@@ -20,10 +20,13 @@ export default {
     });
     const e1 = getEasinessLevel();
     notNull(e1);
+    const c1 = deck.session.cards.filter(
+      (card) => !card.done && card.getQueuePosition() < 100
+    );
     assert(
-      deck.session.cards.filter((i) => !i.done).every((i) => i.sortKey >= e1),
+      c1.every((i) => i.sortKey >= e1),
       `Expected easiness level to be below ${e1}, got:`,
-      deck.session.cards.filter((i) => !i.done).map((i) => i.sortKey)
+      c1.map((i) => i.sortKey)
     );
     await run.continue_vocabulary_session({
       values: [BAD, GOOD],

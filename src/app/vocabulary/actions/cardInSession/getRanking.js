@@ -5,8 +5,7 @@ import { BAD } from "app/vocabulary/actions/cardInSession";
  * @module CardInSession
  */
 export default function getRanking() {
-  /* Queue position relative to zero */
-  let q = this.absoluteQueuePosition - this.session.counter;
+  let q = this.getQueuePosition();
   let canBeShown = this.canBeShown();
 
   if (!this.terms) {
@@ -14,18 +13,21 @@ export default function getRanking() {
     throw new Error("getRanking called on an uninitialized cardInSession");
   }
 
-  /* New terms are not relevant unless there are no overdue cards */
+  // New terms are not relevant unless there are no overdue cards
   if (
     !this.getTermIds().some((term_id) => term_id in this.session.lastSeenTerms)
   ) {
-    q = this.absoluteQueuePosition + 1000;
-  } else {
-    /* Seen cards */
+    q += 1000;
+  }
+
+  // Seen cards
+  else {
     /* Seen cards are not relevant if they are not overdue */
     if (q > 0 && canBeShown) {
       q += 2000;
     }
   }
+
   if (!canBeShown) {
     q += 3000;
   }
