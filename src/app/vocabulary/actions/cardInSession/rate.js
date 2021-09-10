@@ -31,13 +31,13 @@ export default function rate(rating) {
   } else if (rating === GOOD) {
     interval = 200;
     card.done = true;
-    if (card.isBad()) {
-      interval = 12;
-    } else if (card.history[1] === BAD) {
+    if (card.history[1] === BAD) {
       interval = 5;
       card.done = false;
     } else if (card.history[2] === BAD) {
       interval = 10;
+    } else if (card.isBad() && card.history.length === 1) {
+      interval = 12;
     }
   } else if (rating === EASY) {
     interval = 800;
