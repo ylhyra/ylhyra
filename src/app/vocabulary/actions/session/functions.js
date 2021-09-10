@@ -3,7 +3,7 @@ import { log } from "app/app/functions/log";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
 
 /**
- * @class Session.updateRemainingTime
+ * @memberOf Session
  */
 export function updateRemainingTime() {
   const diff = Math.min(
@@ -19,14 +19,14 @@ export function updateRemainingTime() {
 }
 
 /**
- * @class Session.getPercentageDone
+ * @memberOf Session
  */
 export function getPercentageDone() {
   return ((this.totalTime - this.remainingTime) / this.totalTime) * 100;
 }
 
 /**
- * @class Session.checkIfCardsRemaining
+ * @memberOf Session
  */
 export function checkIfCardsRemaining() {
   const areThereNewCardsRemaining = this.cards.some(
@@ -39,7 +39,7 @@ export function checkIfCardsRemaining() {
 }
 
 /**
- * @class Session.createMoreCards
+ * @memberOf Session
  */
 export function createMoreCards() {
   this.createCards();
@@ -47,7 +47,7 @@ export function createMoreCards() {
 }
 
 /**
- * @class Session.answer
+ * @memberOf Session
  */
 export function answer(rating) {
   const session = this;

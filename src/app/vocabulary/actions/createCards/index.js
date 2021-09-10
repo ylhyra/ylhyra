@@ -7,7 +7,7 @@ import _ from "underscore";
 export const CARDS_TO_CREATE = 50;
 
 /**
- * @class Session.createCards
+ * @memberOf Session
  */
 export default function createCards(options) {
   const session = this;
