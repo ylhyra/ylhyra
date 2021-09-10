@@ -150,15 +150,25 @@ export class Card {
     });
     return out;
   }
-  getDependenciesAsArrayOfCards() {
+  getDependenciesAsArrayOfCardIds() {
     return getCardsFromTermIds(
       Object.keys(this.getDependenciesAsTermIdToDepth())
-    ).filter((card) => card.getId() !== this.getId());
+    )
+      .filter((card) => card.getId() !== this.getId())
+      .map((card) => card.getId());
   }
   dependencyDepthOfCard(related_card) {
     return this.getDependenciesAsCardIdToDepth()[related_card.getId()];
   }
   hasTermsInCommonWith(card2) {
     return _.intersection(this.getTermIds(), card2.getTermIds()).length > 0;
+  }
+  hasDependenciesInCommonWith(card2) {
+    return (
+      _.intersection(
+        this.getDependenciesAsArrayOfCardIds(),
+        card2.getDependenciesAsArrayOfCardIds()
+      ).length > 0
+    );
   }
 }

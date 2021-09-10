@@ -38,7 +38,7 @@ export function nextCard(depth = 0) {
         Rank: Math.round(i.getRanking()),
         Queue: i.absoluteQueuePosition - i.session.counter,
         Prohib: (i.cannotBeShownBefore || 0) - i.session.counter,
-        new: i.wasSeenInSession() ? "SEEN" : "NEW",
+        new: i.hasBeenSeenInSession() ? "SEEN" : "NEW",
         word: printWord(i.id),
         schdl: deck.schedule[i.id]
           ? new Date(deck.schedule[i.id].last_seen)

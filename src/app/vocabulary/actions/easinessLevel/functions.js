@@ -70,7 +70,8 @@ export const getMaxSortKey = () => {
 export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
   /* Clear unseen cards */
   deck.session.cards = deck.session.cards.filter(
-    (card) => card.wasSeenInSession() || card.cannotBeShownBefore || card.done
+    (card) =>
+      card.hasBeenSeenInSession() || card.cannotBeShownBefore || card.done
   );
   if (change > 0) {
     /* Find cards that are now too easy and postpone them */

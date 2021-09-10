@@ -27,12 +27,12 @@ class CardInSession extends Card {
         (card_id) =>
           !(card_id in deck.schedule) &&
           !this.session.cards.some(
-            (c) => c.id === card_id && c.wasSeenInSession()
+            (c) => c.id === card_id && c.hasBeenSeenInSession()
           )
       )
     );
   }
-  wasSeenInSession() {
+  hasBeenSeenInSession() {
     return this.history.length > 0;
   }
   getOtherCardsInSession() {

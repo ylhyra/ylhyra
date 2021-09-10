@@ -50,7 +50,7 @@ export default function getRanking() {
     q += 0.4;
     if (this.session.cardTypeLog[1] === this.from) {
       /* Two in a row */
-      if (this.wasSeenInSession() || !this.isNewCard()) {
+      if (this.hasBeenSeenInSession() || !this.isNewCard()) {
         q += 5;
       }
 

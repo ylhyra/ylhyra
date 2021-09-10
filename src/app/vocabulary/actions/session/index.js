@@ -90,7 +90,7 @@ class Session {
   }
   saveSessionInLocalStorage() {
     const session = this;
-    if (!session.cards.some((i) => i.wasSeenInSession())) {
+    if (!session.cards.some((i) => i.hasBeenSeenInSession())) {
       return;
     }
     let to_save = session.cards.map((card) => ({

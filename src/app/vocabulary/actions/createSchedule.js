@@ -17,7 +17,7 @@ export function createSchedule() {
     console.error("createSchedule called without an active session!");
     return;
   }
-  if (!session.cards?.some((i) => i.wasSeenInSession())) return;
+  if (!session.cards?.some((i) => i.hasBeenSeenInSession())) return;
 
   session.cards.forEach((card) => {
     let due_in_days;
@@ -94,7 +94,8 @@ export function createSchedule() {
         .filter(
           (sibling_card) =>
             !session.cards.some(
-              (c) => c.getId() === sibling_card.getId() && c.wasSeenInSession()
+              (c) =>
+                c.getId() === sibling_card.getId() && c.hasBeenSeenInSession()
             )
         )
         .forEach((sibling_card) => {

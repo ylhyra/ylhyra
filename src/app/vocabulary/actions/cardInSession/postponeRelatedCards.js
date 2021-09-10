@@ -1,5 +1,4 @@
 import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
-import _ from "underscore";
 
 /**
  * @class CardInSession.postponeRelatedCards
@@ -29,7 +28,7 @@ export default function postponeRelatedCards(card1interval) {
     }
 
     // Cards that directly rely on this card
-    else if (card2.getDependenciesAsArrayOfCards().includes(card1.getId())) {
+    else if (card2.dependencyDepthOfCard(card1) >= 1) {
       const min =
         (card1.history[0] === BAD ? 5 : 2) +
         card2.dependencyDepthOfCard(card1) * 3;
@@ -44,8 +43,8 @@ export default function postponeRelatedCards(card1interval) {
       card1.history[0] === BAD &&
       card1.dependencyDepthOfCard(card2) === 1 &&
       // And other card is new
-      ((!card2.isInSchedule() && !card2.wasSeenInSession()) ||
-        // Or other card is bad (includes some randomness
+      ((!card2.isInSchedule() && !card2.hasBeenSeenInSession()) ||
+        // Or other card is bad (includes some randomness)
         ((card2.isBad || card2.history[0] === BAD) && Math.random() > 0.5))
     ) {
       card1.showIn({ interval: 6 });
@@ -53,12 +52,7 @@ export default function postponeRelatedCards(card1interval) {
     }
 
     // Cards that share the same dependencies
-    else if (
-      _.intersection(
-        card1.getDependenciesAsArrayOfCards(),
-        card2.getDependenciesAsArrayOfCards()
-      ).length > 0
-    ) {
+    else if (card1.hasDependenciesInCommonWith(card2)) {
       card2.showIn({ cannotBeShownBefore: 2 });
       // log(`"${printWord(card2.id)}" postponed`);
     } else {
