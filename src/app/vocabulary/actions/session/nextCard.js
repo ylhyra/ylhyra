@@ -4,7 +4,7 @@ import { isDev } from "app/app/functions/isDev";
 const LOGGING = false;
 
 /**
- * @module Session
+ * @class Session.nextCard
  */
 export function nextCard(depth = 0) {
   // this.saveSnapshotForUndo();

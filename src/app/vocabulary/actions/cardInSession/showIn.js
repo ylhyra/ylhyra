@@ -40,7 +40,7 @@ export function showIn({ interval, minInterval, cannotBeShownBefore }) {
 }
 
 /**
- * @module CardInSession
+ * @class CardInSession.canBeShown
  */
 export function canBeShown() {
   return (

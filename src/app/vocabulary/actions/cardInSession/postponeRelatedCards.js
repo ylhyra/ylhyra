@@ -2,7 +2,7 @@ import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
 import _ from "underscore";
 
 /**
- * @module CardInSession
+ * @class CardInSession.postponeRelatedCards
  */
 export default function postponeRelatedCards(card1interval) {
   const card1 = this;

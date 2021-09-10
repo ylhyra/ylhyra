@@ -3,7 +3,7 @@ import { addRelatedCards } from "app/vocabulary/actions/cardInSession/addRelated
 import { keepTrackOfEasiness } from "app/vocabulary/actions/easinessLevel";
 
 /**
- * @module CardInSession
+ * @class CardInSession.rate
  */
 export default function rate(rating) {
   const card = this;

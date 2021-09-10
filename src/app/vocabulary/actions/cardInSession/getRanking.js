@@ -2,7 +2,7 @@ import { log } from "app/app/functions/log";
 import { BAD } from "app/vocabulary/actions/cardInSession";
 
 /**
- * @module CardInSession
+ * @class CardInSession.getRanking
  */
 export default function getRanking() {
   let q = this.getQueuePosition();

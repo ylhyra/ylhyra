@@ -10,7 +10,7 @@ import {
 import Word from "tables/word";
 
 /**
- * @module Word
+ * @class Word.FindIrregularities
  */
 export function FindIrregularities() {
   let word = this;
