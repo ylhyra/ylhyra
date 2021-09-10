@@ -8,7 +8,7 @@ export default (chosen_cards) => {
   );
   return insertDependenciesInCorrectOrder(chosen_cards).filter(
     (card) =>
-      card.isAllowed() &&
+      !card.isInSession() &&
       /* Keep in those already chosen */
       (card.isIn(chosen_cards) ||
         /* Include bad dependencies */

@@ -2,6 +2,8 @@ import ChooseCards from "app/vocabulary/actions/createCards/3_Choose_cards";
 import Dependencies from "app/vocabulary/actions/createCards/4_Dependencies";
 import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
 import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
+import { getCardById } from "app/vocabulary/actions/card/functions";
+import { logDev } from "app/app/functions/log";
 
 export const CARDS_TO_CREATE = 50;
 
@@ -11,21 +13,17 @@ export const CARDS_TO_CREATE = 50;
 export default function createCards() {
   const session = this;
 
-  /**
-   * forbidden_ids and allowed_ids are used by card.isAllowed()
-   * to see if it can be added to the session
-   */
-  session.forbidden_ids = session.cards.map((card) => card.getId());
-  /* If all allowed_ids are forbidden, clear it */
-  if (!session.allowed_ids?.some((id) => !session.forbidden_ids.includes(id))) {
+  /* If all allowed_ids are already in use, clear it */
+  if (
+    session.allowed_ids &&
+    !session.allowed_ids.every((id) => getCardById(id).isInSession())
+  ) {
     session.allowed_ids = null;
+    logDev("allowed_ids cleared");
   }
 
   /* Create cards */
-  let chosen_cards = ChooseCards({
-    ...OldCards(),
-    ...NewCards(),
-  });
+  let chosen_cards = ChooseCards();
 
   /* Add dependencies */
   chosen_cards = Dependencies(chosen_cards);

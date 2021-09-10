@@ -7,36 +7,37 @@ import { keepTrackOfEasiness } from "app/vocabulary/actions/easinessLevel";
  */
 export default function rate(rating) {
   const card = this;
-  const isNew = card.history.length === 0;
+  const timesSeenBeforeInSession = card.history.length;
   card.history.unshift(rating);
   card.session.ratingHistory.unshift(rating);
   card.session.cardHistory.unshift(card);
   card.lastSeen = card.session.counter;
+  const lastRating = card.history[1];
+  const nextLastRating = card.history[2];
 
   /* Schedule */
   let interval;
   if (rating === BAD) {
     interval = 3;
-    if (card.history[1] === BAD) {
-      if (card.history[2] === BAD || Math.random() < 0.5) {
+    if (lastRating === BAD) {
+      if (nextLastRating === BAD || Math.random() < 0.5) {
         interval = 2;
       }
     }
     card.done = false;
     /* User is getting annoyed */
-    if (card.history.length > 7) {
-      // TODO improve
+    if (timesSeenBeforeInSession > 6) {
       interval = 8;
     }
   } else if (rating === GOOD) {
     interval = 200;
     card.done = true;
-    if (card.history[1] === BAD) {
+    if (lastRating === BAD) {
       interval = 5;
       card.done = false;
-    } else if (card.history[2] === BAD) {
+    } else if (nextLastRating === BAD) {
       interval = 10;
-    } else if (card.isBad() && card.history.length === 1) {
+    } else if (card.isBad() && timesSeenBeforeInSession === 0) {
       interval = 12;
     }
   } else if (rating === EASY) {
@@ -52,5 +53,9 @@ export default function rate(rating) {
   card.postponeRelatedCards(interval);
   card.session.cardTypeLog.unshift(card.from);
 
-  keepTrackOfEasiness({ rating, isNew, card });
+  keepTrackOfEasiness({
+    rating,
+    isANewCard: !card.isInSchedule() && timesSeenBeforeInSession === 0,
+    card,
+  });
 }

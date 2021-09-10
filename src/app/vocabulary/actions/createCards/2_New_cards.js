@@ -15,14 +15,12 @@ export default () => {
         deck.session.allowed_ids.indexOf(b.getId())
     );
   } else if (isEasinessLevelOn()) {
-    new_cards = new_cards.sort(
+    new_cards.sort(
       (a, b) =>
         a.getSortKeyAdjustedForEasinessLevel() -
         b.getSortKeyAdjustedForEasinessLevel()
     );
   }
 
-  return {
-    new_cards,
-  };
+  return new_cards;
 };

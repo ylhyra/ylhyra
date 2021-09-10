@@ -37,10 +37,13 @@ export class Card {
   isIn(arrayOfCards) {
     return arrayOfCards.some((card) => card.getId() === this.getId());
   }
+  isInSession() {
+    return this.isIn(deck.session.cards);
+  }
   isAllowed() {
-    const { forbidden_ids, allowed_ids } = deck.session;
+    const { allowed_ids } = deck.session;
     return (
-      !forbidden_ids.includes(this.getId()) &&
+      !this.isInSession() &&
       (!allowed_ids || allowed_ids.includes(this.getId()))
     );
   }

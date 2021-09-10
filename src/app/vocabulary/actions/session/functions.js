@@ -30,7 +30,7 @@ export function getPercentageDone() {
  */
 export function checkIfCardsRemaining() {
   const areThereNewCardsRemaining = this.cards.some(
-    (i) => i.history.length === 0 && !i.done && i.canBeShown()
+    (i) => !i.wasSeenInSession() && !i.done && i.canBeShown()
   );
   if (!areThereNewCardsRemaining) {
     log("No cards remaining");

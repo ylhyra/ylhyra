@@ -2,16 +2,20 @@ import { CARDS_TO_CREATE } from "app/vocabulary/actions/createCards/index";
 import { sortCardsByScore } from "app/vocabulary/actions/createCards/functions";
 import { log } from "app/app/functions/log";
 import { printWord } from "app/vocabulary/actions/functions";
+import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
+import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
 
-export default ({
-  overdue_bad,
-  overdue_good,
-  not_overdue_bad,
-  not_overdue_semi_bad,
-  very_recently_seen_not_overdue_bad,
-  not_overdue,
-  new_cards,
-}) => {
+export default () => {
+  const {
+    overdue_bad,
+    overdue_good,
+    not_overdue_bad,
+    not_overdue_semi_bad,
+    very_recently_seen_not_overdue_bad,
+    not_overdue,
+  } = OldCards();
+  const new_cards = NewCards();
+
   let total_options = sumOfArrayLengths(
     overdue_bad,
     overdue_good,

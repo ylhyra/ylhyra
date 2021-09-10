@@ -7,7 +7,6 @@ const LOGGING = false;
  * @class Session.nextCard
  */
 export function nextCard(depth = 0) {
-  // this.saveSnapshotForUndo();
   this.counter++;
   this.updateRemainingTime();
   if (this.done) return;
