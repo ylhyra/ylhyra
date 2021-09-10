@@ -1,6 +1,8 @@
 import { insertDependenciesInCorrectOrder } from "app/vocabulary/actions/functions/dependencies";
 import { getLowestBadCardSortKey } from "app/vocabulary/actions/easinessLevel/functions";
 
+export const DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL = 200;
+
 export default (chosen_cards) => {
   const lowestBadCardSortKey = getLowestBadCardSortKey();
   const lowestSortKeyOfChosenCards = Math.min(
@@ -17,6 +19,8 @@ export default (chosen_cards) => {
            to the difficulty level of the chosen cards */
         (card.isTermUnknownOrNotGood() &&
           (card.sortKey >= lowestBadCardSortKey ||
-            card.sortKey >= lowestSortKeyOfChosenCards - 200)))
+            card.sortKey >=
+              lowestSortKeyOfChosenCards -
+                DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL)))
   );
 };

@@ -7,6 +7,8 @@ import _ from "underscore";
 /**
  * Returns an array of cards with all
  * necessary dependencies of a card coming before it
+ * @param {Array.<Card>} cards
+ * @returns {Array.<Card>}
  */
 export const insertDependenciesInCorrectOrder = (cards) => {
   let card_ids = [];

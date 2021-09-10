@@ -1,8 +1,8 @@
 import forEachAsync from "app/app/functions/array-foreach-async";
-import vocabulary_articles from "test/vocabulary/articles";
-import vocabulary_easiness from "test/vocabulary/easiness";
-import vocabulary_session from "test/vocabulary/session";
-import vocabulary_signup_and_login from "test/vocabulary/sync";
+import vocabulary_articles from "test/vocabulary/articles.test";
+import vocabulary_easiness from "test/vocabulary/easiness.test";
+import vocabulary_session from "test/vocabulary/session.test";
+import vocabulary_signup_and_login from "test/vocabulary/sync.test";
 import { run } from "test/functions";
 import _ from "underscore";
 import { log } from "app/app/functions/log";
@@ -40,9 +40,9 @@ export const shouldEqual = (first, second) => {
 
 export const assert = (i, ...description) => {
   if (!i) {
-    log(description);
     console.trace();
-    throw new Error();
+    // log(description);
+    throw new Error(description);
   }
 };
 

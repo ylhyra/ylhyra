@@ -7,6 +7,13 @@ import { Term } from "app/vocabulary/actions/card/term";
 
 export let deck;
 
+/**
+ * @property {Array.<Card>} cards
+ * @property {Array.<Card>} cards_sorted
+ * @property {Array.<Term>} terms
+ * @property {Array.<Object>} schedule
+ * @property {Session} session
+ */
 class Deck {
   constructor({ database, schedule, session, user_data }) {
     deck = this;

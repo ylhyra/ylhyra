@@ -4,6 +4,7 @@ import { assert, notNull, shouldEqual } from "test/index";
 import { run } from "test/functions";
 import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 import { DEFAULT_JUMP_DOWN } from "app/vocabulary/actions/easinessLevel";
+import { DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL } from "app/vocabulary/actions/createCards/4_Dependencies";
 
 export default {
   "Easiness level correctly saved": async () => {
@@ -25,14 +26,19 @@ export default {
       (card) => !card.done && card.getQueuePosition() < 1000
     );
     assert(
-      c1.every((i) => i.sortKey >= e1),
+      c1.every(
+        (i) => i.sortKey >= e1 - DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL
+      ),
       `Expected easiness level to be below ${e1}, got:`,
       c1.map((i) => i.sortKey)
     );
-    const v1 = deck.session.currendCard.sortKey;
+    const v1 = deck.session.currentCard.sortKey;
     await run.continue_vocabulary_session({
       values: [BAD, GOOD],
     });
-    assert(getEasinessLevel() <= v1 - DEFAULT_JUMP_DOWN);
+    assert(
+      getEasinessLevel() <= v1 - DEFAULT_JUMP_DOWN,
+      "Easiness level was not lowered"
+    );
   },
 };

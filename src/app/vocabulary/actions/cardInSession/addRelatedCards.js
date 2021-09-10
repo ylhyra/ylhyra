@@ -6,7 +6,7 @@ import { log } from "app/app/functions/log";
 */
 export const addRelatedCards = (card) => {
   let to_add = [];
-  card.getDependenciesAsArrayOfCardIds().forEach((related_card) => {
+  card.getDependenciesAsArrayOfCards().forEach((related_card) => {
     // Ignore cards already in session
     if (related_card.isIn(card.session.cards)) return;
 

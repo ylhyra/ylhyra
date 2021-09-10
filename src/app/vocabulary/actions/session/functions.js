@@ -27,6 +27,7 @@ export function getPercentageDone() {
 
 /**
  * @class Session.checkIfCardsRemaining
+ * @return {void}
  */
 export function checkIfCardsRemaining() {
   const areThereNewCardsRemaining = this.cards.some(

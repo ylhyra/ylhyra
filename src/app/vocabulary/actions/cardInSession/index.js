@@ -19,6 +19,10 @@ class CardInSession extends Card {
     this.history = history || [];
     this.absoluteQueuePosition = session?.counter || 0 + insertAtPosition;
   }
+
+  /**
+   * @returns {boolean}
+   */
   isNewTerm() {
     // There exists at least one term
     return this.terms.some((term_id) =>
@@ -32,12 +36,24 @@ class CardInSession extends Card {
       )
     );
   }
+
+  /**
+   * @returns {boolean}
+   */
   hasBeenSeenInSession() {
     return this.history.length > 0;
   }
+
+  /**
+   * @returns {Array.<CardInSession>}
+   */
   getOtherCardsInSession() {
     return deck.session.cards.filter((card) => card.getId() !== this.getId());
   }
+
+  /**
+   * @returns {number}
+   */
   getQueuePosition() {
     return this.absoluteQueuePosition - this.session.counter;
   }

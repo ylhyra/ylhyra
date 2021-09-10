@@ -9,11 +9,17 @@ import { INCR } from "app/vocabulary/actions/createSchedule";
 import { minIgnoreFalsy } from "app/app/functions/math";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 import {
+  getCardsByIds,
   getCardsFromTermId,
   getCardsFromTermIds,
 } from "app/vocabulary/actions/card/functions";
 import _ from "underscore";
 
+/**
+ * @property {string} id
+ * @property {Array.<string>} terms
+ * @property {number} sortKey
+ */
 export class Card {
   constructor(data) {
     Object.assign(this, data);
@@ -34,12 +40,25 @@ export class Card {
   getTermIds() {
     return this.terms;
   }
+
+  /**
+   * @param {Array.<Card>} arrayOfCards
+   * @returns {boolean}
+   */
   isIn(arrayOfCards) {
     return arrayOfCards.some((card) => card.getId() === this.getId());
   }
+
+  /**
+   * @returns {Boolean}
+   */
   isInSession() {
     return this.isIn(deck.session.cards);
   }
+
+  /**
+   * @returns {boolean}
+   */
   isAllowed() {
     const { allowed_ids } = deck.session;
     return (
@@ -54,42 +73,89 @@ export class Card {
   }
 
   /**************/
+  /**
+   * @returns {Object|undefined}
+   */
   getSchedule() {
     return deck.schedule[this.getId()];
   }
+
+  /**
+   * @returns {Number|undefined} - Timestamp in milliseconds
+   */
   getDue() {
     return this.getSchedule()?.due;
   }
+
+  /**
+   * @returns {Number|undefined}
+   */
   getScore() {
     return this.getSchedule()?.score;
   }
+
+  /**
+   * @returns {Number|undefined}
+   */
   getSessionsSeen() {
     return this.getSchedule()?.sessions_seen;
   }
+
+  /**
+   * @returns {Number|undefined}
+   */
   getLastIntervalInDays() {
     return this.getSchedule()?.last_interval_in_days;
   }
+
+  /**
+   * @returns {Number|undefined} - Timestamp in milliseconds
+   */
   getLastSeen() {
     return this.getSchedule()?.last_seen;
   }
+
+  /**
+   * @returns {Boolean}
+   */
   isBad() {
     return this.getScore() === BAD;
   }
+
+  /**
+   * @returns {Boolean}
+   */
   isFairlyBad() {
     return this.getScore() && this.getScore() <= BAD + INCR;
   }
+
+  /**
+   * @returns {Boolean}
+   */
   isBelowGood() {
     return this.getScore() && this.getScore() < GOOD;
   }
+
+  /**
+   * @returns {Boolean}
+   */
   isUnseenOrNotGood() {
     return !this.getScore() || this.getScore() < GOOD;
   }
+
+  /**
+   * @returns {Boolean}
+   */
   isTermUnknownOrNotGood() {
     const lowest = this.getLowestAvailableTermScore();
     return !lowest || lowest < GOOD;
   }
+
+  /**
+   * @returns {Number|undefined}
+   */
   getLowestAvailableTermScore() {
-    let lowest = null;
+    let lowest;
     this.getAllCardsWithSameTerm().forEach((card) => {
       if (card.getScore()) {
         lowest = minIgnoreFalsy(lowest, card.getScore());
@@ -97,6 +163,10 @@ export class Card {
     });
     return lowest;
   }
+
+  /**
+   * @returns {Number|undefined}
+   */
   getTermLastSeen() {
     return Math.max(
       ...this.getAllCardsWithSameTerm()
@@ -104,9 +174,17 @@ export class Card {
         .filter(Boolean)
     );
   }
+
+  /**
+   * @returns {boolean}
+   */
   isInSchedule() {
     return this.getId() in deck.schedule;
   }
+
+  /**
+   * @returns {boolean}
+   */
   isNewCard() {
     return !this.isInSchedule();
   }
@@ -122,12 +200,17 @@ export class Card {
   /**
    * Cards with the same term that are not this card
    * @module Card
+   * @returns {Array.<Card>}
    */
   getSiblingCards() {
     return this.getAllCardsWithSameTerm().filter(
       (siblingCard) => siblingCard.getId() !== this.getId()
     );
   }
+
+  /**
+   * @returns {Array.<Card>}
+   */
   getAllCardsWithSameTerm() {
     let out = [];
     this.getTerms().forEach((term) => {
@@ -137,9 +220,17 @@ export class Card {
     });
     return out;
   }
+
+  /**
+   * @returns {Object}
+   */
   getDependenciesAsTermIdToDepth() {
     return this.getTerms()[0]?.getDependenciesAsTermIdToDepth();
   }
+
+  /**
+   * @returns {Object}
+   */
   getDependenciesAsCardIdToDepth() {
     let out = [];
     const deps = this.getDependenciesAsTermIdToDepth();
@@ -150,6 +241,10 @@ export class Card {
     });
     return out;
   }
+
+  /**
+   * @returns {Array.<String>}
+   */
   getDependenciesAsArrayOfCardIds() {
     return getCardsFromTermIds(
       Object.keys(this.getDependenciesAsTermIdToDepth())
@@ -157,12 +252,34 @@ export class Card {
       .filter((card) => card.getId() !== this.getId())
       .map((card) => card.getId());
   }
-  dependencyDepthOfCard(related_card) {
-    return this.getDependenciesAsCardIdToDepth()[related_card.getId()];
+
+  /**
+   * @returns {Array.<Card>}
+   */
+  getDependenciesAsArrayOfCards() {
+    return getCardsByIds(this.getDependenciesAsArrayOfCardIds());
   }
+
+  /**
+   * @param {Card} card2
+   * @returns {Integer|undefined}
+   */
+  dependencyDepthOfCard(card2) {
+    return this.getDependenciesAsCardIdToDepth()[card2.getId()];
+  }
+
+  /**
+   * @param {Card} card2
+   * @returns {Boolean}
+   */
   hasTermsInCommonWith(card2) {
     return _.intersection(this.getTermIds(), card2.getTermIds()).length > 0;
   }
+
+  /**
+   * @param {Card} card2
+   * @returns {Boolean}
+   */
   hasDependenciesInCommonWith(card2) {
     return (
       _.intersection(

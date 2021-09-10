@@ -6,6 +6,9 @@ import CardInSession from "app/vocabulary/actions/cardInSession";
  * Options:
  * - insertImmediately
  * @class Session.loadCardsIntoSession
+ * @param {Array.<CardInSession>} cards
+ * @param {Object=} options
+ * @param {boolean} options.insertImmediately
  */
 export function loadCardsIntoSession(cards, options = {}) {
   let insertAtPosition = 0;

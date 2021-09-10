@@ -28,6 +28,10 @@ import { getCardById } from "app/vocabulary/actions/card/functions";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
+/**
+ * @property {Array.<CardInSession>} cards
+ * @property {CardInSession|null} currentCard
+ */
 class Session {
   constructor(deck, init) {
     this.reset();
