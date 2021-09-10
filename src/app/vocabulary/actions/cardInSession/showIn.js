@@ -1,26 +1,39 @@
 /**
- * @module CardInSession
- * An interval of "1" means that the cardInSession will be shown immediately
+ * @class showIn
+ * @extends CardInSession
+ * All values are relative to the currently shown card, which is at 0.
+ * @param interval
+ *   An interval of "1" means that the cardInSession will be shown immediately.
+ *   Used to give a card a particular queue position.
+ * @param minInterval
+ *   Used to push a card back without pushing it to the front.
+ * @param cannotBeShownBefore
+ *   Adds hard requirements for when a card can be shown.
+ */
+/**
+ * @class showIn
+ * @extends CardInSession
  */
 export function showIn({ interval, minInterval, cannotBeShownBefore }) {
+  /* Set queue position (soft requirements) */
   if (interval) {
-    this.absoluteQueuePosition = this.session.counter + interval;
+    this.setQueuePosition(interval);
   } else if (minInterval) {
-    const newPos = this.session.counter + interval;
-    if (newPos > this.absoluteQueuePosition) {
-      this.absoluteQueuePosition = newPos;
-    }
+    this.setQueuePosition(Math.max(this.getQueuePosition(), minInterval));
   }
 
-  let _cannotBeShownBefore =
-    cannotBeShownBefore || ((interval || minInterval) > 6 ? 6 : 3);
-  if (interval) {
-    _cannotBeShownBefore = Math.min(_cannotBeShownBefore, interval);
+  /* Can absolutely not be shown before X (strong requirements) */
+  if (!cannotBeShownBefore) {
+    if ((interval || minInterval) > 6) {
+      cannotBeShownBefore = 6;
+    } else {
+      cannotBeShownBefore = 3;
+    }
   }
-  this.cannotBeShownBefore = Math.max(
-    this.cannotBeShownBefore || 0,
-    this.session.counter + _cannotBeShownBefore
-  );
+  if (interval) {
+    cannotBeShownBefore = Math.min(cannotBeShownBefore, interval);
+  }
+  this.setCannotBeShownBefore(cannotBeShownBefore);
 
   // log(
   //   `${printWord(this.id)} – cannotBeShownBefore ${

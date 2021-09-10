@@ -41,12 +41,21 @@ class CardInSession extends Card {
   getQueuePosition() {
     return this.absoluteQueuePosition - this.session.counter;
   }
+  setQueuePosition(interval) {
+    this.absoluteQueuePosition = this.session.counter + interval;
+  }
+  setCannotBeShownBefore(interval) {
+    this.cannotBeShownBefore = Math.max(
+      this.cannotBeShownBefore || 0,
+      this.session.counter + interval
+    );
+  }
 }
 
 CardInSession.prototype.rate = rate;
 CardInSession.prototype.getRanking = getRanking;
 CardInSession.prototype.postponeRelatedCards = postponeRelatedCards;
-CardInSession.prototype.showIn = showIn;
+// CardInSession.prototype.showIn = showIn;
 CardInSession.prototype.canBeShown = canBeShown;
 
 export default CardInSession;

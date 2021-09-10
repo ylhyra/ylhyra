@@ -6,6 +6,7 @@ import {
   MAX_JUMP_UP,
   MIN_JUMP_UP,
 } from "app/vocabulary/actions/easinessLevel/index";
+import { BAD } from "app/vocabulary/actions/cardInSession";
 
 let last_jump_up;
 
@@ -37,14 +38,13 @@ export const easinessLevelShouldBeLowerThan = (currentCardSortKey) => {
 };
 
 export const getLowestBadCardSortKey = () => {
-  return (
-    deck.cards_sorted.find((card) => card.isBelowGood())?.sortKey || Infinity
-  );
-
-  Math.min(
+  return Math.min(
+    /* Lowest bad in session */
     ...deck.session.cards
       .filter((card) => card.history.includes(BAD))
-      .map((card) => card.sortKey)
+      .map((card) => card.sortKey),
+    /* Lowest bad in schedule */
+    deck.cards_sorted.find((card) => card.isBelowGood())?.sortKey || Infinity
   );
 };
 
@@ -74,19 +74,18 @@ export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
     /* Card too easy */
     if (card.sortKey < getEasinessLevel()) {
       card.showIn({ minInterval: 100 });
+      return;
     }
-    /*
-     /* Card too difficult * /
-     TODO
-     else if (
-       !cardInSession.done &&
-       change < 0 &&
-       cardInSession.sortKey > getUserData('easinessLevel') &&
-       cardInSession.sortKey <= getUserData('easinessLevel') - change
-     ) {
-       cardInSession.showIn({ minInterval: tmp_index });
-     }
-    */
+
+    /* Card too difficult */
+    if (
+      !card.done &&
+      change < 0 &&
+      card.sortKey > getEasinessLevel() &&
+      card.sortKey <= getEasinessLevel() - change
+    ) {
+      card.showIn({ minInterval: tmp_index });
+    }
   });
   deck.session.createCards();
 };
