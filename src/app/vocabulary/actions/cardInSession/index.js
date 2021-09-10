@@ -51,18 +51,6 @@ class CardInSession extends Card {
     );
   }
 }
-
-// Object.assign(
-//   CardInSession.prototype,
-//   ...{
-//     rate,
-//     getRanking,
-//     postponeRelatedCards,
-//     showIn,
-//     canBeShown,
-//   }
-// );
-
 CardInSession.prototype.rate = rate;
 CardInSession.prototype.getRanking = getRanking;
 CardInSession.prototype.postponeRelatedCards = postponeRelatedCards;

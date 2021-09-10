@@ -29,9 +29,13 @@ export default function postponeRelatedCards(card1interval) {
 
     // Cards that directly rely on this card
     else if (card2.dependencyDepthOfCard(card1) >= 1) {
-      const min =
-        (card1.history[0] === BAD ? 5 : 2) +
-        card2.dependencyDepthOfCard(card1) * 3;
+      let min = card2.dependencyDepthOfCard(card1) * 3;
+      if (card1.history[0] === BAD) {
+        min *= 2;
+        if (card2.dependencyDepthOfCard(card1) >= 2) {
+          card2.done = true;
+        }
+      }
       card2.showIn({
         minInterval: min,
         cannotBeShownBefore: min,
@@ -45,7 +49,7 @@ export default function postponeRelatedCards(card1interval) {
       // And other card is new
       ((!card2.isInSchedule() && !card2.hasBeenSeenInSession()) ||
         // Or other card is bad (includes some randomness)
-        ((card2.isBad || card2.history[0] === BAD) && Math.random() > 0.5))
+        ((card2.isBad() || card2.history[0] === BAD) && Math.random() > 0.5))
     ) {
       card1.showIn({ interval: 6 });
       card2.showIn({ interval: 3 });

@@ -3,6 +3,7 @@ import { deck } from "app/vocabulary/actions/deck";
 import { assert, notNull, shouldEqual } from "test/index";
 import { run } from "test/functions";
 import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
+import { DEFAULT_JUMP_DOWN } from "app/vocabulary/actions/easinessLevel";
 
 export default {
   "Easiness level correctly saved": async () => {
@@ -21,15 +22,17 @@ export default {
     const e1 = getEasinessLevel();
     notNull(e1);
     const c1 = deck.session.cards.filter(
-      (card) => !card.done && card.getQueuePosition() < 100
+      (card) => !card.done && card.getQueuePosition() < 1000
     );
     assert(
       c1.every((i) => i.sortKey >= e1),
       `Expected easiness level to be below ${e1}, got:`,
       c1.map((i) => i.sortKey)
     );
+    const v1 = deck.session.currendCard.sortKey;
     await run.continue_vocabulary_session({
       values: [BAD, GOOD],
     });
+    assert(getEasinessLevel() <= v1 - DEFAULT_JUMP_DOWN);
   },
 };
