@@ -1,5 +1,4 @@
 import { hours, now } from "app/app/functions/time";
-import { BAD } from "app/vocabulary/actions/cardInSession";
 import {
   newestFirst,
   oldestFirst,

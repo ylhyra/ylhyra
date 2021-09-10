@@ -5,7 +5,7 @@ import {
 } from "app/app/functions/localStorage";
 import { log } from "app/app/functions/log";
 import { getScheduleFromUserData, sync } from "app/vocabulary/actions/sync";
-import Deck, { deck } from "app/vocabulary/actions/deck";
+import Deck from "app/vocabulary/actions/deck";
 import axios from "app/app/axios";
 import store from "app/app/store";
 
