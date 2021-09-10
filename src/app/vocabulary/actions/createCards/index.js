@@ -11,29 +11,23 @@ export const CARDS_TO_CREATE = 50;
  */
 export default function createCards(options) {
   const session = this;
-  let forbidden_ids = session.cards.map((i) => i.id);
-  let allowed_ids = session.allowed_ids || null;
+  session.forbidden_ids = session.cards.map((card) => card.getId());
   if (
-    allowed_ids &&
-    allowed_ids.filter((i) => !forbidden_ids.includes(i)).length === 0
+    session.allowed_ids &&
+    session.allowed_ids.filter((i) => !session.forbidden_ids.includes(i))
+      .length === 0
   ) {
-    allowed_ids = null;
+    session.allowed_ids = null;
   }
 
   /* Create cards */
   let chosen_cards = ChooseCards({
-    ...OldCards({
-      forbidden_ids,
-      allowed_ids,
-    }),
-    ...NewCards({
-      forbidden_ids,
-      allowed_ids,
-    }),
+    ...OldCards(),
+    ...NewCards(),
   });
 
   /* Add dependencies */
-  chosen_cards = Dependencies({ chosen_cards, forbidden_ids });
+  chosen_cards = Dependencies(chosen_cards);
   chosen_cards = _.uniq(chosen_cards.filter(Boolean));
 
   /*

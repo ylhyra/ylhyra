@@ -1,14 +1,14 @@
 import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
 import { getLowestBadCardSortKey } from "app/vocabulary/actions/easinessLevel/functions";
 
-export default ({ chosen_cards, forbidden_ids }) => {
+export default (chosen_cards) => {
   const lowestBadCardSortKey = getLowestBadCardSortKey();
   const lowestSortKeyOfChosenCards = Math.min(
     ...chosen_cards.map((c) => c.sortKey)
   );
   return withDependencies(chosen_cards).filter(
     (card) =>
-      card.isAllowed({ forbidden_ids }) &&
+      card.isAllowed() &&
       /* Keep in those already chosen */
       (chosen_cards.some((i) => i.getId() === card.getId()) ||
         /* Include bad dependencies */

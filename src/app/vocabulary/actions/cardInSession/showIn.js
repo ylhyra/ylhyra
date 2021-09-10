@@ -13,7 +13,8 @@ export function showIn({ interval, minInterval, cannotBeShownBefore }) {
   /* Set queue position (soft requirements) */
   if (interval) {
     this.setQueuePosition(interval);
-  } else if (minInterval) {
+  }
+  if (minInterval) {
     this.setQueuePosition(Math.max(this.getQueuePosition(), minInterval));
   }
 

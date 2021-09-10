@@ -7,6 +7,7 @@ import {
   MIN_JUMP_UP,
 } from "app/vocabulary/actions/easinessLevel/index";
 import { BAD } from "app/vocabulary/actions/cardInSession";
+import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
 
 let last_jump_up;
 
@@ -19,10 +20,10 @@ export const increaseEasinessLevel = (currentCardSortKey) => {
     return;
   }
   const newValue = Math.min(newBasedOnCurrentEasinessLevel, getMaxSortKey());
-  const change = newValue - getEasinessLevel();
-  if (change > MIN_JUMP_UP) {
+  const change2 = newValue - getEasinessLevel();
+  if (change2 > MIN_JUMP_UP) {
     setEasinessLevel(newValue);
-    recreateSessionCardsAfterChangingEasinessLevel(change);
+    recreateSessionCardsAfterChangingEasinessLevel(change2);
   }
 };
 
@@ -71,24 +72,32 @@ export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
   deck.session.cards = deck.session.cards.filter(
     (card) => card.wasSeenInSession() || card.cannotBeShownBefore || card.done
   );
-  deck.session.cards.forEach((card) => {
-    /* Card too easy (easiness level has been increased) */
-    if (card.sortKey < getEasinessLevel()) {
-      card.showIn({ minInterval: 1000 + getEasinessLevel() - card.sortKey });
-      return;
-    }
+  if (change > 0) {
+    /* Find cards that are now too easy and postpone them */
+    deck.session.cards.forEach((card) => {
+      if (card.done) return;
+      if (card.sortKey < getEasinessLevel()) {
+        card.showIn({ minInterval: 5000 + getEasinessLevel() - card.sortKey });
+      }
+    });
+    deck.session.createCards();
+  }
 
-    /* Card too difficult (easiness level has been decreased) */
-    if (
-      !card.done &&
-      change < 0 &&
-      card.sortKey > getEasinessLevel() &&
-      card.sortKey <= getEasinessLevel() - change
-    ) {
-      card.showIn({ minInterval: 1000 + getEasinessLevel() + card.sortKey });
+  /* Easiness level has been lowered */
+  if (change < 0) {
+    /* Find cards that are exactly in the newly lowered range */
+    const cardsInLoweredRange = sortBySortKey(
+      deck.session.cards.filter(
+        (card) =>
+          !card.done &&
+          getEasinessLevel() <= card.sortKey &&
+          card.sortKey <= getEasinessLevel() - change
+        // card.showIn({ minInterval: 1000 + getEasinessLevel() + card.sortKey });
+      )
+    );
+    if (cardsInLoweredRange.length > 0) {
     }
-  });
-  deck.session.createCards();
+  }
 };
 
 export const setEasinessLevel = (val) => {
