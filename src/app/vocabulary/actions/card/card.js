@@ -34,6 +34,9 @@ export class Card {
   getTermIds() {
     return this.terms;
   }
+  isIn(arrayOfCards) {
+    return arrayOfCards.some((card) => card.getId() === this.getId());
+  }
   isAllowed() {
     const { forbidden_ids, allowed_ids } = deck.session;
     return (

@@ -8,8 +8,7 @@ export const addRelatedCards = (card) => {
   let to_add = [];
   card.getDependenciesAsArrayOfCards().forEach((related_card) => {
     // Ignore cards already in session
-    if (card.session.cards.some((j) => j.getId() === related_card.getId()))
-      return;
+    if (related_card.isIn(card.session.cards)) return;
 
     // Add cards with the same term
     if (card.dependencyDepthOfCard(related_card) === 0) {
@@ -17,9 +16,7 @@ export const addRelatedCards = (card) => {
     }
 
     // Ignore cyclical dependencies
-    if (related_card.dependencyDepthOfCard(card) > 0) {
-      return;
-    }
+    if (related_card.dependencyDepthOfCard(card) > 0) return;
 
     // Add cards that this term directly depends on
     if (

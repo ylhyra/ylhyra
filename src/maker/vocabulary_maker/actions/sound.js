@@ -11,7 +11,7 @@ import {
   save,
   sound,
 } from "maker/vocabulary_maker/actions/actions";
-import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
+import { insertDependenciesInCorrectOrder } from "app/vocabulary/actions/functions/dependencies";
 
 let missing_sound = [];
 let current_word_recording = 0;
@@ -21,7 +21,7 @@ export const setupSound = () => {
   let ids = _.shuffle(deck.cards_sorted.filter((c) => c.sortKey))
     .sort((a, b) => Math.floor(a.sortKey / 50) - Math.floor(b.sortKey / 50))
     .map((c) => c.id);
-  ids = withDependencies(ids);
+  ids = insertDependenciesInCorrectOrder(ids);
   ids.forEach((id) => {
     if (!(id in cards)) return;
     cards[id].spokenSentences.forEach((sentence) => {

@@ -8,7 +8,7 @@ import _ from "underscore";
  * Returns an array of cards with all
  * necessary dependencies of a card coming before it
  */
-export const withDependencies = (cards) => {
+export const insertDependenciesInCorrectOrder = (cards) => {
   let card_ids = [];
   getTermsFromCards(cards).forEach((term) => {
     card_ids = card_ids.concat(term.getSortedCardDependenciesAsCardIds());
