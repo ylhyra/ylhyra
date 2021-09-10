@@ -8,9 +8,9 @@ export default ({
   overdue_good,
   not_overdue_bad,
   not_overdue_semi_bad,
-  new_cards,
   very_recently_seen_not_overdue_bad,
   not_overdue,
+  new_cards,
 }) => {
   let total_options = sumOfArrayLengths(
     overdue_bad,
@@ -48,7 +48,7 @@ export default ({
       chosen_cards.push(new_cards.shift());
     }
 
-    /* Occasionally show a bad cardInSession that the user saw in the last session */
+    /* Occasionally show a bad card that the user saw in the last session */
     if (i % 4 === 2) {
       if (!isEmpty(very_recently_seen_not_overdue_bad)) {
         log(
@@ -60,12 +60,15 @@ export default ({
       }
     }
 
+    /* Not overdue bad cards */
     if ((isEmpty(overdue_good) && isEmpty(overdue_bad)) || i % 2 === 1) {
       if (!isEmpty(not_overdue_bad)) {
         log(`Not overdue bad card "${printWord(not_overdue_bad[0])}" added`);
         chosen_cards.push(not_overdue_bad.shift());
       }
     }
+
+    /* Not overdue good cards */
     if (isEmpty(overdue_good) && isEmpty(overdue_bad)) {
       if (i % 4 === 4 - 1 && !isEmpty(not_overdue_semi_bad)) {
         log(
@@ -87,8 +90,8 @@ export default ({
   return chosen_cards;
 };
 
-const isEmpty = (array) => array.length === 0;
-const sumOfArrayLengths = (...arrays) => {
+export const isEmpty = (array) => array.length === 0;
+export const sumOfArrayLengths = (...arrays) => {
   let length = 0;
   arrays.forEach((a) => (length += a.length));
   return length;

@@ -7,7 +7,7 @@ import {
 import { shuffleLocally } from "app/app/functions/shuffleLocally";
 import { getCardsInSchedule } from "app/vocabulary/actions/card/functions";
 
-export default ({ forbidden_ids, allowed_ids }) => {
+export default () => {
   /* Previously seen cards */
   let overdue_good = [];
   let overdue_bad = [];
@@ -16,12 +16,7 @@ export default ({ forbidden_ids, allowed_ids }) => {
   let not_overdue = [];
 
   sortBySortKey(getCardsInSchedule())
-    .filter((card) =>
-      card.isAllowed({
-        forbidden_ids,
-        allowed_ids,
-      })
-    )
+    .filter((card) => card.isAllowed())
     .sort((a, b) => a.getDue() - b.getDue())
     .forEach((card) => {
       if (card.getDue() < now() + 16 * hours) {

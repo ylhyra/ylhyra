@@ -11,9 +11,7 @@ import _ from "underscore";
 export const withDependencies = (cards) => {
   let card_ids = [];
   getTermsFromCards(cards).forEach((term) => {
-    term.getSortedCardDependencies().forEach((card) => {
-      card_ids.push(card.getId());
-    });
+    card_ids = card_ids.concat(term.getSortedCardDependenciesAsCardIds());
   });
   return getCardsByIds(_.uniq(card_ids));
 };

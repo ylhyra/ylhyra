@@ -33,17 +33,16 @@ export const getCardsInSchedule = () => {
   return Object.keys(deck.schedule).map(getCardById).filter(Boolean);
 };
 
-export const getNewCards = () => {
-  return deck.cards_sorted.filter((card) => !card.isInSchedule());
-};
 export const getCardIdsFromTermIds = (term_ids) => {
   return _.uniq(
     _.flatten(term_ids.map((t) => deck.terms[t]?.cards)).filter(Boolean)
   );
 };
+
 export const getTermsFromCards = (cards) => {
   return getTermIdsFromCardIds(cards.map((c) => c.getId())).map(getTermById);
 };
+
 export const getTermIdsFromCardIds = (card_ids) => {
   let terms = [];
   card_ids.forEach((id) => {

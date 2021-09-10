@@ -31,20 +31,11 @@ export class Term {
     );
     return getTermsByIds(term_ids);
   }
-  getSortedCardDependencies() {
-    return getCardsByIds(
-      _.uniq(
-        _.flatten(
-          this.getSortedTermDependencies().map((term) => term.getCardIds())
-        )
+  getSortedCardDependenciesAsCardIds() {
+    return _.uniq(
+      _.flatten(
+        this.getSortedTermDependencies().map((term) => term.getCardIds())
       )
     );
   }
 }
-
-// deck.terms[term_id2].cards.forEach((card_id) => {
-//   depth[card_id] = Math.max(
-//     depth[card_id] || 0,
-//     obj.temporaryDependencySortKey
-//   );
-// });
