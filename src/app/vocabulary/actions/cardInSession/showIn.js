@@ -1,5 +1,5 @@
 /**
- * @class CardInSession.showIn
+ * @memberOf CardInSession
  * All values are relative to the currently shown card, which is at 0.
  * @param interval
  *   An interval of "1" means that the cardInSession will be shown immediately.
@@ -40,7 +40,7 @@ export function showIn({ interval, minInterval, cannotBeShownBefore }) {
 }
 
 /**
- * @class CardInSession.canBeShown
+ * @memberOf CardInSession
  */
 export function canBeShown() {
   return (

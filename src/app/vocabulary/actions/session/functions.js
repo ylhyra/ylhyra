@@ -6,13 +6,12 @@ import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
  * @class Session.updateRemainingTime
  */
 export function updateRemainingTime() {
-  const newTimestamp = now();
   const diff = Math.min(
     MAX_SECONDS_TO_COUNT_PER_ITEM * 1000,
-    newTimestamp - this.lastTimestamp
+    now() - this.lastTimestamp
   );
   this.remainingTime = Math.max(0, this.remainingTime - diff);
-  this.lastTimestamp = newTimestamp;
+  this.lastTimestamp = now();
   if (this.remainingTime <= 0) {
     this.sessionDone();
     this.done = true;
