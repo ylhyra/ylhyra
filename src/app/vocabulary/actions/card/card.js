@@ -14,6 +14,7 @@ import {
   getCardsFromTermId,
 } from "app/vocabulary/actions/card/functions";
 import _ from "underscore";
+import { days, now } from "app/app/functions/time";
 
 /**
  * @param {Object} data
@@ -183,6 +184,14 @@ export class Card {
         .map((card) => card.getLastSeen())
         .filter(Boolean)
     );
+  }
+
+  /**
+   * @returns {number|null} - days
+   */
+  daysSinceTermWasSeen() {
+    if (!this.getTermLastSeen()) return null;
+    return (now() - this.getTermLastSeen()) / days;
   }
 
   /**

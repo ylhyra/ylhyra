@@ -57,6 +57,9 @@ export const InitializeUser = () => {
   updateUser();
 };
 
+/**
+ * @returns {{user_id: number, username: string}|null}
+ */
 export const getUserFromCookie = () => {
   if (!isBrowser) return null;
   let cookie = getCookie("y");

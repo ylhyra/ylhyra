@@ -79,17 +79,25 @@ module.exports = {
     strictExportPresence: true,
     rules: [
       {
-        oneOf: [
-          {
-            test: /\.js$/,
-            include: modules,
-            loader: require.resolve("babel-loader"),
-            options: {
-              cacheDirectory: true,
-            },
-          },
-        ],
+        test: /\.js$/,
+        // use: "babel-loader",
+        loader: "babel-loader",
+        exclude: /node_modules/,
+        options: require("./babel.js"),
       },
+
+      // {
+      //   oneOf: [
+      //     {
+      //       test: /\.js$/,
+      //       include: modules,
+      //       loader: require.resolve("babel-loader"),
+      //       options: {
+      //         cacheDirectory: true,
+      //       },
+      //     },
+      //   ],
+      // },
       // {
       //   oneOf: [{
       //     test: /\.(scss)$/,

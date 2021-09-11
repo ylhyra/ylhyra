@@ -42,6 +42,7 @@
   },
   "proxy": "http://localhost:9123",
   "dependencies": {
+    "@babel/runtime": "^7.15.4",
     "@gkt/microphone": "^1.0.3",
     "@google-cloud/translate": "^6.2.2",
     "@hcaptcha/react-hcaptcha": "^0.3.6",
@@ -157,6 +158,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.15.4",
     "@babel/plugin-proposal-pipeline-operator": "^7.15.0",
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
@@ -186,44 +188,5 @@
       "/inflection/",
       "/node_modules/"
     ]
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/react"
-    ],
-    "plugins": [
-      [
-        "@babel/plugin-transform-runtime"
-      ],
-      [
-        "@babel/plugin-proposal-pipeline-operator",
-        {
-          "proposal": "fsharp"
-        }
-      ]
-    ],
-    "env": {
-      "development": {
-        "plugins": [
-          [
-            "@babel/transform-runtime"
-          ],
-          [
-            "@babel/plugin-proposal-pipeline-operator",
-            {
-              "proposal": "fsharp"
-            }
-          ],
-          [
-            "jsdoc-runtime-typecheck",
-            {
-              "useStrict": true,
-              "useDirective": false
-            }
-          ]
-        ]
-      }
-    }
   }
 }

@@ -1,5 +1,7 @@
 import { log } from "app/app/functions/log";
 import { days, now } from "app/app/functions/time";
+import { GOOD } from "app/vocabulary/actions/cardInSession/index";
+import { INCR } from "app/vocabulary/actions/createSchedule";
 
 /**
  * If a cardInSession gets a bad rating, then we make sure
@@ -25,10 +27,14 @@ export const addRelatedCards = (card) => {
       card.dependencyDepthOfCard(related_card) === 1 &&
       /* Unseen or unknown cards */
       (related_card.isUnseenOrNotGood() ||
-        related_card.getSessionsSeen() === 1 ||
         /* Cards that the user has seen only once but said they knew well */
-        (related_card.getScore() < GOOD + INCR &&
-          related_card.getTermLastSeen() < now() - 3 * days))
+        related_card.getSessionsSeen() === 1 ||
+        /* Cards that the user has said Good to twice
+           but which they haven't seen in a few days */
+        (related_card.getScore() <= GOOD + INCR &&
+          related_card.daysSinceTermWasSeen() > 1) ||
+        /* Very well known cards are occasionally shown */
+        (Math.random() < 0.2 && related_card.daysSinceTermWasSeen() > 7))
     ) {
       log(`Direct dependency "${related_card.printWord()}" added`);
       to_add.push(related_card);

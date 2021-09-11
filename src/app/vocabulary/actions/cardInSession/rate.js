@@ -21,7 +21,7 @@ export default function rate(rating) {
   if (rating === BAD) {
     interval = 3;
     if (lastRating === BAD) {
-      if (nextLastRating === BAD || Math.random() < 0.5) {
+      if (nextLastRating === BAD || Math.random() < 0.2) {
         interval = 2;
       }
     }
