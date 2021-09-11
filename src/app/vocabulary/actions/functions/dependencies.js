@@ -15,5 +15,5 @@ export const insertDependenciesInCorrectOrder = (cards) => {
   getTermsFromCards(cards).forEach((term) => {
     card_ids = card_ids.concat(term.getSortedCardDependenciesAsCardIds());
   });
-  return getCardsByIds(_.uniq(card_ids));
+  return card_ids |> _.uniq |> getCardsByIds;
 };

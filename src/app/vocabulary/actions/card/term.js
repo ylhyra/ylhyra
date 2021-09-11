@@ -48,10 +48,10 @@ export class Term {
    * @returns {Array<string>}
    */
   getSortedCardDependenciesAsCardIds() {
-    return _.uniq(
-      _.flatten(
-        this.getSortedTermDependencies().map((term) => term.getCardIds())
-      )
+    return (
+      this.getSortedTermDependencies().map((term) => term.getCardIds())
+      |> _.flatten
+      |> _.uniq
     );
   }
 }

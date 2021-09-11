@@ -195,6 +195,12 @@
     "plugins": [
       [
         "@babel/plugin-transform-runtime"
+      ],
+      [
+        "@babel/plugin-proposal-pipeline-operator",
+        {
+          "proposal": "fsharp"
+        }
       ]
     ],
     "env": {
@@ -202,6 +208,12 @@
         "plugins": [
           [
             "@babel/transform-runtime"
+          ],
+          [
+            "@babel/plugin-proposal-pipeline-operator",
+            {
+              "proposal": "fsharp"
+            }
           ],
           [
             "jsdoc-runtime-typecheck",

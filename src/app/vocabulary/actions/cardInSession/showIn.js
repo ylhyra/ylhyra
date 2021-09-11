@@ -16,7 +16,7 @@ export function showIn({ interval, minInterval, cannotBeShownBefore }) {
     this.setQueuePosition(interval);
   }
   if (minInterval) {
-    this.setQueuePosition(Math.max(this.getQueuePosition(), minInterval));
+    Math.max(this.getQueuePosition(), minInterval) |> this.setQueuePosition;
   }
 
   /* Can absolutely not be shown before X (strong requirements) */

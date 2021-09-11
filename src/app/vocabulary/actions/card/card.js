@@ -12,7 +12,6 @@ import {
   getCardIdsFromTermIds,
   getCardsByIds,
   getCardsFromTermId,
-  getCardsFromTermIds,
 } from "app/vocabulary/actions/card/functions";
 import _ from "underscore";
 
@@ -34,7 +33,7 @@ export class Card {
     return isEasinessLevelOn() && this.sortKey < getEasinessLevel();
   }
   printWord() {
-    return printWord(this.getId());
+    return this.getId() |> printWord;
   }
 
   /**
