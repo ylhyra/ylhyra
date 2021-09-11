@@ -1,19 +1,26 @@
 import { CARDS_TO_CREATE } from "app/vocabulary/actions/createCards/index";
 import { sortCardsByScore } from "app/vocabulary/actions/createCards/functions";
 import { log } from "app/app/functions/log";
-import { printWord } from "app/vocabulary/actions/functions";
 import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
 import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
 
 export default () => {
   const {
+    /** @type {Array.<Card>} */
     overdue_bad,
+    /** @type {Array.<Card>} */
     overdue_good,
+    /** @type {Array.<Card>} */
     not_overdue_bad,
+    /** @type {Array.<Card>} */
     not_overdue_semi_bad,
+    /** @type {Array.<Card>} */
     very_recently_seen_not_overdue_bad,
+    /** @type {Array.<Card>} */
     not_overdue,
   } = OldCards();
+
+  /** @type {Array.<Card>} */
   const new_cards = NewCards();
 
   let total_options = sumOfArrayLengths(
@@ -24,7 +31,9 @@ export default () => {
     new_cards
   );
 
+  /** @type {Array.<Card>} */
   let chosen_cards = [];
+
   let newCardEvery = 3;
   let bad_count = sumOfArrayLengths(overdue_bad, not_overdue_bad);
   if (bad_count > 15) {
@@ -56,9 +65,7 @@ export default () => {
     if (i % 4 === 2) {
       if (!isEmpty(very_recently_seen_not_overdue_bad)) {
         log(
-          `Very recently seen word "${printWord(
-            very_recently_seen_not_overdue_bad[0]
-          )}" added`
+          `Very recently seen word "${very_recently_seen_not_overdue_bad[0].printWord()}" added`
         );
         chosen_cards.push(very_recently_seen_not_overdue_bad.shift());
       }
@@ -67,7 +74,7 @@ export default () => {
     /* Not overdue bad cards */
     if ((isEmpty(overdue_good) && isEmpty(overdue_bad)) || i % 2 === 1) {
       if (!isEmpty(not_overdue_bad)) {
-        log(`Not overdue bad card "${printWord(not_overdue_bad[0])}" added`);
+        log(`Not overdue bad card "${not_overdue_bad[0].printWord()}" added`);
         chosen_cards.push(not_overdue_bad.shift());
       }
     }
@@ -76,7 +83,7 @@ export default () => {
     if (isEmpty(overdue_good) && isEmpty(overdue_bad)) {
       if (i % 4 === 4 - 1 && !isEmpty(not_overdue_semi_bad)) {
         log(
-          `Not overdue good card "${printWord(not_overdue_semi_bad[0])}" added`
+          `Not overdue good card "${not_overdue_semi_bad[0].printWord()}" added`
         );
         chosen_cards.push(not_overdue_semi_bad.shift());
       }

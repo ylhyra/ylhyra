@@ -9,13 +9,18 @@ import { getCardsInSchedule } from "app/vocabulary/actions/card/functions";
 
 export default () => {
   /* Previously seen cards */
+  /** @type {Array.<Card>} */
   let overdue_good = [];
+  /** @type {Array.<Card>} */
   let overdue_bad = [];
+  /** @type {Array.<Card>} */
   let not_overdue_bad = [];
+  /** @type {Array.<Card>} */
   let not_overdue_semi_bad = [];
+  /** @type {Array.<Card>} */
   let not_overdue = [];
 
-  sortBySortKey(getCardsInSchedule())
+  (getCardsInSchedule() |> sortBySortKey)
     .filter((card) => card.isAllowed())
     .sort((a, b) => a.getDue() - b.getDue())
     .forEach((card) => {
@@ -34,14 +39,12 @@ export default () => {
       }
     });
 
-  overdue_bad = shuffleLocally(overdue_bad);
-  overdue_good = shuffleLocally(overdue_good);
-  not_overdue_bad = shuffleLocally(oldestFirst(not_overdue_bad), 10);
-  let very_recently_seen_not_overdue_bad = shuffleLocally(
-    newestFirst(not_overdue_bad),
-    10
-  );
-  not_overdue_semi_bad = shuffleLocally(oldestFirst(not_overdue_semi_bad));
+  overdue_bad = overdue_bad |> shuffleLocally;
+  overdue_good = overdue_good |> shuffleLocally;
+  not_overdue_bad = not_overdue_bad |> oldestFirst |> shuffleLocally;
+  let very_recently_seen_not_overdue_bad =
+    not_overdue_bad |> newestFirst |> shuffleLocally;
+  not_overdue_semi_bad = not_overdue_semi_bad |> oldestFirst |> shuffleLocally;
 
   return {
     overdue_bad,

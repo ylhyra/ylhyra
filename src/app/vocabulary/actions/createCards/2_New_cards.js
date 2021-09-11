@@ -1,7 +1,9 @@
 import { isEasinessLevelOn } from "app/vocabulary/actions/easinessLevel/functions";
 import { deck } from "app/vocabulary/actions/deck";
 
-/* New cards */
+/**
+ * @returns {Card[]}
+ */
 export default () => {
   let new_cards = deck.cards_sorted.filter(
     (card) => !card.isInSchedule() && card.isAllowed()

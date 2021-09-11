@@ -1,5 +1,5 @@
 import { deck } from "app/vocabulary/actions/deck";
-import _ from "underscore";
+import { flatten, uniq } from "underscore";
 
 /**
  * @param {string} card_id
@@ -54,8 +54,10 @@ export const getCardsFromTermId = (term_id) => {
  * @returns {Array.<string>}
  */
 export const getCardIdsFromTermIds = (term_ids) => {
-  return _.uniq(
-    _.flatten(term_ids.map((t) => getTermById(t)?.getCardIds()).filter(Boolean))
+  return (
+    term_ids.map((t) => getTermById(t)?.getCardIds()).filter(Boolean)
+    |> flatten
+    |> uniq
   );
 };
 
@@ -64,14 +66,14 @@ export const getCardIdsFromTermIds = (term_ids) => {
  * @returns {Array.<Card>}
  */
 export const getCardsFromTermIds = (term_ids) => {
-  return getCardsByIds(getCardIdsFromTermIds(term_ids));
+  return term_ids |> getCardIdsFromTermIds |> getCardsByIds;
 };
 
 /**
  * @returns {Array.<Card>}
  */
 export const getCardsInSchedule = () => {
-  return getCardsByIds(Object.keys(deck.schedule));
+  return Object.keys(deck.schedule) |> getCardsByIds;
 };
 
 /**
@@ -79,7 +81,9 @@ export const getCardsInSchedule = () => {
  * @returns {Array.<Term>}
  */
 export const getTermsFromCards = (cards) => {
-  return getTermIdsFromCardIds(cards.map((c) => c.getId())).map(getTermById);
+  return (cards.map((c) => c.getId()) |> getTermIdsFromCardIds).map(
+    getTermById
+  );
 };
 
 /**
@@ -87,9 +91,7 @@ export const getTermsFromCards = (cards) => {
  * @returns {Array.<string>}
  */
 export const getTermIdsFromCardIds = (card_ids) => {
-  let terms = [];
-  card_ids.forEach((id) => {
-    terms = terms.concat(deck.cards[id].terms);
-  });
-  return _.uniq(terms);
+  return (
+    getCardsByIds(card_ids).map((card) => card.getTermIds()) |> flatten |> uniq
+  );
 };

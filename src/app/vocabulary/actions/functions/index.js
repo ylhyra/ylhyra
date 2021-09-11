@@ -10,7 +10,7 @@ import { isDev } from "app/app/functions/isDev";
 import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 
 /**
- * @param {string} id
+ * @param {String} id
  * @returns {string|undefined}
  */
 export const printWord = (id) => {
