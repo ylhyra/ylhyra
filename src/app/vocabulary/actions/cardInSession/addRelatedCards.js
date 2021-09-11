@@ -1,4 +1,5 @@
 import { log } from "app/app/functions/log";
+import { days, now } from "app/app/functions/time";
 
 /**
  * If a cardInSession gets a bad rating, then we make sure
@@ -22,7 +23,12 @@ export const addRelatedCards = (card) => {
     // Add cards that this term directly depends on
     if (
       card.dependencyDepthOfCard(related_card) === 1 &&
-      related_card.isUnseenOrNotGood()
+      /* Unseen or unknown cards */
+      (related_card.isUnseenOrNotGood() ||
+        related_card.getSessionsSeen() === 1 ||
+        /* Cards that the user has seen only once but said they knew well */
+        (related_card.getScore() < GOOD + INCR &&
+          related_card.getTermLastSeen() < now() - 3 * days))
     ) {
       log(`Direct dependency "${related_card.printWord()}" added`);
       to_add.push(related_card);

@@ -73,32 +73,33 @@ export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
     (card) =>
       card.hasBeenSeenInSession() || card.cannotBeShownBefore || card.done
   );
-  if (change > 0) {
-    /* Find cards that are now too easy and postpone them */
-    deck.session.cards.forEach((card) => {
-      if (card.done) return;
-      if (card.sortKey < getEasinessLevel()) {
-        card.showIn({ minInterval: 5000 + getEasinessLevel() - card.sortKey });
-      }
-    });
-    deck.session.createCards();
-  }
 
-  /* Easiness level has been lowered */
-  if (change < 0) {
-    /* Find cards that are exactly in the newly lowered range */
-    const cardsInLoweredRange = sortBySortKey(
-      deck.session.cards.filter(
-        (card) =>
-          !card.done &&
-          getEasinessLevel() <= card.sortKey &&
-          card.sortKey <= getEasinessLevel() - change
-        // card.showIn({ minInterval: 1000 + getEasinessLevel() + card.sortKey });
-      )
-    );
-    if (cardsInLoweredRange.length > 0) {
-    }
-  }
+  // if (change > 0) {
+  //   /* Find cards that are now too easy and postpone them */
+  //   deck.session.cards.forEach((card) => {
+  //     if (card.done) return;
+  //     if (card.sortKey < getEasinessLevel()) {
+  //       card.showIn({ minInterval: 5000 + getEasinessLevel() - card.sortKey });
+  //     }
+  //   });
+  // }
+
+  // /* Easiness level has been lowered */
+  // if (change < 0) {
+  //   /* Find cards that are exactly in the newly lowered range */
+  //   const cardsInLoweredRange =
+  //     deck.session.cards.filter(
+  //       (card) =>
+  //         !card.done &&
+  //         getEasinessLevel() <= card.sortKey &&
+  //         card.sortKey <= getEasinessLevel() - change
+  //       // card.showIn({ minInterval: 1000 + getEasinessLevel() + card.sortKey });
+  //     ) |> sortBySortKey;
+  //   if (cardsInLoweredRange.length > 0) {
+  //   }
+  // }
+
+  deck.session.createCards();
 };
 
 export const setEasinessLevel = (val) => {

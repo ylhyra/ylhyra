@@ -23,6 +23,9 @@ export default () => {
   /** @type {Array.<Card>} */
   const new_cards = NewCards();
 
+  /** @type {Array.<Card>} */
+  let chosen_cards = [];
+
   let total_options = sumOfArrayLengths(
     overdue_bad,
     overdue_good,
@@ -30,9 +33,6 @@ export default () => {
     not_overdue_semi_bad,
     new_cards
   );
-
-  /** @type {Array.<Card>} */
-  let chosen_cards = [];
 
   let newCardEvery = 3;
   let bad_count = sumOfArrayLengths(overdue_bad, not_overdue_bad);

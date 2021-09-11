@@ -7,8 +7,8 @@ import {
 import { shuffleLocally } from "app/app/functions/shuffleLocally";
 import { getCardsInSchedule } from "app/vocabulary/actions/card/functions";
 
+/* Previously seen cards */
 export default () => {
-  /* Previously seen cards */
   /** @type {Array.<Card>} */
   let overdue_good = [];
   /** @type {Array.<Card>} */
@@ -39,19 +39,13 @@ export default () => {
       }
     });
 
-  overdue_bad = overdue_bad |> shuffleLocally;
-  overdue_good = overdue_good |> shuffleLocally;
-  not_overdue_bad = not_overdue_bad |> oldestFirst |> shuffleLocally;
-  let very_recently_seen_not_overdue_bad =
-    not_overdue_bad |> newestFirst |> shuffleLocally;
-  not_overdue_semi_bad = not_overdue_semi_bad |> oldestFirst |> shuffleLocally;
-
   return {
-    overdue_bad,
-    overdue_good,
-    not_overdue_bad,
-    not_overdue_semi_bad,
-    very_recently_seen_not_overdue_bad,
+    overdue_bad: overdue_bad |> shuffleLocally,
+    overdue_good: overdue_good |> shuffleLocally,
+    not_overdue_bad: not_overdue_bad |> oldestFirst |> shuffleLocally,
+    not_overdue_semi_bad: not_overdue_semi_bad |> oldestFirst |> shuffleLocally,
+    very_recently_seen_not_overdue_bad:
+      not_overdue_bad |> newestFirst |> shuffleLocally,
     not_overdue,
   };
 };

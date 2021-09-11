@@ -105,6 +105,7 @@ export class Card {
 
   /**
    * @returns {Number|undefined}
+   * @alias getTimesSeen
    */
   getSessionsSeen() {
     return this.getSchedule()?.sessions_seen;
