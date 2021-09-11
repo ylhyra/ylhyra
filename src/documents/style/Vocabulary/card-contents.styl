@@ -1,116 +1,91 @@
-.vocabulary-card {
-  position: relative;
+.vocabulary-card 
+  position relative
 
-  .card-notes {
-    sans-serif();
-    padding: 7px 9px;
-    text-align: center;
-    opacity: 0.8;
-    display: flex;
-    // align-items: center;
-    flex-direction: column;
-    line-height: 1.2;
-    .card-notes-inner {
-      font-size: 12px;
-      color: #1b1b1b;
-      text-align: left;
-      span.label {
-        color: #828282;
-      }
-    }
-  }
-  &.answered .card-notes:hover {
-    opacity: 1;
-  }
+  .card-notes 
+    sans-serif()
+    padding 7px 9px
+    text-align center
+    opacity 0.8
+    display flex
+    // align-items: center
+    flex-direction column
+    line-height 1.2
+    .card-notes-inner 
+      font-size 12px
+      color #1b1b1b
+      text-align left
+      span.label 
+        color #828282
+  &.answered .card-notes:hover 
+    opacity 1
 
-  .show-after-answer {
-    opacity: 0;
-  }
-  &.answered {
-    .show-after-answer {
-      opacity: 1;
-    }
-  }
+  .show-after-answer 
+    opacity 0
+  &.answered 
+    .show-after-answer 
+      opacity 1
 
-  .has-audio-icon {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    height: 5px;
-    width: 5px;
-    background: rgba(#d5d5d5, 0.4);
-    border-radius: 4px;
+  .has-audio-icon 
+    position absolute
+    top 6px
+    right 6px
+    height 5px
+    width 5px
+    background rgba(#d5d5d5, 0.4)
+    border-radius 4px
 
     // background-image: url("http://localhost:3000/api/images2/assets/speaker_icon.svg"); /* Will be replaced in compile step */
-    // background-size: 15px 15px;
-    // background-repeat: no-repeat;
-    // width: 15px;
-    // height: 15px;
-    // opacity: 0.2;
-  }
+    // background-size: 15px 15px
+    // background-repeat: no-repeat
+    // width: 15px
+    // height: 15px
+    // opacity: 0.2
 
-  .separator {
-    color: #8c8c8c;
-    text-shadow: 0.5px 0.5px 0.5px rgba(white, 1);
-  }
-  .red {
-    color: rgba(139, 0, 0, 0.3);
-  }
-  .rate-how-well {
-    font-size: 12px;
-    padding-bottom: 4px;
-    color: #695a68;
-    border-top: 1px solid gray;
-    display: none;
-  }
+  .separator 
+    color #8c8c8c
+    text-shadow 0.5px 0.5px 0.5px rgba(white, 1)
+  .red 
+    color rgba(139, 0, 0, 0.3)
+  .rate-how-well 
+    font-size 12px
+    padding-bottom 4px
+    color #695a68
+    border-top 1px solid gray
+    display none
 
-  ol {
-    text-align: left;
-    // list-style: none;
-    // counter-reset: item;
-    li {
-      // counter-increment: item;
-      &::marker {
-        color: #ababab;
-        font-size: 90%;
-        sans-serif();
-        // content: counter(item);
-      }
-    }
-  }
+  ol 
+    text-align left
+    // list-style: none
+    // counter-reset: item
+    li 
+      // counter-increment: item
+      &::marker 
+        color #ababab
+        font-size 90%
+        sans-serif()
+        // content: counter(item)
 
   /* Þú-merging */
-  &.answered {
+  &.answered 
     .flashcard-top,
-    .flashcard-bottom {
-      .thu-merging {
-        color: #585858;
-      }
-    }
-  }
+    .flashcard-bottom 
+      .thu-merging 
+        color #585858
 
   .darkgray,
-  .helper-prefix {
-    color: #4b4b4b;
-  }
-  .inline-note {
-    display: block;
-    color: #4b4b4b;
-  }
+  .helper-prefix 
+    color #4b4b4b
+  .inline-note 
+    display block
+    color #4b4b4b
 
-  .flashcard-bottom {
-    .occluded {
-      text-shadow: none;
-      border-bottom: 2px solid #acacac;
-      &.space_before {
-        margin-left: 1px;
-      }
-      &.space_after {
-        margin-right: 1px;
-      }
-    }
-  }
-  &:not(.answered) .flashcard-bottom .occluded > span {
-    opacity: 0;
-  }
-}
+  .flashcard-bottom 
+    .occluded 
+      text-shadow none
+      border-bottom 2px solid #acacac
+      &.space_before 
+        margin-left 1px
+      &.space_after 
+        margin-right 1px
+  &:not(.answered) .flashcard-bottom .occluded > span 
+    opacity 0

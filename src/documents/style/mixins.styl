@@ -1,36 +1,26 @@
-$max-width = 500px;
-$gray = #6b6b6b;
-$blue = #1161d9;
-$lightbrown = #fbfcfd;
-serif() {
-  font-family: Lyon, Lyon Regular, Georgia, serif;
-}
-sans_serif() {
-  font-family: Helvetica Neue, Helvetica, sans-serif;
-  // font-family: -apple-system, system-ui, "Segoe UI", sans-serif;
-}
-.sans-serif {
-  sans_serif();
-}
-underline_links() {
-  a {
-    border-bottom: 1px solid #e4e4e4;
-    color: black;
-    &:hover {
-      text-decoration: none;
-      border-bottom-color: #a7a7a7;
-      color: black;
-    }
-  }
-}
-card_shadow() {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.13), 0 1px 1px 0 rgba(0, 0, 0, 0.17);
-  overflow: hidden;
-}
-notboldlink() {
-  &:not(a) {
-    > b {
-      font-weight: normal;
-    }
-  }
-}
+$max-width = 500px
+$gray = #6b6b6b
+$blue = #1161d9
+$lightbrown = #fbfcfd
+serif() 
+  font-family Lyon, Lyon Regular, Georgia, serif
+sans_serif() 
+  font-family Helvetica Neue, Helvetica, sans-serif
+  // font-family: -apple-system, system-ui, "Segoe UI", sans-serif
+.sans-serif 
+  sans_serif()
+underline_links() 
+  a 
+    border-bottom 1px solid #e4e4e4
+    color black
+    &:hover 
+      text-decoration none
+      border-bottom-color #a7a7a7
+      color black
+card_shadow() 
+  box-shadow 0 0 0 1px rgba(0, 0, 0, 0.13), 0 1px 1px 0 rgba(0, 0, 0, 0.17)
+  overflow hidden
+notboldlink() 
+  &:not(a) 
+    > b 
+      font-weight normal

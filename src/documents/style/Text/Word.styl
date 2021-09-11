@@ -1,51 +1,38 @@
-.word-container {
-  position: relative;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-backface-visibility: hidden;
-  .word {
-    padding: 2px 3px;
-    margin: -3px -4px;
-    border: 1px solid transparent;
-    border-radius: 2px;
-    z-index: 1000;
-    &.hover {
-      background-color: rgba(#b3daff, 0.45);
-      border-color: rgba(#84a3bf, 0.6);
-      color: black;
-      .conversation .me & {
-        background: #dbebfa;
-        border-color: #b1cfeb;
-      }
-    }
-    &.audioPlaying {
-      color: #006dc7;
-      .conversation .me & {
-        color: white;
-      }
-    }
-  }
-}
-.word-container {
-  &.difficult {
-    color: #919191;
-  }
-  &.has-inline-translation {
-    // display: inline-block;
-    .word {
-      white-space: nowrap;
-    }
-  }
-  // html:active .mw-editable &.missing {
-  //   border-bottom: 1px dotted rgba(#d70041, 0.3);
-  //   background: rgba(#ff0000, 0.05);
+.word-container 
+  position relative
+  -webkit-tap-highlight-color transparent
+  -webkit-backface-visibility hidden
+  .word 
+    padding 2px 3px
+    margin -3px -4px
+    border 1px solid transparent
+    border-radius 2px
+    z-index 1000
+    &.hover 
+      background-color rgba(#b3daff, 0.45)
+      border-color rgba(#84a3bf, 0.6)
+      color black
+      .conversation .me & 
+        background #dbebfa
+        border-color #b1cfeb
+    &.audioPlaying 
+      color #006dc7
+      .conversation .me & 
+        color white
+.word-container 
+  &.difficult 
+    color #919191
+  &.has-inline-translation 
+    // display: inline-block
+    .word 
+      white-space nowrap
+  // html:active .mw-editable &.missing 
+  //   border-bottom: 1px dotted rgba(#d70041, 0.3)
+  //   background: rgba(#ff0000, 0.05)
   // }
-}
 
-body.sentence-shown {
-  .difficult {
-    color: inherit !important;
-  }
-  .inline_translation {
-    display: none;
-  }
-}
+body.sentence-shown 
+  .difficult 
+    color inherit !important
+  .inline_translation 
+    display none

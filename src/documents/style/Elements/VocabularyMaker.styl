@@ -1,99 +1,79 @@
 /* VOCABULARY MAKER */
-.vocabulary_maker {
-  padding: 10px;
-  // min-width: 700px;
-  .row {
-    font-size: 12px;
-    line-height: 1.3;
-    padding: 3px 0;
-    border-bottom: 1px solid #e2e2e2;
-    cursor: pointer;
-    .small {
-      font-size: 10px;
-    }
-    &.seen {
-      background: #dcf4d9;
-    }
+.vocabulary_maker 
+  padding 10px
+  // min-width: 700px
+  .row 
+    font-size 12px
+    line-height 1.3
+    padding 3px 0
+    border-bottom 1px solid #e2e2e2
+    cursor pointer
+    .small 
+      font-size 10px
+    &.seen 
+      background #dcf4d9
     b b,
     b + span b,
-    .occluded {
-      text-decoration: underline;
-    }
-    .thu-merging {
-      color: gray;
-      font-style: italic;
-    }
-  }
-  label {
-    display: inline-block;
-    padding: 10px;
-    border: 1px solid #c6c6c6;
-    margin: 0 0 -1px -1px;
-    b {
-      font-size: 13px;
-      // font-weight: 500;
-    }
+    .occluded 
+      text-decoration underline
+    .thu-merging 
+      color gray
+      font-style italic
+  label 
+    display inline-block
+    padding 10px
+    border 1px solid #c6c6c6
+    margin 0 0 -1px -1px
+    b 
+      font-size 13px
+      // font-weight: 500
     &[for="icelandic"],
-    &[for="english"] {
-      display: block;
-      background: #f4f4f4;
-      input {
-        width: 500px;
-        font-size: 15px;
-      }
-    }
-    input {
-      width: 100%;
-      padding: 2px 5px;
-      font-size: 12px;
-      min-width: 80px;
-      // border-color: #94e099;
-    }
-  }
-  .gray {
-    color: gray;
-  }
-  .red {
-    color: rgba(139, 0, 0, 0.3);
-  }
-  .separator {
-    color: #6cffd8;
-  }
-  input[type="number"] {
-    width: 40px;
-  }
-}
+    &[for="english"] 
+      display block
+      background #f4f4f4
+      input 
+        width 500px
+        font-size 15px
+    input 
+      width 100%
+      padding 2px 5px
+      font-size 12px
+      min-width 80px
+      // border-color: #94e099
+  .gray 
+    color gray
+  .red 
+    color rgba(139, 0, 0, 0.3)
+  .separator 
+    color #6cffd8
+  input[type="number"] 
+    width 40px
 
-#recording_window {
-  // .recorder {
-  //   color: white;
-  //   background: #f03e93;
-  //   padding: 3px;
-  //   font-size: 12px;
-  //   border: 1px solid #8a3520;
-  //   float: right;
-  //   &.recording {
-  //     background: #b32e59;
+#recording_window 
+  // .recorder 
+  //   color: white
+  //   background: #f03e93
+  //   padding: 3px
+  //   font-size: 12px
+  //   border: 1px solid #8a3520
+  //   float: right
+  //   &.recording 
+  //     background: #b32e59
   //   }
   // }
-  .recorder {
-    border: 3px solid #49e69b;
-    border-radius: 3px;
-    text-align: center;
-    padding: 55px 24px;
-    margin: 30px 10px;
-    font-size: 26px;
-    font-weight: 600;
-    &.recording {
-      border-color: #d93222;
-      background: #fce3df;
-    }
-  }
-  .visualizer {
-    display: none;
-  }
-  .rec_instructions {
-    color: gray;
-    font-size: 11px;
-  }
-}
+  .recorder 
+    border 3px solid #49e69b
+    border-radius 3px
+    text-align center
+    padding 55px 24px
+    margin 30px 10px
+    font-size 26px
+    font-weight 600
+    &.recording 
+      border-color #d93222
+      background #fce3df
+  .visualizer 
+    display none
+  .rec_instructions 
+    color gray
+    font-size 11px

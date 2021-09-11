@@ -1,83 +1,74 @@
-.vocabulary-card-outer-container {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  // margin-bottom: 13px;
-  .card-container {
-    flex: 1;
-    margin: auto;
-    width: 100%;
-    min-height: 330px;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-  }
-}
-.vocabulary-card {
-  // display: flex;
-  // flex-direction: row;
-  // background: #f4f4f4;
-  background: white;
-  border-radius: 7px;
-  @media (max-width: 380px) {
-    border-radius: 0;
-  }
-  box-shadow: 0 0 1px 0 rgba(black, 0.4), 0 2px 3px 0 rgba(black, 0.1);
-  color: black;
-  // display: flex;
-  height: 100%;
-  margin: auto;
-  overflow: hidden;
-  flex: 1;
-  top: 0;
-  z-index: 100;
-  width: 100%;
-  // transition {
+.vocabulary-card-outer-container 
+  flex 1
+  display flex
+  align-items center
+  justify-content center
+  flex-direction column
+  // margin-bottom: 13px
+  .card-container 
+    flex 1
+    margin auto
+    width 100%
+    min-height 330px
+    max-width 400px
+    display flex
+    flex-direction column
+.vocabulary-card 
+  // display: flex
+  // flex-direction: row
+  // background: #f4f4f4
+  background white
+  border-radius 7px
+  @media (max-width: 380px) 
+    border-radius 0
+  box-shadow 0 0 1px 0 rgba(black, 0.4), 0 2px 3px 0 rgba(black, 0.1)
+  color black
+  // display: flex
+  height 100%
+  margin auto
+  overflow hidden
+  flex 1
+  top 0
+  z-index 100
+  width 100%
+  // transition 
   //   background: 0.3s ease-in-out, border 0.2s ease, box-shadow 0.2s ease,
   //     left 0.5s ease-in-out, opacity 0.5s ease-in-out, top 0.5s ease-in-out,
-  //     width 0.5s ease-in-out, z-index 0.5s ease-in-out;
+  //     width 0.5s ease-in-out, z-index 0.5s ease-in-out
   // }
-  > div:first-child {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
+  > div:first-child 
+    flex 1
+    display flex
+    flex-direction column
   &.not-answered,
-  &.has-sound {
-    cursor: pointer;
-    &:hover {
-      box-shadow: 0 0 1px 0 rgba(black, 0.5), 0 1px 3px 0 rgba(black, 0.2);
-    }
-  }
-  // &.incorrect {
-  //   box-shadow: 0 0 0 2px #f04949;
-  //   animation: shake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  //   transform: translate3d(black);
-  //   backface-visibility: hidden;
-  //   perspective: 1000px;
-  //   background: #eeeeee;
+  &.has-sound 
+    cursor pointer
+    &:hover 
+      box-shadow 0 0 1px 0 rgba(black, 0.5), 0 1px 3px 0 rgba(black, 0.2)
+  // &.incorrect 
+  //   box-shadow: 0 0 0 2px #f04949
+  //   animation: shake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both
+  //   transform: translate3d(black)
+  //   backface-visibility: hidden
+  //   perspective: 1000px
+  //   background: #eeeeee
   // }
-  // &.correct {
-  //   background: #f6f6f6;
-  //   box-shadow: 0 0 0 2px #a0e477;
+  // &.correct 
+  //   background: #f6f6f6
+  //   box-shadow: 0 0 0 2px #a0e477
   // }
-  // @media (max-width: 520px) {
-  //   border-radius: 9px;
+  // @media (max-width: 520px) 
+  //   border-radius: 9px
   // }
-  // > * {
-  //   opacity: 1;
-  //   transition: opacity 0.3s ease;
+  // > * 
+  //   opacity: 1
+  //   transition: opacity 0.3s ease
   // }
-  &.new {
-    border-top: 2px solid #79f1c23d;
-  }
-  > div {
-    padding: 0;
-    border: none;
-  }
-}
+  &.new 
+    border-top 2px solid #79f1c23d
+  > div 
+    padding 0
+    border none
 @keyframes fadein {
   from {
     opacity: 0;
@@ -105,10 +96,9 @@
     transform: translate(5px, 0px) rotate(0.5deg);
   }
 }
-.flex-center {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+.flex-center 
+  flex 1
+  display flex
+  flex-direction column
+  align-items center
+  justify-content center

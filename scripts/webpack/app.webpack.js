@@ -48,8 +48,21 @@ const config = {
         options: require("./babel.js"),
       },
       {
-        test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        test: /\.styl$/,
+        // loader: "stylus-loader",
+        // use: [MiniCssExtractPlugin.loader, "css-loader", "stylus-loader"],
+        use: [
+          "style-loader",
+          {
+            loader: "file-loader",
+            options: {
+              name: "main.css",
+            },
+          },
+          {
+            loader: "stylus-loader",
+          },
+        ],
       },
     ],
   },
