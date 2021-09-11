@@ -6,7 +6,7 @@ import _ from "underscore";
 
 /**
  * @property {Array.<string>} cards
- * @property {Object.<string, Integer>} dependencies
+ * @property {Object.<string, number>} dependencies
  */
 export class Term {
   constructor(data, id) {

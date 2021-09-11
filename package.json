@@ -158,13 +158,18 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-react": "^7.14.5",
+    "babel-loader": "^8.2.2",
     "babel-plugin-jsdoc-runtime-typecheck": "^1.2.1",
     "babel-plugin-runtyper": "^0.4.0",
+    "css-loader": "^6.2.0",
     "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^5.3.2",
     "jest": "^27.0.6",
     "jest-puppeteer": "^5.0.4",
     "prettier": "2.3.1",
+    "sass-loader": "^12.1.0",
+    "terser-webpack-plugin": "^5.2.4",
     "webpack": "^5.52.1",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.8.0",
@@ -202,14 +207,6 @@
             {
               "useStrict": true,
               "useDirective": false
-            }
-          ],
-          [
-            "babel-plugin-runtyper",
-            {
-              "warnLevel": "info",
-              "implicitEqualNull": "allow",
-              "implicitEqualUndefined": "allow"
             }
           ]
         ]

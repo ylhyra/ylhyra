@@ -16,15 +16,17 @@ const config = {
     historyApiFallback: {
       index: "index.html",
     },
-    contentBase: "./public",
-    inline: true,
+    // contentBase: "./public",
+    // inline: true,
     hot: true,
     proxy: {
       "/api": "http://localhost:9123",
     },
-    overlay: {
-      errors: true,
-      warnings: false,
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
     },
   },
   entry: "./src/index.js",
@@ -55,7 +57,6 @@ const config = {
   plugins: [
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({ inject: true }),
-    new webpack.HotModuleReplacementPlugin(),
     // new BundleAnalyzerPlugin()
   ],
   optimization: {

@@ -1,7 +1,6 @@
 import getRanking from "app/vocabulary/actions/cardInSession/getRanking";
 import rate from "app/vocabulary/actions/cardInSession/rate";
 import postponeRelatedCards from "app/vocabulary/actions/cardInSession/postponeRelatedCards";
-import { deck } from "app/vocabulary/actions/deck";
 import {
   canBeShown,
   showIn,
@@ -15,15 +14,16 @@ export const EASY = 3;
 /**
  * @property {boolean} done
  * @property {Session} session
- * @property {Array.<Integer>} history
- * @property {Integer} absoluteQueuePosition
+ * @property {Array.<number>} history
+ * @property {number} absoluteQueuePosition
  */
 class CardInSession extends Card {
   constructor({ data, insertAtPosition, session, history }) {
     super(data);
     this.session = session;
     this.history = history || [];
-    this.absoluteQueuePosition = session?.counter || 0 + insertAtPosition;
+    this.absoluteQueuePosition =
+      (session?.counter || 0) + (insertAtPosition || 0);
   }
 
   /**
@@ -31,15 +31,17 @@ class CardInSession extends Card {
    */
   isNewTerm() {
     // There exists at least one term
-    return this.terms.some((term_id) =>
+    return this.getTerms().some((term) =>
       // Where every cardInSession is new
-      deck.terms[term_id].cards.every(
-        (card_id) =>
-          !(card_id in deck.schedule) &&
-          !this.session.cards.some(
-            (c) => c.id === card_id && c.hasBeenSeenInSession()
-          )
-      )
+      term
+        .getCards()
+        .every(
+          (card) =>
+            !card.isInSchedule() &&
+            !this.session.cards.some(
+              (c) => c.getId() === card.getId() && c.hasBeenSeenInSession()
+            )
+        )
     );
   }
 
@@ -54,18 +56,26 @@ class CardInSession extends Card {
    * @returns {Array.<CardInSession>}
    */
   getOtherCardsInSession() {
-    return deck.session.cards.filter((card) => card.getId() !== this.getId());
+    return this.session.cards.filter((card) => card.getId() !== this.getId());
   }
 
   /**
-   * @returns {Integer}
+   * @returns {number}
    */
   getQueuePosition() {
     return this.absoluteQueuePosition - this.session.counter;
   }
+
+  /**
+   * @param {number} interval
+   */
   setQueuePosition(interval) {
     this.absoluteQueuePosition = this.session.counter + interval;
   }
+
+  /**
+   * @param {number} interval
+   */
   setCannotBeShownBefore(interval) {
     this.cannotBeShownBefore = Math.max(
       this.cannotBeShownBefore || 0,

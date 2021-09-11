@@ -232,14 +232,14 @@ export class Card {
   }
 
   /**
-   * @returns {Object.<string, Integer>}
+   * @returns {Object.<string, number>}
    */
   getDependenciesAsTermIdToDepth() {
     return this.getTerms()[0]?.getDependenciesAsTermIdToDepth();
   }
 
   /**
-   * @returns {Object.<string, Integer>}
+   * @returns {Object.<string, number>}
    */
   getDependenciesAsCardIdToDepth() {
     let out = {};
@@ -270,7 +270,7 @@ export class Card {
 
   /**
    * @param {Card} card2
-   * @returns {Integer|undefined}
+   * @returns {number|undefined}
    */
   dependencyDepthOfCard(card2) {
     return this.getDependenciesAsCardIdToDepth()[card2.getId()];
