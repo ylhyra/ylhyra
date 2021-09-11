@@ -126,21 +126,21 @@ export class Card {
   }
 
   /**
-   * @returns {Boolean}
+   * @returns {Boolean|undefined}
    */
   isBad() {
     return this.getScore() === BAD;
   }
 
   /**
-   * @returns {Boolean}
+   * @returns {Boolean|undefined}
    */
   isFairlyBad() {
     return this.getScore() && this.getScore() <= BAD + INCR;
   }
 
   /**
-   * @returns {Boolean}
+   * @returns {Boolean|undefined}
    */
   isBelowGood() {
     return this.getScore() && this.getScore() < GOOD;

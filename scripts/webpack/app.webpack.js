@@ -18,6 +18,14 @@ const config = {
     },
     contentBase: "./public",
     inline: true,
+    hot: true,
+    proxy: {
+      "/api": "http://localhost:9123",
+    },
+    overlay: {
+      errors: true,
+      warnings: false,
+    },
   },
   entry: "./src/index.js",
   mode: process.env.NODE_ENV,

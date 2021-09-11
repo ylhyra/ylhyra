@@ -106,13 +106,15 @@ module.exports = {
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1,
     }),
-    new webpack.WatchIgnorePlugin([
-      resolve("src/documents/Parse"),
-      resolve("src/documents/Read"),
-      resolve("src/documents/Render"),
-      resolve("src/documents/Style"),
-      resolve("src/documents/Templates"),
-      resolve("src/app"),
-    ]),
+    new webpack.WatchIgnorePlugin({
+      paths: [
+        resolve("src/documents/Parse"),
+        resolve("src/documents/Read"),
+        resolve("src/documents/Render"),
+        resolve("src/documents/Style"),
+        resolve("src/documents/Templates"),
+        resolve("src/app"),
+      ],
+    }),
   ],
 };

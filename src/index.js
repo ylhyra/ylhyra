@@ -1,5 +1,5 @@
 // import "core-js/stable";
-import "regenerator-runtime/runtime";
+// import "regenerator-runtime/runtime";
 import { isBrowser } from "app/app/functions/isBrowser";
 import store from "app/app/store";
 import Router from "app/router";
