@@ -20,7 +20,12 @@ module.exports = {
     [node_modules + "/@babel/preset-react"],
   ],
   plugins: [
-    [node_modules + "/@babel/plugin-proposal-decorators"],
+    [
+      node_modules + "/@babel/plugin-proposal-decorators",
+      {
+        legacy: true,
+      },
+    ],
     [node_modules + "/@babel/plugin-transform-runtime"],
     [
       node_modules + "/@babel/plugin-proposal-pipeline-operator",
