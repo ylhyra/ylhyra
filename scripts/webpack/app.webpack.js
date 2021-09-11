@@ -29,6 +29,7 @@ const config = {
       },
     },
   },
+  stats: "minimal", // or "errors-only"
   entry: "./src/index.js",
   mode: process.env.NODE_ENV,
   devtool: "source-map",
