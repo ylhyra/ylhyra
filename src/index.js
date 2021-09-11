@@ -13,7 +13,7 @@ import { Provider } from "react-redux";
 import "documents/style/index.styl";
 
 let prerender;
-if (isBrowser && window.ylhyra_data) {
+if (isBrowser && "ylhyra_data" in window) {
   prerender = window.ylhyra_data.parsed;
   delete window.ylhyra_data;
 }

@@ -13,6 +13,9 @@
       <option name="SPACES_WITHIN_IMPORTS" value="true" />
       <option name="IMPORT_PREFER_ABSOLUTE_PATH" value="TRUE" />
     </JSCodeStyleSettings>
+    <StylusCodeStyleSettings>
+      <option name="BLANK_LINES_AROUND_NESTED_SELECTOR" value="0" />
+    </StylusCodeStyleSettings>
     <TypeScriptCodeStyleSettings version="0">
       <option name="FORCE_SEMICOLON_STYLE" value="true" />
       <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
