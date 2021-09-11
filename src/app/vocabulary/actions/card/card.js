@@ -9,6 +9,7 @@ import { INCR } from "app/vocabulary/actions/createSchedule";
 import { minIgnoreFalsy } from "app/app/functions/math";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 import {
+  getCardIdsFromTermIds,
   getCardsByIds,
   getCardsFromTermId,
   getCardsFromTermIds,
@@ -16,6 +17,7 @@ import {
 import _ from "underscore";
 
 /**
+ * @param {Object} data
  * @property {string} id
  * @property {Array.<string>} terms
  * @property {number} sortKey
@@ -34,9 +36,17 @@ export class Card {
   printWord() {
     return printWord(this.getId());
   }
+
+  /**
+   * @returns {Array<Term>}
+   */
   getTerms() {
     return this.terms.map((term_id) => deck.terms[term_id]);
   }
+
+  /**
+   * @returns {Array<string>}
+   */
   getTermIds() {
     return this.terms;
   }
@@ -222,17 +232,17 @@ export class Card {
   }
 
   /**
-   * @returns {Object}
+   * @returns {Object.<string, Integer>}
    */
   getDependenciesAsTermIdToDepth() {
     return this.getTerms()[0]?.getDependenciesAsTermIdToDepth();
   }
 
   /**
-   * @returns {Object}
+   * @returns {Object.<string, Integer>}
    */
   getDependenciesAsCardIdToDepth() {
-    let out = [];
+    let out = {};
     const deps = this.getDependenciesAsTermIdToDepth();
     Object.keys(deps).forEach((term_id) => {
       getCardsFromTermId(term_id).forEach((card) => {
@@ -246,11 +256,9 @@ export class Card {
    * @returns {Array.<String>}
    */
   getDependenciesAsArrayOfCardIds() {
-    return getCardsFromTermIds(
+    return getCardIdsFromTermIds(
       Object.keys(this.getDependenciesAsTermIdToDepth())
-    )
-      .filter((card) => card.getId() !== this.getId())
-      .map((card) => card.getId());
+    ).filter((card_id) => card_id !== this.getId());
   }
 
   /**

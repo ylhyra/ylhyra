@@ -1,9 +1,10 @@
 import { log } from "app/app/functions/log";
 
-/*
-  If a cardInSession gets a bad rating, then we make sure
-  to add very related cards the session.
-*/
+/**
+ * If a cardInSession gets a bad rating, then we make sure
+ * to add very related cards the session.
+ * @param {CardInSession} card
+ */
 export const addRelatedCards = (card) => {
   let to_add = [];
   card.getDependenciesAsArrayOfCards().forEach((related_card) => {
@@ -27,7 +28,8 @@ export const addRelatedCards = (card) => {
       to_add.push(related_card);
     }
   });
-  if (to_add.length) {
+
+  if (to_add.length > 0) {
     card.session.loadCardsIntoSession(to_add, {
       insertImmediately: true,
     });

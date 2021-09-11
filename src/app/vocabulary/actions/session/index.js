@@ -30,6 +30,8 @@ export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
 /**
  * @property {Array.<CardInSession>} cards
+ * @property {Array.<Integer>} ratingHistory
+ * @property {Array.<CardInSession>} cardHistory
  * @property {CardInSession|null} currentCard
  */
 class Session {

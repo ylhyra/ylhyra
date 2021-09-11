@@ -4,6 +4,10 @@ import {
 } from "app/vocabulary/actions/card/functions";
 import _ from "underscore";
 
+/**
+ * @property {Array.<string>} cards
+ * @property {Object.<string, Integer>} dependencies
+ */
 export class Term {
   constructor(data, id) {
     Object.assign(this, data);
@@ -12,6 +16,10 @@ export class Term {
   getId() {
     return this.id;
   }
+
+  /**
+   * @returns {Array<Card>}
+   */
   getCards() {
     return getCardsByIds(this.cards);
   }
@@ -24,6 +32,10 @@ export class Term {
       [this.getId()]: 0,
     };
   }
+
+  /**
+   * @returns {Array<Term>}
+   */
   getSortedTermDependencies() {
     const dependenciesAsTermIdToDepth = this.getDependenciesAsTermIdToDepth();
     const term_ids = Object.keys(dependenciesAsTermIdToDepth).sort(
@@ -31,6 +43,10 @@ export class Term {
     );
     return getTermsByIds(term_ids);
   }
+
+  /**
+   * @returns {Array<string>}
+   */
   getSortedCardDependenciesAsCardIds() {
     return _.uniq(
       _.flatten(

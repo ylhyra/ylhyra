@@ -49,6 +49,7 @@ export function createMoreCards() {
 
 /**
  * @class Session.answer
+ * @param {Integer} rating
  */
 export function answer(rating) {
   const session = this;

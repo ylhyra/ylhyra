@@ -4,6 +4,7 @@ import { keepTrackOfEasiness } from "app/vocabulary/actions/easinessLevel";
 
 /**
  * @class CardInSession.rate
+ * @this CardInSession
  */
 export default function rate(rating) {
   const card = this;

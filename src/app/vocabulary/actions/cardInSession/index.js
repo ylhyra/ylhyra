@@ -12,6 +12,12 @@ export const BAD = 1;
 export const GOOD = 2;
 export const EASY = 3;
 
+/**
+ * @property {boolean} done
+ * @property {Session} session
+ * @property {Array.<Integer>} history
+ * @property {Integer} absoluteQueuePosition
+ */
 class CardInSession extends Card {
   constructor({ data, insertAtPosition, session, history }) {
     super(data);
@@ -52,7 +58,7 @@ class CardInSession extends Card {
   }
 
   /**
-   * @returns {number}
+   * @returns {Integer}
    */
   getQueuePosition() {
     return this.absoluteQueuePosition - this.session.counter;

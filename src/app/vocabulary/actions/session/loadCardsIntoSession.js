@@ -3,10 +3,8 @@ import CardInSession from "app/vocabulary/actions/cardInSession";
 /**
  * Used to load more cards into an already ongoing session.
  * Called from createCards.
- * Options:
- * - insertImmediately
  * @class Session.loadCardsIntoSession
- * @param {Array.<CardInSession>} cards
+ * @param {Array.<Card>} cards
  * @param {Object=} options
  * @param {boolean} options.insertImmediately
  */

@@ -5,13 +5,16 @@ import Session from "app/vocabulary/actions/session";
 import { Card } from "app/vocabulary/actions/card/card";
 import { Term } from "app/vocabulary/actions/card/term";
 
+/**
+ * @type {Deck|undefined}
+ */
 export let deck;
 
 /**
- * @property {Array.<Card>} cards
+ * @property {Object.<string, Card>} cards
  * @property {Array.<Card>} cards_sorted
- * @property {Array.<Term>} terms
- * @property {Array.<Object>} schedule
+ * @property {Object.<string, Term>} terms
+ * @property {Object.<string, Object>} schedule - card_id to object
  * @property {Session} session
  */
 class Deck {

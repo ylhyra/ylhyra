@@ -6,7 +6,6 @@ import { BAD } from "app/vocabulary/actions/cardInSession";
  */
 export default function getRanking() {
   let q = this.getQueuePosition();
-  let canBeShown = this.canBeShown();
 
   if (!this.terms) {
     log(this);
@@ -23,12 +22,12 @@ export default function getRanking() {
   // Seen cards
   else {
     /* Seen cards are not relevant if they are not overdue */
-    if (q > 0 && canBeShown) {
+    if (q > 0 && this.canBeShown()) {
       q += 2000;
     }
   }
 
-  if (!canBeShown) {
+  if (!this.canBeShown()) {
     q += 3000;
   }
 

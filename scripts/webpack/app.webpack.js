@@ -6,8 +6,15 @@ const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const config = {
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "./../public"),
+    },
+    compress: true,
+    port: 3000,
+  },
   entry: "./src/index.js",
-  mode: "production",
+  mode: process.env.NODE_ENV,
   devtool: "source-map",
   output: {
     path: path.resolve(__dirname, "./../build/app"),
