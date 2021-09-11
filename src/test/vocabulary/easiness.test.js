@@ -22,16 +22,24 @@ export default {
     });
     const e1 = getEasinessLevel();
     notNull(e1);
-    const c1 = deck.session.cards.filter(
-      (card) => !card.done && card.getQueuePosition() < 1000
-    );
-    assert(
-      c1.every(
-        (i) => i.sortKey >= e1 - DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL
-      ),
-      `Expected easiness level to be below ${e1}, got:`,
-      c1.map((i) => i.sortKey)
-    );
+    const check = () => {
+      const cardsStillInSession = deck.session.cards.filter(
+        (card) =>
+          !card.done &&
+          (!card.hasBeenSeenInSession() || card.history.includes(BAD)) &&
+          card.getQueuePosition() < 1000
+      );
+      assert(
+        cardsStillInSession.length > 0 &&
+          cardsStillInSession.every(
+            (i) =>
+              i.sortKey >= e1 - DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL
+          ),
+        `Expected easiness level to be below ${e1}, got:`,
+        cardsStillInSession.map((i) => i.sortKey)
+      );
+    };
+    check();
     const v1 = deck.session.currentCard.sortKey;
     await run.continue_vocabulary_session({
       values: [BAD, GOOD],
@@ -40,5 +48,6 @@ export default {
       getEasinessLevel() <= v1 - DEFAULT_JUMP_DOWN,
       "Easiness level was not lowered"
     );
+    check();
   },
 };

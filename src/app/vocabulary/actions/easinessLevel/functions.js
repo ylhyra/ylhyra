@@ -74,15 +74,13 @@ export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
       card.hasBeenSeenInSession() || card.cannotBeShownBefore || card.done
   );
 
-  // if (change > 0) {
-  //   /* Find cards that are now too easy and postpone them */
-  //   deck.session.cards.forEach((card) => {
-  //     if (card.done) return;
-  //     if (card.sortKey < getEasinessLevel()) {
-  //       card.showIn({ minInterval: 5000 + getEasinessLevel() - card.sortKey });
-  //     }
-  //   });
-  // }
+  /* Find cards that are now too easy and postpone them */
+  deck.session.cards.forEach((card) => {
+    if (card.done) return;
+    if (card.sortKey < getEasinessLevel()) {
+      card.showIn({ minInterval: 5000 + getEasinessLevel() - card.sortKey });
+    }
+  });
 
   // /* Easiness level has been lowered */
   // if (change < 0) {
