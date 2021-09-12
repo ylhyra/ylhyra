@@ -73,7 +73,7 @@ const config = {
   plugins: [
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({ inject: true }),
-    // new BundleAnalyzerPlugin()
+    new webpack.EnvironmentPlugin(["NODE_ENV", "DEBUG"]),
   ],
   optimization: {
     minimize: process.env.NODE_ENV === "production",
