@@ -73,7 +73,18 @@ const config = {
   plugins: [
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({ inject: true }),
-    new webpack.EnvironmentPlugin(["NODE_ENV", "DEBUG"]),
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        REACT_APP_PWYW: JSON.stringify(process.env.REACT_APP_PWYW),
+        REACT_APP_PAYPAL_CLIENT_ID: JSON.stringify(
+          process.env.REACT_APP_PAYPAL_CLIENT_ID
+        ),
+        REACT_APP_MERCHANT_ID: JSON.stringify(
+          process.env.REACT_APP_MERCHANT_ID
+        ),
+      },
+    }),
   ],
   optimization: {
     minimize: process.env.NODE_ENV === "production",
