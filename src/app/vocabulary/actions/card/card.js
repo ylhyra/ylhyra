@@ -16,6 +16,7 @@ import {
 import _ from "underscore";
 import { days, now } from "app/app/functions/time";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
+const matchWords = /([a-záéíóúýðþæö]+)/i;
 
 /**
  * @param {Object} data
@@ -24,22 +25,14 @@ import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format
  * @property {number} sortKey
  * @property {string} is_formatted - HTML of Icelandic side of card
  * @property {string} en_formatted - HTML of English side of card
- * @property {(is|en)} from - Either "is" or "en"
- * @property {string} to - Either "is" or "en"
+ * @property {("is"|"en")} from
+ * @property {("is"|"en")} to
  */
 export class Card {
   constructor(data) {
     Object.assign(this, data);
     this.data = data;
-    this.extractText();
-  }
-  extractText() {
-    const allText =
-      getPlaintextFromFormatted(this.is_formatted) +
-      " " +
-      getPlaintextFromFormatted(this.en_formatted);
-
-    IcelandicCharacters;
+    // this.extractText();
   }
   getId() {
     return this.id;
@@ -325,11 +318,36 @@ export class Card {
    * @returns {Boolean}
    */
   isTextSimilarTo(card2) {
-    // return (
-    //   _.intersection(
-    //     this.getDependenciesAsArrayOfCardIds(),
-    //     card2.getDependenciesAsArrayOfCardIds()
-    //   ).length > 0
-    // );
+    return (
+      _.intersection(this.simplifiedArrayOfWords, card2.simplifiedArrayOfWords)
+        .length > 0
+    );
+  }
+
+  /**
+   * Used for checking for card similarity.
+   */
+  extractText() {
+    this.simplifiedArrayOfWords =
+      (
+        getPlaintextFromFormatted(this.is_formatted) +
+        " " +
+        getPlaintextFromFormatted(this.en_formatted)
+      )
+        .match(matchWords)
+        ?.filter((i) => i.length >= 3)
+        .map((i) => {
+          return (
+            i
+              .toLowerCase()
+              .replaceAll("á", "a")
+              .replaceAll("é", "e")
+              .replaceAll(/[íyý]/g, "i")
+              .replaceAll(/[óö]/g, "o")
+              .replaceAll("ú", "u")
+              /* Remove repeating characters */
+              .replace(/(.)\1+/g, "$1")
+          );
+        }) || [];
   }
 }

@@ -1,4 +1,5 @@
 import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
+import { log } from "app/app/functions/log";
 
 /**
  * @class CardInSession.postponeRelatedCards
@@ -64,6 +65,9 @@ export default function postponeRelatedCards(card1interval) {
     // Overlap in card text (such as in the English translations)
     else if (card1.isTextSimilarTo(card2)) {
       card2.showIn({ cannotBeShownBefore: 2 });
+      log(
+        `"${card2.printWord()}" postponed as it's similar to "${card.printWord()}"`
+      );
     }
   });
 }
