@@ -8,6 +8,7 @@
     <inspection_tool class="ES6PossiblyAsyncFunction" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ES6PreferShortImport" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="ES6TopLevelAwaitExpression" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="ES6UnusedImports" enabled="true" level="INFORMATION" enabled_by_default="true" />
     <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="useSeverityFromConfigFile" value="false" />
     </inspection_tool>

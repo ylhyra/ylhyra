@@ -1,7 +1,7 @@
 import forEachAsync from "app/app/functions/array-foreach-async";
 import vocabulary_articles from "test/vocabulary/articles.test";
 import vocabulary_easiness from "test/vocabulary/easiness.test";
-import vocabulary_session from "test/vocabulary/session.test";
+import vocabulary_session from "test/vocabulary/session_logging.test";
 import vocabulary_signup_and_login from "test/vocabulary/sync.test";
 import { run } from "test/functions";
 import _ from "underscore";

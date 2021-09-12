@@ -1,5 +1,4 @@
 import { log } from "app/app/functions/log";
-import { days, now } from "app/app/functions/time";
 import { GOOD } from "app/vocabulary/actions/cardInSession/index";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 
@@ -32,9 +31,10 @@ export const addRelatedCards = (card) => {
         /* Cards that the user has said Good to twice
            but which they haven't seen in a few days */
         (related_card.getScore() <= GOOD + INCR &&
-          related_card.daysSinceTermWasSeen() > 1) ||
-        /* Very well known cards are occasionally shown */
-        (Math.random() < 0.2 && related_card.daysSinceTermWasSeen() > 7))
+          related_card.daysSinceTermWasSeen() > 2))
+      // ||
+      // /* Very well known cards are occasionally shown */
+      // (Math.random() < 0.2 && related_card.daysSinceTermWasSeen() > 7)
     ) {
       log(`Direct dependency "${related_card.printWord()}" added`);
       to_add.push(related_card);
