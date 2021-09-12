@@ -66,7 +66,7 @@ export default function postponeRelatedCards(card1interval) {
     else if (card1.isTextSimilarTo(card2)) {
       card2.showIn({ cannotBeShownBefore: 2 });
       log(
-        `"${card2.printWord()}" postponed as it's similar to "${card.printWord()}"`
+        `"${card2.printWord()}" postponed as it's similar to "${card1.printWord()}"`
       );
     }
   });
