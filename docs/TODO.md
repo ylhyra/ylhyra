@@ -2,8 +2,6 @@
 
 - Hvað ef notandi kann nú þegar of mikið
 - Hvað ef vafri er með vitlausan tíma?
-- sækja sync
-- bæta við first_seen og flokka frekar eftir því
 - Related cards
 - skrá sessions
 - uppfæra schedule á gluggum sem hafa verið opnir lengi

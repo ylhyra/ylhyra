@@ -31,6 +31,8 @@ module.exports = {
       node_modules + "/@babel/plugin-proposal-pipeline-operator",
       {
         proposal: "fsharp",
+        // proposal: "hack",
+        // topicToken: "#",
       },
     ],
     ...development_plugins,

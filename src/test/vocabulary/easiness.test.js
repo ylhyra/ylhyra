@@ -22,7 +22,7 @@ export default {
     });
     const e1 = getEasinessLevel();
     notNull(e1);
-    const check = () => {
+    const checkIfCardsAreAboveEasinessLevel = () => {
       const cardsStillInSession = deck.session.cards.filter(
         (card) =>
           !card.done &&
@@ -39,7 +39,7 @@ export default {
         cardsStillInSession.map((i) => i.sortKey)
       );
     };
-    check();
+    checkIfCardsAreAboveEasinessLevel();
     const v1 = deck.session.currentCard.sortKey;
     await run.continue_vocabulary_session({
       values: [BAD, GOOD],
@@ -48,6 +48,6 @@ export default {
       getEasinessLevel() <= v1 - DEFAULT_JUMP_DOWN,
       "Easiness level was not lowered"
     );
-    check();
+    checkIfCardsAreAboveEasinessLevel();
   },
 };

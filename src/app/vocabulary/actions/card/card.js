@@ -15,17 +15,31 @@ import {
 } from "app/vocabulary/actions/card/functions";
 import _ from "underscore";
 import { days, now } from "app/app/functions/time";
+import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 
 /**
  * @param {Object} data
  * @property {string} id
  * @property {Array.<string>} terms
  * @property {number} sortKey
+ * @property {string} is_formatted - HTML of Icelandic side of card
+ * @property {string} en_formatted - HTML of English side of card
+ * @property {(is|en)} from - Either "is" or "en"
+ * @property {string} to - Either "is" or "en"
  */
 export class Card {
   constructor(data) {
     Object.assign(this, data);
     this.data = data;
+    this.extractText();
+  }
+  extractText() {
+    const allText =
+      getPlaintextFromFormatted(this.is_formatted) +
+      " " +
+      getPlaintextFromFormatted(this.en_formatted);
+
+    IcelandicCharacters;
   }
   getId() {
     return this.id;
@@ -304,5 +318,18 @@ export class Card {
         card2.getDependenciesAsArrayOfCardIds()
       ).length > 0
     );
+  }
+
+  /**
+   * @param {Card} card2
+   * @returns {Boolean}
+   */
+  isTextSimilarTo(card2) {
+    // return (
+    //   _.intersection(
+    //     this.getDependenciesAsArrayOfCardIds(),
+    //     card2.getDependenciesAsArrayOfCardIds()
+    //   ).length > 0
+    // );
   }
 }

@@ -59,8 +59,11 @@ export default function postponeRelatedCards(card1interval) {
     else if (card1.hasDependenciesInCommonWith(card2)) {
       card2.showIn({ cannotBeShownBefore: 2 });
       // log(`"${printWord(card2.id)}" postponed`);
-    } else {
-      // log(`NOT POSTPONED "${printWord(card2.id)}"`);
+    }
+
+    // Overlap in card text (such as in the English translations)
+    else if (card1.isTextSimilarTo(card2)) {
+      card2.showIn({ cannotBeShownBefore: 2 });
     }
   });
 }
