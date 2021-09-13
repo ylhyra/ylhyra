@@ -1,4 +1,4 @@
-import "maker/editor/Style/index.styl";
+import "maker/editor/Style/index2.styl";
 
 import React from "react";
 import ReactDOM from "react-dom";
@@ -40,17 +40,17 @@ class Editor extends React.PureComponent {
   }
 }
 
-const RenderEditor = ({ currentDocument }) => {
-  // console.log(currentDocument)
-  $("#content").append('<div id="editor-button-container"></div>');
+const RenderEditor = () => {
+  document
+    .querySelector("body")
+    .insertAdjacentHTML(
+      "beforeend",
+      '<div id="editor-button-container"></div>'
+    );
   ReactDOM.render(
     <Provider store={store}>
       <div>
         <div>
-          <button className="editor-button" onClick={window.showRaw}>
-            Show raw
-          </button>
-
           {currentDocument ? (
             <button
               className="editor-button"
@@ -70,3 +70,5 @@ const RenderEditor = ({ currentDocument }) => {
 };
 
 export default RenderEditor;
+
+RenderEditor();

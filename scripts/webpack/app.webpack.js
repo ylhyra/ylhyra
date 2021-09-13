@@ -67,8 +67,8 @@ const config = {
       },
       /* Other Stylus files inlined */
       {
-        test: /\.styl$/,
-        loader: "stylus-loader",
+        test: /index2\.styl$/,
+        use: ["style-loader", "css-loader", "stylus-loader"],
       },
     ],
   },
