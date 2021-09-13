@@ -64,14 +64,6 @@ export async function updateURL(url, options = {}) {
     }
   }
 
-  if (!section) {
-    window.scrollTo(0, 0);
-  } else {
-    window.history.scrollRestoration = "manual";
-    const el = document.getElementById(section);
-    el?.scrollIntoView();
-  }
-
   if (!replace && !isComponent) {
     loadContent({
       url: pathname,
@@ -89,5 +81,12 @@ export async function updateURL(url, options = {}) {
         section: section,
       },
     });
+    if (!section) {
+      window.scrollTo(0, 0);
+    } else {
+      window.history.scrollRestoration = "manual";
+      const el = document.getElementById(section);
+      el?.scrollIntoView();
+    }
   }
 }
