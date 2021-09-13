@@ -18,6 +18,7 @@ export const run = {
     deck?.reset();
     await InitializeVocabulary();
     assert(PercentageKnownOverall() === 0);
+    await updateURL("/vocabulary");
   },
   start_session: async () => {
     await updateURL("/vocabulary/play");

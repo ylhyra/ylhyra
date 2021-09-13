@@ -22,6 +22,8 @@ export default async (only_run) => {
       try {
         await toRun[key]();
       } catch (e) {
+        console.trace();
+        console.error(`Error in test ${key}`);
         console.error(e);
         return;
       }
@@ -40,7 +42,6 @@ export const shouldEqual = (first, second) => {
 
 export const assert = (i, ...description) => {
   if (!i) {
-    console.trace();
     // log(description);
     throw new Error(description);
   }
@@ -49,7 +50,6 @@ export const assert = (i, ...description) => {
 export const notNull = (...vals) => {
   vals.forEach((val) => {
     if (!(val && val !== "0")) {
-      console.trace();
       throw new Error("Received a null");
     }
   });

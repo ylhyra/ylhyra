@@ -5,7 +5,7 @@
     "target": "es6",
     "module": "commonjs"
   },
-  "include": ["src/**/*.js", "src/**/**/**/*.js"],
+  "include": ["src/**/*.js"],
   "exclude": ["build", "node_modules"],
   "typeAcquisition": {
     "exclude": ["crc-32", "fast-safe-stringify"]

@@ -1,12 +1,9 @@
 ### Orðaforði
 
-- Hvað ef notandi kann nú þegar of mikið
 - Hvað ef vafri er með vitlausan tíma?
 - Related cards
 - skrá sessions
 - uppfæra schedule á gluggum sem hafa verið opnir lengi
-- þegar level er lækkað ætti að sýna neðsta gæjann
-- database backup
 - gefa einn dag ef nýtt orð var séð stuttu eftir hina hliðina en notandi valdi gott
 - fara yfir easinesslevel
 - ef maður skráir sig inn, blanda progress
@@ -19,6 +16,7 @@
 - skrá hvaða greinar notandi hefur lesið
 - reloada reglulega, t.d. ef notandi skráir sig inn í öðrum glugga
 - axios retry
+- database backup
 
 # uppfæra í gagnagrunni
 
