@@ -8,6 +8,7 @@ import { updateURL } from "app/router/actions/updateURL";
 import _ from "underscore";
 import { isDev } from "app/app/functions/isDev";
 import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
+import { Card } from "app/vocabulary/actions/card/card";
 
 /**
  * @param {String} id

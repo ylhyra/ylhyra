@@ -16,6 +16,7 @@ import {
 import _ from "underscore";
 import { days, now } from "app/app/functions/time";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
+import { Term } from "app/vocabulary/actions/card/term";
 
 const matchWords = /([a-záéíóúýðþæö]+)/i;
 
