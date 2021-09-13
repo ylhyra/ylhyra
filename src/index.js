@@ -11,6 +11,7 @@ import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import "documents/style/index.styl";
+import { isDev } from "app/app/functions/isDev";
 
 let prerender;
 if (isBrowser && "ylhyra_data" in window) {
@@ -47,13 +48,3 @@ window.testing = async (only_run) => {
     )
   ).default(only_run);
 };
-if (process.env.NODE_ENV === "development") {
-  import(
-    /* webpackChunkName: "test" */
-    "./test/index.js"
-  );
-  import(
-    /* webpackChunkName: "editor" */
-    "./maker/editor/index.js"
-  );
-}
