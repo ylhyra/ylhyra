@@ -47,8 +47,9 @@ const config = {
         exclude: /node_modules/,
         options: require("./babel.js"),
       },
+      /* Main Stylus file extracted to a seperate file */
       {
-        test: /\.styl$/,
+        test: /index\.styl$/,
         // loader: "stylus-loader",
         // use: [MiniCssExtractPlugin.loader, "css-loader", "stylus-loader"],
         use: [
@@ -63,6 +64,11 @@ const config = {
             loader: "stylus-loader",
           },
         ],
+      },
+      /* Other Stylus files inlined */
+      {
+        test: /\.styl$/,
+        loader: "stylus-loader",
       },
     ],
   },

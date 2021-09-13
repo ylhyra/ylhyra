@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { selected, translation } from "maker/editor/Translator/reducers";
 import { analysis, suggestions } from "maker/editor/Suggestions/reducers";
-import MakeList from "Parse/Tokenize/List";
+import MakeList from "documents/parse/Tokenize/List";
 import long_audio from "maker/editor/Long_audio/reducers";
 import short_audio from "maker/editor/Short_audio/reducers";
 import getParameter from "get-parameter";

@@ -1,7 +1,7 @@
 import store from "app/app/store";
 
 /**
- * @class Session.loadCardInInterface
+ * @memberOf Session
  */
 export function loadCardInInterface() {
   const session = this;

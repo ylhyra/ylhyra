@@ -1,4 +1,4 @@
-require("maker/editor/Style/index.styl");
+import "maker/editor/Style/index.styl";
 
 import React from "react";
 import ReactDOM from "react-dom";

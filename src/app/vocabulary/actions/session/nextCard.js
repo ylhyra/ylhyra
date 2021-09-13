@@ -4,7 +4,8 @@ import { isDev } from "app/app/functions/isDev";
 const LOGGING = false;
 
 /**
- * @class Session.nextCard
+ * @memberOf Session
+ * @this Session
  */
 export function nextCard(depth = 0) {
   this.counter++;

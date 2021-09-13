@@ -4,12 +4,12 @@ class Collapse extends Component {
   state = {};
   render() {
     return (
-      <div class="collapse">
+      <div className="collapse">
         {this.state.open ? (
           <div className="data">{this.props.children}</div>
         ) : (
           <div
-            class="button"
+            className="button"
             onClick={() => {
               this.setState({
                 open: true,

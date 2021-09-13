@@ -16,7 +16,7 @@ class X extends Component {
     const f = (j) => basename + j.toString();
     return (
       <div>
-        <div class="small gray center sans-serif">
+        <div className="small gray center sans-serif">
           This article has been split up into {parts} parts:
         </div>
         <div className="parts">
@@ -31,7 +31,7 @@ class X extends Component {
               </li>
             ))}
             {next && (
-              <li class="next">
+              <li className="next">
                 <Link href={f(next)}>Next</Link>
               </li>
             )}

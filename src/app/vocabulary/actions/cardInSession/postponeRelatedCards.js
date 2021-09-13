@@ -2,7 +2,7 @@ import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
 import { log } from "app/app/functions/log";
 
 /**
- * @class CardInSession.postponeRelatedCards
+ * @memberOf CardInSession
  */
 export default function postponeRelatedCards(card1interval) {
   const card1 = this;

@@ -8,7 +8,6 @@
 */
 
 import { receiveSuggestions } from "maker/editor/Suggestions";
-import tweet from "Source_editor/Tweets";
 import store from "app/app/store";
 
 const protocol = process.env.NODE_ENV === "production" ? "wss" : "ws";
@@ -70,9 +69,11 @@ const handle = (action) => {
   if (action.type === "SUGGEST") {
     receiveSuggestions(action);
     store.dispatch(action);
-  } else if (action.type === "TWEET") {
-    tweet(action.data);
-  } else {
+  }
+  // else if (action.type === "TWEET") {
+  //   tweet(action.data);
+  // }
+  else {
     console.log(`Received action from web-socket: "${action.type}"`);
     store.dispatch(action);
   }

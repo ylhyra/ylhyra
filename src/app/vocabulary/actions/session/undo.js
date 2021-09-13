@@ -1,5 +1,5 @@
 /**
- * @class Session.undo
+ * @memberOf Session
  */
 export function undo() {
   const card = this.cardHistory[0];
@@ -12,14 +12,14 @@ export function undo() {
 }
 
 /**
- * @class Session.undoable
+ * @memberOf Session
  */
 export function undoable() {
   return this.cardHistory.length > 0 && this.lastUndid !== this.counter;
 }
 
 /**
- * @class Session.checkForUndoOnKeyDown
+ * @memberOf Session
  */
 export function checkForUndoOnKeyDown(e) {
   if (

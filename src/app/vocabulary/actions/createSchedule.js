@@ -9,7 +9,7 @@ export const INCR = 0.4;
 
 /**
  * Long-term scheduling
- * @class Session.createSchedule
+ * @memberOf Session
  */
 export function createSchedule() {
   const session = this;

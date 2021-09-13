@@ -52,4 +52,8 @@ if (process.env.NODE_ENV === "development") {
     /* webpackChunkName: "test" */
     "./test/index.js"
   );
+  import(
+    /* webpackChunkName: "editor" */
+    "./maker/editor/index.js"
+  );
 }

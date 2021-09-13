@@ -8,7 +8,7 @@ import { logDev } from "app/app/functions/log";
 export const CARDS_TO_CREATE = 50;
 
 /**
- * @class Session.createCards
+ * @memberOf Session
  */
 export default function createCards() {
   const session = this;
