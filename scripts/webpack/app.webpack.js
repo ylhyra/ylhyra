@@ -8,16 +8,10 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const config = {
   devServer: {
-    // static: {
-    //   directory: path.join(__dirname, "./../public"),
-    // },
-    // compress: true,
     port: 3000,
     historyApiFallback: {
       index: "index.html",
     },
-    // contentBase: "./public",
-    // inline: true,
     hot: true,
     proxy: {
       "/api": "http://localhost:9123",
@@ -42,16 +36,13 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        // use: "babel-loader",
         loader: "babel-loader",
         exclude: /node_modules/,
         options: require("./babel.js"),
       },
-      /* Main Stylus file extracted to a seperate file */
+      /* Main Stylus file extracted to a separate file */
       {
         test: /index\.styl$/,
-        // loader: "stylus-loader",
-        // use: [MiniCssExtractPlugin.loader, "css-loader", "stylus-loader"],
         use: [
           "style-loader",
           {
@@ -74,7 +65,7 @@ const config = {
   },
   resolve: {
     modules: ["./src", "node_modules"],
-    extensions: [".js", ".jsx"],
+    extensions: [".js"],
   },
   plugins: [
     new MiniCssExtractPlugin(),

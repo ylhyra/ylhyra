@@ -10,6 +10,7 @@ import LongAudio from "maker/editor/Long_audio";
 import Inflections from "maker/editor/Inflections";
 import Sound from "maker/editor/Short_audio";
 import { openEditor } from "maker/editor/actions";
+import { isDev } from "app/app/functions/isDev";
 
 @connect((state) => ({
   editor: state.editor,
@@ -41,12 +42,16 @@ class Editor extends React.PureComponent {
 }
 
 const RenderEditor = () => {
+  if (!isDev) return;
   document
     .querySelector("body")
     .insertAdjacentHTML(
       "beforeend",
       '<div id="editor-button-container"></div>'
     );
+
+  let currentDocument = "blabla";
+
   ReactDOM.render(
     <Provider store={store}>
       <div>

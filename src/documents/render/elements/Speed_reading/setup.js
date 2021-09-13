@@ -8,8 +8,8 @@ import { open } from "documents/render/elements/Speed_reading/actions/actions";
 export const SpeedReaderSetup = () => {
   /* Book not found */
   if (
-    ($(".book").length === 0 && mw.config.get("wgPageName") === "Ylhýra") ||
-    mw.config.get("wgPageName") === "Text:Frontpage"
+    ($(".book").length === 0 && store.getState().route.pathname === "Ylhýra") ||
+    store.getState().route.pathname === "Text:Frontpage"
   )
     return;
   if ($(".book").length !== 1) return;

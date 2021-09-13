@@ -11,7 +11,7 @@ class Inflection extends React.Component {
 
     /* Inflectional search engine */
     if (!this.props.inflection.rows) {
-      if (mw.config.get("wgPageName") !== "Inflection") return;
+      if (store.getState().route.pathname !== "Inflection") return;
       const id = mw.util.getParamValue("id");
       id && ShowInflectionTable({ BIN_id: id });
       this.setState({

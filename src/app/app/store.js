@@ -8,6 +8,7 @@ import { user } from "app/user/reducers";
 import error from "app/app/error/reducers";
 import { route } from "app/router/reducers";
 import { vocabularyMaker } from "maker/vocabulary_maker/reducers";
+import { editor } from "maker/editor/reducers";
 
 /*
   Logger
@@ -37,6 +38,7 @@ const store = createStore(
 
     /* TEMP only for isDev */
     vocabularyMaker,
+    editor,
   }),
   applyMiddleware(
     // routerMiddleware(history),

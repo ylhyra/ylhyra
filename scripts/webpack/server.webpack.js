@@ -12,9 +12,7 @@ const modules = [
 ];
 module.exports = {
   target: "node",
-  // devtool: "source-map",
   devtool: "inline-source-map",
-
   node: {
     __dirname: true,
     __filename: false,
@@ -34,47 +32,11 @@ module.exports = {
         : "[name].js",
   },
   resolve: {
-    modules: [
-      ...modules,
-      // resolve('src/server/'),
-      resolve("src/server/inflection/"),
-      resolve("."),
-      // resolve('server/node_modules/'),
-      // resolve('node_modules/'),
-    ],
+    modules: [...modules, resolve("src/server/inflection/"), resolve(".")],
     extensions: [".js", ".json"],
   },
   externals: [nodeExternals()],
-  stats: {
-    colors: true,
-    hash: false,
-    version: false,
-    timings: false,
-    assets: false,
-    chunks: false,
-    modules: false,
-    reasons: false,
-    children: false,
-    source: false,
-    errors: true,
-    errorDetails: true,
-    warnings: false,
-    publicPath: false,
-  },
-  // bail: true,
-  // watchOptions: {
-  //   ignored: [
-  //     resolve("node_modules/**"),
-  //     resolve("src/documents/Parse/**"),
-  //     resolve("src/documents/Read/**"),
-  //     resolve("src/documents/Render/**"),
-  //     resolve("src/documents/Style/**"),
-  //     resolve("src/documents/Templates/**"),
-  //     resolve("src/app/**"),
-  //     resolve("src/maker/**"),
-  //   ],
-  //   aggregateTimeout: 50,
-  // },
+  stats: "errors-only",
   module: {
     strictExportPresence: true,
     rules: [
@@ -85,26 +47,6 @@ module.exports = {
         exclude: /node_modules/,
         options: require("./babel.js"),
       },
-
-      // {
-      //   oneOf: [
-      //     {
-      //       test: /\.js$/,
-      //       include: modules,
-      //       loader: require.resolve("babel-loader"),
-      //       options: {
-      //         cacheDirectory: true,
-      //       },
-      //     },
-      //   ],
-      // },
-      // {
-      //   oneOf: [{
-      //     test: /\.(scss)$/,
-      //     include: modules,
-      //     loader: require.resolve('ignore-loader'),
-      //   }, ],
-      // },
     ],
   },
   cache: false,

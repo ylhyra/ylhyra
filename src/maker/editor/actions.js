@@ -1,16 +1,16 @@
-import axios from "app/app/axios";
 import store from "app/app/store";
 import error from "app/app/error";
 import stable_stringify from "json-stable-stringify";
+import axios from "app/app/axios";
 
 // import { prettyPrint as relaxedJson } from 'really-relaxed-json'
 // var relaxedJsonParser = require('really-relaxed-json').createParser()
 
 export const openEditor = (page) => {
-  const newUrl = mw.util.getUrl(mw.config.get("wgPageName"), {
-    editor: page,
-  });
-  window?.history.replaceState({}, "", newUrl);
+  // const newUrl = mw.util.getUrl(store.getState().route.pathname, {
+  //   editor: page,
+  // });
+  // window?.history.replaceState({}, "", newUrl);
   store.dispatch({
     type: "OPEN_EDITOR",
     page,
@@ -22,8 +22,8 @@ export const closeEditor = () => {
     let ok = confirm("Are you sure you want to discard changes?");
     if (!ok) return;
   }
-  const newUrl = mw.util.getUrl(mw.config.get("wgPageName"));
-  window?.history.replaceState({}, "", newUrl);
+  // const newUrl = mw.util.getUrl(store.getState().route.pathname);
+  // window?.history.replaceState({}, "", newUrl);
   store.dispatch({
     type: "CLOSE_EDITOR",
   });
@@ -51,7 +51,7 @@ let autosavePending = false;
 let autosaveTimer;
 
 export const save = async () => {
-  const title = mw.config.get("wgPageName");
+  const title = store.getState().route.pathname;
   try {
     if (!store.getState().editor.isSaved) {
       const data = store.getState().editor;
