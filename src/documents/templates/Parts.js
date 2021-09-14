@@ -16,9 +16,9 @@ class X extends Component {
     const f = (j) => basename + j.toString();
     return (
       <div>
-        <div className="small gray center sans-serif">
-          This article has been split up into {parts} parts:
-        </div>
+        {/*<div className="small gray center sans-serif">*/}
+        {/*  This article has been split up into {parts} parts:*/}
+        {/*</div>*/}
         <div className="parts">
           {/* <Link>1</Link> */}
           <ul>

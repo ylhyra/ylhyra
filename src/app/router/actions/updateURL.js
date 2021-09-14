@@ -16,6 +16,13 @@ export async function updateURL(url, options = {}) {
   url = URL_title(url);
   const [pathname, section] = url.split("#");
 
+  if (pathname === store.getState().route.pathname) {
+    if (section) {
+      scrollToId(section);
+    }
+    return;
+  }
+
   const isComponent = pathname in app_urls;
   if (isComponent) {
     Analytics.stopReadingPage();
@@ -84,9 +91,13 @@ export async function updateURL(url, options = {}) {
     if (!section) {
       window.scrollTo(0, 0);
     } else {
-      window.history.scrollRestoration = "manual";
-      const el = document.getElementById(section);
-      el?.scrollIntoView();
+      scrollToId(section);
     }
   }
 }
+
+const scrollToId = (id) => {
+  window.history.scrollRestoration = "manual";
+  const el = document.getElementById(id);
+  el?.scrollIntoView();
+};

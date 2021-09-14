@@ -43,9 +43,9 @@ export const Ref = (input, header) => {
   // console.log(refs);
   const replace = (j) =>
     j.replace(temp_r, (x, id) => {
-      return `<sup class="reference">[<a href="#ref-${getKey(id)}">${getKey(
+      return `<sup class="reference" data-no-translate>[<a href="#ref-${getKey(
         id
-      )}</a>]</sup>`;
+      )}">${getKey(id)}</a>]</sup>`;
     });
   const getVals = (j) => {
     return (
@@ -53,9 +53,9 @@ export const Ref = (input, header) => {
       j
         .map(
           (id) =>
-            `<li id="ref-${getKey(id)}">${getKey(id)}&period; ${
-              refs[id].content
-            }</li>`
+            `<li id="ref-${getKey(id)}"><span class="list-number">${getKey(
+              id
+            )}&period;</span> ${refs[id].content}</li>`
         )
         .join("") +
       "</ul>"

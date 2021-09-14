@@ -6,6 +6,8 @@ const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const config = {
   devServer: {
     port: 3000,
@@ -41,24 +43,26 @@ const config = {
         options: require("./babel.js"),
       },
       /* Main Stylus file extracted to a separate file */
-      {
-        test: /index\.styl$/,
-        use: [
-          "style-loader",
-          {
-            loader: "file-loader",
-            options: {
-              name: "main.css",
-            },
-          },
-          {
-            loader: "stylus-loader",
-          },
-        ],
-      },
+      isProduction
+        ? {
+            test: /index\.styl$/,
+            use: [
+              "style-loader",
+              {
+                loader: "file-loader",
+                options: {
+                  name: "main.css",
+                },
+              },
+              {
+                loader: "stylus-loader",
+              },
+            ],
+          }
+        : {},
       /* Other Stylus files inlined */
       {
-        test: /index2\.styl$/,
+        test: isProduction ? /index2\.styl$/ : /\.styl$/,
         use: ["style-loader", "css-loader", "stylus-loader"],
       },
     ],
@@ -68,7 +72,7 @@ const config = {
     extensions: [".js"],
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    isProduction ? new MiniCssExtractPlugin() : null,
     new HtmlWebpackPlugin({ inject: true }),
     new webpack.DefinePlugin({
       "process.env": {
@@ -84,7 +88,7 @@ const config = {
     }),
   ],
   optimization: {
-    minimize: process.env.NODE_ENV === "production",
+    minimize: isProduction,
     minimizer: [new TerserPlugin()],
   },
 };

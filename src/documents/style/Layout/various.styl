@@ -39,29 +39,6 @@ kbd
   .p
     margin 0
 
-/* References */
-.references
-  padding-top 20px
-  color #323232
-  opacity 0.9
-  font-size 12px
-  line-height 1.3
-  .p
-    margin 3px 0
-  li + li
-    margin-top 3px
-  /* Section links */
-  *:target
-    background-color rgba(#c0f2fb, 0.36)
-sup.reference
-  sans_serif()
-  color #707070
-  font-size 10px
-  opacity 0.6
-  top -0.7em
-  .references &
-    opacity 0.9
-
 // label .error
 //   display: inline
 // }
@@ -145,41 +122,49 @@ sup.reference
   ul
     display flex
     list-style-type none
+    margin: 5px
+    border-bottom: 1px solid #e6e6e6
+    border-top @border-bottom
     li
       display block
-      // font-weight: bold
+      *
+        align-items center
       > *
         display block
-        padding 5px 13px
-      &.numbers
-        > *
-          background #a6aa9d
-        > a
-          background #dcdfd5
-      &.next > *
-        background #1d87a8
-        color white
+        padding 5px 11px
+      &.next
         font-weight bold
-      &.label > *
-        background none
-        font-weight normal
-        // font-size: 13px
-        color #525252
-      &.first > *
-        border-top-left-radius 40px
-        border-bottom-left-radius 40px
-        padding-left 15px
-      &:last-child > *
-        border-top-right-radius 40px
-        border-bottom-right-radius 40px
-        padding-right 15px
-      &:not(.first):not(.next):not(.label) > *
-        border-left 1px solid gray
 
-.notes
-  sans_serif()
-  color #616161
-  font-size 14px
+      // font-weight: bold
+      //> *
+      //  display block
+      //  padding 5px 13px
+      //&.numbers
+      //  > *
+      //    background #a6aa9d
+      //  > a
+      //    background #dcdfd5
+      //&.next > *
+      //  background #1d87a8
+      //  color white
+      //  font-weight bold
+      //&.label > *
+      //  background none
+      //  font-weight normal
+      //  // font-size: 13px
+      //  color #525252
+      //&.first > *
+      //  border-top-left-radius 40px
+      //  border-bottom-left-radius 40px
+      //  padding-left 15px
+      //&:last-child > *
+      //  border-top-right-radius 40px
+      //  border-bottom-right-radius 40px
+      //  padding-right 15px
+      //&:not(.first):not(.next):not(.label) > *
+      //  border-left 1px solid gray
+
+
 
 .collapse
   card-shadow()

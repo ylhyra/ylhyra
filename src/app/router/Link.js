@@ -43,8 +43,8 @@ class Link extends React.Component {
     if (href === "/") {
       href = getFrontpageURL();
     }
-    /* Todo: Hvað með section linka? */
-    if ((route.pathname === href && !route.section) || !href) {
+
+    if ((route.pathname === href && !href.includes("#")) || !href) {
       return (
         <span {...{ className, id }}>
           <b>{children}</b>

@@ -1,4 +1,37 @@
-.reference 
-  h1 & 
-    font-size 12px
-    vertical-align 10px
+
+/* Reference section */
+.references
+  padding-top 20px
+  font-size 12px
+  line-height 1.3
+  color #313131
+  .p
+    margin 3px 0
+  li + li
+    margin-top 3px
+  /* Highlight items when a user clicks on a reference pointing to it */
+  *:target
+    background-color rgba(#c0f2fb, 0.36)
+
+  li .list-number
+    margin-left: -16px;
+    opacity: .8;
+
+/* Inline reference */
+sup.reference
+  sans_serif()
+  color #707070
+  font-size 10px
+  opacity 0.6
+  top -0.7em
+  font-weight normal
+  .references &
+    opacity 0.9
+  h1 &
+       font-size 12px
+       vertical-align 10px
+
+.notes
+  sans_serif()
+  color #616161
+  font-size 14px
