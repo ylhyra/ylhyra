@@ -1,10 +1,11 @@
 import generate_html from "documents/compile";
 import { getValuesForURL } from "server/content/links";
 
-let order;
+let cachedUrlOrder;
 
 export const getOrder = async (withDepth, return_unit_to_url) => {
-  if (order) return order;
+  if (cachedUrlOrder && !withDepth && !return_unit_to_url)
+    return cachedUrlOrder;
   const { content } = await generate_html("course");
   let currentUnit = 0;
   let index = 1;
@@ -27,12 +28,12 @@ export const getOrder = async (withDepth, return_unit_to_url) => {
     });
     url_to_unit[url] = currentUnit;
   });
-  order = urls;
+  cachedUrlOrder = urls;
   if (withDepth) {
     return units_to_url;
   }
   if (return_unit_to_url) {
     return url_to_unit;
   }
-  return order;
+  return cachedUrlOrder;
 };

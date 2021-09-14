@@ -39,14 +39,13 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        // use: "babel-loader",
         loader: "babel-loader",
         exclude: /node_modules/,
         options: require("./babel.js"),
       },
     ],
   },
-  cache: false,
+  cache: true,
   plugins: [
     // new HardSourceWebpackPlugin(),
     new NodemonPlugin(),

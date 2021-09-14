@@ -24,6 +24,10 @@ export const ParseHeaderAndBody = (data, file) => {
     header.level = file.match(/\/([abc][123])\//i)[1].toUpperCase();
   }
 
+  if (!("license" in header) && header.title.startsWith("Course/")) {
+    header.license = "CC0";
+  }
+
   body = body.replace(/<vocabulary>([\s\S]+?)<\/vocabulary>/g, (x, voc) => {
     if (voc.trim().length > 0) {
       header.vocabulary = voc

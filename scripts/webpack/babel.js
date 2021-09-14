@@ -15,6 +15,7 @@ const development_plugins =
     : [];
 
 module.exports = {
+  cacheDirectory: true,
   presets: [
     [node_modules + "/@babel/preset-env"],
     [node_modules + "/@babel/preset-react"],

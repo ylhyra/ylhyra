@@ -10,6 +10,7 @@ export const breadcrumbs = async (header) => {
 
   let namespaces = [];
   const v = getValuesForURL(header.title);
+
   if (v.filepath.includes("/poems/")) {
     namespaces.push("Poems");
   } else if (v.filepath.includes("/video/")) {
@@ -20,7 +21,9 @@ export const breadcrumbs = async (header) => {
     header.title !== "Texts"
   ) {
     namespaces.push('<a href="/texts">Texts</a>');
-  } else if (v.filepath.includes("/explanations/")) {
+  } else if (
+    v.filepath.includes("/explanations/" && header.title !== "Explanations")
+  ) {
     namespaces.push('<a href="/explanations">Explanations</a>');
   }
 

@@ -17,7 +17,9 @@ export default async (input, header) => {
   const _breadcrumbs = await breadcrumbs(header);
 
   const shouldShowVocabularyHeaderAbove =
-    header.has_data || input.length > 4000;
+    // true ||
+    !header.title.startsWith("Course/") &&
+    (header.has_data || input.length > 4000);
 
   if (true || vocabulary_data || header.level || header.has_data) {
     h = c`
@@ -54,6 +56,8 @@ export default async (input, header) => {
 
   // input += '<div class="spacer-below-content"></div>';
 
+  input += `<section class="vocabulary-footer"><div class="center"> ${VocabularyHeader}</div></section>`;
+
   /* Automatic prev and next for course articles */
   const url = URL_title(header.title);
   if (header.title !== "Course") {
@@ -72,8 +76,6 @@ export default async (input, header) => {
       input += `<section>${y}</section>`;
     }
   }
-
-  input += `<section class="vocabulary-footer"><div class="center"> ${VocabularyHeader}</div></section>`;
 
   if (
     header.license ||
