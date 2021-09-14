@@ -17,13 +17,21 @@ export default async (input, header) => {
   if (vocabulary_data || header.level || header.has_data) {
     h = c`
       <section class="tiny wide">
-        ${breadcrumbs(header)}
-        ${header.level && `<level level="${header.level}"/>`}
         ${
-          header.has_data &&
-          `<div class="gray small" style="margin:6px 0 10px 0;">Click on words to see their translations.</div>`
+          header.level &&
+          `<div class="float-right"><level level="${header.level}"/></div>`
         }
-        ${VocabularyHeader}
+        ${breadcrumbs(header)}
+        <Spacer space="10"/>
+        <div class="center">
+          <div>
+            ${VocabularyHeader}
+            ${
+              header.has_data &&
+              `<div class="gray small" style="margin:6px 0 10px 0;">Click on words to see their translations.</div>`
+            }
+          </div>
+        </div>
       </section>`;
   }
 
@@ -60,7 +68,7 @@ export default async (input, header) => {
     }
   }
 
-  input += `<section class="">${VocabularyHeader}</section>`;
+  input += `<section class="vocabulary-footer"><div class="center"> ${VocabularyHeader}</div></section>`;
 
   if (
     header.license ||

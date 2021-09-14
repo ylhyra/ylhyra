@@ -6,6 +6,7 @@ import { updateURL } from "app/router/actions/updateURL";
 import { app_urls } from "app/router/appUrls";
 import { ReadAlongSetup } from "documents/render/audio/ReadAlong";
 import { isDev } from "app/app/functions/isDev";
+import { constants } from "app/app/constants";
 
 let cache = {};
 let expectedUrl = false;
@@ -107,5 +108,6 @@ const set = async (url, data, preload, section, callback) => {
 };
 
 export const preload = (url) => {
+  if (!constants.PRELOAD_ARTICLES_ON_HOVER) return;
   loadContent({ url, preload: true });
 };

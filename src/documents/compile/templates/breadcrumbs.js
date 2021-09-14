@@ -17,7 +17,7 @@ export const breadcrumbs = (header) => {
     <div>
       ${namespaces.map((namespace, index) => {
         return c`
-          <div class="title-part">${namespace}</div>
+          <div class="title-part namespace">${namespace}</div>
           <div class="title-separator"></div>
         `;
       })}

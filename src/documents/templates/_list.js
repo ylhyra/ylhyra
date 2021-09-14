@@ -16,6 +16,7 @@ import Section from "documents/templates/Section";
 import SignupSteps from "app/user/screens/SignupSteps";
 import Tweet from "documents/templates/Tweet";
 import VocabularyHeader from "app/vocabulary/elements/VocabularyHeader";
+import Spacer from "documents/templates/Spacer";
 
 const template = {
   Audio: Audio,
@@ -36,6 +37,7 @@ const template = {
   SignupSteps: SignupSteps,
   Tweet: Tweet,
   VocabularyHeader: VocabularyHeader,
+  Spacer: Spacer,
 };
 const lowercaseKeyToTemplate = {};
 Object.keys(template).forEach((key) => {

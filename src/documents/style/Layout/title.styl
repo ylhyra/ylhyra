@@ -1,7 +1,7 @@
 #breadcrumbs-title 
   font-size: 13px;
   margin-bottom: 17px;
-  margin-top: 10px;
+  margin-top: 2px;
   //> span
   //  border-bottom 1px solid #eaeaea
   .title-part
@@ -9,8 +9,8 @@
     border-radius: 12px;
     font-family: sans-serif;
     font-weight: normal;
-    &.namespace
-      color: $gray;
+    &.namespace:not(:hover)
+      opacity: .6
     &.bold
       font-weight: bold;
   .title-separator

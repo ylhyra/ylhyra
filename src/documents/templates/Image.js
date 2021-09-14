@@ -5,6 +5,7 @@ export default (props) => {
     <div
       className={`ylhyra_image ${props.position || ""}`}
       style={props.style || {}}
+      data-no-translate={true}
     >
       {props.children}
     </div>

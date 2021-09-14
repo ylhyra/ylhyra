@@ -4,4 +4,5 @@
 export const constants = {
   EACH_SESSION_LASTS_X_MINUTES: 3,
   RECOMMENDED_PRICE_IN_US_DOLLARS: 20,
+  PRELOAD_ARTICLES_ON_HOVER: false,
 };

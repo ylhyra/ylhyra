@@ -2,22 +2,23 @@ section,
 .section 
   > div 
     max-width $max-width
-    // max-width: 500px
     margin auto
-  > div 
-    padding 25px 10px
+    padding-left 10px
+    padding-right @padding-left
+    margin-top-and-bottom(10px)
   &.tiny
-    > div 
-      padding 5px 10px 5px 20px
+    > div
+      margin-top 4px
   &.wide
     > div
       max-width $header-max-width
-      padding-top 0!important
+      margin-top 0!important
   &:first-child 
     > div 
-      padding-top 20px
-  &.content 
-    padding 55px 24px
+      margin-top 20px
+  &.content
+    > div
+      margin-top-and-bottom(20px)
     @media (max-width: 400px)
       padding 20px 0
       font-size 14px
@@ -54,12 +55,17 @@ section,
   //   flex: 1
   //   border-top: none
   // }
+
+
+  &.vocabulary-footer
+    > div
+      margin-top-and-bottom(20px)
   &.content-footer
     background $footer-bg
     border-top 1px solid $footer-border-color
     margin-bottom -1px
-    > div 
-      padding 15px 10px 20px 10px
+    > div
+      margin-top-and-bottom(15px)
 
 main
   flex 1
