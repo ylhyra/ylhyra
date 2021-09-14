@@ -33,6 +33,8 @@ export const breadcrumbs = async (header) => {
       const n = `Unit ${url_to_unit[v.url]}`;
       parts.splice(1, 0, `<a href="/course#${section_id(n)}">${n}</a>`);
     }
+  } else if (namespaces.length === 0) {
+    return null;
   }
 
   return c`<div id="breadcrumbs-title">
@@ -67,7 +69,7 @@ export const breadcrumbs = async (header) => {
         return c`
           <div class="title-part ${
             (last || secondLastToParts) && !isParts && "bold"
-          } ${["Course"].includes(name) && !last && "namespace"}">${name}</div>
+          } ${["Course"].includes(part) && !last && "namespace"}">${name}</div>
           ${!last && `<div class="title-separator"></div>`}
         `;
       })}
