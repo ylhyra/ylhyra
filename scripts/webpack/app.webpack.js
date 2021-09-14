@@ -43,29 +43,27 @@ const config = {
         options: require("./babel.js"),
       },
       /* Main Stylus file extracted to a separate file */
-      isProduction
-        ? {
-            test: /index\.styl$/,
-            use: [
-              "style-loader",
-              {
-                loader: "file-loader",
-                options: {
-                  name: "main.css",
-                },
-              },
-              {
-                loader: "stylus-loader",
-              },
-            ],
-          }
-        : {},
+      isProduction && {
+        test: /index\.styl$/,
+        use: [
+          "style-loader",
+          {
+            loader: "file-loader",
+            options: {
+              name: "main.css",
+            },
+          },
+          {
+            loader: "stylus-loader",
+          },
+        ],
+      },
       /* Other Stylus files inlined */
       {
         test: isProduction ? /index2\.styl$/ : /\.styl$/,
         use: ["style-loader", "css-loader", "stylus-loader"],
       },
-    ],
+    ].filter(Boolean),
   },
   resolve: {
     modules: ["./src", "node_modules"],
@@ -86,7 +84,7 @@ const config = {
         ),
       },
     }),
-  ],
+  ].filter(Boolean),
   optimization: {
     minimize: isProduction,
     minimizer: [new TerserPlugin()],

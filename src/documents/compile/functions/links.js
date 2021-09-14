@@ -2,7 +2,10 @@ import { URL_title } from "app/app/paths";
 import { app_urls } from "app/router/appUrls";
 // import { links, getValuesForURL } from "server/content/links";
 
-export const ProcessLinks = (input, links) => {
+export const ProcessLinks = (
+  input,
+  links /* Links passed specifically so that this can be used in the frontend */
+) => {
   return (
     input
       /* Internal links */

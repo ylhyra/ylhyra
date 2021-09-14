@@ -27,7 +27,10 @@ class X extends Component {
         >
           Study this article’s words
         </button>
-        <b>{PercentageKnown(cards)}%</b> known
+        <span className="gray"> – </span>
+        <span className="">
+          <b>{PercentageKnown(cards)}%</b> known
+        </span>
         {/*<div>*/}
         {/*  <div>*/}
         {/*    You know <b>{PercentageKnown(cards)}%</b> of this article’s words.*/}

@@ -4,6 +4,7 @@ import { parseVocabularyList } from "documents/compile/vocabulary";
 import { EncodeDataInHTML } from "documents/compile/functions/functions";
 import { getOrder } from "documents/compile/templates/getOrderOfChapters";
 import { URL_title } from "app/app/paths";
+import { breadcrumbs } from "documents/compile/templates/breadcrumbs";
 
 export default async (input, header) => {
   let h = "";
@@ -11,19 +12,18 @@ export default async (input, header) => {
   // console.log(header.vocabulary);
   const vocabulary_data = parseVocabularyList(header.vocabulary);
   const VocabularyHeader = vocabulary_data
-    ? `<section class="content-header">
-      <vocabularyheader data="${EncodeDataInHTML(vocabulary_data)}"/>
-    </section>`
+    ? `<vocabularyheader data="${EncodeDataInHTML(vocabulary_data)}"/>`
     : "";
   if (vocabulary_data || header.level || header.has_data) {
     h = c`
-      ${VocabularyHeader}
-      <section class="tiny">
+      <section class="tiny wide">
+        ${breadcrumbs(header)}
         ${header.level && `<level level="${header.level}"/>`}
         ${
           header.has_data &&
-          `<small class="gray">Click on words to see their translations.</small>`
+          `<div class="gray small" style="margin:6px 0 10px 0;">Click on words to see their translations.</div>`
         }
+        ${VocabularyHeader}
       </section>`;
   }
 
@@ -41,7 +41,7 @@ export default async (input, header) => {
 
   // input += '<div class="spacer-below-content"></div>';
 
-  /* Prev and next for course articles */
+  /* Automatic prev and next for course articles */
   const url = URL_title(header.title);
   if (header.title !== "Course") {
     const order = await getOrder();
@@ -51,16 +51,16 @@ export default async (input, header) => {
       const next = order[i + 1];
       let y = "";
       if (prev) {
-        y += `<a href="${prev}" className="button gray small">Previous article</a>`;
+        y += `<a href="${prev}" class="button gray small">Previous article</a>`;
       }
       if (next) {
-        y += `<a href="${next}" className="button right gray small">Next article</a><div className="clear"></div>`;
+        y += `<a href="${next}" class="button right gray small">Next article</a><div class="clear"></div>`;
       }
       input += `<section>${y}</section>`;
     }
   }
 
-  input += VocabularyHeader;
+  input += `<section class="">${VocabularyHeader}</section>`;
 
   if (
     header.license ||
@@ -86,7 +86,7 @@ export default async (input, header) => {
           header["typos fixed"] &&
           `
             <div class="gray low-lineheight extra-small">
-              The version published on Ylhýra includes 
+              The version of this article published on Ylhýra includes 
               minor standardizations of orthography or grammar.
             </div>
         `

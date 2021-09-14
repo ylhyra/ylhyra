@@ -6,9 +6,13 @@ section,
     margin auto
   > div 
     padding 25px 10px
-  &.tiny 
+  &.tiny
     > div 
-      padding 5px 10px
+      padding 5px 10px 5px 20px
+  &.wide
+    > div
+      max-width $header-max-width
+      padding-top 0!important
   &:first-child 
     > div 
       padding-top 20px
@@ -50,11 +54,12 @@ section,
   //   flex: 1
   //   border-top: none
   // }
-  &.content-footer 
-    background #eeeeee
+  &.content-footer
+    background $footer-bg
+    border-top 1px solid $footer-border-color
+    margin-bottom -1px
     > div 
-      padding 5px 10px
+      padding 15px 10px 20px 10px
 
-// .spacer-below-content
-main 
+main
   flex 1

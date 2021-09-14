@@ -16,7 +16,10 @@ export default function createCards() {
   /* If all allowed_ids are already in use, clear it */
   if (
     session.allowed_ids &&
-    !session.allowed_ids.every((id) => getCardById(id).isInSession())
+    session.allowed_ids.filter((id) => getCardById(id)).length > 0 &&
+    !session.allowed_ids
+      .filter((id) => getCardById(id))
+      .every((id) => getCardById(id).isInSession())
   ) {
     session.allowed_ids = null;
     logDev("allowed_ids cleared");

@@ -1,0 +1,24 @@
+#breadcrumbs-title 
+  font-size: 13px;
+  margin-bottom: 17px;
+  margin-top: 10px;
+  //> span
+  //  border-bottom 1px solid #eaeaea
+  .title-part 
+    border-radius: 12px;
+    font-family: sans-serif;
+    font-weight: normal;
+    &:after 
+      content: " › ";
+      padding: 2px 1px;
+      color: #b9b9b9;
+    &.namespace
+      color: $gray;
+    &.last
+      color: black;
+      font-weight: bold;
+      &:after 
+        content: "";
+  .title-separator
+    font-size: 0;
+    opacity: 0;
