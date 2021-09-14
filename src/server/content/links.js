@@ -9,17 +9,18 @@ try {
 } catch {}
 export const links = _links;
 
-export const getValuesForURL = (url, user_input_url) => {
+/**
+ * @param {string} url
+ * @returns {{}|{filename: string, title: string, url: string}}
+ */
+export const getValuesForURL = (url) => {
   if (!url && url !== "") return {};
   url = URL_title(url);
   let values = links[url];
   if (values) {
     if ("redirect_to" in values) {
       values = links[values.redirect_to];
-    } else if (user_input_url && user_input_url !== url) {
-      values.redirect_to = url;
     }
-    values.url = url;
     return values;
   } else if (url in app_urls) {
     return {

@@ -6,8 +6,8 @@ class X extends Component {
   render() {
     const parts = parseInt(this.props.parts);
     const url = this.props.route.pathname;
-    const basename = url.replace(/(\d+)$/, "");
-    const part = parseInt(url.match(/(\d+)$/)?.[1]);
+    const basename = url.replace(/\/(\d+)$/, "") + "/";
+    const part = parseInt(url.match(/\/(\d+)$/)?.[1]) || 1;
     let array = [];
     for (let i = 1; i <= parts; i++) {
       array.push(i);
