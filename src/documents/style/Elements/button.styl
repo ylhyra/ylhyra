@@ -42,7 +42,7 @@ button($color, $bg, $x_axis)
 .button > a,
 .button.playButton,
 a.button,
-button:not(.link):not(.nostyle) 
+button:not(.link):not(.nostyle):not(.simple-button)
   button(#4e822e, #e0e2fb, 0)
   // background: #fff5f2
   // border: 1px solid #fcc6c4
@@ -103,16 +103,8 @@ a.button.right
   clear both
 
 button.link,
-button.nostyle 
-  background none
-  border none
-  padding none
-  cursor pointer
-  margin 0
-  padding 0
-  font-size inherit
-  outline none
-  -webkit-tap-highlight-color transparent
+button.nostyle
+  clear_button_styles()
 button.link:hover 
   text-decoration underline
 

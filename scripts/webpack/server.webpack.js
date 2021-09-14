@@ -6,10 +6,7 @@ const NodemonPlugin = require("nodemon-webpack-plugin");
 var HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 
 // const polyfills = resolve('scripts/webpack/utils/config/polyfills.js')
-const modules = [
-  resolve("src/"),
-  // resolve('node_modules'),
-];
+
 module.exports = {
   target: "node",
   devtool: "inline-source-map",
@@ -32,7 +29,7 @@ module.exports = {
         : "[name].js",
   },
   resolve: {
-    modules: [...modules, resolve("src/server/inflection/"), resolve(".")],
+    modules: [resolve("src/"), resolve("src/server/inflection/"), resolve(".")],
     extensions: [".js", ".json"],
   },
   externals: [nodeExternals()],

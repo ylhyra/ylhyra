@@ -21,18 +21,22 @@ class X extends Component {
 
     return (
       <div className="vocabulary-header">
-        <button className="dark-blue" onClick={() => studyParticularIds(cards)}>
-          Study {terms.length} terms
+        <button
+          className="simple-button"
+          onClick={() => studyParticularIds(cards)}
+        >
+          Study this article’s words
         </button>
-        <div>
-          <div>
-            You know <b>{PercentageKnown(cards)}%</b> of this article’s words.
-          </div>
-          <div className="gray small">
-            Additionally includes {dependencyTerms.length} prerequisite terms (
-            {PercentageKnown(dependencyCards)}% known).
-          </div>
-        </div>
+        <b>{PercentageKnown(cards)}%</b> known
+        {/*<div>*/}
+        {/*  <div>*/}
+        {/*    You know <b>{PercentageKnown(cards)}%</b> of this article’s words.*/}
+        {/*  </div>*/}
+        {/*  <div className="gray small">*/}
+        {/*    Additionally includes {dependencyTerms.length} prerequisite terms (*/}
+        {/*    {PercentageKnown(dependencyCards)}% known).*/}
+        {/*  </div>*/}
+        {/*</div>*/}
       </div>
     );
   }

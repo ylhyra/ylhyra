@@ -84,35 +84,38 @@ kbd
       .chapter-title > :first-child
         text-decoration underline
 
+//.content-header
+//  background #fbfcfd
+//  border 1px solid #f3f3f3
+//  border-left 0
+//  border-right 0
+//  margin-bottom 0
+//  margin-top -1px !important
+//  > div
+//    padding-top 20px !important
+//    padding-bottom 20px !important
+//  .vocabulary-header
+//    display flex
+//    align-items center
+//    > :last-child
+//      flex 1
+//      margin-left 10px
+//      //> :not(.gray)
+//    @media (max-width: 380px) {
+//      flex-direction column
+//      align-items center
+//      // > :first-child
+//      // max-width: 250px
+//      // }
+//      > :last-child {
+//        margin-left 0
+//        margin-top 8px
+//      }
+//    }
 .content-header
-  background #fbfcfd
-  // margin-bottom: 20px
-  border 1px solid #f3f3f3
-  border-left 0
-  border-right 0
-  margin-bottom 0
-  margin-top -1px !important
-  > div
-    padding-top 20px !important
-    padding-bottom 20px !important
-  .vocabulary-header
-    display flex
-    align-items center
-    > :last-child
-      flex 1
-      margin-left 10px
-      //> :not(.gray)
-    @media (max-width: 380px) {
-      flex-direction column
-      align-items center
-      // > :first-child
-      // max-width: 250px
-      // }
-      > :last-child {
-        margin-left 0
-        margin-top 8px
-      }
-    }
+  font-size 13px
+  button
+    margin-right: 20px
 
 .parts
   sans_serif()
@@ -134,6 +137,7 @@ kbd
         padding 5px 11px
       &.next
         font-weight bold
+        text-decoration: underline
 
       // font-weight: bold
       //> *

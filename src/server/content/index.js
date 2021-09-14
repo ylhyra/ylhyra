@@ -32,7 +32,12 @@ router.get(["/api/content", "*"], async (req, res) => {
   if (values?.filename) {
     let { title, filepath, filename } = values;
 
-    title = title?.split(/[/:]/g).reverse().join("\u2006•\u2006");
+    title = title
+      ?.split(/[/:]/g)
+      .reverse()
+      // Ignore parts that are just numbers (such as "/article/1/")
+      .filter((i) => !/^\d+$/.test(i))
+      .join("\u2006•\u2006");
 
     if (!isDev) {
       res.set(
