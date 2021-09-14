@@ -34,9 +34,9 @@ export const section_id = (title) => {
   if (!title || title.startsWith(prefix)) return title;
   return (
     prefix +
-    encodeURIComponent(URL_title(title))
-      .replace(/%/g, ".")
-      .replace(/([^a-z0-9.])/g, "_")
+    encodeURIComponent(URL_title(title).replace(/^\//, ""))
+      .replace(/%/g, "_")
+      .replace(/([^a-z0-9_])/g, "_")
   );
 };
 

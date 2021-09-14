@@ -25,7 +25,7 @@ class X extends Component {
           className="simple-button"
           onClick={() => studyParticularIds(cards)}
         >
-          Study this article’s words
+          Study the words in this article
         </button>
         <span className="gray"> – </span>
         <span className="">

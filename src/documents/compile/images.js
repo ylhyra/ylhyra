@@ -97,7 +97,7 @@ const Images = (data) => {
                 ? `max-width:${params.width}px`
                 : ""
             }">
-            <div class="image-and-metadata">
+            <div class="image-and-metadata" data-translate="no">
               <picture>
                 ${small_to_big
                   .map(

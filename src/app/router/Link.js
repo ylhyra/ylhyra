@@ -34,8 +34,7 @@ class Link extends React.Component {
     // }
     if (
       !href.startsWith("/") &&
-      !href.startsWith("http") &&
-      !href.startsWith("mailto") &&
+      !/^[a-z]+:/.test(href) &&
       !href.startsWith("#")
     ) {
       href = "/" + href;

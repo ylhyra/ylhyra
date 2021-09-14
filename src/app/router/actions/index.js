@@ -17,6 +17,7 @@ export const InitializeRouter = (prerender) => {
   updateURL(window.location.pathname + window.location.hash, {
     prerender,
     is404,
+    isInitializing: true,
   });
 };
 

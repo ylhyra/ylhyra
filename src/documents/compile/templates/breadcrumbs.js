@@ -1,16 +1,35 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
 import { getValuesForURL } from "server/content/links";
-import { URL_title } from "app/app/paths";
+import { section_id, URL_title } from "app/app/paths";
+import { getOrder } from "documents/compile/templates/getOrderOfChapters";
 
-export const breadcrumbs = (header) => {
+export const breadcrumbs = async (header) => {
   if (!header.title) return;
 
   const parts = header.title.split(/\//g);
 
   let namespaces = [];
   const v = getValuesForURL(header.title);
-  if (v.filepath.includes("/reading/")) {
+  if (v.filepath.includes("/poems/")) {
+    namespaces.push("Poems");
+  } else if (v.filepath.includes("/video/")) {
+    namespaces.push("Video");
+  } else if (
+    v.filepath.includes("/reading/") &&
+    !v.filepath.includes("/tweets/") &&
+    header.title !== "Texts"
+  ) {
     namespaces.push('<a href="/texts">Texts</a>');
+  } else if (v.filepath.includes("/explanations/")) {
+    namespaces.push('<a href="/explanations">Explanations</a>');
+  }
+
+  if (header.title.startsWith("Course/")) {
+    const url_to_unit = await getOrder(false, true);
+    if (v.url in url_to_unit) {
+      const n = `Unit ${url_to_unit[v.url]}`;
+      parts.splice(1, 0, `<a href="/course#${section_id(n)}">${n}</a>`);
+    }
   }
 
   return c`<div id="breadcrumbs-title">
@@ -45,7 +64,7 @@ export const breadcrumbs = (header) => {
         return c`
           <div class="title-part ${
             (last || secondLastToParts) && !isParts && "bold"
-          }">${name}</div>
+          } ${["Course"].includes(name) && !last && "namespace"}">${name}</div>
           ${!last && `<div class="title-separator"></div>`}
         `;
       })}

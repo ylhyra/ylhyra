@@ -122,7 +122,7 @@ export const shouldTranslate_ = ({ tag, attr }, isTranslating) => {
   if (attr && attr["data-children"] === "string") {
     return false;
   }
-  if (attr && "data-translate" in attr) {
+  if (attr && "data-translate" in attr && attr["data-translate"] !== "no") {
     return true;
   }
   if (

@@ -11,8 +11,7 @@ class Content extends Component {
     if (this.props.route.data === "404") return <NotFound />;
     const parsed = this.props.route.data?.parsed || this.props.prerender;
 
-    // TODO What if loading fails?
-    if (!parsed) return <div className="small gray center">Loading...</div>;
+    if (!parsed) return <Loading key={this.props.route.pathname} />;
 
     // import(
     //   /* webpackChunkName: "editor" */
@@ -24,3 +23,20 @@ class Content extends Component {
 export default /*React.memo*/ connect((state) => ({
   route: state.route,
 }))(Content);
+
+class Loading extends Component {
+  state = {};
+  componentDidMount() {
+    this.timer = setTimeout(() => {
+      this.setState({ failed: true });
+    }, 2000);
+  }
+  componentWillUnmount() {
+    this.timer && clearTimeout(this.timer);
+  }
+  render() {
+    if (this.state.failed)
+      return <div className="small gray center">Loading failed</div>;
+    return <div className="small gray center">Loading...</div>;
+  }
+}

@@ -9,14 +9,15 @@ import { isBrowser } from "app/app/functions/isBrowser";
 import { getFrontpageURL } from "./index";
 
 export async function updateURL(url, options = {}) {
-  let { title, replace, prerender, is404, dontChangeUrl } = options;
+  let { title, replace, prerender, is404, dontChangeUrl, isInitializing } =
+    options;
   if (isBrowser) {
     window.HAS_LOADED = true;
   }
   url = URL_title(url);
   const [pathname, section] = url.split("#");
 
-  if (pathname === store.getState().route.pathname) {
+  if (!isInitializing && pathname === store.getState().route.pathname) {
     if (section) {
       scrollToId(section);
     }

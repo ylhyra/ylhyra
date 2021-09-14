@@ -21,6 +21,7 @@ export const loadContent = ({
   section,
   callback,
 }) => {
+  console.log(url);
   if (url in app_urls || (url === "/" && isVocabularyTheFrontpage())) {
     return;
   }

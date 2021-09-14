@@ -135,7 +135,7 @@ export const processText = (input) => {
     //   return `${'  '.repeat(bullets.length-1)}1. `
     // })
     /* Headings */
-    .replace(/^(=+) ?(.+)\1/gm, (x, equals, title) => {
+    .replace(/^(=+|#+) ?(.+)\1?/gm, (x, equals, title) => {
       // return `${"#".repeat(equals.length)} ${title.toLowerCase()}`;
       return `<h${equals.length} id="${section_id(
         title.replace(/<.+?>/g, "").replace(/SUBSTITUTION[0-9]+%/g, "")
@@ -166,10 +166,6 @@ export const processText = (input) => {
 
   /* Markdown */
   if (!input.trim()) return input;
-  // console.log(input);
-  // if (/lambs/.test(input)) {
-  //   return input;
-  // }
   let [, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/);
   /* Lagfæra lista */
   middle = middle.replace(/(\n-[^\n]+)\n([^-])/g, "$1\n\n$2");

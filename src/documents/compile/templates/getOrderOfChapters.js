@@ -3,13 +3,14 @@ import { getValuesForURL } from "server/content/links";
 
 let order;
 
-export const getOrder = async (withDepth) => {
+export const getOrder = async (withDepth, return_unit_to_url) => {
   if (order) return order;
   const { content } = await generate_html("course");
   let currentUnit = 0;
   let index = 1;
   let urls = [];
   let units_to_url = [];
+  let url_to_unit = {};
   content.replace(/(?:Unit (\d+)|chapter_url="(.+?)")/g, (x, unit, _url) => {
     if (unit) {
       currentUnit = unit;
@@ -24,10 +25,14 @@ export const getOrder = async (withDepth) => {
       prefix: index++,
       url,
     });
+    url_to_unit[url] = currentUnit;
   });
   order = urls;
   if (withDepth) {
     return units_to_url;
+  }
+  if (return_unit_to_url) {
+    return url_to_unit;
   }
   return order;
 };

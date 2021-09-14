@@ -14,18 +14,23 @@ export default async (input, header) => {
   const VocabularyHeader = vocabulary_data
     ? `<vocabularyheader data="${EncodeDataInHTML(vocabulary_data)}"/>`
     : "";
-  if (vocabulary_data || header.level || header.has_data) {
+  const _breadcrumbs = await breadcrumbs(header);
+
+  const shouldShowVocabularyHeaderAbove =
+    header.has_data || input.length > 4000;
+
+  if (true || vocabulary_data || header.level || header.has_data) {
     h = c`
       <section class="tiny wide">
         ${
           header.level &&
           `<div class="float-right"><level level="${header.level}"/></div>`
         }
-        ${breadcrumbs(header)}
+        ${_breadcrumbs}
         <Spacer space="10"/>
         <div class="center">
           <div>
-            ${VocabularyHeader}
+            ${shouldShowVocabularyHeaderAbove && VocabularyHeader}
             ${
               header.has_data &&
               `<div class="gray small" style="margin:6px 0 10px 0;">Click on words to see their translations.</div>`
