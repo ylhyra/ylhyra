@@ -10,15 +10,16 @@ var fs = require("fs");
 const path = require("path");
 
 router.get(["/api/content", "*"], async (req, res) => {
-  let url;
+  let input_url;
   let type = "html";
   if ("title" in req.query) {
-    url = URL_title(req.query.title);
+    input_url = req.query.title;
     type = "json";
   } else {
-    url = URL_title(req.path);
+    input_url = "/" + req.path;
   }
-  let values = getValuesForURL(url, req.query.title);
+  let values = getValuesForURL(input_url);
+  let redirect_to = values.url && input_url !== values.url ? values.url : null;
 
   /* Turn off indexing for testing site */
   if (req.subdomains.includes("test")) {
@@ -46,7 +47,7 @@ router.get(["/api/content", "*"], async (req, res) => {
       );
     }
 
-    if (url.startsWith("/file/")) {
+    if (input_url.startsWith("/file/")) {
       // console.log(filepath);
       res.sendFile(
         filepath
@@ -58,22 +59,20 @@ router.get(["/api/content", "*"], async (req, res) => {
       );
     } else {
       /* Client side rendering allowed in development */
-      if (
-        process.env.NODE_ENV === "development" &&
-        type === "json" &&
-        values.filepath
-      ) {
-        const { content, header } = await generate_html(url);
+      if (isDev && type === "json" && values.filepath) {
+        const { content, header } = await generate_html(input_url);
         if ("html" in req.query) {
           return res.send(content);
         }
         res.send({
           ...values,
+          redirect_to,
           content,
           title,
           header,
         });
       } else {
+        /* TODO!!! Redirect */
         fs.readFile(
           path.resolve(build_folder, `./prerender/${filename}.${type}`),
           "utf8",

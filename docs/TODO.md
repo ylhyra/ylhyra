@@ -17,6 +17,7 @@
 - reloada reglulega, t.d. ef notandi skráir sig inn í öðrum glugga
 - axios retry
 - database backup
+- prófa redirects á server
 
 # uppfæra í gagnagrunni
 

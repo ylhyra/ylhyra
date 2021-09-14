@@ -10,6 +10,26 @@ import { content_folder } from "server/paths_backend";
 var fs = require("fs");
 const path = require("path");
 let files = [];
+
+/**
+ * @typedef LinkData
+ * @property {string} title
+ * @property {string} filename
+ *   Just the name of the file itself and not its path
+ * @property {string} filepath
+ * @property {string} redirect_to
+ * @property {string} section
+ * @property {boolean} shouldBeCreated
+ * @property {boolean} shouldBeIndexed
+ */
+/**
+ * @typedef {LinkData} LinkDataWithUrl
+ * @property {string} url
+ */
+
+/**
+ * @type {Object.<string, LinkData>}
+ */
 const links = {};
 
 // fs.mkdirSync(build_folder)

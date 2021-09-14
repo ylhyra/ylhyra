@@ -11,7 +11,7 @@ export const links = _links;
 
 /**
  * @param {string} url
- * @returns {{}|{filename: string, title: string, url: string}}
+ * @returns {LinkDataWithUrl|{}}
  */
 export const getValuesForURL = (url) => {
   if (!url && url !== "") return {};
@@ -19,8 +19,10 @@ export const getValuesForURL = (url) => {
   let values = links[url];
   if (values) {
     if ("redirect_to" in values) {
+      url = values.redirect_to;
       values = links[values.redirect_to];
     }
+    values.url = url;
     return values;
   } else if (url in app_urls) {
     return {
