@@ -7,8 +7,20 @@ export const breadcrumbs = (header) => {
 
   const parts = header.title.split(/\//g);
 
+  let namespaces = [];
+  const v = getValuesForURL(header.title);
+  if (v.filepath.includes("/reading/")) {
+    namespaces.push('<a href="/texts">Texts</a>');
+  }
+
   return c`<div id="breadcrumbs-title">
     <div>
+      ${namespaces.map((namespace, index) => {
+        return c`
+          <div class="title-part">${namespace}</div>
+          <div class="title-separator"></div>
+        `;
+      })}
       ${parts.map((part, index) => {
         if (!part) return;
         const last = index === parts.length - 1;
@@ -34,7 +46,7 @@ export const breadcrumbs = (header) => {
           <div class="title-part ${
             (last || secondLastToParts) && !isParts && "bold"
           }">${name}</div>
-          ${!last && `<div class="title-separator"><div>/</div></div>`}
+          ${!last && `<div class="title-separator"></div>`}
         `;
       })}
     </div>
