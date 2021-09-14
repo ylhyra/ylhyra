@@ -49,11 +49,21 @@ export const breadcrumbs = async (header) => {
         if (!part) return;
         const last = index === parts.length - 1;
         let name = part;
-        let isParts = false;
+        /**
+         * Used for "Part 1", "Part 2"
+         * @type {boolean}
+         */
+        let isAPartIndicator = false;
         if (/^\d+$/.test(name)) {
           name = `Part ${name}`;
-          isParts = true;
+          isAPartIndicator = true;
         }
+
+        /* Adds italics to parentheses */
+        name = name.replace(/(\(.+?\))/g, (parenthetical) => {
+          return `<i>${parenthetical}</i>`;
+        });
+
         /* Bold the name of the story if it is next to the "Part 1" thing */
         const secondLastToParts =
           index === parts.length - 2 && /^\d+$/.test(parts[index + 1]);
@@ -66,9 +76,10 @@ export const breadcrumbs = async (header) => {
             name = `<a href="${urlForThisPart}">${name}</a>`;
           }
         }
+
         return c`
           <div class="title-part ${
-            (last || secondLastToParts) && !isParts && "bold"
+            (last || secondLastToParts) && !isAPartIndicator && "bold"
           } ${["Course"].includes(part) && !last && "namespace"}">${name}</div>
           ${!last && `<div class="title-separator"></div>`}
         `;

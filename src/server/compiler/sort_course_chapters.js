@@ -13,15 +13,16 @@ const run = async () => {
   const order = await getOrder(true);
   // console.log(order);
   order.forEach((item) => {
-    const { file } = getValuesForURL(item.url);
-    const filename = file.replace(/^.+\//, "").replace(/^\d+-(\d+-)?/, "");
+    let { filepath } = getValuesForURL(item.url);
+    const filename = filepath.replace(/^\d+-(\d+-)?/, "");
+
     // const tmpFile =
     // content_folder + `/not_data/content/course/unused/${prefixZeroes(item.unit)}`;
     // rename(file, )
 
     const dir = //content_folder + `/not_data/content/course/A1`;
       content_folder + `/not_data/content/course/A1/${prefixZeroes(item.unit)}`;
-    rename(file, dir + `/${prefixZeroes(item.prefix, 2)}-${filename}`);
+    rename(filepath, dir + `/${prefixZeroes(item.prefix, 2)}-${filename}`);
   });
   process.exit();
 };
