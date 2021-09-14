@@ -14,7 +14,7 @@ const run = async () => {
   // console.log(order);
   order.forEach((item) => {
     let { filepath } = getValuesForURL(item.url);
-    const filename = filepath.replace(/^\d+-(\d+-)?/, "");
+    const filename = filepath.replace(/^.+\//, "").replace(/^\d+-(\d+-)?/, "");
 
     // const tmpFile =
     // content_folder + `/not_data/content/course/unused/${prefixZeroes(item.unit)}`;
