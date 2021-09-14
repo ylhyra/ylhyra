@@ -21,6 +21,9 @@ const Images = (data) => {
       input.push(params);
       return params;
     });
+
+    // console.log({ filename });
+
     /* Run */
     await forEachAsync(input, async (z) => {
       await new Promise(async (resolve2, reject2) => {

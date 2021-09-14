@@ -8,28 +8,35 @@ export const breadcrumbs = (header) => {
   const parts = header.title.split(/\//g);
 
   return c`<div id="breadcrumbs-title">
-    <span>
+    <div>
       ${parts.map((part, index) => {
         if (!part) return;
         const last = index === parts.length - 1;
         let name = part;
+        let isParts = false;
         if (/^\d+$/.test(name)) {
           name = `Part ${name}`;
+          isParts = true;
         }
+        /* Bold the name of the story if it is next to the "Part 1" thing */
+        const secondLastToParts =
+          index === parts.length - 2 && /^\d+$/.test(parts[index + 1]);
         if (!last) {
           const urlForThisPart = getValuesForURL(
             parts.slice(0, index + 1).join("/")
           ).url;
-          console.log(urlForThisPart);
+          // console.log(urlForThisPart);
           if (urlForThisPart && urlForThisPart !== URL_title(header.title)) {
             name = `<a href="${urlForThisPart}">${name}</a>`;
           }
         }
-        return c`<span class="title-part ${last && "last"}">
-            ${name}
-            ${!last && `<span class="title-separator">/</span>`}
-          </span>`;
+        return c`
+          <div class="title-part ${
+            (last || secondLastToParts) && !isParts && "bold"
+          }">${name}</div>
+          ${!last && `<div class="title-separator"><div>/</div></div>`}
+        `;
       })}
-    </span>
+    </div>
   </div>`;
 };

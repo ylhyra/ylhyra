@@ -4,21 +4,22 @@
   margin-top: 10px;
   //> span
   //  border-bottom 1px solid #eaeaea
-  .title-part 
+  .title-part
+    display: inline-block
     border-radius: 12px;
     font-family: sans-serif;
     font-weight: normal;
-    &:after 
-      content: " › ";
-      padding: 2px 1px;
-      color: #b9b9b9;
     &.namespace
       color: $gray;
-    &.last
-      color: black;
+    &.bold
       font-weight: bold;
-      &:after 
-        content: "";
   .title-separator
-    font-size: 0;
-    opacity: 0;
+    display: inline-block
+    &:after
+      content: " › ";
+      display: inline-block
+      padding: 2px 1px;
+      color: #b9b9b9;
+    > span
+      font-size: 0;
+      opacity: 0;

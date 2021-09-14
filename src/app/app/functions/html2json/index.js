@@ -2,8 +2,7 @@
 
 require("app/app/functions/html2json/lib/Pure-JavaScript-HTML5-Parser/htmlparser.js");
 
-const DEBUG = false;
-var debug = DEBUG ? log.bind(console) : function () {};
+var debug = function () {};
 
 function q(v) {
   return '"' + v + '"';
