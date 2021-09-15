@@ -22,7 +22,8 @@ export const breadcrumbs = async (header) => {
   ) {
     namespaces.push('<a href="/texts">Texts</a>');
   } else if (
-    v.filepath.includes("/explanations/" && header.title !== "Explanations")
+    v.filepath.includes("/explanations/") &&
+    header.title !== "Explanations"
   ) {
     namespaces.push('<a href="/explanations">Explanations</a>');
   }

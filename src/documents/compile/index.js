@@ -10,6 +10,7 @@ export default async (title) => {
   let { output, header } = await TranscludeFromTitle(title);
   if (!output) {
     console.log(`\n"${title}" has no body`);
+    return {};
   }
   output = Table(output, header);
   output = Sections(output, header);
