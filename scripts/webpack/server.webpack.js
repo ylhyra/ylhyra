@@ -62,5 +62,8 @@ module.exports = {
         resolve("src/app"),
       ],
     }),
+    new webpack.IgnorePlugin({
+      resourceRegExp: /\.styl$/,
+    }),
   ],
 };

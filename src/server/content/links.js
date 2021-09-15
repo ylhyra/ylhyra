@@ -1,5 +1,6 @@
 import { app_urls } from "app/router/appUrls";
 import { FileSafeTitle, URL_title } from "app/app/paths";
+import path from "path";
 
 const fs = require("fs");
 
@@ -23,6 +24,10 @@ export const getValuesForURL = (url) => {
       values = links[values.redirect_to];
     }
     values.url = url;
+    values.filepath = values.filepath.replace(
+      /^.+ylhyra_content/,
+      path.resolve(process.env.PWD, "./../ylhyra_content")
+    );
     return values;
   } else if (url in app_urls) {
     return {

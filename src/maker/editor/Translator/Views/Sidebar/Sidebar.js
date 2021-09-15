@@ -20,7 +20,7 @@ class WordSidebar extends React.Component {
     }, 0);
   };
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     window.addEventListener("keydown", this.checkKey);
     this.focus();
     // this.analysis()

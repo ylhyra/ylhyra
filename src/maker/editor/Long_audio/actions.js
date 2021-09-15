@@ -1,5 +1,5 @@
 import store from "app/app/store";
-import NotifyError from "app/app/error";
+import { notify } from "app/app/error";
 import { html2json } from "app/app/functions/html2json";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
@@ -10,7 +10,7 @@ import ReactDOMServer from "react-dom/server";
 export default () => {
   const { parsed } = store.getState().editor;
   if (!parsed) {
-    return NotifyError(
+    return notify(
       "There is no {parsed} for Long audio. Consider turning off server-side rendering."
     );
   }
@@ -25,7 +25,7 @@ export default () => {
   // console.log(json2html(parsed))
   findAreasWithAudioFile(json, (node, filename) => {
     if (done) {
-      NotifyError(
+      notify(
         "Only one audio area can be used at a time, for multiple uses you must transclude them."
       );
     } else {
@@ -42,7 +42,7 @@ export default () => {
       );
       console.log({ output });
       if (!output || !/<(span|div)/.test(output)) {
-        return NotifyError(
+        return notify(
           "Could not create audio XML, no spans found. Check Long_audio/actions.js"
         );
       }

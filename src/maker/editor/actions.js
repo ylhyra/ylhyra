@@ -1,7 +1,8 @@
 import store from "app/app/store";
-import error from "app/app/error";
+import { notify } from "app/app/error";
 import stable_stringify from "json-stable-stringify";
 import axios from "app/app/axios";
+import { route } from "app/router/reducers";
 
 // import { prettyPrint as relaxedJson } from 'really-relaxed-json'
 // var relaxedJsonParser = require('really-relaxed-json').createParser()
@@ -51,7 +52,7 @@ let autosavePending = false;
 let autosaveTimer;
 
 export const save = async () => {
-  const title = store.getState().route.pathname;
+  const title = store.getState().route.data.header.title;
   try {
     if (!store.getState().editor.isSaved) {
       const data = store.getState().editor;
@@ -79,29 +80,14 @@ export const save = async () => {
 
       // console.log(stable_stringify(data_to_save, { space: { toString: () => '' /*Workaround for zero spaces*/ } }))
 
-      editPage(
-        {
-          title: `Data:${title}`,
-          text: stable_stringify(data_to_save, {
-            space: {
-              toString: () => "" /*Workaround for zero spaces*/,
-            },
-          }),
-          summary: "✏️",
-        },
-        (saved) => {
-          if (saved) {
-            store.dispatch({
-              type: "SAVED",
-            });
-            autosave.off();
-          } else {
-            // error('Could not save! Edit token probably old')
-            console.log(stable_stringify(data_to_save, { space: 2 }));
-            /* TODO Error */
-          }
-        }
-      );
+      await axios.post(`/api/translator/saveDocument`, {
+        title: `${title}`,
+        text: stable_stringify(data_to_save, {
+          space: {
+            toString: () => "" /*Workaround for zero spaces*/,
+          },
+        }),
+      });
 
       // TODO! Save translations in server as well
       // await axios.put(`/api/documents/${data.id}`, {
@@ -109,7 +95,7 @@ export const save = async () => {
       // })
     }
   } catch (e) {
-    error("Unable to save document");
+    notify("Unable to save document");
     console.error(e);
   }
 };
@@ -128,45 +114,6 @@ export const save2 = async () => {
   });
 };
 window.save2 = save2;
-
-/*
-  Edit a MediaWiki page
-*/
-export const editPage = (info, callback) => {
-  getNewEditToken((token) => {
-    $.ajax({
-      url: mw.util.wikiScript("api"),
-      type: "POST",
-      dataType: "json",
-      data: {
-        format: "json",
-        action: "edit",
-        title: info.title,
-        text: info.text, // will replace entire page content
-        summary: info.summary,
-        token: token, // mw.user.tokens.get('editToken')
-      },
-    })
-      .done(function (data) {
-        // console.log(data)
-        if (data?.edit && data.edit.result && data.edit.result === "Success") {
-          console.log(
-            `Page edited! https://ylhyra.is/Special:Redirect/page/${data.edit.pageid}`
-          );
-          callback && callback(true);
-        } else {
-          error("Could not save! Edit token probably old");
-          console.warn("The edit query returned an error. =(");
-          console.log(data);
-          callback && callback(false);
-        }
-      })
-      .fail(function () {
-        console.warn("The ajax request failed.");
-        callback && callback(false);
-      });
-  });
-};
 
 /*
   "Are you sure you want to close your window?"

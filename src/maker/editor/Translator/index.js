@@ -10,7 +10,7 @@ import Suggestions from "maker/editor/Suggestions/Views/List";
 import { applySuggestions, MakeSuggestions } from "maker/editor/Suggestions";
 
 class TranslatingEditor extends React.Component {
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     window.addEventListener("keydown", this.checkKey);
   }
   componentWillUnmount() {

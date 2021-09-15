@@ -42,38 +42,46 @@ class Editor extends React.PureComponent {
 }
 
 const RenderEditor = () => {
-  if (!isDev) return;
-  document
-    .querySelector("body")
-    .insertAdjacentHTML(
-      "beforeend",
-      '<div id="editor-button-container"></div>'
-    );
+  if (!isDev) return null;
 
-  let currentDocument = "blabla";
-
-  ReactDOM.render(
-    <Provider store={store}>
-      <div>
-        <div>
-          {currentDocument ? (
-            <button
-              className="editor-button"
-              onClick={() => openEditor("translate")}
-            >
-              Translate
-            </button>
-          ) : (
-            `No text marked for translation.`
-          )}
-          <Editor />
-        </div>
-      </div>
-    </Provider>,
-    document.querySelector("#editor-button-container")
+  return (
+    <div>
+      <button className="editor-button" onClick={() => openEditor("translate")}>
+        Translate
+      </button>
+      <Editor />
+    </div>
   );
+
+  // document
+  //   .querySelector("body")
+  //   .insertAdjacentHTML(
+  //     "beforeend",
+  //     '<div id="editor-button-container"></div>'
+  //   );
+  //
+  // let currentDocument = "blabla";
+  //
+  // ReactDOM.render(
+  //   <Provider store={store}>
+  //     <div>
+  //       <div>
+  //         {currentDocument ? (
+  //           <button
+  //             className="editor-button"
+  //             onClick={() => openEditor("translate")}
+  //           >
+  //             Translate
+  //           </button>
+  //         ) : (
+  //           `No text marked for translation.`
+  //         )}
+  //         <Editor />
+  //       </div>
+  //     </div>
+  //   </Provider>,
+  //   document.querySelector("#editor-button-container")
+  // );
 };
 
 export default RenderEditor;
-
-RenderEditor();

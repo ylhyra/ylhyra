@@ -52,12 +52,7 @@ router.get(["/api/content", "*"], async (req, res) => {
     if (url.startsWith("/file/")) {
       // console.log(filepath);
       res.sendFile(
-        filepath
-          .replace(/(\.[a-z]+)$/i, "") // Fjarlægir ".md"
-          .replace(
-            /^.+ylhyra_content/,
-            path.resolve(process.env.PWD, "./../ylhyra_content")
-          )
+        filepath.replace(/(\.[a-z]+)$/i, "") // Fjarlægir ".md"
       );
     } else {
       /* Client side rendering allowed in development */

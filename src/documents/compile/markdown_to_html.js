@@ -171,6 +171,10 @@ export const processText = (input) => {
   let [, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/);
   /* Lagfæra lista */
   middle = middle.replace(/(\n-[^\n]+)\n([^-])/g, "$1\n\n$2");
+  middle = middle.replace(
+    /^ +([^- ])/gm,
+    "$1"
+  ); /* Fjarlægja bil frá byrjun línu */
   let m = marked(middle).trim(); /* Á að trimma? */
   /* TODO: Virkar ekki með töflur */
   if (!/\n\n/.test(middle)) {

@@ -75,6 +75,7 @@ app.use("/api", require("server/audio/recorder").default);
 // app.use('/api', require('server/audio/GetOneAudioFile').default)
 // app.use('/api', require('server/audio/Synchronize').default)
 // app.use('/api', require('server/translator/save').default)
+app.use("/api", require("server/translator/saveDocument").default);
 app.use("/api", require("server/analytics").default);
 app.use("/api", require("server/analytics/overview").default);
 app.use("/api", require("server/analytics/userErrors").default);

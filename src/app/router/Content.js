@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import NotFound from "documents/templates/404";
 import { connect } from "react-redux";
 import Render from "documents/render";
+import { isDev } from "app/app/functions/isDev";
+import RenderEditor from "maker/editor";
 
 /**
  * Renders data loaded from server
@@ -17,7 +19,11 @@ class Content extends Component {
     //   /* webpackChunkName: "editor" */
     //   "./maker/editor/index.js"
     //   );
-    return Render({ json: parsed });
+    if (isDev) {
+      return [Render({ json: parsed }), <RenderEditor key={2} />];
+    } else {
+      return Render({ json: parsed });
+    }
   }
 }
 export default /*React.memo*/ connect((state) => ({
