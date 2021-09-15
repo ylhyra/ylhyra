@@ -19,15 +19,16 @@ export default function rate(rating) {
   /* Schedule */
   let interval;
   if (rating === BAD) {
-    interval = 3;
+    interval = card.getSessionsSeen() ? 4 : 3;
     if (lastRating === BAD) {
+      interval = 3;
       if (nextLastRating === BAD || Math.random() < 0.2) {
         interval = 2;
       }
     }
     card.done = false;
     /* User is getting annoyed */
-    if (timesSeenBeforeInSession > 6) {
+    if (timesSeenBeforeInSession >= 6 && timesSeenBeforeInSession % 2 === 0) {
       interval = 8;
     }
   } else if (rating === GOOD) {
