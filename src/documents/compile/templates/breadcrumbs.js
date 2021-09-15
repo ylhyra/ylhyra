@@ -81,7 +81,10 @@ export const breadcrumbs = async (header) => {
         return c`
           <div class="title-part ${
             (last || secondLastToParts) && !isAPartIndicator && "bold"
-          } ${["Course"].includes(part) && !last && "namespace"}">${name}</div>
+          } ${
+          ((["Course"].includes(part) && !last) || isAPartIndicator) &&
+          "namespace"
+        }">${name.startsWith("<a") ? name : `<span>${name}</span>`}</div>
           ${!last && `<div class="title-separator"></div>`}
         `;
       })}

@@ -89,6 +89,11 @@ export const save = async () => {
         }),
       });
 
+      store.dispatch({
+        type: "SAVED",
+      });
+      autosave.off();
+
       // TODO! Save translations in server as well
       // await axios.put(`/api/documents/${data.id}`, {
       //   data: data

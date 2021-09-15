@@ -9,8 +9,9 @@
     border-radius: 12px;
     font-family: sans-serif;
     font-weight: normal;
-    &.namespace:not(:hover)
-      opacity: .6
+    &.namespace
+      > a:not(:hover), > span
+        opacity: .6
     &.bold
       font-weight: bold;
   .title-separator

@@ -90,7 +90,13 @@ export default function (
     if (!returns) {
       returns = "";
     }
-    const r = returns.match(/^( +)?(.*?)( +)?$/); // Takes the surrounding spaces
+
+    // Move spaces to around any tags (shows up if surrounded by <em/> tags)
+    returns = returns.replace(/(<[^<>/]+>) /g, " $1");
+    returns = returns.replace(/ (<\/[^<>/]+>)/g, "$1 ");
+
+    // Takes the surrounding spaces
+    const r = returns.match(/^( +)?(.*?)( +)?$/);
     // console.log({returns,r})
 
     const space_at_beginning = r[1] || "";

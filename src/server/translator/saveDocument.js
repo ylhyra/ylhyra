@@ -8,6 +8,7 @@ import { getValuesForURL } from "server/content/links";
 import path from "path";
 import { FileSafeTitle, URL_title } from "app/app/paths";
 import { isDev } from "app/app/functions/isDev";
+import { exec } from "child_process";
 
 const router = require("express").Router();
 
@@ -25,6 +26,23 @@ router.post("/translator/saveDocument", (req, res) => {
   fs.writeFile(filepath, `---\ntitle: Data:${title}\n---\n\n` + text, (err) => {
     if (err) throw err;
     res.sendStatus(200);
+
+    exec(
+      `cd ${
+        process.env.PWD
+      }/../ylhyra_content/ && git add ${filepath} && git commit -m 'Saving data for ${title.replaceAll(
+        "'",
+        ""
+      )}'`,
+      (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+          return;
+        }
+        // console.log(`stdout: ${stdout}`);
+        // console.error(`stderr: ${stderr}`);
+      }
+    );
   });
 });
 

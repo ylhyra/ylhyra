@@ -78,6 +78,8 @@ export default function (input, tokenizedSplit) {
     child: InsertSPLIT(input),
   });
 
+  // console.log(html);
+
   return html;
 }
 
