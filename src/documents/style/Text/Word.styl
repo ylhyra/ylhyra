@@ -22,11 +22,27 @@
 .word-container 
   &.difficult 
     color #919191
-  &.has-inline-translation 
-    // display: inline-block
-    .word 
-      white-space nowrap
-  // html:active .mw-editable &.missing 
+  &.has-inline-translation
+    //display: inline-block
+    //position: relative;
+    display: inline-flex;
+    flex-direction: column-reverse;
+    .word
+      line-height 1
+    .inline_translation
+      line-height 1.1
+      margin-top -4px
+
+      //width 100%
+      //text-align: left;
+    //.inline_translation
+    //  display absolute
+    //  bottom: 26px
+  //    white-space nowrap
+  //    display: inline-block;
+  //    padding-top: 0.6em;
+
+// html:active .mw-editable &.missing
   //   border-bottom: 1px dotted rgba(#d70041, 0.3)
   //   background: rgba(#ff0000, 0.05)
   // }
@@ -38,14 +54,14 @@ body.sentence-shown
     display none
 
 
-.word-height
-  line-height 1.1
-ruby {
-  display: inline-flex;
-  flex-direction: column-reverse;
-}
-
-rb, rt {
-  display: inline;
-  line-height: 1;
-}
+//.word
+//  line-height 1.1
+//ruby {
+//  display: inline-flex;
+//  flex-direction: column-reverse;
+//}
+//
+//rb, rt {
+//  display: inline;
+//  line-height: 1;
+//}

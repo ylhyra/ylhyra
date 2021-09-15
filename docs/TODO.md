@@ -18,6 +18,7 @@
 - axios retry
 - database backup
 - prófa redirects á server
+- færa myndir hingað af fyrst við erum hérna
 
 # uppfæra í gagnagrunni
 

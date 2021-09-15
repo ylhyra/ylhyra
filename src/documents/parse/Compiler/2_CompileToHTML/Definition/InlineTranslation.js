@@ -17,8 +17,11 @@ class InlineTranslation extends React.PureComponent {
     }
     const text = definition.inline_translation || definition.meaning;
     return [
-      <rp key={1}> (</rp>,
-      <rt
+      <span className="hidden" key={1}>
+        {" "}
+        (
+      </span>,
+      <span
         className="inline_translation"
         data-not-text="true"
         // hidden={true}
@@ -26,8 +29,10 @@ class InlineTranslation extends React.PureComponent {
         key={2}
       >
         <span dangerouslySetInnerHTML={{ __html: ItalicsAndBold(text) }} />
-      </rt>,
-      <rp key={3}>)</rp>,
+      </span>,
+      <span className="hidden" key={3}>
+        )
+      </span>,
     ];
   }
 }

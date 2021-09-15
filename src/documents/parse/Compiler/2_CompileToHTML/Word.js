@@ -44,7 +44,7 @@ class WordElement extends React.Component {
     }
 
     const shouldShowInline = definition?.show_definition_above;
-    const Tag = shouldShowInline ? "ruby" : "span";
+    const Tag = "span"; // shouldShowInline ? "ruby" : "span";
 
     // console.log(definition)
     return [
