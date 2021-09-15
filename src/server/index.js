@@ -14,6 +14,7 @@ import "regenerator-runtime/runtime";
 import requestIp from "request-ip";
 import query from "server/database";
 import { notifyOfError } from "server/errors";
+import { isDev } from "app/app/functions/isDev";
 
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
@@ -145,8 +146,11 @@ if (argv["generate-links"]) {
     if (err) {
       return notifyOfError(err.message);
     }
-    if (process.env.NODE_ENV === "development") {
+    if (isDev) {
       console.log(`Running on port ${port}`);
+      exec(
+        `terminal-notifier -group 'ylhyra' -title '️✅' -message 'Server started!'`
+      );
     }
   });
 }
@@ -157,7 +161,7 @@ process.on("SIGINT", function () {
 
 /* Error notifications */
 process.on("uncaughtException", (err) => {
-  if (process.env.NODE_ENV === "development") {
+  if (isDev) {
     exec(
       `terminal-notifier -group 'ylhyra' -title '⚠️' -message 'Server has crashed'`
     );

@@ -64,6 +64,8 @@ const Traverse = (json) => {
           },
         ],
       };
+    } else if (["video"].includes(tag)) {
+      return json;
     }
     // for (const key of Object.keys(attr)) {
     //   const val = attr[key];
