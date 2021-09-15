@@ -149,7 +149,7 @@ if (argv["generate-links"]) {
     if (isDev) {
       console.log(`Running on port ${port}`);
       exec(
-        `terminal-notifier -group 'ylhyra' -title '️✅' -message 'Server started!'`
+        `terminal-notifier -group 'ylhyra' -title '🥰🥰🥰' -message 'Server started!'`
       );
     }
   });
