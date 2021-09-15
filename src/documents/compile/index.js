@@ -20,9 +20,9 @@ export default async (title) => {
   output = await images(output);
   output = markdown_to_html(output);
   output = await WithHeaderAndFooter(output, header);
-  if (header.classes) {
-    output = `<div class="${header.classes.join(" ")}">${output}</div>`;
-  }
+  output = `<div class="content-wrapper ${
+    header.classes?.join(" ") || ""
+  }">${output}</div>`;
   if (output.includes("SUBSTITUTION")) {
     console.error(`"${title}" included SUBSTITUTION`);
     if (process.env.NODE_ENV === "production") {

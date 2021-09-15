@@ -6,21 +6,27 @@ import forEachAsync from "./../../../src/app/app/functions/array-foreach-async";
 const http = require("https");
 const fs = require("fs");
 
-const FILES_TO_DOWNLOAD = `
-`
-  .split(/\n/g)
-  .filter(Boolean);
-
 const upload_path = path.resolve(
   process.env.PWD,
   "./../ylhyra_content/not_data/files/images/blær"
 );
 
+const markdown_file = path.resolve(
+  process.env.PWD,
+  "./../ylhyra_content/not_data/content/reading/text/Blær/Egg_í_áskrift/Egg_í_áskrift.md"
+);
+let data = fs.readFileSync(markdown_file, "utf8");
+
+const FILES_TO_DOWNLOAD = [];
+data.replace(/"(https?:[^"]+?\.[a-z0-9]+)"/gi, (x, url) => {
+  FILES_TO_DOWNLOAD.push(url);
+});
+// console.log(FILES_TO_DOWNLOAD);
+// process.exit();
 (async function () {
   await forEachAsync(FILES_TO_DOWNLOAD, async (file_url) => {
     return new Promise((resolve) => {
-      const filename =
-        "Blaer_fyrst_vid_erum_herna_" + file_url.replace(/^.+\//, "");
+      const filename = "Blaer_egg_i_askrift_" + file_url.replace(/^.+\//, "");
       const file = fs.createWriteStream(path.resolve(upload_path, filename));
       http.get(file_url, function (response) {
         response.pipe(file);
@@ -31,16 +37,22 @@ const upload_path = path.resolve(
           title: File:${filename}
           ---
           
-          {{c}} [https://blaer.is/grein/fyrst-vid-erum-herna Blær]
+          {{c}} Blær
           `
             .trim()
             .replace(/^ +/gm, "")
         );
         console.log(filename);
-        resolve();
+        data = data.replaceAll(file_url, "/api/content?title=File:" + filename);
+        setTimeout(resolve, 1000);
       });
     });
   });
+  data = data.replace(
+    /<img src="\/api\/content\?title=File:(.+)">/g,
+    '<Image src="$1"/>'
+  );
+  fs.writeFileSync(markdown_file, data);
   console.log("Done");
   process.exit();
 })();
