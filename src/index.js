@@ -10,7 +10,7 @@ import { TextEventListenersOn } from "documents/read/touch";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import "documents/style/index.styl";
+import "documents/style/main.styl";
 import { isDev } from "app/app/functions/isDev";
 
 let prerender;

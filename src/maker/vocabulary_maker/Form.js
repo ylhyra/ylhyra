@@ -3,10 +3,10 @@ import React from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import {
   addEmpty,
+  Database,
   delete_row,
   ignore_for_now,
   load,
-  rows,
   select,
   selectNext,
   submit,
@@ -100,8 +100,12 @@ class Form2 extends React.Component {
     return (
       <div className="vocabulary_maker">
         <div>
-          {rows.filter((r) => !r.last_seen && !r["eyða"]).length} new remaining.{" "}
-          {rows.filter((r) => r.last_seen && !r["eyða"] && !r.english).length}{" "}
+          {Database.rows.filter((r) => !r.last_seen && !r["eyða"]).length} new
+          remaining.{" "}
+          {
+            Database.rows.filter((r) => r.last_seen && !r["eyða"] && !r.english)
+              .length
+          }{" "}
           old need translation.
         </div>
         <h1>Voc</h1>

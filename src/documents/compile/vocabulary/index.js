@@ -2,7 +2,7 @@ import { printWord } from "app/vocabulary/actions/functions";
 import { getCardIdsFromWords } from "documents/compile/vocabulary/getCardIdsFromWords";
 import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
-import { insertDependenciesInCorrectOrder } from "app/vocabulary/actions/functions/dependencies";
+import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
 import { initializeDeckFromFile } from "documents/compile/vocabulary/initializeDeckFromFile";
 import {
   getCardIdsFromTermIds,
@@ -21,9 +21,7 @@ export const parseVocabularyList = (vocabulary_list) => {
   const terms = getTermIdsFromCardIds(card_ids);
   const dependencyTerms = getTermIdsFromCardIds(
     _.difference(
-      getIdsFromCards(
-        insertDependenciesInCorrectOrder(getCardsByIds(card_ids))
-      ),
+      getIdsFromCards(withDependencies(getCardsByIds(card_ids))),
       card_ids
     )
   );

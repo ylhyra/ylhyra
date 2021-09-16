@@ -7,14 +7,17 @@ import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_voca
 import { isSearching, reDoSearch } from "maker/vocabulary_maker/actions/search";
 import { setupSound } from "maker/vocabulary_maker/actions/sound";
 
-export let maxID = 0;
-export let rows = [];
-export let sound = [];
-export let terms = {};
-export let cards = {};
-export let dependencies = {};
-export let alternative_ids = {};
-export let plaintext_sentences = {};
+export const Database = {
+  maxID: 0,
+  rows: [],
+  sound: [],
+  terms: {},
+  cards: {},
+  dependencies: {},
+  alternative_ids: {},
+  plaintext_sentences: {},
+  selected_rows: [],
+};
 
 export const MAX_PER_PAGE = 20;
 
@@ -26,26 +29,26 @@ export const load = async () => {
       deckName: getDeckName(),
     })
   ).data;
-  sound = vocabulary?.sound || [];
-  rows = vocabulary?.rows || [];
+  Database.sound = vocabulary?.sound || [];
+  Database.rows = vocabulary?.rows || [];
 
   // rows = rows.map((row, index) => {
   //   row.row_id = index + 1;
   //   return row;
   // });
-  rows.forEach((row) => {
-    maxID = Math.max(maxID, row.row_id);
+  Database.rows.forEach((row) => {
+    Database.maxID = Math.max(Database.maxID, row.row_id);
     // row.row_id = index;
     // return row;
   });
-  console.log({ maxID });
+  // console.log({ maxID });
   // const parsed = parse(vocabulary)
   // terms = parsed.terms
   // dependencies = parsed.dependencies
   // alternative_ids = parsed.alternative_ids
   // plaintext_sentences = parsed.plaintext_sentences
-  ({ terms, cards, dependencies, alternative_ids, plaintext_sentences } =
-    parse_vocabulary_file(vocabulary));
+  Object.assign(Database, parse_vocabulary_file(vocabulary));
+
   setTimeout(() => {
     setupSound();
   }, 1000);
@@ -54,11 +57,10 @@ export const load = async () => {
   refreshRows();
 };
 
-export let selected_rows = [];
 export const refreshRows = () => {
-  rows =
+  Database.rows =
     // _.shuffle(rows)
-    rows.sort(
+    Database.rows.sort(
       (a, b) =>
         Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
         Boolean(a.icelandic) - Boolean(b.icelandic) ||
@@ -72,26 +74,26 @@ export const refreshRows = () => {
         false
     );
   selectRows();
-  select(selected_rows.length > 0 && selected_rows[0].row_id);
+  select(Database.selected_rows.length > 0 && Database.selected_rows[0].row_id);
 };
 
 export const selectRows = (noupdate) => {
   if (!isSearching) {
-    selected_rows = rows
+    Database.selected_rows = Database.rows
       // .filter((i) => i.row_id > 1600 || i.level <= 3 || !i.level)
       // .filter((r) => !r.last_seen && !r["eyða"])
       .slice(0, MAX_PER_PAGE);
   } else if (!noupdate) {
-    selected_rows = [
-      ...rows.filter((j) => !j.icelandic),
-      ...selected_rows
-        .map((s) => rows.find((j) => j.row_id === s.row_id))
+    Database.selected_rows = [
+      ...Database.rows.filter((j) => !j.icelandic),
+      ...Database.selected_rows
+        .map((s) => Database.rows.find((j) => j.row_id === s.row_id))
         .filter(Boolean),
     ];
   }
   store.dispatch({
     type: "LOAD_VOCABULARY_MAKER_DATA",
-    content: selected_rows,
+    content: Database.selected_rows,
   });
 };
 
@@ -111,7 +113,9 @@ export const select = (id) => {
 
 export const selectNext = (row_id) => {
   const x =
-    selected_rows[selected_rows.findIndex((j) => j.row_id === row_id) + 1];
+    Database.selected_rows[
+      Database.selected_rows.findIndex((j) => j.row_id === row_id) + 1
+    ];
   if (x?.row_id) {
     select(x.row_id);
   } else {
@@ -122,8 +126,8 @@ export const selectNext = (row_id) => {
 
 export const delete_row = (row_id) => {
   selectNext(row_id);
-  rows.splice(
-    rows.findIndex((j) => j.row_id === row_id),
+  Database.rows.splice(
+    Database.rows.findIndex((j) => j.row_id === row_id),
     1
   );
   updateInterface();
@@ -132,9 +136,9 @@ export const delete_row = (row_id) => {
 };
 
 export const ignore_for_now = (row_id, message) => {
-  const v = rows.findIndex((j) => j.row_id === row_id);
-  rows[v] = {
-    ...rows[v],
+  const v = Database.rows.findIndex((j) => j.row_id === row_id);
+  Database.rows[v] = {
+    ...Database.rows[v],
     eyða: message || "IGNORED",
   };
   selectNext(row_id);
@@ -144,7 +148,7 @@ export const ignore_for_now = (row_id, message) => {
 export const submit = (vals, gotonext = true) => {
   // console.log(vals);
   vals.level = vals.level ? parseFloat(vals.level) : vals.level;
-  rows[rows.findIndex((j) => j.row_id === vals.row_id)] = {
+  Database.rows[Database.rows.findIndex((j) => j.row_id === vals.row_id)] = {
     ...vals,
     last_seen: new Date().toISOString().substring(0, 10),
   };
@@ -165,13 +169,13 @@ const updateInterface = () => {
 };
 
 export const save = () => {
-  if (rows.length < 1) {
+  if (Database.rows.length < 1) {
     throw new Error("No rows");
   }
   axios.post(`/api/vocabulary_maker`, {
     data: {
-      rows: rows,
-      sound: sound,
+      rows: Database.rows,
+      sound: Database.sound,
     },
     deckName: getDeckName(),
   });
@@ -179,9 +183,12 @@ export const save = () => {
 
 export const findMissingDependencies = () => {
   let missing = [];
-  Object.keys(dependencies).forEach((from_term) => {
-    dependencies[from_term].forEach((to_term) => {
-      if (!(to_term in terms) && !(to_term in alternative_ids)) {
+  Object.keys(Database.dependencies).forEach((from_term) => {
+    Database.dependencies[from_term].forEach((to_term) => {
+      if (
+        !(to_term in Database.terms) &&
+        !(to_term in Database.alternative_ids)
+      ) {
         missing.push(to_term);
       }
     });
@@ -193,8 +200,8 @@ export const findMissingDependencies = () => {
 };
 
 export const addEmpty = () => {
-  rows.push({
-    row_id: maxID++ + 1,
+  Database.rows.push({
+    row_id: Database.maxID++ + 1,
     icelandic: document.querySelector("[name=search]").value,
   });
   refreshRows();
@@ -214,13 +221,13 @@ export const addRowsIfMissing = (text) => {
       en = en?.replace(/;+/g, ";;").replace(/,/g, ";");
     }
     if (
-      !(getHash(is) in terms) &&
-      !(getHash(is) in alternative_ids) &&
-      !rows.some((j) => j.icelandic === is) &&
+      !(getHash(is) in Database.terms) &&
+      !(getHash(is) in Database.alternative_ids) &&
+      !Database.rows.some((j) => j.icelandic === is) &&
       !seen.includes(getHash(is))
     ) {
-      rows.push({
-        row_id: maxID++ + 1,
+      Database.rows.push({
+        row_id: Database.maxID++ + 1,
         icelandic: is.trim(),
         english: en?.trim(),
         alternative_id: is.trim(),

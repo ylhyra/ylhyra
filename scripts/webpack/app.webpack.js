@@ -44,7 +44,7 @@ const config = {
       },
       /* Main Stylus file extracted to a separate file */
       isProduction && {
-        test: /index\.styl$/,
+        test: /main\.styl$/,
         use: [
           "style-loader",
           {
@@ -60,7 +60,7 @@ const config = {
       },
       /* Other Stylus files inlined */
       {
-        test: isProduction ? /index2\.styl$/ : /\.styl$/,
+        test: isProduction ? /index\.styl$/ : /\.styl$/,
         use: ["style-loader", "css-loader", "stylus-loader"],
       },
     ].filter(Boolean),

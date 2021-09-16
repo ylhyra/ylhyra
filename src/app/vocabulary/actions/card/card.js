@@ -76,20 +76,28 @@ export class Card {
   }
 
   /**
+   * Used when creating new cards,
+   * we want to ignore certain cards
    * @returns {boolean}
    */
   isAllowed() {
     const { allowed_ids } = deck.session;
     return (
+      /* Ignore cards that are already in the session */
       !this.isInSession() &&
-      (!allowed_ids || allowed_ids.includes(this.getId()))
+      /* If allowed_ids is on, only select allowed cards */
+      (!allowed_ids || allowed_ids.includes(this.getId())) &&
+      /* In case we're adding cards to an already ongoing session,
+         ignore cards that are similar to a card the user has just seen */
+      !deck.session.cardHistory
+        .slice(0, 3)
+        .some(
+          (card) =>
+            this.hasTermsInCommonWith(card) ||
+            this.hasDependenciesInCommonWith(card) ||
+            this.isTextSimilarTo(card)
+        )
     );
-
-    deck.session.cardHistory.slice(0, 3).some((card) => {
-      this.hasTermsInCommonWith(card);
-      hasDependenciesInCommonWith;
-      isTextSimilarTo;
-    });
   }
   getSortKeyAdjustedForEasinessLevel() {
     return this.sortKey > getEasinessLevel()

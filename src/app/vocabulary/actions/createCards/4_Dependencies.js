@@ -1,4 +1,4 @@
-import { insertDependenciesInCorrectOrder } from "app/vocabulary/actions/functions/dependencies";
+import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
 import { getLowestBadCardSortKey } from "app/vocabulary/actions/easinessLevel/functions";
 
 export const DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL = 200;
@@ -8,7 +8,7 @@ export default (chosen_cards) => {
   const lowestSortKeyOfChosenCards = Math.min(
     ...chosen_cards.map((c) => c.sortKey)
   );
-  return insertDependenciesInCorrectOrder(chosen_cards).filter(
+  return withDependencies(chosen_cards).filter(
     (card) =>
       !card.isInSession() &&
       /* Keep in those already chosen */

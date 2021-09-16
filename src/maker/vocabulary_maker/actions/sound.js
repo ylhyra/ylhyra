@@ -5,13 +5,12 @@ import {
 } from "maker/vocabulary_maker/compile/functions";
 import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
+import { Database, save } from "maker/vocabulary_maker/actions/actions";
+import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
 import {
-  cards,
-  plaintext_sentences,
-  save,
-  sound,
-} from "maker/vocabulary_maker/actions/actions";
-import { insertDependenciesInCorrectOrder } from "app/vocabulary/actions/functions/dependencies";
+  getCardsByIds,
+  getIdsFromCards,
+} from "app/vocabulary/actions/card/functions";
 
 let missing_sound = [];
 let current_word_recording = 0;
@@ -21,10 +20,10 @@ export const setupSound = () => {
   let ids = _.shuffle(deck.cards_sorted.filter((c) => c.sortKey))
     .sort((a, b) => Math.floor(a.sortKey / 50) - Math.floor(b.sortKey / 50))
     .map((c) => c.id);
-  ids = insertDependenciesInCorrectOrder(ids);
+  ids = getIdsFromCards(withDependencies(getCardsByIds(ids)));
   ids.forEach((id) => {
-    if (!(id in cards)) return;
-    cards[id].spokenSentences.forEach((sentence) => {
+    if (!(id in Database.cards)) return;
+    Database.cards[id].spokenSentences.forEach((sentence) => {
       if (!sentences.includes(sentence)) {
         sentences.push(sentence);
       }
@@ -35,7 +34,7 @@ export const setupSound = () => {
 
   missing_sound = [];
   current_word_recording = 0;
-  sound = sound.map((i) => ({
+  Database.sound = Database.sound.map((i) => ({
     ...i,
     lowercase: GetLowercaseStringForAudioKey(i.recording_of),
   }));
@@ -43,7 +42,7 @@ export const setupSound = () => {
   sentences.forEach((word) => {
     const lowercase = GetLowercaseStringForAudioKey(word);
     if (
-      !sound.some(
+      !Database.sound.some(
         (i) =>
           i.lowercase === lowercase &&
           i.speaker === window.recording_metadata.speaker
@@ -62,7 +61,7 @@ export const getNextWordToRecord = () => {
     100 -
     Math.ceil(
       ((missing_sound.length - current_word_recording) /
-        Object.keys(plaintext_sentences).length) *
+        Object.keys(Database.plaintext_sentences).length) *
         100
     )
   }% done overall.`;
@@ -78,7 +77,7 @@ export const getNextWordToRecord = () => {
 
 export const saveSound = ({ word, filename }) => {
   console.log(filename);
-  sound.push({
+  Database.sound.push({
     recording_of: word,
     filename,
     speed: window.recording_metadata.speed,

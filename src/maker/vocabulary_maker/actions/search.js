@@ -4,9 +4,8 @@ import {
 } from "maker/vocabulary_maker/compile/format";
 import {
   delete_row,
-  rows,
+  Database,
   select,
-  selected_rows,
   selectRows,
 } from "maker/vocabulary_maker/actions/actions";
 
@@ -23,7 +22,7 @@ export const search = (e) => {
     isSearching = false;
   } else {
     isSearching = true;
-    selected_rows = rows
+    Database.selected_rows = Database.rows
       .filter(
         (j) =>
           !j.icelandic ||
@@ -48,7 +47,7 @@ export const search = (e) => {
 
 export const didYouMeanSuggestions = (is, input_row_id) => {
   const split = is.toLowerCase().split(/[ ;,]/g);
-  const v = rows
+  const v = Database.rows
     .map((r) => {
       if (r.icelandic === is) return null;
       const v = ">" + r.icelandic.toLowerCase().split(/[ ;,]/g).join(">") + ">";
@@ -78,9 +77,9 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
       key={i}
       onClick={() => {
         // i.row_id
-        const x = rows.findIndex((f) => f.row_id === j.row_id);
-        const vals = rows[x];
-        rows[x] = {
+        const x = Database.rows.findIndex((f) => f.row_id === j.row_id);
+        const vals = Database.rows[x];
+        Database.rows[x] = {
           ...vals,
           alternative_id: vals.alternative_id + ", " + is,
         };

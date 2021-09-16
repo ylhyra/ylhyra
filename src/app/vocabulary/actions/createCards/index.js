@@ -2,7 +2,10 @@ import ChooseCards from "app/vocabulary/actions/createCards/3_Choose_cards";
 import Dependencies from "app/vocabulary/actions/createCards/4_Dependencies";
 import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
 import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
-import { getCardById } from "app/vocabulary/actions/card/functions";
+import {
+  getCardById,
+  getCardsByIds,
+} from "app/vocabulary/actions/card/functions";
 import { logDev } from "app/app/functions/log";
 
 export const CARDS_TO_CREATE = 50;
@@ -16,10 +19,8 @@ export default function createCards() {
   /* If all allowed_ids are already in use, clear it */
   if (
     session.allowed_ids &&
-    session.allowed_ids.filter((id) => getCardById(id)).length > 0 &&
-    !session.allowed_ids
-      .filter((id) => getCardById(id))
-      .every((id) => getCardById(id).isInSession())
+    (getCardsByIds(session.allowed_ids).length === 0 ||
+      getCardsByIds(session.allowed_ids).every((card) => card.isInSession()))
   ) {
     session.allowed_ids = null;
     logDev("allowed_ids cleared");

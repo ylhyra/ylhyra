@@ -10,7 +10,7 @@ import _ from "underscore";
  * @param {Array.<Card>} cards
  * @returns {Array.<Card>}
  */
-export const insertDependenciesInCorrectOrder = (cards) => {
+export const withDependencies = (cards) => {
   let card_ids = [];
   getTermsFromCards(cards).forEach((term) => {
     card_ids = card_ids.concat(term.getSortedCardDependenciesAsCardIds());

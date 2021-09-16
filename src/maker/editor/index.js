@@ -41,6 +41,7 @@ class Editor extends React.PureComponent {
 
 const RenderEditor = () => {
   if (!isDev) return null;
+  if (!store.getState().editor.tokenized?.length > 0) return null;
 
   return (
     <div>
