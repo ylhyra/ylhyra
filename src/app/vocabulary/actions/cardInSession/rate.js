@@ -15,22 +15,30 @@ export default function rate(rating) {
   card.lastSeen = card.session.counter;
   const lastRating = card.history[1];
   const nextLastRating = card.history[2];
-
-  /* Schedule */
   let interval;
+
   if (rating === BAD) {
-    interval = card.getSessionsSeen() ? 4 : 3;
+    interval = card.getSessionsSeen() > 0 ? 4 : 3;
+
+    /* Two bad ratings in a row */
     if (lastRating === BAD) {
       interval = 3;
-      if (nextLastRating === BAD || Math.random() < 0.2) {
+      // Three bad ratings in a row always get an interval of 2
+      if (nextLastRating === BAD) {
+        interval = 2;
+      }
+      // But two bad ratings in a row also occasionally get an interval of 2
+      else if (Math.random() < 0.2) {
         interval = 2;
       }
     }
-    card.done = false;
+
     /* User is getting annoyed */
     if (timesSeenBeforeInSession >= 6 && timesSeenBeforeInSession % 2 === 0) {
       interval = 8;
     }
+
+    card.done = false;
   } else if (rating === GOOD) {
     interval = 200;
     card.done = true;

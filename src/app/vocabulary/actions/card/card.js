@@ -84,6 +84,12 @@ export class Card {
       !this.isInSession() &&
       (!allowed_ids || allowed_ids.includes(this.getId()))
     );
+
+    deck.session.cardHistory.slice(0, 3).some((card) => {
+      this.hasTermsInCommonWith(card);
+      hasDependenciesInCommonWith;
+      isTextSimilarTo;
+    });
   }
   getSortKeyAdjustedForEasinessLevel() {
     return this.sortKey > getEasinessLevel()

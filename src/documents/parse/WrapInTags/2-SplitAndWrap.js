@@ -97,7 +97,6 @@ export default function (
 
     // Takes the surrounding spaces
     const r = returns.match(/^( +)?(.*?)( +)?$/);
-    // console.log({returns,r})
 
     const space_at_beginning = r[1] || "";
     const content = r[2] || "";

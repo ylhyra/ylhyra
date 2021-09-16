@@ -1,9 +1,7 @@
-import "maker/editor/Style/index2.styl";
+import "maker/editor/Style/index.styl";
 
 import React from "react";
-import ReactDOM from "react-dom";
-import { connect, Provider } from "react-redux";
-import store from "app/app/store";
+import { connect } from "react-redux";
 import Translator from "maker/editor/Translator";
 import Header from "maker/editor/Header";
 import LongAudio from "maker/editor/Long_audio";
