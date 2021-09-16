@@ -14,6 +14,7 @@ export async function updateURL(url, options = {}) {
   if (isBrowser) {
     window.HAS_LOADED = true;
   }
+
   url = URL_title(url);
   const [pathname, section] = url.split("#");
 
@@ -25,6 +26,7 @@ export async function updateURL(url, options = {}) {
   }
 
   const isComponent = pathname in app_urls;
+
   if (isComponent) {
     Analytics.stopReadingPage();
   }
@@ -40,7 +42,10 @@ export async function updateURL(url, options = {}) {
   if (!title && isComponent) {
     title = app_urls[pathname].title;
   }
-  window.document.title = (title ? title + "\u2006•\u2006" : "") + "Ylhýra";
+
+  if (title || replace || isComponent) {
+    window.document.title = (title ? title + "\u2006•\u2006" : "") + "Ylhýra";
+  }
 
   /*
     Force vocabulary game to keep the URL of the article it is started on
@@ -77,6 +82,7 @@ export async function updateURL(url, options = {}) {
       url: pathname,
       prerender_data: prerender,
       section,
+      isInitializing,
     });
   }
 

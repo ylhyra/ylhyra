@@ -17,6 +17,7 @@ let current_word_recording = 0;
 export const setupSound = () => {
   if (getDeckName()) return;
   let sentences = [];
+  /** @type {Array.<string>} */
   let ids = _.shuffle(deck.cards_sorted.filter((c) => c.sortKey))
     .sort((a, b) => Math.floor(a.sortKey / 50) - Math.floor(b.sortKey / 50))
     .map((c) => c.id);

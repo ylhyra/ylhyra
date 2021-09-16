@@ -19,6 +19,7 @@ export const loadContent = ({
   prerender_data,
   preload,
   section,
+  isInitializing,
   callback,
 }) => {
   if (url in app_urls || (url === "/" && isVocabularyTheFrontpage())) {
@@ -34,7 +35,7 @@ export const loadContent = ({
       pathname: url,
     });
   } else if (url in cache) {
-    set(url, cache[url], preload, section, callback);
+    set({ url, data: cache[url], preload, section, isInitializing, callback });
   } else {
     if (!preload) {
       expectedUrl = url;
@@ -48,7 +49,7 @@ export const loadContent = ({
       .then(async ({ data }) => {
         cache[url] = data;
         if (expectedUrl === url) {
-          set(url, data, preload, section, callback);
+          set({ url, data, preload, section, isInitializing, callback });
         }
       })
       .catch((error) => {
@@ -63,7 +64,14 @@ export const loadContent = ({
   }
 };
 
-const set = async (url, data, preload, section, callback) => {
+const set = async ({
+  url,
+  data,
+  preload,
+  section,
+  isInitializing,
+  callback,
+}) => {
   Analytics.startReadingPage(url);
   if (preload) return;
   let parsed, flattenedData;
@@ -114,10 +122,13 @@ const set = async (url, data, preload, section, callback) => {
     url = "/frontpage";
   }
 
+  // console.log({ t: data.title });
+
   callback?.();
   updateURL(url + (section ? "#" + section : ""), {
     title: data.title,
     replace: true,
+    isInitializing,
   });
   ReadAlongSetup(flattenedData);
 };
