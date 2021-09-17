@@ -8,7 +8,7 @@
 - fara yfir easinesslevel
 - ef maður skráir sig inn, blanda progress
 - loadnewcards ætti að hunsa spjöld sem dependa á nýleg spjöld
-- fjarlægja sortbyallowed_ids 
+- fjarlægja sortbyallowed_ids
 
 ### Annað
 
