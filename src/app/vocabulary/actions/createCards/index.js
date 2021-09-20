@@ -13,7 +13,7 @@ export const CARDS_TO_CREATE = 50;
 /**
  * @memberOf Session
  */
-export default function createCards() {
+export default function createCards(options) {
   const session = this;
 
   /* If all allowed_ids are already in use, clear it */
@@ -41,5 +41,5 @@ export default function createCards() {
     return this.createCards();
   }
 
-  this.loadCardsIntoSession(chosen_cards);
+  this.loadCardsIntoSession(chosen_cards, options);
 }

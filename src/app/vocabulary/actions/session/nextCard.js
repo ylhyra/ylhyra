@@ -41,6 +41,7 @@ export function nextCard(depth = 0) {
         Prohib: (i.cannotBeShownBefore || 0) - i.session.counter,
         new: i.hasBeenSeenInSession() ? "SEEN" : "NEW",
         word: printWord(i.id),
+        sortKey: i.sortKey,
         schdl: deck.schedule[i.id]
           ? new Date(deck.schedule[i.id].last_seen)
           : "",

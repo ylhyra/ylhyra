@@ -45,7 +45,7 @@ export const login = async (values) => {
 
 export const logout = async () => {
   await axios.post(`/api/user/logout`);
-  deck.reset();
+  deck?.reset();
   store.dispatch({
     type: "LOAD_USER",
     content: null,

@@ -1,5 +1,5 @@
 import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
-import { assert, notNull, shouldEqual } from "test/index";
+import { assert, notNull, shouldEqual, wait } from "test/index";
 import { run } from "test/functions";
 import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 
@@ -8,6 +8,7 @@ export default {
     await run.vocabulary_session();
     const known1 = PercentageKnownOverall();
     await run.signup_logout_login();
+    // await wait(200);
     const known2 = PercentageKnownOverall();
     assert(getEasinessLevel() === 0);
     notNull(known1, known2);

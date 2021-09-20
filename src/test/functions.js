@@ -17,6 +17,7 @@ export const run = {
     eraseCookie();
     deck?.reset();
     await InitializeVocabulary();
+    await wait(20);
     assert(PercentageKnownOverall() === 0);
     await updateURL("/vocabulary");
   },

@@ -97,7 +97,7 @@ export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
   //   }
   // }
 
-  deck.session.createCards();
+  deck.session.createCards({ insertImmediately: true });
 };
 
 export const setEasinessLevel = (val) => {

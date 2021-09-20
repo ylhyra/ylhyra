@@ -27,7 +27,7 @@ export default {
         (card) =>
           !card.done &&
           (!card.hasBeenSeenInSession() || card.history.includes(BAD)) &&
-          card.getQueuePosition() < 1000
+          card.getRanking() < 2000
       );
       assert(
         cardsStillInSession.length > 0 &&
