@@ -13,12 +13,12 @@ export default {
     );
     // TODO logging
   },
-  "Unfinished session not scheduled if user is accidentally logged out":
-    async () => {
-      await run.signup();
-      await run.vocabulary_session({ dontEnd: true });
-      eraseCookie();
-      await run.fakeReload();
-      assert(Object.keys(deck.schedule).length === 0);
-    },
+  // "Unfinished session not scheduled if user is accidentally logged out":
+  //   async () => {
+  //     await run.signup();
+  //     await run.vocabulary_session({ dontEnd: true });
+  //     eraseCookie();
+  //     await run.fakeReload();
+  //     assert(Object.keys(deck.schedule).length === 0);
+  //   },
 };
