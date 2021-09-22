@@ -6,6 +6,7 @@ import _ from "underscore";
 import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
 import { isSearching, reDoSearch } from "maker/vocabulary_maker/actions/search";
 import { setupSound } from "maker/vocabulary_maker/actions/sound";
+import { log } from "app/app/functions/log";
 
 export const Database = {
   maxID: 0,
@@ -172,13 +173,14 @@ export const save = () => {
   if (Database.rows.length < 1) {
     throw new Error("No rows");
   }
-  axios.post(`/api/vocabulary_maker`, {
+  await axios.post(`/api/vocabulary_maker`, {
     data: {
       rows: Database.rows,
       sound: Database.sound,
     },
     deckName: getDeckName(),
   });
+  log("Saved");
 };
 
 export const findMissingDependencies = () => {
@@ -210,7 +212,7 @@ export const addEmpty = () => {
 
 export const addRowsIfMissing = (text) => {
   let seen = [];
-  let prompt_level = window.prompt("Level:");
+  let prompt_level = !getDeckName() ? window.prompt("Level:") : null;
   text.split(/\n/g).forEach((row) => {
     if (!row || !row.trim()) return;
     let [is, en, level, depends_on, lemmas] = row
