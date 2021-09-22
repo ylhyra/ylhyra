@@ -169,7 +169,7 @@ const updateInterface = () => {
   // });
 };
 
-export const save = () => {
+export const save = async () => {
   if (Database.rows.length < 1) {
     throw new Error("No rows");
   }
