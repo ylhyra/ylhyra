@@ -128,11 +128,11 @@ export class Card {
   }
 
   /**
-   * @returns {Number|undefined}
+   * @returns {Number}
    * @alias getTimesSeen
    */
   getSessionsSeen() {
-    return this.getSchedule()?.sessions_seen;
+    return this.getSchedule()?.sessions_seen || 0;
   }
 
   /**

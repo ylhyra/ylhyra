@@ -1,5 +1,10 @@
-import { average, clamp } from "app/app/functions/math";
-import { daysToMs, msToDays, getTime, round } from "app/app/functions/time";
+import { addSomeRandomness, average, clamp } from "app/app/functions/math";
+import {
+  daysToMs,
+  msToDays,
+  getTime,
+  roundToSignificantDigits,
+} from "app/app/functions/time";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import { printWord } from "app/vocabulary/actions/functions";
 import { log } from "app/app/functions/log";
@@ -22,9 +27,9 @@ export function createSchedule() {
 
   session.cards.forEach((card) => {
     let due_in_days;
-    let prevScore = card.getScore();
-    let sessions_seen = card.getSessionsSeen();
-    let isNew = !prevScore;
+    const prevScore = card.getScore();
+    const sessions_seen = card.getSessionsSeen();
+    const isNew = !prevScore;
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
     const avgRating = average(sessionHistory);
@@ -84,18 +89,20 @@ export function createSchedule() {
     if (score >= GOOD && card.didAnySiblingCardsGetABadRatingInThisSession()) {
       due_in_days = 1.4;
       score = BAD + INCR;
+      log(
+        `${card.printWord()} given a low score due to siblings having gotten a bad rating`
+      );
     }
 
-    let due = getTime() + daysToMs(addSomeRandomness(due_in_days));
     card.setSchedule({
-      due,
+      due: getTime() + daysToMs(addSomeRandomness(due_in_days)),
       last_interval_in_days: Math.round(due_in_days),
-      score: roundToInterval(score, -2),
+      score: roundToSignificantDigits(score, -2),
       last_seen: getTime(),
-      sessions_seen: (sessions_seen || 0) + 1,
+      sessions_seen: sessions_seen + 1,
     });
 
-    log(`${printWord(card.id)} - score: ${score} - days: ${due_in_days}`);
+    log(`${card.printWord()} - score: ${score} - days: ${due_in_days}`);
 
     /* Postpone siblings */
     if (!anyBad) {
@@ -104,12 +111,11 @@ export function createSchedule() {
         /* Ignore cards that were seen in this session */
         .filter(
           (sibling_card) =>
-            !session.cards.some(
-              (c) =>
-                c.getId() === sibling_card.getId() && c.hasBeenSeenInSession()
-            )
+            !sibling_card.getAsCardInSession()?.hasBeenSeenInSession()
         )
         .forEach((sibling_card) => {
+          /* Postpone based on a portion of the main card's due_in_days,
+             but never more than 7 days */
           const newDue = getTime() + daysToMs(Math.min(due_in_days * 0.5, 7));
           const actualDue = sibling_card.getDue();
           if (!actualDue || actualDue < newDue) {
@@ -124,10 +130,3 @@ export function createSchedule() {
 
   log("Schedule made");
 }
-
-/**
- * Randomly adds or subtracts up to 10% of the input
- */
-const addSomeRandomness = (input) => {
-  return input + input * 0.1 * Math.random() * (Math.random() > 0.5 ? 1 : -1);
-};

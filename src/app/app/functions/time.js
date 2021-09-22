@@ -21,7 +21,7 @@ export const getTime = () => {
   return new Date().getTime();
 };
 
-export const round = (input, zeroes = 0) => {
+export const roundToSignificantDigits = (input, zeroes = 0) => {
   const i = 10 ** zeroes;
   return Math.round(input / i) * i;
 };

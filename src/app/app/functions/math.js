@@ -30,3 +30,12 @@ export const roundToInterval = (v, roundby) => {
 export const minIgnoreFalsy = (...values) => {
   return Math.min(...values.filter(Boolean));
 };
+
+/**
+ * Randomly adds or subtracts up to 10% of the input
+ */
+export const addSomeRandomness = (input, amount = 0.1) => {
+  return (
+    input + input * amount * Math.random() * (Math.random() > 0.5 ? 1 : -1)
+  );
+};

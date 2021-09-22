@@ -38,9 +38,7 @@ class CardInSession extends Card {
         .every(
           (card) =>
             !card.isInSchedule() &&
-            !this.session.cards.some(
-              (c) => c.getId() === card.getId() && c.hasBeenSeenInSession()
-            )
+            !card.getAsCardInSession()?.hasBeenSeenInSession()
         )
     );
   }
