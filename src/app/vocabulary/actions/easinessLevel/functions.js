@@ -69,6 +69,7 @@ export const getMaxSortKey = () => {
 
 export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
   /* Clear unseen cards */
+  /** @type {Array.<CardInSession>} */
   deck.session.cards = deck.session.cards.filter(
     (card) =>
       card.hasBeenSeenInSession() || card.cannotBeShownBefore || card.done

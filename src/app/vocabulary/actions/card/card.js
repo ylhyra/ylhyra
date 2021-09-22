@@ -241,13 +241,28 @@ export class Card {
 
   /**
    * Cards with the same term that are not this card
-   * @module Card
    * @returns {Array.<Card>}
    */
   getSiblingCards() {
     return this.getAllCardsWithSameTerm().filter(
       (siblingCard) => siblingCard.getId() !== this.getId()
     );
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  didAnySiblingCardsGetABadRatingInThisSession() {
+    return this.getSiblingCards().some((sibling_card) => {
+      return sibling_card.getAsCardInSession()?.history.includes(BAD);
+    });
+  }
+
+  /**
+   * @returns {CardInSession|undefined}
+   */
+  getAsCardInSession() {
+    return deck.session.cards.find((card) => card.getId() === this.getId());
   }
 
   /**

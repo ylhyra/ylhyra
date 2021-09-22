@@ -75,6 +75,16 @@ export function createSchedule() {
         due_in_days = new_due_in_days;
       }
     }
+
+    /**
+     * If any sibling cards got a bad rating in this session,
+     * this card can not be given a good score
+     */
+    if (score >= GOOD && card.didAnySiblingCardsGetABadRatingInThisSession()) {
+      due_in_days = 1;
+      score = BAD + INCR;
+    }
+
     let due = now() + daysToMs(addSomeRandomness(due_in_days));
     card.setSchedule({
       due,
