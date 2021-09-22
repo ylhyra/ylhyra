@@ -3,7 +3,7 @@ import { getHash } from "maker/vocabulary_maker/compile/functions";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 import { isBrowser } from "app/app/functions/isBrowser";
 import { log } from "app/app/functions/log";
-import { round } from "app/app/functions/math";
+import { roundToInterval } from "app/app/functions/math";
 import { updateURL } from "app/router/actions/updateURL";
 import _ from "underscore";
 import { isDev } from "app/app/functions/isDev";
@@ -53,7 +53,7 @@ export const studyNewTerms = () => {
  */
 export const countTerms = (cards) => {
   const i = (cards.map((c) => c.terms) |> _.flatten |> _.uniq).length;
-  return round(i, i > 200 ? 50 : 5);
+  return roundToInterval(i, i > 200 ? 50 : 5);
 };
 
 /**

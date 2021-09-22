@@ -1,4 +1,4 @@
-import { minutes, now } from "app/app/functions/time";
+import { minutes, getTime } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
 import { getFrontpageURL } from "app/router/actions";
 import { preload } from "app/router/actions/load";
@@ -6,12 +6,12 @@ import { updateURL } from "app/router/actions/updateURL";
 import React from "react";
 import { connect } from "react-redux";
 
-const start = now();
+const start = getTime();
 
 class Link extends React.Component {
   fn = (e, url) => {
     /* Do a full refresh if window is more than 10 minutes old */
-    if (now() - start > 10 * minutes) {
+    if (getTime() - start > 10 * minutes) {
       return;
     }
     if (e.altKey || e.metaKey || e.ctrlKey) return;

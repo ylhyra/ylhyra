@@ -1,4 +1,4 @@
-import { now } from "app/app/functions/time";
+import { getTime } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
 
@@ -8,10 +8,10 @@ import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
 export function updateRemainingTime() {
   const diff = Math.min(
     MAX_SECONDS_TO_COUNT_PER_ITEM * 1000,
-    now() - this.lastTimestamp
+    getTime() - this.lastTimestamp
   );
   this.remainingTime = Math.max(0, this.remainingTime - diff);
-  this.lastTimestamp = now();
+  this.lastTimestamp = getTime();
   if (this.remainingTime <= 0) {
     this.sessionDone();
     this.done = true;

@@ -1,4 +1,4 @@
-import { hours, now } from "app/app/functions/time";
+import { hours, getTime } from "app/app/functions/time";
 import {
   newestFirst,
   oldestFirst,
@@ -24,7 +24,7 @@ export default () => {
     .filter((card) => card.isAllowed())
     .sort((a, b) => a.getDue() - b.getDue())
     .forEach((card) => {
-      if (card.getDue() < now() + 16 * hours) {
+      if (card.getDue() < getTime() + 16 * hours) {
         if (card.isBelowGood()) {
           overdue_bad.push(card);
         } else {

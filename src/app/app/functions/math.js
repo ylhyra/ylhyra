@@ -23,7 +23,7 @@ export const mapValueToRange = ({
   return output;
 };
 
-export const round = (v, roundby) => {
+export const roundToInterval = (v, roundby) => {
   return Math.round(v / roundby) * roundby;
 };
 

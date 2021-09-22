@@ -14,7 +14,7 @@ import {
   getCardsFromTermId,
 } from "app/vocabulary/actions/card/functions";
 import _ from "underscore";
-import { days, now } from "app/app/functions/time";
+import { days, getTime } from "app/app/functions/time";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 import { Term } from "app/vocabulary/actions/card/term";
 
@@ -214,7 +214,7 @@ export class Card {
    */
   daysSinceTermWasSeen() {
     if (!this.getTermLastSeen()) return null;
-    return (now() - this.getTermLastSeen()) / days;
+    return (getTime() - this.getTermLastSeen()) / days;
   }
 
   /**

@@ -1,15 +1,16 @@
 import { average, clamp } from "app/app/functions/math";
-import { daysToMs, msToDays, now } from "app/app/functions/time";
+import { daysToMs, msToDays, getTime, round } from "app/app/functions/time";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import { printWord } from "app/vocabulary/actions/functions";
 import { log } from "app/app/functions/log";
 
-/* Increment score by how much? */
+/** Increment score by how much? */
 export const INCR = 0.4;
 
 /**
  * Long-term scheduling
  * @memberOf Session
+ * @this Session
  */
 export function createSchedule() {
   const session = this;
@@ -66,7 +67,7 @@ export function createSchedule() {
         If we showed the item far in advance of the scheduled due date,
         then we give the user the same interval as last time
       */
-      const actual_interval_in_days = msToDays(now() - last_seen);
+      const actual_interval_in_days = msToDays(getTime() - last_seen);
       if (actual_interval_in_days / last_interval_in_days < 0.3) {
         const new_due_in_days = last_interval_in_days;
         log(
@@ -81,16 +82,16 @@ export function createSchedule() {
      * this card can not be given a good score
      */
     if (score >= GOOD && card.didAnySiblingCardsGetABadRatingInThisSession()) {
-      due_in_days = 1;
+      due_in_days = 1.4;
       score = BAD + INCR;
     }
 
-    let due = now() + daysToMs(addSomeRandomness(due_in_days));
+    let due = getTime() + daysToMs(addSomeRandomness(due_in_days));
     card.setSchedule({
       due,
       last_interval_in_days: Math.round(due_in_days),
-      score: Math.round(score * 100) / 100,
-      last_seen: now(),
+      score: roundToInterval(score, -2),
+      last_seen: getTime(),
       sessions_seen: (sessions_seen || 0) + 1,
     });
 
@@ -109,7 +110,7 @@ export function createSchedule() {
             )
         )
         .forEach((sibling_card) => {
-          const newDue = now() + daysToMs(Math.min(due_in_days * 0.5, 7));
+          const newDue = getTime() + daysToMs(Math.min(due_in_days * 0.5, 7));
           const actualDue = sibling_card.getDue();
           if (!actualDue || actualDue < newDue) {
             sibling_card.setSchedule({

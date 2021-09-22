@@ -6,7 +6,7 @@ import {
 import { isBrowser } from "app/app/functions/isBrowser";
 import { isUserLoggedIn } from "app/user/actions";
 import { log } from "app/app/functions/log";
-import { now } from "app/app/functions/time";
+import { getTime } from "app/app/functions/time";
 import axios from "app/app/axios";
 
 export const SESSION_PREFIX = "s_";
@@ -88,7 +88,7 @@ export const setUserData = (key, value, type) => {
   }
   deck.user_data.rows[key] = {
     value,
-    needsSyncing: now(),
+    needsSyncing: getTime(),
     type,
   };
   saveUserDataInLocalStorage();
@@ -129,7 +129,7 @@ export const saveUserDataInLocalStorage = (user_data = {}, options = {}) => {
   const toSave = {
     ...(deck?.user_data || {}),
     ...user_data,
-    lastSaved: now(),
+    lastSaved: getTime(),
   };
   if (deck && options.assignToDeck) {
     if (!toSave.rows) {

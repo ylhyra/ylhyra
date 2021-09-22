@@ -14,11 +14,14 @@ export const hours = hour;
 export const minute = 60 * 1000;
 export const minutes = minute;
 
-export const now = () => {
+/**
+ * @returns {number}
+ */
+export const getTime = () => {
   return new Date().getTime();
 };
 
-export const round = (input, zeroes) => {
+export const round = (input, zeroes = 0) => {
   const i = 10 ** zeroes;
   return Math.round(input / i) * i;
 };
