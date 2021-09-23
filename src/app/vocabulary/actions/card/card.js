@@ -4,7 +4,6 @@ import {
   getEasinessLevel,
   isEasinessLevelOn,
 } from "app/vocabulary/actions/easinessLevel/functions";
-import { extendPrototype } from "app/app/functions/extendPrototype";
 import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
 import {
   getCardIdsFromTermIds,
@@ -17,6 +16,7 @@ import { INCR } from "app/vocabulary/actions/createSchedule";
 import { minIgnoreFalsy } from "app/app/functions/math";
 import { days, getTime } from "app/app/functions/time";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
+
 const matchWords = /([a-záéíóúýðþæö]+)/i;
 
 /** @typedef {string} CardID */
@@ -133,7 +133,7 @@ class Card {
   }
 
   /**
-   * @returns {CardInSession|undefined}
+   * @returns {?CardInSession}
    */
   getAsCardInSession() {
     return deck.session?.cards.find((card) => card.getId() === this.getId());
@@ -144,21 +144,21 @@ class Card {
    ************************************************/
 
   /**
-   * @returns {ScheduleData|undefined}
+   * @returns {?ScheduleData}
    */
   getSchedule() {
     return deck.schedule[this.getId()];
   }
 
   /**
-   * @returns {TimestampInMilliseconds|undefined}
+   * @returns {?TimestampInMilliseconds}
    */
   getDue() {
     return this.getSchedule()?.due;
   }
 
   /**
-   * @returns {Number|undefined}
+   * @returns {?Number}
    */
   getScore() {
     return this.getSchedule()?.score;
@@ -172,35 +172,35 @@ class Card {
   }
 
   /**
-   * @returns {Days|undefined}
+   * @returns {?Days}
    */
   getLastIntervalInDays() {
     return this.getSchedule()?.last_interval_in_days;
   }
 
   /**
-   * @returns {TimestampInMilliseconds|undefined}
+   * @returns {?TimestampInMilliseconds}
    */
   getLastSeen() {
     return this.getSchedule()?.last_seen;
   }
 
   /**
-   * @returns {Boolean|undefined}
+   * @returns {?Boolean}
    */
   isBad() {
     return this.getScore() === BAD;
   }
 
   /**
-   * @returns {Boolean|undefined}
+   * @returns {?Boolean}
    */
   isFairlyBad() {
     return this.getScore() && this.getScore() <= BAD + INCR;
   }
 
   /**
-   * @returns {Boolean|undefined}
+   * @returns {?Boolean}
    */
   isBelowGood() {
     return this.getScore() && this.getScore() < GOOD;
@@ -222,7 +222,7 @@ class Card {
   }
 
   /**
-   * @returns {Number|undefined}
+   * @returns {?Number}
    */
   getLowestAvailableTermScore() {
     let lowest;
@@ -235,7 +235,7 @@ class Card {
   }
 
   /**
-   * @returns {Number|undefined}
+   * @returns {?Number}
    */
   getTermLastSeen() {
     return Math.max(
@@ -353,7 +353,7 @@ class Card {
 
   /**
    * @param {Card} card2
-   * @returns {number|undefined}
+   * @returns {?number}
    */
   dependencyDepthOfCard(card2) {
     return this.getDependenciesAsCardIdToDepth()[card2.getId()];

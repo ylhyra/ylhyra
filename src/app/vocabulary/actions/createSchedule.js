@@ -4,9 +4,8 @@ import {
   clamp,
   roundToSignificantDigits,
 } from "app/app/functions/math";
-import { daysToMs, msToDays, getTime } from "app/app/functions/time";
+import { daysToMs, getTime, msToDays } from "app/app/functions/time";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
-import { printWord } from "app/vocabulary/actions/functions";
 import { log } from "app/app/functions/log";
 
 /**

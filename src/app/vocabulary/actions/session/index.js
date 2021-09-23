@@ -1,4 +1,4 @@
-import { minutes, getTime } from "app/app/functions/time";
+import { getTime, minutes } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
 import { updateURL } from "app/router/actions/updateURL";
 import { saveInLocalStorage } from "app/app/functions/localStorage";

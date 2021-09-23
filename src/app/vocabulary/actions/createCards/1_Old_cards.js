@@ -1,4 +1,4 @@
-import { hours, getTime } from "app/app/functions/time";
+import { getTime, hours } from "app/app/functions/time";
 import {
   newestFirst,
   oldestFirst,

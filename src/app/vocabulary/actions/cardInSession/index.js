@@ -1,6 +1,5 @@
 import Card from "app/vocabulary/actions/card/card";
 import { extendPrototype } from "app/app/functions/extendPrototype";
-import Session from "app/vocabulary/actions/session";
 
 export const BAD = 1;
 export const GOOD = 2;

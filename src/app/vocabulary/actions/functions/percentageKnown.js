@@ -1,6 +1,5 @@
 import { clamp, mapValueToRange } from "app/app/functions/math";
 import { deck } from "app/vocabulary/actions/deck";
-import { isBrowser } from "app/app/functions/isBrowser";
 import { getCardsByIds } from "app/vocabulary/actions/card/functions";
 
 export const PercentageKnown = (card_ids) => {

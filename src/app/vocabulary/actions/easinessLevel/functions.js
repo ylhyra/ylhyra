@@ -7,7 +7,6 @@ import {
   MIN_JUMP_UP,
 } from "app/vocabulary/actions/easinessLevel/index";
 import { BAD } from "app/vocabulary/actions/cardInSession";
-import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
 
 let last_jump_up;
 

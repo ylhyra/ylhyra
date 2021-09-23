@@ -1,11 +1,6 @@
 import ChooseCards from "app/vocabulary/actions/createCards/3_Choose_cards";
 import Dependencies from "app/vocabulary/actions/createCards/4_Dependencies";
-import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
-import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
-import {
-  getCardById,
-  getCardsByIds,
-} from "app/vocabulary/actions/card/functions";
+import { getCardsByIds } from "app/vocabulary/actions/card/functions";
 import { logDev } from "app/app/functions/log";
 
 export const CARDS_TO_CREATE = 50;
