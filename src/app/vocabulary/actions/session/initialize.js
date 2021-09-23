@@ -1,7 +1,7 @@
 import { syncIfNecessary } from "app/vocabulary/actions/sync";
 
 /**
- * @memberOf Session
+ * @memberOf Session#
  */
 export async function InitializeSession(options = {}) {
   await syncIfNecessary();

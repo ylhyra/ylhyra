@@ -12,12 +12,9 @@ import { log } from "app/app/functions/log";
 /** Increment score by how much? */
 export const INCR = 0.4;
 
-// * @class Session.createSchedule
-// * @lends Session.createSchedule
 /**
  * Long-term scheduling
- * @memberOf Session
- * @this Session
+ * @memberOf Session#
  */
 export function createSchedule() {
   const session = this;

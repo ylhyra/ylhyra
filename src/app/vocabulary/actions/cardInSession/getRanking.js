@@ -2,9 +2,9 @@ import { log } from "app/app/functions/log";
 import { BAD } from "app/vocabulary/actions/cardInSession";
 
 /**
- * @memberOf CardInSession
+ * @memberOf CardInSession#
  */
-export default function getRanking() {
+export function getRanking() {
   let q = this.getQueuePosition();
 
   if (!this.terms) {

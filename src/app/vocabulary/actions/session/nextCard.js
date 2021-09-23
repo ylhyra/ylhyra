@@ -4,7 +4,7 @@ import { isDev } from "app/app/functions/isDev";
 const LOGGING = false;
 
 /**
- * @memberOf Session
+ * @memberOf Session#
  * @this Session
  */
 export function nextCard(depth = 0) {

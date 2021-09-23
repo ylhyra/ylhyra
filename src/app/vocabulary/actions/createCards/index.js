@@ -11,7 +11,7 @@ import { logDev } from "app/app/functions/log";
 export const CARDS_TO_CREATE = 50;
 
 /**
- * @memberOf Session
+ * @memberOf Session#
  */
 export function createCards(options) {
   const session = this;

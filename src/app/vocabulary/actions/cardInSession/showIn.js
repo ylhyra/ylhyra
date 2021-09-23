@@ -1,5 +1,5 @@
 /**
- * @memberOf CardInSession
+ * @memberOf CardInSession#
  * All values are relative to the currently shown card, which is at 0.
  * @param {object} param
  * @param {number=} param.interval
@@ -42,7 +42,7 @@ export function showIn({ interval, minInterval, cannotBeShownBefore }) {
 }
 
 /**
- * @memberOf CardInSession
+ * @memberOf CardInSession#
  * @returns {boolean}
  */
 export function canBeShown() {

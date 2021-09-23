@@ -3,10 +3,9 @@ import { addRelatedCards } from "app/vocabulary/actions/cardInSession/addRelated
 import { keepTrackOfEasiness } from "app/vocabulary/actions/easinessLevel";
 
 /**
- * @memberOf CardInSession
- * @this CardInSession
+ * @memberOf CardInSession#
  */
-export default function rate(rating) {
+export function rate(rating) {
   const card = this;
   const timesSeenBeforeInSession = card.history.length;
   card.history.unshift(rating);

@@ -1,11 +1,6 @@
-import getRanking from "app/vocabulary/actions/cardInSession/getRanking";
-import rate from "app/vocabulary/actions/cardInSession/rate";
-import postponeRelatedCards from "app/vocabulary/actions/cardInSession/postponeRelatedCards";
-import {
-  canBeShown,
-  showIn,
-} from "app/vocabulary/actions/cardInSession/showIn";
 import { Card } from "app/vocabulary/actions/card/card";
+import { extendPrototype } from "app/app/functions/extendPrototype";
+import Session from "app/vocabulary/actions/session";
 
 export const BAD = 1;
 export const GOOD = 2;
@@ -81,10 +76,13 @@ class CardInSession extends Card {
     );
   }
 }
-CardInSession.prototype.rate = rate;
-CardInSession.prototype.getRanking = getRanking;
-CardInSession.prototype.postponeRelatedCards = postponeRelatedCards;
-CardInSession.prototype.showIn = showIn;
-CardInSession.prototype.canBeShown = canBeShown;
+
+extendPrototype(
+  CardInSession,
+  require("app/vocabulary/actions/cardInSession/getRanking"),
+  require("app/vocabulary/actions/cardInSession/rate"),
+  require("app/vocabulary/actions/cardInSession/postponeRelatedCards"),
+  require("app/vocabulary/actions/cardInSession/showIn")
+);
 
 export default CardInSession;

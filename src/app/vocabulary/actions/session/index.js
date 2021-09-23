@@ -10,15 +10,14 @@ import { getCardById } from "app/vocabulary/actions/card/functions";
 import { extendPrototype } from "app/app/functions/extendPrototype";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
-/** @module Session */
 
 /**
- * @name Session
  * @property {Array.<CardInSession>} cards
  * @property {Deck} deck
  * @property {Array.<number>} ratingHistory
  * @property {Array.<CardInSession>} cardHistory
  * @property {CardInSession|null} currentCard
+ * @namespace
  */
 class Session {
   constructor(deck, init) {
@@ -116,19 +115,16 @@ class Session {
   }
 }
 
-require("app/vocabulary/actions/createSchedule");
-//
-//
-// extendPrototype(
-//   Session,
-//   require("app/vocabulary/actions/session/undo"),
-//   require("app/vocabulary/actions/session/functions"),
-//   require("app/vocabulary/actions/createCards"),
-//   require("app/vocabulary/actions/session/initialize"),
-//   require("app/vocabulary/actions/session/nextCard"),
-//   require("app/vocabulary/actions/createSchedule"),
-//   require("app/vocabulary/actions/session/loadCardsIntoSession"),
-//   require("app/vocabulary/actions/session/loadCardInInterface")
-// );
+extendPrototype(
+  Session,
+  require("app/vocabulary/actions/session/undo"),
+  require("app/vocabulary/actions/session/functions"),
+  require("app/vocabulary/actions/createCards"),
+  require("app/vocabulary/actions/session/initialize"),
+  require("app/vocabulary/actions/session/nextCard"),
+  require("app/vocabulary/actions/createSchedule"),
+  require("app/vocabulary/actions/session/loadCardsIntoSession"),
+  require("app/vocabulary/actions/session/loadCardInInterface")
+);
 
 export default Session;

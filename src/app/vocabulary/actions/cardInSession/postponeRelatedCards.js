@@ -2,9 +2,9 @@ import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
 import { log } from "app/app/functions/log";
 
 /**
- * @memberOf CardInSession
+ * @memberOf CardInSession#
  */
-export default function postponeRelatedCards(card1interval) {
+export function postponeRelatedCards(card1interval) {
   const card1 = this;
 
   this.getOtherCardsInSession().forEach((card2) => {

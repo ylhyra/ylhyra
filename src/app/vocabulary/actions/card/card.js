@@ -4,18 +4,15 @@ import {
   getEasinessLevel,
   isEasinessLevelOn,
 } from "app/vocabulary/actions/easinessLevel/functions";
-import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
-import { INCR } from "app/vocabulary/actions/createSchedule";
-import { minIgnoreFalsy } from "app/app/functions/math";
-import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
+import { BAD } from "app/vocabulary/actions/cardInSession";
 import {
   getCardIdsFromTermIds,
   getCardsByIds,
   getCardsFromTermId,
 } from "app/vocabulary/actions/card/functions";
 import _ from "underscore";
-import { days, getTime } from "app/app/functions/time";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
+import { extendPrototype } from "app/app/functions/extendPrototype";
 
 const matchWords = /([a-záéíóúýðþæö]+)/i;
 
@@ -31,9 +28,11 @@ const matchWords = /([a-záéíóúýðþæö]+)/i;
  */
 
 /**
+ * @name Card
  * @augments CardData
  * @param {CardData} data - Data is both assigned to the object itself and to a
  *   data field to be able to pass this data on to derived objects
+ * @namespace
  */
 export class Card {
   constructor(data) {
@@ -112,139 +111,6 @@ export class Card {
   }
 
   /**************/
-  /**
-   * @returns {Object|undefined}
-   */
-  getSchedule() {
-    return deck.schedule[this.getId()];
-  }
-
-  /**
-   * @returns {Number|undefined} - Timestamp in milliseconds
-   */
-  getDue() {
-    return this.getSchedule()?.due;
-  }
-
-  /**
-   * @returns {Number|undefined}
-   */
-  getScore() {
-    return this.getSchedule()?.score;
-  }
-
-  /**
-   * @returns {Number}
-   * @alias getTimesSeen
-   */
-  getSessionsSeen() {
-    return this.getSchedule()?.sessions_seen || 0;
-  }
-
-  /**
-   * @returns {Number|undefined}
-   */
-  getLastIntervalInDays() {
-    return this.getSchedule()?.last_interval_in_days;
-  }
-
-  /**
-   * @returns {Number|undefined} - Timestamp in milliseconds
-   */
-  getLastSeen() {
-    return this.getSchedule()?.last_seen;
-  }
-
-  /**
-   * @returns {Boolean|undefined}
-   */
-  isBad() {
-    return this.getScore() === BAD;
-  }
-
-  /**
-   * @returns {Boolean|undefined}
-   */
-  isFairlyBad() {
-    return this.getScore() && this.getScore() <= BAD + INCR;
-  }
-
-  /**
-   * @returns {Boolean|undefined}
-   */
-  isBelowGood() {
-    return this.getScore() && this.getScore() < GOOD;
-  }
-
-  /**
-   * @returns {Boolean}
-   */
-  isUnseenOrNotGood() {
-    return !this.getScore() || this.getScore() < GOOD;
-  }
-
-  /**
-   * @returns {Boolean}
-   */
-  isTermUnknownOrNotGood() {
-    const lowest = this.getLowestAvailableTermScore();
-    return !lowest || lowest < GOOD;
-  }
-
-  /**
-   * @returns {Number|undefined}
-   */
-  getLowestAvailableTermScore() {
-    let lowest;
-    this.getAllCardsWithSameTerm().forEach((card) => {
-      if (card.getScore()) {
-        lowest = minIgnoreFalsy(lowest, card.getScore());
-      }
-    });
-    return lowest;
-  }
-
-  /**
-   * @returns {Number|undefined}
-   */
-  getTermLastSeen() {
-    return Math.max(
-      ...this.getAllCardsWithSameTerm()
-        .map((card) => card.getLastSeen())
-        .filter(Boolean)
-    );
-  }
-
-  /**
-   * @returns {number|null} - days
-   */
-  daysSinceTermWasSeen() {
-    if (!this.getTermLastSeen()) return null;
-    return (getTime() - this.getTermLastSeen()) / days;
-  }
-
-  /**
-   * @returns {boolean}
-   */
-  isInSchedule() {
-    return this.getId() in deck.schedule;
-  }
-
-  /**
-   * @returns {boolean}
-   */
-  isNewCard() {
-    return !this.isInSchedule();
-  }
-
-  setSchedule(data) {
-    deck.schedule[this.getId()] = {
-      ...(deck.schedule[this.getId()] || {}),
-      ...data,
-    };
-    saveScheduleForCardId(this.getId());
-  }
-  /********/
 
   /**
    * Cards with the same term that are not this card
@@ -389,3 +255,5 @@ export class Card {
         }) || [];
   }
 }
+
+extendPrototype(Card, require("app/vocabulary/actions/card/schedule"));
