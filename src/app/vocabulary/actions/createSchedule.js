@@ -94,8 +94,8 @@ export function createSchedule() {
      * this card can not be given a good score
      */
     if (score >= GOOD && card.didAnySiblingCardsGetABadRatingInThisSession()) {
-      due_in_days = 1.4;
-      score = BAD + INCR;
+      due_in_days = Math.min(2, due_in_days);
+      score = Math.min(BAD + INCR, score);
       log(
         `${card.printWord()} given a low score due to siblings having gotten a bad rating`
       );
