@@ -5,6 +5,19 @@ import {
   isEasinessLevelOn,
 } from "app/vocabulary/actions/easinessLevel/functions";
 import { extendPrototype } from "app/app/functions/extendPrototype";
+import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
+import {
+  getCardIdsFromTermIds,
+  getCardsByIds,
+  getCardsFromTermId,
+} from "app/vocabulary/actions/card/functions";
+import _ from "underscore";
+import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
+import { INCR } from "app/vocabulary/actions/createSchedule";
+import { minIgnoreFalsy } from "app/app/functions/math";
+import { days, getTime } from "app/app/functions/time";
+import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
+const matchWords = /([a-záéíóúýðþæö]+)/i;
 
 /** @typedef {string} CardID */
 /** @typedef {string} TermID */
@@ -22,7 +35,6 @@ import { extendPrototype } from "app/app/functions/extendPrototype";
  * @property {number=} level
  * @property {Array.<string>} spokenSentences - List of URLs
  * @property {number=} row_id - Used in the backend
- *
  * Various notes:
  * @property {string=} lemmas
  * @property {string=} note - Shown after answering
@@ -37,7 +49,6 @@ import { extendPrototype } from "app/app/functions/extendPrototype";
  * @augments CardData
  * @param {CardData} data - Data is both assigned to the object itself and to a
  *   data field to be able to pass this data on to derived objects
- * @namespace
  */
 class Card {
   constructor(data) {
@@ -127,12 +138,285 @@ class Card {
   getAsCardInSession() {
     return deck.session?.cards.find((card) => card.getId() === this.getId());
   }
-}
 
-extendPrototype(
-  Card,
-  require("app/vocabulary/actions/card/schedule"),
-  require("app/vocabulary/actions/card/relatedCards")
-);
+  /************************************************
+                     Schedule
+   ************************************************/
+
+  /**
+   * @returns {ScheduleData|undefined}
+   */
+  getSchedule() {
+    return deck.schedule[this.getId()];
+  }
+
+  /**
+   * @returns {TimestampInMilliseconds|undefined}
+   */
+  getDue() {
+    return this.getSchedule()?.due;
+  }
+
+  /**
+   * @returns {Number|undefined}
+   */
+  getScore() {
+    return this.getSchedule()?.score;
+  }
+
+  /**
+   * @returns {Number}
+   */
+  getSessionsSeen() {
+    return this.getSchedule()?.sessions_seen || 0;
+  }
+
+  /**
+   * @returns {Days|undefined}
+   */
+  getLastIntervalInDays() {
+    return this.getSchedule()?.last_interval_in_days;
+  }
+
+  /**
+   * @returns {TimestampInMilliseconds|undefined}
+   */
+  getLastSeen() {
+    return this.getSchedule()?.last_seen;
+  }
+
+  /**
+   * @returns {Boolean|undefined}
+   */
+  isBad() {
+    return this.getScore() === BAD;
+  }
+
+  /**
+   * @returns {Boolean|undefined}
+   */
+  isFairlyBad() {
+    return this.getScore() && this.getScore() <= BAD + INCR;
+  }
+
+  /**
+   * @returns {Boolean|undefined}
+   */
+  isBelowGood() {
+    return this.getScore() && this.getScore() < GOOD;
+  }
+
+  /**
+   * @returns {Boolean}
+   */
+  isUnseenOrNotGood() {
+    return !this.getScore() || this.getScore() < GOOD;
+  }
+
+  /**
+   * @returns {Boolean}
+   */
+  isTermUnknownOrNotGood() {
+    const lowest = this.getLowestAvailableTermScore();
+    return !lowest || lowest < GOOD;
+  }
+
+  /**
+   * @returns {Number|undefined}
+   */
+  getLowestAvailableTermScore() {
+    let lowest;
+    this.getAllCardsWithSameTerm().forEach((card) => {
+      if (card.getScore()) {
+        lowest = minIgnoreFalsy(lowest, card.getScore());
+      }
+    });
+    return lowest;
+  }
+
+  /**
+   * @returns {Number|undefined}
+   */
+  getTermLastSeen() {
+    return Math.max(
+      ...this.getAllCardsWithSameTerm()
+        .map((card) => card.getLastSeen())
+        .filter(Boolean)
+    );
+  }
+
+  /**
+   * @returns {Days|null}
+   */
+  daysSinceTermWasSeen() {
+    if (!this.getTermLastSeen()) return null;
+    return (getTime() - this.getTermLastSeen()) / days;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  isInSchedule() {
+    return this.getId() in deck.schedule;
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  isNewCard() {
+    return !this.isInSchedule();
+  }
+
+  /**
+   * @param {ScheduleData} data
+   */
+  setSchedule(data) {
+    deck.schedule[this.getId()] = {
+      ...(deck.schedule[this.getId()] || {}),
+      ...data,
+    };
+    saveScheduleForCardId(this.getId());
+  }
+
+  /************************************************
+                     Related cards
+   ************************************************/
+
+  /**
+   * Cards with the same term that are not this card
+   * @returns {Array.<Card>}
+   */
+  getSiblingCards() {
+    return this.getAllCardsWithSameTerm().filter(
+      (siblingCard) => siblingCard.getId() !== this.getId()
+    );
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  didAnySiblingCardsGetABadRatingInThisSession() {
+    return this.getSiblingCards().some((sibling_card) => {
+      return sibling_card.getAsCardInSession()?.history.includes(BAD);
+    });
+  }
+
+  /**
+   * @returns {Array.<Card>}
+   */
+  getAllCardsWithSameTerm() {
+    let out = [];
+    this.getTerms().forEach((term) => {
+      term.getCards().forEach((card) => {
+        out.push(card);
+      });
+    });
+    return out;
+  }
+
+  /**
+   * @returns {Object.<TermID, number>}
+   */
+  getDependenciesAsTermIdToDepth() {
+    return this.getTerms()[0]?.getDependenciesAsTermIdToDepth();
+  }
+
+  /**
+   * @returns {Object.<CardID, number>}
+   */
+  getDependenciesAsCardIdToDepth() {
+    let out = {};
+    const deps = this.getDependenciesAsTermIdToDepth();
+    Object.keys(deps).forEach((term_id) => {
+      getCardsFromTermId(term_id).forEach((card) => {
+        out[card.getId()] = deps[term_id];
+      });
+    });
+    return out;
+  }
+
+  /**
+   * @returns {Array.<CardID>}
+   */
+  getDependenciesAsArrayOfCardIds() {
+    return getCardIdsFromTermIds(
+      Object.keys(this.getDependenciesAsTermIdToDepth())
+    ).filter((card_id) => card_id !== this.getId());
+  }
+
+  /**
+   * @returns {Array.<Card>}
+   */
+  getDependenciesAsArrayOfCards() {
+    return getCardsByIds(this.getDependenciesAsArrayOfCardIds());
+  }
+
+  /**
+   * @param {Card} card2
+   * @returns {number|undefined}
+   */
+  dependencyDepthOfCard(card2) {
+    return this.getDependenciesAsCardIdToDepth()[card2.getId()];
+  }
+
+  /**
+   * @param {Card} card2
+   * @returns {Boolean}
+   */
+  hasTermsInCommonWith(card2) {
+    return _.intersection(this.getTermIds(), card2.getTermIds()).length > 0;
+  }
+
+  /**
+   * @param {Card} card2
+   * @returns {Boolean}
+   */
+  hasDependenciesInCommonWith(card2) {
+    return (
+      _.intersection(
+        this.getDependenciesAsArrayOfCardIds(),
+        card2.getDependenciesAsArrayOfCardIds()
+      ).length > 0
+    );
+  }
+
+  /**
+   * @param {Card} card2
+   * @returns {Boolean}
+   */
+  isTextSimilarTo(card2) {
+    return (
+      _.intersection(this.simplifiedArrayOfWords, card2.simplifiedArrayOfWords)
+        .length > 0
+    );
+  }
+
+  /**
+   * Used for checking for card similarity.
+   */
+  extractText() {
+    this.simplifiedArrayOfWords =
+      (
+        getPlaintextFromFormatted(this.is_formatted) +
+        " " +
+        getPlaintextFromFormatted(this.en_formatted)
+      )
+        .match(matchWords)
+        ?.filter((i) => i.length >= 3)
+        .map((i) => {
+          return (
+            i
+              .toLowerCase()
+              .replaceAll("á", "a")
+              .replaceAll("é", "e")
+              .replaceAll(/[íyý]/g, "i")
+              .replaceAll(/[óö]/g, "o")
+              .replaceAll("ú", "u")
+              /* Remove repeating characters */
+              .replace(/(.)\1+/g, "$1")
+          );
+        }) || [];
+  }
+}
 
 export default Card;

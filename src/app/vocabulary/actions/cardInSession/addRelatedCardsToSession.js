@@ -4,14 +4,14 @@ import { INCR } from "app/vocabulary/actions/createSchedule";
 
 /**
  * If a cardInSession gets a bad rating, then we make sure
- * to add very related cards the session.
+ * to add very related cards to the session.
  * @param {CardInSession} card
  */
-export const addRelatedCards = (card) => {
+export const addRelatedCardsToSession = (card) => {
   let to_add = [];
   card.getDependenciesAsArrayOfCards().forEach((related_card) => {
     /* Ignore cards already in session */
-    if (related_card.isIn(card.session.cards)) return;
+    if (related_card.isInSession()) return;
 
     /* Add cards with the same term */
     if (card.dependencyDepthOfCard(related_card) === 0) {

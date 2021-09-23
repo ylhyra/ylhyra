@@ -1,5 +1,5 @@
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
-import { addRelatedCards } from "app/vocabulary/actions/cardInSession/addRelatedCards";
+import { addRelatedCardsToSession } from "app/vocabulary/actions/cardInSession/addRelatedCardsToSession";
 import { keepTrackOfEasiness } from "app/vocabulary/actions/easinessLevel";
 
 /**
@@ -55,7 +55,7 @@ export function rate(rating) {
   }
 
   if (rating === BAD) {
-    addRelatedCards(card);
+    addRelatedCardsToSession(card);
   }
 
   card.showIn({ interval });

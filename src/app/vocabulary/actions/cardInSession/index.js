@@ -11,7 +11,6 @@ export const EASY = 3;
  * @property {Session} session
  * @property {Array.<number>} history
  * @property {number} absoluteQueuePosition
- * @augments Card#
  */
 class CardInSession extends Card {
   constructor({ data, insertAtPosition, session, history }) {

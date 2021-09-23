@@ -9,6 +9,15 @@ import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import { printWord } from "app/vocabulary/actions/functions";
 import { log } from "app/app/functions/log";
 
+/**
+ * @typedef {Object} ScheduleData
+ * @typedef {TimestampInMilliseconds} due
+ * @typedef {Days} last_interval_in_days
+ * @typedef {number} score
+ * @typedef {TimestampInMilliseconds} last_seen
+ * @typedef {number} sessions_seen
+ */
+
 /** Increment score by how much? */
 export const INCR = 0.4;
 
