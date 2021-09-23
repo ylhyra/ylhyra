@@ -35,7 +35,5 @@ export const minIgnoreFalsy = (...values) => {
  * Randomly adds or subtracts up to 10% of the input
  */
 export const addSomeRandomness = (input, amount = 0.1) => {
-  return (
-    input + input * amount * Math.random() * (Math.random() > 0.5 ? 1 : -1)
-  );
+  return input + input * amount * (Math.random() - 0.5) * 2;
 };

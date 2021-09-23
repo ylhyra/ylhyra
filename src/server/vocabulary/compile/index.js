@@ -45,12 +45,11 @@ const run = async () => {
 
       /* Delete junk cards */
       if (
-        !DECK &&
-        (!card.en_plaintext ||
-          !card.level ||
-          card.should_teach === "no" ||
-          card["fix"] ||
-          card.eyða)
+        !card.en_plaintext ||
+        card.should_teach === "no" ||
+        card.fix ||
+        card.eyða ||
+        (!DECK && !card.level)
       ) {
         delete cards[card_id];
       }

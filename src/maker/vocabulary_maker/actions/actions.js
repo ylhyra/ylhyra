@@ -71,7 +71,7 @@ export const refreshRows = () => {
         (b.level <= 3) - (a.level <= 3) ||
         Boolean(a.english) - Boolean(b.english) ||
         (a.level || 100) - (b.level || 100) ||
-        Boolean(a["fix"]) - Boolean(b["fix"]) ||
+        Boolean(a.fix) - Boolean(b.fix) ||
         false
     );
   selectRows();

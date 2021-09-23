@@ -230,6 +230,7 @@ export class Card {
   isNewCard() {
     return !this.isInSchedule();
   }
+
   setSchedule(data) {
     deck.schedule[this.getId()] = {
       ...(deck.schedule[this.getId()] || {}),
@@ -262,7 +263,7 @@ export class Card {
    * @returns {CardInSession|undefined}
    */
   getAsCardInSession() {
-    return deck.session.cards.find((card) => card.getId() === this.getId());
+    return deck.session?.cards.find((card) => card.getId() === this.getId());
   }
 
   /**
