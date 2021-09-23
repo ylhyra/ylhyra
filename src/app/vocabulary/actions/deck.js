@@ -2,7 +2,7 @@ import { isBrowser } from "app/app/functions/isBrowser";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 import { updateURL } from "app/router/actions/updateURL";
 import Session from "app/vocabulary/actions/session";
-import { Card } from "app/vocabulary/actions/card/card";
+import Card from "app/vocabulary/actions/card/card";
 import { Term } from "app/vocabulary/actions/card/term";
 
 /**

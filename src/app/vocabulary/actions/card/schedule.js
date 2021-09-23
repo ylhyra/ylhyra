@@ -9,7 +9,7 @@ import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
  * @memberOf Card#
  * @returns {Object|undefined}
  */
-function getSchedule() {
+export function getSchedule() {
   return deck.schedule[this.getId()];
 }
 
@@ -17,7 +17,7 @@ function getSchedule() {
  * @memberOf Card#
  * @returns {Number|undefined} - Timestamp in milliseconds
  */
-function getDue() {
+export function getDue() {
   return this.getSchedule()?.due;
 }
 
@@ -25,7 +25,7 @@ function getDue() {
  * @memberOf Card#
  * @returns {Number|undefined}
  */
-function getScore() {
+export function getScore() {
   return this.getSchedule()?.score;
 }
 
@@ -33,7 +33,7 @@ function getScore() {
  * @memberOf Card#
  * @returns {Number}
  */
-function getSessionsSeen() {
+export function getSessionsSeen() {
   return this.getSchedule()?.sessions_seen || 0;
 }
 
@@ -41,7 +41,7 @@ function getSessionsSeen() {
  * @memberOf Card#
  * @returns {Number|undefined}
  */
-function getLastIntervalInDays() {
+export function getLastIntervalInDays() {
   return this.getSchedule()?.last_interval_in_days;
 }
 
@@ -49,7 +49,7 @@ function getLastIntervalInDays() {
  * @memberOf Card#
  * @returns {Number|undefined} - Timestamp in milliseconds
  */
-function getLastSeen() {
+export function getLastSeen() {
   return this.getSchedule()?.last_seen;
 }
 
@@ -57,7 +57,7 @@ function getLastSeen() {
  * @memberOf Card#
  * @returns {Boolean|undefined}
  */
-function isBad() {
+export function isBad() {
   return this.getScore() === BAD;
 }
 
@@ -65,7 +65,7 @@ function isBad() {
  * @memberOf Card#
  * @returns {Boolean|undefined}
  */
-function isFairlyBad() {
+export function isFairlyBad() {
   return this.getScore() && this.getScore() <= BAD + INCR;
 }
 
@@ -73,7 +73,7 @@ function isFairlyBad() {
  * @memberOf Card#
  * @returns {Boolean|undefined}
  */
-function isBelowGood() {
+export function isBelowGood() {
   return this.getScore() && this.getScore() < GOOD;
 }
 
@@ -81,7 +81,7 @@ function isBelowGood() {
  * @memberOf Card#
  * @returns {Boolean}
  */
-function isUnseenOrNotGood() {
+export function isUnseenOrNotGood() {
   return !this.getScore() || this.getScore() < GOOD;
 }
 
@@ -89,7 +89,7 @@ function isUnseenOrNotGood() {
  * @memberOf Card#
  * @returns {Boolean}
  */
-function isTermUnknownOrNotGood() {
+export function isTermUnknownOrNotGood() {
   const lowest = this.getLowestAvailableTermScore();
   return !lowest || lowest < GOOD;
 }
@@ -98,7 +98,7 @@ function isTermUnknownOrNotGood() {
  * @memberOf Card#
  * @returns {Number|undefined}
  */
-function getLowestAvailableTermScore() {
+export function getLowestAvailableTermScore() {
   let lowest;
   this.getAllCardsWithSameTerm().forEach((card) => {
     if (card.getScore()) {
@@ -112,7 +112,7 @@ function getLowestAvailableTermScore() {
  * @memberOf Card#
  * @returns {Number|undefined}
  */
-function getTermLastSeen() {
+export function getTermLastSeen() {
   return Math.max(
     ...this.getAllCardsWithSameTerm()
       .map((card) => card.getLastSeen())
@@ -124,7 +124,7 @@ function getTermLastSeen() {
  * @memberOf Card#
  * @returns {number|null} - days
  */
-function daysSinceTermWasSeen() {
+export function daysSinceTermWasSeen() {
   if (!this.getTermLastSeen()) return null;
   return (getTime() - this.getTermLastSeen()) / days;
 }
@@ -133,7 +133,7 @@ function daysSinceTermWasSeen() {
  * @memberOf Card#
  * @returns {boolean}
  */
-function isInSchedule() {
+export function isInSchedule() {
   return this.getId() in deck.schedule;
 }
 
@@ -141,14 +141,14 @@ function isInSchedule() {
  * @memberOf Card#
  * @returns {boolean}
  */
-function isNewCard() {
+export function isNewCard() {
   return !this.isInSchedule();
 }
 
 /**
  * @memberOf Card#
  */
-function setSchedule(data) {
+export function setSchedule(data) {
   deck.schedule[this.getId()] = {
     ...(deck.schedule[this.getId()] || {}),
     ...data,

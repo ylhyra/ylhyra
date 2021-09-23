@@ -105,6 +105,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         });
       });
 
+      /** @type CardData */
       let card_skeleton = {
         en_plaintext: getPlaintextFromVocabularyEntry(row.english),
         en_formatted: formatVocabularyEntry(
@@ -155,31 +156,35 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
             });
           });
         } else {
-          to_add.push({
-            is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
-            is_formatted: formatVocabularyEntry(
-              formatPrefixes(row.icelandic, row.english)
-            ),
-            from: "is",
-            id: getHash(row.icelandic) + "_is",
-            spokenSentences: getSpokenSentences(row.icelandic),
-            // sound: getSounds(row.icelandic),
-            ...card_skeleton,
-          });
+          to_add.push(
+            /** @type CardData */ {
+              is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
+              is_formatted: formatVocabularyEntry(
+                formatPrefixes(row.icelandic, row.english)
+              ),
+              from: "is",
+              id: getHash(row.icelandic) + "_is",
+              spokenSentences: getSpokenSentences(row.icelandic),
+              // sound: getSounds(row.icelandic),
+              ...card_skeleton,
+            }
+          );
         }
       }
 
       /* English to Icelandic */
       if (row.direction !== "->") {
-        to_add.push({
-          is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
-          is_formatted: formatVocabularyEntry(row.icelandic),
-          from: "en",
-          id: getHash(row.icelandic) + "_en",
-          spokenSentences: getSpokenSentences(row.icelandic),
-          // sound: getSounds(row.icelandic),
-          ...card_skeleton,
-        });
+        to_add.push(
+          /** @type CardData */ {
+            is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
+            is_formatted: formatVocabularyEntry(row.icelandic),
+            from: "en",
+            id: getHash(row.icelandic) + "_en",
+            spokenSentences: getSpokenSentences(row.icelandic),
+            // sound: getSounds(row.icelandic),
+            ...card_skeleton,
+          }
+        );
       }
 
       to_add.forEach((card) => {

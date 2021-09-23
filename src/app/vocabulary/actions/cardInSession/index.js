@@ -1,4 +1,4 @@
-import { Card } from "app/vocabulary/actions/card/card";
+import Card from "app/vocabulary/actions/card/card";
 import { extendPrototype } from "app/app/functions/extendPrototype";
 import Session from "app/vocabulary/actions/session";
 
