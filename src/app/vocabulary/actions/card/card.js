@@ -16,12 +16,11 @@ import {
 import _ from "underscore";
 import { days, getTime } from "app/app/functions/time";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
-import { Term } from "app/vocabulary/actions/card/term";
 
 const matchWords = /([a-záéíóúýðþæö]+)/i;
 
 /**
- * @param {Object} data
+ * @typedef {Object} CardData
  * @property {string} id
  * @property {Array.<string>} terms
  * @property {number} sortKey
@@ -29,6 +28,12 @@ const matchWords = /([a-záéíóúýðþæö]+)/i;
  * @property {string} en_formatted - HTML of English side of card
  * @property {("is"|"en")} from
  * @property {("is"|"en")} to
+ */
+
+/**
+ * @augments CardData
+ * @param {CardData} data - Data is both assigned to the object itself and to a
+ *   data field to be able to pass this data on to derived objects
  */
 export class Card {
   constructor(data) {
@@ -50,7 +55,7 @@ export class Card {
    * @returns {Array<Term>}
    */
   getTerms() {
-    return this.terms.map((term_id) => deck.terms[term_id]);
+    return this.getTermIds().map((term_id) => deck.terms[term_id]);
   }
 
   /**
@@ -76,7 +81,7 @@ export class Card {
   }
 
   /**
-   * Used when creating new cards,
+   * Used when creating new cards;
    * we want to ignore certain cards
    * @returns {boolean}
    */
@@ -99,6 +104,7 @@ export class Card {
         )
     );
   }
+
   getSortKeyAdjustedForEasinessLevel() {
     return this.sortKey > getEasinessLevel()
       ? this.sortKey

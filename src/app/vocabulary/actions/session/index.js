@@ -1,30 +1,13 @@
 import { minutes, getTime } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
-import createCards from "app/vocabulary/actions/createCards";
-import {
-  answer,
-  checkIfCardsRemaining,
-  createMoreCards,
-  getPercentageDone,
-  updateRemainingTime,
-} from "app/vocabulary/actions/session/functions";
-import { InitializeSession } from "app/vocabulary/actions/session/initialize";
-import { nextCard } from "app/vocabulary/actions/session/nextCard";
-import { createSchedule } from "app/vocabulary/actions/createSchedule";
 import { updateURL } from "app/router/actions/updateURL";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 import Analytics from "app/app/analytics";
-import {
-  checkForUndoOnKeyDown,
-  undo,
-  undoable,
-} from "app/vocabulary/actions/session/undo";
 import { SESSION_PREFIX, setUserData, sync } from "app/vocabulary/actions/sync";
-import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
-import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
 import { constants } from "app/app/constants";
 import CardInSession from "app/vocabulary/actions/cardInSession";
 import { getCardById } from "app/vocabulary/actions/card/functions";
+import { extendPrototype } from "app/app/functions/extendPrototype";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
@@ -131,18 +114,16 @@ class Session {
   }
 }
 
-Session.prototype.InitializeSession = InitializeSession;
-Session.prototype.answer = answer;
-Session.prototype.checkForUndoOnKeyDown = checkForUndoOnKeyDown;
-Session.prototype.checkIfCardsRemaining = checkIfCardsRemaining;
-Session.prototype.createCards = createCards;
-Session.prototype.createMoreCards = createMoreCards;
-Session.prototype.createSchedule = createSchedule;
-Session.prototype.getPercentageDone = getPercentageDone;
-Session.prototype.loadCardInInterface = loadCardInInterface;
-Session.prototype.loadCardsIntoSession = loadCardsIntoSession;
-Session.prototype.nextCard = nextCard;
-Session.prototype.undo = undo;
-Session.prototype.undoable = undoable;
-Session.prototype.updateRemainingTime = updateRemainingTime;
+extendPrototype(
+  Session,
+  require("app/vocabulary/actions/session/undo"),
+  require("app/vocabulary/actions/session/functions"),
+  require("app/vocabulary/actions/createCards"),
+  require("app/vocabulary/actions/session/initialize"),
+  require("app/vocabulary/actions/session/nextCard"),
+  require("app/vocabulary/actions/createSchedule"),
+  require("app/vocabulary/actions/session/loadCardsIntoSession"),
+  require("app/vocabulary/actions/session/loadCardInInterface")
+);
+
 export default Session;

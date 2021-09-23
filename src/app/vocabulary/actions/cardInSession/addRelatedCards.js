@@ -10,18 +10,18 @@ import { INCR } from "app/vocabulary/actions/createSchedule";
 export const addRelatedCards = (card) => {
   let to_add = [];
   card.getDependenciesAsArrayOfCards().forEach((related_card) => {
-    // Ignore cards already in session
+    /* Ignore cards already in session */
     if (related_card.isIn(card.session.cards)) return;
 
-    // Add cards with the same term
+    /* Add cards with the same term */
     if (card.dependencyDepthOfCard(related_card) === 0) {
       return to_add.push(related_card);
     }
 
-    // Ignore cyclical dependencies
+    /* Ignore cyclical dependencies */
     if (related_card.dependencyDepthOfCard(card) > 0) return;
 
-    // Add cards that this term directly depends on
+    /* Add cards that this term directly depends on */
     if (
       card.dependencyDepthOfCard(related_card) === 1 &&
       /* Unseen or unknown cards */
@@ -41,9 +41,7 @@ export const addRelatedCards = (card) => {
     }
   });
 
-  if (to_add.length > 0) {
-    card.session.loadCardsIntoSession(to_add, {
-      insertImmediately: true,
-    });
-  }
+  card.session.loadCardsIntoSession(to_add, {
+    insertImmediately: true,
+  });
 };
