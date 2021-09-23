@@ -173,7 +173,7 @@ export const saveUserDataInLocalStorage = (user_data = {}, options = {}) => {
 
 /**
  * @param {UserDataRows} obj
- * @param options
+ * @param {object} options
  * @returns {UserDataRows}
  */
 const getUnsynced = (obj, options) => {

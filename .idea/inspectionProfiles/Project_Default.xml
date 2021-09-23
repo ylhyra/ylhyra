@@ -41,5 +41,6 @@
       <option name="m_ignoreImmediatelyReturnedVariables" value="false" />
       <option name="m_ignoreAnnotatedVariables" value="false" />
     </inspection_tool>
+    <inspection_tool class="UnnecessaryReturnJS" enabled="true" level="TYPO" enabled_by_default="true" />
   </profile>
 </component>

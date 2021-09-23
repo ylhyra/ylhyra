@@ -11,7 +11,7 @@ import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 import { Card } from "app/vocabulary/actions/card/card";
 
 /**
- * @param {String} id
+ * @param {CardID|TermID} id
  * @returns {string|undefined}
  */
 export const printWord = (id) => {
@@ -26,7 +26,7 @@ export const printWord = (id) => {
 };
 
 /**
- * @param {Array.<string>} allowed_ids
+ * @param {Array.<CardID>} allowed_ids
  */
 export const studyParticularIds = async (allowed_ids) => {
   const { session } = deck;
@@ -57,7 +57,7 @@ export const countTerms = (cards) => {
 };
 
 /**
- * @returns {null|*}
+ * @returns {number|null}
  */
 export const countTermsInSchedule = () => {
   if (!deck) return null;
@@ -72,5 +72,5 @@ if (isBrowser && isDev) {
   window.studyParticularWords = async (...words) => {
     await studyParticularIds(getCardIdsFromTermIds(words.map(getHash)));
   };
-  window.studyParticularIds = studyParticularIds;
+  window["studyParticularIds"] = studyParticularIds;
 }

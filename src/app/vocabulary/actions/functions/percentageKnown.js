@@ -49,6 +49,6 @@ export const PercentageKnownOverall = () => {
   return Object.keys(deck.cards) |> PercentageKnown;
 };
 
-if (isBrowser) {
-  window.PercentageKnownOverall = PercentageKnownOverall;
-}
+// if (isBrowser) {
+//   window.PercentageKnownOverall = PercentageKnownOverall;
+// }

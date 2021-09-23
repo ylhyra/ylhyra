@@ -6,12 +6,17 @@ import { roundToInterval } from "app/app/functions/math";
 /** @typedef {number} Days */
 /** @typedef {Milliseconds} TimestampInMilliseconds */
 
+/** @type Milliseconds */
 const msInHour = 1000 * 60 * 60;
+/** @type Milliseconds */
 const msInDay = msInHour * 24;
+/** @type Milliseconds */
 export const day = msInDay;
 export const days = day;
+/** @type Milliseconds */
 export const hour = msInHour;
 export const hours = hour;
+/** @type Milliseconds */
 export const minute = 60 * 1000;
 export const minutes = minute;
 
