@@ -1,5 +1,6 @@
 const webpack = require("webpack");
-const path = require("path");
+const resolve = require("./resolve");
+
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const BundleAnalyzerPlugin =
@@ -8,7 +9,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const config = {
+let config;
+config = {
   devServer: {
     port: 3000,
     historyApiFallback: {
@@ -30,7 +32,7 @@ const config = {
   mode: process.env.NODE_ENV,
   devtool: "source-map",
   output: {
-    path: path.resolve(__dirname, "./../build/app"),
+    path: resolve("build/app"),
     filename: "ylhyra.[name].js",
     publicPath: "/app/",
   },
@@ -87,7 +89,13 @@ const config = {
   ].filter(Boolean),
   optimization: {
     minimize: isProduction,
-    minimizer: [new TerserPlugin()],
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          // keep_fnames: true,
+        },
+      }),
+    ],
   },
 };
 
