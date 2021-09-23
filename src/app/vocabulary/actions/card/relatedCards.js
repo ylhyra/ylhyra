@@ -45,7 +45,7 @@ export function getAllCardsWithSameTerm() {
 
 /**
  * @memberOf Card#
- * @returns {Object.<string, number>}
+ * @returns {Object.<TermID, number>}
  */
 export function getDependenciesAsTermIdToDepth() {
   return this.getTerms()[0]?.getDependenciesAsTermIdToDepth();
@@ -53,7 +53,7 @@ export function getDependenciesAsTermIdToDepth() {
 
 /**
  * @memberOf Card#
- * @returns {Object.<string, number>}
+ * @returns {Object.<CardID, number>}
  */
 export function getDependenciesAsCardIdToDepth() {
   let out = {};
@@ -68,7 +68,7 @@ export function getDependenciesAsCardIdToDepth() {
 
 /**
  * @memberOf Card#
- * @returns {Array.<String>}
+ * @returns {Array.<CardID>}
  */
 export function getDependenciesAsArrayOfCardIds() {
   return getCardIdsFromTermIds(

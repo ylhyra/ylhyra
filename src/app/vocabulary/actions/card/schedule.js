@@ -6,8 +6,17 @@ import { days, getTime } from "app/app/functions/time";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 
 /**
+ * @typedef {Object} ScheduleData
+ * @typedef {TimestampInMilliseconds} due
+ * @typedef {Days} last_interval_in_days
+ * @typedef {number} score
+ * @typedef {TimestampInMilliseconds} last_seen
+ * @typedef {number} sessions_seen
+ */
+
+/**
  * @memberOf Card#
- * @returns {Object|undefined}
+ * @returns {ScheduleData|undefined}
  */
 export function getSchedule() {
   return deck.schedule[this.getId()];
@@ -15,7 +24,7 @@ export function getSchedule() {
 
 /**
  * @memberOf Card#
- * @returns {Number|undefined} - Timestamp in milliseconds
+ * @returns {TimestampInMilliseconds|undefined}
  */
 export function getDue() {
   return this.getSchedule()?.due;
@@ -39,7 +48,7 @@ export function getSessionsSeen() {
 
 /**
  * @memberOf Card#
- * @returns {Number|undefined}
+ * @returns {Days|undefined}
  */
 export function getLastIntervalInDays() {
   return this.getSchedule()?.last_interval_in_days;
@@ -47,7 +56,7 @@ export function getLastIntervalInDays() {
 
 /**
  * @memberOf Card#
- * @returns {Number|undefined} - Timestamp in milliseconds
+ * @returns {TimestampInMilliseconds|undefined}
  */
 export function getLastSeen() {
   return this.getSchedule()?.last_seen;
@@ -147,6 +156,7 @@ export function isNewCard() {
 
 /**
  * @memberOf Card#
+ * @param {ScheduleData} data
  */
 export function setSchedule(data) {
   deck.schedule[this.getId()] = {

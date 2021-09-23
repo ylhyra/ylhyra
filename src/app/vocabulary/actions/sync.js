@@ -12,29 +12,52 @@ import axios from "app/app/axios";
 export const SESSION_PREFIX = "s_";
 
 /**
- * User data is stored on
- *   user_data = {
- *        user_id,
- *        lastSynced,
- *        rows: {
- *          key: {
- *            value,
- *            needsSyncing,
- *          }
- *        }
- *      }
+ * @typedef {Object} UserData
+ * @property {string} user_id
+ * @property {TimestampInMilliseconds} lastSynced
+ * @property {UserDataRows} rows
+ */
+/**
+ * @typedef {Object.<string, {
+ *   value: string,
+ *   needsSyncing: boolean,
+ *   type: ("schedule"|null)
+ * }>|Object} UserDataRows
+ */
+
+/**
+ * In other words, user data is stored on: {
+ *   user_id,
+ *   lastSynced,
+ *   rows: {
+ *     [key]: {
+ *       value,
+ *       needsSyncing,
+ *     }
+ *   }
+ * }
+ */
+
+/**
  * TODO:
  * - skrá notanda í gögn!
  * - tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
+ *
+ * @returns {UserData}
  */
 export const sync = async (options = {}) => {
+  /** @type UserData */
   let user_data;
+
   if (Object.keys(deck?.user_data?.rows || {}).length > 0) {
     user_data = deck.user_data;
   } else {
     user_data = getFromLocalStorage("vocabulary-user-data") || {};
   }
+
+  /** @type UserDataRows */
   let rows = user_data.rows || {};
+
   const { lastSynced } = user_data;
 
   if (!options.isInitializing) {
@@ -61,7 +84,6 @@ export const sync = async (options = {}) => {
     rows,
     lastSynced: response.lastSynced,
   };
-
   saveUserDataInLocalStorage(user_data, { assignToDeck: true });
   if (deck) {
     deck.schedule = getScheduleFromUserData(user_data);
@@ -71,6 +93,10 @@ export const sync = async (options = {}) => {
   return user_data;
 };
 
+/**
+ * @param {UserData} user_data
+ * @returns {Object.<CardID, ScheduleData>}
+ */
 export const getScheduleFromUserData = (user_data) => {
   const schedule = {};
   Object.keys(user_data?.rows || {}).forEach((key) => {
@@ -131,6 +157,7 @@ export const saveUserDataInLocalStorage = (user_data = {}, options = {}) => {
     ...user_data,
     lastSaved: getTime(),
   };
+
   if (deck && options.assignToDeck) {
     if (!toSave.rows) {
       console.warn({ toSave, user_data_input: user_data });
@@ -144,6 +171,11 @@ export const saveUserDataInLocalStorage = (user_data = {}, options = {}) => {
   }, 1000);
 };
 
+/**
+ * @param {UserDataRows} obj
+ * @param options
+ * @returns {UserDataRows}
+ */
 const getUnsynced = (obj, options) => {
   if (!obj) return {};
   const { syncEverything } = options;
@@ -156,6 +188,11 @@ const getUnsynced = (obj, options) => {
   return to_save;
 };
 
+/**
+ * @param {UserDataRows} local
+ * @param {UserDataRows} server
+ * @returns {UserDataRows}
+ */
 const mergeResponse = (local, server) => {
   Object.keys(local).forEach((key) => {
     delete local[key].needsSyncing;

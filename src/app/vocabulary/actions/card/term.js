@@ -5,14 +5,19 @@ import {
 import _ from "underscore";
 
 /**
- * @property {Array.<string>} cards
- * @property {Object.<string, number>} dependencies
+ * @property {TermID} id
+ * @property {Array.<CardID>} cards
+ * @property {Object.<TermID, number>} dependencies
  */
 export class Term {
   constructor(data, id) {
     Object.assign(this, data);
     this.id = id;
   }
+
+  /**
+   * @returns {TermID}
+   */
   getId() {
     return this.id;
   }
@@ -23,9 +28,17 @@ export class Term {
   getCards() {
     return getCardsByIds(this.cards);
   }
+
+  /**
+   * @returns {Array<CardID>}
+   */
   getCardIds() {
     return this.cards;
   }
+
+  /**
+   * @returns {Object.<TermID, number>}
+   */
   getDependenciesAsTermIdToDepth() {
     return {
       ...(this.dependencies || {}),
@@ -45,7 +58,7 @@ export class Term {
   }
 
   /**
-   * @returns {Array<string>}
+   * @returns {Array<CardID>}
    */
   getSortedCardDependenciesAsCardIds() {
     return (

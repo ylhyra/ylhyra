@@ -6,11 +6,14 @@ import {
 } from "app/vocabulary/actions/easinessLevel/functions";
 import { extendPrototype } from "app/app/functions/extendPrototype";
 
+/** @typedef {string} CardID */
+/** @typedef {string} TermID */
+
 /**
  * @typedef {Object} CardData
  *
- * @property {string} id
- * @property {Array.<string>} terms
+ * @property {CardID} id
+ * @property {Array.<TermID>} terms
  * @property {number} sortKey
  * @property {string} is_formatted - HTML of Icelandic side of card
  * @property {string} en_formatted - HTML of English side of card
@@ -43,6 +46,9 @@ class Card {
     // this.extractText();
   }
 
+  /**
+   * @returns {CardID}
+   */
   getId() {
     return this.id;
   }
@@ -59,7 +65,7 @@ class Card {
   }
 
   /**
-   * @returns {Array.<string>}
+   * @returns {Array.<TermID>}
    */
   getTermIds() {
     return this.terms;

@@ -23,10 +23,6 @@ export const mapValueToRange = ({
   return output;
 };
 
-export const roundToInterval = (v, roundby) => {
-  return Math.round(v / roundby) * roundby;
-};
-
 export const minIgnoreFalsy = (...values) => {
   return Math.min(...values.filter(Boolean));
 };
@@ -36,4 +32,13 @@ export const minIgnoreFalsy = (...values) => {
  */
 export const addSomeRandomness = (input, amount = 0.1) => {
   return input + input * amount * (Math.random() - 0.5) * 2;
+};
+
+export const roundToInterval = (v, roundBy) => {
+  return Math.round(v / roundBy) * roundBy;
+};
+
+export const roundToSignificantDigits = (input, zeroes = 0) => {
+  const i = 10 ** zeroes;
+  return Math.round(input / i) * i;
 };

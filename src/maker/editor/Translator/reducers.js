@@ -1,7 +1,6 @@
 import { omit, uniq } from "underscore";
 import { wordsHash } from "maker/editor/Translator/actions";
-
-require("app/app/functions/sortByArray");
+import { sortByArray } from "app/app/functions/sortByArray";
 
 /*
   ____       _           _   _
@@ -18,9 +17,10 @@ export const selected = (state = [], action) => {
       } else if (action.id) {
         if (action.adding) {
           const arrayOfAllWordIDs = action.arrayOfAllWordIDs;
-          return (state = uniq([action.id, ...state]).sortByArray(
+          return sortByArray(
+            (state = uniq([action.id, ...state])),
             arrayOfAllWordIDs
-          ));
+          );
         } else {
           return (state = [action.id]);
         }

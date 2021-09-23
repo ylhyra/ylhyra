@@ -1,10 +1,10 @@
-import { addSomeRandomness, average, clamp } from "app/app/functions/math";
 import {
-  daysToMs,
-  msToDays,
-  getTime,
+  addSomeRandomness,
+  average,
+  clamp,
   roundToSignificantDigits,
-} from "app/app/functions/time";
+} from "app/app/functions/math";
+import { daysToMs, msToDays, getTime } from "app/app/functions/time";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import { printWord } from "app/vocabulary/actions/functions";
 import { log } from "app/app/functions/log";
@@ -93,13 +93,15 @@ export function createSchedule() {
       );
     }
 
-    card.setSchedule({
-      due: getTime() + daysToMs(addSomeRandomness(due_in_days)),
-      last_interval_in_days: Math.round(due_in_days),
-      score: roundToSignificantDigits(score, -2),
-      last_seen: getTime(),
-      sessions_seen: sessions_seen + 1,
-    });
+    card.setSchedule(
+      /** @type ScheduleData */ {
+        due: getTime() + daysToMs(addSomeRandomness(due_in_days)),
+        last_interval_in_days: Math.round(due_in_days),
+        score: roundToSignificantDigits(score, -2),
+        last_seen: getTime(),
+        sessions_seen: sessions_seen + 1,
+      }
+    );
 
     log(`${card.printWord()} - score: ${score} - days: ${due_in_days}`);
 

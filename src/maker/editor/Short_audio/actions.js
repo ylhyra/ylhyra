@@ -2,8 +2,8 @@ import _ from "underscore";
 import store from "app/app/store";
 import isEmpty from "is-empty-object";
 import { send } from "maker/editor/web-socket";
+import { sortByArray } from "app/app/functions/sortByArray";
 
-require("app/app/functions/sortByArray");
 // import { saveEditor } from 'Editor/actions'
 
 export const findSoundBites = async () => {
@@ -63,8 +63,7 @@ export const findSoundBites = async () => {
 };
 
 const getTextFromIDs = (ids, list) => {
-  return _.uniq(ids)
-    .sortByArray(list.arrayOfAllWordIDs)
+  return sortByArray(_.uniq(ids), list.arrayOfAllWordIDs)
     .map((i) => list.words[i]?.text || list.words[i]?.sentence)
     .join(" ");
 };
