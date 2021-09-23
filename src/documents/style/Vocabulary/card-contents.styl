@@ -79,13 +79,12 @@
     display block
     color #4b4b4b
 
-  .flashcard-bottom 
-    .occluded 
-      text-shadow none
-      border-bottom 2px solid #acacac
-      &.space_before 
-        margin-left 1px
-      &.space_after 
-        margin-right 1px
+  .flashcard-bottom
+    .occluded-outer-container
+      word-spacing 3px
+      .occluded
+        text-shadow none
+        border-bottom 2px solid #acacac
+
   &:not(.answered) .flashcard-bottom .occluded > span 
     opacity 0

@@ -16,8 +16,7 @@ import { INCR } from "app/vocabulary/actions/createSchedule";
 import { minIgnoreFalsy } from "app/app/functions/math";
 import { days, getTime } from "app/app/functions/time";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
-
-const matchWords = /([a-záéíóúýðþæö]+)/i;
+import { matchWords } from "app/app/functions/regexes";
 
 /** @typedef {string} CardID */
 /** @typedef {string} TermID */
