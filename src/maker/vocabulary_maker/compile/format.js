@@ -68,11 +68,18 @@ export const formatVocabularyEntry = (input) => {
       `<small class="gray inline-note">(<i>$1</i>)</small>`
     )
     .replace(/'''(.+?)'''/g, "<b>$1</b>")
-    .replace(/''(.+?)''/g, "<i>$1</i>");
+    .replace(/''(.+?)''/g, "<i>$1</i>")
 
-  input = addOcclusion(input);
-
-  input = input
+    /* Occlusion */
+    .replace(
+      /( )?\*([^*;$!.,<>"=]+)\*?( )?/g,
+      (x, space_before, text, space_after) => {
+        return occlude(c`${space_before}${text}${space_after}`);
+      }
+    )
+    .replace(/[$%]([^ .!?;:<>"=]+)/g, (x, text) => {
+      return occlude(text);
+    })
 
     .replace(/ [-–] /g, ` <span class="gray">–</span> `)
     .replace(/;;+/g, `MAJOR_SEPARATOR`)
@@ -82,7 +89,7 @@ export const formatVocabularyEntry = (input) => {
     .replace(/'/g, "’")
     .replace(
       /{{p(?:ron)?\|(.+?)}}/g,
-      `<span className="pron">[<span>$1</span>]</span>`
+      `<span class="pron">[<span>$1</span>]</span>`
     )
     .replace(/{{small\|(.+?)}}/g, `<small>$1</small>`)
     .replace(/{{kk}}/g, `<sup>(masculine)</sup>`)
@@ -133,24 +140,13 @@ export const formatLemmas = (input) => {
   return input;
 };
 
-const addOcclusion = (input) => {
-  return input
-    .replace(
-      /( )?\*([^*;$!.,<>"=]+)\*?( )?/g,
-      (x, space_before, text, space_after) => {
-        return occlude(c`${space_before}${text}${space_after}`);
-      }
-    )
-    .replace(/[$%]([^ .!?;:<>"=]+)/g, (x, text) => {
-      return occlude(text);
-    });
-};
-
 export const occlude = (input) => {
   let text = input
+    /* Ignore HTML */
     .split(/(<.+?>)/g)
     .map((value, index) => {
       if (index % 2 === 1) return value;
+      /* Letters wrapped in class .occluded, while spaces are not wrapped */
       return value.replace(matchWordsAndLetters, (j, word) => {
         return c`<span class="occluded"><span>${word}</span></span>`;
       });
