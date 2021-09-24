@@ -11,7 +11,6 @@ import { Term } from "app/vocabulary/actions/card/term";
 export let deck;
 
 /**
- * @class Deck
  * @property {Object.<string, Card>} cards
  * @property {Array.<Card>} cards_sorted
  * @property {Object.<string, Term>} terms
