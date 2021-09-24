@@ -4,7 +4,7 @@
 *.save
 *.zip
 *.txt
-!public/robots.txt
+!src/app/app/public/robots.txt
 build
 node_modules
 npm-debug.log*
