@@ -68,19 +68,11 @@ export const formatVocabularyEntry = (input) => {
       `<small class="gray inline-note">(<i>$1</i>)</small>`
     )
     .replace(/'''(.+?)'''/g, "<b>$1</b>")
-    .replace(/''(.+?)''/g, "<i>$1</i>")
+    .replace(/''(.+?)''/g, "<i>$1</i>");
 
-    /* Hidden (occluded) */
-    .replace(
-      /( )?\*([^*;$!.,]+)\*?( )?/g,
-      (x, space_before, text, space_after) => {
-        return occlude(c`${space_before}${text}${space_after}`);
-      }
-    )
-    .replace(/[$%]([^ .!?;:]+)/g, (x, text) => {
-      return occlude(text);
-      // c`<span class="occluded"><span>${text}</span></span>`;
-    })
+  input = addOcclusion(input);
+
+  input = input
 
     .replace(/ [-–] /g, ` <span class="gray">–</span> `)
     .replace(/;;+/g, `MAJOR_SEPARATOR`)
@@ -113,6 +105,11 @@ export const formatVocabularyEntry = (input) => {
     console.warn(`Unprocessed template: ${input.match(/({{.+?}})/)[1]}`);
   }
 
+  if (/(<<|>>)/.test(input)) {
+    console.log(input);
+    throw new Error("Bad parsing!");
+  }
+
   input = ProcessLinks(input);
   return input;
 };
@@ -136,11 +133,36 @@ export const formatLemmas = (input) => {
   return input;
 };
 
-export const occlude = (text) => {
-  return c`<span class="occluded-outer-container">${text.replace(
-    matchWordsAndLetters,
-    (j, word) => {
-      return c`<span class="occluded"><span>${word}</span></span>`;
-    }
-  )}</span>`;
+const addOcclusion = (input) => {
+  return input
+    .replace(
+      /( )?\*([^*;$!.,<>"=]+)\*?( )?/g,
+      (x, space_before, text, space_after) => {
+        return occlude(c`${space_before}${text}${space_after}`);
+      }
+    )
+    .replace(/[$%]([^ .!?;:<>"=]+)/g, (x, text) => {
+      return occlude(text);
+    });
+};
+
+export const occlude = (input) => {
+  let text = input
+    .split(/(<.+?>)/g)
+    .map((value, index) => {
+      if (index % 2 === 1) return value;
+      return value.replace(matchWordsAndLetters, (j, word) => {
+        return c`<span class="occluded"><span>${word}</span></span>`;
+      });
+    })
+    .join("");
+
+  text = c`<span class="occluded-outer-container">${text}</span>`;
+
+  // if (/(<<|>>)/.test(text)) {
+  //   console.log({ input, text });
+  //   throw new Error();
+  // }
+
+  return text;
 };
