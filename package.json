@@ -141,10 +141,6 @@
     },
     "globals": {
       "__basedir": true,
-      "page": true,
-      "browser": true,
-      "context": true,
-      "jestPuppeteer": true
     }
   },
   "browserslist": {
@@ -172,7 +168,6 @@
     "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^5.3.2",
     "jest": "^27.0.6",
-    "jest-puppeteer": "^5.0.4",
     "prettier": "2.3.1",
     "sass-loader": "^12.1.0",
     "style-loader": "^3.2.1",
@@ -189,37 +184,9 @@
     "quoteProps": "consistent"
   },
   "jest": {
-    "preset": "jest-puppeteer",
     "testPathIgnorePatterns": [
       "/inflection/",
       "/node_modules/"
-    ]
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env"
-      ],
-      [
-        "@babel/preset-react"
-      ]
-    ],
-    "plugins": [
-      [
-        "@babel/plugin-proposal-decorators",
-        {
-          "legacy": true
-        }
-      ],
-      [
-        "@babel/plugin-transform-runtime"
-      ],
-      [
-        "@babel/plugin-proposal-pipeline-operator",
-        {
-          "proposal": "fsharp"
-        }
-      ]
     ]
   }
 }

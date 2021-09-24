@@ -1,9 +1,9 @@
 import forEachAsync from "app/app/functions/array-foreach-async";
-import vocabulary_articles from "test/vocabulary/articles.test";
-import vocabulary_easiness from "test/vocabulary/easiness.test";
-import vocabulary_session from "test/vocabulary/session_logging.test";
-import vocabulary_signup_and_login from "test/vocabulary/sync.test";
-import { run } from "test/functions";
+import vocabulary_articles from "tests/integration/vocabulary/articles.test";
+import vocabulary_easiness from "tests/integration/vocabulary/easiness.test";
+import vocabulary_session from "tests/integration/vocabulary/session_logging.test";
+import vocabulary_signup_and_login from "tests/integration/vocabulary/sync.test";
+import { run } from "tests/integration/functions";
 import _ from "underscore";
 import { log } from "app/app/functions/log";
 

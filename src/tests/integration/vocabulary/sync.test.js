@@ -1,6 +1,6 @@
 import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
-import { assert, notNull, shouldEqual, wait } from "test/index";
-import { run } from "test/functions";
+import { assert, notNull, shouldEqual, wait } from "tests/integration/index";
+import { run } from "tests/integration/functions";
 import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 
 export default {

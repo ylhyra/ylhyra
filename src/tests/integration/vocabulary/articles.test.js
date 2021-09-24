@@ -1,5 +1,5 @@
 import { deck } from "app/vocabulary/actions/deck";
-import { assert } from "test/index";
+import { assert } from "tests/integration/index";
 import {
   printWord,
   studyParticularIds,

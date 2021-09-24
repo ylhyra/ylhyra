@@ -1,7 +1,7 @@
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import { deck } from "app/vocabulary/actions/deck";
-import { assert, notNull, shouldEqual } from "test/index";
-import { run } from "test/functions";
+import { assert, notNull, shouldEqual } from "tests/integration/index";
+import { run } from "tests/integration/functions";
 import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 import { DEFAULT_JUMP_DOWN } from "app/vocabulary/actions/easinessLevel";
 import { DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL } from "app/vocabulary/actions/createCards/4_Dependencies";

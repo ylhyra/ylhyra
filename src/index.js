@@ -44,7 +44,7 @@ window.testing = async (only_run) => {
   await (
     await import(
       /* webpackChunkName: "test" */
-      "./test/index.js"
+      "tests/integration"
     )
   ).default(only_run);
 };

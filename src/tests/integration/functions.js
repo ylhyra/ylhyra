@@ -3,7 +3,7 @@ import { login, logout } from "app/user/actions";
 import { deck } from "app/vocabulary/actions/deck";
 import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
 import { eraseCookie } from "app/app/functions/cookie";
-import { assert, wait } from "test/index";
+import { assert, wait } from "tests/integration/index";
 import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
 import axios from "app/app/axios";
 
