@@ -1,4 +1,12 @@
+/*
+node -r esm src/tests/integration/backendRunner.js
+ */
 const puppeteer = require("puppeteer-core");
+
+const exit = (err) => {
+  console.error(err);
+  process.exit(1);
+};
 
 (async () => {
   const browser = await puppeteer.launch({
@@ -7,7 +15,20 @@ const puppeteer = require("puppeteer-core");
   });
   const page = await browser.newPage();
   await page.goto("http://localhost:9123");
-  await page.screenshot({ path: "example.png" });
 
+  page.on("console", (msg) => {
+    if (msg.type() === "trace") {
+      console.log(msg.text());
+    } else if (msg.type() === "error") {
+      exit(msg.text());
+    }
+  });
+  page.on("error", exit);
+  page.on("pageerror", exit);
+  await page.exposeFunction("logToPuppeteer", console.log);
+  await page.evaluate(async () => {
+    window.logToPuppeteer("Puppeteer started");
+    await window.testing();
+  });
   await browser.close();
 })();

@@ -23,11 +23,14 @@ export default async (only_run) => {
         await toRun[key]();
       } catch (e) {
         console.trace();
-        console.error(`Error in test ${key}`);
-        console.error(e);
+        console.error(`Error in test "${key}"`, e);
         return;
       }
-      console.log(`%cThe test "${key}" is good!`, "font-size: larger");
+      (window.logToPuppeteer || console.log)(
+        `%cThe test "${key}" is good!`,
+        "font-size: larger"
+      );
+
       resolve();
     });
   });

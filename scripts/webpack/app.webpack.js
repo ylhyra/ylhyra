@@ -9,12 +9,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV === "production";
 
-let config;
-config = {
+module.exports = {
   devServer: {
     port: 3000,
     historyApiFallback: {
       index: "index.html",
+    },
+    static: {
+      directory: resolve("src/app/app/public"),
     },
     hot: true,
     proxy: {
@@ -98,5 +100,3 @@ config = {
     ],
   },
 };
-
-module.exports = config;

@@ -59,7 +59,7 @@ app.use(unprocessed_image_url, express.static(ylhyra_content_files));
 app.use("/", express.static(build_folder));
 app.use(
   "/robots.txt",
-  express.static(path.join(__basedir, "./public/robots.txt"))
+  express.static(path.join(__basedir, "./src/app/app/public/robots.txt"))
 );
 // app.use(
 //   "/sitemap.xml",

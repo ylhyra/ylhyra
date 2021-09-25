@@ -15,7 +15,7 @@ const critical = require("critical");
 let TESTING = false;
 
 const html = fs.readFileSync(
-  path.resolve(__basedir, `./public/index.html`),
+  path.resolve(__basedir, `./src/app/app/public/index.html`),
   "utf8"
 );
 
