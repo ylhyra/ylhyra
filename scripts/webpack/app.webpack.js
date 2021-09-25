@@ -44,7 +44,7 @@ module.exports = {
         test: /\.js$/,
         loader: "babel-loader",
         exclude: /node_modules/,
-        options: require("./babel.js"),
+        options: require(resolve("babel.config.js")),
       },
       /* Main Stylus file extracted to a separate file */
       isProduction && {

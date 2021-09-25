@@ -34,6 +34,7 @@ module.exports = {
         proposal: "fsharp",
       },
     ],
+    ["inline-json-import", {}],
     ...development_plugins,
   ],
 };

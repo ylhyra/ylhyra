@@ -65,7 +65,7 @@ export const sync = async (options = {}) => {
   }
 
   if (!isUserLoggedIn()) {
-    console.warn(`Not synced to server as user isn't logged in`);
+    log(`Not synced to server as user isn't logged in`);
     return user_data;
   }
 

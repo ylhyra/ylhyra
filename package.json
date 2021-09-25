@@ -36,8 +36,8 @@
     "deploy": "./scripts/deploy.sh",
     "audio1": "./scripts/audio_processing/Pronunciation_step_1.sh",
     "audio3": "./scripts/audio_processing/Pronunciation_step_3.sh",
-    "test": "jest",
-    "test_watch": "jest --watch",
+    "test": "jest --silent",
+    "test_watch": "jest --watch --silent",
     "integration_test": "node -r esm src/tests/integrationTests/puppeteer.js",
     "start_test_server": "export SERVER_PORT=9999 && node build/server/ylhyra_server.js"
   },
@@ -163,6 +163,7 @@
     "@babel/preset-react": "^7.14.5",
     "babel-jest": "^27.2.2",
     "babel-loader": "^8.2.2",
+    "babel-plugin-inline-json-import": "^0.3.2",
     "babel-plugin-jsdoc-runtime-typecheck": "^1.2.1",
     "babel-plugin-runtyper": "^0.4.0",
     "css-loader": "^6.2.0",
@@ -187,6 +188,10 @@
     "quoteProps": "consistent"
   },
   "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
     "testEnvironment": "jsdom",
     "testPathIgnorePatterns": [
       "/inflection/",
