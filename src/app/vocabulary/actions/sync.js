@@ -46,9 +46,6 @@ export const SESSION_PREFIX = "s_";
  * @returns {UserData}
  */
 export const sync = async (options = {}) => {
-  console.log("---");
-  console.log({ deck });
-
   /** @type UserData */
   let user_data;
 
@@ -93,8 +90,6 @@ export const sync = async (options = {}) => {
   }
   log("Data synced");
 
-  console.log({ deck });
-
   return user_data;
 };
 
@@ -114,7 +109,7 @@ export const getScheduleFromUserData = (user_data) => {
 
 export const setUserData = (key, value, type) => {
   if (!("rows" in deck.user_data)) {
-    console.error(`deck.user_data didn't have rows`);
+    // console.log(`deck.user_data didn't have rows`);
     deck.user_data.rows = {};
   }
   deck.user_data.rows[key] = {

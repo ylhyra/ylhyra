@@ -18,7 +18,7 @@ const exit = (err) => {
 
   page.on("console", (msg) => {
     if (msg.type() === "trace") {
-      console.log(msg.text());
+      console.log(msg.args());
     } else if (msg.type() === "error") {
       exit(msg.text());
     }

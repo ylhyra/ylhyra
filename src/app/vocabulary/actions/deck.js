@@ -50,11 +50,14 @@ class Deck {
     this.session.reset();
     this.session.InitializeSession();
   }
-  reset(options) {
-    if (!options?.dontClear) {
-      saveInLocalStorage("vocabulary-user-data", null);
-      saveInLocalStorage("vocabulary-session", null);
-    }
+  reset() {
+    saveInLocalStorage("vocabulary-user-data", null);
+    saveInLocalStorage("vocabulary-session", null);
+    this.user_data = {};
+    this.schedule = {};
+  }
+  /* Only used for testing */
+  clear() {
     deck = null;
   }
 }

@@ -65,7 +65,7 @@ export const run = {
     });
   },
   fakeReload: async () => {
-    deck.reset({ dontClear: true });
+    deck.clear()
     updateURL("/vocabulary");
     await wait(500);
     await InitializeVocabulary();
