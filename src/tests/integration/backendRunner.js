@@ -4,7 +4,7 @@ node -r esm src/tests/integration/backendRunner.js
 const puppeteer = require("puppeteer-core");
 
 const exit = (err) => {
-  console.error(err);
+  console.error("ERROR", err);
   process.exit(1);
 };
 
@@ -31,4 +31,5 @@ const exit = (err) => {
     await window.testing();
   });
   await browser.close();
+  process.exit();
 })();

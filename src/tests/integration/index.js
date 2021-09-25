@@ -7,6 +7,8 @@ import { run } from "tests/integration/functions";
 import _ from "underscore";
 import { log } from "app/app/functions/log";
 
+const logger = window.logToPuppeteer || console.log;
+
 /* Main test runner */
 export default async (only_run) => {
   const toRun = {
@@ -18,6 +20,7 @@ export default async (only_run) => {
   await forEachAsync(_.shuffle(Object.keys(toRun)), async (key) => {
     await new Promise(async (resolve) => {
       if (only_run && key !== only_run) return resolve();
+      logger(`Starting test "${key}"`);
       await run.reset();
       try {
         await toRun[key]();
@@ -26,10 +29,7 @@ export default async (only_run) => {
         console.error(`Error in test "${key}"`, e);
         return;
       }
-      (window.logToPuppeteer || console.log)(
-        `%cThe test "${key}" is good!`,
-        "font-size: larger"
-      );
+      logger(`%cThe test "${key}" is good!`, "font-size: larger");
 
       resolve();
     });
@@ -63,3 +63,11 @@ export const wait = (ms) => {
     setTimeout(resolve, ms || 20);
   });
 };
+
+// const isDeckInitialized = async () => {
+//   if (!deck) {
+//     logger("Waiting for deck...");
+//     await wait(300);
+//     await isDeckInitialized();
+//   }
+// };

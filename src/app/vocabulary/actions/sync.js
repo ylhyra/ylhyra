@@ -46,6 +46,9 @@ export const SESSION_PREFIX = "s_";
  * @returns {UserData}
  */
 export const sync = async (options = {}) => {
+  console.log("---");
+  console.log({ deck });
+
   /** @type UserData */
   let user_data;
 
@@ -89,6 +92,8 @@ export const sync = async (options = {}) => {
     deck.schedule = getScheduleFromUserData(user_data);
   }
   log("Data synced");
+
+  console.log({ deck });
 
   return user_data;
 };
