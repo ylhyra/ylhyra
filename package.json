@@ -131,9 +131,7 @@
     "xregexp": "^5.0.2"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app"
-    ],
+    "extends": [],
     "rules": {
       "no-unused-vars": 0,
       "import/no-anonymous-default-export": 0,
