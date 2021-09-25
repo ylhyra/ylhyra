@@ -140,7 +140,7 @@
       "no-unreachable": 0
     },
     "globals": {
-      "__basedir": true,
+      "__basedir": true
     }
   },
   "browserslist": {
@@ -169,6 +169,7 @@
     "html-webpack-plugin": "^5.3.2",
     "jest": "^27.0.6",
     "prettier": "2.3.1",
+    "puppeteer-core": "^10.4.0",
     "sass-loader": "^12.1.0",
     "style-loader": "^3.2.1",
     "stylus": "^0.55.0",
