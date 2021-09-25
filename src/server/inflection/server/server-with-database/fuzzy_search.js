@@ -7,11 +7,11 @@ import express from "express";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
 import Word from "server/inflection/tables/word";
-import phoneticHash from "app/app/functions/phoneticHash";
+import phoneticHash from "app/app/functions/languageProcessing/phoneticHash";
 import { removeLinks } from "server/inflection/tables/link";
 import classify from "server/inflection/tables/classification/BIN_classification";
 import { sort_by_classification } from "server/inflection/tables/classification/sort_by_classification";
-import { removeDiacritics } from "app/app/functions/removeDiacritics";
+import { removeDiacritics } from "app/app/functions/languageProcessing/removeDiacritics";
 
 const router = express.Router();
 require("array-sugar");

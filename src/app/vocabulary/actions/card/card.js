@@ -16,8 +16,8 @@ import { INCR } from "app/vocabulary/actions/createSchedule";
 import { minIgnoreFalsy } from "app/app/functions/math";
 import { days, getTime } from "app/app/functions/time";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
-import { matchWords } from "app/app/functions/regexes";
-import phoneticHash from "app/app/functions/phoneticHash";
+import { matchWords } from "app/app/functions/languageProcessing/regexes";
+import phoneticHash from "app/app/functions/languageProcessing/phoneticHash";
 
 /** @typedef {string} CardID */
 /** @typedef {string} TermID */

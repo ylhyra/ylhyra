@@ -3,7 +3,7 @@ node build/server/ylhyra_server.js --generate-links
 */
 // import urlSlug from 'src/app/App/functions/url-slug'
 import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
-import RemoveUnwantedCharacters from "app/app/functions/RemoveUnwantedCharacters";
+import RemoveUnwantedCharacters from "app/app/functions/languageProcessing/RemoveUnwantedCharacters";
 import { FileSafeTitle, URL_title } from "app/app/paths";
 import { content_folder } from "server/paths_backend";
 

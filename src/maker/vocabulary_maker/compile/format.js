@@ -4,7 +4,7 @@ import { automaticThu } from "maker/vocabulary_maker/compile/functions";
 import {
   matchWordsAndLetters,
   matchWordsAndLettersOrSpaces,
-} from "app/app/functions/regexes";
+} from "app/app/functions/languageProcessing/regexes";
 
 export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;

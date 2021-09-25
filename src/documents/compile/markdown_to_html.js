@@ -2,7 +2,7 @@
 import typeset from "documents/compile/functions/typeset";
 import { section_id } from "app/app/paths";
 import marked from "marked";
-import RemoveUnwantedCharacters from "app/app/functions/RemoveUnwantedCharacters";
+import RemoveUnwantedCharacters from "app/app/functions/languageProcessing/RemoveUnwantedCharacters";
 import { html2json, json2html } from "app/app/functions/html2json";
 import Conversation from "documents/compile/templates/Conversations";
 import { ProcessLinks } from "documents/compile/functions/links";
