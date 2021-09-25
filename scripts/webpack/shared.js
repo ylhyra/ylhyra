@@ -12,6 +12,7 @@ const isProduction = process.env.NODE_ENV === "production";
 module.exports = {
   mode: process.env.NODE_ENV,
   devtool: "source-map",
+  stats: "errors-only", // "minimal" or "errors-only"
   module: {
     rules: [
       {

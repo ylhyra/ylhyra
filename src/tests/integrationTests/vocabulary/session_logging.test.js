@@ -1,7 +1,7 @@
 import { eraseCookie } from "app/app/functions/cookie";
 import { deck } from "app/vocabulary/actions/deck";
 import { assert } from "tests/integrationTests/index";
-import { run } from "tests/integrationTests/functions";
+import { run } from "tests/integrationTests/recipes";
 
 export default {
   "Unfinished session correctly scheduled and logged": async () => {

@@ -1,5 +1,5 @@
 import forEachAsync from "app/app/functions/array-foreach-async";
-import { run } from "tests/integrationTests/functions";
+import { run } from "tests/integrationTests/recipes";
 import _ from "underscore";
 import { log } from "app/app/functions/log";
 

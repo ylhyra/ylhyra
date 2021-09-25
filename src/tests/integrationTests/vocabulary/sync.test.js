@@ -5,7 +5,7 @@ import {
   shouldEqual,
   wait,
 } from "tests/integrationTests/index";
-import { run } from "tests/integrationTests/functions";
+import { run } from "tests/integrationTests/recipes";
 import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 
 export default {
