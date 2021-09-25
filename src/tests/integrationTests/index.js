@@ -1,5 +1,5 @@
 import forEachAsync from "app/app/functions/array-foreach-async";
-import { run } from "tests/integration/functions";
+import { run } from "tests/integrationTests/functions";
 import _ from "underscore";
 import { log } from "app/app/functions/log";
 
@@ -8,10 +8,11 @@ const logger = window.logToPuppeteer || console.log;
 /* Main test runner */
 export default async (only_run) => {
   const toRun = {
-    ...require("tests/integration/vocabulary/articles.test").default,
-    ...require("tests/integration/vocabulary/easiness.test").default,
-    ...require("tests/integration/vocabulary/session_logging.test").default,
-    ...require("tests/integration/vocabulary/sync.test").default,
+    ...require("tests/integrationTests/vocabulary/articles.test").default,
+    ...require("tests/integrationTests/vocabulary/easiness.test").default,
+    ...require("tests/integrationTests/vocabulary/session_logging.test")
+      .default,
+    ...require("tests/integrationTests/vocabulary/sync.test").default,
   };
   await forEachAsync(_.shuffle(Object.keys(toRun)), async (key) => {
     await new Promise(async (resolve) => {

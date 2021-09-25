@@ -3,7 +3,7 @@ import { login, logout } from "app/user/actions";
 import { deck } from "app/vocabulary/actions/deck";
 import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
 import { eraseCookie } from "app/app/functions/cookie";
-import { assert, wait } from "tests/integration/index";
+import { assert, wait } from "tests/integrationTests/index";
 import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
 import axios from "app/app/axios";
 
@@ -65,7 +65,7 @@ export const run = {
     });
   },
   fakeReload: async () => {
-    deck.clear()
+    deck.clear();
     updateURL("/vocabulary");
     await wait(500);
     await InitializeVocabulary();

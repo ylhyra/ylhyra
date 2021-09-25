@@ -1,6 +1,6 @@
 const path = require("path");
 
-const node_modules = path.resolve(__dirname, "./../../node_modules");
+const node_modules = path.resolve(__dirname, "./node_modules");
 // const development_plugins =
 //   process.env.NODE_ENV === "development"
 //     ? [
@@ -16,7 +16,6 @@ const node_modules = path.resolve(__dirname, "./../../node_modules");
 const development_plugins = [];
 
 module.exports = {
-  cacheDirectory: true,
   presets: [
     [node_modules + "/@babel/preset-env"],
     [node_modules + "/@babel/preset-react"],
@@ -33,8 +32,6 @@ module.exports = {
       node_modules + "/@babel/plugin-proposal-pipeline-operator",
       {
         proposal: "fsharp",
-        // proposal: "hack",
-        // topicToken: "#",
       },
     ],
     ...development_plugins,

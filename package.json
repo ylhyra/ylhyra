@@ -37,7 +37,8 @@
     "audio1": "./scripts/audio_processing/Pronunciation_step_1.sh",
     "audio3": "./scripts/audio_processing/Pronunciation_step_3.sh",
     "test": "jest",
-    "test2": "node -r esm test/vocabulary/vocabulary.test.js",
+    "test_watch": "jest --watch",
+    "integration_test": "node -r esm src/tests/integrationTests/puppeteer.js",
     "start_test_server": "export SERVER_PORT=9999 && node build/server/ylhyra_server.js"
   },
   "proxy": "http://localhost:9123",
@@ -186,9 +187,12 @@
     "quoteProps": "consistent"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "testPathIgnorePatterns": [
       "/inflection/",
       "/node_modules/"
-    ]
+    ],
+    "testURL": "http://localhost:9123",
+    "testRegex": "src/tests/unitTests/.*\\.test\\.[jt]sx?$"
   }
 }
