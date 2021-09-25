@@ -1,6 +1,3 @@
-/*
-node -r esm src/tests/integration/backendRunner.js
- */
 const puppeteer = require("puppeteer-core");
 
 const exit = (err) => {

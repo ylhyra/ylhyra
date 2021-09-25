@@ -1,8 +1,4 @@
 import forEachAsync from "app/app/functions/array-foreach-async";
-import vocabulary_articles from "tests/integration/vocabulary/articles.test";
-import vocabulary_easiness from "tests/integration/vocabulary/easiness.test";
-import vocabulary_session from "tests/integration/vocabulary/session_logging.test";
-import vocabulary_signup_and_login from "tests/integration/vocabulary/sync.test";
 import { run } from "tests/integration/functions";
 import _ from "underscore";
 import { log } from "app/app/functions/log";
@@ -12,10 +8,10 @@ const logger = window.logToPuppeteer || console.log;
 /* Main test runner */
 export default async (only_run) => {
   const toRun = {
-    ...vocabulary_signup_and_login,
-    ...vocabulary_articles,
-    ...vocabulary_easiness,
-    ...vocabulary_session,
+    ...require("tests/integration/vocabulary/articles.test").default,
+    ...require("tests/integration/vocabulary/easiness.test").default,
+    ...require("tests/integration/vocabulary/session_logging.test").default,
+    ...require("tests/integration/vocabulary/sync.test").default,
   };
   await forEachAsync(_.shuffle(Object.keys(toRun)), async (key) => {
     await new Promise(async (resolve) => {
@@ -26,7 +22,7 @@ export default async (only_run) => {
         await toRun[key]();
       } catch (e) {
         console.trace();
-        console.error(`Error in test "${key}"`, e);
+        console.error(`Error in test "${key}"`, e.toString());
         return;
       }
       logger(`%cThe test "${key}" is good!`, "font-size: larger");
