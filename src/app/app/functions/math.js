@@ -42,3 +42,13 @@ export const roundToSignificantDigits = (input, zeroes = 0) => {
   const i = 10 ** zeroes;
   return Math.round(input / i) * i;
 };
+
+// /**
+//  * Ratio between the larger number and the smaller number
+//  */
+// export const ratio = (first, second) => {
+//   if (first > second) {
+//     return first / second;
+//   }
+//   return second / first;
+// };

@@ -8,8 +8,10 @@ const BundleAnalyzerPlugin =
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV === "production";
+const shared = require("./shared");
 
 module.exports = {
+  ...shared,
   devServer: {
     port: 3000,
     historyApiFallback: {
@@ -29,49 +31,11 @@ module.exports = {
       },
     },
   },
-  stats: "errors-only", // "minimal" or "errors-only"
   entry: "./src/index.js",
-  mode: process.env.NODE_ENV,
-  devtool: "source-map",
   output: {
     path: resolve("build/app"),
     filename: "ylhyra.[name].js",
     publicPath: "/app/",
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        loader: "babel-loader",
-        exclude: /node_modules/,
-        options: require(resolve("babel.config.js")),
-      },
-      /* Main Stylus file extracted to a separate file */
-      isProduction && {
-        test: /main\.styl$/,
-        use: [
-          "style-loader",
-          {
-            loader: "file-loader",
-            options: {
-              name: "main.css",
-            },
-          },
-          {
-            loader: "stylus-loader",
-          },
-        ],
-      },
-      /* Other Stylus files inlined */
-      {
-        test: isProduction ? /index\.styl$/ : /\.styl$/,
-        use: ["style-loader", "css-loader", "stylus-loader"],
-      },
-    ].filter(Boolean),
-  },
-  resolve: {
-    modules: ["./src", "node_modules"],
-    extensions: [".js"],
   },
   plugins: [
     isProduction ? new MiniCssExtractPlugin() : null,

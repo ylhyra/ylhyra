@@ -1,19 +1,19 @@
 const nodeExternals = require("webpack-node-externals");
 const webpack = require("webpack");
 const NodemonPlugin = require("nodemon-webpack-plugin");
-var HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
+// var HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const resolve = require("./resolve");
-
+const shared = require("./shared");
 // const polyfills = resolve('scripts/webpack/utils/config/polyfills.js')
 
 module.exports = {
+  ...shared,
   target: "node",
   devtool: "inline-source-map",
   node: {
     __dirname: true,
     __filename: false,
   },
-  mode: process.env.NODE_ENV,
   entry: {
     ylhyra_server: [/*polyfills,*/ resolve("src/server/index.js")],
   },
@@ -27,23 +27,7 @@ module.exports = {
         ? "[name].development.js"
         : "[name].js",
   },
-  resolve: {
-    modules: [resolve("src/"), resolve("src/server/inflection/"), resolve(".")],
-    extensions: [".js", ".json"],
-  },
   externals: [nodeExternals()],
-  stats: "errors-only",
-  module: {
-    strictExportPresence: true,
-    rules: [
-      {
-        test: /\.js$/,
-        loader: "babel-loader",
-        exclude: /node_modules/,
-        options: require(resolve("babel.config.js")),
-      },
-    ],
-  },
   cache: true,
   plugins: [
     // new HardSourceWebpackPlugin(),

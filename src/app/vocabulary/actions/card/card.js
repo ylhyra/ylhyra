@@ -17,6 +17,7 @@ import { minIgnoreFalsy } from "app/app/functions/math";
 import { days, getTime } from "app/app/functions/time";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 import { matchWords } from "app/app/functions/regexes";
+import phoneticHash from "app/app/functions/phoneticHash";
 
 /** @typedef {string} CardID */
 /** @typedef {string} TermID */
@@ -53,7 +54,7 @@ class Card {
   constructor(data) {
     Object.assign(this, data);
     this.data = data;
-    // this.extractText();
+    this.extractPhoneticHash();
   }
 
   /**
@@ -380,21 +381,26 @@ class Card {
   }
 
   /**
+   * Checks similarity based on (approximate) Cologne phonetics
    * @param {Card} card2
    * @returns {Boolean}
    */
   isTextSimilarTo(card2) {
-    return (
-      _.intersection(this.simplifiedArrayOfWords, card2.simplifiedArrayOfWords)
-        .length > 0
+    return this.phoneticHashArray.some((first) =>
+      card2.phoneticHashArray.some(
+        (second) =>
+          (first.length === second.length ||
+            (first.length >= 3 && second.length >= 3)) &&
+          (first.includes(second) || second.includes(first))
+      )
     );
   }
 
   /**
    * Used for checking for card similarity.
    */
-  extractText() {
-    this.simplifiedArrayOfWords =
+  extractPhoneticHash() {
+    this.phoneticHashArray =
       (
         getPlaintextFromFormatted(this.is_formatted) +
         " " +
@@ -402,19 +408,7 @@ class Card {
       )
         .match(matchWords)
         ?.filter((i) => i.length >= 3)
-        .map((i) => {
-          return (
-            i
-              .toLowerCase()
-              .replaceAll("á", "a")
-              .replaceAll("é", "e")
-              .replaceAll(/[íyý]/g, "i")
-              .replaceAll(/[óö]/g, "o")
-              .replaceAll("ú", "u")
-              /* Remove repeating characters */
-              .replace(/(.)\1+/g, "$1")
-          );
-        }) || [];
+        .map(phoneticHash) || [];
   }
 }
 

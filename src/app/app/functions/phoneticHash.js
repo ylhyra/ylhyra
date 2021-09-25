@@ -1,10 +1,16 @@
-/*
+import {
+  removeDiacritics,
+  removeNonLetters,
+} from "app/app/functions/removeDiacritics";
 
-  Phonetic algorithm for Icelandic, similar to Cologne phonetics
-
-*/
+/**
+ * Phonetic algorithm for Icelandic, similar to Cologne phonetics
+ * @param {string} string
+ * @returns {string}
+ */
 export default (string) => {
-  return string
+  return removeDiacritics(removeNonLetters(string))
+    .toLowerCase()
     .replace(/y/g, "i")
     .replace(/au/g, "o")
     .replace(/sg/g, "sk")

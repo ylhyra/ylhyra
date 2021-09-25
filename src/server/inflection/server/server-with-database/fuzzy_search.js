@@ -6,12 +6,12 @@
 import express from "express";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
-import { remove as remove_diacritics } from "diacritics";
 import Word from "server/inflection/tables/word";
-import phoneticHash from "server/inflection/server/server-with-database/phoneticHash";
+import phoneticHash from "app/app/functions/phoneticHash";
 import { removeLinks } from "server/inflection/tables/link";
 import classify from "server/inflection/tables/classification/BIN_classification";
 import { sort_by_classification } from "server/inflection/tables/classification/sort_by_classification";
+import { removeDiacritics } from "app/app/functions/removeDiacritics";
 
 const router = express.Router();
 require("array-sugar");
@@ -150,10 +150,7 @@ export const cleanInput = (input) => {
 };
 
 export const without_special_characters = (string) => {
-  string =
-    WITHOUT_SPECIAL_CHARACTERS_MARKER +
-    string.replace(/þ/g, "th").replace(/ð/g, "d").replace(/ö/g, "o");
-  return remove_diacritics(string);
+  return WITHOUT_SPECIAL_CHARACTERS_MARKER + removeDiacritics(string);
 };
 
 export const with_spelling_errors = (string) => {
