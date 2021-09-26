@@ -1,9 +1,8 @@
 import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
 import { getCardByText } from "app/vocabulary/actions/card/functions";
-const console = require("console");
+// const console = require("console");
 
 beforeAll(async () => {
-  // global.console = require("console");
   await InitializeVocabulary();
 });
 
@@ -15,8 +14,15 @@ test("siblings", () => {
 
 test("isTextSimilarTo", () => {
   const card1 = getCardByText("Gaman að sjá þig."); // Nice to see you.
-  console.warn(card1.phoneticHashArray);
   expect(card1.phoneticHashArray).not.toBeFalsy();
   const card2 = getCardByText("Það er gott að búa á Íslandi."); // It is nice ...
   expect(card1.isTextSimilarTo(card2)).toBe(true);
+});
+
+test("hasDependenciesInCommonWith", () => {
+  expect(
+    getCardByText("Er vikan þín búin að vera góð?").hasDependenciesInCommonWith(
+      getCardByText("Það er gott að búa á Íslandi.")
+    )
+  ).toBe(true);
 });

@@ -10,7 +10,7 @@ import {
   getCardsByIds,
   getCardsFromTermId,
 } from "app/vocabulary/actions/card/functions";
-import _ from "underscore";
+import _, { uniq } from "underscore";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { minIgnoreFalsy } from "app/app/functions/math";
@@ -401,14 +401,14 @@ class Card {
    */
   extractPhoneticHash() {
     this.phoneticHashArray =
-      (
+      ((
         getPlaintextFromFormatted(this.is_formatted) +
         " " +
         getPlaintextFromFormatted(this.en_formatted)
       )
         .match(matchWords)
         ?.filter((i) => i.length >= 3)
-        .map(phoneticHash) || [];
+        .map(phoneticHash) |> uniq) || [];
   }
 }
 
