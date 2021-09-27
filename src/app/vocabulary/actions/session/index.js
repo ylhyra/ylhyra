@@ -4,10 +4,10 @@ import { updateURL } from "app/router/actions/updateURL";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 import Analytics from "app/app/analytics";
 import { SESSION_PREFIX, setUserData, sync } from "app/vocabulary/actions/sync";
-import { constants } from "app/app/constants";
 import CardInSession from "app/vocabulary/actions/cardInSession";
 import { getCardById } from "app/vocabulary/actions/card/functions";
 import { extendPrototype } from "app/app/functions/extendPrototype";
+import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
@@ -46,7 +46,7 @@ class Session {
     this.currentCard = null;
     this.cards = [];
     this.timeStarted = getTime();
-    this.totalTime = constants.EACH_SESSION_LASTS_X_MINUTES * minutes;
+    this.totalTime = EACH_SESSION_LASTS_X_MINUTES * minutes;
     this.remainingTime = this.totalTime;
     this.lastTimestamp = getTime();
     this.done = false;

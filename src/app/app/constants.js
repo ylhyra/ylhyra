@@ -1,8 +1,3 @@
-/**
- * Constants that may be shown in the user interface.
- */
-export const constants = {
-  EACH_SESSION_LASTS_X_MINUTES: 3,
-  RECOMMENDED_PRICE_IN_US_DOLLARS: 20,
-  PRELOAD_ARTICLES_ON_HOVER: false,
-};
+export const EACH_SESSION_LASTS_X_MINUTES = 3;
+export const RECOMMENDED_PRICE_IN_US_DOLLARS = 20;
+export const PRELOAD_ARTICLES_ON_HOVER = false;
