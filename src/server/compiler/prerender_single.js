@@ -109,7 +109,10 @@ const render = async ({
       "<!--TEMP-->" + header_links + "<!--TEMP-->"
     )
     .replace("<!-- Content -->", output || "")
-    .replace("<!-- Footer items -->", footer_items + "<!-- Remaining CSS -->");
+    .replace(
+      /<!-- Footer items -->(.+)<!-- Footer items end -->/,
+      footer_items + "<!-- Remaining CSS -->"
+    );
 
   if (shouldBeIndexed) {
     html.replace(
