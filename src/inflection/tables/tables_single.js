@@ -14,6 +14,7 @@ export default function getSingleTable({
   give_me,
   column_names,
   row_names,
+  skip_description,
 }) {
   let word = this;
   let description = "";
@@ -126,7 +127,7 @@ export default function getSingleTable({
       sibling_classification.map((i) => link(i)).join(", ")
     );
     let output;
-    if (description) {
+    if (description && !skip_description) {
       output = `<dl class="indent">
         <dt>${description}</dt>
         <dd>${table}</dd>

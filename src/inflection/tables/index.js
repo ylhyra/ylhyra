@@ -30,12 +30,24 @@ export default (rows, options, more_options /* todo: merge */) => {
         give_me,
         column_names,
         row_names,
+        skip_description: options.single,
       });
     } else {
       table = `<b>Error:</b> No rows found with the requested values`;
     }
   } else {
     table = word.getTables();
+  }
+
+  if (options.single) {
+    return `
+      <div class="inflection">
+        ${table}
+        <div class="license">
+          <div>&copy;<a href="https://bin.arnastofnun.is/DMII/LTdata/k-format/" rel="nofollow">BÍN</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="nofollow">CC BY-SA 4.0</a>)</div>
+      </div>
+      </div>
+  `;
   }
 
   return `
