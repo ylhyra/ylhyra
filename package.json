@@ -31,6 +31,7 @@
     "server2": "export NODE_ENV=development && webpack --config scripts/webpack/server.webpack.js --color --watch",
     "server": "export NODE_ENV=development &&  nodemon --exec 'webpack --config scripts/webpack/server.webpack.js --color && node build/server/development/ylhyra_server.development.js' --watch src/server --watch package.json --watch src/documents/compile --watch build/links.json -e js,ts,json",
     "build_all": "./scripts/build_all.sh",
+    "build_all_and_prerender": "npm run build_all && npm run prerender_only",
     "push_to_server": "./scripts/push_to_server.sh",
     "deploy": "./scripts/deploy.sh",
     "audio1": "./scripts/audio_processing/Pronunciation_step_1.sh",

@@ -1,5 +1,4 @@
 import generate_html from "documents/compile";
-import { URL_title } from "app/app/paths";
 import { getValuesForURL } from "server/content/links";
 import { build_folder } from "server/paths_backend";
 import { isDev } from "app/app/functions/isDev";
@@ -16,7 +15,7 @@ router.get(["/api/content", "*"], async (req, res) => {
     input_url = req.query.title;
     type = "json";
   } else {
-    input_url = "/" + req.path;
+    input_url = decodeURI(req.path);
   }
   let values = getValuesForURL(input_url);
   let redirect_to = values.url && input_url !== values.url ? values.url : null;
@@ -33,7 +32,7 @@ router.get(["/api/content", "*"], async (req, res) => {
   if (values?.filename) {
     let { title, filepath, filename, url } = values;
 
-    title = renderTitle(title);
+    // title = renderTitle(title);
 
     if (!isDev) {
       res.set(
@@ -63,8 +62,9 @@ router.get(["/api/content", "*"], async (req, res) => {
           title,
           header,
         });
+      } else if (redirect_to && type === "html") {
+        res.redirect(301, encodeURI(redirect_to));
       } else {
-        /* TODO!!! Redirect */
         fs.readFile(
           path.resolve(build_folder, `./prerender/${filename}.${type}`),
           "utf8",
@@ -72,7 +72,7 @@ router.get(["/api/content", "*"], async (req, res) => {
             // Last-Modified:
             // console.log(err);
             if (err) {
-              send404(res);
+              send404html(res);
             } else {
               return res.send(data);
             }
@@ -84,27 +84,15 @@ router.get(["/api/content", "*"], async (req, res) => {
     if (type === "json") {
       return res.sendStatus(404);
     } else {
-      send404(res);
+      send404html(res);
     }
   }
 });
 
-const send404 = (res) => {
+const send404html = (res) => {
   res
     .status(404)
     .sendFile(path.resolve(build_folder, `./prerender/not-found.html`));
 };
 
 export default router;
-
-export const renderTitle = (input) => {
-  const defaultTitle = "Ylhýra – Learn Icelandic";
-  if (!input) return renderTitle;
-  return (
-    [defaultTitle, ...input.replace(/\/(\d+)$/, " – Part $1").split(/[/:]/g)]
-      .reverse()
-      // // Ignore parts that are just numbers (such as "/article/1/")
-      // .filter((i) => !/^\d+$/.test(i))
-      .join("\u2006•\u2006")
-  );
-};

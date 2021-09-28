@@ -3,3 +3,4 @@
 - greinar
   - TODO að hljóð virki
   - TODO að hover virki (sér að rétt hafi verið parsað)
+  - prófa að URL með sérstöfum virki á server

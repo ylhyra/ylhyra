@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import store from "app/app/store";
 import Router from "app/router";
 import hash from "app/app/functions/hash";
-import { renderTitle } from "server/content";
+import { renderTitle } from "server/content/renderTitle";
 
 var fs = require("fs");
 const path = require("path");

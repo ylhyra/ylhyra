@@ -20,8 +20,7 @@ export default {
     await run.start_vocabulary_session({
       values: [EASY, EASY, EASY, EASY, EASY, EASY, EASY],
     });
-    const e1 = getEasinessLevel();
-    notNull(e1);
+    notNull(getEasinessLevel());
     const checkIfCardsAreAboveEasinessLevel = () => {
       const cardsStillInSession = deck.session.cards.filter(
         (card) =>
@@ -33,10 +32,12 @@ export default {
         cardsStillInSession.length > 0 &&
           cardsStillInSession.every(
             (i) =>
-              i.sortKey >= e1 - DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL
+              i.sortKey >=
+              getEasinessLevel() -
+                DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL
           ),
-        `Expected easiness level to be below ${e1}, got:`,
-        cardsStillInSession.map((i) => i.sortKey)
+        `Expected easiness level to be below ${getEasinessLevel()}, got:`,
+        cardsStillInSession.map((i) => i.sortKey).sort((a, b) => a - b)
       );
     };
     checkIfCardsAreAboveEasinessLevel();

@@ -7,6 +7,7 @@ import Analytics from "app/app/analytics";
 import { isBrowser } from "app/app/functions/isBrowser";
 
 import { getFrontpageURL } from "./index";
+import { renderTitle } from "server/content/renderTitle";
 
 export async function updateURL(url, options = {}) {
   let { title, replace, prerender, is404, dontChangeUrl, isInitializing } =
@@ -44,7 +45,7 @@ export async function updateURL(url, options = {}) {
   }
 
   if (title || replace || isComponent) {
-    window.document.title = (title ? title + "\u2006•\u2006" : "") + "Ylhýra";
+    window.document.title = renderTitle(title);
   }
 
   /*
