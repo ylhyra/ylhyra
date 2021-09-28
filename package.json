@@ -10,7 +10,6 @@
   "private": false,
   "homepage": "https://ylhyra.is",
   "scripts": {
-    "start2": "export BROWSER=none && react-scripts start",
     "start": "export BROWSER=none && export NODE_ENV=development && npx webpack serve --config scripts/webpack/app.webpack.js",
     "links": "./../ylhyra_content/scripts/cleanup.sh && export NODE_ENV=production && npm run build_server && npm run links_only",
     "links_only": "node build/server/ylhyra_server.js --generate-links",
@@ -36,9 +35,10 @@
     "deploy": "./scripts/deploy.sh",
     "audio1": "./scripts/audio_processing/Pronunciation_step_1.sh",
     "audio3": "./scripts/audio_processing/Pronunciation_step_3.sh",
-    "test": "jest --silent",
-    "test_watch": "jest --watch --silent",
-    "integration_test": "node -r esm src/tests/integrationTests/puppeteer.js",
+    "unit_tests": "jest --silent",
+    "unit_tests_watch": "jest --watch --silent",
+    "integration_tests": "npm run build_app && npm run build_server && node -r esm src/tests/integrationTests/puppeteer.js",
+    "integration_tests_only": "node -r esm src/tests/integrationTests/puppeteer.js",
     "start_test_server": "export SERVER_PORT=9999 && node build/server/ylhyra_server.js"
   },
   "proxy": "http://localhost:9123",

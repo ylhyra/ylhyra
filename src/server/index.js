@@ -131,10 +131,8 @@ if (argv["generate-links"]) {
   require("server/compiler/sort_course_chapters.js");
 } else if (argv["prerender"]) {
   require("server/compiler/prerender_all.js");
-} else if (argv["import-inflections"]) {
+} else if (argv["import-inflections"] || argv["generate-search-index"]) {
   // require("server/inflection/server/server-with-database/database/ImportToDatabase.js");
-} else if (argv["generate-search-index"]) {
-  // require("server/inflection/server/server-with-database/database/generateSearchIndex.js");
 } else if (argv["import-vocabulary"]) {
   require("server/vocabulary/compile");
 } else if (argv["generate-sentences"]) {
@@ -149,9 +147,9 @@ if (argv["generate-links"]) {
     }
     if (isDev) {
       console.log(`Running on port ${port}`);
-      exec(
-        `terminal-notifier -group 'ylhyra' -title '🥰🥰🥰' -message 'Server started!'`
-      );
+      // exec(
+      //   `terminal-notifier -group 'ylhyra' -title '🥰🥰🥰' -message 'Server started!'`
+      // );
     }
   });
 }

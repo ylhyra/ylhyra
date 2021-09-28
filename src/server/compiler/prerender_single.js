@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import store from "app/app/store";
 import Router from "app/router";
 import hash from "app/app/functions/hash";
+import { renderTitle } from "server/content";
 
 var fs = require("fs");
 const path = require("path");
@@ -103,7 +104,10 @@ const render = async ({
   }
 
   output = html
-    .replace("<title>", "<title>" + (header?.title ? header.title + " • " : ""))
+    .replace(
+      "<title>(.+)</title>",
+      `<title>${renderTitle(header?.title)}</title>`
+    )
     .replace(
       "<!-- Header items -->",
       "<!--TEMP-->" + header_links + "<!--TEMP-->"

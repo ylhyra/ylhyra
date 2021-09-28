@@ -10,7 +10,7 @@ export default async (getRawSentences) => {
   let i = 1;
   let sortKeys = {}; /* Term to sortKey */
   let sentences = {};
-  content.replace(/data="(.+?)"/g, (x, data) => {
+  content.replace(/data="([^"]+?)"/g, (x, data) => {
     const v = DecodeDataInHTML(data);
     if (!v) return;
     v.terms.forEach((term_id) => {

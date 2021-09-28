@@ -22,8 +22,8 @@ export default async (only_run) => {
       try {
         await toRun[key]();
       } catch (e) {
-        console.trace();
-        console.error(`Error in test "${key}"`, e.toString());
+        !("logToPuppeteer" in window) && console.trace();
+        console.error(`Error in test "${key}": ${e.toString()}`);
         return;
       }
       logger(`%cThe test "${key}" is good!`, "font-size: larger");
