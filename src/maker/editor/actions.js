@@ -3,6 +3,7 @@ import { notify } from "app/app/error";
 import stable_stringify from "json-stable-stringify";
 import axios from "app/app/axios";
 import { route } from "app/router/reducers";
+import { isBrowser } from "app/app/functions/isBrowser";
 
 // import { prettyPrint as relaxedJson } from 'really-relaxed-json'
 // var relaxedJsonParser = require('really-relaxed-json').createParser()
@@ -118,7 +119,9 @@ export const save2 = async () => {
     },
   });
 };
-window.save2 = save2;
+if (isBrowser) {
+  window.save2 = save2;
+}
 
 /*
   "Are you sure you want to close your window?"

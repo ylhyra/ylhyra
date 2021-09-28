@@ -6,6 +6,10 @@ class X extends Component {
   render() {
     const parts = parseInt(this.props.parts);
     const url = this.props.route.pathname;
+    if (!url || url === "/") {
+      console.error(`Part.js received url: ${url}`);
+      return null;
+    }
     const basename = url.replace(/\/(\d+)$/, "") + "/";
     const part = parseInt(url.match(/\/(\d+)$/)?.[1]) || 1;
     let array = [];

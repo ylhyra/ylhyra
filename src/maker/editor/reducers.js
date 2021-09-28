@@ -5,13 +5,14 @@ import MakeList from "documents/parse/Tokenize/List";
 import long_audio from "maker/editor/Long_audio/reducers";
 import short_audio from "maker/editor/Short_audio/reducers";
 import getParameter from "get-parameter";
+import { isBrowser } from "app/app/functions/isBrowser";
 
 let autosave;
 if (typeof window !== "undefined") {
   autosave = require("maker/editor/actions").autosave;
 }
 
-const isOpen = typeof window !== "undefined" ? getParameter("editor") : false;
+const isOpen = isBrowser ? getParameter("editor") : false;
 const open = (state = isOpen, action) => {
   switch (action.type) {
     case "OPEN_EDITOR":

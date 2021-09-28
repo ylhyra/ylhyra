@@ -9,6 +9,7 @@ import store from "app/app/store";
 import Router from "app/router";
 import hash from "app/app/functions/hash";
 import { renderTitle } from "server/content/renderTitle";
+import { URL_title } from "app/app/paths";
 
 var fs = require("fs");
 const path = require("path");
@@ -79,12 +80,12 @@ const render = async ({
     props = { url: title };
   }
 
-  // store.dispatch({
-  //   type: "ROUTE",
-  //   content: {
-  //     pathname: URL_title(title),
-  //   },
-  // });
+  store.dispatch({
+    type: "ROUTE",
+    content: {
+      pathname: URL_title(title),
+    },
+  });
 
   output = ReactDOMServer.renderToStaticMarkup(
     <Provider store={store}>

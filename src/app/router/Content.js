@@ -1,9 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import NotFound from "documents/templates/404";
 import { connect } from "react-redux";
 import Render from "documents/render";
 import { isDev } from "app/app/functions/isDev";
-import RenderEditor from "maker/editor";
+import { isBrowser } from "app/app/functions/isBrowser";
+import Router from "app/router/index";
+const RenderEditor = React.lazy(() => import("maker/editor"));
 
 /**
  * Renders data loaded from server
@@ -19,8 +21,13 @@ class Content extends Component {
     //   /* webpackChunkName: "editor" */
     //   "./maker/editor/index.js"
     //   );
-    if (isDev) {
-      return [Render({ json: parsed }), <RenderEditor key={2} />];
+    if (isDev && isBrowser) {
+      return [
+        Render({ json: parsed }),
+        <Suspense fallback={""} key={2}>
+          <RenderEditor />
+        </Suspense>,
+      ];
     } else {
       return Render({ json: parsed });
     }

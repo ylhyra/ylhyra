@@ -114,7 +114,7 @@ app.set("json spaces", 2);
 // );
 // app.use(
 //   "/",
-//   require("server/inflection/server/server-with-database/route_loader").default
+//   require("inflection/server/server-with-database/route_loader").default
 // );
 
 // get the intended host and port number, use localhost and port 3000 if not provided
@@ -132,7 +132,7 @@ if (argv["generate-links"]) {
 } else if (argv["prerender"]) {
   require("server/compiler/prerender_all.js");
 } else if (argv["import-inflections"] || argv["generate-search-index"]) {
-  // require("server/inflection/server/server-with-database/database/ImportToDatabase.js");
+  // require("inflection/server/server-with-database/database/ImportToDatabase.js");
 } else if (argv["import-vocabulary"]) {
   require("server/vocabulary/compile");
 } else if (argv["generate-sentences"]) {

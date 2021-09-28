@@ -1,6 +1,6 @@
 import React from "react";
 // import Inflection from 'documents/Render/Elements/Inflection'
-// import classify from 'server/inflection/tables/classification/BIN_classification.js'
+// import classify from 'inflection/tables/classification/BIN_classification.js'
 const url = "";
 let cache = {};
 

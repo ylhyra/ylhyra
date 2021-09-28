@@ -9,11 +9,12 @@
 
 import { receiveSuggestions } from "maker/editor/Suggestions";
 import store from "app/app/store";
+import { isBrowser } from "app/app/functions/isBrowser";
 
 const protocol = process.env.NODE_ENV === "production" ? "wss" : "ws";
 // import {host} from 'app/index.js'
 const host =
-  process.env.NODE_ENV === "production"
+  isBrowser && process.env.NODE_ENV === "production"
     ? window.location.host
     : "localhost:9123";
 let socket;

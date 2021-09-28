@@ -9,6 +9,8 @@ import Inflections from "maker/editor/Inflections";
 import Sound from "maker/editor/Short_audio";
 import { openEditor } from "maker/editor/actions";
 import { isDev } from "app/app/functions/isDev";
+import { isBrowser } from "app/app/functions/isBrowser";
+import store from "app/app/store";
 
 @connect((state) => ({
   editor: state.editor,
@@ -40,7 +42,7 @@ class Editor extends React.PureComponent {
 }
 
 const RenderEditor = () => {
-  if (!isDev) return null;
+  if (!isDev || !isBrowser) return null;
   if (!store.getState().editor.tokenized?.length > 0) return null;
 
   return (
