@@ -1,9 +1,11 @@
+import { sortBy } from "app/app/functions/sortBy";
+
 /**
  * @param {Array.<Card>} cards
  * @returns {Array.<Card>}
  */
 export const oldestFirst = (cards) => {
-  return cards.sort((a, b) => a.getTermLastSeen() - b.getTermLastSeen());
+  return sortBy(cards, (i) => i.getTermLastSeen());
 };
 
 /**
@@ -18,8 +20,16 @@ export const newestFirst = (cards) => {
  * @param {Array.<Card>} cards
  * @returns {Array.<Card>}
  */
+export const veryRecentlySeenSortedLast = (cards) => {
+  return sortBy(cards, (i) => i.wasTermVeryRecentlySeen());
+};
+
+/**
+ * @param {Array.<Card>} cards
+ * @returns {Array.<Card>}
+ */
 export const sortCardsByScore = (cards) => {
-  return cards.sort((a, b) => a.getScore() - b.getScore());
+  return sortBy(cards, (i) => i.getScore());
 };
 
 /**

@@ -24,7 +24,10 @@ export default () => {
     .filter((card) => card.isAllowed())
     .sort((a, b) => a.getDue() - b.getDue())
     .forEach((card) => {
-      if (card.getDue() < getTime() + 16 * hours) {
+      if (
+        card.getDue() < getTime() + 16 * hours &&
+        !card.wasTermVeryRecentlySeen()
+      ) {
         if (card.isBelowGood()) {
           overdue_bad.push(card);
         } else {

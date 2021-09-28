@@ -103,7 +103,7 @@ export function createSchedule() {
 
     card.setSchedule(
       /** @type ScheduleData */ {
-        due: getTime() + daysToMs(addSomeRandomness(due_in_days)),
+        due: Math.round(getTime() + daysToMs(addSomeRandomness(due_in_days))),
         last_interval_in_days: Math.round(due_in_days),
         score: roundToSignificantDigits(score, -2),
         last_seen: getTime(),
@@ -129,7 +129,7 @@ export function createSchedule() {
           const actualDue = sibling_card.getDue();
           if (!actualDue || actualDue < newDue) {
             sibling_card.setSchedule({
-              due: newDue,
+              due: Math.round(newDue),
             });
             log(`${sibling_card.printWord()} postponed`);
           }

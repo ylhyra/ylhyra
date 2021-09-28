@@ -1,5 +1,8 @@
 import { CARDS_TO_CREATE } from "app/vocabulary/actions/createCards/index";
-import { sortCardsByScore } from "app/vocabulary/actions/createCards/functions";
+import {
+  sortCardsByScore,
+  veryRecentlySeenSortedLast,
+} from "app/vocabulary/actions/createCards/functions";
 import { log } from "app/app/functions/log";
 import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
 import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
@@ -43,6 +46,12 @@ export default () => {
     newCardEvery = 20;
   }
 
+  console.log({
+    overdue_good,
+    overdue_bad,
+    new_cards,
+  });
+
   /*
     Loop to select chosen cards
   */
@@ -57,35 +66,41 @@ export default () => {
     if (!isEmpty(overdue_bad)) {
       chosen_cards.push(overdue_bad.shift());
     }
-    if (i % newCardEvery === 0 && !isEmpty(new_cards)) {
+    if (
+      (i % newCardEvery === 0 ||
+        (isEmpty(overdue_good) && isEmpty(overdue_bad))) &&
+      !isEmpty(new_cards)
+    ) {
       chosen_cards.push(new_cards.shift());
     }
 
-    /* Occasionally show a bad card that the user saw in the last session */
-    if (i % 4 === 2) {
-      if (!isEmpty(very_recently_seen_not_overdue_bad)) {
-        log(
-          `Very recently seen word "${very_recently_seen_not_overdue_bad[0].printWord()}" added`
-        );
-        chosen_cards.push(very_recently_seen_not_overdue_bad.shift());
-      }
-    }
+    // /* Occasionally show a bad card that the user saw in the last session */
+    // if (i % 4 === 2 && chosen_cards.length > 4) {
+    //   if (!isEmpty(very_recently_seen_not_overdue_bad)) {
+    //     log(
+    //       `Very recently seen word "${very_recently_seen_not_overdue_bad[0].printWord()}" added`
+    //     );
+    //     chosen_cards.push(very_recently_seen_not_overdue_bad.shift());
+    //   }
+    // }
 
-    /* Not overdue bad cards */
-    if ((isEmpty(overdue_good) && isEmpty(overdue_bad)) || i % 2 === 1) {
-      if (!isEmpty(not_overdue_bad)) {
-        log(`Not overdue bad card "${not_overdue_bad[0].printWord()}" added`);
-        chosen_cards.push(not_overdue_bad.shift());
+    if (chosen_cards.length > 10) {
+      /* Not overdue bad cards */
+      if ((isEmpty(overdue_good) && isEmpty(overdue_bad)) || i % 2 === 1) {
+        if (!isEmpty(not_overdue_bad)) {
+          log(`Not overdue bad card "${not_overdue_bad[0].printWord()}" added`);
+          chosen_cards.push(not_overdue_bad.shift());
+        }
       }
-    }
 
-    /* Not overdue good cards */
-    if (isEmpty(overdue_good) && isEmpty(overdue_bad)) {
-      if (i % 4 === 4 - 1 && !isEmpty(not_overdue_semi_bad)) {
-        log(
-          `Not overdue good card "${not_overdue_semi_bad[0].printWord()}" added`
-        );
-        chosen_cards.push(not_overdue_semi_bad.shift());
+      /* Not overdue good cards */
+      if (isEmpty(overdue_good) && isEmpty(overdue_bad)) {
+        if (i % 4 === 4 - 1 && !isEmpty(not_overdue_semi_bad)) {
+          log(
+            `Not overdue good card "${not_overdue_semi_bad[0].printWord()}" added`
+          );
+          chosen_cards.push(not_overdue_semi_bad.shift());
+        }
       }
     }
   }
@@ -95,7 +110,9 @@ export default () => {
    * we simply return cards that are not overdue.
    */
   if (chosen_cards.length === 0) {
-    chosen_cards = sortCardsByScore(not_overdue);
+    chosen_cards =
+      not_overdue |> sortCardsByScore |> veryRecentlySeenSortedLast;
+    console.error("No cards generated. Falling back to all cards.");
   }
 
   return chosen_cards;

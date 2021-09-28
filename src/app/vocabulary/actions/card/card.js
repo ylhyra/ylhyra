@@ -14,7 +14,7 @@ import _, { uniq } from "underscore";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { minIgnoreFalsy } from "app/app/functions/math";
-import { days, getTime } from "app/app/functions/time";
+import { days, getTime, hours } from "app/app/functions/time";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 import { matchWords } from "app/app/functions/languageProcessing/regexes";
 import phoneticHash from "app/app/functions/languageProcessing/phoneticHash";
@@ -183,6 +183,14 @@ class Card {
    */
   getLastSeen() {
     return this.getSchedule()?.last_seen;
+  }
+
+  /**
+   * @returns {?Boolean}
+   */
+  wasTermVeryRecentlySeen() {
+    const minutesSinceTermWasSeen = this.daysSinceTermWasSeen() / (24 * 60);
+    return minutesSinceTermWasSeen && minutesSinceTermWasSeen < 30;
   }
 
   /**

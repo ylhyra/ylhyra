@@ -13,14 +13,15 @@ export default (chosen_cards) => {
       !card.isInSession() &&
       /* Keep in those already chosen */
       (card.isIn(chosen_cards) ||
-        /* Include bad dependencies */
-        card.isFairlyBad() ||
-        /* And dependencies that are not well known and close
+        (!card.wasTermVeryRecentlySeen() &&
+          /* Include bad dependencies */
+          (card.isFairlyBad() ||
+            /* And dependencies that are not well known and close
            to the difficulty level of the chosen cards */
-        (card.isTermUnknownOrNotGood() &&
-          (card.sortKey >= lowestBadCardSortKey ||
-            card.sortKey >=
-              lowestSortKeyOfChosenCards -
-                DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL)))
+            (card.isTermUnknownOrNotGood() &&
+              (card.sortKey >= lowestBadCardSortKey ||
+                card.sortKey >=
+                  lowestSortKeyOfChosenCards -
+                    DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL)))))
   );
 };
