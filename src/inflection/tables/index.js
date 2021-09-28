@@ -20,7 +20,7 @@ export default (rows, options, more_options /* todo: merge */) => {
   // const word = (new Word()).importTree(rows)
   // console.log(word)
   let table;
-  if (give_me || column_names || row_names) {
+  if (give_me || column_names || row_names || options.single) {
     give_me = clean__temporary(give_me);
     column_names = cleanRowOrColum__temporary(column_names);
     row_names = cleanRowOrColum__temporary(row_names);

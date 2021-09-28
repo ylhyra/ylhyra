@@ -5,6 +5,7 @@ import WithHeaderAndFooter from "documents/compile/templates/HeaderAndFooter";
 import Sections from "documents/compile/templates/Sections";
 import Table from "documents/compile/templates/Table";
 import { Ref } from "documents/compile/templates/Ref";
+import inflection from "documents/compile/templates/inflection";
 
 export default async (title) => {
   let { output, header } = await TranscludeFromTitle(title);
@@ -20,6 +21,7 @@ export default async (title) => {
   output = await images(output);
   output = markdown_to_html(output);
   output = await WithHeaderAndFooter(output, header);
+  output = await inflection(output);
   output = `<div class="content-wrapper ${
     header.classes?.join(" ") || ""
   }">${output}</div>`;

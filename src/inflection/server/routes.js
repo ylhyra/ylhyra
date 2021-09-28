@@ -14,9 +14,6 @@ import layout from "inflection/server/views/layout";
 
 const router = express.Router();
 
-/**
- * @param {boolean} use_database
- */
 export default (Search, Get_by_id) => {
   /*
     API

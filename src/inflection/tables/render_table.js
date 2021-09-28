@@ -1,6 +1,8 @@
-import link, { ucfirst } from "inflection/tables/link";
+import link from "inflection/tables/link";
 import Word, { WordFromTree } from "inflection/tables/word";
 import { flatten } from "lodash";
+import { ucfirst } from "app/app/functions/ucfirst";
+import { removeHtmlWhitespace } from "app/app/functions/removeHtmlWhitespace";
 
 /*
   Wrapper for "RenderTable", creates two alternative versions of the input,
@@ -96,7 +98,7 @@ const RenderTable = (input, original_word, structure, highlight) => {
     });
     table.push(column);
   });
-  return TableHTML(table, highlight);
+  return removeHtmlWhitespace(TableHTML(table, highlight));
 };
 
 const TableHTML = (rows, highlight = []) => {

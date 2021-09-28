@@ -3,6 +3,7 @@ import { URL_title } from "app/app/paths";
 import Transclude from "documents/compile/transclude";
 import { EncodeDataInHTML } from "documents/compile/functions/functions";
 import { parseVocabularyList } from "documents/compile/vocabulary";
+import { replaceAsync } from "app/app/functions/replaceAsync";
 
 export default async (text) => {
   if (!/<TOC>/.test(text)) return text;
@@ -36,14 +37,3 @@ export default async (text) => {
   );
   return `<div class="toc">${text}</div>`;
 };
-
-// https://stackoverflow.com/questions/33631041/javascript-async-await-in-replace
-async function replaceAsync(str, regex, asyncFn) {
-  const promises = [];
-  str.replace(regex, (match, ...args) => {
-    const promise = asyncFn(match, ...args);
-    promises.push(promise);
-  });
-  const data = await Promise.all(promises);
-  return str.replace(regex, () => data.shift());
-}

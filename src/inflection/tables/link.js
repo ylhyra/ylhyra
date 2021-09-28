@@ -1,4 +1,5 @@
 import { getTagInfo } from "inflection/tables/classification/classification";
+import { ucfirst } from "app/app/functions/ucfirst";
 
 /*
   Creates a link from our labels to relevant Ylhýra pages
@@ -48,15 +49,12 @@ export const stripHTML = (string) => {
   );
 };
 
-export const ucfirst = (input) =>
-  input?.charAt(0).toUpperCase() + input.slice(1);
-
 export const ucfirst_link = (input) =>
-  (input = input.replace(/^(?:<a .+?>)?(.)/, (part) => {
+  input.replace(/^(?:<a .+?>)?(.)/, (part) => {
     let split = part.split("");
     split[split.length - 1] = ucfirst(split[split.length - 1]);
     return split.join("");
-  }));
+  });
 
 let missing_links = [
   "irregular inflection",
