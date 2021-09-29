@@ -158,9 +158,10 @@ process.on("SIGINT", function () {
   process.exit(0);
 });
 
+notifyOfError("Hæ hæ :)");
+
 /* Error notifications */
 process.on("uncaughtException", (err) => {
-  console.log({ isDev, NOTIFY_APP_KEY: process.env.NOTIFY_APP_KEY });
   if (isDev) {
     exec(
       `terminal-notifier -group 'ylhyra' -title '⚠️' -message 'Server has crashed'`
