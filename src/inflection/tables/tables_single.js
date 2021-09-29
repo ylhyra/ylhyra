@@ -2,6 +2,7 @@ import RenderTable from "inflection/tables/render_table";
 import { flatten, without } from "lodash";
 import { types } from "inflection/tables/classification/classification";
 import link, { ucfirst_link } from "inflection/tables/link";
+import { getWordDescription } from "inflection/tables/functions/wordDescription";
 
 /**
  * Finds a single relevant table
@@ -130,11 +131,13 @@ export default function getSingleTable({
       sibling_classification.map((i) => link(i)).join(", ")
     );
     let output;
-    if (description /*&& !skip_description*/) {
-      output = `<dl class="indent">
-        <dt>${description}</dt>
-        <dd>${table}</dd>
-      </dl>`;
+    if (description && !skip_description) {
+      output = `
+        ${word.renderBaseWord()}
+        <div class="word_description">${word.getWordDescription()}</div>
+        ${description}
+        ${table}
+        `;
     } else {
       output = table;
     }

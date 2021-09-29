@@ -23,7 +23,13 @@ const AlsoMakeTablesThatFitOnSmallScreens = (
   let differentOnSmallerScreens = column_names.length > 1;
   output +=
     `<div class="${differentOnSmallerScreens ? "for_large_screens" : ""}">` +
-    RenderTable(input, original_word, { column_names, row_names }, highlight) +
+    RenderTable(
+      input,
+      original_word,
+      { column_names, row_names },
+      highlight,
+      options
+    ) +
     "</div>";
 
   if (differentOnSmallerScreens) {
@@ -38,7 +44,8 @@ const AlsoMakeTablesThatFitOnSmallScreens = (
               column_names: [column_name],
               row_names,
             },
-            highlight
+            highlight,
+            options
           );
         })
         .join("") +

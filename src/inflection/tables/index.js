@@ -50,13 +50,7 @@ export default (rows, options, more_options /* todo: merge */) => {
   return `
     <div class="inflection">
       <div class="main">
-        <h4 class="base_word">
-          ${
-            // TODO: Generate base word instead of this
-            word.is("verb") ? `<span class=gray>að</span>` : ""
-          }
-          ${word.getBaseWord()}
-        </h4>
+        ${word.renderBaseWord()}
         <div class="word_description">${word.getWordDescription()}</div>
         <div>${word.getWordNotes()}</div>
         <div class="principal_parts">${

@@ -95,6 +95,14 @@ class Word {
       (this.original.rows.length > 0 && this.original.rows[0].base_word) || ""
     );
   }
+
+  renderBaseWord() {
+    return `<h4 class="base_word">
+      ${this.is("verb") ? `<span class=gray>að</span>` : ""}
+      ${this.getBaseWord()}
+    </h4>`;
+  }
+
   getIsWordIrregular() {
     return this.original.wordIsIrregular;
   }

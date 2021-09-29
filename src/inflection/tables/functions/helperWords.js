@@ -127,7 +127,7 @@ export function getHelperWordsAfter() {
         text = this.dependingOnGender("mínum", "minni", "mínu");
       }
       if (this.is("genitive")) {
-        text = this.dependingOnGender("minns", "minnar", "míns");
+        text = this.dependingOnGender("míns", "minnar", "míns");
       }
     } else if (this.is("plural")) {
       if (this.is("nominative")) {

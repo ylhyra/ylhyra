@@ -1,5 +1,6 @@
 import { getTagInfo } from "inflection/tables/classification/classification";
 import { ucfirst } from "app/app/functions/ucfirst";
+import { URL_title } from "app/app/paths";
 
 /*
   Creates a link from our labels to relevant Ylhýra pages
@@ -28,9 +29,7 @@ export default (link, label) => {
     return label;
   }
 
-  const url =
-    "https://ylhyra.is/" +
-    encodeURIComponent(ucfirst(link.trim().replace(/( )/g, "_")));
+  const url = "https://ylhyra.is" + encodeURI(URL_title(link));
   return `<a class="plainlink" target="_blank" href="${url}">${label}</a>`;
 };
 
