@@ -59,8 +59,8 @@ class Overview extends Component {
         {/*        </div>*/}
         {/*      );*/}
         {/*    })}*/}
-          </div>
-        )}
+        {/*  </div>*/}
+        {/*)}*/}
 
         <button className="small" onClick={() => studyNewTerms()}>
           Show me new terms
