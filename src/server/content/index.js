@@ -18,7 +18,13 @@ router.get(["/api/content", "*"], async (req, res) => {
     input_url = decodeURI(req.path);
   }
   let values = getValuesForURL(input_url);
-  let redirect_to = values.url && input_url !== values.url ? values.url : null;
+  let redirect_to;
+  if (
+    values.url &&
+    input_url.replaceAll("/", "") !== values.url.replaceAll("/", "")
+  ) {
+    redirect_to = values.url;
+  }
 
   /* Turn off indexing for testing site */
   if (req.subdomains.includes("test")) {

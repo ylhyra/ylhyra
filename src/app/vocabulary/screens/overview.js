@@ -35,30 +35,30 @@ class Overview extends Component {
             </div>
           )}
         </div>
-        <Spacer space="70" />
-        <hr />
-        {deck && (
-          <div>
-            <b>Status by level</b>
-            {[1, 2, 3].map((level) => {
-              const cards = deck.cards_sorted.filter((c) => c.level === level);
-              const ids = cards.map((c) => c.id);
-              const level_name = ["A1", "A2", "B1"][level - 1];
-              if (cards.length === 0) return null;
-              return (
-                <div key={level}>
-                  {PercentageKnown(ids)}% known in level{" "}
-                  <Link href={"/" + level_name}>{level_name}</Link> (out of{" "}
-                  {countTerms(cards)} terms).{" "}
-                  <button
-                    className="small"
-                    onClick={() => studyParticularIds(ids)}
-                  >
-                    Study
-                  </button>
-                </div>
-              );
-            })}
+        {/*<Spacer space="70" />*/}
+        {/*<hr />*/}
+        {/*{deck && (*/}
+        {/*  <div>*/}
+        {/*    <b>Status by level</b>*/}
+        {/*    {[1, 2, 3].map((level) => {*/}
+        {/*      const cards = deck.cards_sorted.filter((c) => c.level === level);*/}
+        {/*      const ids = cards.map((c) => c.id);*/}
+        {/*      const level_name = ["A1", "A2", "B1"][level - 1];*/}
+        {/*      if (cards.length === 0) return null;*/}
+        {/*      return (*/}
+        {/*        <div key={level}>*/}
+        {/*          {PercentageKnown(ids)}% known in level{" "}*/}
+        {/*          <Link href={"/" + level_name}>{level_name}</Link> (out of{" "}*/}
+        {/*          {countTerms(cards)} terms).{" "}*/}
+        {/*          <button*/}
+        {/*            className="small"*/}
+        {/*            onClick={() => studyParticularIds(ids)}*/}
+        {/*          >*/}
+        {/*            Study*/}
+        {/*          </button>*/}
+        {/*        </div>*/}
+        {/*      );*/}
+        {/*    })}*/}
           </div>
         )}
 

@@ -158,8 +158,6 @@ process.on("SIGINT", function () {
   process.exit(0);
 });
 
-notifyOfError("Hæ hæ :)");
-
 /* Error notifications */
 process.on("uncaughtException", (err) => {
   if (isDev) {
