@@ -190,7 +190,7 @@ class Card {
    */
   wasTermVeryRecentlySeen() {
     const minutesSinceTermWasSeen = this.daysSinceTermWasSeen() / (24 * 60);
-    return minutesSinceTermWasSeen && minutesSinceTermWasSeen < 30;
+    return minutesSinceTermWasSeen && minutesSinceTermWasSeen < 45;
   }
 
   /**
@@ -395,12 +395,12 @@ class Card {
    */
   isTextSimilarTo(card2) {
     return this.phoneticHashArray.some((first) =>
-      card2.phoneticHashArray.some(
-        (second) =>
-          (first.length === second.length ||
-            (first.length >= 3 && second.length >= 3)) &&
-          (first.includes(second) || second.includes(first))
-      )
+      card2.phoneticHashArray.some((second) => {
+        return first === second;
+        // (first.length === second.length ||
+        //   (first.length >= 3 && second.length >= 3)) &&
+        // (first.includes(second) || second.includes(first))
+      })
     );
   }
 

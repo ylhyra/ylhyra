@@ -47,8 +47,6 @@ export default () => {
     overdue_good: overdue_good |> shuffleLocally,
     not_overdue_bad: not_overdue_bad |> oldestFirst |> shuffleLocally,
     not_overdue_semi_bad: not_overdue_semi_bad |> oldestFirst |> shuffleLocally,
-    very_recently_seen_not_overdue_bad:
-      not_overdue_bad |> newestFirst |> shuffleLocally,
     not_overdue,
   };
 };

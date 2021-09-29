@@ -18,8 +18,6 @@ export default () => {
     /** @type {Array.<Card>} */
     not_overdue_semi_bad,
     /** @type {Array.<Card>} */
-    very_recently_seen_not_overdue_bad,
-    /** @type {Array.<Card>} */
     not_overdue,
   } = OldCards();
 
@@ -37,13 +35,13 @@ export default () => {
     new_cards
   );
 
-  let newCardEvery = 3;
+  let newCardEvery = 2;
   let bad_count = sumOfArrayLengths(overdue_bad, not_overdue_bad);
   if (bad_count > 15) {
-    newCardEvery = 5;
+    newCardEvery = 3;
   }
   if (bad_count > 40) {
-    newCardEvery = 20;
+    newCardEvery = 6;
   }
 
   console.log({
@@ -74,16 +72,6 @@ export default () => {
       chosen_cards.push(new_cards.shift());
     }
 
-    // /* Occasionally show a bad card that the user saw in the last session */
-    // if (i % 4 === 2 && chosen_cards.length > 4) {
-    //   if (!isEmpty(very_recently_seen_not_overdue_bad)) {
-    //     log(
-    //       `Very recently seen word "${very_recently_seen_not_overdue_bad[0].printWord()}" added`
-    //     );
-    //     chosen_cards.push(very_recently_seen_not_overdue_bad.shift());
-    //   }
-    // }
-
     if (chosen_cards.length > 10) {
       /* Not overdue bad cards */
       if ((isEmpty(overdue_good) && isEmpty(overdue_bad)) || i % 2 === 1) {
@@ -111,7 +99,9 @@ export default () => {
    */
   if (chosen_cards.length === 0) {
     chosen_cards =
-      not_overdue |> sortCardsByScore |> veryRecentlySeenSortedLast;
+      [...not_overdue_bad, ...not_overdue_semi_bad, ...not_overdue]
+      |> sortCardsByScore
+      |> veryRecentlySeenSortedLast;
     console.error("No cards generated. Falling back to all cards.");
   }
 

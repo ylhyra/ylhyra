@@ -1,4 +1,4 @@
-import { sortBy } from "app/app/functions/sortBy";
+import { sortBy } from "underscore";
 
 /**
  * @param {Array.<Card>} cards

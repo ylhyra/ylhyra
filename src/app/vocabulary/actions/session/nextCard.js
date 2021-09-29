@@ -1,6 +1,6 @@
 import { printWord } from "app/vocabulary/actions/functions";
 import { isDev } from "app/app/functions/isDev";
-
+import _ from "underscore";
 const LOGGING = false;
 
 /**
@@ -26,16 +26,13 @@ export function nextCard(depth = 0) {
     this.checkIfCardsRemaining();
   }
 
-  let ranked = this.cards
-    .slice()
-    .sort((a, b) => a.getRanking() - b.getRanking());
-  this.currentCard = ranked[0];
+  this.currentCard = _.min(this.cards, (i) => i.getRanking());
 
   /* Logging */
   if ((LOGGING || window.logging) && isDev) {
     const { deck } = this;
     console.table(
-      ranked.map((i) => ({
+      _.sortBy(this.cards, (i) => i.getRanking()).map((i) => ({
         Rank: Math.round(i.getRanking()),
         Queue: i.absoluteQueuePosition - i.session.counter,
         Prohib: (i.cannotBeShownBefore || 0) - i.session.counter,

@@ -68,6 +68,7 @@ export function postponeRelatedCards(card1interval) {
       log(
         `"${card2.printWord()}" postponed as it's similar to "${card1.printWord()}"`
       );
+      log(card2.phoneticHashArray, card1.phoneticHashArray);
     }
   });
 }

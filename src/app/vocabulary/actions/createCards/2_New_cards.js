@@ -1,7 +1,7 @@
 import { isEasinessLevelOn } from "app/vocabulary/actions/easinessLevel/functions";
 import { deck } from "app/vocabulary/actions/deck";
 import { veryRecentlySeenSortedLast } from "app/vocabulary/actions/createCards/functions";
-import { sortBy } from "app/app/functions/sortBy";
+import { sortBy } from "underscore";
 
 /**
  * @returns {Card[]}

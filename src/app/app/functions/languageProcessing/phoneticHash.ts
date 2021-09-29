@@ -11,7 +11,6 @@ export default (string: string): string => {
   return (
     removeDiacritics(removeNonLetters(string))
       .toLowerCase()
-      .replace(/y/g, "i")
       .replace(/au/g, "o")
       .replace(/sg/g, "sk")
       .replace(/hv/g, "kv")
@@ -27,9 +26,10 @@ export default (string: string): string => {
       .replace(/[z]/g, "s")
       .replace(/(sh)/g, "s")
       .replace(/(sc)/g, "s")
-      .replace(/c([eiy])/g, "k$1")
+      .replace(/c([eiyo])/g, "k$1")
       .replace(/c/g, "s")
 
+      .replace(/y/g, "i")
       .replace(/[aeiouyj]/g, "a")
       .replace(/(th|dh|d|t|h)/g, "d")
       .replace(/[fvw]/g, "v")
@@ -38,6 +38,6 @@ export default (string: string): string => {
       .replace(/(l|dl)/g, "l")
       .replace(/[mn]/g, "n")
       .replace(/[rs]/g, "s")
-      .replace(/([^\w\s])|(.)(?=\2)/g, "")
-  ); // Remove two in a row
+      .replace(/([^\w\s])|(.)(?=\2)/g, "") // Remove two in a row
+  );
 };
