@@ -84,6 +84,12 @@ class Word {
   getId() {
     return this.original.rows.length > 0 && this.original.rows[0].BIN_id;
   }
+  getURL() {
+    return `https://inflections.ylhyra.is/${encodeURIComponent(
+      this.getBaseWord()
+    )}/${this.getId()}`;
+  }
+
   getBaseWord() {
     return (
       (this.original.rows.length > 0 && this.original.rows[0].base_word) || ""

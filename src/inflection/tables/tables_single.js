@@ -121,13 +121,16 @@ export default function getSingleTable({
       siblings,
       word.getOriginal(),
       { column_names, row_names },
-      give_me
+      give_me,
+      {
+        linkWords: true,
+      }
     );
     description = ucfirst_link(
       sibling_classification.map((i) => link(i)).join(", ")
     );
     let output;
-    if (description && !skip_description) {
+    if (description /*&& !skip_description*/) {
       output = `<dl class="indent">
         <dt>${description}</dt>
         <dd>${table}</dd>
@@ -135,11 +138,18 @@ export default function getSingleTable({
     } else {
       output = table;
     }
+    // <a href="https://inflections.ylhyra.is/${encodeURIComponent(
+    //   word.getBaseWord()
+    // )}/${word.getId()}">Show all</a>
     return (
       output +
-      `<a href="https://inflections.ylhyra.is/${encodeURIComponent(
-        word.getBaseWord()
-      )}/${word.getId()}"><b>Show all tables</b></a>`
+      `
+        <div class="table-below">
+          <div class="license-small">
+            <div><a href="https://ylhyra.is/project/inflections">&copy; BÍN</a></div>
+          </div>
+        </div>
+      `
     );
   }
 }

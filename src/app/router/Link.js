@@ -29,6 +29,9 @@ class Link extends React.Component {
     if (href.startsWith("//")) {
       console.error(`Typo in href found: "${href}" in route "${route}"`);
     }
+    if (href.startsWith("https://ylhyra.is/")) {
+      href = href.replace("https://ylhyra.is", "");
+    }
     // if (href.startsWith("/")) {
     //   href = URL_title(href);
     // }

@@ -90,10 +90,12 @@ export default async (input, header) => {
 
         ${
           header.license === "CC0" &&
-          c`<div class="license">You are free to republish this article <span class="license-link">(<a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="noopener" target="_blank">CC0 / public domain</a>${
+          c`<div class="license">You are free to republish this article <span class="license-link">(${
+            input.includes("<Inflection") && "Text: "
+          }<a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="noopener" target="_blank">CC0 / public domain</a>${
             input.includes("<Inflection") &&
-            ', <a href="https://bin.arnastofnun.is/DMII/LTdata/k-format/" rel="nofollow">BÍN</a> tables: <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="nofollow">CC BY-SA 4.0</a>'
-          }</span></div>`
+            '; <a href="https://bin.arnastofnun.is/DMII/LTdata/k-format/" rel="nofollow">BÍN</a> tables: <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="nofollow">CC BY-SA 4.0</a>'
+          })</span></div>`
         }
         ${
           header.published &&

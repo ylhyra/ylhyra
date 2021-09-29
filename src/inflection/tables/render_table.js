@@ -13,7 +13,8 @@ const AlsoMakeTablesThatFitOnSmallScreens = (
   input,
   original_word,
   structure,
-  highlight
+  highlight,
+  options
 ) => {
   let { column_names, row_names } = structure;
   column_names = column_names || [null];
@@ -67,7 +68,7 @@ export default AlsoMakeTablesThatFitOnSmallScreens;
  *   }
  * @returns {string} HTML string
  */
-const RenderTable = (input, original_word, structure, highlight) => {
+const RenderTable = (input, original_word, structure, highlight, options) => {
   const { column_names, row_names } = structure;
   let word;
   if (input instanceof Word) {
@@ -98,10 +99,10 @@ const RenderTable = (input, original_word, structure, highlight) => {
     });
     table.push(column);
   });
-  return removeHtmlWhitespace(TableHTML(table, highlight));
+  return removeHtmlWhitespace(TableHTML(table, highlight, options));
 };
 
-const TableHTML = (rows, highlight = []) => {
+const TableHTML = (rows, highlight = [], options) => {
   return `
     <table class="table">
       <tbody>
@@ -114,7 +115,7 @@ const TableHTML = (rows, highlight = []) => {
                 if (cell instanceof Word) {
                   const shouldHighlight =
                     highlight?.length > 0 ? cell.is(...highlight) : true;
-                  return renderCell(cell, shouldHighlight);
+                  return renderCell(cell, shouldHighlight, options);
                 } else {
                   let isCellToTheLeftEmpty =
                     rows[row_index][column_index - 1] === null;
@@ -142,7 +143,7 @@ const TableHTML = (rows, highlight = []) => {
   `;
 };
 
-export const renderCell = (word, shouldHighlight) => {
+export const renderCell = (word, shouldHighlight, options) => {
   /* No value */
   if (word.rows.length === 0) {
     return '<td colSpan="2">–</td>';
@@ -170,7 +171,9 @@ export const renderCell = (word, shouldHighlight) => {
       shouldHighlight ? "highlight" : ""
     }"><span class="gray">${word.getHelperWordsBefore()}</span></td>
     <td class="left ${shouldHighlight ? "highlight" : ""}">
-      <b>${value}</b><span class="gray">${word.getHelperWordsAfter()}</span>
+      <b>${
+        options?.linkWords ? `<a href="${word.getURL()}">${value}</a>` : value
+      }</b><span class="gray">${word.getHelperWordsAfter()}</span>
     </td>
   `;
 };
