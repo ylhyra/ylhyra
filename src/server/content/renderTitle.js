@@ -1,6 +1,6 @@
 export const renderTitle = (input) => {
   const defaultTitle = "Ylhýra – Learn Icelandic";
-  if (!input) return renderTitle;
+  if (!input) return defaultTitle;
   return (
     [defaultTitle, ...input.replace(/\/(\d+)$/, " – Part $1").split(/[/:]/g)]
       .reverse()

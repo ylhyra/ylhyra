@@ -9,6 +9,7 @@
 - ef maður skráir sig inn, blanda progress
 - loadnewcards ætti að hunsa spjöld sem dependa á nýleg spjöld
 - fjarlægja sortbyallowed_ids
+- Reyna að blanda setningum og orðum?
 
 ### Annað
 
@@ -20,6 +21,7 @@
 - database backup
 - prófa redirects á server
 - laga egg í áskrift
+- ekki redirecta af frontpage
 
 # uppfæra í gagnagrunni
 

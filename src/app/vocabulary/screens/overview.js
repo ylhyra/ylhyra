@@ -35,7 +35,7 @@ class Overview extends Component {
             </div>
           )}
         </div>
-        {/*<Spacer space="70" />*/}
+        <Spacer space="70" />
         {/*<hr />*/}
         {/*{deck && (*/}
         {/*  <div>*/}
@@ -62,9 +62,11 @@ class Overview extends Component {
         {/*  </div>*/}
         {/*)}*/}
 
-        <button className="small" onClick={() => studyNewTerms()}>
-          Show me new terms
-        </button>
+        {PercentageKnownOverall() > 0.2 && (
+          <button className="small" onClick={() => studyNewTerms()}>
+            Show me new terms
+          </button>
+        )}
       </div>
     );
   }
