@@ -22,6 +22,7 @@
 - prófa redirects á server
 - laga egg í áskrift
 - ekki redirecta af frontpage
+  - setja meta-url í staðinn?
 
 # uppfæra í gagnagrunni
 
