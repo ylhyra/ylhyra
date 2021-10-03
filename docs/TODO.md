@@ -4,7 +4,6 @@
 - Related cards
 - skrá sessions
 - uppfæra schedule á gluggum sem hafa verið opnir lengi
-- gefa einn dag ef nýtt orð var séð stuttu eftir hina hliðina en notandi valdi gott
 - fara yfir easinesslevel
 - ef maður skráir sig inn, blanda progress
 - loadnewcards ætti að hunsa spjöld sem dependa á nýleg spjöld

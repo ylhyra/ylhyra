@@ -45,7 +45,7 @@ router.post("/recorder/save", (req, res) => {
       .trim();
 
     fs.writeFileSync(filepath + ".mp3.md", desc, () => {});
-    fs.div(filepath + ".wav", buffer, (err) => {
+    fs.writeFile(filepath + ".wav", buffer, (err) => {
       if (err) {
         console.error(err);
         return res.status(500);
