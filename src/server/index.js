@@ -13,7 +13,6 @@ import {
 import "regenerator-runtime/runtime";
 import requestIp from "request-ip";
 import query from "server/database";
-import { notifyOfError } from "server/errors";
 import { isDev } from "app/app/functions/isDev";
 
 require("source-map-support").install();
@@ -143,7 +142,7 @@ if (argv["generate-links"]) {
   /* Or, start the app */
   app.listen(port, host, (err) => {
     if (err) {
-      return notifyOfError(err.message);
+      return console.error(err.message);
     }
     if (isDev) {
       console.log(`Running on port ${port}`);
@@ -164,8 +163,6 @@ process.on("uncaughtException", (err) => {
     exec(
       `terminal-notifier -group 'ylhyra' -title '⚠️' -message 'Server has crashed'`
     );
-  } else {
-    notifyOfError(err.toString());
   }
   console.error(err);
 });

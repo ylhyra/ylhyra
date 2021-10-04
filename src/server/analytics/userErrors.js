@@ -1,5 +1,3 @@
-import { notifyOfError } from "server/errors";
-
 const router = require("express").Router();
 const { Crawler } = require("es6-crawler-detect");
 
@@ -20,7 +18,7 @@ router.post("/error", rateLimit, (req, res) => {
     return res.sendStatus(400);
   }
 
-  notifyOfError(`
+  console.error(`
     User ${req.session.username || ""}
     from ${req.get("CF-IPCountry") || ""}
     had an error: «${req.body.message}»
