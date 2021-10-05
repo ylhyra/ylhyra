@@ -21,15 +21,6 @@ const html = fs.readFileSync(
   "utf8"
 );
 
-const fileHash = (file) => {
-  return hash(fs.readFileSync(file, "utf8"));
-};
-const css_hash = fileHash(path.resolve(build_folder, `./app/main.css`));
-const js_hash = fileHash(path.resolve(build_folder, `./app/ylhyra.main.js`));
-const voc_hash = fileHash(
-  path.resolve(build_folder, `./vocabulary/vocabulary_database.json`)
-);
-
 /*
 
   To test, run
@@ -45,8 +36,8 @@ const render = async ({
   callback,
 }) => {
   const header_links = `
-    <meta name="vocabulary_id" content="${voc_hash}"/>
-    <link href="/app/main.css?v=${css_hash}" rel="stylesheet" />
+    <meta name="vocabulary_id" content=""/>
+    <link href="/app/main.css" rel="stylesheet" />
   `;
   let footer_links = `
     ${
@@ -56,7 +47,7 @@ const render = async ({
       <script src="http://localhost:3000/static/js/vendors~main.chunk.js"></script>
       <script src="http://localhost:3000/static/js/main.chunk.js"></script>
     `
-        : `<script src="/app/ylhyra.main.js?v=${js_hash}"></script>`
+        : `<script src="/app/ylhyra.main.js"></script>`
     }
   `;
 

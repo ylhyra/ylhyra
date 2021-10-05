@@ -2,6 +2,7 @@ import generate_html from "documents/compile";
 import { getValuesForURL } from "server/content/links";
 import { build_folder } from "server/paths_backend";
 import { isDev } from "app/app/functions/isDev";
+import hash from "app/app/functions/hash";
 
 const router = require("express").Router({ strict: true });
 var fs = require("fs");
@@ -80,7 +81,7 @@ router.get(["/api/content", "*"], async (req, res) => {
             if (err) {
               send404html(res);
             } else {
-              return res.send(data);
+              return res.send(addBuildIds(data));
             }
           }
         );
@@ -96,9 +97,31 @@ router.get(["/api/content", "*"], async (req, res) => {
 });
 
 const send404html = (res) => {
-  res
-    .status(404)
-    .sendFile(path.resolve(build_folder, `./prerender/not-found.html`));
+  fs.readFile(
+    path.resolve(build_folder, `./prerender/not-found.html`),
+    "utf8",
+    async (err, data) => {
+      return res.status(404).send(addBuildIds(data));
+    }
+  );
 };
 
 export default router;
+
+const fileHash = (file) => {
+  return hash(fs.readFileSync(file, "utf8"));
+};
+const css_hash = fileHash(path.resolve(build_folder, `./app/main.css`));
+const js_hash = fileHash(path.resolve(build_folder, `./app/ylhyra.main.js`));
+const voc_hash = fileHash(
+  path.resolve(build_folder, `./vocabulary/vocabulary_database.json`)
+);
+const addBuildIds = (data) => {
+  return data
+    .replace('ylhyra.main.js"', `ylhyra.main.js?v=${js_hash}"`)
+    .replace('app/main.css"', `app/main.css?v=${css_hash}"`)
+    .replace(
+      'meta name="vocabulary_id" content=""',
+      `meta name="vocabulary_id" content="${voc_hash}"`
+    );
+};
