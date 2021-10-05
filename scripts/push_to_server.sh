@@ -14,6 +14,8 @@ rsync \
   --exclude ./build/images/audio/tmp \
   --exclude ./build/images/audio/tmp_ffmpeg \
   --exclude ./build/images/audio/tmp_processed \
+  --exclude ./build/app \
+  --exclude ./build/server \
   -e "ssh -p ${SERVER_SSH_PORT}" \
   ./build/ \
   ${SERVER_IP_AND_FOLDER}/build
@@ -23,6 +25,6 @@ rsync \
 # Restart PM2
 # pm2 reload ylhyra_new
 ssh -p "${SERVER_SSH_PORT}" ${SERVER_IP} "cd /home/egill/ylhyra_new && git pull origin master &> /dev/null"
-# ssh -p "${SERVER_SSH_PORT}" ${SERVER_IP} "cd /home/egill/ylhyra_new && npm i"
 ssh -p "${SERVER_SSH_PORT}" ${SERVER_IP} "cd /home/egill/ylhyra_content && git pull  origin content &> /dev/null"
-ssh -p "${SERVER_SSH_PORT}" ${SERVER_IP} "pm2 reload ylhyra_new"
+# ssh -p "${SERVER_SSH_PORT}" ${SERVER_IP} "cd /home/egill/ylhyra_new && npm i"
+#ssh -p "${SERVER_SSH_PORT}" ${SERVER_IP} "pm2 reload ylhyra_new"
