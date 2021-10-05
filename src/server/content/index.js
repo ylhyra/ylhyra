@@ -3,11 +3,20 @@ import { getValuesForURL } from "server/content/links";
 import { build_folder } from "server/paths_backend";
 import { isDev } from "app/app/functions/isDev";
 import hash from "app/app/functions/hash";
+import express from "express";
 
 const router = require("express").Router({ strict: true });
 var fs = require("fs");
 
 const path = require("path");
+
+router.get(["/robots.txt"], async (req, res) => {
+  if (req.subdomains.includes("test")) {
+    res.send("Disallow: /");
+  } else {
+    res.sendFile(path.join(__basedir, "./src/app/app/public/robots.txt"));
+  }
+});
 
 router.get(["/api/content", "*"], async (req, res) => {
   let input_url;

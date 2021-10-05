@@ -56,10 +56,7 @@ setTimeout(() => {
 app.use(processed_image_url, express.static(image_output_folder));
 app.use(unprocessed_image_url, express.static(ylhyra_content_files));
 app.use("/", express.static(build_folder));
-app.use(
-  "/robots.txt",
-  express.static(path.join(__basedir, "./src/app/app/public/robots.txt"))
-);
+
 // app.use(
 //   "/sitemap.xml",
 //   express.static(path.join(__basedir, "./build/sitemap.xml"))

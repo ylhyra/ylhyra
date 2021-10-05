@@ -7,7 +7,6 @@ import Parse from "documents/parse";
 import { Provider } from "react-redux";
 import store from "app/app/store";
 import Router from "app/router";
-import hash from "app/app/functions/hash";
 import { renderTitle } from "server/content/renderTitle";
 import { URL_title } from "app/app/paths";
 
