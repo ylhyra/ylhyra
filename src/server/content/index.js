@@ -12,7 +12,7 @@ const path = require("path");
 
 router.get(["/robots.txt"], async (req, res) => {
   if (req.subdomains.includes("test")) {
-    res.send("Disallow: /");
+    res.send("User-agent: *\nDisallow: /");
   } else {
     res.sendFile(path.join(__basedir, "./src/app/app/public/robots.txt"));
   }
