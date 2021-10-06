@@ -27,18 +27,5 @@
   ],
   "bugs": {
     "url": "https://github.com/ylhyra/icelandic-inflections/issues"
-  },
-  "dependencies": {
-    "axios": "^0.19.2",
-    "cors": "^2.8.5",
-    "esm": "^3.2.25",
-    "express": "^4.17.1",
-    "lodash": "^4.17.20",
-    "stylus": "^0.54.8"
-  },
-  "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.6.0",
-    "mocha": "^8.1.3"
   }
 }
