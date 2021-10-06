@@ -88,6 +88,8 @@ const render = async ({
       ? `<script type="text/javascript">window.ylhyra_data=${necessary_data}</script>`
       : "") + footer_links;
 
+  // console.log(footer_items);
+
   if (filename === "not-found") {
     footer_items =
       '<script type="text/javascript">window.is404=true</script>' +
@@ -101,18 +103,18 @@ const render = async ({
     )
     .replace(
       "<!-- Header items -->",
-      "<!--TEMP-->" + header_links + "<!--TEMP-->"
+      "<!--CSS-->" + header_links + "<!--CSS-->"
     )
     .replace("<!-- Content -->", output || "")
     .replace(
-      /<!-- Footer items -->(.+)<!-- Footer items end -->/,
+      /<!-- Footer items -->[\s\S]+<!-- Footer items end -->/,
       footer_items + "<!-- Remaining CSS -->"
     );
 
   if (shouldBeIndexed) {
     html.replace(
       /<meta name="robots" content="noindex" \/>/,
-      '<meta name="robots" content="noindex">'
+      '<meta name="robots" content="index">'
     );
   }
 
@@ -138,7 +140,7 @@ const render = async ({
       (err, cr_output /* Includes {css, html, uncritical} */) => {
         output = output
           .replace(
-            /<!--TEMP-->[\s\S]+<!--TEMP-->/,
+            /<!--CSS-->[\s\S]+<!--CSS-->/,
             "<style>" + cr_output.css + "</style>"
           )
           .replace("<!-- Remaining CSS -->", header_links);

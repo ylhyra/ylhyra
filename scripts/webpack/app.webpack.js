@@ -31,7 +31,7 @@ module.exports = {
       },
     },
   },
-  entry: "./src/index.js",
+  entry: "./src/app/index.js",
   output: {
     path: isProduction ? resolve("build/app_tmp") : resolve("build/app"),
     filename: "ylhyra.[name].js",
