@@ -3,7 +3,7 @@ node build/server/ylhyra_server.js --generate-links
 */
 // import urlSlug from 'src/app/App/functions/url-slug'
 import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
-import RemoveUnwantedCharacters from "app/app/functions/languageProcessing/RemoveUnwantedCharacters";
+import removeUnwantedCharacters from "app/app/functions/languageProcessing/removeUnwantedCharacters";
 import { FileSafeTitle, URL_title } from "app/app/paths";
 import { content_folder } from "server/paths_backend";
 
@@ -41,7 +41,7 @@ const run = () => {
     const filepath = files[index];
     if (typeof filepath !== "string") continue;
     let data = fs.readFileSync(filepath, "utf8");
-    data = RemoveUnwantedCharacters(data);
+    data = removeUnwantedCharacters(data);
     let { header, body } = ParseHeaderAndBody(data);
     if (!header) continue;
     const filename = FileSafeTitle(header.title); //+ '_' + string_hash(body)

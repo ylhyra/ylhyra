@@ -2,7 +2,7 @@
 import typeset from "documents/compile/functions/typeset";
 import { section_id } from "app/app/paths";
 import marked from "marked";
-import RemoveUnwantedCharacters from "app/app/functions/languageProcessing/RemoveUnwantedCharacters";
+import removeUnwantedCharacters from "app/app/functions/languageProcessing/removeUnwantedCharacters";
 import { html2json, json2html } from "app/app/functions/html2json";
 import Conversation from "documents/compile/templates/Conversations";
 import { ProcessLinks } from "documents/compile/functions/links";
@@ -124,7 +124,7 @@ const ProcessArray = (arr) => {
 };
 
 export const processText = (input) => {
-  input = RemoveUnwantedCharacters(input);
+  input = removeUnwantedCharacters(input);
   input = ProcessLinks(input, links);
   input = input
     // .replace(/\n\n+/g, "\n\n")
