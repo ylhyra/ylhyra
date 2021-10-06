@@ -90,7 +90,10 @@ router.get(["/api/content", "*"], async (req, res) => {
             if (err) {
               send404html(res);
             } else {
-              return res.send(addBuildIds(data));
+              if (type === "html") {
+                data = addBuildIds(data);
+              }
+              return res.send(data);
             }
           }
         );
