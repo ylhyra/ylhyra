@@ -10,8 +10,8 @@
   "private": false,
   "homepage": "https://ylhyra.is",
   "scripts": {
-    "start": "export BROWSER=none && export NODE_ENV=development && npx webpack serve --config scripts/webpack/app.webpack.js",
-    "links": "./../ylhyra_content/scripts/cleanup.sh && export NODE_ENV=production && npm run build_server && npm run links_only",
+    "start": "export BROWSER=none && export NODE_ENV=development && export $(cat .env) && npx webpack serve --config scripts/webpack/app.webpack.js",
+    "links": "./../ylhyra_content/scripts/cleanup.sh && export NOD2E_ENV=production && npm run build_server && npm run links_only",
     "links_only": "node build/server/ylhyra_server.js --generate-links",
     "chapters": "npm run links && node build/server/ylhyra_server.js --sort_course_chapters && npm run links",
     "sitemap": "npm run links && npm run sitemap_only",

@@ -46,63 +46,38 @@ $activebgcolor = #f0f0f0
 $activeborder = #a4a4a4
 $notactivebgcolor = #d0d0d0
 $notactiveborder = #c2c2c2
-#signup-steps 
-  display flex
-  > span 
-    display block
-    white-space nowrap
-    padding 1px 12px
-    font-size 13px
-    position relative
-    display inline-block
-    // margin-left: 0.25%
-    text-align center
-    text-decoration none
-    height $height * 2 + 2
-    &.active 
-      color black
-      background $activebgcolor
-      border 1px solid $activeborder
-      // box-shadow: 1px 1px 1px 0 rgba(158, 158, 158, 0.17)
-    &:not(.active) 
-      color #6f6f6f
-      background $notactivebgcolor
-      border 1px solid $notactiveborder
-      // box-shadow: inset 1px 1px 1px 0 rgba(99, 99, 99, 0.17)
-      &:after 
-        border-left $height solid $notactivebgcolor
-    &:before 
-      width 0
-      height 0
-      border-top $height inset transparent
-      border-bottom $height inset transparent
-      border-left $height solid $activeborder
-      position absolute
-      content ""
-      top 0
-      left 0
-    &:after 
-      width 0
-      height 0
-      border-top $height inset transparent
-      border-bottom $height inset transparent
-      border-left $height solid $activebgcolor
-      position absolute
-      content ""
-      top 0
-      right -$height
-      z-index 2
-    &:first-child 
-      border-top-left-radius $height
-      border-bottom-left-radius $height
-      margin-left 0
-      border-right none
-      &:before 
-        border none !important
-    &:last-child 
-      border-top-right-radius $height
-      border-bottom-right-radius $height
-      padding-left 22px
-      border-left none
-      &:after 
-        border none !important
+#signup-steps
+
+  display: flex;
+  justify-content: space-around;
+  >div
+    display flex
+    > span
+      white-space nowrap
+      padding 1px 12px
+      font-size 13px
+      position relative
+      display inline-block
+      // margin-left: 0.25%
+      text-align center
+      text-decoration none
+      height $height * 2 + 2
+      &.active
+        color black
+        background $activebgcolor
+        border 1px solid $activeborder
+        // box-shadow: 1px 1px 1px 0 rgba(158, 158, 158, 0.17)
+      &:not(.active)
+        color #6f6f6f
+        background $notactivebgcolor
+        border 1px solid $notactiveborder
+      &:first-child
+        border-top-left-radius $height
+        border-bottom-left-radius $height
+        margin-left 0
+        border-right  1px solid $activeborder
+      &:last-child
+        border-top-right-radius $height
+        border-bottom-right-radius $height
+        //padding-left 22px
+        border-left none

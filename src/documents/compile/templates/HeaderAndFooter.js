@@ -56,7 +56,9 @@ export default async (input, header) => {
 
   // input += '<div class="spacer-below-content"></div>';
 
-  input += `<section class="vocabulary-footer"><div class="center"> ${VocabularyHeader}</div></section>`;
+  if (VocabularyHeader) {
+    input += `<section class="vocabulary-footer"><div class="center">${VocabularyHeader}</div></section>`;
+  }
 
   /* Automatic prev and next for course articles */
   const url = URL_title(header.title);

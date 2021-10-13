@@ -102,7 +102,7 @@ export default connect((state) => ({
 
 class PayPalButton extends React.Component {
   async componentDidMount() {
-    if (!process.env.REACT_APP_PWYW || !process.env.REACT_APP_PAYPAL_CLIENT_ID)
+    if (!process.env.REACT_APP_PWYW || !process.env.REACT_APP_PP_CLIENT_ID)
       return;
     const loadPayPalScript = (
       await import(
@@ -111,7 +111,7 @@ class PayPalButton extends React.Component {
       )
     ).loadScript;
     loadPayPalScript({
-      "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
+      "client-id": process.env.REACT_APP_PP_CLIENT_ID,
     })
       .then((paypal) => {
         paypal

@@ -8,13 +8,15 @@ class SignupSteps extends React.Component {
     const isSignup = this.props.route.pathname === "/signup";
     return (
       <div id="signup-steps" className="pwyw-on">
-        <span className={isSignup ? "active" : ""}>
-          {!isSignup && "✓ "}
-          <b>Step 1</b>: Create an account
-        </span>
-        <span className={!isSignup ? "active" : ""}>
-          <b>Step 2</b>: Pay what you want
-        </span>
+        <div>
+          <span className={isSignup ? "active" : ""}>
+            {!isSignup && "✓ "}
+            <b>Step 1</b>: Create an account
+          </span>
+          <span className={!isSignup ? "active" : ""}>
+            <b>Step 2</b>: Pay what you want
+          </span>
+        </div>
       </div>
     );
   }

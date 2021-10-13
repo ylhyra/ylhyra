@@ -1,6 +1,7 @@
 #!/bin/bash
 trap "kill 0" SIGINT
 cd "${BASH_SOURCE%/*}"/../ || exit
+export $(cat .env)
 export NODE_ENV=production
 
 if webpack --config ./scripts/webpack/app.webpack.js; then
