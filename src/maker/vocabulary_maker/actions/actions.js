@@ -4,7 +4,11 @@ import store from "app/app/store";
 import axios from "app/app/axios";
 import _ from "underscore";
 import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
-import { isSearching, reDoSearch } from "maker/vocabulary_maker/actions/search";
+import {
+  isSearching,
+  reDoSearch,
+  turnOffSearch,
+} from "maker/vocabulary_maker/actions/search";
 import { setupSound } from "maker/vocabulary_maker/actions/sound";
 import { log } from "app/app/functions/log";
 
@@ -36,6 +40,13 @@ export const load = async () => {
   Database.rows.forEach((row) => {
     Database.maxID = Math.max(Database.maxID, row.row_id);
   });
+  Database.rows = Database.rows.map((row) => {
+    if (!row.alternative_id) {
+      row.alternative_id = row.icelandic;
+    }
+    return row;
+  });
+
   Object.assign(Database, parse_vocabulary_file(vocabulary));
 
   setTimeout(() => {
@@ -55,9 +66,9 @@ export const refreshRows = () => {
         Boolean(a.icelandic) - Boolean(b.icelandic) ||
         Boolean(a.last_seen) - Boolean(b.last_seen) ||
         Boolean(a.english) - Boolean(b.english) ||
+        a.last_seen?.localeCompare(b.last_seen) ||
         (b.level <= 3) - (a.level <= 3) ||
         (a.level || 100) - (b.level || 100) ||
-        a.last_seen?.localeCompare(b.last_seen) ||
         b.row_id - a.row_id ||
         Boolean(a.fix) - Boolean(b.fix) ||
         false
@@ -108,7 +119,7 @@ export const selectNext = (row_id) => {
   if (x?.row_id) {
     select(x.row_id);
   } else {
-    // isSearching = false;
+    turnOffSearch();
     refreshRows();
   }
 };

@@ -49,7 +49,7 @@ export const search = (e) => {
 
 export const didYouMeanSuggestions = (is, input_row_id) => {
   const split = is.toLowerCase().split(/[ ;,]/g);
-  const v = Database.rows
+  let v = Database.rows
     .map((r) => {
       if (r.icelandic === is) return null;
       const v = ">" + r.icelandic.toLowerCase().split(/[ ;,]/g).join(">") + ">";
@@ -71,26 +71,33 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
     .filter((j) => j?.score > 10)
     .sort((a, b) => b.score - a.score);
 
+  const sentenceSplit = is.toLowerCase().split(/[;]/g);
   const dependsOnThis = Database.rows
     .map((r) => {
       if (r.icelandic === is) return null;
-      const v = r.icelandic.toLowerCase().split(/[ ;,]/g);
-      if (_.intersection(v, split).length > 0) {
+      const i = `${r.lemmas || ""}; ${r.depends_on || ""}`
+        .toLowerCase()
+        .replaceAll("%", "")
+        .split(/[;,]/g)
+        .filter(Boolean)
+        .map((i) => i.trim());
+      if (_.intersection(i, sentenceSplit).length > 0) {
         return {
           ...r,
-          score: r.level,
+          score: r.icelandic.length,
         };
       }
+      return null;
     })
     .filter(Boolean)
-    .sort((a, b) => a.score - b.score);
+    .sort((a, b) => a.level - b.level || a.score - b.score);
 
-  if (dependsOnThis.length === 0) {
-    if (v.length === 0) return null;
-    if (v[0].score === v[5]?.score) return null;
+  if (v[0]?.score === v[5]?.score) v = [];
+  if (dependsOnThis.length === 0 && v.length === 0) {
+    return null;
   }
 
-  const u = v.slice(0, 1).map((j, i) => (
+  const u = [...dependsOnThis.slice(0, 3), ...v.slice(0, 1)].map((j, i) => (
     <div
       key={i}
       style={{ cursor: "pointer" }}
@@ -115,4 +122,8 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
     </div>
   ));
   return <div className="small gray">Did you mean: {u}</div>;
+};
+
+export const turnOffSearch = () => {
+  isSearching = false;
 };
