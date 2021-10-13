@@ -9,6 +9,7 @@ import {
   select,
   selectRows,
 } from "maker/vocabulary_maker/actions/actions";
+import _ from "underscore";
 
 export let isSearching = false;
 export let reDoSearch;
@@ -70,12 +71,29 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
     .filter((j) => j?.score > 10)
     .sort((a, b) => b.score - a.score);
 
-  if (v.length === 0) return null;
-  if (v[0].score === v[5]?.score) return null;
+  const dependsOnThis = Database.rows
+    .map((r) => {
+      if (r.icelandic === is) return null;
+      const v = r.icelandic.toLowerCase().split(/[ ;,]/g);
+      if (_.intersection(v, split).length > 0) {
+        return {
+          ...r,
+          score: r.level,
+        };
+      }
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.score - b.score);
+
+  if (dependsOnThis.length === 0) {
+    if (v.length === 0) return null;
+    if (v[0].score === v[5]?.score) return null;
+  }
 
   const u = v.slice(0, 1).map((j, i) => (
     <div
       key={i}
+      style={{ cursor: "pointer" }}
       onClick={() => {
         // i.row_id
         const x = Database.rows.findIndex((f) => f.row_id === j.row_id);

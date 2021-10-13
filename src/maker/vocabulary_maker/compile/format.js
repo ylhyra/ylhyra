@@ -98,6 +98,7 @@ export const formatVocabularyEntry = (input) => {
     .replace(/{{bhet}}/g, `Speaking to one person`)
     .replace(/{{bhft}}/g, `Speaking to a group`)
     .replace(/{{ft}}/g, `<sup>(plural)</sup>`)
+    .replace(/{{h}}/g, `<b class="gray"><i>h</i></b>`)
     .replace(/#/g, `<sup class="red"><small>†</small></sup>`) // Notað í norska datasettinu ∗
     .trim();
 

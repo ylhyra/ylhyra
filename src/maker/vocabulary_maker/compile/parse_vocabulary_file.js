@@ -74,7 +74,7 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       let dependson_lemmas = [];
       row.lemmas?.split(/[,;]/g).forEach((lemma) => {
         if (/%/.test(lemma)) {
-          altid_lemmas.push(lemma);
+          altid_lemmas.push(lemma.replace("%", ""));
         } else {
           dependson_lemmas.push(lemma);
         }

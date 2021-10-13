@@ -33,21 +33,9 @@ export const load = async () => {
   Database.sound = vocabulary?.sound || [];
   Database.rows = vocabulary?.rows || [];
 
-  // rows = rows.map((row, index) => {
-  //   row.row_id = index + 1;
-  //   return row;
-  // });
   Database.rows.forEach((row) => {
     Database.maxID = Math.max(Database.maxID, row.row_id);
-    // row.row_id = index;
-    // return row;
   });
-  // console.log({ maxID });
-  // const parsed = parse(vocabulary)
-  // terms = parsed.terms
-  // dependencies = parsed.dependencies
-  // alternative_ids = parsed.alternative_ids
-  // plaintext_sentences = parsed.plaintext_sentences
   Object.assign(Database, parse_vocabulary_file(vocabulary));
 
   setTimeout(() => {
@@ -65,12 +53,12 @@ export const refreshRows = () => {
       (a, b) =>
         Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
         Boolean(a.icelandic) - Boolean(b.icelandic) ||
-        Boolean(a.english) - Boolean(b.english) ||
         Boolean(a.last_seen) - Boolean(b.last_seen) ||
-        // a.last_seen?.localeCompare(b.last_seen) ||
-        b.row_id - a.row_id ||
+        Boolean(a.english) - Boolean(b.english) ||
         (b.level <= 3) - (a.level <= 3) ||
         (a.level || 100) - (b.level || 100) ||
+        a.last_seen?.localeCompare(b.last_seen) ||
+        b.row_id - a.row_id ||
         Boolean(a.fix) - Boolean(b.fix) ||
         false
     );
@@ -120,7 +108,7 @@ export const selectNext = (row_id) => {
   if (x?.row_id) {
     select(x.row_id);
   } else {
-    isSearching = false;
+    // isSearching = false;
     refreshRows();
   }
 };
