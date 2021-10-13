@@ -1,7 +1,7 @@
-// https://stackoverflow.com/a/66187152 CC BY-SA 4.0
 import fs from "fs";
 import path from "path";
 
+// https://stackoverflow.com/a/66187152 CC BY-SA 4.0
 export const getFilesRecursivelySync = (directory) => {
   let files = [];
   const filesInDirectory = fs.readdirSync(directory);
@@ -9,7 +9,7 @@ export const getFilesRecursivelySync = (directory) => {
     if (file.startsWith(".")) continue;
     const absolute = path.join(directory, file);
     if (fs.statSync(absolute).isDirectory()) {
-      getFilesRecursivelySync(absolute);
+      files = files.concat(getFilesRecursivelySync(absolute));
     } else {
       if (!file.endsWith(".md")) continue;
       files.push(absolute);

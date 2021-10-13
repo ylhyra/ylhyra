@@ -10,6 +10,9 @@ import { getFilesRecursivelySync } from "app/app/functions/getFilesRecursivelySy
 import _ from "underscore";
 import fs from "fs";
 import path from "path";
+import { deck } from "app/vocabulary/actions/deck";
+import { initializeDeckFromFile } from "documents/compile/vocabulary/initializeDeckFromFile";
+import { getCardIdsFromWords } from "documents/compile/vocabulary/getCardIdsFromWords";
 
 /**
  * @typedef LinkData
@@ -36,10 +39,14 @@ const links = {};
 
 const run = () => {
   const files = getFilesRecursivelySync(content_folder);
-  let vocabulary_entries = [];
+  let vocabulary_entries_in_articles = [];
 
-  for (const index of Object.keys(files)) {
-    const filepath = files[index];
+  if (!files || files.length === 0) {
+    console.error("No files!!");
+    process.exit();
+  }
+
+  for (const filepath of files) {
     if (typeof filepath !== "string") continue;
     let data = fs.readFileSync(filepath, "utf8");
     data = removeUnwantedCharacters(data);
@@ -79,17 +86,21 @@ const run = () => {
       });
 
     if (header.vocabulary) {
-      vocabulary_entries = vocabulary_entries.concat(header.vocabulary);
+      vocabulary_entries_in_articles = vocabulary_entries_in_articles.concat(
+        header.vocabulary
+      );
     }
-    // // console.log(data)
-    // fs.writeFileSync(build_folder + `${filename}.html`, body)
-    // break;
   }
   /* Write links */
   fs.writeFileSync("build/links.json", JSON.stringify(links, null, 2));
+
+  if (!deck) initializeDeckFromFile();
+  const missing_vocabulary_entries = vocabulary_entries_in_articles.filter(
+    (sentence) => getCardIdsFromWords([sentence]).length === 0
+  );
   fs.writeFileSync(
-    "build/vocabulary_in_articles.txt",
-    _.uniq(vocabulary_entries).join("\n")
+    "build/missing_vocabulary_entries.txt",
+    _.uniq(missing_vocabulary_entries).join("\n")
   );
   process.exit();
 };
