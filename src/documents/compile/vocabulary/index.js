@@ -17,7 +17,7 @@ export const parseVocabularyList = (vocabulary_list) => {
   const card_ids = getCardIdsFromWords(vocabulary_list).filter(
     (id) => id in deck.cards
   );
-  const missing = getCardIdsFromWords(vocabulary_list, true);
+  // const missing = getCardIdsFromWords(vocabulary_list, true);
   const terms = getTermIdsFromCardIds(card_ids);
   const dependencyTerms = getTermIdsFromCardIds(
     _.difference(
@@ -47,8 +47,8 @@ export const parseVocabularyList = (vocabulary_list) => {
     dependencyCards,
     sentences,
   };
-  if (missing) {
-    out.missing = missing;
-  }
+  // if (missing) {
+  //   out.missing = missing;
+  // }
   return out;
 };

@@ -65,11 +65,11 @@ export const refreshRows = () => {
       (a, b) =>
         Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
         Boolean(a.icelandic) - Boolean(b.icelandic) ||
+        Boolean(a.english) - Boolean(b.english) ||
         Boolean(a.last_seen) - Boolean(b.last_seen) ||
         // a.last_seen?.localeCompare(b.last_seen) ||
         b.row_id - a.row_id ||
         (b.level <= 3) - (a.level <= 3) ||
-        Boolean(a.english) - Boolean(b.english) ||
         (a.level || 100) - (b.level || 100) ||
         Boolean(a.fix) - Boolean(b.fix) ||
         false

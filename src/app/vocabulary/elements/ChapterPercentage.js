@@ -9,7 +9,7 @@ import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 class X extends Component {
   render() {
     if (!this.props.vocabulary.deck) return null;
-    logMissing(this.props.data.missing);
+    // logMissing(this.props.data.missing);
     return (
       <small className="percentage-known sans-serif" key={1}>
         {PercentageKnown(getCardIdsFromTermIds(this.props.data.terms))}% known
@@ -22,18 +22,18 @@ export default connect((state) => ({
   route: state.route,
 }))(X);
 
-let timer;
-let missing = [];
-const logMissing = (input) => {
-  if (!input) return;
-  if (!isDev) return;
-  if (input.length > 0) {
-    timer && clearTimeout(timer);
-    missing = missing.concat(input);
-    timer = setTimeout(() => {
-      missing = _.uniq(missing);
-      log(`${missing.length} missing terms:\n${_.uniq(missing).join("\n")}`);
-      // log(missing.join("\n"));
-    }, 1000);
-  }
-};
+// let timer;
+// let missing = [];
+// const logMissing = (input) => {
+//   if (!input) return;
+//   if (!isDev) return;
+//   if (input.length > 0) {
+//     timer && clearTimeout(timer);
+//     missing = missing.concat(input);
+//     timer = setTimeout(() => {
+//       missing = _.uniq(missing);
+//       log(`${missing.length} missing terms:\n${_.uniq(missing).join("\n")}`);
+//       // log(missing.join("\n"));
+//     }, 1000);
+//   }
+// };

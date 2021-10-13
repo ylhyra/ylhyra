@@ -1,15 +1,15 @@
 /*
-node build/server/ylhyra_server.js --generate-links
+npm run links
 */
 // import urlSlug from 'src/app/App/functions/url-slug'
 import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
 import removeUnwantedCharacters from "app/app/functions/languageProcessing/removeUnwantedCharacters";
 import { FileSafeTitle, URL_title } from "app/app/paths";
 import { content_folder } from "server/paths_backend";
-
-var fs = require("fs");
-const path = require("path");
-let files = [];
+import { getFilesRecursivelySync } from "app/app/functions/getFilesRecursivelySync";
+import _ from "underscore";
+import fs from "fs";
+import path from "path";
 
 /**
  * @typedef LinkData
@@ -35,7 +35,8 @@ const links = {};
 // fs.mkdirSync(build_folder)
 
 const run = () => {
-  getFilesRecursively(content_folder);
+  const files = getFilesRecursivelySync(content_folder);
+  let vocabulary_entries = [];
 
   for (const index of Object.keys(files)) {
     const filepath = files[index];
@@ -76,28 +77,21 @@ const run = () => {
           section: r_section && URL_title(r_section),
         };
       });
+
+    if (header.vocabulary) {
+      vocabulary_entries = vocabulary_entries.concat(header.vocabulary);
+    }
     // // console.log(data)
     // fs.writeFileSync(build_folder + `${filename}.html`, body)
     // break;
   }
   /* Write links */
   fs.writeFileSync("build/links.json", JSON.stringify(links, null, 2));
+  fs.writeFileSync(
+    "build/vocabulary_in_articles.txt",
+    _.uniq(vocabulary_entries).join("\n")
+  );
   process.exit();
-};
-
-// https://stackoverflow.com/a/66187152 CC BY-SA 4.0
-const getFilesRecursively = (directory) => {
-  const filesInDirectory = fs.readdirSync(directory);
-  for (const file of filesInDirectory) {
-    if (file.startsWith(".")) continue;
-    const absolute = path.join(directory, file);
-    if (fs.statSync(absolute).isDirectory()) {
-      getFilesRecursively(absolute);
-    } else {
-      if (!file.endsWith(".md")) continue;
-      files.push(absolute);
-    }
-  }
 };
 
 export const shouldBeCreated = (filepath, header) => {
