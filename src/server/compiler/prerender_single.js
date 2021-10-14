@@ -100,7 +100,7 @@ const render = async ({
 
   output = html
     .replace(
-      "<title>(.+)</title>",
+      /<title>(.+)<\/title>/,
       `<title>${renderTitle(header?.title)}</title>`
     )
     .replace(

@@ -8,6 +8,8 @@ import { ReadAlongSetup } from "documents/render/audio/ReadAlong";
 import { isDev } from "app/app/functions/isDev";
 import { PRELOAD_ARTICLES_ON_HOVER } from "app/app/constants";
 
+const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true;
+
 let cache = {};
 let expectedUrl = false;
 export const abortAllThatAreNot = (url) => {
@@ -44,6 +46,7 @@ export const loadContent = ({
       .get("/api/content", {
         params: {
           title: decodeURI(url.replace(/^\//, "").replace(/#.+/, "")) || "/",
+          clientSideRendering: CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE,
         },
       })
       .then(async ({ data }) => {
@@ -78,7 +81,7 @@ const set = async ({
   if ("parsed" in data) {
     parsed = data.parsed;
     flattenedData = data.flattenedData;
-  } else if (isDev) {
+  } else if (CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE && isDev) {
     /* Only allowed in development mode */
     const Parse = (
       await import(
@@ -106,6 +109,9 @@ const set = async ({
     // if(isBrowser){
     // window.currentDocumentTitle= data.header.title,
     // }
+  } else {
+    console.log({ data });
+    console.error("No parsed in data!");
   }
   index(data.shouldBeIndexed);
 

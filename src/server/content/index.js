@@ -66,7 +66,12 @@ router.get(["/api/content", "*"], async (req, res) => {
       );
     } else {
       /* Client side rendering allowed in development */
-      if (isDev && type === "json" && values.filepath) {
+      if (
+        req.query.clientSideRendering &&
+        isDev &&
+        type === "json" &&
+        values.filepath
+      ) {
         const { content, header } = await generate_html(url);
         if ("html" in req.query) {
           return res.send(content);

@@ -10,6 +10,7 @@ import { updateURL } from "app/router/actions/updateURL";
 class App extends React.Component {
   componentDidMount() {
     const url = this.props.url || this.props.route.pathname;
+    /* TODO: Virkar ekki ef maður er ekki loggaður inn þar sem schedule er ekki búið að initialiseras */
     if (url === "/" && isVocabularyTheFrontpage()) {
       updateURL("/vocabulary");
     }
