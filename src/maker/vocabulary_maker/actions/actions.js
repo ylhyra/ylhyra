@@ -63,13 +63,14 @@ export const refreshRows = () => {
     Database.rows.sort(
       (a, b) =>
         Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
+        // Boolean(a.level) - Boolean(b.level) ||
         Boolean(a.icelandic) - Boolean(b.icelandic) ||
         Boolean(a.last_seen) - Boolean(b.last_seen) ||
         Boolean(a.english) - Boolean(b.english) ||
         a.last_seen?.localeCompare(b.last_seen) ||
         (b.level <= 3) - (a.level <= 3) ||
         (a.level || 100) - (b.level || 100) ||
-        b.row_id - a.row_id ||
+        a.row_id - b.row_id ||
         Boolean(a.fix) - Boolean(b.fix) ||
         false
     );

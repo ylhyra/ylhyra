@@ -3,7 +3,9 @@ User-agent: *
 Disallow: /api/
 Disallow: /app/
 Disallow: /file/
+Disallow: /File:
 Disallow: /project/
+Disallow: /Project:
 Disallow: /*.png$
 Disallow: /*.jpg$
 Disallow: /*.jpeg$

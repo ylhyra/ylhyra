@@ -230,10 +230,10 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
           terms: card.terms,
           score: 0,
         };
+        // if (sentence.match(/frá sér/)) {
+        //   console.log(sentence);
+        // }
       }
-      // if (sentence.match(/um þig/)) {
-      //   console.log(sentence);
-      // }
 
       /* Prefixar */
       if (sentence.match(is_prefix) && card.en_plaintext.match(en_prefix)) {

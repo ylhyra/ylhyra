@@ -114,7 +114,7 @@ class Form2 extends React.Component {
           placeholder="Search..."
           type="text"
           name="search"
-          onKeyDown={search}
+          onKeyUp={search}
         />
         {this.props.vocabularyMaker.data.map((row) => {
           if (row.row_id === this.props.vocabularyMaker.selected) {

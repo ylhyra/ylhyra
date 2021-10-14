@@ -27,7 +27,7 @@ const html = fs.readFileSync(
 
 */
 const render = async ({
-  title,
+  url,
   filename,
   css,
   is_content,
@@ -37,7 +37,9 @@ const render = async ({
   const header_links = `
     <meta name="vocabulary_id" content=""/>
     <link href="/app/main.css" rel="stylesheet" />
+    <link rel="canonical" href="https://ylhyra.is${url}" />
   `;
+
   let footer_links = `
     ${
       TESTING
@@ -52,7 +54,7 @@ const render = async ({
 
   let content, header, necessary_data, output, props;
   if (is_content) {
-    const h = await generate_html(title);
+    const h = await generate_html(url);
     content = h.content;
     header = h.header;
     const out = await Parse({ html: content });
@@ -67,13 +69,13 @@ const render = async ({
       shouldBeIndexed,
     });
   } else {
-    props = { url: title };
+    props = { url: url };
   }
 
   store.dispatch({
     type: "ROUTE",
     content: {
-      pathname: URL_title(title),
+      pathname: URL_title(url),
     },
   });
 

@@ -40,7 +40,7 @@ const run = async () => {
       process.stdout.write("\r\x1b[K");
       process.stdout.write(`${i++} of ${to_render.length} done – ${url}`);
       prerender({
-        title: url,
+        url,
         filename,
         css: true,
         is_content,
