@@ -37,7 +37,7 @@ const render = async ({
   const header_links = `
     <meta name="vocabulary_id" content=""/>
     <link href="/app/main.css" rel="stylesheet" />
-    <link rel="canonical" href="https://ylhyra.is${url}" />
+    <link rel="canonical" href="https://ylhyra.is${encodeURI(url)}" />
   `;
 
   let footer_links = `
