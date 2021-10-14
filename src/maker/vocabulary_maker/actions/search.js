@@ -97,7 +97,11 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
     return null;
   }
 
-  const u = [...dependsOnThis.slice(0, 3), ...v.slice(0, 1)].map((j, i) => (
+  const u = _.uniq(
+    [...dependsOnThis.slice(0, 3), ...v.slice(0, 1)],
+    false,
+    (row) => row.row_id
+  ).map((j, i) => (
     <div
       key={i}
       style={{ cursor: "pointer" }}
