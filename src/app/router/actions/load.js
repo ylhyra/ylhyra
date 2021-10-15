@@ -45,7 +45,7 @@ export const loadContent = ({
     axios
       .get("/api/content", {
         params: {
-          title: decodeURI(url.replace(/^\//, "").replace(/#.+/, "")) || "/",
+          title: decodeURI(url.replace(/#.+/, "")) || "/",
           ...(CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE
             ? {
                 clientSideRendering: true,

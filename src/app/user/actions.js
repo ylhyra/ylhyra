@@ -30,7 +30,7 @@ export const login = async (values) => {
     }
 
     if (process.env.REACT_APP_PWYW === "on") {
-      updateURL("/pay-what-you-want");
+      updateURL("/pwyw");
     } else {
       // TODO: "Thank you for ..."
       updateURL("/vocabulary");

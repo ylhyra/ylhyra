@@ -1,4 +1,3 @@
-import { notify } from "app/app/error";
 import { connect } from "react-redux";
 import React from "react";
 import {
@@ -9,19 +8,21 @@ import {
 } from "app/user/payments/actions";
 import { log } from "app/app/functions/log";
 import { RECOMMENDED_PRICE_IN_US_DOLLARS } from "app/app/constants";
+import { PayPalButton } from "app/user/payments/PayPalButton";
+import { updateURL } from "app/router/actions/updateURL";
 
 class Form2 extends React.Component {
   state = {
     price: RECOMMENDED_PRICE_IN_US_DOLLARS,
   };
   componentDidMount() {
-    log({
-      u: this.props.user,
-      off: !process.env.REACT_APP_PWYW,
-    });
+    // log({
+    //   u: this.props.user,
+    //   off: !process.env.REACT_APP_PWYW,
+    // });
     if (!this.props.user || !process.env.REACT_APP_PWYW) {
       setTimeout(() => {
-        // updateURL("/signup");
+        updateURL("/signup");
       }, 100);
     }
   }
@@ -56,6 +57,7 @@ class Form2 extends React.Component {
               name="price"
               value={this.state.price}
               onChange={this.onChange}
+              autoFocus="autofocus"
             />
             <div>U.S. dollars</div>
           </div>
@@ -69,7 +71,7 @@ class Form2 extends React.Component {
             opacity: this.state.error ? 0.3 : 1,
           }}
         >
-          <PayPalButton />
+          <PayPalButton key={1} />
         </div>
         {this.state.error === "TOO_SMALL" && (
           <div className="centered-button">
@@ -99,101 +101,3 @@ class Form2 extends React.Component {
 export default connect((state) => ({
   user: state.user,
 }))(Form2);
-
-class PayPalButton extends React.Component {
-  async componentDidMount() {
-    if (!process.env.REACT_APP_PWYW || !process.env.REACT_APP_PP_CLIENT_ID)
-      return;
-    const loadPayPalScript = (
-      await import(
-        /* webpackChunkName: "paypal" */
-        "@paypal/paypal-js"
-      )
-    ).loadScript;
-    loadPayPalScript({
-      "client-id": process.env.REACT_APP_PP_CLIENT_ID,
-    })
-      .then((paypal) => {
-        paypal
-          .Buttons({
-            style: {
-              size: "small",
-              shape: "rect",
-              color: "blue",
-              layout: "horizontal",
-              funding: { disallowed: [paypal.FUNDING.CREDIT] },
-              tagline: false,
-              label: "pay",
-            },
-            onInit: function (data, actions) {
-              window.PayPalButtonActions = actions;
-            },
-            onClick: function (data, actions) {
-              const price = getPriceFromInput();
-              if (price.error) {
-                return actions.reject();
-              } else {
-                return actions.resolve();
-              }
-            },
-
-            createOrder: function (data, actions) {
-              const price = getPriceFromInput();
-              log(price);
-              if (price.error) return;
-              return actions.order.create({
-                purchase_units: [
-                  {
-                    payee: {
-                      // email_address: process.env.REACT_APP_PAYPAL_EMAIL,
-                      merchant_id: process.env.REACT_APP_MERCHANT_ID,
-                    },
-                    description: "Icelandic language-learning material",
-                    amount: {
-                      currency_code: "USD",
-                      value: price,
-                    },
-                  },
-                ],
-                application_context: {
-                  shipping_preference: "NO_SHIPPING",
-                },
-              });
-            },
-
-            onApprove: function (data, actions) {
-              return actions.order.capture().then(function (details) {
-                const price = getPriceFromInput();
-                continueAfterPaying({
-                  price,
-                  transaction_id: details.id,
-                });
-                paypal.Buttons().close();
-                log(details);
-                // alert(
-                //   "Transaction completed by " +
-                //     details.payer.name.given_name +
-                //     "!"
-                // );
-              });
-            },
-
-            onError: function (err) {
-              log(err);
-              // notify("Sorry, an error has come up.");
-            },
-          })
-          .render("#paypal-button-container");
-      })
-      .catch((err) => {
-        console.error(err);
-        notify("Sorry, an error has come up. Feel free to skip this step.");
-      });
-  }
-  shouldComponentUpdate = () => false;
-  render() {
-    return <div id="paypal-button-container"></div>;
-  }
-}
-const getPriceFromInput = () =>
-  parsePrice(document.querySelector("input[name=price]").value);
