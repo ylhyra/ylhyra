@@ -42,9 +42,6 @@ class Link extends React.Component {
     ) {
       href = "/" + href;
     }
-    if (href === "/") {
-      href = getFrontpageURL();
-    }
 
     if ((route.pathname === href && !href.includes("#")) || !href) {
       return (

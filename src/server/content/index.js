@@ -83,9 +83,11 @@ router.get(["/api/content", "*"], async (req, res) => {
           title,
           header,
         });
-      } else if (redirect_to && type === "html") {
-        res.redirect(301, encodeURI(redirect_to));
-      } else {
+      }
+      // else if (redirect_to && type === "html" && input_url !== "/frontpage") {
+      //   res.redirect(301, encodeURI(redirect_to));
+      // }
+      else {
         fs.readFile(
           path.resolve(build_folder, `./prerender/${filename}.${type}`),
           "utf8",

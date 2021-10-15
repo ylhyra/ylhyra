@@ -8,7 +8,7 @@ import { ReadAlongSetup } from "documents/render/audio/ReadAlong";
 import { isDev } from "app/app/functions/isDev";
 import { PRELOAD_ARTICLES_ON_HOVER } from "app/app/constants";
 
-const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true;
+const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true && isDev;
 
 let cache = {};
 let expectedUrl = false;
@@ -24,7 +24,7 @@ export const loadContent = ({
   isInitializing,
   callback,
 }) => {
-  if (url in app_urls || (url === "/" && isVocabularyTheFrontpage())) {
+  if (url in app_urls) {
     return;
   }
 
@@ -46,7 +46,11 @@ export const loadContent = ({
       .get("/api/content", {
         params: {
           title: decodeURI(url.replace(/^\//, "").replace(/#.+/, "")) || "/",
-          clientSideRendering: CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE,
+          ...(CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE
+            ? {
+                clientSideRendering: true,
+              }
+            : {}),
         },
       })
       .then(async ({ data }) => {

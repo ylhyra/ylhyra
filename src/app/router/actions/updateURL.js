@@ -78,6 +78,11 @@ export async function updateURL(url, options = {}) {
     }
   }
 
+  // console.log({
+  //   replace,
+  //   isComponent,
+  // });
+
   if (!replace && !isComponent) {
     loadContent({
       url: pathname,
