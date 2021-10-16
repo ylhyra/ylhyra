@@ -19,7 +19,7 @@ find "${INPUT}" -name "*.wav" | while read filename; do
   aformat=dblp,
   areverse"
 
-  ffmpeg -y -i "${INPUT}/${basename}.wav" -hide_banner -loglevel error -af "
+  ffmpeg -nostdin -y -i "${INPUT}/${basename}.wav" -hide_banner -loglevel error -af "
     aexciter=
       amount=5:
       drive=2:

@@ -85,6 +85,10 @@ const render = async ({
     </Provider>
   );
 
+  if (/}}/.test(output)) {
+    throw new Error(`Unexpanded template in ${url}`);
+  }
+
   let footer_items =
     (necessary_data
       ? `<script type="text/javascript">window.ylhyra_data=${necessary_data}</script>`
