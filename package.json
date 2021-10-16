@@ -89,7 +89,6 @@
     "js-yaml": "^4.1.0",
     "json-stable-stringify": "^1.0.1",
     "line-by-line": "^0.1.6",
-    "lz-string": "^1.4.4",
     "marked": "^2.0.7",
     "mini-css-extract-plugin": "^1.6.0",
     "minimist": "^1.2.5",
@@ -98,10 +97,8 @@
     "node-sass": "^6.0.0",
     "nodemailer": "^6.6.1",
     "nodemon-webpack-plugin": "^4.5.2",
-    "npm": "^7.20.6",
     "omit-empty": "^1.0.0",
     "performance-now": "^2.1.0",
-    "putout": "^19.0.0",
     "react": "^17.0.2",
     "react-attr-converter": "^0.3.1",
     "react-dom": "^17.0.2",
@@ -177,9 +174,6 @@
     "file-loader": "^6.2.0",
     "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^5.3.2",
-    "jest": "^27.0.6",
-    "prettier": "2.3.1",
-    "puppeteer-core": "^10.4.0",
     "sass-loader": "^12.1.0",
     "style-loader": "^3.2.1",
     "stylus": "^0.55.0",
@@ -190,6 +184,10 @@
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.2.0",
     "webpack-license-plugin": "^4.1.2"
+  },
+  "tmpIgnored": {
+    "jest": "^27.0.6",
+    "prettier": "2.3.1"
   },
   "prettier": {
     "quoteProps": "consistent"

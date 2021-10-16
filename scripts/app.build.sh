@@ -9,7 +9,8 @@ if webpack --config ./scripts/webpack/app.webpack.js; then
   [ -d ./build/app ] && mv ./build/app ./build/app_old
   mv ./build/app_tmp ./build/app
 
-  sed -i '.bak' 's/http:\/\/localhost:3000//g' "build/app/main.css"
+  sed -i 's/http:\/\/localhost:3000//g' "build/app/main.css"
+  #  sed -i '.bak' 's/http:\/\/localhost:3000//g' "build/app/main.css"
   rm -f build/app/main.css.bak
 
   rm -rf  build/app_old
