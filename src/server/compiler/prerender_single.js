@@ -85,8 +85,14 @@ const render = async ({
     </Provider>
   );
 
-  if (/}}/.test(output)) {
+  if (/({|})/.test(output)) {
     throw new Error(`Unexpanded template in ${url}`);
+  }
+  if (/(\*)/.test(output)) {
+    throw new Error(`Unparsed "*" in ${url}`);
+  }
+  if (/<h1([^\n]{40,)<\/h1>/.test(output)) {
+    throw new Error(`Very long heading in ${url}`);
   }
 
   let footer_items =
