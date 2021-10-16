@@ -28,7 +28,9 @@ export default (props) => {
       <div className="video-sidebar">
         <div className="video-sidebar-content">
           <div data-translate="true">
-            {props.audio && <Audio src={props.audio} label="Slow audio" />}
+            {props.audio && (
+              <Audio src={getDynamicFileUrl(props.audio)} label="Slow audio" />
+            )}
             {props.children}
           </div>
         </div>
