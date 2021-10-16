@@ -73,7 +73,7 @@ export async function updateURL(url, options = {}) {
   if (!dontChangeUrl && encodeURI(url) !== window.location.pathname) {
     if (replace) {
       window.history.replaceState(null, "", encodeURI(url));
-    } else {
+    } else if ((!prerender && replace) || isComponent) {
       window.history.pushState(null, "", encodeURI(url));
     }
   }

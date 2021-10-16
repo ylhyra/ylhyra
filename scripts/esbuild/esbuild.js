@@ -9,7 +9,8 @@ esbuild.build({
   bundle: true,
   platform: "node",
   loader: { ".js": "jsx" },
-  outfile: "build/out.js",
+  outfile: "build/server/ylhyra_server.js",
+  // minify: true,
   plugins: [
     nodeExternalsPlugin(),
     ignorePlugin([
