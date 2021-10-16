@@ -29,6 +29,8 @@ export default function getSingleTable({
     /* Nouns */
     if (word.is("noun")) {
       row_names = types["cases"];
+    } else if (word.is("pronoun")) {
+      row_names = types["cases"];
     } else if (word.is("adjective")) {
       if (word.getFirst().is("nominative")) {
         if (word.getType("degree") === "positive degree") {
