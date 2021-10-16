@@ -51,7 +51,7 @@ export const studyNewTerms = () => {
  * @returns {number}
  */
 export const countTerms = (cards) => {
-  const i = (cards.map((c) => c.terms) |> _.flatten |> _.uniq).length;
+  const i = _.uniq(_.flatten(cards.map((c) => c.terms))).length;
   return roundToInterval(i, i > 200 ? 50 : 5);
 };
 
@@ -60,10 +60,10 @@ export const countTerms = (cards) => {
  */
 export const countTermsInSchedule = () => {
   if (!deck) return null;
-  return (
-    Object.keys(deck.schedule).map((card_id) => deck.cards[card_id]?.terms)
-    |> _.flatten
-    |> _.uniq
+  return _.uniq(
+    _.flatten(
+      Object.keys(deck.schedule).map((card_id) => deck.cards[card_id]?.terms)
+    )
   ).length;
 };
 

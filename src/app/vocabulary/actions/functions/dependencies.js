@@ -15,5 +15,5 @@ export const withDependencies = (cards) => {
   getTermsFromCards(cards).forEach((term) => {
     card_ids = card_ids.concat(term.getSortedCardDependenciesAsCardIds());
   });
-  return card_ids |> _.uniq |> getCardsByIds;
+  return getCardsByIds(_.uniq(card_ids));
 };

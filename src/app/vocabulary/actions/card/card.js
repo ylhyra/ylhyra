@@ -65,7 +65,7 @@ class Card {
   }
 
   printWord() {
-    return this.getId() |> printWord;
+    return printWord(this.getId());
   }
 
   /**
@@ -409,14 +409,16 @@ class Card {
    */
   extractPhoneticHash() {
     this.phoneticHashArray =
-      ((
-        getPlaintextFromFormatted(this.is_formatted) +
-        " " +
-        getPlaintextFromFormatted(this.en_formatted)
-      )
-        .match(matchWords)
-        ?.filter((i) => i.length >= 3)
-        .map(phoneticHash) |> uniq) || [];
+      uniq(
+        (
+          getPlaintextFromFormatted(this.is_formatted) +
+          " " +
+          getPlaintextFromFormatted(this.en_formatted)
+        )
+          .match(matchWords)
+          ?.filter((i) => i.length >= 3)
+          .map(phoneticHash)
+      ) || [];
   }
 }
 

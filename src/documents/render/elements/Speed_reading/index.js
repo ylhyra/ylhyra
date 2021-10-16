@@ -19,9 +19,6 @@ import {
   TextEventListenersOn,
 } from "documents/read/touch";
 
-@connect((state) => ({
-  speed_reader: state.speed_reader,
-}))
 class SpeedReader extends React.Component {
   componentDidMount = () => {
     load();
@@ -70,7 +67,9 @@ class SpeedReader extends React.Component {
   }
 }
 
-export default SpeedReader;
+export default connect((state) => ({
+  speed_reader: state.speed_reader,
+}))(SpeedReader);
 
 class Header_ extends React.Component {
   render() {

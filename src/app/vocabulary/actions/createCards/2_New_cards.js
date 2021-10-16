@@ -22,5 +22,5 @@ export default () => {
     );
   }
 
-  return new_cards |> veryRecentlySeenSortedLast;
+  return veryRecentlySeenSortedLast(new_cards);
 };

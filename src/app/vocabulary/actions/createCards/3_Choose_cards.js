@@ -98,10 +98,13 @@ export default () => {
    * we simply return cards that are not overdue.
    */
   if (chosen_cards.length === 0) {
-    chosen_cards =
-      [...not_overdue_bad, ...not_overdue_semi_bad, ...not_overdue]
-      |> sortCardsByScore
-      |> veryRecentlySeenSortedLast;
+    chosen_cards = veryRecentlySeenSortedLast(
+      sortCardsByScore([
+        ...not_overdue_bad,
+        ...not_overdue_semi_bad,
+        ...not_overdue,
+      ])
+    );
     console.error("No cards generated. Falling back to all cards.");
   }
 

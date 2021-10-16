@@ -45,7 +45,7 @@ export const PercentageKnown = (card_ids) => {
 
 export const PercentageKnownOverall = () => {
   if (!deck) return 0;
-  return Object.keys(deck.cards) |> PercentageKnown;
+  return PercentageKnown(Object.keys(deck.cards));
 };
 
 // if (isBrowser) {

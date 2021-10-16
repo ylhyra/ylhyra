@@ -15,12 +15,22 @@ module.exports = {
   stats: "errors-only", // "minimal" or "errors-only"
   module: {
     rules: [
+      // {
+      //   test: /\.(js|ts)$/,
+      //   loader: "babel-loader",
+      //   exclude: /node_modules/,
+      //   options: require(resolve("babel.config.js")),
+      // },
+
       {
         test: /\.(js|ts)$/,
-        loader: "babel-loader",
-        exclude: /node_modules/,
-        options: require(resolve("babel.config.js")),
+        loader: "esbuild-loader",
+        options: {
+          loader: "tsx",
+          target: "es2015",
+        },
       },
+
       /* Main Stylus file extracted to a separate file */
       isProduction && {
         test: /main\.styl$/,

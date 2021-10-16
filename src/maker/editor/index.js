@@ -1,4 +1,4 @@
-import "maker/editor/Style/index.styl";
+// import "maker/editor/Style/index.styl";
 
 import React from "react";
 import { connect } from "react-redux";
@@ -12,10 +12,7 @@ import { isDev } from "app/app/functions/isDev";
 import { isBrowser } from "app/app/functions/isBrowser";
 import store from "app/app/store";
 
-@connect((state) => ({
-  editor: state.editor,
-}))
-class Editor extends React.PureComponent {
+class _Editor extends React.PureComponent {
   // componentDidMount = () => {
   //
   // }
@@ -40,6 +37,9 @@ class Editor extends React.PureComponent {
     }
   }
 }
+const Editor = connect((state) => ({
+  editor: state.editor,
+}))(_Editor);
 
 const RenderEditor = () => {
   if (!isDev || !isBrowser) return null;

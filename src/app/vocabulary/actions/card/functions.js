@@ -55,10 +55,8 @@ export const getCardsFromTermId = (term_id) => {
  * @returns {Array.<CardID>}
  */
 export const getCardIdsFromTermIds = (term_ids) => {
-  return (
-    term_ids.map((t) => getTermById(t)?.getCardIds()).filter(Boolean)
-    |> flatten
-    |> uniq
+  return uniq(
+    flatten(term_ids.map((t) => getTermById(t)?.getCardIds()).filter(Boolean))
   );
 };
 
@@ -67,14 +65,14 @@ export const getCardIdsFromTermIds = (term_ids) => {
  * @returns {Array.<Card>}
  */
 export const getCardsFromTermIds = (term_ids) => {
-  return term_ids |> getCardIdsFromTermIds |> getCardsByIds;
+  return getCardsByIds(getCardIdsFromTermIds(term_ids));
 };
 
 /**
  * @returns {Array.<Card>}
  */
 export const getCardsInSchedule = () => {
-  return Object.keys(deck.schedule) |> getCardsByIds;
+  return getCardsByIds(Object.keys(deck.schedule));
 };
 
 /**
@@ -82,9 +80,7 @@ export const getCardsInSchedule = () => {
  * @returns {Array.<Term>}
  */
 export const getTermsFromCards = (cards) => {
-  return (cards.map((c) => c.getId()) |> getTermIdsFromCardIds).map(
-    getTermById
-  );
+  return getTermIdsFromCardIds(cards.map((c) => c.getId())).map(getTermById);
 };
 
 /**
@@ -92,8 +88,8 @@ export const getTermsFromCards = (cards) => {
  * @returns {Array.<TermID>}
  */
 export const getTermIdsFromCardIds = (card_ids) => {
-  return (
-    getCardsByIds(card_ids).map((card) => card.getTermIds()) |> flatten |> uniq
+  return uniq(
+    flatten(getCardsByIds(card_ids).map((card) => card.getTermIds()))
   );
 };
 

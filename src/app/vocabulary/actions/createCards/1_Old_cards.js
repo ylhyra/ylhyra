@@ -20,7 +20,7 @@ export default () => {
   /** @type {Array.<Card>} */
   let not_overdue = [];
 
-  (getCardsInSchedule() |> sortBySortKey)
+  sortBySortKey(getCardsInSchedule())
     .filter((card) => card.isAllowed())
     .sort((a, b) => a.getDue() - b.getDue())
     .forEach((card) => {
@@ -43,10 +43,10 @@ export default () => {
     });
 
   return {
-    overdue_bad: overdue_bad |> shuffleLocally,
-    overdue_good: overdue_good |> shuffleLocally,
-    not_overdue_bad: not_overdue_bad |> oldestFirst |> shuffleLocally,
-    not_overdue_semi_bad: not_overdue_semi_bad |> oldestFirst |> shuffleLocally,
+    overdue_bad: shuffleLocally(overdue_bad),
+    overdue_good: shuffleLocally(overdue_good),
+    not_overdue_bad: shuffleLocally(oldestFirst(not_overdue_bad)),
+    not_overdue_semi_bad: shuffleLocally(oldestFirst(not_overdue_semi_bad)),
     not_overdue,
   };
 };

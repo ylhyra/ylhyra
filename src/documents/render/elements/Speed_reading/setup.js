@@ -32,10 +32,7 @@ export const SpeedReaderSetup = () => {
 
 export default SpeedReaderSetup;
 
-@connect((state) => ({
-  speed_reader: state.speed_reader,
-}))
-class SpeedReaderContainer extends React.Component {
+class _SpeedReaderContainer extends React.Component {
   render() {
     if (this.props.speed_reader.open) {
       // window.listenerCount = 0 /* Turn off mousemove listener for text popups */
@@ -44,6 +41,10 @@ class SpeedReaderContainer extends React.Component {
     return null;
   }
 }
+const SpeedReaderContainer = connect((state) => ({
+  speed_reader: state.speed_reader,
+}))(_SpeedReaderContainer);
+
 // setTimeout(()=>{
 //   SpeedReaderSetup() // TEMP!!
 // },100)

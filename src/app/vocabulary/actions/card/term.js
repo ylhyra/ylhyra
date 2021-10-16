@@ -61,10 +61,10 @@ export class Term {
    * @returns {Array<CardID>}
    */
   getSortedCardDependenciesAsCardIds() {
-    return (
-      this.getSortedTermDependencies().map((term) => term.getCardIds())
-      |> _.flatten
-      |> _.uniq
+    return _.uniq(
+      _.flatten(
+        this.getSortedTermDependencies().map((term) => term.getCardIds())
+      )
     );
   }
 }

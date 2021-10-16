@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-@connect((state) => ({
-  user: state.user,
-}))
 class User extends Component {
   render() {
     const { user } = this.props;
@@ -15,4 +12,6 @@ class User extends Component {
     );
   }
 }
-export default User;
+export default connect((state) => ({
+  user: state.user,
+}))(User);
