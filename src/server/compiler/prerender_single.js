@@ -85,14 +85,17 @@ const render = async ({
     </Provider>
   );
 
-  if (/({|})/.test(output)) {
-    throw new Error(`Unexpanded template in ${url}`);
+  if (/({{|}})/.test(output) && !/blær/.test(url)) {
+    console.error(`Unexpanded template in ${url}`);
+    console.error(output.match(/(.{20}?({{|}}).{20}?)/)[1]);
   }
   if (/(\*)/.test(output)) {
-    throw new Error(`Unparsed "*" in ${url}`);
+    console.error(`Unparsed "*" in ${url}`);
+    console.error(output.match(/(.{20}?(\*).{20}?)/)[1]);
   }
+
   if (/<h1([^\n]{40,)<\/h1>/.test(output)) {
-    throw new Error(`Very long heading in ${url}`);
+    console.error(`Very long heading in ${url}`);
   }
 
   let footer_items =

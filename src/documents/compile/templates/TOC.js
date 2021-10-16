@@ -16,7 +16,7 @@ export default async (text) => {
         /{{(link with percentage|link with vocabulary list|chapter)\|([^|\n]+?)(?:\|([^|\n]+)?)?(?:\|([^|\n]+)?)?}}/g,
         async (j, template, link, title, small) => {
           title = title || link.replace("Course/", "");
-          const transclusion = await Transclude(link, 1);
+          const transclusion = await Transclude(link);
           // console.log(transclusion);
           const vocabulary = transclusion.header?.vocabulary;
           const data = vocabulary

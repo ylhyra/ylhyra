@@ -12,14 +12,19 @@ var fs = require("fs");
 
 const Transclude = (title, depth = 0, shouldGetData = true) => {
   return new Promise((resolve) => {
-    let values = getValuesForURL((depth > 0 ? "Template:" : "") + title);
-    // console.log({ title, values });
+    let values = getValuesForURL(
+      (depth > 0 && !title.startsWith("Text:") && !title.startsWith(":")
+        ? "Template:"
+        : "") + title
+    );
+    // console.log({ title, depth });
     if (!values.filepath) {
-      values = getValuesForURL(title);
-      if (!values.filepath) {
-        console.log(`\nNo template named "${title}"\n`);
-        return resolve();
-      }
+      // values = getValuesForURL(title);
+      // if (!values.filepath) {
+      console.log(`\nNo template named "${title}"\n`);
+      process.exit();
+      return resolve();
+      // }
     }
 
     fs.readFile(values.filepath, "utf8", async (err, data) => {
