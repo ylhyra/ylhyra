@@ -14,7 +14,6 @@ import "regenerator-runtime/runtime";
 import requestIp from "request-ip";
 import query from "server/database";
 import { isDev } from "app/app/functions/isDev";
-import vhost from "vhost";
 
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
@@ -44,7 +43,7 @@ if (!process.env.COOKIE_SECRET) {
 }
 
 /* Set Unicode header on all responses */
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   res.setHeader("charset", "utf-8");
   next();
 });
@@ -56,16 +55,10 @@ setTimeout(() => {
 }, 30 * 1000);
 
 const mainapp = express();
-// const mainapp = app; //express();
-
 mainapp.use(processed_image_url, express.static(image_output_folder));
 mainapp.use(unprocessed_image_url, express.static(ylhyra_content_files));
 mainapp.use("/", express.static(build_folder));
 
-// app.use(
-//   "/sitemap.xml",
-//   express.static(path.join(__basedir, "./build/sitemap.xml"))
-// );
 /*
   Private APIs
 */
@@ -95,7 +88,6 @@ mainapp.use("/", require("server/content").default);
 const inflections_app = express();
 inflections_app.use(cors({ origin: "*" }));
 inflections_app.set("json spaces", 2);
-
 inflections_app.use(
   "/inflection_styles.css",
   express.static(path.join(process.env.PWD, "/build/inflection_styles.css"))
@@ -104,8 +96,17 @@ inflections_app.use(
   "/",
   require("inflection/server/server-with-database/route_loader").default
 );
+app.use((req, res, next) => {
+  if (
+    /inflections\./.exec(req.headers.host) ||
+    /\/api\/inflection/.exec(req.originalUrl)
+  ) {
+    inflections_app(req, res, next);
+  } else {
+    return next();
+  }
+});
 
-app.use(vhost(/inflections\..+/, inflections_app));
 app.use(mainapp);
 
 // get the intended host and port number, use localhost and port 3000 if not provided
@@ -129,7 +130,7 @@ if (argv["generate-links"]) {
 } else if (argv["generate-sentences"]) {
   require("server/vocabulary/generate_sentences");
 } else if (argv["migration_vocabulary_2021_08"]) {
-  require("server/database/migrations/vocabulary_2021_08.js");
+  // require("server/database/migrations/vocabulary_2021_08.js");
 } else {
   /* Or, start the app */
   app.listen(port, host, (err) => {
