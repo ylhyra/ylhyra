@@ -20,7 +20,7 @@ require("dotenv").config({ path: "./../.env" });
 const argv = argvFactory(process.argv.slice(2));
 const app = express();
 require("express-ws")(app);
-var cors = require("cors");
+const cors = require("cors");
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ limit: "5mb", extended: true }));
 app.use(requestIp.mw());
