@@ -12,10 +12,12 @@ const speedLimit = require("express-slow-down")({
   delayAfter: 5,
   delayMs: process.env.TESTING ? 0 : 700,
 });
+
 const rateLimit = require("express-rate-limit")({
   windowMs: 1 * 60 * 1000,
   max: process.env.TESTING ? Infinity : 5,
 });
+
 router.post("/user", speedLimit, rateLimit, async (req, res) => {
   let username = req.body.username?.trim().replace(/\s+/g, " ");
   const email = req.body.email?.trim().toLowerCase();
@@ -89,9 +91,9 @@ const check_if_user_exists = async ({ email, username }) => {
     }
     query(q, (err, results) => {
       if (results.length > 0) {
-        if (email && results[0].email === email) {
+        if (email && results[0].email.toLowerCase() === email.toLowerCase()) {
           return resolve("ERROR_EMAIL_ALREADY_IN_USE");
-        } else if (results[0].username === username) {
+        } else {
           return resolve("ERROR_USERNAME_EXISTS");
         }
       }

@@ -13,9 +13,9 @@ if (isBrowser) {
     }
   });
 }
-export const InitializeRouter = (prerender) => {
+export const InitializeRouter = ({ url, prerender }) => {
   const { is404 } = window;
-  updateURL(window.location.pathname + window.location.hash, {
+  updateURL((url || window.location.pathname) + window.location.hash, {
     prerender,
     is404,
     isInitializing: true,

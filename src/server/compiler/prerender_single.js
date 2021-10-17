@@ -61,6 +61,7 @@ const render = async ({
     const { parsed, flattenedData } = out;
     props = { prerender: parsed };
     necessary_data = JSON.stringify({
+      url,
       parsed,
       flattenedData: {
         long_audio: flattenedData?.long_audio,

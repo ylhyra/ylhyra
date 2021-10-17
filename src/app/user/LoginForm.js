@@ -42,8 +42,9 @@ class Form2 extends React.Component {
       ...values,
     });
 
+    setSubmitting && setSubmitting(false);
+
     if (error) {
-      setSubmitting && setSubmitting(false);
       this.setState({
         error: errors[error] || error,
       });

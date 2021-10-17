@@ -13,12 +13,13 @@ import { Provider } from "react-redux";
 import "documents/style/main.styl";
 import { isDev } from "app/app/functions/isDev";
 
-let prerender;
+let prerender, url;
 if (isBrowser && "ylhyra_data" in window) {
   prerender = window.ylhyra_data.parsed;
+  url = window.ylhyra_data.url;
   delete window.ylhyra_data;
 }
-InitializeRouter(prerender);
+InitializeRouter({ url, prerender });
 InitializeUser();
 InitializeVocabulary();
 TextEventListenersOn();
