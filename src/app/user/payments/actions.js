@@ -1,8 +1,14 @@
 import { updateURL } from "app/router/actions/updateURL";
+import axios from "app/app/axios";
 
 export const MIN_PRICE = 3;
 export const MAX_PRICE = 200;
-export const continueAfterPaying = async () => {
+export const continueAfterPaying = async ({ price, transaction_id }) => {
+  await axios.post("/api/pwyw", {
+    price,
+    transaction_id,
+  });
+
   updateURL("/");
   /* TODO: "Thank you" */
 };
