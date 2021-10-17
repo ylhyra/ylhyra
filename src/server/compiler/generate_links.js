@@ -108,7 +108,7 @@ const run = () => {
 export const shouldBeCreated = (filepath, header) => {
   return (
     !/^(Data|File|Text|Template):/.test(header.title) &&
-    !/\/(drafts?|test|newsletter)\//i.test(filepath) &&
+    !/\/(drafts?|test|newsletter|project\/newest)\//i.test(filepath) &&
     header.status !== "draft"
   );
 };
