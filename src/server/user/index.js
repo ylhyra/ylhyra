@@ -20,7 +20,7 @@ const rateLimit = require("express-rate-limit")({
 
 router.post("/user", speedLimit, rateLimit, async (req, res) => {
   let username = req.body.username?.trim().replace(/\s+/g, " ");
-  const email = req.body.email?.trim().toLowerCase();
+  const email = req.body.email?.trim();
   const { password, captcha_token, type } = req.body;
 
   if (!username) {
@@ -85,7 +85,7 @@ const check_if_user_exists = async ({ email, username }) => {
   return new Promise((resolve) => {
     let q;
     if (email) {
-      q = sql`SELECT * FROM users WHERE email = ${email.toLowerCase()} OR username = ${username}`;
+      q = sql`SELECT * FROM users WHERE email = ${email} OR username = ${username}`;
     } else {
       q = sql`SELECT * FROM users WHERE username = ${username}`;
     }
@@ -108,7 +108,7 @@ const create_user = ({ username, email, password, res }) => {
     query(
       sql`INSERT INTO users SET
       username = ${username},
-      email = ${email?.toLowerCase() || null},
+      email = ${email || null},
       password = ${hash}
       `,
       (err, results2) => {
