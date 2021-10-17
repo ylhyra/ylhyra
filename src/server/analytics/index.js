@@ -49,7 +49,7 @@ router.post("/a", rateLimit, (req, res) => {
             page_name = ${entry?.url},
             seconds_spent = ${entry?.seconds || null},
             user_languages = ${_.uniq(languages).slice(0, 4).join(",")},
-            referrer = ${entry?.referrer}
+            referrer = ${entry?.referrer || null}
             ;
           `
       )
