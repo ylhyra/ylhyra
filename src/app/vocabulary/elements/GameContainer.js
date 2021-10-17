@@ -20,10 +20,12 @@ class GameContainer extends Component {
   render() {
     // const { deck, status, session } = this.props.vocabulary;
     // if (!session) return null;
+    const { card } = this.props.vocabulary;
+
     return (
       <div id="game-container">
         <div className="vocabulary-card-outer-container">
-          <Card />
+          <Card key={card.counter} />
         </div>
         <Progress />
       </div>

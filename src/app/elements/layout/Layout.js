@@ -6,9 +6,7 @@ import { connect } from "react-redux";
 
 class Layout extends React.Component {
   render() {
-    const is_fullscreen = ["/vocabulary/play"].includes(
-      this.props.route.pathname
-    );
+    const is_fullscreen = ["/vocabulary/play"].includes(this.props.pathname);
     return (
       <div id="container">
         <Error />
@@ -20,5 +18,5 @@ class Layout extends React.Component {
   }
 }
 export default connect((state) => ({
-  route: state.route,
+  pathname: state.route.pathname,
 }))(Layout);

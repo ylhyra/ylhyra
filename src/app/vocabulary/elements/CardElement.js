@@ -5,6 +5,7 @@ import { get_processed_image_url } from "app/app/paths";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
+import { route } from "app/router/reducers";
 
 class CardElement extends Component {
   state = {};
@@ -12,7 +13,6 @@ class CardElement extends Component {
     this.componentDidUpdate();
     window.addEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
-    // this.sound();
   }
   componentWillUnmount() {
     window.removeEventListener("keydown", this.checkKey);
@@ -21,7 +21,9 @@ class CardElement extends Component {
   componentDidUpdate(prevProps) {
     const { card } = this.props.vocabulary;
     const prevCard = prevProps?.vocabulary.card;
+    // console.log(this.props);
     if (!prevProps || card.counter !== prevCard.counter) {
+      // if (prevProps && card.counter !== prevCard.counter) {
       this.setState({
         answer: null,
         clickingOnShowButton: null,

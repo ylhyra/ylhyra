@@ -10,8 +10,15 @@ import { getFrontpageURL } from "./index";
 import { renderTitle } from "server/content/renderTitle";
 
 export async function updateURL(url, options = {}) {
-  let { title, replace, prerender, is404, dontChangeUrl, isInitializing } =
-    options;
+  let {
+    title,
+    replace,
+    prerender,
+    is404,
+    dontChangeUrl,
+    isInitializing,
+    routeContent,
+  } = options;
   if (isBrowser) {
     window.HAS_LOADED = true;
   }
@@ -99,6 +106,7 @@ export async function updateURL(url, options = {}) {
       content: {
         pathname: pathname,
         section: section,
+        data: routeContent,
       },
     });
     if (!section) {

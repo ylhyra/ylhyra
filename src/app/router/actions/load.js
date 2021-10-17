@@ -100,16 +100,20 @@ const set = async ({
     flattenedData = out.flattenedData;
 
     // console.log(out);
-    /* Only used for the editor */
-    store.dispatch({
-      type: "INITIALIZE_WITH_TOKENIZED_AND_DATA",
-      currentDocument: out.tokenized?.[data.header.title],
 
-      allDocuments: out.tokenized,
-      data: flattenedData,
-      currentDocumentData: out.data?.[data.header.title],
-      parsed: parsed,
-    });
+    // if(isDev) {
+    //   /* Only used for the editor */
+    //   store.dispatch({
+    //     type: "INITIALIZE_WITH_TOKENIZED_AND_DATA",
+    //     currentDocument: out.tokenized?.[data.header.title],
+    //
+    //     allDocuments: out.tokenized,
+    //     data: flattenedData,
+    //     currentDocumentData: out.data?.[data.header.title],
+    //     parsed: parsed,
+    //   });
+    // }
+
     // if(isBrowser){
     // window.currentDocumentTitle= data.header.title,
     // }
@@ -119,13 +123,13 @@ const set = async ({
   }
   index(data.shouldBeIndexed);
 
-  store.dispatch({
-    type: "LOAD_ROUTE_CONTENT",
-    data: {
-      parsed,
-      header: data.header,
-    },
-  });
+  // store.dispatch({
+  //   type: "LOAD_ROUTE_CONTENT",
+  //   data: {
+  //     parsed,
+  //     header: data.header,
+  //   },
+  // });
   url = data.redirect_to || url;
 
   if (url === "/" && isVocabularyTheFrontpage()) {
@@ -139,6 +143,10 @@ const set = async ({
     title: data.title,
     replace: true,
     isInitializing,
+    routeContent: {
+      parsed,
+      header: data.header,
+    },
   });
   ReadAlongSetup(flattenedData);
 };

@@ -54,6 +54,8 @@ class Session {
     this.savedAt = null;
   }
   async sessionDone(options = {}) {
+    this.done = true;
+    // console.log({ s: this, done: this.done });
     await this.createSchedule();
     this.clearInLocalStorage();
     if (!options.isInitializing) {
@@ -61,7 +63,7 @@ class Session {
       if (url === "/vocabulary/play") {
         url = "/vocabulary";
       }
-      updateURL(url);
+      await updateURL(url);
     }
     await sync();
     /* Analytics */
