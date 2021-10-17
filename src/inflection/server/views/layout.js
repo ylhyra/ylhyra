@@ -11,7 +11,7 @@ export default ({
 <title>${(title && title + " – ") || ""} Icelandic inflections</title>
 <meta charset="utf-8"/>
 <!-- <base href="/"/> -->
-<link href="/inflection_styles/build.css?build=000000" rel="stylesheet" type="text/css"/>
+<link href="/inflection_styles.css?build=000000" rel="stylesheet" type="text/css"/>
 <!-- <meta name="description" content=""/> -->
 <meta name="google" content="notranslate" />
 <meta name="viewport" content="width=device-width, initial-scale=1">

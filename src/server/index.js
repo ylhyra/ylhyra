@@ -14,10 +14,12 @@ import "regenerator-runtime/runtime";
 import requestIp from "request-ip";
 import query from "server/database";
 import { isDev } from "app/app/functions/isDev";
+import vhost from "vhost";
 
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
 const argv = argvFactory(process.argv.slice(2));
+
 const app = express();
 require("express-ws")(app);
 const cors = require("cors");
@@ -53,9 +55,12 @@ setTimeout(() => {
   query(`SET sql_mode = ''`, () => {});
 }, 30 * 1000);
 
-app.use(processed_image_url, express.static(image_output_folder));
-app.use(unprocessed_image_url, express.static(ylhyra_content_files));
-app.use("/", express.static(build_folder));
+const mainapp = express();
+// const mainapp = app; //express();
+
+mainapp.use(processed_image_url, express.static(image_output_folder));
+mainapp.use(unprocessed_image_url, express.static(ylhyra_content_files));
+mainapp.use("/", express.static(build_folder));
 
 // app.use(
 //   "/sitemap.xml",
@@ -64,22 +69,22 @@ app.use("/", express.static(build_folder));
 /*
   Private APIs
 */
-app.use(cors({ origin: "https://ylhyra.is" }));
+mainapp.use(cors({ origin: "https://ylhyra.is" }));
 // app.use('/api', require('server/web-socket').default)
 // app.use('/api', require('server/server-side-rendering').default)
-app.use("/api", require("server/audio/recorder").default);
+mainapp.use("/api", require("server/audio/recorder").default);
 // app.use('/api', require('server/audio/GetOneAudioFile').default)
 // app.use('/api', require('server/audio/Synchronize').default)
 // app.use('/api', require('server/translator/save').default)
-app.use("/api", require("server/translator/saveDocument").default);
-app.use("/api", require("server/analytics").default);
-app.use("/api", require("server/analytics/overview").default);
-app.use("/api", require("server/analytics/userErrors").default);
-app.use("/api", require("server/user").default);
-app.use("/api", require("server/user/pay").default);
-app.use("/api", require("server/vocabulary/sync").default);
-app.use("/api", require("server/vocabulary/maker").default);
-app.use("/", require("server/content").default);
+mainapp.use("/api", require("server/translator/saveDocument").default);
+mainapp.use("/api", require("server/analytics").default);
+mainapp.use("/api", require("server/analytics/overview").default);
+mainapp.use("/api", require("server/analytics/userErrors").default);
+mainapp.use("/api", require("server/user").default);
+mainapp.use("/api", require("server/user/pay").default);
+mainapp.use("/api", require("server/vocabulary/sync").default);
+mainapp.use("/api", require("server/vocabulary/maker").default);
+mainapp.use("/", require("server/content").default);
 
 // // app.use('/api', require('server/tweets').default)
 // // app.use('/api', require('server/audio').default)
@@ -87,31 +92,21 @@ app.use("/", require("server/content").default);
 // // app.use('/api', require('server/api/audio/Upload').default)
 // app.use('/api/temp_files/', express.static(upload_path))
 
-/*
-  Public APIs
-*/
-app.use(cors({ origin: "*" }));
-app.set("json spaces", 2);
+const inflections_app = express();
+inflections_app.use(cors({ origin: "*" }));
+inflections_app.set("json spaces", 2);
 
-// const router = require("express").Router();
-// router.get(["/robots.txt", "/favicon.ico", "/sitemap.xml"], (req, res) => {
-//   res.send("");
-// });
-// app.use("/", router);
+inflections_app.use(
+  "/inflection_styles.css",
+  express.static(path.join(process.env.PWD, "/build/inflection_styles.css"))
+);
+inflections_app.use(
+  "/",
+  require("inflection/server/server-with-database/route_loader").default
+);
 
-// /*
-//   When running on subdomains,
-//   serve up inflections.
-//   If other services are needed later, go by "request.headers.host"
-// */
-// app.use(
-//   "/inflection_styles",
-//   express.static(path.join(__dirname, "/inflection/styles"))
-// );
-// app.use(
-//   "/",
-//   require("inflection/server/server-with-database/route_loader").default
-// );
+app.use(vhost(/inflections\..+/, inflections_app));
+app.use(mainapp);
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST;
