@@ -2,6 +2,7 @@ import { isBrowser } from "app/app/functions/isBrowser";
 import { existsSchedule, isUserLoggedIn } from "app/user/actions";
 
 import { updateURL } from "./updateURL";
+import { URL_title } from "app/app/paths";
 
 if (isBrowser) {
   window.HAS_LOADED = false;
