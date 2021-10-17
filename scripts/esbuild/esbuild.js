@@ -10,6 +10,7 @@ esbuild.build({
   platform: "node",
   loader: { ".js": "jsx" },
   outfile: "build/server/ylhyra_server.js",
+  sourcemap: true,
   // minify: true,
   plugins: [
     nodeExternalsPlugin(),
