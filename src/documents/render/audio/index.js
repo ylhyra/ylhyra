@@ -20,15 +20,13 @@ class Audio extends React.PureComponent {
       key: 0, // To force remounting if an error occurs
     };
   }
-  componentDidMount = () => {
-    // if (this.props.autoplay) {
-    //   this.pausePlayButton();
-    // }
-  };
+  getFileName() {
+    return this.props.filename || this.props.src;
+  }
   componentDidUpdate = (prevProps) => {
     const audio = this.audio.current;
     /* Pause if another audio element has taken over */
-    if (this.props.audio.currentlyPlaying !== this.props.src) {
+    if (this.props.audio.currentlyPlaying !== this.getFileName()) {
       this.setState({ playing: false });
       audio?.pause();
     } else if (this.props.audio.begin !== prevProps.audio.begin) {
@@ -36,7 +34,6 @@ class Audio extends React.PureComponent {
         timer && clearTimeout(timer);
         this.setState({ stopAt: null });
       } else {
-        console.log(this.props.audio.begin);
         audio.currentTime = this.props.audio.begin;
         audio?.play();
         this.setState({ stopAt: this.props.audio.end - 0.05 });
@@ -66,7 +63,7 @@ class Audio extends React.PureComponent {
   playing = (event) => {
     const audio = this.audio.current;
     event.persist();
-    ReadAlong(audio, "play", this.props.src);
+    ReadAlong(audio, "play", this.getFileName());
     if (audio.duration - audio.currentTime > 0.2) {
       // More than 0.1 seconds left
       this.setState({
@@ -103,14 +100,14 @@ class Audio extends React.PureComponent {
   play = (event) => {
     event?.persist();
     SmoothScroll.allow();
-    ReadAlong(this.audio.current, "play", this.props.src);
+    ReadAlong(this.audio.current, "play", this.getFileName());
     this.updateStore();
     this.setState({ playing: true });
   };
   pause = (event) => {
     event.persist();
     SmoothScroll.stop();
-    ReadAlong(this.audio.current, "pause", this.props.src);
+    ReadAlong(this.audio.current, "pause", this.getFileName());
     this.setState({ playing: false });
   };
   ended = () => {
@@ -123,10 +120,10 @@ class Audio extends React.PureComponent {
     this.setState({ playing: false });
   };
   updateStore = () => {
-    this.props.audio.currentlyPlaying !== this.props.src &&
+    this.props.audio.currentlyPlaying !== this.getFileName() &&
       store.dispatch({
         type: "CURRENTLY_PLAYING",
-        content: this.props.src,
+        content: this.getFileName(),
       });
   };
   error = (e) => {

@@ -8,7 +8,9 @@ export default (props) => {
     <div className="book" data-translate="true">
       <Spacer space={20} />
       <div className="center">
-        {props.audio && <Audio src={getDynamicFileUrl(props.audio)} />}
+        {props.audio && (
+          <Audio src={getDynamicFileUrl(props.audio)} filename={props.audio} />
+        )}
       </div>
       <Spacer space={10} />
       {props.children}

@@ -73,10 +73,15 @@ export function getRanking() {
         // All last three cards were good
         !this.session.ratingHistory.slice(0, 3).some((i) => i === BAD) &&
         // And none were sentences
-        this.session.cardHistory.slice(0, 3).every((i) => !i.isSentence)))
+        this.session.cardHistory.slice(0, 3).every((i) => !i.isSentence) &&
+        // Prevent English from showing up for unknown cards
+        (this.from === "is" || !this.isNewCard())))
   ) {
-    console.log("Sentences first");
-    q += 200;
+    q += 20;
+    /* Extra boost for when easiness level was increased */
+    if (this.session.wasEasinessLevelJustIncreased) {
+      q += 200;
+    }
   }
 
   return q;

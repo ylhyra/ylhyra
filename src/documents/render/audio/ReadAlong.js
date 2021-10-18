@@ -79,7 +79,7 @@ export const ReadAlongSetup = (data) => {
   const { long_audio } = data;
   for (let filename of Object.keys(long_audio)) {
     const synclist = long_audio[filename].sync.list;
-    list[getDynamicFileUrl(filename)] = synclist;
+    list[filename] = synclist;
     /* Temp solution, would be better to do this in the audio synchronization step */
     for (const section of synclist) {
       for (const element of section.elements) {
