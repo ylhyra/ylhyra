@@ -55,6 +55,12 @@ class Card {
     Object.assign(this, data);
     this.data = data;
     this.extractPhoneticHash();
+
+    const plaintext = getPlaintextFromFormatted(this.is_formatted);
+    this.isSentence =
+      plaintext.length > 8 &&
+      plaintext.charAt(0) === plaintext.charAt(0).toUpperCase() &&
+      plaintext.match(/^([^;(]+)/)?.[1]?.includes(" ");
   }
 
   /**
@@ -347,9 +353,13 @@ class Card {
    * @returns {Array.<CardID>}
    */
   getDependenciesAsArrayOfCardIds() {
-    return getCardIdsFromTermIds(
+    if (this.getDependenciesAsArrayOfCardIds_Memoized) {
+      return this.getDependenciesAsArrayOfCardIds_Memoized;
+    }
+    this.getDependenciesAsArrayOfCardIds_Memoized = getCardIdsFromTermIds(
       Object.keys(this.getDependenciesAsTermIdToDepth())
     ).filter((card_id) => card_id !== this.getId());
+    return this.getDependenciesAsArrayOfCardIds_Memoized;
   }
 
   /**
@@ -380,11 +390,9 @@ class Card {
    * @returns {Boolean}
    */
   hasDependenciesInCommonWith(card2) {
-    return (
-      _.intersection(
-        this.getDependenciesAsArrayOfCardIds(),
-        card2.getDependenciesAsArrayOfCardIds()
-      ).length > 0
+    const x2 = card2.getDependenciesAsArrayOfCardIds();
+    return this.getDependenciesAsArrayOfCardIds().some((card_id) =>
+      x2.includes(card_id)
     );
   }
 

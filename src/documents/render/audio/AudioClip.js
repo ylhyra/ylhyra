@@ -26,7 +26,7 @@ const AudioClip = {
           console.warn(e);
         });
       } else {
-        audio.removeEventListener("ended", next, false);
+        audio?.removeEventListener("ended", next, false);
       }
     };
     audio.addEventListener("ended", next);

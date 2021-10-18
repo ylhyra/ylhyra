@@ -44,11 +44,11 @@ export default () => {
     newCardEvery = 6;
   }
 
-  console.log({
-    overdue_good,
-    overdue_bad,
-    new_cards,
-  });
+  // console.log({
+  //   overdue_good,
+  //   overdue_bad,
+  //   new_cards,
+  // });
 
   /*
     Loop to select chosen cards

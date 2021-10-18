@@ -16,14 +16,29 @@ export const increaseEasinessLevel = (currentCardSortKey) => {
   const newBasedOnCurrentCard = currentCardSortKey + change;
   const newBasedOnCurrentEasinessLevel = getEasinessLevel() + change;
   if (newBasedOnCurrentCard < getEasinessLevel()) {
+    // log("Not increased as term is below current level");
     return;
   }
+
   const newValue = Math.min(newBasedOnCurrentEasinessLevel, getMaxSortKey());
   const change2 = newValue - getEasinessLevel();
-  if (change2 > MIN_JUMP_UP) {
-    setEasinessLevel(newValue);
+  if (change2 >= MIN_JUMP_UP) {
+    const nextSentence = getSortKeyOfNextSentenceAbove(newValue);
+    setEasinessLevel(nextSentence);
     recreateSessionCardsAfterChangingEasinessLevel(change2);
   }
+};
+
+const getSortKeyOfNextSentenceAbove = (inputSortKey) => {
+  return inputSortKey;
+  // const i = deck.cards_sorted.findIndex(
+  //   (card) => card.sortKey === inputSortKey
+  // );
+  // console.log(deck.cards_sorted.slice(i).find((card) => card.isSentence));
+  // return (
+  //   deck.cards_sorted.slice(i).find((card) => card.isSentence)?.sortKey ||
+  //   inputSortKey
+  // );
 };
 
 export const easinessLevelShouldBeLowerThan = (currentCardSortKey) => {
@@ -97,6 +112,7 @@ export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
   //   }
   // }
 
+  deck.session.wasEasinessLevelJustIncreased = true;
   deck.session.createCards({ insertImmediately: true });
 };
 

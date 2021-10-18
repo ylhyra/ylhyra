@@ -6,7 +6,7 @@ import {
 import { deck } from "app/vocabulary/actions/deck";
 
 export const MIN_JUMP_UP = 50;
-export const MAX_JUMP_UP = 200;
+export const MAX_JUMP_UP = 500;
 export const DEFAULT_JUMP_DOWN = 100;
 let easyInARow = 0;
 

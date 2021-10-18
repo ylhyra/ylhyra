@@ -65,10 +65,10 @@ export function postponeRelatedCards(card1interval) {
     // Overlap in card text (such as in the English translations)
     else if (card1.isTextSimilarTo(card2)) {
       card2.showIn({ cannotBeShownBefore: 2 });
-      log(
-        `"${card2.printWord()}" postponed as it's similar to "${card1.printWord()}"`
-      );
-      log(card2.phoneticHashArray, card1.phoneticHashArray);
+      // log(
+      //   `"${card2.printWord()}" postponed as it's similar to "${card1.printWord()}"`
+      // );
+      // log(card2.phoneticHashArray, card1.phoneticHashArray);
     }
   });
 }

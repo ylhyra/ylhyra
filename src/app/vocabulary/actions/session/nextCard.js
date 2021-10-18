@@ -51,5 +51,6 @@ export function nextCard(depth = 0) {
     this.lastSeenTerms[id] = this.counter;
   });
 
+  this.wasEasinessLevelJustIncreased = false;
   this.saveSessionInLocalStorage();
 }

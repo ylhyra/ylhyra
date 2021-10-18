@@ -65,5 +65,19 @@ export function getRanking() {
       }
     }
   }
+
+  if (
+    !this.isSentence &&
+    (this.session.wasEasinessLevelJustIncreased ||
+      (this.session.ratingHistory.length >= 3 &&
+        // All last three cards were good
+        !this.session.ratingHistory.slice(0, 3).some((i) => i === BAD) &&
+        // And none were sentences
+        this.session.cardHistory.slice(0, 3).every((i) => !i.isSentence)))
+  ) {
+    console.log("Sentences first");
+    q += 200;
+  }
+
   return q;
 }
