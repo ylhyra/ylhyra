@@ -53,18 +53,20 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
   if (memoizedSuggestions.row_id === input_row_id) {
     return memoizedSuggestions.value;
   }
-  const split = is.toLowerCase().split(/[ ;,]/g);
+  const split = is.toLowerCase().replace(/[.?!]/g, "").split(/[ ;,]/g);
   let similar = Database.rows
     .map((r) => {
       if (r.icelandic === is) return null;
       const word =
         ">" +
-        (r.icelandic + ">>" + r.alternative_id + ">>" + r.lemmas)
+        (r.icelandic + ">->" + r.alternative_id + ">->" + r.lemmas)
           .toLowerCase()
+          .replace(/[.?!]/g, "")
           .split(/[ ;,]/g)
           .join(">") +
         ">";
       let score = 0;
+
       for (let i = 0; i < split.length; i++) {
         for (let b = i + 1; b <= split.length; b++) {
           const fragment = ">" + split.slice(i, b).join(">") + ">";
@@ -74,10 +76,18 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
             score += (b - i) * 2 + fragment.length;
           } else if (fragment.length > 6) {
             const s = compareTwoStrings(fragment, word);
-            if (s > 0.5) {
+            if (s > 0.2) {
               score += (b - i) / 2 + s;
             }
           }
+          // if (r.icelandic === "Þetta er leiðinlegt.") {
+          //   console.log({
+          //     fragment,
+          //     word,
+          //     score,
+          //     s: compareTwoStrings(fragment, word),
+          //   });
+          // }
         }
       }
 
