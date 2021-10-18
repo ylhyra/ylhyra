@@ -129,8 +129,8 @@ const WrapInTags = (input, tokenizedSplit, elementName, innerFunction) => {
   // console.log(json2html(json))
 
   /* TODO: Þetta virkar ekki rétt, sjá "krók og kima" á http://localhost:3000/bl%C3%A6r/silfursvanurinn/3 */
-  // json = InvertElementsThatOnlyContainOneThing(json);
-  // json = MergeElementsThatHaveBeenSplitUnnecessarily(json, temp_attribute_name);
+  json = InvertElementsThatOnlyContainOneThing(json);
+  json = MergeElementsThatHaveBeenSplitUnnecessarily(json, temp_attribute_name);
   return json;
 };
 

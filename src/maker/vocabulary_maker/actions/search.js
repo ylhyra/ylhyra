@@ -49,7 +49,7 @@ export const search = (e) => {
 
 export const didYouMeanSuggestions = (is, input_row_id) => {
   const split = is.toLowerCase().split(/[ ;,]/g);
-  let v = Database.rows
+  let similar = Database.rows
     .map((r) => {
       if (r.icelandic === is) return null;
       const v = ">" + r.icelandic.toLowerCase().split(/[ ;,]/g).join(">") + ">";
@@ -68,7 +68,7 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
         score,
       };
     })
-    .filter((j) => j?.score > 10)
+    .filter((j) => j?.score > 2)
     .sort((a, b) => b.score - a.score);
 
   const sentenceSplit = is.toLowerCase().split(/[;]/g);
@@ -92,13 +92,13 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
     .filter(Boolean)
     .sort((a, b) => a.level - b.level || a.score - b.score);
 
-  if (v[0]?.score === v[5]?.score) v = [];
-  if (dependsOnThis.length === 0 && v.length === 0) {
+  // if (similar[0]?.score === similar[5]?.score) similar = [];
+  if (dependsOnThis.length === 0 && similar.length === 0) {
     return null;
   }
 
   const u = _.uniq(
-    [...dependsOnThis.slice(0, 3), ...v.slice(0, 1)],
+    [...dependsOnThis.slice(0, 3), ...similar.slice(0, 1)],
     false,
     (row) => row.row_id
   ).map((j, i) => (

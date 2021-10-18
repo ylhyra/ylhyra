@@ -76,6 +76,7 @@ class Form2 extends React.Component {
     if (e.keyCode === 51) number = 3;
     if (e.keyCode === 52) number = 4;
     if (e.keyCode === 53) number = 5;
+    if (e.keyCode === 54) number = 6;
     if (e.metaKey && e.keyCode === 75 /* Command K */) {
       set("depends_on", "");
       set("lemmas", row.depends_on);

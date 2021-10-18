@@ -249,6 +249,7 @@ export const addRowsIfMissing = (text) => {
 
 if (isBrowser) {
   window.addRowsIfMissing = addRowsIfMissing;
+  window.a = addRowsIfMissing;
   window.save = save;
   window.rows = () => rows;
 }
