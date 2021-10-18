@@ -48,21 +48,32 @@ export const search = (e) => {
   selectRows(true);
 };
 
+let memoizedSuggestions = {};
 export const didYouMeanSuggestions = (is, input_row_id) => {
+  if (memoizedSuggestions.row_id === input_row_id) {
+    return memoizedSuggestions.value;
+  }
   const split = is.toLowerCase().split(/[ ;,]/g);
   let similar = Database.rows
     .map((r) => {
       if (r.icelandic === is) return null;
-      const v = ">" + r.icelandic.toLowerCase().split(/[ ;,]/g).join(">") + ">";
+      const word =
+        ">" +
+        (r.icelandic + ">>" + r.alternative_id + ">>" + r.lemmas)
+          .toLowerCase()
+          .split(/[ ;,]/g)
+          .join(">") +
+        ">";
       let score = 0;
       for (let i = 0; i < split.length; i++) {
         for (let b = i + 1; b <= split.length; b++) {
           const fragment = ">" + split.slice(i, b).join(">") + ">";
-          if (fragment.length < 3) continue;
-          if (v.includes(fragment)) {
+
+          // if (fragment.length < 3) continue;
+          if (word.includes(fragment)) {
             score += (b - i) * 2 + fragment.length;
           } else if (fragment.length > 6) {
-            const s = compareTwoStrings(fragment, v);
+            const s = compareTwoStrings(fragment, word);
             if (s > 0.5) {
               score += (b - i) / 2 + s;
             }
@@ -105,7 +116,7 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
   }
 
   const u = _.uniq(
-    [...dependsOnThis.slice(0, 3), ...similar.slice(0, 1)],
+    [...dependsOnThis.slice(0, 3), ...similar.slice(0, 3)],
     false,
     (row) => row.row_id
   ).map((j, i) => (
@@ -132,7 +143,9 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
       />
     </div>
   ));
-  return <div className="small gray">Did you mean: {u}</div>;
+  const returns = <div className="small gray">Did you mean: {u}</div>;
+  memoizedSuggestions = { row_id: input_row_id, value: returns };
+  return returns;
 };
 
 export const turnOffSearch = () => {

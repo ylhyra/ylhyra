@@ -73,8 +73,10 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
       let altid_lemmas = [];
       let dependson_lemmas = [];
       row.lemmas?.split(/[,;]/g).forEach((lemma) => {
-        if (/%/.test(lemma)) {
-          altid_lemmas.push(lemma.replace("%", ""));
+        if (/%%/.test(lemma)) {
+          return;
+        } else if (/%/.test(lemma)) {
+          altid_lemmas.push(lemma.replaceAll("%", ""));
         } else {
           dependson_lemmas.push(lemma);
         }
