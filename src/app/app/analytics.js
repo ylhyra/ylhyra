@@ -71,10 +71,14 @@ class Analytics {
     this.queue = [];
     this.save();
   };
-  error = () => {
-    // TODO! Does not work as this results in an infinite loop
-    // if (!likelyNotABot) return;
-    // axios.post(`/api/error`, { message, url: window.location.pathname });
+  error = (message) => {
+    if (!likelyNotABot) return;
+    /* Limit to reporting a single error to prevent infinite loops */
+    if (this.errorSent) return;
+    setTimeout(() => {
+      axios.post(`/api/error`, { message, url: window.location.pathname });
+    }, 4000);
+    this.errorSent = true;
   };
   test = () => {
     if (process.env.NODE_ENV !== "development") return;

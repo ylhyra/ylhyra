@@ -101,18 +101,16 @@ const set = async ({
 
     // console.log(out);
 
-    // if(isDev) {
-    //   /* Only used for the editor */
-    //   store.dispatch({
-    //     type: "INITIALIZE_WITH_TOKENIZED_AND_DATA",
-    //     currentDocument: out.tokenized?.[data.header.title],
-    //
-    //     allDocuments: out.tokenized,
-    //     data: flattenedData,
-    //     currentDocumentData: out.data?.[data.header.title],
-    //     parsed: parsed,
-    //   });
-    // }
+    /* Only used for the editor */
+    store.dispatch({
+      type: "INITIALIZE_WITH_TOKENIZED_AND_DATA",
+      currentDocument: out.tokenized?.[data.header.title],
+
+      allDocuments: out.tokenized,
+      data: flattenedData,
+      currentDocumentData: out.data?.[data.header.title],
+      parsed: parsed,
+    });
 
     // if(isBrowser){
     // window.currentDocumentTitle= data.header.title,
