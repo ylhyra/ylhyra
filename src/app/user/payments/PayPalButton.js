@@ -61,7 +61,8 @@ export class PayPalButton extends React.Component {
                     // email_address: process.env.REACT_APP_PAYPAL_EMAIL,
                     merchant_id: process.env.REACT_APP_MERCHANT_ID,
                   },
-                  description: "Icelandic language-learning material",
+                  description:
+                    "An account at Ylhýra.is, an Icelandic language-learning website",
                   amount: {
                     currency_code: "USD",
                     value: price,

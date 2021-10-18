@@ -149,7 +149,7 @@ class Form2 extends React.Component {
                 </div>
               )}
 
-              {error}
+              {!isSubmitting && error}
               {message}
 
               {process.env.REACT_APP_HCAPTCHA_SITEKEY && (

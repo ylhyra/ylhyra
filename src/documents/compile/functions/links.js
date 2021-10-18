@@ -22,7 +22,11 @@ export const ProcessLinks = (
           link = URL_title(link);
           const [title] = link.split("#");
           if (links) {
-            if (title && !(title in links) && !(link in app_urls)) {
+            if (
+              title &&
+              (!(title in links) || !links[title].shouldBeCreated) &&
+              !(link in app_urls)
+            ) {
               return text;
             }
             if (links[title]?.redirect_to) {

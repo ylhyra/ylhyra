@@ -9,8 +9,12 @@ export const continueAfterPaying = async ({ price, transaction_id }) => {
     transaction_id,
   });
 
-  updateURL("/");
-  /* TODO: "Thank you" */
+  if (price) {
+    updateURL("/signup/done");
+  } else {
+    updateURL("/");
+    // updateURL("/signup/welcome");
+  }
 };
 
 export const parsePrice = (price) => {
