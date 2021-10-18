@@ -10,6 +10,7 @@ import {
   selectRows,
 } from "maker/vocabulary_maker/actions/actions";
 import _ from "underscore";
+import { compareTwoStrings } from "string-similarity";
 
 export let isSearching = false;
 export let reDoSearch;
@@ -57,18 +58,24 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
       for (let i = 0; i < split.length; i++) {
         for (let b = i + 1; b <= split.length; b++) {
           const fragment = ">" + split.slice(i, b).join(">") + ">";
-          if (fragment.length < 6) continue;
+          if (fragment.length < 3) continue;
           if (v.includes(fragment)) {
             score += (b - i) * 2 + fragment.length;
+          } else if (fragment.length > 6) {
+            const s = compareTwoStrings(fragment, v);
+            if (s > 0.5) {
+              score += (b - i) / 2 + s;
+            }
           }
         }
       }
+
       return {
         ...r,
         score,
       };
     })
-    .filter((j) => j?.score > 2)
+    .filter((j) => j?.score > 0)
     .sort((a, b) => b.score - a.score);
 
   const sentenceSplit = is.toLowerCase().split(/[;]/g);
