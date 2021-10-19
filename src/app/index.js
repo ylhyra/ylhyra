@@ -13,13 +13,12 @@ import { Provider } from "react-redux";
 import "documents/style/main.styl";
 import { isDev } from "app/app/functions/isDev";
 
-let prerender, url;
+let prerender_data;
 if (isBrowser && "ylhyra_data" in window) {
-  prerender = window.ylhyra_data.parsed;
-  url = window.ylhyra_data.url;
+  prerender_data = window.ylhyra_data;
   delete window.ylhyra_data;
 }
-InitializeRouter({ url, prerender });
+InitializeRouter(prerender_data);
 InitializeUser();
 InitializeVocabulary();
 TextEventListenersOn();
@@ -34,7 +33,7 @@ const Root = (
   </React.StrictMode>
 );
 
-if (prerender /*|| window.is404*/) {
+if (prerender_data /*|| window.is404*/) {
   ReactDOM.hydrate(Root, document.getElementById("root"));
 } else {
   ReactDOM.render(Root, document.getElementById("root"));

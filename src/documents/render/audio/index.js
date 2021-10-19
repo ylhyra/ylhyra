@@ -25,6 +25,7 @@ class Audio extends React.PureComponent {
   }
   componentDidUpdate = (prevProps) => {
     const audio = this.audio.current;
+
     /* Pause if another audio element has taken over */
     if (this.props.audio.currentlyPlaying !== this.getFileName()) {
       this.setState({ playing: false });

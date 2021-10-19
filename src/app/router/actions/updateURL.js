@@ -13,7 +13,7 @@ export async function updateURL(url, options = {}) {
   let {
     title,
     replace,
-    prerender,
+    prerender_data,
     is404,
     dontChangeUrl,
     isInitializing,
@@ -80,7 +80,7 @@ export async function updateURL(url, options = {}) {
   if (!dontChangeUrl && encodeURI(url) !== window.location.pathname) {
     if (replace || isInitializing) {
       window.history.replaceState(null, "", encodeURI(url));
-    } else if ((!prerender && replace) || isComponent) {
+    } else if ((!prerender_data && replace) || isComponent) {
       window.history.pushState(null, "", encodeURI(url));
     }
   }
@@ -93,13 +93,13 @@ export async function updateURL(url, options = {}) {
   if (!replace && !isComponent) {
     loadContent({
       url: pathname,
-      prerender_data: prerender,
+      prerender_data,
       section,
       isInitializing,
     });
   }
 
-  if ((!prerender && replace) || isComponent) {
+  if ((!prerender_data && replace) || isComponent) {
     ClearReadAlongSetup();
     store.dispatch({
       type: "ROUTE",

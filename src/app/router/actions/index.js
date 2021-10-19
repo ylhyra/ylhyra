@@ -13,13 +13,16 @@ if (isBrowser) {
     }
   });
 }
-export const InitializeRouter = ({ url, prerender }) => {
+export const InitializeRouter = (prerender_data) => {
   const { is404 } = window;
-  updateURL((url || window.location.pathname) + window.location.hash, {
-    prerender,
-    is404,
-    isInitializing: true,
-  });
+  updateURL(
+    (prerender_data?.url || window.location.pathname) + window.location.hash,
+    {
+      prerender_data,
+      is404,
+      isInitializing: true,
+    }
+  );
 };
 
 export const isVocabularyTheFrontpage = () => {

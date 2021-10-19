@@ -30,13 +30,10 @@ export const loadContent = ({
 
   /* Pre-rendered */
   if (prerender_data) {
-    cache[url] = { parsed: prerender_data };
-    store.dispatch({
-      type: "LOAD_ROUTE_CONTENT",
-      data: { parsed: prerender_data },
-      pathname: url,
-    });
-  } else if (url in cache) {
+    cache[url] = prerender_data;
+  }
+
+  if (url in cache) {
     set({ url, data: cache[url], preload, section, isInitializing, callback });
   } else {
     if (!preload) {

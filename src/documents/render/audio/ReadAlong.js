@@ -95,6 +95,7 @@ export const ReadAlongSetup = (data) => {
       }
     }
   }
+  console.log({ list });
 };
 
 /*
