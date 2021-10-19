@@ -19,18 +19,12 @@ export default (props) => {
         </div>
       </div>
       <div className="video">
-        <Video
-          type="video"
-          src={getDynamicFileUrl(props.file)}
-          autoplay="true"
-        />
+        <Video type="video" src={props.file} autoplay="true" />
       </div>
       <div className="video-sidebar">
         <div className="video-sidebar-content">
           <div data-translate="true">
-            {props.audio && (
-              <Audio src={getDynamicFileUrl(props.audio)} label="Slow audio" />
-            )}
+            {props.audio && <Audio src={props.audio} label="Slow audio" />}
             {props.children}
           </div>
         </div>

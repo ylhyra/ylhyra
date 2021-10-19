@@ -4,6 +4,7 @@ import { ReadAlong } from "documents/render/audio/ReadAlong";
 import SmoothScroll from "documents/render/audio/Scroll/SmoothScroll";
 import store from "app/app/store";
 import { notify } from "app/app/error";
+import { getDynamicFileUrl } from "app/app/paths";
 
 require("documents/render/audio/KeyboardListener");
 require("array-sugar");
@@ -21,7 +22,7 @@ class Audio extends React.PureComponent {
     };
   }
   getFileName() {
-    return this.props.filename || this.props.src;
+    return this.props.src;
   }
   componentDidUpdate = (prevProps) => {
     const audio = this.audio.current;
@@ -141,7 +142,7 @@ class Audio extends React.PureComponent {
   };
   render() {
     const { playing, error, currentTimePercentage } = this.state;
-    const { src, type, label } = this.props;
+    let { src, type, label } = this.props;
     const inline = this.props.inline;
     if (!src) return null;
     let ContainerTag = "div";
@@ -150,6 +151,10 @@ class Audio extends React.PureComponent {
     }
     const isVideo = type === "video";
     let Tag = isVideo ? "video" : "audio";
+
+    if (!(/^\//.test(src) || /:\/\//.test(src))) {
+      src = getDynamicFileUrl(src);
+    }
 
     return (
       <ContainerTag

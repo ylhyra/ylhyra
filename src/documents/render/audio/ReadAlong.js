@@ -39,7 +39,6 @@ let currentAudioId;
   - type: Can be [play, pause]
 */
 export const ReadAlong = (audio, type, filename) => {
-  // console.log(filename)
   currentAudioId = filename;
   if (!list[currentAudioId]) return;
 
@@ -95,7 +94,6 @@ export const ReadAlongSetup = (data) => {
       }
     }
   }
-  console.log({ list });
 };
 
 /*

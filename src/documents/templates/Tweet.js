@@ -24,7 +24,7 @@ export default (props) => {
         </div>
       </div>
       <div className="tweet-text">
-        {props.audio && <Audio src={getDynamicFileUrl(props.audio)} />}
+        {props.audio && <Audio src={props.audio} />}
         {props.children}
       </div>
       <div>
