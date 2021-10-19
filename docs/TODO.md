@@ -4,28 +4,25 @@
 - Related cards
 - skrá sessions
 - uppfæra schedule á gluggum sem hafa verið opnir lengi
-- fara yfir easinesslevel
 - ef maður skráir sig inn, blanda progress
 - loadnewcards ætti að hunsa spjöld sem dependa á nýleg spjöld
-- fjarlægja sortbyallowed_ids
-- Reyna að blanda setningum og orðum?
+- auto dependency ignore circular
 
 ### Annað
 
-- uppfæra package.json á server þegar það eru breytingar
+- gitlistener error reporting í build step
 - ekki loada ef preload er enn í gangi
-- skrá hvaða greinar notandi hefur lesið
-- reloada reglulega, t.d. ef notandi skráir sig inn í öðrum glugga
 - axios retry
 - database backup
-- prófa redirects á server
 - laga egg í áskrift
-- ekki redirecta af frontpage
-  - setja meta-url í staðinn?
+- fréttabréfstakki?
 
-# uppfæra í gagnagrunni
+### Parsing
+* Parse->Merge virkar ekki rétt innan í <em/>, kíkja á http://localhost:3000/bl%C3%A6r/silfursvanurinn/3: krók og kima, hliðstæð orð ættu að mergast!!!
+* html2json er löturhægt á stórum fælum
 
-- payments (+verified)
+### Efni
+* "verst hvað maður er orðinn" í silfur 8 - ekki beint!
 
 # MVP
 
