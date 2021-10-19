@@ -30,9 +30,12 @@ router.post("/a", rateLimit, (req, res) => {
   }
 
   let languages = [];
-  req.headers["accept-language"]?.replace(/\b([a-z]{2,3})\b/g, (lang) => {
-    languages.push(lang);
-  });
+  req.headers["accept-language"]?.replace(
+    /\b([a-z]{2,3})(-[a-z]{2,3})?\b/g,
+    (x, lang) => {
+      languages.push(lang);
+    }
+  );
 
   /*
     Page views
