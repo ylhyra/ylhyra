@@ -128,7 +128,7 @@ const render = async ({
     );
 
   if (shouldBeIndexed) {
-    html.replace(
+    output = output.replace(
       /<meta name="robots" content="noindex" \/>/,
       '<meta name="robots" content="index">'
     );
