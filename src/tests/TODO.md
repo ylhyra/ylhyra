@@ -1,5 +1,6 @@
 - vocabulary
   - að dependencies virki
+  - að schedule virki rétt í createcards (t.d. var ein villa í wasrecentlyseen!)
 - greinar
   - TODO að hljóð virki
   - TODO að hover virki (sér að rétt hafi verið parsað)
