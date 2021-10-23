@@ -3,7 +3,7 @@ import {
   sortCardsByScore,
   veryRecentlySeenSortedLast,
 } from "app/vocabulary/actions/createCards/functions";
-import { log } from "app/app/functions/log";
+import { log, logDev } from "app/app/functions/log";
 import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
 import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
 
@@ -44,11 +44,13 @@ export default () => {
     newCardEvery = 6;
   }
 
-  // console.log({
-  //   overdue_good,
-  //   overdue_bad,
-  //   new_cards,
-  // });
+  logDev({
+    overdue_good,
+    overdue_bad,
+    not_overdue_bad,
+    not_overdue_semi_bad,
+    new_cards,
+  });
 
   /*
     Loop to select chosen cards

@@ -195,7 +195,7 @@ class Card {
    * @returns {?Boolean}
    */
   wasTermVeryRecentlySeen() {
-    const minutesSinceTermWasSeen = this.daysSinceTermWasSeen() / (24 * 60);
+    const minutesSinceTermWasSeen = this.daysSinceTermWasSeen() * (24 * 60);
     return minutesSinceTermWasSeen && minutesSinceTermWasSeen < 45;
   }
 
