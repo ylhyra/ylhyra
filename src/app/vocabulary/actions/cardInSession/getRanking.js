@@ -53,7 +53,7 @@ export function getRanking() {
         q += 5;
       }
 
-      /* Three in a row */
+      /* Three new cards in a row */
       if (
         this.session.cardTypeLog[2] === this.from &&
         // Only if a user says "Good" to all three previous
@@ -66,21 +66,24 @@ export function getRanking() {
     }
   }
 
-  if (
-    !this.isSentence &&
-    (this.session.wasEasinessLevelJustIncreased ||
-      (this.session.ratingHistory.length >= 3 &&
-        // All last three cards were good
-        !this.session.ratingHistory.slice(0, 3).some((i) => i === BAD) &&
-        // And none were sentences
-        this.session.cardHistory.slice(0, 3).every((i) => !i.isSentence) &&
-        // Prevent English from showing up for unknown cards
-        (this.from === "is" || !this.isNewCard())))
-  ) {
-    q += 20;
-    /* Extra boost for when easiness level was increased */
+  if (!this.isSentence) {
+    // A sentence should be shown if the level was just increased
     if (this.session.wasEasinessLevelJustIncreased) {
       q += 200;
+    }
+    // Delay words if no sentence has been seen for a while
+    else if (
+      this.session.ratingHistory.length >= 3 &&
+      // All last three cards were good
+      !this.session.ratingHistory.slice(0, 3).some((i) => i === BAD) &&
+      // And none were sentences
+      this.session.cardHistory.slice(0, 3).every((i) => !i.isSentence)
+    ) {
+      q += 20;
+      // Prevent English from showing up for unknown cards
+      if (this.from === "en" || this.isNewCard()) {
+        q += 20;
+      }
     }
   }
 
