@@ -133,6 +133,9 @@ export const processText = (input) => {
     .replace(/^(\*+) ?/gm, (x, bullets) => {
       return `${"  ".repeat(bullets.length - 1)}- `;
     })
+    .replace(/^( +)(\*) /gm, (x, spaces) => {
+      return `${spaces}- `;
+    })
     // .replace(/^(#+) ?/gm, (x, bullets) => {
     //   return `${'  '.repeat(bullets.length-1)}1. `
     // })
