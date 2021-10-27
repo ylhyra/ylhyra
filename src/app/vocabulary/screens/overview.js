@@ -12,6 +12,7 @@ import Spacer from "documents/templates/Spacer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { updateURL } from "app/router/actions/updateURL";
+import ActivityOverview from "app/vocabulary/screens/ActivityOverview";
 
 class Overview extends Component {
   render() {
@@ -61,6 +62,8 @@ class Overview extends Component {
         {/*    })}*/}
         {/*  </div>*/}
         {/*)}*/}
+
+        <ActivityOverview />
 
         {PercentageKnownOverall() > 0.2 && (
           <button className="small" onClick={() => studyNewTerms()}>
