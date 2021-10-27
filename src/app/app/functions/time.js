@@ -17,7 +17,10 @@ export const days = day;
 export const hour = msInHour;
 export const hours = hour;
 /** @type Milliseconds */
-export const minute = 60 * 1000;
+export const second = 1000;
+export const seconds = second;
+/** @type Milliseconds */
+export const minute = 60 * second;
 export const minutes = minute;
 
 /**

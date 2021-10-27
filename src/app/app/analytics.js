@@ -1,7 +1,7 @@
 /*
   Tracks time spent on page
 */
-import { getTime } from "app/app/functions/time";
+import { getTime, seconds } from "app/app/functions/time";
 import axios from "app/app/axios";
 import {
   ANALYTICS_LOCALSTORAGE_LABEL,
@@ -31,11 +31,11 @@ class Analytics {
     if (!likelyNotABot || !this.currentPage || !this.startTime) return;
     const timeDiff = getTime() - this.startTime;
     /* Discard if page was only seen for <10 seconds */
-    if (timeDiff > 10 * 1000 && !ignoredUrls.includes(this.currentPage)) {
+    if (timeDiff > 10 * seconds && !ignoredUrls.includes(this.currentPage)) {
       this.log(
         {
           url: this.currentPage,
-          seconds: Math.min(4 * 60, Math.round(timeDiff / 1000 / 10) * 10),
+          seconds: Math.min(4 * 60, Math.round(timeDiff / seconds / 10) * 10),
           type: "page_view",
           referrer: this.referrer,
         },
@@ -54,7 +54,7 @@ class Analytics {
     if (this.queue.length > 15) {
       this.sync();
     } else {
-      this.timer = setTimeout(this.sync, 1 * 1000);
+      this.timer = setTimeout(this.sync, 1 * seconds);
     }
   };
   save = () => {
