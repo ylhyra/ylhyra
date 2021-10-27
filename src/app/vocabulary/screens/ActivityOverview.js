@@ -26,11 +26,9 @@ class ActivityOverview extends Component {
           level: 2
         },
       ]}
+      hideColorLegend
+      hideTotalCount
       labels={{
-        legend: {
-          less: 'Less',
-          more: 'More'
-        },
         months: [
           'Jan',
           'Feb',
