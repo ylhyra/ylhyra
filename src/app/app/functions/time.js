@@ -54,6 +54,12 @@ export const msToS = (input) => Math.round(input / 1000);
  */
 export const roundMsToHour = (input) => roundToInterval(input, msInHour);
 
+/**
+ * @param {Milliseconds} input
+ * @returns {Milliseconds}
+ */
+export const roundMsToMinute = (input) => roundToInterval(input, minute);
+
 // const roundMsToHours = (input) => {
 //   return round(
 //     input,

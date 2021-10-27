@@ -48,8 +48,8 @@ class Analytics {
       this.log(
         {
           url: this.currentPage,
-          /* The max stored value is 4 minutes (240 seconds) */
-          seconds: Math.min(4 * 60, roundToInterval(timeDiff / seconds, 10)),
+          /* The max stored value is 5 minutes (300 seconds) */
+          seconds: Math.min(300, roundToInterval(timeDiff / seconds, 10)),
           type: "page_view",
           referrer: this.referrer,
         },
@@ -61,16 +61,19 @@ class Analytics {
     this.currentPage = null;
   };
   log = (data, options) => {
-    data.url = data.url ? decodeURI(data.url) : null;
-    this.queue.push(data);
+    this.queue.push({
+      ...data,
+      timestamp: getTime(),
+    });
     this.save();
     this.timer && clearTimeout(this.timer);
     if (options?.dontSync) return;
-    if (this.queue.length > 15) {
+    if (this.queue.length >= 3) {
       this.sync();
-    } else {
-      this.timer = setTimeout(this.sync, 1 * seconds);
     }
+    // else {
+    //   this.timer = setTimeout(this.sync, 1 * seconds);
+    // }
   };
   save = () => {
     saveInLocalStorage(

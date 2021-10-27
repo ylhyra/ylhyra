@@ -37,6 +37,7 @@
     "deploy": "./scripts/deploy.sh",
     "audio1": "./scripts/audio_processing/Pronunciation_step_1.sh",
     "audio3": "./scripts/audio_processing/Pronunciation_step_3.sh",
+    "test": "npm run unit_tests && npm run integration_tests",
     "unit_tests": "jest --silent",
     "unit_tests_watch": "jest --watch --silent",
     "integration_tests": "npm run build_app && npm run build_server && node -r esm src/tests/integrationTests/puppeteer.js",
