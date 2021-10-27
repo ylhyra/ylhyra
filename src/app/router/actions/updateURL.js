@@ -77,8 +77,13 @@ export async function updateURL(url, options = {}) {
     return;
   }
 
-  if (!dontChangeUrl && encodeURI(url) !== window.location.pathname) {
-    if (replace || isInitializing) {
+  if (
+    !dontChangeUrl &&
+    (encodeURI(url) !== window.location.pathname ||
+      // Check if has parameters
+      window.location.search)
+  ) {
+    if (replace || isInitializing || window.location.search) {
       window.history.replaceState(null, "", encodeURI(url));
     } else if ((!prerender_data && replace) || isComponent) {
       window.history.pushState(null, "", encodeURI(url));

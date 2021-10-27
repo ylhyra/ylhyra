@@ -67,10 +67,11 @@ class Session {
     }
     await sync();
     /* Analytics */
-    if (this.getSecondsSpent() > 20) {
+    if (this.getSecondsSpent() > 10) {
       // TODO: Ignore logged in users?
       Analytics.log({
         type: "vocabulary",
+        page_name: window.location.pathname,
         seconds: this.getSecondsSpent(),
       });
     }

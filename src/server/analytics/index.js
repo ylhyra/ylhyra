@@ -47,9 +47,9 @@ router.post("/a", rateLimit, (req, res) => {
           sql`INSERT INTO analytics SET
             user_id = ${req.session.user_id || null},
             session_id = ${req.session.session_id},
-            country = ${req.get("CF-IPCountry")},
+            country = ${req.get("CF-IPCountry") || null},
             type = ${entry?.type},
-            page_name = ${entry?.url},
+            page_name = ${entry?.url || null},
             seconds_spent = ${entry?.seconds || null},
             user_languages = ${_.uniq(languages).slice(0, 4).join(",")},
             referrer = ${entry?.referrer || null}
