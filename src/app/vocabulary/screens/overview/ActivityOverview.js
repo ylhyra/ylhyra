@@ -12,11 +12,9 @@ import Spacer from "documents/templates/Spacer";
 
 class ActivityOverview extends Component {
   render() {
-    if (!isDev) return null;
     const { deck, overview } = this.props.vocabulary;
     if (!deck) return null;
 
-    // if (!overview.seconds_spent_total) return null;
     return (
       <div className="vocabulary-overview-section">
         <Spacer space="10" />
