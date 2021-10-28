@@ -4,6 +4,7 @@ import { updateURL } from "app/router/actions/updateURL";
 import Session from "app/vocabulary/actions/session";
 import Card from "app/vocabulary/actions/card/card";
 import { Term } from "app/vocabulary/actions/card/term";
+import { calculateOverview } from "app/vocabulary/screens/overview/actions";
 
 /**
  * @type {Deck|undefined}
@@ -55,6 +56,7 @@ class Deck {
     saveInLocalStorage("vocabulary-session", null);
     this.user_data = {};
     this.schedule = {};
+    calculateOverview();
   }
   /* Only used for testing */
   clear() {

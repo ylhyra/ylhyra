@@ -316,6 +316,23 @@ class Card {
   }
 
   /**
+   * @returns {boolean}
+   */
+  isNewTerm() {
+    // There exists at least one term
+    return this.getTerms().some((term) =>
+      // Where every cardInSession is new
+      term
+        .getCards()
+        .every(
+          (card) =>
+            !card.isInSchedule() &&
+            !card.getAsCardInSession()?.hasBeenSeenInSession()
+        )
+    );
+  }
+
+  /**
    * @returns {Array.<Card>}
    */
   getAllCardsWithSameTerm() {

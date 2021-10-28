@@ -7,7 +7,10 @@ import { roundToInterval } from "app/app/functions/math";
 import { updateURL } from "app/router/actions/updateURL";
 import _ from "underscore";
 import { isDev } from "app/app/functions/isDev";
-import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
+import {
+  getCardById,
+  getCardIdsFromTermIds,
+} from "app/vocabulary/actions/card/functions";
 
 /**
  * @param {CardID|TermID} id
@@ -26,12 +29,13 @@ export const printWord = (id) => {
 
 /**
  * @param {Array.<CardID>} allowed_ids
+ * @param {Object?} options
  */
-export const studyParticularIds = async (allowed_ids) => {
+export const studyParticularIds = async (allowed_ids, options) => {
   const { session } = deck;
   session.reset();
   session.allowed_ids = allowed_ids;
-  session.createCards();
+  session.createCards(options);
   await session.InitializeSession({ shouldReset: false });
   updateURL("/vocabulary/play");
 };
@@ -39,11 +43,11 @@ export const studyParticularIds = async (allowed_ids) => {
 export const studyNewTerms = () => {
   const newTerms = [];
   Object.keys(deck.cards).forEach((id) => {
-    if (!(id in deck.schedule)) {
+    if (!(id in deck.schedule) && getCardById(id)?.isNewTerm()) {
       newTerms.push(id);
     }
   });
-  studyParticularIds(newTerms);
+  studyParticularIds(newTerms, { skip_dependencies: true });
 };
 
 /**

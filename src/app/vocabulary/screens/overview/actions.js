@@ -23,7 +23,7 @@ const MAX_DAYS_TO_SHOW = 365;
 
 export const calculateOverview = async () => {
   if (!deck) return null;
-  if (Object.keys(deck.schedule).length === 0) return;
+  // if (Object.keys(deck.schedule).length === 0) return;
 
   await session_log_migration();
 
@@ -49,7 +49,7 @@ export const calculateOverview = async () => {
 
   /* Count backwards the number of days to show in the calendar */
   let days_to_show_in_calendar = clamp(
-    parseInt(_.max(Object.keys(days_ago_to_seconds_spent))) + 10,
+    (parseInt(_.max(Object.keys(days_ago_to_seconds_spent))) || 0) + 10,
     MIN_DAYS_TO_SHOW,
     MAX_DAYS_TO_SHOW
   );

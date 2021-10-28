@@ -23,23 +23,6 @@ class CardInSession extends Card {
   /**
    * @returns {boolean}
    */
-  isNewTerm() {
-    // There exists at least one term
-    return this.getTerms().some((term) =>
-      // Where every cardInSession is new
-      term
-        .getCards()
-        .every(
-          (card) =>
-            !card.isInSchedule() &&
-            !card.getAsCardInSession()?.hasBeenSeenInSession()
-        )
-    );
-  }
-
-  /**
-   * @returns {boolean}
-   */
   hasBeenSeenInSession() {
     return this.history.length > 0;
   }

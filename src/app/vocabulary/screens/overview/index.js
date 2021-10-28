@@ -14,7 +14,7 @@ class Overview extends Component {
     calculateOverview();
   }
   render() {
-    const { deck, session } = this.props.vocabulary;
+    const { deck, session, overview } = this.props.vocabulary;
     return [
       <Section className="brown-background vocabulary-main-screen" key={1}>
         <Spacer space="70" />
@@ -43,6 +43,7 @@ class Overview extends Component {
           )}
         </div>
       </Section>,
+
       <Section key={2}>
         <ActivityOverview />
       </Section>,

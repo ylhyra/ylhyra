@@ -13,7 +13,7 @@ const deck = (state = null, action) => {
   }
 };
 
-const overview = (state = null, action) => {
+const overview = (state = {}, action) => {
   switch (action.type) {
     case "LOAD_OVERVIEW":
       return action.content;

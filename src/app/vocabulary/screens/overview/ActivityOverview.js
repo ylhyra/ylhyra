@@ -14,9 +14,9 @@ class ActivityOverview extends Component {
   render() {
     if (!isDev) return null;
     const { deck, overview } = this.props.vocabulary;
-    if (!deck || !overview) return null;
+    if (!deck) return null;
 
-    if (!overview.seconds_spent_total) return null;
+    // if (!overview.seconds_spent_total) return null;
     return (
       <div className="vocabulary-overview-section">
         <Spacer space="10" />
@@ -26,28 +26,34 @@ class ActivityOverview extends Component {
         </div>
         {overview.seconds_spent_this_week !== overview.seconds_spent_total && (
           <div>
-            <b>Time spent this week:</b>{" "}
+            <b>Time played this week:</b>{" "}
             {prettyPrintDaysMinutesHours(
-              overview.seconds_spent_this_week * seconds
+              (overview.seconds_spent_this_week || 0) * seconds
             )}
           </div>
         )}
         <div>
-          <b>Total time spent:</b>{" "}
-          {prettyPrintDaysMinutesHours(overview.seconds_spent_total * seconds)}
+          <b>Total time played:</b>{" "}
+          {prettyPrintDaysMinutesHours(
+            (overview.seconds_spent_total || 0) * seconds
+          )}
         </div>
         <Spacer space="10" />
 
-        <b>Activity overview:</b>
+        {overview.calendar_data && (
+          <div>
+            <b>Activity overview:</b>
 
-        <ActivityCalendar
-          data={overview.calendar_data}
-          hideColorLegend
-          hideTotalCount
-          showWeekdayLabels
-          fontSize={12}
-          blockMargin={3}
-        />
+            <ActivityCalendar
+              data={overview.calendar_data}
+              hideColorLegend
+              hideTotalCount
+              showWeekdayLabels
+              fontSize={12}
+              blockMargin={3}
+            />
+          </div>
+        )}
       </div>
     );
   }

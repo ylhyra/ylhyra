@@ -45,11 +45,11 @@ export default () => {
   }
 
   logDev({
-    overdue_good,
-    overdue_bad,
-    not_overdue_bad,
-    not_overdue_semi_bad,
-    new_cards,
+    overdue_good: { ...overdue_good },
+    overdue_bad: { ...overdue_bad },
+    not_overdue_bad: { ...not_overdue_bad },
+    not_overdue_semi_bad: { ...not_overdue_semi_bad },
+    new_cards: { ...new_cards },
   });
 
   /*
@@ -67,7 +67,7 @@ export default () => {
       chosen_cards.push(overdue_bad.shift());
     }
     if (
-      (i % newCardEvery === 0 ||
+      (i % newCardEvery === i - 1 ||
         (isEmpty(overdue_good) && isEmpty(overdue_bad))) &&
       !isEmpty(new_cards)
     ) {

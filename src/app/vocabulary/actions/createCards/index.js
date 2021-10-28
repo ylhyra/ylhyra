@@ -25,7 +25,9 @@ export function createCards(options) {
   let chosen_cards = ChooseCards();
 
   /* Add dependencies */
-  chosen_cards = Dependencies(chosen_cards);
+  if (!options?.skip_dependencies) {
+    chosen_cards = Dependencies(chosen_cards);
+  }
 
   /* Failed to generate cards, turn off allowed cards and try again */
   if (chosen_cards.length === 0 && session.allowed_ids) {

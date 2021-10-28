@@ -1,4 +1,5 @@
 import { shuffle } from "underscore";
+import { isDev } from "app/app/functions/isDev";
 
 /**
  * Shuffles an array just a little bit, while keeping items in their locality.
@@ -7,6 +8,8 @@ import { shuffle } from "underscore";
  * @returns array
  */
 export const shuffleLocally = (array, range = 20) => {
+  // if (isDev) return array;
+
   let out = [];
   for (let i = 0; i < array.length; i += range) {
     out = out.concat(shuffle(array.slice(i, i + range)));
