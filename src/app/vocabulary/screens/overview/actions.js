@@ -4,8 +4,9 @@ import { clamp } from "app/app/functions/math";
 import _ from "underscore";
 import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
 import { deck } from "app/vocabulary/actions/deck";
+import store from "app/app/store";
 
-const MIN_DAYS_TO_SHOW = 40;
+const MIN_DAYS_TO_SHOW = 2.5 * 30;
 const MAX_DAYS_TO_SHOW = 365;
 
 export const calculateOverview = () => {
@@ -66,12 +67,15 @@ export const calculateOverview = () => {
   /* A one-day streak does not count */
   if (streak === 1) streak = 0;
 
-  return {
-    streak,
-    seconds_spent_total,
-    seconds_spent_this_week,
-    calendar_data,
-  };
+  store.dispatch({
+    type: "LOAD_OVERVIEW",
+    content: {
+      streak,
+      seconds_spent_total,
+      seconds_spent_this_week,
+      calendar_data,
+    },
+  });
 };
 
 /* Get timestamp for the last 04:00 */

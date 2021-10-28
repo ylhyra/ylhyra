@@ -23,7 +23,7 @@ module.exports = {
       // },
 
       {
-        test: /\.(js|ts)$/,
+        test: /\.(js|ts)x?$/,
         loader: "esbuild-loader",
         options: {
           loader: "tsx",

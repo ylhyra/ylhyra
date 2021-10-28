@@ -9,8 +9,12 @@ class Layout extends React.Component {
     const not_banner = ["/login", "/signup"].includes(
       this.props.route.pathname
     );
+    let className = "";
+    if (this.props.route.pathname === "/vocabulary") {
+      className = "brown-background";
+    }
     return (
-      <header>
+      <header className={className}>
         {!isUserLoggedIn() && existsSchedule() && !not_banner && (
           <Link href="/signup" className="notification please-log-in">
             Create an account to save your progress

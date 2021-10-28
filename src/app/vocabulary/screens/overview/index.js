@@ -6,14 +6,17 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { updateURL } from "app/router/actions/updateURL";
 import ActivityOverview from "app/vocabulary/screens/overview/ActivityOverview";
+import { calculateOverview } from "app/vocabulary/screens/overview/actions";
+import Section from "documents/templates/Section";
 
 class Overview extends Component {
+  componentDidMount() {
+    calculateOverview();
+  }
   render() {
     const { deck, session } = this.props.vocabulary;
-    return (
-      <div className="deck-loaded">
-        <h1>Vocabulary</h1>
-        <Link href="/vocabulary/tutorial">Tutorial</Link>
+    return [
+      <Section className="brown-background vocabulary-main-screen" key={1}>
         <Spacer space="70" />
         <div className="centered-button">
           <button
@@ -30,93 +33,22 @@ class Overview extends Component {
           )}
         </div>
         <Spacer space="70" />
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Link href="/vocabulary/tutorial">Tutorial</Link>
+          <div style={{ flex: "1" }} />
+          {PercentageKnownOverall() > 0.2 && (
+            <button className="simple-button" onClick={() => studyNewTerms()}>
+              Show me new terms
+            </button>
+          )}
+        </div>
+      </Section>,
+      <Section key={2}>
         <ActivityOverview />
-
-        {PercentageKnownOverall() > 0.2 && (
-          <button className="small" onClick={() => studyNewTerms()}>
-            Show me new terms
-          </button>
-        )}
-      </div>
-    );
+      </Section>,
+    ];
   }
 }
 export default connect((state) => ({
   vocabulary: state.vocabulary,
 }))(Overview);
-
-{
-  /*<hr />*/
-}
-{
-  /*{deck && (*/
-}
-{
-  /*  <div>*/
-}
-{
-  /*    <b>Status by level</b>*/
-}
-{
-  /*    {[1, 2, 3].map((level) => {*/
-}
-{
-  /*      const cards = deck.cards_sorted.filter((c) => c.level === level);*/
-}
-{
-  /*      const ids = cards.map((c) => c.id);*/
-}
-{
-  /*      const level_name = ["A1", "A2", "B1"][level - 1];*/
-}
-{
-  /*      if (cards.length === 0) return null;*/
-}
-{
-  /*      return (*/
-}
-{
-  /*        <div key={level}>*/
-}
-{
-  /*          {PercentageKnown(ids)}% known in level{" "}*/
-}
-{
-  /*          <Link href={"/" + level_name}>{level_name}</Link> (out of{" "}*/
-}
-{
-  /*          {countTerms(cards)} terms).{" "}*/
-}
-{
-  /*          <button*/
-}
-{
-  /*            className="small"*/
-}
-{
-  /*            onClick={() => studyParticularIds(ids)}*/
-}
-{
-  /*          >*/
-}
-{
-  /*            Study*/
-}
-{
-  /*          </button>*/
-}
-{
-  /*        </div>*/
-}
-{
-  /*      );*/
-}
-{
-  /*    })}*/
-}
-{
-  /*  </div>*/
-}
-{
-  /*)}*/
-}

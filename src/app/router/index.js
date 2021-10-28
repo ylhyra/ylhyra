@@ -22,7 +22,7 @@ class App extends React.Component {
     if (url in app_urls) {
       Element = app_urls[url].component; //|| components["/vocabulary"];
       let Section2 = Section;
-      if (url === "/vocabulary/play") {
+      if (url === "/vocabulary/play" || url === "/vocabulary") {
         Section2 = (props) => props.children;
       }
       index(false);

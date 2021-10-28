@@ -5,6 +5,7 @@ import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import errors from "app/app/error/messages";
 import { countTermsInSchedule } from "app/vocabulary/actions/functions";
+import { withPlural } from "app/app/functions/simplePlural";
 
 class Form2 extends React.Component {
   constructor(props) {
@@ -133,9 +134,9 @@ class Form2 extends React.Component {
 
               {isSignup && existsSchedule() && (
                 <div className="form-section">
-                  You have already studied {countTermsInSchedule()} term
-                  {countTermsInSchedule() > 1 ? "s" : ""} while logged out. Do
-                  you want to:
+                  You have already studied{" "}
+                  {withPlural(countTermsInSchedule(), "term")} while logged out.
+                  Do you want to:
                   <br />
                   <label>
                     <Field type="radio" name="save_progress" value="yes" />

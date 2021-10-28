@@ -1,4 +1,5 @@
 import { roundToInterval } from "app/app/functions/math";
+import { withPlural } from "app/app/functions/simplePlural";
 
 /** @typedef {number} Milliseconds */
 /** @typedef {number} Seconds */
@@ -67,5 +68,5 @@ export const roundMsToMinute = (input) => roundToInterval(input, minute);
 export const prettyPrintDaysMinutesHours = (input) => {
   // TODO
   const _minutes = Math.ceil(input / minutes);
-  return `${_minutes} minute${_minutes === 1 ? "" : "s"}`;
+  return withPlural(_minutes, "minute");
 };

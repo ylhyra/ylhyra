@@ -13,6 +13,15 @@ const deck = (state = null, action) => {
   }
 };
 
+const overview = (state = null, action) => {
+  switch (action.type) {
+    case "LOAD_OVERVIEW":
+      return action.content;
+    default:
+      return state;
+  }
+};
+
 const card = (state = {}, action) => {
   switch (action.type) {
     case "LOAD_CARD":
@@ -49,4 +58,5 @@ export const vocabulary = combineReducers({
   deck,
   card,
   volume,
+  overview,
 });

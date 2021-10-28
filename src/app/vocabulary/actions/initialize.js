@@ -5,6 +5,7 @@ import { getScheduleFromUserData, sync } from "app/vocabulary/actions/sync";
 import Deck from "app/vocabulary/actions/deck";
 import axios from "app/app/axios";
 import store from "app/app/store";
+import { calculateOverview } from "app/vocabulary/screens/overview/actions";
 
 export const InitializeVocabulary = async () => {
   log("Downloading database");
@@ -36,6 +37,7 @@ export const InitializeVocabulary = async () => {
     type: "LOAD_DECK",
     content: deck,
   });
+  calculateOverview();
 };
 
 let build_id;
