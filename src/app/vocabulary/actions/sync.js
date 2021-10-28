@@ -107,6 +107,19 @@ export const getScheduleFromUserData = (user_data) => {
   return schedule;
 };
 
+/**
+ * @returns {Object}
+ */
+export const getSessions = () => {
+  const sessions = [];
+  Object.keys(deck.user_data?.rows || {}).forEach((key) => {
+    if (deck.user_data.rows[key].type === "session") {
+      sessions.push (deck.user_data.rows[key].value)
+    }
+  });
+  return sessions;
+};
+
 export const setUserData = (key, value, type) => {
   if (!("rows" in deck.user_data)) {
     // console.log(`deck.user_data didn't have rows`);

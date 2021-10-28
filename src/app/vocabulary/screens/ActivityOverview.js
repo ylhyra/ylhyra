@@ -8,11 +8,16 @@ import { connect } from "react-redux";
 
 import ActivityCalendar from "react-activity-calendar";
 import { isDev } from "app/app/functions/isDev";
+import { getSessions } from "app/vocabulary/actions/sync";
 
 class ActivityOverview extends Component {
   render() {
     if (!isDev) return null;
-    const { deck, session } = this.props.vocabulary;
+    // const { deck, session } = this.props.vocabulary;
+
+    const sessions = getSessions()
+    console.log(sessions)
+
     return <ActivityCalendar
       data={[
         {
