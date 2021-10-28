@@ -48,7 +48,7 @@ export const calculateOverview = async () => {
 
   /* Count backwards the number of days to show in the calendar */
   let days_to_show_in_calendar = clamp(
-    (parseInt(_.max(Object.keys(days_ago_to_seconds_spent))) || 0) + 10,
+    _.max(Object.keys(days_ago_to_seconds_spent).map((i) => parseInt(i))) + 7,
     MIN_DAYS_TO_SHOW,
     MAX_DAYS_TO_SHOW
   );
