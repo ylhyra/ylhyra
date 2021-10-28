@@ -41,8 +41,7 @@ export const calculateOverview = async () => {
     days_ago_to_seconds_spent[days_ago] =
       (days_ago_to_seconds_spent[days_ago] || 0) + session.seconds_spent;
     seconds_spent_total += session.seconds_spent;
-    /* TODO: Ætti að telja sjöunda daginn bara ef ekkert hefur verið gert í dag, hægt að færa niður í streaks */
-    if (days_ago <= 7) {
+    if (days_ago <= 6) {
       seconds_spent_this_week += session.seconds_spent;
     }
   });

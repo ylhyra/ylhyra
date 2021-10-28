@@ -110,6 +110,7 @@ class Session {
         type: "vocabulary",
         page_name: window.location.pathname,
         seconds: this.getSecondsSpent(),
+        timestamp: timestamp,
       });
     } else {
       log("Not logged");

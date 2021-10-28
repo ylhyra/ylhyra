@@ -63,7 +63,7 @@ class Analytics {
   log = (data, options) => {
     this.queue.push({
       ...data,
-      timestamp: getTime(),
+      timestamp: data.timestamp || getTime(),
     });
     this.save();
     this.timer && clearTimeout(this.timer);
