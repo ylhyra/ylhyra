@@ -52,3 +52,16 @@ export const roundToSignificantDigits = (input, zeroes = 0) => {
 //   }
 //   return second / first;
 // };
+
+/*
+  A simple (x / (x + a)) curve, where a is small
+ */
+export const mapZeroToInfinityToZeroToOne = ({
+  input,
+  goal_input,
+  goal_output,
+}) => {
+  if (goal_output > 1) throw new Error();
+  const a = (goal_input - goal_output * goal_input) / goal_output;
+  return input / (input + a);
+};

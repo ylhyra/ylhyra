@@ -1,6 +1,6 @@
 import { day, days } from "app/app/functions/time";
 import { getSessions } from "app/vocabulary/actions/sync";
-import { clamp } from "app/app/functions/math";
+import { clamp, mapZeroToInfinityToZeroToOne } from "app/app/functions/math";
 import _ from "underscore";
 import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
 import { deck } from "app/vocabulary/actions/deck";
@@ -46,13 +46,34 @@ export const calculateOverview = () => {
   let calendar_data = [];
   for (let days_ago = days_to_show_in_calendar; days_ago >= 0; days_ago--) {
     const seconds = days_ago_to_seconds_spent[days_ago] || 0;
-    const session_count = seconds / 60 / EACH_SESSION_LASTS_X_MINUTES;
+    const minutes = seconds / 60;
+
+    let opacity = 0;
+    if (minutes) {
+      opacity = mapZeroToInfinityToZeroToOne({
+        input: minutes + 10,
+        /* Spending 30 minutes fills eighty percent */
+        goal_input: 30 + 10,
+        goal_output: 0.8,
+      });
+
+      // 0.1; /* Minimum */
+      // opacity += (0.8 * minutes) / 40; /* Portion of 40 minutes */
+      // opacity +=
+      //   (0.1 * Math.max(0, minutes - 40)) /
+      //   (2 * 60); /* Portion of 40 minutes */
+      //
+      console.log({ minutes, opacity });
+    }
+
+    // const session_count = seconds / 60 / EACH_SESSION_LASTS_X_MINUTES;
     calendar_data.push({
       count: Math.ceil(seconds / 60),
       date: new Date(today_begins_at_timestamp - days_ago * days)
         .toISOString()
         .substring(0, 10),
-      level: Math.ceil(session_count / 2),
+      /* Level from 0 to 1 */
+      level: Math.min(opacity, 1),
     });
   }
 

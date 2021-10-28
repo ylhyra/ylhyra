@@ -52,6 +52,10 @@ module.exports = {
         test: isProduction ? /index\.styl$/ : /\.styl$/,
         use: ["style-loader", "css-loader", "stylus-loader"],
       },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
     ].filter(Boolean),
   },
   resolve: {

@@ -1,14 +1,14 @@
-import React, { FunctionComponent, CSSProperties, ReactNode } from 'react';
-import tinycolor, { ColorInput } from 'tinycolor2';
-import format from 'date-fns/format';
-import getDay from 'date-fns/getDay';
-import getYear from 'date-fns/getYear';
-import parseISO from 'date-fns/parseISO';
-import type { Day as WeekDay } from 'date-fns';
+import React, { FunctionComponent, CSSProperties, ReactNode } from "react";
+import format from "date-fns/format";
+import getDay from "date-fns/getDay";
+import getYear from "date-fns/getYear";
+import parseISO from "date-fns/parseISO";
+import type { Day as WeekDay } from "date-fns";
+import color, { ColorInput } from "tinycolor2";
 
-import styles from './styles.css';
+import styles from "./styles.css";
 
-import { Day, Labels, Theme } from '../types';
+import { Day, Labels, Theme } from "../types";
 import {
   generateEmptyData,
   getClassName,
@@ -19,7 +19,12 @@ import {
   NAMESPACE,
   DEFAULT_WEEKDAY_LABELS,
   DEFAULT_LABELS,
-} from '../util';
+  emptyColor,
+} from "../util";
+
+const textColor = "#464646";
+const baseColor = color("#2d81ff");
+const emptyColor = color("white").darken(8).toHslString();
 
 type CalendarData = Array<Day>;
 
@@ -60,7 +65,7 @@ export interface Props {
   /**
    * Base color to compute graph intensity hues (darkest color). Any valid CSS color is accepted
    */
-  color?: ColorInput;
+  color?: string;
   /**
    * A date-fns/format compatible date string used in tooltips.
    */
@@ -114,7 +119,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
   blockSize = 12,
   children,
   color = undefined,
-  dateFormat = 'MMM do, yyyy',
+  dateFormat = "MMM do, yyyy",
   fontSize = 14,
   hideColorLegend = false,
   hideMonthLabels = false,
@@ -166,7 +171,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
     return (
       <>
         {showWeekdayLabels && (
-          <g className={getClassName('legend-weekday')} style={style}>
+          <g className={getClassName("legend-weekday")} style={style}>
             {weeks[1].map((day, y) => {
               if (!day || y % 2 === 0) {
                 return null;
@@ -177,30 +182,48 @@ const ActivityCalendar: FunctionComponent<Props> = ({
               return (
                 <text
                   x={-2 * blockMargin}
-                  y={textHeight + (fontSize / 2 + blockMargin) + (blockSize + blockMargin) * y}
+                  y={
+                    textHeight +
+                    (fontSize / 2 + blockMargin) +
+                    (blockSize + blockMargin) * y
+                  }
                   textAnchor="end"
                   key={day.date}
+                  style={{ color: textColor }}
                 >
-                  {labels.weekdays ? labels.weekdays[dayIndex] : DEFAULT_WEEKDAY_LABELS[dayIndex]}
+                  {labels.weekdays
+                    ? labels.weekdays[dayIndex]
+                    : DEFAULT_WEEKDAY_LABELS[dayIndex]}
                 </text>
               );
             })}
           </g>
         )}
         {!hideMonthLabels && (
-          <g className={getClassName('legend-month')} style={style}>
-            {getMonthLabels(weeks, labels.months).map(({ text, x }, index, labels) => {
-              // Skip the first month label if there's not enough space to the next one
-              if (index === 0 && labels[1] && labels[1].x - x <= MIN_DISTANCE_MONTH_LABELS) {
-                return null;
-              }
+          <g className={getClassName("legend-month")} style={style}>
+            {getMonthLabels(weeks, labels.months).map(
+              ({ text, x }, index, labels) => {
+                // Skip the first month label if there's not enough space to the next one
+                if (
+                  index === 0 &&
+                  labels[1] &&
+                  labels[1].x - x <= MIN_DISTANCE_MONTH_LABELS
+                ) {
+                  return null;
+                }
 
-              return (
-                <text x={(blockSize + blockMargin) * x} alignmentBaseline="hanging" key={x}>
-                  {text}
-                </text>
-              );
-            })}
+                return (
+                  <text
+                    x={(blockSize + blockMargin) * x}
+                    alignmentBaseline="hanging"
+                    key={x}
+                    style={{ color: textColor }}
+                  >
+                    {text}
+                  </text>
+                );
+              }
+            )}
           </g>
         )}
       </>
@@ -228,17 +251,21 @@ const ActivityCalendar: FunctionComponent<Props> = ({
               y={textHeight + (blockSize + blockMargin) * dayIndex}
               width={blockSize}
               height={blockSize}
-              fill={theme[`level${day.level}` as keyof Theme]}
+              fill={
+                day.level
+                  ? baseColor.setAlpha(day.level).toHslString()
+                  : emptyColor
+              }
               rx={blockRadius}
               ry={blockRadius}
-              className={styles.block}
+              className={"block"}
               data-date={day.date}
               data-tip={children ? getTooltipMessage(day) : undefined}
               key={day.date}
               style={style}
             />
           );
-        }),
+        })
       )
       .map((week, x) => (
         <g key={x} transform={`translate(${(blockSize + blockMargin) * x}, 0)`}>
@@ -251,55 +278,59 @@ const ActivityCalendar: FunctionComponent<Props> = ({
     if (hideTotalCount && hideColorLegend) {
       return null;
     }
+    return null;
 
-    return (
-      <footer
-        className={getClassName('footer', styles.footer)}
-        style={{ marginTop: blockMargin, fontSize }}
-      >
-        {/* Placeholder */}
-        {loading && <div>&nbsp;</div>}
-
-        {!loading && !hideTotalCount && (
-          <div className={getClassName('count')}>
-            {labels.totalCount
-              ? labels.totalCount
-                  .replace('{{count}}', String(totalCount))
-                  .replace('{{year}}', String(year))
-              : `${totalCount} contributions in ${year}`}
-          </div>
-        )}
-
-        {!loading && !hideColorLegend && (
-          <div className={getClassName('legend-colors')} style={{ marginLeft: 'auto' }}>
-            <span style={{ marginRight: '0.5em' }}>{labels?.legend?.less ?? 'Less'}</span>
-            {Array(5)
-              .fill(undefined)
-              .map((_, index) => (
-                <svg width={blockSize} height={blockSize} key={index} style={{ margin: '0 0.1em' }}>
-                  <rect
-                    width={blockSize}
-                    height={blockSize}
-                    fill={theme[`level${index}` as keyof Theme]}
-                    rx={blockRadius}
-                    ry={blockRadius}
-                  />
-                </svg>
-              ))}
-            <span style={{ marginLeft: '0.5em' }}>{labels?.legend?.more ?? 'More'}</span>
-          </div>
-        )}
-      </footer>
-    );
+    // return (
+    //   <footer className={"footer"} style={{ marginTop: blockMargin, fontSize }}>
+    //     {/* Placeholder */}
+    //     {loading && <div>&nbsp;</div>}
+    //
+    //     {!loading && !hideTotalCount && (
+    //       <div className={"count"}>
+    //         {labels.totalCount
+    //           ? labels.totalCount
+    //               .replace("{{count}}", String(totalCount))
+    //               .replace("{{year}}", String(year))
+    //           : `${totalCount} contributions in ${year}`}
+    //       </div>
+    //     )}
+    //
+    //     {!loading && !hideColorLegend && (
+    //       <div className={"legend-colors"} style={{ marginLeft: "auto" }}>
+    //         <span style={{ marginRight: "0.5em" }}>
+    //           {labels?.legend?.less ?? "Less"}
+    //         </span>
+    //         {Array(5)
+    //           .fill(undefined)
+    //           .map((_, index) => (
+    //             <svg
+    //               width={blockSize}
+    //               height={blockSize}
+    //               key={index}
+    //               style={{ margin: "0 0.1em" }}
+    //             >
+    //               <rect
+    //                 width={blockSize}
+    //                 height={blockSize}
+    //                 fill={theme[`level${index}` as keyof Theme]}
+    //                 rx={blockRadius}
+    //                 ry={blockRadius}
+    //               />
+    //             </svg>
+    //           ))}
+    //         <span style={{ marginLeft: "0.5em" }}>
+    //           {labels?.legend?.more ?? "More"}
+    //         </span>
+    //       </div>
+    //     )}
+    //   </footer>
+    // );
   }
 
   const { width, height } = getDimensions();
   const additionalStyles = {
     width,
-    maxWidth: '100%',
-    // Required to have correct colors in CSS loading animation
-    [`--${NAMESPACE}-loading`]: theme.level0,
-    [`--${NAMESPACE}-loading-active`]: tinycolor(theme.level0).darken(8).toString(),
+    maxWidth: "100%",
   };
 
   return (
@@ -308,7 +339,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
         width={width}
         height={height}
         viewBox={`0 0 ${width} ${height}`}
-        className={getClassName('calendar', styles.calendar)}
+        className={"calendar"}
       >
         {!loading && renderLabels()}
         {renderBlocks()}
@@ -319,7 +350,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
   );
 };
 
-export const Skeleton: FunctionComponent<Omit<Props, 'data'>> = props => (
+export const Skeleton: FunctionComponent<Omit<Props, "data">> = (props) => (
   <ActivityCalendar data={[]} {...props} />
 );
 

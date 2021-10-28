@@ -1,5 +1,5 @@
-import ActivityCalendar, { Skeleton } from './component/ActivityCalendar';
-import { createCalendarTheme } from './util';
+import ActivityCalendar, { Skeleton } from "./component/ActivityCalendar.tsx";
+import { createCalendarTheme } from "./util";
 
 export { Skeleton, createCalendarTheme };
 export default ActivityCalendar;

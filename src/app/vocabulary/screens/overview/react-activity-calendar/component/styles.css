@@ -14,9 +14,9 @@
   shape-rendering: geometricPrecision;
 }
 
-.footer {
-  display: flex;
-}
+/*.calendar-footer {*/
+/*  display: flex;*/
+/*}*/
 
 /*noinspection CssUnresolvedCustomProperty*/
 @keyframes loadingAnimation {

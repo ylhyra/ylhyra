@@ -34,31 +34,7 @@ class ActivityOverview extends Component {
           hideTotalCount
           showWeekdayLabels
           fontSize={12}
-          theme={{
-            level0: "#F0F0F0",
-            level1: "#C4EDDE",
-            level2: "#7AC7C4",
-            level3: "#F73859",
-            level4: "#384259",
-            level5: "orange",
-          }}
-          labels={{
-            months: [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
-            ],
-            weekdays: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-          }}
+          blockMargin={3}
         />
       </div>
     );
