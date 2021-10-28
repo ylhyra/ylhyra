@@ -65,7 +65,7 @@ class Session {
       }
       await updateURL(url);
     }
-    this.saveSessionLog()
+    this.saveSessionLog();
     await sync();
     /* Analytics */
     if (this.getSecondsSpent() > 10) {

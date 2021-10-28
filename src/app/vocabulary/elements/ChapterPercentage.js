@@ -1,9 +1,6 @@
-import { log } from "app/app/functions/log";
 import { PercentageKnown } from "app/vocabulary/actions/functions/percentageKnown";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import _ from "underscore";
-import { isDev } from "app/app/functions/isDev";
 import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 
 class X extends Component {

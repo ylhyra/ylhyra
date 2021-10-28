@@ -60,9 +60,12 @@ export const roundMsToHour = (input) => roundToInterval(input, msInHour);
  */
 export const roundMsToMinute = (input) => roundToInterval(input, minute);
 
-// const roundMsToHours = (input) => {
-//   return round(
-//     input,
-//     (1000 /* ms */ * 60 /* s */ * 60 /* m */ * 60 /* hours */ ).toFixed(0).length
-//   )
-// }
+/**
+ * @param {Milliseconds} input
+ * @returns {string}
+ */
+export const prettyPrintDaysMinutesHours = (input) => {
+  // TODO
+  const _minutes = Math.ceil(input / minutes);
+  return `${_minutes} minute${_minutes === 1 ? "" : "s"}`;
+};

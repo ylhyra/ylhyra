@@ -1,8 +1,5 @@
 import { getDeckName } from "maker/vocabulary_maker/compile/functions";
-import {
-  getFromLocalStorage,
-  saveInLocalStorage,
-} from "app/app/functions/localStorage";
+import { getFromLocalStorage } from "app/app/functions/localStorage";
 import { log } from "app/app/functions/log";
 import { getScheduleFromUserData, sync } from "app/vocabulary/actions/sync";
 import Deck from "app/vocabulary/actions/deck";

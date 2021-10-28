@@ -5,7 +5,6 @@ import { get_processed_image_url } from "app/app/paths";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
-import { route } from "app/router/reducers";
 
 class CardElement extends Component {
   state = {};

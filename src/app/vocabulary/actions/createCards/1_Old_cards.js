@@ -1,6 +1,5 @@
 import { getTime, hours } from "app/app/functions/time";
 import {
-  newestFirst,
   oldestFirst,
   sortBySortKey,
 } from "app/vocabulary/actions/createCards/functions";
