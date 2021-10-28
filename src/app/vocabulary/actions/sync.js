@@ -108,13 +108,13 @@ export const getScheduleFromUserData = (user_data) => {
 };
 
 /**
- * @returns {Object}
+ * @returns {Array}
  */
 export const getSessions = () => {
   const sessions = [];
-  Object.keys(deck.user_data?.rows || {}).forEach((key) => {
+  Object.keys(deck?.user_data?.rows || {}).forEach((key) => {
     if (deck.user_data.rows[key].type === "session") {
-      sessions.push (deck.user_data.rows[key].value)
+      sessions.push(deck.user_data.rows[key].value);
     }
   });
   return sessions;
