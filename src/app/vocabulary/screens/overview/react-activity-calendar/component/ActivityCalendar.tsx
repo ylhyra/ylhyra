@@ -6,7 +6,7 @@ import parseISO from "date-fns/parseISO";
 import type { Day as WeekDay } from "date-fns";
 import color from "tinycolor2";
 import { mapValueToRange } from "app/app/functions/math";
-import { prettyPrintDaysMinutesHours, seconds } from "app/app/functions/time";
+import { prettyPrintDaysMinutesHours, minutes } from "app/app/functions/time";
 
 import "./styles.css";
 
@@ -162,7 +162,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
       return `${date}: Not played`;
     }
     return `${date}: ${prettyPrintDaysMinutesHours(
-      contribution.count * seconds
+      contribution.count * minutes
     )}`;
   }
 
@@ -246,26 +246,17 @@ const ActivityCalendar: FunctionComponent<Props> = ({
             return null;
           }
 
-          // const style = day.date.endsWith("01")
-          //   ? {
-          //       stroke: `rgba(0, 0, 0, ${})`,
-          //     }
-          //   : undefined;
-          const border_opacity = mapValueToRange({
-            value: 31 - parseInt(day.date.slice(-2)),
-            input_from: 0,
-            input_to: 31,
-            output_from: 0.07,
-            output_to: 0.19,
-          });
-          const style = {
-            stroke: `rgba(0, 0, 0, ${border_opacity})`,
-          };
+          const style = day.date.endsWith("01")
+            ? {
+                stroke: `rgba(0, 0, 0, 0.15)`,
+              }
+            : undefined;
 
+          const y = textHeight + (blockSize + blockMargin) * dayIndex;
           return (
             <rect
               x={0}
-              y={textHeight + (blockSize + blockMargin) * dayIndex}
+              y={y}
               width={blockSize}
               height={blockSize}
               fill={
@@ -282,7 +273,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
               style={style}
             >
               <title>{getTooltipMessage(day)}</title>
-            </rect>
+            </rect>,
           );
         })
       )

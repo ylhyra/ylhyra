@@ -21,7 +21,7 @@ export default () => {
 
   sortBySortKey(getCardsInSchedule())
     .filter((card) => card.isAllowed())
-    .sort((a, b) => a.getDue() - b.getDue())
+    // .sort((a, b) => a.getDue() - b.getDue())
     .forEach((card) => {
       if (
         card.getDue() < getTime() + 16 * hours &&
