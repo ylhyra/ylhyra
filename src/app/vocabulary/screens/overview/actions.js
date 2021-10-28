@@ -140,22 +140,24 @@ export const session_log_migration = async () => {
     console.log("Session log already migrated");
     return;
   }
+  if (Object.keys(deck.schedule).length > 0) {
+    const data = (await axios.get("/api/vocabulary/session_log_migration"))
+      .data;
+    if (!data || !Array.isArray(data) || data.length === 0) return;
 
-  const data = (await axios.get("/api/vocabulary/session_log_migration")).data;
-  if (!data || !Array.isArray(data) || data.length === 0) return;
-
-  data.forEach((session) => {
-    const id = SESSION_PREFIX + session.timestamp / 1000;
-    if (getUserData(id)) return;
-    setUserData(
-      id,
-      {
-        seconds_spent: session.seconds_spent,
-        timestamp: session.timestamp,
-      },
-      "session"
-    );
-  });
+    data.forEach((session) => {
+      const id = SESSION_PREFIX + session.timestamp / 1000;
+      if (getUserData(id)) return;
+      setUserData(
+        id,
+        {
+          seconds_spent: session.seconds_spent,
+          timestamp: session.timestamp,
+        },
+        "session"
+      );
+    });
+  }
   setUserData(SESSION_LOG_MIGRATION_FINISHED__KEY, true);
   sync();
   // console.log(data);

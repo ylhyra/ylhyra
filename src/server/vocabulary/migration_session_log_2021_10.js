@@ -21,7 +21,7 @@ router.get("/vocabulary/session_log_migration", async (req, res) => {
         WHERE 
         (user_id = ${req.session.user_id}
           OR session_id = ${req.session.session_id})
-        AND timestamp < "2021-10-28 21:36:32"
+        AND timestamp < "2021-11-28 21:36:32"
         AND type = "vocabulary"
       `, // TODO
     (err, results) => {
