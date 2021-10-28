@@ -1,15 +1,19 @@
-import React, { FunctionComponent, CSSProperties, ReactNode } from "react";
+import React, { CSSProperties, FunctionComponent, ReactNode } from "react";
 import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import getYear from "date-fns/getYear";
 import parseISO from "date-fns/parseISO";
 import type { Day as WeekDay } from "date-fns";
-import color, { ColorInput } from "tinycolor2";
+import color from "tinycolor2";
+import { mapValueToRange } from "app/app/functions/math";
+import { prettyPrintDaysMinutesHours, seconds } from "app/app/functions/time";
 
-import styles from "./styles.css";
+import "./styles.css";
 
 import { Day, Labels, Theme } from "../types";
 import {
+  DEFAULT_LABELS,
+  DEFAULT_WEEKDAY_LABELS,
   generateEmptyData,
   getClassName,
   getMonthLabels,
@@ -17,8 +21,6 @@ import {
   groupByWeeks,
   MIN_DISTANCE_MONTH_LABELS,
   NAMESPACE,
-  DEFAULT_WEEKDAY_LABELS,
-  DEFAULT_LABELS,
 } from "../util";
 
 const textColor = "#464646";
@@ -119,7 +121,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
   blockSize = 12,
   children,
   color = undefined,
-  dateFormat = "MMM do, yyyy",
+  dateFormat = "d MMMM yyyy",
   fontSize = 14,
   hideColorLegend = false,
   hideMonthLabels = false,
@@ -156,7 +158,12 @@ const ActivityCalendar: FunctionComponent<Props> = ({
 
   function getTooltipMessage(contribution: Day) {
     const date = format(parseISO(contribution.date), dateFormat);
-    return `<strong>${contribution.count} contributions</strong> on ${date}`;
+    if (!contribution.count) {
+      return `${date}: Not played`;
+    }
+    return `${date}: ${prettyPrintDaysMinutesHours(
+      contribution.count * seconds
+    )}`;
   }
 
   function renderLabels() {
@@ -239,12 +246,21 @@ const ActivityCalendar: FunctionComponent<Props> = ({
             return null;
           }
 
-          const style = loading
-            ? {
-                animation: `${styles.loadingAnimation} 1.5s ease-in-out infinite`,
-                animationDelay: `${weekIndex * 20 + dayIndex * 20}ms`,
-              }
-            : undefined;
+          // const style = day.date.endsWith("01")
+          //   ? {
+          //       stroke: `rgba(0, 0, 0, ${})`,
+          //     }
+          //   : undefined;
+          const border_opacity = mapValueToRange({
+            value: 31 - parseInt(day.date.slice(-2)),
+            input_from: 0,
+            input_to: 31,
+            output_from: 0.07,
+            output_to: 0.19,
+          });
+          const style = {
+            stroke: `rgba(0, 0, 0, ${border_opacity})`,
+          };
 
           return (
             <rect
@@ -264,7 +280,9 @@ const ActivityCalendar: FunctionComponent<Props> = ({
               data-tip={children ? getTooltipMessage(day) : undefined}
               key={day.date}
               style={style}
-            />
+            >
+              <title>{getTooltipMessage(day)}</title>
+            </rect>
           );
         })
       )

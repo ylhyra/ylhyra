@@ -9,7 +9,7 @@
 }
 
 .block {
-  stroke: rgba(0, 0, 0, 0.1);
+  stroke: rgba(0, 0, 0, 0.07);
   stroke-width: 1px;
   shape-rendering: geometricPrecision;
 }

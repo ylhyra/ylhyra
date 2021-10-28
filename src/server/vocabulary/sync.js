@@ -84,7 +84,11 @@ const saveUserData = (req, object) => {
     const queries = Object.keys(object)
       .map((key) => {
         let value = object[key].value;
-        if (typeof value !== "string" && typeof value !== "number") {
+        if (
+          typeof value !== "string" &&
+          typeof value !== "number" &&
+          typeof value !== "boolean"
+        ) {
           value = stable_stringify(removeNullKeys(value));
         }
         return sql`

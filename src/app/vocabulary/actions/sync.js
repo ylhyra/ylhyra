@@ -121,6 +121,9 @@ export const getSessions = () => {
 };
 
 export const setUserData = (key, value, type) => {
+  if (key.length > 20) {
+    throw new Error("Max key length is 20");
+  }
   if (!("rows" in deck.user_data)) {
     // console.log(`deck.user_data didn't have rows`);
     deck.user_data.rows = {};

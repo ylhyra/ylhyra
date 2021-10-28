@@ -49,7 +49,7 @@ export const calculateOverview = async () => {
 
   /* Count backwards the number of days to show in the calendar */
   let days_to_show_in_calendar = clamp(
-    parseInt(_.max(Object.keys(days_ago_to_seconds_spent))) + 4,
+    parseInt(_.max(Object.keys(days_ago_to_seconds_spent))) + 10,
     MIN_DAYS_TO_SHOW,
     MAX_DAYS_TO_SHOW
   );
@@ -80,17 +80,9 @@ export const calculateOverview = async () => {
         output_from: 0.2,
         output_to: 1,
       });
-
-      // 0.1; /* Minimum */
-      // opacity += (0.8 * minutes) / 40; /* Portion of 40 minutes */
-      // opacity +=
-      //   (0.1 * Math.max(0, minutes - 40)) /
-      //   (2 * 60); /* Portion of 40 minutes */
-      //
-      console.log({ minutes, opacity });
+      // console.log({ minutes, opacity });
     }
 
-    // const session_count = seconds / 60 / EACH_SESSION_LASTS_X_MINUTES;
     calendar_data.push({
       count: Math.ceil(seconds / 60),
       date: new Date(today_begins_at_timestamp - days_ago * days)
@@ -143,14 +135,15 @@ const get_today_begins_at_timestamp = () => {
   return today_begins_at_timestamp;
 };
 
+const SESSION_LOG_MIGRATION_FINISHED__KEY = "session_log_migr";
 export const session_log_migration = async () => {
-  if (getUserData("session_log_migration_finished")) {
+  if (getUserData(SESSION_LOG_MIGRATION_FINISHED__KEY)) {
     console.log("Session log already migrated");
     return;
   }
 
   const data = (await axios.get("/api/vocabulary/session_log_migration")).data;
-  if (!data || data.length === 0) return;
+  if (!data || !Array.isArray(data) || data.length === 0) return;
 
   data.forEach((session) => {
     const id = SESSION_PREFIX + session.timestamp / 1000;
@@ -164,7 +157,7 @@ export const session_log_migration = async () => {
       "session"
     );
   });
-  setUserData("session_log_migration_finished", true);
+  setUserData(SESSION_LOG_MIGRATION_FINISHED__KEY, true);
   sync();
   // console.log(data);
 };

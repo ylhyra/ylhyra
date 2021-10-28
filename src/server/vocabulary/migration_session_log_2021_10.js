@@ -8,7 +8,7 @@ import sql from "server/database/functions/SQL-template-literal";
 const router = require("express").Router();
 
 router.get("/vocabulary/session_log_migration", async (req, res) => {
-  if (!req.session.session_id) {
+  if (!req.session.session_id && !req.session.user_id) {
     return res.send(200);
   }
 
@@ -20,7 +20,7 @@ router.get("/vocabulary/session_log_migration", async (req, res) => {
         FROM analytics a
         WHERE 
         (user_id = ${req.session.user_id}
-          OR session_id = ${req.session.session_id})
+          OR session_id = ${req.session.user_id ? "0" : req.session.session_id})
         AND timestamp < "2021-09-04 21:36:32"
         AND type = "vocabulary"
       `, // TODO

@@ -190,6 +190,9 @@
       "/node_modules/"
     ],
     "testURL": "http://localhost:9123",
-    "testRegex": "src/tests/unitTests/.*\\.test\\.[jt]sx?$"
+    "testRegex": "src/tests/unitTests/.*\\.test\\.[jt]sx?$",
+    "moduleNameMapper": {
+      "\\.(css)$": "<rootDir>/src/tests/unitTests/mockIgnore.js"
+    }
   }
 }

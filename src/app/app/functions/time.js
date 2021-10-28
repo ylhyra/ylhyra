@@ -66,7 +66,25 @@ export const roundMsToMinute = (input) => roundToInterval(input, minute);
  * @returns {string}
  */
 export const prettyPrintDaysMinutesHours = (input) => {
-  // TODO
-  const _minutes = Math.ceil(input / minutes);
-  return withPlural(_minutes, "minute");
+  let out = [];
+
+  const _days = input / days;
+  const _hours = (input - Math.floor(_days) * days) / hours;
+  const _minutes = (_hours * hours - Math.floor(_hours) * hours) / minutes;
+
+  if (Math.floor(_days) > 0) {
+    out.push(withPlural(Math.floor(_days), "day"));
+  }
+  if (Math.floor(_hours) > 0) {
+    out.push(withPlural(Math.floor(_hours), "hour"));
+  }
+  if (Math.floor(_minutes) > 0) {
+    out.push(withPlural(Math.floor(_minutes), "minute"));
+  }
+
+  if (out.length === 0) {
+    return "0 minutes";
+  }
+
+  return out.slice(0, 2).join(", ");
 };
