@@ -60,7 +60,10 @@ export const mapZeroToInfinityToZeroToOne = ({
   input,
   goal_input,
   goal_output,
+  pow = 1.4,
 }) => {
+  input **= pow;
+  goal_input **= pow;
   if (goal_output > 1) throw new Error();
   const a = (goal_input - goal_output * goal_input) / goal_output;
   return input / (input + a);

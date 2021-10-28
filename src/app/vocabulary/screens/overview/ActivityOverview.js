@@ -2,17 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ActivityCalendar from "./react-activity-calendar/index.ts";
 import { isDev } from "app/app/functions/isDev";
-import { getSessions } from "app/vocabulary/actions/sync";
 import {
   day,
-  days,
   prettyPrintDaysMinutesHours,
   seconds,
 } from "app/app/functions/time";
-import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
-import { clamp } from "app/app/functions/math";
-import _ from "underscore";
 import { withPlural } from "app/app/functions/simplePlural";
+import Spacer from "documents/templates/Spacer";
 
 class ActivityOverview extends Component {
   render() {
@@ -20,14 +16,30 @@ class ActivityOverview extends Component {
     const { deck, overview } = this.props.vocabulary;
     if (!deck || !overview) return null;
 
+    if (!overview.seconds_spent_total) return null;
     return (
       <div className="vocabulary-overview-section">
-        Streak: {withPlural(overview.streak, "day")}
-        <br />
-        Total time spent:{" "}
-        {prettyPrintDaysMinutesHours(overview.seconds_spent_total * seconds)}
-        <br />
-        Activity:
+        <Spacer space="10" />
+
+        <div>
+          <b>Activity streak:</b> {withPlural(overview.streak, "day")} in a row
+        </div>
+        {overview.seconds_spent_this_week !== overview.seconds_spent_total && (
+          <div>
+            <b>Time spent this week:</b>{" "}
+            {prettyPrintDaysMinutesHours(
+              overview.seconds_spent_this_week * seconds
+            )}
+          </div>
+        )}
+        <div>
+          <b>Total time spent:</b>{" "}
+          {prettyPrintDaysMinutesHours(overview.seconds_spent_total * seconds)}
+        </div>
+        <Spacer space="10" />
+
+        <b>Activity overview:</b>
+
         <ActivityCalendar
           data={overview.calendar_data}
           hideColorLegend

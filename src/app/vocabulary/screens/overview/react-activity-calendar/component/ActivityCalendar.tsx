@@ -19,12 +19,12 @@ import {
   NAMESPACE,
   DEFAULT_WEEKDAY_LABELS,
   DEFAULT_LABELS,
-  emptyColor,
 } from "../util";
 
 const textColor = "#464646";
 const baseColor = color("#2d81ff");
 const emptyColor = color("white").darken(8).toHslString();
+const marginLeft = 29;
 
 type CalendarData = Array<Day>;
 
@@ -145,7 +145,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
 
   const theme = getTheme(themeProp, color);
   const labels = Object.assign({}, DEFAULT_LABELS, labelsProp);
-  const textHeight = hideMonthLabels ? 0 : fontSize + 2 * blockMargin;
+  const textHeight = hideMonthLabels ? 0 : fontSize + 1;
 
   function getDimensions() {
     return {
@@ -181,11 +181,12 @@ const ActivityCalendar: FunctionComponent<Props> = ({
 
               return (
                 <text
-                  x={-2 * blockMargin}
+                  x={marginLeft - 4}
                   y={
                     textHeight +
                     (fontSize / 2 + blockMargin) +
-                    (blockSize + blockMargin) * y
+                    (blockSize + blockMargin) * y +
+                    2
                   }
                   textAnchor="end"
                   key={day.date}
@@ -214,7 +215,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
 
                 return (
                   <text
-                    x={(blockSize + blockMargin) * x}
+                    x={(blockSize + blockMargin) * x + marginLeft}
                     alignmentBaseline="hanging"
                     key={x}
                     style={{ color: textColor }}
@@ -268,63 +269,19 @@ const ActivityCalendar: FunctionComponent<Props> = ({
         })
       )
       .map((week, x) => (
-        <g key={x} transform={`translate(${(blockSize + blockMargin) * x}, 0)`}>
+        <g
+          key={x}
+          transform={`translate(${
+            (blockSize + blockMargin) * x + marginLeft
+          }, 0)`}
+        >
           {week}
         </g>
       ));
   }
 
   function renderFooter() {
-    if (hideTotalCount && hideColorLegend) {
-      return null;
-    }
     return null;
-
-    // return (
-    //   <footer className={"footer"} style={{ marginTop: blockMargin, fontSize }}>
-    //     {/* Placeholder */}
-    //     {loading && <div>&nbsp;</div>}
-    //
-    //     {!loading && !hideTotalCount && (
-    //       <div className={"count"}>
-    //         {labels.totalCount
-    //           ? labels.totalCount
-    //               .replace("{{count}}", String(totalCount))
-    //               .replace("{{year}}", String(year))
-    //           : `${totalCount} contributions in ${year}`}
-    //       </div>
-    //     )}
-    //
-    //     {!loading && !hideColorLegend && (
-    //       <div className={"legend-colors"} style={{ marginLeft: "auto" }}>
-    //         <span style={{ marginRight: "0.5em" }}>
-    //           {labels?.legend?.less ?? "Less"}
-    //         </span>
-    //         {Array(5)
-    //           .fill(undefined)
-    //           .map((_, index) => (
-    //             <svg
-    //               width={blockSize}
-    //               height={blockSize}
-    //               key={index}
-    //               style={{ margin: "0 0.1em" }}
-    //             >
-    //               <rect
-    //                 width={blockSize}
-    //                 height={blockSize}
-    //                 fill={theme[`level${index}` as keyof Theme]}
-    //                 rx={blockRadius}
-    //                 ry={blockRadius}
-    //               />
-    //             </svg>
-    //           ))}
-    //         <span style={{ marginLeft: "0.5em" }}>
-    //           {labels?.legend?.more ?? "More"}
-    //         </span>
-    //       </div>
-    //     )}
-    //   </footer>
-    // );
   }
 
   const { width, height } = getDimensions();

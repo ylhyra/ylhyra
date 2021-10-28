@@ -76,6 +76,10 @@ mainapp.use("/api", require("server/analytics/userErrors").default);
 mainapp.use("/api", require("server/user").default);
 mainapp.use("/api", require("server/user/pay").default);
 mainapp.use("/api", require("server/vocabulary/sync").default);
+mainapp.use(
+  "/api",
+  require("server/vocabulary/migration_session_log_2021_10").default
+);
 mainapp.use("/api", require("server/vocabulary/maker").default);
 mainapp.use("/", require("server/content").default);
 

@@ -67,15 +67,6 @@ class Session {
     }
     this.saveSessionLog();
     await sync();
-    /* Analytics */
-    if (this.getSecondsSpent() > 10) {
-      // TODO: Ignore logged in users?
-      Analytics.log({
-        type: "vocabulary",
-        page_name: window.location.pathname,
-        seconds: this.getSecondsSpent(),
-      });
-    }
     this.reset();
   }
   getSecondsSpent() {
@@ -102,7 +93,7 @@ class Session {
     saveInLocalStorage("vocabulary-session", null);
   }
   saveSessionLog() {
-    if (this.cardHistory.length > 0) {
+    if (this.cardHistory.length > 0 && this.getSecondsSpent() > 10) {
       const timestamp = this.savedAt || getTime();
       const timestamp_in_seconds = Math.round(timestamp / 1000);
       setUserData(
@@ -113,6 +104,13 @@ class Session {
         },
         "session"
       );
+
+      // TODO: Ignore logged in users?
+      Analytics.log({
+        type: "vocabulary",
+        page_name: window.location.pathname,
+        seconds: this.getSecondsSpent(),
+      });
     } else {
       log("Not logged");
     }

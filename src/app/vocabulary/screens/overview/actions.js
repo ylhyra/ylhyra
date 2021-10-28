@@ -1,16 +1,31 @@
 import { day, days } from "app/app/functions/time";
-import { getSessions } from "app/vocabulary/actions/sync";
-import { clamp, mapZeroToInfinityToZeroToOne } from "app/app/functions/math";
+import {
+  getSessions,
+  getUserData,
+  SESSION_PREFIX,
+  setUserData,
+  sync,
+} from "app/vocabulary/actions/sync";
+import {
+  clamp,
+  mapValueToRange,
+  mapZeroToInfinityToZeroToOne,
+} from "app/app/functions/math";
 import _ from "underscore";
 import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
 import { deck } from "app/vocabulary/actions/deck";
 import store from "app/app/store";
+import axios from "app/app/axios";
+import { isDev } from "app/app/functions/isDev";
 
 const MIN_DAYS_TO_SHOW = 2.5 * 30;
 const MAX_DAYS_TO_SHOW = 365;
 
-export const calculateOverview = () => {
+export const calculateOverview = async () => {
   if (!deck) return null;
+  if (Object.keys(deck.schedule).length === 0) return;
+
+  await session_log_migration();
 
   let seconds_spent_total = 0;
   let seconds_spent_this_week = 0;
@@ -38,6 +53,9 @@ export const calculateOverview = () => {
     MIN_DAYS_TO_SHOW,
     MAX_DAYS_TO_SHOW
   );
+
+  // days_to_show_in_calendar = 1000; //tmp
+
   /* Make sure the calendar shown starts on a Sunday */
   days_to_show_in_calendar += new Date(
     today_begins_at_timestamp - days_to_show_in_calendar * days
@@ -50,11 +68,17 @@ export const calculateOverview = () => {
 
     let opacity = 0;
     if (minutes) {
-      opacity = mapZeroToInfinityToZeroToOne({
-        input: minutes + 10,
-        /* Spending 30 minutes fills eighty percent */
-        goal_input: 30 + 10,
-        goal_output: 0.8,
+      opacity = mapValueToRange({
+        value: mapZeroToInfinityToZeroToOne({
+          input: minutes,
+          /* Spending 40 minutes fills eighty percent */
+          goal_input: 40,
+          goal_output: 0.8,
+        }),
+        input_from: 0,
+        input_to: 1,
+        output_from: 0.2,
+        output_to: 1,
       });
 
       // 0.1; /* Minimum */
@@ -117,4 +141,30 @@ const get_today_begins_at_timestamp = () => {
     today_begins_at_timestamp -= day;
   }
   return today_begins_at_timestamp;
+};
+
+export const session_log_migration = async () => {
+  if (getUserData("session_log_migration_finished")) {
+    console.log("Session log already migrated");
+    return;
+  }
+
+  const data = (await axios.get("/api/vocabulary/session_log_migration")).data;
+  if (!data || data.length === 0) return;
+
+  data.forEach((session) => {
+    const id = SESSION_PREFIX + session.timestamp / 1000;
+    if (getUserData(id)) return;
+    setUserData(
+      id,
+      {
+        seconds_spent: session.seconds_spent,
+        timestamp: session.timestamp,
+      },
+      "session"
+    );
+  });
+  setUserData("session_log_migration_finished", true);
+  sync();
+  // console.log(data);
 };
