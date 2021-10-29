@@ -4,7 +4,7 @@ import express from "express";
 import stable_stringify from "json-stable-stringify";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
-import { staticCached } from "server/index";
+import { staticCached } from "server/caching";
 
 const router = require("express").Router();
 

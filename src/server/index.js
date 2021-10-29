@@ -14,7 +14,7 @@ import "regenerator-runtime/runtime";
 import requestIp from "request-ip";
 import query from "server/database";
 import { isDev } from "app/app/functions/isDev";
-import { days } from "app/app/functions/time";
+import { staticCached } from "server/caching";
 
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
@@ -40,13 +40,6 @@ app.use(
   })
 );
 app.enable("strict routing");
-
-export const staticCached = (path) => {
-  return express.static(path, {
-    maxAge: 365 * days,
-    immutable: true,
-  });
-};
 
 if (!process.env.COOKIE_SECRET) {
   console.warn("Missing COOKIE_SECRET");

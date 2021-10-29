@@ -246,11 +246,13 @@ const ActivityCalendar: FunctionComponent<Props> = ({
             return null;
           }
 
-          const style = day.date.endsWith("01")
-            ? {
-                stroke: `rgba(0, 0, 0, 0.15)`,
-              }
-            : undefined;
+          const style = undefined;
+
+          // const style = day.date.endsWith("01")
+          //   ? {
+          //       stroke: `rgba(0, 0, 0, 0.15)`,
+          //     }
+          //   : undefined;
 
           const y = textHeight + (blockSize + blockMargin) * dayIndex;
           return (

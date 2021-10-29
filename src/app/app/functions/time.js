@@ -24,10 +24,12 @@ export const seconds = second;
 export const minute = 60 * second;
 export const minutes = minute;
 
-/* In seconds */
-export const minute_s = 60;
-/* In seconds */
-export const day_s = 24 * 60 * minute_s;
+// /* In seconds */
+// export const minute_s = 60;
+// /* In seconds */
+// export const hour_s = 60 * minute_s;
+// /* In seconds */
+// export const day_s = 24 * hour_s;
 
 /**
  * @returns {TimestampInMilliseconds}

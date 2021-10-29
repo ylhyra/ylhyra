@@ -11,6 +11,7 @@ import render from "inflection/tables";
 import tree from "inflection/tables/tree";
 import withLicense from "inflection/server/server-with-database/license";
 import layout from "inflection/server/views/layout";
+import { cacheControl } from "server/caching";
 
 const router = express.Router();
 
@@ -19,6 +20,7 @@ export default (Search, Get_by_id) => {
     API
   */
   router.get("/api/inflections?", cors(), (req, res) => {
+    cacheControl(res, "cached_html");
     res.setHeader("X-Robots-Tag", "noindex");
     let { id, type, search, fuzzy, return_rows_if_only_one_match } = req.query;
     if (search) {
@@ -65,9 +67,12 @@ export default (Search, Get_by_id) => {
     Website
   */
   router.get(["/robots.txt", "/favicon.ico", "/sitemap.xml"], (req, res) => {
+    cacheControl(res, "immutable");
+
     res.send("");
   });
   router.get(["/", "/:id(\\d+)/", "/:word?/:id(\\d+)?"], cors(), (req, res) => {
+    cacheControl(res, "cached_html");
     const id = req.query.id || req.params.id;
     const word = req.query.q || req.params.word;
     const embed = "embed" in req.query;

@@ -3,10 +3,9 @@ import { getValuesForURL } from "server/content/links";
 import { build_folder } from "server/paths_backend";
 import { isDev } from "app/app/functions/isDev";
 import hash from "app/app/functions/hash";
-import express from "express";
 import fs from "fs";
 import path from "path";
-import { day_s, minute_s } from "app/app/functions/time";
+import { cacheControl } from "server/caching";
 
 const router = require("express").Router({ strict: true });
 
@@ -45,26 +44,13 @@ router.get(["/api/content", "*"], async (req, res) => {
     res.set("X-Robots-Tag", "noindex");
   }
 
+  cacheControl(res, "html");
+
   if (values?.filename) {
     let { title, filepath, filename, url } = values;
 
-    // title = renderTitle(title);
-
-    if (!isDev) {
-      res.set(
-        "Cache-Control",
-        [
-          `public`,
-          `max-age=10`,
-          `s-maxage=${day_s}`,
-          `stale-if-error=${365 * day_s}`,
-          `stale-while-revalidate=${5 * minute_s}`,
-        ].join(", ")
-      );
-    }
-
     if (url.startsWith("/file/")) {
-      res.set("Cache-Control", `public, max-age=${90 * day_s}, immutable`);
+      cacheControl(res, "immutable");
       res.sendFile(
         filepath.replace(/(\.[a-z]+)$/i, "") // Fjarlægir ".md"
       );
