@@ -15,25 +15,26 @@ module.exports = {
   stats: "errors-only", // "minimal" or "errors-only"
   module: {
     rules: [
-      {
-        test: /\.(js|ts)x?$/,
-        loader: "babel-loader",
-        exclude: /node_modules/,
-        options: require(resolve("babel.config.js")),
-      },
-
       // {
-      //   test: /\.[jt]sx?$/,
+      //   test: /\.(js|ts)x?$/,
+      //   loader: "babel-loader",
       //   exclude: /node_modules/,
-      //   use: [
-      //     {
-      //       loader: require.resolve('babel-loader'),
-      //       options: {
-      //         plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
-      //       },
-      //     },
-      //   ],
+      //   options: require(resolve("babel.config.js")),
       // },
+
+      {
+        test: /\.[jt]sx?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: require(resolve("babel.config.js")),
+          },
+          {
+            loader: "webpack-module-hot-accept",
+          },
+        ],
+      },
 
       // {
       //   test: /\.(js|ts)x?$/,

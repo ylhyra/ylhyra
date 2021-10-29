@@ -9,6 +9,27 @@ import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
 import { isDev } from "app/app/functions/isDev";
 
 export default () => {
+  /**
+   * Chosen_cards starts out as an array of nulls;
+   * the slots will later be filled.
+   * @type {Array.<Card|null>}
+   */
+  let chosen_cards = new Array(CARDS_TO_CREATE).fill(null);
+
+  /* Helper function to add to chosen_cards */
+  const add = (arr, desc, pos) => {
+    if (!isEmpty(arr)) {
+      if (pos === undefined) {
+        pos = chosen_cards.findIndex((j) => j === null);
+        if (pos < 0) {
+          pos = chosen_cards.length;
+        }
+      }
+      log(`${desc} card "${arr[0].printWord()}" added at position ${pos + 1}`);
+      chosen_cards[pos] = arr.shift();
+    }
+  };
+
   const {
     /** @type {Array.<Card>} */
     overdue_bad,
@@ -22,9 +43,6 @@ export default () => {
 
   /** @type {Array.<Card>} */
   const new_cards = NewCards();
-
-  /** @type {Array.<Card|null>} */
-  let chosen_cards = new Array(CARDS_TO_CREATE).fill(null);
 
   let total_options = sumOfArrayLengths(
     overdue_bad,
@@ -41,20 +59,6 @@ export default () => {
       new_cards: { ...new_cards },
     });
 
-  /* Helper function to add to chosen_cards */
-  const add = (arr, desc, pos) => {
-    if (!isEmpty(arr)) {
-      if (pos === undefined) {
-        pos = chosen_cards.findIndex((j) => j === null);
-        if (pos < 0) {
-          pos = chosen_cards.length;
-        }
-      }
-      log(`${desc} card "${arr[0].printWord()}" added at position ${pos + 1}`);
-      chosen_cards[pos] = arr.shift();
-    }
-  };
-
   let newCardEvery = 2;
   if (bad_count > 100) {
     newCardEvery = 15;
@@ -64,16 +68,21 @@ export default () => {
     newCardEvery = 4;
   }
 
-  /* Spread new cards into chosen_cards */
+  /*
+    Start by spreading new cards into chosen_cards with a given interval.
+    Unfilled slots are left as null.
+  */
   for (
     let pos = newCardEvery;
     pos < CARDS_TO_CREATE && !isEmpty(new_cards);
     pos += newCardEvery
   ) {
-    add(new_cards, "New card", pos);
+    add(new_cards, "New", pos);
   }
 
-  /* Scheduled cards fill in the rest of the spaces left from the above step */
+  /*
+    Now scheduled cards are placed into the slots left over
+  */
   for (
     let i = 0;
     chosen_cards.filter(Boolean).length <

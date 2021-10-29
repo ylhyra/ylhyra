@@ -8,7 +8,7 @@ import { isDev } from "app/app/functions/isDev";
  * @returns array
  */
 export const shuffleLocally = (array, range = 10) => {
-  if (isDev) return array;
+  // if (isDev) return array;
 
   let out = [];
   for (let i = 0; i < array.length; i += range) {
