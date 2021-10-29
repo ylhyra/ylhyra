@@ -14,7 +14,7 @@ import _, { uniq } from "underscore";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { minIgnoreFalsy } from "app/app/functions/math";
-import { days, getTime } from "app/app/functions/time";
+import { days, getTime, minutes } from "app/app/functions/time";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 import { matchWords } from "app/app/functions/languageProcessing/regexes";
 import phoneticHash from "app/app/functions/languageProcessing/phoneticHash";
@@ -192,14 +192,6 @@ class Card {
   }
 
   /**
-   * @returns {?Boolean}
-   */
-  wasTermVeryRecentlySeen() {
-    const minutesSinceTermWasSeen = this.daysSinceTermWasSeen() * (24 * 60);
-    return minutesSinceTermWasSeen && minutesSinceTermWasSeen < 45;
-  }
-
-  /**
    * Cards that received an Easy upon the first viewing
    * @returns {?Boolean}
    */
@@ -268,11 +260,19 @@ class Card {
   }
 
   /**
-   * @returns {Days|null}
+   * @returns {?Milliseconds}
    */
-  daysSinceTermWasSeen() {
+  timeSinceTermWasSeen() {
     if (!this.getTermLastSeen()) return null;
-    return (getTime() - this.getTermLastSeen()) / days;
+    return getTime() - this.getTermLastSeen();
+  }
+
+  /**
+   * @returns {?Boolean}
+   */
+  wasTermVeryRecentlySeen() {
+    const minutesSinceTermWasSeen = this.timeSinceTermWasSeen() / minutes;
+    return minutesSinceTermWasSeen && minutesSinceTermWasSeen < 45;
   }
 
   /**

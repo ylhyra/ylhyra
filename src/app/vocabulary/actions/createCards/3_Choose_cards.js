@@ -16,8 +16,6 @@ export default () => {
     /** @type {Array.<Card>} */
     not_overdue_bad,
     /** @type {Array.<Card>} */
-    not_overdue_semi_bad,
-    /** @type {Array.<Card>} */
     not_overdue,
   } = OldCards();
 
@@ -31,7 +29,6 @@ export default () => {
     overdue_bad,
     overdue_good,
     not_overdue_bad,
-    not_overdue_semi_bad,
     new_cards
   );
 
@@ -48,7 +45,6 @@ export default () => {
     overdue_good: { ...overdue_good },
     overdue_bad: { ...overdue_bad },
     not_overdue_bad: { ...not_overdue_bad },
-    not_overdue_semi_bad: { ...not_overdue_semi_bad },
     new_cards: { ...new_cards },
   });
 
@@ -74,23 +70,15 @@ export default () => {
       chosen_cards.push(new_cards.shift());
     }
 
-    if (chosen_cards.length > 10) {
-      /* Not overdue bad cards */
-      if ((isEmpty(overdue_good) && isEmpty(overdue_bad)) || i % 2 === 1) {
-        if (!isEmpty(not_overdue_bad)) {
-          log(`Not overdue bad card "${not_overdue_bad[0].printWord()}" added`);
-          chosen_cards.push(not_overdue_bad.shift());
-        }
-      }
-
-      /* Not overdue good cards */
-      if (isEmpty(overdue_good) && isEmpty(overdue_bad)) {
-        if (i % 4 === 4 - 1 && !isEmpty(not_overdue_semi_bad)) {
-          log(
-            `Not overdue good card "${not_overdue_semi_bad[0].printWord()}" added`
-          );
-          chosen_cards.push(not_overdue_semi_bad.shift());
-        }
+    if (chosen_cards.length > 10 || not_overdue_bad.length > 20) {
+      // i % 2 === 1
+      if (!isEmpty(not_overdue_bad)) {
+        log(
+          `Not overdue bad card "${not_overdue_bad[0].printWord()}" added at position ${
+            chosen_cards.length
+          }`
+        );
+        chosen_cards.push(not_overdue_bad.shift());
       }
     }
   }
@@ -101,11 +89,7 @@ export default () => {
    */
   if (chosen_cards.length === 0) {
     chosen_cards = veryRecentlySeenSortedLast(
-      sortCardsByScore([
-        ...not_overdue_bad,
-        ...not_overdue_semi_bad,
-        ...not_overdue,
-      ])
+      sortCardsByScore([...not_overdue_bad, ...not_overdue])
     );
     console.error("No cards generated. Falling back to all cards.");
   }

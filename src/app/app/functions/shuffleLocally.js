@@ -7,8 +7,8 @@ import { isDev } from "app/app/functions/isDev";
  * @param range - Split array into groups of this size, and then shuffle within these groups.
  * @returns array
  */
-export const shuffleLocally = (array, range = 20) => {
-  // if (isDev) return array;
+export const shuffleLocally = (array, range = 10) => {
+  if (isDev) return array;
 
   let out = [];
   for (let i = 0; i < array.length; i += range) {

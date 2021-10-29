@@ -2,7 +2,7 @@ import {
   addSomeRandomness,
   average,
   clamp,
-  roundToSignificantDigits,
+  toFixedFloat,
 } from "app/app/functions/math";
 import { daysToMs, getTime, msToDays } from "app/app/functions/time";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
@@ -104,18 +104,18 @@ export function createSchedule() {
     card.setSchedule(
       /** @type ScheduleData */ {
         due: Math.round(getTime() + daysToMs(addSomeRandomness(due_in_days))),
-        last_interval_in_days: roundToSignificantDigits(due_in_days, -1),
-        score: roundToSignificantDigits(score, -2),
+        last_interval_in_days: toFixedFloat(due_in_days, 1),
+        score: toFixedFloat(score, 2),
         last_seen: getTime(),
         sessions_seen: sessions_seen + 1,
       }
     );
 
     log(
-      `${card.printWord()} - score: ${roundToSignificantDigits(
+      `${card.printWord()} - score: ${toFixedFloat(
         score,
-        -2
-      )} - days: ${roundToSignificantDigits(due_in_days, -1)}`
+        2
+      )} - days: ${toFixedFloat(due_in_days, 1)}`
     );
 
     /* Postpone siblings */

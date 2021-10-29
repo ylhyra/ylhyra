@@ -1,8 +1,5 @@
-import { getTime, hours } from "app/app/functions/time";
-import {
-  oldestFirst,
-  sortBySortKey,
-} from "app/vocabulary/actions/createCards/functions";
+import { getTime, hours, minutes } from "app/app/functions/time";
+import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
 import { shuffleLocally } from "app/app/functions/shuffleLocally";
 import { getCardsInSchedule } from "app/vocabulary/actions/card/functions";
 
@@ -15,13 +12,10 @@ export default () => {
   /** @type {Array.<Card>} */
   let not_overdue_bad = [];
   /** @type {Array.<Card>} */
-  let not_overdue_semi_bad = [];
-  /** @type {Array.<Card>} */
   let not_overdue = [];
 
   sortBySortKey(getCardsInSchedule())
     .filter((card) => card.isAllowed())
-    // .sort((a, b) => a.getDue() - b.getDue())
     .forEach((card) => {
       if (
         card.getDue() < getTime() + 16 * hours &&
@@ -33,10 +27,8 @@ export default () => {
         } else {
           overdue_good.push(card);
         }
-      } else if (card.isBad()) {
+      } else if (card.isBad() && card.timeSinceTermWasSeen() > 15 * minutes) {
         not_overdue_bad.push(card);
-      } else if (card.isFairlyBad()) {
-        not_overdue_semi_bad.push(card);
       } else {
         not_overdue.push(card);
       }
@@ -45,8 +37,7 @@ export default () => {
   return {
     overdue_bad: shuffleLocally(overdue_bad),
     overdue_good: shuffleLocally(overdue_good),
-    not_overdue_bad: shuffleLocally(oldestFirst(not_overdue_bad)),
-    not_overdue_semi_bad: shuffleLocally(oldestFirst(not_overdue_semi_bad)),
+    not_overdue_bad: shuffleLocally(/*oldestFirst*/ not_overdue_bad),
     not_overdue,
   };
 };
