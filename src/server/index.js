@@ -14,14 +14,17 @@ import "regenerator-runtime/runtime";
 import requestIp from "request-ip";
 import query from "server/database";
 import { isDev } from "app/app/functions/isDev";
+import { days } from "app/app/functions/time";
 
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
+
 const argv = argvFactory(process.argv.slice(2));
 
 const app = express();
 require("express-ws")(app);
 const cors = require("cors");
+app.disable("x-powered-by");
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ limit: "5mb", extended: true }));
 app.use(requestIp.mw());
@@ -37,6 +40,13 @@ app.use(
   })
 );
 app.enable("strict routing");
+
+export const staticCached = (path) => {
+  return express.static(path, {
+    maxAge: 365 * days,
+    immutable: true,
+  });
+};
 
 if (!process.env.COOKIE_SECRET) {
   console.warn("Missing COOKIE_SECRET");
@@ -55,9 +65,9 @@ setTimeout(() => {
 }, 30 * 1000);
 
 const mainapp = express();
-mainapp.use(processed_image_url, express.static(image_output_folder));
-mainapp.use(unprocessed_image_url, express.static(ylhyra_content_files));
-mainapp.use("/", express.static(build_folder));
+mainapp.use(processed_image_url, staticCached(image_output_folder));
+mainapp.use(unprocessed_image_url, staticCached(ylhyra_content_files));
+mainapp.use("/", staticCached(build_folder));
 
 /*
   Private APIs
@@ -87,14 +97,14 @@ mainapp.use("/", require("server/content").default);
 // // app.use('/api', require('server/audio').default)
 // // app.use('/api', require('server/translator/Google').default)
 // // app.use('/api', require('server/api/audio/Upload').default)
-// app.use('/api/temp_files/', express.static(upload_path))
+// app.use('/api/temp_files/', serveStatic(upload_path))
 
 const inflections_app = express();
 inflections_app.use(cors({ origin: "*" }));
 inflections_app.set("json spaces", 2);
 inflections_app.use(
   "/inflection_styles.css",
-  express.static(path.join(process.env.PWD, "/build/inflection_styles.css"))
+  staticCached(path.join(process.env.PWD, "/build/inflection_styles.css"))
 );
 inflections_app.use(
   "/",

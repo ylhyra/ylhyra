@@ -1,14 +1,15 @@
 import removeNullKeys from "app/app/functions/removeNullKeys";
-import { msToS } from "app/app/functions/time";
+import { days, msToS } from "app/app/functions/time";
 import express from "express";
 import stable_stringify from "json-stable-stringify";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
+import { staticCached } from "server/index";
 
 const router = require("express").Router();
 
 /* Download vocabulary database file */
-router.use("/vocabulary/", express.static(__basedir + "/build/vocabulary"));
+router.use("/vocabulary/", staticCached(__basedir + "/build/vocabulary"));
 
 /* Sync user data */
 router.post("/vocabulary/sync", async (req, res) => {

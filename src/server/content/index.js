@@ -4,11 +4,11 @@ import { build_folder } from "server/paths_backend";
 import { isDev } from "app/app/functions/isDev";
 import hash from "app/app/functions/hash";
 import express from "express";
+import fs from "fs";
+import path from "path";
+import { day_s, minute_s } from "app/app/functions/time";
 
 const router = require("express").Router({ strict: true });
-var fs = require("fs");
-
-const path = require("path");
 
 router.get(["/robots.txt"], async (req, res) => {
   if (req.subdomains.includes("test")) {
@@ -53,18 +53,18 @@ router.get(["/api/content", "*"], async (req, res) => {
     if (!isDev) {
       res.set(
         "Cache-Control",
-        `public, s-maxage=${24 * 60 * 60 /* 1 dagur í Cloudflare */}, max-age=0`
+        [
+          `public`,
+          `max-age=10`,
+          `s-maxage=${day_s}`,
+          `stale-if-error=${365 * day_s}`,
+          `stale-while-revalidate=${5 * minute_s}`,
+        ].join(", ")
       );
     }
 
-    // console.log(url);
-
     if (url.startsWith("/file/")) {
-      // console.log(filepath);
-      res.set(
-        "Cache-Control",
-        `public, max-age=${30 * 24 * 60 * 60 /* 30 dagar */}, immutable`
-      );
+      res.set("Cache-Control", `public, max-age=${90 * day_s}, immutable`);
       res.sendFile(
         filepath.replace(/(\.[a-z]+)$/i, "") // Fjarlægir ".md"
       );
@@ -87,6 +87,7 @@ router.get(["/api/content", "*"], async (req, res) => {
           title,
           header,
         });
+        `+`;
       }
       // else if (redirect_to && type === "html" && input_url !== "/frontpage") {
       //   res.redirect(301, encodeURI(redirect_to));

@@ -1,12 +1,13 @@
 import express from "express";
 import path from "path";
+import { staticCached } from "server";
 
 const app = express();
 const port = 4545;
 
 app.use(
   "/inflection_styles",
-  express.static(path.join(__dirname, "/../../styles"))
+  staticCached(path.join(__dirname, "/../../styles"))
 );
 app.use("/", require(path.join(__dirname, "./route_loader")).default);
 

@@ -16,7 +16,7 @@ export default () => (
         </span>
         •
         <span className="footer-gray">
-          <a href="mailto:ylhyra@ylhyra.is">Report errors</a>
+          <a href="mailto:ylhyra@ylhyra.is">Report&nbsp;errors</a>
         </span>
         {/* •
       <span className="footer-gray">

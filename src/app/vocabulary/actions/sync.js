@@ -74,7 +74,7 @@ export const sync = async (options = {}) => {
   const response = (
     await axios.post(`/api/vocabulary/sync`, {
       unsynced,
-      lastSynced: (Object.keys(unsynced).length > 0 && lastSynced) || 0,
+      lastSynced: lastSynced || 0,
     })
   ).data;
 
