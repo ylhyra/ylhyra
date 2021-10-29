@@ -1,19 +1,20 @@
 const path = require("path");
 
 const node_modules = path.resolve(__dirname, "./node_modules");
-// const development_plugins =
-//   process.env.NODE_ENV === "development"
-//     ? [
-//         [
-//           node_modules + "/babel-plugin-jsdoc-runtime-typecheck",
-//           {
-//             useStrict: true,
-//             useDirective: false,
-//           },
-//         ],
-//       ]
-//     : [];
-const development_plugins = [];
+const development_plugins =
+  process.env.NODE_ENV === "development"
+    ? [
+        require.resolve("react-refresh/babel"),
+        // [
+        //   node_modules + "/babel-plugin-jsdoc-runtime-typecheck",
+        //   {
+        //     useStrict: true,
+        //     useDirective: false,
+        //   },
+        // ],
+      ]
+    : [];
+// const development_plugins = [];
 
 module.exports = {
   presets: [

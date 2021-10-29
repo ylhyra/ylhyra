@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 const resolve = require("./resolve");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -38,7 +39,9 @@ module.exports = {
     publicPath: "/app/",
   },
   plugins: [
-    isProduction ? new MiniCssExtractPlugin() : null,
+    isProduction && new MiniCssExtractPlugin(),
+    !isProduction && new ReactRefreshWebpackPlugin(),
+
     new HtmlWebpackPlugin({ inject: true }),
     new webpack.DefinePlugin({
       "process.env": {

@@ -15,21 +15,37 @@ module.exports = {
   stats: "errors-only", // "minimal" or "errors-only"
   module: {
     rules: [
-      // {
-      //   test: /\.(js|ts)$/,
-      //   loader: "babel-loader",
-      //   exclude: /node_modules/,
-      //   options: require(resolve("babel.config.js")),
-      // },
-
       {
         test: /\.(js|ts)x?$/,
-        loader: "esbuild-loader",
-        options: {
-          loader: "tsx",
-          target: "es2015",
-        },
+        loader: "babel-loader",
+        exclude: /node_modules/,
+        options: require(resolve("babel.config.js")),
       },
+
+      // {
+      //   test: /\.[jt]sx?$/,
+      //   exclude: /node_modules/,
+      //   use: [
+      //     {
+      //       loader: require.resolve('babel-loader'),
+      //       options: {
+      //         plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
+      //       },
+      //     },
+      //   ],
+      // },
+
+      // {
+      //   test: /\.(js|ts)x?$/,
+      //   loader: "esbuild-loader",
+      //   options: {
+      //     loader: "tsx",
+      //     target: "es2015",
+      //     plugins: [
+      //       !isProduction && require.resolve("react-refresh/babel"),
+      //     ].filter(Boolean),
+      //   },
+      // },
 
       /* Main Stylus file extracted to a separate file */
       isProduction && {
