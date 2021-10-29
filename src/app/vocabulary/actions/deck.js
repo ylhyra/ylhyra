@@ -60,8 +60,6 @@ class Deck {
     saveInLocalStorage("vocabulary-session", null);
     this.user_data = {};
     this.schedule = {};
-    setUserData(SESSION_LOG_MIGRATION_FINISHED__KEY, true);
-    calculateOverview();
   }
   /* Only used for testing */
   clear() {

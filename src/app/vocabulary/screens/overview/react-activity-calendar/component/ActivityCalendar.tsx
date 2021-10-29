@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { CSSProperties, FunctionComponent, ReactNode } from "react";
 import format from "date-fns/format";
 import getDay from "date-fns/getDay";
@@ -5,8 +6,7 @@ import getYear from "date-fns/getYear";
 import parseISO from "date-fns/parseISO";
 import type { Day as WeekDay } from "date-fns";
 import color from "tinycolor2";
-import { mapValueToRange } from "app/app/functions/math";
-import { prettyPrintDaysMinutesHours, minutes } from "app/app/functions/time";
+import { minutes, prettyPrintDaysMinutesHours } from "app/app/functions/time";
 
 import "./styles.css";
 
@@ -273,7 +273,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
               style={style}
             >
               <title>{getTooltipMessage(day)}</title>
-            </rect>,
+            </rect>
           );
         })
       )

@@ -53,7 +53,9 @@ router.get(["/api/content", "*"], async (req, res) => {
     if (!isDev) {
       res.set(
         "Cache-Control",
-        `public, max-age=${24 * 60 * 60 /* Einn dagur */}`
+        `public, max-age=${
+          8 * 60 * 60 /* 8 tímar, n.b. líka gert í Cloudflare */
+        }`
       );
     }
 

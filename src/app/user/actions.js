@@ -7,6 +7,7 @@ import { updateURL } from "app/router/actions/updateURL";
 import { deck } from "app/vocabulary/actions/deck";
 import { sync } from "app/vocabulary/actions/sync";
 import { DecodeDataInHTML } from "documents/compile/functions/functions";
+import { calculateOverview } from "app/vocabulary/screens/overview/actions";
 
 export const login = async (values) => {
   const response = (await axios.post("/api/user", values)).data;
@@ -41,11 +42,13 @@ export const login = async (values) => {
     await sync();
     updateURL("/vocabulary");
   }
+  calculateOverview();
 };
 
 export const logout = async () => {
   await axios.post(`/api/user/logout`);
   deck?.reset();
+  calculateOverview();
   store.dispatch({
     type: "LOAD_USER",
     content: null,
