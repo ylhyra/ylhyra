@@ -1,14 +1,10 @@
+import { prettyPrintDaysMinutesHours, seconds } from "app/app/functions/time";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ActivityCalendar from "./react-activity-calendar/index.ts";
-import { isDev } from "app/app/functions/isDev";
-import {
-  day,
-  prettyPrintDaysMinutesHours,
-  seconds,
-} from "app/app/functions/time";
 import { withPlural } from "app/app/functions/simplePlural";
 import Spacer from "documents/templates/Spacer";
+
+import ActivityCalendar from "./react-activity-calendar/index.ts";
 
 class ActivityOverview extends Component {
   render() {

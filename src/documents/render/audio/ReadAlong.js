@@ -1,7 +1,6 @@
 import ScrollIntoView from "documents/render/audio/Scroll/ScrollIntoView";
 import { addClass, removeClass } from "documents/render/helpers";
 import store from "app/app/store";
-import { getDynamicFileUrl } from "app/app/paths";
 
 /*
   Hasten all times by X seconds. It may be better to be a little quick,

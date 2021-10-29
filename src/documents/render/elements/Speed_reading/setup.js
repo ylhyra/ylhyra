@@ -1,9 +1,9 @@
+import { connect, Provider } from "react-redux";
+import { open } from "documents/render/elements/Speed_reading/actions/actions";
 import React from "react";
 import ReactDOM from "react-dom";
-import { connect, Provider } from "react-redux";
-import store from "app/app/store";
 import SpeedReader from "documents/render/elements/Speed_reading";
-import { open } from "documents/render/elements/Speed_reading/actions/actions";
+import store from "app/app/store";
 
 export const SpeedReaderSetup = () => {
   /* Book not found */

@@ -3,6 +3,7 @@ import {
   CreateDependencyChain__backend,
   withDependencies__backend,
 } from "server/vocabulary/compile/dependencies";
+
 import { _deck } from "./index";
 
 export const simplify = () => {

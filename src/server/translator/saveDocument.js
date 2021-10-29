@@ -1,14 +1,9 @@
-import query from "server/database";
-import string_hash from "app/app/functions/hash";
-import simplifyString from "server/translator/helpers/simplifyString";
-import GetTranslationFrame from "server/translator/helpers/TranslationFrame";
-import SQL_helper from "server/translator/helpers/SQL_helper";
 import fs from "fs";
-import { getValuesForURL } from "server/content/links";
 import path from "path";
-import { FileSafeTitle, URL_title } from "app/app/paths";
-import { isDev } from "app/app/functions/isDev";
 import { exec } from "child_process";
+
+import { getValuesForURL } from "server/content/links";
+import { isDev } from "app/app/functions/isDev";
 
 const router = require("express").Router();
 

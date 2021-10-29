@@ -1,5 +1,5 @@
-import render from "inflection/tables";
 import Get_by_id from "inflection/server/server-standalone/get_by_id";
+import render from "inflection/tables";
 
 export const inflectionElement = (id, parameters) => {
   return new Promise((resolve) => {

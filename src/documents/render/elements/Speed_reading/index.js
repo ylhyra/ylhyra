@@ -1,6 +1,7 @@
-import React from "react";
-import { connect } from "react-redux";
-import store from "app/app/store";
+import {
+  TextEventListenersOff,
+  TextEventListenersOn,
+} from "documents/read/touch";
 import {
   checkKey,
   mouseListener,
@@ -12,12 +13,11 @@ import {
   start,
   startStop,
 } from "documents/render/elements/Speed_reading/actions/actions";
+import { connect } from "react-redux";
 import { load } from "documents/render/elements/Speed_reading/actions/load";
 import { supportsTouch } from "app/app/functions/isBrowser";
-import {
-  TextEventListenersOff,
-  TextEventListenersOn,
-} from "documents/read/touch";
+import React from "react";
+import store from "app/app/store";
 
 class SpeedReader extends React.Component {
   componentDidMount = () => {

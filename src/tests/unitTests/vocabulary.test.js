@@ -1,5 +1,6 @@
 import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
 import { getCardByText } from "app/vocabulary/actions/card/functions";
+
 // const console = require("console");
 
 beforeAll(async () => {

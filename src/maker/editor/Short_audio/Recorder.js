@@ -1,5 +1,5 @@
-import React from "react";
 import { ReactMic } from "react-mic";
+import React from "react";
 import Sound from "react-sound";
 import axios from "app/app/axios";
 import store from "app/app/store";

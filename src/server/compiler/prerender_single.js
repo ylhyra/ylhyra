@@ -1,5 +1,4 @@
 import React from "react";
-// import Render from 'frontend/Render'
 import ReactDOMServer from "react-dom/server";
 import { build_folder } from "server/paths_backend";
 import generate_html from "documents/compile";
@@ -10,9 +9,12 @@ import Router from "app/router";
 import { renderTitle } from "server/content/renderTitle";
 import { URL_title } from "app/app/paths";
 
-var fs = require("fs");
 const path = require("path");
+
 const critical = require("critical");
+
+var fs = require("fs");
+
 let TESTING = false;
 
 const html = fs.readFileSync(

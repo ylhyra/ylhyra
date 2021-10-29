@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Render from "documents/render";
 import { isDev } from "app/app/functions/isDev";
 import { isBrowser } from "app/app/functions/isBrowser";
-import Router from "app/router/index";
+
 const RenderEditor = React.lazy(() => import("maker/editor"));
 
 /**

@@ -5,9 +5,9 @@ import { abortAllThatAreNot, loadContent } from "app/router/actions/load";
 import { clear as ClearReadAlongSetup } from "documents/render/audio/ReadAlong";
 import Analytics from "app/app/analytics";
 import { isBrowser } from "app/app/functions/isBrowser";
+import { renderTitle } from "server/content/renderTitle";
 
 import { getFrontpageURL } from "./index";
-import { renderTitle } from "server/content/renderTitle";
 
 export async function updateURL(url, options = {}) {
   let {

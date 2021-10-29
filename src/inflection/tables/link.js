@@ -1,6 +1,6 @@
+import { URL_title } from "app/app/paths";
 import { getTagInfo } from "inflection/tables/classification/classification";
 import { ucfirst } from "app/app/functions/ucfirst";
-import { URL_title } from "app/app/paths";
 
 /*
   Creates a link from our labels to relevant Ylhýra pages

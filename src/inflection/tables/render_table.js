@@ -1,8 +1,8 @@
-import link from "inflection/tables/link";
-import Word, { WordFromTree } from "inflection/tables/word";
 import { flatten } from "lodash";
-import { ucfirst } from "app/app/functions/ucfirst";
 import { removeHtmlWhitespace } from "app/app/functions/removeHtmlWhitespace";
+import { ucfirst } from "app/app/functions/ucfirst";
+import Word, { WordFromTree } from "inflection/tables/word";
+import link from "inflection/tables/link";
 
 /*
   Wrapper for "RenderTable", creates two alternative versions of the input,

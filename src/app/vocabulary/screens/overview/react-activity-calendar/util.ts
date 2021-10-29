@@ -9,7 +9,7 @@ import parseISO from "date-fns/parseISO";
 import subWeeks from "date-fns/subWeeks";
 import type { Day as WeekDay } from "date-fns";
 
-import { Day, Weeks, Theme } from "./types";
+import { Day, Theme, Weeks } from "./types";
 
 export const NAMESPACE = "react-activity-calendar";
 export const MIN_DISTANCE_MONTH_LABELS = 2;

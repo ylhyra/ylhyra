@@ -119,27 +119,25 @@ export function createSchedule() {
     );
 
     /* Postpone siblings */
-    if (!anyBad) {
-      card
-        .getSiblingCards()
-        /* Ignore cards that were seen in this session */
-        .filter(
-          (sibling_card) =>
-            !sibling_card.getAsCardInSession()?.hasBeenSeenInSession()
-        )
-        .forEach((sibling_card) => {
-          /* Postpone based on a portion of the main card's due_in_days,
-             but never more than 7 days */
-          const newDue = getTime() + daysToMs(Math.min(due_in_days * 0.5, 7));
-          const actualDue = sibling_card.getDue();
-          if (!actualDue || actualDue < newDue) {
-            sibling_card.setSchedule({
-              due: Math.round(newDue),
-            });
-            log(`${sibling_card.printWord()} postponed`);
-          }
-        });
-    }
+    card
+      .getSiblingCards()
+      /* Ignore cards that were seen in this session */
+      .filter(
+        (sibling_card) =>
+          !sibling_card.getAsCardInSession()?.hasBeenSeenInSession()
+      )
+      .forEach((sibling_card) => {
+        /* Postpone based on a portion of the main card's due_in_days,
+           but never more than 7 days */
+        const newDue = getTime() + daysToMs(Math.min(due_in_days * 0.5, 7));
+        const actualDue = sibling_card.getDue();
+        if (!actualDue || actualDue < newDue) {
+          sibling_card.setSchedule({
+            due: Math.round(newDue),
+          });
+          log(`${sibling_card.printWord()} postponed`);
+        }
+      });
   });
 
   log("Schedule made");

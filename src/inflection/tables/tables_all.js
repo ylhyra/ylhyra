@@ -1,9 +1,9 @@
-import link from "inflection/tables/link";
-import Word, { WordFromTree } from "inflection/tables/word";
-import RenderTable, { renderCell } from "inflection/tables/render_table";
-import { types } from "inflection/tables/classification/classification";
 import { isNumber } from "inflection/tables/tree";
+import { types } from "inflection/tables/classification/classification";
 import { ucfirst } from "app/app/functions/ucfirst";
+import RenderTable, { renderCell } from "inflection/tables/render_table";
+import Word, { WordFromTree } from "inflection/tables/word";
+import link from "inflection/tables/link";
 
 /**
  * getTables - Prints all tables for a given word

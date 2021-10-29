@@ -12,11 +12,9 @@ import {
   mapZeroToInfinityToZeroToOne,
 } from "app/app/functions/math";
 import _ from "underscore";
-import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
 import { deck } from "app/vocabulary/actions/deck";
 import store from "app/app/store";
 import axios from "app/app/axios";
-import { isDev } from "app/app/functions/isDev";
 
 const MIN_DAYS_TO_SHOW = 2.5 * 30;
 const MAX_DAYS_TO_SHOW = 365;

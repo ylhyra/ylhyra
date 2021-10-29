@@ -1,16 +1,18 @@
 // import 'source-map-support/register'
-import { exec } from "child_process";
 import "core-js/stable";
+import "regenerator-runtime/runtime";
+
+import { exec } from "child_process";
+import path from "path";
+
 import express from "express";
 import argvFactory from "minimist";
-import path from "path";
 import { processed_image_url, unprocessed_image_url } from "app/app/paths";
 import {
   build_folder,
   image_output_folder,
   ylhyra_content_files,
 } from "server/paths_backend";
-import "regenerator-runtime/runtime";
 import requestIp from "request-ip";
 import query from "server/database";
 import { isDev } from "app/app/functions/isDev";

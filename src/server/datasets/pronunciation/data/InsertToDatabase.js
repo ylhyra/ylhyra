@@ -1,8 +1,9 @@
 /*
 node server/datasets/pronunciation/data/InsertToDatabase.js
 */
-import LineByLineReader from "line-by-line";
 import path from "path";
+
+import LineByLineReader from "line-by-line";
 import query from "server/database";
 
 query(`TRUNCATE TABLE pronunciation`, () => {

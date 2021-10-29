@@ -1,5 +1,4 @@
 import express from "express";
-// import Tokenize from './tokenizer'
 import Translate from "server/translator";
 import Tweet from "server/tweets";
 import Sound from "server/audio";

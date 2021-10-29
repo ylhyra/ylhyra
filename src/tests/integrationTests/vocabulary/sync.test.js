@@ -1,10 +1,5 @@
 import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
-import {
-  assert,
-  notNull,
-  shouldEqual,
-  wait,
-} from "tests/integrationTests/index";
+import { assert, notNull, shouldEqual } from "tests/integrationTests/index";
 import { run } from "tests/integrationTests/recipes";
 import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 

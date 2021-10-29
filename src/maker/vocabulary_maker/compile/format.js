@@ -1,10 +1,7 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
 import { ProcessLinks } from "documents/compile/functions/links";
 import { automaticThu } from "maker/vocabulary_maker/compile/functions";
-import {
-  matchWordsAndLetters,
-  matchWordsAndLettersOrSpaces,
-} from "app/app/functions/languageProcessing/regexes";
+import { matchWordsAndLetters } from "app/app/functions/languageProcessing/regexes";
 
 export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;

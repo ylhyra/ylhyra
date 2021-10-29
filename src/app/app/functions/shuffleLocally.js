@@ -1,5 +1,4 @@
 import { shuffle } from "underscore";
-import { isDev } from "app/app/functions/isDev";
 
 /**
  * Shuffles an array just a little bit, while keeping items in their locality.

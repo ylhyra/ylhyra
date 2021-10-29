@@ -4,8 +4,8 @@ import {
   getPlaintextFromVocabularyEntry,
 } from "maker/vocabulary_maker/compile/format";
 import {
-  delete_row,
   Database,
+  delete_row,
   select,
   selectRows,
 } from "maker/vocabulary_maker/actions/actions";

@@ -2,12 +2,10 @@ import FindAGoodPositionForTooltip from "documents/read/actions/TooltipPosition"
 import AudioClip from "documents/render/audio/AudioClip";
 import { logShown } from "documents/read/actions/Reset";
 
-import { ShowInflectionTable } from "documents/render/elements/Inflection/actions";
-
 /*
   Keep track of which ID is currently shown.
-  If the user is moving his curser too rapidly,
-  main funciton may still be working on an old word.
+  If the user is moving his cursor too rapidly,
+  main function may still be working on an old word.
 */
 let currentId;
 
@@ -45,14 +43,6 @@ export default function showWord(id) {
       addClass(i, "hover");
       logShown(i);
     });
-  }
-
-  /*
-    Temporary: Inflection tables. Need to be moved into the compilation step.
-  */
-  const BIN_id = element.getAttribute("data-analysis");
-  if (BIN_id) {
-    ShowInflectionTable(BIN_id);
   }
 
   if (id !== currentId) return; /* Exit if we're behind schedule */

@@ -1,16 +1,16 @@
-import { isBrowser } from "app/app/functions/isBrowser";
 import { getDeckName, getHash } from "maker/vocabulary_maker/compile/functions";
-import store from "app/app/store";
-import axios from "app/app/axios";
-import _ from "underscore";
-import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
+import { isBrowser } from "app/app/functions/isBrowser";
 import {
   isSearching,
   reDoSearch,
   turnOffSearch,
 } from "maker/vocabulary_maker/actions/search";
-import { setupSound } from "maker/vocabulary_maker/actions/sound";
 import { log } from "app/app/functions/log";
+import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
+import { setupSound } from "maker/vocabulary_maker/actions/sound";
+import _ from "underscore";
+import axios from "app/app/axios";
+import store from "app/app/store";
 
 export const Database = {
   maxID: 0,

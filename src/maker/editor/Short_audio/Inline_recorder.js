@@ -1,8 +1,8 @@
+import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import store from "app/app/store";
 import Recorder from "maker/editor/Short_audio/Recorder";
+import store from "app/app/store";
 
 const RenderRecorder = () => {
   if (mw.util.getParamValue("action") !== "edit") return;

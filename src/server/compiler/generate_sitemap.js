@@ -2,8 +2,9 @@ import c from "app/app/functions/no-undefined-in-template-literal";
 import { build_folder } from "server/paths_backend";
 import { links } from "server/content/links";
 
-var fs = require("fs");
 const path = require("path");
+
+var fs = require("fs");
 
 const run = async () => {
   let sitemap = "";
@@ -20,7 +21,7 @@ const run = async () => {
       </url>
     `;
   });
- 
+
   sitemap = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     ${sitemap}
   </urlset>`;

@@ -4,6 +4,7 @@ import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format
 
 const fs = require("fs");
 const path = require("path");
+
 /*
   Finds sentences from dataset that only use easy terms
 */

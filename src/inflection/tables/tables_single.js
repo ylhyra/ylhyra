@@ -1,8 +1,7 @@
-import RenderTable from "inflection/tables/render_table";
 import { flatten, without } from "lodash";
 import { types } from "inflection/tables/classification/classification";
+import RenderTable from "inflection/tables/render_table";
 import link, { ucfirst_link } from "inflection/tables/link";
-import { getWordDescription } from "inflection/tables/functions/wordDescription";
 
 /**
  * Finds a single relevant table

@@ -3,8 +3,8 @@
   node build/server/ylhyra_server.js --import-inflections
 */
 // var inflections = require('./inflections.js')
-import query from "server/database";
 import path from "path";
+import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
 
 var LineByLineReader = require("line-by-line");

@@ -1,4 +1,5 @@
 import path from "path";
+
 import { unprocessed_image_url } from "app/app/paths";
 
 global.__basedir = process.env.PWD;

@@ -1,6 +1,5 @@
-import { minutes, getTime } from "app/app/functions/time";
+import { getTime, minutes } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
-import { getFrontpageURL } from "app/router/actions";
 import { preload } from "app/router/actions/load";
 import { updateURL } from "app/router/actions/updateURL";
 import React from "react";

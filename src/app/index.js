@@ -1,5 +1,7 @@
 // import "core-js/stable";
 // import "regenerator-runtime/runtime";
+import "documents/style/main.styl";
+
 import { isBrowser } from "app/app/functions/isBrowser";
 import store from "app/app/store";
 import Router from "app/router";
@@ -10,8 +12,6 @@ import { TextEventListenersOn } from "documents/read/touch";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import "documents/style/main.styl";
-import { isDev } from "app/app/functions/isDev";
 
 let prerender_data;
 if (isBrowser && "ylhyra_data" in window) {
