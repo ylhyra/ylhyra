@@ -39,8 +39,12 @@ export const roundToInterval = (v, roundBy) => {
 };
 
 export const roundToSignificantDigits = (input, zeroes = 0) => {
-  const i = 10 ** zeroes;
-  return Math.round(input / i) * i;
+  if (zeroes > 0) {
+    const i = 10 ** zeroes;
+    return Math.round(input / i) * i;
+  } else {
+    return parseFloat(input.toFixed(-zeroes));
+  }
 };
 
 // /**

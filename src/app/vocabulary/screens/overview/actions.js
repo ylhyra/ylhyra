@@ -79,6 +79,7 @@ export const calculateOverview = async () => {
         output_from: 0.2,
         output_to: 1,
       });
+      // opacity = Math.round(opacity * 10) / 10;
       // console.log({ minutes, opacity });
     }
 

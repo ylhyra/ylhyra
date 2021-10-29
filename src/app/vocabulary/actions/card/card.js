@@ -4,7 +4,7 @@ import {
   getEasinessLevel,
   isEasinessLevelOn,
 } from "app/vocabulary/actions/easinessLevel/functions";
-import { BAD, GOOD } from "app/vocabulary/actions/cardInSession";
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import {
   getCardIdsFromTermIds,
   getCardsByIds,
@@ -197,6 +197,14 @@ class Card {
   wasTermVeryRecentlySeen() {
     const minutesSinceTermWasSeen = this.daysSinceTermWasSeen() * (24 * 60);
     return minutesSinceTermWasSeen && minutesSinceTermWasSeen < 45;
+  }
+
+  /**
+   * Cards that received an Easy upon the first viewing
+   * @returns {?Boolean}
+   */
+  isTooEasy() {
+    return this.getScore() >= EASY && this.getSessionsSeen() === 1;
   }
 
   /**

@@ -67,12 +67,12 @@ export function createSchedule() {
       due_in_days = 1;
     } else if (isNew) {
       if (avgRating === EASY) {
-        due_in_days = 40;
+        due_in_days = 80;
       } else if (avgRating === GOOD) {
-        due_in_days = 3;
+        due_in_days = 4;
       }
     } else {
-      const multiplier = avgRating === EASY ? 6 : 2;
+      const multiplier = avgRating === EASY ? 7 : 2.5;
       due_in_days = (last_interval_in_days || 1) * multiplier;
 
       /*
@@ -104,14 +104,19 @@ export function createSchedule() {
     card.setSchedule(
       /** @type ScheduleData */ {
         due: Math.round(getTime() + daysToMs(addSomeRandomness(due_in_days))),
-        last_interval_in_days: Math.round(due_in_days),
+        last_interval_in_days: roundToSignificantDigits(due_in_days, -1),
         score: roundToSignificantDigits(score, -2),
         last_seen: getTime(),
         sessions_seen: sessions_seen + 1,
       }
     );
 
-    log(`${card.printWord()} - score: ${score} - days: ${due_in_days}`);
+    log(
+      `${card.printWord()} - score: ${roundToSignificantDigits(
+        score,
+        -2
+      )} - days: ${roundToSignificantDigits(due_in_days, -1)}`
+    );
 
     /* Postpone siblings */
     if (!anyBad) {

@@ -25,7 +25,7 @@ import {
 
 const textColor = "#464646";
 const baseColor = color("#2d81ff");
-const emptyColor = color("white").darken(8).toHslString();
+const emptyColor = color("white").darken(4).toHslString();
 const marginLeft = 29;
 
 type CalendarData = Array<Day>;

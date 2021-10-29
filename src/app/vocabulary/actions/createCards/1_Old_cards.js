@@ -25,6 +25,7 @@ export default () => {
     .forEach((card) => {
       if (
         card.getDue() < getTime() + 16 * hours &&
+        !card.isTooEasy() &&
         !card.wasTermVeryRecentlySeen()
       ) {
         if (card.isBelowGood()) {

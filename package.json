@@ -126,7 +126,8 @@
       "no-unreachable": 0
     },
     "globals": {
-      "__basedir": true
+      "__basedir": true,
+      "expect": true
     }
   },
   "browserslist": {
