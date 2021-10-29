@@ -6,6 +6,7 @@ import {
 import { log, logDev } from "app/app/functions/log";
 import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
 import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
+import { isDev } from "app/app/functions/isDev";
 
 export default () => {
   const {
@@ -22,65 +23,73 @@ export default () => {
   /** @type {Array.<Card>} */
   const new_cards = NewCards();
 
-  /** @type {Array.<Card>} */
-  let chosen_cards = [];
+  /** @type {Array.<Card|null>} */
+  let chosen_cards = new Array(CARDS_TO_CREATE).fill(null);
 
   let total_options = sumOfArrayLengths(
     overdue_bad,
     overdue_good,
-    not_overdue_bad,
-    new_cards
+    not_overdue_bad
   );
+  let bad_count = sumOfArrayLengths(overdue_bad, not_overdue_bad);
+
+  isDev &&
+    logDev({
+      overdue_good: { ...overdue_good },
+      overdue_bad: { ...overdue_bad },
+      not_overdue_bad: { ...not_overdue_bad },
+      new_cards: { ...new_cards },
+    });
+
+  /* Helper function to add to chosen_cards */
+  const add = (arr, desc, pos) => {
+    if (!isEmpty(arr)) {
+      if (pos === undefined) {
+        pos = chosen_cards.findIndex((j) => j === null);
+        if (pos < 0) {
+          pos = chosen_cards.length;
+        }
+      }
+      log(`${desc} card "${arr[0].printWord()}" added at position ${pos + 1}`);
+      chosen_cards[pos] = arr.shift();
+    }
+  };
 
   let newCardEvery = 2;
-  let bad_count = sumOfArrayLengths(overdue_bad, not_overdue_bad);
-  if (bad_count > 15) {
-    newCardEvery = 3;
-  }
-  if (bad_count > 40) {
-    newCardEvery = 6;
+  if (bad_count > 100) {
+    newCardEvery = 15;
+  } else if (bad_count > 40) {
+    newCardEvery = 10;
+  } else if (bad_count > 15) {
+    newCardEvery = 4;
   }
 
-  logDev({
-    overdue_good: { ...overdue_good },
-    overdue_bad: { ...overdue_bad },
-    not_overdue_bad: { ...not_overdue_bad },
-    new_cards: { ...new_cards },
-  });
+  /* Spread new cards into chosen_cards */
+  for (
+    let pos = newCardEvery;
+    pos < CARDS_TO_CREATE && !isEmpty(new_cards);
+    pos += newCardEvery
+  ) {
+    add(new_cards, "New card", pos);
+  }
 
-  /*
-    Loop to select chosen cards
-  */
+  /* Scheduled cards fill in the rest of the spaces left from the above step */
   for (
     let i = 0;
-    chosen_cards.length < Math.min(CARDS_TO_CREATE, total_options) && i < 1000;
+    chosen_cards.filter(Boolean).length <
+      Math.min(CARDS_TO_CREATE, total_options) && i < 1000;
     i++
   ) {
-    if (!isEmpty(overdue_good)) {
-      chosen_cards.push(overdue_good.shift());
+    add(overdue_good, "Overdue good");
+    add(not_overdue_bad, "Not overdue bad");
+    if (not_overdue_bad.length < 20 || i % 2 === 0) {
+      add(overdue_bad, "Overdue bad");
     }
-    if (!isEmpty(overdue_bad)) {
-      chosen_cards.push(overdue_bad.shift());
-    }
-    if (
-      (i % newCardEvery === i - 1 ||
-        (isEmpty(overdue_good) && isEmpty(overdue_bad))) &&
-      !isEmpty(new_cards)
-    ) {
-      chosen_cards.push(new_cards.shift());
-    }
+  }
 
-    if (chosen_cards.length > 10 || not_overdue_bad.length > 20) {
-      // i % 2 === 1
-      if (!isEmpty(not_overdue_bad)) {
-        log(
-          `Not overdue bad card "${not_overdue_bad[0].printWord()}" added at position ${
-            chosen_cards.length
-          }`
-        );
-        chosen_cards.push(not_overdue_bad.shift());
-      }
-    }
+  chosen_cards = chosen_cards.filter(Boolean);
+  if (chosen_cards.length < CARDS_TO_CREATE && !isEmpty(new_cards)) {
+    chosen_cards = chosen_cards.concat(new_cards).slice(0, CARDS_TO_CREATE);
   }
 
   /**
