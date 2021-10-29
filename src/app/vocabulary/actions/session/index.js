@@ -8,6 +8,7 @@ import CardInSession from "app/vocabulary/actions/cardInSession";
 import { getCardById } from "app/vocabulary/actions/card/functions";
 import { extendPrototype } from "app/app/functions/extendPrototype";
 import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
+import { calculateOverview } from "app/vocabulary/screens/overview/actions";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
@@ -67,6 +68,7 @@ class Session {
     }
     this.saveSessionLog();
     await sync();
+    await calculateOverview();
     this.reset();
   }
   getSecondsSpent() {

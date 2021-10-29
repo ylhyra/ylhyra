@@ -4,7 +4,11 @@ import { updateURL } from "app/router/actions/updateURL";
 import Session from "app/vocabulary/actions/session";
 import Card from "app/vocabulary/actions/card/card";
 import { Term } from "app/vocabulary/actions/card/term";
-import { calculateOverview } from "app/vocabulary/screens/overview/actions";
+import {
+  calculateOverview,
+  SESSION_LOG_MIGRATION_FINISHED__KEY,
+} from "app/vocabulary/screens/overview/actions";
+import { setUserData } from "app/vocabulary/actions/sync";
 
 /**
  * @type {Deck|undefined}
@@ -56,6 +60,7 @@ class Deck {
     saveInLocalStorage("vocabulary-session", null);
     this.user_data = {};
     this.schedule = {};
+    setUserData(SESSION_LOG_MIGRATION_FINISHED__KEY, true);
     calculateOverview();
   }
   /* Only used for testing */

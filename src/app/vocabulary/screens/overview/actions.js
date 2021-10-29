@@ -98,7 +98,9 @@ export const calculateOverview = async () => {
     days_ago === 0 || days_ago_to_seconds_spent[days_ago];
     days_ago++
   ) {
-    streak++;
+    if (days_ago_to_seconds_spent[days_ago]) {
+      streak++;
+    }
   }
   /* A one-day streak does not count */
   if (streak === 1) streak = 0;
@@ -134,7 +136,7 @@ const get_today_begins_at_timestamp = () => {
   return today_begins_at_timestamp;
 };
 
-const SESSION_LOG_MIGRATION_FINISHED__KEY = "session_log_migr";
+export const SESSION_LOG_MIGRATION_FINISHED__KEY = "session_log_migr";
 export const session_log_migration = async () => {
   if (getUserData(SESSION_LOG_MIGRATION_FINISHED__KEY)) {
     console.log("Session log already migrated");
