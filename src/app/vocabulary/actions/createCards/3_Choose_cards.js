@@ -61,9 +61,9 @@ export default () => {
 
   let newCardEvery = 2;
   if (bad_count > 100) {
-    newCardEvery = 15;
+    newCardEvery = 7;
   } else if (bad_count > 40) {
-    newCardEvery = 10;
+    newCardEvery = 5;
   } else if (bad_count > 15) {
     newCardEvery = 4;
   }
