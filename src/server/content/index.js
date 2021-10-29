@@ -53,9 +53,7 @@ router.get(["/api/content", "*"], async (req, res) => {
     if (!isDev) {
       res.set(
         "Cache-Control",
-        `public, max-age=${
-          8 * 60 * 60 /* 8 tímar, n.b. líka gert í Cloudflare */
-        }`
+        `public, s-maxage=${24 * 60 * 60 /* 1 dagur í Cloudflare */}, max-age=0`
       );
     }
 
@@ -63,6 +61,10 @@ router.get(["/api/content", "*"], async (req, res) => {
 
     if (url.startsWith("/file/")) {
       // console.log(filepath);
+      res.set(
+        "Cache-Control",
+        `public, max-age=${30 * 24 * 60 * 60 /* 30 dagar */}, immutable`
+      );
       res.sendFile(
         filepath.replace(/(\.[a-z]+)$/i, "") // Fjarlægir ".md"
       );
