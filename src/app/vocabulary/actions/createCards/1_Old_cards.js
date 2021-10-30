@@ -27,8 +27,8 @@ export default () => {
           overdue_good.push(card);
         }
       }
-      // Very bad cards seen more than 15 minutes ago are also added to the overdue pile
-      else if (card.isBad() && card.timeSinceTermWasSeen() > 15 * minutes) {
+      // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
+      else if (card.isBad() && card.timeSinceTermWasSeen() > 20 * minutes) {
         overdue_bad.push(card);
       } else {
         not_overdue.push(card);
