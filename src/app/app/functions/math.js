@@ -1,3 +1,5 @@
+import { seconds } from "app/app/functions/time";
+
 export const average = (arr = []) => {
   if (arr.length === 0) return 0;
   return arr.reduce((a, b) => a + b, 0) / arr.length;
@@ -36,6 +38,14 @@ export const addSomeRandomness = (input, amount = 0.1) => {
 
 export const roundToInterval = (v, roundBy) => {
   return Math.round(v / roundBy) * roundBy;
+};
+
+export const roundMsToSec = (v) => {
+  return roundToInterval(v, seconds);
+};
+
+export const roundMsTo100Sec = (v) => {
+  return roundToInterval(v, 100 * seconds);
 };
 
 export const toFixedFloat = (input, f) => {

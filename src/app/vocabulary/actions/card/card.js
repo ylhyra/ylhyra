@@ -13,7 +13,7 @@ import {
 import _, { uniq } from "underscore";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 import { INCR } from "app/vocabulary/actions/createSchedule";
-import { minIgnoreFalsy } from "app/app/functions/math";
+import { minIgnoreFalsy, roundMsTo100Sec } from "app/app/functions/math";
 import { getTime, minutes } from "app/app/functions/time";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 import { matchWords } from "app/app/functions/languageProcessing/regexes";
@@ -214,10 +214,14 @@ class Card {
   }
 
   /**
+   * Is this term below good?
+   * Or in the case of this card not having been seen
+   * (e.g. only having been postponed) does it have bad siblings?
    * @returns {?Boolean}
    */
   isBelowGood() {
-    return this.getScore() && this.getScore() < GOOD;
+    const j = this.getScore() || this.getLowestAvailableTermScore();
+    return j && j < GOOD;
   }
 
   /**
@@ -293,6 +297,13 @@ class Card {
    * @param {ScheduleData} data
    */
   setSchedule(data) {
+    if (data.due) {
+      data.due = roundMsTo100Sec(data.due);
+    }
+    if (data.last_seen) {
+      data.last_seen = roundMsTo100Sec(data.last_seen);
+    }
+
     deck.schedule[this.getId()] = {
       ...(deck.schedule[this.getId()] || {}),
       ...data,

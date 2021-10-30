@@ -9,6 +9,11 @@ import { getCardById } from "app/vocabulary/actions/card/functions";
 import { extendPrototype } from "app/app/functions/extendPrototype";
 import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
 import { calculateOverview } from "app/vocabulary/screens/overview/actions";
+import {
+  roundMsTo100Sec,
+  roundMsToSec,
+  roundToInterval,
+} from "app/app/functions/math";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 
@@ -96,12 +101,12 @@ class Session {
   }
   saveSessionLog() {
     if (this.cardHistory.length > 0 && this.getSecondsSpent() > 10) {
-      const timestamp = this.savedAt || getTime();
+      const timestamp = roundMsToSec(this.savedAt || getTime());
       const timestamp_in_seconds = Math.round(timestamp / 1000);
       setUserData(
         SESSION_PREFIX + timestamp_in_seconds,
         {
-          seconds_spent: this.getSecondsSpent(),
+          seconds_spent: roundToInterval(this.getSecondsSpent(), 10),
           timestamp,
         },
         "session"
@@ -111,8 +116,8 @@ class Session {
       Analytics.log({
         type: "vocabulary",
         page_name: window.location.pathname,
-        seconds: this.getSecondsSpent(),
-        timestamp: timestamp,
+        seconds: roundToInterval(this.getSecondsSpent(), 10),
+        timestamp,
       });
     } else {
       log("Not logged");

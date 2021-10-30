@@ -57,6 +57,12 @@ export const msToDays = (input) => input / msInDay;
 export const msToS = (input) => Math.round(input / 1000);
 
 /**
+ * @param {Days} input
+ * @returns {Timestamp}
+ */
+export const inDays = (input) => getTime() + daysToMs(input);
+
+/**
  * @param {Milliseconds} input
  * @returns {Milliseconds}
  */

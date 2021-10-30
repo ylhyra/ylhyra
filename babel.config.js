@@ -2,7 +2,7 @@ const path = require("path");
 
 const node_modules = path.resolve(__dirname, "./node_modules");
 const development_plugins =
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV === "development" && !process.env.JEST_WORKER_ID
     ? [
         require.resolve("react-refresh/babel"),
         // [

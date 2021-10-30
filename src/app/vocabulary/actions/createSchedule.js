@@ -4,21 +4,27 @@ import {
   clamp,
   toFixedFloat,
 } from "app/app/functions/math";
-import { daysToMs, getTime, msToDays } from "app/app/functions/time";
+import { daysToMs, getTime, inDays, msToDays } from "app/app/functions/time";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import { log } from "app/app/functions/log";
 
 /**
  * @typedef {Object} ScheduleData
- * @typedef {TimestampInMilliseconds} due
- * @typedef {Days} last_interval_in_days
- * @typedef {number} score
- * @typedef {TimestampInMilliseconds} last_seen
- * @typedef {number} sessions_seen
+ * @property {TimestampInMilliseconds} due
+ * @property {Days} last_interval_in_days
+ * @property {number} score
+ * @property {TimestampInMilliseconds} last_seen
+ * @property {number} sessions_seen
  */
 
 /** Increment score by how much? */
 export const INCR = 0.4;
+
+const EASY_MULTIPLIER = 7;
+const GOOD_MULTIPLIER = 2.5;
+
+const BAD_INITIAL_INTERVAL = 1.3;
+const GOOD_INITIAL_INTERVAL = 5;
 
 /**
  * Long-term scheduling
@@ -64,15 +70,15 @@ export function createSchedule() {
 
     /* SCHEDULE */
     if (anyBad) {
-      due_in_days = 1;
+      due_in_days = BAD_INITIAL_INTERVAL;
     } else if (isNew) {
       if (avgRating === EASY) {
-        due_in_days = 80;
+        due_in_days = 40;
       } else if (avgRating === GOOD) {
-        due_in_days = 4;
+        due_in_days = GOOD_INITIAL_INTERVAL;
       }
     } else {
-      const multiplier = avgRating === EASY ? 7 : 2.5;
+      const multiplier = avgRating === EASY ? EASY_MULTIPLIER : GOOD_MULTIPLIER;
       due_in_days = (last_interval_in_days || 1) * multiplier;
 
       /*
@@ -103,7 +109,7 @@ export function createSchedule() {
 
     card.setSchedule(
       /** @type ScheduleData */ {
-        due: Math.round(getTime() + daysToMs(addSomeRandomness(due_in_days))),
+        due: inDays(addSomeRandomness(due_in_days)),
         last_interval_in_days: toFixedFloat(due_in_days, 1),
         score: toFixedFloat(score, 2),
         last_seen: getTime(),
@@ -128,12 +134,12 @@ export function createSchedule() {
       )
       .forEach((sibling_card) => {
         /* Postpone based on a portion of the main card's due_in_days,
-           but never more than 7 days */
-        const newDue = getTime() + daysToMs(Math.min(due_in_days * 0.5, 7));
+           but never more than 10 days */
+        const newDue = inDays(Math.min(due_in_days * 0.8, 10));
         const actualDue = sibling_card.getDue();
         if (!actualDue || actualDue < newDue) {
           sibling_card.setSchedule({
-            due: Math.round(newDue),
+            due: newDue,
           });
           log(`${sibling_card.printWord()} postponed`);
         }
