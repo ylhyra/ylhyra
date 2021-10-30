@@ -270,11 +270,12 @@ class Card {
    * @returns {?Number}
    */
   getTermLastSeen() {
-    return Math.max(
+    const i = Math.max(
       ...this.getAllCardsWithSameTerm()
         .map((card) => card.getLastSeen())
         .filter(Boolean)
     );
+    if (!i || i < 0) return null;
   }
 
   /**

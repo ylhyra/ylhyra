@@ -8,7 +8,7 @@ export default (chosen_cards) => {
   const lowestSortKeyOfChosenCards = Math.min(
     ...chosen_cards.map((c) => c.sortKey)
   );
-  return withDependencies(chosen_cards).filter(
+  return withDependencies(chosen_cards, { onlyDirect: true }).filter(
     (card) =>
       !card.isInSession() &&
       /* Keep in those already chosen */

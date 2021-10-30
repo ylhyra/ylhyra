@@ -10,10 +10,16 @@ import _ from "underscore";
  * @param {Array.<Card>} cards
  * @returns {Array.<Card>}
  */
-export const withDependencies = (cards) => {
+export const withDependencies = (cards, options) => {
   let card_ids = [];
   getTermsFromCards(cards).forEach((term) => {
-    card_ids = card_ids.concat(term.getSortedCardDependenciesAsCardIds());
+    let j;
+    if (options?.onlyDirect) {
+      j = term.getSortedCardDependenciesAsCardIds();
+    } else {
+      j = term.getSortedCardDependenciesAsCardIds();
+    }
+    card_ids = card_ids.concat();
   });
   return getCardsByIds(_.uniq(card_ids));
 };
