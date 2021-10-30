@@ -4,6 +4,7 @@ import { INCR } from "app/vocabulary/actions/createSchedule";
 import { days } from "app/app/functions/time";
 import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
+import { isEmpty } from "app/vocabulary/actions/createCards/3_Choose_cards";
 
 /**
  * If a cardInSession gets a bad rating, then we make sure
@@ -36,26 +37,31 @@ export const addRelatedCardsToSession = (card) => {
       (related_card.isUnseenTerm() ||
         related_card.isBad() ||
         (related_card.isFairlyBad() &&
-          related_card.timeSinceTermWasSeen() > 2 * days &&
-          Math.random() > 0.8) ||
-        // /* Cards that the user has seen only once but said they knew well */
-        // (related_card.getSessionsSeen() === 1 &&
-        //   !(related_card.getScore() >= EASY) &&
-        //   related_card.timeSinceTermWasSeen() > 10 * days &&
-        //   Math.random() > 0.8) ||
-        /* Cards that the user has said Good to
-           but which they haven't seen in a few days */
-        (related_card.getScore() <= GOOD &&
-          related_card.timeSinceTermWasSeen() > 10 * days &&
-          Math.random() > 0.7))
+          related_card.timeSinceTermWasSeen() > 5 * days &&
+          Math.random() > 0.8))
+      // /* Cards that the user has seen only once but said they knew well */
+      // (related_card.getSessionsSeen() === 1 &&
+      //   !(related_card.getScore() >= EASY) &&
+      //   related_card.timeSinceTermWasSeen() > 10 * days &&
+      //   Math.random() > 0.8) ||
+      // /* Cards that the user has said Good to
+      //    but which they haven't seen in a few days */
+      // (related_card.getScore() &&
+      //   related_card.getScore() <= GOOD &&
+      //   related_card.timeSinceTermWasSeen() > 15 * days &&
+      //   Math.random() > 0.7)
     ) {
-      log(`Direct dependency "${related_card.printWord()}" possibly added`);
       deps.push(related_card);
     }
   });
 
-  /* Only add a handful of direct deps */
-  to_add = to_add.concat(sortBySortKey(deps).reverse().slice(0, 4));
+  if (!isEmpty(deps)) {
+    deps = sortBySortKey(deps).reverse().slice(0, 2).reverse();
+    deps.forEach((j) => {
+      log(`Direct dependency "${j.printWord()}" added`);
+    });
+    to_add = to_add.concat(deps);
+  }
 
   card.session.loadCardsIntoSession(to_add, {
     insertImmediately: true,

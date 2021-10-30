@@ -266,6 +266,22 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
   });
 
   /* Automatic dependency graphs */
+  const ignored_automatic_words = [
+    "hér",
+    "hér er",
+    "um",
+    "frá",
+    "til",
+    "hann",
+    "hún",
+    "það",
+    "er",
+    "ert",
+    "ég",
+    "eru",
+    "að",
+    "við",
+  ];
   // TODO: Sleppa þegar deps innihalda nú þegar þetta orð!
   for (let [key, card] of Object.entries(cards)) {
     card.is_plaintext.split(/[,;] ?/g).forEach((sentence) => {
@@ -275,6 +291,10 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
         for (let b = i + min_len; b <= split.length && b <= i + 5; b++) {
           if (i === 0 && b === split.length) continue;
           const range = split.slice(i, b).join(" ");
+
+          if (ignored_automatic_words.includes(range.toLowerCase())) {
+            continue;
+          }
 
           const hash = getHash(range);
           const term_ids = [

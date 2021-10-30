@@ -227,31 +227,9 @@ class Card {
   /**
    * @returns {Boolean}
    */
-  isBadOrUnseenTerm() {
-    return this.isBad() || !this.getDue();
-  }
-
-  /**
-   * @returns {Boolean}
-   */
   isUnseenTerm() {
     return !this.getTermLastSeen();
   }
-
-  // /**
-  //  * @returns {Boolean}
-  //  */
-  // isUnseenAndNotPostponed() {
-  //   return !this.getDue();
-  // }
-
-  // /**
-  //  * @returns {Boolean}
-  //  */
-  // isTermUnknownOrNotGood() {
-  //   const lowest = this.getLowestAvailableTermScore();
-  //   return !lowest || lowest < GOOD;
-  // }
 
   /**
    * @returns {?Number}
