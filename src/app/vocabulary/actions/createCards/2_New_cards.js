@@ -6,12 +6,12 @@ import { sortBy } from "underscore";
 /**
  * @returns {Card[]}
  */
-export default () => {
+export default (options) => {
   let new_cards = deck.cards_sorted.filter(
     (card) => !card.isInSchedule() && card.isAllowed()
   );
 
-  if (deck.session.allowed_ids) {
+  if (deck.session.allowed_ids && !options?.dont_sort_by_allowed_ids) {
     /* Sort in same order as allowed_ids */
     new_cards = sortBy(new_cards, (i) =>
       deck.session.allowed_ids.indexOf(i.getId())

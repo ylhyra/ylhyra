@@ -47,7 +47,10 @@ export const studyNewTerms = () => {
       newTerms.push(id);
     }
   });
-  studyParticularIds(newTerms, { skip_dependencies: true });
+  studyParticularIds(newTerms, {
+    skip_dependencies: true,
+    dont_sort_by_allowed_ids: true,
+  });
 };
 
 /**

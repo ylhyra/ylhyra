@@ -8,7 +8,7 @@ import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
 import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
 import { isDev } from "app/app/functions/isDev";
 
-export default () => {
+export default (options) => {
   /**
    * Chosen_cards starts out as an array of nulls;
    * the slots will later be filled.
@@ -40,7 +40,7 @@ export default () => {
   } = OldCards();
 
   /** @type {Array.<Card>} */
-  const new_cards = NewCards();
+  const new_cards = NewCards(options);
 
   let total_options = sumOfArrayLengths(overdue_bad, overdue_good);
   let bad_count = sumOfArrayLengths(overdue_bad);
@@ -49,7 +49,6 @@ export default () => {
     logDev({
       overdue_good: { ...overdue_good },
       overdue_bad: { ...overdue_bad },
-
       new_cards: { ...new_cards },
     });
 
@@ -88,7 +87,7 @@ export default () => {
   }
 
   chosen_cards = chosen_cards.filter(Boolean);
-  if (chosen_cards.length < CARDS_TO_CREATE && !isEmpty(new_cards)) {
+  if (chosen_cards.length < CARDS_TO_CREATE) {
     chosen_cards = chosen_cards.concat(new_cards).slice(0, CARDS_TO_CREATE);
   }
 

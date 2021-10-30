@@ -15,18 +15,20 @@ export default () => {
   sortBySortKey(getCardsInSchedule())
     .filter((card) => card.isAllowed())
     .forEach((card) => {
+      /* Overdue */
       if (
         card.getDue() < getTime() + 16 * hours &&
         !card.isTooEasy() &&
         !card.wasTermVeryRecentlySeen()
       ) {
-        // tmp! testing
         if (card.isBelowGood()) {
           overdue_bad.push(card);
         } else {
           overdue_good.push(card);
         }
-      } else if (card.isBad() && card.timeSinceTermWasSeen() > 15 * minutes) {
+      }
+      // Very bad cards seen more than 15 minutes ago are also added to the overdue pile
+      else if (card.isBad() && card.timeSinceTermWasSeen() > 15 * minutes) {
         overdue_bad.push(card);
       } else {
         not_overdue.push(card);
