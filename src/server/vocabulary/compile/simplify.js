@@ -4,7 +4,7 @@ import {
   withDependencies__backend,
 } from "server/vocabulary/compile/dependencies";
 
-import { _deck } from "./index";
+import { _deck } from "server/vocabulary/compile/index";
 
 export const simplify = () => {
   /* Add sortkey for all items */

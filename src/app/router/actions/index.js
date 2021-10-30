@@ -1,7 +1,6 @@
 import { existsSchedule, isUserLoggedIn } from "app/user/actions";
 import { isBrowser } from "app/app/functions/isBrowser";
-
-import { updateURL } from "./updateURL";
+import { updateURL } from "app/router/actions/updateURL";
 
 if (isBrowser) {
   window.HAS_LOADED = false;

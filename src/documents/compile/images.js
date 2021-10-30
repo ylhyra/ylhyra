@@ -4,9 +4,8 @@ import _ from "underscore";
 import Transclude from "documents/compile/transclude";
 import forEachAsync from "app/app/functions/array-foreach-async";
 import { links } from "server/content/links";
-
-var fs = require("fs");
-const { exec } = require("child_process");
+import fs from "fs";
+import { exec } from "child_process";
 
 const Images = (data) => {
   return new Promise(async (resolve) => {
