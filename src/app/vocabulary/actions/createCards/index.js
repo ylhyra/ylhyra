@@ -1,5 +1,4 @@
 import ChooseCards from "app/vocabulary/actions/createCards/3_Choose_cards";
-import Dependencies from "app/vocabulary/actions/createCards/4_Dependencies";
 import { getCardsByIds } from "app/vocabulary/actions/card/functions";
 import { logDev } from "app/app/functions/log";
 

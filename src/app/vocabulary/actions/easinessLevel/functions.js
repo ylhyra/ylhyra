@@ -7,6 +7,7 @@ import {
   MIN_JUMP_UP,
 } from "app/vocabulary/actions/easinessLevel/index";
 import { BAD } from "app/vocabulary/actions/cardInSession";
+import { minIgnoreFalsy } from "app/app/functions/math";
 
 let last_jump_up;
 
@@ -23,22 +24,9 @@ export const increaseEasinessLevel = (currentCardSortKey) => {
   const newValue = Math.min(newBasedOnCurrentEasinessLevel, getMaxSortKey());
   const change2 = newValue - getEasinessLevel();
   if (change2 >= MIN_JUMP_UP) {
-    const nextSentence = getSortKeyOfNextSentenceAbove(newValue);
-    setEasinessLevel(nextSentence);
+    setEasinessLevel(newValue);
     recreateSessionCardsAfterChangingEasinessLevel(change2);
   }
-};
-
-const getSortKeyOfNextSentenceAbove = (inputSortKey) => {
-  return inputSortKey;
-  // const i = deck.cards_sorted.findIndex(
-  //   (card) => card.sortKey === inputSortKey
-  // );
-  // console.log(deck.cards_sorted.slice(i).find((card) => card.isSentence));
-  // return (
-  //   deck.cards_sorted.slice(i).find((card) => card.isSentence)?.sortKey ||
-  //   inputSortKey
-  // );
 };
 
 export const easinessLevelShouldBeLowerThan = (currentCardSortKey) => {
@@ -53,19 +41,14 @@ export const easinessLevelShouldBeLowerThan = (currentCardSortKey) => {
 };
 
 export const getLowestBadCardSortKey = () => {
-  const j = Math.min(
+  return minIgnoreFalsy(
     /* Lowest bad in session */
     ...deck.session.cards
       .filter((card) => card.history.includes(BAD))
       .map((card) => card.sortKey),
     /* Lowest bad in schedule */
-    deck.cards_sorted.find((card) => card.isBelowGood())?.sortKey || Infinity
+    deck.cards_sorted.find((card) => card.isBelowGood())?.sortKey
   );
-  if (j < 0 && j !== Infinity) {
-    return j;
-  } else {
-    return null;
-  }
 };
 
 export const getMaxSortKey = () => {
@@ -80,8 +63,9 @@ export const getMaxSortKey = () => {
       .reverse()
       .find((card) => card.level === 3)?.sortKey || Infinity;
 
-  return Math.min(
-    Math.min(lowestBadCard, highestCardInLevelB1),
+  return minIgnoreFalsy(
+    lowestBadCard,
+    highestCardInLevelB1,
     deck.cards_sorted.length - MAX_JUMP_UP
   );
 };

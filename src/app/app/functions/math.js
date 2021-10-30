@@ -6,7 +6,7 @@ export const average = (arr = []) => {
 };
 
 export const clamp = function (input, min, max) {
-  return Math.min(Math.max(input, min), max);
+  return minIgnoreUndef(maxIgnoreUndef(input, min), max);
 };
 
 export const mapValueToRange = ({
@@ -26,8 +26,21 @@ export const mapValueToRange = ({
 };
 
 export const minIgnoreFalsy = (...values) => {
-  const j = Math.min(...values.filter(Boolean));
+  return minIgnoreUndef(...values.filter(Boolean));
+};
+
+export const maxIgnoreFalsy = (...values) => {
+  return maxIgnoreUndef(...values.filter(Boolean));
+};
+
+export const minIgnoreUndef = (...values) => {
+  const j = Math.min(...values.filter((i) => i !== undefined && i !== null));
   return j !== Infinity ? j : null;
+};
+
+export const maxIgnoreUndef = (...values) => {
+  const j = Math.max(...values.filter((i) => i !== undefined && i !== null));
+  return j !== -Infinity ? j : null;
 };
 
 /**

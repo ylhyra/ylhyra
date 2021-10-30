@@ -5,7 +5,12 @@ import {
 import { deck } from "app/vocabulary/actions/deck";
 import { veryRecentlySeenSortedLast } from "app/vocabulary/actions/createCards/functions";
 import { sortBy } from "underscore";
-import { minIgnoreFalsy } from "app/app/functions/math";
+import {
+  clamp,
+  maxIgnoreUndef,
+  minIgnoreFalsy,
+  minIgnoreUndef,
+} from "app/app/functions/math";
 
 /**
  * @returns {Card[]}
@@ -25,10 +30,11 @@ export default (options) => {
       i.getSortKeyAdjustedForEasinessLevel()
     );
   } else if (options?.skipOverTheEasiest) {
-    const lowest = Math.max(
-      100,
-      minIgnoreFalsy(getLowestBadCardSortKey(), 300)
-    );
+    /*
+      If we are unable to create cards with a given allowed_ids,
+      the user does not want to see "Hæ", so we skip over the beginning.
+    */
+    const lowest = clamp(getLowestBadCardSortKey() || Infinity, 50, 300);
     new_cards = sortBy(new_cards, (i) => i.getSortKeyAdjusted(lowest));
   }
 

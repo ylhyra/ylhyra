@@ -4,7 +4,6 @@ import { assert, notNull, shouldEqual } from "tests/integrationTests/index";
 import { run } from "tests/integrationTests/recipes";
 import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 import { DEFAULT_JUMP_DOWN } from "app/vocabulary/actions/easinessLevel";
-import { DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL } from "app/vocabulary/actions/createCards/4_Dependencies";
 
 export default {
   "Easiness level correctly saved": async () => {
@@ -30,12 +29,7 @@ export default {
       );
       assert(
         cardsStillInSession.length > 0 &&
-          cardsStillInSession.every(
-            (i) =>
-              i.sortKey >=
-              getEasinessLevel() -
-                DEPENDENCIES_CAN_BE_X_LOWER_THAN_EASINESS_LEVEL
-          ),
+          cardsStillInSession.every((i) => i.sortKey >= getEasinessLevel()),
         `Expected easiness level to be below ${getEasinessLevel()}, got:`,
         cardsStillInSession.map((i) => i.sortKey).sort((a, b) => a - b)
       );

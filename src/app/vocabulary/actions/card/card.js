@@ -229,6 +229,22 @@ class Card {
   /**
    * @returns {Boolean}
    */
+  isUnseenCard() {
+    return !this.getScore();
+  }
+
+  /**
+   * @returns {Boolean}
+   */
+  isUnseenSiblingOfANonGoodCard() {
+    if (!this.isUnseenCard()) return false;
+    const l = this.getLowestAvailableTermScore();
+    return l && l < GOOD;
+  }
+
+  /**
+   * @returns {Boolean}
+   */
   isUnseenTerm() {
     return !this.getTermLastSeen();
   }

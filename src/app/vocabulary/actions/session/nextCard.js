@@ -3,7 +3,7 @@ import { isDev } from "app/app/functions/isDev";
 import _ from "underscore";
 
 let LOGGING;
-LOGGING = true;
+// LOGGING = true;
 
 /**
  * @memberOf Session#
