@@ -227,17 +227,31 @@ class Card {
   /**
    * @returns {Boolean}
    */
-  isUnseenOrNotGood() {
-    return !this.getScore() || this.getScore() < GOOD;
+  isBadOrUnseenTerm() {
+    return this.isBad() || !this.getDue();
   }
 
   /**
    * @returns {Boolean}
    */
-  isTermUnknownOrNotGood() {
-    const lowest = this.getLowestAvailableTermScore();
-    return !lowest || lowest < GOOD;
+  isUnseenTerm() {
+    return !this.getTermLastSeen();
   }
+
+  // /**
+  //  * @returns {Boolean}
+  //  */
+  // isUnseenAndNotPostponed() {
+  //   return !this.getDue();
+  // }
+
+  // /**
+  //  * @returns {Boolean}
+  //  */
+  // isTermUnknownOrNotGood() {
+  //   const lowest = this.getLowestAvailableTermScore();
+  //   return !lowest || lowest < GOOD;
+  // }
 
   /**
    * @returns {?Number}

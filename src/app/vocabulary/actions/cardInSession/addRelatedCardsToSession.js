@@ -1,5 +1,5 @@
 import { log } from "app/app/functions/log";
-import { GOOD } from "app/vocabulary/actions/cardInSession/index";
+import { EASY, GOOD } from "app/vocabulary/actions/cardInSession/index";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { days } from "app/app/functions/time";
 
@@ -26,13 +26,15 @@ export const addRelatedCardsToSession = (card) => {
     if (
       card.dependencyDepthOfCard(related_card) === 1 &&
       /* Unseen or unknown cards */
-      (related_card.isUnseenOrNotGood() ||
+      (related_card.isFairlyBad() ||
+        related_card.isUnseenTerm() ||
         /* Cards that the user has seen only once but said they knew well */
-        related_card.getSessionsSeen() === 1 ||
-        /* Cards that the user has said Good to twice
+        (related_card.getSessionsSeen() === 1 &&
+          !(related_card.getScore() >= EASY)) ||
+        /* Cards that the user has said Good to
            but which they haven't seen in a few days */
-        (related_card.getScore() <= GOOD + INCR &&
-          related_card.timeSinceTermWasSeen() > 2 * days))
+        (related_card.getScore() <= GOOD &&
+          related_card.timeSinceTermWasSeen() > 20 * days))
       // ||
       // /* Very well known cards are occasionally shown */
       // (Math.random() < 0.2 && related_card.daysSinceTermWasSeen() > 7)

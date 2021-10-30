@@ -15,10 +15,10 @@ export default (chosen_cards) => {
       (card.isIn(chosen_cards) ||
         (!card.wasTermVeryRecentlySeen() &&
           /* Include bad dependencies */
-          (card.isFairlyBad() ||
-            /* And dependencies that are not well known and close
+          (card.isBad() ||
+            /* And dependencies that are unseen and close
            to the difficulty level of the chosen cards */
-            (card.isTermUnknownOrNotGood() &&
+            (card.isUnseenTerm() &&
               (card.sortKey >= lowestBadCardSortKey ||
                 card.sortKey >=
                   lowestSortKeyOfChosenCards -
