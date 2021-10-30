@@ -50,6 +50,7 @@ export default (options) => {
       overdue_good: { ...overdue_good },
       overdue_bad: { ...overdue_bad },
       new_cards: { ...new_cards },
+      not_overdue: { ...not_overdue },
     });
 
   let newCardEvery = 2;

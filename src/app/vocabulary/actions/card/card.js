@@ -13,7 +13,11 @@ import {
 import _, { uniq } from "underscore";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 import { INCR } from "app/vocabulary/actions/createSchedule";
-import { minIgnoreFalsy, roundMsTo100Sec } from "app/app/functions/math";
+import {
+  maxIgnoreFalsy,
+  minIgnoreFalsy,
+  roundMsTo100Sec,
+} from "app/app/functions/math";
 import { getTime, minutes } from "app/app/functions/time";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 import { matchWords } from "app/app/functions/languageProcessing/regexes";
@@ -266,12 +270,11 @@ class Card {
    * @returns {?Number}
    */
   getTermLastSeen() {
-    const i = Math.max(
+    return maxIgnoreFalsy(
       ...this.getAllCardsWithSameTerm()
         .map((card) => card.getLastSeen())
         .filter(Boolean)
     );
-    if (!i || i < 0) return null;
   }
 
   /**
