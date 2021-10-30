@@ -1,7 +1,11 @@
-import { isEasinessLevelOn } from "app/vocabulary/actions/easinessLevel/functions";
+import {
+  getLowestBadCardSortKey,
+  isEasinessLevelOn,
+} from "app/vocabulary/actions/easinessLevel/functions";
 import { deck } from "app/vocabulary/actions/deck";
 import { veryRecentlySeenSortedLast } from "app/vocabulary/actions/createCards/functions";
 import { sortBy } from "underscore";
+import { minIgnoreFalsy } from "app/app/functions/math";
 
 /**
  * @returns {Card[]}
@@ -20,6 +24,12 @@ export default (options) => {
     new_cards = sortBy(new_cards, (i) =>
       i.getSortKeyAdjustedForEasinessLevel()
     );
+  } else if (options?.skipOverTheEasiest) {
+    const lowest = Math.max(
+      100,
+      minIgnoreFalsy(getLowestBadCardSortKey(), 300)
+    );
+    new_cards = sortBy(new_cards, (i) => i.getSortKeyAdjusted(lowest));
   }
 
   return veryRecentlySeenSortedLast(new_cards);

@@ -35,7 +35,7 @@ export function createCards(options) {
       `Failed to generate more cards using the allowed ones, switching to all cards.`
     );
     session.allowed_ids = null;
-    return this.createCards();
+    return this.createCards({ skipOverTheEasiest: true });
   }
 
   this.loadCardsIntoSession(chosen_cards, options);

@@ -53,7 +53,7 @@ export const easinessLevelShouldBeLowerThan = (currentCardSortKey) => {
 };
 
 export const getLowestBadCardSortKey = () => {
-  return Math.min(
+  const j = Math.min(
     /* Lowest bad in session */
     ...deck.session.cards
       .filter((card) => card.history.includes(BAD))
@@ -61,6 +61,11 @@ export const getLowestBadCardSortKey = () => {
     /* Lowest bad in schedule */
     deck.cards_sorted.find((card) => card.isBelowGood())?.sortKey || Infinity
   );
+  if (j < 0 && j !== Infinity) {
+    return j;
+  } else {
+    return null;
+  }
 };
 
 export const getMaxSortKey = () => {

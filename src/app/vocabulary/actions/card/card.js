@@ -133,9 +133,11 @@ class Card {
   }
 
   getSortKeyAdjustedForEasinessLevel() {
-    return this.sortKey > getEasinessLevel()
-      ? this.sortKey
-      : 100000 - this.sortKey;
+    return this.getSortKeyAdjusted(getEasinessLevel());
+  }
+
+  getSortKeyAdjusted(j) {
+    return this.sortKey > j ? this.sortKey : 100000 - this.sortKey;
   }
 
   /**

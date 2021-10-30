@@ -26,7 +26,8 @@ export const mapValueToRange = ({
 };
 
 export const minIgnoreFalsy = (...values) => {
-  return Math.min(...values.filter(Boolean));
+  const j = Math.min(...values.filter(Boolean));
+  return j !== Infinity ? j : null;
 };
 
 /**
