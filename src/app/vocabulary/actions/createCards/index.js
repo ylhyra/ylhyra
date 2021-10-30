@@ -24,10 +24,10 @@ export function createCards(options) {
   /* Create cards */
   let chosen_cards = ChooseCards(options);
 
-  /* Add dependencies */
-  if (!options?.skip_dependencies) {
-    chosen_cards = Dependencies(chosen_cards);
-  }
+  // /* Add dependencies */
+  // if (!options?.skip_dependencies) {
+  //   chosen_cards = Dependencies(chosen_cards);
+  // }
 
   /* Failed to generate cards, turn off allowed cards and try again */
   if (chosen_cards.length === 0 && session.allowed_ids) {

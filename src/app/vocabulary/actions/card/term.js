@@ -49,11 +49,14 @@ export class Term {
   /**
    * @returns {Array<Term>}
    */
-  getSortedTermDependencies() {
+  getSortedTermDependencies(options) {
     const dependenciesAsTermIdToDepth = this.getDependenciesAsTermIdToDepth();
-    const term_ids = Object.keys(dependenciesAsTermIdToDepth).sort(
+    let term_ids = Object.keys(dependenciesAsTermIdToDepth).sort(
       (a, b) => dependenciesAsTermIdToDepth[b] - dependenciesAsTermIdToDepth[a]
     );
+    // if (options?.onlyDirect) {
+    //   term_ids = term_ids.filter((a) => dependenciesAsTermIdToDepth[a] <= 1);
+    // }
     return getTermsByIds(term_ids);
   }
 

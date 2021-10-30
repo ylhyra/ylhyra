@@ -53,21 +53,21 @@ export function postponeRelatedCards(card1interval) {
     ) {
       card1.showIn({ interval: 6 });
       card2.showIn({ interval: 3 });
-    } else if (!this.session.allowed_ids) {
-      // Cards that share the same dependencies
-      if (card1.hasDependenciesInCommonWith(card2)) {
-        card2.showIn({ cannotBeShownBefore: 2 });
-        // log(`"${printWord(card2.id)}" postponed`);
-      }
+    }
 
-      // Overlap in card text (such as in the English translations)
-      else if (card1.isTextSimilarTo(card2)) {
-        card2.showIn({ cannotBeShownBefore: 2 });
-        // log(
-        //   `"${card2.printWord()}" postponed as it's similar to "${card1.printWord()}"`
-        // );
-        // log(card2.phoneticHashArray, card1.phoneticHashArray);
-      }
+    // Cards that share the same dependencies
+    else if (card1.hasDependenciesInCommonWith(card2)) {
+      card2.showIn({ cannotBeShownBefore: 2 });
+      // log(`"${printWord(card2.id)}" postponed`);
+    }
+
+    // Overlap in card text (such as in the English translations)
+    else if (card1.isTextSimilarTo(card2)) {
+      card2.showIn({ cannotBeShownBefore: 2 });
+      // log(
+      //   `"${card2.printWord()}" postponed as it's similar to "${card1.printWord()}"`
+      // );
+      // log(card2.phoneticHashArray, card1.phoneticHashArray);
     }
   });
 }
