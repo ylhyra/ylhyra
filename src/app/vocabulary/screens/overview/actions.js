@@ -15,6 +15,7 @@ import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
 import store from "app/app/store";
 import axios from "app/app/axios";
+import { log } from "app/app/functions/log";
 
 const MIN_DAYS_TO_SHOW = 2.5 * 30;
 const MAX_DAYS_TO_SHOW = 365;
@@ -138,7 +139,7 @@ const get_today_begins_at_timestamp = () => {
 export const SESSION_LOG_MIGRATION_FINISHED__KEY = "session_log_migr";
 export const session_log_migration = async () => {
   if (getUserData(SESSION_LOG_MIGRATION_FINISHED__KEY)) {
-    console.log("Session log already migrated");
+    log("Session log already migrated");
     return;
   }
   if (Object.keys(deck.schedule).length > 0) {

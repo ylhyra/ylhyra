@@ -10,8 +10,6 @@ export default () => {
   /** @type {Array.<Card>} */
   let overdue_bad = [];
   /** @type {Array.<Card>} */
-  let not_overdue_bad = [];
-  /** @type {Array.<Card>} */
   let not_overdue = [];
 
   sortBySortKey(getCardsInSchedule())
@@ -22,13 +20,14 @@ export default () => {
         !card.isTooEasy() &&
         !card.wasTermVeryRecentlySeen()
       ) {
+        // tmp! testing
         if (card.isBelowGood()) {
           overdue_bad.push(card);
         } else {
           overdue_good.push(card);
         }
       } else if (card.isBad() && card.timeSinceTermWasSeen() > 15 * minutes) {
-        not_overdue_bad.push(card);
+        overdue_bad.push(card);
       } else {
         not_overdue.push(card);
       }
@@ -37,7 +36,6 @@ export default () => {
   return {
     overdue_bad: shuffleLocally(overdue_bad),
     overdue_good: shuffleLocally(overdue_good),
-    not_overdue_bad: shuffleLocally(/*oldestFirst*/ not_overdue_bad),
     not_overdue,
   };
 };

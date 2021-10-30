@@ -36,26 +36,20 @@ export default () => {
     /** @type {Array.<Card>} */
     overdue_good,
     /** @type {Array.<Card>} */
-    not_overdue_bad,
-    /** @type {Array.<Card>} */
     not_overdue,
   } = OldCards();
 
   /** @type {Array.<Card>} */
   const new_cards = NewCards();
 
-  let total_options = sumOfArrayLengths(
-    overdue_bad,
-    overdue_good,
-    not_overdue_bad
-  );
-  let bad_count = sumOfArrayLengths(overdue_bad, not_overdue_bad);
+  let total_options = sumOfArrayLengths(overdue_bad, overdue_good);
+  let bad_count = sumOfArrayLengths(overdue_bad);
 
   isDev &&
     logDev({
       overdue_good: { ...overdue_good },
       overdue_bad: { ...overdue_bad },
-      not_overdue_bad: { ...not_overdue_bad },
+
       new_cards: { ...new_cards },
     });
 
@@ -90,10 +84,7 @@ export default () => {
     i++
   ) {
     add(overdue_good, "Overdue good");
-    add(not_overdue_bad, "Not overdue bad");
-    if (not_overdue_bad.length < 20 || i % 2 === 0) {
-      add(overdue_bad, "Overdue bad");
-    }
+    add(overdue_bad, "Overdue bad");
   }
 
   chosen_cards = chosen_cards.filter(Boolean);
@@ -106,9 +97,7 @@ export default () => {
    * we simply return cards that are not overdue.
    */
   if (chosen_cards.length === 0) {
-    chosen_cards = veryRecentlySeenSortedLast(
-      sortCardsByScore([...not_overdue_bad, ...not_overdue])
-    );
+    chosen_cards = veryRecentlySeenSortedLast(sortCardsByScore(not_overdue));
     console.error("No cards generated. Falling back to all cards.");
   }
 
