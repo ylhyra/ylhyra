@@ -22,7 +22,7 @@ const yaml = require("js-yaml");
 // process.exit();
 
 /*
-  Convert vocabulary data into a JavaScrip object
+  Convert vocabulary data into a JavaScript object
 */
 const run = async () => {
   console.log(`Making vocabulary... ${DECK}`);
@@ -31,7 +31,7 @@ const run = async () => {
 
   fs.readFile(filename, "utf8", (err, data) => {
     const { terms, dependencies, alternative_ids, cards, sound } =
-      parse_vocabulary_file(yaml.load(data));
+      parse_vocabulary_file(yaml.load(data), sortKeys);
 
     const sound_lowercase = sound.map((j) => ({
       ...j,

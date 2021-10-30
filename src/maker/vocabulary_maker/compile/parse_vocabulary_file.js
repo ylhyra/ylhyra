@@ -11,7 +11,7 @@ import {
   getHashesFromCommaSeperated,
 } from "maker/vocabulary_maker/compile/functions";
 
-export const parse_vocabulary_file = ({ rows, sound }) => {
+export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
   let terms = {};
   let dependencies = {};
   let alternative_ids = {};
@@ -224,6 +224,16 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
   let automatic_alt_ids = {};
   for (let [key, card] of Object.entries(cards)) {
     if (!card.en_plaintext) continue;
+
+    /* Sleppa sjálfvirku á allra fyrstu orðunum í listanum */
+    if (
+      sortKeys &&
+      card.terms.some((term) => sortKeys[term] && sortKeys[term] < 20)
+    ) {
+      // console.log(card.en_plaintext + " hætt við vegna lágs sortkeys");
+      continue;
+    }
+
     card.is_plaintext.split(/ ?[,;-] ?/g).forEach((sentence) => {
       /* Notað til að bæta við strengjum sem eru splittaðir með bandstriki */
       const sentence_hash = getHash(sentence);
@@ -281,6 +291,11 @@ export const parse_vocabulary_file = ({ rows, sound }) => {
     "eru",
     "að",
     "við",
+    "hann er",
+    "ég er",
+    "þú ert",
+    "hún er",
+    "það er",
   ];
   // TODO: Sleppa þegar deps innihalda nú þegar þetta orð!
   for (let [key, card] of Object.entries(cards)) {
