@@ -51,17 +51,19 @@ export const addRelatedCardsToSession = (card) => {
       //   related_card.timeSinceTermWasSeen() > 15 * days &&
       //   Math.random() > 0.7)
     ) {
-      deps.push(related_card);
+      log(`Direct dependency "${related_card.printWord()}" added`);
+      to_add.push(related_card);
+      // deps.push(related_card);
     }
   });
 
-  if (!isEmpty(deps)) {
-    deps = sortBySortKey(deps).reverse().slice(0, 2).reverse();
-    deps.forEach((j) => {
-      log(`Direct dependency "${j.printWord()}" added`);
-    });
-    to_add = to_add.concat(deps);
-  }
+  // if (!isEmpty(deps)) {
+  //   deps = sortBySortKey(deps).reverse().slice(0, 2).reverse();
+  //   deps.forEach((j) => {
+  //     log(`Direct dependency "${j.printWord()}" added`);
+  //   });
+  //   to_add = to_add.concat(deps);
+  // }
 
   card.session.loadCardsIntoSession(to_add, {
     insertImmediately: true,
