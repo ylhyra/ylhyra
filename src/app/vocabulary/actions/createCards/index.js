@@ -1,6 +1,7 @@
 import ChooseCards from "app/vocabulary/actions/createCards/3_Choose_cards";
 import { getCardsByIds } from "app/vocabulary/actions/card/functions";
 import { logDev } from "app/app/functions/log";
+import Dependencies from "app/vocabulary/actions/createCards/4_Dependencies";
 
 export const CARDS_TO_CREATE = 50;
 
@@ -23,10 +24,10 @@ export function createCards(options) {
   /* Create cards */
   let chosen_cards = ChooseCards(options);
 
-  // /* Add dependencies */
-  // if (!options?.skip_dependencies) {
-  //   chosen_cards = Dependencies(chosen_cards);
-  // }
+  /* Add dependencies */
+  if (!options?.skip_dependencies) {
+    chosen_cards = Dependencies(chosen_cards);
+  }
 
   /* Failed to generate cards, turn off allowed cards and try again */
   if (chosen_cards.length === 0 && session.allowed_ids) {

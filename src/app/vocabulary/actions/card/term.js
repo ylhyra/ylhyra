@@ -1,4 +1,5 @@
 import {
+  getCardById,
   getCardsByIds,
   getTermsByIds,
 } from "app/vocabulary/actions/card/functions";
@@ -37,6 +38,20 @@ export class Term {
   }
 
   /**
+   * @returns {Array<CardID>}
+   */
+  getCardIdsShuffledIfSeen() {
+    if (
+      this.getCards().some((card) => card.isInSchedule()) &&
+      Math.random() > 0.5
+    ) {
+      return this.getCardIds().reverse();
+    } else {
+      return this.getCardIds();
+    }
+  }
+
+  /**
    * @returns {Object.<TermID, number>}
    */
   getDependenciesAsTermIdToDepth() {
@@ -49,7 +64,7 @@ export class Term {
   /**
    * @returns {Array<Term>}
    */
-  getSortedTermDependencies(options) {
+  getSortedTermDependencies() {
     const dependenciesAsTermIdToDepth = this.getDependenciesAsTermIdToDepth();
     let term_ids = Object.keys(dependenciesAsTermIdToDepth).sort(
       (a, b) => dependenciesAsTermIdToDepth[b] - dependenciesAsTermIdToDepth[a]
@@ -66,7 +81,9 @@ export class Term {
   getSortedCardDependenciesAsCardIds() {
     return _.uniq(
       _.flatten(
-        this.getSortedTermDependencies().map((term) => term.getCardIds())
+        this.getSortedTermDependencies().map((term) =>
+          term.getCardIdsShuffledIfSeen()
+        )
       )
     );
   }

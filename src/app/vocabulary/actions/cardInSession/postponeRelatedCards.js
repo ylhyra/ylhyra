@@ -53,6 +53,10 @@ export function postponeRelatedCards(card1interval) {
     ) {
       card1.showIn({ interval: 6 });
       card2.showIn({ interval: 3 });
+
+      card1.getSiblingCardsInSession().forEach((sibling_card) => {
+        sibling_card.showIn({ interval: 6 });
+      });
     }
 
     // Cards that share the same dependencies

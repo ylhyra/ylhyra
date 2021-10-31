@@ -289,8 +289,15 @@ class Card {
    * @returns {?Boolean}
    */
   wasTermVeryRecentlySeen() {
-    const minutesSinceTermWasSeen = this.timeSinceTermWasSeen() / minutes;
-    return minutesSinceTermWasSeen && minutesSinceTermWasSeen < 45;
+    return this.wasTermSeenMoreRecentlyThan(45 * minutes);
+  }
+
+  /**
+   * @returns {?Boolean}
+   */
+  wasTermSeenMoreRecentlyThan(time) {
+    const i = this.timeSinceTermWasSeen();
+    return i && i < time;
   }
 
   /**
@@ -337,6 +344,15 @@ class Card {
     return this.getAllCardsWithSameTerm().filter(
       (siblingCard) => siblingCard.getId() !== this.getId()
     );
+  }
+
+  /**
+   * @returns {Array.<CardInSession>}
+   */
+  getSiblingCardsInSession() {
+    return this.getSiblingCards()
+      .filter((card) => card.isInSession())
+      .map((card) => card.getAsCardInSession());
   }
 
   /**
