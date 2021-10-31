@@ -127,7 +127,8 @@
     },
     "globals": {
       "__basedir": true,
-      "expect": true
+      "expect": true,
+      "beforeAll": true
     }
   },
   "browserslist": {
