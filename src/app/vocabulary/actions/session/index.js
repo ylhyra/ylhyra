@@ -95,6 +95,7 @@ class Session {
       savedAt: getTime(),
       cards: to_save,
     });
+    this.savedAt = getTime();
   }
   clearInLocalStorage() {
     saveInLocalStorage("vocabulary-session", null);
