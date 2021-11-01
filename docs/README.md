@@ -4,7 +4,7 @@
 
 <p align="center">
 <a href="https://ylhyra.is/Magn%C3%BAs_Jochum_P%C3%A1lsson/%C3%81nama%C3%B0kar">
-	<img width="345" src="https://ylhyra.is/images/f/f3/Ylhyra_demo_Magnus.gif">
+	<img width="345" src="https://ylhyra.is/api/content?title=file/Ylhyra_demo_Magnus.gif" alt="">
 	</a>
 </p>
 
