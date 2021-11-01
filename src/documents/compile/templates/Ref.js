@@ -77,21 +77,20 @@ export const Ref = (input, header) => {
     refs[key].content = replace(refs[key].content);
   }
   let reflist = "";
-  if (type_order["note"].length > 0 || notes) {
-    reflist += `'''Notes'''\n`;
-    if (notes) {
-      reflist += notes + "\n";
-    }
-    if (type_order["note"].length > 0) {
-      reflist += getVals(type_order["note"]) + "\n\n";
-    }
+  if (notes) {
+    reflist += `'''Notes'''\n\n`;
+    reflist += notes + "\n\n";
+  }
+  if (type_order["note"].length > 0) {
+    reflist += `'''Footnotes'''\n\n`;
+    reflist += getVals(type_order["note"]) + "\n\n";
   }
   if (type_order["ref"].length > 0) {
-    reflist += `'''References'''\n`;
+    reflist += `'''References'''\n\n`;
     reflist += getVals(type_order["ref"]) + "\n\n";
   }
   if (sources) {
-    reflist += `'''Sources'''\n`;
+    reflist += `'''Sources'''\n\n`;
     reflist += sources + "\n\n";
   }
   if (reflist) {
