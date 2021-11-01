@@ -27,18 +27,21 @@ export const ProcessLinks = (
             console.log(values);
           }
           const [title, input_section] = link.split("#");
-          if (
-            !(link in app_urls) &&
-            (!values.url || !values?.shouldBeCreated)
-          ) {
+          if (!(link in app_urls) && !values?.shouldBeCreated) {
             return text;
           }
-          if (links[title]?.redirect_to) {
-            link =
-              links[link].redirect_to +
-              (links[link].section ? "#" + links[link].section : "");
+          // if (links[title]?.redirect_to) {
+          //   link =
+          //     links[link].redirect_to +
+          //     (links[link].section ? "#" + links[link].section : "");
+          // }
+          let url = encodeURI(values.url || link /*For appurls*/);
+          let section = values.section || input_section;
+          if (section) {
+            url += "#" + encodeURI(section) /*TODO test*/;
           }
-          return `<a href="${encodeURI(values.url)}">${text}</a>`;
+
+          return `<a href="${url}">${text}</a>`;
         }
       })
       /* Bare external links */
