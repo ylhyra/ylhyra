@@ -61,10 +61,14 @@ class Card {
     this.extractPhoneticHash();
 
     const plaintext = getPlaintextFromFormatted(this.is_formatted);
-    this.isSentence =
-      plaintext.length > 8 &&
-      plaintext.charAt(0) === plaintext.charAt(0).toUpperCase() &&
-      plaintext.match(/^([^;(]+)/)?.[1]?.includes(" ");
+    if (plaintext) {
+      this.isSentence =
+        plaintext.length > 8 &&
+        plaintext.charAt(0) === plaintext.charAt(0).toUpperCase() &&
+        plaintext.match(/^([^;(]+)/)?.[1]?.includes(" ");
+    } else {
+      console.error(data);
+    }
   }
 
   /**

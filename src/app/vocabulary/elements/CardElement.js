@@ -157,6 +157,11 @@ class CardElement extends Component {
     const is = card.is_formatted;
     const en = card.en_formatted;
 
+    /* Loading */
+    if (!is) {
+      return null;
+    }
+
     literally = literally && (
       <div>
         <span className="label">Literally:</span> {html(literally)}
@@ -197,14 +202,14 @@ class CardElement extends Component {
         >
           {card.sound && <div className="has-audio-icon" />}
           <div
-            style={{
-              fontSize: getFontSize(
-                getPlaintextFromFormatted(
-                  from === "is" ? card.is_plaintext : card.en_plaintext
-                ),
-                from === "is" ? "is" : "en"
-              ),
-            }}
+          // style={{
+          //   fontSize: getFontSize(
+          //     getPlaintextFromFormatted(
+          //       from === "is" ? card.is_formatted : card.en_formatted
+          //     ),
+          //     from === "is" ? "is" : "en"
+          //   ),
+          // }}
           >
             {html(from === "is" ? is : en)}
           </div>
@@ -220,12 +225,14 @@ class CardElement extends Component {
             ? [
                 <div
                   key={1}
-                  style={{
-                    fontSize: getFontSize(
-                      from !== "is" ? card.is_plaintext : card.en_plaintext,
-                      from !== "is" ? "is" : "en"
-                    ),
-                  }}
+                  // style={{
+                  //   fontSize: getFontSize(
+                  //     getPlaintextFromFormatted(
+                  //       from !== "is" ? card.is_formatted : card.en_formatted
+                  //     ),
+                  //     from !== "is" ? "is" : "en"
+                  //   ),
+                  // }}
                 >
                   {html(from !== "is" ? is : en)}
                 </div> /*note_below*/,
@@ -324,11 +331,11 @@ const html = (text) => {
 const getFontSize = (text, lang) => {
   if (!text) return null;
   let size = 20;
-  if (text.length > 70) {
+  /*if (text.length > 70) {
     size -= 5;
   } else if (text.length > 50) {
     size -= 4;
-  } else if (text.length > 40) {
+  } else */ if (text.length > 40) {
     size -= 3;
   } else if (text.length > 25) {
     size -= 2;

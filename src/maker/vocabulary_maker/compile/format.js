@@ -8,7 +8,10 @@ export const getPlaintextFromVocabularyEntry = (input) => {
 };
 
 export const getPlaintextFromFormatted = (input) => {
-  if (!input) return null;
+  if (!input) {
+    console.error("Missing plaintext!");
+    return "";
+  }
   return removeWhitespace(
     input
       .replace(/<span class="separator">,<\/span>/g, ";")
