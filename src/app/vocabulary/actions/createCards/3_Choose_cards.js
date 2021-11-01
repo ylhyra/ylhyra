@@ -54,10 +54,11 @@ export default (options) => {
     });
 
   let newCardEvery = 2;
-  if (bad_count > 250) {
-    log("No new cards since there are more than 250 bad cards");
-    newCardEvery = 100;
-  } else if (bad_count > 100) {
+  // if (bad_count > 250) {
+  //   log("No new cards since there are more than 250 bad cards");
+  //   newCardEvery = 100;
+  // } else
+  if (bad_count > 100) {
     newCardEvery = 7;
   } else if (bad_count > 40) {
     newCardEvery = 5;
