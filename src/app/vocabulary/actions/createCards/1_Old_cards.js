@@ -11,11 +11,11 @@ export default () => {
   /** @type {Array.<Card>} */
   let overdue_bad = [];
   /** @type {Array.<Card>} */
+  let not_overdue_very_bad = [];
+  /** @type {Array.<Card>} */
   let not_overdue = [];
 
-  let u = 0;
-
-  sortBySortKey(getCardsInSchedule())
+  getCardsInSchedule()
     .filter((card) => card.isAllowed())
     .forEach((card) => {
       /* Overdue */
@@ -32,22 +32,23 @@ export default () => {
       }
       // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
       else if (card.isBad() && card.timeSinceTermWasSeen() > 20 * minutes) {
-        overdue_bad.push(card);
-        u++;
+        not_overdue_very_bad.push(card);
       } else {
         not_overdue.push(card);
       }
     });
 
   log({
-    overdur_good: overdue_good.length,
-    overdue_bad: overdue_bad.length - u,
-    not_overdue_bad: u,
+    "Overdue good": overdue_good.length,
+    "Overdue bad": overdue_bad.length,
+    "Not overdue very bad": not_overdue_very_bad.length,
   });
 
   return {
-    overdue_bad: shuffleLocally(overdue_bad),
-    overdue_good: shuffleLocally(overdue_good),
+    overdue_bad: shuffleLocally(
+      sortBySortKey(overdue_bad.concat(not_overdue_very_bad))
+    ),
+    overdue_good: shuffleLocally(sortBySortKey(overdue_good)),
     not_overdue,
   };
 };

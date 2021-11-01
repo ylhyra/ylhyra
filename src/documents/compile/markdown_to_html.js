@@ -8,7 +8,7 @@ import Conversation from "documents/compile/templates/Conversations";
 import { ProcessLinks } from "documents/compile/functions/links";
 import { getText } from "documents/parse/ExtractText/ExtractText";
 
-import { links } from "server/content/links";
+import { links } from "server/content/loadLinks";
 
 var sass = require("sass");
 

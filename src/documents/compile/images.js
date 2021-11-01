@@ -3,9 +3,9 @@ import { image_output_folder } from "server/paths_backend";
 import _ from "underscore";
 import Transclude from "documents/compile/transclude";
 import forEachAsync from "app/app/functions/array-foreach-async";
-import { links } from "server/content/links";
 import fs from "fs";
 import { exec } from "child_process";
+import { links } from "server/content/loadLinks";
 
 const Images = (data) => {
   return new Promise(async (resolve) => {

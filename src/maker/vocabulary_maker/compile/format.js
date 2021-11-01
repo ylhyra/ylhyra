@@ -1,5 +1,4 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
-import { ProcessLinks } from "documents/compile/functions/links";
 import { automaticThu } from "maker/vocabulary_maker/compile/functions";
 import { matchWordsAndLetters } from "app/app/functions/languageProcessing/regexes";
 
@@ -115,7 +114,18 @@ export const formatVocabularyEntry = (input) => {
     throw new Error("Bad parsing!");
   }
 
-  input = ProcessLinks(input);
+  // TODO!
+  // input = ProcessLinks(input);
+  input = input.replace(
+    /\[\[(.+?)\]\]([a-záéíúóðþýöæ]+)?/gi,
+    (x, match, after) => {
+      let [link, text] = match.split("|");
+      link = link.trim();
+      text = (text || link).trim() + (after || "");
+      return text;
+    }
+  );
+
   return input;
 };
 

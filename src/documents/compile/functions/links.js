@@ -1,10 +1,11 @@
 import { URL_title } from "app/app/paths";
 import { app_urls } from "app/router/appUrls";
-// import { links, getValuesForURL } from "server/content/links";
+import { getValuesForURL } from "server/content/links";
+import { links } from "server/content/loadLinks";
 
 export const ProcessLinks = (
-  input,
-  links /* Links passed specifically so that this can be used in the frontend */
+  input
+  // links /* Links passed specifically so that this can be used in the frontend */
 ) => {
   return (
     input
@@ -20,23 +21,25 @@ export const ProcessLinks = (
           return `<a href="${link}">${text}</a>`;
         } else {
           link = URL_title(link);
-          const [title] = link.split("#");
-          if (links) {
-            if (
-              title &&
-              (!(title in links) || !links[title].shouldBeCreated) &&
-              !(link in app_urls)
-            ) {
-              return text;
-            }
-            if (links[title]?.redirect_to) {
-              link =
-                links[link].redirect_to +
-                (links[link].section ? "#" + links[link].section : "");
-            }
+          let values = getValuesForURL(link);
+
+          if (text === "masculine") {
+            console.log(values);
           }
+          const [title, input_section] = link.split("#");
+          if (
+            !(link in app_urls) &&
+            (!values.url || !values?.shouldBeCreated)
+          ) {
+            return text;
+          }
+          if (links[title]?.redirect_to) {
+            link =
+              links[link].redirect_to +
+              (links[link].section ? "#" + links[link].section : "");
+          }
+          return `<a href="${encodeURI(values.url)}">${text}</a>`;
         }
-        return `<a href="${encodeURI(link)}">${text}</a>`;
       })
       /* Bare external links */
       .replace(/\[((?:http|mailto)[^ ]+?)\]/g, (x, url) => {

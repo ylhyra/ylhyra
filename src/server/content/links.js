@@ -2,16 +2,10 @@ import path from "path";
 
 import { app_urls } from "app/router/appUrls";
 import { FileSafeTitle, URL_title } from "app/app/paths";
-
-const fs = require("fs");
-
-let _links = {};
-try {
-  _links = JSON.parse(fs.readFileSync(__basedir + `/build/links.json`, "utf8"));
-} catch {}
-export const links = _links;
+import { links } from "server/content/loadLinks";
 
 /**
+ * Wrapper to be able to use in front and backend
  * @param {string} url
  * @returns {LinkDataWithUrl|{}}
  */
@@ -27,7 +21,7 @@ export const getValuesForURL = (url) => {
     values.url = url;
     values.filepath = values.filepath.replace(
       /^.+ylhyra_content/,
-      path.resolve(process.env.PWD, "./../ylhyra_content")
+      path.resolve(process.env.PWD || ".", "./../ylhyra_content")
     );
     return values;
   } else if (url in app_urls) {
