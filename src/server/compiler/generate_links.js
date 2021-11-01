@@ -81,7 +81,7 @@ const run = () => {
         // console.log({r_title})
         links[URL_title(r_title)] = {
           redirect_to: url,
-          section: r_section && URL_title(r_section),
+          section: r_section && URL_title(r_section).replace(/^\//, ""),
         };
       });
 

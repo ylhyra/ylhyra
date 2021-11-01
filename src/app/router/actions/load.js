@@ -136,7 +136,7 @@ const set = async ({
   callback?.();
   updateURL(url + (section ? "#" + section : ""), {
     title: data.title,
-    replace: true,
+    isLoadingContent: true,
     isInitializing,
     routeContent: {
       parsed,

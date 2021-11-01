@@ -21,24 +21,21 @@ export const ProcessLinks = (
           return `<a href="${link}">${text}</a>`;
         } else {
           link = URL_title(link);
-          let values = getValuesForURL(link);
+          const [input_url, input_section] = link.split("#");
+          let values = getValuesForURL(input_url);
 
-          if (text === "masculine") {
-            console.log(values);
-          }
-          const [title, input_section] = link.split("#");
-          if (!(link in app_urls) && !values?.shouldBeCreated) {
+          // if (values.url === "/g") {
+          //   console.log(values);
+          // }
+
+          if (!(input_url in app_urls) && !values?.shouldBeCreated) {
             return text;
           }
-          // if (links[title]?.redirect_to) {
-          //   link =
-          //     links[link].redirect_to +
-          //     (links[link].section ? "#" + links[link].section : "");
-          // }
-          let url = encodeURI(values.url || link /*For appurls*/);
+
+          let url = encodeURI(values.url || input_url /*For appurls*/);
           let section = values.section || input_section;
           if (section) {
-            url += "#" + encodeURI(section) /*TODO test*/;
+            url += "#" + encodeURI(section);
           }
 
           return `<a href="${url}">${text}</a>`;

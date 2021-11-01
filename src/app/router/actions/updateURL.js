@@ -11,7 +11,7 @@ import { getFrontpageURL } from "app/router/actions/index";
 export async function updateURL(url, options = {}) {
   let {
     title,
-    replace,
+    isLoadingContent,
     prerender_data,
     is404,
     dontChangeUrl,
@@ -50,7 +50,7 @@ export async function updateURL(url, options = {}) {
     title = app_urls[pathname].title;
   }
 
-  if (title || replace || isComponent) {
+  if (title || isLoadingContent || isComponent) {
     window.document.title = renderTitle(title);
   }
 
@@ -76,15 +76,17 @@ export async function updateURL(url, options = {}) {
     return;
   }
 
+  // console.log({ url, options });
+
   if (
     !dontChangeUrl &&
     (encodeURI(url) !== window.location.pathname ||
       // Check if has parameters
-      window.location.search)
+      (isInitializing && window.location.search))
   ) {
-    if (replace || isInitializing || window.location.search) {
+    if (isInitializing) {
       window.history.replaceState(null, "", encodeURI(url));
-    } else if ((!prerender_data && replace) || isComponent) {
+    } else if (isLoadingContent || isComponent) {
       window.history.pushState(null, "", encodeURI(url));
     }
   }
@@ -94,7 +96,7 @@ export async function updateURL(url, options = {}) {
   //   isComponent,
   // });
 
-  if (!replace && !isComponent) {
+  if (!isLoadingContent && !isComponent) {
     loadContent({
       url: pathname,
       prerender_data,
@@ -103,7 +105,7 @@ export async function updateURL(url, options = {}) {
     });
   }
 
-  if ((!prerender_data && replace) || isComponent) {
+  if ((!prerender_data && isLoadingContent) || isComponent) {
     ClearReadAlongSetup();
     store.dispatch({
       type: "ROUTE",
