@@ -24,7 +24,11 @@ export default () => {
         !card.isTooEasy() &&
         !card.wasTermVeryRecentlySeen()
       ) {
-        if (card.isBelowGood() || card.isUnseenSiblingOfANonGoodCard()) {
+        if (
+          // card.isFairlyBad()
+          card.isBelowGood() ||
+          card.isUnseenSiblingOfANonGoodCard()
+        ) {
           overdue_bad.push(card);
         } else {
           overdue_good.push(card);
