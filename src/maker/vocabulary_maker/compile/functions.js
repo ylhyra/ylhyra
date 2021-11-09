@@ -66,17 +66,22 @@ export const row_titles = [
   "direction",
   "note",
   "note_regarding_english",
-  // "note_bfr_show",
-  // "note_after_show",
-  // "note_after_show_is",
   "literally",
+  "show_literally_for_english_side", // todo
+
+  "is_extremely_basic_phrase", // todo
+  "is_surprisingly_difficult", // todo
+
   "pronunciation",
   "should_teach",
   "categories",
   "grammar_tags",
   "importance",
-  "show_hint",
-  "should_split",
+  "show_hint", // todo
+  "should_split", // todo
+
+  "synonyms", // todo
+
   "example_declension",
   "athugasemd_til_min",
   "fix",
