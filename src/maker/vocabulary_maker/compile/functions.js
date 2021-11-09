@@ -1,4 +1,3 @@
-/* Match the "%" in lemmas, which serves to mark something as both the basic form and an alt_id */
 import _hash from "app/app/functions/hash";
 import { isBrowser } from "app/app/functions/isBrowser";
 import { getUserFromCookie } from "app/user/actions";
@@ -10,6 +9,7 @@ export const row_titles = [
   "lemmas",
   "depends_on",
   "alternative_id",
+  "this_is_a_minor_variation_of",
   "level",
 
   "is_extremely_basic_phrase", // todo

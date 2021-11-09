@@ -45,18 +45,15 @@ export const formatVocabularyEntry = (input) => {
       /{{spp}}/g,
       `This verb's form is the same in the past and the present tense.`
     )
+    // Curly quotes
     .replace(
       /"([^"]*)"/g,
       `<span class="darkgray">“</span>$1<span class="darkgray">”</span>`
-    ) /* Curly quotes */
-    .replace(
-      / \+ /g,
-      `\u2006<span class="darkgray">+</span>\u2006`
-    ) /* Spacing around plusses */
-    .replace(
-      / \/ /g,
-      `\u2006<span class="darkgray">/</span>\u2006`
-    ) /* Spacing around "/" */
+    )
+    // Spacing around plusses
+    .replace(/ \+ /g, `\u2006<span class="darkgray">+</span>\u2006`)
+    // Spacing around "/"
+    .replace(/ \/ /g, `\u2006<span class="darkgray">/</span>\u2006`)
     .replace(/{{(ð?u)}}/g, `<span class="thu-merging">$1</span>`)
     .replace(/\^([^ .!?:;-]?)/g, `{{gray|$1}}`)
     .replace(/_(.+?)_/g, `{{gray|$1}}`)
@@ -76,7 +73,7 @@ export const formatVocabularyEntry = (input) => {
         return occlude(c`${space_before}${text}${space_after}`);
       }
     )
-    .replace(/[$%]([^ .!?;:<>"=]+)/g, (x, text) => {
+    .replace(/[%]([^ .!?;:<>"=]+)/g, (x, text) => {
       return occlude(text);
     })
 
@@ -94,8 +91,8 @@ export const formatVocabularyEntry = (input) => {
     .replace(/{{kk}}/g, `<sup>(masculine)</sup>`)
     .replace(/{{kvk}}/g, `<sup>(feminine)</sup>`)
     .replace(/{{hv?k}}/g, `<sup>(neuter)</sup>`)
-    .replace(/{{bhet}}/g, `Speaking to one person`)
-    .replace(/{{bhft}}/g, `Speaking to a group`)
+    .replace(/^{{bhet}}$/g, `Speaking to one person`)
+    .replace(/^{{bhft}}$/g, `Speaking to a group`)
     .replace(/{{ft}}/g, `<sup>(plural)</sup>`)
     .replace(/{{h}}/g, `<b class="gray"><i>h</i></b>`)
     .replace(/#/g, `<sup class="red"><small>†</small></sup>`) // Notað í norska datasettinu ∗
