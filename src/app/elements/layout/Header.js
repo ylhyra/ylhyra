@@ -64,9 +64,9 @@ const Navlinks = () => (
           <span className="medium">Expl.</span>
         </Link>
       </li>
-      <li>
-        <Link href="/about">About</Link>
-      </li>
+      {/*<li>*/}
+      {/*  <Link href="/about">About</Link>*/}
+      {/*</li>*/}
     </ul>
   </nav>
 );

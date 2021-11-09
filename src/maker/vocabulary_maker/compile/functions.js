@@ -4,6 +4,37 @@ import { isBrowser } from "app/app/functions/isBrowser";
 import { getUserFromCookie } from "app/user/actions";
 import { getPlaintextFromVocabularyEntry } from "maker/vocabulary_maker/compile/format";
 
+export const row_titles = [
+  // "icelandic",
+  // "english",
+  "lemmas",
+  "depends_on",
+  "alternative_id",
+  "level",
+
+  "is_extremely_basic_phrase", // todo
+  "is_surprisingly_difficult", // todo
+  "importance",
+
+  "dont_confuse",
+  "related_items",
+  "direction",
+  "note",
+  "note_regarding_english",
+  "literally",
+  "show_literally_for_english_side", // todo
+  "synonyms", // todo
+
+  "pronunciation",
+  "categories",
+  "grammar_tags",
+
+  "example_declension",
+  "athugasemd_til_min",
+  "fix",
+  "eyða",
+];
+
 /* Only used for testing */
 export const getDeckName = () => {
   if (process.env.NODE_ENV === "development") {
@@ -53,40 +84,6 @@ export const getHashesFromCommaSeperated = (i) => {
   }
   return i.split(",").map(getHash).filter(Boolean);
 };
-
-export const row_titles = [
-  // "icelandic",
-  // "english",
-  "lemmas",
-  "depends_on",
-  "alternative_id",
-  "level",
-  "dont_confuse",
-  "related_items",
-  "direction",
-  "note",
-  "note_regarding_english",
-  "literally",
-  "show_literally_for_english_side", // todo
-
-  "is_extremely_basic_phrase", // todo
-  "is_surprisingly_difficult", // todo
-
-  "pronunciation",
-  "should_teach",
-  "categories",
-  "grammar_tags",
-  "importance",
-  "show_hint", // todo
-  "should_split", // todo
-
-  "synonyms", // todo
-
-  "example_declension",
-  "athugasemd_til_min",
-  "fix",
-  "eyða",
-];
 
 export const automaticThu = (input) => {
   return input
