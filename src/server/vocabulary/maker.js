@@ -54,8 +54,8 @@ router.post("/vocabulary_maker", (req, res) => {
             out[key] = row[key]
               .trim()
               .replace(/\s+/g, " ")
-              .replace(/^, ?/g, "")
-              .replace(/,$/g, "")
+              .replace(/^[,;]+ ?/g, "")
+              .replace(/[,;]+$/g, "")
               .replace(/ [–—] /g, " - ");
           } else {
             out[key] = row[key];

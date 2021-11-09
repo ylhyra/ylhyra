@@ -22,7 +22,7 @@ export const row_titles = [
   "note",
   "note_regarding_english",
   "literally",
-  "show_literally_for_english_side", // todo
+  // "literally_shown_for_english", // todo
   "synonyms", // todo
 
   "pronunciation",
