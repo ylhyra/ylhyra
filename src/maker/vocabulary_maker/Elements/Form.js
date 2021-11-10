@@ -88,13 +88,14 @@ class Form2 extends React.Component {
       if (diff !== -1) {
         this.set("difficulty", diff + 1);
       }
-      if (!row.importance && !row.difficulty) {
-        const { importance, difficulty } = this.formRef.current.values;
-        if (importance && difficulty && Database.mode === "review_importance") {
-          return this.formRef.current?.handleSubmit();
-        }
-      }
+      // if (!row.importance && !row.difficulty) {
+      //   const { importance, difficulty } = this.formRef.current.values;
+      //   if (importance && difficulty && Database.mode === "review_importance") {
+      //     return this.formRef.current?.handleSubmit();
+      //   }
+      // }
       if (key === "space") {
+        e.preventDefault();
         return this.formRef.current?.handleSubmit();
       }
     }

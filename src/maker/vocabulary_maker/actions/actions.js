@@ -94,7 +94,7 @@ export const select = (id) => {
         document.querySelector("form").offsetTop +
           document.querySelector("#content").offsetTop
       );
-    }, 140);
+    }, 120);
   } else {
     store.dispatch({
       type: "VOCABULARY_MAKER_SELECT",
