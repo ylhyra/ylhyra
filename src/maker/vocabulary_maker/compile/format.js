@@ -1,6 +1,7 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
 import { automaticThu } from "maker/vocabulary_maker/compile/functions";
 import { matchWordsAndLetters } from "app/app/functions/languageProcessing/regexes";
+import { removeExtraWhitespace } from "app/app/functions/removeExtraWhitespace";
 
 export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;
@@ -12,7 +13,7 @@ export const getPlaintextFromFormatted = (input) => {
     console.error("Missing plaintext!");
     return "";
   }
-  return removeWhitespace(
+  return removeExtraWhitespace(
     input
       .replace(/<span class="separator">,<\/span>/g, ";")
       .replace(/<span class="separator">;<\/span>/g, ";;")
@@ -22,11 +23,6 @@ export const getPlaintextFromFormatted = (input) => {
       .replace(/  +/g, " ")
       .replace(/†/g, "")
   );
-};
-
-export const removeWhitespace = (input) => {
-  if (!input) return "";
-  return input.replace(/[\s]+/g, " ").trim();
 };
 
 export const formatVocabularyEntry = (input) => {

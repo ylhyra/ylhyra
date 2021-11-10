@@ -6,20 +6,18 @@ import {
   Database,
   delete_row,
   ignore_for_now,
-  load,
   select,
   selectNext,
   submit,
 } from "maker/vocabulary_maker/actions/actions";
-import {
-  getDeckName,
-  row_titles,
-} from "maker/vocabulary_maker/compile/functions";
+import { getDeckName } from "maker/vocabulary_maker/compile/functions";
 import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/format";
 import {
   didYouMeanSuggestions,
   search,
 } from "maker/vocabulary_maker/actions/search";
+import { row_titles } from "maker/vocabulary_maker/compile/rowTitles";
+import { load } from "maker/vocabulary_maker/actions/initialize";
 
 class Form2 extends React.Component {
   componentDidMount = async () => {
@@ -109,14 +107,13 @@ class Form2 extends React.Component {
           }{" "}
           old need translation.
         </div>
-        <h1>Voc</h1>
-        <button onClick={addEmpty}>Add</button>
         <input
           placeholder="Search..."
           type="text"
           name="search"
           onKeyUp={search}
         />
+        <button onClick={addEmpty}>Add</button>
         {this.props.vocabularyMaker.data.map((row) => {
           if (row.row_id === this.props.vocabularyMaker.selected) {
             let initialValues = row;

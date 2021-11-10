@@ -3,38 +3,6 @@ import { isBrowser } from "app/app/functions/isBrowser";
 import { getUserFromCookie } from "app/user/actions";
 import { getPlaintextFromVocabularyEntry } from "maker/vocabulary_maker/compile/format";
 
-export const row_titles = [
-  // "icelandic",
-  // "english",
-  "lemmas",
-  "depends_on",
-  "alternative_id",
-  "this_is_a_minor_variation_of",
-  "level",
-
-  "is_extremely_basic_phrase", // todo
-  "is_surprisingly_difficult", // todo
-  "importance",
-
-  "dont_confuse",
-  "related_items",
-  "direction",
-  "note",
-  "note_regarding_english",
-  "literally",
-  // "literally_shown_for_english", // todo
-  "synonyms", // todo
-
-  "pronunciation",
-  "categories",
-  "grammar_tags",
-
-  "example_declension",
-  "athugasemd_til_min",
-  "fix",
-  "eyða",
-];
-
 /* Only used for testing */
 export const getDeckName = () => {
   if (process.env.NODE_ENV === "development") {
