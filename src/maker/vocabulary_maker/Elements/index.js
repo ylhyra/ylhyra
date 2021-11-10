@@ -28,6 +28,12 @@ class VocabularyMaker extends React.Component {
           }{" "}
           old need translation.
         </div>
+        <div>
+          Mode:
+          <select name="mode">
+            <option value="review_importance">Review importance</option>
+          </select>
+        </div>
         <input
           placeholder="Search..."
           type="text"

@@ -10,36 +10,39 @@ const row_info_array = [
   {
     name: "level",
     alwaysShow: true,
-    options: {
-      1: "A1",
-      2: "A2",
-      3: "B1",
-      4: "B2",
-      5: "C1",
-      6: "C2",
-    },
+    isNumber: true,
+    options: [
+      { value: 1, title: "A1" },
+      { value: 2, title: "A2" },
+      { value: 3, title: "B1" },
+      { value: 4, title: "B2" },
+      { value: 5, title: "C1" },
+      { value: 6, title: "C2" },
+    ],
   },
 
-  //todo:
-  { name: "importance", alwaysShow: true },
   {
-    name: "is_extremely_basic_phrase",
+    name: "importance",
     alwaysShow: true,
-    options: {
-      0: "Not important",
-      2: "Important",
-      3: "Very important",
-    },
+    isNumber: true,
+    options: [
+      { value: -2, title: "Very unimportant" },
+      { value: -1, title: "Unimportant" },
+      { value: 0, title: "Normal" },
+      { value: 1, title: "Important" },
+      { value: 2, title: "Very important" },
+    ],
   },
   {
-    name: "is_surprisingly_difficult",
+    name: "difficulty",
     alwaysShow: true,
-    options: {
-      0: "Not difficult",
-      1: "Difficult for beginners",
-      2: "Difficult for intermediate",
-      3: "Difficult for advanced",
-    },
+    isNumber: true,
+    options: [
+      { value: 0, title: "Not difficult" },
+      { value: 1, title: "Difficult for beginners" },
+      { value: 2, title: "Difficult for intermediate" },
+      { value: 3, title: "Difficult for advanced" },
+    ],
   },
 
   { name: "dont_confuse" },

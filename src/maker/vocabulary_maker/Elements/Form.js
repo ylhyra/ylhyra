@@ -138,52 +138,72 @@ class Form2 extends React.Component {
               {!row["english"] &&
                 didYouMeanSuggestions(row["icelandic"], row.row_id)}
             </div>
-            {shownRowTitles.map((row_name) => (
-              <label key={row_name} htmlFor={row_name}>
-                <b>{formatRowName(row_name)}:</b>
-                <br />
-                <ErrorMessage
-                  name={row_name}
-                  component="div"
-                  className="form-error"
-                />
-                <Field
-                  // type={row_name === "level" ? "number" : "text"}
-                  // type="text"
-
-                  type={row_info[row_name].options ? "select" : "text"}
-                  autoFocus={(() => {
-                    // return row_name === "level";
-                    if (selectedField) return row_name === selectedField;
-                    if (!row["icelandic"]) return row_name === "icelandic";
-                    if (!row["english"]) return row_name === "english";
-                    if (!row["depends_on"]) return row_name === "depends_on";
-                    if (!row["lemmas"]) return row_name === "lemmas";
-                    return row_name === "level";
-                  })()}
-                  name={row_name}
-                  id={row_name}
-                  size={row[row_name] ? row[row_name].toString().length : 2}
-                  spellCheck={(() => {
-                    if (row_name === "english") return true;
-                    if (row_name === "note") return true;
-                    if (row_name === "note_regarding_english") return true;
-                  })()}
-                  lang={(() => {
-                    if (row_name === "english") return "en";
-                    if (row_name === "note") return "en";
-                    if (row_name === "note_regarding_english") return "en";
-                    return "is";
-                  })()}
-                  onKeyUp={(e) => {
-                    e.target.setAttribute(
-                      "size",
-                      e.target.value.toString().length || 2
-                    );
-                  }}
-                />
-              </label>
-            ))}
+            {shownRowTitles.map((row_name) => {
+              const cur_row_info = row_info[row_name];
+              const { options } = cur_row_info;
+              return (
+                <label key={row_name} htmlFor={row_name}>
+                  <b>{formatRowName(row_name)}:</b>
+                  <br />
+                  <ErrorMessage
+                    name={row_name}
+                    component="div"
+                    className="form-error"
+                  />
+                  <Field
+                    // type={row_name === "level" ? "number" : "text"}
+                    type="text"
+                    as={options ? "select" : ""}
+                    autoFocus={(() => {
+                      // return row_name === "level";
+                      if (selectedField) return row_name === selectedField;
+                      if (!row["icelandic"]) return row_name === "icelandic";
+                      if (!row["english"]) return row_name === "english";
+                      if (!row["depends_on"]) return row_name === "depends_on";
+                      if (!row["lemmas"]) return row_name === "lemmas";
+                      return row_name === "level";
+                    })()}
+                    name={row_name}
+                    id={row_name}
+                    size={(() => {
+                      // if (row_name === "level") return 1;
+                      if (options) return 1; //options.length + 1;
+                      // if (options) return 1;
+                      return row[row_name]?.toString().length || 2;
+                    })()}
+                    spellCheck={(() => {
+                      if (row_name === "english") return true;
+                      if (row_name === "note") return true;
+                      if (row_name === "note_regarding_english") return true;
+                    })()}
+                    lang={(() => {
+                      if (row_name === "english") return "en";
+                      if (row_name === "note") return "en";
+                      if (row_name === "note_regarding_english") return "en";
+                      return "is";
+                    })()}
+                    onKeyUp={(e) => {
+                      if (options) return;
+                      e.target.setAttribute(
+                        "size",
+                        e.target.value.toString().length || 2
+                      );
+                    }}
+                  >
+                    {options && [
+                      <option value="" key={100}>
+                        –
+                      </option>,
+                      options.map((option) => (
+                        <option value={option.value} key={option.value}>
+                          {option.title}
+                        </option>
+                      )),
+                    ]}
+                  </Field>
+                </label>
+              );
+            })}
             <br />
             {unshownRowTitles.map((row_name) => (
               <button
