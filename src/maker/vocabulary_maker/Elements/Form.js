@@ -21,7 +21,6 @@ import { load } from "maker/vocabulary_maker/actions/initialize";
 
 class Form2 extends React.Component {
   componentDidMount = async () => {
-    load();
     this.formRef = React.createRef();
     window.addEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
@@ -93,174 +92,107 @@ class Form2 extends React.Component {
     }
   };
   render() {
-    // console.log(rows.filter((r) => !r.last_seen && !r["eyða"]));
-    // if (!this.props.vocabulary.deck) return null;
-    if (!this.props.vocabularyMaker.data) return null;
+    const { row } = this.props;
+    let initialValues = row;
+    row_titles.forEach((i) => (initialValues[i] = row[i] || ""));
     return (
-      <div className="vocabulary_maker">
-        <div>
-          {Database.rows.filter((r) => !r.last_seen && !r["eyða"]).length} new
-          remaining.{" "}
-          {
-            Database.rows.filter((r) => r.last_seen && !r["eyða"] && !r.english)
-              .length
-          }{" "}
-          old need translation.
-        </div>
-        <input
-          placeholder="Search..."
-          type="text"
-          name="search"
-          onKeyUp={search}
-        />
-        <button onClick={addEmpty}>Add</button>
-        {this.props.vocabularyMaker.data.map((row) => {
-          if (row.row_id === this.props.vocabularyMaker.selected) {
-            let initialValues = row;
-            row_titles.forEach((i) => (initialValues[i] = row[i] || ""));
-            return (
-              <Formik
-                key={row.row_id}
-                initialValues={initialValues}
-                innerRef={this.formRef}
-                enableReinitialize={true}
-                validateOnChange={false}
-                validate={(values) => {
-                  const errors = {};
-                  if (/,/.test(values.icelandic)) {
-                    errors.icelandic = "Comma not allowed";
-                  }
-                  if (/,/.test(values.english)) {
-                    errors.english = "Comma not allowed";
-                  }
-                  if (!values.level && !getDeckName() && values.english) {
-                    errors.level = "Required";
-                  }
-                  return errors;
-                }}
-                onSubmit={(values) => {
-                  // document.querySelector("[name=level]").focus();
-                  submit(values);
-                }}
-              >
-                {() => (
-                  <Form>
-                    <div>
-                      {!row["english"] &&
-                        didYouMeanSuggestions(row["icelandic"], row.row_id)}
-                    </div>
-                    {row_titles.map((row_name) => (
-                      <label key={row_name} htmlFor={row_name}>
-                        <b>{row_name}:</b>
-                        <br />
-                        <ErrorMessage
-                          name={row_name}
-                          component="div"
-                          className="form-error"
-                        />
-                        <Field
-                          // type={row_name === "level" ? "number" : "text"}
-                          type="text"
-                          autoFocus={(() => {
-                            // return row_name === "level";
-                            if (!row["icelandic"])
-                              return row_name === "icelandic";
-                            if (!row["english"]) return row_name === "english";
-                            if (!row["depends_on"])
-                              return row_name === "depends_on";
-                            if (!row["lemmas"]) return row_name === "lemmas";
-                            return row_name === "level";
-                          })()}
-                          name={row_name}
-                          id={row_name}
-                          size={
-                            row[row_name] ? row[row_name].toString().length : 2
-                          }
-                          spellCheck={(() => {
-                            if (row_name === "english") return true;
-                            if (row_name === "note") return true;
-                            if (row_name === "note_regarding_english")
-                              return true;
-                          })()}
-                          lang={(() => {
-                            if (row_name === "english") return "en";
-                            if (row_name === "note") return "en";
-                            if (row_name === "note_regarding_english")
-                              return "en";
-                            return "is";
-                          })()}
-                          onKeyUp={(e) => {
-                            e.target.setAttribute(
-                              "size",
-                              e.target.value.toString().length || 2
-                            );
-                          }}
-                        />
-                      </label>
-                    ))}
-
-                    <button
-                      type="submit"
-                      // disabled={isSubmitting}
-                    >
-                      Submit
-                    </button>
-                    <button
-                      type="button"
-                      className=""
-                      onClick={() => ignore_for_now(row.row_id)}
-                    >
-                      Ignore
-                    </button>
-                    <button
-                      type="button"
-                      className="red"
-                      onClick={() => delete_row(row.row_id)}
-                    >
-                      Delete
-                    </button>
-                  </Form>
-                )}
-              </Formik>
-            );
-          } else {
-            return (
-              <div
-                key={row.row_id}
-                className={`row ${row.last_seen ? "seen" : ""}`}
-                onClick={() => select(row.row_id)}
-              >
-                <b
-                  dangerouslySetInnerHTML={{
-                    __html: formatVocabularyEntry(row.icelandic),
-                  }}
-                />{" "}
-                ={" "}
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: formatVocabularyEntry(row.english),
+      <Formik
+        key={row.row_id}
+        initialValues={initialValues}
+        innerRef={this.formRef}
+        enableReinitialize={true}
+        validateOnChange={false}
+        validate={(values) => {
+          const errors = {};
+          if (/,/.test(values.icelandic)) {
+            errors.icelandic = "Comma not allowed";
+          }
+          if (/,/.test(values.english)) {
+            errors.english = "Comma not allowed";
+          }
+          if (!values.level && !getDeckName() && values.english) {
+            errors.level = "Required";
+          }
+          return errors;
+        }}
+        onSubmit={(values) => {
+          // document.querySelector("[name=level]").focus();
+          submit(values);
+        }}
+      >
+        {() => (
+          <Form>
+            <div>
+              {!row["english"] &&
+                didYouMeanSuggestions(row["icelandic"], row.row_id)}
+            </div>
+            {row_titles.map((row_name) => (
+              <label key={row_name} htmlFor={row_name}>
+                <b>{row_name}:</b>
+                <br />
+                <ErrorMessage
+                  name={row_name}
+                  component="div"
+                  className="form-error"
+                />
+                <Field
+                  // type={row_name === "level" ? "number" : "text"}
+                  type="text"
+                  autoFocus={(() => {
+                    // return row_name === "level";
+                    if (!row["icelandic"]) return row_name === "icelandic";
+                    if (!row["english"]) return row_name === "english";
+                    if (!row["depends_on"]) return row_name === "depends_on";
+                    if (!row["lemmas"]) return row_name === "lemmas";
+                    return row_name === "level";
+                  })()}
+                  name={row_name}
+                  id={row_name}
+                  size={row[row_name] ? row[row_name].toString().length : 2}
+                  spellCheck={(() => {
+                    if (row_name === "english") return true;
+                    if (row_name === "note") return true;
+                    if (row_name === "note_regarding_english") return true;
+                  })()}
+                  lang={(() => {
+                    if (row_name === "english") return "en";
+                    if (row_name === "note") return "en";
+                    if (row_name === "note_regarding_english") return "en";
+                    return "is";
+                  })()}
+                  onKeyUp={(e) => {
+                    e.target.setAttribute(
+                      "size",
+                      e.target.value.toString().length || 2
+                    );
                   }}
                 />
-                <div className="small gray">
-                  {row_titles.map((row_name) =>
-                    row[row_name] ? (
-                      <span key={row_name}>
-                        <b>{row_name}</b>:{" "}
-                        <span
-                          dangerouslySetInnerHTML={{
-                            __html: formatVocabularyEntry(row[row_name]),
-                          }}
-                        />
-                        ,{" "}
-                      </span>
-                    ) : null
-                  )}
-                </div>
-              </div>
-            );
-          }
-        })}
-      </div>
+              </label>
+            ))}
+
+            <button
+              type="submit"
+              // disabled={isSubmitting}
+            >
+              Submit
+            </button>
+            <button
+              type="button"
+              className=""
+              onClick={() => ignore_for_now(row.row_id)}
+            >
+              Ignore
+            </button>
+            <button
+              type="button"
+              className="red"
+              onClick={() => delete_row(row.row_id)}
+            >
+              Delete
+            </button>
+          </Form>
+        )}
+      </Formik>
     );
   }
 }

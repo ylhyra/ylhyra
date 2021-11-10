@@ -1,21 +1,12 @@
 import { connect } from "react-redux";
 import React from "react";
-import { ErrorMessage, Field, Form, Formik } from "formik";
 import {
   addEmpty,
   Database,
-  delete_row,
-  ignore_for_now,
   select,
-  selectNext,
-  submit,
 } from "maker/vocabulary_maker/actions/actions";
-import { getDeckName } from "maker/vocabulary_maker/compile/functions";
 import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/format";
-import {
-  didYouMeanSuggestions,
-  search,
-} from "maker/vocabulary_maker/actions/search";
+import { search } from "maker/vocabulary_maker/actions/search";
 import { row_titles } from "maker/vocabulary_maker/compile/rowTitles";
 import { load } from "maker/vocabulary_maker/actions/initialize";
 import VocabularyMakerForm from "maker/vocabulary_maker/Elements/Form";
@@ -46,7 +37,7 @@ class VocabularyMaker extends React.Component {
         <button onClick={addEmpty}>Add</button>
         {this.props.vocabularyMaker.data.map((row) => {
           if (row.row_id === this.props.vocabularyMaker.selected) {
-            return <VocabularyMakerForm />;
+            return <VocabularyMakerForm row={row} />;
           } else {
             return (
               <div
