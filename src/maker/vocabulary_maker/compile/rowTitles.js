@@ -1,6 +1,6 @@
 import { ucfirst } from "app/app/functions/ucfirst";
 
-const row_info_array = [
+export const row_info_array = [
   { name: "icelandic", alwaysShow: true },
   { name: "english", alwaysShow: true },
   { name: "lemmas", alwaysShow: true },

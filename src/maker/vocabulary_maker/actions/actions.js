@@ -9,6 +9,10 @@ import { log } from "app/app/functions/log";
 import _ from "underscore";
 import axios from "app/app/axios";
 import store from "app/app/store";
+import {
+  row_info,
+  row_info_array,
+} from "maker/vocabulary_maker/compile/rowTitles";
 
 export const Database = {
   maxID: 0,
@@ -25,9 +29,19 @@ export const Database = {
 export const MAX_PER_PAGE = 20;
 
 export const refreshRows = () => {
-  Database.rows =
-    // _.shuffle(rows)
-    Database.rows.sort(
+  if (Database.mode === "review_importance") {
+    Database.rows = Database.rows.sort(
+      (a, b) =>
+        Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
+        Boolean(a.icelandic) - Boolean(b.icelandic) ||
+        Boolean(a.english) - Boolean(b.english) ||
+        ("difficulty" in a) - ("difficulty" in b) ||
+        a.last_seen?.localeCompare(b.last_seen) ||
+        Boolean(a.fix) - Boolean(b.fix) ||
+        false
+    );
+  } else {
+    Database.rows = Database.rows.sort(
       (a, b) =>
         Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
         // Boolean(a.level) - Boolean(b.level) ||
@@ -41,6 +55,7 @@ export const refreshRows = () => {
         Boolean(a.fix) - Boolean(b.fix) ||
         false
     );
+  }
   selectRows();
   select(Database.selected_rows.length > 0 && Database.selected_rows[0].row_id);
 };
@@ -114,8 +129,7 @@ export const ignore_for_now = (row_id, message) => {
 };
 
 export const submit = (vals, gotonext = true) => {
-  // console.log(vals);
-  vals.level = vals.level ? parseFloat(vals.level) : vals.level;
+  vals = formatVocabularyData(vals);
   Database.rows[Database.rows.findIndex((j) => j.row_id === vals.row_id)] = {
     ...vals,
     last_seen: new Date().toISOString().substring(0, 10),
@@ -126,6 +140,15 @@ export const submit = (vals, gotonext = true) => {
     selectNext(vals.row_id);
     save();
   }
+};
+
+export const formatVocabularyData = (vals) => {
+  Object.keys(row_info).forEach((row_name) => {
+    if (row_info[row_name].isNumber && vals[row_name]) {
+      vals[row_name] = parseInt(vals[row_name]);
+    }
+  });
+  return vals;
 };
 
 const updateInterface = () => {
@@ -220,3 +243,11 @@ if (isBrowser) {
   window.save = save;
   // window.rows = () => rows;
 }
+
+export const changeMode = (e) => {
+  const value = e.target.value;
+  Database.mode = value;
+  refreshRows();
+  // if (value === "review_importance") {
+  // }
+};

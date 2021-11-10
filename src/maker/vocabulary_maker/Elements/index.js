@@ -2,7 +2,9 @@ import { connect } from "react-redux";
 import React from "react";
 import {
   addEmpty,
+  changeMode,
   Database,
+  refreshRows,
   select,
 } from "maker/vocabulary_maker/actions/actions";
 import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/format";
@@ -30,7 +32,8 @@ class VocabularyMaker extends React.Component {
         </div>
         <div>
           Mode:
-          <select name="mode">
+          <select name="mode" onChange={changeMode}>
+            <option value="">-</option>
             <option value="review_importance">Review importance</option>
           </select>
         </div>

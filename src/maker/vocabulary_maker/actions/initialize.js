@@ -25,6 +25,9 @@ export const load = async () => {
     Database.maxID = Math.max(Database.maxID, row.row_id);
   });
   Database.rows = Database.rows.map((row) => {
+    // if (row.level) {
+    //   row.level = Math.floor(row.level);
+    // }
     return row;
   });
 
