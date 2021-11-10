@@ -218,5 +218,5 @@ if (isBrowser) {
   window.addRowsIfMissing = addRowsIfMissing;
   window.a = addRowsIfMissing;
   window.save = save;
-  window.rows = () => rows;
+  // window.rows = () => rows;
 }

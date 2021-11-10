@@ -2,31 +2,30 @@ import { connect } from "react-redux";
 import React from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import {
-  addEmpty,
-  Database,
   delete_row,
   ignore_for_now,
-  select,
   selectNext,
   submit,
 } from "maker/vocabulary_maker/actions/actions";
 import { getDeckName } from "maker/vocabulary_maker/compile/functions";
-import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/format";
 import {
-  didYouMeanSuggestions,
-  search,
-} from "maker/vocabulary_maker/actions/search";
-import {
-  alwaysShow,
+  row_info,
+  formatRowName,
   row_titles,
 } from "maker/vocabulary_maker/compile/rowTitles";
-import { load } from "maker/vocabulary_maker/actions/initialize";
-import { ucfirst } from "app/app/functions/ucfirst";
 import _ from "underscore";
+import { didYouMeanSuggestions } from "maker/vocabulary_maker/actions/didYouMean";
+
 class Form2 extends React.Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.formRef = React.createRef();
+    setTimeout(() => {
+      window.j = this.formRef;
+    }, 100);
+  }
   componentDidMount = async () => {
-    this.formRef = React.useRef();
     window.addEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
   };
@@ -46,29 +45,21 @@ class Form2 extends React.Component {
   keyUp = () => {
     // this.isKeyDown = false;
   };
+  set = (name, val) => {
+    this.formRef.current.setFieldValue(name, val || "");
+    console.log({ name, val });
+    // submit(
+    //   {
+    //     ...row,
+    //     ...data,
+    //     [name]: val,
+    //   },
+    //   false
+    // );
+  };
+
   checkKey = (e) => {
     if (e.altKey && e.metaKey) return;
-    const set = (name, val) => {
-      // let data = {};
-
-      window.j = this.formRef;
-      this.formRef.current.setFieldValue(name, val);
-      console.log({ name, val });
-
-      // row_titles.forEach((row_title) => {
-      //   data[row_title] =
-      //     document.querySelector(`[name=${row_title}]`)?.value || "";
-      // });
-      // submit(
-      //   {
-      //     ...row,
-      //     ...data,
-      //     [name]: val,
-      //   },
-      //   false
-      // );
-    };
-
     // console.log(e);
     // return;
     if (!this.props.vocabularyMaker.selected) return;
@@ -85,15 +76,15 @@ class Form2 extends React.Component {
     if (e.keyCode === 53) number = 5;
     if (e.keyCode === 54) number = 6;
     if (e.metaKey && e.keyCode === 75 /* Command K */) {
-      set("depends_on", "");
-      set("lemmas", row.depends_on);
+      this.set("depends_on", "");
+      this.set("lemmas", row.depends_on);
     } else if (e.metaKey && e.keyCode === 85 /* Command U */) {
-      set("lemmas", row.icelandic + "%");
+      this.set("lemmas", row.icelandic + "%");
     } else if (e.metaKey && e.keyCode === 73 /* Command I */) {
-      set("alternative_id", row.icelandic);
+      this.set("alternative_id", row.icelandic);
       e.preventDefault();
     } else if ((e.altKey || e.metaKey) && number) {
-      set("level", number);
+      this.set("level", number);
       e.preventDefault();
     } else if (e.keyCode === 13 /* Enter */) {
       // this.formRef.current?.handleSubmit();
@@ -109,7 +100,7 @@ class Form2 extends React.Component {
 
     const shownRowTitles = _.uniq(
       [
-        ...alwaysShow,
+        ...row_titles.filter((row_title) => row_info[row_title].alwaysShow),
         selectedField,
         ...row_titles.filter((row_title) => row[row_title]),
       ].filter(Boolean)
@@ -121,7 +112,6 @@ class Form2 extends React.Component {
         key={row.row_id}
         initialValues={initialValues}
         innerRef={this.formRef}
-        // ref={this.formRef}
         enableReinitialize={true}
         validateOnChange={false}
         validate={(values) => {
@@ -159,7 +149,9 @@ class Form2 extends React.Component {
                 />
                 <Field
                   // type={row_name === "level" ? "number" : "text"}
-                  type="text"
+                  // type="text"
+
+                  type={row_info[row_name].options ? "select" : "text"}
                   autoFocus={(() => {
                     // return row_name === "level";
                     if (selectedField) return row_name === selectedField;
@@ -196,7 +188,7 @@ class Form2 extends React.Component {
             {unshownRowTitles.map((row_name) => (
               <button
                 type="button"
-                className="simple-button"
+                className="simple-button gray-button"
                 key={row_name}
                 onClick={() => {
                   this.setState({
@@ -204,7 +196,7 @@ class Form2 extends React.Component {
                   });
                 }}
                 style={{
-                  margin: "3px",
+                  margin: "1px 2px 1px 0",
                 }}
               >
                 {formatRowName(row_name)}
@@ -236,8 +228,3 @@ export default connect((state) => ({
   vocabulary: state.vocabulary,
   vocabularyMaker: state.vocabularyMaker,
 }))(Form2);
-
-export const formatRowName = (i) => {
-  if (!i) return "";
-  return ucfirst(i).replaceAll("_", " ");
-};
