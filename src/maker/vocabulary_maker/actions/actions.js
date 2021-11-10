@@ -87,6 +87,14 @@ export const select = (id) => {
       type: "VOCABULARY_MAKER_SELECT",
       content: id,
     });
+    setTimeout(() => {
+      if (!document.querySelector("form")) return;
+      window.scroll(
+        0,
+        document.querySelector("form").offsetTop +
+          document.querySelector("#content").offsetTop
+      );
+    }, 140);
   } else {
     store.dispatch({
       type: "VOCABULARY_MAKER_SELECT",

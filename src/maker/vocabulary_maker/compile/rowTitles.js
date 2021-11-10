@@ -26,11 +26,11 @@ export const row_info_array = [
     alwaysShow: true,
     isNumber: true,
     options: [
-      { value: -2, title: "Very unimportant" },
-      { value: -1, title: "Unimportant" },
-      { value: 0, title: "Normal" },
-      { value: 1, title: "Important" },
-      { value: 2, title: "Very important" },
+      { value: 1, title: "Very unimportant" },
+      { value: 2, title: "Unimportant" },
+      { value: 3, title: "Normal" },
+      { value: 4, title: "Important" },
+      { value: 5, title: "Very important" },
     ],
   },
   {
@@ -38,10 +38,10 @@ export const row_info_array = [
     alwaysShow: true,
     isNumber: true,
     options: [
-      { value: 0, title: "Not difficult" },
-      { value: 1, title: "Difficult for beginners" },
-      { value: 2, title: "Difficult for intermediate" },
-      { value: 3, title: "Difficult for advanced" },
+      { value: 1, title: "Not difficult" },
+      { value: 2, title: "Difficult for beginners" },
+      { value: 3, title: "Difficult for intermediate" },
+      { value: 4, title: "Difficult for advanced" },
     ],
   },
 

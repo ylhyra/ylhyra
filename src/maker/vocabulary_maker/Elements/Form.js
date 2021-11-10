@@ -16,6 +16,7 @@ import {
 } from "maker/vocabulary_maker/compile/rowTitles";
 import _ from "underscore";
 import { didYouMeanSuggestions } from "maker/vocabulary_maker/actions/didYouMean";
+import keycode from "keycode";
 
 class Form2 extends React.Component {
   constructor(props) {
@@ -34,15 +35,15 @@ class Form2 extends React.Component {
     window.removeEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
   }
-  componentDidUpdate() {
-    if (!this.props.vocabularyMaker.selected) return;
-    if (!document.querySelector("form")) return;
-    window.scroll(
-      0,
-      document.querySelector("form").offsetTop +
-        document.querySelector("#content").offsetTop
-    );
-  }
+  // componentDidUpdate() {
+  //   if (!this.props.vocabularyMaker.selected) return;
+  //   if (!document.querySelector("form")) return;
+  //   window.scroll(
+  //     0,
+  //     document.querySelector("form").offsetTop +
+  //       document.querySelector("#content").offsetTop
+  //   );
+  // }
   keyUp = () => {
     // this.isKeyDown = false;
   };
@@ -60,8 +61,9 @@ class Form2 extends React.Component {
   };
 
   checkKey = (e) => {
+    const key = keycode.names[e.keyCode];
     if (e.altKey && e.metaKey) return;
-    // console.log(e);
+    console.log({ key });
     // return;
     if (!this.props.vocabularyMaker.selected) return;
     const rows = this.props.vocabularyMaker.data;
@@ -76,6 +78,27 @@ class Form2 extends React.Component {
     if (e.keyCode === 52) number = 4;
     if (e.keyCode === 53) number = 5;
     if (e.keyCode === 54) number = 6;
+
+    if (!e.metaKey && !document.querySelector(":focus")) {
+      let imp = ["s", "d", "f", "g"].indexOf(key);
+      if (imp !== -1) {
+        this.set("importance", 5 - imp);
+      }
+      let diff = ["j", "k", "l", ";"].indexOf(key);
+      if (diff !== -1) {
+        this.set("difficulty", diff + 1);
+      }
+      if (!row.importance && !row.difficulty) {
+        const { importance, difficulty } = this.formRef.current.values;
+        if (importance && difficulty && Database.mode === "review_importance") {
+          return this.formRef.current?.handleSubmit();
+        }
+      }
+      if (key === "space") {
+        return this.formRef.current?.handleSubmit();
+      }
+    }
+
     if (e.metaKey && e.keyCode === 75 /* Command K */) {
       this.set("depends_on", "");
       this.set("lemmas", row.depends_on);
@@ -88,7 +111,7 @@ class Form2 extends React.Component {
       this.set("level", number);
       e.preventDefault();
     } else if (e.keyCode === 13 /* Enter */) {
-      // this.formRef.current?.handleSubmit();
+      this.formRef.current?.handleSubmit();
     } else if (e.keyCode === 27 /* Esc */) {
       selectNext(this.props.vocabularyMaker.selected);
     }

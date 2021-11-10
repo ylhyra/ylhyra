@@ -82,6 +82,7 @@
     "is-empty-object": "^1.1.1",
     "js-yaml": "^4.1.0",
     "json-stable-stringify": "^1.0.1",
+    "keycode": "^2.2.0",
     "line-by-line": "^0.1.6",
     "marked": "^2.0.7",
     "mini-css-extract-plugin": "^1.6.0",
