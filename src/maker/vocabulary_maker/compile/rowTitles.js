@@ -4,8 +4,8 @@
  * @property {string=} lemmas
  */
 export const row_titles = [
-  // "icelandic",
-  // "english",
+  "icelandic",
+  "english",
   "lemmas",
   "depends_on",
   "alternative_id",

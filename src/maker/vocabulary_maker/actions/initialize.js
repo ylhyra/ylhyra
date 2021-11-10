@@ -7,6 +7,7 @@ import {
   findMissingDependencies,
   refreshRows,
 } from "maker/vocabulary_maker/actions/actions";
+import store from "app/app/store";
 
 export const load = async () => {
   // window.skip_hash = true;
@@ -31,9 +32,11 @@ export const load = async () => {
 
   Object.assign(Database, parse_vocabulary_file(vocabulary));
 
-  setTimeout(() => {
-    setupSound();
-  }, 1000);
+  if (store.getState().route.pathname === "/maker/record") {
+    setTimeout(() => {
+      setupSound();
+    }, 1000);
+  }
 
   findMissingDependencies();
   refreshRows();

@@ -34,7 +34,7 @@ if (isDev && isBrowser) {
     component: React.lazy(() =>
       import(
         /* webpackChunkName: "vocmak" */
-        "../../maker/vocabulary_maker/Form"
+        "../../maker/vocabulary_maker/Elements"
       )
     ),
   };

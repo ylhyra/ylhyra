@@ -46,7 +46,7 @@ class Form2 extends React.Component {
     if (e.altKey && e.metaKey) return;
     const set = (name, val) => {
       let data = {};
-      ["icelandic", "english", ...row_titles].forEach((row_title) => {
+      row_titles.forEach((row_title) => {
         data[row_title] =
           document.querySelector(`[name=${row_title}]`)?.value || "";
       });
@@ -149,7 +149,7 @@ class Form2 extends React.Component {
                       {!row["english"] &&
                         didYouMeanSuggestions(row["icelandic"], row.row_id)}
                     </div>
-                    {["icelandic", "english", ...row_titles].map((row_name) => (
+                    {row_titles.map((row_name) => (
                       <label key={row_name} htmlFor={row_name}>
                         <b>{row_name}:</b>
                         <br />
@@ -196,19 +196,6 @@ class Form2 extends React.Component {
                             );
                           }}
                         />
-
-                        {/* <AutosizeTextarea
-                        // className="write-textbox"
-                        autoComplete="false"
-                        name={row_name}
-                        // value={answered ? correctAnswer : this.state.value}
-                        // onKeyDown={this.checkForSubmit}
-                        // onChange={this.handleChange}
-                        // readOnly={answered}
-                        // inputRef={(input) => {
-                        //   this.textInput = input;
-                        // }}
-                      /> */}
                       </label>
                     ))}
 

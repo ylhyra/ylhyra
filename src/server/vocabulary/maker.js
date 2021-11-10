@@ -1,6 +1,7 @@
 import { content_folder } from "server/paths_backend";
 import _ from "underscore";
 import { row_titles } from "maker/vocabulary_maker/compile/rowTitles";
+import { removeExtraWhitespace } from "app/app/functions/removeExtraWhitespace";
 
 const router = require("express").Router();
 const fs = require("fs");
@@ -28,39 +29,23 @@ router.post("/vocabulary_maker", (req, res) => {
     rows: data.rows
       .filter((d) => d.icelandic)
       .sort((a, b) => a.row_id - b.row_id)
-      // .sort(
-      //   (a, b) =>
-      //     getRawTextFromVocabularyEntry(a.icelandic).localeCompare(
-      //       getRawTextFromVocabularyEntry(b.icelandic),
-      //       "is",
-      //       {
-      //         ignorePunctuation: true,
-      //       }
-      //     ) || a.row_id - b.row_id
-      // )
       .map((row) => {
         let out = {};
         // delete row.row_id;
-        _.uniq([
-          "icelandic",
-          "english",
-          ...row_titles,
-          "row_id",
-          ...Object.keys(row),
-        ]).forEach((key) => {
-          if (!row[key]) return;
-          if (typeof row[key] === "string") {
-            if (!row[key].trim()) return;
-            out[key] = row[key]
-              .trim()
-              .replace(/\s+/g, " ")
-              .replace(/^[,;]+ ?/g, "")
-              .replace(/[,;]+$/g, "")
-              .replace(/ [–—] /g, " - ");
-          } else {
-            out[key] = row[key];
+        _.uniq([...row_titles, "row_id", ...Object.keys(row)]).forEach(
+          (key) => {
+            if (!row[key]) return;
+            if (typeof row[key] === "string") {
+              if (!row[key].trim()) return;
+              out[key] = removeExtraWhitespace(row[key])
+                .replace(/^[,;]+ ?/g, "")
+                .replace(/[,;]+$/g, "")
+                .replace(/ [–—] /g, " - ");
+            } else {
+              out[key] = row[key];
+            }
           }
-        });
+        );
         return out;
       }),
     sound: data.sound.map((j) => {
@@ -78,15 +63,15 @@ router.post("/vocabulary_maker", (req, res) => {
       res.sendStatus(200);
     }
   });
-  /* Backup */
-  fs.writeFile(
-    content_folder +
-      `/not_data/vocabulary/BACKUP/vocabulary${
-        req.body.deckName || ""
-      }.${new Date().getTime()}.yml`,
-    y,
-    () => {}
-  );
+  // /* Backup */
+  // fs.writeFile(
+  //   content_folder +
+  //     `/not_data/vocabulary/BACKUP/vocabulary${
+  //       req.body.deckName || ""
+  //     }.${new Date().getTime()}.yml`,
+  //   y,
+  //   () => {}
+  // );
 });
 
 export default router;
