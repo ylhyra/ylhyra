@@ -33,3 +33,15 @@ export const row_titles = [
   "fix",
   "eyða",
 ];
+
+export const alwaysShow = [
+  "icelandic",
+  "english",
+  "lemmas",
+  "depends_on",
+  "alternative_id",
+  "level",
+  "is_extremely_basic_phrase",
+  "is_surprisingly_difficult",
+  "importance",
+];

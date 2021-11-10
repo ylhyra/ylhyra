@@ -8,6 +8,7 @@ import {
   refreshRows,
 } from "maker/vocabulary_maker/actions/actions";
 import store from "app/app/store";
+import { getPlaintextFromVocabularyEntry } from "maker/vocabulary_maker/compile/format";
 
 export const load = async () => {
   // window.skip_hash = true;
@@ -24,9 +25,6 @@ export const load = async () => {
     Database.maxID = Math.max(Database.maxID, row.row_id);
   });
   Database.rows = Database.rows.map((row) => {
-    if (!row.alternative_id) {
-      row.alternative_id = row.icelandic;
-    }
     return row;
   });
 

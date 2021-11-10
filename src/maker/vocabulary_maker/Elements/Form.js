@@ -16,12 +16,17 @@ import {
   didYouMeanSuggestions,
   search,
 } from "maker/vocabulary_maker/actions/search";
-import { row_titles } from "maker/vocabulary_maker/compile/rowTitles";
+import {
+  alwaysShow,
+  row_titles,
+} from "maker/vocabulary_maker/compile/rowTitles";
 import { load } from "maker/vocabulary_maker/actions/initialize";
-
+import { ucfirst } from "app/app/functions/ucfirst";
+import _ from "underscore";
 class Form2 extends React.Component {
+  state = {};
   componentDidMount = async () => {
-    this.formRef = React.createRef();
+    this.formRef = React.useRef();
     window.addEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
   };
@@ -44,19 +49,24 @@ class Form2 extends React.Component {
   checkKey = (e) => {
     if (e.altKey && e.metaKey) return;
     const set = (name, val) => {
-      let data = {};
-      row_titles.forEach((row_title) => {
-        data[row_title] =
-          document.querySelector(`[name=${row_title}]`)?.value || "";
-      });
-      submit(
-        {
-          ...row,
-          ...data,
-          [name]: val,
-        },
-        false
-      );
+      // let data = {};
+
+      window.j = this.formRef;
+      this.formRef.current.setFieldValue(name, val);
+      console.log({ name, val });
+
+      // row_titles.forEach((row_title) => {
+      //   data[row_title] =
+      //     document.querySelector(`[name=${row_title}]`)?.value || "";
+      // });
+      // submit(
+      //   {
+      //     ...row,
+      //     ...data,
+      //     [name]: val,
+      //   },
+      //   false
+      // );
     };
 
     // console.log(e);
@@ -93,13 +103,25 @@ class Form2 extends React.Component {
   };
   render() {
     const { row } = this.props;
+    const { selectedField } = this.state;
     let initialValues = row;
     row_titles.forEach((i) => (initialValues[i] = row[i] || ""));
+
+    const shownRowTitles = _.uniq(
+      [
+        ...alwaysShow,
+        selectedField,
+        ...row_titles.filter((row_title) => row[row_title]),
+      ].filter(Boolean)
+    );
+    const unshownRowTitles = _.difference(row_titles, shownRowTitles);
+
     return (
       <Formik
         key={row.row_id}
         initialValues={initialValues}
         innerRef={this.formRef}
+        // ref={this.formRef}
         enableReinitialize={true}
         validateOnChange={false}
         validate={(values) => {
@@ -126,9 +148,9 @@ class Form2 extends React.Component {
               {!row["english"] &&
                 didYouMeanSuggestions(row["icelandic"], row.row_id)}
             </div>
-            {row_titles.map((row_name) => (
+            {shownRowTitles.map((row_name) => (
               <label key={row_name} htmlFor={row_name}>
-                <b>{row_name}:</b>
+                <b>{formatRowName(row_name)}:</b>
                 <br />
                 <ErrorMessage
                   name={row_name}
@@ -140,6 +162,7 @@ class Form2 extends React.Component {
                   type="text"
                   autoFocus={(() => {
                     // return row_name === "level";
+                    if (selectedField) return row_name === selectedField;
                     if (!row["icelandic"]) return row_name === "icelandic";
                     if (!row["english"]) return row_name === "english";
                     if (!row["depends_on"]) return row_name === "depends_on";
@@ -169,13 +192,26 @@ class Form2 extends React.Component {
                 />
               </label>
             ))}
-
-            <button
-              type="submit"
-              // disabled={isSubmitting}
-            >
-              Submit
-            </button>
+            <br />
+            {unshownRowTitles.map((row_name) => (
+              <button
+                type="button"
+                className="simple-button"
+                key={row_name}
+                onClick={() => {
+                  this.setState({
+                    selectedField: row_name,
+                  });
+                }}
+                style={{
+                  margin: "3px",
+                }}
+              >
+                {formatRowName(row_name)}
+              </button>
+            ))}
+            <br />
+            <button type="submit">Submit</button>
             <button
               type="button"
               className=""
@@ -200,3 +236,8 @@ export default connect((state) => ({
   vocabulary: state.vocabulary,
   vocabularyMaker: state.vocabularyMaker,
 }))(Form2);
+
+export const formatRowName = (i) => {
+  if (!i) return "";
+  return ucfirst(i).replaceAll("_", " ");
+};

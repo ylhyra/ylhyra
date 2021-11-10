@@ -37,7 +37,7 @@ class VocabularyMaker extends React.Component {
         <button onClick={addEmpty}>Add</button>
         {this.props.vocabularyMaker.data.map((row) => {
           if (row.row_id === this.props.vocabularyMaker.selected) {
-            return <VocabularyMakerForm row={row} />;
+            return <VocabularyMakerForm row={row} key={row.row_id} />;
           } else {
             return (
               <div
