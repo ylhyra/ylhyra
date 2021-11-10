@@ -32,9 +32,18 @@ class VocabularyMaker extends React.Component {
         </div>
         <div>
           Mode:
-          <select name="mode" onChange={changeMode}>
+          <select
+            name="mode"
+            onChange={changeMode}
+            defaultValue={Database.mode}
+          >
             <option value="">-</option>
-            <option value="review_importance">Review importance</option>
+            <option
+              value="review_importance"
+              // selected={Database.mode === "review_importance"}
+            >
+              Review importance
+            </option>
           </select>
         </div>
         <input

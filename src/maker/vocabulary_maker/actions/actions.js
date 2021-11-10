@@ -24,6 +24,7 @@ export const Database = {
   alternative_ids: {},
   plaintext_sentences: {},
   selected_rows: [],
+  mode: "review_importance",
 };
 
 export const MAX_PER_PAGE = 20;
@@ -33,8 +34,8 @@ export const refreshRows = () => {
     Database.rows = Database.rows.sort(
       (a, b) =>
         Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
-        Boolean(a.icelandic) - Boolean(b.icelandic) ||
-        Boolean(a.english) - Boolean(b.english) ||
+        Boolean(b.english) - Boolean(a.english) ||
+        Boolean(b.icelandic) - Boolean(a.icelandic) ||
         ("difficulty" in a) - ("difficulty" in b) ||
         a.last_seen?.localeCompare(b.last_seen) ||
         Boolean(a.fix) - Boolean(b.fix) ||

@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import React from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import {
+  Database,
   delete_row,
   ignore_for_now,
   selectNext,
@@ -155,6 +156,7 @@ class Form2 extends React.Component {
                     type="text"
                     as={options ? "select" : ""}
                     autoFocus={(() => {
+                      if (Database.mode === "review_importance") return;
                       // return row_name === "level";
                       if (selectedField) return row_name === selectedField;
                       if (!row["icelandic"]) return row_name === "icelandic";
