@@ -24,7 +24,7 @@ export const Database = {
   alternative_ids: {},
   plaintext_sentences: {},
   selected_rows: [],
-  mode: "review_importance",
+  // mode: "review_importance",
 };
 
 export const MAX_PER_PAGE = 20;
@@ -37,8 +37,10 @@ export const refreshRows = () => {
         Boolean(b.english) - Boolean(a.english) ||
         Boolean(b.icelandic) - Boolean(a.icelandic) ||
         ("difficulty" in a) - ("difficulty" in b) ||
-        a.last_seen?.localeCompare(b.last_seen) ||
+        // a.last_seen?.localeCompare(b.last_seen) ||
         Boolean(a.fix) - Boolean(b.fix) ||
+        (b.level <= 3) - (a.level <= 3) ||
+        b.level - a.level ||
         false
     );
   } else {

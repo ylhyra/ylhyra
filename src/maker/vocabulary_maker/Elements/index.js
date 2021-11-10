@@ -75,7 +75,7 @@ class VocabularyMaker extends React.Component {
                   }}
                 />
                 <div className="small gray">
-                  {row_titles.map((row_name) =>
+                  {row_titles.slice(2).map((row_name) =>
                     row[row_name] ? (
                       <span key={row_name}>
                         <b>{row_name}</b>:{" "}

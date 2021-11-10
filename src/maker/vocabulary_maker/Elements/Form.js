@@ -87,6 +87,7 @@ class Form2 extends React.Component {
       let diff = ["j", "k", "l", ";"].indexOf(key);
       if (diff !== -1) {
         this.set("difficulty", diff + 1);
+        return this.formRef.current?.handleSubmit();
       }
       // if (!row.importance && !row.difficulty) {
       //   const { importance, difficulty } = this.formRef.current.values;
