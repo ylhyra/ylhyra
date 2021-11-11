@@ -18,19 +18,3 @@ export default connect((state) => ({
   vocabulary: state.vocabulary,
   route: state.route,
 }))(X);
-
-// let timer;
-// let missing = [];
-// const logMissing = (input) => {
-//   if (!input) return;
-//   if (!isDev) return;
-//   if (input.length > 0) {
-//     timer && clearTimeout(timer);
-//     missing = missing.concat(input);
-//     timer = setTimeout(() => {
-//       missing = _.uniq(missing);
-//       log(`${missing.length} missing terms:\n${_.uniq(missing).join("\n")}`);
-//       // log(missing.join("\n"));
-//     }, 1000);
-//   }
-// };
