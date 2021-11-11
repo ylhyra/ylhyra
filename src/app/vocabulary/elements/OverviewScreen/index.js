@@ -16,6 +16,7 @@ class Overview extends Component {
   }
   render() {
     const { deck, session, overview } = this.props.vocabulary;
+    const p = PercentageKnownOverall();
     return [
       <Section className="brown-background vocabulary-main-screen" key={1}>
         <Spacer space="70" />
@@ -28,8 +29,7 @@ class Overview extends Component {
           </button>
           {deck && (
             <div>
-              {PercentageKnownOverall()}% known out of{" "}
-              {countTerms(deck.cards_sorted)} terms
+              {p}% known out of {deck.termCount} terms
             </div>
           )}
         </div>
@@ -37,7 +37,7 @@ class Overview extends Component {
         <div style={{ display: "flex", alignItems: "center" }}>
           <Link href="/vocabulary/tutorial">Tutorial</Link>
           <div style={{ flex: "1" }} />
-          {PercentageKnownOverall() > 0.2 && (
+          {p > 0.2 && (
             <button className="simple-button" onClick={() => studyNewTerms()}>
               Show me new terms
             </button>
@@ -50,7 +50,10 @@ class Overview extends Component {
         <Spacer space="50" />
         {getUserLevel() && (
           <div>
-            <button className="simple-button gray-button">
+            <button
+              className="simple-button gray-button"
+              onClick={() => updateURL("/vocabulary/difficulty")}
+            >
               Change difficulty settings
               {/*({printUserLevel()})*/}
             </button>

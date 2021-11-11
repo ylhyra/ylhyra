@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Card from "app/vocabulary/elements/RunningScreen/CardElement";
 import Progress from "app/vocabulary/elements/RunningScreen/Progress";
 import { log } from "app/app/functions/log";
-import SelectLevelScreen from "app/vocabulary/elements/SelectLevelScreen";
+import SelectLevelScreen from "app/vocabulary/elements/UserLevelScreen";
 import { getUserLevel } from "app/vocabulary/actions/userLevel";
 
 class RunningScreen extends Component {

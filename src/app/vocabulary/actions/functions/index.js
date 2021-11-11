@@ -58,8 +58,22 @@ export const studyNewTerms = () => {
  * @returns {number}
  */
 export const countTerms = (cards) => {
-  const i = _.uniq(_.flatten(cards.map((c) => c.terms))).length;
+  console.profile();
+  // const i = _.uniq(_.flatten(cards.map((c) => c.terms))).length;
+  console.log(flattenArray(cards.map((c) => c.terms)));
+  const i = countUnique(_.flatten(cards.map((c) => c.terms)));
+  console.profileEnd();
   return roundToInterval(i, i > 200 ? 50 : 5);
+};
+
+export const countUnique = (i) => new Set(i).size;
+
+/* Flatten array non-recursively */
+export const flattenArray = (array) => {
+  return array.reduce(
+    (a, b) => a.concat(Array.isArray(b) ? flattenArray(b) : b),
+    []
+  );
 };
 
 /**
@@ -83,7 +97,7 @@ if (isBrowser && isDev) {
 
 export const exitVocabularyScreen = async () => {
   let url = window.location.pathname;
-  if (url === "/vocabulary/play") {
+  if (url === "/vocabulary/play" || url === "/vocabulary/difficulty") {
     url = "/vocabulary";
   }
   await updateURL(url);
