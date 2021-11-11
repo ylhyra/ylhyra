@@ -6,7 +6,7 @@ import Settings from "app/user/screens/Settings";
 import NotFound from "documents/templates/404";
 import { isBrowser } from "app/app/functions/isBrowser";
 import { isDev } from "app/app/functions/isDev";
-import SelectLevel from "app/vocabulary/screens/selectLevel";
+import SelectLevel from "app/vocabulary/actions/userLevel/SelectLevelScreen";
 
 export const app_urls = {
   "/vocabulary": {
