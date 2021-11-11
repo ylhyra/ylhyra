@@ -1,12 +1,12 @@
 import React from "react";
-import VocabularyOverview from "app/vocabulary/screens/overview";
-import VocabularyRunning from "app/vocabulary/screens/running";
+import VocabularyOverview from "app/vocabulary/elements/OverviewScreen";
+import VocabularyRunning from "app/vocabulary/elements/RunningScreen";
 import LogIn from "app/user/screens/Login";
 import Settings from "app/user/screens/Settings";
 import NotFound from "documents/templates/404";
 import { isBrowser } from "app/app/functions/isBrowser";
 import { isDev } from "app/app/functions/isDev";
-import SelectLevel from "app/vocabulary/actions/userLevel/SelectLevelScreen";
+import SelectLevel from "app/vocabulary/elements/SelectLevelScreen";
 
 export const app_urls = {
   "/vocabulary": {

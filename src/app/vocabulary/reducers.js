@@ -13,6 +13,15 @@ const deck = (state = null, action) => {
   }
 };
 
+const user_level_in_interface_tmp = (state = null, action) => {
+  switch (action.type) {
+    case "SET_USER_LEVEL":
+      return action.content;
+    default:
+      return state;
+  }
+};
+
 const overview = (state = {}, action) => {
   switch (action.type) {
     case "LOAD_OVERVIEW":
@@ -40,9 +49,9 @@ const card = (state = {}, action) => {
 };
 
 const volume = (
-  state = getFromLocalStorage("volume") !== "off",
-  // state = process.env.NODE_ENV !== "development" &&
-  // getFromLocalStorage("volume") !== "off",
+  // state = getFromLocalStorage("volume") !== "off",
+  state = process.env.NODE_ENV !== "development" &&
+    getFromLocalStorage("volume") !== "off",
   action
 ) => {
   switch (action.type) {
@@ -59,4 +68,5 @@ export const vocabulary = combineReducers({
   card,
   volume,
   overview,
+  user_level_in_interface_tmp,
 });

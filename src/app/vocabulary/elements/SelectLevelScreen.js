@@ -6,7 +6,7 @@ import {
   INTERMEDIATE,
   NOVICE,
   setUserLevel,
-} from "app/vocabulary/actions/userLevel/index";
+} from "app/vocabulary/actions/userLevel";
 
 export default () => (
   <div id="vocabulary-screen" className="select-level-screen">

@@ -1,4 +1,7 @@
-button($color, $bg, $x_axis) 
+button($color, $bg, $x_axis)
+  sans_serif()
+  outline none
+  -webkit-tap-highlight-color transparent
   color $color
   background-color $bg
   background-image linear-gradient(
@@ -12,7 +15,7 @@ button($color, $bg, $x_axis)
   &:hover 
     background-color saturate(darken($bg, 5%), 10%)
     border-top-color rgba($color, 0.25)
-    color darken($color, 70%)
+    color saturate(darken($color, 5%), 20%)
     box-shadow inset $x_axis 1px 1px 0 rgba(255, 255, 255, 0.5),
       inset 0 0px 0px 0 rgba($color, 0.3), 0 0px 1px 1px rgba(black, 0.04)
     text-decoration none
@@ -45,37 +48,19 @@ button($color, $bg, $x_axis)
 .button.playButton,
 a.button,
 button:not(.link):not(.nostyle):not(.simple-button)
-  button(#4e822e, #e0e2fb, 0)
   border-radius 5px
   padding 6px 10px
   font-weight 500
   font-size 14px
-  sans_serif()
   display inline-block
-
-  outline none
-  -webkit-tap-highlight-color transparent
-
-  //background #102f36
-  //color white
-  //&:visited
-  //  color white
-  //&:hover
-  //  background #243f46
-  //  color white
-  //&:active
-  //  background #081e22
-
-  //background #dcf7d7
-  //border-color #82d555
-  //box-shadow inset 0 0 0 3px #82d555
-  //z-index 20
+  & //, &.dark-blue
+    button(white, #102f36, 0)
+  &.light, &.playButton /* Audio player button */
+    button(#4e822e, #e0e2fb, 0)
   &.green
     button(#1fc484, #e6ffe8, 0)
   &.red
     button(#830500, #f67a57, 0)
-  &.playButton 
-    button(#4e822e, #e0e2fb, 0)
   &.gray
     button(#2d2d2d, #e0e2fb, 0)
 .button.small > a,
@@ -97,72 +82,3 @@ button.nostyle
   clear_button_styles()
 button.link:hover 
   text-decoration underline
-
-.button-answer 
-  border 1px solid #bdbdbd
-  padding 7px
-  flex 1
-  display flex
-  flex-direction column
-  align-items center
-  justify-content center
-  cursor pointer
-  background white
-  transition all 0.1s ease
-  min-height 15px
-  text-align center
-  box-sizing content-box
-
-  &:not(.answered):hover 
-    background #f5f5f5
-
-  &.horizontal 
-    margin-bottom -1px
-
-    &:first-child 
-      border-top-left-radius 6px
-      border-top-right-radius 6px
-
-    &:last-child 
-      border-bottom-left-radius 6px
-      border-bottom-right-radius 6px
-
-  &.vertical 
-    margin-right -1px
-
-    &:first-child 
-      border-top-left-radius 6px
-      border-bottom-left-radius 6px
-
-    &:last-child 
-      border-top-right-radius 6px
-      border-bottom-right-radius 6px
-
-  &.incorrect 
-    opacity 0.7
-    border-color #d9d9d9
-
-  &.selected.incorrect 
-    border-color #e2423d
-    background #fad1cf
-    z-index 19
-
-  &.correct 
-    background #dcf7d7
-    border-color #82d555
-    box-shadow inset 0 0 0 3px #82d555
-    z-index 20
-
-  .english 
-    serif()
-
-  .small 
-    font-size 13px
-    font-style italic
-    color #5d5d5d
-    margin-top 2px
-
-  .parentheses 
-    font-size 80%
-    display inline-block
-    font-style italic

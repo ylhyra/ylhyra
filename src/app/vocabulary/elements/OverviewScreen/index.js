@@ -5,8 +5,8 @@ import Spacer from "documents/templates/Spacer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { updateURL } from "app/router/actions/updateURL";
-import ActivityOverview from "app/vocabulary/screens/overview/ActivityOverview";
-import { calculateOverview } from "app/vocabulary/screens/overview/actions";
+import ActivityOverview from "app/vocabulary/elements/OverviewScreen/ActivityOverview";
+import { calculateOverview } from "app/vocabulary/elements/OverviewScreen/actions";
 import Section from "documents/templates/Section";
 
 class Overview extends Component {

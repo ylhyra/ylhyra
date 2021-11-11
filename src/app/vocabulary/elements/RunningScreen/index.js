@@ -1,13 +1,27 @@
 import store from "app/app/store";
 import { updateURL } from "app/router/actions/updateURL";
-import GameContainer from "app/vocabulary/elements/GameContainer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Card from "app/vocabulary/elements/RunningScreen/CardElement";
+import Progress from "app/vocabulary/elements/RunningScreen/Progress";
+import { log } from "app/app/functions/log";
+import SelectLevelScreen from "app/vocabulary/elements/SelectLevelScreen";
+import { getUserLevel } from "app/vocabulary/actions/userLevel";
 
-class R extends Component {
-  componentDidMount() {
+class RunningScreen extends Component {
+  componentDidMount = () => {
+    this.componentDidUpdate();
     window.addEventListener("keydown", this.checkKey);
-  }
+  };
+  componentDidUpdate = () => {
+    const { deck } = this.props.vocabulary;
+    if (!deck.session.currentCard) {
+      log(
+        "No current cardInSession when GameContainer was loaded, initializing"
+      );
+      deck.session.InitializeSession();
+    }
+  };
   componentWillUnmount() {
     window.removeEventListener("keydown", this.checkKey);
   }
@@ -15,8 +29,12 @@ class R extends Component {
     this.props.vocabulary.deck?.session?.checkForUndoOnKeyDown(e);
   };
   render() {
+    if (!getUserLevel()) {
+      return <SelectLevelScreen />;
+    }
     const session = this.props.vocabulary.deck?.session;
     if (!session) return null;
+    const { card } = this.props.vocabulary;
     return (
       <div id="vocabulary-screen">
         <div id="vocabulary-screen-inner">
@@ -59,7 +77,13 @@ class R extends Component {
               </button>
             )}
           </div>
-          <GameContainer />
+
+          <div id="game-container">
+            <div className="vocabulary-card-outer-container">
+              <Card key={card.counter} />
+            </div>
+            <Progress />
+          </div>
         </div>
       </div>
     );
@@ -67,4 +91,4 @@ class R extends Component {
 }
 export default connect((state) => ({
   vocabulary: state.vocabulary,
-}))(R);
+}))(RunningScreen);

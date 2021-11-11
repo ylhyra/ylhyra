@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { withPlural } from "app/app/functions/simplePlural";
 import Spacer from "documents/templates/Spacer";
 
-import ActivityCalendar from "./react-activity-calendar/index.ts";
+import ActivityCalendar from "app/vocabulary/elements/OverviewScreen/react-activity-calendar";
 
 class ActivityOverview extends Component {
   render() {

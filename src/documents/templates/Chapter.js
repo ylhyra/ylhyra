@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import ChapterWords from "app/vocabulary/elements/ChapterWords";
-import ChapterPercentage from "app/vocabulary/elements/ChapterPercentage";
+import ChapterWords from "app/vocabulary/elements/InArticles/ChapterWords";
+import ChapterPercentage from "app/vocabulary/elements/InArticles/ChapterPercentage";
 import { DecodeDataInHTML } from "documents/compile/functions/functions";
 import Link from "app/router/Link";
 

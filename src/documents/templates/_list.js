@@ -15,7 +15,7 @@ import Parts from "documents/templates/Parts";
 import Section from "documents/templates/Section";
 import SignupSteps from "app/user/screens/SignupSteps";
 import Tweet from "documents/templates/Tweet";
-import VocabularyHeader from "app/vocabulary/elements/VocabularyHeader";
+import VocabularyHeader from "app/vocabulary/elements/InArticles/VocabularyHeader";
 import Spacer from "documents/templates/Spacer";
 
 const template = {
