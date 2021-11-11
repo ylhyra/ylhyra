@@ -6,6 +6,7 @@ import Settings from "app/user/screens/Settings";
 import NotFound from "documents/templates/404";
 import { isBrowser } from "app/app/functions/isBrowser";
 import { isDev } from "app/app/functions/isDev";
+import SelectLevel from "app/vocabulary/screens/selectLevel";
 
 export const app_urls = {
   "/vocabulary": {
@@ -15,6 +16,10 @@ export const app_urls = {
   "/vocabulary/play": {
     title: "Vocabulary",
     component: VocabularyRunning,
+  },
+  "/vocabulary/selectleveltemporary": {
+    title: "Vocabulary",
+    component: SelectLevel,
   },
   "/login": {
     title: "Log in",

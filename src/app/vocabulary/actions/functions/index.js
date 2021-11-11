@@ -80,3 +80,11 @@ if (isBrowser && isDev) {
   };
   window["studyParticularIds"] = studyParticularIds;
 }
+
+export const exitVocabularyScreen = async () => {
+  let url = window.location.pathname;
+  if (url === "/vocabulary/play") {
+    url = "/vocabulary";
+  }
+  await updateURL(url);
+};

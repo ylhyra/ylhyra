@@ -10,29 +10,31 @@ button($color, $bg, $x_axis)
   box-shadow inset $x_axis 1px 1px 0 rgba(255, 255, 255, 0.5),
     inset 0 0px 0px 0 rgba($color, 0.3)
   &:hover 
-    background-color scale-color($bg, $lightness = -2%)
+    background-color saturate(darken($bg, 5%), 10%)
     border-top-color rgba($color, 0.25)
-    color scale-color($color, $lightness = -70%)
+    color darken($color, 70%)
     box-shadow inset $x_axis 1px 1px 0 rgba(255, 255, 255, 0.5),
       inset 0 0px 0px 0 rgba($color, 0.3), 0 0px 1px 1px rgba(black, 0.04)
     text-decoration none
   cursor pointer
   &.selected,
   &:active 
-    background-color scale-color($bg, $lightness = -7%)
+    background-color darken($bg, 20%)
     border-top-color rgba($color, 0.4)
     color black
     box-shadow inset 0 1px 3px 0 rgba(0, 0, 0, 0.14)
     z-index 10
   text-decoration none
+  &:visited
+    color $color
 
 .button-container 
   display flex
-
-  &.center 
+  &.center
     align-items center
     justify-content center
     height 100%
+
 .centered-button 
   display flex
   justify-content center
@@ -44,50 +46,38 @@ button($color, $bg, $x_axis)
 a.button,
 button:not(.link):not(.nostyle):not(.simple-button)
   button(#4e822e, #e0e2fb, 0)
-  // background: #fff5f2
-  // border: 1px solid #fcc6c4
-  // box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03)
   border-radius 5px
-  // color: #eb5757
   padding 6px 10px
   font-weight 500
   font-size 14px
-  // position: relative
   sans_serif()
   display inline-block
 
-  &.red 
-    button(#a30600, #f67a57, 0)
   outline none
   -webkit-tap-highlight-color transparent
 
-  // &.blue,
-  // &:not(div):not(.red) 
-  //   border-color: #c4c9fc
-  //   background: #f2f3ff
-  //   color: #7791fe
-  //
-  //   &:hover 
-  //     background: #e9eaf7
-  //   }
-  // }
-  //
-  // &.dark-blue 
-  background #102f36
-  // button(white, #102f36, 0)
-  color white
-  &:visited 
-    color white
-  &:hover 
-    background #243f46
-    color white
-  &:active 
-    background #081e22
-  // }
+  //background #102f36
+  //color white
+  //&:visited
+  //  color white
+  //&:hover
+  //  background #243f46
+  //  color white
+  //&:active
+  //  background #081e22
+
+  //background #dcf7d7
+  //border-color #82d555
+  //box-shadow inset 0 0 0 3px #82d555
+  //z-index 20
+  &.green
+    button(#1fc484, #e6ffe8, 0)
+  &.red
+    button(#830500, #f67a57, 0)
   &.playButton 
     button(#4e822e, #e0e2fb, 0)
-  &.gray 
-    button(#7e817d, #e0e2fb, 0)
+  &.gray
+    button(#484948, #e0e2fb, 0)
 .button.small > a,
 a.button.small 
   font-size 12px
