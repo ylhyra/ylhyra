@@ -45,7 +45,7 @@ button($color, $bg, $x_axis)
   flex-direction column
 
 .button > a,
-.button.playButton,
+.button.audioPlayButton,
 a.button,
 button:not(.link):not(.nostyle):not(.simple-button)
   border-radius 5px
@@ -55,7 +55,7 @@ button:not(.link):not(.nostyle):not(.simple-button)
   display inline-block
   & //, &.dark-blue
     button(white, #102f36, 0)
-  &.light, &.playButton /* Audio player button */
+  &.light, &.audioPlayButton
     button(#4e822e, #e0e2fb, 0)
   &.green
     button(#1fc484, #e6ffe8, 0)

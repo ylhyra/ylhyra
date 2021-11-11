@@ -16,3 +16,18 @@ export const getUserLevel = () => {
   const val = getUserData("userLevel");
   return val ? parseInt(val) : null;
 };
+
+export const printUserLevel = () => {
+  switch (getUserLevel()) {
+    case BEGINNER:
+      return "Beginner";
+    case NOVICE:
+      return "Novice";
+    case INTERMEDIATE:
+      return "Intermediate";
+    case ADVANCED:
+      return "Advanced";
+    default:
+      return "";
+  }
+};

@@ -48,7 +48,7 @@ export default (audioId, inlineAudioPlayer, editor) => {
     //     >
     //     <source onError="window.audioLoadError()" src={`/media/${file}?v=1`} type="audio/mp3"/>
     //   </audio>
-    //   <div className="playButton"></div>
+    //   <div className="audioPlayButton"></div>
     //   <div className="loader"></div>
     //   <div className="form-error"><span>Audio file missing.</span></div>
     //   <div className="time-wrapper">

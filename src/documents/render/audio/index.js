@@ -184,7 +184,7 @@ class Audio extends React.PureComponent {
           <source src={src} type={isVideo ? "video/mp4" : "audio/mp3"} />
         </Tag>
         <span
-          className={`button small playButton ${playing ? playing : ""}`}
+          className={`button small audioPlayButton ${playing ? playing : ""}`}
           onClick={this.pausePlayButton}
         >
           <span>

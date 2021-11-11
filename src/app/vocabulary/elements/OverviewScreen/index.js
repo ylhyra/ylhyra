@@ -8,6 +8,7 @@ import { updateURL } from "app/router/actions/updateURL";
 import ActivityOverview from "app/vocabulary/elements/OverviewScreen/ActivityOverview";
 import { calculateOverview } from "app/vocabulary/elements/OverviewScreen/actions";
 import Section from "documents/templates/Section";
+import { getUserLevel, printUserLevel } from "app/vocabulary/actions/userLevel";
 
 class Overview extends Component {
   componentDidMount() {
@@ -46,6 +47,15 @@ class Overview extends Component {
 
       <Section key={2}>
         <ActivityOverview />
+        <Spacer space="50" />
+        {getUserLevel() && (
+          <div>
+            <button className="simple-button gray-button">
+              Change difficulty settings
+              {/*({printUserLevel()})*/}
+            </button>
+          </div>
+        )}
       </Section>,
     ];
   }

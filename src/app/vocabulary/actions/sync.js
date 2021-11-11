@@ -137,7 +137,7 @@ export const setUserData = (key, value, type) => {
 };
 
 export const getUserData = (key) => {
-  return deck.user_data?.rows?.[key]?.value || null;
+  return deck?.user_data?.rows?.[key]?.value || null;
 };
 if (isBrowser) {
   window.getUserData = getUserData;
