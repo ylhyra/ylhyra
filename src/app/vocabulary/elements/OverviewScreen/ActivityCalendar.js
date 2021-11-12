@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import { withPlural } from "app/app/functions/simplePlural";
 import Spacer from "documents/templates/Spacer";
 
-import ActivityCalendar from "app/app/functions/react-activity-calendar";
+import ReactActivityCalendar from "app/app/functions/react-activity-calendar";
 
-class ActivityOverview extends Component {
+class ActivityCalendar extends Component {
   render() {
     const { deck, overview } = this.props.vocabulary;
     if (!deck) return null;
@@ -38,7 +38,7 @@ class ActivityOverview extends Component {
           <div>
             <b>Activity overview:</b>
 
-            <ActivityCalendar
+            <ReactActivityCalendar
               data={overview.calendar_data}
               hideColorLegend
               hideTotalCount
@@ -54,4 +54,4 @@ class ActivityOverview extends Component {
 }
 export default connect((state) => ({
   vocabulary: state.vocabulary,
-}))(ActivityOverview);
+}))(ActivityCalendar);

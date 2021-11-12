@@ -25,7 +25,10 @@ const user_level_in_interface_tmp = (state = null, action) => {
 const overview = (state = {}, action) => {
   switch (action.type) {
     case "LOAD_OVERVIEW":
-      return action.content;
+      return {
+        ...state,
+        ...action.content,
+      };
     default:
       return state;
   }

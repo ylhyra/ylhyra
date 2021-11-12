@@ -1,11 +1,5 @@
 import { day, days } from "app/app/functions/time";
-import {
-  getSessions,
-  getUserData,
-  SESSION_PREFIX,
-  setUserData,
-  sync,
-} from "app/vocabulary/actions/sync";
+import { sync } from "app/vocabulary/actions/userData/sync";
 import {
   clamp,
   mapValueToRange,
@@ -16,13 +10,29 @@ import { deck } from "app/vocabulary/actions/deck";
 import store from "app/app/store";
 import axios from "app/app/axios";
 import { log } from "app/app/functions/log";
+import {
+  getUserData,
+  setUserData,
+} from "app/vocabulary/actions/userData/userData";
+import {
+  getSessions,
+  SESSION_PREFIX,
+} from "app/vocabulary/actions/userData/userDataSessions";
 
 const MIN_DAYS_TO_SHOW = 2.5 * 30;
 const MAX_DAYS_TO_SHOW = 365;
 
+export const clearOverview = async () => {
+  store.dispatch({
+    type: "LOAD_OVERVIEW",
+    content: {
+      loaded: false,
+    },
+  });
+};
+
 export const calculateOverview = async () => {
   if (!deck) return null;
-  // if (Object.keys(deck.schedule).length === 0) return;
 
   await session_log_migration();
 
@@ -52,8 +62,6 @@ export const calculateOverview = async () => {
     MAX_DAYS_TO_SHOW
   );
 
-  // days_to_show_in_calendar = 1000; //tmp
-
   /* Make sure the calendar shown starts on a Sunday */
   days_to_show_in_calendar += new Date(
     today_begins_at_timestamp - days_to_show_in_calendar * days
@@ -78,8 +86,6 @@ export const calculateOverview = async () => {
         output_from: 0.2,
         output_to: 1,
       });
-      // opacity = Math.round(opacity * 10) / 10;
-      // console.log({ minutes, opacity });
     }
 
     calendar_data.push({
@@ -112,6 +118,7 @@ export const calculateOverview = async () => {
       seconds_spent_total,
       seconds_spent_this_week,
       calendar_data,
+      loaded: true,
     },
   });
 };

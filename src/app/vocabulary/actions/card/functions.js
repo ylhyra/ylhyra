@@ -1,6 +1,7 @@
 import { deck } from "app/vocabulary/actions/deck";
 import { flatten, uniq } from "underscore";
 import { getHash } from "maker/vocabulary_maker/compile/functions";
+import { getSessions } from "app/vocabulary/actions/userData/userDataSessions";
 
 /**
  * @param {CardID} card_id
@@ -99,4 +100,10 @@ export const getTermIdsFromCardIds = (card_ids) => {
  */
 export const getCardByText = (text) => {
   return deck.cards[getHash(text) + "_is"];
+};
+
+export const rememoizeCards = () => {
+  deck.cards_sorted.forEach((card) => {
+    card.memoize();
+  });
 };

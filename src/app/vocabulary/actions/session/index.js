@@ -2,7 +2,7 @@ import { getTime, minutes } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 import Analytics from "app/app/analytics";
-import { SESSION_PREFIX, setUserData, sync } from "app/vocabulary/actions/sync";
+import { sync } from "app/vocabulary/actions/userData/sync";
 import CardInSession from "app/vocabulary/actions/cardInSession";
 import { getCardById } from "app/vocabulary/actions/card/functions";
 import { extendPrototype } from "app/app/functions/extendPrototype";
@@ -10,6 +10,8 @@ import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
 import { calculateOverview } from "app/vocabulary/elements/OverviewScreen/actions";
 import { roundMsToSec, roundToInterval } from "app/app/functions/math";
 import { exitVocabularyScreen } from "app/vocabulary/actions/functions";
+import { setUserData } from "app/vocabulary/actions/userData/userData";
+import { SESSION_PREFIX } from "app/vocabulary/actions/userData/userDataSessions";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 

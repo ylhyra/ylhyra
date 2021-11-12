@@ -1,5 +1,8 @@
-import { getUserData, setUserData } from "app/vocabulary/actions/sync";
 import store from "app/app/store";
+import {
+  getUserData,
+  setUserData,
+} from "app/vocabulary/actions/userData/userData";
 
 export const BEGINNER = 1;
 export const NOVICE = 2;

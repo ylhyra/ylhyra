@@ -19,10 +19,10 @@ import {
   roundMsTo100Sec,
 } from "app/app/functions/math";
 import { getTime, minutes } from "app/app/functions/time";
-import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 import { matchWords } from "app/app/functions/languageProcessing/regexes";
 import phoneticHash from "app/app/functions/languageProcessing/phoneticHash";
 import { warnIfSlow } from "app/app/functions/warnIfSlow";
+import { saveScheduleForCardId } from "app/vocabulary/actions/userData/userDataSchedule";
 
 /** @typedef {string} CardID */
 /** @typedef {string} TermID */
@@ -63,6 +63,14 @@ class Card {
     // this.extractPhoneticHash();
   }
 
+  memoize() {
+    delete this.memoized_timeSinceTermWasSeen;
+    this.memoized_timeSinceTermWasSeen = this.timeSinceTermWasSeen();
+
+    delete this.memoized_isAllowed;
+    this.memoized_isAllowed = this.isAllowed();
+  }
+
   /**
    * @returns {CardID}
    */
@@ -78,7 +86,9 @@ class Card {
    * @returns {Array<Term>}
    */
   getTerms() {
-    return this.getTermIds().map((term_id) => deck.terms[term_id]);
+    return this.getTermIds().map(
+      (termemoized_id) => deck.terms[termemoized_id]
+    );
   }
 
   /**
@@ -109,6 +119,8 @@ class Card {
    * @returns {boolean}
    */
   isAllowed() {
+    if ("memoized_isAllowed" in this) return this.memoized_isAllowed;
+
     const { allowed_ids } = deck.session;
     return (
       /* Ignore cards that are already in the session */
@@ -277,6 +289,9 @@ class Card {
    * @returns {?Milliseconds}
    */
   timeSinceTermWasSeen() {
+    if ("memoized_timeSinceTermWasSeen" in this) {
+      return this.memoized_timeSinceTermWasSeen;
+    }
     let j = this.getTermLastSeen();
     if (!j) return null;
     return getTime() - j;
@@ -406,9 +421,9 @@ class Card {
   getDependenciesAsCardIdToDepth() {
     let out = {};
     const deps = this.getDependenciesAsTermIdToDepth();
-    Object.keys(deps).forEach((term_id) => {
-      getCardsFromTermId(term_id).forEach((card) => {
-        out[card.getId()] = deps[term_id];
+    Object.keys(deps).forEach((termemoized_id) => {
+      getCardsFromTermId(termemoized_id).forEach((card) => {
+        out[card.getId()] = deps[termemoized_id];
       });
     });
     return out;

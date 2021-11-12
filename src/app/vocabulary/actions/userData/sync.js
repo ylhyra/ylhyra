@@ -1,42 +1,10 @@
 import { deck } from "app/vocabulary/actions/deck";
-import {
-  getFromLocalStorage,
-  saveInLocalStorage,
-} from "app/app/functions/localStorage";
-import { isBrowser } from "app/app/functions/isBrowser";
+import { getFromLocalStorage } from "app/app/functions/localStorage";
 import { isUserLoggedIn } from "app/user/actions";
 import { log } from "app/app/functions/log";
-import { getTime } from "app/app/functions/time";
 import axios from "app/app/axios";
-
-export const SESSION_PREFIX = "s_";
-
-/**
- * @typedef {Object} UserData
- * @property {string} user_id
- * @property {TimestampInMilliseconds} lastSynced
- * @property {UserDataRows} rows
- */
-/**
- * @typedef {Object.<string, {
- *   value: string,
- *   needsSyncing: boolean,
- *   type: ("schedule"|null)
- * }>|Object} UserDataRows
- */
-
-/**
- * In other words, user data is stored on: {
- *   user_id,
- *   lastSynced,
- *   rows: {
- *     [key]: {
- *       value,
- *       needsSyncing,
- *     }
- *   }
- * }
- */
+import { saveUserDataInLocalStorage } from "app/vocabulary/actions/userData/userData";
+import { getScheduleFromUserData } from "app/vocabulary/actions/userData/userDataSchedule";
 
 /**
  * TODO:
@@ -93,60 +61,6 @@ export const sync = async (options = {}) => {
   return user_data;
 };
 
-/**
- * @param {UserData} user_data
- * @returns {Object.<CardID, ScheduleData>}
- */
-export const getScheduleFromUserData = (user_data) => {
-  const schedule = {};
-  Object.keys(user_data?.rows || {}).forEach((key) => {
-    if (user_data.rows[key].type === "schedule") {
-      schedule[key] = user_data.rows[key].value;
-    }
-  });
-  return schedule;
-};
-
-/**
- * @returns {Array}
- */
-export const getSessions = () => {
-  const sessions = [];
-  Object.keys(deck?.user_data?.rows || {}).forEach((key) => {
-    if (deck.user_data.rows[key].type === "session") {
-      sessions.push(deck.user_data.rows[key].value);
-    }
-  });
-  return sessions;
-};
-
-export const setUserData = (key, value, type) => {
-  if (key.length > 20) {
-    throw new Error("Max key length is 20");
-  }
-  if (!("rows" in deck.user_data)) {
-    // console.log(`deck.user_data didn't have rows`);
-    deck.user_data.rows = {};
-  }
-  deck.user_data.rows[key] = {
-    value,
-    needsSyncing: getTime(),
-    type,
-  };
-  saveUserDataInLocalStorage();
-};
-
-export const getUserData = (key) => {
-  return deck?.user_data?.rows?.[key]?.value || null;
-};
-if (isBrowser) {
-  window.getUserData = getUserData;
-}
-
-export const saveScheduleForCardId = (card_id) => {
-  setUserData(card_id, deck.schedule[card_id], "schedule");
-};
-
 export const syncIfNecessary = async () => {
   if (!deck) return;
   // TODO
@@ -164,27 +78,6 @@ export const syncIfNecessary = async () => {
   //     await sync();
   //   }
   // }
-};
-
-let timer;
-export const saveUserDataInLocalStorage = (user_data = {}, options = {}) => {
-  const toSave = {
-    ...(deck?.user_data || {}),
-    ...user_data,
-    lastSaved: getTime(),
-  };
-
-  if (deck && options.assignToDeck) {
-    if (!toSave.rows) {
-      console.warn({ toSave, user_data_input: user_data });
-      throw new Error(`saveUserDataInLocalStorage didn't receive rows`);
-    }
-    deck.user_data = toSave;
-  }
-  timer && clearTimeout(timer);
-  timer = setTimeout(() => {
-    saveInLocalStorage("vocabulary-user-data", toSave);
-  }, 1000);
 };
 
 /**

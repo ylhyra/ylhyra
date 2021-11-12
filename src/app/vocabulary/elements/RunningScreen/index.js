@@ -19,7 +19,7 @@ class RunningScreen extends Component {
       log(
         "No current cardInSession when GameContainer was loaded, initializing"
       );
-      deck.session.InitializeSession();
+      deck.session.InitializeSession(); //tmp!
     }
   };
   componentWillUnmount() {

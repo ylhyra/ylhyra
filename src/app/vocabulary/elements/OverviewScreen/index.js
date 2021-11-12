@@ -5,7 +5,7 @@ import Spacer from "documents/templates/Spacer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { updateURL } from "app/router/actions/updateURL";
-import ActivityOverview from "app/vocabulary/elements/OverviewScreen/ActivityOverview";
+import ActivityOverview from "app/vocabulary/elements/OverviewScreen/ActivityCalendar";
 import { calculateOverview } from "app/vocabulary/elements/OverviewScreen/actions";
 import Section from "documents/templates/Section";
 import { getUserLevel, printUserLevel } from "app/vocabulary/actions/userLevel";
@@ -16,7 +16,7 @@ class Overview extends Component {
   }
   render() {
     const { deck, session, overview } = this.props.vocabulary;
-    const p = PercentageKnownOverall();
+    const p = overview.loaded ? PercentageKnownOverall() : null;
     return [
       <Section className="brown-background vocabulary-main-screen" key={1}>
         <Spacer space="70" />
@@ -27,7 +27,7 @@ class Overview extends Component {
           >
             {session ? "Continue" : "Start a study session"}
           </button>
-          {deck && (
+          {deck && p !== null && (
             <div>
               {/*{p}% known out of {countTerms(deck.cards_sorted)} terms*/}
               {p}% known out of {deck.termCount} terms
@@ -38,7 +38,7 @@ class Overview extends Component {
         <div style={{ display: "flex", alignItems: "center" }}>
           <Link href="/vocabulary/tutorial">Tutorial</Link>
           <div style={{ flex: "1" }} />
-          {p > 0.2 && (
+          {p !== null && p > 0.2 && (
             <button className="simple-button" onClick={() => studyNewTerms()}>
               Show me new terms
             </button>

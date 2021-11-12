@@ -1,4 +1,4 @@
-import { syncIfNecessary } from "app/vocabulary/actions/sync";
+import { syncIfNecessary } from "app/vocabulary/actions/userData/sync";
 
 /**
  * @memberOf Session#

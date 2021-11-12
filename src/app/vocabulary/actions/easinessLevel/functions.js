@@ -1,5 +1,4 @@
 import { deck } from "app/vocabulary/actions/deck";
-import { getUserData, setUserData } from "app/vocabulary/actions/sync";
 import { log } from "app/app/functions/log";
 import {
   DEFAULT_JUMP_DOWN,
@@ -8,6 +7,10 @@ import {
 } from "app/vocabulary/actions/easinessLevel/index";
 import { BAD } from "app/vocabulary/actions/cardInSession";
 import { minIgnoreFalsy } from "app/app/functions/math";
+import {
+  getUserData,
+  setUserData,
+} from "app/vocabulary/actions/userData/userData";
 
 let last_jump_up;
 
