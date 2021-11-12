@@ -5,6 +5,7 @@ import { log } from "app/app/functions/log";
 import axios from "app/app/axios";
 import { saveUserDataInLocalStorage } from "app/vocabulary/actions/userData/userData";
 import { getScheduleFromUserData } from "app/vocabulary/actions/userData/userDataSchedule";
+import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
 
 /**
  * TODO:
@@ -45,6 +46,9 @@ export const sync = async (options = {}) => {
       lastSynced: lastSynced || 0,
     })
   ).data;
+
+  /* Force recalculation of overview screen */
+  if (response.rows.length > 0) clearOverview();
 
   rows = mergeResponse(rows, response.rows);
 

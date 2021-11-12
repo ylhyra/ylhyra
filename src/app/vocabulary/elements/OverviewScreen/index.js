@@ -12,11 +12,16 @@ import { getUserLevel, printUserLevel } from "app/vocabulary/actions/userLevel";
 
 class Overview extends Component {
   componentDidMount() {
-    calculateOverview();
+    this.componentDidUpdate();
+  }
+  componentDidUpdate() {
+    if (!this.props.vocabulary.overview.loaded) {
+      calculateOverview();
+    }
   }
   render() {
     const { deck, session, overview } = this.props.vocabulary;
-    const p = overview.loaded ? PercentageKnownOverall() : null;
+    const p = overview.percentage_known_overall || null;
     return [
       <Section className="brown-background vocabulary-main-screen" key={1}>
         <Spacer space="70" />

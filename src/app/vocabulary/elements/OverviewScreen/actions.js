@@ -18,6 +18,7 @@ import {
   getSessions,
   SESSION_PREFIX,
 } from "app/vocabulary/actions/userData/userDataSessions";
+import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
 
 const MIN_DAYS_TO_SHOW = 2.5 * 30;
 const MAX_DAYS_TO_SHOW = 365;
@@ -118,6 +119,7 @@ export const calculateOverview = async () => {
       seconds_spent_total,
       seconds_spent_this_week,
       calendar_data,
+      percentage_known_overall: PercentageKnownOverall(),
       loaded: true,
     },
   });

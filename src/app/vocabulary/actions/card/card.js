@@ -61,14 +61,26 @@ class Card {
     this.data = data;
     // TODO! This takes too long, could be done on server
     // this.extractPhoneticHash();
+
+    // /* Init memoizations */
+    // setTimeout(() => {
+    //   this.getAllCardsWithSameTerm();
+    // }, 0);
   }
 
-  memoize() {
-    delete this.memoized_timeSinceTermWasSeen;
-    this.memoized_timeSinceTermWasSeen = this.timeSinceTermWasSeen();
+  clearMemoizations() {
+    ["timeSinceTermWasSeen", "isAllowed", "getTermLastSeen"].forEach((key) => {
+      delete this[getMemoizeKey(key)];
+    });
+  }
 
-    delete this.memoized_isAllowed;
-    this.memoized_isAllowed = this.isAllowed();
+  memoize(key, func) {
+    key = getMemoizeKey(key);
+    if (this[key] === undefined) {
+      func.name = key;
+      this[key] = func.call(this);
+    }
+    return this[key];
   }
 
   /**
@@ -86,9 +98,7 @@ class Card {
    * @returns {Array<Term>}
    */
   getTerms() {
-    return this.getTermIds().map(
-      (termemoized_id) => deck.terms[termemoized_id]
-    );
+    return this.getTermIds().map((term_id) => deck.terms[term_id]);
   }
 
   /**
@@ -119,25 +129,25 @@ class Card {
    * @returns {boolean}
    */
   isAllowed() {
-    if ("memoized_isAllowed" in this) return this.memoized_isAllowed;
-
-    const { allowed_ids } = deck.session;
-    return (
-      /* Ignore cards that are already in the session */
-      !this.isInSession() &&
-      /* If allowed_ids is on, only select allowed cards */
-      (!allowed_ids || allowed_ids.includes(this.getId())) &&
-      /* In case we're adding cards to an already ongoing session,
-         ignore cards that are similar to a card the user has just seen */
-      !deck.session.cardHistory
-        .slice(0, 3)
-        .some(
-          (card) =>
-            this.hasTermsInCommonWith(card) ||
-            this.hasDependenciesInCommonWith(card) ||
-            this.isTextSimilarTo(card)
-        )
-    );
+    return this.memoize("isAllowed", () => {
+      const { allowed_ids } = deck.session;
+      return (
+        /* Ignore cards that are already in the session */
+        !this.isInSession() &&
+        /* If allowed_ids is on, only select allowed cards */
+        (!allowed_ids || allowed_ids.includes(this.getId())) &&
+        /* In case we're adding cards to an already ongoing session,
+           ignore cards that are similar to a card the user has just seen */
+        !deck.session.cardHistory
+          .slice(0, 3)
+          .some(
+            (card) =>
+              this.hasTermsInCommonWith(card) ||
+              this.hasDependenciesInCommonWith(card) ||
+              this.isTextSimilarTo(card)
+          )
+      );
+    });
   }
 
   isBelowEasinessLevel() {
@@ -278,23 +288,24 @@ class Card {
    * @returns {?Number}
    */
   getTermLastSeen() {
-    return maxIgnoreFalsy(
-      ...this.getAllCardsWithSameTerm()
-        .map((card) => card.getLastSeen())
-        .filter(Boolean)
-    );
+    return this.memoize("getTermLastSeen", () => {
+      let max = 0;
+      this.getAllCardsWithSameTerm().forEach((card) => {
+        max = Math.max(max, card.getLastSeen() || 0);
+      });
+      return max;
+    });
   }
 
   /**
    * @returns {?Milliseconds}
    */
   timeSinceTermWasSeen() {
-    if ("memoized_timeSinceTermWasSeen" in this) {
-      return this.memoized_timeSinceTermWasSeen;
-    }
-    let j = this.getTermLastSeen();
-    if (!j) return null;
-    return getTime() - j;
+    return this.memoize("timeSinceTermWasSeen", () => {
+      let j = this.getTermLastSeen();
+      if (!j) return null;
+      return getTime() - j;
+    });
   }
 
   /**
@@ -397,15 +408,17 @@ class Card {
    * @returns {Array.<Card>}
    */
   getAllCardsWithSameTerm() {
-    // warnIfSlow.start(this.printWord());
-    let out = [];
-    this.getTerms().forEach((term) => {
-      term.getCards().forEach((card) => {
-        out.push(card);
+    return this.memoize("getAllCardsWithSameTerm", () => {
+      // warnIfSlow.start(this.printWord());
+      let out = [];
+      this.getTerms().forEach((term) => {
+        term.getCards().forEach((card) => {
+          out.push(card);
+        });
       });
+      // warnIfSlow.end(this.printWord(), 2);
+      return out;
     });
-    // warnIfSlow.end(this.printWord(), 2);
-    return out;
   }
 
   /**
@@ -421,9 +434,9 @@ class Card {
   getDependenciesAsCardIdToDepth() {
     let out = {};
     const deps = this.getDependenciesAsTermIdToDepth();
-    Object.keys(deps).forEach((termemoized_id) => {
-      getCardsFromTermId(termemoized_id).forEach((card) => {
-        out[card.getId()] = deps[termemoized_id];
+    Object.keys(deps).forEach((term_id) => {
+      getCardsFromTermId(term_id).forEach((card) => {
+        out[card.getId()] = deps[term_id];
       });
     });
     return out;
@@ -433,13 +446,18 @@ class Card {
    * @returns {Array.<CardID>}
    */
   getDependenciesAsArrayOfCardIds() {
-    if (this.getDependenciesAsArrayOfCardIds_Memoized) {
-      return this.getDependenciesAsArrayOfCardIds_Memoized;
-    }
-    this.getDependenciesAsArrayOfCardIds_Memoized = getCardIdsFromTermIds(
-      Object.keys(this.getDependenciesAsTermIdToDepth())
-    ).filter((card_id) => card_id !== this.getId());
-    return this.getDependenciesAsArrayOfCardIds_Memoized;
+    return this.memoize("getDependenciesAsArrayOfCardIds", () =>
+      getCardIdsFromTermIds(
+        Object.keys(this.getDependenciesAsTermIdToDepth())
+      ).filter((card_id) => card_id !== this.getId())
+    );
+    // if (this.getdependenciesasarrayofcardids_memoized) {
+    //   return this.getdependenciesasarrayofcardids_memoized;
+    // }
+    // this.getdependenciesasarrayofcardids_memoized = getcardidsfromtermids(
+    //   object.keys(this.getdependenciesastermidtodepth())
+    // ).filter((card_id) => card_id !== this.getid());
+    // return this.getdependenciesAsArrayOfCardIds_Memoized;
   }
 
   /**
@@ -511,3 +529,7 @@ class Card {
 }
 
 export default Card;
+
+const getMemoizeKey = (i) => {
+  return `memoized_${i}`;
+};

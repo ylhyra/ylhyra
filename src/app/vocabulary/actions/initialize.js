@@ -5,7 +5,7 @@ import { sync } from "app/vocabulary/actions/userData/sync";
 import Deck from "app/vocabulary/actions/deck";
 import axios from "app/app/axios";
 import store from "app/app/store";
-import { calculateOverview } from "app/vocabulary/elements/OverviewScreen/actions";
+import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
 import { isDev } from "app/app/functions/isDev";
 import { getScheduleFromUserData } from "app/vocabulary/actions/userData/userDataSchedule";
 
@@ -39,7 +39,7 @@ export const InitializeVocabulary = async () => {
     type: "LOAD_DECK",
     content: deck,
   });
-  calculateOverview();
+  clearOverview();
 };
 
 let build_id;

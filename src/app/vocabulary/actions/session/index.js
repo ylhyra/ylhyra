@@ -7,7 +7,7 @@ import CardInSession from "app/vocabulary/actions/cardInSession";
 import { getCardById } from "app/vocabulary/actions/card/functions";
 import { extendPrototype } from "app/app/functions/extendPrototype";
 import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
-import { calculateOverview } from "app/vocabulary/elements/OverviewScreen/actions";
+import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
 import { roundMsToSec, roundToInterval } from "app/app/functions/math";
 import { exitVocabularyScreen } from "app/vocabulary/actions/functions";
 import { setUserData } from "app/vocabulary/actions/userData/userData";
@@ -67,7 +67,7 @@ class Session {
     }
     this.saveSessionLog();
     await sync();
-    await calculateOverview();
+    await clearOverview();
     this.reset();
   }
   getSecondsSpent() {

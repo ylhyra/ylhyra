@@ -104,6 +104,6 @@ export const getCardByText = (text) => {
 
 export const rememoizeCards = () => {
   deck.cards_sorted.forEach((card) => {
-    card.memoize();
+    card.clearMemoizations();
   });
 };
