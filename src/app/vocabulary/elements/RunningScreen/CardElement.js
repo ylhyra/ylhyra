@@ -35,7 +35,7 @@ class CardElement extends Component {
     //   prevCard.id !== cardInSession.id ||
     //   this.state.answer !== prevState.answer
     // ) {
-    //   log(cardInSession.sound && cardInSession.sound[0].recording_of);
+    //   log(cardInSession.getSound() && cardInSession.getSound()[0].recording_of);
     //
     //   this.sound();
     // }
@@ -105,10 +105,10 @@ class CardElement extends Component {
   };
   sound = (answered) => {
     const { card, volume } = this.props.vocabulary;
-    if (volume && card.sound && (card.getFrom() === "is" || answered)) {
+    if (volume && card.getSound() && (card.getFrom() === "is" || answered)) {
       try {
         AudioClip.play(
-          card.sound.map((s) => get_processed_image_url(s + ".mp3", true))
+          card.getSound().map((s) => get_processed_image_url(s + ".mp3", true))
         );
       } catch (e) {
         console.warn(e);
@@ -195,7 +195,7 @@ class CardElement extends Component {
           vocabulary-card
           flashcard
           ${answered ? "answered" : "not-answered"}
-          ${card.sound && volume ? "has-sound" : ""}
+          ${card.getSound() && volume ? "has-sound" : ""}
           ${isNew ? "new" : ""}
         `}
         // key={status.counter}
@@ -207,7 +207,7 @@ class CardElement extends Component {
           flashcard-prompt-${from === "is" ? "icelandic" : "english"}
         `}
         >
-          {card.sound && <div className="has-audio-icon" />}
+          {card.getSound() && <div className="has-audio-icon" />}
           <div
           // style={{
           //   fontSize: getFontSize(

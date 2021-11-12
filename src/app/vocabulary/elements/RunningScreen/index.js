@@ -66,7 +66,7 @@ class RunningScreen extends Component {
               </button>,
             ]}
             <div className="spacer" />
-            {session?.cards.some((j) => j.sound) && (
+            {session?.cards.some((j) => j.getSound()) && (
               <button
                 className="link"
                 onClick={() => {

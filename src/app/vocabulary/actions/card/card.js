@@ -121,6 +121,10 @@ class Card {
     return this.getData("id");
   }
 
+  getSound() {
+    return this.getData("sound");
+  }
+
   printWord() {
     return printWord(this.getId());
   }
