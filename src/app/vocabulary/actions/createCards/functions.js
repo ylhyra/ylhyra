@@ -1,4 +1,6 @@
+import { deck } from "app/vocabulary/actions/deck";
 import { sortBy } from "underscore";
+import { getTime, minutes } from "app/app/functions/time";
 
 /**
  * @param {Array.<Card>} cards
@@ -22,7 +24,17 @@ export const newestFirst = (cards) => {
  */
 export const veryRecentlySeenSortedLast = (cards) => {
   return sortBy(cards, (i) => i.wasTermVeryRecentlySeen());
+
+  // let time = getTime();
+  // return sortBy(cards, (i) => wasTermVeryRecentlySeen2_temp(i.getId()), time)
 };
+
+// const wasTermVeryRecentlySeen2_temp = (id, time) => {
+//   return [id, ...deck.cards_temp[id].siblingCardIds].some((sibling_id) => {
+//     const last_seen = deck.schedule[sibling_id]?.last_seen;
+//     return last_seen && time - last_seen < 45 * minutes;
+//   });
+// };
 
 /**
  * @param {Array.<Card>} cards

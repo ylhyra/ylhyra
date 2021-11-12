@@ -26,6 +26,10 @@ class Deck {
     deck = this;
     this.cards = {};
     this.terms = {};
+
+    // this.cards_temp = database.cards;
+    // this.terms_temp = database.terms;
+
     Object.keys(database.cards).forEach(
       (card_id) => (this.cards[card_id] = new Card(database.cards[card_id]))
     );
