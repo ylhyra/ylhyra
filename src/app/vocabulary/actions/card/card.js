@@ -64,20 +64,21 @@ class Card {
 
     // /* Init memoizations */
     // setTimeout(() => {
-    //   this.getAllCardsWithSameTerm();
+    //   this.getAllCardIdsWithSameTerm();
     // }, 0);
   }
 
   clearMemoizations() {
-    ["timeSinceTermWasSeen", "isAllowed", "getTermLastSeen"].forEach((key) => {
-      delete this[getMemoizeKey(key)];
+    ["isAllowed", "getTermLastSeen"].forEach((key) => {
+      if (getMemoizeKey(key) in this) {
+        delete this[getMemoizeKey(key)];
+      }
     });
   }
 
   memoize(key, func) {
     key = getMemoizeKey(key);
     if (this[key] === undefined) {
-      func.name = key;
       this[key] = func.call(this);
     }
     return this[key];
@@ -301,11 +302,9 @@ class Card {
    * @returns {?Milliseconds}
    */
   timeSinceTermWasSeen() {
-    return this.memoize("timeSinceTermWasSeen", () => {
-      let j = this.getTermLastSeen();
-      if (!j) return null;
-      return getTime() - j;
-    });
+    let j = this.getTermLastSeen();
+    if (!j) return null;
+    return getTime() - j;
   }
 
   /**
@@ -364,9 +363,10 @@ class Card {
    * @returns {Array.<Card>}
    */
   getSiblingCards() {
-    return this.getAllCardsWithSameTerm().filter(
-      (siblingCard) => siblingCard.getId() !== this.getId()
-    );
+    return getCardsByIds(this.siblingCardIds);
+    // return this.getAllCardsWithSameTerm().filter(
+    //   (siblingCard) => siblingCard.getId() !== this.getId()
+    // );
   }
 
   /**
@@ -404,21 +404,24 @@ class Card {
     );
   }
 
+  // /**
+  //  * @returns {Array.<CardID>}
+  //  */
+  // getAllCardIdsWithSameTerm() {
+  //   // return this.memoize("getAllCardIdsWithSameTerm", () => {
+  //   //   let out = [];
+  //   //   this.getTerms().forEach((term) => {
+  //   //     out = out.concat(term.getCardIds());
+  //   //   });
+  //   //   return _.uniq(out);
+  //   // });
+  // }
+
   /**
    * @returns {Array.<Card>}
    */
   getAllCardsWithSameTerm() {
-    return this.memoize("getAllCardsWithSameTerm", () => {
-      // warnIfSlow.start(this.printWord());
-      let out = [];
-      this.getTerms().forEach((term) => {
-        term.getCards().forEach((card) => {
-          out.push(card);
-        });
-      });
-      // warnIfSlow.end(this.printWord(), 2);
-      return out;
-    });
+    return getCardsByIds([this.getId(), ...this.siblingCardIds]);
   }
 
   /**

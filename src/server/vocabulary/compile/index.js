@@ -61,6 +61,16 @@ const run = async () => {
           card.is_plaintext.charAt(0).toUpperCase() &&
         card.is_plaintext.match(/^([^;(]+)/)?.[1]?.includes(" ");
       delete card.spokenSentences;
+
+      card.siblingCardIds = [];
+      card.terms.forEach((term_id) => {
+        terms[term_id].cards.forEach((card_id) => {
+          if (card_id !== card.id) {
+            card.siblingCardIds.push(card_id);
+          }
+        });
+      });
+      card.siblingCardIds = _.sort(_.uniq(card.siblingCardIds));
       // delete card.is_plaintext;
       // delete card.en_plaintext;
       Object.keys(card).forEach((j) => {
