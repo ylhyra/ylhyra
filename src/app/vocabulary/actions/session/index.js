@@ -30,12 +30,19 @@ class Session {
     /* Used to save the progress of a session that was prematurely closed */
     if (init?.cards) {
       Object.assign(this, init);
-      this.cards = this.cards.map(({ id, history }) => {
-        return new CardInSession({
-          data: getCardById(id),
-          history,
-        });
-      });
+      this.cards = this.cards
+        .map(({ id, history }) => {
+          if (getCardById(id)) {
+            return new CardInSession({
+              data: getCardById(id).data,
+              history,
+            });
+          } else {
+            console.warn("No id " + id);
+            return null;
+          }
+        })
+        .filter(Boolean);
       this.sessionDone({ isInitializing: true });
     }
     // log({ session_log: this.deck.session_log });

@@ -105,7 +105,7 @@ class CardElement extends Component {
   };
   sound = (answered) => {
     const { card, volume } = this.props.vocabulary;
-    if (volume && card.sound && (card.from === "is" || answered)) {
+    if (volume && card.sound && (card.getFrom() === "is" || answered)) {
       try {
         AudioClip.play(
           card.sound.map((s) => get_processed_image_url(s + ".mp3", true))

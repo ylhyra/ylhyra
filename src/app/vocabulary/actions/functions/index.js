@@ -21,8 +21,10 @@ export const printWord = (id) => {
   if (!isDev) return;
   if (id in deck.cards) {
     const card = deck.cards[id];
-    return getPlaintextFromFormatted(card.getData(card.from + "_formatted"));
-    // return card[card.from + "_plaintext"];
+    return getPlaintextFromFormatted(
+      card.getData(card.getFrom() + "_formatted")
+    );
+    // return card[card.getFrom() + "_plaintext"];
   } else if (id in deck.terms) {
     return printWord(deck.terms[id].cards[0]);
   } else {

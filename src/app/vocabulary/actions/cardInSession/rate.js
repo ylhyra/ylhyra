@@ -60,7 +60,7 @@ export function rate(rating) {
 
   card.showIn({ interval });
   card.postponeRelatedCards(interval);
-  card.session.cardTypeLog.unshift(card.from);
+  card.session.cardTypeLog.unshift(card.getFrom());
 
   keepTrackOfEasiness({
     rating,

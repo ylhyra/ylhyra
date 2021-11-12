@@ -6,6 +6,7 @@ import Card from "app/vocabulary/actions/card/card";
 import { Term } from "app/vocabulary/actions/card/term";
 import { countTerms } from "app/vocabulary/actions/functions";
 import { warnIfSlow } from "app/app/functions/warnIfSlow";
+import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
 
 /**
  * @type {Deck|undefined}
@@ -44,12 +45,14 @@ class Deck {
     this.schedule = schedule || {};
     this.session = new Session(deck, session);
 
-    this.cards_sorted = Object.keys(this.cards)
-      .map((key) => {
-        return this.cards[key];
-      })
-      .filter(Boolean)
-      .sort((a, b) => a.getSortKey() - b.getSortKey());
+    this.cards_sorted = sortBySortKey(
+      Object.keys(this.cards)
+        .map((key) => {
+          return this.cards[key];
+        })
+        .filter(Boolean),
+      { englishLast: true }
+    );
     this.termCount = countTerms(deck.cards_sorted);
     if (isBrowser) {
       window.deck = this;

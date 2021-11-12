@@ -40,9 +40,9 @@ export function getRanking() {
   }
 
   /* Prevent rows of the same cardInSession type from appearing right next to each other too often */
-  if (this.session.cardTypeLog[0] === this.from) {
+  if (this.session.cardTypeLog[0] === this.getFrom()) {
     q += 0.4;
-    if (this.session.cardTypeLog[1] === this.from) {
+    if (this.session.cardTypeLog[1] === this.getFrom()) {
       /* Two in a row */
       if (this.hasBeenSeenInSession() || !this.isNewCard()) {
         q += 5;
@@ -50,7 +50,7 @@ export function getRanking() {
 
       /* Three new cards in a row */
       if (
-        this.session.cardTypeLog[2] === this.from &&
+        this.session.cardTypeLog[2] === this.getFrom() &&
         // Only if a user says "Good" to all three previous
         !this.session.ratingHistory.slice(0, 3).some((i) => i === BAD) &&
         // And all of them were new cards
@@ -76,7 +76,7 @@ export function getRanking() {
     ) {
       q += 20;
       // Prevent English from showing up for unknown cards
-      if (this.from === "en" || this.isNewCard()) {
+      if (this.getFrom() === "en" || this.isNewCard()) {
         q += 20;
       }
     }

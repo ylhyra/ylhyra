@@ -58,8 +58,14 @@ import { saveScheduleForCardId } from "app/vocabulary/actions/userData/userDataS
 class Card {
   constructor(data, id) {
     // Object.assign(this, data);
-    this.data = data;
-    this.data.id = id;
+    if (!data) {
+      console.error("Init without data");
+    } else {
+      this.data = data;
+      if (id) {
+        this.data.id = id;
+      }
+    }
     // TODO! This takes too long, could be done on server
     // this.extractPhoneticHash();
 
@@ -80,8 +86,16 @@ class Card {
     }
   }
 
-  getSortKey() {
-    return this.getData("sortKey");
+  getFrom() {
+    return this.getData("from");
+  }
+
+  getSortKey(options) {
+    if (options?.englishLast) {
+      return this.getData("sortKey") + this.getFrom() === "en" ? 0.5 : 0;
+    } else {
+      return this.getData("sortKey");
+    }
   }
 
   clearMemoizations() {
@@ -521,14 +535,15 @@ class Card {
    * @returns {Boolean}
    */
   isTextSimilarTo(card2) {
-    return this.phoneticHashArray.some((first) =>
-      card2.phoneticHashArray.some((second) => {
-        return first === second;
-        // (first.length === second.length ||
-        //   (first.length >= 3 && second.length >= 3)) &&
-        // (first.includes(second) || second.includes(first))
-      })
-    );
+    return false;
+    // return this.phoneticHashArray.some((first) =>
+    //   card2.phoneticHashArray.some((second) => {
+    //     return first === second;
+    //     // (first.length === second.length ||
+    //     //   (first.length >= 3 && second.length >= 3)) &&
+    //     // (first.includes(second) || second.includes(first))
+    //   })
+    // );
   }
 
   /**

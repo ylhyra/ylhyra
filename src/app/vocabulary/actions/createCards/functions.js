@@ -48,6 +48,6 @@ export const sortCardsByScore = (cards) => {
  * @param {Array.<Card>} cards
  * @returns {Array.<Card>}
  */
-export const sortBySortKey = (cards) => {
-  return cards.sort((a, b) => a.getSortKey() - b.getSortKey());
+export const sortBySortKey = (cards, options) => {
+  return sortBy(cards, (i) => i.getSortKey(options));
 };
