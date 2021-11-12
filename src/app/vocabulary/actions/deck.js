@@ -30,13 +30,15 @@ class Deck {
     // this.cards_temp = database.cards;
     // this.terms_temp = database.terms;
 
-    Object.keys(database.cards).forEach(
-      (card_id) => (this.cards[card_id] = new Card(database.cards[card_id]))
-    );
-    Object.keys(database.terms).forEach(
-      (term_id) =>
-        (this.terms[term_id] = new Term(database.terms[term_id], term_id))
-    );
+    database?.cards &&
+      Object.keys(database.cards).forEach(
+        (card_id) => (this.cards[card_id] = new Card(database.cards[card_id]))
+      );
+    database?.terms &&
+      Object.keys(database.terms).forEach(
+        (term_id) =>
+          (this.terms[term_id] = new Term(database.terms[term_id], term_id))
+      );
     this.user_data = user_data || {};
     this.schedule = schedule || {};
     this.session = new Session(deck, session);

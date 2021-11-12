@@ -5,6 +5,7 @@ import {
 } from "server/vocabulary/compile/dependencies";
 
 import { _deck } from "server/vocabulary/compile/index";
+import stable_stringify from "json-stable-stringify";
 
 export const simplify = () => {
   /* Add sortkey for all items */
@@ -91,17 +92,19 @@ export const simplify = () => {
       if (key === "terms") return;
       const val = _deck.cards[term.cards[0]][key];
 
+      // //tmp
       // if (
       //   term.cards.every(
       //     (card_id) =>
-      //       deck.cards[card_id].terms.length === 1 &&
-      //       key in deck.cards[card_id] &&
-      //       stable_stringify(deck.cards[card_id][key]) === stable_stringify(val)
+      //       _deck.cards[card_id].terms.length === 1 &&
+      //       key in _deck.cards[card_id] &&
+      //       stable_stringify(_deck.cards[card_id][key]) ===
+      //         stable_stringify(val)
       //   )
       // ) {
       //   term[key] = val;
       //   term.cards.forEach((card_id) => {
-      //     delete deck.cards[card_id][key];
+      //     delete _deck.cards[card_id][key];
       //   });
       // }
 
@@ -120,11 +123,12 @@ export const simplify = () => {
   terms = sortObject(terms, "sortKey");
   cards = sortObject(cards, "sortKey");
   Object.keys(terms).forEach((term_id) => {
-    delete terms[term_id].sortKey;
+    // delete terms[term_id].sortKey;
   });
-  // Object.keys(cards).forEach((card_id) => {
-  //   delete cards[card_id].sortKey;
-  // });
+  Object.keys(cards).forEach((card_id) => {
+    delete cards[card_id].id;
+    delete cards[card_id].sortKey;
+  });
 
   return {
     terms,

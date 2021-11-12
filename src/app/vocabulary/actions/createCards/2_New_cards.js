@@ -38,5 +38,5 @@ export default (options) => {
     new_cards = sortBy(new_cards, (i) => i.getSortKeyAdjusted(lowest));
   }
 
-  return veryRecentlySeenSortedLast(new_cards);
+  return veryRecentlySeenSortedLast(new_cards.slice(0, 200));
 };

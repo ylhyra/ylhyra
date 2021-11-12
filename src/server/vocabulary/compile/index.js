@@ -62,15 +62,16 @@ const run = async () => {
         card.is_plaintext.match(/^([^;(]+)/)?.[1]?.includes(" ");
       delete card.spokenSentences;
 
-      card.siblingCardIds = [];
-      card.terms.forEach((term_id) => {
-        terms[term_id].cards.forEach((card_id) => {
-          if (card_id !== card.id) {
-            card.siblingCardIds.push(card_id);
-          }
-        });
-      });
-      card.siblingCardIds = _.sort(_.uniq(card.siblingCardIds));
+      // card.siblingCardIds = [];
+      // card.terms.forEach((term_id) => {
+      //   terms[term_id].cards.forEach((card_id) => {
+      //     if (card_id !== card.id) {
+      //       card.siblingCardIds.push(card_id);
+      //     }
+      //   });
+      // });
+      // card.siblingCardIds = _.sort(_.uniq(card.siblingCardIds));
+
       // delete card.is_plaintext;
       // delete card.en_plaintext;
       Object.keys(card).forEach((j) => {
@@ -139,9 +140,15 @@ const run = async () => {
       JSON.stringify(simplify(full_deck), null, ""),
       function () {}
     );
+    // const simplified = simplify(full_deck);
     // fs.writeFileSync(
     //   __basedir + `/build/vocabulary/vocabulary_terms${DECK}.json`,
-    //   JSON.stringify(simplify(full_deck).terms, null, ""),
+    //   JSON.stringify(simplified.terms, null, ""),
+    //   function () {}
+    // );
+    // fs.writeFileSync(
+    //   __basedir + `/build/vocabulary/vocabulary_cards${DECK}.json`,
+    //   JSON.stringify(simplified.cards, null, ""),
     //   function () {}
     // );
     console.log("Done!");

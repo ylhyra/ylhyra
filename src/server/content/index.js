@@ -120,7 +120,11 @@ const send404html = (res) => {
 export default router;
 
 const fileHash = (file) => {
-  return hash(fs.readFileSync(file, "utf8"));
+  try {
+    return hash(fs.readFileSync(file, "utf8"));
+  } catch (e) {
+    return "";
+  }
 };
 const css_hash = fileHash(path.resolve(build_folder, `./app/main.css`));
 const js_hash = fileHash(path.resolve(build_folder, `./app/ylhyra.main.js`));
