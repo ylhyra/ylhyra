@@ -6,6 +6,7 @@ import Deck from "app/vocabulary/actions/deck";
 import axios from "app/app/axios";
 import store from "app/app/store";
 import { calculateOverview } from "app/vocabulary/elements/OverviewScreen/actions";
+import { isDev } from "app/app/functions/isDev";
 
 export const InitializeVocabulary = async () => {
   log("Downloading database");
@@ -42,6 +43,7 @@ export const InitializeVocabulary = async () => {
 
 let build_id;
 const getBuildId = () => {
+  if (isDev) return Math.random();
   if (build_id) return build_id;
   build_id =
     document

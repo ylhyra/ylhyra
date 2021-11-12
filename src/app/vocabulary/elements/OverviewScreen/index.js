@@ -29,6 +29,7 @@ class Overview extends Component {
           </button>
           {deck && (
             <div>
+              {/*{p}% known out of {countTerms(deck.cards_sorted)} terms*/}
               {p}% known out of {deck.termCount} terms
             </div>
           )}

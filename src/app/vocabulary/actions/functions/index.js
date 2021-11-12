@@ -10,6 +10,7 @@ import { isDev } from "app/app/functions/isDev";
 import {
   getCardById,
   getCardIdsFromTermIds,
+  getCardsByIds,
 } from "app/vocabulary/actions/card/functions";
 
 /**
@@ -19,7 +20,8 @@ import {
 export const printWord = (id) => {
   if (id in deck.cards) {
     const card = deck.cards[id];
-    return getPlaintextFromFormatted(card[card.from + "_formatted"]);
+    // return getPlaintextFromFormatted(card[card.from + "_formatted"]);
+    return card[card.from + "_plaintext"];
   } else if (id in deck.terms) {
     return printWord(deck.terms[id].cards[0]);
   } else {
@@ -58,22 +60,20 @@ export const studyNewTerms = () => {
  * @returns {number}
  */
 export const countTerms = (cards) => {
-  console.profile();
-  // const i = _.uniq(_.flatten(cards.map((c) => c.terms))).length;
-  console.log(flattenArray(cards.map((c) => c.terms)));
-  const i = countUnique(_.flatten(cards.map((c) => c.terms)));
-  console.profileEnd();
+  // const i = rapidCountUnique(_.flatten(cards.map((c) => c.terms)));
+  const i = rapidFlattenArrayAndCountUnique(cards.map((c) => c.terms));
   return roundToInterval(i, i > 200 ? 50 : 5);
 };
 
-export const countUnique = (i) => new Set(i).size;
-
-/* Flatten array non-recursively */
-export const flattenArray = (array) => {
-  return array.reduce(
-    (a, b) => a.concat(Array.isArray(b) ? flattenArray(b) : b),
-    []
-  );
+export const rapidCountUnique = (i) => new Set(i).size;
+export const rapidFlattenArrayAndCountUnique = (arrOfArrs) => {
+  let s = new Set();
+  arrOfArrs.forEach((arr) => {
+    arr.forEach((i) => {
+      s.add(i);
+    });
+  });
+  return s.size;
 };
 
 /**
@@ -81,11 +81,7 @@ export const flattenArray = (array) => {
  */
 export const countTermsInSchedule = () => {
   if (!deck) return null;
-  return _.uniq(
-    _.flatten(
-      Object.keys(deck.schedule).map((card_id) => deck.cards[card_id]?.terms)
-    )
-  ).length;
+  return countTerms(getCardsByIds(Object.keys(deck.schedule)));
 };
 
 if (isBrowser && isDev) {

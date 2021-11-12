@@ -55,9 +55,14 @@ const run = async () => {
       }
 
       card.sound = getSounds(card.spokenSentences, sound_lowercase);
+      card.isSentence =
+        card.is_plaintext.length > 8 &&
+        card.is_plaintext.charAt(0) ===
+          card.is_plaintext.charAt(0).toUpperCase() &&
+        card.is_plaintext.match(/^([^;(]+)/)?.[1]?.includes(" ");
       delete card.spokenSentences;
-      delete card.is_plaintext;
-      delete card.en_plaintext;
+      // delete card.is_plaintext;
+      // delete card.en_plaintext;
       Object.keys(card).forEach((j) => {
         if (!card[j]) {
           delete card[j];

@@ -22,6 +22,7 @@ import { getTime, minutes } from "app/app/functions/time";
 import { saveScheduleForCardId } from "app/vocabulary/actions/sync";
 import { matchWords } from "app/app/functions/languageProcessing/regexes";
 import phoneticHash from "app/app/functions/languageProcessing/phoneticHash";
+import { warnIfSlow } from "app/app/functions/warnIfSlow";
 
 /** @typedef {string} CardID */
 /** @typedef {string} TermID */
@@ -58,17 +59,8 @@ class Card {
   constructor(data) {
     Object.assign(this, data);
     this.data = data;
-    this.extractPhoneticHash();
-
-    const plaintext = getPlaintextFromFormatted(this.is_formatted);
-    if (plaintext) {
-      this.isSentence =
-        plaintext.length > 8 &&
-        plaintext.charAt(0) === plaintext.charAt(0).toUpperCase() &&
-        plaintext.match(/^([^;(]+)/)?.[1]?.includes(" ");
-    } else {
-      console.error(data);
-    }
+    // TODO! This takes too long, could be done on server
+    // this.extractPhoneticHash();
   }
 
   /**
@@ -285,8 +277,9 @@ class Card {
    * @returns {?Milliseconds}
    */
   timeSinceTermWasSeen() {
-    if (!this.getTermLastSeen()) return null;
-    return getTime() - this.getTermLastSeen();
+    let j = this.getTermLastSeen();
+    if (!j) return null;
+    return getTime() - j;
   }
 
   /**
@@ -389,12 +382,14 @@ class Card {
    * @returns {Array.<Card>}
    */
   getAllCardsWithSameTerm() {
+    // warnIfSlow.start(this.printWord());
     let out = [];
     this.getTerms().forEach((term) => {
       term.getCards().forEach((card) => {
         out.push(card);
       });
     });
+    // warnIfSlow.end(this.printWord(), 2);
     return out;
   }
 

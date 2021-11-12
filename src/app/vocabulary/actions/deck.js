@@ -5,6 +5,7 @@ import Session from "app/vocabulary/actions/session";
 import Card from "app/vocabulary/actions/card/card";
 import { Term } from "app/vocabulary/actions/card/term";
 import { countTerms } from "app/vocabulary/actions/functions";
+import { warnIfSlow } from "app/app/functions/warnIfSlow";
 
 /**
  * @type {Deck|undefined}
@@ -21,6 +22,7 @@ export let deck;
  */
 class Deck {
   constructor({ database, schedule, session, user_data }) {
+    warnIfSlow.start("Deck");
     deck = this;
     this.cards = {};
     this.terms = {};
@@ -45,6 +47,7 @@ class Deck {
     if (isBrowser) {
       window.deck = this;
     }
+    warnIfSlow.end("Deck");
   }
   continueStudying() {
     updateURL("/vocabulary/play");
