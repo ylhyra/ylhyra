@@ -38,12 +38,10 @@ export function nextCard(depth = 0) {
         Rank: Math.round(i.getRanking()),
         Queue: i.absoluteQueuePosition - i.session.counter,
         Prohib: (i.cannotBeShownBefore || 0) - i.session.counter,
-        new: i.hasBeenSeenInSession() ? "SEEN" : "NEW",
-        word: printWord(i.id),
+        seen: i.hasBeenSeenInSession() ? "SEEN" : "",
+        word: printWord(i.getId()),
         sortKey: i.getSortKey(),
-        schdl: deck.schedule[i.id]
-          ? new Date(deck.schedule[i.id].last_seen)
-          : "",
+        schdl: deck.schedule[i.getId()] ? new Date(i.getLastSeen()) : "",
       }))
     );
   }

@@ -20,25 +20,13 @@ class CardElement extends Component {
   componentDidUpdate(prevProps) {
     const { card } = this.props.vocabulary;
     const prevCard = prevProps?.vocabulary.card;
-    // console.log(this.props);
     if (!prevProps || card.counter !== prevCard.counter) {
-      // if (prevProps && card.counter !== prevCard.counter) {
       this.setState({
         answer: null,
         clickingOnShowButton: null,
-        // hint: hide(from !== 'is' ? cardInSession.is : cardInSession.en)
       });
       this.sound();
     }
-    // if (
-    //   !prevProps ||
-    //   prevCard.id !== cardInSession.id ||
-    //   this.state.answer !== prevState.answer
-    // ) {
-    //   log(cardInSession.getSound() && cardInSession.getSound()[0].recording_of);
-    //
-    //   this.sound();
-    // }
   }
   keyUp = () => {
     this.isKeyDown = false;
@@ -47,7 +35,6 @@ class CardElement extends Component {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (this.isKeyDown) return;
     const { answered } = this.props.vocabulary.card;
-    // log(e.keyCode)
     this.isKeyDown = true;
     if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */) {
       if (answered) {
@@ -148,7 +135,7 @@ class CardElement extends Component {
       return <div>Unable to create cards. Please report this error.</div>;
 
     // console.log({ card });
-    let from = card.getData("from");
+    let from = card.getFrom();
     let lemmas = card.getData("lemmas");
     let note_regarding_english = card.getData("note_regarding_english");
     let note = card.getData("note");
@@ -198,7 +185,6 @@ class CardElement extends Component {
           ${card.getSound() && volume ? "has-sound" : ""}
           ${isNew ? "new" : ""}
         `}
-        // key={status.counter}
         onClick={() => this.show(false)}
       >
         <div
@@ -208,19 +194,7 @@ class CardElement extends Component {
         `}
         >
           {card.getSound() && <div className="has-audio-icon" />}
-          <div
-          // style={{
-          //   fontSize: getFontSize(
-          //     getPlaintextFromFormatted(
-          //       from === "is" ? card.is_formatted : card.en_formatted
-          //     ),
-          //     from === "is" ? "is" : "en"
-          //   ),
-          // }}
-          >
-            {html(from === "is" ? is : en)}
-          </div>
-          {/* {note_above} */}
+          <div>{html(from === "is" ? is : en)}</div>
         </div>
         <div
           className={`
@@ -228,23 +202,9 @@ class CardElement extends Component {
           flashcard-prompt-${from !== "is" ? "icelandic" : "english"}
         `}
         >
-          {answered || /"occluded/.test(from !== "is" ? is : en)
-            ? [
-                <div
-                  key={1}
-                  // style={{
-                  //   fontSize: getFontSize(
-                  //     getPlaintextFromFormatted(
-                  //       from !== "is" ? card.is_formatted : card.en_formatted
-                  //     ),
-                  //     from !== "is" ? "is" : "en"
-                  //   ),
-                  // }}
-                >
-                  {html(from !== "is" ? is : en)}
-                </div> /*note_below*/,
-              ]
-            : card.showHint && this.state.hint}
+          {(answered || /"occluded/.test(from !== "is" ? is : en)) && (
+            <div>{html(from !== "is" ? is : en)}</div>
+          )}
         </div>
         <div className="card-notes">
           <div className="card-notes-inner">

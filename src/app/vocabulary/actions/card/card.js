@@ -76,9 +76,10 @@ class Card {
   }
 
   getData(key) {
-    // console.log(this);
     if (key in this.data) {
       return this.data[key];
+    } else if (key === "terms") {
+      return [this.getId().slice(0, -3)];
     } else if (this.getTermIds().length === 1) {
       return this.getTerms()[0][key];
     } else {
@@ -87,7 +88,7 @@ class Card {
   }
 
   getFrom() {
-    return this.getData("from");
+    return this.getId().slice(-2);
   }
 
   getSortKey(options) {

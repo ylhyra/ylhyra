@@ -129,6 +129,10 @@ export const simplify = () => {
   Object.keys(cards).forEach((card_id) => {
     delete cards[card_id].id;
     delete cards[card_id].sortKey;
+    delete cards[card_id].from;
+    if (cards[card_id].terms.length === 1) {
+      delete cards[card_id].terms;
+    }
   });
 
   return {
