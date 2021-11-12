@@ -48,9 +48,9 @@ export const getLowestBadCardSortKey = () => {
     /* Lowest bad in session */
     ...deck.session.cards
       .filter((card) => card.history.includes(BAD))
-      .map((card) => card.sortKey),
+      .map((card) => card.getSortKey()),
     /* Lowest bad in schedule */
-    deck.cards_sorted.find((card) => card.isBelowGood())?.sortKey
+    deck.cards_sorted.find((card) => card.isBelowGood())?.getSortKey()
   );
 };
 
@@ -64,7 +64,8 @@ export const getMaxSortKey = () => {
       .slice()
       /* Goes backwards to find the last cardInSession that is on a B1 level */
       .reverse()
-      .find((card) => card.level === 3)?.sortKey || Infinity;
+      .find((card) => card.level === 3)
+      ?.getSortKey() || Infinity;
 
   return minIgnoreFalsy(
     lowestBadCard,
@@ -84,8 +85,10 @@ export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
   /* Find cards that are now too easy and postpone them */
   deck.session.cards.forEach((card) => {
     if (card.done) return;
-    if (card.sortKey < getEasinessLevel()) {
-      card.showIn({ minInterval: 5000 + getEasinessLevel() - card.sortKey });
+    if (card.getSortKey() < getEasinessLevel()) {
+      card.showIn({
+        minInterval: 5000 + getEasinessLevel() - card.getSortKey(),
+      });
     }
   });
 
@@ -96,9 +99,9 @@ export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
   //     deck.session.cards.filter(
   //       (card) =>
   //         !card.done &&
-  //         getEasinessLevel() <= card.sortKey &&
-  //         card.sortKey <= getEasinessLevel() - change
-  //       // card.showIn({ minInterval: 1000 + getEasinessLevel() + card.sortKey });
+  //         getEasinessLevel() <= card.getSortKey() &&
+  //         card.getSortKey() <= getEasinessLevel() - change
+  //       // card.showIn({ minInterval: 1000 + getEasinessLevel() + card.getSortKey() });
   //     ) |> sortBySortKey;
   //   if (cardsInLoweredRange.length > 0) {
   //   }

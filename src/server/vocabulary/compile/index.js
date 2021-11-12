@@ -70,10 +70,10 @@ const run = async () => {
       //     }
       //   });
       // });
-      // card.siblingCardIds = _.sort(_.uniq(card.siblingCardIds));
+      // card.siblingCardIds = _.sortBy(_.uniq(card.siblingCardIds));
 
-      // delete card.is_plaintext;
-      // delete card.en_plaintext;
+      delete card.is_plaintext;
+      delete card.en_plaintext;
       Object.keys(card).forEach((j) => {
         if (!card[j]) {
           delete card[j];

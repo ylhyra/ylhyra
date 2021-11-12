@@ -18,10 +18,11 @@ import {
  * @returns {string|undefined}
  */
 export const printWord = (id) => {
+  if (!isDev) return;
   if (id in deck.cards) {
     const card = deck.cards[id];
-    // return getPlaintextFromFormatted(card[card.from + "_formatted"]);
-    return card[card.from + "_plaintext"];
+    return getPlaintextFromFormatted(card.getData(card.from + "_formatted"));
+    // return card[card.from + "_plaintext"];
   } else if (id in deck.terms) {
     return printWord(deck.terms[id].cards[0]);
   } else {
@@ -61,7 +62,7 @@ export const studyNewTerms = () => {
  */
 export const countTerms = (cards) => {
   // const i = rapidCountUnique(_.flatten(cards.map((c) => c.terms)));
-  const i = rapidFlattenArrayAndCountUnique(cards.map((c) => c.terms));
+  const i = rapidFlattenArrayAndCountUnique(cards.map((c) => c.getTermIds()));
   return roundToInterval(i, i > 200 ? 50 : 5);
 };
 

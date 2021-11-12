@@ -49,5 +49,5 @@ export const sortCardsByScore = (cards) => {
  * @returns {Array.<Card>}
  */
 export const sortBySortKey = (cards) => {
-  return cards.sort((a, b) => a.sortKey - b.sortKey);
+  return cards.sort((a, b) => a.getSortKey() - b.getSortKey());
 };

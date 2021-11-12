@@ -2,6 +2,7 @@ import c from "app/app/functions/no-undefined-in-template-literal";
 import { automaticThu } from "maker/vocabulary_maker/compile/functions";
 import { matchWordsAndLetters } from "app/app/functions/languageProcessing/regexes";
 import { removeExtraWhitespace } from "app/app/functions/removeExtraWhitespace";
+import { isDev } from "app/app/functions/isDev";
 
 export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;
@@ -11,6 +12,10 @@ export const getPlaintextFromVocabularyEntry = (input) => {
 export const getPlaintextFromFormatted = (input) => {
   if (!input) {
     console.error("Missing plaintext!");
+    // if (isDev) {
+    //   console.trace();
+    //   process.exit();
+    // }
     return "";
   }
   return removeExtraWhitespace(

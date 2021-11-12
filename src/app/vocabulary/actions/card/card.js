@@ -56,9 +56,10 @@ import { saveScheduleForCardId } from "app/vocabulary/actions/userData/userDataS
  *   data field to be able to pass this data on to derived objects
  */
 class Card {
-  constructor(data) {
-    Object.assign(this, data);
+  constructor(data, id) {
+    // Object.assign(this, data);
     this.data = data;
+    this.data.id = id;
     // TODO! This takes too long, could be done on server
     // this.extractPhoneticHash();
 
@@ -66,6 +67,21 @@ class Card {
     // setTimeout(() => {
     //   this.getAllCardIdsWithSameTerm();
     // }, 0);
+  }
+
+  getData(key) {
+    // console.log(this);
+    if (key in this.data) {
+      return this.data[key];
+    } else if (this.getTermIds().length === 1) {
+      return this.getTerms()[0][key];
+    } else {
+      return null;
+    }
+  }
+
+  getSortKey() {
+    return this.getData("sortKey");
   }
 
   clearMemoizations() {
@@ -88,7 +104,7 @@ class Card {
    * @returns {CardID}
    */
   getId() {
-    return this.id;
+    return this.getData("id");
   }
 
   printWord() {
@@ -106,7 +122,7 @@ class Card {
    * @returns {Array.<TermID>}
    */
   getTermIds() {
-    return this.terms;
+    return this.getData("terms");
   }
 
   /**
@@ -152,7 +168,7 @@ class Card {
   }
 
   isBelowEasinessLevel() {
-    return isEasinessLevelOn() && this.sortKey < getEasinessLevel();
+    return isEasinessLevelOn() && this.getSortKey() < getEasinessLevel();
   }
 
   getSortKeyAdjustedForEasinessLevel() {
@@ -160,7 +176,9 @@ class Card {
   }
 
   getSortKeyAdjusted(j) {
-    return this.sortKey > j ? this.sortKey : 100000 - this.sortKey;
+    return this.getSortKey() > j
+      ? this.getSortKey()
+      : 100000 - this.getSortKey();
   }
 
   /**
@@ -363,10 +381,10 @@ class Card {
    * @returns {Array.<Card>}
    */
   getSiblingCards() {
-    return getCardsByIds(this.siblingCardIds);
-    // return this.getAllCardsWithSameTerm().filter(
-    //   (siblingCard) => siblingCard.getId() !== this.getId()
-    // );
+    // return getCardsByIds(this.siblingCardIds);
+    return this.getAllCardsWithSameTerm().filter(
+      (siblingCard) => siblingCard.getId() !== this.getId()
+    );
   }
 
   /**
@@ -404,24 +422,24 @@ class Card {
     );
   }
 
-  // /**
-  //  * @returns {Array.<CardID>}
-  //  */
-  // getAllCardIdsWithSameTerm() {
-  //   // return this.memoize("getAllCardIdsWithSameTerm", () => {
-  //   //   let out = [];
-  //   //   this.getTerms().forEach((term) => {
-  //   //     out = out.concat(term.getCardIds());
-  //   //   });
-  //   //   return _.uniq(out);
-  //   // });
-  // }
+  /**
+   * @returns {Array.<CardID>}
+   */
+  getAllCardIdsWithSameTerm() {
+    return this.memoize("getAllCardIdsWithSameTerm", () => {
+      let out = [];
+      this.getTerms().forEach((term) => {
+        out = out.concat(term.getCardIds());
+      });
+      return _.uniq(out);
+    });
+  }
 
   /**
    * @returns {Array.<Card>}
    */
   getAllCardsWithSameTerm() {
-    return getCardsByIds([this.getId(), ...this.siblingCardIds]);
+    return getCardsByIds(this.getAllCardIdsWithSameTerm());
   }
 
   /**

@@ -3,7 +3,7 @@ import {
   CreateDependencyChain__backend,
   withDependencies__backend,
 } from "server/vocabulary/compile/dependencies";
-
+import _ from "underscore";
 import { _deck } from "server/vocabulary/compile/index";
 import stable_stringify from "json-stable-stringify";
 
@@ -92,21 +92,22 @@ export const simplify = () => {
       if (key === "terms") return;
       const val = _deck.cards[term.cards[0]][key];
 
-      // //tmp
-      // if (
-      //   term.cards.every(
-      //     (card_id) =>
-      //       _deck.cards[card_id].terms.length === 1 &&
-      //       key in _deck.cards[card_id] &&
-      //       stable_stringify(_deck.cards[card_id][key]) ===
-      //         stable_stringify(val)
-      //   )
-      // ) {
-      //   term[key] = val;
-      //   term.cards.forEach((card_id) => {
-      //     delete _deck.cards[card_id][key];
-      //   });
-      // }
+      //tmp?
+      if (
+        key !== "terms" &&
+        term.cards.every(
+          (card_id) =>
+            _deck.cards[card_id].terms.length === 1 &&
+            key in _deck.cards[card_id] &&
+            stable_stringify(sortIfArray(_deck.cards[card_id][key])) ===
+              stable_stringify(sortIfArray(val))
+        )
+      ) {
+        term[key] = val;
+        term.cards.forEach((card_id) => {
+          delete _deck.cards[card_id][key];
+        });
+      }
 
       term.cards.forEach((card_id) => {
         cards[card_id] = _deck.cards[card_id];
@@ -146,4 +147,11 @@ const sortObject = (obj, sortKey, replace) => {
       }
     });
   return out;
+};
+
+const sortIfArray = (val) => {
+  if (Array.isArray(val)) {
+    return _.sortBy(val, (i) => i);
+  }
+  return val;
 };

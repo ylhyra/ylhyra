@@ -13,7 +13,7 @@ let easyInARow = 0;
 /**
  * If the user clicks on "Easy" several times in a row,
  * then we increase the "easinessLevel". EasinessLevel is a
- * number that stores the lowest cardInSession.sortKey we're interested in.
+ * number that stores the lowest cardInSession.getSortKey() we're interested in.
  */
 export function keepTrackOfEasiness({ rating, isANewCard, card }) {
   /* Currently only turned on for the overall
@@ -25,7 +25,7 @@ export function keepTrackOfEasiness({ rating, isANewCard, card }) {
     if (rating === EASY) {
       easyInARow++;
       if (easyInARow >= 2) {
-        increaseEasinessLevel(card.sortKey);
+        increaseEasinessLevel(card.getSortKey());
       }
     } else {
       easyInARow = 0;
@@ -33,6 +33,6 @@ export function keepTrackOfEasiness({ rating, isANewCard, card }) {
   }
 
   if (rating === BAD) {
-    easinessLevelShouldBeLowerThan(card.sortKey);
+    easinessLevelShouldBeLowerThan(card.getSortKey());
   }
 }

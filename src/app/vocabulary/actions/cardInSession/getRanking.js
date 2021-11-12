@@ -7,11 +7,6 @@ import { BAD } from "app/vocabulary/actions/cardInSession";
 export function getRanking() {
   let q = this.getQueuePosition();
 
-  if (!this.terms) {
-    log(this);
-    throw new Error("getRanking called on an uninitialized cardInSession");
-  }
-
   // New terms are not relevant unless there are no overdue cards
   if (
     !this.getTermIds().some((term_id) => term_id in this.session.lastSeenTerms)

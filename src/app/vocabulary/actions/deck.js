@@ -32,7 +32,8 @@ class Deck {
 
     database?.cards &&
       Object.keys(database.cards).forEach(
-        (card_id) => (this.cards[card_id] = new Card(database.cards[card_id]))
+        (card_id) =>
+          (this.cards[card_id] = new Card(database.cards[card_id], card_id))
       );
     database?.terms &&
       Object.keys(database.terms).forEach(
@@ -48,7 +49,7 @@ class Deck {
         return this.cards[key];
       })
       .filter(Boolean)
-      .sort((a, b) => a.sortKey - b.sortKey);
+      .sort((a, b) => a.getSortKey() - b.getSortKey());
     this.termCount = countTerms(deck.cards_sorted);
     if (isBrowser) {
       window.deck = this;

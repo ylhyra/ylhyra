@@ -139,23 +139,25 @@ class CardElement extends Component {
     this.sound(true);
   };
   render() {
-    const { card, volume, deck } = this.props.vocabulary;
-    const { answered } = card;
+    const { volume, deck } = this.props.vocabulary;
+    const card = deck.session.currentCard;
+    const { answered } = this.props.vocabulary.card;
     // log(cardInSession)
     // log({cardInSession,answer})
-    if (!card)
+    if (!deck.session.currentCard)
       return <div>Unable to create cards. Please report this error.</div>;
-    let {
-      from,
-      lemmas,
-      note_regarding_english,
-      note,
-      literally,
-      example_declension,
-      pronunciation,
-    } = card;
-    const is = card.is_formatted;
-    const en = card.en_formatted;
+
+    // console.log({ card });
+    let from = card.getData("from");
+    let lemmas = card.getData("lemmas");
+    let note_regarding_english = card.getData("note_regarding_english");
+    let note = card.getData("note");
+    let literally = card.getData("literally");
+    let example_declension = card.getData("example_declension");
+    let pronunciation = card.getData("pronunciation");
+    let synonyms = card.getData("synonyms");
+    const is = card.getData("is_formatted");
+    const en = card.getData("en_formatted");
 
     /* Loading */
     if (!is) {
@@ -165,6 +167,11 @@ class CardElement extends Component {
     literally = literally && (
       <div>
         <span className="label">Literally:</span> {html(literally)}
+      </div>
+    );
+    synonyms = synonyms && (
+      <div>
+        <span className="label">Synonyms:</span> {html(synonyms)}
       </div>
     );
     lemmas = lemmas && (
@@ -255,6 +262,7 @@ class CardElement extends Component {
               {literally}
               {lemmas}
               {example_declension}
+              {synonyms}
               {pronunciation && (
                 <div>
                   <span className="label">Pronounced:</span>{" "}
