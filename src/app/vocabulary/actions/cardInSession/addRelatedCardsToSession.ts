@@ -1,10 +1,10 @@
 import { log } from "app/app/functions/log";
-import { EASY, GOOD } from "app/vocabulary/actions/cardInSession/index";
 import { INCR } from "app/vocabulary/actions/createSchedule";
 import { days } from "app/app/functions/time";
 import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
 import { isEmpty } from "app/vocabulary/actions/createCards/3_Choose_cards";
+import { EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
 
 /**
  * If a cardInSession gets a bad rating, then we make sure

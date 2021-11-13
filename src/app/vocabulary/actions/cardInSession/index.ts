@@ -1,19 +1,11 @@
-import Card from "app/vocabulary/actions/card/card";
-import { extendPrototype } from "app/app/functions/extendPrototype";
-
-export const BAD = 1;
-export const GOOD = 2;
-export const EASY = 3;
-
-/**
- * @property {boolean} done
- * @property {Session} session
- * @property {Array.<number>} history
- * @property {number} absoluteQueuePosition
- */
-class CardInSession extends Card {
+// /**
+//  * @property {boolean} done
+//  * @property {Session} session
+//  * @property {Array.<number>} history
+//  * @property {number} absoluteQueuePosition
+//  */
+class CardInSession {
   constructor({ data, insertAtPosition, session, history }) {
-    super(data);
     this.session = session;
     this.history = history || [];
     this.absoluteQueuePosition =
@@ -57,14 +49,19 @@ class CardInSession extends Card {
       this.session.counter + interval
     );
   }
+
+  getRanking = getRanking;
+  rate = rate;
+  postponeRelatedCards = postponeRelatedCards;
+  showIn = showIn;
 }
 
-extendPrototype(
-  CardInSession,
-  require("app/vocabulary/actions/cardInSession/getRanking"),
-  require("app/vocabulary/actions/cardInSession/rate"),
-  require("app/vocabulary/actions/cardInSession/postponeRelatedCards"),
-  require("app/vocabulary/actions/cardInSession/showIn")
-);
+// extendPrototype(
+//   CardInSession,
+//   require("app/vocabulary/actions/cardInSession/getRanking"),
+//   require("app/vocabulary/actions/cardInSession/rate"),
+//   require("app/vocabulary/actions/cardInSession/postponeRelatedCards"),
+//   require("app/vocabulary/actions/cardInSession/showIn")
+// );
 
 export default CardInSession;

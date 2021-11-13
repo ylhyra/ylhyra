@@ -5,17 +5,17 @@ import {
   toFixedFloat,
 } from "app/app/functions/math";
 import { daysToMs, getTime, inDays, msToDays } from "app/app/functions/time";
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import { log } from "app/app/functions/log";
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
 
-/**
- * @typedef {Object} ScheduleData
- * @property {TimestampInMilliseconds} due
- * @property {Days} last_interval_in_days
- * @property {number} score
- * @property {TimestampInMilliseconds} last_seen
- * @property {number} sessions_seen
- */
+// /**
+//  * @typedef {Object} ScheduleData
+//  * @property {TimestampInMilliseconds} due
+//  * @property {Days} last_interval_in_days
+//  * @property {number} score
+//  * @property {TimestampInMilliseconds} last_seen
+//  * @property {number} sessions_seen
+//  */
 
 /** Increment score by how much? */
 export const INCR = 0.4;
@@ -40,14 +40,14 @@ export function createSchedule() {
 
   session.cards.forEach((card) => {
     let due_in_days;
-    const prevScore = card.getScore();
-    const sessions_seen = card.getSessionsSeen();
+    const prevScore = getScore(card);
+    const sessions_seen = getSessionsSeen(card);
     const isNew = !prevScore;
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
     const avgRating = average(sessionHistory);
-    const last_interval_in_days = card.getLastIntervalInDays();
-    const last_seen = card.getLastSeen();
+    const last_interval_in_days = getLastIntervalInDays(card);
+    const last_seen = getLastSeen(card);
     const badCount = sessionHistory.filter((i) => i === BAD).length;
     const anyBad = badCount > 0;
 
@@ -89,7 +89,9 @@ export function createSchedule() {
       if (actual_interval_in_days / last_interval_in_days < 0.3) {
         const new_due_in_days = last_interval_in_days;
         log(
-          `${card.printWord()} - given ${new_due_in_days} instead of ${due_in_days}`
+          `${printWord(
+            card
+          )} - given ${new_due_in_days} instead of ${due_in_days}`
         );
         due_in_days = new_due_in_days;
       }
@@ -107,8 +109,10 @@ export function createSchedule() {
       );
     }
 
-    card.setSchedule(
-      /** @type ScheduleData */ {
+    setSchedule(
+      card,
+      // /** @type ScheduleData */
+      {
         due: inDays(addSomeRandomness(due_in_days)),
         last_interval_in_days: toFixedFloat(due_in_days, 1),
         score: toFixedFloat(score, 2),
@@ -125,20 +129,16 @@ export function createSchedule() {
     );
 
     /* Postpone siblings */
-    card
-      .getSiblingCards()
+    getSiblingCards(id)
       /* Ignore cards that were seen in this session */
-      .filter(
-        (sibling_card) =>
-          !sibling_card.getAsCardInSession()?.hasBeenSeenInSession()
-      )
+      .filter((sibling_card) => !hasBeenSeenInSession(sibling_card))
       .forEach((sibling_card) => {
         /* Postpone based on a portion of the main card's due_in_days,
            but never more than 10 days */
         const newDue = inDays(Math.min(due_in_days * 0.8, 10));
         const actualDue = sibling_card.getDue();
         if (!actualDue || actualDue < newDue) {
-          sibling_card.setSchedule({
+          setSchedule(sibling_card, {
             due: newDue,
           });
           log(`${sibling_card.printWord()} postponed`);

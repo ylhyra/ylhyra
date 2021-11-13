@@ -5,12 +5,12 @@ import {
   MAX_JUMP_UP,
   MIN_JUMP_UP,
 } from "app/vocabulary/actions/easinessLevel/index";
-import { BAD } from "app/vocabulary/actions/cardInSession";
 import { minIgnoreFalsy } from "app/app/functions/math";
 import {
   getUserData,
   setUserData,
 } from "app/vocabulary/actions/userData/userData";
+import { BAD } from "app/vocabulary/actions/card/card_difficulty";
 
 let last_jump_up;
 

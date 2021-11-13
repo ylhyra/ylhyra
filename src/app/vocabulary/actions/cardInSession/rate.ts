@@ -1,6 +1,6 @@
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import { addRelatedCardsToSession } from "app/vocabulary/actions/cardInSession/addRelatedCardsToSession";
 import { keepTrackOfEasiness } from "app/vocabulary/actions/easinessLevel";
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
 
 /**
  * @memberOf CardInSession#
@@ -62,9 +62,9 @@ export function rate(rating) {
   card.postponeRelatedCards(interval);
   card.session.cardTypeLog.unshift(card.getFrom());
 
-  keepTrackOfEasiness({
-    rating,
-    isANewCard: !card.isInSchedule() && timesSeenBeforeInSession === 0,
-    card,
-  });
+  // keepTrackOfEasiness({
+  //   rating,
+  //   isANewCard: !card.isInSchedule() && timesSeenBeforeInSession === 0,
+  //   card,
+  // });
 }

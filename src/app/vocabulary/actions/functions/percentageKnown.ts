@@ -1,20 +1,25 @@
 import { clamp, mapValueToRange } from "app/app/functions/math";
 import { deck } from "app/vocabulary/actions/deck";
-import { getCardsByIds } from "app/vocabulary/actions/card/functions";
+import { CardIds } from "app/vocabulary/actions/card/card";
+import {
+  getScore,
+  getSessionsSeen,
+  isInSchedule,
+} from "app/vocabulary/actions/card/card_schedule";
 
-export const PercentageKnown = (card_ids) => {
+export const PercentageKnown = (card_ids: CardIds) => {
   if (!deck?.schedule) return 0;
   let done = 0;
   let remaining = 0;
-  getCardsByIds(card_ids).forEach((card) => {
-    if (card.isInSchedule()) {
-      let score = card.getScore() || 2;
+  card_ids.forEach((id) => {
+    if (isInSchedule(id)) {
+      let score = getScore(id) || 2;
       let toAdd;
       if (score < 1.9) {
         toAdd = mapValueToRange({
           value:
-            clamp(card.getSessionsSeen(), 0, 10) +
-            clamp((card.getSessionsSeen() - 10) / 3, 0, 10),
+            clamp(getSessionsSeen(id), 0, 10) +
+            clamp((getSessionsSeen(id) - 10) / 3, 0, 10),
           input_from: 0,
           input_to: 20,
           output_from: 0.1,

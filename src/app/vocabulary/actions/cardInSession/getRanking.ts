@@ -1,5 +1,5 @@
 import { log } from "app/app/functions/log";
-import { BAD } from "app/vocabulary/actions/cardInSession";
+import { BAD } from "app/vocabulary/actions/card/card_difficulty";
 
 /**
  * @memberOf CardInSession#

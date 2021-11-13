@@ -2,8 +2,6 @@ import { isBrowser } from "app/app/functions/isBrowser";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 import { updateURL } from "app/router/actions/updateURL";
 import Session from "app/vocabulary/actions/session";
-import Card from "app/vocabulary/actions/card/card";
-import { Term } from "app/vocabulary/actions/card/term";
 import { countTerms } from "app/vocabulary/actions/functions";
 import { warnIfSlow } from "app/app/functions/warnIfSlow";
 import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
@@ -13,17 +11,16 @@ import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
  */
 export let deck;
 
-/**
- * @property {Object.<string, Card>} cards
- * @property {Array.<Card>} cards_sorted
- * @property {Object.<string, Term>} terms
- * @property {Object.<CardID, ScheduleData>} schedule
- * @property {UserData} user_data
- * @property {Session} session
- */
+// /**
+//  * @property {Object.<string, Card>} cards
+//  * @property {Array.<Card>} cards_sorted
+//  * @property {Object.<string, Term>} terms
+//  * @property {Object.<string, ScheduleData>} schedule
+//  * @property {UserData} user_data
+//  * @property {Session} session
+//  */
 class Deck {
   constructor({ database, schedule, session, user_data }) {
-    warnIfSlow.start("Deck");
     deck = this;
     this.cards = {};
     this.terms = {};
@@ -45,19 +42,13 @@ class Deck {
     this.schedule = schedule || {};
     this.session = new Session(deck, session);
 
-    this.cards_sorted = sortBySortKey(
-      Object.keys(this.cards)
-        .map((key) => {
-          return this.cards[key];
-        })
-        .filter(Boolean),
-      { englishLast: true }
-    );
+    this.cards_sorted = sortBySortKey(Object.keys(this.cards), {
+      englishLast: true,
+    });
     this.termCount = countTerms(deck.cards_sorted);
     if (isBrowser) {
       window.deck = this;
     }
-    warnIfSlow.end("Deck");
   }
   continueStudying() {
     updateURL("/vocabulary/play");

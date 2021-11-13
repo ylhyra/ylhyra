@@ -5,17 +5,9 @@ import {
 import { deck } from "app/vocabulary/actions/deck";
 import { veryRecentlySeenSortedLast } from "app/vocabulary/actions/createCards/functions";
 import { sortBy } from "underscore";
-import {
-  clamp,
-  maxIgnoreUndef,
-  minIgnoreFalsy,
-  minIgnoreUndef,
-} from "app/app/functions/math";
+import { clamp } from "app/app/functions/math";
 
-/**
- * @returns {Card[]}
- */
-export default (options) => {
+export default (options): CardIds => {
   let new_cards = deck.cards_sorted.filter(
     (card) => !card.isInSchedule() && card.isAllowed()
   );

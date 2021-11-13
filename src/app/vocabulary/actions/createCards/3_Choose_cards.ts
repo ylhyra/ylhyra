@@ -7,17 +7,17 @@ import { log, logDev } from "app/app/functions/log";
 import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
 import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
 import { isDev } from "app/app/functions/isDev";
+import { CardIds } from "app/vocabulary/actions/card/card";
 
-export default (options) => {
+export default (options): CardIds => {
   /**
    * Chosen_cards starts out as an array of nulls;
    * the slots will later be filled.
-   * @type {Array.<Card|null>}
    */
   let chosen_cards = new Array(CARDS_TO_CREATE).fill(null);
 
   /* Helper function to add to chosen_cards */
-  const add = (arr, desc, pos) => {
+  const add = (arr, desc: string, pos?) => {
     if (!isEmpty(arr)) {
       if (pos === undefined) {
         pos = chosen_cards.findIndex((j) => j === null);
@@ -30,16 +30,8 @@ export default (options) => {
     }
   };
 
-  const {
-    /** @type {Array.<Card>} */
-    overdue_bad,
-    /** @type {Array.<Card>} */
-    overdue_good,
-    /** @type {Array.<Card>} */
-    not_overdue,
-  } = OldCards();
+  const { overdue_bad, overdue_good, not_overdue } = OldCards();
 
-  /** @type {Array.<Card>} */
   const new_cards = NewCards(options);
 
   let total_options = sumOfArrayLengths(overdue_bad, overdue_good);
@@ -54,10 +46,6 @@ export default (options) => {
     });
 
   let newCardEvery = 2;
-  // if (bad_count > 250) {
-  //   log("No new cards since there are more than 250 bad cards");
-  //   newCardEvery = 100;
-  // } else
   if (bad_count > 100) {
     newCardEvery = 7;
   } else if (bad_count > 40) {

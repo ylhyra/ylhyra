@@ -1,22 +1,15 @@
-import {
-  getTime,
-  getTimeMemoized,
-  hours,
-  minutes,
-} from "app/app/functions/time";
+import { getTimeMemoized, hours, minutes } from "app/app/functions/time";
 import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
 import { shuffleLocally } from "app/app/functions/shuffleLocally";
 import {
+  CardIds,
   getCardsInSchedule,
   isAllowed,
-} from "app/vocabulary/actions/card/card_new";
+} from "app/vocabulary/actions/card/card";
 import { log } from "app/app/functions/log";
 
-export type CardId = string;
-export type CardIds = Array<CardId>;
-
 /* Previously seen cards */
-export default (): CardIds => {
+export default () => {
   let overdue_good: CardIds = [];
   let overdue_bad: CardIds = [];
   let not_overdue_very_bad: CardIds = [];

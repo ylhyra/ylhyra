@@ -1,9 +1,9 @@
-import { BAD, EASY } from "app/vocabulary/actions/cardInSession";
 import {
   easinessLevelShouldBeLowerThan,
   increaseEasinessLevel,
 } from "app/vocabulary/actions/easinessLevel/functions";
 import { deck } from "app/vocabulary/actions/deck";
+import { BAD, EASY } from "app/vocabulary/actions/card/card_difficulty";
 
 export const MIN_JUMP_UP = 50;
 export const MAX_JUMP_UP = 500;

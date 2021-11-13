@@ -5,25 +5,20 @@ import { isBrowser } from "app/app/functions/isBrowser";
 import { log } from "app/app/functions/log";
 import { roundToInterval } from "app/app/functions/math";
 import { updateURL } from "app/router/actions/updateURL";
-import _ from "underscore";
 import { isDev } from "app/app/functions/isDev";
+import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
+import { CardIds } from "app/vocabulary/actions/card/card";
 import {
-  getCardById,
-  getCardIdsFromTermIds,
-  getCardsByIds,
-} from "app/vocabulary/actions/card/functions";
+  getData,
+  getFrom,
+  getTermIds,
+} from "app/vocabulary/actions/card/card_data";
+import { isNewTerm } from "app/vocabulary/actions/card/card_schedule";
 
-/**
- * @param {CardID|TermID} id
- * @returns {string|undefined}
- */
 export const printWord = (id) => {
   if (!isDev) return;
   if (id in deck.cards) {
-    const card = deck.cards[id];
-    return getPlaintextFromFormatted(
-      card.getData(card.getFrom() + "_formatted")
-    );
+    return getPlaintextFromFormatted(getData(id, getFrom(id) + "_formatted"));
     // return card[card.getFrom() + "_plaintext"];
   } else if (id in deck.terms) {
     return printWord(deck.terms[id].cards[0]);
@@ -32,11 +27,7 @@ export const printWord = (id) => {
   }
 };
 
-/**
- * @param {Array.<CardID>} allowed_ids
- * @param {Object?} options
- */
-export const studyParticularIds = async (allowed_ids, options) => {
+export const studyParticularIds = async (allowed_ids: CardIds, options?) => {
   const { session } = deck;
   session.reset();
   session.allowed_ids = allowed_ids;
@@ -46,9 +37,9 @@ export const studyParticularIds = async (allowed_ids, options) => {
 };
 
 export const studyNewTerms = () => {
-  const newTerms = [];
+  const newTerms: CardIds = [];
   Object.keys(deck.cards).forEach((id) => {
-    if (!(id in deck.schedule) && getCardById(id)?.isNewTerm()) {
+    if (!(id in deck.schedule) && isNewTerm(id)) {
       newTerms.push(id);
     }
   });
@@ -58,13 +49,8 @@ export const studyNewTerms = () => {
   });
 };
 
-/**
- * @param {Array.<Card>} cards
- * @returns {number}
- */
-export const countTerms = (cards) => {
-  // const i = rapidCountUnique(_.flatten(cards.map((c) => c.terms)));
-  const i = rapidFlattenArrayAndCountUnique(cards.map((c) => c.getTermIds()));
+export const countTerms = (ids: CardIds) => {
+  const i = rapidFlattenArrayAndCountUnique(ids.map((id) => getTermIds(id)));
   return roundToInterval(i, i > 200 ? 50 : 5);
 };
 
@@ -79,16 +65,13 @@ export const rapidFlattenArrayAndCountUnique = (arrOfArrs) => {
   return s.size;
 };
 
-/**
- * @returns {number|null}
- */
 export const countTermsInSchedule = () => {
   if (!deck) return null;
-  return countTerms(getCardsByIds(Object.keys(deck.schedule)));
+  return countTerms(Object.keys(deck.schedule));
 };
 
 if (isBrowser && isDev) {
-  window.studyParticularWords = async (...words) => {
+  window["studyParticularWords"] = async (...words) => {
     await studyParticularIds(getCardIdsFromTermIds(words.map(getHash)));
   };
   window["studyParticularIds"] = studyParticularIds;

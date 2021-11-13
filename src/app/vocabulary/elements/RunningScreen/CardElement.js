@@ -1,11 +1,11 @@
 import store from "app/app/store";
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/cardInSession";
 import AudioClip from "documents/render/audio/AudioClip";
 import { get_processed_image_url } from "app/app/paths";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 import { withPlural } from "app/app/functions/simplePlural";
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
 
 class CardElement extends Component {
   state = {};
