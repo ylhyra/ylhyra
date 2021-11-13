@@ -11,7 +11,7 @@ import {
 import { connect } from "react-redux";
 import { deck } from "app/vocabulary/actions/deck";
 
-class X extends Component {
+class X extends Component<{ vocabulary: any; route: any }> {
   set(level) {
     setUserLevel(level);
     if (this.props.route.pathname === "/vocabulary/difficulty") {
@@ -83,7 +83,7 @@ class X extends Component {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: any) => ({
   route: state.route,
   vocabulary: state.vocabulary,
 }))(X);

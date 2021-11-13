@@ -52,6 +52,6 @@ class ActivityCalendar extends Component<{ vocabulary: any }> {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: any) => ({
   vocabulary: state.vocabulary,
 }))(ActivityCalendar);

@@ -6,7 +6,7 @@
     "module": "commonjs",
     "esModuleInterop": true
   },
-  "include": ["src/**/*.js", "src/**/*.ts"],
+  "include": ["src/**/*.js", "src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["build", "node_modules"],
   "typeAcquisition": {
     "exclude": ["crc-32", "fast-safe-stringify"]

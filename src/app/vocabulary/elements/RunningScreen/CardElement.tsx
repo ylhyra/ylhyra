@@ -3,7 +3,6 @@ import AudioClip from "documents/render/audio/AudioClip";
 import { get_processed_image_url } from "app/app/paths";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 import { withPlural } from "app/app/functions/simplePlural";
 import {
   BAD,
@@ -11,7 +10,7 @@ import {
   GOOD,
   rating,
 } from "app/vocabulary/actions/card/card_difficulty";
-import { getSound } from "src/app/vocabulary/actions/card/card_data";
+import { getSound } from "app/vocabulary/actions/card/card_data";
 
 class CardElement extends Component<{ vocabulary: any }> {
   isKeyDown: boolean;
@@ -102,7 +101,7 @@ class CardElement extends Component<{ vocabulary: any }> {
     }
   };
   sound = (answered?) => {
-    const { card, volume } = this.props.vocabulary;
+    const { card: CardInSession, volume } = this.props.vocabulary;
     if (
       volume &&
       getSound(card.getId()) &&

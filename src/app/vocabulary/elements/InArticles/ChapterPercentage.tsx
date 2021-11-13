@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 
-class X extends Component {
+class X extends Component<{ vocabulary: any; data: any }> {
   render() {
     if (!this.props.vocabulary.deck) return null;
     // logMissing(this.props.data.missing);
@@ -14,7 +14,7 @@ class X extends Component {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: any) => ({
   vocabulary: state.vocabulary,
   route: state.route,
 }))(X);
