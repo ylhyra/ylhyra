@@ -43,10 +43,7 @@ let timeMemoized;
  * @returns {TimestampInMilliseconds}
  */
 export const getTimeMemoized = () => {
-  if (!timeMemoized) {
-    timeMemoized = getTime();
-  }
-  return timeMemoized;
+  return timeMemoized || (timeMemoized = getTime());
 };
 export const clearTimeMemoized = () => {
   timeMemoized = null;

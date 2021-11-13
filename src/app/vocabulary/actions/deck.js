@@ -31,6 +31,8 @@ class Deck {
     // this.cards_temp = database.cards;
     // this.terms_temp = database.terms;
 
+    // this.cards_data = database.cards;
+
     database?.cards &&
       Object.keys(database.cards).forEach(
         (card_id) =>
