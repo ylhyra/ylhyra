@@ -23,36 +23,12 @@ import { saveScheduleForCardId } from "app/vocabulary/actions/userData/userDataS
 /** @typedef {string} TermID */
 
 /**
- * @typedef {Object} CardData
- *
- * @property {CardID} id
- * @property {Array.<TermID>} terms
- * @property {number} sortKey
- * @property {string} is_formatted - HTML of Icelandic side of card
- * @property {string} en_formatted - HTML of English side of card
- * @property {("is"|"en")} from
- * @property {("is"|"en")} to
- * @property {number=} level
- * @property {Array.<string>} spokenSentences - List of URLs
- * @property {number=} row_id - Used in the backend
- * Various notes:
- * @property {string=} lemmas
- * @property {string=} note - Shown after answering
- * @property {string=} note_regarding_english - Shown below English before answering
- * @property {string=} pronunciation
- * @property {string=} literally
- * @property {string=} example_declension
- */
-
-/**
  * @name Card
  * @augments CardData
- * @param {CardData} data - Data is both assigned to the object itself and to a
- *   data field to be able to pass this data on to derived objects
+ * @param {object} data
  */
 class Card {
   constructor(data, id) {
-    // Object.assign(this, data);
     if (!data) {
       console.error("Init without data");
     } else {

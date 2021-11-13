@@ -6,44 +6,42 @@ import {
 } from "app/app/functions/time";
 import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
 import { shuffleLocally } from "app/app/functions/shuffleLocally";
-import { getCardsInSchedule } from "app/vocabulary/actions/card/functions";
+import {
+  getCardsInSchedule,
+  isAllowed,
+} from "app/vocabulary/actions/card/card_new";
 import { log } from "app/app/functions/log";
 
+export type CardId = string;
+export type CardIds = Array<CardId>;
+
 /* Previously seen cards */
-export default () => {
-  /** @type {Array.<Card>} */
-  let overdue_good = [];
-  /** @type {Array.<Card>} */
-  let overdue_bad = [];
-  /** @type {Array.<Card>} */
-  let not_overdue_very_bad = [];
-  /** @type {Array.<Card>} */
-  let not_overdue = [];
+export default (): CardIds => {
+  let overdue_good: CardIds = [];
+  let overdue_bad: CardIds = [];
+  let not_overdue_very_bad: CardIds = [];
+  let not_overdue: CardIds = [];
 
   getCardsInSchedule()
-    .filter((card) => card.isAllowed())
-    .forEach((card) => {
+    .filter((id) => isAllowed(id))
+    .forEach((id) => {
       /* Overdue */
       if (
-        card.getDue() < getTimeMemoized() + 16 * hours &&
-        !card.isTooEasy() &&
-        !card.wasTermVeryRecentlySeen()
+        getDue(id) < getTimeMemoized() + 16 * hours &&
+        !isTooEasy(id) &&
+        !wasTermVeryRecentlySeen(id)
       ) {
-        if (
-          // card.isFairlyBad()
-          card.isBelowGood() ||
-          card.isUnseenSiblingOfANonGoodCard()
-        ) {
-          overdue_bad.push(card);
+        if (isBelowGood(id) || isUnseenSiblingOfANonGoodCard(id)) {
+          overdue_bad.push(id);
         } else {
-          overdue_good.push(card);
+          overdue_good.push(id);
         }
       }
       // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
-      else if (card.isBad() && card.timeSinceTermWasSeen() > 20 * minutes) {
-        not_overdue_very_bad.push(card);
+      else if (isBad(id) && timeSinceTermWasSeen(id) > 20 * minutes) {
+        not_overdue_very_bad.push(id);
       } else {
-        not_overdue.push(card);
+        not_overdue.push(id);
       }
     });
 
