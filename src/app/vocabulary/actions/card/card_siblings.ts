@@ -1,16 +1,24 @@
-import { isInSession } from "app/vocabulary/actions/card/card";
+import { deck } from "app/vocabulary/actions/deck";
+import { CardId, CardIds, isInSession } from "app/vocabulary/actions/card/card";
+import { BAD } from "app/vocabulary/actions/card/card_difficulty";
+import { getTerms } from "app/vocabulary/actions/card/card_data";
+import CardInSession from "app/vocabulary/actions/cardInSession";
 
-export const getSiblingCards = (id: CardId) => {
+export const getSiblingCards = (id: CardId): CardIds => {
   // return getCardsByIds(this.siblingCardIds);
-  return getAllCardsWithSameTerm(id).filter(
-    (siblingCard) => siblinggetId(card) !== id
+  return getAllCardIdsWithSameTerm(id).filter(
+    (sibling_card_id) => sibling_card_id !== id
   );
 };
 
-export const getSiblingCardsInSession = (id: CardId) => {
+export const getSiblingCardsInSession = (id: CardId): Array<CardInSession> => {
   return getSiblingCards(id)
     .filter((card) => isInSession(card))
     .map((card) => getAsCardInSession(card));
+};
+
+export const getAsCardInSession = (id: CardId): CardInSession => {
+  return deck.session.cards.find((card) => card.id === id);
 };
 
 export const didAnySiblingCardsGetABadRatingInThisSession = (id: CardId) => {
@@ -19,16 +27,12 @@ export const didAnySiblingCardsGetABadRatingInThisSession = (id: CardId) => {
   });
 };
 
-export const getAllCardIdsWithSameTerm = (id: CardId) => {
-  return memoize(id, "getAllCardIdsWithSameTerm", () => {
-    let out = [];
-    getTerms(id).forEach((term) => {
-      out = out.concat(term.getCardIds());
-    });
-    return _.uniq(out);
+export const getAllCardIdsWithSameTerm = (id: CardId): CardIds => {
+  // return memoize(id, "getAllCardIdsWithSameTerm", () => {
+  let out = [];
+  getTerms(id).forEach((term) => {
+    out = out.concat(term.getCardIds());
   });
-};
-
-export const getAllCardsWithSameTerm = (id: CardId) => {
-  return getCardsByIds(getAllCardIdsWithSameTerm(id));
+  return _.uniq(out);
+  // });
 };

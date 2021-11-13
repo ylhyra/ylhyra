@@ -1,7 +1,7 @@
 import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
 import { isDev } from "app/app/functions/isDev";
 import { days, minutes } from "app/app/functions/time";
-import { CardIds, isIn } from "app/vocabulary/actions/card/card";
+import { CardIds, isIn, isInSession } from "app/vocabulary/actions/card/card";
 import {
   isBad,
   isFairlyBad,

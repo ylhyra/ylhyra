@@ -31,7 +31,7 @@ export function nextCard(depth = 0) {
   this.currentCard = _.min(this.cards, (i) => i.getRanking());
 
   /* Logging */
-  if ((LOGGING || window.logging) && isDev) {
+  if ((LOGGING || window["logging"]) && isDev) {
     const { deck } = this;
     console.table(
       _.sortBy(this.cards, (i) => i.getRanking()).map((i) => ({

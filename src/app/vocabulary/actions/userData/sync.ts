@@ -14,7 +14,7 @@ import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
  *
  * @returns {UserData}
  */
-export const sync = async (options = {}) => {
+export const sync = async (options: any = {}) => {
   /** @type UserData */
   let user_data;
 

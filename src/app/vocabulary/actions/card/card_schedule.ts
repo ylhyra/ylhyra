@@ -1,6 +1,6 @@
 import {
   CardId,
-  getAllCardsWithSameTerm,
+  getAllCardIdsWithSameTerm,
 } from "app/vocabulary/actions/card/card";
 import { getSchedule } from "app/vocabulary/actions/card/card_data";
 
@@ -53,7 +53,7 @@ export const isUnseenTerm = (id: CardId) => {
 
 export const getLowestAvailableTermScore = (id: CardId) => {
   let lowest;
-  getAllCardsWithSameTerm(id).forEach((card) => {
+  getAllCardIdsWithSameTerm(id).forEach((card) => {
     if (getScore(card)) {
       lowest = minIgnoreFalsy(lowest, getScore(card));
     }
@@ -64,7 +64,7 @@ export const getLowestAvailableTermScore = (id: CardId) => {
 export const getTermLastSeen = (id: CardId) => {
   return memoize(id, "getTermLastSeen", () => {
     let max = 0;
-    getAllCardsWithSameTerm(id).forEach((card) => {
+    getAllCardIdsWithSameTerm(id).forEach((card) => {
       max = Math.max(max, getLastSeen(card) || 0);
     });
     return max;

@@ -29,6 +29,7 @@ export const isIn = (id: CardId, arrayOfCards) => {
 };
 
 export const isInSession = (id: CardId) => {
+  // TODO!!
   return isIn(id, deck.session.cards);
 };
 
@@ -51,4 +52,14 @@ export const isAllowed = (id: CardId) => {
 
 export const doesCardExist = (id: CardId) => {
   return id in deck.cards;
+};
+
+export const filterCardsThatExist = (ids: CardIds) => {
+  return ids.filter(doesCardExist);
+};
+
+export const wasSeenInSession = (id) => {
+  return (
+    deck.session.cards.find((card) => card.getId() === id)?.history.length > 0
+  );
 };

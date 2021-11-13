@@ -6,6 +6,7 @@ import { deck } from "app/vocabulary/actions/deck";
 import { veryRecentlySeenSortedLast } from "app/vocabulary/actions/createCards/functions";
 import { sortBy } from "underscore";
 import { clamp } from "app/app/functions/math";
+import { CardIds } from "app/vocabulary/actions/card/card";
 
 export default (options): CardIds => {
   let new_cards = deck.cards_sorted.filter(

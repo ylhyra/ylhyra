@@ -1,12 +1,19 @@
 import { sortBy } from "underscore";
+import { CardIds } from "app/vocabulary/actions/card/card";
+import {
+  getScore,
+  getTermLastSeen,
+  wasTermVeryRecentlySeen,
+} from "app/vocabulary/actions/card/card_schedule";
+import { getSortKey } from "app/vocabulary/actions/card/card_data";
 
 export const oldestFirst = (ids: CardIds) => {
   return sortBy(ids, (id) => getTermLastSeen(id));
 };
 
-export const newestFirst = (ids: CardIds) => {
-  return oldestFirst(ids).reverse();
-};
+// export const newestFirst = (ids: CardIds) => {
+//   return oldestFirst(ids).reverse();
+// };
 
 export const veryRecentlySeenSortedLast = (ids: CardIds) => {
   return sortBy(ids, (id) => wasTermVeryRecentlySeen(id));
@@ -25,6 +32,6 @@ export const sortCardsByScore = (ids: CardIds) => {
   return sortBy(ids, (id) => getScore(id));
 };
 
-export const sortBySortKey = (ids: CardIds, options) => {
+export const sortBySortKey = (ids: CardIds, options?) => {
   return sortBy(ids, (id) => getSortKey(id, options));
 };

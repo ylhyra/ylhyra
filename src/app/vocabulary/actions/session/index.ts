@@ -103,7 +103,7 @@ class Session {
     this.lastUndid = 0;
     this.savedAt = null;
   }
-  async sessionDone(options = {}) {
+  async sessionDone(options: any = {}) {
     this.done = true;
     await this.createSchedule();
     this.clearInLocalStorage();

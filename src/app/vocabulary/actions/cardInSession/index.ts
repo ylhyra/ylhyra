@@ -4,16 +4,27 @@ import { rate } from "app/vocabulary/actions/cardInSession/rate";
 import { getRanking } from "app/vocabulary/actions/cardInSession/getRanking";
 import Session from "app/vocabulary/actions/session";
 import { CardId } from "app/vocabulary/actions/card/card";
+import { rating } from "app/vocabulary/actions/card/card_difficulty";
 
 class CardInSession {
   id: CardId;
   session: Session;
-  history: Array<string>;
+  history: Array<rating>;
   absoluteQueuePosition: number;
   cannotBeShownBefore?: number;
   done?: boolean;
 
-  constructor({ id, insertAtPosition, session, history }) {
+  constructor({
+    id,
+    insertAtPosition,
+    session,
+    history,
+  }: {
+    id: CardId;
+    insertAtPosition?: number;
+    session?: Session;
+    history?: Array<rating>;
+  }) {
     this.id = id;
     this.session = session;
     this.history = history || [];

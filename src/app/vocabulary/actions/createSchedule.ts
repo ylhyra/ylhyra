@@ -4,9 +4,19 @@ import {
   clamp,
   toFixedFloat,
 } from "app/app/functions/math";
-import { daysToMs, getTime, inDays, msToDays } from "app/app/functions/time";
+import { getTime, inDays, msToDays } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
+import {
+  getLastIntervalInDays,
+  getLastSeen,
+  getScore,
+  getSessionsSeen,
+  setSchedule,
+} from "app/vocabulary/actions/card/card_schedule";
+import { getSiblingCards } from "app/vocabulary/actions/card/card_siblings";
+import { printWord } from "./functions";
+import { wasSeenInSession } from "app/vocabulary/actions/card/card";
 
 // /**
 //  * @typedef {Object} ScheduleData
@@ -129,19 +139,19 @@ export function createSchedule() {
     );
 
     /* Postpone siblings */
-    getSiblingCards(id)
+    getSiblingCards(card.getId())
       /* Ignore cards that were seen in this session */
-      .filter((sibling_card) => !hasBeenSeenInSession(sibling_card))
+      .filter((sibling_card) => !wasSeenInSession(sibling_card))
       .forEach((sibling_card) => {
         /* Postpone based on a portion of the main card's due_in_days,
            but never more than 10 days */
         const newDue = inDays(Math.min(due_in_days * 0.8, 10));
-        const actualDue = sibling_card.getDue();
+        const actualDue = getDue(sibling_card);
         if (!actualDue || actualDue < newDue) {
           setSchedule(sibling_card, {
             due: newDue,
           });
-          log(`${sibling_card.printWord()} postponed`);
+          log(`${printWord(sibling_card)} postponed`);
         }
       });
   });

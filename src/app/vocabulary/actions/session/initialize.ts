@@ -3,7 +3,7 @@ import { syncIfNecessary } from "app/vocabulary/actions/userData/sync";
 /**
  * @memberOf Session#
  */
-export async function InitializeSession(options = {}) {
+export async function InitializeSession(options: any = {}) {
   await syncIfNecessary();
   if (options.shouldReset !== false) {
     this.reset();
