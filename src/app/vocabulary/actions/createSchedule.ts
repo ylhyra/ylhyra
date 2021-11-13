@@ -17,6 +17,7 @@ import {
 import { getSiblingCards } from "app/vocabulary/actions/card/card_siblings";
 import { printWord } from "./functions";
 import { wasSeenInSession } from "app/vocabulary/actions/card/card";
+import { getDue } from "app/vocabulary/actions/card/card_data";
 
 // /**
 //  * @typedef {Object} ScheduleData

@@ -1,37 +1,44 @@
-import { getTermsByIds } from "app/vocabulary/actions/card/functions";
+import { deck } from "app/vocabulary/actions/deck";
+import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
+import {
+  CardId,
+  CardIds,
+  TermId,
+  TermIds,
+} from "app/vocabulary/actions/card/card";
+import { getTermIds } from "app/vocabulary/actions/card/card_data";
+import _ from "underscore";
+import { getCardIdsFromTermId } from "app/vocabulary/actions/card/term";
 
-// export const getDependenciesAsTermIdToDepth = (id: CardId) => {
-//   // return getTerms(id)[0]?.getDependenciesAsTermIdToDepth();
-// };
+export const getDependenciesAsTermIdToDepth = (id: CardId) => {
+  const term_id: TermId = getTermIds(id)[0];
+  return termGetDependenciesAsTermIdToDepth(term_id);
+};
+
+export const termGetDependenciesAsTermIdToDepth = (
+  term_id: TermId
+): { [key: TermId]: number } => {
+  return {
+    ...(deck.terms[term_id].dependencies || {}),
+    [term_id]: 0,
+  };
+};
 
 export const getDependenciesAsCardIdToDepth = (id: CardId) => {
-  let out = {};
+  let out: { [key: CardId]: number } = {};
   const deps = getDependenciesAsTermIdToDepth(id);
-  Object.keys(deps).forEach((term_id) => {
-    getCardsFromTermId(term_id).forEach((card) => {
-      out[getId(card)] = deps[term_id];
+  (Object.keys(deps) as TermIds).forEach((term_id) => {
+    getCardIdsFromTermId(term_id).forEach((card_id) => {
+      out[card_id] = deps[term_id];
     });
   });
   return out;
 };
 
-export const getDependenciesAsArrayOfCardIds = (id: CardId) => {
-  return memoize(id, "getDependenciesAsArrayOfCardIds", () =>
-    getCardIdsFromTermIds(
-      Object.keys(getDependenciesAsTermIdToDepth(id))
-    ).filter((card_id) => card_id !== id)
-  );
-  // if (this.getdependenciesasarrayofcardids_memoized) {
-  //   return this.getdependenciesasarrayofcardids_memoized;
-  // }
-  // this.getdependenciesasarrayofcardids_memoized = getcardidsfromtermids(
-  //   object.keys(getdependenciesastermidtodepth(id))
-  // ).filter((card_id) => card_id !== id);
-  // return this.getdependenciesAsArrayOfCardIds_Memoized;
-};
-
-export const getDependenciesAsArrayOfCards = (id: CardId) => {
-  return getCardsByIds(getDependenciesAsArrayOfCardIds(id));
+export const getDependenciesAsArrayOfCardIds = (id: CardId): CardIds => {
+  return getCardIdsFromTermIds(
+    Object.keys(getDependenciesAsTermIdToDepth(id)) as TermIds
+  ).filter((card_id) => card_id !== id);
 };
 
 export const dependencyDepthOfCard = (id: CardId, card2) => {
@@ -49,31 +56,24 @@ export const hasDependenciesInCommonWith = (id: CardId, card2) => {
   );
 };
 
-export const termGetDependenciesAsTermIdToDepth = (term_id: TermId) => {
-  return {
-    ...(this.dependencies || {}),
-    [this.getId()]: 0,
-  };
-};
-
-export const getSortedTermDependencies = (term_id: TermId) => {
+export const getSortedTermDependencies = (term_id: TermId): TermIds => {
   const dependenciesAsTermIdToDepth =
     termGetDependenciesAsTermIdToDepth(term_id);
-  let term_ids = Object.keys(dependenciesAsTermIdToDepth).sort(
+  let term_ids = (Object.keys(dependenciesAsTermIdToDepth) as TermIds).sort(
     (a, b) => dependenciesAsTermIdToDepth[b] - dependenciesAsTermIdToDepth[a]
   );
   // if (options?.onlyDirect) {
   //   term_ids = term_ids.filter((a) => dependenciesAsTermIdToDepth[a] <= 1);
   // }
-  return getTermsByIds(term_ids);
+  return term_ids;
 };
 
 export const getSortedCardDependenciesAsCardIds = (term_id: TermId) => {
-  return _.uniq(
-    _.flatten(
-      this.getSortedTermDependencies().map((term) =>
-        term.getCardIdsShuffledIfSeen()
-      )
-    )
-  );
+  // return _.uniq(
+  //   _.flatten(
+  //     this.getSortedTermDependencies().map((term) =>
+  //       term.getCardIdsShuffledIfSeen()
+  //     )
+  //   )
+  // );
 };

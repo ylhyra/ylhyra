@@ -6,7 +6,7 @@ import Card from "app/vocabulary/elements/RunningScreen/CardElement";
 import Progress from "app/vocabulary/elements/RunningScreen/Progress";
 import { log } from "app/app/functions/log";
 import SelectLevelScreen from "app/vocabulary/elements/UserLevelScreen";
-import { getUserLevel } from "app/vocabulary/actions/userLevel";
+import { getUserLevel } from "app/vocabulary/actions/level";
 
 class RunningScreen extends Component {
   componentDidMount = () => {

@@ -4,9 +4,18 @@ import {
   hasTermsInCommonWith,
 } from "app/vocabulary/actions/card/card_dependencies";
 
-export type CardId = string;
+/* Hack to prevent mixing of types */
+interface CardIdDifferentiator extends String {
+  [key: string]: unknown;
+}
+export type CardId = CardIdDifferentiator & string;
 export type CardIds = Array<CardId>;
-export type TermId = string;
+
+interface TermIdDifferentiator extends String {
+  [key: string]: unknown;
+}
+export type TermId = TermIdDifferentiator & string;
+export type TermIds = Array<TermId>;
 
 export const clearMemoizations = (id: CardId) => {
   // ["isAllowed", "getTermLastSeen"].forEach((key) => {

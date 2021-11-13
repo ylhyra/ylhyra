@@ -124,7 +124,9 @@
       "no-unused-vars": 0,
       "import/no-anonymous-default-export": 0,
       "jsx-a11y/anchor-has-content": 0,
-      "no-unreachable": 0
+      "no-unreachable": 0,
+      "@typescript-eslint/no-unused-vars": 0,
+      "no-undef": 1
     },
     "globals": {
       "__basedir": true,

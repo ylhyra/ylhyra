@@ -1,14 +1,12 @@
 import CardInSession from "app/vocabulary/actions/cardInSession";
+import { CardIds } from "app/vocabulary/actions/card/card";
 
 /**
  * Used to load more cards into an already ongoing session.
  * Called from createCards.
  * @memberOf Session#
- * @param {Array.<Card>} cards
- * @param {Object=} options
- * @param {boolean} options.insertImmediately
  */
-export function loadCardsIntoSession(cards, options = {}) {
+export function loadCardsIntoSession(card_ids: CardIds, options: any = {}) {
   let insertAtPosition = 0;
   if (!options.insertImmediately) {
     /* Insert new cards after the current cards */
@@ -18,10 +16,10 @@ export function loadCardsIntoSession(cards, options = {}) {
     }
   }
 
-  cards.forEach((card, index) => {
+  card_ids.forEach((id, index) => {
     this.cards.push(
       new CardInSession({
-        data: card.data,
+        id,
         insertAtPosition: insertAtPosition + index,
         session: this,
       })

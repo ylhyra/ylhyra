@@ -1,8 +1,15 @@
+import { minIgnoreFalsy, roundMsTo100Sec } from "app/app/functions/math";
+import { getTimeMemoized, minutes } from "app/app/functions/time";
+import { CardId } from "app/vocabulary/actions/card/card";
+import { getSchedule, getTerms } from "app/vocabulary/actions/card/card_data";
+import { BAD, EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
+import { deck } from "app/vocabulary/actions/deck";
 import {
-  CardId,
   getAllCardIdsWithSameTerm,
-} from "app/vocabulary/actions/card/card";
-import { getSchedule } from "app/vocabulary/actions/card/card_data";
+  getAsCardInSession,
+} from "app/vocabulary/actions/card/card_siblings";
+import { saveScheduleForCardId } from "app/vocabulary/actions/userData/userDataSchedule";
+import { INCR } from "app/vocabulary/actions/createSchedule";
 
 export const getScore = (id: CardId) => {
   return getSchedule(id)?.score;
@@ -62,13 +69,13 @@ export const getLowestAvailableTermScore = (id: CardId) => {
 };
 
 export const getTermLastSeen = (id: CardId) => {
-  return memoize(id, "getTermLastSeen", () => {
-    let max = 0;
-    getAllCardIdsWithSameTerm(id).forEach((card) => {
-      max = Math.max(max, getLastSeen(card) || 0);
-    });
-    return max;
+  // return memoize(id, "getTermLastSeen", () => {
+  let max = 0;
+  getAllCardIdsWithSameTerm(id).forEach((card) => {
+    max = Math.max(max, getLastSeen(card) || 0);
   });
+  return max;
+  // });
 };
 
 export const timeSinceTermWasSeen = (id: CardId) => {
@@ -111,7 +118,7 @@ export const setSchedule = (id, data) => {
 
 export const isNewTerm = (id: CardId) => {
   // There exists at least one term
-  return getTerms(id).some((term) =>
+  return getTermIds(id).some((term) =>
     // Where every cardInSession is new
     term
       .getCards()

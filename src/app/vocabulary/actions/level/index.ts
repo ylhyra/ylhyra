@@ -10,13 +10,13 @@ export const INTERMEDIATE = 3;
 export const ADVANCED = 4;
 
 export const setUserLevel = (val) => {
-  setUserData("userLevel", val);
+  setUserData("level", val);
   /* Currently only used to refresh the interface, does not store any data */
   store.dispatch({ type: "SET_USER_LEVEL", content: val });
 };
 
 export const getUserLevel = () => {
-  const val = getUserData("userLevel");
+  const val = getUserData("level");
   return val ? parseInt(val) : null;
 };
 

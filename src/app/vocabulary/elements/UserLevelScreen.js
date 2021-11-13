@@ -7,7 +7,7 @@ import {
   INTERMEDIATE,
   NOVICE,
   setUserLevel,
-} from "app/vocabulary/actions/userLevel";
+} from "app/vocabulary/actions/level";
 import { connect } from "react-redux";
 import { deck } from "app/vocabulary/actions/deck";
 

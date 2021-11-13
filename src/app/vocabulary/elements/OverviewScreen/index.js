@@ -8,7 +8,7 @@ import { updateURL } from "app/router/actions/updateURL";
 import ActivityOverview from "app/vocabulary/elements/OverviewScreen/ActivityCalendar";
 import { calculateOverview } from "app/vocabulary/elements/OverviewScreen/actions";
 import Section from "documents/templates/Section";
-import { getUserLevel, printUserLevel } from "app/vocabulary/actions/userLevel";
+import { getUserLevel, printUserLevel } from "app/vocabulary/actions/level";
 
 class Overview extends Component {
   componentDidMount() {

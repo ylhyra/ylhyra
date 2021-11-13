@@ -1,15 +1,23 @@
 import { log } from "app/app/functions/log";
 import { BAD } from "app/vocabulary/actions/card/card_difficulty";
+import {
+  getData,
+  getFrom,
+  getTermIds,
+} from "app/vocabulary/actions/card/card_data";
+import { isNewCard } from "app/vocabulary/actions/card/card_schedule";
 
 /**
  * @memberOf CardInSession#
  */
 export function getRanking() {
+  const id = this.getId();
+  const from = getFrom(id);
   let q = this.getQueuePosition();
 
   // New terms are not relevant unless there are no overdue cards
   if (
-    !this.getTermIds().some((term_id) => term_id in this.session.lastSeenTerms)
+    !getTermIds(id).some((term_id) => term_id in this.session.lastSeenTerms)
   ) {
     q += 1000;
   }
@@ -40,17 +48,17 @@ export function getRanking() {
   }
 
   /* Prevent rows of the same cardInSession type from appearing right next to each other too often */
-  if (this.session.cardTypeLog[0] === this.getFrom()) {
+  if (this.session.cardTypeLog[0] === from) {
     q += 0.4;
-    if (this.session.cardTypeLog[1] === this.getFrom()) {
+    if (this.session.cardTypeLog[1] === from) {
       /* Two in a row */
-      if (this.hasBeenSeenInSession() || !this.isNewCard()) {
+      if (this.hasBeenSeenInSession() || !isNewCard(id)) {
         q += 5;
       }
 
       /* Three new cards in a row */
       if (
-        this.session.cardTypeLog[2] === this.getFrom() &&
+        this.session.cardTypeLog[2] === from &&
         // Only if a user says "Good" to all three previous
         !this.session.ratingHistory.slice(0, 3).some((i) => i === BAD) &&
         // And all of them were new cards
@@ -61,7 +69,7 @@ export function getRanking() {
     }
   }
 
-  if (!this.isSentence) {
+  if (!getData(id, "isSentence")) {
     // A sentence should be shown if the level was just increased
     if (this.session.wasEasinessLevelJustIncreased) {
       q += 200;
@@ -76,7 +84,7 @@ export function getRanking() {
     ) {
       q += 20;
       // Prevent English from showing up for unknown cards
-      if (this.getFrom() === "en" || this.isNewCard()) {
+      if (from === "en" || isNewCard(id)) {
         q += 20;
       }
     }
