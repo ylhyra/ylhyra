@@ -18,15 +18,15 @@ import { getSiblingCards } from "app/vocabulary/actions/card/card_siblings";
 import { printWord } from "./functions";
 import { wasSeenInSession } from "app/vocabulary/actions/card/card";
 import { getDue } from "app/vocabulary/actions/card/card_data";
+import { Timestamp } from "app/vocabulary/actions/session";
 
-// /**
-//  * @typedef {Object} ScheduleData
-//  * @property {TimestampInMilliseconds} due
-//  * @property {Days} last_interval_in_days
-//  * @property {number} score
-//  * @property {TimestampInMilliseconds} last_seen
-//  * @property {number} sessions_seen
-//  */
+export interface ScheduleData {
+  due: Timestamp;
+  last_interval_in_days: number; //Days;
+  score: number;
+  last_seen: Timestamp;
+  sessions_seen: number;
+}
 
 /** Increment score by how much? */
 export const INCR = 0.4;

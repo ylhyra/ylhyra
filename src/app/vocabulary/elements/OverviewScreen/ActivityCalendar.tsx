@@ -6,7 +6,7 @@ import Spacer from "documents/templates/Spacer";
 
 import ReactActivityCalendar from "app/app/functions/react-activity-calendar";
 
-class ActivityCalendar extends Component {
+class ActivityCalendar extends Component<{ vocabulary: any }> {
   render() {
     const { deck, overview } = this.props.vocabulary;
     if (!deck) return null;

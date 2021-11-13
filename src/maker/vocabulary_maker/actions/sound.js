@@ -7,10 +7,6 @@ import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
 import { Database, save } from "maker/vocabulary_maker/actions/actions";
 import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
-import {
-  getCardsByIds,
-  getIdsFromCards,
-} from "app/vocabulary/actions/card/functions";
 
 let missing_sound = [];
 let current_word_recording = 0;
@@ -21,7 +17,7 @@ export const setupSound = () => {
   let ids = _.shuffle(deck.cards_sorted.filter((c) => c.sortKey))
     .sort((a, b) => Math.floor(a.sortKey / 50) - Math.floor(b.sortKey / 50))
     .map((c) => c.id);
-  ids = getIdsFromCards(withDependencies(getCardsByIds(ids)));
+  ids = withDependencies(ids);
   ids.forEach((id) => {
     if (!(id in Database.cards)) return;
     Database.cards[id].spokenSentences.forEach((sentence) => {

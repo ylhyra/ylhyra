@@ -1,5 +1,10 @@
 import { deck } from "app/vocabulary/actions/deck";
-import { CardId, CardIds, TermIds } from "app/vocabulary/actions/card/card";
+import {
+  CardId,
+  CardIds,
+  filterCardsThatExist,
+  TermIds,
+} from "app/vocabulary/actions/card/card";
 import { Timestamp } from "app/vocabulary/actions/session";
 import { getTermData } from "app/vocabulary/actions/card/term";
 
@@ -12,10 +17,14 @@ export const getDue = (id: CardId): Timestamp | null => {
 };
 
 export const getCardsInSchedule = (): CardIds => {
-  return Object.keys(deck.schedule);
+  return filterCardsThatExist(Object.keys(deck.schedule) as CardIds);
 };
 
 export const getData = (id, key) => {
+  if (!(id in deck.cards)) {
+    console.error(`Card not found:`, id);
+    throw new Error();
+  }
   if (key in deck.cards[id]) {
     return deck.cards[id][key];
   } else if (key === "terms") {
@@ -43,7 +52,7 @@ export const getTermIds = (id: CardId): TermIds => {
   return getData(id, "terms");
 };
 
-export const getSortKey = (id, options): number => {
+export const getSortKey = (id: CardId, options): number => {
   if (options?.englishLast) {
     return getData(id, "sortKey") + getFrom(id) === "en" ? 0.5 : 0;
   } else {

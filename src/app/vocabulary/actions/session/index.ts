@@ -22,7 +22,11 @@ import { InitializeSession } from "app/vocabulary/actions/session/initialize";
 import { nextCard } from "app/vocabulary/actions/session/nextCard";
 import { createSchedule } from "app/vocabulary/actions/createSchedule";
 import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
-import { undo } from "app/vocabulary/actions/session/undo";
+import {
+  checkForUndoOnKeyDown,
+  undo,
+  undoable,
+} from "app/vocabulary/actions/session/undo";
 import {
   answer,
   checkIfCardsRemaining,
@@ -46,7 +50,7 @@ export type Milliseconds = number;
  * @namespace
  */
 class Session {
-  currentCard?: CardInSession;
+  currentCard: CardInSession;
   cards: Array<CardInSession>;
   deck: Deck;
   ratingHistory: Array<rating>;
@@ -164,6 +168,8 @@ class Session {
     }
   }
   undo = undo;
+  undoable = undoable;
+  checkForUndoOnKeyDown = checkForUndoOnKeyDown;
   createCards = createCards;
   InitializeSession = InitializeSession;
   nextCard = nextCard;

@@ -5,11 +5,10 @@ import Session from "app/vocabulary/actions/session";
 import { countTerms } from "app/vocabulary/actions/functions";
 import { warnIfSlow } from "app/app/functions/warnIfSlow";
 import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
+import { CardId, CardIds, TermId } from "app/vocabulary/actions/card/card";
+import { ScheduleData } from "app/vocabulary/actions/createSchedule";
 
-/**
- * @type {Deck|undefined}
- */
-export let deck;
+export let deck: Deck | undefined;
 
 // /**
 //  * @property {Object.<string, Card>} cards
@@ -20,34 +19,28 @@ export let deck;
 //  * @property {Session} session
 //  */
 class Deck {
+  cards: { [key: CardId]: any };
+  cards_sorted: CardIds;
+  terms: { [key: TermId]: any };
+  schedule: { [key: CardId]: ScheduleData };
+  user_data: any; //UserData;
+  session: Session;
+  termCount: number;
+
   constructor({ database, schedule, session, user_data }) {
     deck = this;
-    this.cards = {};
-    this.terms = {};
-
     this.cards = database.cards;
     this.terms = database.terms;
-
-    // database?.cards &&
-    //   Object.keys(database.cards).forEach(
-    //     (card_id) =>
-    //       (this.cards[card_id] = new Card(database.cards[card_id], card_id))
-    //   );
-    // database?.terms &&
-    //   Object.keys(database.terms).forEach(
-    //     (term_id) =>
-    //       (this.terms[term_id] = new Term(database.terms[term_id], term_id))
-    //   );
     this.user_data = user_data || {};
     this.schedule = schedule || {};
     this.session = new Session(deck, session);
 
-    this.cards_sorted = sortBySortKey(Object.keys(this.cards), {
+    this.cards_sorted = sortBySortKey(Object.keys(this.cards) as CardIds, {
       englishLast: true,
     });
     this.termCount = countTerms(deck.cards_sorted);
     if (isBrowser) {
-      window.deck = this;
+      window["deck"] = this;
     }
   }
   continueStudying() {

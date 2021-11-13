@@ -1,6 +1,7 @@
 import { getTime } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
+import CardInSession from "app/vocabulary/actions/cardInSession";
 
 /**
  * @memberOf Session#
@@ -31,7 +32,7 @@ export function getPercentageDone() {
  */
 export function checkIfCardsRemaining() {
   const areThereNewCardsRemaining = this.cards.some(
-    (i) => !i.hasBeenSeenInSession() && !i.done && i.canBeShown()
+    (i: CardInSession) => !i.hasBeenSeenInSession() && !i.done && i.canBeShown()
   );
   if (!areThereNewCardsRemaining) {
     log("No cards remaining");

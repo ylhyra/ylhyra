@@ -4,7 +4,7 @@ import { studyParticularIds } from "app/vocabulary/actions/functions";
 import { PercentageKnown } from "app/vocabulary/actions/functions/percentageKnown";
 import { DecodeDataInHTML } from "documents/compile/functions/functions";
 
-class X extends Component {
+class X extends Component<{ vocabulary: any; route: any }> {
   getCards = () => {
     // const vocabulary_list = this.getList();
     // if (!vocabulary_list) return null;

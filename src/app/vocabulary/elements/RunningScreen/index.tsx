@@ -7,8 +7,10 @@ import Progress from "app/vocabulary/elements/RunningScreen/Progress";
 import { log } from "app/app/functions/log";
 import SelectLevelScreen from "app/vocabulary/elements/UserLevelScreen";
 import { getUserLevel } from "app/vocabulary/actions/level";
+import { getSound } from "app/vocabulary/actions/card/card_data";
+import Session from "app/vocabulary/actions/session";
 
-class RunningScreen extends Component {
+class RunningScreen extends Component<{ vocabulary: any }> {
   componentDidMount = () => {
     this.componentDidUpdate();
     window.addEventListener("keydown", this.checkKey);
@@ -32,7 +34,7 @@ class RunningScreen extends Component {
     if (!getUserLevel()) {
       return <SelectLevelScreen />;
     }
-    const session = this.props.vocabulary.deck?.session;
+    const session: Session = this.props.vocabulary.deck?.session;
     if (!session) return null;
     const { card } = this.props.vocabulary;
     return (
@@ -66,7 +68,7 @@ class RunningScreen extends Component {
               </button>,
             ]}
             <div className="spacer" />
-            {session?.cards.some((j) => j.getSound()) && (
+            {session?.cards.some((j) => getSound(j.getId())) && (
               <button
                 className="link"
                 onClick={() => {
@@ -89,6 +91,6 @@ class RunningScreen extends Component {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: any) => ({
   vocabulary: state.vocabulary,
 }))(RunningScreen);

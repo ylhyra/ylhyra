@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-class Progress extends Component {
+class Progress extends Component<{ vocabulary: any }> {
   render() {
     const percentageDone =
       this.props.vocabulary.deck?.session?.getPercentageDone();
@@ -18,6 +18,6 @@ class Progress extends Component {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: any) => ({
   vocabulary: state.vocabulary,
 }))(Progress);

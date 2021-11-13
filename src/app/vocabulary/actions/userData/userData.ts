@@ -3,19 +3,19 @@ import { getTime } from "app/app/functions/time";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 import { isBrowser } from "app/app/functions/isBrowser";
 
-/**
- * @typedef {Object} UserData
- * @property {string} user_id
- * @property {TimestampInMilliseconds} lastSynced
- * @property {UserDataRows} rows
- */
-/**
- * @typedef {Object.<string, {
- *   value: string,
- *   needsSyncing: boolean,
- *   type: ("schedule"|null)
- * }>|Object} UserDataRows
- */
+// /**
+//  * @typedef {Object} UserData
+//  * @property {string} user_id
+//  * @property {TimestampInMilliseconds} lastSynced
+//  * @property {UserDataRows} rows
+//  */
+// /**
+//  * @typedef {Object.<string, {
+//  *   value: string,
+//  *   needsSyncing: boolean,
+//  *   type: ("schedule"|null)
+//  * }>|Object} UserDataRows
+//  */
 
 /**
  * In other words, user data is stored on: {
@@ -34,7 +34,7 @@ export const getUserData = (key) => {
   return deck?.user_data?.rows?.[key]?.value || null;
 };
 
-export const setUserData = (key, value, type) => {
+export const setUserData = (key: string, value, type?) => {
   if (key.length > 20) {
     throw new Error("Max key length is 20");
   }
@@ -51,7 +51,10 @@ export const setUserData = (key, value, type) => {
 };
 
 let timer;
-export const saveUserDataInLocalStorage = (user_data = {}, options = {}) => {
+export const saveUserDataInLocalStorage = (
+  user_data = {},
+  options: any = {}
+) => {
   const toSave = {
     ...(deck?.user_data || {}),
     ...user_data,
@@ -72,5 +75,5 @@ export const saveUserDataInLocalStorage = (user_data = {}, options = {}) => {
 };
 
 if (isBrowser) {
-  window.getUserData = getUserData;
+  window["getUserData"] = getUserData;
 }

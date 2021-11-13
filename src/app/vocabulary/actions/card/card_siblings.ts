@@ -1,12 +1,13 @@
 import { deck } from "app/vocabulary/actions/deck";
 import { CardId, CardIds, isInSession } from "app/vocabulary/actions/card/card";
 import { BAD } from "app/vocabulary/actions/card/card_difficulty";
-import { getTerms } from "app/vocabulary/actions/card/card_data";
+import { getTermIds } from "app/vocabulary/actions/card/card_data";
 import CardInSession from "app/vocabulary/actions/cardInSession";
 import _ from "underscore";
+import { getCardIdsFromTermId } from "app/vocabulary/actions/card/term";
 
 export const getSiblingCards = (id: CardId): CardIds => {
-  // return getCardsByIds(this.siblingCardIds);
+  // return (this.siblingCardIds);
   return getAllCardIdsWithSameTerm(id).filter(
     (sibling_card_id) => sibling_card_id !== id
   );
@@ -32,7 +33,7 @@ export const getAllCardIdsWithSameTerm = (id: CardId): CardIds => {
   // return memoize(id, "getAllCardIdsWithSameTerm", () => {
   let out = [];
   getTermIds(id).forEach((term) => {
-    out = out.concat(term.getCardIds());
+    out = out.concat(getCardIdsFromTermId(term));
   });
   return _.uniq(out);
   // });

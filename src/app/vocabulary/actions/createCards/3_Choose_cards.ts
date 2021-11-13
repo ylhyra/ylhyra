@@ -8,6 +8,7 @@ import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
 import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
 import { isDev } from "app/app/functions/isDev";
 import { CardIds } from "app/vocabulary/actions/card/card";
+import { printWord } from "app/vocabulary/actions/functions";
 
 export default (options): CardIds => {
   /**
@@ -17,7 +18,7 @@ export default (options): CardIds => {
   let chosen_cards = new Array(CARDS_TO_CREATE).fill(null);
 
   /* Helper function to add to chosen_cards */
-  const add = (arr, desc: string, pos?) => {
+  const add = (arr: CardIds, desc: string, pos?) => {
     if (!isEmpty(arr)) {
       if (pos === undefined) {
         pos = chosen_cards.findIndex((j) => j === null);
@@ -25,7 +26,7 @@ export default (options): CardIds => {
           pos = chosen_cards.length;
         }
       }
-      log(`${desc} card "${arr[0].printWord()}" added at position ${pos + 1}`);
+      log(`${desc} card "${printWord(arr[0])}" added at position ${pos + 1}`);
       chosen_cards[pos] = arr.shift();
     }
   };

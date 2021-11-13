@@ -5,10 +5,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 import { withPlural } from "app/app/functions/simplePlural";
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
+import {
+  BAD,
+  EASY,
+  GOOD,
+  rating,
+} from "app/vocabulary/actions/card/card_difficulty";
+import { getSound } from "src/app/vocabulary/actions/card/card_data";
 
-class CardElement extends Component {
-  state = {};
+class CardElement extends Component<{ vocabulary: any }> {
+  isKeyDown: boolean;
+  state: {
+    answer?: rating;
+    clickingOnShowButton?: boolean;
+  } = {};
   componentDidMount() {
     this.componentDidUpdate();
     window.addEventListener("keydown", this.checkKey);
@@ -18,7 +28,7 @@ class CardElement extends Component {
     window.removeEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
   }
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps?) {
     const { card } = this.props.vocabulary;
     const prevCard = prevProps?.vocabulary.card;
     if (!prevProps || card.counter !== prevCard.counter) {
@@ -76,7 +86,7 @@ class CardElement extends Component {
     }
     // log(e.keyCode)
   };
-  answer = (i, timeout, e) => {
+  answer = (i, timeout?, e?) => {
     e?.stopPropagation();
     if (this.state.answer) return;
     const { session } = this.props.vocabulary.deck;
@@ -91,12 +101,18 @@ class CardElement extends Component {
       }, 100);
     }
   };
-  sound = (answered) => {
+  sound = (answered?) => {
     const { card, volume } = this.props.vocabulary;
-    if (volume && card.getSound() && (card.getFrom() === "is" || answered)) {
+    if (
+      volume &&
+      getSound(card.getId()) &&
+      (card.getFrom() === "is" || answered)
+    ) {
       try {
         AudioClip.play(
-          card.getSound().map((s) => get_processed_image_url(s + ".mp3", true))
+          getSound(card.getId()).map((s) =>
+            get_processed_image_url(s + ".mp3", true)
+          )
         );
       } catch (e) {
         console.warn(e);
@@ -105,7 +121,7 @@ class CardElement extends Component {
       AudioClip.pause();
     }
   };
-  show = (timeout) => {
+  show = (timeout?) => {
     if (this.props.vocabulary.card.answered) {
       this.sound(true);
       return;
@@ -169,7 +185,7 @@ class CardElement extends Component {
           vocabulary-card
           flashcard
           ${answered ? "answered" : "not-answered"}
-          ${card.getSound() && volume ? "has-sound" : ""}
+          ${getSound(card.getId()) && volume ? "has-sound" : ""}
           ${card.isNewTerm() ? "new" : ""}
         `}
         onClick={() => this.show(false)}
@@ -180,7 +196,7 @@ class CardElement extends Component {
           flashcard-prompt-${from === "is" ? "icelandic" : "english"}
         `}
         >
-          {card.getSound() && <div className="has-audio-icon" />}
+          {getSound(card.getId()) && <div className="has-audio-icon" />}
           <div>{html(from === "is" ? is : en)}</div>
         </div>
         <div
@@ -263,7 +279,7 @@ class CardElement extends Component {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: any) => ({
   vocabulary: state.vocabulary,
 }))(CardElement);
 

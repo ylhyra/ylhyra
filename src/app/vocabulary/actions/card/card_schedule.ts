@@ -1,7 +1,7 @@
 import { minIgnoreFalsy, roundMsTo100Sec } from "app/app/functions/math";
 import { getTimeMemoized, minutes } from "app/app/functions/time";
 import { CardId } from "app/vocabulary/actions/card/card";
-import { getSchedule, getTerms } from "app/vocabulary/actions/card/card_data";
+import { getSchedule, getTermIds } from "app/vocabulary/actions/card/card_data";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
 import { deck } from "app/vocabulary/actions/deck";
 import {
@@ -10,6 +10,7 @@ import {
 } from "app/vocabulary/actions/card/card_siblings";
 import { saveScheduleForCardId } from "app/vocabulary/actions/userData/userDataSchedule";
 import { INCR } from "app/vocabulary/actions/createSchedule";
+import { getCardIdsFromTermId } from "app/vocabulary/actions/card/term";
 
 export const getScore = (id: CardId) => {
   return getSchedule(id)?.score;
@@ -120,12 +121,9 @@ export const isNewTerm = (id: CardId) => {
   // There exists at least one term
   return getTermIds(id).some((term) =>
     // Where every cardInSession is new
-    term
-      .getCards()
-      .every(
-        (card) =>
-          !isInSchedule(card) &&
-          !getAsCardInSession(card)?.hasBeenSeenInSession()
-      )
+    getCardIdsFromTermId(term).every(
+      (id) =>
+        !isInSchedule(id) && !getAsCardInSession(id)?.hasBeenSeenInSession()
+    )
   );
 };

@@ -6,8 +6,6 @@ import { withDependencies } from "app/vocabulary/actions/functions/dependencies"
 import { initializeDeckFromFile } from "documents/compile/vocabulary/initializeDeckFromFile";
 import {
   getCardIdsFromTermIds,
-  getCardsByIds,
-  getIdsFromCards,
   getTermIdsFromCardIds,
 } from "app/vocabulary/actions/card/functions";
 
@@ -20,10 +18,7 @@ export const parseVocabularyList = (vocabulary_list) => {
   // const missing = getCardIdsFromWords(vocabulary_list, true);
   const terms = getTermIdsFromCardIds(card_ids);
   const dependencyTerms = getTermIdsFromCardIds(
-    _.difference(
-      getIdsFromCards(withDependencies(getCardsByIds(card_ids))),
-      card_ids
-    )
+    _.difference(withDependencies(card_ids), card_ids)
   );
   if (terms.length === 0) return null;
 

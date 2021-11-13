@@ -1,6 +1,8 @@
 import { printWord } from "app/vocabulary/actions/functions";
 import { isDev } from "app/app/functions/isDev";
 import _ from "underscore";
+import CardInSession from "app/vocabulary/actions/cardInSession";
+import { getTermIds } from "app/vocabulary/actions/card/card_data";
 
 let LOGGING;
 // LOGGING = true;
@@ -47,8 +49,8 @@ export function nextCard(depth = 0) {
   }
 
   /* Store when this term was last seen */
-  this.currentCard.getTermIds().forEach((id) => {
-    this.lastSeenTerms[id] = this.counter;
+  getTermIds(this.currentCard.getId()).forEach((term_id) => {
+    this.lastSeenTerms[term_id] = this.counter;
   });
 
   this.wasEasinessLevelJustIncreased = false;

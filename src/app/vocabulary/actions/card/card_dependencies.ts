@@ -8,7 +8,10 @@ import {
 } from "app/vocabulary/actions/card/card";
 import { getTermIds } from "app/vocabulary/actions/card/card_data";
 import _ from "underscore";
-import { getCardIdsFromTermId } from "app/vocabulary/actions/card/term";
+import {
+  getCardIdsFromTermId,
+  getCardIdsShuffledIfSeen,
+} from "app/vocabulary/actions/card/term";
 
 export const getDependenciesAsTermIdToDepth = (id: CardId) => {
   const term_id: TermId = getTermIds(id)[0];
@@ -69,11 +72,11 @@ export const getSortedTermDependencies = (term_id: TermId): TermIds => {
 };
 
 export const getSortedCardDependenciesAsCardIds = (term_id: TermId) => {
-  // return _.uniq(
-  //   _.flatten(
-  //     this.getSortedTermDependencies().map((term) =>
-  //       term.getCardIdsShuffledIfSeen()
-  //     )
-  //   )
-  // );
+  return _.uniq(
+    _.flatten(
+      getSortedTermDependencies(term_id).map((term) =>
+        getCardIdsShuffledIfSeen(term)
+      )
+    )
+  );
 };

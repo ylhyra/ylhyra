@@ -9,6 +9,7 @@ import { isDev } from "app/app/functions/isDev";
 import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 import { CardIds } from "app/vocabulary/actions/card/card";
 import {
+  getCardsInSchedule,
   getData,
   getFrom,
   getTermIds,
@@ -67,7 +68,7 @@ export const rapidFlattenArrayAndCountUnique = (arrOfArrs) => {
 
 export const countTermsInSchedule = () => {
   if (!deck) return null;
-  return countTerms(Object.keys(deck.schedule));
+  return countTerms(getCardsInSchedule());
 };
 
 if (isBrowser && isDev) {

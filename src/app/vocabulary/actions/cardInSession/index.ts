@@ -1,5 +1,8 @@
 import { postponeRelatedCards } from "app/vocabulary/actions/cardInSession/postponeRelatedCards";
-import { showIn } from "app/vocabulary/actions/cardInSession/showIn";
+import {
+  canBeShown,
+  showIn,
+} from "app/vocabulary/actions/cardInSession/showIn";
 import { rate } from "app/vocabulary/actions/cardInSession/rate";
 import { getRanking } from "app/vocabulary/actions/cardInSession/getRanking";
 import Session from "app/vocabulary/actions/session";
@@ -63,6 +66,7 @@ class CardInSession {
   rate = rate;
   postponeRelatedCards = postponeRelatedCards;
   showIn = showIn;
+  canBeShown = canBeShown;
 }
 
 export default CardInSession;

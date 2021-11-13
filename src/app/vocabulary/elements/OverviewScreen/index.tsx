@@ -10,7 +10,7 @@ import { calculateOverview } from "app/vocabulary/elements/OverviewScreen/action
 import Section from "documents/templates/Section";
 import { getUserLevel, printUserLevel } from "app/vocabulary/actions/level";
 
-class Overview extends Component {
+class Overview extends Component<{ vocabulary: any }> {
   componentDidMount() {
     this.componentDidUpdate();
   }
@@ -69,6 +69,6 @@ class Overview extends Component {
     ];
   }
 }
-export default connect((state) => ({
+export default connect((state: any) => ({
   vocabulary: state.vocabulary,
 }))(Overview);
