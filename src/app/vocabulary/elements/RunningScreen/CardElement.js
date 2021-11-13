@@ -5,6 +5,7 @@ import { get_processed_image_url } from "app/app/paths";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
+import { withPlural } from "app/app/functions/simplePlural";
 
 class CardElement extends Component {
   state = {};
@@ -152,13 +153,16 @@ class CardElement extends Component {
     }
 
     literally = label("Literally", literally);
-    synonyms = label("Synonyms", synonyms);
-    lemmas = label("Dictionary form" + /,/.test(lemmas) ? "s" : "", lemmas);
-    example_declension = label("", example_declension);
+    synonyms = label(withPlural(/,/.test(synonyms), "Synonym"), synonyms);
+    lemmas = label(withPlural(/,/.test(lemmas), "Dictionary form"), lemmas);
+    example_declension = label("Example declension", example_declension);
+    pronunciation = label(
+      "Pronounced",
+      pronunciation && `<i>${pronunciation}</i>`
+    );
+    note = label("Note", note);
+    note_regarding_english = label("Note", note_regarding_english);
 
-    note_regarding_english = html(note_regarding_english);
-    note = html(note);
-    const isNew = deck.session.currentCard?.isNewTerm();
     return (
       <div
         className={`
@@ -166,7 +170,7 @@ class CardElement extends Component {
           flashcard
           ${answered ? "answered" : "not-answered"}
           ${card.getSound() && volume ? "has-sound" : ""}
-          ${isNew ? "new" : ""}
+          ${card.isNewTerm() ? "new" : ""}
         `}
         onClick={() => this.show(false)}
       >
@@ -191,27 +195,16 @@ class CardElement extends Component {
         </div>
         <div className="card-notes">
           <div className="card-notes-inner">
-            {note_regarding_english && (
-              <div className={from === "en" ? "" : "show-after-answer"}>
-                <span className="label">Note:</span> {note_regarding_english}
-              </div>
-            )}
+            <div className={from === "en" ? "" : "show-after-answer"}>
+              {note_regarding_english}
+            </div>
             <div className="show-after-answer">
-              {note && (
-                <div>
-                  <span className="label">Note:</span> {note}
-                </div>
-              )}
+              {note}
               {literally}
               {lemmas}
               {example_declension}
               {synonyms}
-              {pronunciation && (
-                <div>
-                  <span className="label">Pronounced:</span>{" "}
-                  <i>{pronunciation}</i>
-                </div>
-              )}
+              {pronunciation}
             </div>
           </div>
 
