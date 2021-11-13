@@ -1,4 +1,9 @@
-import { getTime, hours, minutes } from "app/app/functions/time";
+import {
+  getTime,
+  getTimeMemoized,
+  hours,
+  minutes,
+} from "app/app/functions/time";
 import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
 import { shuffleLocally } from "app/app/functions/shuffleLocally";
 import { getCardsInSchedule } from "app/vocabulary/actions/card/functions";
@@ -20,7 +25,7 @@ export default () => {
     .forEach((card) => {
       /* Overdue */
       if (
-        card.getDue() < getTime() + 16 * hours &&
+        card.getDue() < getTimeMemoized() + 16 * hours &&
         !card.isTooEasy() &&
         !card.wasTermVeryRecentlySeen()
       ) {

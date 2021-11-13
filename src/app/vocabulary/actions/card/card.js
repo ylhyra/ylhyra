@@ -13,15 +13,10 @@ import {
 import _, { uniq } from "underscore";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 import { INCR } from "app/vocabulary/actions/createSchedule";
-import {
-  maxIgnoreFalsy,
-  minIgnoreFalsy,
-  roundMsTo100Sec,
-} from "app/app/functions/math";
-import { getTime, minutes } from "app/app/functions/time";
+import { minIgnoreFalsy, roundMsTo100Sec } from "app/app/functions/math";
+import { getTimeMemoized, minutes } from "app/app/functions/time";
 import { matchWords } from "app/app/functions/languageProcessing/regexes";
 import phoneticHash from "app/app/functions/languageProcessing/phoneticHash";
-import { warnIfSlow } from "app/app/functions/warnIfSlow";
 import { saveScheduleForCardId } from "app/vocabulary/actions/userData/userDataSchedule";
 
 /** @typedef {string} CardID */
@@ -341,7 +336,7 @@ class Card {
   timeSinceTermWasSeen() {
     let j = this.getTermLastSeen();
     if (!j) return null;
-    return getTime() - j;
+    return getTimeMemoized() - j;
   }
 
   /**

@@ -35,7 +35,21 @@ export const minutes = minute;
  * @returns {TimestampInMilliseconds}
  */
 export const getTime = () => {
-  return new Date().getTime();
+  return Date.now();
+};
+
+let timeMemoized;
+/**
+ * @returns {TimestampInMilliseconds}
+ */
+export const getTimeMemoized = () => {
+  if (!timeMemoized) {
+    timeMemoized = getTime();
+  }
+  return timeMemoized;
+};
+export const clearTimeMemoized = () => {
+  timeMemoized = null;
 };
 
 /**
