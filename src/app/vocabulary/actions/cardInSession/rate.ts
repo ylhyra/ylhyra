@@ -62,9 +62,9 @@ export function rate(rating) {
   card.postponeRelatedCards(interval);
   card.session.cardTypeLog.unshift(card.getFrom());
 
-  // keepTrackOfEasiness({
-  //   rating,
-  //   isANewCard: !card.isInSchedule() && timesSeenBeforeInSession === 0,
-  //   card,
-  // });
+  keepTrackOfEasiness({
+    rating,
+    isANewCard: !card.isInSchedule() && timesSeenBeforeInSession === 0,
+    card,
+  });
 }

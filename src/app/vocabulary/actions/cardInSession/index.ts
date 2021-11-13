@@ -4,8 +4,13 @@
 //  * @property {Array.<number>} history
 //  * @property {number} absoluteQueuePosition
 //  */
+import { postponeRelatedCards } from "app/vocabulary/actions/cardInSession/postponeRelatedCards";
+import { showIn } from "app/vocabulary/actions/cardInSession/showIn";
+import { rate } from "app/vocabulary/actions/cardInSession/rate";
+import { getRanking } from "app/vocabulary/actions/cardInSession/getRanking";
+
 class CardInSession {
-  constructor({ data, insertAtPosition, session, history }) {
+  constructor({ id, insertAtPosition, session, history }) {
     this.session = session;
     this.history = history || [];
     this.absoluteQueuePosition =
@@ -55,13 +60,5 @@ class CardInSession {
   postponeRelatedCards = postponeRelatedCards;
   showIn = showIn;
 }
-
-// extendPrototype(
-//   CardInSession,
-//   require("app/vocabulary/actions/cardInSession/getRanking"),
-//   require("app/vocabulary/actions/cardInSession/rate"),
-//   require("app/vocabulary/actions/cardInSession/postponeRelatedCards"),
-//   require("app/vocabulary/actions/cardInSession/showIn")
-// );
 
 export default CardInSession;
