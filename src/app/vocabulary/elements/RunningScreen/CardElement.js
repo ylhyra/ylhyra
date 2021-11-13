@@ -151,28 +151,11 @@ class CardElement extends Component {
       return null;
     }
 
-    literally = literally && (
-      <div>
-        <span className="label">Literally:</span> {html(literally)}
-      </div>
-    );
-    synonyms = synonyms && (
-      <div>
-        <span className="label">Synonyms:</span> {html(synonyms)}
-      </div>
-    );
-    lemmas = lemmas && (
-      <div>
-        <span className="label">Dictionary form{/,/.test(lemmas) && "s"}:</span>{" "}
-        {html(lemmas)}
-      </div>
-    );
-    example_declension = example_declension && (
-      <div>
-        <span className="label">Example inflection:</span>{" "}
-        {html(example_declension)}
-      </div>
-    );
+    literally = label("Literally", literally);
+    synonyms = label("Synonyms", synonyms);
+    lemmas = label("Dictionary form" + /,/.test(lemmas) ? "s" : "", lemmas);
+    example_declension = label("", example_declension);
+
     note_regarding_english = html(note_regarding_english);
     note = html(note);
     const isNew = deck.session.currentCard?.isNewTerm();
@@ -309,4 +292,13 @@ const getFontSize = (text, lang) => {
     size -= 2;
   }
   return size - (lang === "en" ? 1 : 0);
+};
+
+const label = (name, value) => {
+  if (!value) return null;
+  return (
+    <div>
+      <span className="label">{name}:</span> {html(value)}
+    </div>
+  );
 };
