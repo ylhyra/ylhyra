@@ -4,16 +4,38 @@ import { saveInLocalStorage } from "app/app/functions/localStorage";
 import Analytics from "app/app/analytics";
 import { sync } from "app/vocabulary/actions/userData/sync";
 import CardInSession from "app/vocabulary/actions/cardInSession";
-import { getCardById } from "app/vocabulary/actions/card/functions";
-import { extendPrototype } from "app/app/functions/extendPrototype";
 import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
 import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
 import { roundMsToSec, roundToInterval } from "app/app/functions/math";
 import { exitVocabularyScreen } from "app/vocabulary/actions/functions";
 import { setUserData } from "app/vocabulary/actions/userData/userData";
 import { SESSION_PREFIX } from "app/vocabulary/actions/userData/userDataSessions";
+import Deck from "app/vocabulary/actions/deck";
+import {
+  CardIds,
+  doesCardExist,
+  TermId,
+} from "app/vocabulary/actions/card/card";
+import { rating } from "app/vocabulary/actions/card/card_difficulty";
+import { createCards } from "app/vocabulary/actions/createCards";
+import { InitializeSession } from "app/vocabulary/actions/session/initialize";
+import { nextCard } from "app/vocabulary/actions/session/nextCard";
+import { createSchedule } from "app/vocabulary/actions/createSchedule";
+import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
+import { undo } from "app/vocabulary/actions/session/undo";
+import {
+  answer,
+  checkIfCardsRemaining,
+  createMoreCards,
+  getPercentageDone,
+  updateRemainingTime,
+} from "app/vocabulary/actions/session/functions";
+import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
+
+export type Timestamp = number;
+export type Milliseconds = number;
 
 /**
  * @property {Array.<CardInSession>} cards
@@ -24,6 +46,23 @@ export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
  * @namespace
  */
 class Session {
+  currentCard?: CardInSession;
+  cards: Array<CardInSession>;
+  deck: Deck;
+  ratingHistory: Array<rating>;
+  cardHistory: Array<CardInSession>;
+  allowed_ids: CardIds;
+  counter: number;
+  cardTypeLog: Array<string>;
+  lastSeenTerms: { [key: TermId]: number };
+  timeStarted: Timestamp;
+  totalTime: Milliseconds;
+  remainingTime: Milliseconds;
+  lastTimestamp: Timestamp;
+  done: boolean;
+  lastUndid: number; /* Counter */
+  savedAt: Timestamp;
+
   constructor(deck, init) {
     this.reset();
     this.deck = deck;
@@ -32,9 +71,9 @@ class Session {
       Object.assign(this, init);
       this.cards = this.cards
         .map(({ id, history }) => {
-          if (getCardById(id)) {
+          if (doesCardExist(id)) {
             return new CardInSession({
-              data: getCardById(id).data,
+              id,
               history,
             });
           } else {
@@ -66,7 +105,6 @@ class Session {
   }
   async sessionDone(options = {}) {
     this.done = true;
-    // console.log({ s: this, done: this.done });
     await this.createSchedule();
     this.clearInLocalStorage();
     if (!options.isInitializing) {
@@ -125,18 +163,18 @@ class Session {
       log("Not logged");
     }
   }
+  undo = undo;
+  createCards = createCards;
+  InitializeSession = InitializeSession;
+  nextCard = nextCard;
+  createSchedule = createSchedule;
+  loadCardsIntoSession = loadCardsIntoSession;
+  loadCardInInterface = loadCardInInterface;
+  updateRemainingTime = updateRemainingTime;
+  getPercentageDone = getPercentageDone;
+  checkIfCardsRemaining = checkIfCardsRemaining;
+  createMoreCards = createMoreCards;
+  answer = answer;
 }
-
-extendPrototype(
-  Session,
-  require("app/vocabulary/actions/session/undo"),
-  require("app/vocabulary/actions/session/functions"),
-  require("app/vocabulary/actions/createCards"),
-  require("app/vocabulary/actions/session/initialize"),
-  require("app/vocabulary/actions/session/nextCard"),
-  require("app/vocabulary/actions/createSchedule"),
-  require("app/vocabulary/actions/session/loadCardsIntoSession"),
-  require("app/vocabulary/actions/session/loadCardInInterface")
-);
 
 export default Session;
