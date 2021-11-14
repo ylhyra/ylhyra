@@ -21,14 +21,15 @@ import {
 } from "app/vocabulary/constants";
 
 export const howDifficultIsCard = (id: CardId): number => {
+  /* If unseen (?) */
   const cardLevel = getLevel(id);
   const userLevel = getUserLevel();
-  switch (userLevel) {
-    case USER_LEVEL_BEGINNER:
-    case USER_LEVEL_NOVICE:
-    case USER_LEVEL_INTERMEDIATE:
-    case USER_LEVEL_ADVANCED:
-  }
+  // switch (userLevel) {
+  //   case USER_LEVEL_BEGINNER:
+  //   case USER_LEVEL_NOVICE:
+  //   case USER_LEVEL_INTERMEDIATE:
+  //   case USER_LEVEL_ADVANCED:
+  // }
 };
 
 export const getSortingBasedOnUserLevel = (id: CardId): number => {
