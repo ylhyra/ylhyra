@@ -35,6 +35,8 @@ export const getLevel = (id: CardId): number => {
   return getData(id, "level");
 };
 
+export const getCardLevel = getLevel;
+
 export const getImportance = (id: CardId): number => {
   return getData(id, "importance");
 };

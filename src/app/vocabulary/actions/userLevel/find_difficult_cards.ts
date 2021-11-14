@@ -12,17 +12,28 @@
 
 import { getUserLevel } from "app/vocabulary/actions/userLevel/index";
 import { CardId } from "app/vocabulary/actions/card/types";
-import { getLevel } from "app/vocabulary/actions/card/card_data";
+import { getCardLevel, getLevel } from "app/vocabulary/actions/card/card_data";
 import {
-  USER_LEVEL_ADVANCED,
   USER_LEVEL_BEGINNER,
-  USER_LEVEL_INTERMEDIATE,
   USER_LEVEL_NOVICE,
+  USER_LEVEL_INTERMEDIATE,
+  USER_LEVEL_ADVANCED,
+  B1,
+  A1,
+  B2,
+  A2,
 } from "app/vocabulary/constants";
+
+const difficultyLevelToCEFR = {
+  [USER_LEVEL_BEGINNER]: A1,
+  [USER_LEVEL_NOVICE]: A1,
+  [USER_LEVEL_INTERMEDIATE]: B1,
+  [USER_LEVEL_ADVANCED]: B2,
+};
 
 export const howDifficultIsCard = (id: CardId): number => {
   /* If unseen (?) */
-  const cardLevel = getLevel(id);
+  const cardLevel = getCardLevel(id);
   const userLevel = getUserLevel();
   // switch (userLevel) {
   //   case USER_LEVEL_BEGINNER:
