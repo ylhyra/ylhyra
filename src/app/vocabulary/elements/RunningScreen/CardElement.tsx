@@ -6,12 +6,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withPlural } from "app/app/functions/simplePlural";
 import {
-  BAD,
-  EASY,
-  GOOD,
-  rating,
-} from "app/vocabulary/actions/card/card_difficulty";
-import {
   getData,
   getFrom,
   getSound,
@@ -19,6 +13,7 @@ import {
 import CardInSession from "app/vocabulary/actions/cardInSession";
 import { isNewTerm } from "app/vocabulary/actions/card/card_schedule";
 import { CardReducer, VocabularyReducer } from "app/vocabulary/reducers";
+import { BAD, EASY, GOOD, rating } from "app/vocabulary/constants";
 
 class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
   isKeyDown: boolean;

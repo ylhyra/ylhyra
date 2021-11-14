@@ -17,7 +17,6 @@ import { setUserData } from "app/vocabulary/actions/userData/userData";
 import { SESSION_PREFIX } from "app/vocabulary/actions/userData/userDataSessions";
 import Deck from "app/vocabulary/actions/deck";
 import { doesCardExist } from "app/vocabulary/actions/card/card";
-import { rating } from "app/vocabulary/actions/card/card_difficulty";
 import { createCards } from "app/vocabulary/actions/createCards";
 import { InitializeSession } from "app/vocabulary/actions/session/initialize";
 import { nextCard } from "app/vocabulary/actions/session/nextCard";
@@ -37,6 +36,7 @@ import {
 } from "app/vocabulary/actions/session/functions";
 import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
 import { CardIds, TermId } from "app/vocabulary/actions/card/types";
+import { rating } from "app/vocabulary/constants";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 

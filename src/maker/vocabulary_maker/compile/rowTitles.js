@@ -1,4 +1,21 @@
 import { ucfirst } from "app/app/functions/ucfirst";
+import {
+  A1,
+  A2,
+  B1,
+  B2,
+  C1,
+  C2,
+  DIFFICULT_FOR_ADVANCED,
+  DIFFICULT_FOR_BEGINNERS,
+  DIFFICULT_FOR_INTERMEDIATE,
+  IMPORTANT,
+  NORMAL_IMPORTANCE,
+  NOT_DIFFICULT,
+  UNIMPORTANT,
+  VERY_IMPORTANT,
+  VERY_UNIMPORTANT,
+} from "app/vocabulary/constants";
 
 export const row_info_array = [
   { name: "icelandic", alwaysShow: true },
@@ -12,12 +29,12 @@ export const row_info_array = [
     alwaysShow: true,
     isNumber: true,
     options: [
-      { value: 1, title: "A1" },
-      { value: 2, title: "A2" },
-      { value: 3, title: "B1" },
-      { value: 4, title: "B2" },
-      { value: 5, title: "C1" },
-      { value: 6, title: "C2" },
+      { value: A1, title: "A1" },
+      { value: A2, title: "A2" },
+      { value: B1, title: "B1" },
+      { value: B2, title: "B2" },
+      { value: C1, title: "C1" },
+      { value: C2, title: "C2" },
     ],
   },
 
@@ -26,22 +43,26 @@ export const row_info_array = [
     alwaysShow: true,
     isNumber: true,
     options: [
-      { value: 1, title: "Very unimportant" },
-      { value: 2, title: "Unimportant" },
-      { value: 3, title: "Normal" },
-      { value: 4, title: "Important" },
-      { value: 5, title: "Very important" },
+      { value: VERY_UNIMPORTANT, title: "Very unimportant" },
+      { value: UNIMPORTANT, title: "Unimportant" },
+      { value: NORMAL_IMPORTANCE, title: "Normal" },
+      { value: IMPORTANT, title: "Important" },
+      { value: VERY_IMPORTANT, title: "Very important" },
     ],
   },
+
   {
     name: "difficulty",
     alwaysShow: true,
     isNumber: true,
     options: [
-      { value: 1, title: "Not difficult" },
-      { value: 2, title: "Difficult for beginners" },
-      { value: 3, title: "Difficult for intermediate" },
-      { value: 4, title: "Difficult for advanced" },
+      { value: NOT_DIFFICULT, title: "Not difficult" },
+      { value: DIFFICULT_FOR_BEGINNERS, title: "Difficult for beginners" },
+      {
+        value: DIFFICULT_FOR_INTERMEDIATE,
+        title: "Difficult for intermediate",
+      },
+      { value: DIFFICULT_FOR_ADVANCED, title: "Difficult for advanced" },
     ],
   },
 

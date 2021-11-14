@@ -1,7 +1,6 @@
 import { minIgnoreFalsy, roundMsTo100Sec } from "app/app/functions/math";
 import { getTimeMemoized, minutes, Timestamp } from "app/app/functions/time";
 import { getTermIds } from "app/vocabulary/actions/card/card_data";
-import { GOOD } from "app/vocabulary/actions/card/card_difficulty";
 import { deck } from "app/vocabulary/actions/deck";
 import {
   getAllCardIdsWithSameTerm,
@@ -10,6 +9,7 @@ import {
 import { saveScheduleForCardId } from "app/vocabulary/actions/userData/userDataSchedule";
 import { getCardIdsFromTermId } from "app/vocabulary/actions/card/term";
 import { CardId, ScheduleData } from "app/vocabulary/actions/card/types";
+import { GOOD } from "app/vocabulary/constants";
 
 export const getSchedule = (id: CardId): ScheduleData | null => {
   return deck.schedule[id];
@@ -43,6 +43,25 @@ export const isUnseenSiblingOfANonGoodCard = (id: CardId) => {
   if (!isUnseenCard(id)) return false;
   const l = getLowestAvailableTermScore(id);
   return l && l < GOOD;
+};
+
+export const isInSchedule = (id: CardId) => {
+  return id in deck.schedule;
+};
+
+export const setSchedule = (id, data) => {
+  if (data.due) {
+    data.due = roundMsTo100Sec(data.due);
+  }
+  if (data.last_seen) {
+    data.last_seen = roundMsTo100Sec(data.last_seen);
+  }
+
+  deck.schedule[id] = {
+    ...(deck.schedule[id] || {}),
+    ...data,
+  };
+  saveScheduleForCardId(id);
 };
 
 export const isUnseenTerm = (id: CardId) => {
@@ -84,29 +103,9 @@ export const wasTermSeenMoreRecentlyThan = (id: CardId, time) => {
   return i && i < time;
 };
 
-export const isInSchedule = (id: CardId) => {
-  return id in deck.schedule;
-};
-
 export const isNewCard = (id: CardId) => {
   return !isInSchedule(id);
 };
-
-export const setSchedule = (id, data) => {
-  if (data.due) {
-    data.due = roundMsTo100Sec(data.due);
-  }
-  if (data.last_seen) {
-    data.last_seen = roundMsTo100Sec(data.last_seen);
-  }
-
-  deck.schedule[id] = {
-    ...(deck.schedule[id] || {}),
-    ...data,
-  };
-  saveScheduleForCardId(id);
-};
-
 export const isNewTerm = (id: CardId) => {
   // There exists at least one term
   return getTermIds(id).some((term) =>

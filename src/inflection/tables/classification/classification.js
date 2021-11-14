@@ -434,7 +434,7 @@ let shortcuts = {};
 let shortcuts_used_in_BIN = {};
 
 /**
- * Sorted single-level array of tags, used for sorting rows when constructing the tree
+ * Sorted single-userLevel array of tags, used for sorting rows when constructing the tree
  */
 let sorted_tags = [];
 

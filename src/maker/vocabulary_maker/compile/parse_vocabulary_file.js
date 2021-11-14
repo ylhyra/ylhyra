@@ -22,7 +22,7 @@ export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
     _terms.forEach((term) => {
       if (!terms[term]) {
         terms[term] = {
-          // level: null,
+          // userLevel: null,
           cards: [],
         };
       }

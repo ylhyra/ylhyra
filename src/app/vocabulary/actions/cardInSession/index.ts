@@ -6,8 +6,8 @@ import {
 import { rate } from "app/vocabulary/actions/cardInSession/rate";
 import { getRanking } from "app/vocabulary/actions/cardInSession/getRanking";
 import Session from "app/vocabulary/actions/session";
-import { rating } from "app/vocabulary/actions/card/card_difficulty";
 import { CardId } from "app/vocabulary/actions/card/types";
+import { rating } from "app/vocabulary/constants";
 
 class CardInSession {
   id: CardId;

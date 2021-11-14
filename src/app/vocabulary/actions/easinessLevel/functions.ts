@@ -10,7 +10,7 @@ import {
   getUserData,
   setUserData,
 } from "app/vocabulary/actions/userData/userData";
-import { BAD } from "app/vocabulary/actions/card/card_difficulty";
+import { BAD } from "app/vocabulary/constants";
 
 let last_jump_up;
 
@@ -20,7 +20,7 @@ export const increaseEasinessLevel = (currentCardSortKey) => {
   const newBasedOnCurrentCard = currentCardSortKey + change;
   const newBasedOnCurrentEasinessLevel = getEasinessLevel() + change;
   if (newBasedOnCurrentCard < getEasinessLevel()) {
-    // log("Not increased as term is below current level");
+    // log("Not increased as term is below current userLevel");
     return;
   }
 
@@ -58,11 +58,11 @@ export const getMaxSortKey = () => {
   /* Can not go higher than the lowest bad cardInSession */
   const lowestBadCard = getLowestBadCardSortKey();
 
-  /* Can not go higher than level B1 */
+  /* Can not go higher than userLevel B1 */
   const highestCardInLevelB1 =
     deck.cards_sorted
       .slice()
-      /* Goes backwards to find the last cardInSession that is on a B1 level */
+      /* Goes backwards to find the last cardInSession that is on a B1 userLevel */
       .reverse()
       .find((card) => card.level === 3)
       ?.getSortKey() || Infinity;
@@ -92,7 +92,7 @@ export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
     }
   });
 
-  // /* Easiness level has been lowered */
+  // /* Easiness userLevel has been lowered */
   // if (change < 0) {
   //   /* Find cards that are exactly in the newly lowered range */
   //   const cardsInLoweredRange =

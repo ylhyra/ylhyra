@@ -47,7 +47,7 @@ export const refreshRows = () => {
     Database.rows = Database.rows.sort(
       (a, b) =>
         Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
-        // Boolean(a.level) - Boolean(b.level) ||
+        // Boolean(a.userLevel) - Boolean(b.userLevel) ||
         Boolean(a.icelandic) - Boolean(b.icelandic) ||
         Boolean(a.last_seen) - Boolean(b.last_seen) ||
         Boolean(a.english) - Boolean(b.english) ||
@@ -66,7 +66,7 @@ export const refreshRows = () => {
 export const selectRows = (noupdate) => {
   if (!isSearching) {
     Database.selected_rows = Database.rows
-      // .filter((i) => i.row_id > 1600 || i.level <= 3 || !i.level)
+      // .filter((i) => i.row_id > 1600 || i.userLevel <= 3 || !i.userLevel)
       // .filter((r) => !r.last_seen && !r["eyða"])
       .slice(0, MAX_PER_PAGE);
   } else if (!noupdate) {
@@ -234,7 +234,7 @@ export const addRowsIfMissing = (text) => {
         icelandic: is.trim(),
         english: en?.trim(),
         alternative_id: is.trim(),
-        // level: DECK ? null : level || window.term_level || 1,
+        // userLevel: DECK ? null : userLevel || window.term_level || 1,
         level: level || prompt_level || null,
         depends_on: depends_on || "",
         lemmas: lemmas || "",

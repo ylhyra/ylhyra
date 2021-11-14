@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { exitVocabularyScreen } from "app/vocabulary/actions/functions";
-import {
-  ADVANCED,
-  BEGINNER,
-  getUserLevel,
-  INTERMEDIATE,
-  NOVICE,
-  setUserLevel,
-} from "app/vocabulary/actions/level";
+import { getUserLevel, setUserLevel } from "app/vocabulary/actions/userLevel";
 import { connect } from "react-redux";
 import { deck } from "app/vocabulary/actions/deck";
+import {
+  USER_LEVEL_ADVANCED,
+  USER_LEVEL_BEGINNER,
+  USER_LEVEL_INTERMEDIATE,
+  USER_LEVEL_NOVICE,
+} from "app/vocabulary/constants";
 
 class X extends Component<{ vocabulary: any; route: any }> {
   set(level) {
@@ -36,16 +35,18 @@ class X extends Component<{ vocabulary: any; route: any }> {
             </div>
             <div id="select-level-buttons">
               <button
-                onClick={() => this.set(BEGINNER)}
-                className={userLevel <= BEGINNER ? "green" : "gray"}
+                onClick={() => this.set(USER_LEVEL_BEGINNER)}
+                className={userLevel <= USER_LEVEL_BEGINNER ? "green" : "gray"}
               >
                 <h3>
                   Beginner <span>(A0)</span>
                 </h3>
               </button>
               <button
-                onClick={() => this.set(NOVICE)}
-                className={getUserLevel() === NOVICE ? "green" : "gray"}
+                onClick={() => this.set(USER_LEVEL_NOVICE)}
+                className={
+                  getUserLevel() === USER_LEVEL_NOVICE ? "green" : "gray"
+                }
               >
                 <h3>
                   Novice <span>(A1-A2)</span>
@@ -53,8 +54,10 @@ class X extends Component<{ vocabulary: any; route: any }> {
                 <div>I can write simple sentences</div>
               </button>
               <button
-                onClick={() => this.set(INTERMEDIATE)}
-                className={getUserLevel() === INTERMEDIATE ? "green" : "gray"}
+                onClick={() => this.set(USER_LEVEL_INTERMEDIATE)}
+                className={
+                  getUserLevel() === USER_LEVEL_INTERMEDIATE ? "green" : "gray"
+                }
               >
                 <h3>
                   Intermediate <span>(B1-B2)</span>
@@ -65,8 +68,10 @@ class X extends Component<{ vocabulary: any; route: any }> {
                 </div>
               </button>
               <button
-                onClick={() => this.set(ADVANCED)}
-                className={getUserLevel() === ADVANCED ? "green" : "gray"}
+                onClick={() => this.set(USER_LEVEL_ADVANCED)}
+                className={
+                  getUserLevel() === USER_LEVEL_ADVANCED ? "green" : "gray"
+                }
               >
                 <h3>
                   Advanced <span>(B2+)</span>

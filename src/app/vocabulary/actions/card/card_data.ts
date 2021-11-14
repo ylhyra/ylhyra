@@ -31,6 +31,18 @@ export const getId = (id: CardId) => {
   return getData(id, "id");
 };
 
+export const getLevel = (id: CardId): number => {
+  return getData(id, "level");
+};
+
+export const getImportance = (id: CardId): number => {
+  return getData(id, "importance");
+};
+
+export const getDifficulty = (id: CardId): number => {
+  return getData(id, "difficulty");
+};
+
 export const getSound = (id: CardId) => {
   return getData(id, "sound");
 };

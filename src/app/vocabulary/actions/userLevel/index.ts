@@ -3,11 +3,12 @@ import {
   getUserData,
   setUserData,
 } from "app/vocabulary/actions/userData/userData";
-
-export const BEGINNER = 1;
-export const NOVICE = 2;
-export const INTERMEDIATE = 3;
-export const ADVANCED = 4;
+import {
+  USER_LEVEL_ADVANCED,
+  USER_LEVEL_BEGINNER,
+  USER_LEVEL_INTERMEDIATE,
+  USER_LEVEL_NOVICE,
+} from "app/vocabulary/constants";
 
 export const setUserLevel = (val) => {
   setUserData("level", val);
@@ -22,13 +23,13 @@ export const getUserLevel = () => {
 
 export const printUserLevel = () => {
   switch (getUserLevel()) {
-    case BEGINNER:
+    case USER_LEVEL_BEGINNER:
       return "Beginner";
-    case NOVICE:
+    case USER_LEVEL_NOVICE:
       return "Novice";
-    case INTERMEDIATE:
+    case USER_LEVEL_INTERMEDIATE:
       return "Intermediate";
-    case ADVANCED:
+    case USER_LEVEL_ADVANCED:
       return "Advanced";
     default:
       return "";

@@ -52,7 +52,7 @@ export const simplify = () => {
 
     // if (term_id === getHash("einhver annar")) {
     //   Object.keys(deps).forEach((j) => {
-    //     console.log({ word: printWord(j), level: deps[j] });
+    //     console.log({ word: printWord(j), userLevel: deps[j] });
     //   });
     //   console.log({ deps });
     // }
@@ -62,7 +62,7 @@ export const simplify = () => {
 
     // if (term_id === getHash("frá einhverjum öðrum - til einhvers annars")) {
     //   Object.keys(deps).forEach((j) => {
-    //     console.log({ word: printWord(j), level: deps[j] });
+    //     console.log({ word: printWord(j), userLevel: deps[j] });
     //   });
     //   // console.log({ deps });
     // }

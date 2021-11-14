@@ -6,7 +6,6 @@ import {
 } from "app/app/functions/math";
 import { getTime, inDays, msToDays } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
 import {
   getDue,
   getLastIntervalInDays,
@@ -18,6 +17,7 @@ import {
 import { getSiblingCards } from "app/vocabulary/actions/card/card_siblings";
 import { printWord } from "./functions";
 import { wasSeenInSession } from "app/vocabulary/actions/card/card";
+import { BAD, EASY, GOOD } from "app/vocabulary/constants";
 
 /** Increment score by how much? */
 export const INCR = 0.4;

@@ -154,7 +154,7 @@ class Form2 extends React.Component {
           return errors;
         }}
         onSubmit={(values) => {
-          // document.querySelector("[name=level]").focus();
+          // document.querySelector("[name=userLevel]").focus();
           submit(values);
         }}
       >
@@ -177,12 +177,12 @@ class Form2 extends React.Component {
                     className="form-error"
                   />
                   <Field
-                    // type={row_name === "level" ? "number" : "text"}
+                    // type={row_name === "userLevel" ? "number" : "text"}
                     type="text"
                     as={options ? "select" : ""}
                     autoFocus={(() => {
                       if (Database.mode === "review_importance") return;
-                      // return row_name === "level";
+                      // return row_name === "userLevel";
                       if (selectedField) return row_name === selectedField;
                       if (!row["icelandic"]) return row_name === "icelandic";
                       if (!row["english"]) return row_name === "english";
@@ -193,7 +193,7 @@ class Form2 extends React.Component {
                     name={row_name}
                     id={row_name}
                     size={(() => {
-                      // if (row_name === "level") return 1;
+                      // if (row_name === "userLevel") return 1;
                       if (options) return 1; //options.length + 1;
                       // if (options) return 1;
                       return row[row_name]?.toString().length || 2;

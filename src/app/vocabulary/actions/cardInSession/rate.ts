@@ -1,6 +1,6 @@
 import { addRelatedCardsToSession } from "app/vocabulary/actions/cardInSession/addRelatedCardsToSession";
 import { keepTrackOfEasiness } from "app/vocabulary/actions/easinessLevel";
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
+import { BAD, EASY, GOOD } from "app/vocabulary/constants";
 
 /**
  * @memberOf CardInSession#

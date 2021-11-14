@@ -3,7 +3,7 @@ import { assert, notNull, shouldEqual } from "tests/integrationTests/index";
 import { run } from "tests/integrationTests/recipes";
 import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 import { DEFAULT_JUMP_DOWN } from "app/vocabulary/actions/easinessLevel";
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
+import { BAD, EASY, GOOD } from "app/vocabulary/constants";
 
 export default {
   "Easiness level correctly saved": async () => {
@@ -41,7 +41,7 @@ export default {
     });
     assert(
       getEasinessLevel() <= v1 - DEFAULT_JUMP_DOWN,
-      "Easiness level was not lowered"
+      "Easiness userLevel was not lowered"
     );
     checkIfCardsAreAboveEasinessLevel();
   },

@@ -1,11 +1,11 @@
 import { log } from "app/app/functions/log";
-import { BAD } from "app/vocabulary/actions/card/card_difficulty";
 import {
   getData,
   getFrom,
   getTermIds,
 } from "app/vocabulary/actions/card/card_data";
 import { isNewCard } from "app/vocabulary/actions/card/card_schedule";
+import { BAD } from "app/vocabulary/constants";
 
 /**
  * @memberOf CardInSession#
@@ -70,7 +70,7 @@ export function getRanking() {
   }
 
   if (!getData(id, "isSentence")) {
-    // A sentence should be shown if the level was just increased
+    // A sentence should be shown if the userLevel was just increased
     if (this.session.wasEasinessLevelJustIncreased) {
       q += 200;
     }
