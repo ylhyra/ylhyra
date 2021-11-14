@@ -1,69 +1,59 @@
 import { getUserLevel } from "app/vocabulary/actions/userLevel/index";
 import { CardId } from "app/vocabulary/actions/card/types";
 import {
-  getCardLevel,
+  getCardCEFR,
   getDifficulty,
   getImportance,
-  getLevel,
 } from "app/vocabulary/actions/card/card_data";
 import {
-  userLevel_BEGINNER,
-  userLevel_NOVICE,
-  userLevel_INTERMEDIATE,
-  userLevel_ADVANCED,
-  B1,
   A1,
+  B1,
   B2,
-  A2,
+  DIFFICULT_FOR_ADVANCED,
   DIFFICULT_FOR_BEGINNERS,
   DIFFICULT_FOR_INTERMEDIATE,
-  DIFFICULT_FOR_ADVANCED,
+  NORMAL_IMPORTANCE,
+  USER_LEVEL_ADVANCED,
+  USER_LEVEL_BEGINNER,
+  USER_LEVEL_INTERMEDIATE,
+  USER_LEVEL_NOVICE,
 } from "app/vocabulary/constants";
 
-const difficultyLevelToCEFR = {
-  [userLevel_BEGINNER]: A1,
-  [userLevel_NOVICE]: A1,
-  [userLevel_INTERMEDIATE]: B1,
-  [userLevel_ADVANCED]: B2,
+const userLevelToCEFR = {
+  [USER_LEVEL_BEGINNER]: A1,
+  [USER_LEVEL_NOVICE]: A1,
+  [USER_LEVEL_INTERMEDIATE]: B1,
+  [USER_LEVEL_ADVANCED]: B2,
 };
 
-const cardDifficultyToUserLevel = [
-  { userLevel: userLevel_BEGINNER, difficulty: DIFFICULT_FOR_BEGINNERS },
-  { userLevel: userLevel_NOVICE, difficulty: DIFFICULT_FOR_BEGINNERS },
-  {
-    userLevel: userLevel_INTERMEDIATE,
-    difficulty: DIFFICULT_FOR_INTERMEDIATE,
-  },
-  { userLevel: userLevel_ADVANCED, difficulty: DIFFICULT_FOR_ADVANCED },
-];
+const whatIsDifficultForUser = {
+  [USER_LEVEL_BEGINNER]: DIFFICULT_FOR_BEGINNERS,
+  [USER_LEVEL_NOVICE]: DIFFICULT_FOR_BEGINNERS,
+  [USER_LEVEL_INTERMEDIATE]: DIFFICULT_FOR_INTERMEDIATE,
+  [USER_LEVEL_ADVANCED]: DIFFICULT_FOR_ADVANCED,
+};
 
-export const howDifficultIsCard = (id: CardId): number => {
-  /* If unseen (?) */
-  const cardLevel = getCardLevel(id);
+export const getCardDifficultyRelativeToUsersLevel = (id: CardId): number => {
+  const cardCEFR = getCardCEFR(id);
   const userLevel = getUserLevel();
-
   const cardDifficulty = getDifficulty(id);
-  const cardImportance = getImportance(id);
-
   let outputDifficulty = 0;
-
   if (cardDifficulty) {
-    const indexOfCardDifficulty = cardDifficultyToUserLevel.findIndex(
-      (j) => j.difficulty === cardDifficulty
-    );
-    const indexOfUserLevel = cardDifficultyToUserLevel.findIndex(
-      (j) => j.userLevel === userLevel
-    );
+    const difficultyDelta = cardDifficulty - whatIsDifficultForUser[userLevel];
+    outputDifficulty += (5 + difficultyDelta) * (difficultyDelta >= 0 ? 10 : 1);
   }
-
-  // switch (userLevel) {
-  //   case userLevel_BEGINNER:
-  //   case userLevel_NOVICE:
-  //   case userLevel_INTERMEDIATE:
-  //   case userLevel_ADVANCED:
-  // }
+  const cefrDelta = cardCEFR - userLevelToCEFR[userLevel];
+  outputDifficulty += 0.1 * (5 + cefrDelta) * (cefrDelta >= 0 ? 10 : 1);
+  return outputDifficulty;
 };
 
-export const getSortingBasedOnUserLevel = (id: CardId): number => {
-  // getUserLevel();
+export const getRelativeCardImportance = (id: CardId): number => {
+  const cardImportance = getImportance(id);
+  const importanceRelativeToNormal = cardImportance - NORMAL_IMPORTANCE;
 };
+
+/* If unseen (?) */
+
+// export const getSortingBasedOnUserLevel = (id: CardId): number => {
+//   // getUserLevel();
+// };
