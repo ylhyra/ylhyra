@@ -1,11 +1,11 @@
 import { sortBy } from "underscore";
-import { CardIds } from "app/vocabulary/actions/card/card";
 import {
   getScore,
   getTermLastSeen,
   wasTermVeryRecentlySeen,
 } from "app/vocabulary/actions/card/card_schedule";
 import { getSortKey } from "app/vocabulary/actions/card/card_data";
+import { CardIds } from "app/vocabulary/actions/card/types";
 
 export const oldestFirst = (ids: CardIds) => {
   return sortBy(ids, (id) => getTermLastSeen(id));

@@ -1,11 +1,11 @@
 import { clamp, mapValueToRange } from "app/app/functions/math";
 import { deck } from "app/vocabulary/actions/deck";
-import { CardIds } from "app/vocabulary/actions/card/card";
 import {
   getScore,
   getSessionsSeen,
   isInSchedule,
 } from "app/vocabulary/actions/card/card_schedule";
+import { CardIds } from "app/vocabulary/actions/card/types";
 
 export const PercentageKnown = (card_ids: CardIds) => {
   if (!deck?.schedule) return 0;
@@ -50,7 +50,7 @@ export const PercentageKnown = (card_ids: CardIds) => {
 
 export const PercentageKnownOverall = () => {
   if (!deck) return 0;
-  return PercentageKnown(Object.keys(deck.cards));
+  return PercentageKnown(Object.keys(deck.cards) as CardIds);
 };
 
 // if (isBrowser) {

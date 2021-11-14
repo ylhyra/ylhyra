@@ -1,12 +1,13 @@
 import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
 import { isDev } from "app/app/functions/isDev";
 import { days, minutes } from "app/app/functions/time";
-import { CardIds, isIn, isInSession } from "app/vocabulary/actions/card/card";
+import { isIn, isInSession } from "app/vocabulary/actions/card/card";
+import { wasTermSeenMoreRecentlyThan } from "app/vocabulary/actions/card/card_schedule";
 import {
   isBad,
   isFairlyBad,
-  wasTermSeenMoreRecentlyThan,
-} from "app/vocabulary/actions/card/card_schedule";
+} from "app/vocabulary/actions/card/card_difficulty";
+import { CardIds } from "app/vocabulary/actions/card/types";
 
 /* Add bad dependencies */
 export default (chosen_cards): CardIds => {

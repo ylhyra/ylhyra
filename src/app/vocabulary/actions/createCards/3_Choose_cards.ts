@@ -7,8 +7,8 @@ import { log, logDev } from "app/app/functions/log";
 import OldCards from "app/vocabulary/actions/createCards/1_Old_cards";
 import NewCards from "app/vocabulary/actions/createCards/2_New_cards";
 import { isDev } from "app/app/functions/isDev";
-import { CardIds } from "app/vocabulary/actions/card/card";
 import { printWord } from "app/vocabulary/actions/functions";
+import { CardIds } from "app/vocabulary/actions/card/types";
 
 export default (options): CardIds => {
   /**

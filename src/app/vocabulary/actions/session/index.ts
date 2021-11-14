@@ -1,4 +1,9 @@
-import { getTime, minutes } from "app/app/functions/time";
+import {
+  getTime,
+  Milliseconds,
+  minutes,
+  Timestamp,
+} from "app/app/functions/time";
 import { log } from "app/app/functions/log";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 import Analytics from "app/app/analytics";
@@ -11,11 +16,7 @@ import { exitVocabularyScreen } from "app/vocabulary/actions/functions";
 import { setUserData } from "app/vocabulary/actions/userData/userData";
 import { SESSION_PREFIX } from "app/vocabulary/actions/userData/userDataSessions";
 import Deck from "app/vocabulary/actions/deck";
-import {
-  CardIds,
-  doesCardExist,
-  TermId,
-} from "app/vocabulary/actions/card/card";
+import { doesCardExist } from "app/vocabulary/actions/card/card";
 import { rating } from "app/vocabulary/actions/card/card_difficulty";
 import { createCards } from "app/vocabulary/actions/createCards";
 import { InitializeSession } from "app/vocabulary/actions/session/initialize";
@@ -35,11 +36,9 @@ import {
   updateRemainingTime,
 } from "app/vocabulary/actions/session/functions";
 import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
+import { CardIds, TermId } from "app/vocabulary/actions/card/types";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
-
-export type Timestamp = number;
-export type Milliseconds = number;
 
 class Session {
   currentCard: CardInSession;
@@ -92,7 +91,7 @@ class Session {
     this.currentCard = null;
     this.cards = [];
     this.timeStarted = getTime();
-    this.totalTime = EACH_SESSION_LASTS_X_MINUTES * minutes;
+    this.totalTime = (EACH_SESSION_LASTS_X_MINUTES * minutes) as Milliseconds;
     this.remainingTime = this.totalTime;
     this.lastTimestamp = getTime();
     this.done = false;

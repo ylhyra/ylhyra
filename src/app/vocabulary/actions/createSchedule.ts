@@ -8,6 +8,7 @@ import { getTime, inDays, msToDays } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
 import { BAD, EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
 import {
+  getDue,
   getLastIntervalInDays,
   getLastSeen,
   getScore,
@@ -17,16 +18,6 @@ import {
 import { getSiblingCards } from "app/vocabulary/actions/card/card_siblings";
 import { printWord } from "./functions";
 import { wasSeenInSession } from "app/vocabulary/actions/card/card";
-import { getDue } from "app/vocabulary/actions/card/card_data";
-import { Timestamp } from "app/vocabulary/actions/session";
-
-export interface ScheduleData {
-  due: Timestamp;
-  last_interval_in_days: number; //Days;
-  score: number;
-  last_seen: Timestamp;
-  sessions_seen: number;
-}
 
 /** Increment score by how much? */
 export const INCR = 0.4;

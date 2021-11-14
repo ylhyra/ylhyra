@@ -1,71 +1,40 @@
 import { roundToInterval } from "app/app/functions/math";
 import { withPlural } from "app/app/functions/simplePlural";
+import { Brand } from "ts-brand";
 
-/** @typedef {number} Milliseconds */
-/** @typedef {number} Seconds */
-/** @typedef {number} Minutes */
-/** @typedef {number} Days */
-/** @typedef {Milliseconds} TimestampInMilliseconds */
+// export type Milliseconds = number & { Milliseconds: "Milliseconds" };
+export type Milliseconds = number; //Brand<number, "Milliseconds">;
+export type Seconds = number; //Brand<number, "Seconds">;
+export type Days = number; //Brand<number, "Days">;
+export type Timestamp = number; //Brand<number, "Timestamp">;
 
-/** @type Milliseconds */
-const msInHour = 1000 * 60 * 60;
-/** @type Milliseconds */
-const msInDay = msInHour * 24;
-/** @type Milliseconds */
-export const day = msInDay;
+const msInHour = (1000 * 60 * 60) as Milliseconds;
+const msInDay = (msInHour * 24) as Milliseconds;
+export const day = msInDay as Milliseconds;
 export const days = day;
-/** @type Milliseconds */
-export const hour = msInHour;
+export const hour = msInHour as Milliseconds;
 export const hours = hour;
-/** @type Milliseconds */
-export const second = 1000;
+export const second = 1000 as Milliseconds;
 export const seconds = second;
-/** @type Milliseconds */
-export const minute = 60 * second;
+export const minute = (60 * second) as Milliseconds;
 export const minutes = minute;
 
-// /* In seconds */
-// export const minute_s = 60;
-// /* In seconds */
-// export const hour_s = 60 * minute_s;
-// /* In seconds */
-// export const day_s = 24 * hour_s;
+export const getTime = (): Timestamp => Date.now() as Timestamp;
 
-/**
- * @returns {TimestampInMilliseconds}
- */
-export const getTime = () => {
-  return Date.now();
-};
-
-let timeMemoized;
-/**
- * @returns {TimestampInMilliseconds}
- */
-export const getTimeMemoized = () => {
+let timeMemoized: Timestamp;
+export const getTimeMemoized = (): Timestamp => {
   return timeMemoized || (timeMemoized = getTime());
 };
-export const clearTimeMemoized = () => {
-  timeMemoized = null;
-};
+export const clearTimeMemoized = () => (timeMemoized = null);
 
-/**
- * @param {Days} input
- * @returns {Milliseconds}
- */
-export const daysToMs = (input) => input * msInDay;
+export const daysToMs = (input: Days): Milliseconds =>
+  (input * msInDay) as Milliseconds;
 
-/**
- * @param {Milliseconds} input
- * @returns {Days}
- */
-export const msToDays = (input) => input / msInDay;
+export const msToDays = (input: Milliseconds): Days =>
+  (input / msInDay) as Days;
 
-/**
- * @param {Milliseconds} input
- * @returns {Seconds}
- */
-export const msToS = (input) => Math.round(input / 1000);
+export const msToS = (input: Milliseconds): Seconds =>
+  Math.round(input / 1000) as Seconds;
 
 /**
  * @param {Days} input

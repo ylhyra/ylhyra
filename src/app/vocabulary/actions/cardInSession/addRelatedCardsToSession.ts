@@ -6,13 +6,16 @@ import {
   getDependenciesAsArrayOfCardIds,
 } from "app/vocabulary/actions/card/card_dependencies";
 import {
-  isBad,
-  isFairlyBad,
   isUnseenTerm,
   timeSinceTermWasSeen,
   wasTermVeryRecentlySeen,
 } from "app/vocabulary/actions/card/card_schedule";
-import { CardIds, isInSession } from "app/vocabulary/actions/card/card";
+import { isInSession } from "app/vocabulary/actions/card/card";
+import {
+  isBad,
+  isFairlyBad,
+} from "app/vocabulary/actions/card/card_difficulty";
+import { CardIds } from "app/vocabulary/actions/card/types";
 
 /**
  * If a cardInSession gets a bad rating, then we make sure

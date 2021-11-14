@@ -2,8 +2,9 @@ import { isEasinessLevelOn } from "app/vocabulary/actions/easinessLevel/function
 import { deck } from "app/vocabulary/actions/deck";
 import { veryRecentlySeenSortedLast } from "app/vocabulary/actions/createCards/functions";
 import { sortBy } from "underscore";
-import { CardIds, isAllowed } from "app/vocabulary/actions/card/card";
+import { isAllowed } from "app/vocabulary/actions/card/card";
 import { isInSchedule } from "app/vocabulary/actions/card/card_schedule";
+import { CardIds } from "app/vocabulary/actions/card/types";
 
 export default (options): CardIds => {
   let new_cards = deck.cards_sorted.filter(

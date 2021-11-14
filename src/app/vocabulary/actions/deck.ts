@@ -5,8 +5,12 @@ import Session from "app/vocabulary/actions/session";
 import { countTerms } from "app/vocabulary/actions/functions";
 import { warnIfSlow } from "app/app/functions/warnIfSlow";
 import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
-import { CardId, CardIds, TermId } from "app/vocabulary/actions/card/card";
-import { ScheduleData } from "app/vocabulary/actions/createSchedule";
+import {
+  CardId,
+  CardIds,
+  ScheduleData,
+  TermId,
+} from "app/vocabulary/actions/card/types";
 
 export let deck: Deck | undefined;
 

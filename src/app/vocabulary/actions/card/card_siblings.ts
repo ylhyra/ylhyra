@@ -1,10 +1,11 @@
 import { deck } from "app/vocabulary/actions/deck";
-import { CardId, CardIds, isInSession } from "app/vocabulary/actions/card/card";
+import { isInSession } from "app/vocabulary/actions/card/card";
 import { BAD } from "app/vocabulary/actions/card/card_difficulty";
 import { getTermIds } from "app/vocabulary/actions/card/card_data";
 import CardInSession from "app/vocabulary/actions/cardInSession";
 import _ from "underscore";
 import { getCardIdsFromTermId } from "app/vocabulary/actions/card/term";
+import { CardId, CardIds } from "app/vocabulary/actions/card/types";
 
 export const getSiblingCards = (id: CardId): CardIds => {
   // return (this.siblingCardIds);

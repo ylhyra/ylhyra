@@ -6,7 +6,7 @@ import { isBrowser } from "app/app/functions/isBrowser";
 // /**
 //  * @typedef {Object} UserData
 //  * @property {string} user_id
-//  * @property {TimestampInMilliseconds} lastSynced
+//  * @property {Timestamp} lastSynced
 //  * @property {UserDataRows} rows
 //  */
 // /**

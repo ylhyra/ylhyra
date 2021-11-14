@@ -3,19 +3,7 @@ import {
   hasDependenciesInCommonWith,
   hasTermsInCommonWith,
 } from "app/vocabulary/actions/card/card_dependencies";
-
-/* Hack to prevent mixing of types */
-interface CardIdDifferentiator extends String {
-  [key: string]: unknown;
-}
-export type CardId = CardIdDifferentiator & string;
-export type CardIds = Array<CardId>;
-
-interface TermIdDifferentiator extends String {
-  [key: string]: unknown;
-}
-export type TermId = TermIdDifferentiator & string;
-export type TermIds = Array<TermId>;
+import { CardId, CardIds } from "app/vocabulary/actions/card/types";
 
 export const clearMemoizations = (id: CardId) => {
   // ["isAllowed", "getTermLastSeen"].forEach((key) => {

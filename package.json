@@ -112,6 +112,7 @@
     "string-similarity": "^4.0.4",
     "styled-components": "^5.3.1",
     "tinycolor2": "^1.4.2",
+    "ts-brand": "^0.0.2",
     "twitter": "^1.7.1",
     "underscore": "^1.13.1",
     "webpack-node-externals": "^3.0.0",

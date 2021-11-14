@@ -7,7 +7,6 @@ import { roundToInterval } from "app/app/functions/math";
 import { updateURL } from "app/router/actions/updateURL";
 import { isDev } from "app/app/functions/isDev";
 import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
-import { CardIds } from "app/vocabulary/actions/card/card";
 import {
   getCardsInSchedule,
   getData,
@@ -15,6 +14,7 @@ import {
   getTermIds,
 } from "app/vocabulary/actions/card/card_data";
 import { isNewTerm } from "app/vocabulary/actions/card/card_schedule";
+import { CardIds } from "app/vocabulary/actions/card/types";
 
 export const printWord = (id) => {
   if (!isDev) return;
@@ -39,7 +39,7 @@ export const studyParticularIds = async (allowed_ids: CardIds, options?) => {
 
 export const studyNewTerms = () => {
   const newTerms: CardIds = [];
-  Object.keys(deck.cards).forEach((id) => {
+  (Object.keys(deck.cards) as CardIds).forEach((id) => {
     if (!(id in deck.schedule) && isNewTerm(id)) {
       newTerms.push(id);
     }

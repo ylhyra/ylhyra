@@ -1,16 +1,23 @@
 import { minIgnoreFalsy, roundMsTo100Sec } from "app/app/functions/math";
-import { getTimeMemoized, minutes } from "app/app/functions/time";
-import { CardId } from "app/vocabulary/actions/card/card";
-import { getSchedule, getTermIds } from "app/vocabulary/actions/card/card_data";
-import { BAD, EASY, GOOD } from "app/vocabulary/actions/card/card_difficulty";
+import { getTimeMemoized, minutes, Timestamp } from "app/app/functions/time";
+import { getTermIds } from "app/vocabulary/actions/card/card_data";
+import { GOOD } from "app/vocabulary/actions/card/card_difficulty";
 import { deck } from "app/vocabulary/actions/deck";
 import {
   getAllCardIdsWithSameTerm,
   getAsCardInSession,
 } from "app/vocabulary/actions/card/card_siblings";
 import { saveScheduleForCardId } from "app/vocabulary/actions/userData/userDataSchedule";
-import { INCR } from "app/vocabulary/actions/createSchedule";
 import { getCardIdsFromTermId } from "app/vocabulary/actions/card/term";
+import { CardId, ScheduleData } from "app/vocabulary/actions/card/types";
+
+export const getSchedule = (id: CardId): ScheduleData | null => {
+  return deck.schedule[id];
+};
+
+export const getDue = (id: CardId): Timestamp | null => {
+  return getSchedule(id)?.due;
+};
 
 export const getScore = (id: CardId) => {
   return getSchedule(id)?.score;
@@ -26,23 +33,6 @@ export const getLastIntervalInDays = (id: CardId) => {
 
 export const getLastSeen = (id: CardId) => {
   return getSchedule(id)?.last_seen;
-};
-
-export const isTooEasy = (id: CardId) => {
-  return getScore(id) >= EASY && getSessionsSeen(id) === 1;
-};
-
-export const isBad = (id: CardId) => {
-  return getScore(id) === BAD;
-};
-
-export const isFairlyBad = (id: CardId) => {
-  return getScore(id) && getScore(id) <= BAD + INCR;
-};
-
-export const isBelowGood = (id: CardId) => {
-  const j = getScore(id) || getLowestAvailableTermScore(id);
-  return j && j < GOOD;
 };
 
 export const isUnseenCard = (id: CardId) => {

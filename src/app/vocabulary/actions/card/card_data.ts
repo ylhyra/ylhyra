@@ -1,20 +1,7 @@
 import { deck } from "app/vocabulary/actions/deck";
-import {
-  CardId,
-  CardIds,
-  filterCardsThatExist,
-  TermIds,
-} from "app/vocabulary/actions/card/card";
-import { Timestamp } from "app/vocabulary/actions/session";
+import { filterCardsThatExist } from "app/vocabulary/actions/card/card";
 import { getTermData } from "app/vocabulary/actions/card/term";
-
-export const getSchedule = (id: CardId) => {
-  return deck.schedule[id];
-};
-
-export const getDue = (id: CardId): Timestamp | null => {
-  return getSchedule(id)?.due;
-};
+import { CardId, CardIds, TermIds } from "app/vocabulary/actions/card/types";
 
 export const getCardsInSchedule = (): CardIds => {
   return filterCardsThatExist(Object.keys(deck.schedule) as CardIds);

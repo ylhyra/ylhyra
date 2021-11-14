@@ -4,7 +4,7 @@ export interface Day {
   date: string;
   count: number;
   level: Level;
-  color: string;
+  color?: string;
 }
 
 type Week = Array<Day | undefined>;
