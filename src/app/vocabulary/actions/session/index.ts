@@ -41,14 +41,6 @@ export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export type Timestamp = number;
 export type Milliseconds = number;
 
-/**
- * @property {Array.<CardInSession>} cards
- * @property {Deck} deck
- * @property {Array.<number>} ratingHistory
- * @property {Array.<CardInSession>} cardHistory
- * @property {CardInSession|null} currentCard
- * @namespace
- */
 class Session {
   currentCard: CardInSession;
   cards: Array<CardInSession>;
@@ -58,7 +50,7 @@ class Session {
   allowed_ids: CardIds;
   counter: number;
   cardTypeLog: Array<string>;
-  lastSeenTerms: { [key: TermId]: number };
+  lastSeenTerms: Record<TermId, number>;
   timeStarted: Timestamp;
   totalTime: Milliseconds;
   remainingTime: Milliseconds;

@@ -37,6 +37,7 @@ class RunningScreen extends Component<{ vocabulary: any }> {
     const session: Session = this.props.vocabulary.deck?.session;
     if (!session) return null;
     const { card } = this.props.vocabulary;
+    if (!card) return null;
     return (
       <div id="vocabulary-screen">
         <div id="vocabulary-screen-inner">

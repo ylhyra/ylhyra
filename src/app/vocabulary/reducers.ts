@@ -3,6 +3,7 @@ import {
   getFromLocalStorage,
   saveInLocalStorage,
 } from "app/app/functions/localStorage";
+import Deck from "app/vocabulary/actions/deck";
 
 const deck = (state = null, action) => {
   switch (action.type) {
@@ -34,11 +35,15 @@ const overview = (state = {}, action) => {
   }
 };
 
-const card = (state = {}, action) => {
+export interface CardReducer {
+  counter?: number;
+  answered?: boolean;
+}
+const card = (state: CardReducer = {}, action) => {
   switch (action.type) {
-    case "LOAD_CARD":
+    case "NEW_CARD_IN_INTERFACE":
       return {
-        ...action.content,
+        counter: action.content,
         answered: false,
       };
     case "ANSWER_CARD":
@@ -66,6 +71,12 @@ const volume = (
   }
 };
 
+export interface VocabularyReducer {
+  deck: Deck;
+  card: CardReducer;
+  volume: boolean;
+  overview: any;
+}
 export const vocabulary = combineReducers({
   deck,
   card,

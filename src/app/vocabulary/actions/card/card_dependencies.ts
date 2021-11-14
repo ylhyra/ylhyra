@@ -20,7 +20,7 @@ export const getDependenciesAsTermIdToDepth = (id: CardId) => {
 
 export const termGetDependenciesAsTermIdToDepth = (
   term_id: TermId
-): { [key: TermId]: number } => {
+): Record<TermId, number> => {
   return {
     ...(deck.terms[term_id].dependencies || {}),
     [term_id]: 0,
@@ -28,7 +28,7 @@ export const termGetDependenciesAsTermIdToDepth = (
 };
 
 export const getDependenciesAsCardIdToDepth = (id: CardId) => {
-  let out: { [key: CardId]: number } = {};
+  let out: Record<CardId, number> = {};
   const deps = getDependenciesAsTermIdToDepth(id);
   (Object.keys(deps) as TermIds).forEach((term_id) => {
     getCardIdsFromTermId(term_id).forEach((card_id) => {

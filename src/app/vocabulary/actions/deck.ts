@@ -19,10 +19,10 @@ export let deck: Deck | undefined;
 //  * @property {Session} session
 //  */
 class Deck {
-  cards: { [key: CardId]: any };
+  cards: Record<CardId, any>;
   cards_sorted: CardIds;
-  terms: { [key: TermId]: any };
-  schedule: { [key: CardId]: ScheduleData };
+  terms: Record<TermId, any>;
+  schedule: Record<CardId, ScheduleData>;
   user_data: any; //UserData;
   session: Session;
   termCount: number;

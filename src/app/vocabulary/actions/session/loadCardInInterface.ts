@@ -7,11 +7,8 @@ export function loadCardInInterface() {
   const session = this;
   if (!session?.currentCard) return console.error("no cards");
   store.dispatch({
-    type: "LOAD_CARD",
-    content: {
-      ...session.currentCard,
-      counter: session.counter,
-    },
+    type: "NEW_CARD_IN_INTERFACE",
+    content: session.counter,
   });
 
   // // Debug: Show dependencies

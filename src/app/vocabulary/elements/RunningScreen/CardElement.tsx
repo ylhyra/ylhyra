@@ -1,3 +1,4 @@
+import { deck } from "app/vocabulary/actions/deck";
 import store from "app/app/store";
 import AudioClip from "documents/render/audio/AudioClip";
 import { get_processed_image_url } from "app/app/paths";
@@ -10,9 +11,16 @@ import {
   GOOD,
   rating,
 } from "app/vocabulary/actions/card/card_difficulty";
-import { getSound } from "app/vocabulary/actions/card/card_data";
+import {
+  getData,
+  getFrom,
+  getSound,
+} from "app/vocabulary/actions/card/card_data";
+import CardInSession from "app/vocabulary/actions/cardInSession";
+import { isNewTerm } from "app/vocabulary/actions/card/card_schedule";
+import { CardReducer, VocabularyReducer } from "app/vocabulary/reducers";
 
-class CardElement extends Component<{ vocabulary: any }> {
+class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
   isKeyDown: boolean;
   state: {
     answer?: rating;
@@ -101,17 +109,15 @@ class CardElement extends Component<{ vocabulary: any }> {
     }
   };
   sound = (answered?) => {
-    const { card: CardInSession, volume } = this.props.vocabulary;
-    if (
-      volume &&
-      getSound(card.getId()) &&
-      (card.getFrom() === "is" || answered)
-    ) {
+    const { volume } = this.props.vocabulary;
+    const card = deck.session.currentCard;
+    if (!card) return;
+    const id = card.getId();
+
+    if (volume && getSound(id) && (getFrom(id) === "is" || answered)) {
       try {
         AudioClip.play(
-          getSound(card.getId()).map((s) =>
-            get_processed_image_url(s + ".mp3", true)
-          )
+          getSound(id).map((s) => get_processed_image_url(s + ".mp3", true))
         );
       } catch (e) {
         console.warn(e);
@@ -143,24 +149,22 @@ class CardElement extends Component<{ vocabulary: any }> {
   };
   render() {
     const { volume, deck } = this.props.vocabulary;
-    const card = deck.session.currentCard;
     const { answered } = this.props.vocabulary.card;
-    // log(cardInSession)
-    // log({cardInSession,answer})
-    if (!deck.session.currentCard)
+    const card: CardInSession = deck.session.currentCard;
+    if (!card)
       return <div>Unable to create cards. Please report this error.</div>;
+    const id = card.getId();
 
-    // console.log({ card });
-    let from = card.getFrom();
-    let lemmas = card.getData("lemmas");
-    let note_regarding_english = card.getData("note_regarding_english");
-    let note = card.getData("note");
-    let literally = card.getData("literally");
-    let example_declension = card.getData("example_declension");
-    let pronunciation = card.getData("pronunciation");
-    let synonyms = card.getData("synonyms");
-    const is = card.getData("is_formatted");
-    const en = card.getData("en_formatted");
+    let from = getFrom(id);
+    let lemmas = getData(id, "lemmas");
+    let note_regarding_english = getData(id, "note_regarding_english");
+    let note = getData(id, "note");
+    let literally = getData(id, "literally");
+    let example_declension = getData(id, "example_declension");
+    let pronunciation = getData(id, "pronunciation");
+    let synonyms = getData(id, "synonyms");
+    const is = getData(id, "is_formatted");
+    const en = getData(id, "en_formatted");
 
     /* Loading */
     if (!is) {
@@ -184,8 +188,8 @@ class CardElement extends Component<{ vocabulary: any }> {
           vocabulary-card
           flashcard
           ${answered ? "answered" : "not-answered"}
-          ${getSound(card.getId()) && volume ? "has-sound" : ""}
-          ${card.isNewTerm() ? "new" : ""}
+          ${getSound(id) && volume ? "has-sound" : ""}
+          ${isNewTerm(id) ? "new" : ""}
         `}
         onClick={() => this.show(false)}
       >
@@ -195,7 +199,7 @@ class CardElement extends Component<{ vocabulary: any }> {
           flashcard-prompt-${from === "is" ? "icelandic" : "english"}
         `}
         >
-          {getSound(card.getId()) && <div className="has-audio-icon" />}
+          {getSound(id) && <div className="has-audio-icon" />}
           <div>{html(from === "is" ? is : en)}</div>
         </div>
         <div
@@ -287,20 +291,20 @@ const html = (text) => {
   return <span dangerouslySetInnerHTML={{ __html: text }} />;
 };
 
-const getFontSize = (text, lang) => {
-  if (!text) return null;
-  let size = 20;
-  /*if (text.length > 70) {
-    size -= 5;
-  } else if (text.length > 50) {
-    size -= 4;
-  } else */ if (text.length > 40) {
-    size -= 3;
-  } else if (text.length > 25) {
-    size -= 2;
-  }
-  return size - (lang === "en" ? 1 : 0);
-};
+// const getFontSize = (text, lang) => {
+//   if (!text) return null;
+//   let size = 20;
+//   /*if (text.length > 70) {
+//     size -= 5;
+//   } else if (text.length > 50) {
+//     size -= 4;
+//   } else */ if (text.length > 40) {
+//     size -= 3;
+//   } else if (text.length > 25) {
+//     size -= 2;
+//   }
+//   return size - (lang === "en" ? 1 : 0);
+// };
 
 const label = (name, value) => {
   if (!value) return null;
