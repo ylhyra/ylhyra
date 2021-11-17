@@ -4,12 +4,17 @@ import {
   clamp,
   toFixedFloat,
 } from "app/app/functions/math";
-import { getTime, inDays, msToDays } from "app/app/functions/time";
+import {
+  getTime,
+  daysFromNowToTimestamp,
+  msToDays,
+} from "app/app/functions/time";
 import { log } from "app/app/functions/log";
 import {
   getDue,
   getLastIntervalInDays,
   getLastSeen,
+  getNumberOfBadSessions,
   getScore,
   getSessionsSeen,
   setSchedule,
@@ -111,23 +116,24 @@ export function createSchedule() {
       );
     }
 
-    setSchedule(
-      card,
-      // /** @type ScheduleData */
-      {
-        due: inDays(addSomeRandomness(due_in_days)),
-        last_interval_in_days: toFixedFloat(due_in_days, 1),
-        score: toFixedFloat(score, 2),
-        last_seen: getTime(),
-        sessions_seen: sessions_seen + 1,
-      }
-    );
+    setSchedule(card, {
+      due: daysFromNowToTimestamp(addSomeRandomness(due_in_days)),
+      last_interval_in_days: toFixedFloat(due_in_days, 1),
+      score: toFixedFloat(score, 2),
+      last_seen: getTime(),
+      sessions_seen: sessions_seen + 1,
+      ...(anyBad
+        ? {
+            last_bad_timestamp: getTime(),
+            number_of_bad_sessions: getNumberOfBadSessions() + 1,
+          }
+        : {}),
+    });
 
     log(
-      `${card.printWord()} - score: ${toFixedFloat(
-        score,
-        2
-      )} - days: ${toFixedFloat(due_in_days, 1)}`
+      card.printWord(),
+      `score: ${toFixedFloat(score, 2)}`,
+      `days: ${toFixedFloat(due_in_days, 1)}`
     );
 
     /* Postpone siblings */
@@ -137,7 +143,7 @@ export function createSchedule() {
       .forEach((sibling_card) => {
         /* Postpone based on a portion of the main card's due_in_days,
            but never more than 10 days */
-        const newDue = inDays(Math.min(due_in_days * 0.8, 10));
+        const newDue = daysFromNowToTimestamp(Math.min(due_in_days * 0.8, 10));
         const actualDue = getDue(sibling_card);
         if (!actualDue || actualDue < newDue) {
           setSchedule(sibling_card, {

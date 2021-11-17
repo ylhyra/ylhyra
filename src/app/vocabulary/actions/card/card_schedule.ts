@@ -27,6 +27,10 @@ export const getSessionsSeen = (id: CardId) => {
   return getSchedule(id)?.sessions_seen || 0;
 };
 
+export const getNumberOfBadSessions = (id: CardId) => {
+  return getSchedule(id)?.number_of_bad_sessions || 0;
+};
+
 export const getLastIntervalInDays = (id: CardId) => {
   return getSchedule(id)?.last_interval_in_days;
 };
@@ -49,13 +53,13 @@ export const isInSchedule = (id: CardId) => {
   return id in deck.schedule;
 };
 
-export const setSchedule = (id, data) => {
-  if (data.due) {
-    data.due = roundMsTo100Sec(data.due);
-  }
-  if (data.last_seen) {
-    data.last_seen = roundMsTo100Sec(data.last_seen);
-  }
+export const setSchedule = (id, data: Partial<ScheduleData>) => {
+  /* Round timestamps */
+  ["due", "last_seen", "last_bad_timestamp"].forEach((key) => {
+    if (data[key]) {
+      data[key] = roundMsTo100Sec(data[key]);
+    }
+  });
 
   deck.schedule[id] = {
     ...(deck.schedule[id] || {}),

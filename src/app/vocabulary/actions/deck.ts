@@ -26,7 +26,7 @@ class Deck {
   cards: Record<CardId, any>;
   cards_sorted: CardIds;
   terms: Record<TermId, any>;
-  schedule: Record<CardId, ScheduleData>;
+  schedule: Record<CardId, Partial<ScheduleData>>;
   user_data: any; //UserData;
   session: Session;
   termCount: number;

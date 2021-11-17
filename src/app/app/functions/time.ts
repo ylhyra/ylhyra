@@ -40,7 +40,7 @@ export const msToS = (input: Milliseconds): Seconds =>
  * @param {Days} input
  * @returns {Timestamp}
  */
-export const inDays = (input) => getTime() + daysToMs(input);
+export const daysFromNowToTimestamp = (input) => getTime() + daysToMs(input);
 
 /**
  * @param {Milliseconds} input
