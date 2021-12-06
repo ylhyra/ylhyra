@@ -19,10 +19,14 @@ import {
   getSessionsSeen,
   setSchedule,
 } from "app/vocabulary/actions/card/card_schedule";
-import { getSiblingCards } from "app/vocabulary/actions/card/card_siblings";
+import {
+  didAnySiblingCardsGetABadRatingInThisSession,
+  getSiblingCards,
+} from "app/vocabulary/actions/card/card_siblings";
 import { printWord } from "./functions";
 import { wasSeenInSession } from "app/vocabulary/actions/card/card";
 import { BAD, EASY, GOOD } from "app/vocabulary/constants";
+import CardInSession from "app/vocabulary/actions/cardInSession";
 
 /** Increment score by how much? */
 export const INCR = 0.4;
@@ -45,16 +49,17 @@ export function createSchedule() {
   }
   if (!session.cards?.some((i) => i.hasBeenSeenInSession())) return;
 
-  session.cards.forEach((card) => {
+  session.cards.forEach((card: CardInSession) => {
     let due_in_days;
-    const prevScore = getScore(card);
-    const sessions_seen = getSessionsSeen(card);
+    const id = card.getId();
+    const prevScore = getScore(id);
+    const sessions_seen = getSessionsSeen(id);
     const isNew = !prevScore;
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
     const avgRating = average(sessionHistory);
-    const last_interval_in_days = getLastIntervalInDays(card);
-    const last_seen = getLastSeen(card);
+    const last_interval_in_days = getLastIntervalInDays(id);
+    const last_seen = getLastSeen(id);
     const badCount = sessionHistory.filter((i) => i === BAD).length;
     const anyBad = badCount > 0;
 
@@ -108,11 +113,13 @@ export function createSchedule() {
      * If any sibling cards got a bad rating in this session,
      * this card can not be given a good score
      */
-    if (score >= GOOD && card.didAnySiblingCardsGetABadRatingInThisSession()) {
+    if (score >= GOOD && didAnySiblingCardsGetABadRatingInThisSession(id)) {
       due_in_days = Math.min(2, due_in_days);
       score = Math.min(BAD + INCR, score);
       log(
-        `${card.printWord()} given a low score due to siblings having gotten a bad rating`
+        `${printWord(
+          id
+        )} given a low score due to siblings having gotten a bad rating`
       );
     }
 
@@ -125,19 +132,19 @@ export function createSchedule() {
       ...(anyBad
         ? {
             last_bad_timestamp: getTime(),
-            number_of_bad_sessions: getNumberOfBadSessions() + 1,
+            number_of_bad_sessions: getNumberOfBadSessions(card.getId()) + 1,
           }
         : {}),
     });
 
     log(
-      card.printWord(),
+      printWord(id),
       `score: ${toFixedFloat(score, 2)}`,
       `days: ${toFixedFloat(due_in_days, 1)}`
     );
 
     /* Postpone siblings */
-    getSiblingCards(card.getId())
+    getSiblingCards(id)
       /* Ignore cards that were seen in this session */
       .filter((sibling_card) => !wasSeenInSession(sibling_card))
       .forEach((sibling_card) => {

@@ -13,8 +13,9 @@ class CardInSession {
   id: CardId;
   session: Session;
   history: Array<rating>;
-  absoluteQueuePosition: number;
-  cannotBeShownBefore?: number;
+  absoluteQueuePosition: number; /* Counter */
+  cannotBeShownBefore?: number; /* Counter */
+  lastSeen?: number; /* Counter */
   done?: boolean;
 
   constructor({

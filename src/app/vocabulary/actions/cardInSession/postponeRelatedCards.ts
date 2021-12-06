@@ -1,14 +1,23 @@
 import { BAD, GOOD } from "app/vocabulary/constants";
+import CardInSession from "app/vocabulary/actions/cardInSession/index";
+import {
+  dependencyDepthOfCard,
+  hasDependenciesInCommonWith,
+  hasTermsInCommonWith,
+} from "app/vocabulary/actions/card/card_dependencies";
+import { isInSchedule } from "app/vocabulary/actions/card/card_schedule";
+import { isBad } from "app/vocabulary/actions/card/card_difficulty";
+import { getSiblingCardsInSession } from "app/vocabulary/actions/card/card_siblings";
 
 /**
  * @memberOf CardInSession#
  */
 export function postponeRelatedCards(card1interval) {
-  const card1 = this;
+  const card1: CardInSession = this;
 
-  this.getOtherCardsInSession().forEach((card2) => {
+  this.getOtherCardsInSession().forEach((card2: CardInSession) => {
     // Same term
-    if (card1.hasTermsInCommonWith(card2)) {
+    if (hasTermsInCommonWith(card1.getId(), card2.getId())) {
       if (card1.history.includes(BAD) || card2.history.includes(BAD)) {
         card2.done = false;
       } else {
@@ -28,11 +37,11 @@ export function postponeRelatedCards(card1interval) {
     }
 
     // Cards that directly rely on this card
-    else if (card2.dependencyDepthOfCard(card1) >= 1) {
-      let min = card2.dependencyDepthOfCard(card1) * 3;
+    else if (dependencyDepthOfCard(card2.getId(), card1.getId()) >= 1) {
+      let min = dependencyDepthOfCard(card2.getId(), card1.getId()) * 3;
       if (card1.history[0] === BAD) {
         min *= 2;
-        if (card2.dependencyDepthOfCard(card1) >= 2) {
+        if (dependencyDepthOfCard(card2.getId(), card1.getId()) >= 2) {
           card2.done = true;
         }
       }
@@ -45,33 +54,34 @@ export function postponeRelatedCards(card1interval) {
     // Cards that this card depends directly on
     else if (
       card1.history[0] === BAD &&
-      card1.dependencyDepthOfCard(card2) === 1 &&
+      dependencyDepthOfCard(card1.getId(), card2.getId()) === 1 &&
       // And other card is new
-      ((!card2.isInSchedule() && !card2.hasBeenSeenInSession()) ||
+      ((!isInSchedule(card2.getId()) && !card2.hasBeenSeenInSession()) ||
         // Or other card is bad (includes some randomness)
-        ((card2.isBad() || card2.history[0] === BAD) && Math.random() > 0.5))
+        ((isBad(card2.getId()) || card2.history[0] === BAD) &&
+          Math.random() > 0.5))
     ) {
       card1.showIn({ interval: 6 });
       card2.showIn({ interval: 3 });
 
-      card1.getSiblingCardsInSession().forEach((sibling_card) => {
+      getSiblingCardsInSession(card2.getId()).forEach((sibling_card) => {
         sibling_card.showIn({ interval: 6 });
       });
     }
 
     // Cards that share the same dependencies
-    else if (card1.hasDependenciesInCommonWith(card2)) {
+    else if (hasDependenciesInCommonWith(card1.getId(), card2.getId())) {
       card2.showIn({ cannotBeShownBefore: 2 });
       // log(`"${printWord(card2.id)}" postponed`);
     }
 
-    // Overlap in card text (such as in the English translations)
-    else if (card1.isTextSimilarTo(card2)) {
-      card2.showIn({ cannotBeShownBefore: 2 });
-      // log(
-      //   `"${card2.printWord()}" postponed as it's similar to "${card1.printWord()}"`
-      // );
-      // log(card2.phoneticHashArray, card1.phoneticHashArray);
-    }
+    // // Overlap in card text (such as in the English translations)
+    // else if (isTextSimilarTo(card1.getId(), card2.getId())) {
+    //   card2.showIn({ cannotBeShownBefore: 2 });
+    //   // log(
+    //   //   `"${card2.printWord()}" postponed as it's similar to "${card1.printWord()}"`
+    //   // );
+    //   // log(card2.phoneticHashArray, card1.phoneticHashArray);
+    // }
   });
 }

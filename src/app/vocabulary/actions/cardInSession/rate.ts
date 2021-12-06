@@ -1,12 +1,20 @@
 import { addRelatedCardsToSession } from "app/vocabulary/actions/cardInSession/addRelatedCardsToSession";
 import { keepTrackOfEasiness } from "app/vocabulary/actions/easinessLevel";
 import { BAD, EASY, GOOD } from "app/vocabulary/constants";
+import CardInSession from "app/vocabulary/actions/cardInSession/index";
+import {
+  getSessionsSeen,
+  isInSchedule,
+} from "app/vocabulary/actions/card/card_schedule";
+import { isBad } from "app/vocabulary/actions/card/card_difficulty";
+import { getFrom } from "app/vocabulary/actions/card/card_data";
 
 /**
  * @memberOf CardInSession#
  */
 export function rate(rating) {
-  const card = this;
+  const card: CardInSession = this;
+  const id = card.getId();
   const timesSeenBeforeInSession = card.history.length;
   card.history.unshift(rating);
   card.session.ratingHistory.unshift(rating);
@@ -17,7 +25,7 @@ export function rate(rating) {
   let interval;
 
   if (rating === BAD) {
-    interval = card.getSessionsSeen() > 0 ? 4 : 3;
+    interval = getSessionsSeen(id) > 0 ? 4 : 3;
 
     /* Two bad ratings in a row */
     if (lastRating === BAD) {
@@ -46,7 +54,7 @@ export function rate(rating) {
       card.done = false;
     } else if (nextLastRating === BAD) {
       interval = 10;
-    } else if (card.isBad() && timesSeenBeforeInSession === 0) {
+    } else if (isBad(id) && timesSeenBeforeInSession === 0) {
       interval = 12;
     }
   } else if (rating === EASY) {
@@ -60,11 +68,11 @@ export function rate(rating) {
 
   card.showIn({ interval });
   card.postponeRelatedCards(interval);
-  card.session.cardTypeLog.unshift(card.getFrom());
+  card.session.cardTypeLog.unshift(getFrom(id));
 
   keepTrackOfEasiness({
     rating,
-    isANewCard: !card.isInSchedule() && timesSeenBeforeInSession === 0,
+    isANewCard: !isInSchedule(id) && timesSeenBeforeInSession === 0,
     card,
   });
 }

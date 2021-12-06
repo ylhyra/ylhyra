@@ -16,13 +16,14 @@ import {
   isFairlyBad,
 } from "app/vocabulary/actions/card/card_difficulty";
 import { CardIds } from "app/vocabulary/actions/card/types";
+import CardInSession from "app/vocabulary/actions/cardInSession/index";
 
 /**
  * If a cardInSession gets a bad rating, then we make sure
  * to add very related cards to the session.
- * @param {CardInSession} card
  */
-export const addRelatedCardsToSession = (card) => {
+export const addRelatedCardsToSession = (card: CardInSession) => {
+  const id = card.getId();
   let to_add: CardIds = [];
 
   /* Bail for repeated failures ... */
@@ -33,18 +34,18 @@ export const addRelatedCardsToSession = (card) => {
     if (isInSession(related_card_id)) return;
 
     /* Add cards with the same term */
-    if (dependencyDepthOfCard(card, related_card_id) === 0) {
+    if (dependencyDepthOfCard(id, related_card_id) === 0) {
       return to_add.push(related_card_id);
     }
 
     /* Ignore cyclical dependencies */
-    if (dependencyDepthOfCard(related_card_id, card) > 0) return;
+    if (dependencyDepthOfCard(related_card_id, id) > 0) return;
 
     if (wasTermVeryRecentlySeen(related_card_id)) return;
 
     /* Add cards that this term directly depends on */
     if (
-      dependencyDepthOfCard(card, related_card_id) === 1 &&
+      dependencyDepthOfCard(id, related_card_id) === 1 &&
       /* Unseen or unknown cards */
       (isUnseenTerm(related_card_id) ||
         isBad(related_card_id) ||

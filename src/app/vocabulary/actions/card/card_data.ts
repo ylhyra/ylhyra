@@ -7,7 +7,7 @@ export const getCardsInSchedule = (): CardIds => {
   return filterCardsThatExist(Object.keys(deck.schedule) as CardIds);
 };
 
-export const getData = (id, key) => {
+export const getData = (id: CardId, key: string) => {
   if (!(id in deck.cards)) {
     console.error(`Card not found:`, id);
     throw new Error();

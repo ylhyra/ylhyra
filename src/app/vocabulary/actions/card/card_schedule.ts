@@ -11,7 +11,7 @@ import { getCardIdsFromTermId } from "app/vocabulary/actions/card/term";
 import { CardId, ScheduleData } from "app/vocabulary/actions/card/types";
 import { GOOD } from "app/vocabulary/constants";
 
-export const getSchedule = (id: CardId): ScheduleData | null => {
+export const getSchedule = (id: CardId): Partial<ScheduleData> | null => {
   return deck.schedule[id];
 };
 

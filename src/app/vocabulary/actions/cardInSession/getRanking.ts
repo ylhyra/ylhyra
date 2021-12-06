@@ -6,11 +6,14 @@ import {
 } from "app/vocabulary/actions/card/card_data";
 import { isNewCard } from "app/vocabulary/actions/card/card_schedule";
 import { BAD } from "app/vocabulary/constants";
+import CardInSession from "app/vocabulary/actions/cardInSession/index";
 
 /**
  * @memberOf CardInSession#
  */
 export function getRanking() {
+  const card: CardInSession = this;
+
   const id = this.getId();
   const from = getFrom(id);
   let q = this.getQueuePosition();

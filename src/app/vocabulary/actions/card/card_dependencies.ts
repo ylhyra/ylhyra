@@ -44,16 +44,16 @@ export const getDependenciesAsArrayOfCardIds = (id: CardId): CardIds => {
   ).filter((card_id) => card_id !== id);
 };
 
-export const dependencyDepthOfCard = (id: CardId, card2) => {
-  return getDependenciesAsCardIdToDepth(id)[card2.getId()];
+export const dependencyDepthOfCard = (id: CardId, card2: CardId) => {
+  return getDependenciesAsCardIdToDepth(id)[card2];
 };
 
-export const hasTermsInCommonWith = (id: CardId, card2) => {
-  return _.intersection(getTermIds(id), card2.getTermIds()).length > 0;
+export const hasTermsInCommonWith = (id: CardId, card2: CardId) => {
+  return _.intersection(getTermIds(id), getTermIds(card2)).length > 0;
 };
 
-export const hasDependenciesInCommonWith = (id: CardId, card2) => {
-  const x2 = card2.getDependenciesAsArrayOfCardIds();
+export const hasDependenciesInCommonWith = (id: CardId, card2: CardId) => {
+  const x2 = getDependenciesAsArrayOfCardIds(card2);
   return getDependenciesAsArrayOfCardIds(id).some((card_id) =>
     x2.includes(card_id)
   );

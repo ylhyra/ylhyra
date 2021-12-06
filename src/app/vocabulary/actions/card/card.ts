@@ -41,7 +41,8 @@ export const isAllowed = (id: CardId) => {
          ignore cards that are similar to a card the user has just seen */
     !deck.session.cardHistory.slice(0, 3).some(
       (card) =>
-        hasTermsInCommonWith(id, card) || hasDependenciesInCommonWith(id, card)
+        hasTermsInCommonWith(id, card.getId()) ||
+        hasDependenciesInCommonWith(id, card.getId())
       // || isTextSimilarTo(id, card)
     )
   );
