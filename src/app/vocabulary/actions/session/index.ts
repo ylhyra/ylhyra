@@ -77,7 +77,12 @@ class Session {
           }
         })
         .filter(Boolean);
-      this.sessionDone({ isInitializing: true });
+      /* TODO:
+        Þetta virkar ekki án timeout þar sem Deck.session er ekki búið að initializeras fyrst
+       */
+      setTimeout(() => {
+        this.sessionDone({ isInitializing: true });
+      }, 10);
     }
     // log({ session_log: this.deck.session_log });
   }

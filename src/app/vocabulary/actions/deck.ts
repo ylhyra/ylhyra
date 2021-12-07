@@ -37,7 +37,6 @@ class Deck {
     this.terms = database.terms;
     this.user_data = user_data || {};
     this.schedule = schedule || {};
-    this.session = new Session(deck, session);
 
     this.cards_sorted = sortBySortKey(Object.keys(this.cards) as CardIds, {
       englishLast: true,
@@ -46,6 +45,7 @@ class Deck {
     if (isBrowser) {
       window["deck"] = this;
     }
+    this.session = new Session(deck, session);
   }
   continueStudying() {
     updateURL("/vocabulary/play");

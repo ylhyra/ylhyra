@@ -16,23 +16,23 @@ let easyInARow = 0;
  * number that stores the lowest cardInSession.getSortKey() we're interested in.
  */
 export function keepTrackOfEasiness({ rating, isANewCard, card }) {
-  /* Currently only turned on for the overall
-     game and not article-specific games */
-  if (deck.session.allowed_ids) return;
-
-  /* Tracks only new cards in a row */
-  if (isANewCard) {
-    if (rating === EASY) {
-      easyInARow++;
-      if (easyInARow >= 2) {
-        increaseEasinessLevel(card.getSortKey());
-      }
-    } else {
-      easyInARow = 0;
-    }
-  }
-
-  if (rating === BAD) {
-    easinessLevelShouldBeLowerThan(card.getSortKey());
-  }
+  // /* Currently only turned on for the overall
+  //    game and not article-specific games */
+  // if (deck.session.allowed_ids) return;
+  //
+  // /* Tracks only new cards in a row */
+  // if (isANewCard) {
+  //   if (rating === EASY) {
+  //     easyInARow++;
+  //     if (easyInARow >= 2) {
+  //       increaseEasinessLevel(card.getSortKey());
+  //     }
+  //   } else {
+  //     easyInARow = 0;
+  //   }
+  // }
+  //
+  // if (rating === BAD) {
+  //   easinessLevelShouldBeLowerThan(card.getSortKey());
+  // }
 }
