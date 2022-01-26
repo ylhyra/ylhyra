@@ -15,6 +15,7 @@ export const cacheControl = (res, type) => {
     "stale-if-error": 365 * days,
   };
   if (type === "immutable") {
+    directives["public"] = true;
     directives["immutable"] = true;
     directives["max-age"] = 365 * days;
   } else if (type === "html" || type === "cached_html") {
