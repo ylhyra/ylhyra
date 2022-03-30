@@ -62,7 +62,27 @@ export default ({ html }: { html: string }) => {
   }
 };
 
-const flattenData = (input) => {
+export type FlattenedData = {
+  translation: {
+    definitions: {};
+    sentences: {};
+    words: {};
+  };
+  list: {
+    arrayOfAllItemIDs: string[];
+    arrayOfAllWordIDs: string[];
+    items: {};
+    sentences: {};
+    words: {};
+  };
+  short_audio: {
+    soundList: string[];
+    sounds: {};
+    wordID_to_text: {};
+  };
+  long_audio: {};
+};
+const flattenData = (input): FlattenedData => {
   let output = {
     translation: {
       definitions: {},
@@ -91,10 +111,11 @@ const flattenData = (input) => {
   return output;
 };
 
-const merge = (first, second) => {
-  if (Array.isArray(first)) {
-    return [...first, ...second];
-  } else if (typeof first === "object") {
+const merge = (first: FlattenedData, second: FlattenedData): FlattenedData => {
+  // if (Array.isArray(first)) {
+  //   return [...first, ...second];
+  // } else
+  if (typeof first === "object") {
     let output = first;
     if (second && typeof second === "object") {
       for (const key of Object.keys(second)) {
@@ -106,6 +127,8 @@ const merge = (first, second) => {
       }
     }
     return output;
+  } else {
+    throw new Error("Merge() can only merge FlattenedData objects");
   }
 };
 

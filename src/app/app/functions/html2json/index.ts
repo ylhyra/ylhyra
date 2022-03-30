@@ -8,6 +8,8 @@
   With minor changes
  */
 
+import { HtmlAsJson } from "app/app/functions/html2json/types";
+
 require("app/app/functions/html2json/parser/htmlparser");
 
 import error from "app/app/error";
@@ -25,7 +27,7 @@ function removeDOCTYPE(html) {
     .replace(/<!DOCTYPE.*>\n/, "");
 }
 
-export const html2json = function html2json(html) {
+export const html2json = function html2json(html: string): HtmlAsJson {
   html = removeDOCTYPE(html);
   var bufArray = [];
   var results = {

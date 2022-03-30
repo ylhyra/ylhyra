@@ -1,10 +1,21 @@
 import MergePunctuation from "documents/parse/Compiler/1_Precompile/MergePunctuation";
 import MergeWords from "documents/parse/Compiler/1_Precompile/MergeWords";
-import { RemoveTempIDs, TempIDs } from "documents/parse/Compiler/1_Precompile/TempIDs";
+import {
+  RemoveTempIDs,
+  TempIDs,
+} from "documents/parse/Compiler/1_Precompile/TempIDs";
+import { HtmlAsJson } from "app/app/functions/html2json/types";
+import { FlattenedData } from "documents/parse/index";
 // import PronunciationAndSound from './PronunciationAndSound'
 // import WrapInTags from 'Editor/2-Parse/2.3-WrapInTags'
 
-const Compile = ({ json, data }) => {
+export default function Compile({
+  json,
+  data,
+}: {
+  json: HtmlAsJson;
+  data: FlattenedData;
+}): HtmlAsJson {
   let output = json;
   output = TempIDs(output);
   output = MergeWords(output, data.translation);
@@ -15,6 +26,4 @@ const Compile = ({ json, data }) => {
   // console.log(output)
   // console.log(JSON.stringify(output, null, 2))
   return output;
-};
-
-export default Compile;
+}

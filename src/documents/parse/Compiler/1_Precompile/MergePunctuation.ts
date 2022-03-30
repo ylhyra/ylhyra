@@ -3,22 +3,24 @@
   Merge phrases into a single word
 */
 
-let translation;
-let removedIDs;
+import { HtmlAsJson } from "app/app/functions/html2json/types";
 
-const init = (tree, _translation) => {
+let translation;
+let removedIds;
+
+const init = (tree: HtmlAsJson, _translation) => {
   translation = _translation;
-  removedIDs = [];
+  removedIds = [];
   return Traverse(tree);
 };
 
-const Traverse = (input, siblings = []) => {
+const Traverse = (input: HtmlAsJson, siblings: HtmlAsJson[] = []) => {
   if (!input) return input;
   const { node, tag, attr, child } = input;
   const id = attr?.id || null;
   if (node === "element" || node === "root") {
     if (tag === "word") {
-      if (removedIDs.includes(id)) return null;
+      if (removedIds.includes(id)) return null;
       const definition = translation.definitions[translation.words[id]];
       return {
         ...input,
@@ -35,25 +37,25 @@ const Traverse = (input, siblings = []) => {
       };
     }
   } else if (node === "text") {
-    if (removedIDs.includes(id)) return null;
+    if (removedIds.includes(id)) return null;
     return input;
   }
   return input;
 };
 
-const findTextSiblings = (siblings, startId) => {
+const findTextSiblings = (siblings: HtmlAsJson[], startId: string) => {
   let listening = false;
   let returnString = "";
   siblings.forEach((element) => {
     if (!element) return;
-    if (removedIDs.includes(element.attr.id)) return;
+    if (removedIds.includes(element.attr.id)) return;
 
     if (element.attr.id === startId) {
       listening = true;
     } else if (listening) {
       if (element.node === "text" && !element.text.startsWith(" ")) {
         returnString += element.text;
-        removedIDs.push(element.attr.id);
+        removedIds.push(element.attr.id);
       } else {
         listening = false;
       }

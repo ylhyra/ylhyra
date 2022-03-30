@@ -8,7 +8,7 @@ import React from "react";
 import convert from "react-attr-converter";
 import { HtmlAsJson } from "app/app/functions/html2json/types";
 
-const Traverse = (json: HtmlAsJson) => {
+const Traverse = (json: HtmlAsJson): HtmlAsJson => {
   if (!json) return null;
   let { node, tag, attr, child, text } = json;
   if (attr?.id === null) {
