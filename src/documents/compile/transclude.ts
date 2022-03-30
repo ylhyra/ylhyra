@@ -4,34 +4,36 @@ import {
   encodeDataInHtml,
   removeComments,
 } from "documents/compile/functions/functions";
-import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
+import {
+  ParseHeaderAndBody,
+  HeaderData,
+} from "documents/compile/functions/ParseHeaderAndBody";
 import TOC from "documents/compile/templates/TOC";
 import { getValuesForURL } from "server/content/links";
 import { links } from "server/content/loadLinks";
 
 var fs = require("fs");
 
-const Transclude = (title, depth = 0, shouldGetData = true) => {
+export default function Transclude(
+  title: string,
+  depth = 0,
+  shouldGetData = true
+): Promise<{ output: string; header: HeaderData }> {
   return new Promise((resolve) => {
     let values = getValuesForURL(
       (depth > 0 && !title.startsWith("Text:") && !title.startsWith(":")
         ? "Template:"
         : "") + title
     );
-    // console.log({ title, depth });
     if (!values.filepath) {
-      // values = getValuesForURL(title);
-      // if (!values.filepath) {
       console.log(`\nNo template named "${title}"\n`);
       process.exit();
-      return resolve();
-      // }
     }
 
-    fs.readFile(values.filepath, "utf8", async (err, data) => {
+    fs.readFile(values.filepath, "utf8", async (err: string, data: string) => {
       if (err) {
         console.log(err);
-        return resolve(`\nFailed to read file for ${title}\n`);
+        throw new Error(`\nFailed to read file for ${title}\n`);
       }
       let { header, body } = ParseHeaderAndBody(data, values.filepath);
 
@@ -52,7 +54,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
       if (depth < 1 && shouldGetData) {
         output = await TranscludeFromText(output, depth);
       }
-      if (shouldGetData) {
+      if (shouldGetData && header) {
         const data2 = await getData(header);
         if (data2) {
           output =
@@ -71,7 +73,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
       resolve({ output, header });
     });
   });
-};
+}
 
 export const TranscludeFromText = async (input, depth) => {
   let output = "";
@@ -82,7 +84,7 @@ export const TranscludeFromText = async (input, depth) => {
     await new Promise(async (resolve2) => {
       if (index % 2 === 0) {
         output += q;
-        return resolve2();
+        return resolve2(true);
       }
       /* Get header info */
       /* TODO: Find better syntax to get header info */
@@ -110,10 +112,9 @@ export const TranscludeFromText = async (input, depth) => {
           console.log(`Missing template: "${name}"`);
         }
       }
-      return resolve2();
+      return resolve2(true);
     });
   });
-  // console.log(output);
   /* Recursively transclude deeper */
   if (/{{/.test(output) && output !== input && depth <= 3) {
     if (depth === 3) {
@@ -124,20 +125,22 @@ export const TranscludeFromText = async (input, depth) => {
   return output;
 };
 
-const getData = async (header) => {
-  const data_title = [header.title, ...(header.redirects || [])].find(
+const getData = async (
+  header: HeaderData
+): Promise<
+  | {
+      output: string;
+      title: string;
+    }
+  | undefined
+> => {
+  const dataTitle = [header.title, ...(header.redirects || [])].find(
     (t) => URL_title("Data:" + t) in links
   );
-  if (!data_title) return;
-  const output = (await Transclude("Data:" + data_title, 0, false)).output;
-  // console.log(output.slice(0, 100))
-  // return;
-  //
-  // console.log(output);
+  if (!dataTitle) return;
+  const output = (await Transclude("Data:" + dataTitle, 0, false)).output;
   return {
     output: JSON.stringify(JSON.parse(output)),
-    title: data_title,
+    title: dataTitle,
   };
 };
-
-export default Transclude;

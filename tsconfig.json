@@ -13,7 +13,7 @@
     "esModuleInterop": true,
     "isolatedModules": false
     //    "lib": ["ES2020", "dom"],
-    //    "strict": true
+        "strict": true
   },
   "compileOnSave": true
 }

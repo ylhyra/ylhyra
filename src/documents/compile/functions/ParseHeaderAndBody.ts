@@ -3,17 +3,28 @@ import { getPlaintextFromVocabularyEntry } from "maker/vocabulary_maker/compile/
 
 const yaml = require("js-yaml");
 
-export const ParseHeaderAndBody = (data, file) => {
+export type HeaderData = {
+  title: string;
+  level?: string;
+  license?: string;
+  vocabulary?: string[];
+  redirects?: string[];
+  /** Added later */
+  has_data?: Boolean;
+};
+
+export const ParseHeaderAndBody = (
+  data: string,
+  file: string
+): { header: HeaderData; body: string } => {
   data = removeComments(data);
   const match = data.trim().match(/^---\n([\s\S]+?)\n---([\s\S]+)?/);
   if (!match) {
-    console.warn("Failed to parse\n\n" + data);
-    return {};
+    throw new Error("Failed to parse\n\n" + data);
   }
-  let [, header, body] = match;
+  let [, _header, body] = match;
 
-  // header = header.replace(/: (.+):/g, ': $1\\:')
-  header = yaml.load(header);
+  const header: HeaderData = yaml.load(_header);
   body = (body || "").trim();
 
   if (!header.title && header.title !== "") {
@@ -21,7 +32,7 @@ export const ParseHeaderAndBody = (data, file) => {
   }
 
   if (!header.level && /\/[abc][123]\//i.test(file)) {
-    header.level = file.match(/\/([abc][123])\//i)[1].toUpperCase();
+    header.level = file.match(/\/([abc][123])\//i)?.[1].toUpperCase();
   }
 
   if (!("license" in header) && header.title.startsWith("Course/")) {

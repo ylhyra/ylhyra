@@ -5,19 +5,24 @@ import { encodeDataInHtml } from "documents/compile/functions/functions";
 import Transclude from "documents/compile/transclude";
 import { parseVocabularyList } from "documents/compile/vocabulary";
 
-export default async (text) => {
+export default async (text: string): Promise<string> => {
   if (!/<TOC>/.test(text)) return text;
   text = await replaceAsync(
     text,
     /<TOC>([\s\S]+)<\/TOC>/g,
-    async (x, content) => {
+    async (x: string, content: string) => {
       return await replaceAsync(
         content,
         /{{(link with percentage|link with vocabulary list|chapter)\|([^|\n]+?)(?:\|([^|\n]+)?)?(?:\|([^|\n]+)?)?}}/g,
-        async (j, template, link, title, small) => {
+        async (
+          j: string,
+          template: string,
+          link: string,
+          title: string,
+          small: string
+        ) => {
           title = title || link.replace("Course/", "");
           const transclusion = await Transclude(link);
-          // console.log(transclusion);
           const vocabulary = transclusion.header?.vocabulary;
           const data = vocabulary
             ? encodeDataInHtml(parseVocabularyList(vocabulary))
