@@ -36,6 +36,7 @@ import groupParagraphs from "documents/parse/ExtractText/Paragraphs";
 import {
   DocumentTitleToTokenizedParagraphsWithIds,
   TokenizedFlattenedForWrapInTags,
+  TokenizedParagraphWithIds,
 } from "documents/parse/types";
 
 import InsertSplit from "documents/parse/WrapInTags/1-InsertSplit";
@@ -88,34 +89,38 @@ export default function (
 /*
   Extract sentences from paragraph
 */
-const Sentences = (paragraph_HTML, sentences) => {
-  // console.warn('HAHA2')
-  // console.log(JSON.stringify(paragraph_HTML));
+const Sentences = (
+  paragraph_HTML: HtmlAsJson,
+  sentences: TokenizedParagraphWithIds["sentences"]
+): HtmlAsJson => {
   /*
     Extract words from sentence
     (Creates a function that will be called in "WrapInTags.js")
   */
   let i = 0;
 
-  function Words(sentence_HTML) {
+  function Words(sentence_HTML: HtmlAsJson) {
     const words = sentences[i++].words;
     return WrapInTags(sentence_HTML, words, "word");
   }
 
-  return WrapInTags(paragraph_HTML, sentences, "sentence", Words).child;
+  /* TODO!!! Verify, this previously returned x.child!! */
+  return WrapInTags(paragraph_HTML, sentences, "sentence", Words);
 };
 
 const WrapInTags = (
   input: HtmlAsJson,
-  tokenizedSplit,
-  elementName,
-  innerFunction
-) => {
+  tokenizedSplit:
+    | TokenizedParagraphWithIds["sentences"]
+    | TokenizedParagraphWithIds["sentences"][number]["words"],
+  elementName: "sentence" | "word",
+  innerFunction?: Function
+): HtmlAsJson => {
   const tempAttributeName = innerFunction ? `data-temp-id` : `data-temp-id2`;
 
   if (!tokenizedSplit || tokenizedSplit.length === 0) {
     console.log("Empty tokenizedSplit");
-    return { child: input };
+    return input; // { child: input };
   }
   const html: string = InsertSplit(input, tokenizedSplit);
   let json: HtmlAsJson = SplitAndWrap(

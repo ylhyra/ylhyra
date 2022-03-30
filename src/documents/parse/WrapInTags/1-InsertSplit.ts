@@ -3,6 +3,8 @@ import { HtmlAsJson } from "app/app/functions/html2json/types";
 // import SplitIntoUnicodeCharacters from './helpers/runes'
 // import { getTextFromTokenized } from 'server/api/translate/tokenizer/create-ids'
 
+export const TEMPORARY_SPLIT_MARKER = "{{SPLIT HERE}}";
+
 /*
   STEP 1:
 
@@ -12,8 +14,6 @@ import { HtmlAsJson } from "app/app/functions/html2json/types";
 export default function (input: HtmlAsJson, tokenizedSplit): string {
   // Turn tokenized data into an array of text
   const array = tokenizedSplit.map(getTextFromTokenized);
-
-  // console.warn(split)
 
   let currentIndex = 0;
   let locationInString = 0;
@@ -57,7 +57,7 @@ export default function (input: HtmlAsJson, tokenizedSplit): string {
               ) {
                 locationInString = 0;
                 currentIndex++;
-                return character + "{{SPLIT HERE}}";
+                return character + TEMPORARY_SPLIT_MARKER;
               } else {
                 locationInString += character.length;
                 return character;
@@ -78,8 +78,6 @@ export default function (input: HtmlAsJson, tokenizedSplit): string {
     node: "root",
     child: InsertSPLIT(input),
   });
-
-  // console.log(html);
 
   return html;
 }
