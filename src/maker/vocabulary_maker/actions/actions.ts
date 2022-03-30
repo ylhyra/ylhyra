@@ -213,7 +213,7 @@ export const addRowsIfMissing = (text) => {
   let prompt_level = !getDeckName() ? window.prompt("Level:") : null;
   text.split(/\n/g).forEach((row) => {
     if (!row || !row.trim()) return;
-    let [is, en, level, depends_on, lemmas] = row
+    let [is, en, note /*level, depends_on, lemmas*/] = row
       .replace(/^- /, "")
       .split(/(?: = |\t)/g);
     if (getDeckName()) {
@@ -231,10 +231,11 @@ export const addRowsIfMissing = (text) => {
         icelandic: is.trim(),
         english: en?.trim(),
         alternative_id: is.trim(),
-        // userLevel: DECK ? null : userLevel || window.term_level || 1,
-        level: level || prompt_level || null,
-        depends_on: depends_on || "",
-        lemmas: lemmas || "",
+        // // level: DECK ? null : level || window.term_level || 1,
+        // level: level || prompt_level || null,
+        // depends_on: depends_on || "",
+        // lemmas: lemmas || "",
+        note: note || "",
       });
       console.log("added " + is);
       seen.push(getHash(is));

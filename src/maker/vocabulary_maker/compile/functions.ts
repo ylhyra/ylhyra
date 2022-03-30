@@ -15,6 +15,9 @@ export const getDeckName = () => {
     if (getUserFromCookie()?.username === "norska") {
       return "_no";
     }
+    if (getUserFromCookie()?.username === "þýska") {
+      return "_de";
+    }
   }
   return "";
 };
