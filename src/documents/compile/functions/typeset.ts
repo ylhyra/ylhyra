@@ -5,7 +5,7 @@ const entities = new Entities();
 /*
   Adds curly quotes
 */
-export default (input) => {
+export default (input: string) => {
   const split = input.split(/(<[\s\S]+?>)/g);
   let tmp = split
     .map((t, index) => {
@@ -32,7 +32,7 @@ export default (input) => {
     .split(/(SUBSTITUTION[0-9]+%)/g)
     .map((j) => {
       if (j.startsWith("SUBSTITUTION")) {
-        const x = j.match(/SUBSTITUTION([0-9]+)%/)[1];
+        const x = j.match(/SUBSTITUTION([0-9]+)%/)?.[1];
         return split[parseInt(x)];
       }
       return j;

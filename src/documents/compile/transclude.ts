@@ -11,8 +11,7 @@ import {
 import TOC from "documents/compile/templates/TOC";
 import { getValuesForURL } from "server/content/links";
 import { links } from "server/content/loadLinks";
-
-var fs = require("fs");
+import fs from "fs";
 
 export default function Transclude(
   title: string,
@@ -46,9 +45,9 @@ export default function Transclude(
        * pre-processing to access header data  */
       /* TODO: Move elsewhere */
       output = await TOC(output);
-      let i = 0;
+      let i = 1;
       output = output.replace(/{{incr}}/g, () => {
-        return i++ + 1;
+        return (i++).toString();
       });
 
       if (depth < 1 && shouldGetData) {
@@ -75,7 +74,7 @@ export default function Transclude(
   });
 }
 
-export const TranscludeFromText = async (input, depth) => {
+export const TranscludeFromText = async (input: string, depth: number) => {
   let output = "";
   input = input
     .replace(/{{{+/g, "&lbrace;&lbrace;&lbrace;")
@@ -94,7 +93,6 @@ export const TranscludeFromText = async (input, depth) => {
         if (transclusion.header) {
           output += encodeDataInHtml(transclusion.header[param_]);
         }
-        // .replace(/"/g,'\\"')
       } else {
         /* Transclude */
         let [name, ...params] = q.split(/\|/);

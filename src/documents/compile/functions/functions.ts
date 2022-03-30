@@ -1,13 +1,13 @@
 import atob from "atob";
 import btoa from "btoa";
 
-export const removeComments = (i) =>
+export const removeComments = (i: string) =>
   i.replace(/<!--([\s\S]+?)-->/g, "").replace(/\n<!--([\s\S]+?)-->\n/g, "\n");
 
 /**
  * Returns Base64-encoded
  */
-export const encodeDataInHtml = (input, alreadyStringified = false) => {
+export const encodeDataInHtml = (input: any, alreadyStringified = false) => {
   if (!input) return;
   return btoa(
     encodeURIComponent(alreadyStringified ? input : JSON.stringify(input))
