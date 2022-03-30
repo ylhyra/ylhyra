@@ -3,7 +3,7 @@ import { log } from "app/app/functions/log";
 import { getTime, minutes } from "app/app/functions/time";
 import { preload } from "app/router/actions/load";
 import { updateURL } from "app/router/actions/updateURL";
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { connect, ConnectedProps } from "react-redux";
 
 const start = getTime();
@@ -11,8 +11,9 @@ const start = getTime();
 class Link extends React.Component<
   ConnectedProps<typeof connector> & {
     href: string;
-    // id?: string;
+    id?: string;
     className?: string;
+    children: FunctionComponent | string;
   }
 > {
   fn = (e, url) => {

@@ -42,7 +42,7 @@ export const setupSound = () => {
       !Database.sound.some(
         (i) =>
           i.lowercase === lowercase &&
-          i.speaker === window.recording_metadata.speaker
+          i.speaker === window["recording_metadata"].speaker
       )
     ) {
       missing_sound.push(word);
@@ -77,8 +77,8 @@ export const saveSound = ({ word, filename }) => {
   Database.sound.push({
     recording_of: word,
     filename,
-    speed: window.recording_metadata.speed,
-    speaker: window.recording_metadata.speaker,
+    speed: window["recording_metadata"].speed,
+    speaker: window["recording_metadata"].speaker,
     date: new Date().toISOString().substring(0, 10),
   });
   save();

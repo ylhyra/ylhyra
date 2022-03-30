@@ -1,8 +1,12 @@
 import exists from "app/app/functions/exists";
 import Box from "documents/parse/Compiler/2_CompileToHTML/Definition/Box/Sentence";
 import React from "react";
+import { DefinitionObject } from "documents/parse/Compiler/2_CompileToHTML/Definition/Box/Word";
 
-class Sentence extends React.Component {
+class Sentence extends React.Component<{
+  definition: DefinitionObject;
+  id: string;
+}> {
   render() {
     const { id, definition } = this.props;
     let attrs = {};
@@ -16,7 +20,7 @@ class Sentence extends React.Component {
     }
     // console.log(this.props.children)
     return [
-      <Box id={id} definition={definition} sentence key={1} hidden={true} />,
+      <Box id={id} definition={definition} key={1} /*hidden={true}*/ />,
       <span
         className={`sentence ${classes.join(" ")}`}
         {...attrs}

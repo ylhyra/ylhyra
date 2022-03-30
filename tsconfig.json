@@ -11,7 +11,11 @@
     "module": "commonjs",
     "outDir": "build/ts",
     "esModuleInterop": true,
-    "isolatedModules": false
+    "isolatedModules": false,
+    "lib": [
+      "ES2021",
+      "dom"
+    ]
     //  "strict": true,
   },
   "compileOnSave": true

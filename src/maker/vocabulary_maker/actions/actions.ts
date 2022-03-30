@@ -21,6 +21,7 @@ export const Database = {
   alternative_ids: {},
   plaintext_sentences: {},
   selected_rows: [],
+  mode: null,
   // mode: "review_importance",
 };
 
@@ -30,29 +31,29 @@ export const refreshRows = () => {
   if (Database.mode === "review_importance") {
     Database.rows = Database.rows.sort(
       (a, b) =>
-        Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
-        Boolean(b.english) - Boolean(a.english) ||
-        Boolean(b.icelandic) - Boolean(a.icelandic) ||
+        booleanCompare(a["eyða"], b["eyða"]) ||
+        booleanCompare(b.english, a.english) ||
+        booleanCompare(b.icelandic, a.icelandic) ||
         ("difficulty" in a) - ("difficulty" in b) ||
         // a.last_seen?.localeCompare(b.last_seen) ||
-        Boolean(a.fix) - Boolean(b.fix) ||
-        (b.level <= 3) - (a.level <= 3) ||
+        booleanCompare(a.fix, b.fix) ||
+        booleanCompare(b.level <= 3, a.level <= 3) ||
         b.level - a.level ||
         false
     );
   } else {
     Database.rows = Database.rows.sort(
       (a, b) =>
-        Boolean(a["eyða"]) - Boolean(b["eyða"]) ||
+        booleanCompare(a["eyða"], b["eyða"]) ||
         // Boolean(a.userLevel) - Boolean(b.userLevel) ||
-        Boolean(a.icelandic) - Boolean(b.icelandic) ||
-        Boolean(a.last_seen) - Boolean(b.last_seen) ||
-        Boolean(a.english) - Boolean(b.english) ||
+        booleanCompare(a.icelandic, b.icelandic) ||
+        booleanCompare(a.last_seen, b.last_seen) ||
+        booleanCompare(a.english, b.english) ||
         a.last_seen?.localeCompare(b.last_seen) ||
-        (b.level <= 3) - (a.level <= 3) ||
+        booleanCompare(b.level <= 3, a.level <= 3) ||
         (a.level || 100) - (b.level || 100) ||
         a.row_id - b.row_id ||
-        Boolean(a.fix) - Boolean(b.fix) ||
+        booleanCompare(a.fix, b.fix) ||
         false
     );
   }
@@ -126,7 +127,7 @@ export const delete_row = (row_id) => {
   // ignore_for_now(row_id, "DELETED");
 };
 
-export const ignore_for_now = (row_id, message) => {
+export const ignore_for_now = (row_id, message?) => {
   const v = Database.rows.findIndex((j) => j.row_id === row_id);
   Database.rows[v] = {
     ...Database.rows[v],
@@ -247,9 +248,9 @@ export const addRowsIfMissing = (text) => {
 };
 
 if (isBrowser) {
-  window.addRowsIfMissing = addRowsIfMissing;
-  window.a = addRowsIfMissing;
-  window.save = save;
+  window["addRowsIfMissing"] = addRowsIfMissing;
+  window["a"] = addRowsIfMissing;
+  window["save"] = save;
   // window.rows = () => rows;
 }
 
@@ -260,3 +261,5 @@ export const changeMode = (e) => {
   // if (value === "review_importance") {
   // }
 };
+
+const booleanCompare = (a: any, b: any) => (a ? 1 : 0) - (b ? 1 : 0);

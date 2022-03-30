@@ -1,4 +1,4 @@
-function addDash(attr) {
+const addDash = (attr) => {
   while (attr.indexOf("-") > 0) {
     // - is in the attribute name, but is not the first character either
     var afterDash = attr.substring(attr.indexOf("-") + 1);
@@ -7,9 +7,9 @@ function addDash(attr) {
     attr = attr.substring(0, attr.indexOf("-")) + afterDash;
   }
   return attr;
-}
+};
 
-module.exports = function (str, opts) {
+export default (str, opts?) => {
   if (typeof str !== "string") {
     throw new TypeError("Expected a string");
   }

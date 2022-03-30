@@ -11,9 +11,11 @@ import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/format";
 import { row_titles } from "maker/vocabulary_maker/compile/rowTitles";
 import VocabularyMakerForm from "maker/vocabulary_maker/Elements/Form";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 
-class VocabularyMaker extends React.Component {
+class VocabularyMaker extends React.Component<
+  ConnectedProps<typeof connector>
+> {
   componentDidMount = async () => {
     load();
   };
@@ -98,7 +100,8 @@ class VocabularyMaker extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   vocabulary: state.vocabulary,
   vocabularyMaker: state.vocabularyMaker,
-}))(VocabularyMaker);
+}));
+export default connector(VocabularyMaker);

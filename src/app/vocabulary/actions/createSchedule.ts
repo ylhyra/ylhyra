@@ -1,6 +1,15 @@
 import { log } from "app/app/functions/log";
-import { addSomeRandomness, average, clamp, toFixedFloat } from "app/app/functions/math";
-import { daysFromNowToTimestamp, getTime, msToDays } from "app/app/functions/time";
+import {
+  addSomeRandomness,
+  average,
+  clamp,
+  toFixedFloat,
+} from "app/app/functions/math";
+import {
+  daysFromNowToTimestamp,
+  getTime,
+  msToDays,
+} from "app/app/functions/time";
 import { wasSeenInSession } from "app/vocabulary/actions/card/card";
 import {
   getDue,
@@ -9,11 +18,11 @@ import {
   getNumberOfBadSessions,
   getScore,
   getSessionsSeen,
-  setSchedule
+  setSchedule,
 } from "app/vocabulary/actions/card/card_schedule";
 import {
   didAnySiblingCardsGetABadRatingInThisSession,
-  getSiblingCards
+  getSiblingCards,
 } from "app/vocabulary/actions/card/card_siblings";
 import CardInSession from "app/vocabulary/actions/cardInSession";
 import { BAD, EASY, GOOD } from "app/vocabulary/constants";
@@ -114,7 +123,7 @@ export function createSchedule() {
       );
     }
 
-    setSchedule(card, {
+    setSchedule(card.id, {
       due: daysFromNowToTimestamp(addSomeRandomness(due_in_days)),
       last_interval_in_days: toFixedFloat(due_in_days, 1),
       score: toFixedFloat(score, 2),

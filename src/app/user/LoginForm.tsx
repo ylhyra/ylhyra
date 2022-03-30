@@ -1,20 +1,16 @@
 import { RootState } from "app/app/store";
 import errors from "app/app/error/messages";
 import { withPlural } from "app/app/functions/simplePlural";
-import { RootState } from "app/app/store";
 import { existsSchedule, login } from "app/user/actions";
 import { countTermsInSchedule } from "app/vocabulary/actions/functions";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 
 class Form2 extends React.Component<
-  {
-    route: RootState["route"];
-    user: RootState["user"];
-    vocabulary: RootState["vocabulary"];
+  ConnectedProps<typeof connector> & {
     type: "signup" | "login";
-    above: React.Component;
+    above: React.ReactNode;
   },
   {
     step: Number;
@@ -191,8 +187,10 @@ class Form2 extends React.Component<
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   route: state.route,
   user: state.user,
   vocabulary: state.vocabulary,
-}))(Form2);
+}));
+
+export default connector(Form2);

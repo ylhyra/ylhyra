@@ -14,7 +14,7 @@ const START_LAG_IN_MILLISECONDS = 0;
 // const START_LAG_IN_MILLISECONDS = 100;
 const STOP_LAG_IN_MILLISECONDS = 700;
 
-window.recording_metadata = {
+window["recording_metadata"] = {
   speaker: "E",
   // speaker: "Imba",
   speed: "slow", // ["slow", "normal", "fast"]
@@ -26,6 +26,7 @@ class RecorderElement extends React.Component {
     word: null,
     remaining: [],
     blob: null,
+    isKeyDown: null,
   };
 
   componentDidMount() {
@@ -116,8 +117,8 @@ class RecorderElement extends React.Component {
       const filename = (
         await axios.post("/api/recorder/save", {
           word,
-          speaker: window.recording_metadata.speaker,
-          speed: window.recording_metadata.speed,
+          speaker: window["recording_metadata"].speaker,
+          speed: window["recording_metadata"].speed,
           base64_data,
         })
       ).data;
@@ -190,9 +191,9 @@ class Record extends React.Component {
         /* Needed for Chrome interaction */
         onClick={() => this.setState({ started: true })}
       >
-        <div>Speaker: "{window.recording_metadata.speaker}"</div>
+        <div>Speaker: "{window["recording_metadata"].speaker}"</div>
         <div>
-          Speed: <b>{window.recording_metadata.speed}</b>
+          Speed: <b>{window["recording_metadata"].speed}</b>
         </div>
         <div>Progress: {remaining}</div>
         {this.state.started ? (

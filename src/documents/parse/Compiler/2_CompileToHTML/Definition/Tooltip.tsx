@@ -1,7 +1,12 @@
 import exists from "app/app/functions/exists";
 import React from "react";
+import { DefinitionObject } from "documents/parse/Compiler/2_CompileToHTML/Definition/Box/Word";
 
-export default class Definition extends React.PureComponent {
+export default class Definition extends React.PureComponent<{
+  definition: DefinitionObject;
+  id: string;
+  hidden?: Boolean;
+}> {
   render() {
     const { definition, id } = this.props;
     if (!exists(definition) || !definition.meaning) {

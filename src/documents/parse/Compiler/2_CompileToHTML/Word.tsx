@@ -1,6 +1,8 @@
 import exists from "app/app/functions/exists";
 import { getUpdatedID } from "documents/parse/Compiler/1_Precompile/UpdateID";
-import Box from "documents/parse/Compiler/2_CompileToHTML/Definition/Box/Word";
+import Box, {
+  DefinitionObject,
+} from "documents/parse/Compiler/2_CompileToHTML/Definition/Box/Word";
 import InlineTranslation from "documents/parse/Compiler/2_CompileToHTML/Definition/InlineTranslation";
 import Tooltip from "documents/parse/Compiler/2_CompileToHTML/Definition/Tooltip";
 // import GetSound from 'documents/Parse/Compiler/2_CompileToHTML/Sound'
@@ -8,7 +10,11 @@ import omitEmpty from "omit-empty";
 import React from "react";
 import _ from "underscore";
 
-class WordElement extends React.Component {
+class WordElement extends React.Component<{
+  definition: DefinitionObject;
+  id: string;
+  appendText?: string;
+}> {
   render() {
     const { id, definition, appendText } = this.props;
     let classes = [];
@@ -43,35 +49,18 @@ class WordElement extends React.Component {
       classes.push("missing");
     }
 
-    const shouldShowInline = definition?.show_definition_above;
-    const Tag = "span"; // shouldShowInline ? "ruby" : "span";
-
-    // console.log(definition)
     return [
       <Box id={id} definition={definition} key={1} hidden={true} />,
       <Tooltip id={id} definition={definition} key={2} hidden={true} />,
-      <Tag className={`word-container ${classes.join(" ")}`} key={3}>
+      <span className={`word-container ${classes.join(" ")}`} key={3}>
         <span className="word" {...attrs} id={id} data-will-have-audio="true">
           {this.props.children}
         </span>
         <InlineTranslation definition={definition} />
         {appendText}
-      </Tag>,
+      </span>,
     ];
   }
 }
-
-// const get_analysis = (updatedID, editor) => {
-//   const id = getPreviousID(updatedID) || updatedID
-//   if (!editor.analysis) return null;
-//   const analysis = editor.analysis[id]
-//   if (!analysis) return null;
-//   // console.log(analysis)
-//   return JSON.stringify({
-//     BIN_id: analysis.BIN_id,
-//     word_class: analysis.word_class,
-//     grammatical_tag: analysis.grammatical_tag,
-//   })
-// }
 
 export default WordElement;

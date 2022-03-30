@@ -16,17 +16,25 @@ import {
   row_titles,
 } from "maker/vocabulary_maker/compile/rowTitles";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import _ from "underscore";
 
-class Form2 extends React.Component {
+class Form2 extends React.Component<
+  ConnectedProps<typeof connector> & {
+    row: any;
+  }
+> {
+  formRef: React.RefObject<any>;
+  state = {
+    selectedField: null,
+  };
   constructor(props) {
     super(props);
-    this.state = {};
+
     this.formRef = React.createRef();
-    setTimeout(() => {
-      window.j = this.formRef;
-    }, 100);
+    // setTimeout(() => {
+    //   window.j = this.formRef;
+    // }, 100);
   }
   componentDidMount = async () => {
     window.addEventListener("keydown", this.checkKey);
@@ -142,7 +150,7 @@ class Form2 extends React.Component {
         enableReinitialize={true}
         validateOnChange={false}
         validate={(values) => {
-          const errors = {};
+          const errors: any = {};
           if (/,/.test(values.icelandic)) {
             errors.icelandic = "Comma not allowed";
           }
@@ -273,7 +281,8 @@ class Form2 extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   vocabulary: state.vocabulary,
   vocabularyMaker: state.vocabularyMaker,
-}))(Form2);
+}));
+export default connector(Form2);

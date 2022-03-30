@@ -1,6 +1,7 @@
 import exists from "app/app/functions/exists";
 import { ItalicsAndBold } from "documents/parse/Compiler/2_CompileToHTML/Definition/Tooltip";
 import React from "react";
+import { DefinitionObject } from "documents/parse/Compiler/2_CompileToHTML/Definition/Box/Word";
 
 /*
   Maybe TODO:
@@ -9,7 +10,9 @@ import React from "react";
     Would be cool, but double lines hardly fit between spaces.
 */
 
-class InlineTranslation extends React.PureComponent {
+class InlineTranslation extends React.PureComponent<{
+  definition: DefinitionObject;
+}> {
   render() {
     const { definition } = this.props;
     if (!exists(definition) || !definition.show_definition_above) {

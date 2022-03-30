@@ -1,8 +1,13 @@
 import exists from "app/app/functions/exists";
 import { ItalicsAndBold } from "documents/parse/Compiler/2_CompileToHTML/Definition/Tooltip";
 import React from "react";
+import { DefinitionObject } from "documents/parse/Compiler/2_CompileToHTML/Definition/Box/Word";
 
-export default class SentenceBox extends React.PureComponent {
+export default class SentenceBox extends React.PureComponent<{
+  definition: DefinitionObject;
+  id: string;
+  // hidden?: boolean;
+}> {
   render() {
     const { definition } = this.props;
     if (
@@ -57,7 +62,7 @@ export default class SentenceBox extends React.PureComponent {
         id={`${this.props.id}-sentence-overlay`}
         data-ignore="true"
         key={2}
-      ></span>,
+      />,
     ];
   }
 }

@@ -1,4 +1,6 @@
-export const user = (state = null, action) => {
+import { UserInfo } from "app/user/actions";
+
+export const user = (state: UserInfo | null = null, action): UserInfo => {
   switch (action.type) {
     case "LOAD_USER":
       return action.content;

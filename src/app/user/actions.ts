@@ -60,10 +60,11 @@ export const InitializeUser = () => {
   updateUser();
 };
 
-export const getUserFromCookie = (): {
+export type UserInfo = {
   user_id: Number;
   username: string;
-} | null => {
+};
+export const getUserFromCookie = (): UserInfo | null => {
   if (!isBrowser) return null;
   let cookie = getCookie("y");
   if (cookie) {

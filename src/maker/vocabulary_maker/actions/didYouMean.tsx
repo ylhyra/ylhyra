@@ -4,7 +4,7 @@ import React from "react";
 import { compareTwoStrings } from "string-similarity";
 import _ from "underscore";
 
-let memoizedSuggestions = {};
+let memoizedSuggestions: any = {};
 export const didYouMeanSuggestions = (is, input_row_id) => {
   if (memoizedSuggestions.row_id === input_row_id) {
     return memoizedSuggestions.value;

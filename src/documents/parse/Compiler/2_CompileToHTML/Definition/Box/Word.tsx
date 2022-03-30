@@ -2,7 +2,27 @@ import exists from "app/app/functions/exists";
 import { ItalicsAndBold } from "documents/parse/Compiler/2_CompileToHTML/Definition/Tooltip";
 import React from "react";
 
-export default class WordBox extends React.PureComponent {
+export type DefinitionObject = {
+  base?: string;
+  base_meaning?: string;
+  base_direct?: string;
+  note?: string;
+  direct?: string;
+  grammatical_analysis?: string;
+  sound?: string[];
+  pronunciation?: string;
+  difficult?: Boolean;
+  show_definition_above?: Boolean;
+  contains: string[] /** Array of connected ids */;
+  inline_translation?: string;
+  meaning?: string;
+};
+
+export default class WordBox extends React.PureComponent<{
+  definition: DefinitionObject;
+  id: string;
+  hidden?: boolean;
+}> {
   render() {
     const { definition } = this.props;
     if (

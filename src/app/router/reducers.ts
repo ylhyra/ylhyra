@@ -1,11 +1,12 @@
 import { isBrowser } from "app/app/functions/isBrowser";
 
+type RouteState = { pathname: string; data?: Object };
 export const route = (
-  state: { pathname: string; data?: Object } = {
+  state: RouteState = {
     pathname: isBrowser ? window.location.pathname : "/",
   },
   action
-) => {
+): RouteState => {
   switch (action.type) {
     case "ROUTE":
       return {
