@@ -1,7 +1,9 @@
 import React from "react";
 
 class Hide extends React.Component {
-  state = {};
+  state = {
+    open: false,
+  };
   render() {
     return (
       <div className="collapse">

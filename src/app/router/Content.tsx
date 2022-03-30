@@ -23,13 +23,13 @@ class Content extends Component {
     //   );
     if (isDev && isBrowser) {
       return [
-        Render({ json: parsed }),
+        Render(parsed),
         <Suspense fallback={""} key={2}>
           <RenderEditor />
         </Suspense>,
       ];
     } else {
-      return Render({ json: parsed });
+      return Render(parsed);
     }
   }
 }

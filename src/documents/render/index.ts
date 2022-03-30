@@ -1,6 +1,7 @@
 import Traverse from "documents/render/Traverse";
 import { HtmlAsJson } from "app/app/functions/html2json/types";
+import React from "react";
 
-export default ({ json /*data*/ }: { json: HtmlAsJson }) => {
-  return Traverse({ json, data, index: 0 }) || null;
+export default (json: HtmlAsJson): React.FC => {
+  return Traverse({ json, index: 0 }) || null;
 };

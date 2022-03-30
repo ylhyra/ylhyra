@@ -1,15 +1,16 @@
 import Link from "app/router/Link";
 import GetTemplate from "documents/templates/_list";
 import React from "react";
+import { HtmlAsJson } from "app/app/functions/html2json/types";
 
-const Traverse = ({ json, data, index }) => {
+export default function Traverse(json: HtmlAsJson, index: Number = 0) {
   if (!json) return null;
   let { node, tag, attr, child, text } = json;
   if (node === "element" || node === "root") {
     let Tag = tag || "span";
     attr = attr || {};
     if (node === "root") {
-      return child.map((e, i) => Traverse({ json: e, index: i, data }));
+      return child.map((e, i) => Traverse(e, i));
     }
     if (tag === "a") {
       Tag = Link;
@@ -35,15 +36,13 @@ const Traverse = ({ json, data, index }) => {
 
     return (
       <Tag {...attr} key={attr?.id || index}>
-        {child?.map((e, i) => Traverse({ json: e, data, index: i }))}
+        {child?.map((e, i) => Traverse(e, i))}
       </Tag>
     );
   } else if (node === "text") {
     return text;
   }
-};
-
-export default Traverse;
+}
 
 /*
   Allow for specific custom elements.
