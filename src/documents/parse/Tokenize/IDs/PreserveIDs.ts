@@ -13,15 +13,25 @@
 
 import flattenArray from "app/app/functions/flattenArray";
 import { diffArrays } from "diff";
+import { TokenizedParagraphsWithIds } from "documents/parse/types";
 import { findBestMatch } from "string-similarity";
 
-const Preserve = (first, second) => {
+export default function Preserve(
+  first: TokenizedParagraphsWithIds,
+  second: TokenizedParagraphsWithIds
+) {
   /* Map from new IDs to preserved IDs */
   const PreservedIDs = {
     /* Compares old and new sentences */
-    ...DiffAndPreserveIDs(SentencesArray(first), SentencesArray(second)),
+    ...DiffAndPreserveIDs(
+      simplifiedSentencesArray(first),
+      simplifiedSentencesArray(second)
+    ),
     /* Compares old and new words */
-    ...DiffAndPreserveIDs(WordsArray(first), WordsArray(second)),
+    ...DiffAndPreserveIDs(
+      simplifiedWordsArray(first),
+      simplifiedWordsArray(second)
+    ),
   };
 
   /* Return with preserved IDs */
@@ -39,65 +49,66 @@ const Preserve = (first, second) => {
       }),
     })),
   }));
-};
-
-export default Preserve;
+}
 
 /*
   Input: Two arrays of only IDs & text.
   Ouput: Map of new IDs to preserved IDs
 */
-const DiffAndPreserveIDs = (first, second) => {
+const DiffAndPreserveIDs = (
+  first: TokenizedParagraphsWithIds,
+  second: TokenizedParagraphsWithIds
+) => {
   let ids = {};
-  let first_index = 0;
-  let second_index = 0;
+  let firstIndex = 0;
+  let secondIndex = 0;
   const diff = diffArrays(
     first.map((i) => i.text),
     second.map((i) => i.text)
   );
 
   /* Keeps track of removed and added parts */
-  let unmatched_ids = {};
+  let unmatchedIds = {};
 
   /* Find perfect matches */
-  diff.forEach((part, part_index) => {
-    part.value.forEach((value, value_index) => {
+  diff.forEach((part, partIndex) => {
+    part.value.forEach((value, valueIndex) => {
       if (part.removed) {
         /* Save id in `diff` to find closest match later */
-        unmatched_ids[`${part_index}_${value_index}`] = first[first_index].id;
-        first_index++;
+        unmatchedIds[`${partIndex}_${valueIndex}`] = first[firstIndex].id;
+        firstIndex++;
       } else if (part.added) {
         /* Save id in `diff` to find closest match later */
-        unmatched_ids[`${part_index}_${value_index}`] = second[second_index].id;
-        second_index++;
+        unmatchedIds[`${partIndex}_${valueIndex}`] = second[secondIndex].id;
+        secondIndex++;
       } else {
         /* Map new ID to preserved ID */
-        ids[second[second_index].id] = first[first_index].id;
-        first_index++;
-        second_index++;
+        ids[second[secondIndex].id] = first[firstIndex].id;
+        firstIndex++;
+        secondIndex++;
       }
     });
   });
 
   /* Attempt to find the closest match */
-  diff.forEach((part, part_index) => {
+  diff.forEach((part, partIndex) => {
     if (
-      diff[part_index + 1] &&
-      diff[part_index].removed &&
-      diff[part_index + 1].added // || (diff[index].added && diff[index + 1].removed)
+      diff[partIndex + 1] &&
+      diff[partIndex].removed &&
+      diff[partIndex + 1].added // || (diff[index].added && diff[index + 1].removed)
     ) {
-      const removed = diff[part_index];
-      const added = diff[part_index + 1];
+      const removed = diff[partIndex];
+      const added = diff[partIndex + 1];
       let remaining_possible_added_values = added.value;
-      removed.value.forEach((removed_value, removed_index) => {
+      removed.value.forEach((removed_value, removedIndex) => {
         if (remaining_possible_added_values.length < 1) return;
         const { bestMatch, bestMatchIndex } = findBestMatch(
           removed_value,
           remaining_possible_added_values
         );
         if (bestMatch.rating < 0.3) return;
-        const removed_id = unmatched_ids[`${part_index}_${removed_index}`];
-        const added_id = unmatched_ids[`${part_index + 1}_${bestMatchIndex}`];
+        const removed_id = unmatchedIds[`${partIndex}_${removedIndex}`];
+        const added_id = unmatchedIds[`${partIndex + 1}_${bestMatchIndex}`];
         ids[added_id] = removed_id;
         remaining_possible_added_values.splice(bestMatchIndex, 1);
       });
@@ -110,13 +121,18 @@ const DiffAndPreserveIDs = (first, second) => {
 /*
   Create flat arrays of words and sentences.
 
-  Input:
-    - Tokenized data
   Output:
     - Simplified array on the form: [{ id, text }, { id, text }].
     - All punctuation is removed to make diff simpler.
 */
-const SentencesArray = (paragraphs) => {
+const simplifiedSentencesArray = (
+  paragraphs: TokenizedParagraphsWithIds
+): Array<
+  Array<{
+    id: string;
+    text: string;
+  }>
+> => {
   return flattenArray(
     paragraphs.map((paragraph) => {
       return paragraph.sentences.map((sentence) => {
@@ -124,7 +140,11 @@ const SentencesArray = (paragraphs) => {
           id: sentence.id,
           text: sentence.words
             .map((word) => {
-              return word.text;
+              if (typeof word === "string") {
+                return word;
+              } else {
+                return word.text;
+              }
             })
             .filter(Boolean)
             .join(" ")
@@ -134,13 +154,14 @@ const SentencesArray = (paragraphs) => {
     })
   );
 };
-const WordsArray = (paragraphs) => {
+
+const simplifiedWordsArray = (paragraphs: TokenizedParagraphsWithIds) => {
   return flattenArray(
     paragraphs.map((paragraph) => {
       return paragraph.sentences.map((sentence) => {
         return sentence.words
           .map((word) => {
-            if (!word.id) return null;
+            if (typeof word === "string") return null;
             return {
               id: word.id,
               text: word.text.toLowerCase(),
@@ -151,82 +172,3 @@ const WordsArray = (paragraphs) => {
     })
   );
 };
-
-//
-// const ONE = [{
-//     "id": "w__Eiríkur",
-//     "text": "Eiríkur"
-//   },
-//   {
-//     "id": "w__dansar",
-//     "text": "dansar"
-//   },
-//   {
-//     "id": "w__svo",
-//     "text": "svo"
-//   },
-//   {
-//     "id": "w__vel",
-//     "text": "vel"
-//   }, {
-//     "id": "w__Hann",
-//     "text": "Hann"
-//   }, {
-//     "id": "w__dansar",
-//     "text": "dansar"
-//   }, {
-//     "id": "w__betur",
-//     "text": "betur"
-//   }, {
-//     "id": "w__en",
-//     "text": "en"
-//   }, {
-//     "id": "w__ég",
-//     "text": "ég"
-//   }
-// ]
-// const TWO = [{
-//   "id": "NEW_w__Test",
-//   "text": "Test"
-// }, {
-//   "id": "NEW_w__test",
-//   "text": "test"
-// }, {
-//   "id": "NEW_w__test",
-//   "text": "test"
-// }, {
-//   "id": "NEW_w__Haha",
-//   "text": "Haha"
-// }, {
-//   "id": "NEW_w__Haha",
-//   "text": "Haha"
-// }, {
-//   "id": "NEW_w__Eiríkur",
-//   "text": "Eiríkur"
-// }, {
-//   "id": "NEW_w__dansar",
-//   "text": "dansar"
-// }, {
-//   "id": "NEW_w__svo",
-//   "text": "svo"
-// }, {
-//   "id": "NEW_w__vel",
-//   "text": "vel"
-// }, {
-//   "id": "NEW_w__Hann",
-//   "text": "Hann"
-// }, {
-//   "id": "NEW_w__dansar",
-//   "text": "dansar"
-// }, {
-//   "id": "NEW_w_0_betur",
-//   "text": "betur"
-// }, {
-//   "id": "NEW_w_7_en",
-//   "text": "en"
-// }, {
-//   "id": "NEW_w_O_ég",
-//   "text": "ég"
-// }]
-//
-// console.log({ DiffAndPreserveIDs: DiffAndPreserveIDs(ONE, TWO) })

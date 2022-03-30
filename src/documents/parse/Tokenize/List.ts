@@ -1,9 +1,11 @@
 /*
-  TODO:
+  Todo:
   It is most often unnecessary to use "Words" and "Sentences",
   we should instead only rely on the more general "Items".
 */
-export default (paragraphs) => {
+import { ListData } from "documents/parse/types";
+
+export default (paragraphs): ListData => {
   let items = {};
   let arrayOfAllItemIDs = [];
   let sentences = {};
@@ -36,11 +38,10 @@ export default (paragraphs) => {
   }
 
   return {
-    items, // Object containing all words and all sentences
-    arrayOfAllItemIDs, // Array of all words and all sentences
-
-    sentences, // Object of only sentences
-    words, // Object of only words
-    arrayOfAllWordIDs, // Array of all word IDs
+    items,
+    arrayOfAllItemIDs,
+    sentences,
+    words,
+    arrayOfAllWordIDs,
   };
 };

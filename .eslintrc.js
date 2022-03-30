@@ -23,7 +23,7 @@ module.exports = {
           "warn",
           {
             selector: "variable",
-            format: ["strictCamelCase", "StrictPascalCase", "UPPER_CASE"],
+            format: ["camelCase", "PascalCase", "UPPER_CASE"],
             leadingUnderscore: "allowSingleOrDouble",
           },
         ],

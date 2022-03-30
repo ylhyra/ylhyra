@@ -14,7 +14,7 @@ import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
 
 const router = express.Router();
-require("array-sugar");
+
 export const WITHOUT_SPECIAL_CHARACTERS_MARKER = "@";
 export const WITH_SPELLING_ERROR_MARKER = "^";
 export const PHONETIC_MARKER = "~";

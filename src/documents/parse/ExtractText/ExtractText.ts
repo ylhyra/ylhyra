@@ -1,42 +1,35 @@
-/*
-   ____                    _            _
-  |  _ \ __ ___      __   | |_ _____  _| |_
-  | |_) / _` \ \ /\ / /   | __/ _ \ \/ / __|
-  |  _ < (_| |\ V  V /    | ||  __/>  <| |_
-  |_| \_\__,_| \_/\_/      \__\___/_/\_\\__|
+import hash from "app/app/functions/hash";
+import { HtmlAsJson } from "app/app/functions/html2json/types";
+import { newTitle } from "documents/parse/ExtractData";
+import groupParagraphs from "documents/parse/ExtractText/Paragraphs";
+import { DocumentTitleToArrayOfRawText } from "documents/parse/types";
+import emoji_strip from "emoji-strip";
+
+/**
+  Convert document into raw text.
 
   1. Parses input
   2. Splits into paragraphs
   3. Gets raw text
   4. Returns a list of paragraphs (text & hash)
-
-*/
-
-import hash from "app/app/functions/hash";
-import { newTitle } from "documents/parse";
-import GroupParagraphs from "documents/parse/ExtractText/Paragraphs";
-import emoji_strip from "emoji-strip";
-
-/*
-  Convert document into raw text
-*/
-export default function (json /*onlyRetrieveEntireDocuments*/) {
-  let paragraphs = [];
+ */
+export default function (json: HtmlAsJson): DocumentTitleToArrayOfRawText {
+  let paragraphs: Array<{
+    index: number;
+    documentTitle: string;
+    hash: string;
+    text: string;
+  }> = [];
 
   let index = 0;
-  GroupParagraphs({
+  groupParagraphs({
     input: json,
     getNewTitle: new newTitle(),
-    paragraphFunction: (paragraph, documentTitle) => {
-      const text = getText(paragraph, true, true);
-      // console.log(text)
-      // console.log(documentTitle)
+    paragraphCallback: (paragraph, documentTitle) => {
       if (documentTitle === undefined) {
-        // console.log(
-        //   `Missing {{start}} for document which includes the text ${text}`
-        // );
         return;
       }
+      const text = getTextFromJson(paragraph, true, true);
       if (text) {
         paragraphs.push({
           index: index++,
@@ -44,12 +37,13 @@ export default function (json /*onlyRetrieveEntireDocuments*/) {
           hash: hash(text),
           text: text,
         });
-        // console.log(index)
       }
     },
-    // onlyRetrieveEntireDocuments
   });
 
+  /*
+    Sort paragraphs into each document
+   */
   let documents = {};
   paragraphs.forEach(({ documentTitle, ...paragraph }) => {
     if (!documents[documentTitle]) {
@@ -63,11 +57,22 @@ export default function (json /*onlyRetrieveEntireDocuments*/) {
 /*
   Turns a JSON representation of HTML into raw text
 */
-export const getText = (data, clean = false, trim = false) => {
-  // console.log(data)
-  const getTextFromJson = (input) => {
+export const getTextFromJson = (
+  json: HtmlAsJson | HtmlAsJson[],
+  clean = false,
+  trim = false
+): string => {
+  const _traverse = (input: HtmlAsJson | HtmlAsJson[]) => {
     if (typeof input === "string") {
       return input;
+    }
+    if (Array.isArray(input)) {
+      return input
+        .map((i) => {
+          if (shouldIgnore(i)) return " ";
+          return _traverse(i);
+        })
+        .join("");
     }
     if (input.node === "text") {
       return input.text;
@@ -76,15 +81,7 @@ export const getText = (data, clean = false, trim = false) => {
       return input.child
         .map((i) => {
           if (shouldIgnore(i)) return " ";
-          return getTextFromJson(i);
-        })
-        .join("");
-    }
-    if (Array.isArray(input)) {
-      return input
-        .map((i) => {
-          if (shouldIgnore(i)) return " ";
-          return getTextFromJson(i);
+          return _traverse(i);
         })
         .join("");
     }
@@ -93,7 +90,7 @@ export const getText = (data, clean = false, trim = false) => {
   const cleanText = (input) => {
     return input.replace(IgnoredCharacters, "").replace(/[\s]+/gm, " ");
   };
-  let returns = getTextFromJson(data);
+  let returns = _traverse(json);
   if (clean) {
     returns = emoji_strip(cleanText(returns));
   }

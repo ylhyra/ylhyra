@@ -6,7 +6,6 @@
 */
 
 // import default_tokenizer from 'server/api/translate/tokenizer/default-tokenizer'
-require("array-sugar");
 
 export default function (text, analysis, callback) {
   if (!analysis.valid) {

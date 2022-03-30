@@ -1,24 +1,23 @@
-/*
-  _____     _              _
- |_   _|__ | | _____ _ __ (_)_______
-   | |/ _ \| |/ / _ \ '_ \| |_  / _ \
-   | | (_) |   <  __/ | | | |/ /  __/
-   |_|\___/|_|\_\___|_| |_|_/___\___|
-
-  1. Extracts raw text from input
-  2. Sends text to server for tokenization
-*/
-
 import hash from "app/app/functions/hash";
 import CreateIDs from "documents/parse/Tokenize/IDs/CreateIDs";
 import PreserveIDs from "documents/parse/Tokenize/IDs/PreserveIDs";
 import tokenizer from "documents/parse/Tokenize/Tokenizer";
+import {
+  DocumentTitleToArrayOfRawText,
+  DocumentTitleToFlattenedData,
+  FlattenedData,
+  ParagraphsWithHash,
+  RawTokenizedParagraphs,
+} from "documents/parse/types";
 import _ from "underscore";
 
-export default function (documents, data) {
+export default function (
+  documents: DocumentTitleToArrayOfRawText,
+  data: DocumentTitleToFlattenedData
+) {
   let tokenized = {};
   for (const documentTitle of Object.keys(documents)) {
-    tokenized[documentTitle] = tokenize({
+    tokenized[documentTitle] = tokenizeDocument({
       documentTitle,
       paragraphs: documents[documentTitle],
       previousData: data[documentTitle] || {},
@@ -27,7 +26,15 @@ export default function (documents, data) {
   return tokenized;
 }
 
-const tokenize = ({ documentTitle, paragraphs, previousData }) => {
+const tokenizeDocument = ({
+  documentTitle,
+  paragraphs,
+  previousData,
+}: {
+  documentTitle: string;
+  paragraphs: ParagraphsWithHash;
+  previousData: FlattenedData | {};
+}) => {
   const oldHashes = previousData.tokenized?.map((p) => p.hash) || [];
 
   /*
@@ -37,9 +44,9 @@ const tokenize = ({ documentTitle, paragraphs, previousData }) => {
     paragraphs.filter((p) => !oldHashes.includes(p.hash))
   );
 
-  let tokenized = tokenizer({
-    paragraphs: paragraphsMissingTokenization,
-  });
+  let tokenized: RawTokenizedParagraphs = tokenizer(
+    paragraphsMissingTokenization
+  );
 
   /*
     Since we only calculated tokenization for things that have changed,
@@ -55,7 +62,6 @@ const tokenize = ({ documentTitle, paragraphs, previousData }) => {
       index: p.index,
     };
   });
-  // console.log(tokenized)
   tokenized = CreateIDs(documentTitle, tokenized);
   if (previousData.tokenized) {
     tokenized = PreserveIDs(previousData.tokenized, tokenized);

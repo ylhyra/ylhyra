@@ -1,9 +1,7 @@
-const flattenArray = (data) => {
-  var r = [];
-  data.forEach((e) =>
-    Array.isArray(e) ? (r = r.concat(flattenArray(e))) : r.push(e)
+export default function flattenArray(data: any[]) {
+  let r = [];
+  data.forEach((item) =>
+    Array.isArray(item) ? (r = r.concat(flattenArray(item))) : r.push(item)
   );
   return r;
-};
-
-export default flattenArray;
+}

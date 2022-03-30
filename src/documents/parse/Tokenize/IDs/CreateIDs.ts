@@ -1,15 +1,16 @@
 import hash from "app/app/functions/hash";
+import {
+  RawTokenizedParagraphs,
+  TokenizedParagraphsWithIds,
+} from "documents/parse/types";
 import shortid from "shortid";
 
-require("array-sugar");
-
-/*
-  TODO
-  Only tests for Latin text
-*/
 export const wordRegex = /[A-zÀ-ÿ0-9]/;
 
-const CreateIDs = (documentTitle, paragraphs) => {
+const CreateIDs = (
+  documentTitle: string,
+  paragraphs: RawTokenizedParagraphs
+): TokenizedParagraphsWithIds => {
   const seed = hash(shortid.generate() + "" + documentTitle).slice(0, 4);
   let i = 0;
   const makeID = () => {
@@ -29,33 +30,30 @@ const CreateIDs = (documentTitle, paragraphs) => {
         */
         const sentenceText = getTextFromTokenized(sentence).trim();
         const sentenceId = makeID();
-        const words = sentence.words || sentence; // Sentence can either be an object or just an array of strings
         return {
           id: "s_" + sentenceId,
           text: sentenceText,
-          words: words
+          words: sentence
             .map((word) => {
               /*
-              Word
-            */
+                Word
+              */
               const wordText = getTextFromTokenized(word).trim();
               if (!wordRegex.test(wordText)) return word;
               const wordId = makeID();
               return {
                 id: "w_" + wordId,
                 text: wordText,
-                // ...word,
               };
             })
             // Filter out empty ends
-            .filter(
-              (word, index) =>
-                !(
-                  (index === 0 || index === sentence.length - 1) &&
-                  !word.text?.trim() &&
-                  !word.trim()
-                )
-            ),
+            .filter((word, index) => {
+              const isAtEnd = index === 0 || index === sentence.length - 1;
+              const isEmpty = !(typeof word === "string"
+                ? word.trim()
+                : word.text?.trim());
+              return isAtEnd && isEmpty;
+            }),
         };
       }),
     };

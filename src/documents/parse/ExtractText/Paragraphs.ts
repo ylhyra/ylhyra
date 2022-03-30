@@ -7,26 +7,34 @@
                        |___/          |_|
 
 - Groups paragraphs together
-- Then sends these grouped paragraphs to the inputted "paragraphFunction".
+- Then sends these grouped paragraphs to the inputted "paragraphCallback".
 - Returns a JSON tree of the entire document.
 
 */
-require("array-sugar");
+import { HtmlAsJson } from "app/app/functions/html2json/types";
+import lastInArray from "app/app/functions/lastInArray";
+import { newTitle } from "documents/parse/ExtractData";
+
+/** TODO! This should not be global!! */
 let documents = [];
 
-/*
+/**
   - Finds paragraphs of text.
   - Groups sequences of text and inline elements together.
   - This allows us to split sentences without giving a thought about how HTML tags affect it.
   - Block elements make us switch to a new paragraph.
 */
-const GroupParagraphs = ({
+const groupParagraphs = ({
   input,
-  paragraphFunction,
-  isTranslating,
   getNewTitle,
+  isTranslating,
+  paragraphCallback,
+}: {
+  input: HtmlAsJson;
+  getNewTitle: newTitle;
+  isTranslating?: Boolean;
+  paragraphCallback: (group: HtmlAsJson[], documentTitle: string) => void;
 }) => {
-  // console.log(JSON.stringify(input))
   if (!input || shouldSkip(input)) return input;
   if (input.child) {
     /*
@@ -34,8 +42,8 @@ const GroupParagraphs = ({
       We group together inline elements before splitting into
       sentences so that "Blah <i>blah</i> blah." will be assessed together.
     */
-    let returns = [];
-    let group = [];
+    let returns: (HtmlAsJson | {})[] = [];
+    let group: HtmlAsJson[] = [];
     for (let i = 0; i < input.child.length; i++) {
       let isNewDocument = false;
 
@@ -44,11 +52,10 @@ const GroupParagraphs = ({
         returns.push(element);
         continue;
       }
-      const shouldTranslate = shouldTranslate_(element, isTranslating);
+      const shouldTranslate = fnShouldTranslate(element, isTranslating);
 
       if (element.attr) {
         if (element.attr["data-document-start"]) {
-          // console.error('HAHHAAHA'+element.attr['data-document-start'])
           documents.push(getNewTitle.get(element.attr["data-document-start"]));
           isNewDocument = true;
         } else if (element.attr["data-document-end"] && documents.length > 0) {
@@ -61,9 +68,8 @@ const GroupParagraphs = ({
         If we see an inline element or text, we group
         it together before sending to sentence()
       */
-      // console.log({isTranslating, shouldTranslate, element})
       if (
-        /*isTranslating === shouldTranslate &&*/ isTranslating &&
+        isTranslating &&
         shouldTranslate &&
         (isInlineElement(element.tag) || element.node === "text") &&
         !isNewDocument
@@ -71,17 +77,15 @@ const GroupParagraphs = ({
         group.push(element);
       } else {
         /*
-        Else, our grouping is finished
-      */
-        // console.log(documents.last)
+          Else, our grouping is finished
+        */
+        isTranslating && paragraphCallback(group, lastInArray(documents));
         returns = [
           ...returns,
-          ...(isTranslating
-            ? paragraphFunction(group, documents.last) || []
-            : group),
-          GroupParagraphs({
+          ...(isTranslating ? [] : group),
+          groupParagraphs({
             input: element,
-            paragraphFunction,
+            paragraphCallback,
             isTranslating: shouldTranslate,
             getNewTitle,
           }) || {},
@@ -89,24 +93,19 @@ const GroupParagraphs = ({
         group = [];
       }
     }
-    // console.error(JSON.stringify([
-    //   ...returns,
-    //   ...isTranslating ? (paragraphFunction(group, documents.last) || []) : group,
-    // ]))
+    isTranslating && paragraphCallback(group, lastInArray(documents));
     return {
       ...input,
-      child: [
-        ...returns,
-        ...(isTranslating
-          ? paragraphFunction(group, documents.last) || []
-          : group),
-      ],
+      child: [...returns, ...(isTranslating ? [] : group)],
     };
   }
   return input;
 };
 
-export const shouldTranslate_ = ({ tag, attr }, isTranslating) => {
+export const fnShouldTranslate = (
+  { tag, attr }: Partial<HtmlAsJson>,
+  isTranslating: Boolean
+) => {
   if (tag && ["translate", "book"].includes(tag.toLowerCase())) {
     return true;
   }
@@ -134,7 +133,7 @@ export const shouldTranslate_ = ({ tag, attr }, isTranslating) => {
   return isTranslating;
 };
 
-export const isInlineElement = (tag) => {
+export const isInlineElement = (tag: string) => {
   if (!tag || typeof tag !== "string") {
     return false;
   }
@@ -176,4 +175,4 @@ export const shouldSkip = ({ tag, attr }) => {
   return ["script", "style", "head" /* 'sup'*/].includes(tag.toLowerCase());
 };
 
-export default GroupParagraphs;
+export default groupParagraphs;

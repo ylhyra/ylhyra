@@ -29,9 +29,9 @@
   order to encapsulate the text into <sentence/> tags.
 
 */
-import { newTitle } from "documents/parse";
-import { getText } from "documents/parse/ExtractText/ExtractText";
-import GroupParagraphs from "documents/parse/ExtractText/Paragraphs";
+import { newTitle } from "documents/parse/ExtractData";
+import { getTextFromJson } from "documents/parse/ExtractText/ExtractText";
+import groupParagraphs from "documents/parse/ExtractText/Paragraphs";
 
 import InsertSplit from "documents/parse/WrapInTags/1-InsertSplit";
 import SplitAndWrap from "documents/parse/WrapInTags/2-SplitAndWrap";
@@ -63,11 +63,11 @@ export default function ({ json, tokenized }) {
 
   // console.warn(JSON.stringify(json))
   let index = 0;
-  let wrapped = GroupParagraphs({
+  let wrapped = groupParagraphs({
     input: json,
     getNewTitle: new newTitle(),
     paragraphFunction: (paragraph, documentTitle) => {
-      const text = getText(paragraph, true, true);
+      const text = getTextFromJson(paragraph, true, true);
       // console.log(JSON.stringify(paragraph))
       // console.log(text)
       if (documentTitle === undefined) {

@@ -5,7 +5,7 @@ import { section_id } from "app/app/paths";
 import { ProcessLinks } from "documents/compile/functions/links";
 import typeset from "documents/compile/functions/typeset";
 import Conversation from "documents/compile/templates/Conversations";
-import { getText } from "documents/parse/ExtractText/ExtractText";
+import { getTextFromJson } from "documents/parse/ExtractText/ExtractText";
 import marked from "marked";
 
 import { links } from "server/content/loadLinks";
@@ -57,7 +57,7 @@ const Traverse = (json) => {
             node: "text",
             text: sass
               .renderSync({
-                data: getText(json),
+                data: getTextFromJson(json),
                 outputStyle: "compressed",
               })
               .css.toString("utf8"),

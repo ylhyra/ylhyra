@@ -1,22 +1,34 @@
+import { HtmlAsJson } from "app/app/functions/html2json/types";
 import { decodeDataInHtml } from "documents/compile/functions/functions";
-import { newTitle } from "documents/parse";
+import {
+  DocumentTitleToFlattenedData,
+  FlattenedData,
+} from "documents/parse/types";
 
 /*
   Returns an object containing:
     DocumentTitle => Data
 */
-const ExtractData = (input) => {
+const ExtractData = (input: HtmlAsJson): DocumentTitleToFlattenedData => {
   let output = {};
-
   const getNewTitle = new newTitle();
   Traverse(input, ({ documentTitle, data }) => {
     const title = getNewTitle.get(documentTitle);
-    output[title] = data; // updateIds(data, title);
+    output[title] = data;
   });
   return output;
 };
 
-const Traverse = (input, callback) => {
+const Traverse = (
+  input: HtmlAsJson,
+  callback: ({
+    documentTitle,
+    data,
+  }: {
+    documentTitle: string;
+    data: FlattenedData;
+  }) => void
+) => {
   const { node, attr } = input;
   if (typeof input === "string") return;
   if (node === "text") return;
@@ -28,16 +40,13 @@ const Traverse = (input, callback) => {
   }
   if (attr && attr["data-document-start"] && attr["data-data"]) {
     try {
-      let data = attr["data-data"];
-      // console.log((decodeURIComponent(atob(data))))
-      data = decodeDataInHtml(data);
+      const data: FlattenedData = decodeDataInHtml(attr["data-data"]);
       data &&
         callback({
           documentTitle: attr["data-document-start"],
           data,
         });
     } catch (e) {
-      // console.error(child[0].text + ' is not parseable JSON')
       console.error(e);
     }
   }
@@ -45,9 +54,25 @@ const Traverse = (input, callback) => {
 
 export default ExtractData;
 
+/*
+  Prevent clashes if the same document is transcluded twice
+*/
+export class newTitle {
+  index = 0;
+  array = [];
+
+  get(title: string) {
+    if (this.array.includes(title)) {
+      title = this.get(title + "1");
+    }
+    this.array.push(title);
+    return title;
+  }
+}
+
 // /*
-//   //TODO!
-//   Prepend title to all IDs to prevent clashing
+//   //Todo
+//   Prepend title to all IDs to prevent clashing, would be added in ExtractData
 // */
 // const updateIds = (data) => {
 //   // console.log(data)

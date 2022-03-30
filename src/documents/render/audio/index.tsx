@@ -1,4 +1,3 @@
-import { RootState } from "app/app/store";
 import { notify } from "app/app/error";
 import { getDynamicFileUrl } from "app/app/paths";
 import store, { RootState } from "app/app/store";
@@ -8,7 +7,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 require("documents/render/audio/KeyboardListener");
-require("array-sugar");
+
 let timer;
 
 class Audio extends React.PureComponent<{

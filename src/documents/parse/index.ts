@@ -3,9 +3,9 @@ import { html2json } from "app/app/functions/html2json";
 import { isBrowser } from "app/app/functions/isBrowser";
 import Compiler from "documents/parse/Compiler";
 import ExtractData from "documents/parse/ExtractData";
+import { flattenData } from "documents/parse/ExtractData/flattenData";
 import ExtractText from "documents/parse/ExtractText/ExtractText";
 import Tokenizer from "documents/parse/Tokenize";
-import { FlattenedData } from "documents/parse/types";
 import WrapInTags from "documents/parse/WrapInTags";
 import { AllHtmlEntities as Entities } from "html-entities";
 import isEmpty from "is-empty-object";
@@ -62,68 +62,3 @@ export default ({ html }: { html: string }) => {
     }
   }
 };
-
-const flattenData = (input): FlattenedData => {
-  let output = {
-    translation: {
-      definitions: {},
-      sentences: {},
-      words: {},
-    },
-    list: {
-      arrayOfAllItemIDs: [],
-      arrayOfAllWordIDs: [],
-      items: {},
-      sentences: {},
-      words: {},
-    },
-    short_audio: {
-      soundList: [],
-      sounds: {},
-      wordID_to_text: {},
-    },
-    long_audio: {},
-  };
-
-  for (const documentTitle of Object.keys(input)) {
-    output = merge(output, input[documentTitle]);
-  }
-
-  return output;
-};
-
-const merge = (first: FlattenedData, second: FlattenedData): FlattenedData => {
-  // if (Array.isArray(first)) {
-  //   return [...first, ...second];
-  // } else
-  if (typeof first === "object") {
-    let output = first;
-    if (second && typeof second === "object") {
-      for (const key of Object.keys(second)) {
-        if (output[key]) {
-          output[key] = merge(output[key], second[key]);
-        } else {
-          output[key] = second[key];
-        }
-      }
-    }
-    return output;
-  } else {
-    throw new Error("Merge() can only merge FlattenedData objects");
-  }
-};
-
-/*
-  Prevent clashes if the same document is transcluded twice
-*/
-export class newTitle {
-  index = 0;
-  array = [];
-  get(title) {
-    if (this.array.includes(title)) {
-      title = this.get(title + "1");
-    }
-    this.array.push(title);
-    return title;
-  }
-}

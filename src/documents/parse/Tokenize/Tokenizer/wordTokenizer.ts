@@ -1,13 +1,3 @@
-/**
-
-  Attempts to split Latin-script sentences into words.
-
-  It is preferable to do this with natural language processing.
-
-  @returns An array of words
-
-*/
-
 import r from "xregexp";
 
 const startOfWord = "[A-zÀ-ÿ·-]";
@@ -19,6 +9,6 @@ export const wordRegex = r(
   "g"
 );
 
-export default (input) => {
+export default (input: string): Array<string> => {
   return input.split(wordRegex).filter(Boolean);
 };
