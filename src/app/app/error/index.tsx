@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import Analytics from "app/app/analytics";
 import messages from "app/app/error/messages";
 import store from "app/app/store";

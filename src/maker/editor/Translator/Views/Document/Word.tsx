@@ -4,6 +4,7 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import _ from "underscore";
+import { RootState } from "app/app/store";
 
 const Container = styled.span`
   ${(props) =>
@@ -195,7 +196,7 @@ class Word extends React.Component {
 }
 
 export default connect(
-  (state) => ({
+  (state: RootState) => ({
     translation: state.editor.translation,
     selected: state.editor.selected,
     suggestions: state.editor.suggestions,

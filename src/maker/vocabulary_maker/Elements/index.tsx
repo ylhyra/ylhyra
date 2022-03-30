@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import {
   addEmpty,
   changeMode,
@@ -96,6 +97,7 @@ class VocabularyMaker extends React.Component {
     );
   }
 }
+
 export default connect((state: RootState) => ({
   vocabulary: state.vocabulary,
   vocabularyMaker: state.vocabularyMaker,

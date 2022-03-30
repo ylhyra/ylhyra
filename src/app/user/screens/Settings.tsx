@@ -1,9 +1,10 @@
 import { updateURL } from "app/router/actions/updateURL";
 import { logout } from "app/user/actions";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "app/app/store";
 
-class Form2 extends React.Component {
+class Form2 extends React.Component<ConnectedProps<typeof connector>> {
   componentDidMount() {
     if (!this.props.user) {
       setTimeout(() => {
@@ -21,6 +22,7 @@ class Form2 extends React.Component {
     );
   }
 }
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   user: state.user,
-}))(Form2);
+}));
+export default connector(Form2);

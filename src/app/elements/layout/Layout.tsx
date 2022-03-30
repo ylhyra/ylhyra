@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import Error from "app/app/error";
 import Footer from "app/elements/layout/Footer";
 import Header from "app/elements/layout/Header";
@@ -17,6 +18,7 @@ class Layout extends React.Component {
     );
   }
 }
+
 export default connect((state: RootState) => ({
   pathname: state.route.pathname,
 }))(Layout);

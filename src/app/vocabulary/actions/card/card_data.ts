@@ -54,7 +54,7 @@ export const getTermIds = (id: CardId): TermIds => {
   return getData(id, "terms");
 };
 
-export const getSortKey = (id: CardId, options): number => {
+export const getSortKey = (id: CardId, options?): number => {
   if (options?.englishLast) {
     return getData(id, "sortKey") + getFrom(id) === "en" ? 0.5 : 0;
   } else {

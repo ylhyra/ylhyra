@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
@@ -12,6 +13,7 @@ class User extends Component {
     );
   }
 }
+
 export default connect((state: RootState) => ({
   user: state.user,
 }))(User);

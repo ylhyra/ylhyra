@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import keycode from "keycode";
 import {
@@ -271,6 +272,7 @@ class Form2 extends React.Component {
     );
   }
 }
+
 export default connect((state: RootState) => ({
   vocabulary: state.vocabulary,
   vocabularyMaker: state.vocabularyMaker,

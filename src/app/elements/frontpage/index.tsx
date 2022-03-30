@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import demo, { turnOffDemonstration } from "app/elements/frontpage/demo";
 import Link from "app/router/Link";
 import { existsSchedule, isUserLoggedIn } from "app/user/actions";
@@ -43,7 +44,4 @@ class Screen extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
-  vocabulary: state.vocabulary,
-  user: state.user,
-}))(Screen);
+export default Screen;

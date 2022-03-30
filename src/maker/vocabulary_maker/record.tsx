@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import axios from "axios";
 import { load } from "maker/vocabulary_maker/actions/initialize";
 import {
@@ -214,6 +215,7 @@ class Record extends React.Component {
     );
   };
 }
+
 export default connect((state: RootState) => ({
   vocabularyMaker: state.vocabularyMaker,
 }))(Record);

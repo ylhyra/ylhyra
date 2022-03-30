@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import Link from "app/router/Link";
 import ChapterPercentage from "app/vocabulary/elements/InArticles/ChapterPercentage";
 import ChapterWords from "app/vocabulary/elements/InArticles/ChapterWords";
@@ -28,6 +29,7 @@ class X extends Component {
     );
   }
 }
+
 export default connect((state: RootState) => ({
   vocabulary: state.vocabulary,
   route: state.route,

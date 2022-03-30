@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import Link from "app/router/Link";
 import { existsSchedule, isUserLoggedIn } from "app/user/actions";
 import LoginButton from "app/user/LoginButton";
@@ -35,6 +36,7 @@ class Layout extends React.Component {
     );
   }
 }
+
 export default connect((state: RootState) => ({
   route: state.route,
   vocabulary: state.vocabulary,

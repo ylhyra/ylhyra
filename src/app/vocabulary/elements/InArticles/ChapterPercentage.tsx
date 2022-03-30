@@ -2,6 +2,7 @@ import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 import { PercentageKnown } from "app/vocabulary/actions/functions/percentageKnown";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { RootState } from "app/app/store";
 
 class X extends Component<{ vocabulary: any; data: any }> {
   render() {
@@ -14,7 +15,7 @@ class X extends Component<{ vocabulary: any; data: any }> {
     );
   }
 }
-export default connect((state: any) => ({
+export default connect((state: RootState) => ({
   vocabulary: state.vocabulary,
   route: state.route,
 }))(X);

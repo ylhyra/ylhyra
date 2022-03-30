@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import { RECOMMENDED_PRICE_IN_US_DOLLARS } from "app/app/constants";
 import { log } from "app/app/functions/log";
 import { updateURL } from "app/router/actions/updateURL";
@@ -98,6 +99,7 @@ class Form2 extends React.Component {
     );
   }
 }
+
 export default connect((state: RootState) => ({
   user: state.user,
 }))(Form2);

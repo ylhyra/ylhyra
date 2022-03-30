@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import Layout from "app/elements/layout/Layout";
 import { index, isVocabularyTheFrontpage } from "app/router/actions";
 import { updateURL } from "app/router/actions/updateURL";

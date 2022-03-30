@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import { notify } from "app/app/error";
 import { getDynamicFileUrl } from "app/app/paths";
 import store, { RootState } from "app/app/store";
@@ -218,6 +219,7 @@ class Audio extends React.PureComponent<{
     );
   }
 }
+
 export default connect((state: RootState) => ({
   audio: state.audio,
 }))(Audio);

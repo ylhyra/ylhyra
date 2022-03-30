@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import errors from "app/app/error/messages";
 import { withPlural } from "app/app/functions/simplePlural";
 import { RootState } from "app/app/store";
@@ -189,6 +190,7 @@ class Form2 extends React.Component<
     );
   }
 }
+
 export default connect((state: RootState) => ({
   route: state.route,
   user: state.user,

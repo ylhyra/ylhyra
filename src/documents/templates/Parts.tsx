@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import Link from "app/router/Link";
 import React, { Component } from "react";
 import { connect } from "react-redux";

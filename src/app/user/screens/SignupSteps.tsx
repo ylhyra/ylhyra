@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -21,6 +22,7 @@ class SignupSteps extends React.Component {
     );
   }
 }
+
 export default connect((state: RootState) => ({
   user: state.user,
   route: state.route,

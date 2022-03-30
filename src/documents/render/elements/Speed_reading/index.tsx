@@ -1,3 +1,4 @@
+import { RootState } from "app/app/store";
 import { supportsTouch } from "app/app/functions/isBrowser";
 import store from "app/app/store";
 import {

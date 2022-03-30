@@ -1,17 +1,20 @@
+import { RootState } from "app/app/store";
 import { log } from "app/app/functions/log";
 import { getTime, minutes } from "app/app/functions/time";
 import { preload } from "app/router/actions/load";
 import { updateURL } from "app/router/actions/updateURL";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 
 const start = getTime();
 
-class Link extends React.Component<{
-  href: string;
-  // id?: string;
-  className?: string;
-}> {
+class Link extends React.Component<
+  ConnectedProps<typeof connector> & {
+    href: string;
+    // id?: string;
+    className?: string;
+  }
+> {
   fn = (e, url) => {
     /* Do a full refresh if window is more than 10 minutes old */
     if (getTime() - start > 10 * minutes) {
@@ -68,6 +71,8 @@ class Link extends React.Component<{
     );
   }
 }
-export default connect((state: RootState) => ({
+
+const connector = connect((state: RootState) => ({
   route: state.route,
-}))(Link);
+}));
+export default connector(Link);
