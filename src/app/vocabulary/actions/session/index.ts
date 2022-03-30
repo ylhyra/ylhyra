@@ -1,21 +1,32 @@
-import Analytics from "app/app/analytics";
-import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
-import { saveInLocalStorage } from "app/app/functions/localStorage";
-import { log } from "app/app/functions/log";
-import { roundMsToSec, roundToInterval } from "app/app/functions/math";
 import {
   getTime,
   Milliseconds,
   minutes,
   Timestamp,
 } from "app/app/functions/time";
-import { doesCardExist } from "app/vocabulary/actions/card/card";
-import { CardIds, TermId } from "app/vocabulary/actions/card/types";
+import { log } from "app/app/functions/log";
+import { saveInLocalStorage } from "app/app/functions/localStorage";
+import Analytics from "app/app/analytics";
+import { sync } from "app/vocabulary/actions/userData/sync";
 import CardInSession from "app/vocabulary/actions/cardInSession";
-import { createCards } from "app/vocabulary/actions/createCards";
-import { createSchedule } from "app/vocabulary/actions/createSchedule";
-import Deck from "app/vocabulary/actions/deck";
+import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
+import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
+import { roundMsToSec, roundToInterval } from "app/app/functions/math";
 import { exitVocabularyScreen } from "app/vocabulary/actions/functions";
+import { setUserData } from "app/vocabulary/actions/userData/userData";
+import { SESSION_PREFIX } from "app/vocabulary/actions/userData/userDataSessions";
+import Deck from "app/vocabulary/actions/deck";
+import { doesCardExist } from "app/vocabulary/actions/card/card";
+import { createCards } from "app/vocabulary/actions/createCards";
+import { InitializeSession } from "app/vocabulary/actions/session/initialize";
+import { nextCard } from "app/vocabulary/actions/session/nextCard";
+import { createSchedule } from "app/vocabulary/actions/createSchedule";
+import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
+import {
+  checkForUndoOnKeyDown,
+  undo,
+  undoable,
+} from "app/vocabulary/actions/session/undo";
 import {
   answer,
   checkIfCardsRemaining,
@@ -23,22 +34,15 @@ import {
   getPercentageDone,
   updateRemainingTime,
 } from "app/vocabulary/actions/session/functions";
-import { InitializeSession } from "app/vocabulary/actions/session/initialize";
 import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
-import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
-import { nextCard } from "app/vocabulary/actions/session/nextCard";
-import {
-  checkForUndoOnKeyDown,
-  undo,
-  undoable,
-} from "app/vocabulary/actions/session/undo";
-import { sync } from "app/vocabulary/actions/userData/sync";
-import { setUserData } from "app/vocabulary/actions/userData/userData";
-import { SESSION_PREFIX } from "app/vocabulary/actions/userData/userDataSessions";
+import { CardIds, TermId } from "app/vocabulary/actions/card/types";
 import { rating } from "app/vocabulary/constants";
-import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
+import { getDeckName } from "maker/vocabulary_maker/compile/functions";
+import { updateURL } from "app/router/actions/updateURL";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
+
+type SessionCounter = number;
 
 class Session {
   currentCard: CardInSession;
@@ -47,15 +51,15 @@ class Session {
   ratingHistory: Array<rating>;
   cardHistory: Array<CardInSession>;
   allowed_ids: CardIds;
-  counter: number;
+  counter: SessionCounter;
   cardTypeLog: Array<string>;
-  lastSeenTerms: Record<TermId, number>;
+  lastSeenTerms: Record<TermId, SessionCounter>;
   timeStarted: Timestamp;
   totalTime: Milliseconds;
   remainingTime: Milliseconds;
   lastTimestamp: Timestamp;
   done: boolean;
-  lastUndid: number; /* Counter */
+  lastUndid: SessionCounter;
   savedAt: Timestamp;
 
   constructor(deck, init) {
@@ -114,6 +118,11 @@ class Session {
     await sync();
     await clearOverview();
     this.reset();
+
+    if (process.env.NODE_ENV === "development" && getDeckName()) {
+      updateURL("/vocabulary/play");
+      await this.InitializeSession();
+    }
   }
   getSecondsSpent() {
     return Math.round(

@@ -1,19 +1,21 @@
-import { withPlural } from "app/app/functions/simplePlural";
-import { get_processed_image_url } from "app/app/paths";
+import { deck } from "app/vocabulary/actions/deck";
 import store from "app/app/store";
+import AudioClip from "documents/render/audio/AudioClip";
+import { get_processed_image_url } from "app/app/paths";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withPlural } from "app/app/functions/simplePlural";
 import {
   getData,
   getFrom,
   getSound,
 } from "app/vocabulary/actions/card/card_data";
-import { isNewTerm } from "app/vocabulary/actions/card/card_schedule";
 import CardInSession from "app/vocabulary/actions/cardInSession";
-import { deck } from "app/vocabulary/actions/deck";
-import { BAD, EASY, GOOD, rating } from "app/vocabulary/constants";
+import { isNewTerm } from "app/vocabulary/actions/card/card_schedule";
 import { VocabularyReducer } from "app/vocabulary/reducers";
-import AudioClip from "documents/render/audio/AudioClip";
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import { BAD, EASY, GOOD, rating } from "app/vocabulary/constants";
+import { getDeckName } from "maker/vocabulary_maker/compile/functions";
+import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 
 class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
   isKeyDown: boolean;
@@ -119,6 +121,43 @@ class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
       }
     } else {
       AudioClip.pause();
+    }
+
+    if (process.env.NODE_ENV === "development") {
+      if (!getSound(id)) {
+        // window["utter"] && window["utter"].cancel();
+        window.speechSynthesis.cancel();
+
+        let utter = new SpeechSynthesisUtterance();
+        // window["utter"] = utter;
+
+        const is = getData(id, "is_formatted");
+        const en = getData(id, "en_formatted");
+        let lang = getFrom(id) === "is" ? "is" : "en";
+        if (answered) {
+          lang = getFrom(id) !== "is" ? "is" : "en";
+        }
+
+        if (lang === "is") {
+          switch (getDeckName()) {
+            case "_de":
+              utter.lang = "de-DE";
+              break;
+            case "_es":
+              utter.lang = "es-ES";
+              break;
+            default:
+              utter.lang = "en-US";
+          }
+        } else {
+          utter.lang = "is-IS";
+        }
+
+        utter.text = getPlaintextFromFormatted(lang === "is" ? is : en);
+        utter.volume = 0.5;
+        utter.rate = 0.9;
+        window.speechSynthesis.speak(utter);
+      }
     }
   };
   show = (timeout?) => {

@@ -1,7 +1,9 @@
-import { isDev } from "app/app/functions/isDev";
-import { getTermIds } from "app/vocabulary/actions/card/card_data";
 import { printWord } from "app/vocabulary/actions/functions";
+import { isDev } from "app/app/functions/isDev";
 import _ from "underscore";
+import CardInSession from "app/vocabulary/actions/cardInSession";
+import { getSortKey, getTermIds } from "app/vocabulary/actions/card/card_data";
+import { getLastSeen } from "app/vocabulary/actions/card/card_schedule";
 
 let LOGGING;
 // LOGGING = true;
@@ -35,14 +37,14 @@ export function nextCard(depth = 0) {
   if ((LOGGING || window["logging"]) && isDev) {
     const { deck } = this;
     console.table(
-      _.sortBy(this.cards, (i) => i.getRanking()).map((i) => ({
+      _.sortBy(this.cards, (i) => i.getRanking()).map((i: CardInSession) => ({
         Rank: Math.round(i.getRanking()),
         Queue: i.absoluteQueuePosition - i.session.counter,
         Prohib: (i.cannotBeShownBefore || 0) - i.session.counter,
         seen: i.hasBeenSeenInSession() ? "SEEN" : "",
         word: printWord(i.getId()),
-        sortKey: i.getSortKey(),
-        schdl: deck.schedule[i.getId()] ? new Date(i.getLastSeen()) : "",
+        sortKey: getSortKey(i.getId()),
+        schdl: deck.schedule[i.getId()] ? new Date(getLastSeen(i.getId())) : "",
       }))
     );
   }

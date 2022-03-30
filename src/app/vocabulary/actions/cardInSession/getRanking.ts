@@ -1,7 +1,12 @@
-import { getData, getFrom, getTermIds } from "app/vocabulary/actions/card/card_data";
+import { log } from "app/app/functions/log";
+import {
+  getData,
+  getFrom,
+  getTermIds,
+} from "app/vocabulary/actions/card/card_data";
 import { isNewCard } from "app/vocabulary/actions/card/card_schedule";
-import CardInSession from "app/vocabulary/actions/cardInSession/index";
 import { BAD } from "app/vocabulary/constants";
+import CardInSession from "app/vocabulary/actions/cardInSession/index";
 
 /**
  * @memberOf CardInSession#
@@ -60,7 +65,9 @@ export function getRanking() {
         // Only if a user says "Good" to all three previous
         !this.session.ratingHistory.slice(0, 3).some((i) => i === BAD) &&
         // And all of them were new cards
-        this.session.cardHistory.slice(0, 3).every((i) => i.isNewCard())
+        this.session.cardHistory
+          .slice(0, 3)
+          .every((i: CardInSession) => isNewCard(i.getId()))
       ) {
         q += 2000;
       }

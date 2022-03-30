@@ -1,9 +1,9 @@
+import { deck } from "app/vocabulary/actions/deck";
 import {
   hasDependenciesInCommonWith,
   hasTermsInCommonWith,
 } from "app/vocabulary/actions/card/card_dependencies";
 import { CardId, CardIds } from "app/vocabulary/actions/card/types";
-import { deck } from "app/vocabulary/actions/deck";
 
 export const clearMemoizations = (id: CardId) => {
   // ["isAllowed", "getTermLastSeen"].forEach((key) => {
@@ -21,13 +21,12 @@ export const clearMemoizations = (id: CardId) => {
 //   return this[key];
 // }
 
-export const isIn = (id: CardId, arrayOfCards) => {
-  return arrayOfCards.some((s) => s === id);
-};
+// export const isIn = (id: CardId, arrayOfCards) => {
+//   return arrayOfCards.some((s) => s === id);
+// };
 
 export const isInSession = (id: CardId) => {
-  // TODO!!
-  return isIn(id, deck.session.cards);
+  return deck.session.cards.some((i) => i.getId() === id);
 };
 
 export const isAllowed = (id: CardId) => {
