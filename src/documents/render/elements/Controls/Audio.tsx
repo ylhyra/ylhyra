@@ -1,4 +1,4 @@
-import { getUpdatedID } from "documents/parse/Compiler/1_Precompile/UpdateID";
+import { getUpdatedId } from "documents/parse/Compiler/1_Precompile/UpdateID";
 import React from "react";
 
 // /*
@@ -69,6 +69,6 @@ export default (audioId, inlineAudioPlayer, editor) => {
 const updateIDs = (input) => {
   return input.map((i) => ({
     ...i,
-    elements: i.elements.map((id) => getUpdatedID(id)),
+    elements: i.elements.map((id) => getUpdatedId(id)),
   }));
 };

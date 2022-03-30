@@ -1,7 +1,7 @@
 import forEachAsync from "app/app/functions/array-foreach-async";
 import { URL_title } from "app/app/paths";
 import {
-  EncodeDataInHTML,
+  encodeDataInHtml,
   removeComments,
 } from "documents/compile/functions/functions";
 import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
@@ -59,7 +59,7 @@ const Transclude = (title, depth = 0, shouldGetData = true) => {
             `<span data-document-start="${
               (data2 || header).title
             }" data-data="${
-              data2 ? EncodeDataInHTML(data2.output, true) : ""
+              data2 ? encodeDataInHtml(data2.output, true) : ""
             }"></span>` +
             output +
             `<span data-document-end="${(data2 || header).title}"></span>`;
@@ -90,7 +90,7 @@ export const TranscludeFromText = async (input, depth) => {
         const [title_, param_] = q.split(">>>");
         const transclusion = await Transclude(title_, depth + 1);
         if (transclusion.header) {
-          output += EncodeDataInHTML(transclusion.header[param_]);
+          output += encodeDataInHtml(transclusion.header[param_]);
         }
         // .replace(/"/g,'\\"')
       } else {

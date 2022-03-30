@@ -5,6 +5,7 @@ import Compiler from "documents/parse/Compiler";
 import ExtractData from "documents/parse/ExtractData";
 import ExtractText from "documents/parse/ExtractText/ExtractText";
 import Tokenizer from "documents/parse/Tokenize";
+import { FlattenedData } from "documents/parse/types";
 import WrapInTags from "documents/parse/WrapInTags";
 import { AllHtmlEntities as Entities } from "html-entities";
 import isEmpty from "is-empty-object";
@@ -62,26 +63,6 @@ export default ({ html }: { html: string }) => {
   }
 };
 
-export type FlattenedData = {
-  translation: {
-    definitions: {};
-    sentences: {};
-    words: {};
-  };
-  list: {
-    arrayOfAllItemIDs: string[];
-    arrayOfAllWordIDs: string[];
-    items: {};
-    sentences: {};
-    words: {};
-  };
-  short_audio: {
-    soundList: string[];
-    sounds: {};
-    wordID_to_text: {};
-  };
-  long_audio: {};
-};
 const flattenData = (input): FlattenedData => {
   let output = {
     translation: {

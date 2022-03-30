@@ -1,4 +1,5 @@
-import { updateID } from "documents/parse/Compiler/1_Precompile/UpdateID";
+import { HtmlAsJson } from "app/app/functions/html2json/types";
+import { updateId } from "documents/parse/Compiler/1_Precompile/UpdateID";
 
 /*
   Step 1:
@@ -8,13 +9,13 @@ import { updateID } from "documents/parse/Compiler/1_Precompile/UpdateID";
 let translation;
 let removedIDs;
 
-const init = (tree, _translation) => {
+const init = (tree: HtmlAsJson, _translation) => {
   translation = _translation;
   removedIDs = [];
   return Traverse(tree);
 };
 
-const Traverse = (input, siblings = []) => {
+const Traverse = (input: HtmlAsJson, siblings: HtmlAsJson[] = []) => {
   if (!input) return input;
   const { node, tag, attr, child } = input;
   const id = attr?.id || null;
@@ -66,7 +67,11 @@ const Traverse = (input, siblings = []) => {
 /*
   Loops over next siblings, checks if they belong to the same definition, and merges them
 */
-const readSiblings = (siblings, startId, wordGroupContents) => {
+const readSiblings = (
+  siblings: HtmlAsJson[],
+  startId: string,
+  wordGroupContents: string[]
+) => {
   let listening = false;
   let returns = [];
   /*
@@ -96,7 +101,7 @@ const readSiblings = (siblings, startId, wordGroupContents) => {
             Used by Audio Synchronization to update its ids
             (since the merged IDs have been lost)
           */
-          updateID(element.attr.id, startId);
+          updateId(element.attr.id, startId);
         } else {
           listening = false;
         }

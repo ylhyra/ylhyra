@@ -1,6 +1,6 @@
 import { studyParticularIds } from "app/vocabulary/actions/functions";
 import { PercentageKnown } from "app/vocabulary/actions/functions/percentageKnown";
-import { DecodeDataInHTML } from "documents/compile/functions/functions";
+import { decodeDataInHtml } from "documents/compile/functions/functions";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
@@ -31,5 +31,5 @@ const VocabularyHeader = connect((state: any) => ({
 }))(X);
 
 export default (props) => {
-  return <VocabularyHeader data={DecodeDataInHTML(props.data)} />;
+  return <VocabularyHeader data={decodeDataInHtml(props.data)} />;
 };

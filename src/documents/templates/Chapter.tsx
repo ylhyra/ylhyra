@@ -2,14 +2,14 @@ import { RootState } from "app/app/store";
 import Link from "app/router/Link";
 import ChapterPercentage from "app/vocabulary/elements/InArticles/ChapterPercentage";
 import ChapterWords from "app/vocabulary/elements/InArticles/ChapterWords";
-import { DecodeDataInHTML } from "documents/compile/functions/functions";
+import { decodeDataInHtml } from "documents/compile/functions/functions";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
 class X extends Component {
   render() {
     // if (!this.props.vocabulary.deck) return null;
-    const vocabulary = DecodeDataInHTML(this.props.data);
+    const vocabulary = decodeDataInHtml(this.props.data);
     // console.log(vocabulary)
     return (
       <Link

@@ -7,14 +7,14 @@ export const removeComments = (i) =>
 /**
  * Returns Base64-encoded
  */
-export const EncodeDataInHTML = (input, alreadyStringified) => {
+export const encodeDataInHtml = (input, alreadyStringified = false) => {
   if (!input) return;
   return btoa(
     encodeURIComponent(alreadyStringified ? input : JSON.stringify(input))
   );
 };
 
-export const DecodeDataInHTML = (input, isString) => {
+export const decodeDataInHtml = (input, isString = false) => {
   if (!input) return;
   const v = decodeURIComponent(atob(input));
   return isString ? v : JSON.parse(v);

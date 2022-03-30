@@ -7,7 +7,7 @@ import { updateURL } from "app/router/actions/updateURL";
 import { deck } from "app/vocabulary/actions/deck";
 import { sync } from "app/vocabulary/actions/userData/sync";
 import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
-import { DecodeDataInHTML } from "documents/compile/functions/functions";
+import { decodeDataInHtml } from "documents/compile/functions/functions";
 
 export const login = async (values) => {
   const response = (await axios.post("/api/user", values)).data;
@@ -72,7 +72,7 @@ export const getUserFromCookie = (): UserInfo | null => {
     /* "username" is no longer used but is kept here temporarily for
      users who already have that cookie set */
     if (username_encoded) {
-      username = DecodeDataInHTML(username_encoded, true);
+      username = decodeDataInHtml(username_encoded, true);
     }
     if (user_id) {
       return { user_id, username };

@@ -1,5 +1,5 @@
 import generate_html from "documents/compile";
-import { DecodeDataInHTML } from "documents/compile/functions/functions";
+import { decodeDataInHtml } from "documents/compile/functions/functions";
 
 export default async (getRawSentences) => {
   if (process.env.DECK) return {};
@@ -11,7 +11,7 @@ export default async (getRawSentences) => {
   let sortKeys = {}; /* Term to sortKey */
   let sentences = {};
   content.replace(/data="([^"]+?)"/g, (x, data) => {
-    const v = DecodeDataInHTML(data);
+    const v = decodeDataInHtml(data);
     if (!v) return;
     v.terms.forEach((term_id) => {
       if (!(term_id in sortKeys)) {

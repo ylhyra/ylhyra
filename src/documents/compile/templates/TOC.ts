@@ -1,7 +1,7 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
 import { replaceAsync } from "app/app/functions/replaceAsync";
 import { URL_title } from "app/app/paths";
-import { EncodeDataInHTML } from "documents/compile/functions/functions";
+import { encodeDataInHtml } from "documents/compile/functions/functions";
 import Transclude from "documents/compile/transclude";
 import { parseVocabularyList } from "documents/compile/vocabulary";
 
@@ -20,7 +20,7 @@ export default async (text) => {
           // console.log(transclusion);
           const vocabulary = transclusion.header?.vocabulary;
           const data = vocabulary
-            ? EncodeDataInHTML(parseVocabularyList(vocabulary))
+            ? encodeDataInHtml(parseVocabularyList(vocabulary))
             : null;
           return c`<Chapter data="${data}"
               ${

@@ -1,11 +1,11 @@
+import { HtmlAsJson } from "app/app/functions/html2json/types";
 import MergePunctuation from "documents/parse/Compiler/1_Precompile/MergePunctuation";
 import MergeWords from "documents/parse/Compiler/1_Precompile/MergeWords";
 import {
-  RemoveTempIDs,
-  TempIDs,
+  removeTempIds,
+  tempIds,
 } from "documents/parse/Compiler/1_Precompile/TempIDs";
-import { HtmlAsJson } from "app/app/functions/html2json/types";
-import { FlattenedData } from "documents/parse/index";
+import { FlattenedData } from "documents/parse/types";
 // import PronunciationAndSound from './PronunciationAndSound'
 // import WrapInTags from 'Editor/2-Parse/2.3-WrapInTags'
 
@@ -17,10 +17,10 @@ export default function Compile({
   data: FlattenedData;
 }): HtmlAsJson {
   let output = json;
-  output = TempIDs(output);
+  output = tempIds(output);
   output = MergeWords(output, data.translation);
   output = MergePunctuation(output, data.translation);
-  output = RemoveTempIDs(output);
+  output = removeTempIds(output);
   /* Disabled due to audio sync */
   // output = NiceIDs(output /*data.id*/);
   // console.log(output)

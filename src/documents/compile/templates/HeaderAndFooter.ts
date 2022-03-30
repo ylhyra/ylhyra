@@ -1,6 +1,6 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
 import { URL_title } from "app/app/paths";
-import { EncodeDataInHTML } from "documents/compile/functions/functions";
+import { encodeDataInHtml } from "documents/compile/functions/functions";
 import markdown_to_html from "documents/compile/markdown_to_html";
 import { breadcrumbs } from "documents/compile/templates/breadcrumbs";
 import { getOrder } from "documents/compile/templates/getOrderOfChapters";
@@ -12,7 +12,7 @@ export default async (input, header) => {
   // console.log(header.vocabulary);
   const vocabulary_data = parseVocabularyList(header.vocabulary);
   const VocabularyHeader = vocabulary_data
-    ? `<vocabularyheader data="${EncodeDataInHTML(vocabulary_data)}"/>`
+    ? `<vocabularyheader data="${encodeDataInHtml(vocabulary_data)}"/>`
     : "";
   const _breadcrumbs = await breadcrumbs(header);
 

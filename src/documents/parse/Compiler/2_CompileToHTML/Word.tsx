@@ -1,5 +1,5 @@
 import exists from "app/app/functions/exists";
-import { getUpdatedID } from "documents/parse/Compiler/1_Precompile/UpdateID";
+import { getUpdatedId } from "documents/parse/Compiler/1_Precompile/UpdateID";
 import Box, {
   DefinitionObject,
 } from "documents/parse/Compiler/2_CompileToHTML/Definition/Box/Word";
@@ -40,7 +40,7 @@ class WordElement extends React.Component<{
       */
       if (definition.contains.length > 1) {
         attrs["data-connected-words"] = _.uniq(
-          definition.contains.map((id) => getUpdatedID(id))
+          definition.contains.map((id) => getUpdatedId(id))
         )
           .filter((i) => i !== id)
           .join(",");

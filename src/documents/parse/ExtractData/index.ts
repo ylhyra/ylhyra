@@ -1,4 +1,4 @@
-import { DecodeDataInHTML } from "documents/compile/functions/functions";
+import { decodeDataInHtml } from "documents/compile/functions/functions";
 import { newTitle } from "documents/parse";
 
 /*
@@ -11,8 +11,7 @@ const ExtractData = (input) => {
   const getNewTitle = new newTitle();
   Traverse(input, ({ documentTitle, data }) => {
     const title = getNewTitle.get(documentTitle);
-    // console.log(data)
-    output[title] = updateIDs(data, title);
+    output[title] = data; // updateIds(data, title);
   });
   return output;
 };
@@ -31,7 +30,7 @@ const Traverse = (input, callback) => {
     try {
       let data = attr["data-data"];
       // console.log((decodeURIComponent(atob(data))))
-      data = DecodeDataInHTML(data);
+      data = decodeDataInHtml(data);
       data &&
         callback({
           documentTitle: attr["data-document-start"],
@@ -46,11 +45,11 @@ const Traverse = (input, callback) => {
 
 export default ExtractData;
 
-/*
-  //TODO!
-  Prepend title to all IDs to prevent clashing
-*/
-const updateIDs = (data) => {
-  // console.log(data)
-  return data;
-};
+// /*
+//   //TODO!
+//   Prepend title to all IDs to prevent clashing
+// */
+// const updateIds = (data) => {
+//   // console.log(data)
+//   return data;
+// };

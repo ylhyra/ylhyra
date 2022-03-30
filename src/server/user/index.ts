@@ -1,5 +1,5 @@
 import argon2 from "argon2";
-import { EncodeDataInHTML } from "documents/compile/functions/functions";
+import { encodeDataInHtml } from "documents/compile/functions/functions";
 import request from "request";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
@@ -51,7 +51,7 @@ router.post("/user", speedLimit, rateLimit, async (req, res) => {
     }
 
     req.session.user_id = user_id;
-    req.session.username_encoded = EncodeDataInHTML(username, true);
+    req.session.username_encoded = encodeDataInHtml(username, true);
     return res.send({ user_id, username, did_user_exist });
   });
 });
