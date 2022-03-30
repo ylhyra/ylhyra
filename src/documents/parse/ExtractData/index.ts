@@ -1,5 +1,5 @@
-import { newTitle } from "documents/parse";
 import { DecodeDataInHTML } from "documents/compile/functions/functions";
+import { newTitle } from "documents/parse";
 
 /*
   Returns an object containing:

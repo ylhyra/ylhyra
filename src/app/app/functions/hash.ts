@@ -1,5 +1,5 @@
-import hash from "string-hash";
 import stable_stringify from "json-stable-stringify";
+import hash from "string-hash";
 
 export default function (input) {
   if (typeof input === "object") {

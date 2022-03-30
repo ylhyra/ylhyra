@@ -1,5 +1,5 @@
-import React from "react";
 import Link from "app/router/Link";
+import React from "react";
 
 export default () => (
   <div id="footer">

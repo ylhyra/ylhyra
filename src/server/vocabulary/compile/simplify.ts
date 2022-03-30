@@ -1,11 +1,11 @@
 import { printWord } from "app/vocabulary/actions/functions";
+import stable_stringify from "json-stable-stringify";
 import {
   CreateDependencyChain__backend,
   withDependencies__backend,
 } from "server/vocabulary/compile/dependencies";
-import _ from "underscore";
 import { _deck } from "server/vocabulary/compile/index";
-import stable_stringify from "json-stable-stringify";
+import _ from "underscore";
 
 export const simplify = () => {
   /* Add sortkey for all items */

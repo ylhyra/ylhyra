@@ -1,5 +1,3 @@
-import { Brand } from "ts-brand";
-
 export const USER_LEVEL_BEGINNER = 1;
 export const USER_LEVEL_NOVICE = 2;
 export const USER_LEVEL_INTERMEDIATE = 3;

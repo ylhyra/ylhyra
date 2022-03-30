@@ -1,8 +1,7 @@
-import { printWord } from "app/vocabulary/actions/functions";
 import { isDev } from "app/app/functions/isDev";
-import _ from "underscore";
-import CardInSession from "app/vocabulary/actions/cardInSession";
 import { getTermIds } from "app/vocabulary/actions/card/card_data";
+import { printWord } from "app/vocabulary/actions/functions";
+import _ from "underscore";
 
 let LOGGING;
 // LOGGING = true;

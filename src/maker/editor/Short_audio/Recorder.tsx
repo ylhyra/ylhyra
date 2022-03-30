@@ -1,8 +1,8 @@
-import { ReactMic } from "react-mic";
-import React from "react";
-import Sound from "react-sound";
 import axios from "app/app/axios";
 import store from "app/app/store";
+import React from "react";
+import { ReactMic } from "react-mic";
+import Sound from "react-sound";
 
 const START_LAG_IN_MILLISECONDS = 100;
 const STOP_LAG_IN_MILLISECONDS = 300;

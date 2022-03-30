@@ -1,9 +1,9 @@
 import { deck } from "app/vocabulary/actions/deck";
+import { DEFAULT_JUMP_DOWN } from "app/vocabulary/actions/easinessLevel";
+import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
+import { BAD, EASY, GOOD } from "app/vocabulary/constants";
 import { assert, notNull, shouldEqual } from "tests/integrationTests/index";
 import { run } from "tests/integrationTests/recipes";
-import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
-import { DEFAULT_JUMP_DOWN } from "app/vocabulary/actions/easinessLevel";
-import { BAD, EASY, GOOD } from "app/vocabulary/constants";
 
 export default {
   "Easiness level correctly saved": async () => {

@@ -1,13 +1,13 @@
-import { getDeckName } from "maker/vocabulary_maker/compile/functions";
+import axios from "app/app/axios";
+import { isDev } from "app/app/functions/isDev";
 import { getFromLocalStorage } from "app/app/functions/localStorage";
 import { log } from "app/app/functions/log";
-import { sync } from "app/vocabulary/actions/userData/sync";
-import Deck from "app/vocabulary/actions/deck";
-import axios from "app/app/axios";
 import store from "app/app/store";
-import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
-import { isDev } from "app/app/functions/isDev";
+import Deck from "app/vocabulary/actions/deck";
+import { sync } from "app/vocabulary/actions/userData/sync";
 import { getScheduleFromUserData } from "app/vocabulary/actions/userData/userDataSchedule";
+import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
+import { getDeckName } from "maker/vocabulary_maker/compile/functions";
 
 export const InitializeVocabulary = async () => {
   log("Downloading database");

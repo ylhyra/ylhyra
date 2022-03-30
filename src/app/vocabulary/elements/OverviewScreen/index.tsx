@@ -1,14 +1,13 @@
+import { updateURL } from "app/router/actions/updateURL";
 import Link from "app/router/Link";
-import { countTerms, studyNewTerms } from "app/vocabulary/actions/functions";
-import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
+import { studyNewTerms } from "app/vocabulary/actions/functions";
+import { getUserLevel } from "app/vocabulary/actions/userLevel";
+import { calculateOverview } from "app/vocabulary/elements/OverviewScreen/actions";
+import ActivityOverview from "app/vocabulary/elements/OverviewScreen/ActivityCalendar";
+import Section from "documents/templates/Section";
 import Spacer from "documents/templates/Spacer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { updateURL } from "app/router/actions/updateURL";
-import ActivityOverview from "app/vocabulary/elements/OverviewScreen/ActivityCalendar";
-import { calculateOverview } from "app/vocabulary/elements/OverviewScreen/actions";
-import Section from "documents/templates/Section";
-import { getUserLevel, printUserLevel } from "app/vocabulary/actions/userLevel";
 
 class Overview extends Component<{ vocabulary: any }> {
   componentDidMount() {
@@ -16,7 +15,7 @@ class Overview extends Component<{ vocabulary: any }> {
   }
   componentDidUpdate() {
     if (!this.props.vocabulary.overview.loaded) {
-      calculateOverview();
+      void calculateOverview();
     }
   }
   render() {

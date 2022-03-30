@@ -1,8 +1,8 @@
+import Analytics from "app/app/analytics";
+import messages from "app/app/error/messages";
 import store from "app/app/store";
 import React from "react";
 import { connect } from "react-redux";
-import messages from "app/app/error/messages";
-import Analytics from "app/app/analytics";
 
 const Notification = (props) => {
   if (!props.error) return null;

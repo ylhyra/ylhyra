@@ -1,9 +1,9 @@
 import removeNullKeys from "app/app/functions/removeNullKeys";
 import { msToS } from "app/app/functions/time";
 import stable_stringify from "json-stable-stringify";
+import { staticCached } from "server/caching";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
-import { staticCached } from "server/caching";
 
 const router = require("express").Router();
 

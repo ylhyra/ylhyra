@@ -1,8 +1,7 @@
-import c from "app/app/functions/no-undefined-in-template-literal";
-import { automaticThu } from "maker/vocabulary_maker/compile/functions";
 import { matchWordsAndLetters } from "app/app/functions/languageProcessing/regexes";
+import c from "app/app/functions/no-undefined-in-template-literal";
 import { removeExtraWhitespace } from "app/app/functions/removeExtraWhitespace";
-import { isDev } from "app/app/functions/isDev";
+import { automaticThu } from "maker/vocabulary_maker/compile/functions";
 
 export const getPlaintextFromVocabularyEntry = (input) => {
   if (!input) return null;

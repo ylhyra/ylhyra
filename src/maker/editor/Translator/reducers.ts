@@ -1,6 +1,6 @@
-import { omit, uniq } from "underscore";
-import { wordsHash } from "maker/editor/Translator/actions";
 import { sortByArray } from "app/app/functions/sortByArray";
+import { wordsHash } from "maker/editor/Translator/actions";
+import { omit, uniq } from "underscore";
 
 /*
   ____       _           _   _

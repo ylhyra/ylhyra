@@ -1,10 +1,3 @@
-import {
-  easinessLevelShouldBeLowerThan,
-  increaseEasinessLevel,
-} from "app/vocabulary/actions/easinessLevel/functions";
-import { deck } from "app/vocabulary/actions/deck";
-import { BAD, EASY } from "app/vocabulary/constants";
-
 export const MIN_JUMP_UP = 50;
 export const MAX_JUMP_UP = 500;
 export const DEFAULT_JUMP_DOWN = 100;

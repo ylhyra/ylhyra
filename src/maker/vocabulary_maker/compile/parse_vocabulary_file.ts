@@ -1,4 +1,3 @@
-import _ from "underscore";
 import {
   formatLemmas,
   formatPrefixes,
@@ -10,6 +9,7 @@ import {
   getHash,
   getHashesFromCommaSeperated,
 } from "maker/vocabulary_maker/compile/functions";
+import _ from "underscore";
 
 export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
   let terms = {};

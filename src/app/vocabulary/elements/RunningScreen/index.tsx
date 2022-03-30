@@ -1,14 +1,14 @@
+import { log } from "app/app/functions/log";
 import store from "app/app/store";
 import { updateURL } from "app/router/actions/updateURL";
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Card from "app/vocabulary/elements/RunningScreen/CardElement";
-import Progress from "app/vocabulary/elements/RunningScreen/Progress";
-import { log } from "app/app/functions/log";
-import SelectLevelScreen from "app/vocabulary/elements/UserLevelScreen";
-import { getUserLevel } from "app/vocabulary/actions/userLevel";
 import { getSound } from "app/vocabulary/actions/card/card_data";
 import Session from "app/vocabulary/actions/session";
+import { getUserLevel } from "app/vocabulary/actions/userLevel";
+import Card from "app/vocabulary/elements/RunningScreen/CardElement";
+import Progress from "app/vocabulary/elements/RunningScreen/Progress";
+import SelectLevelScreen from "app/vocabulary/elements/UserLevelScreen";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class RunningScreen extends Component<{ vocabulary: any }> {
   componentDidMount = () => {

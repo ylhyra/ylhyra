@@ -1,7 +1,7 @@
-import { deck } from "app/vocabulary/actions/deck";
-import { getTime } from "app/app/functions/time";
-import { saveInLocalStorage } from "app/app/functions/localStorage";
 import { isBrowser } from "app/app/functions/isBrowser";
+import { saveInLocalStorage } from "app/app/functions/localStorage";
+import { getTime } from "app/app/functions/time";
+import { deck } from "app/vocabulary/actions/deck";
 
 // /**
 //  * @typedef {Object} UserData

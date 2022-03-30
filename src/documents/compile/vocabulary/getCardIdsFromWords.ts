@@ -1,6 +1,6 @@
+import { deck } from "app/vocabulary/actions/deck";
 import { getHash } from "maker/vocabulary_maker/compile/functions";
 import _ from "underscore";
-import { deck } from "app/vocabulary/actions/deck";
 
 export const getCardIdsFromWords = (words, returnMissing) => {
   let missing = [];

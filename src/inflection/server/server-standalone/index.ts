@@ -1,6 +1,6 @@
-import { staticCached } from "server/caching";
 import express from "express";
 import path from "path";
+import { staticCached } from "server/caching";
 
 const app = express();
 const port = 4545;

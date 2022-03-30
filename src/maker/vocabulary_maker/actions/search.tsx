@@ -1,10 +1,10 @@
-import React from "react";
-import { getPlaintextFromVocabularyEntry } from "maker/vocabulary_maker/compile/format";
 import {
   Database,
   select,
   selectRows,
 } from "maker/vocabulary_maker/actions/actions";
+import { getPlaintextFromVocabularyEntry } from "maker/vocabulary_maker/compile/format";
+import React from "react";
 
 export let isSearching = false;
 export let reDoSearch;

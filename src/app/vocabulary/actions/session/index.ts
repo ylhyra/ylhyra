@@ -1,32 +1,21 @@
+import Analytics from "app/app/analytics";
+import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
+import { saveInLocalStorage } from "app/app/functions/localStorage";
+import { log } from "app/app/functions/log";
+import { roundMsToSec, roundToInterval } from "app/app/functions/math";
 import {
   getTime,
   Milliseconds,
   minutes,
   Timestamp,
 } from "app/app/functions/time";
-import { log } from "app/app/functions/log";
-import { saveInLocalStorage } from "app/app/functions/localStorage";
-import Analytics from "app/app/analytics";
-import { sync } from "app/vocabulary/actions/userData/sync";
-import CardInSession from "app/vocabulary/actions/cardInSession";
-import { EACH_SESSION_LASTS_X_MINUTES } from "app/app/constants";
-import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
-import { roundMsToSec, roundToInterval } from "app/app/functions/math";
-import { exitVocabularyScreen } from "app/vocabulary/actions/functions";
-import { setUserData } from "app/vocabulary/actions/userData/userData";
-import { SESSION_PREFIX } from "app/vocabulary/actions/userData/userDataSessions";
-import Deck from "app/vocabulary/actions/deck";
 import { doesCardExist } from "app/vocabulary/actions/card/card";
+import { CardIds, TermId } from "app/vocabulary/actions/card/types";
+import CardInSession from "app/vocabulary/actions/cardInSession";
 import { createCards } from "app/vocabulary/actions/createCards";
-import { InitializeSession } from "app/vocabulary/actions/session/initialize";
-import { nextCard } from "app/vocabulary/actions/session/nextCard";
 import { createSchedule } from "app/vocabulary/actions/createSchedule";
-import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
-import {
-  checkForUndoOnKeyDown,
-  undo,
-  undoable,
-} from "app/vocabulary/actions/session/undo";
+import Deck from "app/vocabulary/actions/deck";
+import { exitVocabularyScreen } from "app/vocabulary/actions/functions";
 import {
   answer,
   checkIfCardsRemaining,
@@ -34,9 +23,20 @@ import {
   getPercentageDone,
   updateRemainingTime,
 } from "app/vocabulary/actions/session/functions";
+import { InitializeSession } from "app/vocabulary/actions/session/initialize";
 import { loadCardInInterface } from "app/vocabulary/actions/session/loadCardInInterface";
-import { CardIds, TermId } from "app/vocabulary/actions/card/types";
+import { loadCardsIntoSession } from "app/vocabulary/actions/session/loadCardsIntoSession";
+import { nextCard } from "app/vocabulary/actions/session/nextCard";
+import {
+  checkForUndoOnKeyDown,
+  undo,
+  undoable,
+} from "app/vocabulary/actions/session/undo";
+import { sync } from "app/vocabulary/actions/userData/sync";
+import { setUserData } from "app/vocabulary/actions/userData/userData";
+import { SESSION_PREFIX } from "app/vocabulary/actions/userData/userDataSessions";
 import { rating } from "app/vocabulary/constants";
+import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 

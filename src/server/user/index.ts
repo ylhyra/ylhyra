@@ -1,8 +1,8 @@
+import argon2 from "argon2";
+import { EncodeDataInHTML } from "documents/compile/functions/functions";
+import request from "request";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
-import request from "request";
-import { EncodeDataInHTML } from "documents/compile/functions/functions";
-import argon2 from "argon2";
 
 const argon_hash = argon2.hash;
 const argon_verify = argon2.verify;

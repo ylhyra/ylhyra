@@ -1,13 +1,13 @@
-import { BAD, GOOD } from "app/vocabulary/constants";
-import CardInSession from "app/vocabulary/actions/cardInSession/index";
 import {
   dependencyDepthOfCard,
   hasDependenciesInCommonWith,
-  hasTermsInCommonWith,
+  hasTermsInCommonWith
 } from "app/vocabulary/actions/card/card_dependencies";
-import { isInSchedule } from "app/vocabulary/actions/card/card_schedule";
 import { isBad } from "app/vocabulary/actions/card/card_difficulty";
+import { isInSchedule } from "app/vocabulary/actions/card/card_schedule";
 import { getSiblingCardsInSession } from "app/vocabulary/actions/card/card_siblings";
+import CardInSession from "app/vocabulary/actions/cardInSession/index";
+import { BAD, GOOD } from "app/vocabulary/constants";
 
 /**
  * @memberOf CardInSession#

@@ -1,12 +1,12 @@
-import ChooseCards from "app/vocabulary/actions/createCards/3_Choose_cards";
-import { rememoizeCards } from "app/vocabulary/actions/card/functions";
 import { logDev } from "app/app/functions/log";
-import Dependencies from "app/vocabulary/actions/createCards/4_Dependencies";
 import { warnIfSlow } from "app/app/functions/warnIfSlow";
 import {
   filterCardsThatExist,
   isInSession,
 } from "app/vocabulary/actions/card/card";
+import { rememoizeCards } from "app/vocabulary/actions/card/functions";
+import ChooseCards from "app/vocabulary/actions/createCards/3_Choose_cards";
+import Dependencies from "app/vocabulary/actions/createCards/4_Dependencies";
 
 export const CARDS_TO_CREATE = 50;
 

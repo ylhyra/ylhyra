@@ -1,15 +1,15 @@
-import { day, days } from "app/app/functions/time";
-import { sync } from "app/vocabulary/actions/userData/sync";
+import axios from "app/app/axios";
+import { log } from "app/app/functions/log";
 import {
   clamp,
   mapValueToRange,
   mapZeroToInfinityToZeroToOne,
 } from "app/app/functions/math";
-import _ from "underscore";
-import { deck } from "app/vocabulary/actions/deck";
+import { day, days } from "app/app/functions/time";
 import store from "app/app/store";
-import axios from "app/app/axios";
-import { log } from "app/app/functions/log";
+import { deck } from "app/vocabulary/actions/deck";
+import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
+import { sync } from "app/vocabulary/actions/userData/sync";
 import {
   getUserData,
   setUserData,
@@ -18,7 +18,7 @@ import {
   getSessions,
   SESSION_PREFIX,
 } from "app/vocabulary/actions/userData/userDataSessions";
-import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
+import _ from "underscore";
 
 const MIN_DAYS_TO_SHOW = 2.5 * 30;
 const MAX_DAYS_TO_SHOW = 365;

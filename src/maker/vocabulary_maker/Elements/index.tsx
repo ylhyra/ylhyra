@@ -1,17 +1,16 @@
-import { connect } from "react-redux";
-import React from "react";
 import {
   addEmpty,
   changeMode,
   Database,
-  refreshRows,
   select,
 } from "maker/vocabulary_maker/actions/actions";
-import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/format";
-import { search } from "maker/vocabulary_maker/actions/search";
-import { row_titles } from "maker/vocabulary_maker/compile/rowTitles";
 import { load } from "maker/vocabulary_maker/actions/initialize";
+import { search } from "maker/vocabulary_maker/actions/search";
+import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/format";
+import { row_titles } from "maker/vocabulary_maker/compile/rowTitles";
 import VocabularyMakerForm from "maker/vocabulary_maker/Elements/Form";
+import React from "react";
+import { connect } from "react-redux";
 
 class VocabularyMaker extends React.Component {
   componentDidMount = async () => {

@@ -1,11 +1,11 @@
-import markdown_to_html from "documents/compile/markdown_to_html";
-import TranscludeFromTitle from "documents/compile/transclude";
 import images from "documents/compile/images";
+import markdown_to_html from "documents/compile/markdown_to_html";
 import WithHeaderAndFooter from "documents/compile/templates/HeaderAndFooter";
+import inflection from "documents/compile/templates/inflection";
+import { Ref } from "documents/compile/templates/Ref";
 import Sections from "documents/compile/templates/Sections";
 import Table from "documents/compile/templates/Table";
-import { Ref } from "documents/compile/templates/Ref";
-import inflection from "documents/compile/templates/inflection";
+import TranscludeFromTitle from "documents/compile/transclude";
 
 export default async (title) => {
   let { output, header } = await TranscludeFromTitle(title);

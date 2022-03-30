@@ -1,10 +1,10 @@
-import { INCR } from "app/vocabulary/actions/createSchedule";
 import {
   getLowestAvailableTermScore,
   getScore,
   getSessionsSeen,
 } from "app/vocabulary/actions/card/card_schedule";
 import { CardId } from "app/vocabulary/actions/card/types";
+import { INCR } from "app/vocabulary/actions/createSchedule";
 import { BAD, EASY, GOOD } from "app/vocabulary/constants";
 
 export const isTooEasy = (id: CardId) => {

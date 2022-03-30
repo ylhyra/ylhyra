@@ -1,14 +1,14 @@
 // import { createBrowserHistory, createHashHistory } from 'history'
+import error from "app/app/error/reducers";
+import { isBrowser } from "app/app/functions/isBrowser";
+import { route } from "app/router/reducers";
+import { user } from "app/user/reducers";
+import { vocabulary } from "app/vocabulary/reducers";
+import { audio } from "documents/render/audio/reducers";
+import { editor } from "maker/editor/reducers";
+import { vocabularyMaker } from "maker/vocabulary_maker/reducers";
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunk from "redux-thunk";
-import { isBrowser } from "app/app/functions/isBrowser";
-import { audio } from "documents/render/audio/reducers";
-import { vocabulary } from "app/vocabulary/reducers";
-import { user } from "app/user/reducers";
-import error from "app/app/error/reducers";
-import { route } from "app/router/reducers";
-import { vocabularyMaker } from "maker/vocabulary_maker/reducers";
-import { editor } from "maker/editor/reducers";
 
 /*
   Logger

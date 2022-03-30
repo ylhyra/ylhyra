@@ -1,6 +1,6 @@
 import axios from "app/app/axios";
-import store from "app/app/store";
 import error from "app/app/error";
+import store from "app/app/store";
 
 import MergeShortWords from "maker/editor/Long_audio/Synchronize/2-Merge-short-words";
 import Flatten from "maker/editor/Long_audio/Synchronize/3-Flatten";

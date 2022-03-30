@@ -1,7 +1,7 @@
 import string_hash from "app/app/functions/hash";
-import GoogleTranslate from "server/translator/GoogleTranslate";
-import GetSuggestions from "server/translator/GetSuggestions";
 import GrammaticalAnalysis from "server/grammatical-analysis";
+import GetSuggestions from "server/translator/GetSuggestions";
+import GoogleTranslate from "server/translator/GoogleTranslate";
 import verifySession from "server/VerifyMediawikiSession";
 
 const request = async (

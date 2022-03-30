@@ -1,7 +1,5 @@
-import { deck } from "app/vocabulary/actions/deck";
-import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 import { getTermIds } from "app/vocabulary/actions/card/card_data";
-import _ from "underscore";
+import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 import {
   getCardIdsFromTermId,
   getCardIdsShuffledIfSeen,
@@ -12,6 +10,8 @@ import {
   TermId,
   TermIds,
 } from "app/vocabulary/actions/card/types";
+import { deck } from "app/vocabulary/actions/deck";
+import _ from "underscore";
 
 export const getDependenciesAsTermIdToDepth = (id: CardId) => {
   const term_id: TermId = getTermIds(id)[0];

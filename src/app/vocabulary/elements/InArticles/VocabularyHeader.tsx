@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
 import { studyParticularIds } from "app/vocabulary/actions/functions";
 import { PercentageKnown } from "app/vocabulary/actions/functions/percentageKnown";
 import { DecodeDataInHTML } from "documents/compile/functions/functions";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class X extends Component<{ vocabulary: any; route: any; data: any }> {
   render() {

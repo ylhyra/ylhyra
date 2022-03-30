@@ -1,6 +1,6 @@
+import Link from "app/router/Link";
 import React from "react";
 import { connect } from "react-redux";
-import Link from "app/router/Link";
 
 const Button = (props) => {
   return (

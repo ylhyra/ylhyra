@@ -1,6 +1,5 @@
-import { connect } from "react-redux";
-import React from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import keycode from "keycode";
 import {
   Database,
   delete_row,
@@ -8,15 +7,16 @@ import {
   selectNext,
   submit,
 } from "maker/vocabulary_maker/actions/actions";
+import { didYouMeanSuggestions } from "maker/vocabulary_maker/actions/didYouMean";
 import { getDeckName } from "maker/vocabulary_maker/compile/functions";
 import {
-  row_info,
   formatRowName,
+  row_info,
   row_titles,
 } from "maker/vocabulary_maker/compile/rowTitles";
+import React from "react";
+import { connect } from "react-redux";
 import _ from "underscore";
-import { didYouMeanSuggestions } from "maker/vocabulary_maker/actions/didYouMean";
-import keycode from "keycode";
 
 class Form2 extends React.Component {
   constructor(props) {

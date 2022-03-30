@@ -1,9 +1,9 @@
-import { combineReducers } from "redux";
 import {
   getFromLocalStorage,
   saveInLocalStorage,
 } from "app/app/functions/localStorage";
 import Deck from "app/vocabulary/actions/deck";
+import { combineReducers } from "redux";
 
 const deck = (state = null, action) => {
   switch (action.type) {

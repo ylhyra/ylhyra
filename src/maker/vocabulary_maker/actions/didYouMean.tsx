@@ -1,8 +1,8 @@
 import { Database, delete_row } from "maker/vocabulary_maker/actions/actions";
-import { compareTwoStrings } from "string-similarity";
-import _ from "underscore";
 import { formatVocabularyEntry } from "maker/vocabulary_maker/compile/format";
 import React from "react";
+import { compareTwoStrings } from "string-similarity";
+import _ from "underscore";
 
 let memoizedSuggestions = {};
 export const didYouMeanSuggestions = (is, input_row_id) => {

@@ -1,10 +1,10 @@
-import { getUserLevel } from "app/vocabulary/actions/userLevel/index";
-import { CardId } from "app/vocabulary/actions/card/types";
 import {
   getCardCEFR,
   getDifficulty,
   getImportance,
 } from "app/vocabulary/actions/card/card_data";
+import { CardId } from "app/vocabulary/actions/card/types";
+import { getUserLevel } from "app/vocabulary/actions/userLevel/index";
 import {
   A1,
   B1,

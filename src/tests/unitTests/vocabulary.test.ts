@@ -1,5 +1,5 @@
-import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
 import { getCardByText } from "app/vocabulary/actions/card/functions";
+import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
 
 // const console = require("console");
 

@@ -4,12 +4,13 @@ const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin"
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const BundleAnalyzerPlugin =
-  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin =
+//   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV === "production";
 const shared = require("./shared");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
   ...shared,
@@ -32,7 +33,7 @@ module.exports = {
       },
     },
   },
-  entry: "./src/app/index.js",
+  entry: "./src/app/index.tsx",
   output: {
     path: isProduction ? resolve("build/app_tmp") : resolve("build/app"),
     filename: "ylhyra.[name].js",
@@ -41,7 +42,27 @@ module.exports = {
   plugins: [
     isProduction && new MiniCssExtractPlugin(),
     !isProduction && new ReactRefreshWebpackPlugin(),
-
+    new ForkTsCheckerWebpackPlugin({
+      // async: isEnvDevelopment,
+      typescript: {
+        // typescriptPath: resolve.sync('typescript', {
+        //   basedir: paths.appNodeModules,
+        // }),
+        configOverwrite: {
+          compilerOptions: {
+            skipLibCheck: true,
+            inlineSourceMap: false,
+            declarationMap: false,
+            noEmit: true,
+            incremental: true,
+          },
+        },
+      },
+      issue: {
+        include: [{ file: "**/src/**/*.{ts,tsx}" }],
+        exclude: [{ file: "**/src/tests/**" }],
+      },
+    }),
     new HtmlWebpackPlugin({ inject: true }),
     new webpack.DefinePlugin({
       "process.env": {

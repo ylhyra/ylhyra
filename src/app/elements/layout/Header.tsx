@@ -1,7 +1,7 @@
-import React from "react";
-import LoginButton from "app/user/LoginButton";
 import Link from "app/router/Link";
 import { existsSchedule, isUserLoggedIn } from "app/user/actions";
+import LoginButton from "app/user/LoginButton";
+import React from "react";
 import { connect } from "react-redux";
 
 class Layout extends React.Component {

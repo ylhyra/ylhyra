@@ -1,7 +1,7 @@
-import { getTime } from "app/app/functions/time";
 import { log } from "app/app/functions/log";
-import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
+import { getTime } from "app/app/functions/time";
 import CardInSession from "app/vocabulary/actions/cardInSession";
+import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "app/vocabulary/actions/session";
 
 /**
  * @memberOf Session#

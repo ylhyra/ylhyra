@@ -1,9 +1,9 @@
-import { connect } from "react-redux";
-import React, { Component } from "react";
-import ChapterWords from "app/vocabulary/elements/InArticles/ChapterWords";
-import ChapterPercentage from "app/vocabulary/elements/InArticles/ChapterPercentage";
-import { DecodeDataInHTML } from "documents/compile/functions/functions";
 import Link from "app/router/Link";
+import ChapterPercentage from "app/vocabulary/elements/InArticles/ChapterPercentage";
+import ChapterWords from "app/vocabulary/elements/InArticles/ChapterWords";
+import { DecodeDataInHTML } from "documents/compile/functions/functions";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class X extends Component {
   render() {

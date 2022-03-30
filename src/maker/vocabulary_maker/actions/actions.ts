@@ -1,18 +1,15 @@
-import { getDeckName, getHash } from "maker/vocabulary_maker/compile/functions";
+import axios from "app/app/axios";
 import { isBrowser } from "app/app/functions/isBrowser";
+import { log } from "app/app/functions/log";
+import store from "app/app/store";
 import {
   isSearching,
   reDoSearch,
   turnOffSearch,
 } from "maker/vocabulary_maker/actions/search";
-import { log } from "app/app/functions/log";
+import { getDeckName, getHash } from "maker/vocabulary_maker/compile/functions";
+import { row_info } from "maker/vocabulary_maker/compile/rowTitles";
 import _ from "underscore";
-import axios from "app/app/axios";
-import store from "app/app/store";
-import {
-  row_info,
-  row_info_array,
-} from "maker/vocabulary_maker/compile/rowTitles";
 
 export const Database = {
   maxID: 0,

@@ -1,12 +1,12 @@
 import {
+  isHighlyIrregular,
+  removeInflectionalPattern,
+} from "inflection/tables/functions/patterns";
+import {
   getVowelClusters,
   removeVowellikeClusters,
   splitOnVowels,
 } from "inflection/tables/functions/vowels";
-import {
-  isHighlyIrregular,
-  removeInflectionalPattern,
-} from "inflection/tables/functions/patterns";
 import Word from "inflection/tables/word";
 
 /**

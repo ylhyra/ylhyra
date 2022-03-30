@@ -1,6 +1,6 @@
+import store from "app/app/store";
 import ScrollIntoView from "documents/render/audio/Scroll/ScrollIntoView";
 import { addClass, removeClass } from "documents/render/helpers";
-import store from "app/app/store";
 
 /*
   Hasten all times by X seconds. It may be better to be a little quick,

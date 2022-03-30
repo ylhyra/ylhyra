@@ -1,22 +1,22 @@
 // import 'source-map-support/register'
-import "core-js/stable";
-import "regenerator-runtime/runtime";
+import { isDev } from "app/app/functions/isDev";
+import { processed_image_url, unprocessed_image_url } from "app/app/paths";
 
 import { exec } from "child_process";
-import path from "path";
+import "core-js/stable";
 
 import express from "express";
 import argvFactory from "minimist";
-import { processed_image_url, unprocessed_image_url } from "app/app/paths";
+import path from "path";
+import "regenerator-runtime/runtime";
+import requestIp from "request-ip";
+import { staticCached } from "server/caching";
+import query from "server/database";
 import {
   build_folder,
   image_output_folder,
   ylhyra_content_files,
 } from "server/paths_backend";
-import requestIp from "request-ip";
-import query from "server/database";
-import { isDev } from "app/app/functions/isDev";
-import { staticCached } from "server/caching";
 
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });

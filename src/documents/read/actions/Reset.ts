@@ -1,5 +1,5 @@
-import AudioClip from "documents/render/audio/AudioClip";
 import store from "app/app/store";
+import AudioClip from "documents/render/audio/AudioClip";
 
 var shownElements = [];
 export const logShown = (id) => {

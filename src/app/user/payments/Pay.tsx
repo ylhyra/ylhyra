@@ -1,15 +1,15 @@
-import { connect } from "react-redux";
-import React from "react";
+import { RECOMMENDED_PRICE_IN_US_DOLLARS } from "app/app/constants";
+import { log } from "app/app/functions/log";
+import { updateURL } from "app/router/actions/updateURL";
 import {
   continueAfterPaying,
   MAX_PRICE,
   MIN_PRICE,
   parsePrice,
 } from "app/user/payments/actions";
-import { log } from "app/app/functions/log";
-import { RECOMMENDED_PRICE_IN_US_DOLLARS } from "app/app/constants";
 import { PayPalButton } from "app/user/payments/PayPalButton";
-import { updateURL } from "app/router/actions/updateURL";
+import React from "react";
+import { connect } from "react-redux";
 
 class Form2 extends React.Component {
   state = {

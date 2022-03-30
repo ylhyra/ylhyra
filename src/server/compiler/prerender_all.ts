@@ -1,8 +1,8 @@
-import { FileSafeTitle, URL_title } from "app/app/paths";
-import prerender from "server/compiler/prerender_single";
 import forEachAsync from "app/app/functions/array-foreach-async";
+import { FileSafeTitle, URL_title } from "app/app/paths";
 import { app_urls } from "app/router/appUrls";
 import { initializeDeckFromFile } from "documents/compile/vocabulary/initializeDeckFromFile";
+import prerender from "server/compiler/prerender_single";
 import { links } from "server/content/loadLinks";
 
 const run = async () => {

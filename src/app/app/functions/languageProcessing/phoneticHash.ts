@@ -1,7 +1,4 @@
-import {
-  removeDiacritics,
-  removeNonLetters,
-} from "app/app/functions/languageProcessing/removeDiacritics";
+import { removeDiacritics, removeNonLetters } from "app/app/functions/languageProcessing/removeDiacritics";
 
 /**
  * Phonetic algorithm for Icelandic, similar to Cologne phonetics

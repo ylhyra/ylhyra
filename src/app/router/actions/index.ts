@@ -1,19 +1,18 @@
-import { existsSchedule, isUserLoggedIn } from "app/user/actions";
 import { isBrowser } from "app/app/functions/isBrowser";
 import { updateURL } from "app/router/actions/updateURL";
+import { existsSchedule, isUserLoggedIn } from "app/user/actions";
 
 if (isBrowser) {
-  window.HAS_LOADED = false;
+  window["HAS_LOADED"] = false;
   window.addEventListener("popstate", () => {
-    // log(window.location.pathname);
-    if (window.HAS_LOADED) {
-      updateURL(window.location.pathname + window.location.hash);
+    if (window["HAS_LOADED"]) {
+      void updateURL(window.location.pathname + window.location.hash);
     }
   });
 }
 export const InitializeRouter = (prerender_data) => {
-  const { is404 } = window;
-  updateURL(
+  const { is404 } = window["is404"];
+  void updateURL(
     (prerender_data?.url || window.location.pathname) + window.location.hash,
     {
       prerender_data,

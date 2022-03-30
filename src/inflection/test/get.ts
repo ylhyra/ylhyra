@@ -1,5 +1,5 @@
-import Word from "inflection/tables/word";
 import get_by_id from "inflection/server/server-standalone/get_by_id";
+import Word from "inflection/tables/word";
 
 /*
   Testing helper function

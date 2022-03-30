@@ -4,7 +4,7 @@ const { stylusLoader } = require("esbuild-stylus-loader");
 const ignorePlugin = require("esbuild-plugin-ignore");
 
 esbuild.build({
-  entryPoints: ["src/server/index.js"],
+  entryPoints: ["src/server/index.ts"],
   nodePaths: ["src"],
   bundle: true,
   platform: "node",

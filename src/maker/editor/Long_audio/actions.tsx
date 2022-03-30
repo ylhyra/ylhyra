@@ -1,6 +1,6 @@
-import store from "app/app/store";
 import { notify } from "app/app/error";
 import { html2json } from "app/app/functions/html2json";
+import store from "app/app/store";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 

@@ -9,11 +9,11 @@
   2. Sends text to server for tokenization
 */
 
-import _ from "underscore";
-import CreateIDs from "documents/parse/Tokenize/IDs/CreateIDs";
 import hash from "app/app/functions/hash";
+import CreateIDs from "documents/parse/Tokenize/IDs/CreateIDs";
 import PreserveIDs from "documents/parse/Tokenize/IDs/PreserveIDs";
 import tokenizer from "documents/parse/Tokenize/Tokenizer";
+import _ from "underscore";
 
 export default function (documents, data) {
   let tokenized = {};

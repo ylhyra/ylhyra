@@ -1,11 +1,11 @@
-import { combineReducers } from "redux";
-import { selected, translation } from "maker/editor/Translator/reducers";
-import { analysis, suggestions } from "maker/editor/Suggestions/reducers";
+import { isBrowser } from "app/app/functions/isBrowser";
 import MakeList from "documents/parse/Tokenize/List";
+import getParameter from "get-parameter";
 import long_audio from "maker/editor/Long_audio/reducers";
 import short_audio from "maker/editor/Short_audio/reducers";
-import getParameter from "get-parameter";
-import { isBrowser } from "app/app/functions/isBrowser";
+import { analysis, suggestions } from "maker/editor/Suggestions/reducers";
+import { selected, translation } from "maker/editor/Translator/reducers";
+import { combineReducers } from "redux";
 
 let autosave;
 if (typeof window !== "undefined") {

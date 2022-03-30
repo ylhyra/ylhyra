@@ -1,13 +1,13 @@
-import React from "react";
-import ReactDOMServer from "react-dom/server";
-import { build_folder } from "server/paths_backend";
-import generate_html from "documents/compile";
-import Parse from "documents/parse";
-import { Provider } from "react-redux";
+import { URL_title } from "app/app/paths";
 import store from "app/app/store";
 import Router from "app/router";
+import generate_html from "documents/compile";
+import Parse from "documents/parse";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import { Provider } from "react-redux";
 import { renderTitle } from "server/content/renderTitle";
-import { URL_title } from "app/app/paths";
+import { build_folder } from "server/paths_backend";
 
 const path = require("path");
 

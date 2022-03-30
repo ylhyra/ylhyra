@@ -1,12 +1,7 @@
-import React from "react";
-import {
-  clearSelection,
-  nextWord,
-  updateDefinitionValue,
-  wordsHash,
-} from "maker/editor/Translator/actions";
-import { connect } from "react-redux";
+import { clearSelection, nextWord, updateDefinitionValue, wordsHash } from "maker/editor/Translator/actions";
 import Field from "maker/editor/Translator/Views/Sidebar/Field";
+import React from "react";
+import { connect } from "react-redux";
 
 // import { getLanguage } from 'server/datasets/languages'
 

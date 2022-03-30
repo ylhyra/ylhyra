@@ -7,9 +7,9 @@
 
 */
 
-import { receiveSuggestions } from "maker/editor/Suggestions";
-import store from "app/app/store";
 import { isBrowser } from "app/app/functions/isBrowser";
+import store from "app/app/store";
+import { receiveSuggestions } from "maker/editor/Suggestions";
 
 const protocol = process.env.NODE_ENV === "production" ? "wss" : "ws";
 // import {host} from 'app/index.js'

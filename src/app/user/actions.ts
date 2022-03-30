@@ -1,13 +1,13 @@
-import { log } from "app/app/functions/log";
 import axios from "app/app/axios";
 import { getCookie } from "app/app/functions/cookie";
 import { isBrowser } from "app/app/functions/isBrowser";
+import { log } from "app/app/functions/log";
 import store from "app/app/store";
 import { updateURL } from "app/router/actions/updateURL";
 import { deck } from "app/vocabulary/actions/deck";
 import { sync } from "app/vocabulary/actions/userData/sync";
-import { DecodeDataInHTML } from "documents/compile/functions/functions";
 import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
+import { DecodeDataInHTML } from "documents/compile/functions/functions";
 
 export const login = async (values) => {
   const response = (await axios.post("/api/user", values)).data;
@@ -31,18 +31,18 @@ export const login = async (values) => {
     }
 
     if (process.env.REACT_APP_PWYW === "on") {
-      updateURL("/pwyw");
+      void updateURL("/pwyw");
     } else {
       // TODO: "Thank you for ..."
-      updateURL("/vocabulary");
+      void updateURL("/vocabulary");
     }
   } else {
     /* TODO!!!!! */
     deck.reset();
     await sync();
-    updateURL("/vocabulary");
+    void updateURL("/vocabulary");
   }
-  clearOverview();
+  void clearOverview();
 };
 
 export const logout = async () => {
@@ -53,22 +53,21 @@ export const logout = async () => {
     type: "LOAD_USER",
     content: null,
   });
-  updateURL("/frontpage");
+  void updateURL("/frontpage");
 };
 
 export const InitializeUser = () => {
   updateUser();
 };
 
-/**
- * @returns {{user_id: number, username: string}|null}
- */
-export const getUserFromCookie = () => {
+export const getUserFromCookie = (): {
+  user_id: Number;
+  username: string;
+} | null => {
   if (!isBrowser) return null;
   let cookie = getCookie("y");
   if (cookie) {
-    cookie = JSON.parse(atob(cookie));
-    let { user_id, username, username_encoded } = cookie;
+    let { user_id, username, username_encoded } = JSON.parse(atob(cookie));
     /* "username" is no longer used but is kept here temporarily for
      users who already have that cookie set */
     if (username_encoded) {

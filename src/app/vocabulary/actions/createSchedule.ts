@@ -1,15 +1,7 @@
-import {
-  addSomeRandomness,
-  average,
-  clamp,
-  toFixedFloat,
-} from "app/app/functions/math";
-import {
-  getTime,
-  daysFromNowToTimestamp,
-  msToDays,
-} from "app/app/functions/time";
 import { log } from "app/app/functions/log";
+import { addSomeRandomness, average, clamp, toFixedFloat } from "app/app/functions/math";
+import { daysFromNowToTimestamp, getTime, msToDays } from "app/app/functions/time";
+import { wasSeenInSession } from "app/vocabulary/actions/card/card";
 import {
   getDue,
   getLastIntervalInDays,
@@ -17,16 +9,15 @@ import {
   getNumberOfBadSessions,
   getScore,
   getSessionsSeen,
-  setSchedule,
+  setSchedule
 } from "app/vocabulary/actions/card/card_schedule";
 import {
   didAnySiblingCardsGetABadRatingInThisSession,
-  getSiblingCards,
+  getSiblingCards
 } from "app/vocabulary/actions/card/card_siblings";
-import { printWord } from "./functions";
-import { wasSeenInSession } from "app/vocabulary/actions/card/card";
-import { BAD, EASY, GOOD } from "app/vocabulary/constants";
 import CardInSession from "app/vocabulary/actions/cardInSession";
+import { BAD, EASY, GOOD } from "app/vocabulary/constants";
+import { printWord } from "./functions";
 
 /** Increment score by how much? */
 export const INCR = 0.4;

@@ -11,8 +11,8 @@
 
 */
 
-import { diffArrays } from "diff";
 import flattenArray from "app/app/functions/flattenArray";
+import { diffArrays } from "diff";
 import { findBestMatch } from "string-similarity";
 
 const Preserve = (first, second) => {

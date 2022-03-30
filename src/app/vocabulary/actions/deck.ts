@@ -1,16 +1,15 @@
 import { isBrowser } from "app/app/functions/isBrowser";
 import { saveInLocalStorage } from "app/app/functions/localStorage";
 import { updateURL } from "app/router/actions/updateURL";
-import Session from "app/vocabulary/actions/session";
-import { countTerms } from "app/vocabulary/actions/functions";
-import { warnIfSlow } from "app/app/functions/warnIfSlow";
-import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
 import {
   CardId,
   CardIds,
   ScheduleData,
   TermId,
 } from "app/vocabulary/actions/card/types";
+import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
+import { countTerms } from "app/vocabulary/actions/functions";
+import Session from "app/vocabulary/actions/session";
 
 export let deck: Deck | undefined;
 

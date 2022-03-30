@@ -1,13 +1,13 @@
-import { connect } from "react-redux";
+import { applySuggestions, MakeSuggestions } from "maker/editor/Suggestions";
+import Suggestions from "maker/editor/Suggestions/Views/List";
 import { clearSelection } from "maker/editor/Translator/actions";
-import React from "react";
 import SentenceTranslation from "maker/editor/Translator/Views/Document/SentenceTranslation";
 import Word from "maker/editor/Translator/Views/Document/Word";
 import WordSidebar, {
   isMacintosh,
 } from "maker/editor/Translator/Views/Sidebar/Sidebar";
-import Suggestions from "maker/editor/Suggestions/Views/List";
-import { applySuggestions, MakeSuggestions } from "maker/editor/Suggestions";
+import React from "react";
+import { connect } from "react-redux";
 
 class TranslatingEditor extends React.Component {
   componentDidMount() {

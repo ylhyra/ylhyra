@@ -1,12 +1,8 @@
-import { deck } from "app/vocabulary/actions/deck";
-import { getHash } from "maker/vocabulary_maker/compile/functions";
-import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
 import { isBrowser } from "app/app/functions/isBrowser";
+import { isDev } from "app/app/functions/isDev";
 import { log } from "app/app/functions/log";
 import { roundToInterval } from "app/app/functions/math";
 import { updateURL } from "app/router/actions/updateURL";
-import { isDev } from "app/app/functions/isDev";
-import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 import {
   getCardsInSchedule,
   getData,
@@ -14,7 +10,11 @@ import {
   getTermIds,
 } from "app/vocabulary/actions/card/card_data";
 import { isNewTerm } from "app/vocabulary/actions/card/card_schedule";
+import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 import { CardIds } from "app/vocabulary/actions/card/types";
+import { deck } from "app/vocabulary/actions/deck";
+import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
+import { getHash } from "maker/vocabulary_maker/compile/functions";
 
 export const printWord = (id) => {
   if (!isDev) return;

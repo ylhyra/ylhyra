@@ -1,5 +1,5 @@
-import Greynir from "server/grammatical-analysis/icelandic";
 import { wordRegex } from "documents/parse/Tokenize/IDs/CreateIDs";
+import Greynir from "server/grammatical-analysis/icelandic";
 
 // import { diffArrays } from 'diff'
 

@@ -1,9 +1,9 @@
+import { deleteWord, selectWord } from "maker/editor/Translator/actions";
+import InlineTranslation from "maker/editor/Translator/Views/Document/InlineTranslation";
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import _ from "underscore";
-import { deleteWord, selectWord } from "maker/editor/Translator/actions";
-import InlineTranslation from "maker/editor/Translator/Views/Document/InlineTranslation";
 
 const Container = styled.span`
   ${(props) =>

@@ -1,10 +1,10 @@
-import { deck } from "app/vocabulary/actions/deck";
-import { flatten, uniq } from "underscore";
-import { getHash } from "maker/vocabulary_maker/compile/functions";
 import { clearTimeMemoized } from "app/app/functions/time";
-import { getTermIds } from "./card_data";
 import { getCardIds } from "app/vocabulary/actions/card/term";
 import { CardIds, TermIds } from "app/vocabulary/actions/card/types";
+import { deck } from "app/vocabulary/actions/deck";
+import { getHash } from "maker/vocabulary_maker/compile/functions";
+import { flatten, uniq } from "underscore";
+import { getTermIds } from "./card_data";
 
 export const getCardIdsFromTermIds = (term_ids: TermIds) => {
   return uniq(flatten(term_ids.map((t) => getCardIds(t)).filter(Boolean)));

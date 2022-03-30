@@ -1,8 +1,7 @@
+import { _deck } from "server/vocabulary/compile/index";
 import _ from "underscore";
 
-import { _deck } from "server/vocabulary/compile/index";
-
-export const withDependencies__backend = (card_ids, options) => {
+export const withDependencies__backend = (card_ids, options?) => {
   const showDepth = options?.showDepth;
   let returns = [];
   let terms = [];

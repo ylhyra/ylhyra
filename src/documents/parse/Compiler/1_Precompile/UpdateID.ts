@@ -24,6 +24,6 @@ export const getPreviousID = (id) => {
   return previousIDs[id];
 };
 
-export const reset = () => {
+export const resetIDs = () => {
   updatedIDs = {};
 };

@@ -20,6 +20,7 @@
   * 1 - phonetic
 
 */
+import flattenArray from "app/app/functions/flattenArray";
 import {
   cleanInput,
   phonetic,
@@ -27,10 +28,9 @@ import {
   with_spelling_errors,
   without_special_characters,
 } from "inflection/server/server-with-database/fuzzy_search";
-import { escape } from "sqlstring";
-import flattenArray from "app/app/functions/flattenArray";
 import path from "path";
 import query from "server/database";
+import { escape } from "sqlstring";
 
 var LineByLineReader = require("line-by-line");
 

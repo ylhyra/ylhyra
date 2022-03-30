@@ -1,12 +1,12 @@
 import Analytics from "app/app/analytics";
 import axios from "app/app/axios";
+import { PRELOAD_ARTICLES_ON_HOVER } from "app/app/constants";
+import { isDev } from "app/app/functions/isDev";
 import store from "app/app/store";
 import { index, isVocabularyTheFrontpage } from "app/router/actions";
 import { updateURL } from "app/router/actions/updateURL";
 import { app_urls } from "app/router/appUrls";
 import { ReadAlongSetup } from "documents/render/audio/ReadAlong";
-import { isDev } from "app/app/functions/isDev";
-import { PRELOAD_ARTICLES_ON_HOVER } from "app/app/constants";
 
 const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true && isDev;
 

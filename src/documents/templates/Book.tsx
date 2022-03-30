@@ -1,6 +1,6 @@
-import React from "react";
 import Audio from "documents/render/audio";
 import Spacer from "documents/templates/Spacer";
+import React from "react";
 
 export default (props) => {
   return (

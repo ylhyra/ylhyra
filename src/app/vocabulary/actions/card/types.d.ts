@@ -1,5 +1,5 @@
-import { Brand } from "ts-brand";
 import { Days, Timestamp } from "app/app/functions/time";
+import { Brand } from "ts-brand";
 
 export interface ScheduleData {
   due: Timestamp;

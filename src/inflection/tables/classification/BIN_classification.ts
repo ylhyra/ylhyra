@@ -1,8 +1,8 @@
-import { isNumber } from "inflection/tables/tree";
 import {
   normalizeTag,
   shortcuts_used_in_BIN,
 } from "inflection/tables/classification/classification";
+import { isNumber } from "inflection/tables/tree";
 
 /**
  *  Turns BÍN's classifications into English

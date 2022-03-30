@@ -1,6 +1,6 @@
+import { CardId } from "app/vocabulary/actions/card/types";
 import { deck } from "app/vocabulary/actions/deck";
 import { setUserData } from "app/vocabulary/actions/userData/userData";
-import { CardId } from "app/vocabulary/actions/card/types";
 
 // /**
 //  * @param {UserData} user_data

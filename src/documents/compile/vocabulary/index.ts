@@ -1,13 +1,13 @@
-import { printWord } from "app/vocabulary/actions/functions";
-import { getCardIdsFromWords } from "documents/compile/vocabulary/getCardIdsFromWords";
-import _ from "underscore";
-import { deck } from "app/vocabulary/actions/deck";
-import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
-import { initializeDeckFromFile } from "documents/compile/vocabulary/initializeDeckFromFile";
 import {
   getCardIdsFromTermIds,
   getTermIdsFromCardIds,
 } from "app/vocabulary/actions/card/functions";
+import { deck } from "app/vocabulary/actions/deck";
+import { printWord } from "app/vocabulary/actions/functions";
+import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
+import { getCardIdsFromWords } from "documents/compile/vocabulary/getCardIdsFromWords";
+import { initializeDeckFromFile } from "documents/compile/vocabulary/initializeDeckFromFile";
+import _ from "underscore";
 
 export const parseVocabularyList = (vocabulary_list) => {
   if (!vocabulary_list) return;

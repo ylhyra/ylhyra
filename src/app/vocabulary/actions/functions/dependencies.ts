@@ -1,8 +1,8 @@
-import { getTermIdsFromCardIds } from "app/vocabulary/actions/card/functions";
-import _ from "underscore";
-import { getCardIds } from "app/vocabulary/actions/card/term";
 import { getSortedCardDependenciesAsCardIds } from "app/vocabulary/actions/card/card_dependencies";
+import { getTermIdsFromCardIds } from "app/vocabulary/actions/card/functions";
+import { getCardIds } from "app/vocabulary/actions/card/term";
 import { CardIds } from "app/vocabulary/actions/card/types";
+import _ from "underscore";
 
 /**
  * Returns an array of cards with all

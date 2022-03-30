@@ -1,16 +1,16 @@
 /*
   Tracks time spent on page
 */
-import { getTime, seconds } from "app/app/functions/time";
 import axios from "app/app/axios";
+import { isBrowser } from "app/app/functions/isBrowser";
+import { isDev } from "app/app/functions/isDev";
 import {
   ANALYTICS_LOCALSTORAGE_LABEL,
   getFromLocalStorage,
   saveInLocalStorage,
 } from "app/app/functions/localStorage";
-import { isBrowser } from "app/app/functions/isBrowser";
-import { isDev } from "app/app/functions/isDev";
 import { roundToInterval } from "app/app/functions/math";
+import { getTime, seconds } from "app/app/functions/time";
 
 const ignoredUrls = ["/", "/frontpage"];
 
@@ -21,6 +21,7 @@ class Analytics {
   startTime = null;
   currentPage = null;
   queue = getFromLocalStorage(ANALYTICS_LOCALSTORAGE_LABEL) || [];
+  errorSent = null;
   referrer = (() => {
     if (!isBrowser) return;
     const referrer_id = new URL(window.location.href).searchParams.get("a");
@@ -37,12 +38,11 @@ class Analytics {
     this.currentPage = url;
     this.startTime = getTime();
   };
-  stopReadingPage = (options) => {
+  stopReadingPage = (options?) => {
     if (!likelyNotABot || !this.currentPage || !this.startTime) return;
     const timeDiff = getTime() - this.startTime;
     if (
       this.referrer ||
-      // Discard if page was only seen for <10 seconds
       (timeDiff > 10 * seconds && !ignoredUrls.includes(this.currentPage))
     ) {
       this.log(
@@ -60,7 +60,7 @@ class Analytics {
     }
     this.currentPage = null;
   };
-  log = (data, options) => {
+  log = (data, options?) => {
     this.queue.push({
       ...data,
       timestamp: data.timestamp || getTime(),
@@ -69,11 +69,8 @@ class Analytics {
     this.timer && clearTimeout(this.timer);
     if (options?.dontSync) return;
     if (this.queue.length >= 3) {
-      this.sync();
+      void this.sync();
     }
-    // else {
-    //   this.timer = setTimeout(this.sync, 1 * seconds);
-    // }
   };
   save = () => {
     saveInLocalStorage(
@@ -81,7 +78,7 @@ class Analytics {
       this.queue.length > 0 ? this.queue : null
     );
   };
-  sync = async (options) => {
+  sync = async (options?) => {
     if (!options?.force && (!likelyNotABot || this.queue.length <= 1)) return;
     await axios.post(`/api/a`, {
       queue: this.queue.slice(0, 20),
@@ -109,13 +106,9 @@ export default analytics;
 
 if (isBrowser) {
   if (isDev) {
-    window.analytics = analytics;
+    window["analytics"] = analytics;
   }
-  // window.addEventListener("blur", function () {
-  //   // TextAnalytics.close();
-  // });
-  // window.addEventListener('focus', function() {
-  // });
+
   window.onbeforeunload = function () {
     analytics.stopReadingPage({ dontSync: true });
   };

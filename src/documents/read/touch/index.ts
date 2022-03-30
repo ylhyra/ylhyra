@@ -1,13 +1,12 @@
-import {
-  TouchEventListenerOff,
-  TouchEventListenerOn,
-} from "documents/read/touch/Touch";
+import { supportsTouch } from "app/app/functions/isBrowser";
 import {
   MouseEventListenerOff,
   MouseEventListenerOn,
 } from "documents/read/touch/Mouse";
-
-import { supportsTouch } from "app/app/functions/isBrowser";
+import {
+  TouchEventListenerOff,
+  TouchEventListenerOn,
+} from "documents/read/touch/Touch";
 
 export const TextEventListenersOn = () => {
   try {

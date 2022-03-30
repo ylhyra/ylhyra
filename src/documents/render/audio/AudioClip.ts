@@ -4,12 +4,11 @@ import store from "app/app/store";
   Short audio clips, like words on hover, that do not require an audio player interface
 */
 
-let audio;
+let audio: HTMLAudioElement;
 
 const AudioClip = {
   play: (files) => {
-    if (store.getState().speed_reader && store.getState().speed_readerstarted)
-      return;
+    // if (store.getState().speed_reader && store.getState().speed_readerstarted)  return;
     AudioClip.pause();
     if (!Array.isArray(files)) {
       files = [files];
@@ -21,8 +20,7 @@ const AudioClip = {
       if (i < files.length) {
         audio.src = files[i++];
         audio.load();
-        const promise = audio.play();
-        promise.catch((e) => {
+        audio.play().catch((e) => {
           console.warn(e);
         });
       } else {

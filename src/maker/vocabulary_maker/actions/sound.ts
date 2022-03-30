@@ -1,12 +1,12 @@
 import store from "app/app/store";
+import { deck } from "app/vocabulary/actions/deck";
+import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
+import { Database, save } from "maker/vocabulary_maker/actions/actions";
 import {
   getDeckName,
   GetLowercaseStringForAudioKey,
 } from "maker/vocabulary_maker/compile/functions";
 import _ from "underscore";
-import { deck } from "app/vocabulary/actions/deck";
-import { Database, save } from "maker/vocabulary_maker/actions/actions";
-import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
 
 let missing_sound = [];
 let current_word_recording = 0;

@@ -1,21 +1,17 @@
-import { getTimeMemoized, hours, minutes } from "app/app/functions/time";
-import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
-import { shuffleLocally } from "app/app/functions/shuffleLocally";
-import { isAllowed } from "app/vocabulary/actions/card/card";
 import { log } from "app/app/functions/log";
+import { shuffleLocally } from "app/app/functions/shuffleLocally";
+import { getTimeMemoized, hours, minutes } from "app/app/functions/time";
+import { isAllowed } from "app/vocabulary/actions/card/card";
 import { getCardsInSchedule } from "app/vocabulary/actions/card/card_data";
+import { isBad, isBelowGood, isTooEasy } from "app/vocabulary/actions/card/card_difficulty";
 import {
   getDue,
   isUnseenSiblingOfANonGoodCard,
   timeSinceTermWasSeen,
-  wasTermVeryRecentlySeen,
+  wasTermVeryRecentlySeen
 } from "app/vocabulary/actions/card/card_schedule";
-import {
-  isBad,
-  isBelowGood,
-  isTooEasy,
-} from "app/vocabulary/actions/card/card_difficulty";
 import { CardIds } from "app/vocabulary/actions/card/types";
+import { sortBySortKey } from "app/vocabulary/actions/createCards/functions";
 
 /* Previously seen cards */
 export default () => {

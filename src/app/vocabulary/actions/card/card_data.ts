@@ -1,7 +1,7 @@
-import { deck } from "app/vocabulary/actions/deck";
 import { filterCardsThatExist } from "app/vocabulary/actions/card/card";
 import { getTermData } from "app/vocabulary/actions/card/term";
 import { CardId, CardIds, TermIds } from "app/vocabulary/actions/card/types";
+import { deck } from "app/vocabulary/actions/deck";
 
 export const getCardsInSchedule = (): CardIds => {
   return filterCardsThatExist(Object.keys(deck.schedule) as CardIds);

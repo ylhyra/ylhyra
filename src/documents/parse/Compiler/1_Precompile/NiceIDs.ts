@@ -1,7 +1,4 @@
-import {
-  getUpdatedID,
-  updateID,
-} from "documents/parse/Compiler/1_Precompile/UpdateID";
+import { getUpdatedID, updateID } from "documents/parse/Compiler/1_Precompile/UpdateID";
 
 /*
 

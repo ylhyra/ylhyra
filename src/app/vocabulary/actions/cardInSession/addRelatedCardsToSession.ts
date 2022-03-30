@@ -1,22 +1,12 @@
 import { log } from "app/app/functions/log";
 import { days } from "app/app/functions/time";
-import { printWord } from "app/vocabulary/actions/functions";
-import {
-  dependencyDepthOfCard,
-  getDependenciesAsArrayOfCardIds,
-} from "app/vocabulary/actions/card/card_dependencies";
-import {
-  isUnseenTerm,
-  timeSinceTermWasSeen,
-  wasTermVeryRecentlySeen,
-} from "app/vocabulary/actions/card/card_schedule";
 import { isInSession } from "app/vocabulary/actions/card/card";
-import {
-  isBad,
-  isFairlyBad,
-} from "app/vocabulary/actions/card/card_difficulty";
+import { dependencyDepthOfCard, getDependenciesAsArrayOfCardIds } from "app/vocabulary/actions/card/card_dependencies";
+import { isBad, isFairlyBad } from "app/vocabulary/actions/card/card_difficulty";
+import { isUnseenTerm, timeSinceTermWasSeen, wasTermVeryRecentlySeen } from "app/vocabulary/actions/card/card_schedule";
 import { CardIds } from "app/vocabulary/actions/card/types";
 import CardInSession from "app/vocabulary/actions/cardInSession/index";
+import { printWord } from "app/vocabulary/actions/functions";
 
 /**
  * If a cardInSession gets a bad rating, then we make sure

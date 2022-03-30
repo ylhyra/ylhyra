@@ -13,6 +13,5 @@ const pool = Pool({
 });
 
 export default (query, secondParameter, thirdParameter) => {
-  // if(Array.isArray(query))
   Query(query, secondParameter, thirdParameter, pool);
 };

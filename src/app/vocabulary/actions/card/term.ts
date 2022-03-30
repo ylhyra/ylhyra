@@ -1,6 +1,6 @@
-import { deck } from "app/vocabulary/actions/deck";
 import { isInSchedule } from "app/vocabulary/actions/card/card_schedule";
 import { CardIds, TermId } from "app/vocabulary/actions/card/types";
+import { deck } from "app/vocabulary/actions/deck";
 
 export const getTermData = (term_id: TermId) => {
   return deck.terms[term_id];

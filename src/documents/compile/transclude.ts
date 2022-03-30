@@ -1,11 +1,11 @@
-import { URL_title } from "app/app/paths";
-import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
-import TOC from "documents/compile/templates/TOC";
 import forEachAsync from "app/app/functions/array-foreach-async";
+import { URL_title } from "app/app/paths";
 import {
   EncodeDataInHTML,
   removeComments,
 } from "documents/compile/functions/functions";
+import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
+import TOC from "documents/compile/templates/TOC";
 import { getValuesForURL } from "server/content/links";
 import { links } from "server/content/loadLinks";
 

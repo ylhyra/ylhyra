@@ -1,7 +1,7 @@
+import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 import { PercentageKnown } from "app/vocabulary/actions/functions/percentageKnown";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getCardIdsFromTermIds } from "app/vocabulary/actions/card/functions";
 
 class X extends Component<{ vocabulary: any; data: any }> {
   render() {

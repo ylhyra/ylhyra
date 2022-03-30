@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { CSSProperties, FunctionComponent, ReactNode } from "react";
+import { minutes, prettyPrintDaysMinutesHours } from "app/app/functions/time";
+import type { Day as WeekDay } from "date-fns";
 import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import getYear from "date-fns/getYear";
 import parseISO from "date-fns/parseISO";
-import type { Day as WeekDay } from "date-fns";
+import React, { CSSProperties, FunctionComponent, ReactNode } from "react";
 import color from "tinycolor2";
-import { minutes, prettyPrintDaysMinutesHours } from "app/app/functions/time";
-
-import "./styles.css";
 
 import { Day, Labels, Theme } from "../types";
 import {
@@ -20,8 +18,10 @@ import {
   getTheme,
   groupByWeeks,
   MIN_DISTANCE_MONTH_LABELS,
-  NAMESPACE,
+  NAMESPACE
 } from "../util";
+
+import "./styles.css";
 
 const textColor = "#464646";
 const baseColor = color("#2d81ff");

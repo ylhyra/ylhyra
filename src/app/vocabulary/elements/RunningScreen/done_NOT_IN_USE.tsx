@@ -1,6 +1,6 @@
-import React from "react";
 import store from "app/app/store";
 import Link from "app/router/Link";
+import React from "react";
 
 export default () => (
   <div>

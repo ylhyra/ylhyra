@@ -1,8 +1,8 @@
-import query from "server/database";
-import shortid from "shortid";
-import sql from "server/database/functions/SQL-template-literal";
-import _ from "underscore";
 import { getTime, minute, roundMsToMinute } from "app/app/functions/time";
+import query from "server/database";
+import sql from "server/database/functions/SQL-template-literal";
+import shortid from "shortid";
+import _ from "underscore";
 
 const router = require("express").Router();
 const { Crawler } = require("es6-crawler-detect");

@@ -1,7 +1,7 @@
-import query from "server/database";
+import { isDev } from "app/app/functions/isDev";
 import c from "app/app/functions/no-undefined-in-template-literal";
 import { days } from "app/app/functions/time";
-import { isDev } from "app/app/functions/isDev";
+import query from "server/database";
 
 const router = require("express").Router();
 

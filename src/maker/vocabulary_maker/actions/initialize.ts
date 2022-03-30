@@ -1,14 +1,13 @@
-import { getDeckName } from "maker/vocabulary_maker/compile/functions";
 import axios from "app/app/axios";
-import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
-import { setupSound } from "maker/vocabulary_maker/actions/sound";
+import store from "app/app/store";
 import {
   Database,
   findMissingDependencies,
   refreshRows,
 } from "maker/vocabulary_maker/actions/actions";
-import store from "app/app/store";
-import { getPlaintextFromVocabularyEntry } from "maker/vocabulary_maker/compile/format";
+import { setupSound } from "maker/vocabulary_maker/actions/sound";
+import { getDeckName } from "maker/vocabulary_maker/compile/functions";
+import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
 
 export const load = async () => {
   // window.skip_hash = true;

@@ -1,16 +1,16 @@
+import { isBrowser } from "app/app/functions/isBrowser";
+import { isDev } from "app/app/functions/isDev";
+import store from "app/app/store";
+import { openEditor } from "maker/editor/actions";
+import Header from "maker/editor/Header";
+import Inflections from "maker/editor/Inflections";
+import LongAudio from "maker/editor/Long_audio";
+import Sound from "maker/editor/Short_audio";
 import "maker/editor/Style/index.styl";
+import Translator from "maker/editor/Translator";
 
 import React from "react";
 import { connect } from "react-redux";
-import Translator from "maker/editor/Translator";
-import Header from "maker/editor/Header";
-import LongAudio from "maker/editor/Long_audio";
-import Inflections from "maker/editor/Inflections";
-import Sound from "maker/editor/Short_audio";
-import { openEditor } from "maker/editor/actions";
-import { isDev } from "app/app/functions/isDev";
-import { isBrowser } from "app/app/functions/isBrowser";
-import store from "app/app/store";
 
 class _Editor extends React.PureComponent {
   // componentDidMount = () => {

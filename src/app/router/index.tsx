@@ -1,11 +1,11 @@
-import React from "react";
 import Layout from "app/elements/layout/Layout";
-import LoadContent from "app/router/Content";
-import { app_urls } from "app/router/appUrls";
-import { connect } from "react-redux";
-import Section from "documents/templates/Section";
 import { index, isVocabularyTheFrontpage } from "app/router/actions";
 import { updateURL } from "app/router/actions/updateURL";
+import { app_urls } from "app/router/appUrls";
+import LoadContent from "app/router/Content";
+import Section from "documents/templates/Section";
+import React from "react";
+import { connect } from "react-redux";
 
 class App extends React.Component {
   componentDidMount() {

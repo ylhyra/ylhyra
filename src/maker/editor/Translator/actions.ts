@@ -1,6 +1,6 @@
-import _ from "underscore";
-import hash from "string-hash";
 import store from "app/app/store";
+import hash from "string-hash";
+import _ from "underscore";
 
 /*
   If the user has selected several non-adjacent words,

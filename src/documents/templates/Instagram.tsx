@@ -1,7 +1,7 @@
-import React from "react";
+import { getDynamicFileUrl } from "app/app/paths";
 import Audio from "documents/render/audio";
 import Video from "documents/render/audio";
-import { getDynamicFileUrl } from "app/app/paths";
+import React from "react";
 
 export default (props) => {
   return (

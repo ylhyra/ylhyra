@@ -1,5 +1,5 @@
-import CardInSession from "app/vocabulary/actions/cardInSession";
 import { CardIds } from "app/vocabulary/actions/card/types";
+import CardInSession from "app/vocabulary/actions/cardInSession";
 
 /**
  * Used to load more cards into an already ongoing session.

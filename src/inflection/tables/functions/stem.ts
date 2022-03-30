@@ -1,10 +1,10 @@
+import { removeInflectionalPattern } from "inflection/tables/functions/patterns";
 import {
   isVowellikeCluster,
   removeLastVowelCluster,
   removeVowellikeClusters,
   splitOnVowelRegions,
 } from "inflection/tables/functions/vowels";
-import { removeInflectionalPattern } from "inflection/tables/functions/patterns";
 import Word from "inflection/tables/word";
 import _ from "lodash";
 

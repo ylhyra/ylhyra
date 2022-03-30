@@ -29,14 +29,14 @@
   order to encapsulate the text into <sentence/> tags.
 
 */
+import { newTitle } from "documents/parse";
 import { getText } from "documents/parse/ExtractText/ExtractText";
+import GroupParagraphs from "documents/parse/ExtractText/Paragraphs";
 
 import InsertSplit from "documents/parse/WrapInTags/1-InsertSplit";
 import SplitAndWrap from "documents/parse/WrapInTags/2-SplitAndWrap";
 import InvertElementsThatOnlyContainOneThing from "documents/parse/WrapInTags/3-Invert";
 import MergeElementsThatHaveBeenSplitUnnecessarily from "documents/parse/WrapInTags/4-Merge";
-import GroupParagraphs from "documents/parse/ExtractText/Paragraphs";
-import { newTitle } from "documents/parse";
 
 /*
   Parse input and split paragraphs

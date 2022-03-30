@@ -1,7 +1,7 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
-import { getValuesForURL } from "server/content/links";
 import { section_id, URL_title } from "app/app/paths";
 import { getOrder } from "documents/compile/templates/getOrderOfChapters";
+import { getValuesForURL } from "server/content/links";
 
 export const breadcrumbs = async (header) => {
   if (!header.title) return;

@@ -1,10 +1,9 @@
+import ReactActivityCalendar from "app/app/functions/react-activity-calendar";
+import { withPlural } from "app/app/functions/simplePlural";
 import { prettyPrintDaysMinutesHours, seconds } from "app/app/functions/time";
+import Spacer from "documents/templates/Spacer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withPlural } from "app/app/functions/simplePlural";
-import Spacer from "documents/templates/Spacer";
-
-import ReactActivityCalendar from "app/app/functions/react-activity-calendar";
 
 class ActivityCalendar extends Component<{ vocabulary: any }> {
   render() {

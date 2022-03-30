@@ -12,10 +12,10 @@
 
 */
 
-import GroupParagraphs from "documents/parse/ExtractText/Paragraphs";
 import hash from "app/app/functions/hash";
-import emoji_strip from "emoji-strip";
 import { newTitle } from "documents/parse";
+import GroupParagraphs from "documents/parse/ExtractText/Paragraphs";
+import emoji_strip from "emoji-strip";
 
 /*
   Convert document into raw text

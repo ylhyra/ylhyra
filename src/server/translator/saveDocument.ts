@@ -1,9 +1,9 @@
+import { isDev } from "app/app/functions/isDev";
+import { exec } from "child_process";
 import fs from "fs";
 import path from "path";
-import { exec } from "child_process";
 
 import { getValuesForURL } from "server/content/links";
-import { isDev } from "app/app/functions/isDev";
 
 const router = require("express").Router();
 

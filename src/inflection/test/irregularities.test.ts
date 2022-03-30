@@ -1,5 +1,5 @@
-import { get } from "inflection/test/get";
 import assert from "assert";
+import { get } from "inflection/test/get";
 
 describe("Irregularities", function () {
   /*

@@ -2,12 +2,12 @@
   To run:
   npm run vocabulary
 */
-import { content_folder } from "server/paths_backend";
-import getSortKeys from "server/vocabulary/sortKeys";
 import { GetLowercaseStringForAudioKey } from "maker/vocabulary_maker/compile/functions";
-import _ from "underscore";
-import { simplify } from "server/vocabulary/compile/simplify";
 import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
+import { content_folder } from "server/paths_backend";
+import { simplify } from "server/vocabulary/compile/simplify";
+import getSortKeys from "server/vocabulary/sortKeys";
+import _ from "underscore";
 
 export let _deck;
 

@@ -1,12 +1,7 @@
-import { log } from "app/app/functions/log";
-import {
-  getData,
-  getFrom,
-  getTermIds,
-} from "app/vocabulary/actions/card/card_data";
+import { getData, getFrom, getTermIds } from "app/vocabulary/actions/card/card_data";
 import { isNewCard } from "app/vocabulary/actions/card/card_schedule";
-import { BAD } from "app/vocabulary/constants";
 import CardInSession from "app/vocabulary/actions/cardInSession/index";
+import { BAD } from "app/vocabulary/constants";
 
 /**
  * @memberOf CardInSession#

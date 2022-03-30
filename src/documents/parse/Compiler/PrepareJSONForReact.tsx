@@ -1,11 +1,11 @@
 /**
  * Converts certain HTML attributes to React attributes
  */
+import inlineStyle2Json from "app/app/functions/inline-style-2-json";
+import { removeNulls } from "documents/parse/Compiler/2_CompileToHTML/Traverse";
+import isBooleanAttribute from "is-boolean-attribute";
 import React from "react";
 import convert from "react-attr-converter";
-import inlineStyle2Json from "app/app/functions/inline-style-2-json";
-import isBooleanAttribute from "is-boolean-attribute";
-import { removeNulls } from "documents/parse/Compiler/2_CompileToHTML/Traverse";
 
 const Traverse = (json) => {
   if (!json) return null;

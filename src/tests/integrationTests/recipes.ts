@@ -1,11 +1,11 @@
+import axios from "app/app/axios";
+import { eraseCookie } from "app/app/functions/cookie";
 import { updateURL } from "app/router/actions/updateURL";
 import { login, logout } from "app/user/actions";
 import { deck } from "app/vocabulary/actions/deck";
-import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
-import { eraseCookie } from "app/app/functions/cookie";
-import { assert, wait } from "tests/integrationTests/index";
 import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
-import axios from "app/app/axios";
+import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
+import { assert, wait } from "tests/integrationTests/index";
 
 /* 
   Various smaller recipes 

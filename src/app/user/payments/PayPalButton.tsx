@@ -1,9 +1,9 @@
-import React from "react";
-import { log } from "app/app/functions/log";
-import { continueAfterPaying, parsePrice } from "app/user/payments/actions";
 import { notify } from "app/app/error";
 import { isBrowser } from "app/app/functions/isBrowser";
+import { log } from "app/app/functions/log";
 import { updateURL } from "app/router/actions/updateURL";
+import { continueAfterPaying, parsePrice } from "app/user/payments/actions";
+import React from "react";
 
 let button;
 

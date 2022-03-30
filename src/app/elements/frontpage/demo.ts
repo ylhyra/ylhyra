@@ -1,6 +1,6 @@
-import showWord from "documents/read/actions/ShowWord";
-import reset from "documents/read/actions/Reset";
 import { isDev } from "app/app/functions/isDev";
+import reset from "documents/read/actions/Reset";
+import showWord from "documents/read/actions/ShowWord";
 
 /*
   Front page demo

@@ -6,7 +6,7 @@ export const Pool = ({ database, user, password }) =>
     user,
     password,
     connectionLimit: 10,
-    host: "localhost",
+    host: "127.0.0.1",
     debug: false,
     multipleStatements: true,
     charset: "utf8mb4_general_ci",

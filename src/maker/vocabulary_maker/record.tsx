@@ -1,13 +1,13 @@
-import React from "react";
-import { connect } from "react-redux";
-import { ReactMic } from "react-mic";
-import Sound from "react-sound";
 import axios from "axios";
+import { load } from "maker/vocabulary_maker/actions/initialize";
 import {
   getNextWordToRecord,
   saveSound,
 } from "maker/vocabulary_maker/actions/sound";
-import { load } from "maker/vocabulary_maker/actions/initialize";
+import React from "react";
+import { ReactMic } from "react-mic";
+import { connect } from "react-redux";
+import Sound from "react-sound";
 
 const START_LAG_IN_MILLISECONDS = 0;
 // const START_LAG_IN_MILLISECONDS = 100;

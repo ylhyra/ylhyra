@@ -3,8 +3,8 @@ import {
   types,
 } from "inflection/tables/classification/classification";
 import { sort_by_classification } from "inflection/tables/classification/sort_by_classification";
-import Word from "inflection/tables/word";
 import link from "inflection/tables/link";
+import Word from "inflection/tables/word";
 
 export default (rows, options, more_options /* todo: merge */) => {
   let give_me = options?.give_me;

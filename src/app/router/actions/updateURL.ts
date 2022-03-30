@@ -1,12 +1,12 @@
-import { URL_title } from "app/app/paths";
-import store from "app/app/store";
-import { app_urls } from "app/router/appUrls";
-import { abortAllThatAreNot, loadContent } from "app/router/actions/load";
-import { clear as ClearReadAlongSetup } from "documents/render/audio/ReadAlong";
 import Analytics from "app/app/analytics";
 import { isBrowser } from "app/app/functions/isBrowser";
-import { renderTitle } from "server/content/renderTitle";
+import { URL_title } from "app/app/paths";
+import store from "app/app/store";
 import { getFrontpageURL } from "app/router/actions/index";
+import { abortAllThatAreNot, loadContent } from "app/router/actions/load";
+import { app_urls } from "app/router/appUrls";
+import { clear as ClearReadAlongSetup } from "documents/render/audio/ReadAlong";
+import { renderTitle } from "server/content/renderTitle";
 
 export async function updateURL(url, options = {}) {
   let {

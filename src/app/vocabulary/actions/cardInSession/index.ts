@@ -1,12 +1,12 @@
+import { CardId } from "app/vocabulary/actions/card/types";
+import { getRanking } from "app/vocabulary/actions/cardInSession/getRanking";
 import { postponeRelatedCards } from "app/vocabulary/actions/cardInSession/postponeRelatedCards";
+import { rate } from "app/vocabulary/actions/cardInSession/rate";
 import {
   canBeShown,
   showIn,
 } from "app/vocabulary/actions/cardInSession/showIn";
-import { rate } from "app/vocabulary/actions/cardInSession/rate";
-import { getRanking } from "app/vocabulary/actions/cardInSession/getRanking";
 import Session from "app/vocabulary/actions/session";
-import { CardId } from "app/vocabulary/actions/card/types";
 import { rating } from "app/vocabulary/constants";
 
 class CardInSession {

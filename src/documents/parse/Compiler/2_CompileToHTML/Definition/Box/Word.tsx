@@ -1,6 +1,6 @@
-import React from "react";
 import exists from "app/app/functions/exists";
 import { ItalicsAndBold } from "documents/parse/Compiler/2_CompileToHTML/Definition/Tooltip";
+import React from "react";
 
 export default class WordBox extends React.PureComponent {
   render() {

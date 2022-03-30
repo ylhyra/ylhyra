@@ -1,7 +1,7 @@
+import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
 import { assert, notNull, shouldEqual } from "tests/integrationTests/index";
 import { run } from "tests/integrationTests/recipes";
-import { getEasinessLevel } from "app/vocabulary/actions/easinessLevel/functions";
 
 export default {
   "Progress saved upon signup": async () => {

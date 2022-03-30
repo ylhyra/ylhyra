@@ -1,9 +1,9 @@
+import demo, { turnOffDemonstration } from "app/elements/frontpage/demo";
+import Link from "app/router/Link";
+import { existsSchedule, isUserLoggedIn } from "app/user/actions";
+import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
 import React from "react";
 import { connect } from "react-redux";
-import Link from "app/router/Link";
-import { PercentageKnownOverall } from "app/vocabulary/actions/functions/percentageKnown";
-import { existsSchedule, isUserLoggedIn } from "app/user/actions";
-import demo, { turnOffDemonstration } from "app/elements/frontpage/demo";
 
 class Screen extends React.Component {
   componentDidMount() {

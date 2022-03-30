@@ -1,14 +1,14 @@
 import { minIgnoreFalsy, roundMsTo100Sec } from "app/app/functions/math";
 import { getTimeMemoized, minutes, Timestamp } from "app/app/functions/time";
 import { getTermIds } from "app/vocabulary/actions/card/card_data";
-import { deck } from "app/vocabulary/actions/deck";
 import {
   getAllCardIdsWithSameTerm,
   getAsCardInSession,
 } from "app/vocabulary/actions/card/card_siblings";
-import { saveScheduleForCardId } from "app/vocabulary/actions/userData/userDataSchedule";
 import { getCardIdsFromTermId } from "app/vocabulary/actions/card/term";
 import { CardId, ScheduleData } from "app/vocabulary/actions/card/types";
+import { deck } from "app/vocabulary/actions/deck";
+import { saveScheduleForCardId } from "app/vocabulary/actions/userData/userDataSchedule";
 import { GOOD } from "app/vocabulary/constants";
 
 export const getSchedule = (id: CardId): Partial<ScheduleData> | null => {

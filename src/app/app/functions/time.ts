@@ -1,6 +1,5 @@
 import { roundToInterval } from "app/app/functions/math";
 import { withPlural } from "app/app/functions/simplePlural";
-import { Brand } from "ts-brand";
 
 // export type Milliseconds = number & { Milliseconds: "Milliseconds" };
 export type Milliseconds = number; //Brand<number, "Milliseconds">;

@@ -1,5 +1,5 @@
-import React from "react";
 import { updateSentence } from "maker/editor/Translator/actions";
+import React from "react";
 import { connect } from "react-redux";
 import AutosizeTextarea from "react-textarea-autosize";
 

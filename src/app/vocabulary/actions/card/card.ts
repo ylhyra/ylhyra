@@ -1,9 +1,9 @@
-import { deck } from "app/vocabulary/actions/deck";
 import {
   hasDependenciesInCommonWith,
   hasTermsInCommonWith,
 } from "app/vocabulary/actions/card/card_dependencies";
 import { CardId, CardIds } from "app/vocabulary/actions/card/types";
+import { deck } from "app/vocabulary/actions/deck";
 
 export const clearMemoizations = (id: CardId) => {
   // ["isAllowed", "getTermLastSeen"].forEach((key) => {

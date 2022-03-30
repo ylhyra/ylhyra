@@ -1,9 +1,9 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
-import { URL_title } from "app/app/paths";
-import Transclude from "documents/compile/transclude";
-import { EncodeDataInHTML } from "documents/compile/functions/functions";
-import { parseVocabularyList } from "documents/compile/vocabulary";
 import { replaceAsync } from "app/app/functions/replaceAsync";
+import { URL_title } from "app/app/paths";
+import { EncodeDataInHTML } from "documents/compile/functions/functions";
+import Transclude from "documents/compile/transclude";
+import { parseVocabularyList } from "documents/compile/vocabulary";
 
 export default async (text) => {
   if (!/<TOC>/.test(text)) return text;

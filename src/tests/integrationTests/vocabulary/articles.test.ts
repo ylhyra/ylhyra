@@ -1,9 +1,9 @@
 import { deck } from "app/vocabulary/actions/deck";
-import { assert } from "tests/integrationTests/index";
 import {
   printWord,
   studyParticularIds,
 } from "app/vocabulary/actions/functions";
+import { assert } from "tests/integrationTests/index";
 import _ from "underscore";
 
 export default {

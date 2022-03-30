@@ -20,13 +20,10 @@ export const getDeckName = () => {
 };
 
 export const GetLowercaseStringForAudioKey = (i) => {
-  const string = getPlaintextFromVocabularyEntry(i)
-    .replace(/[.]+$/, "")
-    .toLowerCase();
-  return string;
+  return getPlaintextFromVocabularyEntry(i).replace(/[.]+$/, "").toLowerCase();
 };
 
-export const getHash = (input, options) => {
+export const getHash = (input, options?) => {
   if (!input) return null;
   if (Array.isArray(input)) {
     return getHash(input.map(getPlaintextFromVocabularyEntry).join(";"));
@@ -38,7 +35,8 @@ export const getHash = (input, options) => {
   // return string;
   if (
     options?.skip_hash ||
-    (isBrowser && (window.skip_hash || window.location.pathname === "/maker"))
+    (isBrowser &&
+      ("skip_hash" in window || window.location.pathname === "/maker"))
   ) {
     return string;
   }

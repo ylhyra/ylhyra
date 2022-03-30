@@ -1,6 +1,6 @@
+import { logShown } from "documents/read/actions/Reset";
 import FindAGoodPositionForTooltip from "documents/read/actions/TooltipPosition";
 import AudioClip from "documents/render/audio/AudioClip";
-import { logShown } from "documents/read/actions/Reset";
 
 /*
   Keep track of which ID is currently shown.

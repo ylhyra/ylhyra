@@ -1,5 +1,5 @@
-import { updateURL } from "app/router/actions/updateURL";
 import axios from "app/app/axios";
+import { updateURL } from "app/router/actions/updateURL";
 
 export const MIN_PRICE = 3;
 export const MAX_PRICE = 200;

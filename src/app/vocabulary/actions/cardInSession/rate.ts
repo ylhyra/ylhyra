@@ -1,13 +1,10 @@
+import { getFrom } from "app/vocabulary/actions/card/card_data";
+import { isBad } from "app/vocabulary/actions/card/card_difficulty";
+import { getSessionsSeen, isInSchedule } from "app/vocabulary/actions/card/card_schedule";
 import { addRelatedCardsToSession } from "app/vocabulary/actions/cardInSession/addRelatedCardsToSession";
+import CardInSession from "app/vocabulary/actions/cardInSession/index";
 import { keepTrackOfEasiness } from "app/vocabulary/actions/easinessLevel";
 import { BAD, EASY, GOOD } from "app/vocabulary/constants";
-import CardInSession from "app/vocabulary/actions/cardInSession/index";
-import {
-  getSessionsSeen,
-  isInSchedule,
-} from "app/vocabulary/actions/card/card_schedule";
-import { isBad } from "app/vocabulary/actions/card/card_difficulty";
-import { getFrom } from "app/vocabulary/actions/card/card_data";
 
 /**
  * @memberOf CardInSession#

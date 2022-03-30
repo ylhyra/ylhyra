@@ -1,8 +1,8 @@
-import _ from "underscore";
+import { sortByArray } from "app/app/functions/sortByArray";
 import store from "app/app/store";
 import isEmpty from "is-empty-object";
 import { send } from "maker/editor/web-socket";
-import { sortByArray } from "app/app/functions/sortByArray";
+import _ from "underscore";
 
 // import { saveEditor } from 'Editor/actions'
 

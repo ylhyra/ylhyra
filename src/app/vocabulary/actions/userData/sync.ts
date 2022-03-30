@@ -1,8 +1,8 @@
-import { deck } from "app/vocabulary/actions/deck";
-import { getFromLocalStorage } from "app/app/functions/localStorage";
-import { isUserLoggedIn } from "app/user/actions";
-import { log } from "app/app/functions/log";
 import axios from "app/app/axios";
+import { getFromLocalStorage } from "app/app/functions/localStorage";
+import { log } from "app/app/functions/log";
+import { isUserLoggedIn } from "app/user/actions";
+import { deck } from "app/vocabulary/actions/deck";
 import { saveUserDataInLocalStorage } from "app/vocabulary/actions/userData/userData";
 import { getScheduleFromUserData } from "app/vocabulary/actions/userData/userDataSchedule";
 import { clearOverview } from "app/vocabulary/elements/OverviewScreen/actions";
@@ -89,7 +89,7 @@ export const syncIfNecessary = async () => {
  * @param {object} options
  * @returns {UserDataRows}
  */
-const getUnsynced = (obj, options) => {
+const getUnsynced = (obj, options?) => {
   if (!obj) return {};
   const { syncEverything } = options;
   let to_save = {};

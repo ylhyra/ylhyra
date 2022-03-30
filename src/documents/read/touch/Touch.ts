@@ -4,11 +4,11 @@
      | | (_) | |_| | (__| | | |
      |_|\___/ \__,_|\___|_| |_| */
 
-import showWord from "documents/read/actions/ShowWord";
-import ResetTooltips from "documents/read/actions/Reset";
-import { highlightSentence } from "documents/read/actions/HighlightSentence";
-import { showSentence } from "documents/read/actions/ShowSentence";
 import { turnOffDemonstration } from "app/elements/frontpage/demo";
+import { highlightSentence } from "documents/read/actions/HighlightSentence";
+import ResetTooltips from "documents/read/actions/Reset";
+import { showSentence } from "documents/read/actions/ShowSentence";
+import showWord from "documents/read/actions/ShowWord";
 
 let startClickTime = null;
 let startLocation = null;

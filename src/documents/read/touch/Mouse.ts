@@ -4,11 +4,11 @@
    | |  | | (_) | |_| \__ \  __/
    |_|  |_|\___/ \__,_|___/\___| */
 
-import showWord from "documents/read/actions/ShowWord";
-import reset from "documents/read/actions/Reset";
-import { highlightSentence } from "documents/read/actions/HighlightSentence";
-import { showSentence } from "documents/read/actions/ShowSentence";
 import { turnOffDemonstration } from "app/elements/frontpage/demo";
+import { highlightSentence } from "documents/read/actions/HighlightSentence";
+import reset from "documents/read/actions/Reset";
+import { showSentence } from "documents/read/actions/ShowSentence";
+import showWord from "documents/read/actions/ShowWord";
 
 let lastId = null;
 let isSentenceBeingShown = false;

@@ -1,11 +1,11 @@
 import { clamp, mapValueToRange } from "app/app/functions/math";
-import { deck } from "app/vocabulary/actions/deck";
 import {
   getScore,
   getSessionsSeen,
   isInSchedule,
 } from "app/vocabulary/actions/card/card_schedule";
 import { CardIds } from "app/vocabulary/actions/card/types";
+import { deck } from "app/vocabulary/actions/deck";
 
 export const PercentageKnown = (card_ids: CardIds) => {
   if (!deck?.schedule) return 0;

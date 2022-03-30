@@ -1,18 +1,18 @@
 /*
 npm run links
 */
-// import urlSlug from 'src/app/App/functions/url-slug'
-import fs from "fs";
-
-import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
+import { getFilesRecursivelySync } from "app/app/functions/getFilesRecursivelySync";
 import removeUnwantedCharacters from "app/app/functions/languageProcessing/removeUnwantedCharacters";
 import { FileSafeTitle, URL_title } from "app/app/paths";
-import { content_folder } from "server/paths_backend";
-import { getFilesRecursivelySync } from "app/app/functions/getFilesRecursivelySync";
-import _ from "underscore";
 import { deck } from "app/vocabulary/actions/deck";
-import { initializeDeckFromFile } from "documents/compile/vocabulary/initializeDeckFromFile";
+
+import { ParseHeaderAndBody } from "documents/compile/functions/ParseHeaderAndBody";
 import { getCardIdsFromWords } from "documents/compile/vocabulary/getCardIdsFromWords";
+import { initializeDeckFromFile } from "documents/compile/vocabulary/initializeDeckFromFile";
+// import urlSlug from 'src/app/App/functions/url-slug'
+import fs from "fs";
+import { content_folder } from "server/paths_backend";
+import _ from "underscore";
 
 /**
  * @typedef LinkData

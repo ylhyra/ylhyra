@@ -1,6 +1,6 @@
-import React from "react";
-import GetTemplate from "documents/templates/_list";
 import Link from "app/router/Link";
+import GetTemplate from "documents/templates/_list";
+import React from "react";
 
 const Traverse = ({ json, data, index }) => {
   if (!json) return null;

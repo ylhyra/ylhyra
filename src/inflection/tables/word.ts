@@ -1,24 +1,24 @@
-import { FindIrregularities } from "inflection/tables/functions/irregularities";
-import { discardUnnecessaryForms } from "inflection/tables/functions/discard";
-import { flatten } from "lodash";
-import {
-  getHelperWordsAfter,
-  getHelperWordsBefore,
-} from "inflection/tables/functions/helperWords";
-import { getPrincipalParts } from "inflection/tables/functions/principalParts";
-import { getStem } from "inflection/tables/functions/stem";
+import { relevant_BIN_domains } from "inflection/tables/classification/BIN_classification";
 import {
   getTagInfo,
   normalizeTag,
   types,
 } from "inflection/tables/classification/classification";
+import { discardUnnecessaryForms } from "inflection/tables/functions/discard";
+import {
+  getHelperWordsAfter,
+  getHelperWordsBefore,
+} from "inflection/tables/functions/helperWords";
+import { FindIrregularities } from "inflection/tables/functions/irregularities";
+import { getPrincipalParts } from "inflection/tables/functions/principalParts";
+import { getStem } from "inflection/tables/functions/stem";
+import { isStrong, isWeak } from "inflection/tables/functions/strong";
 import { getWordDescription } from "inflection/tables/functions/wordDescription";
 import { getWordNotes } from "inflection/tables/functions/wordNotes";
-import { isStrong, isWeak } from "inflection/tables/functions/strong";
-import { relevant_BIN_domains } from "inflection/tables/classification/BIN_classification";
-import getSingleTable from "inflection/tables/tables_single";
 import getTables from "inflection/tables/tables_all";
+import getSingleTable from "inflection/tables/tables_single";
 import tree, { isNumber } from "inflection/tables/tree";
+import { flatten } from "lodash";
 
 class Word {
   /**

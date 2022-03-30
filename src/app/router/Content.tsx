@@ -1,9 +1,9 @@
-import React, { Component, Suspense } from "react";
-import NotFound from "documents/templates/404";
-import { connect } from "react-redux";
-import Render from "documents/render";
-import { isDev } from "app/app/functions/isDev";
 import { isBrowser } from "app/app/functions/isBrowser";
+import { isDev } from "app/app/functions/isDev";
+import Render from "documents/render";
+import NotFound from "documents/templates/404";
+import React, { Component, Suspense } from "react";
+import { connect } from "react-redux";
 
 const RenderEditor = React.lazy(() => import("maker/editor"));
 

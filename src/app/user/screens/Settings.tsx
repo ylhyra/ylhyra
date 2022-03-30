@@ -1,6 +1,6 @@
-import React from "react";
-import { logout } from "app/user/actions";
 import { updateURL } from "app/router/actions/updateURL";
+import { logout } from "app/user/actions";
+import React from "react";
 import { connect } from "react-redux";
 
 class Form2 extends React.Component {

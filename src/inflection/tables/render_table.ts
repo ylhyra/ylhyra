@@ -1,8 +1,8 @@
-import { flatten } from "lodash";
 import { removeHtmlWhitespace } from "app/app/functions/removeHtmlWhitespace";
 import { ucfirst } from "app/app/functions/ucfirst";
-import Word, { WordFromTree } from "inflection/tables/word";
 import link from "inflection/tables/link";
+import Word, { WordFromTree } from "inflection/tables/word";
+import { flatten } from "lodash";
 
 /*
   Wrapper for "RenderTable", creates two alternative versions of the input,
@@ -75,7 +75,7 @@ export default AlsoMakeTablesThatFitOnSmallScreens;
  *   }
  * @returns {string} HTML string
  */
-const RenderTable = (input, original_word, structure, highlight, options) => {
+const RenderTable = (input, original_word, structure, highlight, options?) => {
   const { column_names, row_names } = structure;
   let word;
   if (input instanceof Word) {
@@ -109,7 +109,7 @@ const RenderTable = (input, original_word, structure, highlight, options) => {
   return removeHtmlWhitespace(TableHTML(table, highlight, options));
 };
 
-const TableHTML = (rows, highlight = [], options) => {
+const TableHTML = (rows, highlight = [], options?) => {
   return `
     <table class="table">
       <tbody>
@@ -150,7 +150,7 @@ const TableHTML = (rows, highlight = [], options) => {
   `;
 };
 
-export const renderCell = (word, shouldHighlight, options) => {
+export const renderCell = (word, shouldHighlight, options?) => {
   /* No value */
   if (word.rows.length === 0) {
     return '<td colSpan="2">–</td>';

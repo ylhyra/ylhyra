@@ -1,12 +1,12 @@
-import fs from "fs";
-import path from "path";
+import hash from "app/app/functions/hash";
+import { isDev } from "app/app/functions/isDev";
 
 import generate_html from "documents/compile";
+import fs from "fs";
+import path from "path";
+import { cacheControl } from "server/caching";
 import { getValuesForURL } from "server/content/links";
 import { build_folder } from "server/paths_backend";
-import { isDev } from "app/app/functions/isDev";
-import hash from "app/app/functions/hash";
-import { cacheControl } from "server/caching";
 
 const router = require("express").Router({ strict: true });
 

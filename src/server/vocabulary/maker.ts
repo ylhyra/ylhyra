@@ -1,7 +1,7 @@
+import { removeExtraWhitespace } from "app/app/functions/removeExtraWhitespace";
+import { row_titles } from "maker/vocabulary_maker/compile/rowTitles";
 import { content_folder } from "server/paths_backend";
 import _ from "underscore";
-import { row_titles } from "maker/vocabulary_maker/compile/rowTitles";
-import { removeExtraWhitespace } from "app/app/functions/removeExtraWhitespace";
 
 const router = require("express").Router();
 const fs = require("fs");

@@ -1,16 +1,15 @@
-import { connect } from "react-redux";
-import React from "react";
-import { existsSchedule, login } from "app/user/actions";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
-import { ErrorMessage, Field, Form, Formik } from "formik";
 import errors from "app/app/error/messages";
-import { countTermsInSchedule } from "app/vocabulary/actions/functions";
 import { withPlural } from "app/app/functions/simplePlural";
+import { existsSchedule, login } from "app/user/actions";
+import { countTermsInSchedule } from "app/vocabulary/actions/functions";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import React from "react";
+import { connect } from "react-redux";
 
 class Form2 extends React.Component {
   constructor(props) {
     super(props);
-    this.captcha_element = React.createRef();
+    // this.captcha_element = React.createRef();
     this.state = {
       step: 1,
       type: this.props.type, // Either "signup" or "login"
@@ -153,19 +152,19 @@ class Form2 extends React.Component {
               {!isSubmitting && error}
               {message}
 
-              {process.env.REACT_APP_HCAPTCHA_SITEKEY && (
-                <HCaptcha
-                  size="invisible"
-                  ref={parent.captcha_element}
-                  sitekey={process.env.REACT_APP_HCAPTCHA_SITEKEY}
-                  onVerify={(value) => {
-                    parent.setState({ captcha_token: value });
-                    if (parent.state.awaitingCaptcha) {
-                      parent.submit({});
-                    }
-                  }}
-                />
-              )}
+              {/*{process.env.REACT_APP_HCAPTCHA_SITEKEY && (*/}
+              {/*  <HCaptcha*/}
+              {/*    size="invisible"*/}
+              {/*    ref={parent.captcha_element}*/}
+              {/*    sitekey={process.env.REACT_APP_HCAPTCHA_SITEKEY}*/}
+              {/*    onVerify={(value) => {*/}
+              {/*      parent.setState({ captcha_token: value });*/}
+              {/*      if (parent.state.awaitingCaptcha) {*/}
+              {/*        parent.submit({});*/}
+              {/*      }*/}
+              {/*    }}*/}
+              {/*  />*/}
+              {/*)}*/}
 
               <button type="submit" className="big" disabled={isSubmitting}>
                 {isSignup ? "Continue" : "Log in"}

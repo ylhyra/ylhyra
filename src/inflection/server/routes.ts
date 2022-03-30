@@ -5,13 +5,13 @@
   For that reason, the "Search" and "Get_by_id" functions are passed as parameters.
 
 */
-import { cacheControl } from "server/caching";
 import cors from "cors";
 import express from "express";
+import withLicense from "inflection/server/server-with-database/license";
 import layout from "inflection/server/views/layout";
 import render from "inflection/tables";
 import tree from "inflection/tables/tree";
-import withLicense from "inflection/server/server-with-database/license";
+import { cacheControl } from "server/caching";
 
 const router = express.Router();
 
