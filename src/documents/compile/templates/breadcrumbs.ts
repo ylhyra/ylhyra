@@ -1,9 +1,10 @@
 import c from "app/app/functions/no-undefined-in-template-literal";
 import { section_id, URL_title } from "app/app/paths";
-import { getOrder } from "documents/compile/templates/getOrderOfChapters";
+import { getOrderOfChapters } from "documents/compile/templates/getOrderOfChapters";
 import { getValuesForURL } from "server/content/links";
+import { HeaderData } from "documents/compile/functions/ParseHeaderAndBody";
 
-export const breadcrumbs = async (header) => {
+export const breadcrumbs = async (header: HeaderData) => {
   if (!header.title) return;
 
   const parts = header.title.split(/\//g);
@@ -29,7 +30,7 @@ export const breadcrumbs = async (header) => {
   }
 
   if (header.title.startsWith("Course/")) {
-    const url_to_unit = await getOrder(false, true);
+    const url_to_unit = await getOrderOfChapters(false, true);
     if (v.url in url_to_unit) {
       const n = `Unit ${url_to_unit[v.url]}`;
       parts.splice(1, 0, `<a href="/course#${section_id(n)}">${n}</a>`);

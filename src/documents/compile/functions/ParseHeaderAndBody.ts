@@ -9,8 +9,11 @@ export type HeaderData = {
   license?: string;
   vocabulary?: string[];
   redirects?: string[];
+  published?: boolean;
   /** Added later */
   has_data?: Boolean;
+  reflist?: string;
+  classes?: string[];
 };
 
 export const ParseHeaderAndBody = (

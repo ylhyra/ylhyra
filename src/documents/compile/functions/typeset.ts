@@ -7,7 +7,7 @@ const entities = new Entities();
 */
 export default (input: string) => {
   const split = input.split(/(<[\s\S]+?>)/g);
-  let tmp = split
+  let output = split
     .map((t, index) => {
       if (index % 2 === 0) {
         return entities.decode(t);
@@ -15,8 +15,8 @@ export default (input: string) => {
       return `SUBSTITUTION${index}%`;
     })
     .join("");
-  // console.log(tmp);
-  tmp = tmp
+
+  output = output
     // Curly quotes
     .replace(/"([^"]*)"/g, `“$1”`)
     // Spacing around plusses
@@ -28,14 +28,19 @@ export default (input: string) => {
     // Spacing around "/"
     .replace(/ \/ /g, `\u2006<span class="darkgray">/</span>\u2006`);
 
-  return tmp
+  output = output
     .split(/(SUBSTITUTION[0-9]+%)/g)
     .map((j) => {
       if (j.startsWith("SUBSTITUTION")) {
         const x = j.match(/SUBSTITUTION([0-9]+)%/)?.[1];
-        return split[parseInt(x)];
+        return x && split[parseInt(x)];
       }
       return j;
     })
     .join("");
+
+  if (output.includes("SUBSTITUTION")) {
+    throw new Error(`Unable to process: ${output}`);
+  }
+  return output;
 };

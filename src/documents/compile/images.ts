@@ -7,7 +7,7 @@ import { links } from "server/content/loadLinks";
 import { image_output_folder } from "server/paths_backend";
 import _ from "underscore";
 
-const Images = (data) => {
+const Images = (data: string): Promise<string> => {
   return new Promise(async (resolve) => {
     let input = [];
     let output = [];
@@ -31,7 +31,7 @@ const Images = (data) => {
           console.log(filename_ + " file type not yet supported");
           output.push("");
           // output.push(`<img src=""/>`)
-          return resolve2();
+          return resolve2(true);
         }
         // console.log(rest)
         if (!(URL_title("File:" + filename_) in links)) {

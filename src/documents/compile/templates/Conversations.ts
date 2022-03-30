@@ -1,8 +1,9 @@
 import { json2html } from "app/app/functions/html2json";
 import c from "app/app/functions/no-undefined-in-template-literal";
 import markdown_to_html from "documents/compile/markdown_to_html";
+import { HtmlAsJson } from "app/app/functions/html2json/types";
 
-export default (json) => {
+export default (json: HtmlAsJson) => {
   let text = json2html(json);
   let output = "";
   text.replace(/^(me|you): (.+)$/gm, (x, speaker, message) => {

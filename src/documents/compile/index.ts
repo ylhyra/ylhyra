@@ -2,20 +2,20 @@ import images from "documents/compile/images";
 import markdown_to_html from "documents/compile/markdown_to_html";
 import WithHeaderAndFooter from "documents/compile/templates/HeaderAndFooter";
 import inflection from "documents/compile/templates/inflection";
-import { Ref } from "documents/compile/templates/Ref";
+import { References } from "documents/compile/templates/References";
 import Sections from "documents/compile/templates/Sections";
 import Table from "documents/compile/templates/Table";
 import TranscludeFromTitle from "documents/compile/transclude";
 
-export default async (title) => {
+export default async function generateHtml(title: string) {
   let { output, header } = await TranscludeFromTitle(title);
   if (!output) {
     console.log(`\n"${title}" has no body`);
-    return {};
+    return { content: "" };
   }
-  output = Table(output, header);
+  output = Table(output);
   output = Sections(output, header);
-  const t = Ref(output, header);
+  const t = References(output, header);
   output = t.output;
   header = t.header;
   output = await images(output);
@@ -32,6 +32,5 @@ export default async (title) => {
     }
   }
 
-  // console.log(output)
   return { content: output, header };
-};
+}

@@ -1,39 +1,42 @@
-import generate_html from "documents/compile";
+import generateHtml from "documents/compile";
 import { getValuesForURL } from "server/content/links";
 
 let cachedUrlOrder;
 
-export const getOrder = async (withDepth, return_unit_to_url) => {
-  if (cachedUrlOrder && !withDepth && !return_unit_to_url)
-    return cachedUrlOrder;
-  const { content } = await generate_html("course");
+export const getOrderOfChapters = async (withDepth?, returnUnitToUrl?) => {
+  if (cachedUrlOrder && !withDepth && !returnUnitToUrl) return cachedUrlOrder;
+  const { content } = await generateHtml("course");
   let currentUnit = 0;
   let index = 1;
-  let urls = [];
-  let units_to_url = [];
-  let url_to_unit = {};
-  content.replace(/(?:Unit (\d+)|chapter_url="(.+?)")/g, (x, unit, _url) => {
-    if (unit) {
-      currentUnit = unit;
-      index = 1;
-      return;
+  let urls: string[] = [];
+  let unitsToUrl: Array<{ unit: number; prefix: number; url: string }> = [];
+  let urlToUnit = {};
+  content.replace(
+    /(?:Unit (\d+)|chapter_url="(.+?)")/g,
+    (x: string, unit: string, _url: string) => {
+      if (unit) {
+        currentUnit = unit;
+        index = 1;
+        return "";
+      }
+      const { url } = getValuesForURL(_url);
+      if (!url) return "";
+      urls.push(url);
+      unitsToUrl.push({
+        unit: currentUnit,
+        prefix: index++,
+        url,
+      });
+      urlToUnit[url] = currentUnit;
+      return "";
     }
-    const { url } = getValuesForURL(_url);
-    if (!url) return;
-    urls.push(url);
-    units_to_url.push({
-      unit: currentUnit,
-      prefix: index++,
-      url,
-    });
-    url_to_unit[url] = currentUnit;
-  });
+  );
   cachedUrlOrder = urls;
   if (withDepth) {
-    return units_to_url;
+    return unitsToUrl;
   }
-  if (return_unit_to_url) {
-    return url_to_unit;
+  if (returnUnitToUrl) {
+    return urlToUnit;
   }
   return cachedUrlOrder;
 };

@@ -3,16 +3,16 @@ import { URL_title } from "app/app/paths";
 import { encodeDataInHtml } from "documents/compile/functions/functions";
 import markdown_to_html from "documents/compile/markdown_to_html";
 import { breadcrumbs } from "documents/compile/templates/breadcrumbs";
-import { getOrder } from "documents/compile/templates/getOrderOfChapters";
+import { getOrderOfChapters } from "documents/compile/templates/getOrderOfChapters";
 import { parseVocabularyList } from "documents/compile/vocabulary";
+import { HeaderData } from "documents/compile/functions/ParseHeaderAndBody";
 
-export default async (input, header) => {
+export default async (input: string, header: HeaderData) => {
   let h = "";
   let f = "";
-  // console.log(header.vocabulary);
-  const vocabulary_data = parseVocabularyList(header.vocabulary);
-  const VocabularyHeader = vocabulary_data
-    ? `<vocabularyheader data="${encodeDataInHtml(vocabulary_data)}"/>`
+  const vocabularyData = parseVocabularyList(header.vocabulary);
+  const VocabularyHeader = vocabularyData
+    ? `<vocabularyheader data="${encodeDataInHtml(vocabularyData)}"/>`
     : "";
   const _breadcrumbs = await breadcrumbs(header);
 
@@ -21,7 +21,7 @@ export default async (input, header) => {
     !header.title.startsWith("Course/") &&
     (header.has_data || input.length > 4000);
 
-  if (true || vocabulary_data || header.level || header.has_data) {
+  if (true || vocabularyData || header.level || header.has_data) {
     h = c`
       <section class="tiny wide">
         ${
@@ -63,7 +63,7 @@ export default async (input, header) => {
   /* Automatic prev and next for course articles */
   const url = URL_title(header.title);
   if (header.title !== "Course") {
-    const order = await getOrder();
+    const order = await getOrderOfChapters();
     if (order.includes(url)) {
       const i = order.indexOf(url);
       const prev = i >= 0 && order[i - 1];
