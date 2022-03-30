@@ -1,11 +1,4 @@
-/*
-
- __        __                  _          _
- \ \      / / __ __ _ _ __    (_)_ __    | |_ __ _  __ _ ___
-  \ \ /\ / / '__/ _` | '_ \   | | '_ \   | __/ _` |/ _` / __|
-   \ V  V /| | | (_| | |_) |  | | | | |  | || (_| | (_| \__ \
-    \_/\_/ |_|  \__,_| .__/   |_|_| |_|   \__\__,_|\__, |___/
-                     |_|                           |___/
+/**
 
  1. Parses input
  2. Loops over tokenization
@@ -34,6 +27,7 @@ import { newTitle } from "documents/parse/ExtractData";
 import { getTextFromJson } from "documents/parse/ExtractText/ExtractText";
 import groupParagraphs from "documents/parse/ExtractText/Paragraphs";
 import {
+  ArrayOfEitherSentencesOrWords,
   DocumentTitleToTokenizedParagraphsWithIds,
   TokenizedFlattenedForWrapInTags,
   TokenizedParagraphWithIds,
@@ -56,14 +50,14 @@ export default function (
   */
   let tokenizedFlattened: TokenizedFlattenedForWrapInTags = [];
   for (const documentTitle of Object.keys(tokenized)) {
-    for (const i of Object.keys(tokenized[documentTitle])) {
-      if (!tokenized[documentTitle].hasOwnProperty(i)) continue;
+    for (const paragraph of tokenized[documentTitle]) {
       tokenizedFlattened.push({
         documentTitle,
-        ...tokenized[documentTitle][i],
+        ...paragraph,
       });
     }
   }
+  // @ts-ignore
   tokenizedFlattened = tokenizedFlattened.sort((a, b) => a.index - b.index);
 
   let index = 0;
@@ -90,16 +84,16 @@ export default function (
   Extract sentences from paragraph
 */
 const Sentences = (
-  paragraph_HTML: HtmlAsJson,
+  paragraph_HTML: HtmlAsJson[],
   sentences: TokenizedParagraphWithIds["sentences"]
-): HtmlAsJson => {
+): HtmlAsJson[] => {
   /*
     Extract words from sentence
     (Creates a function that will be called in "WrapInTags.js")
   */
   let i = 0;
 
-  function Words(sentence_HTML: HtmlAsJson) {
+  function Words(sentence_HTML: HtmlAsJson[]) {
     const words = sentences[i++].words;
     return WrapInTags(sentence_HTML, words, "word");
   }
@@ -109,13 +103,11 @@ const Sentences = (
 };
 
 const WrapInTags = (
-  input: HtmlAsJson,
-  tokenizedSplit:
-    | TokenizedParagraphWithIds["sentences"]
-    | TokenizedParagraphWithIds["sentences"][number]["words"],
+  input: HtmlAsJson[],
+  tokenizedSplit: ArrayOfEitherSentencesOrWords,
   elementName: "sentence" | "word",
   innerFunction?: Function
-): HtmlAsJson => {
+): HtmlAsJson[] => {
   const tempAttributeName = innerFunction ? `data-temp-id` : `data-temp-id2`;
 
   if (!tokenizedSplit || tokenizedSplit.length === 0) {
@@ -134,7 +126,7 @@ const WrapInTags = (
   /* TODO: Þetta virkar ekki rétt, sjá "krók og kima" á http://localhost:3000/bl%C3%A6r/silfursvanurinn/3 */
   json = InvertElementsThatOnlyContainOneThing(json);
   json = MergeElementsThatHaveBeenSplitUnnecessarily(json, tempAttributeName);
-  return json;
+  return [json];
 };
 
 /*
@@ -148,7 +140,7 @@ const removeInlineData = (input: HtmlAsJson): HtmlAsJson => {
   const { node, attr, child } = input;
   if (node === "element" || node === "root") {
     if (attr && (attr["data-document-start"] || attr["data-document-end"])) {
-      return { node: "text", text: "", tag: "", attr: {} }; // Hlýtur að vera til betri leið til að henda út greinum...
+      return { node: "text", text: "" }; // Hlýtur að vera til betri leið til að henda út greinum...
     }
     if (child) {
       return {

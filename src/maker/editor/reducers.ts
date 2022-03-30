@@ -6,6 +6,7 @@ import short_audio from "maker/editor/Short_audio/reducers";
 import { analysis, suggestions } from "maker/editor/Suggestions/reducers";
 import { selected, translation } from "maker/editor/Translator/reducers";
 import { combineReducers } from "redux";
+import { ListData } from "documents/parse/types";
 
 let autosave;
 if (typeof window !== "undefined") {
@@ -42,7 +43,7 @@ const tokenized = (state = [], action) => {
   }
 };
 
-const list = (state = {}, action) => {
+const list = (state: ListData | {} = {}, action) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       if (action.currentDocument) {

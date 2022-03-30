@@ -1,4 +1,6 @@
 /*
+  TODO: Ég held að þetta sé ekki lengur í notkun
+
   A poor man's parser that uses HTML data attr tags
   to convert HTML into an object.
 

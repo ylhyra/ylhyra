@@ -66,10 +66,13 @@ export type TokenizedParagraphsWithIds = Array<TokenizedParagraphWithIds>;
 export type DocumentTitleToTokenizedParagraphsWithIds = {
   [documentTitle: string]: TokenizedParagraphsWithIds;
 };
+export type ArrayOfEitherSentencesOrWords =
+  | TokenizedParagraphWithIds["sentences"]
+  | TokenizedParagraphWithIds["sentences"][number]["words"];
 
 export type TokenizedFlattenedForWrapInTags = Array<
   {
     documentTitle: string;
-    index: number; // Needed here since index is optional on TokenizedParagraphWithIds
+    // index: number; // Needed here since index is optional on TokenizedParagraphWithIds
   } & TokenizedParagraphWithIds
 >;

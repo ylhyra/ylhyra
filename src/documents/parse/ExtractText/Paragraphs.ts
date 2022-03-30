@@ -31,7 +31,7 @@ const groupParagraphs = ({
   paragraphCallback: (
     group: HtmlAsJson[],
     documentTitle: string
-  ) => HtmlAsJson[] | undefined;
+  ) => HtmlAsJson[] | void;
 }): HtmlAsJson => {
   if (!input || shouldSkip(input)) return input;
   if (input.child) {
@@ -138,7 +138,7 @@ export const fnShouldTranslate = (
   return isTranslating;
 };
 
-export const isInlineElement = (tag: string) => {
+export const isInlineElement = (tag: string | undefined) => {
   if (!tag || typeof tag !== "string") {
     return false;
   }

@@ -1,5 +1,8 @@
 import { html2json, json2html } from "app/app/functions/html2json";
-import { TokenizedParagraphWithIds } from "documents/parse/types";
+import {
+  ArrayOfEitherSentencesOrWords,
+  TokenizedParagraphWithIds,
+} from "documents/parse/types";
 import { HtmlAsJson } from "app/app/functions/html2json/types";
 import { TEMPORARY_SPLIT_MARKER } from "documents/parse/WrapInTags/1-InsertSplit";
 
@@ -12,9 +15,7 @@ import { TEMPORARY_SPLIT_MARKER } from "documents/parse/WrapInTags/1-InsertSplit
 
 export default function (
   html: string,
-  tokenizedSplit:
-    | TokenizedParagraphWithIds["sentences"]
-    | TokenizedParagraphWithIds["sentences"][number]["words"],
+  tokenizedSplit: ArrayOfEitherSentencesOrWords,
   elementName: "sentence" | "word",
   innerFunction: Function | undefined,
   temp_attribute_name: string
@@ -71,15 +72,12 @@ export default function (
           returns += `</${e.match(/<([^ ]+)/)?.[1]}>`;
         });
 
-      const id =
-        typeof tokenizedSplit[index] !== "string" && tokenizedSplit[index].id;
+      const item = tokenizedSplit[index];
+      const id = typeof item !== "string" && item.id;
 
       /*
         Empty data, punctuation, or empty tags
       */
-      // if (!/[A-zÀ-ÿ0-9]/.test(returns.replace(/(<[^>]*>)/g, ''))) {
-      //   return returns;
-      // }
       if (!id) {
         return returns;
       }

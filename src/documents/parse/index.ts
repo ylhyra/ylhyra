@@ -50,7 +50,7 @@ export default ({ html }: { html: string }) => {
     let compiled = Compiler({ json: wrapped, data: flattenedData });
 
     return {
-      parsed: compiled, // JSON object
+      parsed: compiled,
       tokenized,
       data,
       flattenedData,

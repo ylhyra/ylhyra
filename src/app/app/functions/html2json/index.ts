@@ -133,7 +133,7 @@ export const html2json = function html2json(html: string): HtmlAsJson {
   return results;
 };
 
-export const json2html = function json2html(json) {
+export const json2html = function json2html(json: HtmlAsJson): string {
   // Empty Elements - HTML 4.01
   var empty = [
     "area",

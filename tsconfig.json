@@ -11,9 +11,9 @@
     "module": "commonjs",
     "outDir": "build/ts",
     "esModuleInterop": true,
-    "isolatedModules": false,
+    "isolatedModules": false
     //    "lib": ["ES2020", "dom"],
-    "strict": true
+    //    "strict": true
   },
   "compileOnSave": true
 }
