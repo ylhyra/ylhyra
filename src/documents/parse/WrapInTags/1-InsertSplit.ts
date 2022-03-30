@@ -1,4 +1,5 @@
 import { json2html } from "app/app/functions/html2json";
+import { HtmlAsJson } from "app/app/functions/html2json/types";
 // import SplitIntoUnicodeCharacters from './helpers/runes'
 // import { getTextFromTokenized } from 'server/api/translate/tokenizer/create-ids'
 
@@ -8,7 +9,7 @@ import { json2html } from "app/app/functions/html2json";
   Adds "{{SPLIT HERE}}" in the tree
 */
 
-export default function (input, tokenizedSplit) {
+export default function (input: HtmlAsJson, tokenizedSplit): string {
   // Turn tokenized data into an array of text
   const array = tokenizedSplit.map(getTextFromTokenized);
 

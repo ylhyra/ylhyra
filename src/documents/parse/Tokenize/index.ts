@@ -5,22 +5,24 @@ import tokenizer from "documents/parse/Tokenize/Tokenizer";
 import {
   DocumentTitleToArrayOfRawText,
   DocumentTitleToFlattenedData,
+  DocumentTitleToTokenizedParagraphsWithIds,
   FlattenedData,
   ParagraphsWithHash,
   RawTokenizedParagraphs,
+  TokenizedParagraphsWithIds,
 } from "documents/parse/types";
 import _ from "underscore";
 
 export default function (
   documents: DocumentTitleToArrayOfRawText,
   data: DocumentTitleToFlattenedData
-) {
+): DocumentTitleToTokenizedParagraphsWithIds {
   let tokenized = {};
   for (const documentTitle of Object.keys(documents)) {
     tokenized[documentTitle] = tokenizeDocument({
       documentTitle,
       paragraphs: documents[documentTitle],
-      previousData: data[documentTitle] || {},
+      previousData: data[documentTitle] || ({} as FlattenedData),
     });
   }
   return tokenized;
@@ -33,58 +35,63 @@ const tokenizeDocument = ({
 }: {
   documentTitle: string;
   paragraphs: ParagraphsWithHash;
-  previousData: FlattenedData | {};
+  previousData: FlattenedData;
 }) => {
   const oldHashes = previousData.tokenized?.map((p) => p.hash) || [];
 
   /*
-    We do not want to unnecessarily recalculate tokenization.
+    Step 1: Tokenize all paragraphs that don't already have a tokenization saved
   */
   const paragraphsMissingTokenization = _.uniq(
     paragraphs.filter((p) => !oldHashes.includes(p.hash))
   );
-
-  let tokenized: RawTokenizedParagraphs = tokenizer(
+  let tokenizedRaw: RawTokenizedParagraphs = tokenizer(
     paragraphsMissingTokenization
   );
 
   /*
-    Since we only calculated tokenization for things that have changed,
-    here we merge the output with previously calculated tokenizations.
+    Step 2: Merge the new tokenizations with the previously calculated ones.
+    We make sure to maintain the `index` order that already exists on the paragraph.
   */
   const arrayOfNewAndOldTokenizations = [
     ...(previousData.tokenized || []), // Previous tokenization
-    ...tokenized, // New tokenization
+    ...tokenizedRaw, // New tokenization
   ];
-  tokenized = paragraphs.map((p) => {
+  tokenizedRaw = paragraphs.map((p) => {
     return {
       ...arrayOfNewAndOldTokenizations.find((i) => i.hash === p.hash),
       index: p.index,
     };
-  });
-  tokenized = CreateIDs(documentTitle, tokenized);
+  }) as RawTokenizedParagraphs;
+
+  let tokenizedWithIds: TokenizedParagraphsWithIds = CreateIDs(
+    documentTitle,
+    tokenizedRaw
+  );
   if (previousData.tokenized) {
-    tokenized = PreserveIDs(previousData.tokenized, tokenized);
+    tokenizedWithIds = PreserveIDs(previousData.tokenized, tokenizedWithIds);
   }
 
   /*
     "Paragraph" currently only contains a hash of the text.
     Here we add a hash of the IDs
   */
-  tokenized = tokenized.map((paragraph) => ({
+  tokenizedWithIds = tokenizedWithIds.map((paragraph) => ({
     ...paragraph,
     hashOfIds: hashOfIds(paragraph),
   }));
 
-  return tokenized;
+  return tokenizedWithIds;
 };
 
-const hashOfIds = (paragraph) => {
+const hashOfIds = (paragraph: TokenizedParagraphsWithIds[number]) => {
   let ids = [];
   paragraph.sentences.forEach((sentence) => {
     ids.push(sentence.id);
     sentence.words.forEach((word) => {
-      ids.push(word.id);
+      if (typeof word !== "string") {
+        ids.push(word.id);
+      }
     });
   });
   return hash(ids);

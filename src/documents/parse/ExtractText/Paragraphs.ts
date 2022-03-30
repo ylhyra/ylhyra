@@ -1,28 +1,23 @@
-/*
-  ____                                       _
- |  _ \ __ _ _ __ __ _  __ _ _ __ __ _ _ __ | |__  ___
- | |_) / _` | '__/ _` |/ _` | '__/ _` | '_ \| '_ \/ __|
- |  __/ (_| | | | (_| | (_| | | | (_| | |_) | | | \__ \
- |_|   \__,_|_|  \__,_|\__, |_|  \__,_| .__/|_| |_|___/
-                       |___/          |_|
-
+/**
 - Groups paragraphs together
 - Then sends these grouped paragraphs to the inputted "paragraphCallback".
 - Returns a JSON tree of the entire document.
-
 */
 import { HtmlAsJson } from "app/app/functions/html2json/types";
 import lastInArray from "app/app/functions/lastInArray";
 import { newTitle } from "documents/parse/ExtractData";
 
 /** TODO! This should not be global!! */
-let documents = [];
+let documents: string[] = [];
 
 /**
   - Finds paragraphs of text.
   - Groups sequences of text and inline elements together.
   - This allows us to split sentences without giving a thought about how HTML tags affect it.
   - Block elements make us switch to a new paragraph.
+
+  Note:
+  - WrapInTags relies on returns, while ExtractText does not
 */
 const groupParagraphs = ({
   input,
@@ -33,8 +28,11 @@ const groupParagraphs = ({
   input: HtmlAsJson;
   getNewTitle: newTitle;
   isTranslating?: Boolean;
-  paragraphCallback: (group: HtmlAsJson[], documentTitle: string) => void;
-}) => {
+  paragraphCallback: (
+    group: HtmlAsJson[],
+    documentTitle: string
+  ) => HtmlAsJson[] | undefined;
+}): HtmlAsJson => {
   if (!input || shouldSkip(input)) return input;
   if (input.child) {
     /*
@@ -42,7 +40,7 @@ const groupParagraphs = ({
       We group together inline elements before splitting into
       sentences so that "Blah <i>blah</i> blah." will be assessed together.
     */
-    let returns: (HtmlAsJson | {})[] = [];
+    let returns: HtmlAsJson[] = [];
     let group: HtmlAsJson[] = [];
     for (let i = 0; i < input.child.length; i++) {
       let isNewDocument = false;
@@ -79,10 +77,12 @@ const groupParagraphs = ({
         /*
           Else, our grouping is finished
         */
-        isTranslating && paragraphCallback(group, lastInArray(documents));
         returns = [
           ...returns,
-          ...(isTranslating ? [] : group),
+          /* Todo: Very confusing spaghetti-code callback */
+          ...(isTranslating
+            ? paragraphCallback(group, lastInArray(documents)) || []
+            : group),
           groupParagraphs({
             input: element,
             paragraphCallback,
@@ -93,10 +93,15 @@ const groupParagraphs = ({
         group = [];
       }
     }
-    isTranslating && paragraphCallback(group, lastInArray(documents));
     return {
       ...input,
-      child: [...returns, ...(isTranslating ? [] : group)],
+      child: [
+        ...returns,
+        /* Todo: Very confusing spaghetti-code callback */
+        ...(isTranslating
+          ? paragraphCallback(group, lastInArray(documents)) || []
+          : group),
+      ],
     };
   }
   return input;
@@ -104,7 +109,7 @@ const groupParagraphs = ({
 
 export const fnShouldTranslate = (
   { tag, attr }: Partial<HtmlAsJson>,
-  isTranslating: Boolean
+  isTranslating?: Boolean
 ) => {
   if (tag && ["translate", "book"].includes(tag.toLowerCase())) {
     return true;
@@ -165,8 +170,8 @@ export const isInlineElement = (tag: string) => {
 };
 
 /* Block elements to skip */
-export const shouldSkip = ({ tag, attr }) => {
-  if (!tag || typeof tag !== "string") {
+export const shouldSkip = ({ tag, attr }: HtmlAsJson) => {
+  if (!tag) {
     return false;
   }
   if (attr?.class === "instructions" || tag === "answers") {

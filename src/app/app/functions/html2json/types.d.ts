@@ -4,6 +4,6 @@ export type HtmlAsJson = {
   attr: {
     [key: string]: string;
   };
-  child: HtmlAsJson[];
+  child?: HtmlAsJson[];
   text?: string;
 };

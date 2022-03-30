@@ -7,6 +7,8 @@ export type FlattenedData = {
     wordID_to_text: {};
   };
   long_audio: {};
+
+  tokenized?: TokenizedParagraphsWithIds;
 };
 
 export type DocumentTitleToFlattenedData = {
@@ -45,7 +47,7 @@ export type RawTokenizedParagraphs = Array<{
   sentences: Array<Array<string>>;
 }>;
 
-export type TokenizedParagraphsWithIds = Array<{
+export type TokenizedParagraphWithIds = {
   index?: number;
   hash: string;
   sentences: Array<{
@@ -59,4 +61,15 @@ export type TokenizedParagraphsWithIds = Array<{
       | string
     >;
   }>;
-}>;
+};
+export type TokenizedParagraphsWithIds = Array<TokenizedParagraphWithIds>;
+export type DocumentTitleToTokenizedParagraphsWithIds = {
+  [documentTitle: string]: TokenizedParagraphsWithIds;
+};
+
+export type TokenizedFlattenedForWrapInTags = Array<
+  {
+    documentTitle: string;
+    index: number; // Needed here since index is optional on TokenizedParagraphWithIds
+  } & TokenizedParagraphWithIds
+>;

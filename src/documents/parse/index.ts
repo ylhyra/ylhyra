@@ -46,7 +46,7 @@ export default ({ html }: { html: string }) => {
       Merge tokenization and HTML (does not include data).
       Returns wrapped HTML without data
     */
-    const wrapped = WrapInTags({ json, tokenized });
+    const wrapped = WrapInTags(json, tokenized);
     let compiled = Compiler({ json: wrapped, data: flattenedData });
 
     return {

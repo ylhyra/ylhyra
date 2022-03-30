@@ -35,7 +35,7 @@ module.exports = {
         "require-await": "warn",
         "@typescript-eslint/require-await": "warn",
         "@typescript-eslint/restrict-plus-operands": "warn",
-        "@typescript-eslint/restrict-template-expressions": "warn",
+        // "@typescript-eslint/restrict-template-expressions": "warn",
         "@typescript-eslint/await-thenable": "warn",
         "no-invalid-this": "off",
         "@typescript-eslint/no-invalid-this": ["warn"],

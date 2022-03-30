@@ -29,9 +29,14 @@
   order to encapsulate the text into <sentence/> tags.
 
 */
+import { HtmlAsJson } from "app/app/functions/html2json/types";
 import { newTitle } from "documents/parse/ExtractData";
 import { getTextFromJson } from "documents/parse/ExtractText/ExtractText";
 import groupParagraphs from "documents/parse/ExtractText/Paragraphs";
+import {
+  DocumentTitleToTokenizedParagraphsWithIds,
+  TokenizedFlattenedForWrapInTags,
+} from "documents/parse/types";
 
 import InsertSplit from "documents/parse/WrapInTags/1-InsertSplit";
 import SplitAndWrap from "documents/parse/WrapInTags/2-SplitAndWrap";
@@ -41,12 +46,14 @@ import MergeElementsThatHaveBeenSplitUnnecessarily from "documents/parse/WrapInT
 /*
   Parse input and split paragraphs
 */
-export default function ({ json, tokenized }) {
-  // console.log(json2html(json))
+export default function (
+  json: HtmlAsJson,
+  tokenized: DocumentTitleToTokenizedParagraphsWithIds
+): HtmlAsJson {
   /*
     Flatten tokenized
   */
-  let tokenizedFlattened = [];
+  let tokenizedFlattened: TokenizedFlattenedForWrapInTags = [];
   for (const documentTitle of Object.keys(tokenized)) {
     for (const i of Object.keys(tokenized[documentTitle])) {
       if (!tokenized[documentTitle].hasOwnProperty(i)) continue;
@@ -58,20 +65,13 @@ export default function ({ json, tokenized }) {
   }
   tokenizedFlattened = tokenizedFlattened.sort((a, b) => a.index - b.index);
 
-  // console.log(JSON.stringify(tokenized, null, 2));
-  // console.log(JSON.stringify(tokenizedFlattened, null, 2));
-
-  // console.warn(JSON.stringify(json))
   let index = 0;
-  let wrapped = groupParagraphs({
+  let wrapped: HtmlAsJson = groupParagraphs({
     input: json,
     getNewTitle: new newTitle(),
-    paragraphFunction: (paragraph, documentTitle) => {
+    paragraphCallback: (paragraph, documentTitle) => {
       const text = getTextFromJson(paragraph, true, true);
-      // console.log(JSON.stringify(paragraph))
-      // console.log(text)
       if (documentTitle === undefined) {
-        // console.log(JSON.stringify(paragraph))
         return paragraph;
       }
       if (text) {
@@ -80,11 +80,7 @@ export default function ({ json, tokenized }) {
       return paragraph;
     },
   });
-  wrapped = RemoveData(wrapped);
-
-  // console.log(JSON.stringify(wrapped));
-  // console.log(wrapped)
-  // wrapped = html2json(json2html(wrapped))
+  wrapped = removeInlineData(wrapped);
 
   return wrapped;
 }
@@ -109,48 +105,50 @@ const Sentences = (paragraph_HTML, sentences) => {
   return WrapInTags(paragraph_HTML, sentences, "sentence", Words).child;
 };
 
-const WrapInTags = (input, tokenizedSplit, elementName, innerFunction) => {
-  let html, json;
-  const temp_attribute_name = innerFunction ? `data-temp-id` : `data-temp-id2`;
+const WrapInTags = (
+  input: HtmlAsJson,
+  tokenizedSplit,
+  elementName,
+  innerFunction
+) => {
+  const tempAttributeName = innerFunction ? `data-temp-id` : `data-temp-id2`;
 
   if (!tokenizedSplit || tokenizedSplit.length === 0) {
     console.log("Empty tokenizedSplit");
     return { child: input };
   }
-  // console.log(JSON.stringify(input))
-  html = InsertSplit(input, tokenizedSplit);
-  json = SplitAndWrap(
+  const html: string = InsertSplit(input, tokenizedSplit);
+  let json: HtmlAsJson = SplitAndWrap(
     html,
     tokenizedSplit,
     elementName,
     innerFunction,
-    temp_attribute_name
+    tempAttributeName
   );
-  // console.log(json2html(json))
 
   /* TODO: Þetta virkar ekki rétt, sjá "krók og kima" á http://localhost:3000/bl%C3%A6r/silfursvanurinn/3 */
   json = InvertElementsThatOnlyContainOneThing(json);
-  json = MergeElementsThatHaveBeenSplitUnnecessarily(json, temp_attribute_name);
+  json = MergeElementsThatHaveBeenSplitUnnecessarily(json, tempAttributeName);
   return json;
 };
 
 /*
-  Removes the inline data printed in [[Template:Start]]
+  Removes the inline data printed in the "Start" template
 */
-const RemoveData = (input) => {
+const removeInlineData = (input: HtmlAsJson): HtmlAsJson => {
   if (!input) return input;
-  if (Array.isArray(input)) {
-    return input.map(RemoveData);
-  }
+  // if (Array.isArray(input)) {
+  //   return input.map((j) => removeInlineData(j));
+  // }
   const { node, attr, child } = input;
   if (node === "element" || node === "root") {
     if (attr && (attr["data-document-start"] || attr["data-document-end"])) {
-      return { node: "text", text: "" }; // Hlýtur að vera betri leið til að henda út greinum...
+      return { node: "text", text: "", tag: "", attr: {} }; // Hlýtur að vera til betri leið til að henda út greinum...
     }
     if (child) {
       return {
         ...input,
-        child: child.map((e, i) => RemoveData(e, i)),
+        child: child.map((item) => removeInlineData(item)),
       };
     }
     return input;

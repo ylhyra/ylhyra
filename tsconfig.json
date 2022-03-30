@@ -12,11 +12,8 @@
     "outDir": "build/ts",
     "esModuleInterop": true,
     "isolatedModules": false,
-    "lib": [
-      "ES2021",
-      "dom"
-    ]
-    //  "strict": true,
+    "lib": ["ES2021", "dom"],
+    "strict": true
   },
   "compileOnSave": true
 }
