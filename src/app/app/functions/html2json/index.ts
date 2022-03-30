@@ -1,6 +1,14 @@
+// @ts-nocheck
 /*eslint-disable */
 
-require("app/app/functions/html2json/lib/Pure-JavaScript-HTML5-Parser/htmlparser.js");
+/*
+  Original author: Jxck
+  License: MIT
+  From https://github.com/Jxck/html2json
+  With minor changes
+ */
+
+require("app/app/functions/html2json/parser/htmlparser");
 
 import error from "app/app/error";
 

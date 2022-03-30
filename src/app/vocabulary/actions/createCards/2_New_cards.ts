@@ -3,7 +3,7 @@ import { isInSchedule } from "app/vocabulary/actions/card/card_schedule";
 import { CardIds } from "app/vocabulary/actions/card/types";
 import { veryRecentlySeenSortedLast } from "app/vocabulary/actions/createCards/functions";
 import { deck } from "app/vocabulary/actions/deck";
-import { isEasinessLevelOn } from "app/vocabulary/actions/easinessLevel/functions";
+// import { isEasinessLevelOn } from "app/vocabulary/actions/easinessLevel/functions";
 import { sortBy } from "underscore";
 
 export default (options): CardIds => {
@@ -16,11 +16,13 @@ export default (options): CardIds => {
     new_cards = sortBy(new_cards, (i) =>
       deck.session.allowed_ids.indexOf(i.getId())
     );
-  } else if (isEasinessLevelOn()) {
-    new_cards = sortBy(new_cards, (i) =>
-      i.getSortKeyAdjustedForEasinessLevel()
-    );
-  } else if (options?.skipOverTheEasiest) {
+  }
+  // else if (isEasinessLevelOn()) {
+  //   new_cards = sortBy(new_cards, (i) =>
+  //     i.getSortKeyAdjustedForEasinessLevel()
+  //   );
+  // }
+  else if (options?.skipOverTheEasiest) {
     // todo!!!
     // /*
     //   If we are unable to create cards with a given allowed_ids,
