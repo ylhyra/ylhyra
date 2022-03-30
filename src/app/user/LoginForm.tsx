@@ -1,18 +1,31 @@
 import errors from "app/app/error/messages";
 import { withPlural } from "app/app/functions/simplePlural";
+import { RootState } from "app/app/store";
 import { existsSchedule, login } from "app/user/actions";
 import { countTermsInSchedule } from "app/vocabulary/actions/functions";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
 import { connect } from "react-redux";
 
-class Form2 extends React.Component {
+class Form2 extends React.Component<
+  {
+    route: RootState["route"];
+    user: RootState["user"];
+    vocabulary: RootState["vocabulary"];
+    type: "signup" | "login";
+    above: React.Component;
+  },
+  {
+    step: Number;
+    error?: string;
+    message?: string;
+  }
+> {
   constructor(props) {
     super(props);
     // this.captcha_element = React.createRef();
     this.state = {
       step: 1,
-      type: this.props.type, // Either "signup" or "login"
     };
   }
   componentDidMount = () => {
@@ -75,7 +88,7 @@ class Form2 extends React.Component {
             save_progress: "yes",
           }}
           validate={(values) => {
-            const errors = {};
+            const errors: any = {};
             if (!values.username.trim()) {
               errors.username = "(required)";
             }
@@ -176,7 +189,7 @@ class Form2 extends React.Component {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   route: state.route,
   user: state.user,
   vocabulary: state.vocabulary,

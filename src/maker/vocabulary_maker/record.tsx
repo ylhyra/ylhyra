@@ -214,6 +214,6 @@ class Record extends React.Component {
     );
   };
 }
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   vocabularyMaker: state.vocabularyMaker,
 }))(Record);

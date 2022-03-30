@@ -1,6 +1,6 @@
-// import { createBrowserHistory, createHashHistory } from 'history'
 import error from "app/app/error/reducers";
 import { isBrowser } from "app/app/functions/isBrowser";
+import { isDev } from "app/app/functions/isDev";
 import { route } from "app/router/reducers";
 import { user } from "app/user/reducers";
 import { vocabulary } from "app/vocabulary/reducers";
@@ -25,30 +25,23 @@ if (process.env.NODE_ENV === `development`) {
 
 const store = createStore(
   combineReducers({
-    // /* Data storage for the renderer */
-    // data,
     // /* Reader */
     audio,
-    // inflection,
-    // speed_reader,
     vocabulary,
     user,
     error,
     route,
-
     /* TEMP only for isDev */
     vocabularyMaker,
     editor,
   }),
-  applyMiddleware(
-    // routerMiddleware(history),
-    thunk,
-    ...extraMiddlewares
-  )
+  applyMiddleware(thunk, ...extraMiddlewares)
 );
 export default store;
 
+export type RootState = ReturnType<typeof store.getState>;
+
 //temp
-if (isBrowser) {
-  window.store = store;
+if (isDev && isBrowser) {
+  window["store"] = store;
 }

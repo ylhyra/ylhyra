@@ -1,4 +1,11 @@
-export const audio = (state = {}, action) => {
+export const audio = (
+  state: {
+    currentlyPlaying?: string;
+    begin?: Number;
+    end?: Number;
+  } = {},
+  action
+) => {
   switch (action.type) {
     case "CURRENTLY_PLAYING":
       return {

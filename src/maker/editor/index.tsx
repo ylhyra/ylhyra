@@ -37,7 +37,7 @@ class _Editor extends React.PureComponent {
     }
   }
 }
-const Editor = connect((state) => ({
+const Editor = connect((state: RootState) => ({
   editor: state.editor,
 }))(_Editor);
 

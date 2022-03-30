@@ -12,6 +12,6 @@ class User extends Component {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   user: state.user,
 }))(User);

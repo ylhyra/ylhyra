@@ -54,7 +54,6 @@ class Form2 extends react_1.default.Component {
         // this.captcha_element = React.createRef();
         this.state = {
             step: 1,
-            type: this.props.type, // Either "signup" or "login"
         };
     }
     render() {

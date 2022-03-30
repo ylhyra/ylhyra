@@ -4,14 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const store_1 = __importDefault(require("app/app/store"));
-// import { soundAttribution as Attribution } from "documents/Render/Attribution";
 /*
   Short audio clips, like words on hover, that do not require an audio player interface
 */
 let audio;
 const AudioClip = {
     play: (files) => {
-        // if (store.getState().speed_reader && store.getState().speed_readerstarted)  return;
         AudioClip.pause();
         if (!Array.isArray(files)) {
             files = [files];

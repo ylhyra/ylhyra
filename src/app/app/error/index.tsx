@@ -13,7 +13,7 @@ const Notification = (props) => {
   return <div className="notification error">{message}</div>;
 };
 
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   error: state.error,
 }))(Notification);
 

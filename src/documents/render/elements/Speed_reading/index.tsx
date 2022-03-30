@@ -67,7 +67,7 @@ class SpeedReader extends React.Component {
   }
 }
 
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   speed_reader: state.speed_reader,
 }))(SpeedReader);
 
@@ -109,7 +109,7 @@ class Header_ extends React.Component {
     );
   }
 }
-const Header = connect((state) => ({
+const Header = connect((state: RootState) => ({
   speed_reader: state.speed_reader,
 }))(Header_);
 
@@ -148,7 +148,7 @@ class PlayScreen_ extends React.Component {
     );
   }
 }
-const PlayScreen = connect((state) => ({
+const PlayScreen = connect((state: RootState) => ({
   speed_reader: state.speed_reader,
 }))(PlayScreen_);
 
@@ -222,7 +222,7 @@ class DoneScreen_ extends React.Component {
     );
   }
 }
-export const DoneScreen = connect((state) => ({
+export const DoneScreen = connect((state: RootState) => ({
   speed_reader: state.speed_reader,
 }))(DoneScreen_);
 
@@ -286,7 +286,7 @@ class AboutScreen_ extends React.Component {
     );
   }
 }
-const AboutScreen = connect((state) => ({
+const AboutScreen = connect((state: RootState) => ({
   speed_reader: state.speed_reader,
 }))(AboutScreen_);
 
@@ -375,6 +375,6 @@ class Settings_ extends React.Component {
     );
   }
 }
-const Settings = connect((state) => ({
+const Settings = connect((state: RootState) => ({
   speed_reader: state.speed_reader,
 }))(Settings_);

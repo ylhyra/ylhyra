@@ -1,6 +1,6 @@
 import { notify } from "app/app/error";
 import { getDynamicFileUrl } from "app/app/paths";
-import store from "app/app/store";
+import store, { RootState } from "app/app/store";
 import { ReadAlong } from "documents/render/audio/ReadAlong";
 import SmoothScroll from "documents/render/audio/Scroll/SmoothScroll";
 import React from "react";
@@ -10,16 +10,25 @@ require("documents/render/audio/KeyboardListener");
 require("array-sugar");
 let timer;
 
-class Audio extends React.PureComponent {
+class Audio extends React.PureComponent<{
+  inline: Boolean;
+  autoplay: Boolean;
+  src: string;
+  audio: RootState["audio"];
+}> {
+  audio: React.RefObject<any> = null;
   errorCount = 0; // Keep count on how often we have re-attempted reloading file
+  state = {
+    playing: null,
+    currentTimePercentage: 0,
+    key: 0, // To force remounting if an error occurs
+    stopAt: null,
+    loading: null,
+    error: null,
+  };
   constructor(props) {
     super(props);
     this.audio = React.createRef();
-    this.state = {
-      playing: null,
-      currentTimePercentage: 0,
-      key: 0, // To force remounting if an error occurs
-    };
   }
   getFileName() {
     return this.props.src;
@@ -132,7 +141,7 @@ class Audio extends React.PureComponent {
     console.log(e);
     console.warn(`File missing: ${this.props.src}`);
     if (this.errorCount++ > 1) {
-      return notify("Could not load file.", undefined, true);
+      return notify("Could not load file.");
     } else {
       this.setState({
         key: this.state.key + 1,
@@ -209,6 +218,6 @@ class Audio extends React.PureComponent {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   audio: state.audio,
 }))(Audio);

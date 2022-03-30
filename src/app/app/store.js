@@ -3,9 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import { createBrowserHistory, createHashHistory } from 'history'
 const reducers_1 = __importDefault(require("app/app/error/reducers"));
 const isBrowser_1 = require("app/app/functions/isBrowser");
+const isDev_1 = require("app/app/functions/isDev");
 const reducers_2 = require("app/router/reducers");
 const reducers_3 = require("app/user/reducers");
 const reducers_4 = require("app/vocabulary/reducers");
@@ -25,12 +25,8 @@ if (process.env.NODE_ENV === `development`) {
     }));
 }
 const store = (0, redux_1.createStore)((0, redux_1.combineReducers)({
-    // /* Data storage for the renderer */
-    // data,
     // /* Reader */
     audio: reducers_5.audio,
-    // inflection,
-    // speed_reader,
     vocabulary: reducers_4.vocabulary,
     user: reducers_3.user,
     error: reducers_1.default,
@@ -38,11 +34,9 @@ const store = (0, redux_1.createStore)((0, redux_1.combineReducers)({
     /* TEMP only for isDev */
     vocabularyMaker: reducers_7.vocabularyMaker,
     editor: reducers_6.editor,
-}), (0, redux_1.applyMiddleware)(
-// routerMiddleware(history),
-redux_thunk_1.default, ...extraMiddlewares));
+}), (0, redux_1.applyMiddleware)(redux_thunk_1.default, ...extraMiddlewares));
 exports.default = store;
 //temp
-if (isBrowser_1.isBrowser) {
-    window.store = store;
+if (isDev_1.isDev && isBrowser_1.isBrowser) {
+    window["store"] = store;
 }

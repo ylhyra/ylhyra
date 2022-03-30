@@ -17,6 +17,6 @@ class Layout extends React.Component {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   pathname: state.route.pathname,
 }))(Layout);

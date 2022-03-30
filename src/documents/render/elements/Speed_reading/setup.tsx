@@ -41,7 +41,7 @@ class _SpeedReaderContainer extends React.Component {
     return null;
   }
 }
-const SpeedReaderContainer = connect((state) => ({
+const SpeedReaderContainer = connect((state: RootState) => ({
   speed_reader: state.speed_reader,
 }))(_SpeedReaderContainer);
 

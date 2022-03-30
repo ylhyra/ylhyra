@@ -44,7 +44,7 @@ class Sounds extends React.Component {
   }
 }
 
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   short_audio: state.editor.short_audio,
   editor: state.editor,
 }))(Sounds);

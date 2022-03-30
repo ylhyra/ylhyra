@@ -28,6 +28,6 @@ const Button = (props) => {
   );
 };
 
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   user: state.user,
 }))(Button);

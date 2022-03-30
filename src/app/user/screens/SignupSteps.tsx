@@ -21,7 +21,7 @@ class SignupSteps extends React.Component {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   user: state.user,
   route: state.route,
 }))(SignupSteps);

@@ -33,7 +33,7 @@ class Content extends Component {
     }
   }
 }
-export default /*React.memo*/ connect((state) => ({
+export default /*React.memo*/ connect((state: RootState) => ({
   route: state.route,
 }))(Content);
 

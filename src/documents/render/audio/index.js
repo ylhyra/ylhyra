@@ -17,7 +17,16 @@ let timer;
 class Audio extends react_1.default.PureComponent {
     constructor(props) {
         super(props);
+        this.audio = null;
         this.errorCount = 0; // Keep count on how often we have re-attempted reloading file
+        this.state = {
+            playing: null,
+            currentTimePercentage: 0,
+            key: 0,
+            stopAt: null,
+            loading: null,
+            error: null,
+        };
         this.componentDidUpdate = (prevProps) => {
             const audio = this.audio.current;
             /* Pause if another audio element has taken over */
@@ -129,7 +138,7 @@ class Audio extends react_1.default.PureComponent {
             console.log(e);
             console.warn(`File missing: ${this.props.src}`);
             if (this.errorCount++ > 1) {
-                return (0, error_1.notify)("Could not load file.", undefined, true);
+                return (0, error_1.notify)("Could not load file.");
             }
             else {
                 this.setState({
@@ -139,11 +148,6 @@ class Audio extends react_1.default.PureComponent {
             }
         };
         this.audio = react_1.default.createRef();
-        this.state = {
-            playing: null,
-            currentTimePercentage: 0,
-            key: 0, // To force remounting if an error occurs
-        };
     }
     getFileName() {
         return this.props.src;

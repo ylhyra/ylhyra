@@ -271,7 +271,7 @@ class Form2 extends React.Component {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   vocabulary: state.vocabulary,
   vocabularyMaker: state.vocabularyMaker,
 }))(Form2);

@@ -35,7 +35,7 @@ class Layout extends React.Component {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   route: state.route,
   vocabulary: state.vocabulary,
 }))(Layout);

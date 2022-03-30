@@ -1,5 +1,5 @@
 import store from "app/app/store";
-// import { soundAttribution as Attribution } from "documents/Render/Attribution";
+
 /*
   Short audio clips, like words on hover, that do not require an audio player interface
 */
@@ -8,7 +8,6 @@ let audio: HTMLAudioElement;
 
 const AudioClip = {
   play: (files) => {
-    // if (store.getState().speed_reader && store.getState().speed_readerstarted)  return;
     AudioClip.pause();
     if (!Array.isArray(files)) {
       files = [files];

@@ -46,6 +46,6 @@ class X extends Component {
   }
 }
 
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   route: state.route,
 }))(X);

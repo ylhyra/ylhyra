@@ -28,7 +28,7 @@ class X extends Component {
     );
   }
 }
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   vocabulary: state.vocabulary,
   route: state.route,
 }))(X);

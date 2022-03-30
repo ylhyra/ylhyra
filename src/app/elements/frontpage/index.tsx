@@ -43,7 +43,7 @@ class Screen extends React.Component {
   }
 }
 
-export default connect((state) => ({
+export default connect((state: RootState) => ({
   vocabulary: state.vocabulary,
   user: state.user,
 }))(Screen);
