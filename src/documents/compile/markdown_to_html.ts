@@ -1,5 +1,6 @@
 // import typeset from "typeset";
 import { html2json, json2html } from "app/app/functions/html2json";
+import { HtmlAsJson } from "app/app/functions/html2json/types";
 import removeUnwantedCharacters from "app/app/functions/languageProcessing/removeUnwantedCharacters";
 import { section_id } from "app/app/paths";
 import { ProcessLinks } from "documents/compile/functions/links";
@@ -8,36 +9,29 @@ import Conversation from "documents/compile/templates/Conversations";
 import { getTextFromJson } from "documents/parse/ExtractText/ExtractText";
 import marked from "marked";
 
-import { links } from "server/content/loadLinks";
-
 var sass = require("sass");
 
 /**
- * Here we convert markdown textblocks to HTML.
+ * Here we convert markdown text blocks to HTML.
  * Each HTML element in the original text is processed seperately to preserve HTML structure.
  */
-export default (input) => {
+export default (input: string): string => {
   /* Laga töflur. Ekki mjög gott. */
   input = input.replace(/(?:\s+)?(<\/?(tbody|td|th|tr) ?>?)(?:\s+)?/g, "$1");
-  // return input;
   input = json2html(Traverse(html2json(input)));
   /* Fix anchor ids */
   input = input.replace(
     /(<span id=")([^"]+?)("><\/span>)/g,
-    (x, first, middle, final) => {
+    (x, first: string, middle: string, final: string) => {
       return first + section_id(middle) + final;
     }
   );
-  // input = typeset(input, {
-  //   disable: ["hyphenate", "hangingPunctuation", "ligatures", "smallCaps"],
-  // });
   input = typeset(input);
-  // console.log(input);
   return input;
 };
 
-const Traverse = (json) => {
-  if (!json) return null;
+const Traverse = (json: HtmlAsJson): HtmlAsJson => {
+  // if (!json) return null;
   const { node, tag, attr, child, text } = json;
   if (node === "element" || node === "root") {
     if (tag === "Conversation") {
@@ -64,26 +58,15 @@ const Traverse = (json) => {
           },
         ],
       };
-    } else if (["video"].includes(tag)) {
+    } else if (tag && ["video"].includes(tag)) {
       return json;
     }
-    // for (const key of Object.keys(attr)) {
-    //   const val = attr[key];
-    //   if (/(''|\[)/.test(val)) {
-    //     attr[key] = processText(val);
-    //   }
-    // }
     return {
       ...json,
       child: child && ProcessArray(child),
     };
-  } else if (node === "text") {
-    /* TODO Is this necessary? */
-    return {
-      ...json,
-      // text: processText(text),
-      text,
-    };
+  } else {
+    return json;
   }
 };
 
@@ -92,27 +75,21 @@ const Traverse = (json) => {
  * Elements are temporarily substituted, the text is processed,
  * and then the elements are re-inserted.
  */
-const ProcessArray = (arr) => {
-  // let anyText = false;
+const ProcessArray = (arr: HtmlAsJson[]): HtmlAsJson[] => {
   const substituted = arr
     .map((j, i) => {
       if (j.node === "text") {
-        // if (j.text.trim()) {
-        //   anyText = true;
-        // }
         return j.text;
       }
       return `%SUBSTITUTION${i}%`;
     })
     .join("");
-  // if (!anyText) {
-  //   return arr.map((e) => Traverse(e));
-  // }
+
   return processText(substituted)
     .split(/(%SUBSTITUTION[0-9]+%)/g)
-    .map((j) => {
+    .map((j: string) => {
       if (j.startsWith("%SUBSTITUTION")) {
-        const x = j.match(/%SUBSTITUTION([0-9]+)%/)[1];
+        const x = j.match(/%SUBSTITUTION([0-9]+)%/)?.[1];
         const element = arr[parseInt(x)];
         return Traverse(element);
       }
@@ -123,9 +100,9 @@ const ProcessArray = (arr) => {
     });
 };
 
-export const processText = (input) => {
+export const processText = (input: string): string => {
   input = removeUnwantedCharacters(input);
-  input = ProcessLinks(input, links);
+  input = ProcessLinks(input /*links*/);
   input = input
     // .replace(/\n\n+/g, "\n\n")
     .replace(/^\*\*\*\n/gm, "\n<hr/>\n")
@@ -171,6 +148,7 @@ export const processText = (input) => {
 
   /* Markdown */
   if (!input.trim()) return input;
+  // @ts-ignore
   let [, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/);
   /* Lagfæra lista */
   middle = middle.replace(/(\n-[^\n]+)\n([^-])/g, "$1\n\n$2");
@@ -186,9 +164,6 @@ export const processText = (input) => {
   input = (pre || "") + m + (post || "");
 
   input = input.replace(/<p>([\s]+)?<\/p>/, "$1");
-  // input = input.replace(/(<h[0-9] id=")/g, "$1s-");
-  // console.log(input.slice(0,200))
 
-  // console.log(input)
   return input;
 };

@@ -24,8 +24,6 @@
 ### Efni
 * "verst hvað maður er orðinn" í silfur 8 - ekki beint!
 
-# MVP
+# Annað
 
-- fleiri upptökur
-- skrá sessions
-- klára að fara yfir
+* Vera viss um að ProcessLinks virki rétt

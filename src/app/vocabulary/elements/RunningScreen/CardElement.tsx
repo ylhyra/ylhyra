@@ -1,21 +1,21 @@
-import { deck } from "app/vocabulary/actions/deck";
-import store from "app/app/store";
-import AudioClip from "documents/render/audio/AudioClip";
-import { get_processed_image_url } from "app/app/paths";
-import React, { Component } from "react";
-import { connect } from "react-redux";
 import { withPlural } from "app/app/functions/simplePlural";
+import { getProcessedImageUrl } from "app/app/paths";
+import store from "app/app/store";
 import {
   getData,
   getFrom,
   getSound,
 } from "app/vocabulary/actions/card/card_data";
-import CardInSession from "app/vocabulary/actions/cardInSession";
 import { isNewTerm } from "app/vocabulary/actions/card/card_schedule";
-import { VocabularyReducer } from "app/vocabulary/reducers";
+import CardInSession from "app/vocabulary/actions/cardInSession";
+import { deck } from "app/vocabulary/actions/deck";
 import { BAD, EASY, GOOD, rating } from "app/vocabulary/constants";
-import { getDeckName } from "maker/vocabulary_maker/compile/functions";
+import { VocabularyReducer } from "app/vocabulary/reducers";
+import AudioClip from "documents/render/audio/AudioClip";
 import { getPlaintextFromFormatted } from "maker/vocabulary_maker/compile/format";
+import { getDeckName } from "maker/vocabulary_maker/compile/functions";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
   isKeyDown: boolean;
@@ -114,7 +114,7 @@ class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
     if (volume && getSound(id) && (getFrom(id) === "is" || answered)) {
       try {
         AudioClip.play(
-          getSound(id).map((s) => get_processed_image_url(s + ".mp3", true))
+          getSound(id).map((s) => getProcessedImageUrl(s + ".mp3", true))
         );
       } catch (e) {
         console.warn(e);

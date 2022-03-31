@@ -3,15 +3,18 @@ export const processed_image_url = `/api/images`;
 export const unprocessed_image_url = `/api/images2`;
 
 /* File URLs */
-export const getDynamicFileUrl = (file) =>
-  `/api/content?title=file/${encodeURIComponent(file.trim())}`;
-export const get_processed_image_url = (file, audio) =>
-  `${processed_image_url}/${audio ? "audio/" : ""}${encodeURIComponent(
+export const getDynamicFileUrl = (file: string): string => {
+  return `/api/content?title=file/${encodeURIComponent(file.trim())}`;
+};
+
+export const getProcessedImageUrl = (file: string, audio?: Boolean): string => {
+  return `${processed_image_url}/${audio ? "audio/" : ""}${encodeURIComponent(
     file.trim()
   )}`;
+};
 
 /* URL slugs */
-export const URL_title = (title) => {
+export const URL_title = (title: string): string => {
   if (!title) return "/";
   let [path, section] = title.split("#");
   path = path
@@ -30,7 +33,7 @@ export const URL_title = (title) => {
 };
 
 const prefix = "section-";
-export const section_id = (title) => {
+export const section_id = (title: string): string => {
   if (!title || title.startsWith(prefix)) return title;
   return (
     prefix +
@@ -40,7 +43,7 @@ export const section_id = (title) => {
   );
 };
 
-export const FileSafeTitle = (title) => {
+export const FileSafeTitle = (title: string): string => {
   return (
     URL_title(title)
       .replace(/(\/)/g, "_")
