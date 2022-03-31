@@ -1,4 +1,4 @@
-import { ucfirst } from "app/app/functions/ucfirst";
+import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
 import { types } from "inflection/tables/classification/classification";
 import link from "inflection/tables/link";
 import RenderTable, { renderCell } from "inflection/tables/render_table";

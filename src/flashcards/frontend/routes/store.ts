@@ -1,6 +1,6 @@
-import friendsStore from "app/friends/store";
-import meetingsStore from "app/meetings/store";
-import userStore from "app/user/store";
+import friendsStore from "ylhyra/app/friends/store";
+import meetingsStore from "ylhyra/app/meetings/store";
+import userStore from "ylhyra/app/user/store";
 // import { routeStore } from "modules/router";
 import { createContext } from "react";
 

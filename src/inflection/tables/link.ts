@@ -1,5 +1,5 @@
-import { ucfirst } from "app/app/functions/ucfirst";
-import { URL_title } from "app/app/paths";
+import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
+import { URL_title } from "ylhyra/app/app/paths";
 import { getTagInfo } from "inflection/tables/classification/classification";
 
 /*

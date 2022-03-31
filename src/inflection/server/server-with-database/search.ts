@@ -6,8 +6,8 @@
 */
 import FuzzySearch from "inflection/server/server-with-database/fuzzy_search";
 import classify from "inflection/tables/classification/BIN_classification";
-import query from "server/database";
-import sql from "server/database/functions/SQL-template-literal";
+import query from "ylhyra/server/database";
+import sql from "ylhyra/server/database/functions/SQL-template-literal";
 
 // import { IcelandicCharacters } from 'inflection/tables/functions'
 const IcelandicCharacters = /^[a-záéíóúýðþæö ]+$/i;

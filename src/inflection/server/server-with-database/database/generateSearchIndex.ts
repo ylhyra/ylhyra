@@ -20,7 +20,7 @@
   * 1 - phonetic
 
 */
-import flattenArray from "app/app/functions/flattenArray";
+import flattenArray from "ylhyra/app/app/functions/flattenArray";
 import {
   cleanInput,
   phonetic,
@@ -29,7 +29,7 @@ import {
   without_special_characters,
 } from "inflection/server/server-with-database/fuzzy_search";
 import path from "path";
-import query from "server/database";
+import query from "ylhyra/server/database";
 import { escape } from "sqlstring";
 
 var LineByLineReader = require("line-by-line");

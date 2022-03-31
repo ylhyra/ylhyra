@@ -1,5 +1,5 @@
-import { removeHtmlWhitespace } from "app/app/functions/removeHtmlWhitespace";
-import { ucfirst } from "app/app/functions/ucfirst";
+import { removeHtmlWhitespace } from "ylhyra/app/app/functions/removeHtmlWhitespace";
+import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
 import link from "inflection/tables/link";
 import Word, { WordFromTree } from "inflection/tables/word";
 import { flatten } from "lodash";
