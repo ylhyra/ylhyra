@@ -1,5 +1,5 @@
-import { isDev } from "ylhyra/app/app/functions/isDev";
-import { log, logDev } from "ylhyra/app/app/functions/log";
+import { isDev } from "modules/isDev";
+import { log, logDev } from "modules/log";
 import { CardIds } from "ylhyra/app/vocabulary/actions/card/types";
 import OldCards from "ylhyra/app/vocabulary/actions/createCards/1_Old_cards";
 import NewCards from "ylhyra/app/vocabulary/actions/createCards/2_New_cards";

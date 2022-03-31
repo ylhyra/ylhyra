@@ -1,4 +1,4 @@
-import { logDev } from "ylhyra/app/app/functions/log";
+import { logDev } from "modules/log";
 import { warnIfSlow } from "ylhyra/app/app/functions/warnIfSlow";
 import {
   filterCardsThatExist,

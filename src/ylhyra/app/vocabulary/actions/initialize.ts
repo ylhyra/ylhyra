@@ -1,7 +1,7 @@
 import axios from "ylhyra/app/app/axios";
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isDev } from "modules/isDev";
 import { getFromLocalStorage } from "ylhyra/app/app/functions/localStorage";
-import { log } from "ylhyra/app/app/functions/log";
+import { log } from "modules/log";
 import store from "ylhyra/app/app/store";
 import Deck from "ylhyra/app/vocabulary/actions/deck";
 import { sync } from "ylhyra/app/vocabulary/actions/userData/sync";

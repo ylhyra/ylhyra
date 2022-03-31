@@ -4,7 +4,7 @@ import {
   minutes,
   Timestamp,
 } from "ylhyra/app/app/functions/time";
-import { log } from "ylhyra/app/app/functions/log";
+import { log } from "modules/log";
 import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import Analytics from "ylhyra/app/app/analytics";
 import { sync } from "ylhyra/app/vocabulary/actions/userData/sync";

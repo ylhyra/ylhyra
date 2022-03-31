@@ -1,6 +1,6 @@
 import error from "ylhyra/app/app/error/reducers";
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isBrowser } from "modules/isBrowser";
+import { isDev } from "modules/isDev";
 import { route } from "ylhyra/app/router/reducers";
 import { user } from "ylhyra/app/user/reducers";
 import { vocabulary } from "ylhyra/app/vocabulary/reducers";

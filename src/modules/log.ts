@@ -1,5 +1,6 @@
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
-import { isDev } from "ylhyra/app/app/functions/isDev";
+// @ts-nocheck
+import { isBrowser } from "modules/isBrowser";
+import { isDev } from "modules/isDev";
 
 /**
  * Helper functions for debugging

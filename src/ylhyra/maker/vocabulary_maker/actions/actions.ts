@@ -1,13 +1,16 @@
 import axios from "ylhyra/app/app/axios";
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
-import { log } from "ylhyra/app/app/functions/log";
+import { isBrowser } from "modules/isBrowser";
+import { log } from "modules/log";
 import store from "ylhyra/app/app/store";
 import {
   isSearching,
   reDoSearch,
   turnOffSearch,
 } from "ylhyra/maker/vocabulary_maker/actions/search";
-import { getDeckName, getHash } from "ylhyra/maker/vocabulary_maker/compile/functions";
+import {
+  getDeckName,
+  getHash,
+} from "ylhyra/maker/vocabulary_maker/compile/functions";
 import { row_info } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
 import _ from "underscore";
 

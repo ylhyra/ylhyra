@@ -1,5 +1,5 @@
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isBrowser } from "modules/isBrowser";
+import { isDev } from "modules/isDev";
 import store from "ylhyra/app/app/store";
 import { openEditor } from "ylhyra/maker/editor/actions";
 import Header from "ylhyra/maker/editor/Header";

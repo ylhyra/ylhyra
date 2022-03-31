@@ -1,9 +1,12 @@
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
+import { isBrowser } from "modules/isBrowser";
 import MakeList from "ylhyra/documents/parse/Tokenize/List";
 import getParameter from "get-parameter";
 import long_audio from "ylhyra/maker/editor/Long_audio/reducers";
 import short_audio from "ylhyra/maker/editor/Short_audio/reducers";
-import { analysis, suggestions } from "ylhyra/maker/editor/Suggestions/reducers";
+import {
+  analysis,
+  suggestions,
+} from "ylhyra/maker/editor/Suggestions/reducers";
 import { selected, translation } from "ylhyra/maker/editor/Translator/reducers";
 import { combineReducers } from "redux";
 import { ListData } from "ylhyra/documents/parse/types";

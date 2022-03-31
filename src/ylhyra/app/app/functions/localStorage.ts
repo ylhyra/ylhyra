@@ -1,4 +1,4 @@
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
+import { isBrowser } from "modules/isBrowser";
 
 export const ANALYTICS_LOCALSTORAGE_LABEL = "_a";
 

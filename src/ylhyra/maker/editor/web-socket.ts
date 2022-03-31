@@ -7,7 +7,7 @@
 
 */
 
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
+import { isBrowser } from "modules/isBrowser";
 import store from "ylhyra/app/app/store";
 import { receiveSuggestions } from "ylhyra/maker/editor/Suggestions";
 

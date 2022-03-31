@@ -1,5 +1,5 @@
 import _hash from "ylhyra/app/app/functions/hash";
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
+import { isBrowser } from "modules/isBrowser";
 import { getUserFromCookie } from "ylhyra/app/user/actions";
 import { getPlaintextFromVocabularyEntry } from "ylhyra/maker/vocabulary_maker/compile/format";
 

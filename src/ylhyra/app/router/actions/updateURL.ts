@@ -1,9 +1,12 @@
 import Analytics from "ylhyra/app/app/analytics";
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
+import { isBrowser } from "modules/isBrowser";
 import { URL_title } from "ylhyra/app/app/paths";
 import store from "ylhyra/app/app/store";
 import { getFrontpageURL } from "ylhyra/app/router/actions/index";
-import { abortAllThatAreNot, loadContent } from "ylhyra/app/router/actions/load";
+import {
+  abortAllThatAreNot,
+  loadContent,
+} from "ylhyra/app/router/actions/load";
 import { app_urls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { clear as ClearReadAlongSetup } from "ylhyra/documents/render/audio/ReadAlong";

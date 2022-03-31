@@ -1,4 +1,4 @@
-import { supportsTouch } from "ylhyra/app/app/functions/isBrowser";
+import { supportsTouch } from "modules/isBrowser";
 import {
   MouseEventListenerOff,
   MouseEventListenerOn,

@@ -1,5 +1,5 @@
 import { RootState } from "ylhyra/app/app/store";
-import { supportsTouch } from "ylhyra/app/app/functions/isBrowser";
+import { supportsTouch } from "modules/isBrowser";
 import store from "ylhyra/app/app/store";
 import {
   TextEventListenersOff,

@@ -1,4 +1,4 @@
-import { log } from "ylhyra/app/app/functions/log";
+import { log } from "modules/log";
 import { shuffleLocally } from "ylhyra/app/app/functions/shuffleLocally";
 import { getTimeMemoized, hours, minutes } from "ylhyra/app/app/functions/time";
 import { isAllowed } from "ylhyra/app/vocabulary/actions/card/card";

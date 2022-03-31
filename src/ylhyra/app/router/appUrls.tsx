@@ -1,5 +1,5 @@
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isBrowser } from "modules/isBrowser";
+import { isDev } from "modules/isDev";
 import LogIn from "ylhyra/app/user/screens/Login";
 import Settings from "ylhyra/app/user/screens/Settings";
 import VocabularyOverview from "ylhyra/app/vocabulary/elements/OverviewScreen";
@@ -36,19 +36,21 @@ export const app_urls = {
 
 if (isDev && isBrowser) {
   app_urls["/maker"] = {
-    component: React.lazy(() =>
-      import(
-        /* webpackChunkName: "vocmak" */
-        "ylhyra/maker/vocabulary_maker/Elements"
-      )
+    component: React.lazy(
+      () =>
+        import(
+          /* webpackChunkName: "vocmak" */
+          "ylhyra/maker/vocabulary_maker/Elements"
+        )
     ),
   };
   app_urls["/maker/record"] = {
-    component: React.lazy(() =>
-      import(
-        /* webpackChunkName: "vocmak" */
-        "ylhyra/maker/vocabulary_maker/record"
-      )
+    component: React.lazy(
+      () =>
+        import(
+          /* webpackChunkName: "vocmak" */
+          "ylhyra/maker/vocabulary_maker/record"
+        )
     ),
   };
 }

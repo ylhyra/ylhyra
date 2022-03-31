@@ -1,6 +1,6 @@
 import axios from "ylhyra/app/app/axios";
 import { notify } from "ylhyra/app/app/error";
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
+import { isBrowser } from "modules/isBrowser";
 import store from "ylhyra/app/app/store";
 import stable_stringify from "json-stable-stringify";
 

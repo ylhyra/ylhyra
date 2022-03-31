@@ -1,4 +1,4 @@
-import { log } from "ylhyra/app/app/functions/log";
+import { log } from "modules/log";
 import {
   addSomeRandomness,
   average,

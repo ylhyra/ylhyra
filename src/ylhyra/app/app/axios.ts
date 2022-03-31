@@ -1,5 +1,5 @@
 import { notify } from "ylhyra/app/app/error";
-import { log } from "ylhyra/app/app/functions/log";
+import { log } from "modules/log";
 import axios from "axios";
 
 // import axiosRetry from "axios-retry";

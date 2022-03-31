@@ -1,7 +1,7 @@
-import { store } from "app/store";
+import { store } from "flashcards/frontend/store";
 import axios2 from "modules/axios2";
 import { customHistory } from "modules/router";
-import type { LoginData, LoginResponse } from "server/user/login";
+import type { LoginData, LoginResponse } from "flashcards/server/user/login";
 
 export const login = async (values: LoginData) => {
   const response = (await axios2.post("/api/login", values)) as LoginResponse;

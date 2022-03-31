@@ -1,4 +1,4 @@
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
+import { isBrowser } from "modules/isBrowser";
 
 type RouteState = { pathname: string; data?: Object };
 export const route = (

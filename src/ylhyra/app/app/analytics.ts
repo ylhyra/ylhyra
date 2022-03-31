@@ -2,8 +2,8 @@
   Tracks time spent on page
 */
 import axios from "ylhyra/app/app/axios";
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isBrowser } from "modules/isBrowser";
+import { isDev } from "modules/isDev";
 import {
   ANALYTICS_LOCALSTORAGE_LABEL,
   getFromLocalStorage,

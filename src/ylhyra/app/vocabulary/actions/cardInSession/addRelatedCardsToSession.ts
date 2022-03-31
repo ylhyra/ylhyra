@@ -1,9 +1,19 @@
-import { log } from "ylhyra/app/app/functions/log";
+import { log } from "modules/log";
 import { days } from "ylhyra/app/app/functions/time";
 import { isInSession } from "ylhyra/app/vocabulary/actions/card/card";
-import { dependencyDepthOfCard, getDependenciesAsArrayOfCardIds } from "ylhyra/app/vocabulary/actions/card/card_dependencies";
-import { isBad, isFairlyBad } from "ylhyra/app/vocabulary/actions/card/card_difficulty";
-import { isUnseenTerm, timeSinceTermWasSeen, wasTermVeryRecentlySeen } from "ylhyra/app/vocabulary/actions/card/card_schedule";
+import {
+  dependencyDepthOfCard,
+  getDependenciesAsArrayOfCardIds,
+} from "ylhyra/app/vocabulary/actions/card/card_dependencies";
+import {
+  isBad,
+  isFairlyBad,
+} from "ylhyra/app/vocabulary/actions/card/card_difficulty";
+import {
+  isUnseenTerm,
+  timeSinceTermWasSeen,
+  wasTermVeryRecentlySeen,
+} from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import { CardIds } from "ylhyra/app/vocabulary/actions/card/types";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession/index";
 import { printWord } from "ylhyra/app/vocabulary/actions/functions";

@@ -1,4 +1,4 @@
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
+import { isBrowser } from "modules/isBrowser";
 import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import { getTime } from "ylhyra/app/app/functions/time";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";

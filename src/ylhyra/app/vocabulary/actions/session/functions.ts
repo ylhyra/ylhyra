@@ -1,4 +1,4 @@
-import { log } from "ylhyra/app/app/functions/log";
+import { log } from "modules/log";
 import { getTime } from "ylhyra/app/app/functions/time";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
 import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "ylhyra/app/vocabulary/actions/session/index";

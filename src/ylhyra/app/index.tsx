@@ -1,4 +1,4 @@
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
+import { isBrowser } from "modules/isBrowser";
 import store from "ylhyra/app/app/store";
 import Router from "ylhyra/app/router";
 import { InitializeRouter } from "ylhyra/app/router/actions";

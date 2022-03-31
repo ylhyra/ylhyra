@@ -1,4 +1,4 @@
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isDev } from "modules/isDev";
 import { shuffle } from "underscore";
 
 /**

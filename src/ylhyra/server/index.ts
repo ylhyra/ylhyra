@@ -1,5 +1,5 @@
 // import 'source-map-support/register'
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isDev } from "modules/isDev";
 import {
   processed_image_url,
   unprocessed_image_url,

@@ -1,6 +1,6 @@
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
-import { isDev } from "ylhyra/app/app/functions/isDev";
-import { log } from "ylhyra/app/app/functions/log";
+import { isBrowser } from "modules/isBrowser";
+import { isDev } from "modules/isDev";
+import { log } from "modules/log";
 import { roundToInterval } from "ylhyra/app/app/functions/math";
 import { updateURL } from "ylhyra/app/router/actions/updateURL";
 import {

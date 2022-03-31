@@ -1,5 +1,5 @@
 import hash from "ylhyra/app/app/functions/hash";
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isDev } from "modules/isDev";
 
 import generate_html from "ylhyra/documents/compile";
 import fs from "fs";

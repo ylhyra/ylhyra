@@ -1,19 +1,19 @@
-import { decodeDataInHtml } from "modules/base64";
 import { isBrowser } from "modules/isBrowser";
-import { UserProfile } from "types";
+import { decodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
+import { UserProfile } from "flashcards/frontend/user/";
 
 export const COOKIE_NAME = "s";
 
-export function getCookie(name: string) {
-  var j = name + "=";
-  var ca = document.cookie.split(";");
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
+export const getCookie = (name: string) => {
+  const j = name + "=";
+  const ca = document.cookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
     while (c.charAt(0) === " ") c = c.substring(1, c.length);
     if (c.indexOf(j) === 0) return c.substring(j.length, c.length);
   }
   return null;
-}
+};
 
 export const getUserFromCookie = (): UserProfile => {
   if (!isBrowser) return null;

@@ -1,4 +1,4 @@
-import { log } from "ylhyra/app/app/functions/log";
+import { log } from "modules/log";
 import store from "ylhyra/app/app/store";
 import { updateURL } from "ylhyra/app/router/actions/updateURL";
 import { getSound } from "ylhyra/app/vocabulary/actions/card/card_data";

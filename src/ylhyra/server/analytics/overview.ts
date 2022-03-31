@@ -1,4 +1,4 @@
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isDev } from "modules/isDev";
 import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
 import { days } from "ylhyra/app/app/functions/time";
 

@@ -1,5 +1,5 @@
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isBrowser } from "modules/isBrowser";
+import { isDev } from "modules/isDev";
 import Render from "ylhyra/documents/render";
 import NotFound from "ylhyra/documents/templates/404";
 import React, { Component, Suspense } from "react";

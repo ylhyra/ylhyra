@@ -1,6 +1,6 @@
 import { RootState } from "ylhyra/app/app/store";
 import { RECOMMENDED_PRICE_IN_US_DOLLARS } from "ylhyra/app/app/constants";
-import { log } from "ylhyra/app/app/functions/log";
+import { log } from "modules/log";
 import { updateURL } from "ylhyra/app/router/actions/updateURL";
 import {
   continueAfterPaying,

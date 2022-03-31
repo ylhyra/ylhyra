@@ -1,7 +1,7 @@
 import { notify } from "ylhyra/app/app/error";
 import { html2json } from "ylhyra/app/app/functions/html2json";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import { isBrowser } from "ylhyra/app/app/functions/isBrowser";
+import { isBrowser } from "modules/isBrowser";
 import Compiler from "ylhyra/documents/parse/Compiler";
 import ExtractData from "ylhyra/documents/parse/ExtractData";
 import { flattenData } from "ylhyra/documents/parse/ExtractData/flattenData";

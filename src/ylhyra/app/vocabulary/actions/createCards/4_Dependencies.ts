@@ -1,5 +1,5 @@
 import { withDependencies } from "ylhyra/app/vocabulary/actions/functions/dependencies";
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isDev } from "modules/isDev";
 import { days, minutes } from "ylhyra/app/app/functions/time";
 import { isInSession } from "ylhyra/app/vocabulary/actions/card/card";
 import { wasTermSeenMoreRecentlyThan } from "ylhyra/app/vocabulary/actions/card/card_schedule";

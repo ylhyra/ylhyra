@@ -1,9 +1,12 @@
 import Analytics from "ylhyra/app/app/analytics";
 import axios from "ylhyra/app/app/axios";
 import { PRELOAD_ARTICLES_ON_HOVER } from "ylhyra/app/app/constants";
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isDev } from "modules/isDev";
 import store from "ylhyra/app/app/store";
-import { index, isVocabularyTheFrontpage } from "ylhyra/app/router/actions/index";
+import {
+  index,
+  isVocabularyTheFrontpage,
+} from "ylhyra/app/router/actions/index";
 import { updateURL } from "ylhyra/app/router/actions/updateURL";
 import { app_urls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";

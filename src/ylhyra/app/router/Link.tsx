@@ -1,5 +1,5 @@
 import { RootState } from "ylhyra/app/app/store";
-import { log } from "ylhyra/app/app/functions/log";
+import { log } from "modules/log";
 import { getTime, minutes } from "ylhyra/app/app/functions/time";
 import { preload } from "ylhyra/app/router/actions/load";
 import { updateURL } from "ylhyra/app/router/actions/updateURL";

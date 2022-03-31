@@ -1,8 +1,11 @@
 import { printWord } from "ylhyra/app/vocabulary/actions/functions";
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isDev } from "modules/isDev";
 import _ from "underscore";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
-import { getSortKey, getTermIds } from "ylhyra/app/vocabulary/actions/card/card_data";
+import {
+  getSortKey,
+  getTermIds,
+} from "ylhyra/app/vocabulary/actions/card/card_data";
 import { getLastSeen } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 
 let LOGGING;

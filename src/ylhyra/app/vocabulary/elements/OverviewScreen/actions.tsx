@@ -1,5 +1,5 @@
 import axios from "ylhyra/app/app/axios";
-import { log } from "ylhyra/app/app/functions/log";
+import { log } from "modules/log";
 import {
   clamp,
   mapValueToRange,

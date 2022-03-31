@@ -1,4 +1,4 @@
-import { isDev } from "ylhyra/app/app/functions/isDev";
+import { isDev } from "modules/isDev";
 import reset from "ylhyra/documents/read/actions/Reset";
 import showWord from "ylhyra/documents/read/actions/ShowWord";
 
