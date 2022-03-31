@@ -12,6 +12,6 @@ const pool = Pool({
   password: process.env.YLHYRA_DATABASE_PASSWORD,
 });
 
-export default (query, secondParameter, thirdParameter) => {
+export default (query: string, secondParameter: any, thirdParameter?: any) => {
   Query(query, secondParameter, thirdParameter, pool);
 };

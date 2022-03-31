@@ -1,6 +1,9 @@
 // import 'source-map-support/register'
 import { isDev } from "ylhyra/app/app/functions/isDev";
-import { processed_image_url, unprocessed_image_url } from "ylhyra/app/app/paths";
+import {
+  processed_image_url,
+  unprocessed_image_url,
+} from "ylhyra/app/app/paths";
 
 import { exec } from "child_process";
 import "core-js/stable";
@@ -68,7 +71,6 @@ mainapp.use("/", staticCached(build_folder));
   Private APIs
 */
 mainapp.use(cors({ origin: "https://ylhyra.is" }));
-// app.use('/api', require('server/web-socket').default)
 // app.use('/api', require('server/server-side-rendering').default)
 mainapp.use("/api", require("ylhyra/server/audio/recorder").default);
 // app.use('/api', require('server/audio/GetOneAudioFile').default)

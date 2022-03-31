@@ -65,7 +65,12 @@ module.exports = {
           { file: "**/src/flashcards/**/*.{ts,tsx}" },
           { file: "**/src/ylhyra/server/**/*.{ts,tsx}" },
         ],
-        exclude: [{ file: "**/tests/**" }],
+        exclude: [
+          { file: "**/tests/**" },
+          { file: "**/src/ylhyra/server/**" },
+          { file: "**/src/ylhyra/server/vocabulary/**" },
+          { file: "**/src/ylhyra/server/translator/**" },
+        ],
       },
     }),
     new HtmlWebpackPlugin({ inject: true }),
