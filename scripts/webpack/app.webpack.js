@@ -33,7 +33,8 @@ module.exports = {
       },
     },
   },
-  entry: "./src/app/index.tsx",
+  // entry: "./src/app/index.tsx",
+  entry: "./src/flashcards/frontend/index.tsx",
   output: {
     path: isProduction ? resolve("build/app_tmp") : resolve("build/app"),
     filename: "ylhyra.[name].js",
@@ -55,12 +56,16 @@ module.exports = {
             declarationMap: false,
             noEmit: true,
             incremental: true,
+            strict: false,
           },
         },
       },
       issue: {
-        include: [{ file: "**/src/**/*.{ts,tsx}" }],
-        exclude: [{ file: "**/src/tests/**" }],
+        include: [
+          { file: "**/src/flashcards/**/*.{ts,tsx}" },
+          { file: "**/src/ylhyra/server/**/*.{ts,tsx}" },
+        ],
+        exclude: [{ file: "**/tests/**" }],
       },
     }),
     new HtmlWebpackPlugin({ inject: true }),
