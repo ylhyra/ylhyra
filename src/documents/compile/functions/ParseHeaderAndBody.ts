@@ -4,16 +4,17 @@ import { getPlaintextFromVocabularyEntry } from "maker/vocabulary_maker/compile/
 const yaml = require("js-yaml");
 
 export type HeaderData = {
-  title: string;
-  level?: string;
-  license?: string;
-  vocabulary?: string[];
-  redirects?: string[];
-  published?: boolean;
+  "title": string;
+  "level"?: string;
+  "license"?: string;
+  "vocabulary"?: string[];
+  "redirects"?: string[];
+  "published"?: boolean;
+  "typos fixed"?: boolean;
   /** Added later */
-  has_data?: Boolean;
-  reflist?: string;
-  classes?: string[];
+  "has_data"?: Boolean;
+  "reflist"?: string;
+  "classes"?: string[];
 };
 
 export const ParseHeaderAndBody = (
