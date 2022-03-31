@@ -11,7 +11,7 @@ module.exports = {
       experimentalObjectRestSpread: true,
       jsx: true,
     },
-    ecmaVersion: 2018,
+    ecmaVersion: 2020,
     experimentalDecorators: true,
     sourceType: "module",
   },
@@ -34,6 +34,22 @@ module.exports = {
     "no-useless-catch": 0,
     "no-async-promise-executor": 0,
   },
+
+  overrides: [
+    {
+      files: ["*.ts", "*.tsx"],
+      rules: {
+        "@typescript-eslint/naming-convention": [
+          "warn",
+          {
+            selector: "variable",
+            format: ["snake_case", "UPPER_CASE"],
+            leadingUnderscore: "allowSingleOrDouble",
+          },
+        ],
+      },
+    },
+  ],
   globals: {
     process: true,
     __dirname: true,
