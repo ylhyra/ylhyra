@@ -6,23 +6,31 @@ import store from "app/app/store";
 import { index, isVocabularyTheFrontpage } from "app/router/actions";
 import { updateURL } from "app/router/actions/updateURL";
 import { app_urls } from "app/router/appUrls";
+import { PrerenderedDataSavedInPage } from "app/types";
 import { ReadAlongSetup } from "documents/render/audio/ReadAlong";
 
 const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true && isDev;
 
 let cache = {};
 let expectedUrl = false;
-export const abortAllThatAreNot = (url) => {
+export const abortAllThatAreNot = (url: string) => {
   expectedUrl = url;
 };
 
 export const loadContent = ({
   url,
-  prerender_data,
+  prerender_data: DataSavedInPage,
   preload,
   section,
   isInitializing,
   callback,
+}: {
+  url: string;
+  prerender_data: string;
+  preload: string;
+  section: string;
+  isInitializing: Boolean;
+  callback: Function;
 }) => {
   if (url in app_urls) {
     return;
@@ -68,6 +76,7 @@ export const loadContent = ({
   }
 };
 
+/* TODO: Spaghetti code */
 const set = async ({
   url,
   data,
@@ -75,6 +84,13 @@ const set = async ({
   section,
   isInitializing,
   callback,
+}: {
+  url: string;
+  data: PrerenderedDataSavedInPage;
+  preload: string;
+  section: string;
+  isInitializing: Boolean;
+  callback: Function;
 }) => {
   Analytics.startReadingPage(url);
   if (preload) return;
@@ -134,7 +150,7 @@ const set = async ({
   // console.log({ t: data.title });
 
   callback?.();
-  updateURL(url + (section ? "#" + section : ""), {
+  await updateURL(url + (section ? "#" + section : ""), {
     title: data.title,
     isLoadingContent: true,
     isInitializing,

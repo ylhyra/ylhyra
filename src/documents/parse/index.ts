@@ -1,11 +1,17 @@
 import { notify } from "app/app/error";
 import { html2json } from "app/app/functions/html2json";
+import { HtmlAsJson } from "app/app/functions/html2json/types";
 import { isBrowser } from "app/app/functions/isBrowser";
 import Compiler from "documents/parse/Compiler";
 import ExtractData from "documents/parse/ExtractData";
 import { flattenData } from "documents/parse/ExtractData/flattenData";
 import ExtractText from "documents/parse/ExtractText/ExtractText";
 import Tokenizer from "documents/parse/Tokenize";
+import {
+  DocumentTitleToFlattenedData,
+  DocumentTitleToTokenizedParagraphsWithIds,
+  FlattenedData,
+} from "documents/parse/types";
 import WrapInTags from "documents/parse/WrapInTags";
 import { AllHtmlEntities as Entities } from "html-entities";
 import isEmpty from "is-empty-object";
@@ -15,8 +21,17 @@ const entities = new Entities();
 /*
   Parser
 */
-export default ({ html }: { html: string }) => {
-  if (!html) return null;
+export default ({
+  html,
+}: {
+  html: string;
+}): {
+  parsed?: HtmlAsJson;
+  tokenized?: DocumentTitleToTokenizedParagraphsWithIds;
+  data?: DocumentTitleToFlattenedData;
+  flattenedData?: FlattenedData;
+} => {
+  if (!html) return {};
 
   try {
     html = entities.decode(html);
@@ -60,5 +75,6 @@ export default ({ html }: { html: string }) => {
     if (isBrowser) {
       notify("Error in parse step");
     }
+    return {};
   }
 };

@@ -1,9 +1,6 @@
 import { html2json, json2html } from "app/app/functions/html2json";
-import {
-  ArrayOfEitherSentencesOrWords,
-  TokenizedParagraphWithIds,
-} from "documents/parse/types";
 import { HtmlAsJson } from "app/app/functions/html2json/types";
+import { ArrayOfEitherSentencesOrWords } from "documents/parse/types";
 import { TEMPORARY_SPLIT_MARKER } from "documents/parse/WrapInTags/1-InsertSplit";
 
 /*
@@ -18,7 +15,7 @@ export default function (
   tokenizedSplit: ArrayOfEitherSentencesOrWords,
   elementName: "sentence" | "word",
   innerFunction: Function | undefined,
-  temp_attribute_name: string
+  tempAttributeName: "data-temp-id" | "data-temp-id2"
 ): HtmlAsJson {
   let count = 0;
   let openTags: string[] = [];
@@ -46,7 +43,7 @@ export default function (
             if (!b.startsWith("</") && !b.endsWith("/>")) {
               const tagWithId = b.replace(
                 />$/,
-                ` ${temp_attribute_name}="${count++}">`
+                ` ${tempAttributeName}="${count++}">`
               );
               openTags.push(tagWithId);
               return tagWithId;

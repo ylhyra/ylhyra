@@ -1,6 +1,7 @@
 import Sound from "datasets/sounds";
 
-const router = require("express").Router();
+import { Request, Router } from "express";
+const router = Router();
 
 /*
   Finds PRONUNCIATION and SOUND

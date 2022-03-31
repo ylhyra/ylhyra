@@ -1,12 +1,13 @@
 import argon2 from "argon2";
 import { encodeDataInHtml } from "documents/compile/functions/functions";
+import { Router } from "express";
 import request from "request";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
 
 const argon_hash = argon2.hash;
 const argon_verify = argon2.verify;
-const router = require("express").Router();
+const router = Router();
 const speedLimit = require("express-slow-down")({
   windowMs: 15 * 60 * 1000, // 15 minutes
   delayAfter: 5,

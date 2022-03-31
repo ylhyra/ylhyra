@@ -1,10 +1,12 @@
 import { getTime, minute, roundMsToMinute } from "app/app/functions/time";
+
+import { Router } from "express";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
 import shortid from "shortid";
 import _ from "underscore";
 
-const router = require("express").Router();
+const router = Router();
 const { Crawler } = require("es6-crawler-detect");
 
 const rateLimit = require("express-rate-limit")({

@@ -1,6 +1,7 @@
 import { URL_title } from "app/app/paths";
 import store from "app/app/store";
 import Router from "app/router";
+import { PrerenderedDataSavedInPage } from "app/types";
 import generate_html from "documents/compile";
 import Parse from "documents/parse";
 import React from "react";
@@ -55,6 +56,7 @@ const render = async ({
   `;
 
   let content, header, necessary_data, output, props;
+
   if (is_content) {
     const h = await generate_html(url);
     content = h.content;
@@ -62,15 +64,18 @@ const render = async ({
     const out = await Parse({ html: content });
     const { parsed, flattenedData } = out;
     props = { prerender: parsed };
-    necessary_data = JSON.stringify({
-      url,
-      parsed,
-      flattenedData: {
-        long_audio: flattenedData?.long_audio,
-      },
-      header,
-      shouldBeIndexed,
-    });
+    if (parsed && header) {
+      const dataToSave: PrerenderedDataSavedInPage = {
+        url,
+        parsed,
+        flattenedData: {
+          long_audio: flattenedData?.long_audio,
+        },
+        header,
+        shouldBeIndexed,
+      };
+      necessary_data = JSON.stringify(dataToSave);
+    }
   } else {
     props = { url: url };
   }
@@ -90,11 +95,11 @@ const render = async ({
 
   if (/({{|}})/.test(output) && !/blær/.test(url)) {
     console.error(`Unexpanded template in ${url}`);
-    console.error(output.match(/(.{20}?({{|}}).{20}?)/)[1]);
+    console.error(output.match(/(.{20}?({{|}}).{20}?)/)?.[1]);
   }
   if (/(\*)/.test(output)) {
     console.error(`Unparsed "*" in ${url}`);
-    console.error(output.match(/(.{20}?(\*).{20}?)/)[1]);
+    console.error(output.match(/(.{20}?(\*).{20}?)/)?.[1]);
   }
 
   if (/<h1([^\n]{40,)<\/h1>/.test(output)) {

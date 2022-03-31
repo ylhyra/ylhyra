@@ -1,4 +1,5 @@
 import store from "app/app/store";
+import { FlattenedData } from "documents/parse/types";
 import ScrollIntoView from "documents/render/audio/Scroll/ScrollIntoView";
 import { addClass, removeClass } from "documents/render/helpers";
 
@@ -70,7 +71,7 @@ export const clear = () => {
   currentAudioId = null;
 };
 
-export const ReadAlongSetup = (data) => {
+export const ReadAlongSetup = (data: FlattenedData) => {
   if (!data || !data.long_audio) {
     return clear();
   }

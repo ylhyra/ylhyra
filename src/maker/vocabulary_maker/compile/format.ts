@@ -3,18 +3,14 @@ import c from "app/app/functions/no-undefined-in-template-literal";
 import { removeExtraWhitespace } from "app/app/functions/removeExtraWhitespace";
 import { automaticThu } from "maker/vocabulary_maker/compile/functions";
 
-export const getPlaintextFromVocabularyEntry = (input) => {
-  if (!input) return null;
+export const getPlaintextFromVocabularyEntry = (input: string) => {
+  if (!input) return "";
   return getPlaintextFromFormatted(formatVocabularyEntry(input));
 };
 
-export const getPlaintextFromFormatted = (input) => {
+export const getPlaintextFromFormatted = (input: string): string => {
   if (!input) {
     console.error("Missing plaintext!");
-    // if (isDev) {
-    //   console.trace();
-    //   process.exit();
-    // }
     return "";
   }
   return removeExtraWhitespace(
@@ -29,9 +25,10 @@ export const getPlaintextFromFormatted = (input) => {
   );
 };
 
-export const formatVocabularyEntry = (input) => {
+export const formatVocabularyEntry = (input: string): string => {
   if (!input) return "";
   if (typeof input !== "string") {
+    // @ts-ignore
     return input.toString();
   }
   input = automaticThu(input)
@@ -69,11 +66,11 @@ export const formatVocabularyEntry = (input) => {
     /* Occlusion */
     .replace(
       /( )?\*([^*;$!.,<>"=]+)\*?( )?/g,
-      (x, space_before, text, space_after) => {
+      (x: string, space_before: string, text: string, space_after: string) => {
         return occlude(c`${space_before}${text}${space_after}`);
       }
     )
-    .replace(/[%]([^ .!?;:<>"=]+)/g, (x, text) => {
+    .replace(/[%]([^ .!?;:<>"=]+)/g, (x: string, text: string) => {
       return occlude(text);
     })
 
@@ -106,7 +103,7 @@ export const formatVocabularyEntry = (input) => {
   }
 
   if (/{{/.test(input)) {
-    console.warn(`Unprocessed template: ${input.match(/({{.+?}})/)[1]}`);
+    console.warn(`Unprocessed template: ${input.match(/({{.+?}})/)?.[1]}`);
   }
 
   if (/(<<|>>)/.test(input)) {
@@ -129,7 +126,7 @@ export const formatVocabularyEntry = (input) => {
   return input;
 };
 
-export const formatPrefixes = (first, second) => {
+export const formatPrefixes = (first: string, second: string) => {
   // return first;
   if (!first || !second) return first;
   const re = /(^| - )(hér eru?|um|frá|til|here is|here are|about|from|to)( )/g;
@@ -139,7 +136,7 @@ export const formatPrefixes = (first, second) => {
   return first;
 };
 
-export const formatLemmas = (input) => {
+export const formatLemmas = (input: string) => {
   if (!input) return "";
   input = formatVocabularyEntry(input)
     .replace(/%/g, "")
@@ -148,7 +145,7 @@ export const formatLemmas = (input) => {
   return input;
 };
 
-export const occlude = (input) => {
+export const occlude = (input: string) => {
   let text = input
     /* Ignore HTML */
     .split(/(<.+?>)/g)
@@ -162,11 +159,6 @@ export const occlude = (input) => {
     .join("");
 
   text = c`<span class="occluded-outer-container">${text}</span>`;
-
-  // if (/(<<|>>)/.test(text)) {
-  //   console.log({ input, text });
-  //   throw new Error();
-  // }
 
   return text;
 };

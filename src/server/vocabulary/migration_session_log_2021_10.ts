@@ -1,7 +1,8 @@
+import { Router } from "express";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
 
-const router = require("express").Router();
+const router = Router();
 
 router.get("/vocabulary/session_log_migration", async (req, res) => {
   if (!req.session.session_id && !req.session.user_id) {

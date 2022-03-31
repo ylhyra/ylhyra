@@ -16,11 +16,22 @@
 
 */
 
-const MakeList = (input) => {
+import {
+  LongAudioSyncData,
+  UnprocessedLongAudioSyncData,
+} from "documents/parse/types";
+
+export default function MakeLongAudioSyncList(
+  input: UnprocessedLongAudioSyncData[]
+): LongAudioSyncData[] {
   /*
     Collect start and stop times
   */
-  let events = [];
+  let events: {
+    time: number;
+    type: "begin" | "end";
+    element: string;
+  }[] = [];
   input.forEach((i) => {
     events.push({
       time: i.begin,
@@ -40,9 +51,9 @@ const MakeList = (input) => {
   /*
    Join events
   */
-  let list = [];
-  let last_time;
-  let elements = [];
+  let beginTimes: { begin: number; elements: string[] }[] = [];
+  let lastTime: number;
+  let elements: string[] = [];
   events.forEach(({ time, type, element }) => {
     // Add
     if (type === "begin") {
@@ -56,35 +67,33 @@ const MakeList = (input) => {
     }
 
     // Add to list
-    if (time !== last_time) {
-      list.push({
+    if (time !== lastTime) {
+      beginTimes.push({
         begin: time,
-        elements: JSON.parse(JSON.stringify(elements)), // For some reason, the object isn't cloned. (?)
+        elements: elements.slice(),
       });
     }
     // Update last element in list
     else {
-      list[list.length - 1] = {
+      beginTimes[beginTimes.length - 1] = {
         begin: time,
-        elements: JSON.parse(JSON.stringify(elements)), // For some reason, the object isn't cloned. (?)
+        elements: elements.slice(),
       };
     }
 
-    last_time = time;
+    lastTime = time;
   });
 
   /*
-    Add "time until next"
+    Calculates the "time until next" (?)
   */
-  list = list.map((current, index) => {
-    const next = list[index + 1];
+  const out: LongAudioSyncData[] = beginTimes.map((current, index) => {
+    const next = beginTimes[index + 1];
     return {
       ...current,
       end: next ? next.begin : null,
-    };
+    } as LongAudioSyncData;
   });
 
-  return list;
-};
-
-export default MakeList;
+  return out;
+}

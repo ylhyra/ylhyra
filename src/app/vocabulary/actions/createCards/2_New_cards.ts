@@ -7,15 +7,13 @@ import { deck } from "app/vocabulary/actions/deck";
 import { sortBy } from "underscore";
 
 export default (options): CardIds => {
-  let new_cards = deck.cards_sorted.filter(
+  let newCards = deck.cards_sorted.filter(
     (card) => !isInSchedule(card) && isAllowed(card)
   );
 
   if (deck.session.allowed_ids && !options?.dont_sort_by_allowed_ids) {
     /* Sort in same order as allowed_ids */
-    new_cards = sortBy(new_cards, (i) =>
-      deck.session.allowed_ids.indexOf(i.getId())
-    );
+    newCards = sortBy(newCards, (id) => deck.session.allowed_ids.indexOf(id));
   }
   // else if (isEasinessLevelOn()) {
   //   new_cards = sortBy(new_cards, (i) =>
@@ -32,5 +30,5 @@ export default (options): CardIds => {
     // new_cards = sortBy(new_cards, (i) => i.getSortKeyAdjusted(lowest));
   }
 
-  return veryRecentlySeenSortedLast(new_cards.slice(0, 200));
+  return veryRecentlySeenSortedLast(newCards.slice(0, 200));
 };

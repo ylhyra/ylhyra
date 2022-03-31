@@ -1,7 +1,5 @@
-import string_hash from "app/app/functions/hash";
 import GrammaticalAnalysis from "server/grammatical-analysis";
 import GetSuggestions from "server/translator/GetSuggestions";
-import GoogleTranslate from "server/translator/GoogleTranslate";
 import verifySession from "server/VerifyMediawikiSession";
 
 const request = async (
@@ -42,59 +40,59 @@ const request = async (
     ];
   });
 
-  /*
-    Google Translate
-  */
-  if (user.groups.includes("sysop")) {
-    /* Collect words needing translation */
-    let translation_hashes = {};
-    list.arrayOfAllWordIDs.forEach((id) => {
-      if (!translation.words[id] && !output[id]) {
-        const hash = string_hash(list.words[id].text);
-        const text = list.words[id].text;
-        translation_hashes[hash] = {
-          text,
-        };
-      }
-    });
-    Object.keys(list.sentences).forEach((id) => {
-      if (!translation.sentences[id] && !output[id]) {
-        const hash = string_hash(list.sentences[id].text);
-        const text = list.sentences[id].text;
-        translation_hashes[hash] = {
-          text,
-        };
-      }
-    });
-
-    const g = await GoogleTranslate(translation_hashes);
-    list.arrayOfAllWordIDs.forEach((id) => {
-      const hash = string_hash(list.words[id].text);
-      // const text = list.words[id].text
-      if (g[hash]) {
-        output[id] = [
-          {
-            definition: {
-              meaning: g[hash],
-            },
-          },
-        ];
-      }
-    });
-    Object.keys(list.sentences).forEach((id) => {
-      const hash = string_hash(list.sentences[id].text);
-      // const text = list.sentences[id].text
-      if (g[hash]) {
-        output[id] = [
-          {
-            definition: {
-              meaning: g[hash],
-            },
-          },
-        ];
-      }
-    });
-  }
+  // /*
+  //   Google Translate
+  // */
+  // if (user.groups.includes("sysop")) {
+  //   /* Collect words needing translation */
+  //   let translation_hashes = {};
+  //   list.arrayOfAllWordIDs.forEach((id) => {
+  //     if (!translation.words[id] && !output[id]) {
+  //       const hash = string_hash(list.words[id].text);
+  //       const text = list.words[id].text;
+  //       translation_hashes[hash] = {
+  //         text,
+  //       };
+  //     }
+  //   });
+  //   Object.keys(list.sentences).forEach((id) => {
+  //     if (!translation.sentences[id] && !output[id]) {
+  //       const hash = string_hash(list.sentences[id].text);
+  //       const text = list.sentences[id].text;
+  //       translation_hashes[hash] = {
+  //         text,
+  //       };
+  //     }
+  //   });
+  //
+  //   const g = await GoogleTranslate(translation_hashes);
+  //   list.arrayOfAllWordIDs.forEach((id) => {
+  //     const hash = string_hash(list.words[id].text);
+  //     // const text = list.words[id].text
+  //     if (g[hash]) {
+  //       output[id] = [
+  //         {
+  //           definition: {
+  //             meaning: g[hash],
+  //           },
+  //         },
+  //       ];
+  //     }
+  //   });
+  //   Object.keys(list.sentences).forEach((id) => {
+  //     const hash = string_hash(list.sentences[id].text);
+  //     // const text = list.sentences[id].text
+  //     if (g[hash]) {
+  //       output[id] = [
+  //         {
+  //           definition: {
+  //             meaning: g[hash],
+  //           },
+  //         },
+  //       ];
+  //     }
+  //   });
+  // }
 
   send({
     type: "SUGGEST",

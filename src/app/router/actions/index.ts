@@ -1,5 +1,6 @@
 import { isBrowser } from "app/app/functions/isBrowser";
 import { updateURL } from "app/router/actions/updateURL";
+import { PrerenderedDataSavedInPage } from "app/types";
 import { existsSchedule, isUserLoggedIn } from "app/user/actions";
 
 if (isBrowser) {
@@ -10,7 +11,9 @@ if (isBrowser) {
     }
   });
 }
-export const InitializeRouter = (prerender_data) => {
+export const InitializeRouter = (
+  prerender_data: PrerenderedDataSavedInPage
+) => {
   const { is404 } = window["is404"];
   void updateURL(
     (prerender_data?.url || window.location.pathname) + window.location.hash,

@@ -1,11 +1,13 @@
 import { isDev } from "app/app/functions/isDev";
 import { exec } from "child_process";
+
+import { Router } from "express";
 import fs from "fs";
 import path from "path";
 
 import { getValuesForURL } from "server/content/links";
 
-const router = require("express").Router();
+const router = Router();
 
 router.post("/translator/saveDocument", (req, res) => {
   if (!isDev) return;

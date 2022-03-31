@@ -90,7 +90,9 @@ export const row_info = row_info_array.reduce((prev, row) => {
 
 export const row_titles = Object.keys(row_info);
 
-export const formatRowName = (i) => {
+export type RowTitles = keyof typeof row_titles;
+
+export const formatRowName = (i: string) => {
   if (!i) return "";
   return ucfirst(i).replaceAll("_", " ");
 };

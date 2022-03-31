@@ -1,9 +1,11 @@
 import { removeExtraWhitespace } from "app/app/functions/removeExtraWhitespace";
+
+import { Router } from "express";
 import { row_titles } from "maker/vocabulary_maker/compile/rowTitles";
 import { content_folder } from "server/paths_backend";
 import _ from "underscore";
 
-const router = require("express").Router();
+const router = Router();
 const fs = require("fs");
 const filename = content_folder + `/not_data/vocabulary/vocabulary`;
 const yaml = require("js-yaml");

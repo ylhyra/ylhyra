@@ -30,24 +30,35 @@
     { begin: 1.930, end: 2.315, id: "w2",  },
   ]
 */
-const Read = (input) => {
-  let elements = [];
-  const Flatten = (input) => {
-    if (!input) return;
+import {
+  AeneasOutput,
+  UnprocessedLongAudioSyncData,
+} from "documents/parse/types";
+
+export default function FlattenAeneasData(
+  input: AeneasOutput["fragments"]
+): UnprocessedLongAudioSyncData[] {
+  let elements: UnprocessedLongAudioSyncData[] = [];
+  const Flatten = (
+    input:
+      | AeneasOutput["fragments"]
+      | AeneasOutput["fragments"][number]["children"]
+      | AeneasOutput["fragments"][number]["children"][number]["children"]
+  ) => {
     Array.isArray(input) &&
       input.forEach((i) => {
-        if (i.id !== "root") {
+        if (i.id !== "root" && "begin" in i) {
           elements.push({
             begin: Math.max(0, parseFloat(i.begin)),
             end: Math.max(0, parseFloat(i.end)),
             id: i.id,
           });
         }
-        Flatten(i.children);
+        if ("children" in i) {
+          Flatten(i.children);
+        }
       });
   };
   Flatten(input);
   return elements;
-};
-
-export default Read;
+}

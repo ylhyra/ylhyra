@@ -26,16 +26,15 @@ export const GetLowercaseStringForAudioKey = (i) => {
   return getPlaintextFromVocabularyEntry(i).replace(/[.]+$/, "").toLowerCase();
 };
 
-export const getHash = (input, options?) => {
-  if (!input) return null;
+export const getHash = (input, options?): string => {
+  if (!input) return "";
   if (Array.isArray(input)) {
     return getHash(input.map(getPlaintextFromVocabularyEntry).join(";"));
   }
   const string = getPlaintextFromVocabularyEntry(input)
     .replace(/[.?!]+$/, "")
     .toLowerCase();
-  if (!string) return null;
-  // return string;
+  if (!string) return "";
   if (
     options?.skip_hash ||
     (isBrowser &&

@@ -21,6 +21,7 @@ window["recording_metadata"] = {
 };
 
 class RecorderElement extends React.Component {
+  isKeyDown = false;
   state = {
     recording: false,
     word: null,
@@ -39,14 +40,10 @@ class RecorderElement extends React.Component {
   }
   keyUp = () => {
     this.isKeyDown = false;
-    // if (this.state.recording) {
-    //   this.stop();
-    // }
   };
-  checkKey = (e) => {
+  checkKey = (e: KeyboardEvent) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (this.isKeyDown) return;
-    // console.log(e.keyCode)
     this.isKeyDown = true;
     if (e.keyCode === 27 /* ESC */) {
       if (this.state.blob || this.state.recording) {
@@ -60,13 +57,6 @@ class RecorderElement extends React.Component {
         this.save();
       }
     }
-    // else if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */) {
-    //   if (this.state.recording) {
-    //     // this.stop();
-    //   } else {
-    //     this.start();
-    //   }
-    // }
   };
 
   start = () => {

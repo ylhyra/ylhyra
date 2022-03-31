@@ -17,7 +17,7 @@ export default function (
   documents: DocumentTitleToArrayOfRawText,
   data: DocumentTitleToFlattenedData
 ): DocumentTitleToTokenizedParagraphsWithIds {
-  let tokenized = {};
+  let tokenized: DocumentTitleToTokenizedParagraphsWithIds = {};
   for (const documentTitle of Object.keys(documents)) {
     tokenized[documentTitle] = tokenizeDocument({
       documentTitle,
@@ -85,7 +85,7 @@ const tokenizeDocument = ({
 };
 
 const hashOfIds = (paragraph: TokenizedParagraphsWithIds[number]) => {
-  let ids = [];
+  let ids: string[] = [];
   paragraph.sentences.forEach((sentence) => {
     ids.push(sentence.id);
     sentence.words.forEach((word) => {

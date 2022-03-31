@@ -1,11 +1,13 @@
 import removeNullKeys from "app/app/functions/removeNullKeys";
 import { msToS } from "app/app/functions/time";
+
+import { Router } from "express";
 import stable_stringify from "json-stable-stringify";
 import { staticCached } from "server/caching";
 import query from "server/database";
 import sql from "server/database/functions/SQL-template-literal";
 
-const router = require("express").Router();
+const router = Router();
 
 /* Download vocabulary database file */
 router.use("/vocabulary/", staticCached(__basedir + "/build/vocabulary"));

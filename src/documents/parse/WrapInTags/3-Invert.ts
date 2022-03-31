@@ -9,10 +9,6 @@ import { HtmlAsJson } from "app/app/functions/html2json/types";
       <b><word>blabla</word></b>
 */
 const InvertElementsThatOnlyContainOneThing = (i: HtmlAsJson): HtmlAsJson => {
-  // if (!i) return;
-  // if (Array.isArray(i)) {
-  //   return i.map((x) => InvertElementsThatOnlyContainOneThing(x));
-  // } else {
   const { node, tag, attr, child } = i;
   if (child && child.length > 0) {
     /*

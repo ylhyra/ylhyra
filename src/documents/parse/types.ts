@@ -6,9 +6,45 @@ export type FlattenedData = {
     sounds: {};
     wordID_to_text: {};
   };
-  long_audio: {};
+  long_audio: {
+    [filename: string]: {
+      sync: {
+        list: LongAudioSyncData[];
+      };
+    };
+  };
 
   tokenized?: TokenizedParagraphsWithIds;
+};
+
+export type AeneasOutput = {
+  fragments: Array<{
+    id: "root";
+    /** Sentence-level elements */
+    children: Array<{
+      begin: string;
+      end: string;
+      id: string;
+      /** Word-level elements */
+      children?: Array<{
+        begin: string;
+        end: string;
+        id: string;
+      }>;
+    }>;
+  }>;
+};
+
+export type UnprocessedLongAudioSyncData = {
+  begin: number;
+  end: number;
+  id: string;
+};
+
+export type LongAudioSyncData = {
+  begin: number;
+  end: number;
+  elements: string[];
 };
 
 export type DocumentTitleToFlattenedData = {

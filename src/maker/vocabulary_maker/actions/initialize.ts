@@ -7,7 +7,7 @@ import {
 } from "maker/vocabulary_maker/actions/actions";
 import { setupSound } from "maker/vocabulary_maker/actions/sound";
 import { getDeckName } from "maker/vocabulary_maker/compile/functions";
-import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
+import { parseVocabularyFile } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
 
 export const load = async () => {
   // window.skip_hash = true;
@@ -30,7 +30,7 @@ export const load = async () => {
     return row;
   });
 
-  Object.assign(Database, parse_vocabulary_file(vocabulary));
+  Object.assign(Database, parseVocabularyFile(vocabulary));
 
   if (store.getState().route.pathname === "/maker/record") {
     setTimeout(() => {

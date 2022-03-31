@@ -2,27 +2,31 @@
   Words under 0.3 seconds are
   merged into their sibling
 */
-const minimum_time = 0.3;
-const MergeShortWords = (input) => {
-  const Merge = (input_words) => {
+import {
+  AeneasOutput,
+  UnprocessedLongAudioSyncData,
+} from "documents/parse/types";
+
+const minimumTime = 0.3;
+
+export default function MergeShortWords(
+  input: AeneasOutput["fragments"]
+): AeneasOutput["fragments"] {
+  const Merge = (input_words: UnprocessedLongAudioSyncData[]) => {
     let words = JSON.parse(JSON.stringify(input_words)); // TEMP
     for (let index = 0; index < words.length; index++) {
       let begin = words[index].begin;
       let end = words[index].end;
       let timespan = end - begin;
-      let merge_count;
+      let mergeCount = 0;
 
-      for (
-        let m = 0;
-        timespan < minimum_time && index + m < words.length;
-        m++
-      ) {
-        merge_count = m;
-        end = words[index + merge_count].end;
+      for (let m = 0; timespan < minimumTime && index + m < words.length; m++) {
+        mergeCount = m;
+        end = words[index + mergeCount].end;
         timespan = end - begin;
       }
 
-      for (let i = index; i <= index + merge_count; i++) {
+      for (let i = index; i <= index + mergeCount; i++) {
         words[i] = {
           ...words[i],
           begin,
@@ -45,6 +49,4 @@ const MergeShortWords = (input) => {
     console.error(e);
     return input;
   }
-};
-
-export default MergeShortWords;
+}

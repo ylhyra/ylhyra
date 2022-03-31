@@ -11,14 +11,36 @@ import {
 } from "maker/vocabulary_maker/compile/functions";
 import _ from "underscore";
 
-export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
-  let terms = {};
-  let dependencies = {};
-  let alternative_ids = {};
-  let plaintext_sentences = [];
-  let cards = {};
+export type CardData = {
+  en_plaintext: string;
+  en_formatted: string;
+  terms: string[];
+  level: string;
+  pronunciation?: string;
+  lemmas?: string;
+  note_regarding_english?: string;
+  note?: string;
+  literally?: string;
+  row_id: string;
+  example_declension?: string;
+  importance?: string;
+  difficulty?: string;
+  synonyms?: string;
+  is_plaintext: string;
+  is_formatted: string;
+  from: string;
+  id: string;
+  spokenSentences?: string[];
+};
 
-  const TermsToCardId = (_terms, id) => {
+export const parseVocabularyFile = ({ rows, sound }, sortKeys) => {
+  let terms: { [id: string]: { cards: string[] } } = {};
+  let dependencies: { [id: string]: string[] } = {};
+  let alternativeIds: typeof dependencies = {};
+  let plaintextSentences: { [id: string]: boolean } = {};
+  let cards: { [key: string]: CardData } = {};
+
+  const TermsToCardId = (_terms: string[], id: string) => {
     _terms.forEach((term) => {
       if (!terms[term]) {
         terms[term] = {
@@ -29,11 +51,16 @@ export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
       terms[term].cards.push(id);
     });
   };
-  const AddToDependencyGraph = (first, second, type) => {
+
+  const AddToDependencyGraph = (
+    first: string[],
+    second: string[],
+    type?: "alt_ids"
+  ) => {
     if (!second || second.length === 0) return;
     let obj = dependencies;
     if (type === "alt_ids") {
-      obj = alternative_ids;
+      obj = alternativeIds;
     }
     first.forEach((id) => {
       obj[id] = _.uniq([...(obj[id] || []), ...second]).filter((j) => j !== id);
@@ -43,80 +70,76 @@ export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
     });
   };
 
-  const getSpokenSentences = (input) => {
-    let output = [];
+  const getSpokenSentences = (input: string) => {
+    let output: string[] = [];
     input.split(/;+/g).forEach((i) => {
       getPlaintextFromVocabularyEntry(i)
         .split(/ [-–—] /g)
-        .forEach((j) => {
+        .forEach((j: string) => {
           output.push(j);
         });
     });
     return output;
   };
 
-  // console.log(rows.length);
-
   _.shuffle(rows)
     .sort((a, b) => (a.level || 100) - (b.level || 100))
     .forEach((row) => {
       if (!row.icelandic) return;
-      let to_add = [];
+      let toAdd: CardData[] = [];
 
       /* Can have multiple */
-      let icelandic_strings = row.icelandic.split(/;+/g);
-      let formatted_icelandic_strings = icelandic_strings.map(
+      let icelandicStrings = row.icelandic.split(/;+/g);
+      let formattedIcelandicStrings = icelandicStrings.map(
         formatVocabularyEntry
       );
-      const terms_in_this_line = icelandic_strings.map(getHash);
+      const termsInThisLine = icelandicStrings.map(getHash);
 
-      let altid_lemmas = [];
-      let dependson_lemmas = [];
-      row.lemmas?.split(/[,;]/g).forEach((lemma) => {
+      let altIdLemmas: string[] = [];
+      let dependsOnLemmas: string[] = [];
+      row.lemmas?.split(/[,;]/g).forEach((lemma: string) => {
         if (/%%/.test(lemma)) {
           return;
         } else if (/%/.test(lemma)) {
-          altid_lemmas.push(lemma.replaceAll("%", ""));
+          altIdLemmas.push(lemma.replaceAll("%", ""));
         } else {
-          dependson_lemmas.push(lemma);
+          dependsOnLemmas.push(lemma);
         }
       });
 
-      let alternative_ids = [
+      let alternativeIds = [
         ...getHashesFromCommaSeperated(row.alternative_id),
-        ...altid_lemmas.map(getHash),
+        ...altIdLemmas.map(getHash),
       ];
 
-      const depends_on = [
+      const dependsOn = [
         ...getHashesFromCommaSeperated(row.depends_on?.replace(/%/g, "")),
-        ...dependson_lemmas.map(getHash),
+        ...dependsOnLemmas.map(getHash),
         ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
       ];
 
-      AddToDependencyGraph(terms_in_this_line, depends_on);
-      AddToDependencyGraph(alternative_ids, terms_in_this_line, "alt_ids");
+      AddToDependencyGraph(termsInThisLine, dependsOn);
+      AddToDependencyGraph(alternativeIds, termsInThisLine, "alt_ids");
 
       if (row.direction && row.direction !== "<-" && row.direction !== "->") {
         throw new Error(`Unknown direction ${row.direction}`);
       }
 
-      icelandic_strings.forEach((t) => {
+      icelandicStrings.forEach((t: string) => {
         const s = getPlaintextFromVocabularyEntry(t);
-        s.split(/ [-–—] /g).forEach((t) => {
-          plaintext_sentences[t] = true;
+        s.split(/ [-–—] /g).forEach((k: string) => {
+          plaintextSentences[k] = true;
         });
       });
 
-      /** @type CardData */
-      let card_skeleton = {
+      let cardSkeleton: Partial<CardData> = {
         en_plaintext: getPlaintextFromVocabularyEntry(row.english),
         en_formatted: formatVocabularyEntry(
           formatPrefixes(row.english, row.icelandic)
         ),
-        terms: terms_in_this_line,
+        terms: termsInThisLine,
         level: row.level,
         pronunciation: row.pronunciation,
-        // sort: line_number,
         lemmas: formatLemmas(row.lemmas),
         note_regarding_english: formatVocabularyEntry(
           row.note_regarding_english
@@ -128,14 +151,14 @@ export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
         importance: row.importance,
         difficulty: row.difficulty,
         synonyms: row.synonyms,
-      };
+      } as const;
 
       if (/{{(ð?u)}}/.test(automaticThu(row.icelandic))) {
         const [, full, verb] = automaticThu(row.icelandic).match(
-          /(([^ "„,.]+){{(?:ð?u)}})/
+          /(([^ "„,.]+){{ð?u}})/
         );
-        card_skeleton.note =
-          card_skeleton.note +
+        cardSkeleton.note =
+          cardSkeleton.note +
           " " +
           formatVocabularyEntry(`
         ''${full.toLowerCase()}'' is made by combining ''${verb.toLowerCase()}'' + ''þú''.
@@ -145,11 +168,11 @@ export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
       /* Icelandic to English */
       if (row.direction !== "<-") {
         if (row.should_split === "yes") {
-          icelandic_strings.forEach((i, index) => {
-            to_add.push({
+          icelandicStrings.forEach((i: string, index: number) => {
+            toAdd.push({
               is_plaintext: getPlaintextFromVocabularyEntry(i),
               is_formatted: formatPrefixes(
-                formatted_icelandic_strings[index],
+                formattedIcelandicStrings[index],
                 row.english
               ),
 
@@ -157,45 +180,39 @@ export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
               id: getHash(i) + "_is",
               spokenSentences: getSpokenSentences(i),
               // sound: getSounds(i),
-              ...card_skeleton,
-            });
+              ...cardSkeleton,
+            } as CardData);
           });
         } else {
-          to_add.push(
-            /** @type CardData */ {
-              is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
-              is_formatted: formatVocabularyEntry(
-                formatPrefixes(row.icelandic, row.english)
-              ),
-              from: "is",
-              id: getHash(row.icelandic) + "_is",
-              spokenSentences: getSpokenSentences(row.icelandic),
-              // sound: getSounds(row.icelandic),
-              ...card_skeleton,
-            }
-          );
+          toAdd.push({
+            is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
+            is_formatted: formatVocabularyEntry(
+              formatPrefixes(row.icelandic, row.english)
+            ),
+            from: "is",
+            id: getHash(row.icelandic) + "_is",
+            spokenSentences: getSpokenSentences(row.icelandic),
+            ...cardSkeleton,
+          } as CardData);
         }
       }
 
       /* English to Icelandic */
       if (row.direction !== "->") {
-        to_add.push(
-          /** @type CardData */ {
-            is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
-            is_formatted: formatVocabularyEntry(row.icelandic),
-            from: "en",
-            id: getHash(row.icelandic) + "_en",
-            spokenSentences: getSpokenSentences(row.icelandic),
-            // sound: getSounds(row.icelandic),
-            ...card_skeleton,
-          }
-        );
+        toAdd.push({
+          is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
+          is_formatted: formatVocabularyEntry(row.icelandic),
+          from: "en",
+          id: getHash(row.icelandic) + "_en",
+          spokenSentences: getSpokenSentences(row.icelandic),
+          ...cardSkeleton,
+        } as CardData);
       }
 
-      to_add.forEach((card) => {
+      toAdd.forEach((card) => {
         if (cards[card.id])
           return console.log(`"${row.icelandic}" already exists`);
-        TermsToCardId(terms_in_this_line, card.id);
+        TermsToCardId(termsInThisLine, card.id);
         cards[card.id] = card;
       });
     });
@@ -219,13 +236,18 @@ export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
     ["það", "that"],
     ["við", "we"],
   ];
-  const is_prefix = new RegExp(
+  const isPrefix = new RegExp(
     `^(${prefixes.map((i) => i[0]).join("|")}) `,
     "i"
   );
-  const en_prefix = new RegExp(`${prefixes.map((i) => i[1]).join("|")} `, "i");
-  let automatic_alt_ids = {};
-  for (let [key, card] of Object.entries(cards)) {
+  const enPrefix = new RegExp(`${prefixes.map((i) => i[1]).join("|")} `, "i");
+  let automaticAltIds: {
+    [sentenceHash: string]: {
+      terms: CardData["terms"];
+      score: number;
+    };
+  } = {};
+  for (let [, card] of Object.entries(cards)) {
     if (!card.en_plaintext) continue;
 
     /* Sleppa sjálfvirku á allra fyrstu orðunum í listanum */
@@ -239,9 +261,9 @@ export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
 
     card.is_plaintext.split(/ ?[,;-] ?/g).forEach((sentence) => {
       /* Notað til að bæta við strengjum sem eru splittaðir með bandstriki */
-      const sentence_hash = getHash(sentence);
-      if (!(sentence_hash in terms) && !(sentence_hash in alternative_ids)) {
-        automatic_alt_ids[sentence_hash] = {
+      const sentenceHash = getHash(sentence);
+      if (!(sentenceHash in terms) && !(sentenceHash in alternativeIds)) {
+        automaticAltIds[sentenceHash] = {
           terms: card.terms,
           score: 0,
         };
@@ -251,35 +273,38 @@ export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
       }
 
       /* Prefixar */
-      if (sentence.match(is_prefix) && card.en_plaintext.match(en_prefix)) {
-        const without = sentence.replace(is_prefix, "");
+      if (sentence.match(isPrefix) && card.en_plaintext.match(enPrefix)) {
+        const without = sentence.replace(isPrefix, "");
         const score = prefixes
           .map((i) => i[0])
-          .indexOf(sentence.match(is_prefix)[1].toLowerCase());
+          .indexOf((sentence.match(isPrefix)?.[1] as string).toLowerCase());
         const hash = getHash(without);
         if (
           hash in terms ||
-          hash in alternative_ids ||
-          (hash in automatic_alt_ids &&
-            automatic_alt_ids[hash].score < score) ||
+          hash in alternativeIds ||
+          (hash in automaticAltIds && automaticAltIds[hash].score < score) ||
           ["að"].includes(without)
         )
           return;
-        automatic_alt_ids[hash] = {
+        automaticAltIds[hash] = {
           terms: card.terms,
           score: score,
         };
       }
     });
   }
-  Object.keys(automatic_alt_ids).forEach((i) => {
-    automatic_alt_ids[i] = automatic_alt_ids[i].terms;
 
-    alternative_ids[i] = automatic_alt_ids[i].terms;
+  /* TODO: Spaghetti code */
+  let automaticAltIds2: {
+    [sentenceHash: string]: CardData["terms"];
+  } = {};
+  Object.keys(automaticAltIds).forEach((i) => {
+    automaticAltIds2[i] = automaticAltIds[i].terms;
+    alternativeIds[i] = automaticAltIds[i].terms;
   });
 
   /* Automatic dependency graphs */
-  const ignored_automatic_words = [
+  const ignoredAutomaticWords = [
     "hér",
     "hér er",
     "um",
@@ -301,27 +326,27 @@ export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
     "það er",
   ];
   // TODO: Sleppa þegar deps innihalda nú þegar þetta orð!
-  for (let [key, card] of Object.entries(cards)) {
+  for (let [, card] of Object.entries(cards)) {
     card.is_plaintext.split(/[,;] ?/g).forEach((sentence) => {
       const split = sentence.replace(/[,.!;:?"„“]/g, "").split(/ /g);
-      const min_len = 1;
-      for (let i = 0; i + min_len <= split.length && i <= 5; i++) {
-        for (let b = i + min_len; b <= split.length && b <= i + 5; b++) {
+      const minLen = 1;
+      for (let i = 0; i + minLen <= split.length && i <= 5; i++) {
+        for (let b = i + minLen; b <= split.length && b <= i + 5; b++) {
           if (i === 0 && b === split.length) continue;
           const range = split.slice(i, b).join(" ");
 
-          if (ignored_automatic_words.includes(range.toLowerCase())) {
+          if (ignoredAutomaticWords.includes(range.toLowerCase())) {
             continue;
           }
 
           const hash = getHash(range);
-          const term_ids = [
+          const termIds = [
             hash,
-            ...(alternative_ids[hash] || []),
-            ...(automatic_alt_ids[hash] || []),
+            ...(alternativeIds[hash] || []),
+            ...(automaticAltIds2[hash] || []),
           ];
 
-          term_ids.forEach((term_id) => {
+          termIds.forEach((term_id) => {
             let term = terms[term_id];
             if (term) {
               if (
@@ -343,8 +368,8 @@ export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
   return {
     terms,
     dependencies,
-    alternative_ids,
-    plaintext_sentences,
+    alternative_ids: alternativeIds,
+    plaintext_sentences: plaintextSentences,
     cards,
     sound,
   };

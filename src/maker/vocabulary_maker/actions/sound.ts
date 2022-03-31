@@ -1,4 +1,5 @@
 import store from "app/app/store";
+import { getSortKey } from "app/vocabulary/actions/card/card_data";
 import { deck } from "app/vocabulary/actions/deck";
 import { withDependencies } from "app/vocabulary/actions/functions/dependencies";
 import { Database, save } from "maker/vocabulary_maker/actions/actions";
@@ -13,10 +14,9 @@ let current_word_recording = 0;
 export const setupSound = () => {
   if (getDeckName()) return;
   let sentences = [];
-  /** @type {Array.<string>} */
-  let ids = _.shuffle(deck.cards_sorted.filter((c) => c.sortKey))
-    .sort((a, b) => Math.floor(a.sortKey / 50) - Math.floor(b.sortKey / 50))
-    .map((c) => c.id);
+  let ids = _.shuffle(deck.cards_sorted.filter((c) => getSortKey(c))).sort(
+    (a, b) => Math.floor(getSortKey(a) / 50) - Math.floor(getSortKey(b) / 50)
+  );
   ids = withDependencies(ids);
   ids.forEach((id) => {
     if (!(id in Database.cards)) return;

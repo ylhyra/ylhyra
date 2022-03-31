@@ -1,4 +1,6 @@
-const router = require("express").Router();
+import { Router } from "express";
+
+const router = Router();
 const { Crawler } = require("es6-crawler-detect");
 
 const rateLimit = require("express-rate-limit")({

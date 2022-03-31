@@ -5,10 +5,21 @@ import store from "app/app/store";
 import { getFrontpageURL } from "app/router/actions/index";
 import { abortAllThatAreNot, loadContent } from "app/router/actions/load";
 import { app_urls } from "app/router/appUrls";
+import { PrerenderedDataSavedInPage } from "app/types";
 import { clear as ClearReadAlongSetup } from "documents/render/audio/ReadAlong";
 import { renderTitle } from "server/content/renderTitle";
 
-export async function updateURL(url, options = {}) {
+type UpdateURLOptions = {
+  title?: string;
+  isLoadingContent?: Boolean;
+  prerender_data?: PrerenderedDataSavedInPage;
+  is404?: Boolean;
+  dontChangeUrl?: Boolean;
+  isInitializing?: Boolean;
+  routeContent?: string;
+};
+
+export async function updateURL(url, options: UpdateURLOptions = {}) {
   let {
     title,
     isLoadingContent,
@@ -19,7 +30,7 @@ export async function updateURL(url, options = {}) {
     routeContent,
   } = options;
   if (isBrowser) {
-    window.HAS_LOADED = true;
+    window["HAS_LOADED"] = true;
   }
 
   url = URL_title(url);

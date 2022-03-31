@@ -3,7 +3,7 @@
   npm run vocabulary
 */
 import { GetLowercaseStringForAudioKey } from "maker/vocabulary_maker/compile/functions";
-import { parse_vocabulary_file } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
+import { parseVocabularyFile } from "maker/vocabulary_maker/compile/parse_vocabulary_file";
 import { content_folder } from "server/paths_backend";
 import { simplify } from "server/vocabulary/compile/simplify";
 import getSortKeys from "server/vocabulary/sortKeys";
@@ -31,7 +31,7 @@ const run = async () => {
 
   fs.readFile(filename, "utf8", (err, data) => {
     const { terms, dependencies, alternative_ids, cards, sound } =
-      parse_vocabulary_file(yaml.load(data), sortKeys);
+      parseVocabularyFile(yaml.load(data), sortKeys);
 
     const sound_lowercase = sound.map((j) => ({
       ...j,

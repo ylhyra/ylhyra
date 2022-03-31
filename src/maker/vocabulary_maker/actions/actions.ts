@@ -34,12 +34,13 @@ export const refreshRows = () => {
         booleanCompare(a["eyða"], b["eyða"]) ||
         booleanCompare(b.english, a.english) ||
         booleanCompare(b.icelandic, a.icelandic) ||
-        ("difficulty" in a) - ("difficulty" in b) ||
+        booleanCompare("difficulty" in a, "difficulty" in b) ||
         // a.last_seen?.localeCompare(b.last_seen) ||
         booleanCompare(a.fix, b.fix) ||
         booleanCompare(b.level <= 3, a.level <= 3) ||
-        b.level - a.level ||
-        false
+        b.level - a.level
+      // ||
+      // false
     );
   } else {
     Database.rows = Database.rows.sort(
@@ -53,15 +54,16 @@ export const refreshRows = () => {
         booleanCompare(b.level <= 3, a.level <= 3) ||
         (a.level || 100) - (b.level || 100) ||
         a.row_id - b.row_id ||
-        booleanCompare(a.fix, b.fix) ||
-        false
+        booleanCompare(a.fix, b.fix)
+      // ||
+      // false
     );
   }
   selectRows();
   select(Database.selected_rows.length > 0 && Database.selected_rows[0].row_id);
 };
 
-export const selectRows = (noupdate) => {
+export const selectRows = (noupdate?) => {
   if (!isSearching) {
     Database.selected_rows = Database.rows
       // .filter((i) => i.row_id > 1600 || i.userLevel <= 3 || !i.userLevel)
@@ -92,7 +94,7 @@ export const select = (id) => {
       window.scroll(
         0,
         document.querySelector("form").offsetTop +
-          document.querySelector("#content").offsetTop
+          (document.querySelector("#content") as HTMLElement).offsetTop
       );
     }, 120);
   } else {
@@ -203,7 +205,8 @@ export const findMissingDependencies = () => {
 export const addEmpty = () => {
   Database.rows.push({
     row_id: Database.maxID++ + 1,
-    icelandic: document.querySelector("[name=search]").value,
+    icelandic: (document.querySelector("[name=search]") as HTMLInputElement)
+      .value,
   });
   refreshRows();
   isSearching && reDoSearch?.();

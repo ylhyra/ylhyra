@@ -1,6 +1,11 @@
-import { FlattenedData } from "documents/parse/types";
+import {
+  DocumentTitleToFlattenedData,
+  FlattenedData,
+} from "documents/parse/types";
 
-export const flattenData = (input): FlattenedData => {
+export const flattenData = (
+  input: DocumentTitleToFlattenedData
+): FlattenedData => {
   let output = {
     translation: {
       definitions: {},

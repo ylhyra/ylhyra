@@ -2,6 +2,7 @@ import { isBrowser } from "app/app/functions/isBrowser";
 import store from "app/app/store";
 import Router from "app/router";
 import { InitializeRouter } from "app/router/actions";
+import { PrerenderedDataSavedInPage } from "app/types";
 import { InitializeUser } from "app/user/actions";
 import { InitializeVocabulary } from "app/vocabulary/actions/initialize";
 import { TextEventListenersOn } from "documents/read/touch";
@@ -10,12 +11,12 @@ import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
-let prerender_data;
+let prerenderData: PrerenderedDataSavedInPage | null = null;
 if (isBrowser && "ylhyra_data" in window) {
-  prerender_data = window["ylhyra_data"];
+  prerenderData = window["ylhyra_data"] as PrerenderedDataSavedInPage;
   delete window["ylhyra_data"];
 }
-InitializeRouter(prerender_data);
+InitializeRouter(prerenderData);
 InitializeUser();
 void InitializeVocabulary();
 TextEventListenersOn();
@@ -30,7 +31,7 @@ const Root = (
   </React.StrictMode>
 );
 
-if (prerender_data /*|| window.is404*/) {
+if (prerenderData /*|| window.is404*/) {
   ReactDOM.hydrate(Root, document.getElementById("root"));
 } else {
   ReactDOM.render(Root, document.getElementById("root"));

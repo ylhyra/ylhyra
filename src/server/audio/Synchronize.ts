@@ -1,4 +1,7 @@
 import { exec } from "child_process";
+import { AeneasOutput } from "documents/parse/types";
+
+import { Response, Router } from "express";
 import fileExtension from "file-extension";
 import fs from "fs";
 import path from "path";
@@ -6,7 +9,8 @@ import path from "path";
 import { upload_path } from "server";
 import shortid from "shortid";
 
-const router = require("express").Router();
+const router = Router();
+
 /*
   TODO: This should be put as a queued process
 */
@@ -46,16 +50,17 @@ const DownloadFile = (filename, res, callback) => {
   Here we use [Aeneas](https://github.com/readbeyond/aeneas)
   to automatically synchronize audio and text.
 */
-const synchronize = async ({ lang, filepath, xml }, res) => {
+const synchronize = async (
+  { lang, filepath, xml },
+  res: Response<AeneasOutput | unknown>
+) => {
   const tmp_name = `tmp_${shortid.generate()}`;
   const LANGUAGE = lang || "isl"; // Three letter ISO 639-3 language code
   const AUDIO_FILE_PATH = filepath;
   const INPUT_XML = path.resolve(upload_path, `${tmp_name}.xhtml`);
   const OUTPUT_JSON = path.resolve(upload_path, `${tmp_name}.json`);
 
-  // console.log(xml)
-  // console.log(INPUT_XML)
-  await new Promise((resolve) => {
+  await new Promise<void>((resolve) => {
     fs.writeFile(INPUT_XML, `<xml id="root">${xml}</xml>`, (err) => {
       if (err) throw err;
       resolve();
@@ -63,7 +68,7 @@ const synchronize = async ({ lang, filepath, xml }, res) => {
   });
 
   try {
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       let command = "";
       /* SENTENCE LEVEL */
       if (true) {
@@ -104,12 +109,12 @@ const synchronize = async ({ lang, filepath, xml }, res) => {
         }
       });
     });
-  } catch (e) {
+  } catch (e: unknown) {
     res.status(500);
     return res.send(e);
   }
 
-  const json = await new Promise((resolve) => {
+  const json: AeneasOutput = await new Promise((resolve) => {
     fs.readFile(OUTPUT_JSON, "utf8", (err, data) => {
       if (err) throw err;
       // console.log(data)
