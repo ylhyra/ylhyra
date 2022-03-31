@@ -21,7 +21,7 @@ const TextCompiler = ({
   let output;
   output = data ? Precompile({ json, data }) : json;
   output = PrepareJSONForReact(output);
-  output = CompileToHTML({ json: output, data });
+  output = CompileToHTML({ json: output });
   output = ReactDOMServer.renderToStaticMarkup(output);
   output = entities.decode(output);
   output = html2json(output);

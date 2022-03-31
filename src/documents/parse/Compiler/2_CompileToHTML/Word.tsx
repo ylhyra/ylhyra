@@ -6,11 +6,10 @@ import Box, {
 import InlineTranslation from "documents/parse/Compiler/2_CompileToHTML/Definition/InlineTranslation";
 import Tooltip from "documents/parse/Compiler/2_CompileToHTML/Definition/Tooltip";
 // import GetSound from 'documents/Parse/Compiler/2_CompileToHTML/Sound'
-import omitEmpty from "omit-empty";
 import React from "react";
 import _ from "underscore";
 
-class WordElement extends React.Component<{
+export default class WordElement extends React.Component<{
   definition: DefinitionObject;
   id: string;
   appendText?: string;
@@ -18,13 +17,11 @@ class WordElement extends React.Component<{
   render() {
     const { id, definition, appendText } = this.props;
     let classes = [];
-    let attrs = {};
+    let attrs: { [key: string]: string | boolean } = {};
     if (exists(definition)) {
-      attrs = omitEmpty({
+      attrs = {
         "data-word-has-definition": true,
-        // 'data-sound': GetSound(id, editor),
-        // 'data-analysis': get_analysis(id, editor),
-      });
+      };
 
       /*
         .difficult
@@ -62,5 +59,3 @@ class WordElement extends React.Component<{
     ];
   }
 }
-
-export default WordElement;

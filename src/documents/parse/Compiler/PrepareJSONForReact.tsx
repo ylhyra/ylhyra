@@ -1,15 +1,14 @@
 /**
  * Converts certain HTML attributes to React attributes
  */
+import { HtmlAsJson } from "app/app/functions/html2json/types";
 import inlineStyle2Json from "app/app/functions/inline-style-2-json";
-import { removeNulls } from "documents/parse/Compiler/2_CompileToHTML/Traverse";
 import isBooleanAttribute from "is-boolean-attribute";
 import React from "react";
 import convert from "react-attr-converter";
-import { HtmlAsJson } from "app/app/functions/html2json/types";
 
 const Traverse = (json: HtmlAsJson): HtmlAsJson => {
-  if (!json) return null;
+  // if (!json) return null;
   let { node, tag, attr, child, text } = json;
   if (attr?.id === null) {
     delete attr.id;
@@ -22,7 +21,7 @@ const Traverse = (json: HtmlAsJson): HtmlAsJson => {
     let attrConverted: any = {};
     for (const property of Object.keys(attr || {})) {
       // Converts HTML attribute into React attribute
-      if (property in attr && !property.startsWith("data-temp")) {
+      if (attr && property in attr && !property.startsWith("data-temp")) {
         const value = attr[property];
         if (property === "style") {
           attrConverted[convert(property)] = inlineStyle2Json(value);
@@ -43,7 +42,7 @@ const Traverse = (json: HtmlAsJson): HtmlAsJson => {
     }
 
     /*
-      Always open links in a new window
+      Always open external links in a new window
     */
     if (
       tag === "a" &&
@@ -56,7 +55,9 @@ const Traverse = (json: HtmlAsJson): HtmlAsJson => {
 
     let out = json;
     if (child) {
-      out.child = child.map((e) => Traverse(e)).filter(removeNulls);
+      out.child = child
+        .map((e) => Traverse(e))
+        .filter((i) => i !== null && typeof i !== "undefined");
     }
     if (Object.keys(attrConverted).length > 0) {
       out.attr = attrConverted;
@@ -67,6 +68,8 @@ const Traverse = (json: HtmlAsJson): HtmlAsJson => {
     return out;
   } else if (node === "text") {
     return json;
+  } else {
+    return {};
   }
 };
 

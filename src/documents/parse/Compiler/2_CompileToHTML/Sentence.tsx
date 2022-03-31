@@ -1,7 +1,7 @@
 import exists from "app/app/functions/exists";
 import Box from "documents/parse/Compiler/2_CompileToHTML/Definition/Box/Sentence";
-import React from "react";
 import { DefinitionObject } from "documents/parse/Compiler/2_CompileToHTML/Definition/Box/Word";
+import React from "react";
 
 class Sentence extends React.Component<{
   definition: DefinitionObject;
@@ -11,16 +11,15 @@ class Sentence extends React.Component<{
     const { id, definition } = this.props;
     let attrs = {};
     let classes = [];
-    if (exists(definition) && definition.meaning.trim()) {
+    if (exists(definition) && definition.meaning?.trim()) {
       attrs = {
         "data-sentence-has-definition": true,
       };
     } else {
       classes.push("missing");
     }
-    // console.log(this.props.children)
     return [
-      <Box id={id} definition={definition} key={1} /*hidden={true}*/ />,
+      <Box id={id} definition={definition} key={1} />,
       <span
         className={`sentence ${classes.join(" ")}`}
         {...attrs}
