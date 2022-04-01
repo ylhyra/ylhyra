@@ -2,7 +2,10 @@ import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { getHash } from "ylhyra/maker/vocabulary_maker/compile/functions";
 import _ from "underscore";
 
-export const getCardIdsFromWords = (words, returnMissing) => {
+export const getCardIdsFromWords = (
+  words: string[],
+  returnMissing?: boolean
+) => {
   let missing = [];
   let card_ids = [];
   words.forEach((word) => {

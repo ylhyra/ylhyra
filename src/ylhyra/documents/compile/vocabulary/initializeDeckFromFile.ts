@@ -5,14 +5,14 @@ export const initializeDeckFromFile = () => {
   try {
     const database = JSON.parse(
       fs.readFileSync(
-        global.__basedir + `/build/vocabulary/vocabulary_database.json`,
+        getBaseDir() + `/build/vocabulary/vocabulary_database.json`,
         "utf8"
       )
     );
     new Deck({ database });
     deck.alternative_ids = JSON.parse(
       fs.readFileSync(
-        global.__basedir + `/build/vocabulary/alternative_ids.json`,
+        getBaseDir() + `/build/vocabulary/alternative_ids.json`,
         "utf8"
       )
     );

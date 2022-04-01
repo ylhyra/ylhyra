@@ -6,7 +6,10 @@ import removeUnwantedCharacters from "ylhyra/app/app/functions/languageProcessin
 import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 
-import { ParseHeaderAndBody } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
+import {
+  HeaderData,
+  ParseHeaderAndBody,
+} from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
 import { getCardIdsFromWords } from "ylhyra/documents/compile/vocabulary/getCardIdsFromWords";
 import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/initializeDeckFromFile";
 // import urlSlug from 'src/app/App/functions/url-slug'
@@ -14,29 +17,24 @@ import fs from "fs";
 import { content_folder } from "ylhyra/server/paths_backend";
 import _ from "underscore";
 
+export type FullFilePath = string;
+
 export type LinkData = {
   title: string;
   /**Just the name of the file itself and not its path*/
   filename: string;
-  filepath: string;
+  filepath: FullFilePath;
   redirect_to: string;
   section: string;
   shouldBeCreated: boolean;
   shouldBeIndexed: boolean;
 };
-export type LinkDataWithUrl = LinkDataWithUrl & {
+
+export type LinkDataWithUrl = LinkData & {
   url: string;
 };
 
-/**
- * @typedef {LinkData} LinkDataWithUrl
- * @property {string} url
- */
-
-/**
- * @type {Object.<string, LinkData>}
- */
-const links = {};
+const links: { [key: string]: LinkData } = {};
 
 // fs.mkdirSync(build_folder)
 
@@ -108,7 +106,7 @@ const run = () => {
   process.exit();
 };
 
-export const shouldBeCreated = (filepath, header) => {
+export const shouldBeCreated = (filepath: FullFilePath, header: HeaderData) => {
   return (
     !/^(Data|File|Text|Template):/.test(header.title) &&
     !/\/(drafts?|test|newsletter)\//i.test(filepath) &&
@@ -116,7 +114,7 @@ export const shouldBeCreated = (filepath, header) => {
   );
 };
 
-export const shouldBeIndexed = (filepath, header) => {
+export const shouldBeIndexed = (filepath: FullFilePath, header: HeaderData) => {
   return (
     shouldBeCreated(filepath, header) &&
     header.index !== "no" &&

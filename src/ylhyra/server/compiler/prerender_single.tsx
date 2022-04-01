@@ -19,7 +19,7 @@ var fs = require("fs");
 let TESTING = false;
 
 const html = fs.readFileSync(
-  path.resolve(global.__basedir, `./src/app/app/public/index.html`),
+  path.resolve(getBaseDir(), `./src/app/app/public/index.html`),
   "utf8"
 );
 

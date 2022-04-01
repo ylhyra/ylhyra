@@ -15,6 +15,8 @@ export type HeaderData = {
   "has_data"?: Boolean;
   "reflist"?: string;
   "classes"?: string[];
+  "status"?: "draft";
+  "index"?: "yes" | "no";
 };
 
 export const ParseHeaderAndBody = (

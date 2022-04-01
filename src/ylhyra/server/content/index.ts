@@ -14,9 +14,7 @@ router.get(["/robots.txt"], async (req, res) => {
   if (req.subdomains.includes("test")) {
     res.send("User-agent: *\nDisallow: /");
   } else {
-    res.sendFile(
-      path.join(global.__basedir, "./src/app/app/public/robots.txt")
-    );
+    res.sendFile(path.join(getBaseDir(), "./src/app/app/public/robots.txt"));
   }
 });
 

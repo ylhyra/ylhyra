@@ -53,9 +53,8 @@ export const breadcrumbs = async (header: HeaderData) => {
         let name = part;
         /**
          * Used for "Part 1", "Part 2"
-         * @type {boolean}
          */
-        let isAPartIndicator = false;
+        let isAPartIndicator: boolean = false;
         if (/^\d+$/.test(name)) {
           name = `Part ${name}`;
           isAPartIndicator = true;
