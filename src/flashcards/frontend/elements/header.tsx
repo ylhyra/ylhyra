@@ -1,5 +1,5 @@
-import { StoreContext } from "app/store";
-import { logout } from "app/user/actions";
+import { StoreContext } from "flashcards/frontend/store";
+import { logout } from "flashcards/frontend/user/actions";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
@@ -16,13 +16,7 @@ export default observer(function () {
             <NavLink to="/">Front page</NavLink>
           </li>
           <li>
-            <NavLink to="/overview">Overview</NavLink>
-          </li>
-          <li>
-            <NavLink to="/friends">Friends</NavLink>
-          </li>
-          <li>
-            <NavLink to="/calendar">Calendar</NavLink>
+            <NavLink to="/overview">Flashcards</NavLink>
           </li>
         </ul>
 

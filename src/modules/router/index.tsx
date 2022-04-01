@@ -10,9 +10,10 @@
 //   };
 // }
 
-import { useLayoutEffect, useState } from "react";
-import { BrowserRouterProps, Router } from "react-router-dom";
 import { BrowserHistory, createBrowserHistory } from "history";
+import React, { useLayoutEffect, useState } from "react";
+import { BrowserRouterProps, Router } from "react-router-dom";
+
 interface Props extends BrowserRouterProps {
   history: BrowserHistory;
 }

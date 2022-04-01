@@ -1,7 +1,7 @@
 import Layout from "flashcards/frontend/elements/layout";
 import Routes from "flashcards/frontend/routes/routes";
 import { store, StoreContext } from "flashcards/frontend/store";
-import "flashcards/frontend/styles/output.css";
+// import "flashcards/frontend/styles/output.css";
 import { configure as mobxConfigure } from "mobx";
 import { customHistory, CustomRouter } from "modules/router";
 import React from "react";

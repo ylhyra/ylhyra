@@ -20,7 +20,7 @@ module.exports = {
       index: "index.html",
     },
     static: {
-      directory: resolve("src/app/app/public"),
+      directory: resolve("src/ylhyra/app/app/public"),
     },
     hot: true,
     proxy: {
@@ -41,6 +41,9 @@ module.exports = {
     publicPath: "/app/",
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      React: "react", // automatically import react where needed
+    }),
     isProduction && new MiniCssExtractPlugin(),
     !isProduction && new ReactRefreshWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
