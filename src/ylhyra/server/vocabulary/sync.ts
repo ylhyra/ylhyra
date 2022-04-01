@@ -10,7 +10,10 @@ import sql from "ylhyra/server/database/functions/SQL-template-literal";
 const router = Router();
 
 /* Download vocabulary database file */
-router.use("/vocabulary/", staticCached(__basedir + "/build/vocabulary"));
+router.use(
+  "/vocabulary/",
+  staticCached(global.__basedir + "/build/vocabulary")
+);
 
 /* Sync user data */
 router.post("/vocabulary/sync", async (req, res) => {

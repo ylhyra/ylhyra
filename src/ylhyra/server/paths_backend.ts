@@ -4,8 +4,11 @@ import path from "path";
 global.__basedir = process.env.PWD;
 
 /* Folders */
-export const content_folder = path.resolve(__basedir, "./../ylhyra_content");
-export const build_folder = __basedir + "/build";
+export const content_folder = path.resolve(
+  global.__basedir,
+  "./../ylhyra_content"
+);
+export const build_folder = global.__basedir + "/build";
 export const image_output_folder = build_folder + "/images";
 
 export const ylhyra_content_files = content_folder + "/not_data/files";

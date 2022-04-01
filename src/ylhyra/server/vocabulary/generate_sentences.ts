@@ -11,13 +11,14 @@ const path = require("path");
 const spaces = /[ ,."?!;:\-–“„]/g;
 const run = () => {
   fs.readFile(
-    __basedir + `/build/vocabulary_database.json`,
+    global.__basedir + `/build/vocabulary_database.json`,
     "utf8",
     (err, data) => {
       const vocabulary = JSON.parse(data);
       fs.readFile(
         path.resolve(
-          __basedir + "./../Desktop/Ylhýruskjöl/Línur_úr_Facebook_samræðum.txt"
+          global.__basedir +
+            "./../Desktop/Ylhýruskjöl/Línur_úr_Facebook_samræðum.txt"
         ),
         "utf8",
         async (err, data) => {
@@ -96,7 +97,7 @@ const run = () => {
           console.log("data:" + data.length);
           console.log("word_frequency:" + Object.keys(word_frequency).length);
           fs.writeFileSync(
-            __basedir + "/../Desktop/Ylhýruskjöl/Missing_words.txt",
+            global.__basedir + "/../Desktop/Ylhýruskjöl/Missing_words.txt",
             Object.keys(word_frequency)
               .sort((a, b) => word_frequency[b] - word_frequency[a])
               // .filter((a) => word_frequency[a] > 10 && !(a in words_in_course))
@@ -105,7 +106,7 @@ const run = () => {
             () => {}
           );
           fs.writeFileSync(
-            __basedir +
+            global.__basedir +
               "/../Desktop/Ylhýruskjöl/Setningar úr orðum sem eru í námskeiðinu.txt",
             matches
               .sort((a, b) => a.sort_key - b.sort_key)

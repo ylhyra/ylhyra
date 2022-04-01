@@ -130,24 +130,24 @@ const run = async () => {
     _deck = full_deck;
     if (!DECK) {
       fs.writeFileSync(
-        __basedir + `/build/vocabulary/alternative_ids.json`,
+        global.__basedir + `/build/vocabulary/alternative_ids.json`,
         JSON.stringify(alternative_ids, null, ""),
         function () {}
       );
     }
     fs.writeFileSync(
-      __basedir + `/build/vocabulary/vocabulary_database${DECK}.json`,
+      global.__basedir + `/build/vocabulary/vocabulary_database${DECK}.json`,
       JSON.stringify(simplify(full_deck), null, ""),
       function () {}
     );
     // const simplified = simplify(full_deck);
     // fs.writeFileSync(
-    //   __basedir + `/build/vocabulary/vocabulary_terms${DECK}.json`,
+    //   global.__basedir + `/build/vocabulary/vocabulary_terms${DECK}.json`,
     //   JSON.stringify(simplified.terms, null, ""),
     //   function () {}
     // );
     // fs.writeFileSync(
-    //   __basedir + `/build/vocabulary/vocabulary_cards${DECK}.json`,
+    //   global.__basedir + `/build/vocabulary/vocabulary_cards${DECK}.json`,
     //   JSON.stringify(simplified.cards, null, ""),
     //   function () {}
     // );
