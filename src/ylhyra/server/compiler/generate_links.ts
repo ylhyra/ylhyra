@@ -14,17 +14,20 @@ import fs from "fs";
 import { content_folder } from "ylhyra/server/paths_backend";
 import _ from "underscore";
 
-/**
- * @typedef LinkData
- * @property {string} title
- * @property {string} filename
- *   Just the name of the file itself and not its path
- * @property {string} filepath
- * @property {string} redirect_to
- * @property {string} section
- * @property {boolean} shouldBeCreated
- * @property {boolean} shouldBeIndexed
- */
+export type LinkData = {
+  title: string;
+  /**Just the name of the file itself and not its path*/
+  filename: string;
+  filepath: string;
+  redirect_to: string;
+  section: string;
+  shouldBeCreated: boolean;
+  shouldBeIndexed: boolean;
+};
+export type LinkDataWithUrl = LinkDataWithUrl & {
+  url: string;
+};
+
 /**
  * @typedef {LinkData} LinkDataWithUrl
  * @property {string} url

@@ -1,4 +1,4 @@
-import store from "ylhyra/app/app/store";
+import store, { RootState } from "ylhyra/app/app/store";
 import SpeedReader from "ylhyra/documents/render/elements/Speed_reading/index";
 import { open } from "ylhyra/documents/render/elements/Speed_reading/actions/actions";
 import React from "react";
