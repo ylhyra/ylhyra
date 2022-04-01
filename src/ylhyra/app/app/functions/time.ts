@@ -39,25 +39,25 @@ export const msToS = (input: Milliseconds): Seconds =>
  * @param {Days} input
  * @returns {Timestamp}
  */
-export const daysFromNowToTimestamp = (input) => getTime() + daysToMs(input);
+export const daysFromNowToTimestamp = (input: Days) => getTime() + daysToMs(input);
 
 /**
  * @param {Milliseconds} input
  * @returns {Milliseconds}
  */
-export const roundMsToHour = (input) => roundToInterval(input, msInHour);
+export const roundMsToHour = (input: Milliseconds) => roundToInterval(input, msInHour);
 
 /**
  * @param {Milliseconds} input
  * @returns {Milliseconds}
  */
-export const roundMsToMinute = (input) => roundToInterval(input, minute);
+export const roundMsToMinute = (input: Milliseconds) => roundToInterval(input, minute);
 
 /**
  * @param {Milliseconds} input
  * @returns {string}
  */
-export const prettyPrintDaysMinutesHours = (input) => {
+export const prettyPrintDaysMinutesHours = (input: Milliseconds) => {
   let out = [];
 
   const _days = input / days;

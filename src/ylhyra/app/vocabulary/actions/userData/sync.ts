@@ -89,7 +89,7 @@ export const syncIfNecessary = async () => {
  * @param {object} options
  * @returns {UserDataRows}
  */
-const getUnsynced = (obj, options?) => {
+const getUnsynced = (obj: UserDataRows, options?: object) => {
   if (!obj) return {};
   const { syncEverything } = options;
   let to_save = {};
@@ -106,7 +106,7 @@ const getUnsynced = (obj, options?) => {
  * @param {UserDataRows} server
  * @returns {UserDataRows}
  */
-const mergeResponse = (local, server) => {
+const mergeResponse = (local: UserDataRows, server: UserDataRows) => {
   Object.keys(local).forEach((key) => {
     delete local[key].needsSyncing;
   });
