@@ -13,7 +13,7 @@ const splittableRegexEndingsFromArray = (string) => {
  * @param {Word} word
  * @return {?string}
  */
-export const removeInflectionalPattern = (input: string, word: Word) => {
+export const removeInflectionalPattern = (input: string, word: Word): string | null => {
   if (!input) return;
   let stripped = input;
 

@@ -3,7 +3,7 @@
  * @module Word
  * @return {?boolean}
  */
-export function getPrincipalParts() {
+export function getPrincipalParts(): boolean | null {
   if (this.is("verb")) {
     /* TODO: Support generation for miðmynd */
     const word = this.getOriginal();

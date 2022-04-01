@@ -15,7 +15,7 @@ export default function getSingleTable({
   column_names,
   row_names,
   skip_description,
-}) {
+}): string {
   let word = this;
   let description = "";
   let table = "";

@@ -4,7 +4,7 @@ import link from "inflection/tables/link";
  * @module Word
  * @return {?string}
  */
-export function getWordDescription() {
+export function getWordDescription(): string | null {
   let output = [];
 
   output.push(this.getDomain());

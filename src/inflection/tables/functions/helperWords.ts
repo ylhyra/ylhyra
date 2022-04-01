@@ -5,7 +5,7 @@ import link from "inflection/tables/link";
  * @module Word
  * @return {string} HTML as string
  */
-export function getHelperWordsBefore() {
+export function getHelperWordsBefore(): string {
   let text = "";
   /* Nouns et al. */
   if (
@@ -110,7 +110,7 @@ export function getHelperWordsBefore() {
  * @module Word
  * @return {string} HTML string
  */
-export function getHelperWordsAfter() {
+export function getHelperWordsAfter(): string {
   let text = "";
   let addSpace = true;
 

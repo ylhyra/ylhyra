@@ -317,7 +317,7 @@ class Word {
    * @param  {string} type
    * @return {?string}
    */
-  getType(type: string) {
+  getType(type: string): string | null {
     const classification = [
       ...this.getWordCategories(),
       // TODO: Should we get first class or that which applies to all?

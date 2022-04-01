@@ -2,7 +2,7 @@
  * @module Word
  * @return {?string}
  */
-export function getWordNotes() {
+export function getWordNotes(): string | null {
   let notes = [];
   switch (this.original.rows[0].correctness_grade_of_word) {
     case "0":

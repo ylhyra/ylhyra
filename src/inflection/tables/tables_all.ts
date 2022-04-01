@@ -11,7 +11,7 @@ import Word, { WordFromTree } from "inflection/tables/word";
  * @module Word
  * @return {string} HTML as string
  */
-export default function getTables() {
+export default function getTables(): string {
   return TraverseTree(this.getTree(), this);
 }
 
@@ -22,7 +22,7 @@ export default function getTables() {
  * @param {Word} original_word
  * @return {string} HTML as string
  */
-const TraverseTree = (leaf: object, original_word: Word) => {
+const TraverseTree = (leaf: object, original_word: Word): string => {
   let table = null;
   const word = WordFromTree(leaf, original_word);
   /* Nouns */

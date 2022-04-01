@@ -18,7 +18,7 @@ import { sort_by_classification } from "inflection/tables/classification/sort_by
  *   }
  *
  */
-const tree = (rows: Array<any>) => {
+const tree = (rows: Array<any>): object => {
   let output = {
     BIN_id: rows[0]?.BIN_id,
     base_word: rows[0]?.base_word,

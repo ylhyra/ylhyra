@@ -7,7 +7,7 @@ import { endsInConsonant } from "inflection/tables/functions/vowels";
  * @module Word
  * @return {?boolean}
  */
-export function isStrong() {
+export function isStrong(): boolean | null {
   let results;
   if ("isStrong_saved" in this) {
     return this.isStrong_saved;
@@ -46,7 +46,7 @@ export function isStrong() {
  * @module Word
  * @return {?boolean}
  */
-export function isWeak() {
+export function isWeak(): boolean | null {
   const strong = this.isStrong();
   if (strong !== undefined) {
     return !strong;

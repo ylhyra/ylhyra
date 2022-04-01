@@ -17,7 +17,7 @@ import _ from "lodash";
  *   - trimExtra {boolean}
  * @return {?string}
  */
-export function getStem(options: object) {
+export function getStem(options: object): string | null {
   let word = this;
   let selection;
   let output;

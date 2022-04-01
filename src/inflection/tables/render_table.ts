@@ -75,7 +75,7 @@ export default AlsoMakeTablesThatFitOnSmallScreens;
  *   }
  * @returns {string} HTML string
  */
-const RenderTable = (input: object | Word, original_word: Word, structure: object, highlight, options?) => {
+const RenderTable = (input: object | Word, original_word: Word, structure: object, highlight, options?): string => {
   const { column_names, row_names } = structure;
   let word;
   if (input instanceof Word) {
