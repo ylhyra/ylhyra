@@ -11,8 +11,14 @@ import {
 import TOC from "ylhyra/documents/compile/templates/TOC";
 import { getValuesForURL } from "ylhyra/server/content/links";
 import { links } from "ylhyra/server/content/loadLinks";
-import fs from "fs";
+import fs, { PathOrFileDescriptor } from "fs";
 
+/**
+ * Enter a title and receive its contents with everything transcluded
+ * @param title
+ * @param depth - How deep in a transclusion chain are we?
+ * @param shouldGetData - Load translation data as well?
+ */
 export default function Transclude(
   title: string,
   depth = 0,
@@ -24,17 +30,19 @@ export default function Transclude(
         ? "Template:"
         : "") + title
     );
-    if (!values.filepath) {
+    if (!("filepath" in values)) {
       console.log(`\nNo template named "${title}"\n`);
       process.exit();
+      return;
     }
+    const { filepath } = values;
 
-    fs.readFile(values.filepath, "utf8", async (err: string, data: string) => {
+    fs.readFile(filepath, "utf8", async (err, data) => {
       if (err) {
         console.log(err);
         throw new Error(`\nFailed to read file for ${title}\n`);
       }
-      let { header, body } = ParseHeaderAndBody(data, values.filepath);
+      let { header, body } = ParseHeaderAndBody(data, filepath);
 
       let output = body;
 
@@ -74,6 +82,12 @@ export default function Transclude(
   });
 }
 
+/**
+ * Enter the contents of a file and receive it back with everything transcluded
+ * @param input - Raw markdown file contents
+ * @param depth - How deep in a transclusion chain are we?
+ * @constructor
+ */
 export const TranscludeFromText = async (input: string, depth: number) => {
   let output = "";
   input = input

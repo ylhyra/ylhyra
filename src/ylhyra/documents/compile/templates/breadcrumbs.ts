@@ -15,29 +15,29 @@ export const breadcrumbs = async (header: HeaderData) => {
   let namespaces = [];
   const v = getValuesForURL(header.title);
 
-  if ("filepath" in v) {
-    if (v.filepath?.includes("/poems/")) {
-      namespaces.push("Poems");
-    } else if (v.filepath?.includes("/video/")) {
-      namespaces.push("Video");
-    } else if (
-      v.filepath?.includes("/reading/") &&
-      !v.filepath?.includes("/tweets/") &&
-      header.title !== "Texts"
-    ) {
-      namespaces.push('<a href="/texts">Texts</a>');
-    } else if (
-      v.filepath?.includes("/explanations/") &&
-      header.title !== "Explanations"
-    ) {
-      namespaces.push('<a href="/explanations">Explanations</a>');
-    }
+  if (!("filepath" in v)) return null;
+
+  if (v.filepath?.includes("/poems/")) {
+    namespaces.push("Poems");
+  } else if (v.filepath?.includes("/video/")) {
+    namespaces.push("Video");
+  } else if (
+    v.filepath?.includes("/reading/") &&
+    !v.filepath?.includes("/tweets/") &&
+    header.title !== "Texts"
+  ) {
+    namespaces.push('<a href="/texts">Texts</a>');
+  } else if (
+    v.filepath?.includes("/explanations/") &&
+    header.title !== "Explanations"
+  ) {
+    namespaces.push('<a href="/explanations">Explanations</a>');
   }
 
   if (header.title.startsWith("Course/")) {
-    const url_to_unit = (await getOrderOfChapters()).urlToUnit;
-    if (v.url in url_to_unit) {
-      const n = `Unit ${url_to_unit[v.url]}`;
+    const urlToUnit = (await getOrderOfChapters()).urlToUnit;
+    if (v.url in urlToUnit) {
+      const n = `Unit ${urlToUnit[v.url]}`;
       parts.splice(1, 0, `<a href="/course#${section_id(n)}">${n}</a>`);
     }
   } else if (namespaces.length === 0) {
@@ -46,14 +46,14 @@ export const breadcrumbs = async (header: HeaderData) => {
 
   return c`<div id="breadcrumbs-title">
     <div>
-      ${namespaces.map((namespace, index) => {
+      ${namespaces.map((namespace) => {
         return c`
           <div class="title-part namespace">${namespace}</div>
           <div class="title-separator"></div>
         `;
       })}
       ${parts.map((part, index) => {
-        if (!part) return;
+        if (!part) return "";
         const last = index === parts.length - 1;
         let name = part;
         /**
@@ -74,10 +74,8 @@ export const breadcrumbs = async (header: HeaderData) => {
         const secondLastToParts =
           index === parts.length - 2 && /^\d+$/.test(parts[index + 1]);
         if (!last) {
-          const urlForThisPart = getValuesForURL(
-            parts.slice(0, index + 1).join("/")
-          ).url;
-          // console.log(urlForThisPart);
+          const k = getValuesForURL(parts.slice(0, index + 1).join("/"));
+          const urlForThisPart = "url" in k && k.url;
           if (urlForThisPart && urlForThisPart !== URL_title(header.title)) {
             name = `<a href="${urlForThisPart}">${name}</a>`;
           }

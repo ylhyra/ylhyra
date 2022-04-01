@@ -14,7 +14,6 @@ export default async (input: string, header: HeaderData) => {
   const VocabularyHeader = vocabularyData
     ? `<vocabularyheader data="${encodeDataInHtml(vocabularyData)}"/>`
     : "";
-  const _breadcrumbs = await breadcrumbs(header);
 
   const shouldShowVocabularyHeaderAbove =
     // true ||
@@ -28,7 +27,7 @@ export default async (input: string, header: HeaderData) => {
           header.level &&
           `<div class="float-right"><level level="${header.level}"/></div>`
         }
-        ${_breadcrumbs}
+        ${await breadcrumbs(header)}
         <Spacer space="10"/>
         <div class="center">
           <div>

@@ -12,8 +12,9 @@ import marked from "marked";
 var sass = require("sass");
 
 /**
- * Here we convert markdown text blocks to HTML.
- * Each HTML element in the original text is processed seperately to preserve HTML structure.
+ * Here we convert Markdown text blocks to HTML.
+ * Each HTML element in the original text is processed
+ * separately to preserve HTML structure.
  */
 export default (input: string): string => {
   /* Laga töflur. Ekki mjög gott. */
@@ -63,7 +64,7 @@ const Traverse = (json: HtmlAsJson): HtmlAsJson => {
     }
     return {
       ...json,
-      child: child && ProcessArray(child),
+      child: child && processArrayOfElements(child),
     };
   } else {
     return json;
@@ -71,11 +72,10 @@ const Traverse = (json: HtmlAsJson): HtmlAsJson => {
 };
 
 /**
- * Converts markdown text to HTML.
  * Elements are temporarily substituted, the text is processed,
  * and then the elements are re-inserted.
  */
-const ProcessArray = (arr: HtmlAsJson[]): HtmlAsJson[] => {
+const processArrayOfElements = (arr: HtmlAsJson[]): HtmlAsJson[] => {
   const substituted = arr
     .map((j, i) => {
       if (j.node === "text") {
@@ -87,15 +87,15 @@ const ProcessArray = (arr: HtmlAsJson[]): HtmlAsJson[] => {
 
   return processText(substituted)
     .split(/(%SUBSTITUTION[0-9]+%)/g)
-    .map((j: string) => {
-      if (j.startsWith("%SUBSTITUTION")) {
-        const x = j.match(/%SUBSTITUTION([0-9]+)%/)?.[1];
+    .map((text: string) => {
+      if (text.startsWith("%SUBSTITUTION")) {
+        const x = text.match(/%SUBSTITUTION([0-9]+)%/)?.[1] as string;
         const element = arr[parseInt(x)];
         return Traverse(element);
       }
       return {
         node: "text",
-        text: j,
+        text: text,
       };
     });
 };

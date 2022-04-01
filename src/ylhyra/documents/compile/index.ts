@@ -5,10 +5,14 @@ import inflection from "ylhyra/documents/compile/templates/inflection";
 import { References } from "ylhyra/documents/compile/templates/References";
 import Sections from "ylhyra/documents/compile/templates/Sections";
 import Table from "ylhyra/documents/compile/templates/Table";
-import TranscludeFromTitle from "ylhyra/documents/compile/transclude";
+import Transclude from "ylhyra/documents/compile/transclude";
+import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
 
-export default async function generateHtml(title: string) {
-  let { output: content, header } = await TranscludeFromTitle(title);
+export default async function generateHtml(title: string): Promise<{
+  content: string;
+  header?: HeaderData;
+}> {
+  let { output: content, header } = await Transclude(title);
   if (!content) {
     console.log(`\n"${title}" has no body`);
     return { content: "" };
