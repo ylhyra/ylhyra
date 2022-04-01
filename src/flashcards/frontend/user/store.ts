@@ -1,6 +1,6 @@
+import { UserProfile } from "flashcards/frontend/user/.d";
 import { makeAutoObservable } from "mobx";
 import { getUserFromCookie } from "modules/cookie";
-import { UserProfile } from "flashcards/frontend/user/";
 
 export default class userStore {
   user: UserProfile = getUserFromCookie();

@@ -1,4 +1,4 @@
-import Header from "app/elements/header";
+import Header from "flashcards/frontend/elements/header";
 import React from "react";
 
 export default ({ children }) => {
