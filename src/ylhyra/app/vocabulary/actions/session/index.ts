@@ -119,6 +119,7 @@ class Session {
     await clearOverview();
     this.reset();
 
+    // @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     if (process.env.NODE_ENV === "development" && getDeckName()) {
       updateURL("/vocabulary/play");
       await this.InitializeSession();
