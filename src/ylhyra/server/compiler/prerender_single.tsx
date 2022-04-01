@@ -1,14 +1,14 @@
+import { build_folder, getBaseDir } from "ylhyra/server/paths_backend";
 import { URL_title } from "ylhyra/app/app/paths";
 import store from "ylhyra/app/app/store";
 import Router from "ylhyra/app/router";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
-import generate_html from "ylhyra/documents/compile";
+import generateHtml from "ylhyra/documents/compile";
 import Parse from "ylhyra/documents/parse";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { Provider } from "react-redux";
 import { renderTitle } from "ylhyra/server/content/renderTitle";
-import { build_folder } from "ylhyra/server/paths_backend";
 
 const path = require("path");
 
@@ -58,7 +58,7 @@ const render = async ({
   let content, header, necessary_data, output, props;
 
   if (is_content) {
-    const h = await generate_html(url);
+    const h = await generateHtml(url);
     content = h.content;
     header = h.header;
     const out = await Parse({ html: content });

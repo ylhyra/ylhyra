@@ -1,7 +1,7 @@
 // import typeset from "typeset";
 import { html2json, json2html } from "ylhyra/app/app/functions/html2json";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import removeUnwantedCharacters from "ylhyra/app/app/functions/languageProcessing/removeUnwantedCharacters";
+import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
 import { section_id } from "ylhyra/app/app/paths";
 import { ProcessLinks } from "ylhyra/documents/compile/functions/links";
 import typeset from "ylhyra/documents/compile/functions/typeset";

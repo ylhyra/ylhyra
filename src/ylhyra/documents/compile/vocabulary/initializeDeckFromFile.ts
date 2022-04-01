@@ -1,5 +1,7 @@
-import Deck, { deck } from "ylhyra/app/vocabulary/actions/deck";
 import fs from "fs";
+
+import { getBaseDir } from "ylhyra/server/paths_backend";
+import Deck, { deck } from "ylhyra/app/vocabulary/actions/deck";
 
 export const initializeDeckFromFile = () => {
   try {

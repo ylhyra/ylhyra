@@ -1,5 +1,5 @@
 import flattenArray from "ylhyra/app/app/functions/flattenArray";
-import string_hash from "ylhyra/app/app/functions/hash";
+import string_hash from "modules/hash";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
 import simplifyString from "ylhyra/server/translator/helpers/simplifyString";

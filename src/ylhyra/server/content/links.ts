@@ -1,5 +1,6 @@
 import path from "path";
 
+import { LinkDataWithUrl } from "ylhyra/server/compiler/generate_links";
 import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
 import { app_urls } from "ylhyra/app/router/appUrls";
 import { links } from "ylhyra/server/content/loadLinks";

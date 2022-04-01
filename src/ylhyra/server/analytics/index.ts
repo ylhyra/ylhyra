@@ -1,4 +1,4 @@
-import { getTime, minute, roundMsToMinute } from "ylhyra/app/app/functions/time";
+import { getTime, minute, roundMsToMinute } from "modules/time";
 
 import { Router } from "express";
 import query from "ylhyra/server/database";

@@ -1,4 +1,4 @@
-import hash from "ylhyra/app/app/functions/hash";
+import hash from "modules/hash";
 import {
   RawTokenizedParagraphs,
   TokenizedParagraphsWithIds,

@@ -20,7 +20,10 @@ export const minutes = minute;
 
 export const getTime = (): Timestamp => Date.now() as Timestamp;
 
-let timeMemoized: Timestamp;
+let timeMemoized: Timestamp | null;
+/**
+ * Used inside loops to avoid a time-consuming Date.now() call
+ */
 export const getTimeMemoized = (): Timestamp => {
   return timeMemoized || (timeMemoized = getTime());
 };

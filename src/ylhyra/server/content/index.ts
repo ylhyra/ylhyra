@@ -1,12 +1,12 @@
-import hash from "ylhyra/app/app/functions/hash";
-import { isDev } from "modules/isDev";
-
-import generate_html from "ylhyra/documents/compile";
 import fs from "fs";
 import path from "path";
+
+import { build_folder, getBaseDir } from "ylhyra/server/paths_backend";
+import hash from "modules/hash";
+import { isDev } from "modules/isDev";
+import generateHtml from "ylhyra/documents/compile";
 import { cacheControl } from "ylhyra/server/caching";
 import { getValuesForURL } from "ylhyra/server/content/links";
-import { build_folder } from "ylhyra/server/paths_backend";
 
 const router = require("express").Router({ strict: true });
 
@@ -63,7 +63,7 @@ router.get(["/api/content", "*"], async (req, res) => {
         type === "json" &&
         values.filepath
       ) {
-        const { content, header } = await generate_html(url);
+        const { content, header } = await generateHtml(url);
         if ("html" in req.query) {
           return res.send(content);
         }

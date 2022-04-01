@@ -139,7 +139,7 @@ if (argv["generate-links"]) {
 } else if (argv["import-vocabulary"]) {
   require("ylhyra/server/vocabulary/compile");
 } else if (argv["generate-sentences"]) {
-  require("ylhyra/server/vocabulary/generate_sentences");
+  require("ylhyra/server/vocabulary/scripts/findEasySentencesFromCorpus");
 } else if (argv["migration_vocabulary_2021_08"]) {
   // require("server/database/migrations/vocabulary_2021_08.js");
 } else {

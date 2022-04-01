@@ -1,4 +1,4 @@
-import forEachAsync from "ylhyra/app/app/functions/array-foreach-async";
+import forEachAsync from "modules/forEachAsync";
 import removeNullKeys from "ylhyra/app/app/functions/removeNullKeys";
 import stable_stringify from "json-stable-stringify";
 import query from "ylhyra/server/database/index";

@@ -1,5 +1,7 @@
 import fs from "fs";
 
+import { getBaseDir } from "ylhyra/server/paths_backend";
+
 export let _links = {};
 try {
   _links = JSON.parse(

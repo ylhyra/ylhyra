@@ -5,11 +5,7 @@ import {
   clamp,
   toFixedFloat,
 } from "ylhyra/app/app/functions/math";
-import {
-  daysFromNowToTimestamp,
-  getTime,
-  msToDays,
-} from "ylhyra/app/app/functions/time";
+import { daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
 import { wasSeenInSession } from "ylhyra/app/vocabulary/actions/card/card";
 import {
   getDue,

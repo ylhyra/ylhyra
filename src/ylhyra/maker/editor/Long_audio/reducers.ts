@@ -1,4 +1,4 @@
-import string_hash from "ylhyra/app/app/functions/hash";
+import string_hash from "modules/hash";
 
 /*
   Long audio

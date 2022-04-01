@@ -1,4 +1,4 @@
-import forEachAsync from "ylhyra/app/app/functions/array-foreach-async";
+import forEachAsync from "modules/forEachAsync";
 import { processed_image_url, URL_title } from "ylhyra/app/app/paths";
 import { exec } from "child_process";
 import Transclude from "ylhyra/documents/compile/transclude";

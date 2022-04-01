@@ -1,4 +1,4 @@
-import hash from "ylhyra/app/app/functions/hash";
+import hash from "modules/hash";
 import CreateIDs from "ylhyra/documents/parse/Tokenize/IDs/CreateIDs";
 import PreserveIDs from "ylhyra/documents/parse/Tokenize/IDs/PreserveIDs";
 import tokenizer from "ylhyra/documents/parse/Tokenize/Tokenizer";

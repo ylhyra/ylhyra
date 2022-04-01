@@ -1,4 +1,4 @@
-import { clearTimeMemoized } from "ylhyra/app/app/functions/time";
+import { clearTimeMemoized } from "modules/time";
 import { getCardIds } from "ylhyra/app/vocabulary/actions/card/term";
 import { CardIds, TermIds } from "ylhyra/app/vocabulary/actions/card/types";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";

@@ -1,5 +1,5 @@
 import { minIgnoreFalsy, roundMsTo100Sec } from "ylhyra/app/app/functions/math";
-import { getTimeMemoized, minutes, Timestamp } from "ylhyra/app/app/functions/time";
+import { getTimeMemoized, minutes, Timestamp } from "modules/time";
 import { getTermIds } from "ylhyra/app/vocabulary/actions/card/card_data";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import {

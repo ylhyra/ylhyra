@@ -1,6 +1,6 @@
+import { getBaseDir } from "ylhyra/server/paths_backend";
 import removeNullKeys from "ylhyra/app/app/functions/removeNullKeys";
-import { msToS } from "ylhyra/app/app/functions/time";
-
+import { msToS } from "modules/time";
 import { Router } from "express";
 import stable_stringify from "json-stable-stringify";
 import { staticCached } from "ylhyra/server/caching";

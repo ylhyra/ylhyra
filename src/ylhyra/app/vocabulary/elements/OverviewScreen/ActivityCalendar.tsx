@@ -1,6 +1,6 @@
 import ReactActivityCalendar from "ylhyra/app/app/functions/react-activity-calendar";
 import { withPlural } from "ylhyra/app/app/functions/simplePlural";
-import { prettyPrintDaysMinutesHours, seconds } from "ylhyra/app/app/functions/time";
+import { prettyPrintDaysMinutesHours, seconds } from "modules/time";
 import Spacer from "ylhyra/documents/templates/Spacer";
 import React, { Component } from "react";
 import { connect } from "react-redux";

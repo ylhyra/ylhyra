@@ -6,7 +6,7 @@ import {
   minutes,
   second,
   seconds,
-} from "ylhyra/app/app/functions/time";
+} from "modules/time";
 import express from "express";
 
 export const cacheControl = (res, type) => {

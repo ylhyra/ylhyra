@@ -5,7 +5,7 @@ import {
   mapValueToRange,
   mapZeroToInfinityToZeroToOne,
 } from "ylhyra/app/app/functions/math";
-import { day, days } from "ylhyra/app/app/functions/time";
+import { day, days } from "modules/time";
 import store from "ylhyra/app/app/store";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { PercentageKnownOverall } from "ylhyra/app/vocabulary/actions/functions/percentageKnown";

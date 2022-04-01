@@ -2,9 +2,9 @@
   To run:
   npm run vocabulary
 */
+import { content_folder, getBaseDir } from "ylhyra/server/paths_backend";
 import { GetLowercaseStringForAudioKey } from "ylhyra/maker/vocabulary_maker/compile/functions";
 import { parseVocabularyFile } from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
-import { content_folder } from "ylhyra/server/paths_backend";
 import { simplify } from "ylhyra/server/vocabulary/compile/simplify";
 import getSortKeys from "ylhyra/server/vocabulary/sortKeys";
 import _ from "underscore";

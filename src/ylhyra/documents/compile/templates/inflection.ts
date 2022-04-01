@@ -1,4 +1,4 @@
-import { replaceAsync } from "ylhyra/app/app/functions/replaceAsync";
+import { replaceAsync } from "modules/replaceAsync";
 import { inflectionElement } from "inflection/element";
 
 export default async (input: string) => {

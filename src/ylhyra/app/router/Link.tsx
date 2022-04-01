@@ -1,6 +1,6 @@
 import { RootState } from "ylhyra/app/app/store";
 import { log } from "modules/log";
-import { getTime, minutes } from "ylhyra/app/app/functions/time";
+import { getTime, minutes } from "modules/time";
 import { preload } from "ylhyra/app/router/actions/load";
 import { updateURL } from "ylhyra/app/router/actions/updateURL";
 import React, { FunctionComponent } from "react";

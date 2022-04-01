@@ -1,40 +1,30 @@
-import generate_html from "ylhyra/documents/compile";
+import { TermId } from "ylhyra/app/vocabulary/actions/card/types";
+import generateHtml from "ylhyra/documents/compile";
 import { decodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
 
-export default async (getRawSentences) => {
+/**
+ * Read the page "Course" and find the order of its vocabulary list
+ */
+export default async function getSortKeysBasedOnWhenWordIsIntroducedInTheCourse(
+  getRawSentences?: Boolean
+) {
   if (process.env.DECK) return {};
-  /****************
-   * Read the page "Course" and find the order of its vocabulary list
-   ***************/
-  const { content } = await generate_html("course");
+  const { content } = await generateHtml("course");
   let i = 1;
-  let sortKeys = {}; /* Term to sortKey */
+  let sortKeys: { [termId: TermId]: number } = {}; /* Term to sortKey */
   let sentences = {};
-  content.replace(/data="([^"]+?)"/g, (x, data) => {
+  content.replace(/data="([^"]+?)"/g, (x: string, data: string) => {
     const v = decodeDataInHtml(data);
-    if (!v) return;
-    v.terms.forEach((term_id) => {
-      if (!(term_id in sortKeys)) {
-        sortKeys[term_id] = i;
-        // if (getRawSentences) {
-        //   sentences[GetLowercaseStringForAudioKey(value)] = i;
-        // }
+    if (!v) return "";
+    v.terms.forEach((termId: TermId) => {
+      if (!(termId in sortKeys)) {
+        sortKeys[termId] = i;
         i++;
       }
     });
-    // values.forEach((value) => {
-    //   value = value.split(" = ")[0];
-    //   const hash = getHash(value);
-    //   if (!(hash in sortKeys)) {
-    //     sortKeys[hash] = i;
-    //     if (getRawSentences) {
-    //       sentences[GetLowercaseStringForAudioKey(value)] = i;
-    //     }
-    //     i++;
-    //   }
-    // });
+    return "";
   });
   console.log(`${i} terms in course`);
   if (getRawSentences) return sentences;
   return sortKeys;
-};
+}

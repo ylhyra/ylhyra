@@ -4,7 +4,7 @@ import {
   minutes,
   prettyPrintDaysMinutesHours,
   seconds,
-} from "ylhyra/app/app/functions/time";
+} from "modules/time";
 
 test("prettyPrintDaysMinutesHours", () => {
   expect(prettyPrintDaysMinutesHours(12 * days + 10 * minutes)).toBe(

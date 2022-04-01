@@ -1,9 +1,12 @@
-import { removeDiacritics, removeNonLetters } from "ylhyra/app/app/functions/languageProcessing/removeDiacritics";
+import {
+  removeDiacritics,
+  removeNonLetters,
+} from "modules/languageProcessing/removeDiacritics";
 
 /**
  * Phonetic algorithm for Icelandic, similar to Cologne phonetics
  */
-export default (string: string): string => {
+export default function phoneticHash(string: string): string | null {
   if (!string) return null;
   return (
     removeDiacritics(removeNonLetters(string))
@@ -37,4 +40,4 @@ export default (string: string): string => {
       .replace(/[rs]/g, "s")
       .replace(/([^\w\s])|(.)(?=\2)/g, "") // Remove two in a row
   );
-};
+}

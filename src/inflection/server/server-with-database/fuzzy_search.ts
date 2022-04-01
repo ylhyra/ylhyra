@@ -3,8 +3,8 @@
 
   Note: This file currently relies on being a submodule of Ylhýra.
 */
-import phoneticHash from "ylhyra/app/app/functions/languageProcessing/phoneticHash";
-import { removeDiacritics } from "ylhyra/app/app/functions/languageProcessing/removeDiacritics";
+import phoneticHash from "modules/languageProcessing/phoneticHash";
+import { removeDiacritics } from "modules/languageProcessing/removeDiacritics";
 import express from "express";
 import classify from "inflection/tables/classification/BIN_classification";
 import { sort_by_classification } from "inflection/tables/classification/sort_by_classification";

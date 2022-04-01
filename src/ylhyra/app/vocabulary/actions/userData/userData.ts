@@ -1,6 +1,6 @@
 import { isBrowser } from "modules/isBrowser";
 import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
-import { getTime, Timestamp } from "ylhyra/app/app/functions/time";
+import { getTime, Timestamp } from "modules/time";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { keys } from "mobx";
 

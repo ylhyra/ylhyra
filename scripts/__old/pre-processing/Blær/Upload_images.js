@@ -2,7 +2,7 @@
   node -r esm scripts/pre-processing/Blær/Upload_images.js
 */
 import path from "path";
-import forEachAsync from "../../../src/ylhyra/app/app/functions/array-foreach-async";
+import forEachAsync from "src/modules/forEachAsync";
 const http = require("https");
 const fs = require("fs");
 

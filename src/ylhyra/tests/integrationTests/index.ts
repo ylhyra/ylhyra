@@ -1,4 +1,4 @@
-import forEachAsync from "ylhyra/app/app/functions/array-foreach-async";
+import forEachAsync from "modules/forEachAsync";
 import { run } from "ylhyra/tests/integrationTests/recipes";
 import _ from "underscore";
 
@@ -7,8 +7,10 @@ const logger = window.logToPuppeteer || console.log;
 /* Main test runner */
 export default async (only_run) => {
   const toRun = {
-    ...require("ylhyra/tests/integrationTests/vocabulary/articles.test").default,
-    ...require("ylhyra/tests/integrationTests/vocabulary/easiness.test").default,
+    ...require("ylhyra/tests/integrationTests/vocabulary/articles.test")
+      .default,
+    ...require("ylhyra/tests/integrationTests/vocabulary/easiness.test")
+      .default,
     ...require("ylhyra/tests/integrationTests/vocabulary/session_logging.test")
       .default,
     ...require("ylhyra/tests/integrationTests/vocabulary/sync.test").default,

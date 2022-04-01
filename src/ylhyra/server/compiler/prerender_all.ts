@@ -1,4 +1,4 @@
-import forEachAsync from "ylhyra/app/app/functions/array-foreach-async";
+import forEachAsync from "modules/forEachAsync";
 import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
 import { app_urls } from "ylhyra/app/router/appUrls";
 import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/initializeDeckFromFile";

@@ -1,4 +1,4 @@
-import { Days, Timestamp } from "ylhyra/app/app/functions/time";
+import { Days, Timestamp } from "modules/time";
 import { Brand } from "ts-brand";
 
 export interface ScheduleData {

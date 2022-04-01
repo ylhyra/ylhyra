@@ -1,8 +1,8 @@
 /*
 npm run links
 */
-import { getFilesRecursivelySync } from "ylhyra/app/app/functions/getFilesRecursivelySync";
-import removeUnwantedCharacters from "ylhyra/app/app/functions/languageProcessing/removeUnwantedCharacters";
+import { getFilesRecursivelySync } from "modules/getFilesRecursivelySync";
+import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
 import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 

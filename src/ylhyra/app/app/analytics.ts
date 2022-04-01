@@ -10,7 +10,7 @@ import {
   saveInLocalStorage,
 } from "ylhyra/app/app/functions/localStorage";
 import { roundToInterval } from "ylhyra/app/app/functions/math";
-import { getTime, seconds } from "ylhyra/app/app/functions/time";
+import { getTime, seconds } from "modules/time";
 
 const ignoredUrls = ["/", "/frontpage"];
 

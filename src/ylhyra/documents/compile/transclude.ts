@@ -1,4 +1,4 @@
-import forEachAsync from "ylhyra/app/app/functions/array-foreach-async";
+import forEachAsync from "modules/forEachAsync";
 import { URL_title } from "ylhyra/app/app/paths";
 import {
   encodeDataInHtml,

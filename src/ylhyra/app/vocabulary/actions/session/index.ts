@@ -1,9 +1,4 @@
-import {
-  getTime,
-  Milliseconds,
-  minutes,
-  Timestamp,
-} from "ylhyra/app/app/functions/time";
+import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
 import { log } from "modules/log";
 import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import Analytics from "ylhyra/app/app/analytics";

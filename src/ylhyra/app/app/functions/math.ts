@@ -1,4 +1,4 @@
-import { seconds } from "ylhyra/app/app/functions/time";
+import { seconds } from "modules/time";
 
 export const average = (arr = []) => {
   if (arr.length === 0) return 0;

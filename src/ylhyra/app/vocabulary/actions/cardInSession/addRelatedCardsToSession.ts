@@ -1,5 +1,5 @@
 import { log } from "modules/log";
-import { days } from "ylhyra/app/app/functions/time";
+import { days } from "modules/time";
 import { isInSession } from "ylhyra/app/vocabulary/actions/card/card";
 import {
   dependencyDepthOfCard,

@@ -1,4 +1,4 @@
-import hash from "ylhyra/app/app/functions/hash";
+import hash from "modules/hash";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { newTitle } from "ylhyra/documents/parse/ExtractData";
 import groupParagraphs from "ylhyra/documents/parse/ExtractText/Paragraphs";
