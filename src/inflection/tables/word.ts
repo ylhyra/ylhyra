@@ -25,7 +25,7 @@ class Word {
    * @param {array} rows
    * @param {Word=} original
    */
-  constructor(rows, original) {
+  constructor(rows: Array<any>, original?: Word) {
     if (!Array.isArray(rows) && rows !== undefined) {
       // console.log(rows)
       throw new Error(
@@ -317,7 +317,7 @@ class Word {
    * @param  {string} type
    * @return {?string}
    */
-  getType(type) {
+  getType(type: string) {
     const classification = [
       ...this.getWordCategories(),
       // TODO: Should we get first class or that which applies to all?
@@ -340,7 +340,7 @@ class Word {
    * Used when generating helper words
    * @param  {...*} values
    */
-  dependingOnGender(...values) {
+  dependingOnGender(...values: any[]) {
     return values[
       ["masculine", "feminine", "neuter"].indexOf(this.getType("gender"))
     ];
@@ -351,7 +351,7 @@ class Word {
    * Used when generating helper words
    * @param  {...*} values
    */
-  dependingOnSubject(...values) {
+  dependingOnSubject(...values: any[]) {
     if (this.is("impersonal with accusative subject")) {
       return values[1];
     } else if (this.is("impersonal with dative subject")) {

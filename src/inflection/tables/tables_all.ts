@@ -22,7 +22,7 @@ export default function getTables() {
  * @param {Word} original_word
  * @return {string} HTML as string
  */
-const TraverseTree = (leaf, original_word) => {
+const TraverseTree = (leaf: object, original_word: Word) => {
   let table = null;
   const word = WordFromTree(leaf, original_word);
   /* Nouns */

@@ -28,7 +28,7 @@ import { isNumber } from "inflection/tables/tree";
  *   - inflectional_form_categories - An array of
  *     values that only apply to certain forms of the word (plurality, case...)
  */
-const classify = (input) => {
+const classify = (input: object) => {
   let { word_categories, grammatical_tag, BIN_domain, ...rest } = input;
   if (!word_categories && !grammatical_tag) return input;
 
