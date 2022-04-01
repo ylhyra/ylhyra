@@ -63,7 +63,7 @@ export default async (input: string, header: HeaderData) => {
   /* Automatic prev and next for course articles */
   const url = URL_title(header.title);
   if (header.title !== "Course") {
-    const order = await getOrderOfChapters();
+    const order = (await getOrderOfChapters()).urls;
     if (order.includes(url)) {
       const i = order.indexOf(url);
       const prev = i >= 0 && order[i - 1];

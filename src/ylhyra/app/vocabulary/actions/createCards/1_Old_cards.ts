@@ -1,5 +1,5 @@
 import { log } from "modules/log";
-import { shuffleLocally } from "ylhyra/app/app/functions/shuffleLocally";
+import { shuffleLocally } from "modules/shuffleLocally";
 import { getTimeMemoized, hours, minutes } from "modules/time";
 import { isAllowed } from "ylhyra/app/vocabulary/actions/card/card";
 import { getCardsInSchedule } from "ylhyra/app/vocabulary/actions/card/card_data";

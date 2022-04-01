@@ -11,12 +11,13 @@ export type HeaderData = {
   "redirects"?: string[];
   "published"?: boolean;
   "typos fixed"?: boolean;
-  /** Added later */
-  "has_data"?: Boolean;
-  "reflist"?: string;
   "classes"?: string[];
   "status"?: "draft";
   "index"?: "yes" | "no";
+  /** Added later */
+  "has_data"?: Boolean;
+  /** Added by References.ts in order to be printed in HeaderAndFooter.ts */
+  "reflist"?: string;
 };
 
 export const ParseHeaderAndBody = (

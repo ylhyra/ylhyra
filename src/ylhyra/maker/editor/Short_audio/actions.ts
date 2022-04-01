@@ -1,4 +1,4 @@
-import { sortByArray } from "ylhyra/app/app/functions/sortByArray";
+import { sortByArray } from "modules/sortByArray";
 import store from "ylhyra/app/app/store";
 import isEmpty from "is-empty-object";
 import { send } from "ylhyra/maker/editor/web-socket";

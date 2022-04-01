@@ -6,7 +6,7 @@
 export async function replaceAsync(
   str: string,
   regex: RegExp,
-  asyncFn: () => Promise<any>
+  asyncFn: (...args: any[]) => Promise<any>
 ) {
   const promises: Promise<any>[] = [];
   str.replace(regex, (match, ...args) => {

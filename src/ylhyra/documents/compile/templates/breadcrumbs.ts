@@ -4,6 +4,9 @@ import { getOrderOfChapters } from "ylhyra/documents/compile/templates/getOrderO
 import { getValuesForURL } from "ylhyra/server/content/links";
 import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
 
+/**
+ * Creates HTML breadcrumbs, as in "Home > Unit 1 > Chapter 1".
+ */
 export const breadcrumbs = async (header: HeaderData) => {
   if (!header.title) return;
 
@@ -12,25 +15,27 @@ export const breadcrumbs = async (header: HeaderData) => {
   let namespaces = [];
   const v = getValuesForURL(header.title);
 
-  if (v.filepath?.includes("/poems/")) {
-    namespaces.push("Poems");
-  } else if (v.filepath?.includes("/video/")) {
-    namespaces.push("Video");
-  } else if (
-    v.filepath?.includes("/reading/") &&
-    !v.filepath?.includes("/tweets/") &&
-    header.title !== "Texts"
-  ) {
-    namespaces.push('<a href="/texts">Texts</a>');
-  } else if (
-    v.filepath?.includes("/explanations/") &&
-    header.title !== "Explanations"
-  ) {
-    namespaces.push('<a href="/explanations">Explanations</a>');
+  if ("filepath" in v) {
+    if (v.filepath?.includes("/poems/")) {
+      namespaces.push("Poems");
+    } else if (v.filepath?.includes("/video/")) {
+      namespaces.push("Video");
+    } else if (
+      v.filepath?.includes("/reading/") &&
+      !v.filepath?.includes("/tweets/") &&
+      header.title !== "Texts"
+    ) {
+      namespaces.push('<a href="/texts">Texts</a>');
+    } else if (
+      v.filepath?.includes("/explanations/") &&
+      header.title !== "Explanations"
+    ) {
+      namespaces.push('<a href="/explanations">Explanations</a>');
+    }
   }
 
   if (header.title.startsWith("Course/")) {
-    const url_to_unit = await getOrderOfChapters(false, true);
+    const url_to_unit = (await getOrderOfChapters()).urlToUnit;
     if (v.url in url_to_unit) {
       const n = `Unit ${url_to_unit[v.url]}`;
       parts.splice(1, 0, `<a href="/course#${section_id(n)}">${n}</a>`);

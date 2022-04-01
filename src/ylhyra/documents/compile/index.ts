@@ -8,29 +8,29 @@ import Table from "ylhyra/documents/compile/templates/Table";
 import TranscludeFromTitle from "ylhyra/documents/compile/transclude";
 
 export default async function generateHtml(title: string) {
-  let { output, header } = await TranscludeFromTitle(title);
-  if (!output) {
+  let { output: content, header } = await TranscludeFromTitle(title);
+  if (!content) {
     console.log(`\n"${title}" has no body`);
     return { content: "" };
   }
-  output = Table(output);
-  output = Sections(output, header);
-  const t = References(output, header);
-  output = t.output;
+  content = Table(content);
+  content = Sections(content, header);
+  const t = References(content, header);
+  content = t.content;
   header = t.header;
-  output = await images(output);
-  output = markdown_to_html(output);
-  output = await WithHeaderAndFooter(output, header);
-  output = await inflection(output);
-  output = `<div class="content-wrapper ${
+  content = await images(content);
+  content = markdown_to_html(content);
+  content = await WithHeaderAndFooter(content, header);
+  content = await inflection(content);
+  content = `<div class="content-wrapper ${
     header.classes?.join(" ") || ""
-  }">${output}</div>`;
-  if (output.includes("SUBSTITUTION")) {
+  }">${content}</div>`;
+  if (content.includes("SUBSTITUTION")) {
     console.error(`"${title}" included SUBSTITUTION`);
     if (process.env.NODE_ENV === "production") {
       throw new Error("");
     }
   }
 
-  return { content: output, header };
+  return { content, header };
 }

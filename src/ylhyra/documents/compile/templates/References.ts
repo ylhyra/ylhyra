@@ -7,7 +7,7 @@ const lowerAlpha = "abcdefghijklmnopqrstuv";
 /*
  * Nested refs must use <ref1><ref2>bla bla </ref2></ref1>
  */
-export const References = (input: string, header: HeaderData) => {
+export const References = (content: string, header: HeaderData) => {
   let references: { [id: string]: { type: "ref" | "note"; content: string } } =
     {};
   let orderOfReferenceIds: string[] = [];
@@ -75,15 +75,15 @@ export const References = (input: string, header: HeaderData) => {
     });
   };
 
-  input = run(input);
-  input = formatSupElements(input);
+  content = run(content);
+  content = formatSupElements(content);
   let notes = "";
   let sources = "";
-  input = input.replace(/<sources>([\s\S]+)?<\/sources>/i, (j, o) => {
+  content = content.replace(/<sources>([\s\S]+)?<\/sources>/i, (j, o) => {
     sources = o;
     return "";
   });
-  input = input.replace(/<notes>([\s\S]+)?<\/notes>/i, (j, o) => {
+  content = content.replace(/<notes>([\s\S]+)?<\/notes>/i, (j, o) => {
     notes = o;
     return "";
   });
@@ -110,10 +110,14 @@ export const References = (input: string, header: HeaderData) => {
   if (reflist) {
     reflist = `<div class="references">${reflist}</div>`;
   }
+
+  /**
+   * Stored here in order to print the references in HeaderAndFooter.ts
+   */
   header.reflist = reflist;
 
   return {
-    output: input,
+    content,
     header,
   };
 };

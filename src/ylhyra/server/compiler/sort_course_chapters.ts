@@ -1,42 +1,42 @@
 /*
 npm run chapters
 */
-// import urlSlug from 'src/app/App/functions/url-slug'
-//
 import { getOrderOfChapters } from "ylhyra/documents/compile/templates/getOrderOfChapters";
 import { getValuesForURL } from "ylhyra/server/content/links";
 import { content_folder } from "ylhyra/server/paths_backend";
+import { renameSync } from "modules/renameSync";
 
 var fs = require("fs");
 
+/**
+ * Unimportant housekeeping script:
+ * Renames the chapter files in the content folder
+ * to match the order of the chapters in the course.
+ * Makes editing the chapters easier.
+ */
 const run = async () => {
-  const order = await getOrderOfChapters(true);
-  // console.log(order);
+  const order = (await getOrderOfChapters()).unitsToUrl;
   order.forEach((item) => {
-    let { filepath } = getValuesForURL(item.url);
-    const filename = filepath.replace(/^.+\//, "").replace(/^\d+-(\d+-)?/, "");
+    let j = getValuesForURL(item.url);
+    if ("filepath" in j) {
+      const filename = j.filepath
+        .replace(/^.+\//, "")
+        .replace(/^\d+-(\d+-)?/, "");
 
-    // const tmpFile =
-    // content_folder + `/not_data/content/course/unused/${prefixZeroes(item.unit)}`;
-    // rename(file, )
-
-    const dir = //content_folder + `/not_data/content/course/A1`;
-      content_folder + `/not_data/content/course/A1/${prefixZeroes(item.unit)}`;
-    rename(filepath, dir + `/${prefixZeroes(item.prefix, 2)}-${filename}`);
+      const dir =
+        content_folder +
+        `/not_data/content/course/A1/${prefixZeroes(item.unit)}`;
+      renameSync(
+        j.filepath,
+        dir + `/${prefixZeroes(item.prefix, 2)}-${filename}`
+      );
+    }
   });
   process.exit();
 };
 run();
 
-const rename = (from, to) => {
-  const dir = to.replace(/^(.+)\/(.+)/, "$1");
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-  fs.renameSync(from, to);
-};
-
-const prefixZeroes = (input, min = 2) => {
+const prefixZeroes = (input: number, min = 2) => {
   return ("00" + input.toString()).slice(
     -Math.max(min, input.toString().length)
   );

@@ -77,8 +77,8 @@ export const toFixedFloat = (input: number, f: number) => {
   return parseFloat(input.toFixed(f));
 };
 
-/*
-  A simple (x / (x + a)) curve, where a is small
+/**
+ * A simple `(x / (x + a))` curve, where `a` is small
  */
 export const mapZeroToInfinityToZeroToOne = ({
   input,

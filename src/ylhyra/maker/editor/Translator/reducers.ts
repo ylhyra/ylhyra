@@ -1,4 +1,4 @@
-import { sortByArray } from "ylhyra/app/app/functions/sortByArray";
+import { sortByArray } from "modules/sortByArray";
 import { wordsHash } from "ylhyra/maker/editor/Translator/actions";
 import { omit, uniq } from "underscore";
 

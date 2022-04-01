@@ -1,19 +1,30 @@
 import generateHtml from "ylhyra/documents/compile/index";
 import { getValuesForURL } from "ylhyra/server/content/links";
 
-let cachedUrlOrder: any;
+type UnitsToUrl = Array<{ unit: number; prefix: number; url: string }>;
+type UrlToUnit = { [url: string]: number };
+type Urls = string[];
 
-export const getOrderOfChapters = async (
-  withDepth?: Boolean,
-  returnUnitToUrl?: Boolean
-) => {
-  if (cachedUrlOrder && !withDepth && !returnUnitToUrl) return cachedUrlOrder;
+let cachedOrderOfChapters: {
+  unitsToUrl: UnitsToUrl;
+  urlToUnit: UrlToUnit;
+  urls: Urls;
+};
+
+/**
+ * Returns the order of the chapters in order,
+ * to be able to link to Next & Previous chapters.
+ */
+export const getOrderOfChapters = async (): Promise<
+  typeof cachedOrderOfChapters
+> => {
+  if (cachedOrderOfChapters) return cachedOrderOfChapters;
   const { content } = await generateHtml("course");
   let currentUnit = 0;
   let index = 1;
-  let urls: string[] = [];
-  let unitsToUrl: Array<{ unit: number; prefix: number; url: string }> = [];
-  let urlToUnit: { [url: string]: number } = {};
+  let urls: Urls = [];
+  let unitsToUrl: UnitsToUrl = [];
+  let urlToUnit: UrlToUnit = {};
   content.replace(
     /(?:Unit (\d+)|chapter_url="(.+?)")/g,
     (x: string, unit: string, _url: string) => {
@@ -22,6 +33,7 @@ export const getOrderOfChapters = async (
         index = 1;
         return "";
       }
+      // @ts-ignore
       const { url } = getValuesForURL(_url);
       if (!url) return "";
       urls.push(url);
@@ -34,12 +46,11 @@ export const getOrderOfChapters = async (
       return "";
     }
   );
-  cachedUrlOrder = urls;
-  if (withDepth) {
-    return unitsToUrl;
-  }
-  if (returnUnitToUrl) {
-    return urlToUnit;
-  }
-  return cachedUrlOrder;
+
+  cachedOrderOfChapters = {
+    unitsToUrl,
+    urlToUnit,
+    urls,
+  };
+  return cachedOrderOfChapters;
 };

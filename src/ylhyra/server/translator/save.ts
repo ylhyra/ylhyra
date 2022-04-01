@@ -7,7 +7,7 @@ import SQL_helper from "ylhyra/server/translator/helpers/SQL_helper";
 import GetTranslationFrame from "ylhyra/server/translator/helpers/TranslationFrame";
 
 const router = Router();
-require("ylhyra/app/app/functions/sortByArray");
+require("modules/sortByArray");
 
 router.put("/save", (req, res) => {
   const { document_id, from, to, translation, list } = req.body.data;
