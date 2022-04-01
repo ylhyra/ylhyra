@@ -17,7 +17,6 @@ import { isNumber } from "inflection/tables/tree";
  *   - grammatical_tag
  *   - BIN_domain
  *
- * @returns {object|array}
  *   Returns the inputted object with the following keys removed:
  *   - word_categories
  *   - grammatical_tag

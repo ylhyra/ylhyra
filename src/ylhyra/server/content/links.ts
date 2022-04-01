@@ -6,8 +6,6 @@ import { links } from "ylhyra/server/content/loadLinks";
 
 /**
  * Wrapper to be able to use in front and backend
- * @param {string} url
- * @returns {LinkDataWithUrl|{}}
  */
 export const getValuesForURL = (url: string): LinkDataWithUrl | {} => {
   if (!url && url !== "") return {};

@@ -47,7 +47,6 @@ export function showIn({
 
 /**
  * @memberOf CardInSession#
- * @returns {boolean}
  */
 export function canBeShown(): boolean {
   return (

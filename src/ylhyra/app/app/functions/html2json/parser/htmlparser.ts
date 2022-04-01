@@ -78,7 +78,6 @@
  * // or to inject into an existing document/DOM node
  * HTMLtoDOM(htmlString, document);
  * HTMLtoDOM(htmlString, document.body);
- *
  */
 
 (function () {

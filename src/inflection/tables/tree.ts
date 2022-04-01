@@ -5,7 +5,6 @@ import { sort_by_classification } from "inflection/tables/classification/sort_by
  * a collection of items that have the same classification
  *
  * @param {array} rows - Raw list of rows with classifications from ./classification/BIN_classification.js
- * @returns {object}
  * The tree is on the form:
  *   {
  *     values: [{
@@ -16,7 +15,6 @@ import { sort_by_classification } from "inflection/tables/classification/sort_by
  *       }]
  *     }]
  *   }
- *
  */
 const tree = (rows: Array<any>): object => {
   let output = {

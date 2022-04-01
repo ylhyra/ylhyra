@@ -11,8 +11,6 @@ import { clearOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen/act
  * TODO:
  * - skrá notanda í gögn!
  * - tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
- *
- * @returns {UserData}
  */
 export const sync = async (options: any = {}): UserData => {
   /** @type UserData */
@@ -84,11 +82,6 @@ export const syncIfNecessary = async () => {
   // }
 };
 
-/**
- * @param {UserDataRows} obj
- * @param {object} options
- * @returns {UserDataRows}
- */
 const getUnsynced = (obj: UserDataRows, options?: object): UserDataRows => {
   if (!obj) return {};
   const { syncEverything } = options;
@@ -101,12 +94,10 @@ const getUnsynced = (obj: UserDataRows, options?: object): UserDataRows => {
   return to_save;
 };
 
-/**
- * @param {UserDataRows} local
- * @param {UserDataRows} server
- * @returns {UserDataRows}
- */
-const mergeResponse = (local: UserDataRows, server: UserDataRows): UserDataRows => {
+const mergeResponse = (
+  local: UserDataRows,
+  server: UserDataRows
+): UserDataRows => {
   Object.keys(local).forEach((key) => {
     delete local[key].needsSyncing;
   });

@@ -35,31 +35,15 @@ export const msToDays = (input: Milliseconds): Days =>
 export const msToS = (input: Milliseconds): Seconds =>
   Math.round(input / 1000) as Seconds;
 
-/**
- * @param {Days} input
- * @returns {Timestamp}
- */
 export const daysFromNowToTimestamp = (input: Days): Timestamp =>
   getTime() + daysToMs(input);
 
-/**
- * @param {Milliseconds} input
- * @returns {Milliseconds}
- */
 export const roundMsToHour = (input: Milliseconds): Milliseconds =>
   roundToInterval(input, msInHour);
 
-/**
- * @param {Milliseconds} input
- * @returns {Milliseconds}
- */
 export const roundMsToMinute = (input: Milliseconds): Milliseconds =>
   roundToInterval(input, minute);
 
-/**
- * @param {Milliseconds} input
- * @returns {string}
- */
 export const prettyPrintDaysMinutesHours = (input: Milliseconds): string => {
   let out = [];
 

@@ -2,9 +2,6 @@ import { deck } from "ylhyra/app/vocabulary/actions/deck";
 
 export const SESSION_PREFIX = "s_";
 
-/**
- * @returns {Array}
- */
 export const getSessions = (): Array<any> => {
   const sessions = [];
   Object.keys(deck?.user_data?.rows || {}).forEach((key) => {
