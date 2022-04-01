@@ -52,7 +52,7 @@ export function createMoreCards() {
  * @memberOf Session#
  * @param {number} rating
  */
-export function answer(rating) {
+export function answer(rating: number) {
   const session = this;
   session.currentCard?.rate(rating);
   session.nextCard();
