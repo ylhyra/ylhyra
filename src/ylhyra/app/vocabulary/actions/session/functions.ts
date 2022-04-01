@@ -30,7 +30,7 @@ export function getPercentageDone() {
  * @memberOf Session#
  * @return {void}
  */
-export function checkIfCardsRemaining() {
+export function checkIfCardsRemaining(): void {
   const areThereNewCardsRemaining = this.cards.some(
     (i: CardInSession) => !i.hasBeenSeenInSession() && !i.done && i.canBeShown()
   );

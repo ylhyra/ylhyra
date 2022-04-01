@@ -14,7 +14,7 @@ import { clearOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen/act
  *
  * @returns {UserData}
  */
-export const sync = async (options: any = {}) => {
+export const sync = async (options: any = {}): UserData => {
   /** @type UserData */
   let user_data;
 
@@ -89,7 +89,7 @@ export const syncIfNecessary = async () => {
  * @param {object} options
  * @returns {UserDataRows}
  */
-const getUnsynced = (obj: UserDataRows, options?: object) => {
+const getUnsynced = (obj: UserDataRows, options?: object): UserDataRows => {
   if (!obj) return {};
   const { syncEverything } = options;
   let to_save = {};
@@ -106,7 +106,7 @@ const getUnsynced = (obj: UserDataRows, options?: object) => {
  * @param {UserDataRows} server
  * @returns {UserDataRows}
  */
-const mergeResponse = (local: UserDataRows, server: UserDataRows) => {
+const mergeResponse = (local: UserDataRows, server: UserDataRows): UserDataRows => {
   Object.keys(local).forEach((key) => {
     delete local[key].needsSyncing;
   });

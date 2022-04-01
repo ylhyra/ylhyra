@@ -49,7 +49,7 @@ export function showIn({
  * @memberOf CardInSession#
  * @returns {boolean}
  */
-export function canBeShown() {
+export function canBeShown(): boolean {
   return (
     !this.cannotBeShownBefore ||
     this.cannotBeShownBefore <= this.session.counter

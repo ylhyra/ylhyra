@@ -9,7 +9,7 @@ import { links } from "ylhyra/server/content/loadLinks";
  * @param {string} url
  * @returns {LinkDataWithUrl|{}}
  */
-export const getValuesForURL = (url: string) => {
+export const getValuesForURL = (url: string): LinkDataWithUrl | {} => {
   if (!url && url !== "") return {};
   url = URL_title(url);
   let values = links[url];
