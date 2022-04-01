@@ -8,6 +8,7 @@ import { sync } from "ylhyra/app/vocabulary/actions/userData/sync";
 import { getScheduleFromUserData } from "ylhyra/app/vocabulary/actions/userData/userDataSchedule";
 import { clearOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen/actions";
 import { getDeckName } from "ylhyra/maker/vocabulary_maker/compile/functions";
+import { UserData } from "ylhyra/app/vocabulary/actions/userData/userData";
 
 export const InitializeVocabulary = async () => {
   log("Downloading database");
@@ -16,8 +17,7 @@ export const InitializeVocabulary = async () => {
       `/api/vocabulary/vocabulary_database${getDeckName()}.json?v=${getBuildId()}`
     )
   ).data;
-  /** @type UserData */
-  const user_data = await sync({ isInitializing: true });
+  const user_data: UserData = await sync({ isInitializing: true });
   const schedule = getScheduleFromUserData(user_data);
   const session = getFromLocalStorage("vocabulary-session");
 
@@ -42,13 +42,13 @@ export const InitializeVocabulary = async () => {
   clearOverview();
 };
 
-let build_id;
+let buildId: string;
 const getBuildId = () => {
   if (isDev) return Math.random();
-  if (build_id) return build_id;
-  build_id =
+  if (buildId) return buildId;
+  buildId =
     document
       .querySelector('meta[name="vocabulary_id"]')
       ?.getAttribute("content") || "";
-  return build_id;
+  return buildId;
 };

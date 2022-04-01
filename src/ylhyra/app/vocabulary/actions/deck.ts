@@ -10,23 +10,16 @@ import {
 import { sortBySortKey } from "ylhyra/app/vocabulary/actions/createCards/functions";
 import { countTerms } from "ylhyra/app/vocabulary/actions/functions";
 import Session from "ylhyra/app/vocabulary/actions/session";
+import { UserData } from "ylhyra/app/vocabulary/actions/userData/userData";
 
 export let deck: Deck | undefined;
 
-// /**
-//  * @property {Object.<string, Card>} cards
-//  * @property {Array.<Card>} cards_sorted
-//  * @property {Object.<string, Term>} terms
-//  * @property {Object.<string, ScheduleData>} schedule
-//  * @property {UserData} user_data
-//  * @property {Session} session
-//  */
 class Deck {
   cards: Record<CardId, any>;
   cards_sorted: CardIds;
   terms: Record<TermId, any>;
   schedule: Record<CardId, Partial<ScheduleData>>;
-  user_data: any; //UserData;
+  user_data: UserData;
   session: Session;
   termCount: number;
 
@@ -57,10 +50,10 @@ class Deck {
     this.user_data = {};
     this.schedule = {};
   }
-  /* Only used for testing */
-  clear() {
-    deck = null;
-  }
+  // /* Only used for testing */
+  // clear() {
+  //   deck = null;
+  // }
 }
 
 export default Deck;

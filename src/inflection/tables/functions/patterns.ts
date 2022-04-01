@@ -1,6 +1,8 @@
 import { types } from "inflection/tables/classification/classification";
 import { without } from "lodash";
 
+import Word from "../word";
+
 const splittableRegexEndingsFromArray = (string) => {
   return new RegExp(
     `(${string.sort((a, b) => b.length - a.length).join("|")})$`
@@ -13,7 +15,10 @@ const splittableRegexEndingsFromArray = (string) => {
  * @param {Word} word
  * @return {?string}
  */
-export const removeInflectionalPattern = (input: string, word: Word): string | null => {
+export const removeInflectionalPattern = (
+  input: string,
+  word: Word
+): string | null => {
   if (!input) return;
   let stripped = input;
 

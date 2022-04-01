@@ -15,7 +15,7 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     //    "lib": ["es2020", "dom", "es2021.String"],
-    "strict": false
+    "strict": true
   },
   "compileOnSave": true
 }

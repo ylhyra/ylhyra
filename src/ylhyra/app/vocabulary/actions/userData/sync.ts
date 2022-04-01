@@ -3,7 +3,11 @@ import { getFromLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import { log } from "modules/log";
 import { isUserLoggedIn } from "ylhyra/app/user/actions";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
-import { saveUserDataInLocalStorage } from "ylhyra/app/vocabulary/actions/userData/userData";
+import {
+  saveUserDataInLocalStorage,
+  UserData,
+  UserDataRows,
+} from "ylhyra/app/vocabulary/actions/userData/userData";
 import { getScheduleFromUserData } from "ylhyra/app/vocabulary/actions/userData/userDataSchedule";
 import { clearOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen/actions";
 
@@ -12,18 +16,16 @@ import { clearOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen/act
  * - skrá notanda í gögn!
  * - tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
  */
-export const sync = async (options: any = {}): UserData => {
-  /** @type UserData */
-  let user_data;
+export const sync = async (options: any = {}): Promise<UserData> => {
+  let user_data: UserData;
 
   if (Object.keys(deck?.user_data?.rows || {}).length > 0) {
-    user_data = deck.user_data;
+    user_data = deck!.user_data;
   } else {
     user_data = getFromLocalStorage("vocabulary-user-data") || {};
   }
 
-  /** @type UserDataRows */
-  let rows = user_data.rows || {};
+  let rows: UserDataRows = user_data.rows || {};
 
   const { lastSynced } = user_data;
 
