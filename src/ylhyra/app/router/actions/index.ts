@@ -11,14 +11,12 @@ if (isBrowser) {
     }
   });
 }
-export const InitializeRouter = (
-  prerender_data: PrerenderedDataSavedInPage
-) => {
+export const InitializeRouter = (prerenderData: PrerenderedDataSavedInPage) => {
   const is404 = window["is404"];
   void updateUrl(
-    (prerender_data?.url || window.location.pathname) + window.location.hash,
+    (prerenderData?.url || window.location.pathname) + window.location.hash,
     {
-      prerender_data,
+      prerenderData,
       is404,
       isInitializing: true,
     }

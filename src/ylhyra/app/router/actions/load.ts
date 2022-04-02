@@ -22,26 +22,26 @@ export const abortAllThatAreNot = (url: string) => {
 
 export const loadContent = ({
   url,
-  prerender_data,
+  prerenderData,
   preload,
   section,
   isInitializing,
   callback,
 }: {
   url: string;
-  prerender_data: PrerenderedDataSavedInPage;
+  prerenderData?: PrerenderedDataSavedInPage;
   preload?: Boolean;
   section?: string;
-  isInitializing: Boolean;
-  callback: Function;
+  isInitializing?: Boolean;
+  callback?: Function;
 }) => {
   if (url in app_urls) {
     return;
   }
 
   /* Pre-rendered */
-  if (prerender_data) {
-    cache[url] = prerender_data;
+  if (prerenderData) {
+    cache[url] = prerenderData;
   }
 
   if (url in cache) {
@@ -71,8 +71,7 @@ export const loadContent = ({
         if (preload) return;
         if (error.response?.status === 404) {
           store.dispatch({
-            type: "LOAD_ROUTE_CONTENT",
-            data: "404",
+            type: "ROUTE_404",
           });
         }
       });

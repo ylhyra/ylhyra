@@ -25,7 +25,6 @@ if (process.env.NODE_ENV === `development`) {
 
 const store = createStore(
   combineReducers({
-    // /* Reader */
     audio,
     vocabulary,
     user,
@@ -43,5 +42,5 @@ export type RootState = ReturnType<typeof store.getState>;
 
 //temp
 if (isDev && isBrowser) {
-  window["store"] = store;
+  // window["store"] = store;
 }

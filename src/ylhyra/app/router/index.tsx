@@ -1,5 +1,5 @@
 import React from "react";
-import { ConnectedProps } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { RootState } from "ylhyra/app/app/store";
 import Layout from "ylhyra/app/elements/layout/Layout";
@@ -50,7 +50,7 @@ class App extends React.Component<
   }
 }
 
-const connector = ((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   route: state.route,
-}))(App);
-export default connector;
+}));
+export default connector(App);

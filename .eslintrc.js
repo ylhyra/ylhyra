@@ -5,9 +5,9 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   root: true,
   globals: {
-    // __basedir: true,
     expect: true,
     beforeAll: true,
+    NodeJS: true,
   },
   overrides: [
     {
