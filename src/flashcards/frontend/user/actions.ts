@@ -7,8 +7,6 @@ export const login = async (values: LoginData) => {
   const response = (await axios2.post("/api/login", values)) as LoginResponse;
 
   const { userId, username } = response;
-  // if (error) throw new Error(error);
-  // console.log(response);
 
   store.userStore.load({
     username,

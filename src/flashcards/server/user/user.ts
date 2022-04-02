@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { errors } from "flashcards/errors";
 import { db } from "flashcards/server/database/db";
 import { throwError } from "flashcards/server/functions/various";
-import { UserId, Username } from "flashcards/frontend/user/.d";
+import { UserId, Username } from "flashcards/frontend/user/types";
 import { encodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
 
 export const getUserId = (req: Request): UserId | undefined => {

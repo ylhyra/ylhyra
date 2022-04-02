@@ -1,4 +1,4 @@
-import { UserProfile } from "flashcards/frontend/user/.d";
+import { UserProfile } from "flashcards/frontend/user/types";
 import { makeAutoObservable } from "mobx";
 import { getUserFromCookie } from "modules/cookie";
 
