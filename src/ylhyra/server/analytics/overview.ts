@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { isDev } from "modules/isDev";
+import { c } from "modules/noUndefinedInTemplateLiteral";
 import { days } from "modules/time";
-import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
 import query from "ylhyra/server/database";
 
 const router = Router();

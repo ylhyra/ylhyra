@@ -1,5 +1,5 @@
 import { matchWordsAndLetters } from "modules/languageProcessing/regexes";
-import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
+import { c } from "modules/noUndefinedInTemplateLiteral";
 import { removeExtraWhitespace } from "ylhyra/app/app/functions/removeExtraWhitespace";
 import { automaticThu } from "ylhyra/maker/vocabulary_maker/compile/functions";
 

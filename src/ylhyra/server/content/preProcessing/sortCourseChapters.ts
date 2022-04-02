@@ -1,5 +1,5 @@
 import { renameSync } from "modules/renameSync";
-import { getOrderOfChapters } from "ylhyra/documents/compile/templates/getOrderOfChapters";
+import { getOrderOfChapters } from "ylhyra/documents/compile/functions/getOrderOfChapters";
 import { getValuesForUrl } from "ylhyra/server/content/links/getValuesForUrl";
 import { content_folder } from "ylhyra/server/paths_backend";
 
