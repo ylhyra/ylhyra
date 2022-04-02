@@ -1,12 +1,7 @@
-/*
-npm run chapters
-*/
+import { renameSync } from "modules/renameSync";
 import { getOrderOfChapters } from "ylhyra/documents/compile/templates/getOrderOfChapters";
 import { getValuesForURL } from "ylhyra/server/content/links";
 import { content_folder } from "ylhyra/server/paths_backend";
-import { renameSync } from "modules/renameSync";
-
-var fs = require("fs");
 
 /**
  * Unimportant housekeeping script:

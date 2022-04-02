@@ -1,8 +1,8 @@
 import path from "path";
 import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
 import { app_urls } from "ylhyra/app/router/appUrls";
-import { LinkDataWithUrl } from "ylhyra/server/compiler/generateLinks";
-import { links } from "ylhyra/server/content/loadLinks";
+import { LinkDataWithUrl } from "ylhyra/server/content/links/generateLinks";
+import { links } from "ylhyra/server/content/links/loadLinks";
 
 /**
  * Wrapper to be able to use in front and backend

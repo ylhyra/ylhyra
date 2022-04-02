@@ -2,8 +2,8 @@ import forEachAsync from "modules/forEachAsync";
 import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
 import { app_urls } from "ylhyra/app/router/appUrls";
 import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/initializeDeckFromFile";
-import prerender from "ylhyra/server/compiler/prerenderSingle";
-import { links } from "ylhyra/server/content/loadLinks";
+import { links } from "ylhyra/server/content/links/loadLinks";
+import prerender from "ylhyra/server/content/prerender/prerenderSingle";
 
 const run = async () => {
   process.stdout.write("Prerendering...");
@@ -29,13 +29,13 @@ const run = async () => {
       //   return;
       // }
       let filename;
-      let is_content;
+      let isContent;
       if (links[url]) {
         filename = links[url].filename;
-        is_content = true;
+        isContent = true;
       } else {
         filename = FileSafeTitle(url);
-        is_content = false;
+        isContent = false;
       }
       process.stdout.write("\r\x1b[K");
       process.stdout.write(`${i++} of ${to_render.length} done – ${url}`);
@@ -43,7 +43,7 @@ const run = async () => {
         url,
         filename,
         css: true,
-        is_content,
+        isContent,
         shouldBeIndexed: links[url]?.shouldBeIndexed,
         callback: resolve2,
       });

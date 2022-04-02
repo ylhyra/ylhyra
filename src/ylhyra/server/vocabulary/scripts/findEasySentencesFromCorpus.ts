@@ -1,9 +1,9 @@
-import { getBaseDir } from "ylhyra/server/paths_backend";
+import fs from "fs";
 import { getPlaintextFromFormatted } from "ylhyra/maker/vocabulary_maker/compile/format";
 import { getHash } from "ylhyra/maker/vocabulary_maker/compile/functions";
+import { getBaseDir } from "ylhyra/server/paths_backend";
 import getSortKeys from "ylhyra/server/vocabulary/sortKeys";
 
-const fs = require("fs");
 const path = require("path");
 
 /*

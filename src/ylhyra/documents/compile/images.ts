@@ -1,11 +1,11 @@
-import forEachAsync from "modules/forEachAsync";
-import { processed_image_url, URL_title } from "ylhyra/app/app/paths";
 import { exec } from "child_process";
-import Transclude from "ylhyra/documents/compile/transclude";
 import fs from "fs";
-import { links } from "ylhyra/server/content/loadLinks";
-import { image_output_folder } from "ylhyra/server/paths_backend";
+import forEachAsync from "modules/forEachAsync";
 import _ from "underscore";
+import { processed_image_url, URL_title } from "ylhyra/app/app/paths";
+import Transclude from "ylhyra/documents/compile/transclude";
+import { links } from "ylhyra/server/content/links/loadLinks";
+import { image_output_folder } from "ylhyra/server/paths_backend";
 
 const Images = (data: string): Promise<string> => {
   return new Promise(async (resolve) => {

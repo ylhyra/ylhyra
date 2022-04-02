@@ -1,4 +1,8 @@
-export const renderTitle = (input) => {
+/**
+ * Renders title for the <title> element.
+ * Turns "Foo: Bar" into "Bar • Foo"
+ */
+export const renderTitle = (input: string | undefined) => {
   const defaultTitle = "Ylhýra – Learn Icelandic";
   if (!input) return defaultTitle;
   return (

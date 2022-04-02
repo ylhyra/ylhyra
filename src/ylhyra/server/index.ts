@@ -116,13 +116,13 @@ const port = process.env.SERVER_PORT || argv.port || 9123;
 
 /* Import steps */
 if (argv["generate-links"]) {
-  require("ylhyra/server/compiler/generateLinks.js");
+  require("ylhyra/server/content/links/generateLinks.js");
 } else if (argv["sitemap"]) {
-  require("ylhyra/server/compiler/generateSitemap.js");
+  require("ylhyra/server/content/prerender/generateSitemap.js");
 } else if (argv["sort_course_chapters"]) {
-  require("ylhyra/server/compiler/sortCourseChapters.js");
+  require("ylhyra/server/content/preProcessing/sortCourseChapters.js");
 } else if (argv["prerender"]) {
-  require("ylhyra/server/compiler/prerenderAll.js");
+  require("ylhyra/server/content/prerender/prerenderAll.js");
 } else if (argv["import-inflections"] || argv["generate-search-index"]) {
   // require("inflection/server/server-with-database/database/ImportToDatabase.js");
 } else if (argv["import-vocabulary"]) {

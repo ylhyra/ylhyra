@@ -2,16 +2,15 @@
   To run:
   npm run vocabulary
 */
-import { content_folder, getBaseDir } from "ylhyra/server/paths_backend";
+import fs from "fs";
+import _ from "underscore";
 import { GetLowercaseStringForAudioKey } from "ylhyra/maker/vocabulary_maker/compile/functions";
 import { parseVocabularyFile } from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
+import { content_folder, getBaseDir } from "ylhyra/server/paths_backend";
 import { simplify } from "ylhyra/server/vocabulary/compile/simplify";
 import getSortKeys from "ylhyra/server/vocabulary/sortKeys";
-import _ from "underscore";
 
 export let _deck;
-
-const fs = require("fs");
 
 // const DECK = "_da";
 const DECK = process.env.DECK || "";

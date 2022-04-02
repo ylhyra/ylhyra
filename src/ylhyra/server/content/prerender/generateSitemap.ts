@@ -1,10 +1,9 @@
+import fs from "fs";
 import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
-import { links } from "ylhyra/server/content/loadLinks";
+import { links } from "ylhyra/server/content/links/loadLinks";
 import { build_folder } from "ylhyra/server/paths_backend";
 
 const path = require("path");
-
-var fs = require("fs");
 
 const run = async () => {
   let sitemap = "";
