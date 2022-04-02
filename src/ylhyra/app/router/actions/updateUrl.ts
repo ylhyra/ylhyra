@@ -97,8 +97,6 @@ export function updateUrl(url: string, options: UpdateURLOptions = {}) {
     return;
   }
 
-  // console.log({ url, options });
-
   if (
     !dontChangeUrl &&
     (encodeURI(url) !== window.location.pathname ||
@@ -111,11 +109,6 @@ export function updateUrl(url: string, options: UpdateURLOptions = {}) {
       window.history.pushState(null, "", encodeURI(url));
     }
   }
-
-  // console.log({
-  //   replace,
-  //   isComponent,
-  // });
 
   if (!isLoadingContent && !isComponent) {
     loadContent({
@@ -144,8 +137,7 @@ export function updateUrl(url: string, options: UpdateURLOptions = {}) {
   }
 }
 
-const scrollToId = (id) => {
+const scrollToId = (id: string) => {
   window.history.scrollRestoration = "manual";
-  const el = document.getElementById(id);
-  el?.scrollIntoView();
+  document.getElementById(id)?.scrollIntoView();
 };

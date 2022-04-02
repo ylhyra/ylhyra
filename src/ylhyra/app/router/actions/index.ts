@@ -4,14 +4,17 @@ import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { existsSchedule, isUserLoggedIn } from "ylhyra/app/user/actions";
 
 if (isBrowser) {
+  // @ts-ignore
   window["HAS_LOADED"] = false;
   window.addEventListener("popstate", () => {
+    // @ts-ignore
     if (window["HAS_LOADED"]) {
       updateUrl(window.location.pathname + window.location.hash);
     }
   });
 }
-export const InitializeRouter = (prerenderData: PrerenderedDataSavedInPage) => {
+export const initializeRouter = (prerenderData: PrerenderedDataSavedInPage) => {
+  // @ts-ignore
   const is404 = window["is404"];
   updateUrl(
     (prerenderData?.url || window.location.pathname) + window.location.hash,
@@ -31,17 +34,13 @@ export const getFrontpageURL = () => {
   return isVocabularyTheFrontpage() ? "/frontpage" : "/";
 };
 
-// export const getURL = () => {
-//   return decodeURI(window.location.pathname).replace(/^\//, "");
-// };
-
-let isIndexed;
-export const index = (shouldIndex) => {
+let isIndexed: Boolean;
+export const index = (shouldIndex: Boolean) => {
   if (!isBrowser) return;
   if (isIndexed !== Boolean(shouldIndex)) {
     document
       .querySelector('meta[name="robots"]')
-      .setAttribute("content", shouldIndex ? "index" : "noindex");
+      ?.setAttribute("content", shouldIndex ? "index" : "noindex");
   }
   isIndexed = shouldIndex;
 };

@@ -11,7 +11,9 @@ import NotFound from "ylhyra/documents/templates/404";
 /**
  * Pages that are rendered by the app and are not content pages
  */
-export const appUrls: { [url: string]: Object } = {
+export const appUrls: {
+  [url: string]: { title?: string; component?: Function };
+} = {
   "/vocabulary": {
     title: "Vocabulary",
     component: VocabularyOverview,
@@ -33,6 +35,7 @@ export const appUrls: { [url: string]: Object } = {
     component: Settings,
   },
   "/not-found": {
+    title: "Not found",
     component: NotFound,
   },
 };
