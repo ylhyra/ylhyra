@@ -1,12 +1,10 @@
-import userStore from "flashcards/frontend/user/store";
-// import { routeStore } from "modules/router";
+import { userStore } from "flashcards/frontend/user/store";
 import { createContext } from "react";
+import { flashcardStore } from "flashcards/frontend/flashcards/store";
 
 export const store = {
   userStore: new userStore(),
-  // friendsStore: new friendsStore(),
-  // meetingsStore: new meetingsStore(),
-  // routeStore: new routeStore(),
+  flashcardStore: new flashcardStore(),
 };
 
 export const StoreContext = createContext<Store>(store);

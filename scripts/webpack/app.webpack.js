@@ -114,7 +114,7 @@ module.exports = {
     isProduction && new MiniCssExtractPlugin(),
     !isProduction && new ReactRefreshWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
-      // async: isEnvDevelopment,
+      async: !isProduction,
       typescript: {
         // typescriptPath: resolve.sync('typescript', {
         //   basedir: paths.appNodeModules,

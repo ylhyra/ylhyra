@@ -2,7 +2,7 @@ import { UserProfile } from "flashcards/frontend/user/types";
 import { makeAutoObservable } from "mobx";
 import { getUserFromCookie } from "modules/cookie";
 
-export default class userStore {
+export class userStore {
   user: UserProfile = getUserFromCookie();
   constructor() {
     makeAutoObservable(this);
