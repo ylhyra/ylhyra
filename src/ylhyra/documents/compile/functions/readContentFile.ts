@@ -15,6 +15,8 @@ export type HeaderData = {
   "classes"?: string[];
   "status"?: "draft";
   "index"?: "yes" | "no";
+  /** Used when overwriting the default URL which is generated from the title of the page */
+  "url"?: string;
   /** Added later */
   "has_data"?: Boolean;
   /** Added by References.ts in order to be printed in HeaderAndFooter.ts */

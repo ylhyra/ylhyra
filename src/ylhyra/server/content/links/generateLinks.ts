@@ -13,16 +13,17 @@ import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/init
 import { content_folder } from "ylhyra/server/paths_backend";
 import { FullFilePath, LinkData } from "ylhyra/server/content/links/types";
 
-const links: { [key: string]: LinkData } = {};
+const links: { [key: string]: Partial<LinkData> } = {};
 
 /**
  * Generates `links.json` that maps URLs to files.
  * Run with:
  * > npm run links
  */
-const run = () => {
+const run = async () => {
   const files = getFilesRecursivelySync(content_folder);
-  let vocabularyEntriesInArticles = [];
+
+  let allVocabularyEntriesUsedInArticles: HeaderData["vocabulary"] = [];
 
   if (!files || files.length === 0) {
     console.error("No files!!");
@@ -32,8 +33,8 @@ const run = () => {
   for (const filepath of files) {
     if (typeof filepath !== "string") continue;
     let { header, body } = await readContentFile(filepath);
-    if (!header) continue;
-    const filename = fileSafeTitle(header.title); //+ '_' + string_hash(body)
+    if (!header || !("url" in header)) continue;
+    const filename = fileSafeTitle(header.title);
     const url = formatUrl(header.url || header.title);
     if (url in links) {
       throw new Error(`"${header.title}" already exists`);
@@ -52,37 +53,48 @@ const run = () => {
     if (shouldBeIndexed(filepath, header)) {
       links[url].shouldBeIndexed = true;
     }
+
+    /**
+     * Process redirects
+     */
     header.redirects &&
-      header.redirects.forEach((r) => {
-        if (!r) {
+      header.redirects.forEach((redirect) => {
+        if (!redirect) {
           console.log(filepath);
         }
-        const [r_title, r_section] = r.split("#");
-        if (links[formatUrl(r_title)]) return;
-        // console.log({r_title})
-        links[formatUrl(r_title)] = {
+        const [redirectTitle, redirectSection] = redirect.split("#");
+        if (links[formatUrl(redirectTitle)]) return;
+        links[formatUrl(redirectTitle)] = {
           redirect_to: url,
-          section: r_section && formatUrl(r_section).replace(/^\//, ""),
+          section:
+            redirectSection && formatUrl(redirectSection).replace(/^\//, ""),
         };
       });
 
+    /**
+     * Housekeeping:
+     * Keep track of which vocabulary entries are listed in articles,
+     * so that we can fill in the missing ones.
+     * Not used in content.
+     */
     if (header.vocabulary) {
-      vocabularyEntriesInArticles = vocabularyEntriesInArticles.concat(
-        header.vocabulary
-      );
+      allVocabularyEntriesUsedInArticles =
+        allVocabularyEntriesUsedInArticles.concat(header.vocabulary);
     }
   }
   /* Write links */
   fs.writeFileSync("build/links.json", JSON.stringify(links, null, 2));
 
+  /* Keep track of missing vocabulary entries */
   if (!deck) initializeDeckFromFile();
-  const missing_vocabulary_entries = vocabularyEntriesInArticles.filter(
+  const missingVocabularyEntries = allVocabularyEntriesUsedInArticles.filter(
     (sentence) => getCardIdsFromWords([sentence]).length === 0
   );
   fs.writeFileSync(
-    "build/missing_vocabulary_entries.txt",
-    _.uniq(missing_vocabulary_entries).join("\n")
+    "build/missingVocabularyEntries.txt",
+    _.uniq(missingVocabularyEntries).join("\n")
   );
+
   process.exit();
 };
 
