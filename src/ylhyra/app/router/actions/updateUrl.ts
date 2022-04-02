@@ -11,7 +11,7 @@ import {
 import { appUrls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
-import { clear as ClearReadAlongSetup } from "ylhyra/documents/render/audio/ReadAlong";
+import { clearReadAlongSetup } from "ylhyra/documents/render/audio/readAlong/readAlong";
 import { renderTitle } from "ylhyra/server/content/renderTitle";
 
 export type RouteContent = {
@@ -127,7 +127,7 @@ export function updateUrl(url: string, options: UpdateURLOptions = {}) {
   }
 
   if ((!prerenderData && isLoadingContent) || isComponent) {
-    ClearReadAlongSetup();
+    clearReadAlongSetup();
     store.dispatch({
       type: "ROUTE",
       content: {

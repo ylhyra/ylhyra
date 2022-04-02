@@ -1,5 +1,5 @@
 import { logShown } from "ylhyra/documents/read/actions/Reset";
-import { ReadAlongSingleSentence } from "ylhyra/documents/render/audio/ReadAlong";
+import { readAlongSingleSentence } from "ylhyra/documents/render/audio/readAlong/readAlong";
 import { getScrollingElement } from "ylhyra/documents/render/helpers";
 
 /*
@@ -9,7 +9,7 @@ import { getScrollingElement } from "ylhyra/documents/render/helpers";
 export const showSentence = (id) => {
   document.body.classList?.add("sentence-shown");
   const relative = document.getElementById("content").getBoundingClientRect();
-  ReadAlongSingleSentence(id);
+  readAlongSingleSentence(id);
 
   /*
     SENTENCE

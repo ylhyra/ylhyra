@@ -1,3 +1,5 @@
+import { Second } from "modules/time";
+
 export type FlattenedData = {
   translation: TranslationData;
   list: ListData;
@@ -36,14 +38,17 @@ export type AeneasOutput = {
 };
 
 export type UnprocessedLongAudioSyncData = {
-  begin: number;
-  end: number;
+  begin: Second;
+  end: Second;
   id: string;
 };
 
 export type LongAudioSyncData = {
-  begin: number;
-  end: number;
+  begin: Second;
+  end: Second;
+  /**
+   * Elements that are highlighted during this time
+   */
   elements: string[];
 };
 

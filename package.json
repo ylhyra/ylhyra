@@ -152,6 +152,7 @@
     "esbuild-plugin-ignore": "^1.1.0",
     "esbuild-stylus-loader": "^0.3.2",
     "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-import": "^2.25.4",
     "file-loader": "^6.2.0",
     "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^5.3.2",

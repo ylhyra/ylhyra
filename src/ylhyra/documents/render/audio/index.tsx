@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { notify } from "ylhyra/app/app/error";
 import { getDynamicFileUrl } from "ylhyra/app/app/paths";
 import store, { RootState } from "ylhyra/app/app/store";
-import { ReadAlong } from "ylhyra/documents/render/audio/ReadAlong";
-import SmoothScroll from "ylhyra/documents/render/audio/Scroll/SmoothScroll";
+import { readAlong } from "ylhyra/documents/render/audio/readAlong/readAlong";
+import smoothScroll from "ylhyra/documents/render/audio/Scroll/SmoothScroll";
 
 require("ylhyra/documents/render/audio/KeyboardListener");
 
@@ -74,7 +74,7 @@ class Audio extends React.PureComponent<{
   playing = (event) => {
     const audio = this.audio.current;
     event.persist();
-    ReadAlong(audio, "play", this.getFileName());
+    readAlong(audio, "play", this.getFileName());
     if (audio.duration - audio.currentTime > 0.2) {
       // More than 0.1 seconds left
       this.setState({
@@ -110,15 +110,15 @@ class Audio extends React.PureComponent<{
   };
   play = (event) => {
     event?.persist();
-    SmoothScroll.allow();
-    ReadAlong(this.audio.current, "play", this.getFileName());
+    smoothScroll.allow();
+    readAlong(this.audio.current, "play", this.getFileName());
     this.updateStore();
     this.setState({ playing: true });
   };
   pause = (event) => {
     event.persist();
-    SmoothScroll.stop();
-    ReadAlong(this.audio.current, "pause", this.getFileName());
+    smoothScroll.stop();
+    readAlong(this.audio.current, "pause", this.getFileName());
     this.setState({ playing: false });
   };
   ended = () => {

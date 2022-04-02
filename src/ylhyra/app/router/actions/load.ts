@@ -9,7 +9,7 @@ import {
 import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 import { appUrls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
-import { ReadAlongSetup } from "ylhyra/documents/render/audio/ReadAlong";
+import { readAlongSetup } from "ylhyra/documents/render/audio/readAlong/readAlong";
 
 const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true && isDev;
 
@@ -160,7 +160,7 @@ const set = async ({
       header: data.header,
     },
   });
-  ReadAlongSetup(flattenedData);
+  readAlongSetup(flattenedData);
 };
 
 /**
