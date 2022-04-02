@@ -1,4 +1,3 @@
-// import typeset from "typeset";
 import marked from "marked";
 import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
 import sass from "sass";

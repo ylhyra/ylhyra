@@ -2,7 +2,7 @@ import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
 import { URL_title } from "ylhyra/app/app/paths";
 import { encodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
 import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
-import markdown_to_html from "ylhyra/documents/compile/markdown_to_html";
+import markdown_to_html from "ylhyra/documents/compile/markdown";
 import { breadcrumbs } from "ylhyra/documents/compile/templates/breadcrumbs";
 import { getOrderOfChapters } from "ylhyra/documents/compile/templates/getOrderOfChapters";
 import { parseVocabularyList } from "ylhyra/documents/compile/vocabulary";

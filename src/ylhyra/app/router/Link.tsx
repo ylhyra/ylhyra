@@ -3,7 +3,6 @@ import { getTime, minutes } from "modules/time";
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
-import { preload } from "ylhyra/app/router/actions/load";
 import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 
 const start = getTime();
@@ -59,7 +58,7 @@ class Link extends React.Component<
           href={href}
           {...{ className, id }}
           onClick={(e) => this.onClickInterceptor(e, href)}
-          onMouseEnter={() => preload(href)}
+          // onMouseEnter={() => preload(href)}
         >
           {children}
         </a>

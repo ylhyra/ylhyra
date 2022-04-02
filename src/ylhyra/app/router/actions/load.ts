@@ -22,14 +22,12 @@ export const abortAllThatAreNot = (url: string) => {
 export const loadContent = ({
   url,
   prerenderData,
-  preload,
   section,
   isInitializing,
   callback,
 }: {
   url: string;
   prerenderData?: PrerenderedDataSavedInPage;
-  preload?: Boolean;
   section?: string;
   isInitializing?: Boolean;
   callback?: Function;
@@ -44,11 +42,9 @@ export const loadContent = ({
   }
 
   if (url in cache) {
-    set({ url, data: cache[url], preload, section, isInitializing, callback });
+    set({ url, data: cache[url], section, isInitializing, callback });
   } else {
-    if (!preload) {
-      expectedUrl = url;
-    }
+    expectedUrl = url;
     axios
       .get("/api/content", {
         params: {
@@ -60,14 +56,13 @@ export const loadContent = ({
             : {}),
         },
       })
-      .then(async ({ data }) => {
+      .then(({ data }) => {
         cache[url] = data;
         if (expectedUrl === url) {
-          set({ url, data, preload, section, isInitializing, callback });
+          void set({ url, data, section, isInitializing, callback });
         }
       })
       .catch((error) => {
-        if (preload) return;
         if (error.response?.status === 404) {
           store.dispatch({
             type: "ROUTE_404",
@@ -81,22 +76,19 @@ export const loadContent = ({
 const set = async ({
   url,
   data,
-  preload,
   section,
   isInitializing,
   callback,
 }: {
   url: string;
-  data: PrerenderedDataSavedInPage;
-  preload: string;
-  section: string;
-  isInitializing: Boolean;
-  callback: Function;
+  data?: PrerenderedDataSavedInPage;
+  section?: string;
+  isInitializing?: Boolean;
+  callback?: Function;
 }) => {
   Analytics.startReadingPage(url);
-  if (preload) return;
   let parsed, flattenedData;
-  if ("parsed" in data) {
+  if (data && "parsed" in data) {
     parsed = data.parsed;
     flattenedData = data.flattenedData;
   } else if (CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE && isDev) {

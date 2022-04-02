@@ -1,6 +1,6 @@
 import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
 import images from "ylhyra/documents/compile/images";
-import markdown_to_html from "ylhyra/documents/compile/markdown_to_html";
+import markdown_to_html from "ylhyra/documents/compile/markdown";
 import WithHeaderAndFooter from "ylhyra/documents/compile/templates/HeaderAndFooter";
 import inflection from "ylhyra/documents/compile/templates/inflection";
 import { References } from "ylhyra/documents/compile/templates/References";
