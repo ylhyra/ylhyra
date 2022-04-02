@@ -40,6 +40,7 @@ export function updateUrl(url: string, options: UpdateURLOptions = {}) {
     routeContent,
   } = options;
   if (isBrowser) {
+    // @ts-ignore
     window["HAS_LOADED"] = true;
   }
 

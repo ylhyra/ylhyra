@@ -1,6 +1,6 @@
 import { log } from "modules/log";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { RECOMMENDED_PRICE_IN_US_DOLLARS } from "ylhyra/app/app/constants";
 import { RootState } from "ylhyra/app/app/store";
 import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
@@ -12,7 +12,7 @@ import {
 } from "ylhyra/app/user/payments/actions";
 import { PayPalButton } from "ylhyra/app/user/payments/PayPalButton";
 
-class Form2 extends React.Component {
+class Form2 extends React.Component<ConnectedProps<typeof connector>> {
   state = {
     price: RECOMMENDED_PRICE_IN_US_DOLLARS,
   };

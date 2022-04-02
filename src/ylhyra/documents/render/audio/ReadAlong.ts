@@ -1,14 +1,15 @@
+import { Seconds } from "modules/time";
 import store from "ylhyra/app/app/store";
-import { FlattenedData } from "ylhyra/documents/parse/types";
+import { FlattenedData, LongAudioSyncData } from "ylhyra/documents/parse/types";
 import ScrollIntoView from "ylhyra/documents/render/audio/Scroll/ScrollIntoView";
 import { addClass, removeClass } from "ylhyra/documents/render/helpers";
 
-/*
-  Hasten all times by X seconds. It may be better to be a little quick,
-  to make the reader focus on the word before hearing the audio.
-
-  (May not be necessary)
-*/
+/**
+ * Hasten all times by X seconds. It may be better to be a little quick,
+ * to make the reader focus on the word before hearing the audio.
+ *
+ * (May not be necessary)
+ */
 // let time_shift = 0 // +0.050
 
 /*
@@ -21,26 +22,20 @@ import { addClass, removeClass } from "ylhyra/documents/render/helpers";
 
 */
 
-let list = {};
+let audioIdToSyncData: { [id: string]: LongAudioSyncData[] } = {};
 let sentences = {};
 let started = false;
-let previous = { elements: [] };
-let timer;
-let currentAudioId;
+let previous: LongAudioSyncData;
+let timer: NodeJS.Timeout;
+let currentAudioId: string | null;
 
-/**
-  ____  _____    _    ____       _    _     ___  _   _  ____
- |  _ \| ____|  / \  |  _ \     / \  | |   / _ \| \ | |/ ___|
- | |_) |  _|   / _ \ | | | |   / _ \ | |  | | | |  \| | |  _
- |  _ <| |___ / ___ \| |_| |  / ___ \| |__| |_| | |\  | |_| |
- |_| \_\_____/_/   \_\____/  /_/   \_\_____\___/|_| \_|\____|
-
-  - audio: Will be the audio element
-  - type: Can be [play, pause]
-*/
-export const ReadAlong = (audio, type, filename) => {
+export const ReadAlong = (
+  audio: HTMLAudioElement,
+  type: "play" | "pause",
+  filename: string
+) => {
   currentAudioId = filename;
-  if (!list[currentAudioId]) return;
+  if (!audioIdToSyncData[currentAudioId]) return;
 
   // Play
   if (type === "play") {
@@ -66,19 +61,19 @@ export const ReadAlong = (audio, type, filename) => {
 };
 
 export const clear = () => {
-  list = {};
+  audioIdToSyncData = {};
   sentences = {};
   currentAudioId = null;
 };
 
-export const ReadAlongSetup = (data: FlattenedData) => {
+export const ReadAlongSetup = (data: Partial<FlattenedData> | undefined) => {
   if (!data || !data.long_audio) {
     return clear();
   }
   const { long_audio } = data;
   for (let filename of Object.keys(long_audio)) {
     const synclist = long_audio[filename].sync.list;
-    list[filename] = synclist;
+    audioIdToSyncData[filename] = synclist;
     /* Temp solution, would be better to do this in the audio synchronization step */
     for (const section of synclist) {
       for (const element of section.elements) {
@@ -99,19 +94,19 @@ export const ReadAlongSetup = (data: FlattenedData) => {
 /*
   Find elements that should be shown at this timeout
 */
-const FindIndexFromTime = (time) => {
-  return list[currentAudioId].findIndex(({ begin, end }) => {
+const FindIndexFromTime = (time: Seconds) => {
+  return audioIdToSyncData[currentAudioId].findIndex(({ begin, end }) => {
     return begin <= time && (time < end || end === null);
   });
 };
 
-/*
-  Show the elements for this time.
-  Set timer to repeat the process.
-*/
-const Show = (index, time, auto = true) => {
+/**
+ * Show the elements for this time.
+ * Set timer to repeat the process.
+ */
+const Show = (index: number, time?: Seconds, auto = true) => {
   if (!currentAudioId) return;
-  const current = list[currentAudioId][index] || { elements: [] };
+  const current = audioIdToSyncData[currentAudioId][index] || { elements: [] };
   ScrollIntoView(
     current.elements.filter((i) => previous.elements.indexOf(i) === -1)
   );
@@ -123,7 +118,7 @@ const Show = (index, time, auto = true) => {
     previous.elements.filter((i) => current.elements.indexOf(i) === -1),
     "audioPlaying"
   );
-  if (auto && index < list[currentAudioId].length) {
+  if (auto && index < audioIdToSyncData[currentAudioId].length) {
     timer && clearTimeout(timer);
     timer = setTimeout(() => {
       Show(index + 1);
@@ -137,10 +132,10 @@ export const reset = () => {
   previous = { elements: [] };
 };
 
-/*
-  Play audio for a single sentence
-*/
-export const ReadAlongSingleSentence = (id) => {
+/**
+ * Play audio for a single sentence
+ */
+export const ReadAlongSingleSentence = (id: string) => {
   // console.log(sentences[id])
   if (sentences[id]) {
     store.dispatch({

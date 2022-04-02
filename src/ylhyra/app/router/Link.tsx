@@ -1,6 +1,6 @@
 import { log } from "modules/log";
 import { getTime, minutes } from "modules/time";
-import React, { FunctionComponent } from "react";
+import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import { preload } from "ylhyra/app/router/actions/load";
@@ -13,10 +13,10 @@ class Link extends React.Component<
     href: string;
     id?: string;
     className?: string;
-    children: FunctionComponent | string;
+    children?: any;
   }
 > {
-  fn = (e, url) => {
+  onClickInterceptor = (e: React.MouseEvent<HTMLElement>, url: string) => {
     /* Do a full refresh if window is more than 10 minutes old */
     if (getTime() - start > 10 * minutes) {
       return;
@@ -58,7 +58,7 @@ class Link extends React.Component<
         <a
           href={href}
           {...{ className, id }}
-          onClick={(e) => this.fn(e, href)}
+          onClick={(e) => this.onClickInterceptor(e, href)}
           onMouseEnter={() => preload(href)}
         >
           {children}

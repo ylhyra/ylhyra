@@ -19,10 +19,10 @@ export const run = {
     await InitializeVocabulary();
     await wait(20);
     assert(PercentageKnownOverall() === 0);
-    await updateUrl("/vocabulary");
+    updateUrl("/vocabulary");
   },
   start_session: async () => {
-    await updateUrl("/vocabulary/play");
+    updateUrl("/vocabulary/play");
     await deck.session.InitializeSession();
   },
   end_session: async () => {

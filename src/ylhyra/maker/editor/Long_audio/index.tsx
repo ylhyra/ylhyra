@@ -5,7 +5,7 @@ import { RootState } from "ylhyra/app/app/store";
 import findAudioSections from "ylhyra/maker/editor/Long_audio/actions";
 import { synchronize } from "ylhyra/maker/editor/Long_audio/Synchronize";
 
-class LongAudio extends React.Component {
+class LongAudio extends React.Component<ConnectedProps<typeof connector>> {
   componentDidMount = () => {
     findAudioSections();
   };

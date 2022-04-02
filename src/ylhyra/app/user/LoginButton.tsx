@@ -1,9 +1,9 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import Link from "ylhyra/app/router/Link";
 
-const Button = (props) => {
+const Button = (props: ConnectedProps<typeof connector>) => {
   return (
     <div className="login-buttons">
       {props.user ? (

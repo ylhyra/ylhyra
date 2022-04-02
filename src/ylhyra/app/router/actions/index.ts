@@ -7,13 +7,13 @@ if (isBrowser) {
   window["HAS_LOADED"] = false;
   window.addEventListener("popstate", () => {
     if (window["HAS_LOADED"]) {
-      void updateUrl(window.location.pathname + window.location.hash);
+      updateUrl(window.location.pathname + window.location.hash);
     }
   });
 }
 export const InitializeRouter = (prerenderData: PrerenderedDataSavedInPage) => {
   const is404 = window["is404"];
-  void updateUrl(
+  updateUrl(
     (prerenderData?.url || window.location.pathname) + window.location.hash,
     {
       prerenderData,

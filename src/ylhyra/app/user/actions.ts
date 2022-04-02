@@ -31,16 +31,16 @@ export const login = async (values) => {
     }
 
     if (process.env.REACT_APP_PWYW === "on") {
-      void updateUrl("/pwyw");
+      updateUrl("/pwyw");
     } else {
       // TODO: "Thank you for ..."
-      void updateUrl("/vocabulary");
+      updateUrl("/vocabulary");
     }
   } else {
     /* TODO!!!!! */
     deck.reset();
     await sync();
-    void updateUrl("/vocabulary");
+    updateUrl("/vocabulary");
   }
   void clearOverview();
 };
@@ -53,7 +53,7 @@ export const logout = async () => {
     type: "LOAD_USER",
     content: null,
   });
-  void updateUrl("/frontpage");
+  updateUrl("/frontpage");
 };
 
 export const InitializeUser = () => {

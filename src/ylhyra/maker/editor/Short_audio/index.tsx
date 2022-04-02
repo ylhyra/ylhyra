@@ -4,7 +4,7 @@ import { RootState } from "ylhyra/app/app/store";
 import { findSoundBites } from "ylhyra/maker/editor/Short_audio/actions";
 import Recorder from "ylhyra/maker/editor/Short_audio/Recorder";
 
-class Sounds extends React.Component {
+class Sounds extends React.Component<ConnectedProps<typeof connector>> {
   componentDidMount = () => {
     this.load();
   };

@@ -83,5 +83,5 @@ export const exitVocabularyScreen = async () => {
   if (url === "/vocabulary/play" || url === "/vocabulary/difficulty") {
     url = "/vocabulary";
   }
-  await updateUrl(url);
+  updateUrl(url);
 };

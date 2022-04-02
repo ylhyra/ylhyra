@@ -1,22 +1,20 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import Link from "ylhyra/app/router/Link";
 import { existsSchedule, isUserLoggedIn } from "ylhyra/app/user/actions";
 import LoginButton from "ylhyra/app/user/LoginButton";
 
-class Layout extends React.Component {
+class Layout extends React.Component<ConnectedProps<typeof connector>> {
   render() {
-    const not_banner = ["/login", "/signup"].includes(
-      this.props.route.pathname
-    );
+    const notBanner = ["/login", "/signup"].includes(this.props.route.pathname);
     let className = "";
     if (this.props.route.pathname === "/vocabulary") {
       className = "brown-background";
     }
     return (
       <header className={className}>
-        {!isUserLoggedIn() && existsSchedule() && !not_banner && (
+        {!isUserLoggedIn() && existsSchedule() && !notBanner && (
           <Link href="/signup" className="notification please-log-in">
             Create an account to save your progress
           </Link>
@@ -24,13 +22,13 @@ class Layout extends React.Component {
         <div className="header-container">
           <div className="header-container-inner">
             <Link href="/" id="logo" />
-            <Navlinks />
+            <NavLinks />
             {/* <div className="spacer" hidden /> */}
             <LoginButton />
           </div>
         </div>
         <div className="header-container-below hidden" hidden>
-          <Navlinks />
+          <NavLinks />
         </div>
       </header>
     );
@@ -43,7 +41,7 @@ const connector = connect((state: RootState) => ({
 }));
 export default connector(Layout);
 
-const Navlinks = () => (
+const NavLinks = () => (
   <nav className="navlinks">
     <ul>
       {/* <li>

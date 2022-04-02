@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 
-class SignupSteps extends React.Component {
+class SignupSteps extends React.Component<ConnectedProps<typeof connector>> {
   componentDidMount() {}
   render() {
     if (!process.env.REACT_APP_PWYW) return null;

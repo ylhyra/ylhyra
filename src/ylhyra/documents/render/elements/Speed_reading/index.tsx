@@ -19,7 +19,7 @@ import {
 } from "ylhyra/documents/render/elements/Speed_reading/actions/eventListeners";
 import { load } from "ylhyra/documents/render/elements/Speed_reading/actions/load";
 
-class SpeedReader extends React.Component {
+class SpeedReader extends React.Component<ConnectedProps<typeof connector>> {
   componentDidMount = () => {
     load();
     $("body").addClass("unscrollable");

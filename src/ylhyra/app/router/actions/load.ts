@@ -1,7 +1,6 @@
 import { isDev } from "modules/isDev";
 import Analytics from "ylhyra/app/app/analytics";
 import axios from "ylhyra/app/app/axios";
-import { PRELOAD_ARTICLES_ON_HOVER } from "ylhyra/app/app/constants";
 import store from "ylhyra/app/app/store";
 import {
   index,
@@ -152,7 +151,7 @@ const set = async ({
   // console.log({ t: data.title });
 
   callback?.();
-  await updateUrl(url + (section ? "#" + section : ""), {
+  updateUrl(url + (section ? "#" + section : ""), {
     title: data.title,
     isLoadingContent: true,
     isInitializing,
@@ -164,7 +163,11 @@ const set = async ({
   ReadAlongSetup(flattenedData);
 };
 
-export const preload = (url) => {
-  if (!PRELOAD_ARTICLES_ON_HOVER) return;
-  loadContent({ url, preload: true });
+/**
+ * Preload is currently turned off
+ * @param url
+ */
+export const preload = (url: string) => {
+  // if (!PRELOAD_ARTICLES_ON_HOVER) return;
+  // loadContent({ url, preload: true });
 };

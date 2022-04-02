@@ -166,7 +166,7 @@ class RecorderElement extends React.Component {
   }
 }
 
-class Record extends React.Component {
+class Record extends React.Component<ConnectedProps<typeof connector>> {
   state = {};
   componentDidMount = async () => {
     setTimeout(() => {
