@@ -23,7 +23,8 @@ class SignupSteps extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   user: state.user,
   route: state.route,
-}))(SignupSteps);
+}));
+export default connector(SignupSteps);

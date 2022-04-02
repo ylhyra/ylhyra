@@ -67,9 +67,10 @@ class SpeedReader extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   speed_reader: state.speed_reader,
-}))(SpeedReader);
+}));
+export default connector(SpeedReader);
 
 class Header_ extends React.Component {
   render() {

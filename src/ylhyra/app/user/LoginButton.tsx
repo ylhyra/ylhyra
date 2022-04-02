@@ -29,6 +29,7 @@ const Button = (props) => {
   );
 };
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   user: state.user,
-}))(Button);
+}));
+export default connector(Button);

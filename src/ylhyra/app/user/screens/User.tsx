@@ -14,6 +14,7 @@ class User extends Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   user: state.user,
-}))(User);
+}));
+export default connector(User);

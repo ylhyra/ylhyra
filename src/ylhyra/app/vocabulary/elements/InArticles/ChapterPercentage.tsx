@@ -15,7 +15,8 @@ class X extends Component<{ vocabulary: any; data: any }> {
     );
   }
 }
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   vocabulary: state.vocabulary,
   route: state.route,
-}))(X);
+}));
+export default connector(X);

@@ -19,6 +19,7 @@ class Layout extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   pathname: state.route.pathname,
-}))(Layout);
+}));
+export default connector(Layout);

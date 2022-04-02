@@ -100,6 +100,7 @@ class Form2 extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   user: state.user,
-}))(Form2);
+}));
+export default connector(Form2);

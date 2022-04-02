@@ -219,6 +219,7 @@ class Audio extends React.PureComponent<{
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   audio: state.audio,
-}))(Audio);
+}));
+export default connector(Audio);

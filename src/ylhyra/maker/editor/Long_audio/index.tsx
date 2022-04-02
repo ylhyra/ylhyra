@@ -33,6 +33,7 @@ class LongAudio extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   long_audio: state.editor.long_audio,
-}))(LongAudio);
+}));
+export default connector(LongAudio);

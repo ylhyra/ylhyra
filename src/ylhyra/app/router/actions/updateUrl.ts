@@ -29,7 +29,7 @@ type UpdateURLOptions = {
   routeContent?: RouteContent;
 };
 
-export async function updateUrl(url: string, options: UpdateURLOptions = {}) {
+export function updateUrl(url: string, options: UpdateURLOptions = {}) {
   let {
     title,
     isLoadingContent,

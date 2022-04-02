@@ -30,7 +30,8 @@ class X extends Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   vocabulary: state.vocabulary,
   route: state.route,
-}))(X);
+}));
+export default connector(X);
