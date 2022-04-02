@@ -1,5 +1,6 @@
 import { Router } from "express";
 import fs from "fs";
+import yaml from "js-yaml";
 import _ from "underscore";
 import { removeExtraWhitespace } from "ylhyra/app/app/functions/removeExtraWhitespace";
 import { row_titles } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
@@ -7,7 +8,6 @@ import { content_folder } from "ylhyra/server/paths_backend";
 
 const router = Router();
 const filename = content_folder + `/not_data/vocabulary/vocabulary`;
-const yaml = require("js-yaml");
 
 router.post("/vocabulary_maker/get", (req, res) => {
   fs.readFile(

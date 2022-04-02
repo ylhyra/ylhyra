@@ -1,17 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { minutes, prettyPrintDaysMinutesHours } from "modules/time";
 import type { Day as WeekDay } from "date-fns";
 import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import getYear from "date-fns/getYear";
 import parseISO from "date-fns/parseISO";
+import { minutes, prettyPrintDaysMinutesHours } from "modules/time";
 import React, { CSSProperties, FunctionComponent, ReactNode } from "react";
 import color from "tinycolor2";
-import {
-  Day,
-  Labels,
-  Theme,
-} from "ylhyra/app/app/functions/react-activity-calendar/types";
+import "ylhyra/app/app/functions/react-activity-calendar/component/styles.css";
+import { Day, Labels, Theme } from "ylhyra/app/app/functions/react-activity-calendar/types";
 import {
   DEFAULT_LABELS,
   DEFAULT_WEEKDAY_LABELS,
@@ -21,9 +18,8 @@ import {
   getTheme,
   groupByWeeks,
   MIN_DISTANCE_MONTH_LABELS,
-  NAMESPACE,
+  NAMESPACE
 } from "ylhyra/app/app/functions/react-activity-calendar/util";
-import "ylhyra/app/app/functions/react-activity-calendar/component/styles.css";
 
 const textColor = "#464646";
 const baseColor = color("#2d81ff");

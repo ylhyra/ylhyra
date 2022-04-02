@@ -8,8 +8,8 @@
 
 */
 
-import query from "ylhyra/server/database";
 import _ from "underscore";
+import query from "ylhyra/server/database";
 
 const wordRegex = /([A-zÀ-ÿ·-]+)/g;
 

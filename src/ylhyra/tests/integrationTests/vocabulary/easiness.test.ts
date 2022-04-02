@@ -2,7 +2,11 @@ import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { DEFAULT_JUMP_DOWN } from "ylhyra/app/vocabulary/actions/easinessLevel";
 import { getEasinessLevel } from "ylhyra/app/vocabulary/actions/easinessLevel/functions";
 import { BAD, EASY, GOOD } from "ylhyra/app/vocabulary/constants";
-import { assert, notNull, shouldEqual } from "ylhyra/tests/integrationTests/index";
+import {
+  assert,
+  notNull,
+  shouldEqual,
+} from "ylhyra/tests/integrationTests/index";
 import { run } from "ylhyra/tests/integrationTests/recipes";
 
 export default {

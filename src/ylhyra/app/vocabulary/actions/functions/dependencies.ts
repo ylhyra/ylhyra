@@ -1,8 +1,8 @@
+import _ from "underscore";
 import { getSortedCardDependenciesAsCardIds } from "ylhyra/app/vocabulary/actions/card/card_dependencies";
 import { getTermIdsFromCardIds } from "ylhyra/app/vocabulary/actions/card/functions";
 import { getCardIds } from "ylhyra/app/vocabulary/actions/card/term";
 import { CardIds } from "ylhyra/app/vocabulary/actions/card/types";
-import _ from "underscore";
 
 /**
  * Returns an array of cards with all

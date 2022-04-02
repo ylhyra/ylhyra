@@ -1,6 +1,6 @@
+import React from "react";
 import store from "ylhyra/app/app/store";
 import Link from "ylhyra/app/router/Link";
-import React from "react";
 
 export default () => (
   <div>

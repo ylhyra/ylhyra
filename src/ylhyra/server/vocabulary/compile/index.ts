@@ -3,6 +3,7 @@
   npm run vocabulary
 */
 import fs from "fs";
+import yaml from "js-yaml";
 import _ from "underscore";
 import { GetLowercaseStringForAudioKey } from "ylhyra/maker/vocabulary_maker/compile/functions";
 import { parseVocabularyFile } from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
@@ -15,7 +16,6 @@ export let _deck;
 // const DECK = "_da";
 const DECK = process.env.DECK || "";
 const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
-const yaml = require("js-yaml");
 
 // console.log(process.env.DECK);
 // process.exit();

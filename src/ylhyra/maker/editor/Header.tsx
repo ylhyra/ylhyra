@@ -1,6 +1,6 @@
-import { closeEditor, openEditor, save } from "ylhyra/maker/editor/actions";
 import React from "react";
 import { connect } from "react-redux";
+import { closeEditor, openEditor, save } from "ylhyra/maker/editor/actions";
 
 class App extends React.Component {
   componentDidMount = () => {

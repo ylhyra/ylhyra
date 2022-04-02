@@ -1,8 +1,8 @@
+import React from "react";
+import { connect } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import { findSoundBites } from "ylhyra/maker/editor/Short_audio/actions";
 import Recorder from "ylhyra/maker/editor/Short_audio/Recorder";
-import React from "react";
-import { connect } from "react-redux";
 
 class Sounds extends React.Component {
   componentDidMount = () => {

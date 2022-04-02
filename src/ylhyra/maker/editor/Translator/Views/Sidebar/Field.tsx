@@ -1,9 +1,9 @@
+import React from "react";
+import { connect } from "react-redux";
 import {
   updateDefinitionValue,
   wordsHash,
 } from "ylhyra/maker/editor/Translator/actions";
-import React from "react";
-import { connect } from "react-redux";
 
 class Field extends React.Component {
   handleChange = (e) => {

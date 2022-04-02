@@ -16,10 +16,7 @@
 
 */
 
-import {
-  LongAudioSyncData,
-  UnprocessedLongAudioSyncData,
-} from "ylhyra/documents/parse/types";
+import { LongAudioSyncData, UnprocessedLongAudioSyncData } from "ylhyra/documents/parse/types";
 
 export default function MakeLongAudioSyncList(
   input: UnprocessedLongAudioSyncData[]

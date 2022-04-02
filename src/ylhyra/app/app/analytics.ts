@@ -1,16 +1,16 @@
 /*
   Tracks time spent on page
 */
-import axios from "ylhyra/app/app/axios";
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
+import { getTime, seconds } from "modules/time";
+import axios from "ylhyra/app/app/axios";
 import {
   ANALYTICS_LOCALSTORAGE_LABEL,
   getFromLocalStorage,
-  saveInLocalStorage,
+  saveInLocalStorage
 } from "ylhyra/app/app/functions/localStorage";
 import { roundToInterval } from "ylhyra/app/app/functions/math";
-import { getTime, seconds } from "modules/time";
 
 const ignoredUrls = ["/", "/frontpage"];
 

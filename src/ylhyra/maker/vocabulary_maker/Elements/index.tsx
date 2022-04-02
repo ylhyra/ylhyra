@@ -1,3 +1,5 @@
+import React from "react";
+import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import {
   addEmpty,
@@ -10,8 +12,6 @@ import { search } from "ylhyra/maker/vocabulary_maker/actions/search";
 import { formatVocabularyEntry } from "ylhyra/maker/vocabulary_maker/compile/format";
 import { row_titles } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
 import VocabularyMakerForm from "ylhyra/maker/vocabulary_maker/Elements/Form";
-import React from "react";
-import { connect, ConnectedProps } from "react-redux";
 
 class VocabularyMaker extends React.Component<
   ConnectedProps<typeof connector>

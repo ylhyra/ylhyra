@@ -1,9 +1,9 @@
+import React from "react";
+import { connect } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import Link from "ylhyra/app/router/Link";
 import { existsSchedule, isUserLoggedIn } from "ylhyra/app/user/actions";
 import LoginButton from "ylhyra/app/user/LoginButton";
-import React from "react";
-import { connect } from "react-redux";
 
 class Layout extends React.Component {
   render() {

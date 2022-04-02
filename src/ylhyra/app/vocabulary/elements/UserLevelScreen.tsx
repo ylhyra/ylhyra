@@ -1,14 +1,17 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { exitVocabularyScreen } from "ylhyra/app/vocabulary/actions/functions";
-import { getUserLevel, setUserLevel } from "ylhyra/app/vocabulary/actions/userLevel";
+import {
+  getUserLevel,
+  setUserLevel,
+} from "ylhyra/app/vocabulary/actions/userLevel";
 import {
   USER_LEVEL_ADVANCED,
   USER_LEVEL_BEGINNER,
   USER_LEVEL_INTERMEDIATE,
   USER_LEVEL_NOVICE,
 } from "ylhyra/app/vocabulary/constants";
-import React, { Component } from "react";
-import { connect } from "react-redux";
 
 class X extends Component<{ vocabulary: any; route: any }> {
   set(level) {

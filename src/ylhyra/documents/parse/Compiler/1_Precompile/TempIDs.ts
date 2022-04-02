@@ -1,5 +1,5 @@
-import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import shortid from "shortid";
+import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 
 const seed: string = shortid.generate();
 let i = 0;

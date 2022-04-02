@@ -1,6 +1,6 @@
 import forEachAsync from "modules/forEachAsync";
-import { run } from "ylhyra/tests/integrationTests/recipes";
 import _ from "underscore";
+import { run } from "ylhyra/tests/integrationTests/recipes";
 
 const logger = window.logToPuppeteer || console.log;
 

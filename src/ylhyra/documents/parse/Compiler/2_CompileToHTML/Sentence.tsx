@@ -1,7 +1,7 @@
+import React from "react";
 import exists from "ylhyra/app/app/functions/exists";
 import Box from "ylhyra/documents/parse/Compiler/2_CompileToHTML/Definition/Box/Sentence";
 import { DefinitionObject } from "ylhyra/documents/parse/Compiler/2_CompileToHTML/Definition/Box/Word";
-import React from "react";
 
 class Sentence extends React.Component<{
   definition: DefinitionObject;

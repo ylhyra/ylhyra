@@ -1,7 +1,7 @@
 import argon2 from "argon2";
-import { encodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
 import { Router } from "express";
 import request from "request";
+import { encodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
 

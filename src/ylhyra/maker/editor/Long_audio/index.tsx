@@ -1,9 +1,9 @@
+import React from "react";
+import { connect } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 // import Upload from './Upload'
 import findAudioSections from "ylhyra/maker/editor/Long_audio/actions";
 import { synchronize } from "ylhyra/maker/editor/Long_audio/Synchronize";
-import React from "react";
-import { connect } from "react-redux";
 
 class LongAudio extends React.Component {
   componentDidMount = () => {

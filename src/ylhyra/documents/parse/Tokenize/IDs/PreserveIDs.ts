@@ -11,10 +11,10 @@
 
 */
 
-import flattenArray from "ylhyra/app/app/functions/flattenArray";
 import { diffArrays } from "diff";
-import { TokenizedParagraphsWithIds } from "ylhyra/documents/parse/types";
 import { findBestMatch } from "string-similarity";
+import flattenArray from "ylhyra/app/app/functions/flattenArray";
+import { TokenizedParagraphsWithIds } from "ylhyra/documents/parse/types";
 
 export default function Preserve(
   first: TokenizedParagraphsWithIds,

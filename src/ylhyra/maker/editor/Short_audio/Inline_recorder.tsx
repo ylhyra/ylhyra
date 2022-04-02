@@ -1,8 +1,8 @@
-import store from "ylhyra/app/app/store";
-import Recorder from "ylhyra/maker/editor/Short_audio/Recorder";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import store from "ylhyra/app/app/store";
+import Recorder from "ylhyra/maker/editor/Short_audio/Recorder";
 
 const RenderRecorder = () => {
   if (mw.util.getParamValue("action") !== "edit") return;

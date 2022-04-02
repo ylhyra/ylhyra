@@ -1,7 +1,7 @@
+import { Crawler } from "es6-crawler-detect";
 import { Router } from "express";
 
 const router = Router();
-const { Crawler } = require("es6-crawler-detect");
 
 const rateLimit = require("express-rate-limit")({
   windowMs: 5 * 60 * 1000,

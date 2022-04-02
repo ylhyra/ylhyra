@@ -1,3 +1,4 @@
+import _ from "underscore";
 import {
   formatLemmas,
   formatPrefixes,
@@ -9,7 +10,6 @@ import {
   getHash,
   getHashesFromCommaSeperated,
 } from "ylhyra/maker/vocabulary_maker/compile/functions";
-import _ from "underscore";
 
 export type CardData = {
   en_plaintext: string;

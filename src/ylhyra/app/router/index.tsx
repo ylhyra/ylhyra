@@ -1,3 +1,5 @@
+import React from "react";
+import { connect } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import Layout from "ylhyra/app/elements/layout/Layout";
 import { index, isVocabularyTheFrontpage } from "ylhyra/app/router/actions";
@@ -5,8 +7,6 @@ import { updateURL } from "ylhyra/app/router/actions/updateURL";
 import { app_urls } from "ylhyra/app/router/appUrls";
 import LoadContent from "ylhyra/app/router/Content";
 import Section from "ylhyra/documents/templates/Section";
-import React from "react";
-import { connect } from "react-redux";
 
 class App extends React.Component {
   componentDidMount() {

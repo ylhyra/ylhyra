@@ -1,5 +1,6 @@
 import Sound from "datasets/sounds";
-import { Request, Router } from "express";
+import { Router } from "express";
+
 const router = Router();
 
 /*

@@ -1,4 +1,9 @@
-import { applySuggestions, MakeSuggestions } from "ylhyra/maker/editor/Suggestions";
+import React from "react";
+import { connect } from "react-redux";
+import {
+  applySuggestions,
+  MakeSuggestions,
+} from "ylhyra/maker/editor/Suggestions";
 import Suggestions from "ylhyra/maker/editor/Suggestions/Views/List";
 import { clearSelection } from "ylhyra/maker/editor/Translator/actions";
 import SentenceTranslation from "ylhyra/maker/editor/Translator/Views/Document/SentenceTranslation";
@@ -6,8 +11,6 @@ import Word from "ylhyra/maker/editor/Translator/Views/Document/Word";
 import WordSidebar, {
   isMacintosh,
 } from "ylhyra/maker/editor/Translator/Views/Sidebar/Sidebar";
-import React from "react";
-import { connect } from "react-redux";
 
 class TranslatingEditor extends React.Component {
   componentDidMount() {

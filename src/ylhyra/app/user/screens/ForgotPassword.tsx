@@ -1,6 +1,6 @@
+import React from "react";
 import Link from "ylhyra/app/router/Link";
 import Login from "ylhyra/app/user/LoginForm";
-import React from "react";
 
 export default () => (
   <Login

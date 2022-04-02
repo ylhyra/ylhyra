@@ -1,10 +1,10 @@
-import { RootState } from "ylhyra/app/app/store";
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
-import Render from "ylhyra/documents/render";
-import NotFound from "ylhyra/documents/templates/404";
 import React, { Component, Suspense } from "react";
 import { connect } from "react-redux";
+import { RootState } from "ylhyra/app/app/store";
+import Render from "ylhyra/documents/render";
+import NotFound from "ylhyra/documents/templates/404";
 
 const RenderEditor = React.lazy(() => import("ylhyra/maker/editor"));
 

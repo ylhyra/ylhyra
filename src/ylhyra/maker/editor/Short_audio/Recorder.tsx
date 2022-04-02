@@ -1,8 +1,8 @@
-import axios from "ylhyra/app/app/axios";
-import store from "ylhyra/app/app/store";
 import React from "react";
 import { ReactMic } from "react-mic";
 import Sound from "react-sound";
+import axios from "ylhyra/app/app/axios";
+import store from "ylhyra/app/app/store";
 
 const START_LAG_IN_MILLISECONDS = 100;
 const STOP_LAG_IN_MILLISECONDS = 300;

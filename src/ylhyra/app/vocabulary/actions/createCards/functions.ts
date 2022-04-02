@@ -1,3 +1,4 @@
+import { sortBy } from "underscore";
 import { getSortKey } from "ylhyra/app/vocabulary/actions/card/card_data";
 import {
   getScore,
@@ -5,7 +6,6 @@ import {
   wasTermVeryRecentlySeen,
 } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import { CardIds } from "ylhyra/app/vocabulary/actions/card/types";
-import { sortBy } from "underscore";
 
 export const oldestFirst = (ids: CardIds) => {
   return sortBy(ids, (id) => getTermLastSeen(id));

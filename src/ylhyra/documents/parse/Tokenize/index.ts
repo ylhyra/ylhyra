@@ -1,4 +1,5 @@
 import hash from "modules/hash";
+import _ from "underscore";
 import CreateIDs from "ylhyra/documents/parse/Tokenize/IDs/CreateIDs";
 import PreserveIDs from "ylhyra/documents/parse/Tokenize/IDs/PreserveIDs";
 import tokenizer from "ylhyra/documents/parse/Tokenize/Tokenizer";
@@ -11,7 +12,6 @@ import {
   RawTokenizedParagraphs,
   TokenizedParagraphsWithIds,
 } from "ylhyra/documents/parse/types";
-import _ from "underscore";
 
 export default function (
   documents: DocumentTitleToArrayOfRawText,

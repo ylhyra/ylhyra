@@ -1,5 +1,5 @@
-import Link from "ylhyra/app/router/Link";
 import React from "react";
+import Link from "ylhyra/app/router/Link";
 
 export default () => (
   <div id="footer">

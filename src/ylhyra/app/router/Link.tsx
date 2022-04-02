@@ -1,10 +1,10 @@
-import { RootState } from "ylhyra/app/app/store";
 import { log } from "modules/log";
 import { getTime, minutes } from "modules/time";
-import { preload } from "ylhyra/app/router/actions/load";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
 import React, { FunctionComponent } from "react";
 import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "ylhyra/app/app/store";
+import { preload } from "ylhyra/app/router/actions/load";
+import { updateURL } from "ylhyra/app/router/actions/updateURL";
 
 const start = getTime();
 

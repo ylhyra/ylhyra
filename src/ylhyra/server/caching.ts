@@ -1,3 +1,4 @@
+import express from "express";
 import {
   day,
   days,
@@ -7,7 +8,6 @@ import {
   second,
   seconds,
 } from "modules/time";
-import express from "express";
 
 export const cacheControl = (res, type) => {
   // if (isDev) return;

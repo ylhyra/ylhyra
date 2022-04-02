@@ -1,11 +1,11 @@
 /**
  * Converts certain HTML attributes to React attributes
  */
-import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import inlineStyle2Json from "ylhyra/app/app/functions/inline-style-2-json";
 import isBooleanAttribute from "is-boolean-attribute";
 import React from "react";
 import convert from "react-attr-converter";
+import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
+import inlineStyle2Json from "ylhyra/app/app/functions/inline-style-2-json";
 
 const Traverse = (json: HtmlAsJson): HtmlAsJson => {
   // if (!json) return null;

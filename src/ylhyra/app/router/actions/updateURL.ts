@@ -1,5 +1,5 @@
-import Analytics from "ylhyra/app/app/analytics";
 import { isBrowser } from "modules/isBrowser";
+import Analytics from "ylhyra/app/app/analytics";
 import { URL_title } from "ylhyra/app/app/paths";
 import store from "ylhyra/app/app/store";
 import { getFrontpageURL } from "ylhyra/app/router/actions/index";

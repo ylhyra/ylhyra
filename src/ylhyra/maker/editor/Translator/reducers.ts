@@ -1,6 +1,6 @@
 import { sortByArray } from "modules/sortByArray";
-import { wordsHash } from "ylhyra/maker/editor/Translator/actions";
 import { omit, uniq } from "underscore";
+import { wordsHash } from "ylhyra/maker/editor/Translator/actions";
 
 /*
   ____       _           _   _

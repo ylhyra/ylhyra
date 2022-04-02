@@ -1,9 +1,8 @@
-import { RootState } from "ylhyra/app/app/store";
-import Analytics from "ylhyra/app/app/analytics";
-import messages from "ylhyra/app/app/error/messages";
-import store from "ylhyra/app/app/store";
 import React from "react";
 import { connect } from "react-redux";
+import Analytics from "ylhyra/app/app/analytics";
+import messages from "ylhyra/app/app/error/messages";
+import store, { RootState } from "ylhyra/app/app/store";
 
 const Notification = (props) => {
   if (!props.error) return null;

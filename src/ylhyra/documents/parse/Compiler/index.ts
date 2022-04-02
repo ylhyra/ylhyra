@@ -1,3 +1,5 @@
+import { AllHtmlEntities as Entities } from "html-entities";
+import ReactDOMServer from "react-dom/server";
 import { html2json } from "ylhyra/app/app/functions/html2json";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import Precompile from "ylhyra/documents/parse/Compiler/1_Precompile";
@@ -5,8 +7,6 @@ import { resetIds } from "ylhyra/documents/parse/Compiler/1_Precompile/UpdateID"
 import CompileToHTML from "ylhyra/documents/parse/Compiler/2_CompileToHTML/Traverse";
 import PrepareJSONForReact from "ylhyra/documents/parse/Compiler/PrepareJSONForReact";
 import { FlattenedData } from "ylhyra/documents/parse/types";
-import { AllHtmlEntities as Entities } from "html-entities";
-import ReactDOMServer from "react-dom/server";
 
 const entities = new Entities();
 

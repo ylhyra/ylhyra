@@ -1,9 +1,9 @@
-import { RootState } from "ylhyra/app/app/store";
-import Error from "ylhyra/app/app/error";
-import Footer from "ylhyra/app/elements/layout/Footer";
-import Header from "ylhyra/app/elements/layout/Header";
 import React from "react";
 import { connect } from "react-redux";
+import Error from "ylhyra/app/app/error";
+import { RootState } from "ylhyra/app/app/store";
+import Footer from "ylhyra/app/elements/layout/Footer";
+import Header from "ylhyra/app/elements/layout/Header";
 
 class Layout extends React.Component {
   render() {

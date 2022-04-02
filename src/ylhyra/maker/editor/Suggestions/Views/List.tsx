@@ -1,7 +1,7 @@
-import store from "ylhyra/app/app/store";
-import { updateDefinition } from "ylhyra/maker/editor/Translator/actions";
 import React from "react";
 import { connect } from "react-redux";
+import store from "ylhyra/app/app/store";
+import { updateDefinition } from "ylhyra/maker/editor/Translator/actions";
 
 class Suggestions extends React.Component {
   render() {

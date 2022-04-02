@@ -1,10 +1,10 @@
+import _ from "underscore";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import {
   printWord,
   studyParticularIds,
 } from "ylhyra/app/vocabulary/actions/functions";
 import { assert } from "ylhyra/tests/integrationTests/index";
-import _ from "underscore";
 
 export default {
   "Study particular ids": async () => {

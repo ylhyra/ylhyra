@@ -1,6 +1,7 @@
 // import 'source-map-support/register'
 import { exec } from "child_process";
 import "core-js/stable";
+import cors from "cors";
 import express from "express";
 import argvFactory from "minimist";
 import { isDev } from "modules/isDev";
@@ -27,7 +28,6 @@ const argv = argvFactory(process.argv.slice(2));
 
 const app = express();
 require("express-ws")(app);
-const cors = require("cors");
 app.disable("x-powered-by");
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ limit: "5mb", extended: true }));

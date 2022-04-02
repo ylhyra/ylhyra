@@ -1,6 +1,6 @@
-import { RootState } from "ylhyra/app/app/store";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { RootState } from "ylhyra/app/app/store";
 
 class User extends Component {
   render() {

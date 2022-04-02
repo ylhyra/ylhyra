@@ -6,8 +6,7 @@
 import path from "path";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
-
-var LineByLineReader = require("line-by-line");
+import LineByLineReader from "line-by-line";
 
 let count = 0;
 

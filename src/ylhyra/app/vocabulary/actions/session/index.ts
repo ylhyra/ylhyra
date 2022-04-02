@@ -1,27 +1,17 @@
-import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
 import { log } from "modules/log";
-import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
+import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
 import Analytics from "ylhyra/app/app/analytics";
-import { sync } from "ylhyra/app/vocabulary/actions/userData/sync";
-import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
 import { EACH_SESSION_LASTS_X_MINUTES } from "ylhyra/app/app/constants";
-import { clearOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen/actions";
+import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import { roundMsToSec, roundToInterval } from "ylhyra/app/app/functions/math";
-import { exitVocabularyScreen } from "ylhyra/app/vocabulary/actions/functions";
-import { setUserData } from "ylhyra/app/vocabulary/actions/userData/userData";
-import { SESSION_PREFIX } from "ylhyra/app/vocabulary/actions/userData/userDataSessions";
-import Deck from "ylhyra/app/vocabulary/actions/deck";
+import { updateURL } from "ylhyra/app/router/actions/updateURL";
 import { doesCardExist } from "ylhyra/app/vocabulary/actions/card/card";
+import { CardIds, TermId } from "ylhyra/app/vocabulary/actions/card/types";
+import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
 import { createCards } from "ylhyra/app/vocabulary/actions/createCards";
-import { InitializeSession } from "ylhyra/app/vocabulary/actions/session/initialize";
-import { nextCard } from "ylhyra/app/vocabulary/actions/session/nextCard";
 import { createSchedule } from "ylhyra/app/vocabulary/actions/createSchedule";
-import { loadCardsIntoSession } from "ylhyra/app/vocabulary/actions/session/loadCardsIntoSession";
-import {
-  checkForUndoOnKeyDown,
-  undo,
-  undoable,
-} from "ylhyra/app/vocabulary/actions/session/undo";
+import Deck from "ylhyra/app/vocabulary/actions/deck";
+import { exitVocabularyScreen } from "ylhyra/app/vocabulary/actions/functions";
 import {
   answer,
   checkIfCardsRemaining,
@@ -29,11 +19,21 @@ import {
   getPercentageDone,
   updateRemainingTime,
 } from "ylhyra/app/vocabulary/actions/session/functions";
+import { InitializeSession } from "ylhyra/app/vocabulary/actions/session/initialize";
 import { loadCardInInterface } from "ylhyra/app/vocabulary/actions/session/loadCardInInterface";
-import { CardIds, TermId } from "ylhyra/app/vocabulary/actions/card/types";
+import { loadCardsIntoSession } from "ylhyra/app/vocabulary/actions/session/loadCardsIntoSession";
+import { nextCard } from "ylhyra/app/vocabulary/actions/session/nextCard";
+import {
+  checkForUndoOnKeyDown,
+  undo,
+  undoable,
+} from "ylhyra/app/vocabulary/actions/session/undo";
+import { sync } from "ylhyra/app/vocabulary/actions/userData/sync";
+import { setUserData } from "ylhyra/app/vocabulary/actions/userData/userData";
+import { SESSION_PREFIX } from "ylhyra/app/vocabulary/actions/userData/userDataSessions";
 import { rating } from "ylhyra/app/vocabulary/constants";
+import { clearOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen/actions";
 import { getDeckName } from "ylhyra/maker/vocabulary_maker/compile/functions";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 

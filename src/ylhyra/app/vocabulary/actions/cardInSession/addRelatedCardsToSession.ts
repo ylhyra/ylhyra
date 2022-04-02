@@ -3,16 +3,13 @@ import { days } from "modules/time";
 import { isInSession } from "ylhyra/app/vocabulary/actions/card/card";
 import {
   dependencyDepthOfCard,
-  getDependenciesAsArrayOfCardIds,
+  getDependenciesAsArrayOfCardIds
 } from "ylhyra/app/vocabulary/actions/card/card_dependencies";
-import {
-  isBad,
-  isFairlyBad,
-} from "ylhyra/app/vocabulary/actions/card/card_difficulty";
+import { isBad, isFairlyBad } from "ylhyra/app/vocabulary/actions/card/card_difficulty";
 import {
   isUnseenTerm,
   timeSinceTermWasSeen,
-  wasTermVeryRecentlySeen,
+  wasTermVeryRecentlySeen
 } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import { CardIds } from "ylhyra/app/vocabulary/actions/card/types";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession/index";

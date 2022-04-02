@@ -1,8 +1,11 @@
-import { Database, delete_row } from "ylhyra/maker/vocabulary_maker/actions/actions";
-import { formatVocabularyEntry } from "ylhyra/maker/vocabulary_maker/compile/format";
 import React from "react";
 import { compareTwoStrings } from "string-similarity";
 import _ from "underscore";
+import {
+  Database,
+  delete_row,
+} from "ylhyra/maker/vocabulary_maker/actions/actions";
+import { formatVocabularyEntry } from "ylhyra/maker/vocabulary_maker/compile/format";
 
 let memoizedSuggestions: any = {};
 export const didYouMeanSuggestions = (is, input_row_id) => {

@@ -1,9 +1,9 @@
 import hash from "modules/hash";
+import shortid from "shortid";
 import {
   RawTokenizedParagraphs,
   TokenizedParagraphsWithIds,
 } from "ylhyra/documents/parse/types";
-import shortid from "shortid";
 
 export const wordRegex = /[A-zÀ-ÿ0-9]/;
 

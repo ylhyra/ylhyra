@@ -1,5 +1,5 @@
-import exists from "ylhyra/app/app/functions/exists";
 import React from "react";
+import exists from "ylhyra/app/app/functions/exists";
 import { DefinitionObject } from "ylhyra/documents/parse/Compiler/2_CompileToHTML/Definition/Box/Word";
 
 export default class Definition extends React.PureComponent<{

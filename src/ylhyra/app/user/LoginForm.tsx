@@ -1,11 +1,11 @@
-import { RootState } from "ylhyra/app/app/store";
-import errors from "ylhyra/app/app/error/messages";
-import { withPlural } from "ylhyra/app/app/functions/simplePlural";
-import { existsSchedule, login } from "ylhyra/app/user/actions";
-import { countTermsInSchedule } from "ylhyra/app/vocabulary/actions/functions";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
+import errors from "ylhyra/app/app/error/messages";
+import { withPlural } from "ylhyra/app/app/functions/simplePlural";
+import { RootState } from "ylhyra/app/app/store";
+import { existsSchedule, login } from "ylhyra/app/user/actions";
+import { countTermsInSchedule } from "ylhyra/app/vocabulary/actions/functions";
 
 class Form2 extends React.Component<
   ConnectedProps<typeof connector> & {

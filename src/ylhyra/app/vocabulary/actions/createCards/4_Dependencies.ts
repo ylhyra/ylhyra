@@ -1,13 +1,10 @@
-import { withDependencies } from "ylhyra/app/vocabulary/actions/functions/dependencies";
 import { isDev } from "modules/isDev";
 import { days, minutes } from "modules/time";
 import { isInSession } from "ylhyra/app/vocabulary/actions/card/card";
+import { isBad, isFairlyBad } from "ylhyra/app/vocabulary/actions/card/card_difficulty";
 import { wasTermSeenMoreRecentlyThan } from "ylhyra/app/vocabulary/actions/card/card_schedule";
-import {
-  isBad,
-  isFairlyBad,
-} from "ylhyra/app/vocabulary/actions/card/card_difficulty";
 import { CardIds } from "ylhyra/app/vocabulary/actions/card/types";
+import { withDependencies } from "ylhyra/app/vocabulary/actions/functions/dependencies";
 
 /* Add bad dependencies */
 export default (chosen_cards: CardIds): CardIds => {

@@ -1,12 +1,12 @@
-import { notify } from "ylhyra/app/app/error";
 import { isBrowser } from "modules/isBrowser";
 import { log } from "modules/log";
+import React from "react";
+import { notify } from "ylhyra/app/app/error";
 import { updateURL } from "ylhyra/app/router/actions/updateURL";
 import {
   continueAfterPaying,
   parsePrice,
 } from "ylhyra/app/user/payments/actions";
-import React from "react";
 
 let button;
 

@@ -1,3 +1,5 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { updateURL } from "ylhyra/app/router/actions/updateURL";
 import Link from "ylhyra/app/router/Link";
 import { studyNewTerms } from "ylhyra/app/vocabulary/actions/functions";
@@ -6,8 +8,6 @@ import { calculateOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen
 import ActivityOverview from "ylhyra/app/vocabulary/elements/OverviewScreen/ActivityCalendar";
 import Section from "ylhyra/documents/templates/Section";
 import Spacer from "ylhyra/documents/templates/Spacer";
-import React, { Component } from "react";
-import { connect } from "react-redux";
 
 class Overview extends Component<{ vocabulary: any }> {
   componentDidMount() {

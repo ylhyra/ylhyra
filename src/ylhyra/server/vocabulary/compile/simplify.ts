@@ -1,11 +1,11 @@
-import { printWord } from "ylhyra/app/vocabulary/actions/functions";
 import stable_stringify from "json-stable-stringify";
+import _ from "underscore";
+import { printWord } from "ylhyra/app/vocabulary/actions/functions";
 import {
   CreateDependencyChain__backend,
   withDependencies__backend,
 } from "ylhyra/server/vocabulary/compile/dependencies";
 import { _deck } from "ylhyra/server/vocabulary/compile/index";
-import _ from "underscore";
 
 export const simplify = () => {
   /* Add sortkey for all items */

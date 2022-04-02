@@ -1,6 +1,8 @@
-import { RootState } from "ylhyra/app/app/store";
-import { RECOMMENDED_PRICE_IN_US_DOLLARS } from "ylhyra/app/app/constants";
 import { log } from "modules/log";
+import React from "react";
+import { connect } from "react-redux";
+import { RECOMMENDED_PRICE_IN_US_DOLLARS } from "ylhyra/app/app/constants";
+import { RootState } from "ylhyra/app/app/store";
 import { updateURL } from "ylhyra/app/router/actions/updateURL";
 import {
   continueAfterPaying,
@@ -9,8 +11,6 @@ import {
   parsePrice,
 } from "ylhyra/app/user/payments/actions";
 import { PayPalButton } from "ylhyra/app/user/payments/PayPalButton";
-import React from "react";
-import { connect } from "react-redux";
 
 class Form2 extends React.Component {
   state = {

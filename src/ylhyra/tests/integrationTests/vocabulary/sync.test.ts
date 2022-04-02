@@ -1,6 +1,10 @@
 import { getEasinessLevel } from "ylhyra/app/vocabulary/actions/easinessLevel/functions";
 import { PercentageKnownOverall } from "ylhyra/app/vocabulary/actions/functions/percentageKnown";
-import { assert, notNull, shouldEqual } from "ylhyra/tests/integrationTests/index";
+import {
+  assert,
+  notNull,
+  shouldEqual,
+} from "ylhyra/tests/integrationTests/index";
 import { run } from "ylhyra/tests/integrationTests/recipes";
 
 export default {

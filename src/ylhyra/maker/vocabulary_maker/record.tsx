@@ -1,14 +1,14 @@
-import { RootState } from "ylhyra/app/app/store";
 import axios from "axios";
+import React from "react";
+import { ReactMic } from "react-mic";
+import { connect } from "react-redux";
+import Sound from "react-sound";
+import { RootState } from "ylhyra/app/app/store";
 import { load } from "ylhyra/maker/vocabulary_maker/actions/initialize";
 import {
   getNextWordToRecord,
   saveSound,
 } from "ylhyra/maker/vocabulary_maker/actions/sound";
-import React from "react";
-import { ReactMic } from "react-mic";
-import { connect } from "react-redux";
-import Sound from "react-sound";
 
 const START_LAG_IN_MILLISECONDS = 0;
 // const START_LAG_IN_MILLISECONDS = 100;

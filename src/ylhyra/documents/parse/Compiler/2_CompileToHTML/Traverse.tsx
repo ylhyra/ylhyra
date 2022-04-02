@@ -1,7 +1,7 @@
+import React from "react";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import Sentence from "ylhyra/documents/parse/Compiler/2_CompileToHTML/Sentence";
 import Word from "ylhyra/documents/parse/Compiler/2_CompileToHTML/Word";
-import React from "react";
 
 /**
  * Returns a JSX-type object

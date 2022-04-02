@@ -1,10 +1,7 @@
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import MergePunctuation from "ylhyra/documents/parse/Compiler/1_Precompile/MergePunctuation";
 import MergeWords from "ylhyra/documents/parse/Compiler/1_Precompile/MergeWords";
-import {
-  removeTempIds,
-  tempIds,
-} from "ylhyra/documents/parse/Compiler/1_Precompile/TempIDs";
+import { removeTempIds, tempIds } from "ylhyra/documents/parse/Compiler/1_Precompile/TempIDs";
 import { FlattenedData } from "ylhyra/documents/parse/types";
 // import PronunciationAndSound from './PronunciationAndSound'
 // import WrapInTags from 'Editor/2-Parse/2.3-WrapInTags'

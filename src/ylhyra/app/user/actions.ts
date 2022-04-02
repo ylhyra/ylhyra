@@ -1,7 +1,7 @@
-import axios from "ylhyra/app/app/axios";
-import { getCookie } from "ylhyra/app/app/functions/cookie";
 import { isBrowser } from "modules/isBrowser";
 import { log } from "modules/log";
+import axios from "ylhyra/app/app/axios";
+import { getCookie } from "ylhyra/app/app/functions/cookie";
 import store from "ylhyra/app/app/store";
 import { updateURL } from "ylhyra/app/router/actions/updateURL";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";

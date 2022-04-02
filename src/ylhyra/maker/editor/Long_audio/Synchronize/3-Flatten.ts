@@ -30,10 +30,7 @@
     { begin: 1.930, end: 2.315, id: "w2",  },
   ]
 */
-import {
-  AeneasOutput,
-  UnprocessedLongAudioSyncData,
-} from "ylhyra/documents/parse/types";
+import { AeneasOutput, UnprocessedLongAudioSyncData } from "ylhyra/documents/parse/types";
 
 export default function FlattenAeneasData(
   input: AeneasOutput["fragments"]
