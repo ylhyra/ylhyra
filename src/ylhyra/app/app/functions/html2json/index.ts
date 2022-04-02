@@ -11,7 +11,6 @@
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 
 require("ylhyra/app/app/functions/html2json/parser/htmlparser");
-
 import error from "ylhyra/app/app/error";
 
 var debug = function () {};

@@ -1,5 +1,4 @@
 import { removeExtraWhitespace } from "ylhyra/app/app/functions/removeExtraWhitespace";
-
 import { Router } from "express";
 import { row_titles } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
 import { content_folder } from "ylhyra/server/paths_backend";

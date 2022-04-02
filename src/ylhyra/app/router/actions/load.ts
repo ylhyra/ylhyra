@@ -1,7 +1,7 @@
+import { isDev } from "modules/isDev";
 import Analytics from "ylhyra/app/app/analytics";
 import axios from "ylhyra/app/app/axios";
 import { PRELOAD_ARTICLES_ON_HOVER } from "ylhyra/app/app/constants";
-import { isDev } from "modules/isDev";
 import store from "ylhyra/app/app/store";
 import {
   index,
@@ -14,24 +14,24 @@ import { ReadAlongSetup } from "ylhyra/documents/render/audio/ReadAlong";
 
 const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true && isDev;
 
-let cache = {};
-let expectedUrl = false;
+let cache: { [url: string]: PrerenderedDataSavedInPage } = {};
+let expectedUrl: string | null = null;
 export const abortAllThatAreNot = (url: string) => {
   expectedUrl = url;
 };
 
 export const loadContent = ({
   url,
-  prerender_data: DataSavedInPage,
+  prerender_data,
   preload,
   section,
   isInitializing,
   callback,
 }: {
   url: string;
-  prerender_data: string;
-  preload: string;
-  section: string;
+  prerender_data: PrerenderedDataSavedInPage;
+  preload?: Boolean;
+  section?: string;
   isInitializing: Boolean;
   callback: Function;
 }) => {

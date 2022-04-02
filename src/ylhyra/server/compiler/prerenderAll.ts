@@ -2,7 +2,7 @@ import forEachAsync from "modules/forEachAsync";
 import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
 import { app_urls } from "ylhyra/app/router/appUrls";
 import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/initializeDeckFromFile";
-import prerender from "ylhyra/server/compiler/prerender_single";
+import prerender from "ylhyra/server/compiler/prerenderSingle";
 import { links } from "ylhyra/server/content/loadLinks";
 
 const run = async () => {

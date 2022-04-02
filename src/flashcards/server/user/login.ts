@@ -1,10 +1,10 @@
 import argon2 from "argon2";
 import { Request, Response, Router } from "express";
-import { StatusCodes } from "http-status-codes";
 import { errors } from "flashcards/errors";
 import { db } from "flashcards/server/database/db";
 import { throwError } from "flashcards/server/functions/various";
 import { setSession } from "flashcards/server/user/user";
+import { StatusCodes } from "http-status-codes";
 
 const router = Router();
 
@@ -42,6 +42,8 @@ router.post("/api/login", async (req: Request<{}, {}, LoginData>, res) => {
     await login({ username, password, req, res });
   } else if (isLoginOrSignup === "signup") {
     await createUser({ email, username, password, req, res });
+  } else {
+    res.send({ error: "Missing parameter `isLoginOrSignup`" });
   }
 });
 

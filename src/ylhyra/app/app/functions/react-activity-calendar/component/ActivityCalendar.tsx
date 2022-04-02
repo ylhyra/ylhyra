@@ -7,7 +7,6 @@ import getYear from "date-fns/getYear";
 import parseISO from "date-fns/parseISO";
 import React, { CSSProperties, FunctionComponent, ReactNode } from "react";
 import color from "tinycolor2";
-
 import {
   Day,
   Labels,
@@ -24,7 +23,6 @@ import {
   MIN_DISTANCE_MONTH_LABELS,
   NAMESPACE,
 } from "ylhyra/app/app/functions/react-activity-calendar/util";
-
 import "ylhyra/app/app/functions/react-activity-calendar/component/styles.css";
 
 const textColor = "#464646";

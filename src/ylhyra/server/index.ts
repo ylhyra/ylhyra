@@ -1,22 +1,21 @@
 // import 'source-map-support/register'
+import { exec } from "child_process";
+import "core-js/stable";
+import express from "express";
+import argvFactory from "minimist";
 import { isDev } from "modules/isDev";
+import path from "path";
+import "regenerator-runtime/runtime";
+import requestIp from "request-ip";
 import {
   processed_image_url,
   unprocessed_image_url,
 } from "ylhyra/app/app/paths";
-
-import { exec } from "child_process";
-import "core-js/stable";
-
-import express from "express";
-import argvFactory from "minimist";
-import path from "path";
-import "regenerator-runtime/runtime";
-import requestIp from "request-ip";
 import { staticCached } from "ylhyra/server/caching";
 import query from "ylhyra/server/database";
 import {
   build_folder,
+  getBaseDir,
   image_output_folder,
   ylhyra_content_files,
 } from "ylhyra/server/paths_backend";
@@ -62,46 +61,36 @@ setTimeout(() => {
   query(`SET sql_mode = ''`, () => {});
 }, 30 * 1000);
 
-const mainapp = express();
-mainapp.use(processed_image_url, staticCached(image_output_folder));
-mainapp.use(unprocessed_image_url, staticCached(ylhyra_content_files));
-mainapp.use("/", staticCached(build_folder));
+const ylhyraApp = express();
+ylhyraApp.use(processed_image_url, staticCached(image_output_folder));
+ylhyraApp.use(unprocessed_image_url, staticCached(ylhyra_content_files));
+ylhyraApp.use("/", staticCached(build_folder));
 
 /*
   Private APIs
 */
-mainapp.use(cors({ origin: "https://ylhyra.is" }));
+ylhyraApp.use(cors({ origin: "https://ylhyra.is" }));
 // app.use('/api', require('server/server-side-rendering').default)
-mainapp.use("/api", require("ylhyra/server/audio/recorder").default);
+ylhyraApp.use("/api", require("ylhyra/server/audio/recorder").default);
 // app.use('/api', require('server/audio/GetOneAudioFile').default)
 // app.use('/api', require('server/audio/Synchronize').default)
 // app.use('/api', require('server/translator/save').default)
-mainapp.use("/api", require("ylhyra/server/translator/saveDocument").default);
-mainapp.use("/api", require("ylhyra/server/analytics").default);
-mainapp.use("/api", require("ylhyra/server/analytics/overview").default);
-mainapp.use("/api", require("ylhyra/server/analytics/userErrors").default);
-mainapp.use("/api", require("ylhyra/server/user").default);
-mainapp.use("/api", require("ylhyra/server/user/pay").default);
-mainapp.use("/api", require("ylhyra/server/vocabulary/sync").default);
-mainapp.use(
-  "/api",
-  require("ylhyra/server/vocabulary/migration_session_log_2021_10").default
-);
-mainapp.use("/api", require("ylhyra/server/vocabulary/maker").default);
-mainapp.use("/", require("ylhyra/server/content").default);
-
-// // app.use('/api', require('server/tweets').default)
-// // app.use('/api', require('server/audio').default)
-// // app.use('/api', require('server/translator/Google').default)
-// // app.use('/api', require('server/api/audio/Upload').default)
-// app.use('/api/temp_files/', serveStatic(upload_path))
+ylhyraApp.use("/api", require("ylhyra/server/translator/saveDocument").default);
+ylhyraApp.use("/api", require("ylhyra/server/analytics").default);
+ylhyraApp.use("/api", require("ylhyra/server/analytics/overview").default);
+ylhyraApp.use("/api", require("ylhyra/server/analytics/userErrors").default);
+ylhyraApp.use("/api", require("ylhyra/server/user").default);
+ylhyraApp.use("/api", require("ylhyra/server/user/pay").default);
+ylhyraApp.use("/api", require("ylhyra/server/vocabulary/sync").default);
+ylhyraApp.use("/api", require("ylhyra/server/vocabulary/maker").default);
+ylhyraApp.use("/", require("ylhyra/server/content").default);
 
 const inflections_app = express();
 inflections_app.use(cors({ origin: "*" }));
 inflections_app.set("json spaces", 2);
 inflections_app.use(
   "/inflection_styles.css",
-  staticCached(path.join(process.env.PWD, "/build/inflection_styles.css"))
+  staticCached(path.join(getBaseDir(), "/build/inflection_styles.css"))
 );
 inflections_app.use(
   "/",
@@ -109,7 +98,7 @@ inflections_app.use(
 );
 app.use((req, res, next) => {
   if (
-    /inflections\./.exec(req.headers.host) ||
+    /inflections\./.exec(req.headers.host || "") ||
     /\/api\/inflection/.exec(req.originalUrl)
   ) {
     inflections_app(req, res, next);
@@ -118,7 +107,7 @@ app.use((req, res, next) => {
   }
 });
 
-app.use(mainapp);
+app.use(ylhyraApp);
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST;
@@ -127,13 +116,13 @@ const port = process.env.SERVER_PORT || argv.port || 9123;
 
 /* Import steps */
 if (argv["generate-links"]) {
-  require("ylhyra/server/compiler/generate_links.js");
+  require("ylhyra/server/compiler/generateLinks.js");
 } else if (argv["sitemap"]) {
-  require("ylhyra/server/compiler/generate_sitemap.js");
+  require("ylhyra/server/compiler/generateSitemap.js");
 } else if (argv["sort_course_chapters"]) {
-  require("ylhyra/server/compiler/sort_course_chapters.js");
+  require("ylhyra/server/compiler/sortCourseChapters.js");
 } else if (argv["prerender"]) {
-  require("ylhyra/server/compiler/prerender_all.js");
+  require("ylhyra/server/compiler/prerenderAll.js");
 } else if (argv["import-inflections"] || argv["generate-search-index"]) {
   // require("inflection/server/server-with-database/database/ImportToDatabase.js");
 } else if (argv["import-vocabulary"]) {

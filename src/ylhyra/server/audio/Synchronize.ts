@@ -1,11 +1,9 @@
 import { exec } from "child_process";
 import { AeneasOutput } from "ylhyra/documents/parse/types";
-
 import { Response, Router } from "express";
 import fileExtension from "file-extension";
 import fs from "fs";
 import path from "path";
-
 import { upload_path } from "ylhyra/server/index";
 import shortid from "shortid";
 

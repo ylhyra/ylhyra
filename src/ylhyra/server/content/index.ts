@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-
 import { build_folder, getBaseDir } from "ylhyra/server/paths_backend";
 import hash from "modules/hash";
 import { isDev } from "modules/isDev";

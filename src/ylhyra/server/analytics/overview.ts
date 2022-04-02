@@ -1,7 +1,6 @@
 import { isDev } from "modules/isDev";
 import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
 import { days } from "modules/time";
-
 import { Router } from "express";
 import query from "ylhyra/server/database";
 

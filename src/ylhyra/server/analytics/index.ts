@@ -1,5 +1,4 @@
 import { getTime, minute, roundMsToMinute } from "modules/time";
-
 import { Router } from "express";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";

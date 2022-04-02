@@ -14,7 +14,7 @@ if (isBrowser) {
 export const InitializeRouter = (
   prerender_data: PrerenderedDataSavedInPage
 ) => {
-  const { is404 } = window["is404"];
+  const is404 = window["is404"];
   void updateURL(
     (prerender_data?.url || window.location.pathname) + window.location.hash,
     {
