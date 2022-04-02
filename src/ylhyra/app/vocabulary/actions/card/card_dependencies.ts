@@ -14,25 +14,25 @@ import {
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 
 export const getDependenciesAsTermIdToDepth = (id: CardId) => {
-  const term_id: TermId = getTermIds(id)[0];
-  return termGetDependenciesAsTermIdToDepth(term_id);
+  const termId: TermId = getTermIds(id)[0];
+  return termGetDependenciesAsTermIdToDepth(termId);
 };
 
 export const termGetDependenciesAsTermIdToDepth = (
-  term_id: TermId
+  termId: TermId
 ): Record<TermId, number> => {
   return {
-    ...(deck.terms[term_id].dependencies || {}),
-    [term_id]: 0,
+    ...(deck.terms[termId].dependencies || {}),
+    [termId]: 0,
   };
 };
 
 export const getDependenciesAsCardIdToDepth = (id: CardId) => {
   let out: Record<CardId, number> = {};
   const deps = getDependenciesAsTermIdToDepth(id);
-  (Object.keys(deps) as TermIds).forEach((term_id) => {
-    getCardIdsFromTermId(term_id).forEach((card_id) => {
-      out[card_id] = deps[term_id];
+  (Object.keys(deps) as TermIds).forEach((termId) => {
+    getCardIdsFromTermId(termId).forEach((cardId) => {
+      out[cardId] = deps[termId];
     });
   });
   return out;
@@ -41,7 +41,7 @@ export const getDependenciesAsCardIdToDepth = (id: CardId) => {
 export const getDependenciesAsArrayOfCardIds = (id: CardId): CardIds => {
   return getCardIdsFromTermIds(
     Object.keys(getDependenciesAsTermIdToDepth(id)) as TermIds
-  ).filter((card_id) => card_id !== id);
+  ).filter((cardId) => cardId !== id);
 };
 
 export const dependencyDepthOfCard = (id: CardId, card2: CardId) => {
@@ -54,27 +54,27 @@ export const hasTermsInCommonWith = (id: CardId, card2: CardId) => {
 
 export const hasDependenciesInCommonWith = (id: CardId, card2: CardId) => {
   const x2 = getDependenciesAsArrayOfCardIds(card2);
-  return getDependenciesAsArrayOfCardIds(id).some((card_id) =>
-    x2.includes(card_id)
+  return getDependenciesAsArrayOfCardIds(id).some((cardId) =>
+    x2.includes(cardId)
   );
 };
 
-export const getSortedTermDependencies = (term_id: TermId): TermIds => {
+export const getSortedTermDependencies = (termId: TermId): TermIds => {
   const dependenciesAsTermIdToDepth =
-    termGetDependenciesAsTermIdToDepth(term_id);
-  let term_ids = (Object.keys(dependenciesAsTermIdToDepth) as TermIds).sort(
+    termGetDependenciesAsTermIdToDepth(termId);
+  let termIds = (Object.keys(dependenciesAsTermIdToDepth) as TermIds).sort(
     (a, b) => dependenciesAsTermIdToDepth[b] - dependenciesAsTermIdToDepth[a]
   );
   // if (options?.onlyDirect) {
-  //   term_ids = term_ids.filter((a) => dependenciesAsTermIdToDepth[a] <= 1);
+  //   termIds = termIds.filter((a) => dependenciesAsTermIdToDepth[a] <= 1);
   // }
-  return term_ids;
+  return termIds;
 };
 
-export const getSortedCardDependenciesAsCardIds = (term_id: TermId) => {
+export const getSortedCardDependenciesAsCardIds = (termId: TermId) => {
   return _.uniq(
     _.flatten(
-      getSortedTermDependencies(term_id).map((term) =>
+      getSortedTermDependencies(termId).map((term) =>
         getCardIdsShuffledIfSeen(term)
       )
     )

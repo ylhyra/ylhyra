@@ -6,7 +6,7 @@ import Layout from "ylhyra/app/elements/layout/Layout";
 import {
   setIndexing,
   isVocabularyTheFrontpage,
-} from "ylhyra/app/router/actions";
+} from "ylhyra/app/router/actions/actions";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { appUrls } from "ylhyra/app/router/appUrls";
 import LoadContent from "ylhyra/app/router/Content";

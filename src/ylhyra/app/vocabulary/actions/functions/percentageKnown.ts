@@ -7,11 +7,11 @@ import {
 import { CardIds } from "ylhyra/app/vocabulary/actions/card/types";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 
-export const PercentageKnown = (card_ids: CardIds) => {
+export const PercentageKnown = (cardIds: CardIds) => {
   if (!deck?.schedule) return 0;
   let done = 0;
   let remaining = 0;
-  card_ids.forEach((id) => {
+  cardIds.forEach((id) => {
     if (isInSchedule(id)) {
       let score = getScore(id) || 2;
       let toAdd;
@@ -39,7 +39,7 @@ export const PercentageKnown = (card_ids: CardIds) => {
   const ratio = done / (remaining + done) || 0;
   if (ratio === 0) return 0;
   let percentage;
-  if (card_ids.length < 200) {
+  if (cardIds.length < 200) {
     percentage = Math.ceil(ratio * 100);
     if (percentage === 100 && done !== remaining) percentage = 99;
   } else {

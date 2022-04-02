@@ -37,8 +37,8 @@ const run = async () => {
       recording_of: GetLowercaseStringForAudioKey(j.recording_of),
     }));
 
-    Object.keys(cards).forEach((card_id) => {
-      const card = cards[card_id];
+    Object.keys(cards).forEach((cardId) => {
+      const card = cards[cardId];
       // console.log(cardInSession);
       // process.exit();
 
@@ -50,7 +50,7 @@ const run = async () => {
         card.eyða ||
         (!DECK && !card.level)
       ) {
-        delete cards[card_id];
+        delete cards[cardId];
       }
 
       card.sound = getSounds(card.spokenSentences, sound_lowercase);
@@ -63,9 +63,9 @@ const run = async () => {
 
       // card.siblingCardIds = [];
       // card.terms.forEach((term_id) => {
-      //   terms[term_id].cards.forEach((card_id) => {
-      //     if (card_id !== card.id) {
-      //       card.siblingCardIds.push(card_id);
+      //   terms[term_id].cards.forEach((cardId) => {
+      //     if (cardId !== card.id) {
+      //       card.siblingCardIds.push(cardId);
       //     }
       //   });
       // });
@@ -83,9 +83,9 @@ const run = async () => {
     /* Add sortKey */
     for (let [term, sortKey] of Object.entries(sortKeys)) {
       if (term in terms) {
-        terms[term].cards.forEach((card_id) => {
-          if (cards[card_id]) {
-            cards[card_id].sortKey = sortKey;
+        terms[term].cards.forEach((cardId) => {
+          if (cards[cardId]) {
+            cards[cardId].sortKey = sortKey;
           }
         });
       }
@@ -94,9 +94,9 @@ const run = async () => {
     /* Delete unneeded terms & dependencies */
     Object.keys(terms).forEach((term) => {
       let out = [];
-      terms[term].cards.forEach((card_id) => {
-        if (card_id in cards) {
-          out.push(card_id);
+      terms[term].cards.forEach((cardId) => {
+        if (cardId in cards) {
+          out.push(cardId);
         }
       });
       if (out.length >= 1) {

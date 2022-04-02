@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import store from "ylhyra/app/app/store";
 import Router from "ylhyra/app/router";
-import { initializeRouter } from "ylhyra/app/router/actions";
+import { initializeRouter } from "ylhyra/app/router/actions/actions";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { InitializeUser } from "ylhyra/app/user/actions";
 import { InitializeVocabulary } from "ylhyra/app/vocabulary/actions/initialize";

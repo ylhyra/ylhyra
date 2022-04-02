@@ -2,22 +2,21 @@ import { isInSchedule } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import { CardIds, TermId } from "ylhyra/app/vocabulary/actions/card/types";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 
-export const getTermData = (term_id: TermId) => {
-  return deck.terms[term_id];
+export const getTermData = (termId: TermId) => {
+  return deck?.terms[termId];
 };
 
-export const getCardIds = (term_id: TermId): CardIds => {
-  return getTermData(term_id).cards;
+export const getCardIdsFromTermId = (termId: TermId): CardIds => {
+  return getTermData(termId)?.cards || [];
 };
-export const getCardIdsFromTermId = getCardIds;
 
-export const getCardIdsShuffledIfSeen = (term_id: TermId) => {
+export const getCardIdsShuffledIfSeen = (termId: TermId) => {
   if (
-    getCardIds(term_id).some((card_id) => isInSchedule(card_id)) &&
+    getCardIdsFromTermId(termId).some((cardId) => isInSchedule(cardId)) &&
     Math.random() > 0.5
   ) {
-    return getCardIds(term_id).reverse();
+    return getCardIdsFromTermId(termId).reverse();
   } else {
-    return getCardIds(term_id);
+    return getCardIdsFromTermId(termId);
   }
 };

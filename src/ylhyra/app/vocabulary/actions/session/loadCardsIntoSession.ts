@@ -6,7 +6,7 @@ import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
  * Called from createCards.
  * @memberOf Session#
  */
-export function loadCardsIntoSession(card_ids: CardIds, options: any = {}) {
+export function loadCardsIntoSession(cardIds: CardIds, options: any = {}) {
   let insertAtPosition = 0;
   if (!options.insertImmediately) {
     /* Insert new cards after the current cards */
@@ -16,7 +16,7 @@ export function loadCardsIntoSession(card_ids: CardIds, options: any = {}) {
     }
   }
 
-  card_ids.forEach((id, index) => {
+  cardIds.forEach((id, index) => {
     this.cards.push(
       new CardInSession({
         id,

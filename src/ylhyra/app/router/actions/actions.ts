@@ -3,6 +3,10 @@ import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { existsSchedule, isUserLoggedIn } from "ylhyra/app/user/actions";
 import store from "ylhyra/app/app/store";
+import {
+  cachePrerenderedData,
+  savePrerenderedData,
+} from "ylhyra/app/router/actions/load";
 
 /**
  * Listen to `popstate` events to be able to navigate back
@@ -19,18 +23,17 @@ if (isBrowser) {
 
 export const initializeRouter = (prerenderData: PrerenderedDataSavedInPage) => {
   // @ts-ignore
-  const is404 = window["is404"];
-  if (is404) {
+  if (window["is404"]) {
     return set404();
   }
+  const url =
+    (prerenderData?.url || decodeURI(window.location.pathname)) +
+    window.location.hash;
+  cachePrerenderedData(url.split("#")[0], prerenderData);
 
-  goToUrl(
-    (prerenderData?.url || window.location.pathname) + window.location.hash,
-    {
-      prerenderData,
-      isInitializing: true,
-    }
-  );
+  goToUrl(url, {
+    isInitializing: true,
+  });
 };
 
 export const set404 = () => {

@@ -3,13 +3,16 @@ import { days } from "modules/time";
 import { isInSession } from "ylhyra/app/vocabulary/actions/card/card";
 import {
   dependencyDepthOfCard,
-  getDependenciesAsArrayOfCardIds
+  getDependenciesAsArrayOfCardIds,
 } from "ylhyra/app/vocabulary/actions/card/card_dependencies";
-import { isBad, isFairlyBad } from "ylhyra/app/vocabulary/actions/card/card_difficulty";
+import {
+  isBad,
+  isFairlyBad,
+} from "ylhyra/app/vocabulary/actions/card/card_difficulty";
 import {
   isUnseenTerm,
   timeSinceTermWasSeen,
-  wasTermVeryRecentlySeen
+  wasTermVeryRecentlySeen,
 } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import { CardIds } from "ylhyra/app/vocabulary/actions/card/types";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession/index";
@@ -26,32 +29,32 @@ export const addRelatedCardsToSession = (card: CardInSession) => {
   /* Bail for repeated failures ... */
   if (card.history.length > 1) return;
 
-  getDependenciesAsArrayOfCardIds(card.getId()).forEach((related_card_id) => {
+  getDependenciesAsArrayOfCardIds(card.getId()).forEach((related_cardId) => {
     /* Ignore cards already in session */
-    if (isInSession(related_card_id)) return;
+    if (isInSession(related_cardId)) return;
 
     /* Add cards with the same term */
-    if (dependencyDepthOfCard(id, related_card_id) === 0) {
-      return to_add.push(related_card_id);
+    if (dependencyDepthOfCard(id, related_cardId) === 0) {
+      return to_add.push(related_cardId);
     }
 
     /* Ignore cyclical dependencies */
-    if (dependencyDepthOfCard(related_card_id, id) > 0) return;
+    if (dependencyDepthOfCard(related_cardId, id) > 0) return;
 
-    if (wasTermVeryRecentlySeen(related_card_id)) return;
+    if (wasTermVeryRecentlySeen(related_cardId)) return;
 
     /* Add cards that this term directly depends on */
     if (
-      dependencyDepthOfCard(id, related_card_id) === 1 &&
+      dependencyDepthOfCard(id, related_cardId) === 1 &&
       /* Unseen or unknown cards */
-      (isUnseenTerm(related_card_id) ||
-        isBad(related_card_id) ||
-        (isFairlyBad(related_card_id) &&
-          timeSinceTermWasSeen(related_card_id) > 5 * days &&
+      (isUnseenTerm(related_cardId) ||
+        isBad(related_cardId) ||
+        (isFairlyBad(related_cardId) &&
+          timeSinceTermWasSeen(related_cardId) > 5 * days &&
           Math.random() > 0.7))
     ) {
-      log(`Direct dependency "${printWord(related_card_id)}" added`);
-      to_add.push(related_card_id);
+      log(`Direct dependency "${printWord(related_cardId)}" added`);
+      to_add.push(related_cardId);
     }
   });
 

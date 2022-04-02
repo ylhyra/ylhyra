@@ -1,4 +1,8 @@
-import { getData, getFrom, getTermIds } from "ylhyra/app/vocabulary/actions/card/card_data";
+import {
+  getData,
+  getFrom,
+  getTermIds,
+} from "ylhyra/app/vocabulary/actions/card/card_data";
 import { isNewCard } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession/index";
 import { BAD } from "ylhyra/app/vocabulary/constants";
@@ -14,9 +18,7 @@ export function getRanking() {
   let q = this.getQueuePosition();
 
   // New terms are not relevant unless there are no overdue cards
-  if (
-    !getTermIds(id).some((term_id) => term_id in this.session.lastSeenTerms)
-  ) {
+  if (!getTermIds(id).some((termId) => termId in this.session.lastSeenTerms)) {
     q += 1000;
   }
 

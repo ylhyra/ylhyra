@@ -1,17 +1,17 @@
 import _ from "underscore";
 import { _deck } from "ylhyra/server/vocabulary/compile/index";
 
-export const withDependencies__backend = (card_ids, options?) => {
+export const withDependencies__backend = (cardIds, options?) => {
   const showDepth = options?.showDepth;
   let returns = [];
   let terms = [];
   let depth = {};
-  if (typeof card_ids === "string") {
-    card_ids = [card_ids];
+  if (typeof cardIds === "string") {
+    cardIds = [cardIds];
   }
-  card_ids
-    .filter((card_id) => card_id in _deck.cards)
-    .forEach((card_id) => (terms = terms.concat(_deck.cards[card_id].terms)));
+  cardIds
+    .filter((cardId) => cardId in _deck.cards)
+    .forEach((cardId) => (terms = terms.concat(_deck.cards[cardId].terms)));
   terms = _.uniq(terms);
   terms.forEach((term) => {
     let terms = [{ term, dependencySortKey: 0 }];
@@ -29,31 +29,28 @@ export const withDependencies__backend = (card_ids, options?) => {
       term = obj.term;
       [term, ...(_deck.alternative_ids[term] || [])].forEach((j) => {
         if (j in _deck.terms) {
-          let card_ids = _deck.terms[j].cards;
-          // if (card_ids.some((id) => id in deck.schedule)) {
-          //   card_ids = _.shuffle(card_ids);
+          let cardIds = _deck.terms[j].cards;
+          // if (cardIds.some((id) => id in deck.schedule)) {
+          //   cardIds = _.shuffle(cardIds);
           // } else {
-          card_ids = card_ids.sort((a) => {
+          cardIds = cardIds.sort((a) => {
             if (a.endsWith("is")) return -1;
             return 1;
           });
           // }
-          returns = returns.concat(card_ids);
-          _deck.terms[j].cards.forEach((card_id) => {
-            depth[card_id] = Math.max(
-              depth[card_id] || 0,
-              obj.dependencySortKey
-            );
+          returns = returns.concat(cardIds);
+          _deck.terms[j].cards.forEach((cardId) => {
+            depth[cardId] = Math.max(depth[cardId] || 0, obj.dependencySortKey);
           });
         }
       });
     });
   });
-  const out = _.uniq(returns).filter((card_id) => card_id in _deck.cards);
+  const out = _.uniq(returns).filter((cardId) => cardId in _deck.cards);
   if (showDepth) {
     let k = {};
-    out.forEach((card_id) => {
-      k[card_id] = depth[card_id];
+    out.forEach((cardId) => {
+      k[cardId] = depth[cardId];
     });
     return k;
   } else {

@@ -23,10 +23,10 @@ const run = () => {
         "utf8",
         async (err, data) => {
           let sortKeys = await getSortKeys(true);
-          Object.keys(vocabulary.cards).forEach((card_id) => {
+          Object.keys(vocabulary.cards).forEach((cardId) => {
             /* Hei þetta split() virkar ekki... */
             [
-              getPlaintextFromFormatted(vocabulary.cards[card_id].is_formatted),
+              getPlaintextFromFormatted(vocabulary.cards[cardId].is_formatted),
               "lemmas",
               "alternative_id",
             ].forEach((c) => {
@@ -35,7 +35,7 @@ const run = () => {
                   skip_hash: true,
                 });
                 if (!(j in sortKeys)) {
-                  sortKeys[j] = 1000 * (vocabulary.cards[card_id].level || 6);
+                  sortKeys[j] = 1000 * (vocabulary.cards[cardId].level || 6);
                 }
               });
             });

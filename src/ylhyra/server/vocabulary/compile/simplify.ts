@@ -9,7 +9,7 @@ import { _deck } from "ylhyra/server/vocabulary/compile/index";
 
 export const simplify = () => {
   /* Add sortkey for all items */
-  let card_ids = Object.keys(_deck.cards)
+  let cardIds = Object.keys(_deck.cards)
     .map((key) => {
       return _deck.cards[key];
     })
@@ -27,12 +27,12 @@ export const simplify = () => {
     });
 
   // /* Run empty to remove cyclical dependencies */
-  // withDependencies__backend(card_ids);
+  // withDependencies__backend(cardIds);
   // /* Run again now that  cyclical dependencies are gone */
-  card_ids = withDependencies__backend(card_ids);
-  card_ids.forEach((card_id, index) => {
-    _deck.cards[card_id].sortKey = index;
-    delete _deck.cards[card_id].row_id;
+  cardIds = withDependencies__backend(cardIds);
+  cardIds.forEach((cardId, index) => {
+    _deck.cards[cardId].sortKey = index;
+    delete _deck.cards[cardId].row_id;
   });
 
   Object.keys(_deck.terms).forEach((term_id) => {
@@ -96,23 +96,23 @@ export const simplify = () => {
       if (
         key !== "terms" &&
         term.cards.every(
-          (card_id) =>
-            _deck.cards[card_id].terms.length === 1 &&
-            key in _deck.cards[card_id] &&
-            stable_stringify(sortIfArray(_deck.cards[card_id][key])) ===
+          (cardId) =>
+            _deck.cards[cardId].terms.length === 1 &&
+            key in _deck.cards[cardId] &&
+            stable_stringify(sortIfArray(_deck.cards[cardId][key])) ===
               stable_stringify(sortIfArray(val))
         )
       ) {
         term[key] = val;
-        term.cards.forEach((card_id) => {
-          delete _deck.cards[card_id][key];
+        term.cards.forEach((cardId) => {
+          delete _deck.cards[cardId][key];
         });
       }
 
-      term.cards.forEach((card_id) => {
-        cards[card_id] = _deck.cards[card_id];
+      term.cards.forEach((cardId) => {
+        cards[cardId] = _deck.cards[cardId];
         minSortKey = Math.min(
-          _deck.cards[card_id].sortKey,
+          _deck.cards[cardId].sortKey,
           minSortKey || Infinity
         );
       });
@@ -126,12 +126,12 @@ export const simplify = () => {
   Object.keys(terms).forEach((term_id) => {
     // delete terms[term_id].sortKey;
   });
-  Object.keys(cards).forEach((card_id) => {
-    delete cards[card_id].id;
-    delete cards[card_id].sortKey;
-    delete cards[card_id].from;
-    if (cards[card_id].terms.length === 1) {
-      delete cards[card_id].terms;
+  Object.keys(cards).forEach((cardId) => {
+    delete cards[cardId].id;
+    delete cards[cardId].sortKey;
+    delete cards[cardId].from;
+    if (cards[cardId].terms.length === 1) {
+      delete cards[cardId].terms;
     }
   });
 

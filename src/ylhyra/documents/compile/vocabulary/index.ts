@@ -12,13 +12,13 @@ import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/init
 export const parseVocabularyList = (vocabulary_list) => {
   if (!vocabulary_list) return;
   if (!deck) initializeDeckFromFile();
-  const card_ids = getCardIdsFromWords(vocabulary_list).filter(
+  const cardIds = getCardIdsFromWords(vocabulary_list).filter(
     (id) => id in deck.cards
   );
   // const missing = getCardIdsFromWords(vocabulary_list, true);
-  const terms = getTermIdsFromCardIds(card_ids);
+  const terms = getTermIdsFromCardIds(cardIds);
   const dependencyTerms = getTermIdsFromCardIds(
-    _.difference(withDependencies(card_ids), card_ids)
+    _.difference(withDependencies(cardIds), cardIds)
   );
   if (terms.length === 0) return null;
 

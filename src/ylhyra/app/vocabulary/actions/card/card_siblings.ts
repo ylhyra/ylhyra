@@ -10,7 +10,7 @@ import { BAD } from "ylhyra/app/vocabulary/constants";
 export const getSiblingCards = (id: CardId): CardIds => {
   // return (this.siblingCardIds);
   return getAllCardIdsWithSameTerm(id).filter(
-    (sibling_card_id) => sibling_card_id !== id
+    (sibling_cardId) => sibling_cardId !== id
   );
 };
 
@@ -25,8 +25,8 @@ export const getAsCardInSession = (id: CardId): CardInSession => {
 };
 
 export const didAnySiblingCardsGetABadRatingInThisSession = (id: CardId) => {
-  return getSiblingCards(id).some((sibling_card_id) => {
-    return getAsCardInSession(sibling_card_id)?.history.includes(BAD);
+  return getSiblingCards(id).some((sibling_cardId) => {
+    return getAsCardInSession(sibling_cardId)?.history.includes(BAD);
   });
 };
 

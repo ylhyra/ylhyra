@@ -5,20 +5,18 @@ import { URL_title } from "ylhyra/app/app/paths";
 import store from "ylhyra/app/app/store";
 import {
   getFrontpageURL,
-  hasUrlEverChanged,
   urlHasChanged,
-} from "ylhyra/app/router/actions/index";
-// import {
-//   abortAllThatAreNot,
-//   loadContent,
-// } from "ylhyra/app/router/actions/load";
+} from "ylhyra/app/router/actions/actions";
 import { appUrls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
 import { clearReadAlongSetup } from "ylhyra/documents/render/audio/readAlong/readAlong";
 import { renderTitle } from "ylhyra/server/content/renderTitle";
-import { loadContent } from "../TEMP_OLD/OLD/load";
-import { abortLoadingOtherUrls } from "ylhyra/app/router/actions/load";
+
+import {
+  abortLoadingOtherUrls,
+  loadContent,
+} from "ylhyra/app/router/actions/load";
 
 export type RouteContent = {
   parsed: HtmlAsJson;
@@ -28,24 +26,12 @@ export type RouteContent = {
 type UpdateURLOptions = {
   /** Used by the "Tutorial" button */
   dontChangeUrl?: Boolean;
-  // title?: string;
-  // isLoadingContent?: Boolean;
-  // prerenderData?: PrerenderedDataSavedInPage;
-  // is404?: Boolean;
-  // isInitializing?: Boolean;
-  // routeContent?: RouteContent;
+  isInitializing?: Boolean;
+  initializationData?: PrerenderedDataSavedInPage;
 };
 
 export function goToUrl(url: string, options: UpdateURLOptions = {}) {
-  let {
-    dontChangeUrl,
-    // title,
-    // isLoadingContent,
-    // prerenderData,
-    // is404,
-    // isInitializing,
-    // routeContent,
-  } = options;
+  let { dontChangeUrl, isInitializing, initializationData } = options;
   let [pathname, section] = URL_title(url).split("#");
   Analytics.stopReadingPage();
 
@@ -61,7 +47,7 @@ export function goToUrl(url: string, options: UpdateURLOptions = {}) {
   }
 
   /** Link goes to the current page */
-  if (pathname === store.getState().route.pathname) {
+  if (pathname === store.getState().route.pathname && !isInitializing) {
     if (section) {
       scrollToId(section);
     }
@@ -71,7 +57,9 @@ export function goToUrl(url: string, options: UpdateURLOptions = {}) {
   if (pathname in appUrls) {
     setUrl({ pathname, section });
   } else {
-    loadContent({ pathname, section });
+    if (isInitializing) {
+    }
+    loadContent({ pathname, section, isInitializing, initializationData });
   }
 }
 
@@ -84,7 +72,7 @@ export function setUrl({
   pathname: string;
   section?: string;
   title?: string;
-  routeContent: RouteContent;
+  routeContent?: RouteContent;
 }) {
   const url = pathname + (section ? "#" + section : "");
   setHistory(url);

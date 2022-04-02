@@ -5,7 +5,7 @@ import axios from "ylhyra/app/app/axios";
 import Analytics from "ylhyra/app/app/analytics";
 import { setUrl } from "ylhyra/app/router/actions/goToUrl";
 import { readAlongSetup } from "ylhyra/documents/render/audio/readAlong/readAlong";
-import { setIndexing } from "ylhyra/app/router/actions/index";
+import { set404, setIndexing } from "ylhyra/app/router/actions/actions";
 import { parseInFrontendIfInDevelopmentMode } from "ylhyra/app/router/actions/parseInDevMode";
 
 const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true && isDev;
@@ -16,19 +16,29 @@ export const abortLoadingOtherUrls = (url: string) => {
   expectedUrl = url;
 };
 
-export function savePrerenderedData(
-  pathname,
+export function cachePrerenderedData(
+  pathname: string,
   prerenderData: PrerenderedDataSavedInPage
 ) {
-  cache[pathname] = prerenderData;
+  if (prerenderData) {
+    cache[pathname] = prerenderData;
+  }
 }
 
 /**
  * Load content from server, or serve cached.
  */
-export function loadContent({ pathname, section }) {
+export function loadContent({
+  pathname,
+  section,
+  isInitializing,
+}: {
+  pathname: string;
+  section?: string;
+  isInitializing?: Boolean;
+}) {
   if (pathname in cache) {
-    set({ pathname, data: cache[pathname], section });
+    setContent({ pathname, data: cache[pathname], section });
   } else {
     expectedUrl = pathname;
     axios
@@ -56,9 +66,7 @@ export function loadContent({ pathname, section }) {
       })
       .catch((error) => {
         if (error.response?.status === 404) {
-          store.dispatch({
-            type: "ROUTE_404",
-          });
+          set404();
         }
       });
   }
@@ -93,5 +101,6 @@ export function setContent({
       header: data.header,
     },
   });
+
   readAlongSetup(flattenedData);
 }

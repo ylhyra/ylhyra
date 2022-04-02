@@ -53,8 +53,8 @@ export function nextCard(depth = 0) {
   }
 
   /* Store when this term was last seen */
-  getTermIds(this.currentCard.getId()).forEach((term_id) => {
-    this.lastSeenTerms[term_id] = this.counter;
+  getTermIds(this.currentCard.getId()).forEach((termId) => {
+    this.lastSeenTerms[termId] = this.counter;
   });
 
   this.wasEasinessLevelJustIncreased = false;

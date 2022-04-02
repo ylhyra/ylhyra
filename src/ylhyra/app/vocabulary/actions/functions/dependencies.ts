@@ -1,23 +1,24 @@
 import _ from "underscore";
 import { getSortedCardDependenciesAsCardIds } from "ylhyra/app/vocabulary/actions/card/card_dependencies";
 import { getTermIdsFromCardIds } from "ylhyra/app/vocabulary/actions/card/functions";
-import { getCardIds } from "ylhyra/app/vocabulary/actions/card/term";
+import { getCardIdsFromTermId } from "ylhyra/app/vocabulary/actions/card/term";
 import { CardIds } from "ylhyra/app/vocabulary/actions/card/types";
 
 /**
  * Returns an array of cards with all
  * necessary dependencies of a card coming before it
  */
-export const withDependencies = (card_ids, options?): CardIds => {
+export const withDependencies = (cardIds, options?): CardIds => {
   let out: CardIds = [];
-  getTermIdsFromCardIds(card_ids).forEach((term_id) => {
-    let k = getSortedCardDependenciesAsCardIds(term_id);
+  getTermIdsFromCardIds(cardIds).forEach((termId) => {
+    let k = getSortedCardDependenciesAsCardIds(termId);
 
     /* Filter siblings, leaving dependencies */
     if (options?.skipSiblings) {
       k = k.filter(
-        (card_id) =>
-          !getCardIds(term_id).includes(card_id) || card_ids.includes(card_id)
+        (cardId) =>
+          !getCardIdsFromTermId(termId).includes(cardId) ||
+          cardIds.includes(cardId)
       );
     }
 

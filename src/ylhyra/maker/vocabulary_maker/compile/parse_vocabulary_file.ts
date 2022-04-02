@@ -350,7 +350,7 @@ export const parseVocabularyFile = ({ rows, sound }, sortKeys) => {
             let term = terms[term_id];
             if (term) {
               if (
-                term.cards.some((card_id) => cards[card_id].level <= card.level)
+                term.cards.some((cardId) => cards[cardId].level <= card.level)
               ) {
                 // if (sentence === "Þetta er mjög auðvelt.") {
                 //   console.log(term_id);

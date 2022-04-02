@@ -26,14 +26,14 @@ query(
     } else {
       await forEachAsync(
         results,
-        async ({ id, user_id, card_id, created_at, ...row }) => {
+        async ({ id, user_id, cardId, created_at, ...row }) => {
           return new Promise((resolve) => {
             query(
               sql`
             INSERT INTO user_data SET
               user_id = ${user_id},
               type = "schedule",
-              \`key\` = ${card_id},
+              \`key\` = ${cardId},
               value = ${stable_stringify(removeNullKeys(row))},
               created_at = ${created_at || null}
             ;`,

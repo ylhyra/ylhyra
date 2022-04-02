@@ -29,7 +29,7 @@ class Content extends Component<
     //   );
     if (isDev && isBrowser) {
       return [
-        Render(parsed),
+        Render(parsed) || <span>Could not render</span>,
         <Suspense fallback={""} key={2}>
           <RenderEditor />
         </Suspense>,
