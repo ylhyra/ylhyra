@@ -8,7 +8,7 @@ import {
   abortAllThatAreNot,
   loadContent,
 } from "ylhyra/app/router/actions/load";
-import { app_urls } from "ylhyra/app/router/appUrls";
+import { appUrls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
 import { clear as ClearReadAlongSetup } from "ylhyra/documents/render/audio/ReadAlong";
@@ -53,7 +53,7 @@ export async function updateUrl(url: string, options: UpdateURLOptions = {}) {
     return;
   }
 
-  const isComponent = pathname in app_urls;
+  const isComponent = pathname in appUrls;
 
   if (isComponent) {
     Analytics.stopReadingPage();
@@ -68,7 +68,7 @@ export async function updateUrl(url: string, options: UpdateURLOptions = {}) {
   abortAllThatAreNot(url);
 
   if (!title && isComponent) {
-    title = app_urls[pathname].title;
+    title = appUrls[pathname].title;
   }
 
   if (title || isLoadingContent || isComponent) {

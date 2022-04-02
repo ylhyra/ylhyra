@@ -5,7 +5,7 @@ import { RootState } from "ylhyra/app/app/store";
 import Layout from "ylhyra/app/elements/layout/Layout";
 import { index, isVocabularyTheFrontpage } from "ylhyra/app/router/actions";
 import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
-import { app_urls } from "ylhyra/app/router/appUrls";
+import { appUrls } from "ylhyra/app/router/appUrls";
 import LoadContent from "ylhyra/app/router/Content";
 import Section from "ylhyra/documents/templates/Section";
 
@@ -26,8 +26,8 @@ class App extends React.Component<
     let Element = () => null;
     const url = this.props.url || this.props.route.pathname;
 
-    if (url in app_urls) {
-      Element = app_urls[url].component; //|| components["/vocabulary"];
+    if (url in appUrls) {
+      Element = appUrls[url].component; //|| components["/vocabulary"];
       let Section2 = Section;
       if (url === "/vocabulary/play" || url === "/vocabulary") {
         Section2 = (props) => props.children;

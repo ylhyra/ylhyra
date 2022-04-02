@@ -1,6 +1,6 @@
 import forEachAsync from "modules/forEachAsync";
 import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
-import { app_urls } from "ylhyra/app/router/appUrls";
+import { appUrls } from "ylhyra/app/router/appUrls";
 import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/initializeDeckFromFile";
 import { links } from "ylhyra/server/content/links/loadLinks";
 import prerender from "ylhyra/server/content/prerender/prerenderSingle";
@@ -9,7 +9,7 @@ const run = async () => {
   process.stdout.write("Prerendering...");
   initializeDeckFromFile();
   /* Render empty shell */
-  let to_render = Object.keys(app_urls);
+  let to_render = Object.keys(appUrls);
   // console.log(url_to_info);
   Object.keys(links).forEach((url) => {
     if (!links[url].shouldBeCreated) return;

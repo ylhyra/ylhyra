@@ -1,6 +1,6 @@
 import path from "path";
 import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
-import { app_urls } from "ylhyra/app/router/appUrls";
+import { appUrls } from "ylhyra/app/router/appUrls";
 import { LinkDataWithUrl } from "ylhyra/server/content/links/generateLinks";
 import { links } from "ylhyra/server/content/links/loadLinks";
 
@@ -27,7 +27,7 @@ export const getValuesForURL = (url: string): LinkDataWithUrl | {} => {
       path.resolve(process.env.PWD || ".", "./../ylhyra_content")
     );
     return values;
-  } else if (url in app_urls) {
+  } else if (url in appUrls) {
     return {
       title: "",
       filename: FileSafeTitle(url),

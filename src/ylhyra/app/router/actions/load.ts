@@ -8,7 +8,7 @@ import {
   isVocabularyTheFrontpage,
 } from "ylhyra/app/router/actions/index";
 import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
-import { app_urls } from "ylhyra/app/router/appUrls";
+import { appUrls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { ReadAlongSetup } from "ylhyra/documents/render/audio/ReadAlong";
 
@@ -35,7 +35,7 @@ export const loadContent = ({
   isInitializing?: Boolean;
   callback?: Function;
 }) => {
-  if (url in app_urls) {
+  if (url in appUrls) {
     return;
   }
 

@@ -8,7 +8,10 @@ import VocabularyRunning from "ylhyra/app/vocabulary/elements/RunningScreen";
 import UserLevel from "ylhyra/app/vocabulary/elements/UserLevelScreen";
 import NotFound from "ylhyra/documents/templates/404";
 
-export const app_urls = {
+/**
+ * Pages that are rendered by the app and are not content pages
+ */
+export const appUrls: { [url: string]: Object } = {
   "/vocabulary": {
     title: "Vocabulary",
     component: VocabularyOverview,
@@ -35,7 +38,7 @@ export const app_urls = {
 };
 
 if (isDev && isBrowser) {
-  app_urls["/maker"] = {
+  appUrls["/maker"] = {
     component: React.lazy(
       () =>
         import(
@@ -44,7 +47,7 @@ if (isDev && isBrowser) {
         )
     ),
   };
-  app_urls["/maker/record"] = {
+  appUrls["/maker/record"] = {
     component: React.lazy(
       () =>
         import(
