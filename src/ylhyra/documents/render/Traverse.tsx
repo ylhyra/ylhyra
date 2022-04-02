@@ -1,7 +1,7 @@
-import Link from "ylhyra/app/router/Link";
-import GetTemplate from "ylhyra/documents/templates/_list";
 import React from "react";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
+import Link from "ylhyra/app/router/Link";
+import GetTemplate from "ylhyra/documents/templates/_list";
 
 export default function Traverse(json: HtmlAsJson, index: Number = 0) {
   if (!json) return null;

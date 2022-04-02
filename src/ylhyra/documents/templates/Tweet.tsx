@@ -1,7 +1,7 @@
+import React from "react";
 import { getDynamicFileUrl } from "ylhyra/app/app/paths";
 import Audio from "ylhyra/documents/render/audio";
 import Image from "ylhyra/documents/templates/Image";
-import React from "react";
 
 export default (props) => {
   return (

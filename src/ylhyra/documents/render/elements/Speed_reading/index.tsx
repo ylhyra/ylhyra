@@ -1,5 +1,7 @@
-import store, { RootState } from "ylhyra/app/app/store";
 import { supportsTouch } from "modules/isBrowser";
+import React from "react";
+import { connect } from "react-redux";
+import store, { RootState } from "ylhyra/app/app/store";
 import {
   TextEventListenersOff,
   TextEventListenersOn,
@@ -16,8 +18,6 @@ import {
   mouseListener,
 } from "ylhyra/documents/render/elements/Speed_reading/actions/eventListeners";
 import { load } from "ylhyra/documents/render/elements/Speed_reading/actions/load";
-import React from "react";
-import { connect } from "react-redux";
 
 class SpeedReader extends React.Component {
   componentDidMount = () => {

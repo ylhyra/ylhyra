@@ -1,10 +1,10 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import Link from "ylhyra/app/router/Link";
 import ChapterPercentage from "ylhyra/app/vocabulary/elements/InArticles/ChapterPercentage";
 import ChapterWords from "ylhyra/app/vocabulary/elements/InArticles/ChapterWords";
 import { decodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
-import React, { Component } from "react";
-import { connect } from "react-redux";
 
 class X extends Component {
   render() {

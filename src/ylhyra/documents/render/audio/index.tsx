@@ -1,10 +1,10 @@
+import React from "react";
+import { connect } from "react-redux";
 import { notify } from "ylhyra/app/app/error";
 import { getDynamicFileUrl } from "ylhyra/app/app/paths";
 import store, { RootState } from "ylhyra/app/app/store";
 import { ReadAlong } from "ylhyra/documents/render/audio/ReadAlong";
 import SmoothScroll from "ylhyra/documents/render/audio/Scroll/SmoothScroll";
-import React from "react";
-import { connect } from "react-redux";
 
 require("ylhyra/documents/render/audio/KeyboardListener");
 

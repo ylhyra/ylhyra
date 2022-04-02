@@ -1,6 +1,7 @@
 // import typeset from "typeset";
 import marked from "marked";
 import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
+import sass from "sass";
 import { html2json, json2html } from "ylhyra/app/app/functions/html2json";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { section_id } from "ylhyra/app/app/paths";
@@ -8,7 +9,6 @@ import { ProcessLinks } from "ylhyra/documents/compile/functions/links";
 import typeset from "ylhyra/documents/compile/functions/typeset";
 import Conversation from "ylhyra/documents/compile/templates/Conversations";
 import { getTextFromJson } from "ylhyra/documents/parse/ExtractText/ExtractText";
-import sass from "sass";
 
 /**
  * Here we convert Markdown text blocks to HTML.

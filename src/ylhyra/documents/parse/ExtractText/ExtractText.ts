@@ -1,9 +1,9 @@
+import emoji_strip from "emoji-strip";
 import hash from "modules/hash";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { newTitle } from "ylhyra/documents/parse/ExtractData";
 import groupParagraphs from "ylhyra/documents/parse/ExtractText/Paragraphs";
 import { DocumentTitleToArrayOfRawText } from "ylhyra/documents/parse/types";
-import emoji_strip from "emoji-strip";
 
 /**
   Convert document into raw text.

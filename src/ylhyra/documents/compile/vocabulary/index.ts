@@ -1,3 +1,4 @@
+import _ from "underscore";
 import {
   getCardIdsFromTermIds,
   getTermIdsFromCardIds,
@@ -7,7 +8,6 @@ import { printWord } from "ylhyra/app/vocabulary/actions/functions";
 import { withDependencies } from "ylhyra/app/vocabulary/actions/functions/dependencies";
 import { getCardIdsFromWords } from "ylhyra/documents/compile/vocabulary/getCardIdsFromWords";
 import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/initializeDeckFromFile";
-import _ from "underscore";
 
 export const parseVocabularyList = (vocabulary_list) => {
   if (!vocabulary_list) return;

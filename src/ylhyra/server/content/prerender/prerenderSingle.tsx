@@ -39,7 +39,7 @@ const render = async ({
     <link rel="canonical" href="https://ylhyra.is${encodeURI(url)}" />
   `;
 
-  let footer_links = `
+  let footerLinks = `
     ${
       TESTING
         ? `
@@ -57,7 +57,7 @@ const render = async ({
     const h = await generateHtml(url);
     content = h.content;
     header = h.header;
-    const out = await Parse({ html: content });
+    const out = Parse({ html: content });
     const { parsed, flattenedData } = out;
     props = { prerender: parsed };
     if (parsed && header) {
@@ -105,7 +105,7 @@ const render = async ({
   let footer_items =
     (necessary_data
       ? `<script type="text/javascript">window.ylhyra_data=${necessary_data}</script>`
-      : "") + footer_links;
+      : "") + footerLinks;
 
   if (filename === "not-found") {
     footer_items =

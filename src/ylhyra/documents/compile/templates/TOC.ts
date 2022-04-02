@@ -1,5 +1,5 @@
-import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
 import { replaceAsync } from "modules/replaceAsync";
+import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
 import { URL_title } from "ylhyra/app/app/paths";
 import { encodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
 import Transclude from "ylhyra/documents/compile/transclude";
