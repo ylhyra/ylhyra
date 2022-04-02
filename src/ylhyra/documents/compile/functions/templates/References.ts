@@ -1,4 +1,4 @@
-import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
+import { HeaderData } from "ylhyra/documents/compile/functions/readContentFile";
 
 const refRegex = /<(ref.?|note)(?: name="?(.+?)"?")?(?:>([\s\S]+?)<\/\1>|\/>)/g;
 const tempRegexMarker = /REF_(.+?)_REF/g;

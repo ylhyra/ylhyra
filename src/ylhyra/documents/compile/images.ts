@@ -2,7 +2,10 @@ import { exec } from "child_process";
 import fs from "fs";
 import forEachAsync from "modules/forEachAsync";
 import _ from "underscore";
-import { processed_image_url, URL_title } from "ylhyra/app/app/paths";
+import {
+  processedImageUrl,
+  formatUrl,
+} from "ylhyra/server/content/links/paths";
 import Transclude from "ylhyra/documents/compile/transclude";
 import { links } from "ylhyra/server/content/links/loadLinks";
 import { image_output_folder } from "ylhyra/server/paths_backend";
@@ -34,18 +37,18 @@ const Images = (data: string): Promise<string> => {
           return resolve2(true);
         }
         // console.log(rest)
-        if (!(URL_title("File:" + filename_) in links)) {
+        if (!(formatUrl("File:" + filename_) in links)) {
           throw new Error(
             "No file named: " + filename_ + ". Is it from Commons?"
           );
           reject2();
           return;
         }
-        const file = links[URL_title("File:" + filename_)].filepath.replace(
+        const file = links[formatUrl("File:" + filename_)].filepath.replace(
           /\.md$/,
           ""
         );
-        const filename = links[URL_title("File:" + filename_)].filename;
+        const filename = links[formatUrl("File:" + filename_)].filename;
         const [, name, ending] = filename.match(/(.+)\.(.+?)$/);
 
         exec(`identify ${file}`, async (error, stdout) => {
@@ -104,18 +107,14 @@ const Images = (data: string): Promise<string> => {
                   <source
                     ${i[0] !== 800 ? `media="(max-width: ${i[0]}px)"` : ""}
                     srcset="
-                      ${processed_image_url}/${name}-${i[0]}x${
-                      i[1]
-                    }.${ending} 1x,
-                      ${processed_image_url}/${name}-${i[2]}x${
-                      i[3]
-                    }.${ending} 2x"
+                      ${processedImageUrl}/${name}-${i[0]}x${i[1]}.${ending} 1x,
+                      ${processedImageUrl}/${name}-${i[2]}x${i[3]}.${ending} 2x"
                   />
                 `
                   )
                   .join("")}
                 <img
-                  src="${processed_image_url}/${name}-${big_to_small[0][0]}x${
+                  src="${processedImageUrl}/${name}-${big_to_small[0][0]}x${
               big_to_small[0][1]
             }.${ending}"
                   width="${original_width}"

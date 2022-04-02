@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withPlural } from "ylhyra/app/app/functions/simplePlural";
-import { getProcessedImageUrl } from "ylhyra/app/app/paths";
+import { getProcessedImageUrl } from "ylhyra/server/content/links/paths";
 import store from "ylhyra/app/app/store";
 import {
   getData,

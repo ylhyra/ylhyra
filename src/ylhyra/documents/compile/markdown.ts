@@ -3,8 +3,8 @@ import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedC
 import sass from "sass";
 import { html2json, json2html } from "ylhyra/app/app/functions/html2json";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import { section_id } from "ylhyra/app/app/paths";
-import { ProcessLinks } from "ylhyra/documents/compile/functions/links";
+import { sectionId } from "ylhyra/server/content/links/paths";
+import { processLinks } from "ylhyra/server/content/links/processLinks";
 import typeset from "ylhyra/documents/compile/functions/typeset";
 import Conversation from "ylhyra/documents/compile/templates/Conversations";
 import { getTextFromJson } from "ylhyra/documents/parse/ExtractText/ExtractText";
@@ -22,7 +22,7 @@ export default (input: string): string => {
   input = input.replace(
     /(<span id=")([^"]+?)("><\/span>)/g,
     (x, first: string, middle: string, final: string) => {
-      return first + section_id(middle) + final;
+      return first + sectionId(middle) + final;
     }
   );
   input = typeset(input);
@@ -100,7 +100,7 @@ const processArrayOfElements = (arr: HtmlAsJson[]): HtmlAsJson[] => {
 
 export const processText = (input: string): string => {
   input = removeUnwantedCharacters(input);
-  input = ProcessLinks(input /*links*/);
+  input = processLinks(input /*links*/);
   input = input
     // .replace(/\n\n+/g, "\n\n")
     .replace(/^\*\*\*\n/gm, "\n<hr/>\n")
@@ -117,7 +117,7 @@ export const processText = (input: string): string => {
     /* Headings */
     .replace(/^(=+|#+) ?(.+)\1?/gm, (x, equals, title) => {
       // return `${"#".repeat(equals.length)} ${title.toLowerCase()}`;
-      return `<h${equals.length} id="${section_id(
+      return `<h${equals.length} id="${sectionId(
         title.replace(/<.+?>/g, "").replace(/SUBSTITUTION[0-9]+%/g, "")
       )}">${title.trim()}</h${equals.length}>\n`;
     })

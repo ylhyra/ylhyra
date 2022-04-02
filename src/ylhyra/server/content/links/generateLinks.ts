@@ -1,42 +1,28 @@
-/*
-npm run links
-*/
-// import urlSlug from 'src/app/App/functions/url-slug'
 import fs from "fs";
 import { getFilesRecursivelySync } from "modules/getFilesRecursivelySync";
 import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
 import _ from "underscore";
-import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
+import { fileSafeTitle, formatUrl } from "ylhyra/server/content/links/paths";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
-import { HeaderData, ParseHeaderAndBody } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
+import {
+  HeaderData,
+  readContentFile,
+} from "ylhyra/documents/compile/functions/readContentFile";
 import { getCardIdsFromWords } from "ylhyra/documents/compile/vocabulary/getCardIdsFromWords";
 import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/initializeDeckFromFile";
 import { content_folder } from "ylhyra/server/paths_backend";
-
-export type FullFilePath = string;
-
-export type LinkData = {
-  title: string;
-  /**Just the name of the file itself and not its path*/
-  filename: string;
-  filepath: FullFilePath;
-  redirect_to: string;
-  section: string;
-  shouldBeCreated: boolean;
-  shouldBeIndexed: boolean;
-};
-
-export type LinkDataWithUrl = LinkData & {
-  url: string;
-};
+import { FullFilePath, LinkData } from "ylhyra/server/content/links/types";
 
 const links: { [key: string]: LinkData } = {};
 
-// fs.mkdirSync(build_folder)
-
+/**
+ * Generates `links.json` that maps URLs to files.
+ * Run with:
+ * > npm run links
+ */
 const run = () => {
   const files = getFilesRecursivelySync(content_folder);
-  let vocabulary_entries_in_articles = [];
+  let vocabularyEntriesInArticles = [];
 
   if (!files || files.length === 0) {
     console.error("No files!!");
@@ -45,12 +31,10 @@ const run = () => {
 
   for (const filepath of files) {
     if (typeof filepath !== "string") continue;
-    let data = fs.readFileSync(filepath, "utf8");
-    data = removeUnwantedCharacters(data);
-    let { header, body } = ParseHeaderAndBody(data);
+    let { header, body } = await readContentFile(filepath);
     if (!header) continue;
-    const filename = FileSafeTitle(header.title); //+ '_' + string_hash(body)
-    const url = URL_title(header.url || header.title);
+    const filename = fileSafeTitle(header.title); //+ '_' + string_hash(body)
+    const url = formatUrl(header.url || header.title);
     if (url in links) {
       throw new Error(`"${header.title}" already exists`);
     }
@@ -74,16 +58,16 @@ const run = () => {
           console.log(filepath);
         }
         const [r_title, r_section] = r.split("#");
-        if (links[URL_title(r_title)]) return;
+        if (links[formatUrl(r_title)]) return;
         // console.log({r_title})
-        links[URL_title(r_title)] = {
+        links[formatUrl(r_title)] = {
           redirect_to: url,
-          section: r_section && URL_title(r_section).replace(/^\//, ""),
+          section: r_section && formatUrl(r_section).replace(/^\//, ""),
         };
       });
 
     if (header.vocabulary) {
-      vocabulary_entries_in_articles = vocabulary_entries_in_articles.concat(
+      vocabularyEntriesInArticles = vocabularyEntriesInArticles.concat(
         header.vocabulary
       );
     }
@@ -92,7 +76,7 @@ const run = () => {
   fs.writeFileSync("build/links.json", JSON.stringify(links, null, 2));
 
   if (!deck) initializeDeckFromFile();
-  const missing_vocabulary_entries = vocabulary_entries_in_articles.filter(
+  const missing_vocabulary_entries = vocabularyEntriesInArticles.filter(
     (sentence) => getCardIdsFromWords([sentence]).length === 0
   );
   fs.writeFileSync(

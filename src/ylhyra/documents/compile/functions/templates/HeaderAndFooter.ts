@@ -1,7 +1,7 @@
 import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
-import { URL_title } from "ylhyra/app/app/paths";
+import { formatUrl } from "ylhyra/server/content/links/paths";
 import { encodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
-import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
+import { HeaderData } from "ylhyra/documents/compile/functions/readContentFile";
 import markdown_to_html from "ylhyra/documents/compile/markdown";
 import { breadcrumbs } from "ylhyra/documents/compile/templates/breadcrumbs";
 import { getOrderOfChapters } from "ylhyra/documents/compile/templates/getOrderOfChapters";
@@ -60,7 +60,7 @@ export default async (input: string, header: HeaderData) => {
   }
 
   /* Automatic prev and next for course articles */
-  const url = URL_title(header.title);
+  const url = formatUrl(header.title);
   if (header.title !== "Course") {
     const order = (await getOrderOfChapters()).urls;
     if (order.includes(url)) {

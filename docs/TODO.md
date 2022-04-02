@@ -26,4 +26,4 @@
 
 # Annað
 
-* Vera viss um að ProcessLinks virki rétt
+* Vera viss um að processLinks virki rétt

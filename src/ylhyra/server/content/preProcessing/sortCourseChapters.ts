@@ -1,6 +1,6 @@
 import { renameSync } from "modules/renameSync";
 import { getOrderOfChapters } from "ylhyra/documents/compile/templates/getOrderOfChapters";
-import { getValuesForURL } from "ylhyra/server/content/links";
+import { getValuesForUrl } from "ylhyra/server/content/links/getValuesForUrl";
 import { content_folder } from "ylhyra/server/paths_backend";
 
 /**
@@ -12,7 +12,7 @@ import { content_folder } from "ylhyra/server/paths_backend";
 const run = async () => {
   const order = (await getOrderOfChapters()).unitsToUrl;
   order.forEach((item) => {
-    let j = getValuesForURL(item.url);
+    let j = getValuesForUrl(item.url);
     if ("filepath" in j) {
       const filename = j.filepath
         .replace(/^.+\//, "")

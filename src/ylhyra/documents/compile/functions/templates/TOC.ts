@@ -1,6 +1,6 @@
 import { replaceAsync } from "modules/replaceAsync";
 import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
-import { URL_title } from "ylhyra/app/app/paths";
+import { formatUrl } from "ylhyra/server/content/links/paths";
 import { encodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
 import Transclude from "ylhyra/documents/compile/transclude";
 import { parseVocabularyList } from "ylhyra/documents/compile/vocabulary";
@@ -33,7 +33,7 @@ export default async (text: string): Promise<string> => {
                   template === "chapter") &&
                 'show_words="yes"'
               }
-              chapter_url="${URL_title(link)}">${title} ${
+              chapter_url="${formatUrl(link)}">${title} ${
             small && `<small>${small}</small>`
           }</Chapter>`;
         }

@@ -112,7 +112,7 @@ export const formatVocabularyEntry = (input: string): string => {
   }
 
   // TODO!
-  // input = ProcessLinks(input);
+  // input = processLinks(input);
   input = input.replace(
     /\[\[(.+?)\]\]([a-záéíúóðþýöæ]+)?/gi,
     (x, match, after) => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { getDynamicFileUrl } from "ylhyra/app/app/paths";
+import { getDynamicFileUrl } from "ylhyra/server/content/links/paths";
 import Audio from "ylhyra/documents/render/audio";
 import Video from "ylhyra/documents/render/audio";
 

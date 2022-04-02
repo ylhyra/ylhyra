@@ -1,15 +1,12 @@
 import path from "path";
-import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
+import { fileSafeTitle, formatUrl } from "ylhyra/server/content/links/paths";
 import { appUrls } from "ylhyra/app/router/appUrls";
-import { LinkDataWithUrl } from "ylhyra/server/content/links/generateLinks";
 import { links } from "ylhyra/server/content/links/loadLinks";
+import { LinkDataWithUrl } from "ylhyra/server/content/links/types";
 
-/**
- * Wrapper to be able to use in front and backend
- */
-export const getValuesForURL = (url: string): LinkDataWithUrl | {} => {
+export const getValuesForUrl = (url: string): LinkDataWithUrl | {} => {
   if (!url && url !== "") return {};
-  url = URL_title(url);
+  url = formatUrl(url);
   let values = links[url];
   let section;
   if (values) {
@@ -30,7 +27,7 @@ export const getValuesForURL = (url: string): LinkDataWithUrl | {} => {
   } else if (url in appUrls) {
     return {
       title: "",
-      filename: FileSafeTitle(url),
+      filename: fileSafeTitle(url),
       url,
     };
   } else {

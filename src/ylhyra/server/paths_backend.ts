@@ -1,5 +1,5 @@
 import path from "path";
-import { unprocessed_image_url } from "ylhyra/app/app/paths";
+import { unprocessedImageUrl } from "ylhyra/server/content/links/paths";
 
 export const getBaseDir = () => process.env.PWD as string;
 
@@ -11,4 +11,4 @@ export const image_output_folder = build_folder + "/images";
 export const ylhyra_content_files = content_folder + "/not_data/files";
 
 export const get_unprocessed_image_url = (file: string) =>
-  `${unprocessed_image_url}/${encodeURIComponent(file)}`;
+  `${unprocessedImageUrl}/${encodeURIComponent(file)}`;

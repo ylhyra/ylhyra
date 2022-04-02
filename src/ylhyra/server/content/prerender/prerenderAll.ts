@@ -1,5 +1,5 @@
 import forEachAsync from "modules/forEachAsync";
-import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
+import { fileSafeTitle, formatUrl } from "ylhyra/server/content/links/paths";
 import { appUrls } from "ylhyra/app/router/appUrls";
 import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/initializeDeckFromFile";
 import { links } from "ylhyra/server/content/links/loadLinks";
@@ -19,7 +19,7 @@ const run = async () => {
   await forEachAsync(to_render, async (url) => {
     return new Promise(async (resolve2) => {
       /* Used for testing */
-      if (process.env.ONLY && URL_title(process.env.ONLY) !== url) {
+      if (process.env.ONLY && formatUrl(process.env.ONLY) !== url) {
         return resolve2();
       }
 
@@ -34,7 +34,7 @@ const run = async () => {
         filename = links[url].filename;
         isContent = true;
       } else {
-        filename = FileSafeTitle(url);
+        filename = fileSafeTitle(url);
         isContent = false;
       }
       process.stdout.write("\r\x1b[K");

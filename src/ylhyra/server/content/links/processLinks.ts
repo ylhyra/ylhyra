@@ -1,15 +1,13 @@
-import { URL_title } from "ylhyra/app/app/paths";
+import { formatUrl } from "ylhyra/server/content/links/paths";
 import { appUrls } from "ylhyra/app/router/appUrls";
-import { getValuesForURL } from "ylhyra/server/content/links";
+import { getValuesForUrl } from "ylhyra/server/content/links/getValuesForUrl";
 
-/* TODO: Verify that this doesn't output non-existing links */
-
-export const ProcessLinks = (input: string) => {
+export const processLinks = (input: string) => {
   return (
     input
       /* Internal links */
       .replace(
-        /\[\[(.+?)\]\]([a-záéíúóðþýöæ]+)?/gi,
+        /\[\[(.+?)]]([a-záéíúóðþýöæ]+)?/gi,
         (x: string, match: string, after: string) => {
           let [link, text] = match.split("|");
           link = link.trim();
@@ -20,11 +18,11 @@ export const ProcessLinks = (input: string) => {
             )}`;
             return `<a href="${link}">${text}</a>`;
           } else {
-            link = URL_title(link);
+            link = formatUrl(link);
             const [inputUrl, inputSection] = link.split("#");
-            let values = getValuesForURL(inputUrl);
+            let values = getValuesForUrl(inputUrl);
 
-            if (!(inputUrl in appUrls) && !values?.shouldBeCreated) {
+            if (!("url" in values) || !values.shouldBeCreated) {
               return text;
             }
 

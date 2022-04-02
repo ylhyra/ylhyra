@@ -3,7 +3,7 @@ import path from "path";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { Provider } from "react-redux";
-import { URL_title } from "ylhyra/app/app/paths";
+import { formatUrl } from "ylhyra/server/content/links/paths";
 import store from "ylhyra/app/app/store";
 import Router from "ylhyra/app/router";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
@@ -84,7 +84,7 @@ export default async function prerender({
   store.dispatch({
     type: "ROUTE",
     content: {
-      pathname: URL_title(url),
+      pathname: formatUrl(url),
     },
   });
 

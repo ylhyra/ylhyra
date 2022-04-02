@@ -1,5 +1,5 @@
 import generateHtml from "ylhyra/documents/compile/index";
-import { getValuesForURL } from "ylhyra/server/content/links";
+import { getValuesForUrl } from "ylhyra/server/content/links/getValuesForUrl";
 
 type UnitsToUrl = Array<{ unit: number; prefix: number; url: string }>;
 type UrlToUnit = { [url: string]: number };
@@ -34,7 +34,7 @@ export const getOrderOfChapters = async (): Promise<
         return "";
       }
       // @ts-ignore
-      const { url } = getValuesForURL(_url);
+      const { url } = getValuesForUrl(_url);
       if (!url) return "";
       urls.push(url);
       unitsToUrl.push({

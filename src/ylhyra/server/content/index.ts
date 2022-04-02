@@ -4,7 +4,7 @@ import { isDev } from "modules/isDev";
 import path from "path";
 import generateHtml from "ylhyra/documents/compile";
 import { cacheControl } from "ylhyra/server/caching";
-import { getValuesForURL } from "ylhyra/server/content/links";
+import { getValuesForUrl } from "ylhyra/server/content/links/getValuesForUrl";
 import { build_folder, getBaseDir } from "ylhyra/server/paths_backend";
 
 const router = require("express").Router({ strict: true });
@@ -26,7 +26,7 @@ router.get(["/api/content", "*"], async (req, res) => {
   } else {
     input_url = decodeURI(req.path);
   }
-  let values = getValuesForURL(input_url);
+  let values = getValuesForUrl(input_url);
   let redirect_to;
   if (
     values.url &&

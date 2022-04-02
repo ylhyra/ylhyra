@@ -1,8 +1,8 @@
 import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
-import { section_id, URL_title } from "ylhyra/app/app/paths";
-import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
+import { sectionId, formatUrl } from "ylhyra/server/content/links/paths";
+import { HeaderData } from "ylhyra/documents/compile/functions/readContentFile";
 import { getOrderOfChapters } from "ylhyra/documents/compile/templates/getOrderOfChapters";
-import { getValuesForURL } from "ylhyra/server/content/links";
+import { getValuesForUrl } from "ylhyra/server/content/links/getValuesForUrl";
 
 /**
  * Creates HTML breadcrumbs, as in "Home > Unit 1 > Chapter 1".
@@ -13,7 +13,7 @@ export const breadcrumbs = async (header: HeaderData) => {
   const parts = header.title.split(/\//g);
 
   let namespaces = [];
-  const v = getValuesForURL(header.title);
+  const v = getValuesForUrl(header.title);
 
   if (!("filepath" in v)) return null;
 
@@ -38,7 +38,7 @@ export const breadcrumbs = async (header: HeaderData) => {
     const urlToUnit = (await getOrderOfChapters()).urlToUnit;
     if (v.url in urlToUnit) {
       const n = `Unit ${urlToUnit[v.url]}`;
-      parts.splice(1, 0, `<a href="/course#${section_id(n)}">${n}</a>`);
+      parts.splice(1, 0, `<a href="/course#${sectionId(n)}">${n}</a>`);
     }
   } else if (namespaces.length === 0) {
     return null;
@@ -74,9 +74,9 @@ export const breadcrumbs = async (header: HeaderData) => {
         const secondLastToParts =
           index === parts.length - 2 && /^\d+$/.test(parts[index + 1]);
         if (!last) {
-          const k = getValuesForURL(parts.slice(0, index + 1).join("/"));
+          const k = getValuesForUrl(parts.slice(0, index + 1).join("/"));
           const urlForThisPart = "url" in k && k.url;
-          if (urlForThisPart && urlForThisPart !== URL_title(header.title)) {
+          if (urlForThisPart && urlForThisPart !== formatUrl(header.title)) {
             name = `<a href="${urlForThisPart}">${name}</a>`;
           }
         }

@@ -1,5 +1,5 @@
 import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
-import { URL_title } from "ylhyra/app/app/paths";
+import { formatUrl } from "ylhyra/server/content/links/paths";
 import { getTagInfo } from "inflection/tables/classification/classification";
 
 /*
@@ -29,7 +29,7 @@ export default (link, label) => {
     return label;
   }
 
-  const url = "https://ylhyra.is" + encodeURI(URL_title(link));
+  const url = "https://ylhyra.is" + encodeURI(formatUrl(link));
   return `<a class="plainlink" target="_blank" href="${url}">${label}</a>`;
 };
 

@@ -3,14 +3,14 @@ import { Router } from "express";
 import fs from "fs";
 import { isDev } from "modules/isDev";
 import path from "path";
-import { getValuesForURL } from "ylhyra/server/content/links";
+import { getValuesForUrl } from "ylhyra/server/content/links/getValuesForUrl";
 
 const router = Router();
 
 router.post("/translator/saveDocument", (req, res) => {
   if (!isDev) return;
   const { title, text } = req.body;
-  let { filepath } = getValuesForURL("Data:" + title);
+  let { filepath } = getValuesForUrl("Data:" + title);
 
   if (!filepath) {
     filepath = path.resolve(

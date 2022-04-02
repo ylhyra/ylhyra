@@ -1,4 +1,4 @@
-import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
+import { HeaderData } from "ylhyra/documents/compile/functions/readContentFile";
 import images from "ylhyra/documents/compile/images";
 import markdown_to_html from "ylhyra/documents/compile/markdown";
 import WithHeaderAndFooter from "ylhyra/documents/compile/templates/HeaderAndFooter";

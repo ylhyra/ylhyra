@@ -1,16 +1,16 @@
 import fs from "fs";
 import forEachAsync from "modules/forEachAsync";
-import { URL_title } from "ylhyra/app/app/paths";
+import { formatUrl } from "ylhyra/server/content/links/paths";
 import {
   encodeDataInHtml,
   removeComments,
 } from "ylhyra/documents/compile/functions/functions";
 import {
   HeaderData,
-  ParseHeaderAndBody,
-} from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
+  readContentFile,
+} from "ylhyra/documents/compile/functions/readContentFile";
 import TOC from "ylhyra/documents/compile/templates/TOC";
-import { getValuesForURL } from "ylhyra/server/content/links";
+import { getValuesForUrl } from "ylhyra/server/content/links/getValuesForUrl";
 import { links } from "ylhyra/server/content/links/loadLinks";
 
 /**
@@ -24,62 +24,51 @@ export default function Transclude(
   depth = 0,
   shouldGetData = true
 ): Promise<{ output: string; header: HeaderData }> {
-  return new Promise((resolve) => {
-    let values = getValuesForURL(
-      (depth > 0 && !title.startsWith("Text:") && !title.startsWith(":")
-        ? "Template:"
-        : "") + title
-    );
-    if (!("filepath" in values)) {
-      console.log(`\nNo template named "${title}"\n`);
-      process.exit();
-      return;
-    }
-    const { filepath } = values;
+  let values = getValuesForUrl(
+    (depth > 0 && !title.startsWith("Text:") && !title.startsWith(":")
+      ? "Template:"
+      : "") + title
+  );
+  if (!("filepath" in values)) {
+    console.log(`\nNo template named "${title}"\n`);
+    return process.exit();
+  }
+  const { filepath } = values;
 
-    fs.readFile(filepath, "utf8", async (err, data) => {
-      if (err) {
-        console.log(err);
-        throw new Error(`\nFailed to read file for ${title}\n`);
-      }
-      let { header, body } = ParseHeaderAndBody(data, filepath);
+  let { header, body } = await readContentFile(filepath);
 
-      let output = body;
+  let output = body;
 
-      /* Strip comments */
-      output = removeComments(output);
+  /* Strip comments */
+  output = removeComments(output);
 
-      /* Certain templates currently require
-       * pre-processing to access header data  */
-      /* TODO: Move elsewhere */
-      output = await TOC(output);
-      let i = 1;
-      output = output.replace(/{{incr}}/g, () => {
-        return (i++).toString();
-      });
-
-      if (depth < 1 && shouldGetData) {
-        output = await TranscludeFromText(output, depth);
-      }
-      if (shouldGetData && header) {
-        const data2 = await getData(header);
-        if (data2) {
-          output =
-            `<span data-document-start="${
-              (data2 || header).title
-            }" data-data="${
-              data2 ? encodeDataInHtml(data2.output, true) : ""
-            }"></span>` +
-            output +
-            `<span data-document-end="${(data2 || header).title}"></span>`;
-          output = output.replace(/(<\/span>)(?:==##)/g, "$1\n$2");
-          header.has_data = true;
-        }
-      }
-
-      resolve({ output, header });
-    });
+  /* Certain templates currently require
+   * pre-processing to access header data  */
+  /* TODO: Move elsewhere */
+  output = await TOC(output);
+  let i = 1;
+  output = output.replace(/{{incr}}/g, () => {
+    return (i++).toString();
   });
+
+  if (depth < 1 && shouldGetData) {
+    output = await TranscludeFromText(output, depth);
+  }
+  if (shouldGetData && header) {
+    const data2 = await getData(header);
+    if (data2) {
+      output =
+        `<span data-document-start="${(data2 || header).title}" data-data="${
+          data2 ? encodeDataInHtml(data2.output, true) : ""
+        }"></span>` +
+        output +
+        `<span data-document-end="${(data2 || header).title}"></span>`;
+      output = output.replace(/(<\/span>)(?:==##)/g, "$1\n$2");
+      header.has_data = true;
+    }
+  }
+
+  return { output, header };
 }
 
 /**
@@ -147,7 +136,7 @@ const getData = async (
   | undefined
 > => {
   const dataTitle = [header.title, ...(header.redirects || [])].find(
-    (t) => URL_title("Data:" + t) in links
+    (t) => formatUrl("Data:" + t) in links
   );
   if (!dataTitle) return;
   const output = (await Transclude("Data:" + dataTitle, 0, false)).output;

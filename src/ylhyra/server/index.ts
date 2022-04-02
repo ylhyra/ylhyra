@@ -9,9 +9,9 @@ import path from "path";
 import "regenerator-runtime/runtime";
 import requestIp from "request-ip";
 import {
-  processed_image_url,
-  unprocessed_image_url,
-} from "ylhyra/app/app/paths";
+  processedImageUrl,
+  unprocessedImageUrl,
+} from "ylhyra/server/content/links/paths";
 import { staticCached } from "ylhyra/server/caching";
 import query from "ylhyra/server/database";
 import {
@@ -62,8 +62,8 @@ setTimeout(() => {
 }, 30 * 1000);
 
 const ylhyraApp = express();
-ylhyraApp.use(processed_image_url, staticCached(image_output_folder));
-ylhyraApp.use(unprocessed_image_url, staticCached(ylhyra_content_files));
+ylhyraApp.use(processedImageUrl, staticCached(image_output_folder));
+ylhyraApp.use(unprocessedImageUrl, staticCached(ylhyra_content_files));
 ylhyraApp.use("/", staticCached(build_folder));
 
 /*

@@ -1,7 +1,7 @@
 import { isBrowser } from "modules/isBrowser";
 import Analytics from "ylhyra/app/app/analytics";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import { URL_title } from "ylhyra/app/app/paths";
+import { formatUrl } from "ylhyra/server/content/links/paths";
 import store from "ylhyra/app/app/store";
 import {
   getFrontpageURL,
@@ -9,7 +9,7 @@ import {
 } from "ylhyra/app/router/actions/actions";
 import { appUrls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
-import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
+import { HeaderData } from "ylhyra/documents/compile/functions/readContentFile";
 import { clearReadAlongSetup } from "ylhyra/documents/render/audio/readAlong/readAlong";
 import { renderTitle } from "ylhyra/server/content/renderTitle";
 
@@ -32,7 +32,7 @@ type UpdateURLOptions = {
 
 export function goToUrl(url: string, options: UpdateURLOptions = {}) {
   let { dontChangeUrl, isInitializing, initializationData } = options;
-  let [pathname, section] = URL_title(url).split("#");
+  let [pathname, section] = formatUrl(url).split("#");
   Analytics.stopReadingPage();
 
   /** Used to be able to listen to `popstate` events */

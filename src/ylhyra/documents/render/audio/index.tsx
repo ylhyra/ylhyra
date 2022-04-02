@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { notify } from "ylhyra/app/app/error";
-import { getDynamicFileUrl } from "ylhyra/app/app/paths";
+import { getDynamicFileUrl } from "ylhyra/server/content/links/paths";
 import store, { RootState } from "ylhyra/app/app/store";
 import { readAlong } from "ylhyra/documents/render/audio/readAlong/readAlong";
 import smoothScroll from "ylhyra/documents/render/audio/Scroll/SmoothScroll";
