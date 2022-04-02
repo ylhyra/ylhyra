@@ -1,7 +1,7 @@
-import { clearSelection, nextWord, updateDefinitionValue, wordsHash } from "ylhyra/maker/editor/Translator/actions";
-import Field from "ylhyra/maker/editor/Translator/Views/Sidebar/Field";
 import React from "react";
 import { connect } from "react-redux";
+import { clearSelection, nextWord, updateDefinitionValue, wordsHash } from "ylhyra/maker/editor/Translator/actions";
+import Field from "ylhyra/maker/editor/Translator/Views/Sidebar/Field";
 
 // import { getLanguage } from 'server/datasets/languages'
 

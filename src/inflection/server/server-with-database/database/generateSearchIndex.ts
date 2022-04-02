@@ -20,7 +20,6 @@
   * 1 - phonetic
 
 */
-import flattenArray from "ylhyra/app/app/functions/flattenArray";
 import {
   cleanInput,
   phonetic,
@@ -29,10 +28,10 @@ import {
   without_special_characters,
 } from "inflection/server/server-with-database/fuzzy_search";
 import path from "path";
-import query from "ylhyra/server/database";
 import { escape } from "sqlstring";
-
-var LineByLineReader = require("line-by-line");
+import flattenArray from "ylhyra/app/app/functions/flattenArray";
+import query from "ylhyra/server/database";
+import LineByLineReader from "line-by-line";
 
 const CSV_FILE_NAME = "ordalisti.csv";
 const CSV_FILE_LINES = 3071707; // Number of lines, calculated with "wc -l"

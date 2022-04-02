@@ -1,3 +1,4 @@
+import _ from "underscore";
 import store from "ylhyra/app/app/store";
 import { getSortKey } from "ylhyra/app/vocabulary/actions/card/card_data";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
@@ -7,7 +8,6 @@ import {
   getDeckName,
   GetLowercaseStringForAudioKey,
 } from "ylhyra/maker/vocabulary_maker/compile/functions";
-import _ from "underscore";
 
 let missing_sound = [];
 let current_word_recording = 0;

@@ -1,5 +1,5 @@
 import { URL_title } from "ylhyra/app/app/paths";
-import { app_urls } from "ylhyra/app/router/appUrls";
+import { appUrls } from "ylhyra/app/router/appUrls";
 import { getValuesForURL } from "ylhyra/server/content/links";
 
 /* TODO: Verify that this doesn't output non-existing links */
@@ -24,7 +24,7 @@ export const ProcessLinks = (input: string) => {
             const [inputUrl, inputSection] = link.split("#");
             let values = getValuesForURL(inputUrl);
 
-            if (!(inputUrl in app_urls) && !values?.shouldBeCreated) {
+            if (!(inputUrl in appUrls) && !values?.shouldBeCreated) {
               return text;
             }
 

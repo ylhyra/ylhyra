@@ -1,7 +1,6 @@
+import yaml from "js-yaml";
 import { removeComments } from "ylhyra/documents/compile/functions/functions";
 import { getPlaintextFromVocabularyEntry } from "ylhyra/maker/vocabulary_maker/compile/format";
-
-const yaml = require("js-yaml");
 
 export type HeaderData = {
   "title": string;

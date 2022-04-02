@@ -1,13 +1,9 @@
+import { log } from "modules/log";
 import axios from "ylhyra/app/app/axios";
 import { getFromLocalStorage } from "ylhyra/app/app/functions/localStorage";
-import { log } from "modules/log";
 import { isUserLoggedIn } from "ylhyra/app/user/actions";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
-import {
-  saveUserDataInLocalStorage,
-  UserData,
-  UserDataRows,
-} from "ylhyra/app/vocabulary/actions/userData/userData";
+import { saveUserDataInLocalStorage, UserData, UserDataRows } from "ylhyra/app/vocabulary/actions/userData/userData";
 import { getScheduleFromUserData } from "ylhyra/app/vocabulary/actions/userData/userDataSchedule";
 import { clearOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen/actions";
 

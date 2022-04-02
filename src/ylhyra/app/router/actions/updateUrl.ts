@@ -1,5 +1,6 @@
-import Analytics from "ylhyra/app/app/analytics";
 import { isBrowser } from "modules/isBrowser";
+import Analytics from "ylhyra/app/app/analytics";
+import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { URL_title } from "ylhyra/app/app/paths";
 import store from "ylhyra/app/app/store";
 import { getFrontpageURL } from "ylhyra/app/router/actions/index";
@@ -7,32 +8,39 @@ import {
   abortAllThatAreNot,
   loadContent,
 } from "ylhyra/app/router/actions/load";
-import { app_urls } from "ylhyra/app/router/appUrls";
+import { appUrls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
-import { clear as ClearReadAlongSetup } from "ylhyra/documents/render/audio/ReadAlong";
+import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
+import { clearReadAlongSetup } from "ylhyra/documents/render/audio/readAlong/readAlong";
 import { renderTitle } from "ylhyra/server/content/renderTitle";
+
+export type RouteContent = {
+  parsed: HtmlAsJson;
+  header: HeaderData;
+};
 
 type UpdateURLOptions = {
   title?: string;
   isLoadingContent?: Boolean;
-  prerender_data?: PrerenderedDataSavedInPage;
+  prerenderData?: PrerenderedDataSavedInPage;
   is404?: Boolean;
   dontChangeUrl?: Boolean;
   isInitializing?: Boolean;
-  routeContent?: string;
+  routeContent?: RouteContent;
 };
 
-export async function updateURL(url, options: UpdateURLOptions = {}) {
+export function updateUrl(url: string, options: UpdateURLOptions = {}) {
   let {
     title,
     isLoadingContent,
-    prerender_data,
+    prerenderData,
     is404,
     dontChangeUrl,
     isInitializing,
     routeContent,
   } = options;
   if (isBrowser) {
+    // @ts-ignore
     window["HAS_LOADED"] = true;
   }
 
@@ -46,7 +54,7 @@ export async function updateURL(url, options: UpdateURLOptions = {}) {
     return;
   }
 
-  const isComponent = pathname in app_urls;
+  const isComponent = pathname in appUrls;
 
   if (isComponent) {
     Analytics.stopReadingPage();
@@ -61,7 +69,7 @@ export async function updateURL(url, options: UpdateURLOptions = {}) {
   abortAllThatAreNot(url);
 
   if (!title && isComponent) {
-    title = app_urls[pathname].title;
+    title = appUrls[pathname].title;
   }
 
   if (title || isLoadingContent || isComponent) {
@@ -84,13 +92,10 @@ export async function updateURL(url, options: UpdateURLOptions = {}) {
 
   if (is404) {
     store.dispatch({
-      type: "LOAD_ROUTE_CONTENT",
-      data: "404",
+      type: "ROUTE_404",
     });
     return;
   }
-
-  // console.log({ url, options });
 
   if (
     !dontChangeUrl &&
@@ -105,22 +110,17 @@ export async function updateURL(url, options: UpdateURLOptions = {}) {
     }
   }
 
-  // console.log({
-  //   replace,
-  //   isComponent,
-  // });
-
   if (!isLoadingContent && !isComponent) {
     loadContent({
       url: pathname,
-      prerender_data,
+      prerenderData,
       section,
       isInitializing,
     });
   }
 
-  if ((!prerender_data && isLoadingContent) || isComponent) {
-    ClearReadAlongSetup();
+  if ((!prerenderData && isLoadingContent) || isComponent) {
+    clearReadAlongSetup();
     store.dispatch({
       type: "ROUTE",
       content: {
@@ -137,8 +137,7 @@ export async function updateURL(url, options: UpdateURLOptions = {}) {
   }
 }
 
-const scrollToId = (id) => {
+const scrollToId = (id: string) => {
   window.history.scrollRestoration = "manual";
-  const el = document.getElementById(id);
-  el?.scrollIntoView();
+  document.getElementById(id)?.scrollIntoView();
 };

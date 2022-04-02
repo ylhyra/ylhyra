@@ -1,9 +1,9 @@
+import React from "react";
+import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import Link from "ylhyra/app/router/Link";
-import React from "react";
-import { connect } from "react-redux";
 
-const Button = (props) => {
+const Button = (props: ConnectedProps<typeof connector>) => {
   return (
     <div className="login-buttons">
       {props.user ? (
@@ -29,6 +29,7 @@ const Button = (props) => {
   );
 };
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   user: state.user,
-}))(Button);
+}));
+export default connector(Button);

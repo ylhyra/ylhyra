@@ -1,7 +1,6 @@
 import axios from "ylhyra/app/app/axios";
 import { notify } from "ylhyra/app/app/error";
 import store from "ylhyra/app/app/store";
-
 import MergeShortWords from "ylhyra/maker/editor/Long_audio/Synchronize/2-Merge-short-words";
 import FlattenAeneasData from "ylhyra/maker/editor/Long_audio/Synchronize/3-Flatten";
 import MakeLongAudioSyncList from "ylhyra/maker/editor/Long_audio/Synchronize/4-Make-list";

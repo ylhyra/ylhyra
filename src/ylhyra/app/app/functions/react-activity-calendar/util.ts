@@ -8,8 +8,11 @@ import nextDay from "date-fns/nextDay";
 import parseISO from "date-fns/parseISO";
 import subWeeks from "date-fns/subWeeks";
 import color, { ColorInput } from "tinycolor2";
-
-import { Day, Theme, Weeks } from "ylhyra/app/app/functions/react-activity-calendar/types";
+import {
+  Day,
+  Theme,
+  Weeks,
+} from "ylhyra/app/app/functions/react-activity-calendar/types";
 
 export const NAMESPACE = "react-activity-calendar";
 export const MIN_DISTANCE_MONTH_LABELS = 2;

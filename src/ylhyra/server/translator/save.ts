@@ -1,6 +1,5 @@
-import string_hash from "modules/hash";
-
 import { Router } from "express";
+import string_hash from "modules/hash";
 import query from "ylhyra/server/database";
 import simplifyString from "ylhyra/server/translator/helpers/simplifyString";
 import SQL_helper from "ylhyra/server/translator/helpers/SQL_helper";

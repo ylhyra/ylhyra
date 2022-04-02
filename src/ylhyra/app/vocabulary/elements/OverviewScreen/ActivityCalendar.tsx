@@ -1,9 +1,9 @@
-import ReactActivityCalendar from "ylhyra/app/app/functions/react-activity-calendar";
-import { withPlural } from "ylhyra/app/app/functions/simplePlural";
 import { prettyPrintDaysMinutesHours, seconds } from "modules/time";
-import Spacer from "ylhyra/documents/templates/Spacer";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import ReactActivityCalendar from "ylhyra/app/app/functions/react-activity-calendar";
+import { withPlural } from "ylhyra/app/app/functions/simplePlural";
+import Spacer from "ylhyra/documents/templates/Spacer";
 
 class ActivityCalendar extends Component<{ vocabulary: any }> {
   render() {

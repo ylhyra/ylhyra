@@ -1,24 +1,25 @@
-import { RootState } from "ylhyra/app/app/store";
+import React from "react";
+import { connect, ConnectedProps } from "react-redux";
 import Error from "ylhyra/app/app/error";
+import { RootState } from "ylhyra/app/app/store";
 import Footer from "ylhyra/app/elements/layout/Footer";
 import Header from "ylhyra/app/elements/layout/Header";
-import React from "react";
-import { connect } from "react-redux";
 
-class Layout extends React.Component {
+class Layout extends React.Component<ConnectedProps<typeof connector>> {
   render() {
-    const is_fullscreen = ["/vocabulary/play"].includes(this.props.pathname);
+    const isFullscreen = ["/vocabulary/play"].includes(this.props.pathname);
     return (
       <div id="container">
         <Error />
-        {!is_fullscreen && <Header />}
+        {!isFullscreen && <Header />}
         <div id="content">{this.props.children}</div>
-        {!is_fullscreen && <Footer />}
+        {!isFullscreen && <Footer />}
       </div>
     );
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   pathname: state.route.pathname,
-}))(Layout);
+}));
+export default connector(Layout);

@@ -2,7 +2,7 @@ import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 import { log } from "modules/log";
 import { roundToInterval } from "ylhyra/app/app/functions/math";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 import {
   getCardsInSchedule,
   getData,
@@ -11,15 +11,21 @@ import {
 } from "ylhyra/app/vocabulary/actions/card/card_data";
 import { isNewTerm } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import { getCardIdsFromTermIds } from "ylhyra/app/vocabulary/actions/card/functions";
-import { CardIds } from "ylhyra/app/vocabulary/actions/card/types";
+import {
+  CardId,
+  CardIds,
+  TermId,
+} from "ylhyra/app/vocabulary/actions/card/types";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { getPlaintextFromFormatted } from "ylhyra/maker/vocabulary_maker/compile/format";
 import { getHash } from "ylhyra/maker/vocabulary_maker/compile/functions";
 
-export const printWord = (id) => {
+export const printWord = (id: CardId | TermId) => {
   if (!isDev) return;
   if (id in deck.cards) {
-    return getPlaintextFromFormatted(getData(id, getFrom(id) + "_formatted"));
+    return getPlaintextFromFormatted(
+      getData(id as CardId, getFrom(id as CardId) + "_formatted")
+    );
     // return card[card.getFrom() + "_plaintext"];
   } else if (id in deck.terms) {
     return printWord(deck.terms[id].cards[0]);
@@ -34,7 +40,7 @@ export const studyParticularIds = async (allowed_ids: CardIds, options?) => {
   session.allowed_ids = allowed_ids;
   session.createCards(options);
   await session.InitializeSession({ shouldReset: false });
-  updateURL("/vocabulary/play");
+  updateUrl("/vocabulary/play");
 };
 
 export const studyNewTerms = () => {
@@ -83,5 +89,5 @@ export const exitVocabularyScreen = async () => {
   if (url === "/vocabulary/play" || url === "/vocabulary/difficulty") {
     url = "/vocabulary";
   }
-  await updateURL(url);
+  updateUrl(url);
 };

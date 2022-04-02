@@ -8,4 +8,5 @@ export type PrerenderedDataSavedInPage = {
   header: HeaderData;
   shouldBeIndexed: Boolean;
   flattenedData: Partial<FlattenedData>;
+  redirect_to?: string;
 };

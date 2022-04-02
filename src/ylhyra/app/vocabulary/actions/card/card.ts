@@ -1,9 +1,9 @@
-import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import {
   hasDependenciesInCommonWith,
   hasTermsInCommonWith,
 } from "ylhyra/app/vocabulary/actions/card/card_dependencies";
 import { CardId, CardIds } from "ylhyra/app/vocabulary/actions/card/types";
+import { deck } from "ylhyra/app/vocabulary/actions/deck";
 
 export const clearMemoizations = (id: CardId) => {
   // ["isAllowed", "getTermLastSeen"].forEach((key) => {

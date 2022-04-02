@@ -1,13 +1,13 @@
 module.exports = {
   ignorePatterns: ["**/esbuild.js"],
   extends: ["react-app"],
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "import"],
   parser: "@typescript-eslint/parser",
   root: true,
   globals: {
-    // __basedir: true,
     expect: true,
     beforeAll: true,
+    NodeJS: true,
   },
   overrides: [
     {
@@ -19,6 +19,8 @@ module.exports = {
       },
       rules: {
         "no-undef": "error",
+        "import/no-unused-modules": ["warn", { unusedExports: true }],
+
         "@typescript-eslint/naming-convention": [
           "warn",
           {

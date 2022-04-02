@@ -1,6 +1,6 @@
+import React from "react";
 import exists from "ylhyra/app/app/functions/exists";
 import { ItalicsAndBold } from "ylhyra/documents/parse/Compiler/2_CompileToHTML/Definition/Tooltip";
-import React from "react";
 
 export type DefinitionObject = {
   base?: string;

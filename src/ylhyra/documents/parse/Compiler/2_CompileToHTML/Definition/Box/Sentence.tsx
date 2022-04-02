@@ -1,7 +1,7 @@
-import exists from "ylhyra/app/app/functions/exists";
-import { ItalicsAndBold } from "ylhyra/documents/parse/Compiler/2_CompileToHTML/Definition/Tooltip";
 import React from "react";
+import exists from "ylhyra/app/app/functions/exists";
 import { DefinitionObject } from "ylhyra/documents/parse/Compiler/2_CompileToHTML/Definition/Box/Word";
+import { ItalicsAndBold } from "ylhyra/documents/parse/Compiler/2_CompileToHTML/Definition/Tooltip";
 
 export default class SentenceBox extends React.PureComponent<{
   definition: DefinitionObject;

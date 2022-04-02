@@ -6,14 +6,13 @@
   },
   "compilerOptions": {
     "baseUrl": "src",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "target": "es6",
     "module": "commonjs",
     "outDir": "build/ts",
     "esModuleInterop": true,
     "isolatedModules": false,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
+    //    "forceConsistentCasingInFileNames": true,
     //    "lib": ["es2020", "dom", "es2021.String"],
     "strict": true
   },

@@ -1,7 +1,9 @@
-import { RootState } from "ylhyra/app/app/store";
-import { RECOMMENDED_PRICE_IN_US_DOLLARS } from "ylhyra/app/app/constants";
 import { log } from "modules/log";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
+import React from "react";
+import { connect, ConnectedProps } from "react-redux";
+import { RECOMMENDED_PRICE_IN_US_DOLLARS } from "ylhyra/app/app/constants";
+import { RootState } from "ylhyra/app/app/store";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 import {
   continueAfterPaying,
   MAX_PRICE,
@@ -9,10 +11,8 @@ import {
   parsePrice,
 } from "ylhyra/app/user/payments/actions";
 import { PayPalButton } from "ylhyra/app/user/payments/PayPalButton";
-import React from "react";
-import { connect } from "react-redux";
 
-class Form2 extends React.Component {
+class Form2 extends React.Component<ConnectedProps<typeof connector>> {
   state = {
     price: RECOMMENDED_PRICE_IN_US_DOLLARS,
   };
@@ -23,7 +23,7 @@ class Form2 extends React.Component {
     // });
     if (!this.props.user || !process.env.REACT_APP_PWYW) {
       setTimeout(() => {
-        updateURL("/signup");
+        updateUrl("/signup");
       }, 100);
     }
   }
@@ -100,6 +100,7 @@ class Form2 extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   user: state.user,
-}))(Form2);
+}));
+export default connector(Form2);

@@ -1,10 +1,10 @@
+import React from "react";
+import { connect } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import { findSoundBites } from "ylhyra/maker/editor/Short_audio/actions";
 import Recorder from "ylhyra/maker/editor/Short_audio/Recorder";
-import React from "react";
-import { connect } from "react-redux";
 
-class Sounds extends React.Component {
+class Sounds extends React.Component<ConnectedProps<typeof connector>> {
   componentDidMount = () => {
     this.load();
   };
@@ -45,7 +45,8 @@ class Sounds extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   short_audio: state.editor.short_audio,
   editor: state.editor,
-}))(Sounds);
+}));
+export default connector(Sounds);

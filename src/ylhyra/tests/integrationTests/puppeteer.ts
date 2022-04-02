@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer-core");
+import puppeteer from "puppeteer-core";
 
 const exit = (err) => {
   console.error("ERROR", err);

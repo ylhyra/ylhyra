@@ -1,3 +1,4 @@
+import fs from "fs";
 import forEachAsync from "modules/forEachAsync";
 import { URL_title } from "ylhyra/app/app/paths";
 import {
@@ -5,13 +6,12 @@ import {
   removeComments,
 } from "ylhyra/documents/compile/functions/functions";
 import {
-  ParseHeaderAndBody,
   HeaderData,
+  ParseHeaderAndBody,
 } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
 import TOC from "ylhyra/documents/compile/templates/TOC";
 import { getValuesForURL } from "ylhyra/server/content/links";
-import { links } from "ylhyra/server/content/loadLinks";
-import fs, { PathOrFileDescriptor } from "fs";
+import { links } from "ylhyra/server/content/links/loadLinks";
 
 /**
  * Enter a title and receive its contents with everything transcluded

@@ -1,6 +1,7 @@
-import axios from "ylhyra/app/app/axios";
 import { isBrowser } from "modules/isBrowser";
 import { log } from "modules/log";
+import _ from "underscore";
+import axios from "ylhyra/app/app/axios";
 import store from "ylhyra/app/app/store";
 import {
   isSearching,
@@ -12,7 +13,6 @@ import {
   getHash,
 } from "ylhyra/maker/vocabulary_maker/compile/functions";
 import { row_info } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
-import _ from "underscore";
 
 export const Database = {
   maxID: 0,

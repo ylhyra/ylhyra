@@ -1,3 +1,4 @@
+import _ from "underscore";
 import { isInSession } from "ylhyra/app/vocabulary/actions/card/card";
 import { getTermIds } from "ylhyra/app/vocabulary/actions/card/card_data";
 import { getCardIdsFromTermId } from "ylhyra/app/vocabulary/actions/card/term";
@@ -5,7 +6,6 @@ import { CardId, CardIds } from "ylhyra/app/vocabulary/actions/card/types";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { BAD } from "ylhyra/app/vocabulary/constants";
-import _ from "underscore";
 
 export const getSiblingCards = (id: CardId): CardIds => {
   // return (this.siblingCardIds);

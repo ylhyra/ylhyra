@@ -1,21 +1,17 @@
 /*
 npm run links
 */
-import { getFilesRecursivelySync } from "modules/getFilesRecursivelySync";
-import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
-import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
-import { deck } from "ylhyra/app/vocabulary/actions/deck";
-
-import {
-  HeaderData,
-  ParseHeaderAndBody,
-} from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
-import { getCardIdsFromWords } from "ylhyra/documents/compile/vocabulary/getCardIdsFromWords";
-import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/initializeDeckFromFile";
 // import urlSlug from 'src/app/App/functions/url-slug'
 import fs from "fs";
-import { content_folder } from "ylhyra/server/paths_backend";
+import { getFilesRecursivelySync } from "modules/getFilesRecursivelySync";
+import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
 import _ from "underscore";
+import { FileSafeTitle, URL_title } from "ylhyra/app/app/paths";
+import { deck } from "ylhyra/app/vocabulary/actions/deck";
+import { HeaderData, ParseHeaderAndBody } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
+import { getCardIdsFromWords } from "ylhyra/documents/compile/vocabulary/getCardIdsFromWords";
+import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/initializeDeckFromFile";
+import { content_folder } from "ylhyra/server/paths_backend";
 
 export type FullFilePath = string;
 

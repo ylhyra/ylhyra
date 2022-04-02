@@ -1,8 +1,8 @@
-import { RootState } from "ylhyra/app/app/store";
 import React from "react";
 import { connect } from "react-redux";
+import { RootState } from "ylhyra/app/app/store";
 
-class SignupSteps extends React.Component {
+class SignupSteps extends React.Component<ConnectedProps<typeof connector>> {
   componentDidMount() {}
   render() {
     if (!process.env.REACT_APP_PWYW) return null;
@@ -23,7 +23,8 @@ class SignupSteps extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   user: state.user,
   route: state.route,
-}))(SignupSteps);
+}));
+export default connector(SignupSteps);

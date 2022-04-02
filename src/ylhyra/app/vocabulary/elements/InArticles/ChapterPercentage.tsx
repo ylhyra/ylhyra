@@ -1,8 +1,8 @@
-import { getCardIdsFromTermIds } from "ylhyra/app/vocabulary/actions/card/functions";
-import { PercentageKnown } from "ylhyra/app/vocabulary/actions/functions/percentageKnown";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
+import { getCardIdsFromTermIds } from "ylhyra/app/vocabulary/actions/card/functions";
+import { PercentageKnown } from "ylhyra/app/vocabulary/actions/functions/percentageKnown";
 
 class X extends Component<{ vocabulary: any; data: any }> {
   render() {
@@ -15,7 +15,8 @@ class X extends Component<{ vocabulary: any; data: any }> {
     );
   }
 }
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   vocabulary: state.vocabulary,
   route: state.route,
-}))(X);
+}));
+export default connector(X);

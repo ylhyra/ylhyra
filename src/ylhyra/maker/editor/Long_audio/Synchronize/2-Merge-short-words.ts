@@ -2,10 +2,7 @@
   Words under 0.3 seconds are
   merged into their sibling
 */
-import {
-  AeneasOutput,
-  UnprocessedLongAudioSyncData,
-} from "ylhyra/documents/parse/types";
+import { AeneasOutput, UnprocessedLongAudioSyncData } from "ylhyra/documents/parse/types";
 
 const minimumTime = 0.3;
 

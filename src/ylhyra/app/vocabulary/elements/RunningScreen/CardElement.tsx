@@ -1,3 +1,5 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { withPlural } from "ylhyra/app/app/functions/simplePlural";
 import { getProcessedImageUrl } from "ylhyra/app/app/paths";
 import store from "ylhyra/app/app/store";
@@ -14,8 +16,6 @@ import { VocabularyReducer } from "ylhyra/app/vocabulary/reducers";
 import AudioClip from "ylhyra/documents/render/audio/AudioClip";
 import { getPlaintextFromFormatted } from "ylhyra/maker/vocabulary_maker/compile/format";
 import { getDeckName } from "ylhyra/maker/vocabulary_maker/compile/functions";
-import React, { Component } from "react";
-import { connect } from "react-redux";
 
 class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
   isKeyDown: boolean;

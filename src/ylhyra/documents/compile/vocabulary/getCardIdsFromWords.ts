@@ -1,6 +1,6 @@
+import _ from "underscore";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { getHash } from "ylhyra/maker/vocabulary_maker/compile/functions";
-import _ from "underscore";
 
 export const getCardIdsFromWords = (
   words: string[],

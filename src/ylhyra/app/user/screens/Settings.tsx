@@ -1,14 +1,14 @@
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
-import { logout } from "ylhyra/app/user/actions";
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
+import { logout } from "ylhyra/app/user/actions";
 
 class Form2 extends React.Component<ConnectedProps<typeof connector>> {
   componentDidMount() {
     if (!this.props.user) {
       setTimeout(() => {
-        updateURL("/");
+        updateUrl("/");
       }, 100);
     }
   }

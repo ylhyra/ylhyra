@@ -1,12 +1,12 @@
-import { notify } from "ylhyra/app/app/error";
 import { isBrowser } from "modules/isBrowser";
 import { log } from "modules/log";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
+import React from "react";
+import { notify } from "ylhyra/app/app/error";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 import {
   continueAfterPaying,
   parsePrice,
 } from "ylhyra/app/user/payments/actions";
-import React from "react";
 
 let button;
 
@@ -121,9 +121,9 @@ const getPriceFromInput = () =>
 
 if (isBrowser) {
   window.haha = () => {
-    updateURL("/vocabulary");
+    updateUrl("/vocabulary");
     setTimeout(() => {
-      updateURL("/pwyw");
+      updateUrl("/pwyw");
     }, 1000);
   };
 }

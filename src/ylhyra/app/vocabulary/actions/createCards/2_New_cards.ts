@@ -1,10 +1,10 @@
+// import { isEasinessLevelOn } from "app/vocabulary/actions/easinessLevel/functions";
+import { sortBy } from "underscore";
 import { isAllowed } from "ylhyra/app/vocabulary/actions/card/card";
 import { isInSchedule } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import { CardIds } from "ylhyra/app/vocabulary/actions/card/types";
 import { veryRecentlySeenSortedLast } from "ylhyra/app/vocabulary/actions/createCards/functions";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
-// import { isEasinessLevelOn } from "app/vocabulary/actions/easinessLevel/functions";
-import { sortBy } from "underscore";
 
 export default (options): CardIds => {
   let newCards = deck.cards_sorted.filter(

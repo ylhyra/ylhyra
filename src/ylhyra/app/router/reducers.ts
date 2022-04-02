@@ -1,22 +1,26 @@
 import { isBrowser } from "modules/isBrowser";
+import { RouteContent } from "ylhyra/app/router/actions/updateUrl";
 
-type RouteState = { pathname: string; data?: Object };
+type RouteState = {
+  pathname: string;
+  data?: RouteContent;
+  section?: string;
+  is404?: Boolean;
+};
+
 export const route = (
   state: RouteState = {
     pathname: isBrowser ? window.location.pathname : "/",
   },
-  action
+  action: { type: string; content?: RouteState }
 ): RouteState => {
   switch (action.type) {
     case "ROUTE":
+      return action.content!;
+    case "ROUTE_404":
       return {
         ...state,
-        ...action.content,
-      };
-    case "LOAD_ROUTE_CONTENT":
-      return {
-        ...state,
-        data: action.data,
+        is404: true,
       };
     default:
       return state;

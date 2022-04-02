@@ -1,11 +1,6 @@
 import { log } from "modules/log";
-import {
-  addSomeRandomness,
-  average,
-  clamp,
-  toFixedFloat,
-} from "ylhyra/app/app/functions/math";
 import { daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
+import { addSomeRandomness, average, clamp, toFixedFloat } from "ylhyra/app/app/functions/math";
 import { wasSeenInSession } from "ylhyra/app/vocabulary/actions/card/card";
 import {
   getDue,
@@ -14,15 +9,15 @@ import {
   getNumberOfBadSessions,
   getScore,
   getSessionsSeen,
-  setSchedule,
+  setSchedule
 } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import {
   didAnySiblingCardsGetABadRatingInThisSession,
-  getSiblingCards,
+  getSiblingCards
 } from "ylhyra/app/vocabulary/actions/card/card_siblings";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
-import { BAD, EASY, GOOD } from "ylhyra/app/vocabulary/constants";
 import { printWord } from "ylhyra/app/vocabulary/actions/functions";
+import { BAD, EASY, GOOD } from "ylhyra/app/vocabulary/constants";
 
 /** Increment score by how much? */
 export const INCR = 0.4;

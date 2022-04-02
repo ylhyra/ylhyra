@@ -1,19 +1,24 @@
-import { RootState } from "ylhyra/app/app/store";
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
+import React, { Component, Suspense } from "react";
+import { connect, ConnectedProps } from "react-redux";
+import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
+import { RootState } from "ylhyra/app/app/store";
 import Render from "ylhyra/documents/render";
 import NotFound from "ylhyra/documents/templates/404";
-import React, { Component, Suspense } from "react";
-import { connect } from "react-redux";
 
 const RenderEditor = React.lazy(() => import("ylhyra/maker/editor"));
 
 /**
  * Renders data loaded from server
  */
-class Content extends Component {
+class Content extends Component<
+  ConnectedProps<typeof connector> & {
+    prerender?: HtmlAsJson;
+  }
+> {
   render() {
-    if (this.props.route.data === "404") return <NotFound />;
+    if (this.props.route.is404) return <NotFound />;
     const parsed = this.props.route.data?.parsed || this.props.prerender;
 
     if (!parsed) return <Loading key={this.props.route.pathname} />;
@@ -34,12 +39,16 @@ class Content extends Component {
     }
   }
 }
-export default /*React.memo*/ connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   route: state.route,
-}))(Content);
+}));
+export default connector(Content);
 
 class Loading extends Component {
-  state = {};
+  state = {
+    failed: null,
+  };
+  timer: NodeJS.Timeout | null = null;
   componentDidMount() {
     this.timer = setTimeout(() => {
       this.setState({ failed: true });

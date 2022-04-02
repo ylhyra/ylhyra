@@ -1,6 +1,6 @@
 // export TESTING=true && node server/translator/BatchSave.js
 
-const axios = require("axios");
+import axios from "axios";
 
 const run = async (apcontinue = "") => {
   const page_list = (

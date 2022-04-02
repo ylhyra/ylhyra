@@ -1,16 +1,15 @@
-import "ylhyra/makera/maker/editor/Style/index.styl";
-
-import store, { RootState } from "ylhyra/app/app/store";
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
+import React from "react";
+import { connect } from "react-redux";
+import store, { RootState } from "ylhyra/app/app/store";
 import { openEditor } from "ylhyra/maker/editor/actions";
 import Header from "ylhyra/maker/editor/Header";
 import Inflections from "ylhyra/maker/editor/Inflections";
 import LongAudio from "ylhyra/maker/editor/Long_audio";
 import Sound from "ylhyra/maker/editor/Short_audio";
+import "ylhyra/maker/editor/Style/index.styl";
 import Translator from "ylhyra/maker/editor/Translator";
-import React from "react";
-import { connect } from "react-redux";
 
 class _Editor extends React.PureComponent {
   // componentDidMount = () => {

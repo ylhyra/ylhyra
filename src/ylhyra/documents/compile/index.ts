@@ -1,3 +1,4 @@
+import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
 import images from "ylhyra/documents/compile/images";
 import markdown_to_html from "ylhyra/documents/compile/markdown_to_html";
 import WithHeaderAndFooter from "ylhyra/documents/compile/templates/HeaderAndFooter";
@@ -6,7 +7,6 @@ import { References } from "ylhyra/documents/compile/templates/References";
 import Sections from "ylhyra/documents/compile/templates/Sections";
 import Table from "ylhyra/documents/compile/templates/Table";
 import Transclude from "ylhyra/documents/compile/transclude";
-import { HeaderData } from "ylhyra/documents/compile/functions/ParseHeaderAndBody";
 
 export default async function generateHtml(title: string): Promise<{
   content: string;

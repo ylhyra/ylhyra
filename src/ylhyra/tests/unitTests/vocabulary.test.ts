@@ -1,7 +1,7 @@
 import { getCardByText } from "ylhyra/app/vocabulary/actions/card/functions";
 import { InitializeVocabulary } from "ylhyra/app/vocabulary/actions/initialize";
 
-// const console = require("console");
+// import console from "console";
 
 beforeAll(async () => {
   await InitializeVocabulary();

@@ -1,8 +1,8 @@
+import React from "react";
+import ReactDOMServer from "react-dom/server";
 import { notify } from "ylhyra/app/app/error";
 import { html2json } from "ylhyra/app/app/functions/html2json";
 import store from "ylhyra/app/app/store";
-import React from "react";
-import ReactDOMServer from "react-dom/server";
 
 /*
   Allows just a single audio file

@@ -1,7 +1,7 @@
-import { RootState } from "ylhyra/app/app/store";
-import Link from "ylhyra/app/router/Link";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { RootState } from "ylhyra/app/app/store";
+import Link from "ylhyra/app/router/Link";
 
 class X extends Component {
   render() {
@@ -47,6 +47,7 @@ class X extends Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   route: state.route,
-}))(X);
+}));
+export default connector(X);

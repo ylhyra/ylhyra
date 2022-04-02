@@ -1,13 +1,12 @@
-import { getTime, minute, roundMsToMinute } from "modules/time";
-
+import { Crawler } from "es6-crawler-detect";
 import { Router } from "express";
-import query from "ylhyra/server/database";
-import sql from "ylhyra/server/database/functions/SQL-template-literal";
+import { getTime, minute, roundMsToMinute } from "modules/time";
 import shortid from "shortid";
 import _ from "underscore";
+import query from "ylhyra/server/database";
+import sql from "ylhyra/server/database/functions/SQL-template-literal";
 
 const router = Router();
-const { Crawler } = require("es6-crawler-detect");
 
 const rateLimit = require("express-rate-limit")({
   windowMs: 1 * minute,

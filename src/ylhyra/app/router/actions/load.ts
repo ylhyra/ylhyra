@@ -1,47 +1,46 @@
+import { isDev } from "modules/isDev";
 import Analytics from "ylhyra/app/app/analytics";
 import axios from "ylhyra/app/app/axios";
-import { PRELOAD_ARTICLES_ON_HOVER } from "ylhyra/app/app/constants";
-import { isDev } from "modules/isDev";
 import store from "ylhyra/app/app/store";
 import {
   index,
   isVocabularyTheFrontpage,
 } from "ylhyra/app/router/actions/index";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
-import { app_urls } from "ylhyra/app/router/appUrls";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
+import { appUrls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
-import { ReadAlongSetup } from "ylhyra/documents/render/audio/ReadAlong";
+import { readAlongSetup } from "ylhyra/documents/render/audio/readAlong/readAlong";
 
 const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true && isDev;
 
-let cache = {};
-let expectedUrl = false;
+let cache: { [url: string]: PrerenderedDataSavedInPage } = {};
+let expectedUrl: string | null = null;
 export const abortAllThatAreNot = (url: string) => {
   expectedUrl = url;
 };
 
 export const loadContent = ({
   url,
-  prerender_data: DataSavedInPage,
+  prerenderData,
   preload,
   section,
   isInitializing,
   callback,
 }: {
   url: string;
-  prerender_data: string;
-  preload: string;
-  section: string;
-  isInitializing: Boolean;
-  callback: Function;
+  prerenderData?: PrerenderedDataSavedInPage;
+  preload?: Boolean;
+  section?: string;
+  isInitializing?: Boolean;
+  callback?: Function;
 }) => {
-  if (url in app_urls) {
+  if (url in appUrls) {
     return;
   }
 
   /* Pre-rendered */
-  if (prerender_data) {
-    cache[url] = prerender_data;
+  if (prerenderData) {
+    cache[url] = prerenderData;
   }
 
   if (url in cache) {
@@ -71,8 +70,7 @@ export const loadContent = ({
         if (preload) return;
         if (error.response?.status === 404) {
           store.dispatch({
-            type: "LOAD_ROUTE_CONTENT",
-            data: "404",
+            type: "ROUTE_404",
           });
         }
       });
@@ -153,7 +151,7 @@ const set = async ({
   // console.log({ t: data.title });
 
   callback?.();
-  await updateURL(url + (section ? "#" + section : ""), {
+  updateUrl(url + (section ? "#" + section : ""), {
     title: data.title,
     isLoadingContent: true,
     isInitializing,
@@ -162,10 +160,14 @@ const set = async ({
       header: data.header,
     },
   });
-  ReadAlongSetup(flattenedData);
+  readAlongSetup(flattenedData);
 };
 
-export const preload = (url) => {
-  if (!PRELOAD_ARTICLES_ON_HOVER) return;
-  loadContent({ url, preload: true });
+/**
+ * Preload is currently turned off
+ * @param url
+ */
+export const preload = (url: string) => {
+  // if (!PRELOAD_ARTICLES_ON_HOVER) return;
+  // loadContent({ url, preload: true });
 };

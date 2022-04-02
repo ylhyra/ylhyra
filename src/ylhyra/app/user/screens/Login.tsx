@@ -1,5 +1,5 @@
-import Login from "ylhyra/app/user/LoginForm";
 import React from "react";
+import Login from "ylhyra/app/user/LoginForm";
 
 export default () => (
   <Login

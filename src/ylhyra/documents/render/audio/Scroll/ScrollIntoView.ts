@@ -1,4 +1,4 @@
-import SmoothScroll from "ylhyra/documents/render/audio/Scroll/SmoothScroll";
+import smoothScroll from "ylhyra/documents/render/audio/Scroll/SmoothScroll";
 
 const ControlsHeight = 45;
 
@@ -43,7 +43,7 @@ export default function ScrollIntoView(ids) {
   let idealPosition = (15 / 100) * (window.innerHeight - ControlsHeight);
   idealPosition = Math.max(100, idealPosition);
   const idealPositionChange = parseInt(elementRect.y - idealPosition);
-  SmoothScroll.scroll(idealPositionChange, isAbove || isBelow);
+  smoothScroll.scroll(idealPositionChange, isAbove || isBelow);
 }
 
 // function getScrollParent(node) {

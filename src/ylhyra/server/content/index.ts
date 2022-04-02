@@ -1,12 +1,11 @@
 import fs from "fs";
-import path from "path";
-
-import { build_folder, getBaseDir } from "ylhyra/server/paths_backend";
 import hash from "modules/hash";
 import { isDev } from "modules/isDev";
+import path from "path";
 import generateHtml from "ylhyra/documents/compile";
 import { cacheControl } from "ylhyra/server/caching";
 import { getValuesForURL } from "ylhyra/server/content/links";
+import { build_folder, getBaseDir } from "ylhyra/server/paths_backend";
 
 const router = require("express").Router({ strict: true });
 

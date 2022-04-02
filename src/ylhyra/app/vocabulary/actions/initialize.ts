@@ -1,14 +1,14 @@
-import axios from "ylhyra/app/app/axios";
 import { isDev } from "modules/isDev";
-import { getFromLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import { log } from "modules/log";
+import axios from "ylhyra/app/app/axios";
+import { getFromLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import store from "ylhyra/app/app/store";
 import Deck from "ylhyra/app/vocabulary/actions/deck";
 import { sync } from "ylhyra/app/vocabulary/actions/userData/sync";
+import { UserData } from "ylhyra/app/vocabulary/actions/userData/userData";
 import { getScheduleFromUserData } from "ylhyra/app/vocabulary/actions/userData/userDataSchedule";
 import { clearOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen/actions";
 import { getDeckName } from "ylhyra/maker/vocabulary_maker/compile/functions";
-import { UserData } from "ylhyra/app/vocabulary/actions/userData/userData";
 
 export const InitializeVocabulary = async () => {
   log("Downloading database");

@@ -3,8 +3,9 @@
 */
 import path from "path";
 import forEachAsync from "src/modules/forEachAsync";
+import fs from "fs";
+
 const http = require("https");
-const fs = require("fs");
 
 const upload_path = path.resolve(
   process.env.PWD,

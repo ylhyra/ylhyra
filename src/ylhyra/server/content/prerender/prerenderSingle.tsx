@@ -1,20 +1,16 @@
-import { build_folder, getBaseDir } from "ylhyra/server/paths_backend";
+import fs from "fs";
+import path from "path";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import { Provider } from "react-redux";
 import { URL_title } from "ylhyra/app/app/paths";
 import store from "ylhyra/app/app/store";
 import Router from "ylhyra/app/router";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import generateHtml from "ylhyra/documents/compile";
 import Parse from "ylhyra/documents/parse";
-import React from "react";
-import ReactDOMServer from "react-dom/server";
-import { Provider } from "react-redux";
 import { renderTitle } from "ylhyra/server/content/renderTitle";
-
-const path = require("path");
-
-const critical = require("critical");
-
-var fs = require("fs");
+import { build_folder, getBaseDir } from "ylhyra/server/paths_backend";
 
 let TESTING = false;
 
@@ -29,21 +25,26 @@ const html = fs.readFileSync(
   export ONLY=page_name; npm run prerender_single
 
 */
-const render = async ({
+export default async function prerender({
   url,
   filename,
-  css,
-  is_content,
+  isContent,
   shouldBeIndexed,
   callback,
-}) => {
-  const header_links = `
+}: {
+  url: string;
+  filename: string;
+  isContent: Boolean;
+  shouldBeIndexed: Boolean;
+  callback: Function;
+}) {
+  const headerLinks = `
     <meta name="vocabulary_id" content=""/>
     <link href="/app/main.css" rel="stylesheet" />
     <link rel="canonical" href="https://ylhyra.is${encodeURI(url)}" />
   `;
 
-  let footer_links = `
+  let footerLinks = `
     ${
       TESTING
         ? `
@@ -55,13 +56,13 @@ const render = async ({
     }
   `;
 
-  let content, header, necessary_data, output, props;
+  let content, header, necessaryData, output, props;
 
-  if (is_content) {
+  if (isContent) {
     const h = await generateHtml(url);
     content = h.content;
     header = h.header;
-    const out = await Parse({ html: content });
+    const out = Parse({ html: content });
     const { parsed, flattenedData } = out;
     props = { prerender: parsed };
     if (parsed && header) {
@@ -74,7 +75,7 @@ const render = async ({
         header,
         shouldBeIndexed,
       };
-      necessary_data = JSON.stringify(dataToSave);
+      necessaryData = JSON.stringify(dataToSave);
     }
   } else {
     props = { url: url };
@@ -106,17 +107,14 @@ const render = async ({
     console.error(`Very long heading in ${url}`);
   }
 
-  let footer_items =
-    (necessary_data
-      ? `<script type="text/javascript">window.ylhyra_data=${necessary_data}</script>`
-      : "") + footer_links;
-
-  // console.log(footer_items);
+  let footerItems =
+    (necessaryData
+      ? `<script type="text/javascript">window.ylhyra_data=${necessaryData}</script>`
+      : "") + footerLinks;
 
   if (filename === "not-found") {
-    footer_items =
-      '<script type="text/javascript">window.is404=true</script>' +
-      footer_items;
+    footerItems =
+      '<script type="text/javascript">window.is404=true</script>' + footerItems;
   }
 
   output = html
@@ -124,14 +122,11 @@ const render = async ({
       /<title>(.+)<\/title>/,
       `<title>${renderTitle(header?.title)}</title>`
     )
-    .replace(
-      "<!-- Header items -->",
-      "<!--CSS-->" + header_links + "<!--CSS-->"
-    )
+    .replace("<!-- Header items -->", "<!--CSS-->" + headerLinks + "<!--CSS-->")
     .replace("<!-- Content -->", output || "")
     .replace(
       /<!-- Footer items -->[\s\S]+<!-- Footer items end -->/,
-      footer_items + "<!-- Remaining CSS -->"
+      footerItems + "<!-- Remaining CSS -->"
     );
 
   if (shouldBeIndexed) {
@@ -141,43 +136,14 @@ const render = async ({
     );
   }
 
-  necessary_data &&
+  necessaryData &&
     fs.writeFileSync(
       path.resolve(build_folder, `./prerender/${filename}.json`),
-      necessary_data
+      necessaryData
     );
   fs.writeFileSync(
     path.resolve(build_folder, `./prerender/${filename}.html`),
     output
   );
-  if (false && css) {
-    /* Inline CSS */
-    critical.generate(
-      {
-        base: build_folder,
-        src: `prerender/${filename}.html`,
-        width: 1300,
-        height: 9000,
-        inline: true,
-      },
-      (err, cr_output /* Includes {css, html, uncritical} */) => {
-        output = output
-          .replace(
-            /<!--CSS-->[\s\S]+<!--CSS-->/,
-            "<style>" + cr_output.css + "</style>"
-          )
-          .replace("<!-- Remaining CSS -->", header_links);
-        if (err) console.log(err);
-        fs.writeFileSync(
-          path.resolve(build_folder, `./prerender/${filename}.html`),
-          output
-        );
-        callback && callback();
-      }
-    );
-  } else {
-    callback && callback();
-  }
-};
-
-export default render;
+  callback && callback();
+}

@@ -1,6 +1,6 @@
-import { RootState } from "ylhyra/app/app/store";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { RootState } from "ylhyra/app/app/store";
 
 class User extends Component {
   render() {
@@ -14,6 +14,7 @@ class User extends Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   user: state.user,
-}))(User);
+}));
+export default connector(User);

@@ -1,10 +1,9 @@
-import { getBaseDir } from "ylhyra/server/paths_backend";
+import fs from "fs";
+import path from "path";
 import { getPlaintextFromFormatted } from "ylhyra/maker/vocabulary_maker/compile/format";
 import { getHash } from "ylhyra/maker/vocabulary_maker/compile/functions";
+import { getBaseDir } from "ylhyra/server/paths_backend";
 import getSortKeys from "ylhyra/server/vocabulary/sortKeys";
-
-const fs = require("fs");
-const path = require("path");
 
 /*
   Finds sentences from dataset that only use terms that are already included in the vocabulary dataset and which are marked as easy

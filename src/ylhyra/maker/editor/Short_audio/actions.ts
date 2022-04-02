@@ -1,8 +1,8 @@
-import { sortByArray } from "modules/sortByArray";
-import store from "ylhyra/app/app/store";
 import isEmpty from "is-empty-object";
-import { send } from "ylhyra/maker/editor/web-socket";
+import { sortByArray } from "modules/sortByArray";
 import _ from "underscore";
+import store from "ylhyra/app/app/store";
+import { send } from "ylhyra/maker/editor/web-socket";
 
 // import { saveEditor } from 'Editor/actions'
 

@@ -1,11 +1,11 @@
+import React from "react";
+import { connect } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 // import Upload from './Upload'
 import findAudioSections from "ylhyra/maker/editor/Long_audio/actions";
 import { synchronize } from "ylhyra/maker/editor/Long_audio/Synchronize";
-import React from "react";
-import { connect } from "react-redux";
 
-class LongAudio extends React.Component {
+class LongAudio extends React.Component<ConnectedProps<typeof connector>> {
   componentDidMount = () => {
     findAudioSections();
   };
@@ -33,6 +33,7 @@ class LongAudio extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = connect((state: RootState) => ({
   long_audio: state.editor.long_audio,
-}))(LongAudio);
+}));
+export default connector(LongAudio);

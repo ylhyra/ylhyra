@@ -1,5 +1,5 @@
-import { replaceAsync } from "modules/replaceAsync";
 import { inflectionElement } from "inflection/element";
+import { replaceAsync } from "modules/replaceAsync";
 
 export default async (input: string) => {
   return await replaceAsync(

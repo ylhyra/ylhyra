@@ -1,11 +1,12 @@
-import axios from "ylhyra/app/app/axios";
 import { log } from "modules/log";
+import { day, days } from "modules/time";
+import _ from "underscore";
+import axios from "ylhyra/app/app/axios";
 import {
   clamp,
   mapValueToRange,
   mapZeroToInfinityToZeroToOne,
 } from "ylhyra/app/app/functions/math";
-import { day, days } from "modules/time";
 import store from "ylhyra/app/app/store";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { PercentageKnownOverall } from "ylhyra/app/vocabulary/actions/functions/percentageKnown";
@@ -18,7 +19,6 @@ import {
   getSessions,
   SESSION_PREFIX,
 } from "ylhyra/app/vocabulary/actions/userData/userDataSessions";
-import _ from "underscore";
 
 const MIN_DAYS_TO_SHOW = 2.5 * 30;
 const MAX_DAYS_TO_SHOW = 365;

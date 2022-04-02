@@ -1,6 +1,9 @@
-import { RootState } from "ylhyra/app/app/store";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import keycode from "keycode";
+import React from "react";
+import { connect, ConnectedProps } from "react-redux";
+import _ from "underscore";
+import { RootState } from "ylhyra/app/app/store";
 import {
   Database,
   delete_row,
@@ -15,9 +18,6 @@ import {
   row_info,
   row_titles,
 } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
-import React from "react";
-import { connect, ConnectedProps } from "react-redux";
-import _ from "underscore";
 
 class Form2 extends React.Component<
   ConnectedProps<typeof connector> & {

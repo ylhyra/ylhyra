@@ -1,9 +1,9 @@
-import store, { RootState } from "ylhyra/app/app/store";
-import SpeedReader from "ylhyra/documents/render/elements/Speed_reading/index";
-import { open } from "ylhyra/documents/render/elements/Speed_reading/actions/actions";
 import React from "react";
 import ReactDOM from "react-dom";
 import { connect, Provider } from "react-redux";
+import store, { RootState } from "ylhyra/app/app/store";
+import { open } from "ylhyra/documents/render/elements/Speed_reading/actions/actions";
+import SpeedReader from "ylhyra/documents/render/elements/Speed_reading/index";
 
 export const SpeedReaderSetup = () => {
   /* Book not found */

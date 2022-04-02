@@ -1,12 +1,7 @@
-import { log } from "modules/log";
-import {
-  getData,
-  getFrom,
-  getTermIds,
-} from "ylhyra/app/vocabulary/actions/card/card_data";
+import { getData, getFrom, getTermIds } from "ylhyra/app/vocabulary/actions/card/card_data";
 import { isNewCard } from "ylhyra/app/vocabulary/actions/card/card_schedule";
-import { BAD } from "ylhyra/app/vocabulary/constants";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession/index";
+import { BAD } from "ylhyra/app/vocabulary/constants";
 
 /**
  * @memberOf CardInSession#

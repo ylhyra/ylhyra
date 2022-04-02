@@ -30,9 +30,8 @@ import {
   ArrayOfEitherSentencesOrWords,
   DocumentTitleToTokenizedParagraphsWithIds,
   TokenizedFlattenedForWrapInTags,
-  TokenizedParagraphWithIds,
+  TokenizedParagraphWithIds
 } from "ylhyra/documents/parse/types";
-
 import InsertSplit from "ylhyra/documents/parse/WrapInTags/1-InsertSplit";
 import SplitAndWrap from "ylhyra/documents/parse/WrapInTags/2-SplitAndWrap";
 import InvertElementsThatOnlyContainOneThing from "ylhyra/documents/parse/WrapInTags/3-Invert";

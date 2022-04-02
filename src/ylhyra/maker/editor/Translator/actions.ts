@@ -1,6 +1,6 @@
-import store from "ylhyra/app/app/store";
 import hash from "string-hash";
 import _ from "underscore";
+import store from "ylhyra/app/app/store";
 
 /*
   If the user has selected several non-adjacent words,

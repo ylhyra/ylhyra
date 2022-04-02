@@ -1,14 +1,14 @@
 import { log } from "modules/log";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import store from "ylhyra/app/app/store";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 import { getSound } from "ylhyra/app/vocabulary/actions/card/card_data";
 import Session from "ylhyra/app/vocabulary/actions/session";
 import { getUserLevel } from "ylhyra/app/vocabulary/actions/userLevel";
 import Card from "ylhyra/app/vocabulary/elements/RunningScreen/CardElement";
 import Progress from "ylhyra/app/vocabulary/elements/RunningScreen/Progress";
 import SelectLevelScreen from "ylhyra/app/vocabulary/elements/UserLevelScreen";
-import React, { Component } from "react";
-import { connect } from "react-redux";
 
 class RunningScreen extends Component<{ vocabulary: any }> {
   componentDidMount = () => {
@@ -49,7 +49,7 @@ class RunningScreen extends Component<{ vocabulary: any }> {
             <button
               className="link"
               onClick={() => {
-                updateURL("/vocabulary/tutorial", {
+                updateUrl("/vocabulary/tutorial", {
                   dontChangeUrl: true,
                 });
               }}
