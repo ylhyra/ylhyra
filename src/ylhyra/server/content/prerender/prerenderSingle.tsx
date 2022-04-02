@@ -25,15 +25,20 @@ const html = fs.readFileSync(
   export ONLY=page_name; npm run prerender_single
 
 */
-const render = async ({
+export default async function prerender({
   url,
   filename,
-  css,
   isContent,
   shouldBeIndexed,
   callback,
-}) => {
-  const header_links = `
+}: {
+  url: string;
+  filename: string;
+  isContent: Boolean;
+  shouldBeIndexed: Boolean;
+  callback: Function;
+}) {
+  const headerLinks = `
     <meta name="vocabulary_id" content=""/>
     <link href="/app/main.css" rel="stylesheet" />
     <link rel="canonical" href="https://ylhyra.is${encodeURI(url)}" />
@@ -51,7 +56,7 @@ const render = async ({
     }
   `;
 
-  let content, header, necessary_data, output, props;
+  let content, header, necessaryData, output, props;
 
   if (isContent) {
     const h = await generateHtml(url);
@@ -70,7 +75,7 @@ const render = async ({
         header,
         shouldBeIndexed,
       };
-      necessary_data = JSON.stringify(dataToSave);
+      necessaryData = JSON.stringify(dataToSave);
     }
   } else {
     props = { url: url };
@@ -102,15 +107,14 @@ const render = async ({
     console.error(`Very long heading in ${url}`);
   }
 
-  let footer_items =
-    (necessary_data
-      ? `<script type="text/javascript">window.ylhyra_data=${necessary_data}</script>`
+  let footerItems =
+    (necessaryData
+      ? `<script type="text/javascript">window.ylhyra_data=${necessaryData}</script>`
       : "") + footerLinks;
 
   if (filename === "not-found") {
-    footer_items =
-      '<script type="text/javascript">window.is404=true</script>' +
-      footer_items;
+    footerItems =
+      '<script type="text/javascript">window.is404=true</script>' + footerItems;
   }
 
   output = html
@@ -118,14 +122,11 @@ const render = async ({
       /<title>(.+)<\/title>/,
       `<title>${renderTitle(header?.title)}</title>`
     )
-    .replace(
-      "<!-- Header items -->",
-      "<!--CSS-->" + header_links + "<!--CSS-->"
-    )
+    .replace("<!-- Header items -->", "<!--CSS-->" + headerLinks + "<!--CSS-->")
     .replace("<!-- Content -->", output || "")
     .replace(
       /<!-- Footer items -->[\s\S]+<!-- Footer items end -->/,
-      footer_items + "<!-- Remaining CSS -->"
+      footerItems + "<!-- Remaining CSS -->"
     );
 
   if (shouldBeIndexed) {
@@ -135,47 +136,14 @@ const render = async ({
     );
   }
 
-  necessary_data &&
+  necessaryData &&
     fs.writeFileSync(
       path.resolve(build_folder, `./prerender/${filename}.json`),
-      necessary_data
+      necessaryData
     );
   fs.writeFileSync(
     path.resolve(build_folder, `./prerender/${filename}.html`),
     output
   );
-  if (false && css) {
-  } else {
-    callback && callback();
-  }
-};
-
-export default render;
-
-// import critical from "critical";
-// const generateCriticalCss = () => {
-//   /* Inline CSS */
-//   critical.generate(
-//     {
-//       base: build_folder,
-//       src: `prerender/${filename}.html`,
-//       width: 1300,
-//       height: 9000,
-//       inline: true,
-//     },
-//     (err, cr_output /* Includes {css, html, uncritical} */) => {
-//       output = output
-//         .replace(
-//           /<!--CSS-->[\s\S]+<!--CSS-->/,
-//           "<style>" + cr_output.css + "</style>"
-//         )
-//         .replace("<!-- Remaining CSS -->", header_links);
-//       if (err) console.log(err);
-//       fs.writeFileSync(
-//         path.resolve(build_folder, `./prerender/${filename}.html`),
-//         output
-//       );
-//       callback && callback();
-//     }
-//   );
-// }
+  callback && callback();
+}

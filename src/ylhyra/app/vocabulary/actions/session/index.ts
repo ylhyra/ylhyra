@@ -4,7 +4,7 @@ import Analytics from "ylhyra/app/app/analytics";
 import { EACH_SESSION_LASTS_X_MINUTES } from "ylhyra/app/app/constants";
 import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import { roundMsToSec, roundToInterval } from "ylhyra/app/app/functions/math";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 import { doesCardExist } from "ylhyra/app/vocabulary/actions/card/card";
 import { CardIds, TermId } from "ylhyra/app/vocabulary/actions/card/types";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
@@ -56,6 +56,20 @@ class Session {
   done: boolean;
   lastUndid: SessionCounter;
   savedAt: Timestamp;
+  undo = undo;
+  undoable = undoable;
+  checkForUndoOnKeyDown = checkForUndoOnKeyDown;
+  createCards = createCards;
+  InitializeSession = InitializeSession;
+  nextCard = nextCard;
+  createSchedule = createSchedule;
+  loadCardsIntoSession = loadCardsIntoSession;
+  loadCardInInterface = loadCardInInterface;
+  updateRemainingTime = updateRemainingTime;
+  getPercentageDone = getPercentageDone;
+  checkIfCardsRemaining = checkIfCardsRemaining;
+  createMoreCards = createMoreCards;
+  answer = answer;
 
   constructor(deck, init) {
     this.reset();
@@ -85,6 +99,7 @@ class Session {
     }
     // log({ session_log: this.deck.session_log });
   }
+
   reset() {
     this.allowed_ids = null;
     this.ratingHistory = [];
@@ -102,6 +117,7 @@ class Session {
     this.lastUndid = 0;
     this.savedAt = null;
   }
+
   async sessionDone(options: any = {}) {
     this.done = true;
     await this.createSchedule();
@@ -116,15 +132,17 @@ class Session {
 
     // @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     if (process.env.NODE_ENV === "development" && getDeckName()) {
-      updateURL("/vocabulary/play");
+      updateUrl("/vocabulary/play");
       await this.InitializeSession();
     }
   }
+
   getSecondsSpent() {
     return Math.round(
       (this.totalTime - Math.max(0, this.remainingTime)) / 1000
     );
   }
+
   saveSessionInLocalStorage() {
     const session = this;
     if (!session.cards.some((i) => i.hasBeenSeenInSession())) {
@@ -141,9 +159,11 @@ class Session {
     });
     this.savedAt = getTime();
   }
+
   clearInLocalStorage() {
     saveInLocalStorage("vocabulary-session", null);
   }
+
   saveSessionLog() {
     if (this.cardHistory.length > 0 && this.getSecondsSpent() > 10) {
       const timestamp = roundMsToSec(this.savedAt || getTime());
@@ -168,20 +188,6 @@ class Session {
       log("Not logged");
     }
   }
-  undo = undo;
-  undoable = undoable;
-  checkForUndoOnKeyDown = checkForUndoOnKeyDown;
-  createCards = createCards;
-  InitializeSession = InitializeSession;
-  nextCard = nextCard;
-  createSchedule = createSchedule;
-  loadCardsIntoSession = loadCardsIntoSession;
-  loadCardInInterface = loadCardInInterface;
-  updateRemainingTime = updateRemainingTime;
-  getPercentageDone = getPercentageDone;
-  checkIfCardsRemaining = checkIfCardsRemaining;
-  createMoreCards = createMoreCards;
-  answer = answer;
 }
 
 export default Session;

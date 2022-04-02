@@ -1,6 +1,6 @@
 import axios from "ylhyra/app/app/axios";
 import { eraseCookie } from "ylhyra/app/app/functions/cookie";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 import { login, logout } from "ylhyra/app/user/actions";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { PercentageKnownOverall } from "ylhyra/app/vocabulary/actions/functions/percentageKnown";
@@ -19,10 +19,10 @@ export const run = {
     await InitializeVocabulary();
     await wait(20);
     assert(PercentageKnownOverall() === 0);
-    await updateURL("/vocabulary");
+    await updateUrl("/vocabulary");
   },
   start_session: async () => {
-    await updateURL("/vocabulary/play");
+    await updateUrl("/vocabulary/play");
     await deck.session.InitializeSession();
   },
   end_session: async () => {
@@ -66,7 +66,7 @@ export const run = {
   },
   fakeReload: async () => {
     deck.clear();
-    updateURL("/vocabulary");
+    updateUrl("/vocabulary");
     await wait(500);
     await InitializeVocabulary();
   },

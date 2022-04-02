@@ -4,7 +4,7 @@ import React, { FunctionComponent } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import { preload } from "ylhyra/app/router/actions/load";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 
 const start = getTime();
 
@@ -23,7 +23,7 @@ class Link extends React.Component<
     }
     if (e.altKey || e.metaKey || e.ctrlKey) return;
     e.preventDefault();
-    updateURL(url);
+    updateUrl(url);
   };
   render() {
     let { route, href, children, className, id } = this.props;

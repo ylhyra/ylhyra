@@ -42,7 +42,6 @@ const run = async () => {
       prerender({
         url,
         filename,
-        css: true,
         isContent,
         shouldBeIndexed: links[url]?.shouldBeIndexed,
         callback: resolve2,

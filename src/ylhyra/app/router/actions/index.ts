@@ -1,5 +1,5 @@
 import { isBrowser } from "modules/isBrowser";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { existsSchedule, isUserLoggedIn } from "ylhyra/app/user/actions";
 
@@ -7,7 +7,7 @@ if (isBrowser) {
   window["HAS_LOADED"] = false;
   window.addEventListener("popstate", () => {
     if (window["HAS_LOADED"]) {
-      void updateURL(window.location.pathname + window.location.hash);
+      void updateUrl(window.location.pathname + window.location.hash);
     }
   });
 }
@@ -15,7 +15,7 @@ export const InitializeRouter = (
   prerender_data: PrerenderedDataSavedInPage
 ) => {
   const is404 = window["is404"];
-  void updateURL(
+  void updateUrl(
     (prerender_data?.url || window.location.pathname) + window.location.hash,
     {
       prerender_data,

@@ -2,7 +2,7 @@ import { isBrowser } from "modules/isBrowser";
 import { log } from "modules/log";
 import React from "react";
 import { notify } from "ylhyra/app/app/error";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 import {
   continueAfterPaying,
   parsePrice,
@@ -121,9 +121,9 @@ const getPriceFromInput = () =>
 
 if (isBrowser) {
   window.haha = () => {
-    updateURL("/vocabulary");
+    updateUrl("/vocabulary");
     setTimeout(() => {
-      updateURL("/pwyw");
+      updateUrl("/pwyw");
     }, 1000);
   };
 }

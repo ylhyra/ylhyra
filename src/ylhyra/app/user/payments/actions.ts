@@ -1,5 +1,5 @@
 import axios from "ylhyra/app/app/axios";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 
 export const MIN_PRICE = 3;
 export const MAX_PRICE = 200;
@@ -10,9 +10,9 @@ export const continueAfterPaying = async ({ price, transaction_id }) => {
   });
 
   if (price) {
-    updateURL("/signup/done");
+    updateUrl("/signup/done");
   } else {
-    updateURL("/");
+    updateUrl("/");
     // updateURL("/signup/welcome");
   }
 };

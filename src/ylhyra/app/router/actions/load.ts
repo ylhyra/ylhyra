@@ -7,7 +7,7 @@ import {
   index,
   isVocabularyTheFrontpage,
 } from "ylhyra/app/router/actions/index";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 import { app_urls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { ReadAlongSetup } from "ylhyra/documents/render/audio/ReadAlong";
@@ -153,7 +153,7 @@ const set = async ({
   // console.log({ t: data.title });
 
   callback?.();
-  await updateURL(url + (section ? "#" + section : ""), {
+  await updateUrl(url + (section ? "#" + section : ""), {
     title: data.title,
     isLoadingContent: true,
     isInitializing,

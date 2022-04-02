@@ -1,19 +1,25 @@
 import React from "react";
-import { connect } from "react-redux";
+import { ConnectedProps } from "react-redux";
+import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { RootState } from "ylhyra/app/app/store";
 import Layout from "ylhyra/app/elements/layout/Layout";
 import { index, isVocabularyTheFrontpage } from "ylhyra/app/router/actions";
-import { updateURL } from "ylhyra/app/router/actions/updateURL";
+import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
 import { app_urls } from "ylhyra/app/router/appUrls";
 import LoadContent from "ylhyra/app/router/Content";
 import Section from "ylhyra/documents/templates/Section";
 
-class App extends React.Component {
+class App extends React.Component<
+  ConnectedProps<typeof connector> & {
+    url: string;
+    prerender?: HtmlAsJson;
+  }
+> {
   componentDidMount() {
     const url = this.props.url || this.props.route.pathname;
     /* TODO: Virkar ekki ef maður er ekki loggaður inn þar sem schedule er ekki búið að initialiseras */
     if (url === "/" && isVocabularyTheFrontpage()) {
-      updateURL("/vocabulary");
+      updateUrl("/vocabulary");
     }
   }
   render() {
@@ -44,6 +50,7 @@ class App extends React.Component {
   }
 }
 
-export default connect((state: RootState) => ({
+const connector = ((state: RootState) => ({
   route: state.route,
 }))(App);
+export default connector;
