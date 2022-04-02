@@ -75,7 +75,20 @@ export function goToUrl(url: string, options: UpdateURLOptions = {}) {
   }
 }
 
-export function setUrl({ pathname, section, routeContent }) {
+export function setUrl({
+  pathname,
+  section,
+  title,
+  routeContent,
+}: {
+  pathname: string;
+  section?: string;
+  title?: string;
+  routeContent: RouteContent;
+}) {
+  const url = pathname + (section ? "#" + section : "");
+  setHistory(url);
+  setTitle(pathname, title);
   store.dispatch({
     type: "ROUTE",
     content: {
@@ -88,6 +101,15 @@ export function setUrl({ pathname, section, routeContent }) {
     window.scrollTo(0, 0);
   } else {
     scrollToId(section);
+  }
+}
+
+function setTitle(pathname: string, title?: string) {
+  if (pathname in appUrls) {
+    title = appUrls[pathname].title;
+  }
+  if (title) {
+    window.document.title = renderTitle(title);
   }
 }
 

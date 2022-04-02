@@ -3,12 +3,10 @@ import { isDev } from "modules/isDev";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import axios from "ylhyra/app/app/axios";
 import Analytics from "ylhyra/app/app/analytics";
-import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
+import { setUrl } from "ylhyra/app/router/actions/goToUrl";
 import { readAlongSetup } from "ylhyra/documents/render/audio/readAlong/readAlong";
-import {
-  index,
-  isVocabularyTheFrontpage,
-} from "ylhyra/app/router/actions/index";
+import { setIndexing } from "ylhyra/app/router/actions/index";
+import { parseInFrontendIfInDevelopmentMode } from "ylhyra/app/router/actions/parseInDevMode";
 
 const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true && isDev;
 
@@ -69,7 +67,7 @@ export function loadContent({ pathname, section }) {
 /**
  * Apply the loaded data and set up page
  */
-function setContent({
+export function setContent({
   pathname,
   section,
   data,
@@ -79,60 +77,21 @@ function setContent({
   data: PrerenderedDataSavedInPage;
 }) {
   Analytics.startReadingPage(pathname);
-  let { parsed, flattenedData } = data;
-  parsed = data.parsed;
-  flattenedData = data.flattenedData;
-  index(data.shouldBeIndexed);
+  const { parsed, flattenedData } = data;
+  setIndexing(data.shouldBeIndexed);
+  if (data.redirect_to) {
+    pathname = data.redirect_to.split("#")[0];
+    section = data.redirect_to.split("#")[1];
+  }
 
-  // store.dispatch({
-  //   type: "LOAD_ROUTE_CONTENT",
-  //   data: {
-  //     parsed,
-  //     header: data.header,
-  //   },
-  // });
-  url = data.redirect_to || url;
-
-  goToUrl(url + (section ? "#" + section : ""), {
+  setUrl({
+    pathname,
+    section,
     title: data.title,
-    isLoadingContent: true,
-    isInitializing,
     routeContent: {
       parsed,
       header: data.header,
     },
   });
   readAlongSetup(flattenedData);
-}
-
-async function parseInFrontendIfInDevelopmentMode({
-  pathname,
-  section,
-  data,
-}: {
-  pathname: string;
-  section?: string;
-  data: PrerenderedDataSavedInPage & { content: string };
-}) {
-  /* Only allowed in development mode */
-  const Parse = (
-    await import(
-      /* webpackChunkName: "parse" */
-      "ylhyra/documents/parse"
-    )
-  ).default;
-  const out = Parse({
-    html: data.content,
-  });
-  const { parsed, flattenedData } = out;
-
-  /* Only used for the editor */
-  store.dispatch({
-    type: "INITIALIZE_WITH_TOKENIZED_AND_DATA",
-    currentDocument: out.tokenized?.[data.header.title],
-    allDocuments: out.tokenized,
-    data: flattenedData,
-    currentDocumentData: out.data?.[data.header.title],
-    parsed: parsed,
-  });
 }

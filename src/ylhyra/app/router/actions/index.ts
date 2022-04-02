@@ -48,7 +48,7 @@ export const getFrontpageURL = () => {
 };
 
 let isIndexed: Boolean;
-export const index = (shouldIndex: Boolean) => {
+export const setIndexing = (shouldIndex: Boolean) => {
   if (!isBrowser) return;
   if (isIndexed !== Boolean(shouldIndex)) {
     document

@@ -3,7 +3,10 @@ import { connect, ConnectedProps } from "react-redux";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { RootState } from "ylhyra/app/app/store";
 import Layout from "ylhyra/app/elements/layout/Layout";
-import { index, isVocabularyTheFrontpage } from "ylhyra/app/router/actions";
+import {
+  setIndexing,
+  isVocabularyTheFrontpage,
+} from "ylhyra/app/router/actions";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { appUrls } from "ylhyra/app/router/appUrls";
 import LoadContent from "ylhyra/app/router/Content";
@@ -32,7 +35,7 @@ class App extends React.Component<
       if (url === "/vocabulary/play" || url === "/vocabulary") {
         Section2 = (props) => props.children;
       }
-      index(false);
+      setIndexing(false);
       return (
         <Layout>
           <Section2>
