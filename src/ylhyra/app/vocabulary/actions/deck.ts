@@ -1,6 +1,6 @@
 import { isBrowser } from "modules/isBrowser";
 import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
-import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
+import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import {
   CardId,
   CardIds,
@@ -40,7 +40,7 @@ class Deck {
     this.session = new Session(deck, session);
   }
   continueStudying() {
-    updateUrl("/vocabulary/play");
+    goToUrl("/vocabulary/play");
     this.session.reset();
     this.session.InitializeSession();
   }

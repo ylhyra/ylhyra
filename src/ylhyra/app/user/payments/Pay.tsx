@@ -3,7 +3,7 @@ import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RECOMMENDED_PRICE_IN_US_DOLLARS } from "ylhyra/app/app/constants";
 import { RootState } from "ylhyra/app/app/store";
-import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
+import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import {
   continueAfterPaying,
   MAX_PRICE,
@@ -23,7 +23,7 @@ class Form2 extends React.Component<ConnectedProps<typeof connector>> {
     // });
     if (!this.props.user || !process.env.REACT_APP_PWYW) {
       setTimeout(() => {
-        updateUrl("/signup");
+        goToUrl("/signup");
       }, 100);
     }
   }

@@ -4,7 +4,7 @@ import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { RootState } from "ylhyra/app/app/store";
 import Layout from "ylhyra/app/elements/layout/Layout";
 import { index, isVocabularyTheFrontpage } from "ylhyra/app/router/actions";
-import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
+import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { appUrls } from "ylhyra/app/router/appUrls";
 import LoadContent from "ylhyra/app/router/Content";
 import Section from "ylhyra/documents/templates/Section";
@@ -19,7 +19,7 @@ class App extends React.Component<
     const url = this.props.url || this.props.route.pathname;
     /* TODO: Virkar ekki ef maður er ekki loggaður inn þar sem schedule er ekki búið að initialiseras */
     if (url === "/" && isVocabularyTheFrontpage()) {
-      updateUrl("/vocabulary");
+      goToUrl("/vocabulary");
     }
   }
   render() {

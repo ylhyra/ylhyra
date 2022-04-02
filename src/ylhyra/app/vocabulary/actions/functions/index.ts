@@ -2,7 +2,7 @@ import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 import { log } from "modules/log";
 import { roundToInterval } from "ylhyra/app/app/functions/math";
-import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
+import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import {
   getCardsInSchedule,
   getData,
@@ -40,7 +40,7 @@ export const studyParticularIds = async (allowed_ids: CardIds, options?) => {
   session.allowed_ids = allowed_ids;
   session.createCards(options);
   await session.InitializeSession({ shouldReset: false });
-  updateUrl("/vocabulary/play");
+  goToUrl("/vocabulary/play");
 };
 
 export const studyNewTerms = () => {
@@ -89,5 +89,5 @@ export const exitVocabularyScreen = async () => {
   if (url === "/vocabulary/play" || url === "/vocabulary/difficulty") {
     url = "/vocabulary";
   }
-  updateUrl(url);
+  goToUrl(url);
 };

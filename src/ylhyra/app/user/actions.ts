@@ -3,7 +3,7 @@ import { log } from "modules/log";
 import axios from "ylhyra/app/app/axios";
 import { getCookie } from "ylhyra/app/app/functions/cookie";
 import store from "ylhyra/app/app/store";
-import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
+import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { sync } from "ylhyra/app/vocabulary/actions/userData/sync";
 import { clearOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen/actions";
@@ -31,16 +31,16 @@ export const login = async (values) => {
     }
 
     if (process.env.REACT_APP_PWYW === "on") {
-      updateUrl("/pwyw");
+      goToUrl("/pwyw");
     } else {
       // TODO: "Thank you for ..."
-      updateUrl("/vocabulary");
+      goToUrl("/vocabulary");
     }
   } else {
     /* TODO!!!!! */
     deck.reset();
     await sync();
-    updateUrl("/vocabulary");
+    goToUrl("/vocabulary");
   }
   void clearOverview();
 };
@@ -53,7 +53,7 @@ export const logout = async () => {
     type: "LOAD_USER",
     content: null,
   });
-  updateUrl("/frontpage");
+  goToUrl("/frontpage");
 };
 
 export const InitializeUser = () => {

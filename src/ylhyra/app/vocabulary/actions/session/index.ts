@@ -4,7 +4,7 @@ import Analytics from "ylhyra/app/app/analytics";
 import { EACH_SESSION_LASTS_X_MINUTES } from "ylhyra/app/app/constants";
 import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import { roundMsToSec, roundToInterval } from "ylhyra/app/app/functions/math";
-import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
+import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { doesCardExist } from "ylhyra/app/vocabulary/actions/card/card";
 import { CardIds, TermId } from "ylhyra/app/vocabulary/actions/card/types";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
@@ -132,7 +132,7 @@ class Session {
 
     // @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     if (process.env.NODE_ENV === "development" && getDeckName()) {
-      updateUrl("/vocabulary/play");
+      goToUrl("/vocabulary/play");
       await this.InitializeSession();
     }
   }

@@ -1,5 +1,5 @@
 import { isBrowser } from "modules/isBrowser";
-import { RouteContent } from "ylhyra/app/router/actions/updateUrl";
+import { RouteContent } from "ylhyra/app/router/actions/goToUrl";
 
 type RouteState = {
   pathname: string;

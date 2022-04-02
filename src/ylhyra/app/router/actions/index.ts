@@ -1,29 +1,42 @@
 import { isBrowser } from "modules/isBrowser";
-import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
+import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { existsSchedule, isUserLoggedIn } from "ylhyra/app/user/actions";
+import store from "ylhyra/app/app/store";
 
+/**
+ * Listen to `popstate` events to be able to navigate back
+ */
+let hasUrlEverChanged = false;
+export const urlHasChanged = () => (hasUrlEverChanged = true);
 if (isBrowser) {
-  // @ts-ignore
-  window["HAS_LOADED"] = false;
   window.addEventListener("popstate", () => {
-    // @ts-ignore
-    if (window["HAS_LOADED"]) {
-      updateUrl(window.location.pathname + window.location.hash);
+    if (hasUrlEverChanged) {
+      goToUrl(window.location.pathname + window.location.hash);
     }
   });
 }
+
 export const initializeRouter = (prerenderData: PrerenderedDataSavedInPage) => {
   // @ts-ignore
   const is404 = window["is404"];
-  updateUrl(
+  if (is404) {
+    return set404();
+  }
+
+  goToUrl(
     (prerenderData?.url || window.location.pathname) + window.location.hash,
     {
       prerenderData,
-      is404,
       isInitializing: true,
     }
   );
+};
+
+export const set404 = () => {
+  store.dispatch({
+    type: "ROUTE_404",
+  });
 };
 
 export const isVocabularyTheFrontpage = () => {

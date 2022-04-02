@@ -3,7 +3,7 @@ import { getTime, minutes } from "modules/time";
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
-import { updateUrl } from "ylhyra/app/router/actions/updateUrl";
+import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 
 const start = getTime();
 
@@ -22,7 +22,7 @@ class Link extends React.Component<
     }
     if (e.altKey || e.metaKey || e.ctrlKey) return;
     e.preventDefault();
-    updateUrl(url);
+    goToUrl(url);
   };
   render() {
     let { route, href, children, className, id } = this.props;
