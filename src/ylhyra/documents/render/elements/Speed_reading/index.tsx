@@ -1,6 +1,11 @@
+// @ts-ignore
+
+/**
+ * This functionality is temporarily disabled
+ */
 import { supportsTouch } from "modules/isBrowser";
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import store, { RootState } from "ylhyra/app/app/store";
 import {
   TextEventListenersOff,

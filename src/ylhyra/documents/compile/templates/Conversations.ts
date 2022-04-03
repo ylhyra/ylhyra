@@ -1,6 +1,6 @@
+import { c } from "modules/noUndefinedInTemplateLiteral";
 import { json2html } from "ylhyra/app/app/functions/html2json";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
 import markdown_to_html from "ylhyra/documents/compile/markdown";
 
 export default (json: HtmlAsJson): HtmlAsJson => {

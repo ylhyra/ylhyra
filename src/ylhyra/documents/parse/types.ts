@@ -1,4 +1,4 @@
-import { Second } from "modules/time";
+import { Seconds } from "modules/time";
 
 export type FlattenedData = {
   translation: TranslationData;
@@ -17,39 +17,6 @@ export type FlattenedData = {
   };
 
   tokenized?: TokenizedParagraphsWithIds;
-};
-
-export type AeneasOutput = {
-  fragments: Array<{
-    id: "root";
-    /** Sentence-level elements */
-    children: Array<{
-      begin: string;
-      end: string;
-      id: string;
-      /** Word-level elements */
-      children?: Array<{
-        begin: string;
-        end: string;
-        id: string;
-      }>;
-    }>;
-  }>;
-};
-
-export type UnprocessedLongAudioSyncData = {
-  begin: Second;
-  end: Second;
-  id: string;
-};
-
-export type LongAudioSyncData = {
-  begin: Second;
-  end: Second;
-  /**
-   * Elements that are highlighted during this time
-   */
-  elements: string[];
 };
 
 export type DocumentTitleToFlattenedData = {
@@ -117,3 +84,39 @@ export type TokenizedFlattenedForWrapInTags = Array<
     // index: number; // Needed here since index is optional on TokenizedParagraphWithIds
   } & TokenizedParagraphWithIds
 >;
+
+/**
+ * Audio sync
+ */
+export type AeneasOutput = {
+  fragments: Array<{
+    id: "root";
+    /** Sentence-level elements */
+    children: Array<{
+      begin: string;
+      end: string;
+      id: string;
+      /** Word-level elements */
+      children?: Array<{
+        begin: string;
+        end: string;
+        id: string;
+      }>;
+    }>;
+  }>;
+};
+
+export type UnprocessedLongAudioSyncData = {
+  begin: Seconds;
+  end: Seconds;
+  id: string;
+};
+
+export type LongAudioSyncData = {
+  begin: Seconds;
+  end: Seconds;
+  /**
+   * Elements that are highlighted during this time
+   */
+  elements: string[];
+};

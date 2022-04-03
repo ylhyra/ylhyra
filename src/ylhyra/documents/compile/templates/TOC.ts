@@ -1,9 +1,9 @@
+import { c } from "modules/noUndefinedInTemplateLiteral";
 import { replaceAsync } from "modules/replaceAsync";
-import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
-import { formatUrl } from "ylhyra/server/content/links/paths";
 import { encodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
 import Transclude from "ylhyra/documents/compile/transclude";
 import { parseVocabularyList } from "ylhyra/documents/compile/vocabulary";
+import { formatUrl } from "ylhyra/server/content/links/paths";
 
 export default async (text: string): Promise<string> => {
   if (!/<TOC>/.test(text)) return text;

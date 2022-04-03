@@ -2,106 +2,120 @@ import { exec } from "child_process";
 import fs from "fs";
 import forEachAsync from "modules/forEachAsync";
 import _ from "underscore";
-import {
-  processedImageUrl,
-  formatUrl,
-} from "ylhyra/server/content/links/paths";
 import Transclude from "ylhyra/documents/compile/transclude";
 import { links } from "ylhyra/server/content/links/loadLinks";
+import {
+  formatUrl,
+  processedImageUrl,
+} from "ylhyra/server/content/links/paths";
 import { image_output_folder } from "ylhyra/server/paths_backend";
 
+export type ImageElementParameters = {
+  width?: number;
+  height?: number;
+  caption?: string;
+  position?: "right";
+};
+
+/**
+ * Converts <Image/> tags into <img/> and creates multiple image sizes
+ */
 const Images = (data: string): Promise<string> => {
   return new Promise(async (resolve) => {
-    let input = [];
-    let output = [];
-    let r = /<Image (.+)?\/>/g;
-    if (!r.test(data)) {
+    let input: string[] = [];
+    let output: string[] = [];
+    let imageElementRegex = /<Image (.+)?\/>/g;
+    if (!imageElementRegex.test(data)) {
       return resolve(data);
     }
+
     /* Collect params */
-    data = data.replace(r, (params) => {
+    data = data.replace(imageElementRegex, (params) => {
       input.push(params);
       return params;
     });
 
-    // console.log({ filename });
-
     /* Run */
     await forEachAsync(input, async (z) => {
-      await new Promise(async (resolve2, reject2) => {
-        let [, filename_, rest] = z.match(/src="(.+?)"(.+)?\/>/);
-        if (!/(png|jpe?g)$/i.test(filename_)) {
-          console.log(filename_ + " file type not yet supported");
+      await new Promise<void>(async (resolve2, reject2) => {
+        let [, _filename, rest] = z.match(/src="(.+?)"(.+)?\/>/);
+        if (!/(png|jpe?g)$/i.test(_filename)) {
+          console.log(_filename + " file type not yet supported");
           output.push("");
-          // output.push(`<img src=""/>`)
-          return resolve2(true);
+          return resolve2();
         }
-        // console.log(rest)
-        if (!(formatUrl("File:" + filename_) in links)) {
+        if (!(formatUrl("File:" + _filename) in links)) {
           throw new Error(
-            "No file named: " + filename_ + ". Is it from Commons?"
+            "No file named: " + _filename + ". Is it from Commons?"
           );
           reject2();
           return;
         }
-        const file = links[formatUrl("File:" + filename_)].filepath.replace(
+        const file = links[formatUrl("File:" + _filename)].filepath.replace(
           /\.md$/,
           ""
         );
-        const filename = links[formatUrl("File:" + filename_)].filename;
+        const filename = links[formatUrl("File:" + _filename)].filename;
+        // @ts-ignore
         const [, name, ending] = filename.match(/(.+)\.(.+?)$/);
 
         exec(`identify ${file}`, async (error, stdout) => {
           if (error) return console.error(`exec error: ${error}`);
-          const [, original_width, original_height] = stdout.match(
+          const [, originalWidth, originalHeight] = stdout.match(
             /^[^ ]+ [^ ]+ ([0-9]+)x([0-9]+)/
           );
 
-          let string_sizes = [];
+          let sizesAsHeightXWidth: string[] = [];
           let boxes = [800, 600, 400, 200].map((i) => {
             // i = Math.max
-            if (original_width > original_height) {
+            if (originalWidth > originalHeight) {
               return [
                 i,
-                Math.round((i * original_height) / original_width),
+                Math.round((i * originalHeight) / originalWidth),
                 i * 2,
-                Math.round((i * 2 * original_height) / original_width),
+                Math.round((i * 2 * originalHeight) / originalWidth),
               ];
             } else {
               return [
-                Math.round((i * original_width) / original_height),
+                Math.round((i * originalWidth) / originalHeight),
                 i,
-                Math.round((i * 2 * original_width) / original_height),
+                Math.round((i * 2 * originalWidth) / originalHeight),
                 i * 2,
               ];
             }
           });
           boxes.forEach((i) => {
-            string_sizes.push(`${i[0]}x${i[1]}`);
-            string_sizes.push(`${i[2]}x${i[3]}`);
+            sizesAsHeightXWidth.push(`${i[0]}x${i[1]}`);
+            sizesAsHeightXWidth.push(`${i[2]}x${i[3]}`);
           });
-          string_sizes = _.uniq(string_sizes);
+          sizesAsHeightXWidth = _.uniq(sizesAsHeightXWidth);
 
-          // ${rest}
-          let params = {};
+          let elementParameters: ImageElementParameters = {};
           rest &&
-            rest.replace(/([a-z]+)="(.+?)"/g, (v, key, val) => {
-              params[key] = val;
-            });
-          let transcluded = (await Transclude("File:" + filename_)).output;
-          const big_to_small = [...boxes];
-          const small_to_big = [...boxes].reverse();
+            rest.replace(
+              /([a-z]+)="(.+?)"/g,
+              (v: string, key: string, val: string) => {
+                // @ts-ignore
+                elementParameters[key] = val;
+              }
+            );
+          let transcluded = (await Transclude("File:" + _filename)).output;
+          const bigToSmall = [...boxes];
+          const smallToBig = [...boxes].reverse();
           // console.log(params);
           output.push(
-            `<Image position="${params.position || ""}" style="${
-              params.width &&
-              !(params.position === "right" && params.width > 250)
-                ? `max-width:${params.width}px`
+            `<Image position="${elementParameters.position || ""}" style="${
+              elementParameters.width &&
+              !(
+                elementParameters.position === "right" &&
+                elementParameters.width > 250
+              )
+                ? `max-width:${elementParameters.width}px`
                 : ""
             }">
             <div class="image-and-metadata" data-translate="no">
               <picture>
-                ${small_to_big
+                ${smallToBig
                   .map(
                     (i) => `
                   <source
@@ -114,11 +128,12 @@ const Images = (data: string): Promise<string> => {
                   )
                   .join("")}
                 <img
-                  src="${processedImageUrl}/${name}-${big_to_small[0][0]}x${
-              big_to_small[0][1]
+                  src="${processedImageUrl}/${name}-${bigToSmall[0][0]}x${
+              bigToSmall[0][1]
             }.${ending}"
-                  width="${original_width}"
-                  height="${original_height}"
+                  width="${originalWidth}"
+                  height="${originalHeight}"
+                  alt=""
                 />
               </picture>
               ${
@@ -128,8 +143,8 @@ const Images = (data: string): Promise<string> => {
               }
             </div>
             ${
-              params.caption
-                ? `<div class="caption">${params.caption}</div>`
+              elementParameters.caption
+                ? `<div class="caption">${elementParameters.caption}</div>`
                 : ""
             }
           </Image>
@@ -147,7 +162,7 @@ const Images = (data: string): Promise<string> => {
               } else if (err.code === "ENOENT") {
                 // File does not exist
                 exec(
-                  string_sizes
+                  sizesAsHeightXWidth
                     .map(
                       (size) => `
                   convert ${file} -resize ${size} -quality 80 ${image_output_folder}/${name}-${size}.${ending}
@@ -168,12 +183,10 @@ const Images = (data: string): Promise<string> => {
         });
       });
     });
-    // console.log(output)
-    /* Insert */
+
+    /* Replace image elements with what we've calculated  */
     let u = 0;
-    data = data.replace(r, () => {
-      // input.push(params)
-      // return `<Image src="/api/images/${output[u++]}"/>`
+    data = data.replace(imageElementRegex, () => {
       return output[u++];
     });
 

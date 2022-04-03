@@ -1,4 +1,4 @@
-import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
+import { c } from "modules/noUndefinedInTemplateLiteral";
 
 export default (input: string) => {
   return input?.replace(/{\| class="wikitable"([\s\S]+?)\|}/g, (x, content) => {

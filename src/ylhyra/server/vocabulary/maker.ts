@@ -1,5 +1,6 @@
 import { Router } from "express";
 import fs from "fs";
+// @ts-ignore
 import yaml from "js-yaml";
 import _ from "underscore";
 import { removeExtraWhitespace } from "ylhyra/app/app/functions/removeExtraWhitespace";

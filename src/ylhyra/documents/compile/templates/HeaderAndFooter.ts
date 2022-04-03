@@ -1,11 +1,11 @@
-import c from "ylhyra/app/app/functions/no-undefined-in-template-literal";
-import { formatUrl } from "ylhyra/server/content/links/paths";
+import { c } from "modules/noUndefinedInTemplateLiteral";
 import { encodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
+import { getOrderOfChapters } from "ylhyra/documents/compile/functions/getOrderOfChapters";
 import { HeaderData } from "ylhyra/documents/compile/functions/readContentFile";
 import markdown_to_html from "ylhyra/documents/compile/markdown";
 import { breadcrumbs } from "ylhyra/documents/compile/templates/breadcrumbs";
-import { getOrderOfChapters } from "ylhyra/documents/compile/templates/getOrderOfChapters";
 import { parseVocabularyList } from "ylhyra/documents/compile/vocabulary";
+import { formatUrl } from "ylhyra/server/content/links/paths";
 
 export default async (input: string, header: HeaderData) => {
   let h = "";
