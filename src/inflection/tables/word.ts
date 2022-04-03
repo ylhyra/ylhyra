@@ -30,6 +30,7 @@ import {
   Tree,
 } from "inflection/tables/types";
 import { flatten } from "lodash";
+import { filterEmpty } from "modules/typescript/filterEmpty";
 
 class Word {
   /** The original Word object without any removed values */
@@ -94,10 +95,10 @@ class Word {
     this.findIrregularities();
   }
 
-  /* temp */
-  highlight(input_string) {
-    if (!input_string) return this;
-  }
+  // /* temp */
+  // highlight(input_string) {
+  //   if (!input_string) return this;
+  // }
 
   getId() {
     return this.original.rows[0]?.BIN_id;
@@ -130,8 +131,9 @@ class Word {
     return this.original.wordHasUmlaut;
   }
 
-  is(...values: GrammaticalTagOrVariantNumber[]) {
-    values = flatten(values);
+  is(...args: InflectionalCategoryList | InflectionalCategoryList[]) {
+    if (!args) return this;
+    const values = flatten(args) as InflectionalCategoryList;
     return values.every((value) => {
       /* Test word_categories */
       if (
@@ -151,11 +153,9 @@ class Word {
     });
   }
 
-  /**
-   * @param  {array|...string} values
-   */
-  isAny(...values) {
-    values = flatten(values);
+  isAny(...args: InflectionalCategoryList | InflectionalCategoryList[]) {
+    if (!args) return this;
+    const values = flatten(args) as InflectionalCategoryList;
     return values.some((value) => {
       /* Test word_categories */
       if (
@@ -175,12 +175,12 @@ class Word {
     });
   }
 
-  get(...values: InflectionalCategoryList | InflectionalCategoryList[]): Word {
-    if (!values) return this;
-    values = flatten(values) as InflectionalCategoryList;
+  get(...args: InflectionalCategoryList | InflectionalCategoryList[]): Word {
+    if (!args) return this;
+    const values = flatten(args) as InflectionalCategoryList;
     return new Word(
       this.rows.filter((row) =>
-        (values as InflectionalCategoryList).filter(Boolean).every(
+        values.filter(Boolean).every(
           (value) =>
             row.inflectional_form_categories.includes(
               getCanonicalGrammaticalTag(value)
@@ -196,28 +196,29 @@ class Word {
    * Used in string table generation
    */
   getMostRelevantSibling(
-    ...values: InflectionalCategoryList | InflectionalCategoryList[]
-  ) {
-    if (!values) return this;
-    values = flatten(values) as InflectionalCategoryList;
-    let values_categories = values.map(
+    ...args: InflectionalCategoryList | InflectionalCategoryList[]
+  ): Word {
+    if (!args) return this;
+    const values = flatten(args) as InflectionalCategoryList;
+    let valuesCategories = values.map(
       (v) => getDescriptionFromGrammaticalTag(v)?.category
     );
-    let try_to_match_as_many_as_possible: InflectionalCategoryList = [];
+    let tryToMatchAsManyAsPossible: InflectionalCategoryList = [];
     this.getClassificationOfFirstRow().forEach((c) => {
-      let relevant_type_index = values_categories.findIndex(
+      let relevant_type_index = valuesCategories.findIndex(
         (v) => v === getDescriptionFromGrammaticalTag(c).category
       );
       if (relevant_type_index >= 0) {
-        try_to_match_as_many_as_possible.push(
-          (values as InflectionalCategoryList)[relevant_type_index]
-        );
+        tryToMatchAsManyAsPossible.push(values[relevant_type_index]);
       } else {
-        try_to_match_as_many_as_possible.push(c);
+        tryToMatchAsManyAsPossible.push(c);
       }
     });
 
-    let possible_rows = this.getOriginal()
+    let possibleRows: {
+      inflectional_form_categories: InflectionalCategoryList;
+      match_score: number;
+    }[] = this.getOriginal()
       .rows.map((row) => {
         if (
           !values.every((j) => row.inflectional_form_categories.includes(j))
@@ -228,7 +229,7 @@ class Word {
 
         let match_score = 0;
         row.inflectional_form_categories.forEach((cat) => {
-          if (try_to_match_as_many_as_possible.includes(cat)) {
+          if (tryToMatchAsManyAsPossible.includes(cat)) {
             match_score++;
           }
         });
@@ -237,16 +238,14 @@ class Word {
           match_score,
         };
       })
-      .filter(Boolean);
+      .filter(filterEmpty);
 
-    if (possible_rows.length > 0) {
-      let best_match = possible_rows
+    if (possibleRows.length > 0) {
+      let bestMatch = possibleRows
         .sort((a, b) => b.match_score - a.match_score)[0]
         .inflectional_form_categories.filter((i) => !isNumber(i));
-      // console.log({best_match,values})
-      return this.getOriginal().get(best_match);
+      return this.getOriginal().get(bestMatch);
     } else {
-      // console.log({values,try_to_match_as_many_as_possible})
       return this.returnEmptyWord();
     }
   }
@@ -257,11 +256,12 @@ class Word {
 
   /**
    * Returns all that meet *any* of the input values
-   * @param  {array|...string} values
    */
-  getMeetingAny(...values) {
-    if (!values) return this;
-    values = flatten(values);
+  getMeetingAny(
+    ...args: InflectionalCategoryList | InflectionalCategoryList[]
+  ) {
+    if (!args) return this;
+    const values = flatten(args) as InflectionalCategoryList;
     if (values.filter(Boolean).length === 0) return this;
     return new Word(
       this.rows.filter((row) =>
@@ -277,16 +277,16 @@ class Word {
     );
   }
 
-  getOriginal() {
+  getOriginal(): Word {
     if (this.original.rows.length === 0) throw new Error("Empty original");
     return this.original;
   }
 
-  getFirst() {
+  getFirst(): Word {
     return new Word(this.rows.slice(0, 1), this);
   }
 
-  getFirstAndItsVariants() {
+  getFirstAndItsVariants(): Word {
     /* We make sure the categories are completely equal to prevent
      * verbs (which come in various deep nestings) from matching */
     let match = this.getClassificationOfFirstRow();
@@ -302,17 +302,17 @@ class Word {
     );
   }
 
-  getFirstValue() {
+  getFirstValue(): string | undefined {
     return (
       (this.rows.length > 0 && this.rows[0].inflectional_form) || undefined
     );
   }
 
-  getFirstValueRendered() {
+  getFirstValueRendered(): Html | undefined {
     return (this.rows.length > 0 && this.rows[0].formattedOutput) || undefined;
   }
 
-  getForms() {
+  getForms(): string[] {
     return this.rows.map((row) => row.inflectional_form);
   }
 
@@ -337,8 +337,9 @@ class Word {
       []) as GrammaticalTag[];
   }
 
-  without(...values: GrammaticalTagOrVariantNumber[]) {
-    values = flatten(values);
+  without(...args: InflectionalCategoryList | InflectionalCategoryList[]) {
+    if (!args) return this;
+    const values = flatten(args) as InflectionalCategoryList;
     return new Word(
       this.rows.filter((row) =>
         values
@@ -370,7 +371,9 @@ class Word {
     if (!relevantTypes) {
       throw new Error(`No grammatical category named ${grammaticalCategory}`);
     }
-    return classification.find((i) => relevantTypes.includes(i));
+    return classification.find((i) =>
+      relevantTypes!.includes(i as GrammaticalTag)
+    ) as GrammaticalTag;
   }
 
   getDomain() {
@@ -441,11 +444,6 @@ class Word {
         .join(" / ") +
       this.getHelperWordsAfter();
     output = output.trim();
-
-    // const highlight = options?.highlight
-    // if (highlight && this.is(highlight)) {
-    //   output = `<span class="highlight">${output}</span>`
-    // }
 
     return output;
   }
