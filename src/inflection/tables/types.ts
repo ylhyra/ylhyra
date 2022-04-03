@@ -62,14 +62,37 @@ export type Row = Omit<
   "word_categories" | "grammatical_tag"
 > & {
   /** Categories from classification.ts that apply to the entire word (noun, adjective) */
-  word_categories: string[];
-  /** Categories from classification.ts that apply only to the given inflectino form (nominative, dative) */
+  word_categories: GrammaticalTag[];
+
+  /** Categories from classification.ts that apply only to the given inflection form (nominative, dative) */
   inflectional_form_categories: InflectionalCategoryList;
+
   /** Cached formatted output (Todo: Is this necessary?) */
   formattedOutput?: string;
+
   /** Not used by this project, but returned by the API */
   original_grammatical_tag: string;
 };
 export type Rows = Row[];
 
 export type Html = string;
+
+export type GrammaticalCategory =
+  | "article"
+  | "articles"
+  | "case"
+  | "cases"
+  | "degree"
+  | "gender"
+  | "genders"
+  | "number"
+  | "person"
+  | "persons"
+  | "plurality"
+  | "strong or weak"
+  | "tense"
+  | "word_class"
+  | "";
+export type GrammaticalTag = string;
+export type GrammaticalTagOrVariantNumber = GrammaticalTag | VariantNumber;
+export type InflectionalCategoryList = GrammaticalTagOrVariantNumber[];

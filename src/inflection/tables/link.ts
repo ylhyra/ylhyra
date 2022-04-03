@@ -1,4 +1,4 @@
-import { getTagInfo } from "inflection/tables/classification/classification";
+import { getDescriptionFromGrammaticalTag } from "inflection/tables/classification/classification";
 import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
 import { formatUrl } from "ylhyra/server/content/links/paths";
 
@@ -14,7 +14,7 @@ export default (link: string, label?: string) => {
   }
 
   /* Retrieve additional info from "classification.js" file */
-  const info = getTagInfo(link, false);
+  const info = getDescriptionFromGrammaticalTag(link, false);
   if (info) {
     if (info.has_article_on_ylhyra) {
       link = info.title;

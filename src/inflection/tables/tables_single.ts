@@ -1,4 +1,4 @@
-import { types } from "inflection/tables/classification/classification";
+import { grammaticalCategories } from "inflection/tables/classification/classification";
 import link, { ucfirst_link } from "inflection/tables/link";
 import RenderTable from "inflection/tables/render_table";
 import { Html } from "inflection/tables/types";
@@ -23,21 +23,21 @@ export default function getSingleTable(
   if (!column_names && !row_names) {
     /* Nouns */
     if (word.is("noun")) {
-      row_names = types["cases"];
+      row_names = grammaticalCategories["cases"];
     } else if (word.is("pronoun")) {
-      row_names = types["cases"];
+      row_names = grammaticalCategories["cases"];
     } else if (word.is("adjective")) {
       if (word.getFirst().is("nominative")) {
         if (word.getType("degree") === "positive degree") {
-          row_names = types["genders"];
+          row_names = grammaticalCategories["genders"];
         } else {
-          row_names = types["degree"];
+          row_names = grammaticalCategories["degree"];
         }
       } else {
-        row_names = types["cases"];
+        row_names = grammaticalCategories["cases"];
       }
     } else if (word.is("adverb") && word.getType("degree")) {
-      row_names = types["degree"];
+      row_names = grammaticalCategories["degree"];
     } else if (word.is("verb")) {
       /* Temp: Needs to be merged with the principalParts file */
       /* TODO: Support generation for miðmynd */
@@ -69,7 +69,7 @@ export default function getSingleTable(
           // let row_names = ['infinitive']
           // ['infinitive', relevant_word.getType('voice')].filter(Boolean),
           if (word.getFirst().getType("person")) {
-            row_names = ["infinitive", ...types["persons"]];
+            row_names = ["infinitive", ...grammaticalCategories["persons"]];
           } else {
             /* Nothing but infinitive and word */
             row_names = ["infinitive", give_me];

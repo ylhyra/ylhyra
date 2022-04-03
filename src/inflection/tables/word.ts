@@ -1,8 +1,8 @@
 import { relevant_BIN_domains } from "inflection/tables/classification/BIN_classification";
 import {
-  getTagInfo,
-  normalizeTag,
-  types,
+  getDescriptionFromGrammaticalTag,
+  getCanonicalGrammaticalTag,
+  grammaticalCategories,
 } from "inflection/tables/classification/classification";
 import { discardUnnecessaryForms } from "inflection/tables/functions/discard";
 import {
@@ -128,14 +128,18 @@ class Word {
     values = flatten(values);
     return values.every((value) => {
       /* Test word_categories */
-      if (this.getWordCategories().includes(normalizeTag(value))) {
+      if (
+        this.getWordCategories().includes(getCanonicalGrammaticalTag(value))
+      ) {
         return true;
       }
       /* Test inflectional_form_categories */
       return (
         this.rows.length > 0 &&
         this.rows.every((row) =>
-          row.inflectional_form_categories.includes(normalizeTag(value))
+          row.inflectional_form_categories.includes(
+            getCanonicalGrammaticalTag(value)
+          )
         )
       );
     });
@@ -148,14 +152,18 @@ class Word {
     values = flatten(values);
     return values.some((value) => {
       /* Test word_categories */
-      if (this.getWordCategories().includes(normalizeTag(value))) {
+      if (
+        this.getWordCategories().includes(getCanonicalGrammaticalTag(value))
+      ) {
         return true;
       }
       /* Test inflectional_form_categories */
       return (
         this.rows.length > 0 &&
         this.rows.every((row) =>
-          row.inflectional_form_categories.includes(normalizeTag(value))
+          row.inflectional_form_categories.includes(
+            getCanonicalGrammaticalTag(value)
+          )
         )
       );
     });
@@ -171,7 +179,9 @@ class Word {
       this.rows.filter((row) =>
         values.filter(Boolean).every(
           (value) =>
-            row.inflectional_form_categories.includes(normalizeTag(value))
+            row.inflectional_form_categories.includes(
+              getCanonicalGrammaticalTag(value)
+            )
           // || row.word_categories.includes(value) // Should not be needed
         )
       ),
@@ -185,11 +195,13 @@ class Word {
   getMostRelevantSibling(...values) {
     if (!values) return this;
     values = flatten(values);
-    let values_types = values.map((v) => getTagInfo(v)?.type);
+    let values_types = values.map(
+      (v) => getDescriptionFromGrammaticalTag(v)?.type
+    );
     let try_to_match_as_many_as_possible = [];
     this.getFirstClassification().forEach((c) => {
       let relevant_type_index = values_types.findIndex(
-        (v) => v === getTagInfo(c).type
+        (v) => v === getDescriptionFromGrammaticalTag(c).type
       );
       if (relevant_type_index >= 0) {
         try_to_match_as_many_as_possible.push(values[relevant_type_index]);
@@ -249,7 +261,9 @@ class Word {
         values
           .filter(Boolean)
           .some((value) =>
-            row.inflectional_form_categories.includes(normalizeTag(value))
+            row.inflectional_form_categories.includes(
+              getCanonicalGrammaticalTag(value)
+            )
           )
       ),
       this
@@ -331,7 +345,9 @@ class Word {
           .filter(Boolean)
           .every(
             (value) =>
-              !row.inflectional_form_categories.includes(normalizeTag(value))
+              !row.inflectional_form_categories.includes(
+                getCanonicalGrammaticalTag(value)
+              )
           )
       ),
       this
@@ -348,7 +364,7 @@ class Word {
       // TODO: Should we get first class or that which applies to all?
       ...this.getFirstClassification(),
     ];
-    let relevantTypes = types[type];
+    let relevantTypes = grammaticalCategories[type];
     if (!relevantTypes) return;
     return classification.find((i) => relevantTypes.includes(i));
   }

@@ -1,4 +1,4 @@
-import { types } from "inflection/tables/classification/classification";
+import { grammaticalCategories } from "inflection/tables/classification/classification";
 import Word from "inflection/tables/word";
 import { without } from "lodash";
 
@@ -37,19 +37,21 @@ export const removeInflectionalPattern = (
       ]; /*[word.getType('plurality')][word.getType('article')]*/
     const sibling_classification = without(
       word.getFirstClassification(),
-      ...types["cases"]
+      ...grammaticalCategories["cases"]
     );
     const siblings = word
       .getOriginal()
       .get(...sibling_classification)
       .get(1);
-    const word_case_index = types["cases"].indexOf(word.getType("case"));
+    const word_case_index = grammaticalCategories["cases"].indexOf(
+      word.getType("case")
+    );
     let ending = "";
     /* Find exact pattern matches for primary variants */
     if (word.is(1)) {
       const result = possible_endings_for_gender.find((pattern) => {
         return pattern.every((ending, index) => {
-          const case_ = types["cases"][index];
+          const case_ = grammaticalCategories["cases"][index];
           const value = siblings.get(case_).getFirstValue();
           if (value) {
             return new RegExp(`${ending}$`).test(

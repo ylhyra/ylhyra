@@ -1,6 +1,6 @@
 import {
-  normalizeTag,
-  types,
+  getCanonicalGrammaticalTag,
+  grammaticalCategories,
 } from "inflection/tables/classification/classification";
 import { sortByClassification } from "inflection/tables/classification/sortByClassification";
 import link from "inflection/tables/link";
@@ -78,7 +78,7 @@ export default (rows: Rows, options, more_options /* todo: merge */): Html => {
 const cleanRowOrColum__temporary = (string: string) => {
   if (!string) return;
   /* If someone enters "cases" the rest is filled out */
-  if (string in types) return types[string];
+  if (string in grammaticalCategories) return grammaticalCategories[string];
   // /* Should be made to work in the future */
   return string.split(";").map(clean__temporary);
 };
@@ -87,6 +87,6 @@ const clean__temporary = (string: string): (string | number)[] => {
   return string
     .replace(/_/g, " ")
     .split(",")
-    .map((i: string | number) => normalizeTag(i))
+    .map((i: string | number) => getCanonicalGrammaticalTag(i))
     .filter(Boolean);
 };

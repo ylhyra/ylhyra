@@ -1,10 +1,9 @@
 import {
-  InflectionCategoryTag,
-  normalizeTag,
+  getCanonicalGrammaticalTag,
   shortcutsUsedInBin,
 } from "inflection/tables/classification/classification";
 import { isNumber } from "inflection/tables/tree";
-import { Row, RowFromDatabase } from "inflection/tables/types";
+import { GrammaticalTag, Row, RowFromDatabase } from "inflection/tables/types";
 
 /**
  * Turns BÍN's classifications into English
@@ -49,7 +48,7 @@ export const classify = (input: RowFromDatabase): Row => {
   /* Nouns: Arrange plurality before case */
   grammatical_tag = grammatical_tag.replace(/(NF|ÞF|ÞGF|EF)(ET|FT)/i, "$2-$1");
   grammatical_tag
-    .split(new RegExp(`(${tagRegex})`, "g"))
+    .split(new RegExp(`(${grammaticalTagsUsedInBinRegex})`, "g"))
     .filter(Boolean)
     .forEach((tag) => {
       if (tag === "-") return;
@@ -110,7 +109,10 @@ export const classify = (input: RowFromDatabase): Row => {
 /**
  * Overrides the tags in "classification.js" during the BIN initialization step
  */
-const BIN_overrides = {
+const BIN_overrides: {
+  word_overrides: Record<string, string>;
+  inflection_form_overrides: Record<string, string>;
+} = {
   word_overrides: {
     kk: "noun, masculine",
     kvk: "noun, feminine",
@@ -126,17 +128,23 @@ const BIN_overrides = {
   },
 };
 
-export const get_label_for_BIN_word = (tag) => {
-  return BIN_overrides.word_overrides[tag] || normalizeTag(tag) || "";
-};
-
-export const get_label_for_BIN_inflection_form = (tag) => {
+export const get_label_for_BIN_word = (tag: GrammaticalTag) => {
   return (
-    BIN_overrides.inflection_form_overrides[tag] || normalizeTag(tag) || ""
+    BIN_overrides.word_overrides[tag] ||
+    (getCanonicalGrammaticalTag(tag) as GrammaticalTag) ||
+    ""
   );
 };
 
-const tagRegex = (() => {
+export const get_label_for_BIN_inflection_form = (tag: GrammaticalTag) => {
+  return (
+    BIN_overrides.inflection_form_overrides[tag] ||
+    (getCanonicalGrammaticalTag(tag) as GrammaticalTag) ||
+    ""
+  );
+};
+
+const grammaticalTagsUsedInBinRegex = (() => {
   let tags = [
     ...Object.keys(shortcutsUsedInBin),
     ...Object.keys(BIN_overrides.word_overrides),
@@ -152,7 +160,7 @@ const tagRegex = (() => {
  * We are only interested in knowing whether a word is a name or not
  * See https://bin.arnastofnun.is/ordafordi/hlutiBIN/
  */
-export const relevant_BIN_domains = {
+export const relevant_BIN_domains: Record<string, string> = {
   ism: "human name",
   erm: "human name", // Foreign human name
   föð: "patronymic",
