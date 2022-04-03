@@ -1,7 +1,7 @@
 import simplifyString from "ylhyra/server/translator/helpers/simplifyString";
 
-export default (words, index, contains) => {
-  let translation_frame = {};
+export default (words: string[], index: number, contains?) => {
+  let translationFrame = {};
   let spaces = 0;
 
   /*
@@ -15,7 +15,7 @@ export default (words, index, contains) => {
     } else if (typeof word === "string" || !word) {
       break;
     }
-    translation_frame[i + spaces] = word;
+    translationFrame[i + spaces] = word;
   }
 
   /*
@@ -30,13 +30,13 @@ export default (words, index, contains) => {
     } else if (typeof word === "string" || !word) {
       break;
     }
-    translation_frame[i - spaces] = word;
+    translationFrame[i - spaces] = word;
   }
 
-  return Object.keys(translation_frame)
+  return Object.keys(translationFrame)
     .sort((a, b) => parseInt(a) - parseInt(b))
     .map((key) => {
-      const word = translation_frame[key];
+      const word = translationFrame[key];
       return {
         ...word,
         text: simplifyString(word.text),

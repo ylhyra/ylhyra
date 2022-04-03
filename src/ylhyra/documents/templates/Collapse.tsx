@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 
 class Collapse extends Component {
-  state = {};
+  state = {
+    open: false,
+  };
   render() {
     return (
       <div className="collapse">

@@ -82,18 +82,18 @@ export const toFixedFloat = (input: number, f: number) => {
  */
 export const mapZeroToInfinityToZeroToOne = ({
   input,
-  goal_input,
-  goal_output,
+  goalInput,
+  goalOutput,
   pow = 1.4,
 }: {
   input: number;
-  goal_input: number;
-  goal_output: number;
-  pow: number;
+  goalInput: number;
+  goalOutput: number;
+  pow?: number;
 }) => {
   input **= pow;
-  goal_input **= pow;
-  if (goal_output > 1) throw new Error();
-  const a = (goal_input - goal_output * goal_input) / goal_output;
+  goalInput **= pow;
+  if (goalOutput > 1) throw new Error();
+  const a = (goalInput - goalOutput * goalInput) / goalOutput;
   return input / (input + a);
 };

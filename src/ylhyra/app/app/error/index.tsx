@@ -19,7 +19,7 @@ const connector = connect((state: RootState) => ({
 }));
 export default connector(Notification);
 
-export const notify = (message: string) => {
+export const notify = (message: string, type?: "error") => {
   window.scrollTo(0, 0);
   Analytics.error(message);
   store.dispatch({

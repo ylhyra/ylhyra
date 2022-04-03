@@ -1,6 +1,10 @@
 {
   "include": ["src/**/*.js", "src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["build", "node_modules"],
+  "exclude": [
+    "build",
+    "node_modules",
+    "./src/ylhyra/documents/render/elements/Speed_reading"
+  ],
   "typeAcquisition": {
     "exclude": ["crc-32", "fast-safe-stringify"]
   },
@@ -14,7 +18,7 @@
     "isolatedModules": false,
     //    "forceConsistentCasingInFileNames": true,
     //    "lib": ["es2020", "dom", "es2021.String"],
-    "strict": true
+    "strict": false
   },
   "compileOnSave": true
 }

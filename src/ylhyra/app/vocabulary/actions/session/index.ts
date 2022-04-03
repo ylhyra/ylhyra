@@ -60,7 +60,7 @@ class Session {
   undoable = undoable;
   checkForUndoOnKeyDown = checkForUndoOnKeyDown;
   createCards = createCards;
-  InitializeSession = InitializeSession;
+  initializeSession = initializeSession;
   nextCard = nextCard;
   createSchedule = createSchedule;
   loadCardsIntoSession = loadCardsIntoSession;
@@ -130,10 +130,9 @@ class Session {
     await clearOverview();
     this.reset();
 
-    // @ts-expect-error ts-migrate(2580) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     if (process.env.NODE_ENV === "development" && getDeckName()) {
       goToUrl("/vocabulary/play");
-      await this.InitializeSession();
+      await this.initializeSession();
     }
   }
 
@@ -148,14 +147,14 @@ class Session {
     if (!session.cards.some((i) => i.hasBeenSeenInSession())) {
       return;
     }
-    let to_save = session.cards.map((card) => ({
+    let toSave = session.cards.map((card) => ({
       id: card.getId(),
       history: card.history,
     }));
     saveInLocalStorage("vocabulary-session", {
       remainingTime: this.remainingTime,
       savedAt: getTime(),
-      cards: to_save,
+      cards: toSave,
     });
     this.savedAt = getTime();
   }
@@ -167,9 +166,9 @@ class Session {
   saveSessionLog() {
     if (this.cardHistory.length > 0 && this.getSecondsSpent() > 10) {
       const timestamp = roundMsToSec(this.savedAt || getTime());
-      const timestamp_in_seconds = Math.round(timestamp / 1000);
+      const timestampInSeconds = Math.round(timestamp / 1000);
       setUserData(
-        SESSION_PREFIX + timestamp_in_seconds,
+        SESSION_PREFIX + timestampInSeconds.toString(),
         {
           seconds_spent: roundToInterval(this.getSecondsSpent(), 10),
           timestamp,

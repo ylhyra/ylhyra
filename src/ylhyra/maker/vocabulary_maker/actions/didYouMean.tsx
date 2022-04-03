@@ -64,6 +64,7 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
       if (r.icelandic === is) return null;
       const i = `${r.lemmas || ""}; ${r.depends_on || ""}`
         .toLowerCase()
+        // @ts-ignore
         .replaceAll("%", "")
         .split(/[;,]/g)
         .filter(Boolean)

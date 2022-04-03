@@ -1,35 +1,32 @@
 import { supportsTouch } from "modules/isBrowser";
 import {
-  MouseEventListenerOff,
-  MouseEventListenerOn,
+  mouseEventListenerOff,
+  mouseEventListenerOn,
 } from "ylhyra/documents/read/touch/Mouse";
 import {
-  TouchEventListenerOff,
-  TouchEventListenerOn,
+  touchEventListenerOff,
+  touchEventListenerOn,
 } from "ylhyra/documents/read/touch/Touch";
 
-export const TextEventListenersOn = () => {
+export const textEventListenersOn = () => {
   try {
-    window.listenerCount = 1;
     if (supportsTouch) {
-      TouchEventListenerOn();
-      //
+      touchEventListenerOn();
       document.addEventListener("DOMContentLoaded", () => {
-        document.body.classList &&
-          document.body.classList.add("supports-touch");
+        document.body.classList?.add("supports-touch");
       });
     } else {
-      MouseEventListenerOn();
+      mouseEventListenerOn();
     }
   } catch (e) {
     console.error(e);
   }
 };
 
-export const TextEventListenersOff = () => {
+export const textEventListenersOff = () => {
   if (supportsTouch) {
-    TouchEventListenerOff();
+    touchEventListenerOff();
   } else {
-    MouseEventListenerOff();
+    mouseEventListenerOff();
   }
 };

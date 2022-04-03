@@ -1,44 +1,40 @@
 import { isBrowser } from "modules/isBrowser";
-import { getTime, Timestamp } from "modules/time";
+import { Timestamp } from "modules/time";
 import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 
-export type UserData =
-  | {
-      lastSynced: Timestamp;
-      rows: UserDataRows;
-      /** TODO */
-      user_id?: string;
-    }
-  | {};
+export type UserData = {
+  lastSynced: Timestamp;
+  rows: UserDataRows;
+  /** TODO */
+  user_id?: string;
+};
 export type UserDataRows = {
   [keys: string]: {
     value: string;
-    needsSync: boolean;
-    type: "schedule" | null;
+    needsSyncing: boolean;
+    type: "schedule" | "session" | null;
   };
 };
 
 export const getUserData = (key: string) => {
-  // @ts-ignore
   return deck?.user_data?.rows?.[key]?.value || null;
 };
 
 export const setUserData = (
   key: string,
   value: any,
-  type?: "schedule" | null
+  type?: UserDataRows[string]["type"]
 ) => {
   if (key.length > 20) {
     throw new Error("Max key length is 20");
   }
   if (!("rows" in deck.user_data)) {
-    // console.log(`deck.user_data didn't have rows`);
-    deck.user_data.rows = {};
+    (deck.user_data as UserData).rows = {};
   }
   deck.user_data.rows[key] = {
     value,
-    needsSyncing: getTime(),
+    needsSyncing: true, // getTime(),
     type,
   };
   saveUserDataInLocalStorage();
@@ -52,8 +48,8 @@ export const saveUserDataInLocalStorage = (
   const toSave = {
     ...(deck?.user_data || {}),
     ...user_data,
-    lastSaved: getTime(),
-  };
+    // lastSaved: getTime(),
+  } as UserData;
 
   if (deck && options.assignToDeck) {
     if (!toSave.rows) {

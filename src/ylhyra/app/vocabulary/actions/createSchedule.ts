@@ -1,6 +1,11 @@
 import { log } from "modules/log";
 import { daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
-import { addSomeRandomness, average, clamp, toFixedFloat } from "ylhyra/app/app/functions/math";
+import {
+  addSomeRandomness,
+  average,
+  clamp,
+  toFixedFloat,
+} from "ylhyra/app/app/functions/math";
 import { wasSeenInSession } from "ylhyra/app/vocabulary/actions/card/card";
 import {
   getDue,
@@ -9,11 +14,11 @@ import {
   getNumberOfBadSessions,
   getScore,
   getSessionsSeen,
-  setSchedule
+  setSchedule,
 } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import {
   didAnySiblingCardsGetABadRatingInThisSession,
-  getSiblingCards
+  getSiblingCards,
 } from "ylhyra/app/vocabulary/actions/card/card_siblings";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
 import { printWord } from "ylhyra/app/vocabulary/actions/functions";
@@ -93,7 +98,7 @@ export function createSchedule() {
         const new_due_in_days = last_interval_in_days;
         log(
           `${printWord(
-            card
+            card.getId()
           )} - given ${new_due_in_days} instead of ${due_in_days}`
         );
         due_in_days = new_due_in_days;

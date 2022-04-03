@@ -2,14 +2,16 @@
   Words under 0.3 seconds are
   merged into their sibling
 */
-import { AeneasOutput, UnprocessedLongAudioSyncData } from "ylhyra/documents/parse/types";
+import { AeneasOutput } from "ylhyra/documents/parse/types";
 
 const minimumTime = 0.3;
 
 export default function MergeShortWords(
   input: AeneasOutput["fragments"]
 ): AeneasOutput["fragments"] {
-  const Merge = (input_words: UnprocessedLongAudioSyncData[]) => {
+  const Merge = (
+    input_words: AeneasOutput["fragments"][number]["children"][number]["children"]
+  ) => {
     let words = JSON.parse(JSON.stringify(input_words)); // TEMP
     for (let index = 0; index < words.length; index++) {
       let begin = words[index].begin;

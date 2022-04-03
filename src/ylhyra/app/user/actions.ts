@@ -56,7 +56,7 @@ export const logout = async () => {
   goToUrl("/frontpage");
 };
 
-export const InitializeUser = () => {
+export const initializeUser = () => {
   updateUser();
 };
 

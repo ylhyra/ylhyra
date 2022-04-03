@@ -17,7 +17,7 @@ if (process.env.PROJECT === "flashcards") {
     entry: "./src/flashcards/frontend/index.tsx",
     filename: "ylhyra.[name].js",
   };
-} else if (process.env.PROJECT === "ylhyra") {
+} else {
   project = {
     entry: "./src/ylhyra/app/index.tsx",
     filename: "ylhyra.[name].js",

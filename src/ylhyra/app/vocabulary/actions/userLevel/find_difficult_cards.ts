@@ -50,6 +50,9 @@ export const getCardDifficultyRelativeToUsersLevel = (id: CardId): number => {
 export const getRelativeCardImportance = (id: CardId): number => {
   const cardImportance = getImportance(id);
   const importanceRelativeToNormal = cardImportance - NORMAL_IMPORTANCE;
+
+  /* Todo: Finish */
+  return 0;
 };
 
 /* If unseen (?) */

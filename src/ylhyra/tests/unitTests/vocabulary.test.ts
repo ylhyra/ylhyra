@@ -1,10 +1,10 @@
 import { getCardByText } from "ylhyra/app/vocabulary/actions/card/functions";
-import { InitializeVocabulary } from "ylhyra/app/vocabulary/actions/initialize";
+import { initializeVocabulary } from "ylhyra/app/vocabulary/actions/initialize";
 
 // import console from "console";
 
 beforeAll(async () => {
-  await InitializeVocabulary();
+  await initializeVocabulary();
 });
 
 test("siblings", () => {

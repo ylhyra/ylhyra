@@ -9,7 +9,7 @@ import { connect, ConnectedProps } from "react-redux";
 import store, { RootState } from "ylhyra/app/app/store";
 import {
   TextEventListenersOff,
-  TextEventListenersOn,
+  textEventListenersOn,
 } from "ylhyra/documents/read/touch";
 import {
   close,
@@ -37,7 +37,7 @@ class SpeedReader extends React.Component<ConnectedProps<typeof connector>> {
     $("body").removeClass("unscrollable");
     document.removeEventListener("keydown", checkKey);
     !supportsTouch && document.removeEventListener("mousemove", mouseListener);
-    TextEventListenersOn();
+    textEventListenersOn();
   };
   render() {
     if (!this.props.speed_reader.open) {

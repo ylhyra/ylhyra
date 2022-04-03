@@ -5,7 +5,11 @@ import { RootState } from "ylhyra/app/app/store";
 import Footer from "ylhyra/app/elements/layout/Footer";
 import Header from "ylhyra/app/elements/layout/Header";
 
-class Layout extends React.Component<ConnectedProps<typeof connector>> {
+class Layout extends React.Component<
+  ConnectedProps<typeof connector> & {
+    children?: any;
+  }
+> {
   render() {
     const isFullscreen = ["/vocabulary/play"].includes(this.props.pathname);
     return (

@@ -4,7 +4,7 @@ import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { login, logout } from "ylhyra/app/user/actions";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { PercentageKnownOverall } from "ylhyra/app/vocabulary/actions/functions/percentageKnown";
-import { InitializeVocabulary } from "ylhyra/app/vocabulary/actions/initialize";
+import { initializeVocabulary } from "ylhyra/app/vocabulary/actions/initialize";
 import { assert, wait } from "ylhyra/tests/integrationTests/index";
 
 /* 
@@ -16,14 +16,14 @@ export const run = {
     localStorage.clear();
     eraseCookie();
     deck?.reset();
-    await InitializeVocabulary();
+    await initializeVocabulary();
     await wait(20);
     assert(PercentageKnownOverall() === 0);
     goToUrl("/vocabulary");
   },
   start_session: async () => {
     goToUrl("/vocabulary/play");
-    await deck.session.InitializeSession();
+    await deck.session.initializeSession();
   },
   end_session: async () => {
     await deck.session.sessionDone();
@@ -68,7 +68,7 @@ export const run = {
     deck.clear();
     goToUrl("/vocabulary");
     await wait(500);
-    await InitializeVocabulary();
+    await initializeVocabulary();
   },
   signup: async () => {
     const username = "test_" + Math.round(Math.random() * 1000000);

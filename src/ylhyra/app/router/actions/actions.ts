@@ -1,12 +1,9 @@
 import { isBrowser } from "modules/isBrowser";
+import store from "ylhyra/app/app/store";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
+import { cachePrerenderedData } from "ylhyra/app/router/actions/load";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { existsSchedule, isUserLoggedIn } from "ylhyra/app/user/actions";
-import store from "ylhyra/app/app/store";
-import {
-  cachePrerenderedData,
-  savePrerenderedData,
-} from "ylhyra/app/router/actions/load";
 
 /**
  * Listen to `popstate` events to be able to navigate back

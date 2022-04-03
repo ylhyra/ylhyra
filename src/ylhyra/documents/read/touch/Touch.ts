@@ -1,9 +1,3 @@
-/*  _____                _
-   |_   _|__  _   _  ___| |__
-     | |/ _ \| | | |/ __| '_ \
-     | | (_) | |_| | (__| | | |
-     |_|\___/ \__,_|\___|_| |_| */
-
 import { turnOffDemonstration } from "ylhyra/app/elements/frontpage/demo";
 import { highlightSentence } from "ylhyra/documents/read/actions/HighlightSentence";
 import ResetTooltips from "ylhyra/documents/read/actions/Reset";
@@ -16,7 +10,7 @@ let lastKnownLocation = null;
 let detectScrollTimer = null;
 let lastEvent = null;
 let lastId = null;
-let isShowingSomething = false;
+let isShowingSomething: Boolean | string = false;
 
 const reset = () => {
   lastId = null;
@@ -24,7 +18,7 @@ const reset = () => {
   ResetTooltips();
 };
 
-export const TouchEventListenerOn = () => {
+export const touchEventListenerOn = () => {
   document.addEventListener("touchstart", touchstart, {
     passive: false,
   });
@@ -37,17 +31,21 @@ export const TouchEventListenerOn = () => {
   });
 };
 
-export const TouchEventListenerOff = () => {
+export const touchEventListenerOff = () => {
   document.removeEventListener("touchstart", touchstart, {
+    // @ts-ignore
     passive: false,
   });
   document.removeEventListener("touchend", touchend, {
+    // @ts-ignore
     passive: false,
   });
   document.removeEventListener("touchcancel", touchend, {
+    // @ts-ignore
     passive: false,
   });
   document.removeEventListener("touchmove", touchmove, {
+    // @ts-ignore
     passive: false,
   });
 };
@@ -56,15 +54,13 @@ export const TouchEventListenerOff = () => {
   TOUCH START
 */
 const touchstart = (e) => {
-  if (!window.listenerCount) return;
-
   lastEvent = e;
   startClickTime = time();
   startLocation = {
     x: e.touches[0].clientX,
     y: e.touches[0].clientY,
   };
-  FindElements(e);
+  findElements(e);
   detectScrollTimer = setTimeout(() => {
     detectScrollTimer = null;
     /*
@@ -79,7 +75,6 @@ const touchstart = (e) => {
   TOUCH MOVE
 */
 const touchmove = (e) => {
-  if (!window.listenerCount) return;
   lastEvent = e;
   lastKnownLocation = {
     x: e.touches[0].clientX,
@@ -98,7 +93,7 @@ const touchmove = (e) => {
     return;
   }
 
-  FindElements(e, null, true);
+  findElements(e, null, true);
 };
 
 /*
@@ -122,7 +117,7 @@ const touchend = () => {
   Find element from position.
   Show words or sentences.
 */
-const FindElements = (e, doubleClick = false, moving = false) => {
+const findElements = (e, doubleClick = false, moving = false) => {
   const touches = e.touches;
   const fingers = touches.length;
   let x, y;
@@ -205,18 +200,16 @@ const findClosestElement = (x, y) => {
   els.forEach((el) => {
     const rects = Array.from(el.getClientRects());
     rects.forEach((rect) => {
-      const distance_x =
+      const distanceX =
         x < rect.x ? rect.x - x : Math.max(0, x - (rect.x + rect.width));
-      const distance_y =
+      const distanceY =
         y < rect.y ? rect.y - y : Math.max(0, y - (rect.y + rect.height));
-      if (distance_x > limit || distance_y > limit) return;
-      const distance = Math.sqrt(distance_x ** 2 + distance_y ** 2);
+      if (distanceX > limit || distanceY > limit) return;
+      const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
       if (distance > limit) return;
-      // console.log({ rect, /*x, y,*/ distance_x, distance_y, distance, el })
       distances.push({ distance, el });
     });
   });
   distances.sort((a, b) => a.distance - b.distance);
-  // console.log(distances[0]?.el)
   return distances[0]?.el;
 };

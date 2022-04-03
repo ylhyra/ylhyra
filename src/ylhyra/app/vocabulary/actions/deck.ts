@@ -22,12 +22,14 @@ class Deck {
   user_data: UserData;
   session: Session;
   termCount: number;
+  /** Only used in compilation, should be removed */
+  alternative_ids: any;
 
   constructor({ database, schedule, session, user_data }) {
     deck = this;
     this.cards = database.cards;
     this.terms = database.terms;
-    this.user_data = user_data || {};
+    this.user_data = user_data || null;
     this.schedule = schedule || {};
 
     this.cards_sorted = sortBySortKey(Object.keys(this.cards) as CardIds, {
@@ -42,12 +44,12 @@ class Deck {
   continueStudying() {
     goToUrl("/vocabulary/play");
     this.session.reset();
-    this.session.InitializeSession();
+    this.session.initializeSession();
   }
   reset() {
     saveInLocalStorage("vocabulary-user-data", null);
     saveInLocalStorage("vocabulary-session", null);
-    this.user_data = {};
+    this.user_data = null;
     this.schedule = {};
   }
   // /* Only used for testing */

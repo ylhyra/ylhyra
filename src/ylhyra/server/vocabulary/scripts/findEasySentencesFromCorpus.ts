@@ -41,7 +41,7 @@ const run = () => {
             });
           });
 
-          let known_words = {};
+          let knownWords = {};
           let words_in_course = {};
           Object.keys(sortKeys).forEach((sentence) => {
             sentence
@@ -49,10 +49,7 @@ const run = () => {
               .split(spaces)
               .forEach((word) => {
                 const sort_key = sortKeys[sentence];
-                known_words[word] = Math.min(
-                  known_words[word] || 2000,
-                  sort_key
-                );
+                knownWords[word] = Math.min(knownWords[word] || 2000, sort_key);
                 if (sort_key < 1000) {
                   words_in_course[word] = true;
                 }
@@ -61,7 +58,7 @@ const run = () => {
 
           let matches = [];
           let seen = [];
-          let word_frequency = {};
+          let wordFrequency = {};
           data
             .split("\n")
             .filter(Boolean)
@@ -81,12 +78,12 @@ const run = () => {
                   const split = lower.split(spaces);
                   if (split.length <= 2) return;
                   split.forEach((word) => {
-                    if (word in known_words) {
-                      max_sortkey = Math.max(max_sortkey, known_words[word]);
+                    if (word in knownWords) {
+                      max_sortkey = Math.max(max_sortkey, knownWords[word]);
                     } else {
                       fail = true;
                     }
-                    word_frequency[word] = (word_frequency[word] || 0) + 1;
+                    wordFrequency[word] = (wordFrequency[word] || 0) + 1;
                   });
                   if (!fail && !seen.includes(lower)) {
                     seen.push(lower);
@@ -95,15 +92,14 @@ const run = () => {
                 });
             });
           console.log("data:" + data.length);
-          console.log("word_frequency:" + Object.keys(word_frequency).length);
+          console.log("word_frequency:" + Object.keys(wordFrequency).length);
           fs.writeFileSync(
             getBaseDir() + "/../Desktop/Ylhýruskjöl/Missing_words.txt",
-            Object.keys(word_frequency)
-              .sort((a, b) => word_frequency[b] - word_frequency[a])
+            Object.keys(wordFrequency)
+              .sort((a, b) => wordFrequency[b] - wordFrequency[a])
               // .filter((a) => word_frequency[a] > 10 && !(a in words_in_course))
-              .filter((a) => !(a in known_words))
-              .join("\n"),
-            () => {}
+              .filter((a) => !(a in knownWords))
+              .join("\n")
           );
           fs.writeFileSync(
             getBaseDir() +
@@ -119,8 +115,7 @@ const run = () => {
                   j.sort_key +
                   ")"
               )
-              .join("\n"),
-            () => {}
+              .join("\n")
           );
           console.log("Done");
           process.exit();

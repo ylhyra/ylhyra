@@ -31,9 +31,9 @@ export default async (text: string): Promise<string> => {
               ${
                 (template === "link with vocabulary list" ||
                   template === "chapter") &&
-                'show_words="yes"'
+                'showWords="yes"'
               }
-              chapter_url="${formatUrl(link)}">${title} ${
+              chapterUrl="${formatUrl(link)}">${title} ${
             small && `<small>${small}</small>`
           }</Chapter>`;
         }

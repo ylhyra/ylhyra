@@ -26,7 +26,7 @@ export const getOrderOfChapters = async (): Promise<
   let unitsToUrl: UnitsToUrl = [];
   let urlToUnit: UrlToUnit = {};
   content.replace(
-    /(?:Unit (\d+)|chapter_url="(.+?)")/g,
+    /(?:Unit (\d+)|chapterUrl="(.+?)")/g,
     (x: string, unit: string, _url: string) => {
       if (unit) {
         currentUnit = parseInt(unit);

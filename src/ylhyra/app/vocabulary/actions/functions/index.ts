@@ -15,6 +15,7 @@ import {
   CardId,
   CardIds,
   TermId,
+  TermIds,
 } from "ylhyra/app/vocabulary/actions/card/types";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { getPlaintextFromFormatted } from "ylhyra/maker/vocabulary_maker/compile/format";
@@ -39,7 +40,7 @@ export const studyParticularIds = async (allowed_ids: CardIds, options?) => {
   session.reset();
   session.allowed_ids = allowed_ids;
   session.createCards(options);
-  await session.InitializeSession({ shouldReset: false });
+  await session.initializeSession({ shouldReset: false });
   goToUrl("/vocabulary/play");
 };
 
@@ -79,7 +80,9 @@ export const countTermsInSchedule = () => {
 
 if (isBrowser && isDev) {
   window["studyParticularWords"] = async (...words) => {
-    await studyParticularIds(getCardIdsFromTermIds(words.map(getHash)));
+    await studyParticularIds(
+      getCardIdsFromTermIds(words.map(getHash) as TermIds)
+    );
   };
   window["studyParticularIds"] = studyParticularIds;
 }

@@ -1,9 +1,9 @@
 // import { isDev } from "app/app/modules/isDev";
 import "dotenv/config";
-import express from "express";
-import argvFactory from "minimist";
-import { COOKIE_NAME } from "modules/cookie";
 import type { Request, Response } from "express";
+import express from "express";
+import { COOKIE_NAME } from "flashcards/cookie";
+import argvFactory from "minimist";
 import { isDev } from "modules/isDev";
 
 const argv = argvFactory(process.argv.slice(2));

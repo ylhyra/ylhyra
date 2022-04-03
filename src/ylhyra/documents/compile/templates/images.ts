@@ -48,8 +48,6 @@ const Images = (data: string): Promise<string> => {
           throw new Error(
             "No file named: " + _filename + ". Is it from Commons?"
           );
-          reject2();
-          return;
         }
         const file = links[formatUrl("File:" + _filename)].filepath.replace(
           /\.md$/,
@@ -61,9 +59,9 @@ const Images = (data: string): Promise<string> => {
 
         exec(`identify ${file}`, async (error, stdout) => {
           if (error) return console.error(`exec error: ${error}`);
-          const [, originalWidth, originalHeight] = stdout.match(
-            /^[^ ]+ [^ ]+ ([0-9]+)x([0-9]+)/
-          );
+          const q = stdout.match(/^[^ ]+ [^ ]+ ([0-9]+)x([0-9]+)/);
+          let originalWidth = parseInt(q[1]);
+          let originalHeight = parseInt(q[2]);
 
           let sizesAsHeightXWidth: string[] = [];
           let boxes = [800, 600, 400, 200].map((i) => {

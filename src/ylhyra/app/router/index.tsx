@@ -4,8 +4,8 @@ import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { RootState } from "ylhyra/app/app/store";
 import Layout from "ylhyra/app/elements/layout/Layout";
 import {
-  setIndexing,
   isVocabularyTheFrontpage,
+  setIndexing,
 } from "ylhyra/app/router/actions/actions";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { appUrls } from "ylhyra/app/router/appUrls";
@@ -14,7 +14,7 @@ import Section from "ylhyra/documents/templates/Section";
 
 class App extends React.Component<
   ConnectedProps<typeof connector> & {
-    url: string;
+    url?: string;
     prerender?: HtmlAsJson;
   }
 > {
@@ -26,11 +26,11 @@ class App extends React.Component<
     }
   }
   render() {
-    let Element = () => null;
+    let Element: Function = () => null;
     const url = this.props.url || this.props.route.pathname;
 
     if (url in appUrls) {
-      Element = appUrls[url].component; //|| components["/vocabulary"];
+      Element = appUrls[url].component;
       let Section2 = Section;
       if (url === "/vocabulary/play" || url === "/vocabulary") {
         Section2 = (props) => props.children;

@@ -1,3 +1,4 @@
+import forEachAsync from "modules/forEachAsync";
 import string_hash from "modules/hash";
 import { escape } from "sqlstring";
 import flattenArray from "ylhyra/app/app/functions/flattenArray";
@@ -59,9 +60,8 @@ const request = ({ list }) => {
       sentence.words.forEach((word, index) => {
         if (typeof word === "string" || !word.id) return;
 
-        const text_hash = string_hash(simplifyString(word.text));
-        const translation_frame = GetTranslationFrame(sentence.words, index);
-        // console.log(translation_frame)
+        const textHash = string_hash(simplifyString(word.text));
+        const translationFrame = GetTranslationFrame(sentence.words, index);
         queries.push(`
           SELECT ${escape(
             word.id
@@ -82,10 +82,10 @@ const request = ({ list }) => {
                   WHERE translation_frame_hash = t.translation_frame_hash
                   AND is_part_of_definition = TRUE
                   ${
-                    translation_frame.length > 0 &&
+                    translationFrame.length > 0 &&
                     `
                     AND (
-                      ${translation_frame
+                      ${translationFrame
                         .map(
                           (frame) => `
                         (
@@ -107,10 +107,10 @@ const request = ({ list }) => {
                   FROM words_in_translation_frame
                   WHERE translation_frame_hash = t.translation_frame_hash
                   ${
-                    translation_frame.length > 0 &&
+                    translationFrame.length > 0 &&
                     `
                     AND (
-                      ${translation_frame
+                      ${translationFrame
                         .map(
                           (frame) => `
                         (
@@ -139,7 +139,7 @@ const request = ({ list }) => {
                 ON words_and_sentences.translation_frame_hash = t.translation_frame_hash
               JOIN definitions
                 ON t.definition_hash = definitions.definition_hash
-              WHERE text_hash = ${escape(text_hash)}
+              WHERE text_hash = ${escape(textHash)}
                 -- AND from_lang = ?
                 -- AND to_lang = ?
               HAVING HAS_CORRECT_AMOUNT_OF_MATCHES = TRUE
@@ -150,10 +150,9 @@ const request = ({ list }) => {
         `);
       });
     }
-    // console.log(queries.join(''))
     let returns = [];
-    await queries.forEachAsync(async (q) => {
-      await new Promise((resolve2, reject2) => {
+    await forEachAsync(queries, async (q) => {
+      await new Promise<void>((resolve2, reject2) => {
         query(q, (err, results) => {
           if (err) {
             console.error("Error in GetSuggestions.js:");
@@ -161,7 +160,6 @@ const request = ({ list }) => {
             reject2();
           } else {
             results = flattenArray(results);
-            // console.log(JSON.stringify(results, null, 2))
             returns.push(results);
             resolve2();
           }

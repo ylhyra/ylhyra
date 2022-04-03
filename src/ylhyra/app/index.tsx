@@ -6,9 +6,9 @@ import store from "ylhyra/app/app/store";
 import Router from "ylhyra/app/router";
 import { initializeRouter } from "ylhyra/app/router/actions/actions";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
-import { InitializeUser } from "ylhyra/app/user/actions";
-import { InitializeVocabulary } from "ylhyra/app/vocabulary/actions/initialize";
-import { TextEventListenersOn } from "ylhyra/documents/read/touch";
+import { initializeUser } from "ylhyra/app/user/actions";
+import { initializeVocabulary } from "ylhyra/app/vocabulary/actions/initialize";
+import { textEventListenersOn } from "ylhyra/documents/read/touch";
 import "ylhyra/documents/style/main.styl";
 
 let prerenderData: PrerenderedDataSavedInPage | null = null;
@@ -17,9 +17,9 @@ if (isBrowser && "ylhyra_data" in window) {
   delete window["ylhyra_data"];
 }
 initializeRouter(prerenderData);
-InitializeUser();
-void InitializeVocabulary();
-TextEventListenersOn();
+initializeUser();
+void initializeVocabulary();
+textEventListenersOn();
 
 const Root = (
   <React.StrictMode>

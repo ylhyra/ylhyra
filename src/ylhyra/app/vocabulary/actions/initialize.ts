@@ -10,7 +10,7 @@ import { getScheduleFromUserData } from "ylhyra/app/vocabulary/actions/userData/
 import { clearOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen/actions";
 import { getDeckName } from "ylhyra/maker/vocabulary_maker/compile/functions";
 
-export const InitializeVocabulary = async () => {
+export const initializeVocabulary = async () => {
   log("Downloading database");
   const database = (
     await axios.get(

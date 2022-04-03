@@ -1,3 +1,4 @@
+import { arrayIncludesAnyOfOtherArray } from "modules/arrayIncludesAnyOfOtherArray";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { notify } from "ylhyra/app/app/error";
@@ -22,7 +23,6 @@ export default () => {
   const json = html2json(ReactDOMServer.renderToStaticMarkup(parsed));
 
   let done;
-  // console.log(json2html(parsed))
   findAreasWithAudioFile(json, (node, filename) => {
     if (done) {
       notify(
@@ -30,12 +30,7 @@ export default () => {
       );
     } else {
       done = true;
-      // console.log(JSON.stringify(node, null, 2))
-      // return
-      const XML = AudioXML(node);
-      // console.log(done)
-      //       console.log(XML)
-      // return
+      const XML = prepareXmlForAeneas(node);
       const output = ReactDOMServer.renderToStaticMarkup(XML).replace(
         /(<\/div>)/g,
         "</div>\n"
@@ -65,8 +60,6 @@ const findAreasWithAudioFile = (i, callback) => {
     let { attr, child } = i;
     if (child) {
       if (attr && attr["data-audio-file"]) {
-        // console.warn('------')
-        // console.warn(child)
         callback(child, attr["data-audio-file"]);
       } else {
         child.forEach((x) => findAreasWithAudioFile(x, callback));
@@ -75,21 +68,16 @@ const findAreasWithAudioFile = (i, callback) => {
   }
 };
 
-/*
-  Prepare an XML file for audio synchronization.
-  Only leaves id tags on sentences and words.
-*/
-const AudioXML = (input, index = 0) => {
-  //   console.log((input))
-  // return
-
+/**
+ * Prepare an XML file for audio synchronization.
+ * Only leaves id tags on sentences and words.
+ */
+const prepareXmlForAeneas = (input, index = 0) => {
   if (!input) return null;
   if (Array.isArray(input)) {
-    return input.map((x) => AudioXML(x));
+    return input.map((x) => prepareXmlForAeneas(x));
   } else {
     const { node, tag, attr, child, text } = input;
-    // console.log(input)
-    // console.log(JSON.stringify(input))
     if (node === "element" || node === "root") {
       if (
         attr &&
@@ -99,14 +87,11 @@ const AudioXML = (input, index = 0) => {
           "data-not-text" in attr)
       )
         return null;
-      if (includesAny(skipTags, tag)) return null;
+      if (arrayIncludesAnyOfOtherArray(skipTags, tag)) return null;
       if (tag === "sup") return null;
-      // if (attr && includesAny(skipClasses, attr.class)) return null;
-      // console.log(attr)
-      let attrs = {};
+      let attrs: Record<string, any> = {};
       let Tag = tag || "span";
       if (attr && "data-will-have-audio" in attr) {
-        // console.log(input)
         Tag = "span";
         attrs = {
           id: attr?.id,
@@ -114,24 +99,23 @@ const AudioXML = (input, index = 0) => {
         if (attrs.id.startsWith("s")) {
           Tag = "div";
         }
-        // TEMPORARY; TURNING OFF WORDS!
+        // TEMPORARY; TURNING OFF WORD-LEVEL SYNCHRONIZATION!
         else {
           attrs.id = null;
         }
       }
       if (tag === "root") {
-        return child.map((e, i) => AudioXML(e, i));
+        return child.map((e, i) => prepareXmlForAeneas(e, i));
       }
       if (!child || child.length === 0) return null;
-      // console.log(attrs)
       if (attrs.id) {
         return (
           <Tag {...attrs} key={index}>
-            {child?.map((e, i) => AudioXML(e, i))}
+            {child?.map((e, i) => prepareXmlForAeneas(e, i))}
           </Tag>
         );
       } else {
-        return child?.map((e, i) => AudioXML(e, i));
+        return child?.map((e, i) => prepareXmlForAeneas(e, i));
       }
     } else if (node === "text") {
       return text;
@@ -139,17 +123,4 @@ const AudioXML = (input, index = 0) => {
   }
 };
 
-// const skipClasses = [
-//   'data-sou',
-// ]
 const skipTags = ["data-no-audio", "data-ignore"];
-
-export const includesAny = (haystack, arr) => {
-  if (!arr) return false;
-  if (typeof arr === "string") {
-    arr = [arr];
-  }
-  return arr.some((v) => {
-    return haystack.indexOf(v) >= 0;
-  });
-};

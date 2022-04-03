@@ -1,8 +1,9 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "ylhyra/app/app/store";
 import { closeEditor, openEditor, save } from "ylhyra/maker/editor/actions";
 
-class App extends React.Component {
+class App extends React.Component<ConnectedProps<typeof connector>> {
   componentDidMount = () => {
     // MakeSuggestions()
   };
@@ -21,10 +22,7 @@ class App extends React.Component {
     );
   }
 }
-
-export default connect(
-  (state) => ({
-    editor: state.editor,
-  }),
-  {}
-)(App);
+const connector = connect((state: RootState) => ({
+  editor: state.editor,
+}));
+export default connector(App);

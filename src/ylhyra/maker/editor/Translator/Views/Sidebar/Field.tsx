@@ -1,11 +1,20 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "ylhyra/app/app/store";
 import {
   updateDefinitionValue,
   wordsHash,
 } from "ylhyra/maker/editor/Translator/actions";
 
-class Field extends React.Component {
+class Field extends React.Component<
+  ConnectedProps<typeof connector> & {
+    name: string;
+    component: Function;
+    type: string;
+    placeholder?: string;
+    id: string;
+  }
+> {
   handleChange = (e) => {
     this.props.updateDefinitionValue({
       name: this.props.name,
@@ -33,12 +42,13 @@ class Field extends React.Component {
     );
   }
 }
-export default connect(
-  (state) => ({
+const connector = connect(
+  (state: RootState) => ({
     translation: state.editor.translation,
     selected: state.editor.selected,
   }),
   {
     updateDefinitionValue,
   }
-)(Field);
+);
+export default connector(Field);

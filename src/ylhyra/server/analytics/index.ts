@@ -38,8 +38,9 @@ router.post("/a", rateLimit, (req, res) => {
   let languages = [];
   req.headers["accept-language"]?.replace(
     /\b([a-z]{2,3})(-[a-z]{2,3})?\b/g,
-    (x, lang) => {
+    (x: string, lang: string) => {
       languages.push(lang);
+      return "";
     }
   );
 

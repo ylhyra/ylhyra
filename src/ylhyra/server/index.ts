@@ -8,11 +8,11 @@ import { isDev } from "modules/isDev";
 import path from "path";
 import "regenerator-runtime/runtime";
 import requestIp from "request-ip";
+import { staticCached } from "ylhyra/server/caching";
 import {
   processedImageUrl,
   unprocessedImageUrl,
 } from "ylhyra/server/content/links/paths";
-import { staticCached } from "ylhyra/server/caching";
 import query from "ylhyra/server/database";
 import {
   build_folder,
@@ -129,14 +129,9 @@ if (argv["generate-links"]) {
   require("ylhyra/server/vocabulary/compile");
 } else if (argv["generate-sentences"]) {
   require("ylhyra/server/vocabulary/scripts/findEasySentencesFromCorpus");
-} else if (argv["migration_vocabulary_2021_08"]) {
-  // require("server/database/migrations/vocabulary_2021_08.js");
 } else {
   /* Or, start the app */
-  app.listen(port, host, (err) => {
-    if (err) {
-      return console.error(err.message);
-    }
+  app.listen(port, host, () => {
     if (isDev) {
       console.log(`Running on port ${port}`);
       // exec(
