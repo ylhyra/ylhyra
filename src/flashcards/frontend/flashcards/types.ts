@@ -1,4 +1,4 @@
-export type Flashcard = {
+export type Card = {
   id: string;
   question: string;
   answer: string;
@@ -14,9 +14,9 @@ export type Deck = {
   updatedAt: string;
 };
 
-export type FlashcardInputData = {
-  question: string;
-  answer: string;
+export type CardInputData = {
+  front: string;
+  back: string;
   deckId: string;
 };
 
