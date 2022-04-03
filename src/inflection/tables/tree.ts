@@ -1,4 +1,4 @@
-import { sortByClassification } from "inflection/tables/classification/sort_by_classification";
+import { sortByClassification } from "inflection/tables/classification/sortByClassification";
 import { Leaf, Rows, Tree } from "inflection/tables/types";
 
 /**

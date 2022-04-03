@@ -4,8 +4,8 @@
   Note: This file currently relies on being a submodule of Ylhýra.
 */
 import express from "express";
-import classify from "inflection/tables/classification/BIN_classification";
-import { sortByClassification } from "inflection/tables/classification/sort_by_classification";
+import { classify } from "inflection/tables/classification/BIN_classification";
+import { sortByClassification } from "inflection/tables/classification/sortByClassification";
 import { removeLinks } from "inflection/tables/link";
 import Word from "inflection/tables/word";
 import phoneticHash from "modules/languageProcessing/phoneticHash";

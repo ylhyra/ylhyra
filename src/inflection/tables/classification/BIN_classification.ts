@@ -1,32 +1,33 @@
 import {
+  InflectionCategoryTag,
   normalizeTag,
   shortcuts_used_in_BIN,
 } from "inflection/tables/classification/classification";
 import { isNumber } from "inflection/tables/tree";
-import { RowFromDatabase } from "inflection/tables/types";
+import { Row, RowFromDatabase } from "inflection/tables/types";
 
 /**
- *  Turns BÍN's classifications into English
+ * Turns BÍN's classifications into English
  *
- * @param input
- *   The following attributes of the input object are taken into consideration:
- *   - word_categories
- *   - grammatical_tag
- *   - BIN_domain
+ * The following attributes of the input object are taken into consideration:
+ * - word_categories
+ * - grammatical_tag
+ * - BIN_domain
  *
- *   Returns the inputted object with the following keys removed:
- *   - word_categories
- *   - grammatical_tag
- *   - BIN_domain
- *   And the following keys added:
- *   - word_categories - An array of values that
+ * Returns the inputted object with the following keys removed:
+ * - word_categories
+ * - grammatical_tag
+ * And the following keys added:
+ * - word_categories - An array of values that
  *     apply to all the forms of the word (a noun, adjective...)
- *   - inflectional_form_categories - An array of
+ * - inflectional_form_categories - An array of
  *     values that only apply to certain forms of the word (plurality, case...)
  */
-const classify = (input: RowFromDatabase): object | Array<any> => {
+export const classify = (input: RowFromDatabase): Row => {
   let { word_categories, grammatical_tag, BIN_domain, ...rest } = input;
-  if (!word_categories && !grammatical_tag) return input;
+  if (!word_categories && !grammatical_tag) {
+    throw new Error("Malformed input from database");
+  }
 
   /* Word categories */
   word_categories = word_categories?.toLowerCase() || "";
@@ -37,7 +38,7 @@ const classify = (input: RowFromDatabase): object | Array<any> => {
     word_categories_output.push(relevant_BIN_domains[BIN_domain]);
   }
 
-  let inflectional_form_categories = [];
+  let inflectional_form_categories: InflectionalCategoryList = [];
   let original_grammatical_tag = grammatical_tag;
   grammatical_tag = grammatical_tag?.toLowerCase() || "";
   /* Adjectives: Arrange plurality before gender */
@@ -88,26 +89,27 @@ const classify = (input: RowFromDatabase): object | Array<any> => {
   // }
 
   /* If it ends in a number it is an alternative version */
-  const variantNumber = (
-    grammatical_tag.match(/(\d)$/) ? grammatical_tag.match(/(\d)$/)[0] : 1
-  ).toString();
-  inflectional_form_categories.push(parseInt(variantNumber));
+  // const variantNumber = (
+  //   grammatical_tag.match(/(\d)$/) ? grammatical_tag.match(/(\d)$/)?.[0]! : 1
+  // ).toString();
+  // // inflectional_form_categories.push(parseInt(variantNumber));
+  const variant_number = parseInt(grammatical_tag.match(/(\d)$/)?.[0] || "1");
+  inflectional_form_categories.push(variant_number);
 
   return {
     word_categories: word_categories_output,
     inflectional_form_categories,
     original_grammatical_tag,
     BIN_domain,
+    // variant_number,
     ...rest,
     // ...input,
   };
 };
 
-export default classify;
-
-/*
-  Overrides the tags in "classification.js" during the BIN initialization step
-*/
+/**
+ * Overrides the tags in "classification.js" during the BIN initialization step
+ */
 const BIN_overrides = {
   word_overrides: {
     kk: "noun, masculine",
@@ -133,6 +135,7 @@ export const get_label_for_BIN_inflection_form = (tag) => {
     BIN_overrides.inflection_form_overrides[tag] || normalizeTag(tag) || ""
   );
 };
+
 const tagRegex = (() => {
   let tags = [
     ...Object.keys(shortcuts_used_in_BIN),
@@ -145,10 +148,10 @@ const tagRegex = (() => {
     .join("|");
 })();
 
-/*
-  We are only interested in knowing whether a word is a name or not
-  See https://bin.arnastofnun.is/ordafordi/hlutiBIN/
-*/
+/**
+ * We are only interested in knowing whether a word is a name or not
+ * See https://bin.arnastofnun.is/ordafordi/hlutiBIN/
+ */
 export const relevant_BIN_domains = {
   ism: "human name",
   erm: "human name", // Foreign human name
@@ -165,4 +168,3 @@ export const relevant_BIN_domains = {
   örn: "place name",
   erl: "place name",
 };
-// export const BIN_domains = Object.keys(relevant_BIN_domains).map(key => relevant_BIN_domains[key])

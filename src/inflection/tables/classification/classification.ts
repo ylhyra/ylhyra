@@ -1,3 +1,24 @@
+import { VariantNumber } from "inflection/tables/types";
+
+export type Description = {
+  title: string;
+  icelandic_title: string;
+  type: ClassificationTypes;
+  shortcuts: string[];
+  has_article_on_ylhyra: Boolean;
+};
+export type ClassificationTypes =
+  | "person"
+  | "case"
+  | "plurality"
+  | "gender"
+  | "article"
+  | "tense"
+  | "degree"
+  | "strong or weak"
+  | "word_class"
+  | "";
+
 /**
  * Descriptions derived from:
  *  - https://bin.arnastofnun.is/gogn/k-snid and
@@ -5,7 +26,7 @@
  * By Árni Magnússon Institute for Icelandic Studies
  * Note: Must be correctly sorted.
  */
-const labelsArray = [
+const descriptions: Description[] = [
   /* Person */
   {
     title: "1st person",
@@ -324,98 +345,98 @@ const labelsArray = [
   {
     title: "noun",
     icelandic_title: "nafnorð",
-    type: "class",
+    type: "word_class",
     shortcuts: ["no", "n"],
     has_article_on_ylhyra: true,
   },
   {
     title: "preposition",
     icelandic_title: "forsetning",
-    type: "class",
+    type: "word_class",
     shortcuts: ["fs", "pre", "prep"],
     has_article_on_ylhyra: false,
   },
   {
     title: "adverb",
     icelandic_title: "atviksorð",
-    type: "class",
+    type: "word_class",
     shortcuts: ["ao", "adv"],
     has_article_on_ylhyra: false,
   },
   {
     title: "article",
     icelandic_title: "greinir",
-    type: "class",
+    type: "word_class",
     shortcuts: ["gr"],
     has_article_on_ylhyra: false,
   },
   {
     title: "adjective",
     icelandic_title: "lýsingarorð",
-    type: "class",
+    type: "word_class",
     shortcuts: ["lo", "adj", "a"],
     has_article_on_ylhyra: true,
   },
   {
     title: "infinitive particle",
     icelandic_title: "nafnháttarmerki",
-    type: "class",
+    type: "word_class",
     shortcuts: ["nhm"],
     has_article_on_ylhyra: false,
   },
   {
     title: "verb",
     icelandic_title: "sagnorð",
-    type: "class",
+    type: "word_class",
     shortcuts: ["so", "v"],
     has_article_on_ylhyra: true,
   },
   {
     title: "conjunction",
     icelandic_title: "samtenging",
-    type: "class",
+    type: "word_class",
     shortcuts: ["st", "conj"],
     has_article_on_ylhyra: false,
   },
   {
     title: "interjection",
     icelandic_title: "upphrópun",
-    type: "class",
+    type: "word_class",
     shortcuts: ["uh", "int"],
     has_article_on_ylhyra: false,
   },
   {
     title: "numeral",
     icelandic_title: "töluorð",
-    type: "class",
+    type: "word_class",
     shortcuts: ["to"],
     has_article_on_ylhyra: false,
   },
   {
     title: "ordinal number",
     icelandic_title: "raðtala",
-    type: "class",
+    type: "word_class",
     shortcuts: ["rt", "ordinal"],
     has_article_on_ylhyra: false,
   },
   {
     title: "pronoun",
     icelandic_title: "fornafn",
-    type: "class",
+    type: "word_class",
     shortcuts: ["fn"],
     has_article_on_ylhyra: true,
   },
   {
     title: "reflexive pronoun",
     icelandic_title: "afturbeygt fornafn",
-    type: "class",
+    type: "word_class",
     shortcuts: ["afn"],
     has_article_on_ylhyra: false,
   },
   {
     title: "personal pronoun",
     icelandic_title: "persónufornafn",
-    type: "class",
+    type: "word_class",
     shortcuts: ["pfn"],
     has_article_on_ylhyra: false,
   },
@@ -424,56 +445,61 @@ const labelsArray = [
 /**
  * Object containing "name => array of tags", used for getting arrays later on, such as types['gender']
  */
-let types = {};
+let types: Partial<Record<ClassificationTypes, string[]>> = {};
 
 /**
  * Abbreviations
  * Object on form {'nf': 'nominative'}
  */
-let shortcuts = {};
+let shortcuts: Record<string, string> = {};
 
 /* Only for BÍN */
-let shortcuts_used_in_BIN = {};
+let shortcuts_used_in_BIN: Record<string, string> = {};
 
 /**
  * Sorted single-userLevel array of tags, used for sorting rows when constructing the tree
  */
-let sortedTags: InflectionCategoryTag[] = [];
-export type InflectionCategoryTag = string | number;
+let sortedTags: InflectionalCategoryList = [];
+export type InflectionCategoryTag = string;
+export type InflectionalCategoryList = (
+  | InflectionCategoryTag
+  | VariantNumber
+)[];
 
 /**
- * Reverses `label` to turn it into a searchable object
+ * Reverses `descriptions` to turn it into a searchable object
  */
-let titleToLabel = {};
+let titleToDescription: Record<string, Description> = {};
 
-labelsArray.forEach((label) => {
+descriptions.forEach((description) => {
   /* Types */
-  if (label.type) {
-    if (!types[label.type]) {
-      types[label.type] = [];
+  if (description.type) {
+    if (!types[description.type]) {
+      types[description.type] = [];
     }
-    types[label.type].push(label.title);
+    types[description.type]!.push(description.title);
   }
 
   /* Shortcuts */
-  let s = label.shortcuts;
-  s.push(label.title);
-  s.push(label.icelandic_title);
-  s.forEach((shortcut, index) => {
-    if (shortcuts[shortcut]) {
+  [
+    ...description.shortcuts,
+    description.title,
+    description.icelandic_title,
+  ].forEach((shortcut, index) => {
+    if (shortcut in shortcuts) {
       throw new Error(`SHORTCUT ALREADY EXISTS ${shortcut}`);
     }
-    shortcuts[shortcut] = label.title;
+    shortcuts[shortcut] = description.title;
     if (index === 0) {
-      shortcuts_used_in_BIN[shortcut] = label.title;
+      shortcuts_used_in_BIN[shortcut] = description.title;
     }
   });
 
   /* Sorted tags */
-  sortedTags.push(label.title);
+  sortedTags.push(description.title);
 
   /* Reverse lookup */
-  titleToLabel[label.title] = label;
+  titleToDescription[description.title] = description;
 });
 
 const typeAliases = {
@@ -507,7 +533,7 @@ export const normalizeTag = (
 
 export const getTagInfo = (tag, strict) => {
   tag = normalizeTag(tag, strict);
-  return tag && titleToLabel[tag];
+  return tag && titleToDescription[tag];
 };
 
 export { shortcuts };

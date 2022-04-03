@@ -11,7 +11,7 @@ export function getWordDescription(this: Word): Html | null {
     /* Gender for nouns */
     (this.is("noun") ? link(this.getType("gender")) + " " : "") +
       /* Word class */
-      link(this.getType("class"))
+      link(this.getType("word_class"))
   );
 
   const isStrong = this.isStrong();

@@ -2,7 +2,7 @@ import {
   normalizeTag,
   types,
 } from "inflection/tables/classification/classification";
-import { sortByClassification } from "inflection/tables/classification/sort_by_classification";
+import { sortByClassification } from "inflection/tables/classification/sortByClassification";
 import link from "inflection/tables/link";
 import { Html, Rows } from "inflection/tables/types";
 import Word from "inflection/tables/word";

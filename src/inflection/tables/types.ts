@@ -24,9 +24,12 @@ export type Leaf = Partial<
   >
 > & {
   tag?: InflectionCategoryTag;
-  variant_number?: number;
+  variant_number?: VariantNumber;
   values: Leaf[];
 };
+
+/** 1 is the main variant, 2 is the secondary variant, etc. */
+export type VariantNumber = number;
 
 /** Rows from database (as processed in ImportToDatabase.ts) */
 export type RowFromDatabase = {
@@ -56,15 +59,16 @@ export type RowFromDatabase = {
 /**  Raw list of rows with classifications from ./classification/BIN_classification.js */
 export type Row = Omit<
   RowFromDatabase,
-  "word_categories" | "grammatical_tag" | "BIN_domain"
+  "word_categories" | "grammatical_tag"
 > & {
   /** Categories from classification.ts that apply to the entire word (noun, adjective) */
   word_categories: string[];
   /** Categories from classification.ts that apply only to the given inflectino form (nominative, dative) */
-  inflectional_form_categories: InflectionCategoryTag[];
-
+  inflectional_form_categories: InflectionalCategoryList;
   /** Cached formatted output (Todo: Is this necessary?) */
   formattedOutput?: string;
+  /** Not used by this project, but returned by the API */
+  original_grammatical_tag: string;
 };
 export type Rows = Row[];
 

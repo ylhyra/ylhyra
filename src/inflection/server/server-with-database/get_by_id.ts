@@ -1,8 +1,8 @@
 /*
   Note: This file currently relies on being a submodule of Ylhýra.
 */
-import classify from "inflection/tables/classification/BIN_classification";
-import { sortByClassification } from "inflection/tables/classification/sort_by_classification";
+import { classify } from "inflection/tables/classification/BIN_classification";
+import { sortByClassification } from "inflection/tables/classification/sortByClassification";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
 

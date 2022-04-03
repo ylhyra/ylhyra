@@ -1,5 +1,5 @@
 import assert from "assert";
-import classify from "inflection/tables/classification/BIN_classification";
+import { classify } from "inflection/tables/classification/BIN_classification";
 
 it("BÍN classification", () => {
   assert.deepEqual(

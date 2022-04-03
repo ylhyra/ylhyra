@@ -14,7 +14,7 @@ describe("General word tests", function () {
       assert.equal(word.getFirst().is("masculine"), true);
       assert.equal(word.getFirst().is("neuter"), false);
       // assert.equal(word.getFirst().is('inexistent classification :)'), false)
-      assert.equal(word.getType("class"), "adjective");
+      assert.equal(word.getType("word_class"), "adjective");
       assert.equal(word.getFirst().getType("plurality"), "singular");
       assert.equal(word.getId(), 390363);
       done();
