@@ -1,61 +1,87 @@
-import { grammaticalCategories } from "inflection/tables/classification/classification";
+import {
+  getOrderedGrammaticalCategories,
+  grammaticalCategories,
+} from "inflection/tables/classification/classification";
 import link, { ucfirst_link } from "inflection/tables/link";
 import RenderTable from "inflection/tables/render_table";
-import { Html } from "inflection/tables/types";
+import {
+  GrammaticalTag,
+  GrammaticalTagOrVariantNumber,
+  Html,
+  InflectionalCategoryList,
+} from "inflection/tables/types";
 import Word from "inflection/tables/word";
 import { flatten, without } from "lodash";
+
+export type RowOrColumn = Array<
+  GrammaticalTagOrVariantNumber | InflectionalCategoryList | null
+>;
+
+export type SingleTableOptions = {
+  returnAsString?: Boolean;
+  give_me?: InflectionalCategoryList;
+  column_names?: RowOrColumn;
+  row_names?: RowOrColumn;
+  skip_description?: Boolean;
+};
 
 /**
  * Finds a single relevant table
  */
 export default function getSingleTable(
   this: Word,
-  { returnAsString, give_me, column_names, row_names, skip_description }
+  {
+    returnAsString,
+    give_me,
+    column_names,
+    row_names,
+    skip_description,
+  }: SingleTableOptions
 ): Html {
   let word = this;
   let description = "";
   let table = "";
 
-  if (give_me?.length > 0) {
+  if (give_me && give_me.length > 0) {
     word = word.get(...give_me);
   }
 
   if (!column_names && !row_names) {
     /* Nouns */
     if (word.is("noun")) {
-      row_names = grammaticalCategories["cases"];
+      row_names = getOrderedGrammaticalCategories("cases");
     } else if (word.is("pronoun")) {
-      row_names = grammaticalCategories["cases"];
+      row_names = getOrderedGrammaticalCategories("cases");
     } else if (word.is("adjective")) {
       if (word.getFirst().is("nominative")) {
         if (word.getType("degree") === "positive degree") {
-          row_names = grammaticalCategories["genders"];
+          row_names = getOrderedGrammaticalCategories("genders");
         } else {
-          row_names = grammaticalCategories["degree"];
+          row_names = getOrderedGrammaticalCategories("degree");
         }
       } else {
-        row_names = grammaticalCategories["cases"];
+        row_names = getOrderedGrammaticalCategories("cases");
       }
     } else if (word.is("adverb") && word.getType("degree")) {
-      row_names = grammaticalCategories["degree"];
+      row_names = getOrderedGrammaticalCategories("degree");
     } else if (word.is("verb")) {
       /* Temp: Needs to be merged with the principalParts file */
       /* TODO: Support generation for miðmynd */
       const word2 = this.getOriginal();
       let principalParts = [
-        word2.get("infinitive").getFirstClassification(),
+        word2.get("infinitive").getClassificationOfFirstRow(),
         word2
           .get(/*'indicative', */ "past tense", "1st person", "singular")
-          .getFirstClassification(),
+          .getClassificationOfFirstRow(),
         word2.isStrong() &&
           word2
             .get(/*'indicative',*/ "past tense", "1st person", "plural")
-            .getFirstClassification(),
-        word2.get("supine").getFirstClassification(),
-      ].filter(Boolean);
+            .getClassificationOfFirstRow(),
+        word2.get("supine").getClassificationOfFirstRow(),
+      ].filter(Boolean) as GrammaticalTag[][];
       row_names = principalParts;
 
-      if (give_me?.length > 0) {
+      if (give_me && give_me.length > 0) {
         /* The matched part is in the principal parts */
         if (
           principalParts.find((principalPart) =>
@@ -69,7 +95,10 @@ export default function getSingleTable(
           // let row_names = ['infinitive']
           // ['infinitive', relevant_word.getType('voice')].filter(Boolean),
           if (word.getFirst().getType("person")) {
-            row_names = ["infinitive", ...grammaticalCategories["persons"]];
+            row_names = [
+              "infinitive",
+              ...getOrderedGrammaticalCategories("persons"),
+            ];
           } else {
             /* Nothing but infinitive and word */
             row_names = ["infinitive", give_me];
@@ -89,13 +118,13 @@ export default function getSingleTable(
   column_names = column_names || [null];
   row_names = row_names || [null];
 
-  if (give_me?.length > 0) {
+  if (give_me && give_me.length > 0) {
     word = word.get(...give_me);
   } else {
     word = word.getMeetingAny(...row_names, ...column_names);
   }
 
-  // const sibling_classification = without(word.getFirstClassification(), ...flatten(row_names), ...flatten(column_names))
+  // const sibling_classification = without(word.getClassificationOfFirstRow(), ...flatten(row_names), ...flatten(column_names))
   // const siblings = word.getOriginal().get(sibling_classification)
 
   /* As string */
@@ -109,11 +138,11 @@ export default function getSingleTable(
     /* As table */
     /* TEMPORARY; MERGE WITH ABOVE */
     const sibling_classification = without(
-      word.getFirstClassification(),
+      word.getClassificationOfFirstRow(),
       ...flatten(row_names),
       ...flatten(column_names)
-    );
-    const siblings = word.getOriginal().get(sibling_classification);
+    ) as GrammaticalTag[];
+    const siblings = word.getOriginal().get(...sibling_classification);
 
     table = RenderTable(
       siblings,

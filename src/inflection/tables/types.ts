@@ -37,7 +37,8 @@ export type RowFromDatabase = {
   BIN_id: string;
   word_categories: string;
   BIN_domain: string;
-  correctness_grade_of_word: string;
+  /** TODO: ParseInt in the database */
+  correctness_grade_of_word: number;
   word_register: string;
   grammar_group: string;
   cross_reference: string;
@@ -45,7 +46,8 @@ export type RowFromDatabase = {
   should_be_taught: Boolean;
   inflectional_form: string;
   grammatical_tag: string;
-  correctness_grade_of_inflectional_form: string;
+  /** TODO: ParseInt in the database */
+  correctness_grade_of_inflectional_form: number;
   register_of_inflectional_form: string;
   various_feature_markers: string;
   alternative_entry: string;

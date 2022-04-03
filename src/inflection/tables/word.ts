@@ -18,7 +18,17 @@ import { getWordNotes } from "inflection/tables/functions/wordNotes";
 import getTables from "inflection/tables/tables_all";
 import getSingleTable from "inflection/tables/tables_single";
 import { isNumber, tree } from "inflection/tables/tree";
-import { Html, Leaf, Row, Rows, Tree } from "inflection/tables/types";
+import {
+  GrammaticalCategory,
+  GrammaticalTag,
+  GrammaticalTagOrVariantNumber,
+  Html,
+  InflectionalCategoryList,
+  Leaf,
+  Row,
+  Rows,
+  Tree,
+} from "inflection/tables/types";
 import { flatten } from "lodash";
 
 class Word {
@@ -26,6 +36,8 @@ class Word {
   original: Word;
   isStrong_cached?: Boolean;
   rows: Rows;
+  wordHasUmlaut?: Boolean;
+  wordIsIrregular?: Boolean;
   getHelperWordsBefore = getHelperWordsBefore;
   getHelperWordsAfter = getHelperWordsAfter;
   getPrincipalParts = getPrincipalParts;
@@ -36,7 +48,7 @@ class Word {
   getSingleTable = getSingleTable;
   getWordDescription = getWordDescription;
   getWordNotes = getWordNotes;
-  FindIrregularities = findIrregularities;
+  findIrregularities = findIrregularities;
 
   constructor(rows: Rows = [], original?: Word) {
     if (!Array.isArray(rows) && rows !== undefined) {
@@ -75,17 +87,11 @@ class Word {
         }
       }
       this.setup();
-      // console.log(this.rows.map(r => r.formattedOutput))
     }
   }
 
   setup() {
-    // console.log(this.rows[0])
-    if ("alreadySetup" in this) {
-      throw new Error("Has already been set up");
-    }
-    this.FindIrregularities();
-    this.alreadySetup = true;
+    this.findIrregularities();
   }
 
   /* temp */
@@ -94,7 +100,7 @@ class Word {
   }
 
   getId() {
-    return this.original.rows.length > 0 && this.original.rows[0].BIN_id;
+    return this.original.rows[0]?.BIN_id;
   }
 
   getURL() {
@@ -109,7 +115,7 @@ class Word {
     );
   }
 
-  renderBaseWord() {
+  renderBaseWord(): Html {
     return `<h4 class="base_word">
       ${this.is("verb") ? `<span class=gray>að</span>` : ""}
       ${this.getBaseWord()}
@@ -169,10 +175,7 @@ class Word {
     });
   }
 
-  /**
-   * @param  {array|...string} values
-   */
-  get(...values) {
+  get(...values: InflectionalCategoryList): Word {
     if (!values) return this;
     values = flatten(values);
     return new Word(
@@ -199,7 +202,7 @@ class Word {
       (v) => getDescriptionFromGrammaticalTag(v)?.type
     );
     let try_to_match_as_many_as_possible = [];
-    this.getFirstClassification().forEach((c) => {
+    this.getClassificationOfFirstRow().forEach((c) => {
       let relevant_type_index = values_types.findIndex(
         (v) => v === getDescriptionFromGrammaticalTag(c).type
       );
@@ -282,7 +285,7 @@ class Word {
   getFirstAndItsVariants() {
     /* We make sure the categories are completely equal to prevent
      * verbs (which come in various deep nestings) from matching */
-    let match = this.getFirstClassification();
+    let match = this.getClassificationOfFirstRow();
     return new Word(
       this.rows.filter(
         (row) =>
@@ -320,24 +323,17 @@ class Word {
       .join("\n");
   }
 
-  getWordCategories() {
+  getWordCategories(): GrammaticalTag[] {
     return this.original.rows[0]?.word_categories || [];
   }
 
-  getFirstClassification() {
-    return (
-      (this.rows.length > 0 &&
-        this.rows[0].inflectional_form_categories.filter(
-          (i) => !isNumber(i)
-        )) ||
-      []
-    );
+  getClassificationOfFirstRow(): GrammaticalTag[] {
+    return ((this.rows.length > 0 &&
+      this.rows[0].inflectional_form_categories.filter((i) => !isNumber(i))) ||
+      []) as GrammaticalTag[];
   }
 
-  /**
-   * @param  {array|...string} values
-   */
-  without(...values) {
+  without(...values: GrammaticalTagOrVariantNumber[]) {
     values = flatten(values);
     return new Word(
       this.rows.filter((row) =>
@@ -358,14 +354,18 @@ class Word {
    * Used to ask "which case does this word have?"
    * E.g. getType('case') returns 'nominative'
    */
-  getType(type: string): string | undefined {
+  getType(
+    grammaticalCategory: GrammaticalCategory
+  ): GrammaticalTag | undefined {
     const classification = [
       ...this.getWordCategories(),
       // TODO: Should we get first class or that which applies to all?
-      ...this.getFirstClassification(),
+      ...this.getClassificationOfFirstRow(),
     ];
-    let relevantTypes = grammaticalCategories[type];
-    if (!relevantTypes) return;
+    let relevantTypes = grammaticalCategories[grammaticalCategory];
+    if (!relevantTypes) {
+      throw new Error(`No grammatical category named ${grammaticalCategory}`);
+    }
     return classification.find((i) => relevantTypes.includes(i));
   }
 
@@ -447,16 +447,16 @@ class Word {
   }
 
   /**
-    A snippet is a short example of a conjugation to display in search results
-  */
-  getSnippet() {
+   * A snippet is a short example of a conjugation to display in search results
+   */
+  getSnippet(): Html {
     // if (this.is('verb')) {
     //   return this.getPrincipalParts()
     // }
 
     /* Which variant to highlight? */
-    let chosenVariantToShow = [];
-    let variantsMatched = [];
+    let chosenVariantToShow: InflectionalCategoryList = [];
+    let variantsMatched: Rows = [];
     this.rows.forEach((row) => {
       if (row.variant_matched) {
         variantsMatched.push(row);
@@ -464,10 +464,10 @@ class Word {
     });
     variantsMatched = variantsMatched.sort((a, b) => {
       return (
-        b.should_be_taught +
+        (b.should_be_taught ? 1 : 0) +
         b.correctness_grade_of_inflectional_form +
         b.correctness_grade_of_word -
-        (a.should_be_taught +
+        ((a.should_be_taught ? 1 : 0) +
           a.correctness_grade_of_inflectional_form +
           a.correctness_grade_of_word)
       );

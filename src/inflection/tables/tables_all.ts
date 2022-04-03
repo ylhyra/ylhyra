@@ -23,34 +23,31 @@ const TraverseTree = (leaf: object, original_word: Word): Html => {
   let table = null;
   const word = wordFromTree(leaf, original_word);
   /* Nouns */
-  if (
-    word.is("noun") &&
-    grammaticalCategories["plurality"].includes(leaf.tag)
-  ) {
+  if (word.is("noun") && getOrderedGrammaticalCategories("plurality).includes(leaf.tag)") {
     table = RenderTable(leaf.values, original_word, {
-      column_names: grammaticalCategories["article"],
-      row_names: grammaticalCategories["cases"],
+      column_names: getOrderedGrammaticalCategories("article"),
+      row_names: getOrderedGrammaticalCategories("cases"),
     });
   } else if (
     /* Pronouns */
     (word.is("pronoun") || word.is("article")) &&
-    grammaticalCategories["plurality"].includes(leaf.tag)
+    getOrderedGrammaticalCategories("plurality).includes(leaf.tag")
   ) {
     table = RenderTable(leaf.values, original_word, {
-      column_names: grammaticalCategories["gender"],
-      row_names: grammaticalCategories["cases"],
+      column_names: getOrderedGrammaticalCategories("gender"),
+      row_names: getOrderedGrammaticalCategories("cases"),
     });
   } else if (word.is("personal pronoun")) {
     /* Personal pronouns */
     table = RenderTable(leaf.values, original_word, {
-      column_names: grammaticalCategories["plurality"],
-      row_names: grammaticalCategories["cases"],
+      column_names: getOrderedGrammaticalCategories("plurality"),
+      row_names: getOrderedGrammaticalCategories("cases"),
     });
   } else if (word.is("reflexive pronoun")) {
     /* Reflexive pronouns */
     table = RenderTable(leaf.values, original_word, {
       column_names: [null],
-      row_names: grammaticalCategories["cases"],
+      row_names: getOrderedGrammaticalCategories("cases"),
     });
   } else if (
     /* Adjectives */
@@ -58,16 +55,16 @@ const TraverseTree = (leaf: object, original_word: Word): Html => {
       word.is("past participle") ||
       word.is("ordinal number") ||
       word.is("numeral")) &&
-    grammaticalCategories["plurality"].includes(leaf.tag)
+    getOrderedGrammaticalCategories("plurality).includes(leaf.tag")
   ) {
     table = RenderTable(leaf.values, original_word, {
-      column_names: grammaticalCategories["gender"],
-      row_names: grammaticalCategories["cases"],
+      column_names: getOrderedGrammaticalCategories("gender"),
+      row_names: getOrderedGrammaticalCategories("cases"),
     });
   } else if (
     /* Verbs */
     word.is("verb") &&
-    grammaticalCategories["tense"].includes(leaf.tag) &&
+    getOrderedGrammaticalCategories("tense).includes(leaf.tag") &&
     !word.is("question form") &&
     !word.is("infinitive")
   ) {
@@ -80,8 +77,8 @@ const TraverseTree = (leaf: object, original_word: Word): Html => {
     } else {
       /* Regular table */
       table = RenderTable(leaf.values, original_word, {
-        column_names: grammaticalCategories["plurality"],
-        row_names: grammaticalCategories["person"],
+        column_names: getOrderedGrammaticalCategories("plurality"),
+        row_names: getOrderedGrammaticalCategories("person"),
       });
     }
   } else if (leaf.tag === "imperative") {
@@ -92,10 +89,10 @@ const TraverseTree = (leaf: object, original_word: Word): Html => {
     });
   } else if (
     word.is("question form") &&
-    grammaticalCategories["tense"].includes(leaf.tag)
+    getOrderedGrammaticalCategories("tense).includes(leaf.tag")
   ) {
     table = RenderTable(leaf.values, original_word, {
-      column_names: grammaticalCategories["plurality"],
+      column_names: getOrderedGrammaticalCategories("plurality"),
       row_names: ["2nd person"],
     });
   }

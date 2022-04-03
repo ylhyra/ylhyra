@@ -1,25 +1,43 @@
 import {
   getCanonicalGrammaticalTag,
+  getOrderedGrammaticalCategories,
   grammaticalCategories,
 } from "inflection/tables/classification/classification";
 import { sortByClassification } from "inflection/tables/classification/sortByClassification";
 import link from "inflection/tables/link";
-import { Html, Rows } from "inflection/tables/types";
+import {
+  GrammaticalCategory,
+  GrammaticalTag,
+  GrammaticalTagOrVariantNumber,
+  Html,
+  InflectionalCategoryList,
+  Rows,
+} from "inflection/tables/types";
 import Word from "inflection/tables/word";
+import {
+  RowOrColumn,
+  SingleTableOptions,
+} from "inflection/tables/tables_single";
 
-export default (rows: Rows, options, more_options /* todo: merge */): Html => {
+export default (
+  rows: Rows,
+  options: SingleTableOptions,
+  /** Unused information from server, can be removed as this is already in rows */
+  { input_string }: { input_string: string }
+): Html => {
   let give_me = options?.give_me;
-  let column_names = options && (options.columns || options.column_names);
+  // @ts-ignore
+  let column_names = options && (options["columns"] || options.column_names);
+  // @ts-ignore
   let row_names = options && (options.rows || options.row_names);
-  let input_string = more_options?.input_string;
 
   let word = new Word(rows.sort(sortByClassification));
 
   let table;
   if (give_me || column_names || row_names || options.single) {
-    give_me = clean__temporary(give_me);
-    column_names = cleanRowOrColum__temporary(column_names);
-    row_names = cleanRowOrColum__temporary(row_names);
+    give_me = getCanonicalGrammaticalTagFromUserInput(give_me);
+    column_names = getRowOrColumnSettingsFromUserInput(column_names);
+    row_names = getRowOrColumnSettingsFromUserInput(row_names);
     word = word.get(...give_me);
     if (word.rows.length > 0) {
       table = word.getSingleTable({
@@ -71,18 +89,19 @@ export default (rows: Rows, options, more_options /* todo: merge */): Html => {
   `;
 };
 
-/*
-  Temporary helper functions, need to be moved elsewhere
-  returns array
-*/
-const cleanRowOrColum__temporary = (string: string) => {
+const getRowOrColumnSettingsFromUserInput = (string: string): RowOrColumn => {
   if (!string) return;
   /* If someone enters "cases" the rest is filled out */
-  if (string in grammaticalCategories) return grammaticalCategories[string];
+  if (string in grammaticalCategories) {
+    return getOrderedGrammaticalCategories(string as GrammaticalCategory);
+  }
   // /* Should be made to work in the future */
-  return string.split(";").map(clean__temporary);
+  return string.split(";").map(getCanonicalGrammaticalTagFromUserInput);
 };
-const clean__temporary = (string: string): (string | number)[] => {
+
+const getCanonicalGrammaticalTagFromUserInput = (
+  string: string
+): InflectionalCategoryList => {
   if (!string) return [];
   return string
     .replace(/_/g, " ")

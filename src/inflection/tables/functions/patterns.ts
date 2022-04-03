@@ -36,14 +36,14 @@ export const removeInflectionalPattern = (
         word.getType("gender")
       ]; /*[word.getType('plurality')][word.getType('article')]*/
     const sibling_classification = without(
-      word.getFirstClassification(),
-      ...grammaticalCategories["cases"]
+      word.getClassificationOfFirstRow(),
+      ...getOrderedGrammaticalCategories("cases")
     );
     const siblings = word
       .getOriginal()
       .get(...sibling_classification)
       .get(1);
-    const word_case_index = grammaticalCategories["cases"].indexOf(
+    const word_case_index = getOrderedGrammaticalCategories("cases").indexOf(
       word.getType("case")
     );
     let ending = "";
@@ -51,7 +51,7 @@ export const removeInflectionalPattern = (
     if (word.is(1)) {
       const result = possible_endings_for_gender.find((pattern) => {
         return pattern.every((ending, index) => {
-          const case_ = grammaticalCategories["cases"][index];
+          const case_ = getOrderedGrammaticalCategories("cases")[index];
           const value = siblings.get(case_).getFirstValue();
           if (value) {
             return new RegExp(`${ending}$`).test(

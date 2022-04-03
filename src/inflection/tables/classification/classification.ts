@@ -20,6 +20,15 @@ let grammaticalCategories: Partial<
   Record<GrammaticalCategory, GrammaticalTag[]>
 > = {};
 
+export const getOrderedGrammaticalCategories = (
+  grammaticalCategory: GrammaticalCategory
+): GrammaticalTag[] => {
+  if (!(grammaticalCategory in grammaticalCategories)) {
+    throw new Error(`Grammatical category ${grammaticalCategory} not found`);
+  }
+  return grammaticalCategories[grammaticalCategory]!;
+};
+
 /**
  * Abbreviations. Object on form {'nf': 'nominative'}
  */

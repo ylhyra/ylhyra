@@ -21,12 +21,13 @@ export const tree = (rows: Rows): Tree => {
       const alreadyExists = currentArray.find((i) => i.tag === tag);
       if (alreadyExists) {
         currentArray = alreadyExists.values;
-      } else if (isNumber(tag)) {
+      } else if (typeof tag === "number") {
         /* Here, tag is a number, indicating variant. */
         currentArray.push({
           inflectional_form_categories: row.inflectional_form_categories,
           word_categories: row.word_categories,
-          variant_number: parseInt(tag),
+          /** TODO: Verify that this is correctly parsed as int */
+          variant_number: tag,
           inflectional_form: row.inflectional_form,
           should_be_taught: row.should_be_taught,
           correctness_grade_of_inflectional_form:
