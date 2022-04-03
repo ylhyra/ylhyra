@@ -1,8 +1,9 @@
+import Word from "inflection/tables/word";
+
 /**
- * @module Word
- * @return {?string}
+ * * @return {?string}
  */
-export function getWordNotes(): string | null {
+export function getWordNotes(this: Word): string | null {
   let notes = [];
   switch (this.original.rows[0].correctness_grade_of_word) {
     case "0":

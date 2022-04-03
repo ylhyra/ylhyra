@@ -11,13 +11,12 @@ import _ from "lodash";
 /**
  * Gets the stem of a word. See: https://is.wikipedia.org/wiki/Stofn_(málfræði)
  *
- * @module Word
- * @param {object} options
+ * * @param {object} options
  *   - masculinizeAdjectiveStem {boolean}
  *   - trimExtra {boolean}
  * @return {?string}
  */
-export function getStem(options: object): string | null {
+export function getStem(this: Word, options: object): string | null {
   let word = this;
   let selection;
   let output;

@@ -1,11 +1,11 @@
 import link from "inflection/tables/link";
+import Word from "inflection/tables/word";
 
 /**
  * Before
- * @module Word
- * @return {string} HTML as string
+ * * @return {string} HTML as string
  */
-export function getHelperWordsBefore(): string {
+export function getHelperWordsBefore(this: Word): string {
   let text = "";
   /* Nouns et al. */
   if (
@@ -107,10 +107,9 @@ export function getHelperWordsBefore(): string {
 
 /**
  * After
- * @module Word
- * @return {string} HTML string
+ * * @return {string} HTML string
  */
-export function getHelperWordsAfter(): string {
+export function getHelperWordsAfter(this: Word): string {
   let text = "";
   let addSpace = true;
 

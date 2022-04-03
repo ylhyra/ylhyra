@@ -9,7 +9,7 @@ import {
   getHelperWordsAfter,
   getHelperWordsBefore,
 } from "inflection/tables/functions/helperWords";
-import { FindIrregularities } from "inflection/tables/functions/irregularities";
+import { findIrregularities } from "inflection/tables/functions/irregularities";
 import { getPrincipalParts } from "inflection/tables/functions/principalParts";
 import { getStem } from "inflection/tables/functions/stem";
 import { isStrong, isWeak } from "inflection/tables/functions/strong";
@@ -18,21 +18,21 @@ import { getWordNotes } from "inflection/tables/functions/wordNotes";
 import getTables from "inflection/tables/tables_all";
 import getSingleTable from "inflection/tables/tables_single";
 import tree, { isNumber } from "inflection/tables/tree";
+import { Rows } from "inflection/tables/types";
 import { flatten } from "lodash";
 
 class Word {
-  /**
-   * @param {array} rows
-   * @param {Word=} original
-   */
-  constructor(rows: Array<any>, original?: Word) {
+  /** The original Word object without any trimmed values */
+  original?: Word;
+  isStrong_cached?: Boolean;
+
+  constructor(rows: Rows = [], original?: Word) {
     if (!Array.isArray(rows) && rows !== undefined) {
       // console.log(rows)
       throw new Error(
         `Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`
       );
     }
-    rows = rows || [];
 
     /* Test for broken input */
     if (!original) {
@@ -106,13 +106,12 @@ class Word {
   getIsWordIrregular() {
     return this.original.wordIsIrregular;
   }
+
   getWordHasUmlaut() {
     return this.original.wordHasUmlaut;
   }
-  /**
-   * @param  {array|...string} values
-   */
-  is(...values) {
+
+  is(...values: string[]) {
     values = flatten(values);
     return values.every((value) => {
       /* Test word_categories */
@@ -464,6 +463,6 @@ Word.prototype.getTables = getTables;
 Word.prototype.getSingleTable = getSingleTable;
 Word.prototype.getWordDescription = getWordDescription;
 Word.prototype.getWordNotes = getWordNotes;
-Word.prototype.FindIrregularities = FindIrregularities;
+Word.prototype.FindIrregularities = findIrregularities;
 
 export default Word;

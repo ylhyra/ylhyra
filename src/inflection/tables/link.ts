@@ -1,11 +1,11 @@
+import { getTagInfo } from "inflection/tables/classification/classification";
 import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
 import { formatUrl } from "ylhyra/server/content/links/paths";
-import { getTagInfo } from "inflection/tables/classification/classification";
 
-/*
-  Creates a link from our labels to relevant Ylhýra pages
-*/
-export default (link, label) => {
+/**
+ * Creates a link from our labels to the relevant Ylhýra pages
+ */
+export default (link: string, label?: string) => {
   if (!link || typeof link !== "string") return "";
   if (label === undefined) {
     label = link;
@@ -33,11 +33,11 @@ export default (link, label) => {
   return `<a class="plainlink" target="_blank" href="${url}">${label}</a>`;
 };
 
-export const removeLinks = (string) => {
+export const removeLinks = (string: string) => {
   return string?.replace(/<\/a>/g, "").replace(/<a .+?>/g, "");
 };
 
-export const stripHTML = (string) => {
+export const stripHTML = (string: string) => {
   return (
     string &&
     string
@@ -48,7 +48,7 @@ export const stripHTML = (string) => {
   );
 };
 
-export const ucfirst_link = (input) =>
+export const ucfirst_link = (input: string) =>
   input.replace(/^(?:<a .+?>)?(.)/, (part) => {
     let split = part.split("");
     split[split.length - 1] = ucfirst(split[split.length - 1]);

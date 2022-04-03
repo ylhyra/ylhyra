@@ -2,11 +2,11 @@
   To run:
   node build/server/ylhyra_server.js --import-inflections
 */
-// var inflections = require('./inflections.js')
+import { RawInputRows } from "inflection/tables/types";
+import LineByLineReader from "line-by-line";
 import path from "path";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
-import LineByLineReader from "line-by-line";
 
 let count = 0;
 
@@ -42,6 +42,22 @@ lr.on("line", (line) => {
       register_of_inflectional_form, // 13
       various_feature_markers, // 14
       alternative_entry, // 15
+    ]: [
+      RawInputRows["base_word"],
+      RawInputRows["BIN_id"],
+      RawInputRows["word_categories"],
+      RawInputRows["BIN_domain"],
+      RawInputRows["correctness_grade_of_word"],
+      RawInputRows["word_register"],
+      RawInputRows["grammar_group"],
+      RawInputRows["cross_reference"],
+      RawInputRows["should_be_taught"],
+      RawInputRows["inflectional_form"],
+      RawInputRows["grammatical_tag"],
+      RawInputRows["correctness_grade_of_inflectional_form"],
+      RawInputRows["register_of_inflectional_form"],
+      RawInputRows["various_feature_markers"],
+      RawInputRows["alternative_entry"]
     ] = line.split(";");
 
     // if(BIN_id != 433568) {
@@ -49,6 +65,7 @@ lr.on("line", (line) => {
     // }
 
     /* Only the words marked with "K" (meaning "Core") are prescriptive and should be taught */
+    // @ts-ignore
     should_be_taught = should_be_taught === "K" ? true : false;
 
     query(
@@ -89,39 +106,6 @@ lr.on("line", (line) => {
         `\x1Bc\r${((count / CSV_FILE_LINES) * 100).toFixed(1)}% ${base_word}`
       );
     }
-
-    // inflections(line, (entry) => {
-    //
-    //   // console.log(JSON.stringify(entry.entry.content, null, 2).slice(0,1000))
-    //   // process.exit()
-    //
-    //   if (count % 1000 === 0) {
-    //     console.log(`${(count / 278704 * 100).toFixed(1)}% ${entry.base}`)
-    //   }
-    //   count++
-    //
-    //   if (entry.base !== null) {
-    //     const hash = string_hash(line).toString(36)
-    //
-    //     let beygjanleg_query = ''
-    //     let beyginleg_input = []
-    //     for (let i of entry.forms) {
-    //       beygjanleg_query += `INSERT INTO words_to_inflection SET lowercase = ?, word = ?, classification = ?, inflection_hash = ?;`
-    //       beyginleg_input.push(i.value.toLowerCase(), i.value, i.flokkun, hash)
-    //     }
-    //
-    //     query(beygjanleg_query +
-    //       `INSERT INTO inflection SET hash = ?, base = ?, entry = ?;`, [...beyginleg_input, hash, entry.base, JSON.stringify(entry.entry)],
-    //       (error, results, fields) => {
-    //         if (error) {
-    //           console.error(error)
-    //         }
-    //         lr.resume()
-    //       });
-    //   } else {
-    //     lr.resume()
-    //   }
-    // })
   }
 });
 

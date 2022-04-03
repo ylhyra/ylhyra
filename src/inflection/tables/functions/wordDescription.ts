@@ -1,9 +1,6 @@
 import link from "inflection/tables/link";
 import Word from "inflection/tables/word";
 
-/**
- * @module Word
- */
 export function getWordDescription(this: Word): string | null {
   let output = [];
 
@@ -37,7 +34,5 @@ export function getWordDescription(this: Word): string | null {
     output.push(link("regular inflection"));
   }
 
-  output = output.filter(Boolean).join(", ");
-
-  return output;
+  return output.filter(Boolean).join(", ");
 }

@@ -1,17 +1,16 @@
-import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
 import { types } from "inflection/tables/classification/classification";
 import link from "inflection/tables/link";
 import RenderTable, { renderCell } from "inflection/tables/render_table";
 import { isNumber } from "inflection/tables/tree";
 import Word, { WordFromTree } from "inflection/tables/word";
+import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
 
 /**
  * getTables - Prints all tables for a given word
  *
- * @module Word
  * @return {string} HTML as string
  */
-export default function getTables(): string {
+export default function getTables(this: Word): string {
   return TraverseTree(this.getTree(), this);
 }
 

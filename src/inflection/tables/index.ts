@@ -4,21 +4,17 @@ import {
 } from "inflection/tables/classification/classification";
 import { sort_by_classification } from "inflection/tables/classification/sort_by_classification";
 import link from "inflection/tables/link";
+import { Rows } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 
-export default (rows, options, more_options /* todo: merge */) => {
+export default (rows: Rows, options, more_options /* todo: merge */) => {
   let give_me = options?.give_me;
   let column_names = options && (options.columns || options.column_names);
   let row_names = options && (options.rows || options.row_names);
   let input_string = more_options?.input_string;
 
-  // console.log(rows.slice(0,10))
-  // rows = rows.filter(row => row.correctness_grade_of_inflectional_form === 1
   let word = new Word(rows.sort(sort_by_classification));
-  // .highlight(input_string) // temp
-  // console.log('hah')
-  // const word = (new Word()).importTree(rows)
-  // console.log(word)
+
   let table;
   if (give_me || column_names || row_names || options.single) {
     give_me = clean__temporary(give_me);

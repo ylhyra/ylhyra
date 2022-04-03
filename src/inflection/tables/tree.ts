@@ -1,22 +1,11 @@
 import { sort_by_classification } from "inflection/tables/classification/sort_by_classification";
+import { Rows, Tree } from "inflection/tables/types";
 
 /**
  * Turns rows into nested tree, with each leaf containing
  * a collection of items that have the same classification
- *
- * @param {array} rows - Raw list of rows with classifications from ./classification/BIN_classification.js
- * The tree is on the form:
- *   {
- *     values: [{
- *       tag: 'singular',
- *       values: [{
- *         tag: 'nominative',
- *         values: []
- *       }]
- *     }]
- *   }
  */
-const tree = (rows: Array<any>): object => {
+const tree = (rows: Rows): Tree => {
   let output = {
     BIN_id: rows[0]?.BIN_id,
     base_word: rows[0]?.base_word,

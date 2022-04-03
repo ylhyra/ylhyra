@@ -1,6 +1,6 @@
 import { types } from "inflection/tables/classification/classification";
+import Word from "inflection/tables/word";
 import { without } from "lodash";
-import Word from "../word";
 
 const splittableRegexEndingsFromArray = (string) => {
   return new RegExp(

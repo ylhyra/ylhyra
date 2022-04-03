@@ -9,10 +9,7 @@ import {
 } from "inflection/tables/functions/vowels";
 import Word from "inflection/tables/word";
 
-/**
- * @memberOf Word#
- */
-export function FindIrregularities() {
+export function findIrregularities(this: Word) {
   let word = this;
   let wordHasUmlaut, wordIsIrregular, wordIsHighlyIrregular;
 

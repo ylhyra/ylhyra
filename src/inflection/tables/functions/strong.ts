@@ -1,16 +1,14 @@
 import { endsInConsonant } from "inflection/tables/functions/vowels";
+import Word from "inflection/tables/word";
 
 /**
  * Strong or weak inflection
  * TODO: Pronouns
- *
- * @module Word
- * @return {?boolean}
  */
-export function isStrong(): boolean | null {
+export function isStrong(this: Word): boolean | null {
   let results;
-  if ("isStrong_saved" in this) {
-    return this.isStrong_saved;
+  if ("isStrong_cached" in this) {
+    return this.isStrong_cached;
   }
 
   /* Noun */
@@ -36,17 +34,16 @@ export function isStrong(): boolean | null {
     results = !/i$/.test(past_tense);
   }
 
-  this.isStrong_saved = results;
+  this.isStrong_cached = results;
   return results;
 }
 
 /**
  * Opposite of the above
  *
- * @module Word
- * @return {?boolean}
+ * * @return {?boolean}
  */
-export function isWeak(): boolean | null {
+export function isWeak(this: Word): boolean | null {
   const strong = this.isStrong();
   if (strong !== undefined) {
     return !strong;

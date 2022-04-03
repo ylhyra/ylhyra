@@ -486,14 +486,17 @@ Object.keys(type_aliases).forEach((key) => {
   });
 });
 
-export const normalizeTag = (tag, strict) => {
+export const normalizeTag = (
+  tag: string | number,
+  strict?: Boolean
+): string | number => {
   if (!tag) return null;
   if (typeof tag === "number") return tag;
   if (/^\d+?$/.test(tag))
     return parseInt(tag); /* Number on the form of a string */
   if (typeof tag !== "string")
     throw new Error(`normalizeTag received type ${typeof tag}`);
-  let output = shortcuts[tag] || shortcuts[tag.toLowerCase().trim()];
+  let output: string = shortcuts[tag] || shortcuts[tag.toLowerCase().trim()];
   if (!output && strict !== false)
     throw new Error(`Value not recognized: ${tag}`);
   return output;
