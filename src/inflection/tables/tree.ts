@@ -21,18 +21,12 @@ export const tree = (rows: Rows): Tree => {
       const alreadyExists = currentArray.find((i) => i.tag === tag);
       if (alreadyExists) {
         currentArray = alreadyExists.values;
-      } else if (!isNumber(tag)) {
-        currentArray.push({
-          tag,
-          values: [],
-        });
-        currentArray = currentArray[currentArray.length - 1].values;
-      } else {
-        /* Tag is number, indicating variant. TODO???? WHAT??? */
+      } else if (isNumber(tag)) {
+        /* Here, tag is a number, indicating variant. */
         currentArray.push({
           inflectional_form_categories: row.inflectional_form_categories,
           word_categories: row.word_categories,
-          variant_number: parseInt(tag) /**  TODO INCORRECT */,
+          variant_number: parseInt(tag),
           inflectional_form: row.inflectional_form,
           should_be_taught: row.should_be_taught,
           correctness_grade_of_inflectional_form:
@@ -42,17 +36,23 @@ export const tree = (rows: Rows): Tree => {
           values: [],
           // various_feature_markers: row.various_feature_markers,
         });
+      } else {
+        currentArray.push({
+          tag,
+          values: [],
+        });
+        currentArray = currentArray[currentArray.length - 1].values;
       }
     }
   }
 
-  return traverseAndSort(output);
+  return traverseAndSort(output) as Tree;
 };
 
 /**
  * Sort tree based on the list `sorted_tags` array in ./classification/BIN_classification.js
  */
-const traverseAndSort = (input: Tree): Tree => {
+const traverseAndSort = (input: Tree | Leaf): Tree | Leaf => {
   // if (Array.isArray(input)) {
   //   return input.sort(sort_by_classification).map(TraverseAndSort);
   // } else if (input.values) {

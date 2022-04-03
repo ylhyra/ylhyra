@@ -1,7 +1,7 @@
 import { sortedTags } from "inflection/tables/classification/classification";
-import { Tree } from "inflection/tables/types";
+import { Leaf } from "inflection/tables/types";
 
-export const sortByClassification = (a: Tree, b: Tree): number => {
+export const sortByClassification = (a: Leaf, b: Leaf): number => {
   /* Sort by single tag */
   if (a.tag) {
     return sortedTags.indexOf(a.tag) - sortedTags.indexOf(b.tag);
@@ -25,5 +25,5 @@ export const sortByClassification = (a: Tree, b: Tree): number => {
   }
 
   /* Sort by variant number */
-  return a.variant_number - b.variant_number;
+  return (a.variant_number || 0) - (b.variant_number || 0);
 };

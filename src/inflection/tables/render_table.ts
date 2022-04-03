@@ -1,8 +1,9 @@
+import link from "inflection/tables/link";
+import { Html } from "inflection/tables/types";
+import Word, { wordFromTree } from "inflection/tables/word";
+import { flatten } from "lodash";
 import { removeHtmlWhitespace } from "ylhyra/app/app/functions/removeHtmlWhitespace";
 import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
-import link from "inflection/tables/link";
-import Word, { WordFromTree } from "inflection/tables/word";
-import { flatten } from "lodash";
 
 /*
   Wrapper for "RenderTable", creates two alternative versions of the input,
@@ -15,7 +16,7 @@ const AlsoMakeTablesThatFitOnSmallScreens = (
   structure,
   highlight,
   options
-) => {
+): Html => {
   let { column_names, row_names } = structure;
   column_names = column_names || [null];
   row_names = row_names || [null];
@@ -73,7 +74,6 @@ export default AlsoMakeTablesThatFitOnSmallScreens;
  *     column_names: types['plurality'],
  *     row_names: types['person']
  *   }
- * @returns {string} HTML string
  */
 const RenderTable = (
   input: object | Word,
@@ -81,13 +81,13 @@ const RenderTable = (
   structure: object,
   highlight,
   options?
-): string => {
+): Html => {
   const { column_names, row_names } = structure;
   let word;
   if (input instanceof Word) {
     word = input;
   } else {
-    word = WordFromTree(input, original_word);
+    word = wordFromTree(input, original_word);
   }
   let table = [];
   row_names.forEach((row_name, row_index) => {

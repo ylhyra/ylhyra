@@ -3,7 +3,7 @@ import {
   shortcuts_used_in_BIN,
 } from "inflection/tables/classification/classification";
 import { isNumber } from "inflection/tables/tree";
-import { RawInputRow } from "inflection/tables/types";
+import { RowFromDatabase } from "inflection/tables/types";
 
 /**
  *  Turns BÍN's classifications into English
@@ -24,7 +24,7 @@ import { RawInputRow } from "inflection/tables/types";
  *   - inflectional_form_categories - An array of
  *     values that only apply to certain forms of the word (plurality, case...)
  */
-const classify = (input: RawInputRow): object | Array<any> => {
+const classify = (input: RowFromDatabase): object | Array<any> => {
   let { word_categories, grammatical_tag, BIN_domain, ...rest } = input;
   if (!word_categories && !grammatical_tag) return input;
 

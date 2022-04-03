@@ -2,15 +2,14 @@ import { types } from "inflection/tables/classification/classification";
 import link from "inflection/tables/link";
 import RenderTable, { renderCell } from "inflection/tables/render_table";
 import { isNumber } from "inflection/tables/tree";
-import Word, { WordFromTree } from "inflection/tables/word";
+import { Html } from "inflection/tables/types";
+import Word, { wordFromTree } from "inflection/tables/word";
 import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
 
 /**
  * getTables - Prints all tables for a given word
- *
- * @return {string} HTML as string
  */
-export default function getTables(this: Word): string {
+export default function getTables(this: Word): Html {
   return TraverseTree(this.getTree(), this);
 }
 
@@ -19,11 +18,10 @@ export default function getTables(this: Word): string {
  *
  * @param {object} leaf - Leaf from ./tree.js on the form { tag: 'nominative', values: [] }
  * @param {Word} original_word
- * @return {string} HTML as string
  */
-const TraverseTree = (leaf: object, original_word: Word): string => {
+const TraverseTree = (leaf: object, original_word: Word): Html => {
   let table = null;
-  const word = WordFromTree(leaf, original_word);
+  const word = wordFromTree(leaf, original_word);
   /* Nouns */
   if (word.is("noun") && types["plurality"].includes(leaf.tag)) {
     table = RenderTable(leaf.values, original_word, {

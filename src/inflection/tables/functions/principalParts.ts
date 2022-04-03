@@ -1,10 +1,10 @@
-/**
- * Principal parts (kennimyndir)
- * * @return {?boolean}
- */
+import { Html } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 
-export function getPrincipalParts(this: Word): boolean | null {
+/**
+ * Principal parts (kennimyndir)
+ */
+export function getPrincipalParts(this: Word): Html {
   if (this.is("verb")) {
     /* TODO: Support generation for miðmynd */
     const word = this.getOriginal();

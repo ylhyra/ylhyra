@@ -18,17 +18,28 @@ import { getWordNotes } from "inflection/tables/functions/wordNotes";
 import getTables from "inflection/tables/tables_all";
 import getSingleTable from "inflection/tables/tables_single";
 import { isNumber, tree } from "inflection/tables/tree";
-import { Rows } from "inflection/tables/types";
+import { Html, Leaf, Row, Rows, Tree } from "inflection/tables/types";
 import { flatten } from "lodash";
 
 class Word {
-  /** The original Word object without any trimmed values */
-  original?: Word;
+  /** The original Word object without any removed values */
+  original: Word;
   isStrong_cached?: Boolean;
+  rows: Rows;
+  getHelperWordsBefore = getHelperWordsBefore;
+  getHelperWordsAfter = getHelperWordsAfter;
+  getPrincipalParts = getPrincipalParts;
+  getStem = getStem;
+  isStrong = isStrong;
+  isWeak = isWeak;
+  getTables = getTables;
+  getSingleTable = getSingleTable;
+  getWordDescription = getWordDescription;
+  getWordNotes = getWordNotes;
+  FindIrregularities = findIrregularities;
 
   constructor(rows: Rows = [], original?: Word) {
     if (!Array.isArray(rows) && rows !== undefined) {
-      // console.log(rows)
       throw new Error(
         `Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`
       );
@@ -67,6 +78,7 @@ class Word {
       // console.log(this.rows.map(r => r.formattedOutput))
     }
   }
+
   setup() {
     // console.log(this.rows[0])
     if ("alreadySetup" in this) {
@@ -84,6 +96,7 @@ class Word {
   getId() {
     return this.original.rows.length > 0 && this.original.rows[0].BIN_id;
   }
+
   getURL() {
     return `https://inflections.ylhyra.is/${encodeURIComponent(
       this.getBaseWord()
@@ -127,6 +140,7 @@ class Word {
       );
     });
   }
+
   /**
    * @param  {array|...string} values
    */
@@ -146,6 +160,7 @@ class Word {
       );
     });
   }
+
   /**
    * @param  {array|...string} values
    */
@@ -163,6 +178,7 @@ class Word {
       this
     );
   }
+
   /**
    * Used in string table generation
    */
@@ -215,9 +231,11 @@ class Word {
       return this.returnEmptyWord();
     }
   }
+
   returnEmptyWord() {
     return new Word([], this);
   }
+
   /**
    * Returns all that meet *any* of the input values
    * @param  {array|...string} values
@@ -237,13 +255,16 @@ class Word {
       this
     );
   }
+
   getOriginal() {
     if (this.original.rows.length === 0) throw new Error("Empty original");
     return this.original;
   }
+
   getFirst() {
     return new Word(this.rows.slice(0, 1), this);
   }
+
   getFirstAndItsVariants() {
     /* We make sure the categories are completely equal to prevent
      * verbs (which come in various deep nestings) from matching */
@@ -259,17 +280,21 @@ class Word {
       this
     );
   }
+
   getFirstValue() {
     return (
       (this.rows.length > 0 && this.rows[0].inflectional_form) || undefined
     );
   }
+
   getFirstValueRendered() {
     return (this.rows.length > 0 && this.rows[0].formattedOutput) || undefined;
   }
+
   getForms() {
     return this.rows.map((row) => row.inflectional_form);
   }
+
   getForms_describe_as_string__temp() {
     return this.rows
       .map(
@@ -280,9 +305,11 @@ class Word {
       )
       .join("\n");
   }
+
   getWordCategories() {
     return this.original.rows[0]?.word_categories || [];
   }
+
   getFirstClassification() {
     return (
       (this.rows.length > 0 &&
@@ -292,6 +319,7 @@ class Word {
       []
     );
   }
+
   /**
    * @param  {array|...string} values
    */
@@ -309,14 +337,12 @@ class Word {
       this
     );
   }
+
   /**
    * Used to ask "which case does this word have?"
    * E.g. getType('case') returns 'nominative'
-   *
-   * @param  {string} type
-   * @return {?string}
    */
-  getType(type: string): string | null {
+  getType(type: string): string | undefined {
     const classification = [
       ...this.getWordCategories(),
       // TODO: Should we get first class or that which applies to all?
@@ -326,6 +352,7 @@ class Word {
     if (!relevantTypes) return;
     return classification.find((i) => relevantTypes.includes(i));
   }
+
   getDomain() {
     return (
       this.rows.length > 0 && relevant_BIN_domains[this.rows[0].BIN_domain]
@@ -337,18 +364,19 @@ class Word {
    * Three values are inputted, a value is returned
    * based on the gender of the word.
    * Used when generating helper words
-   * @param  {...*} values
    */
   dependingOnGender(...values: any[]) {
     return values[
-      ["masculine", "feminine", "neuter"].indexOf(this.getType("gender"))
+      ["masculine", "feminine", "neuter"].indexOf(
+        this.getType("gender") as string
+      )
     ];
   }
+
   /**
    * Five values are inputted, a value is returned
    * based on the subject type of the verb
    * Used when generating helper words
-   * @param  {...*} values
    */
   dependingOnSubject(...values: any[]) {
     if (this.is("impersonal with accusative subject")) {
@@ -363,16 +391,18 @@ class Word {
       return values[0];
     }
   }
+
   getRows() {
     return this.rows;
   }
+
   getTree() {
     return tree(this.rows);
   }
-  /* Returns array */
-  renderForms() {
+
+  renderForms(): Html[] {
     return this.rows.map((row) => {
-      /* formattedOutput contains umlaut higlights */
+      /* formattedOutput contains umlaut highlights */
       let out = row.formattedOutput || row.inflectional_form;
       if (row.matched_term === row.inflectional_form) {
         out = `<span class="highlight">${out}</span>`;
@@ -380,8 +410,9 @@ class Word {
       return out;
     });
   }
+
   /* Returns string with helper words */
-  render() {
+  render(): Html {
     let output =
       this.getHelperWordsBefore() +
       " " +
@@ -398,6 +429,7 @@ class Word {
 
     return output;
   }
+
   /**
     A snippet is a short example of a conjugation to display in search results
   */
@@ -407,14 +439,14 @@ class Word {
     // }
 
     /* Which variant to highlight? */
-    let chosen_variant_to_show = [];
-    let variants_matched = [];
+    let chosenVariantToShow = [];
+    let variantsMatched = [];
     this.rows.forEach((row) => {
       if (row.variant_matched) {
-        variants_matched.push(row);
+        variantsMatched.push(row);
       }
     });
-    variants_matched = variants_matched.sort((a, b) => {
+    variantsMatched = variantsMatched.sort((a, b) => {
       return (
         b.should_be_taught +
         b.correctness_grade_of_inflectional_form +
@@ -424,45 +456,36 @@ class Word {
           a.correctness_grade_of_word)
       );
     });
-    if (variants_matched.length > 0) {
-      chosen_variant_to_show =
-        variants_matched[0].inflectional_form_categories.filter(
+    if (variantsMatched.length > 0) {
+      chosenVariantToShow =
+        variantsMatched[0].inflectional_form_categories.filter(
           (i) => !isNumber(i)
         );
     }
 
     return this.getSingleTable({
       returnAsString: true,
-      give_me: chosen_variant_to_show,
+      give_me: chosenVariantToShow,
     });
   }
 }
 
-export const WordFromTree = (input, original) => {
-  let rows = [];
-  const traverse = (x) => {
+/**
+ * Todo: What is the purpose of this??
+ */
+export const wordFromTree = (input: Tree, original: Word) => {
+  let rows: Rows = [];
+  const traverse = (x: Tree | Leaf) => {
     if (Array.isArray(x)) {
       x.map(traverse);
     } else if (x.values) {
       x.values.map(traverse);
     } else {
-      rows.push(x);
+      rows.push(x as unknown as Row);
     }
   };
   traverse(input);
   return new Word(rows, original);
 };
-
-Word.prototype.getHelperWordsBefore = getHelperWordsBefore;
-Word.prototype.getHelperWordsAfter = getHelperWordsAfter;
-Word.prototype.getPrincipalParts = getPrincipalParts;
-Word.prototype.getStem = getStem;
-Word.prototype.isStrong = isStrong;
-Word.prototype.isWeak = isWeak;
-Word.prototype.getTables = getTables;
-Word.prototype.getSingleTable = getSingleTable;
-Word.prototype.getWordDescription = getWordDescription;
-Word.prototype.getWordNotes = getWordNotes;
-Word.prototype.FindIrregularities = findIrregularities;
 
 export default Word;

@@ -1,7 +1,8 @@
 import link from "inflection/tables/link";
+import { Html } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 
-export function getWordDescription(this: Word): string | null {
+export function getWordDescription(this: Word): Html | null {
   let output = [];
 
   output.push(this.getDomain());

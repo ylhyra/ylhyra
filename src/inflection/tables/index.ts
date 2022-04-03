@@ -4,10 +4,10 @@ import {
 } from "inflection/tables/classification/classification";
 import { sortByClassification } from "inflection/tables/classification/sort_by_classification";
 import link from "inflection/tables/link";
-import { Rows } from "inflection/tables/types";
+import { Html, Rows } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 
-export default (rows: Rows, options, more_options /* todo: merge */) => {
+export default (rows: Rows, options, more_options /* todo: merge */): Html => {
   let give_me = options?.give_me;
   let column_names = options && (options.columns || options.column_names);
   let row_names = options && (options.rows || options.row_names);

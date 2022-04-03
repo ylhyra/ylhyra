@@ -1,3 +1,5 @@
+import { InflectionCategoryTag } from "inflection/tables/classification/classification";
+
 export type Tree = Pick<
   Row,
   | "BIN_id"
@@ -9,23 +11,25 @@ export type Tree = Pick<
   values: Leaf[];
 };
 
-export type Leaf = Pick<
-  Row,
-  | "inflectional_form_categories"
-  | "word_categories"
-  | "inflectional_form"
-  | "should_be_taught"
-  | "correctness_grade_of_inflectional_form"
-  | "register_of_inflectional_form"
-  | "formattedOutput"
+export type Leaf = Partial<
+  Pick<
+    Row,
+    | "inflectional_form_categories"
+    | "word_categories"
+    | "inflectional_form"
+    | "should_be_taught"
+    | "correctness_grade_of_inflectional_form"
+    | "register_of_inflectional_form"
+    | "formattedOutput"
+  >
 > & {
-  tag?: string;
-  variant_number: number;
+  tag?: InflectionCategoryTag;
+  variant_number?: number;
   values: Leaf[];
 };
 
 /** Rows from database (as processed in ImportToDatabase.ts) */
-export type RawInputRow = {
+export type RowFromDatabase = {
   base_word: string;
   BIN_id: string;
   word_categories: string;
@@ -42,19 +46,26 @@ export type RawInputRow = {
   register_of_inflectional_form: string;
   various_feature_markers: string;
   alternative_entry: string;
+
+  /** What term of this Word matched the user's search input? */
+  matched_term: string;
+  /** Did this row match the user's search input? */
+  variant_matched: Boolean;
 };
 
 /**  Raw list of rows with classifications from ./classification/BIN_classification.js */
 export type Row = Omit<
-  RawInputRow,
+  RowFromDatabase,
   "word_categories" | "grammatical_tag" | "BIN_domain"
 > & {
   /** Categories from classification.ts that apply to the entire word (noun, adjective) */
   word_categories: string[];
   /** Categories from classification.ts that apply only to the given inflectino form (nominative, dative) */
-  inflectional_form_categories: string[];
+  inflectional_form_categories: InflectionCategoryTag[];
 
   /** Cached formatted output (Todo: Is this necessary?) */
   formattedOutput?: string;
 };
 export type Rows = Row[];
+
+export type Html = string;

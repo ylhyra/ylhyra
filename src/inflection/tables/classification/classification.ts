@@ -3,6 +3,7 @@
  *  - https://bin.arnastofnun.is/gogn/k-snid and
  *  - https://bin.arnastofnun.is/gogn/greiningarstrengir/
  * By Árni Magnússon Institute for Icelandic Studies
+ * Note: Must be correctly sorted.
  */
 const labelsArray = [
   /* Person */
@@ -437,7 +438,8 @@ let shortcuts_used_in_BIN = {};
 /**
  * Sorted single-userLevel array of tags, used for sorting rows when constructing the tree
  */
-let sortedTags = [];
+let sortedTags: InflectionCategoryTag[] = [];
+export type InflectionCategoryTag = string | number;
 
 /**
  * Reverses `label` to turn it into a searchable object

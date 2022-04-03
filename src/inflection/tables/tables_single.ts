@@ -1,18 +1,17 @@
 import { types } from "inflection/tables/classification/classification";
 import link, { ucfirst_link } from "inflection/tables/link";
 import RenderTable from "inflection/tables/render_table";
+import { Html } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 import { flatten, without } from "lodash";
 
 /**
  * Finds a single relevant table
- *
- * @return {string} HTML as string
  */
 export default function getSingleTable(
   this: Word,
   { returnAsString, give_me, column_names, row_names, skip_description }
-): string {
+): Html {
   let word = this;
   let description = "";
   let table = "";
