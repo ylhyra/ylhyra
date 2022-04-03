@@ -3,15 +3,12 @@ import {
   shortcuts_used_in_BIN,
 } from "inflection/tables/classification/classification";
 import { isNumber } from "inflection/tables/tree";
+import { RawInputRow } from "inflection/tables/types";
 
 /**
  *  Turns BÍN's classifications into English
  *
- * @param {object} input
- *   Input is a raw row from the database with
- *   original values from the KRISTINsnid.csv file.
- *   The parameter mapping from the original file is
- *   shown in "server/server-with-database/database/ImportToDatabase.js".
+ * @param input
  *   The following attributes of the input object are taken into consideration:
  *   - word_categories
  *   - grammatical_tag
@@ -27,7 +24,7 @@ import { isNumber } from "inflection/tables/tree";
  *   - inflectional_form_categories - An array of
  *     values that only apply to certain forms of the word (plurality, case...)
  */
-const classify = (input: object): object | Array<any> => {
+const classify = (input: RawInputRow): object | Array<any> => {
   let { word_categories, grammatical_tag, BIN_domain, ...rest } = input;
   if (!word_categories && !grammatical_tag) return input;
 

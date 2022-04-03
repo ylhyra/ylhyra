@@ -3,13 +3,13 @@
 
   Note: This file currently relies on being a submodule of Ylhýra.
 */
-import phoneticHash from "modules/languageProcessing/phoneticHash";
-import { removeDiacritics } from "modules/languageProcessing/removeDiacritics";
 import express from "express";
 import classify from "inflection/tables/classification/BIN_classification";
-import { sort_by_classification } from "inflection/tables/classification/sort_by_classification";
+import { sortByClassification } from "inflection/tables/classification/sort_by_classification";
 import { removeLinks } from "inflection/tables/link";
 import Word from "inflection/tables/word";
+import phoneticHash from "modules/languageProcessing/phoneticHash";
+import { removeDiacritics } from "modules/languageProcessing/removeDiacritics";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
 
@@ -97,7 +97,7 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
 
           let output = [];
           words.forEach((rows1) => {
-            const word = new Word(rows1.sort(sort_by_classification));
+            const word = new Word(rows1.sort(sortByClassification));
             /* Prevent "null" from appearing during index creation, which causes Word() to fail */
             if (word.getId()) {
               output.push({
@@ -149,11 +149,11 @@ export const cleanInput = (input) => {
   return input?.toLowerCase().replace(/[^a-zA-ZÀ-ÿ0-9]/g, "");
 };
 
-export const without_special_characters = (string) => {
+export const without_special_characters = (string: string) => {
   return WITHOUT_SPECIAL_CHARACTERS_MARKER + removeDiacritics(string);
 };
 
-export const with_spelling_errors = (string) => {
+export const with_spelling_errors = (string: string) => {
   return (
     WITH_SPELLING_ERROR_MARKER +
     removeTemporaryMarkers(without_special_characters(string))
@@ -162,7 +162,7 @@ export const with_spelling_errors = (string) => {
   ); // Remove two in a row
 };
 
-export const phonetic = (string) => {
+export const phonetic = (string: string) => {
   return (
     PHONETIC_MARKER +
     phoneticHash(removeTemporaryMarkers(without_special_characters(string)))

@@ -2,7 +2,7 @@ import { types } from "inflection/tables/classification/classification";
 import Word from "inflection/tables/word";
 import { without } from "lodash";
 
-const splittableRegexEndingsFromArray = (string) => {
+const splittableRegexEndingsFromArray = (string: string) => {
   return new RegExp(
     `(${string.sort((a, b) => b.length - a.length).join("|")})$`
   );

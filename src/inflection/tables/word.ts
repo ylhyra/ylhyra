@@ -17,7 +17,7 @@ import { getWordDescription } from "inflection/tables/functions/wordDescription"
 import { getWordNotes } from "inflection/tables/functions/wordNotes";
 import getTables from "inflection/tables/tables_all";
 import getSingleTable from "inflection/tables/tables_single";
-import tree, { isNumber } from "inflection/tables/tree";
+import { isNumber, tree } from "inflection/tables/tree";
 import { Rows } from "inflection/tables/types";
 import { flatten } from "lodash";
 

@@ -1,17 +1,16 @@
-import { sorted_tags } from "inflection/tables/classification/classification";
+import { sortedTags } from "inflection/tables/classification/classification";
+import { Tree } from "inflection/tables/types";
 
-export const sort_by_classification = (a, b) => {
+export const sortByClassification = (a: Tree, b: Tree): number => {
   /* Sort by single tag */
   if (a.tag) {
-    return sorted_tags.indexOf(a.tag) - sorted_tags.indexOf(b.tag);
+    return sortedTags.indexOf(a.tag) - sortedTags.indexOf(b.tag);
   }
 
-  // console.log({a,b})
   if (!a.inflectional_form_categories || !b.inflectional_form_categories) {
-    console.error(
+    throw new Error(
       `sort_by_classification received an object which does not contain "inflectional_form_categories"`
     );
-    return false;
   }
 
   /* Sort by full array of classification */
@@ -20,8 +19,8 @@ export const sort_by_classification = (a, b) => {
     if (a.inflectional_form_categories[i] === b.inflectional_form_categories[i])
       continue;
     return (
-      sorted_tags.indexOf(a.inflectional_form_categories[i]) -
-      sorted_tags.indexOf(b.inflectional_form_categories[i])
+      sortedTags.indexOf(a.inflectional_form_categories[i]) -
+      sortedTags.indexOf(b.inflectional_form_categories[i])
     );
   }
 

@@ -1,21 +1,31 @@
-/**  Raw list of rows with classifications from ./classification/BIN_classification.js */
-export type Rows = Array<{}>;
-export type Tree = {
-  values: [
-    {
-      tag: "singular";
-      values: [
-        {
-          tag: "nominative";
-          values: [];
-        }
-      ];
-    }
-  ];
+export type Tree = Pick<
+  Row,
+  | "BIN_id"
+  | "base_word"
+  | "correctness_grade_of_word"
+  | "word_register"
+  | "word_categories"
+> & {
+  values: Leaf[];
 };
 
-/** Rows as processed in ImportToDatabase.ts */
-export type RawInputRows = {
+export type Leaf = Pick<
+  Row,
+  | "inflectional_form_categories"
+  | "word_categories"
+  | "inflectional_form"
+  | "should_be_taught"
+  | "correctness_grade_of_inflectional_form"
+  | "register_of_inflectional_form"
+  | "formattedOutput"
+> & {
+  tag?: string;
+  variant_number: number;
+  values: Leaf[];
+};
+
+/** Rows from database (as processed in ImportToDatabase.ts) */
+export type RawInputRow = {
   base_word: string;
   BIN_id: string;
   word_categories: string;
@@ -33,3 +43,18 @@ export type RawInputRows = {
   various_feature_markers: string;
   alternative_entry: string;
 };
+
+/**  Raw list of rows with classifications from ./classification/BIN_classification.js */
+export type Row = Omit<
+  RawInputRow,
+  "word_categories" | "grammatical_tag" | "BIN_domain"
+> & {
+  /** Categories from classification.ts that apply to the entire word (noun, adjective) */
+  word_categories: string[];
+  /** Categories from classification.ts that apply only to the given inflectino form (nominative, dative) */
+  inflectional_form_categories: string[];
+
+  /** Cached formatted output (Todo: Is this necessary?) */
+  formattedOutput?: string;
+};
+export type Rows = Row[];

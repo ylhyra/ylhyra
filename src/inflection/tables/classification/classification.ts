@@ -4,7 +4,7 @@
  *  - https://bin.arnastofnun.is/gogn/greiningarstrengir/
  * By Árni Magnússon Institute for Icelandic Studies
  */
-const labels_array = [
+const labelsArray = [
   /* Person */
   {
     title: "1st person",
@@ -430,20 +430,21 @@ let types = {};
  * Object on form {'nf': 'nominative'}
  */
 let shortcuts = {};
+
 /* Only for BÍN */
 let shortcuts_used_in_BIN = {};
 
 /**
  * Sorted single-userLevel array of tags, used for sorting rows when constructing the tree
  */
-let sorted_tags = [];
+let sortedTags = [];
 
 /**
  * Reverses `label` to turn it into a searchable object
  */
-let title_to_label = {};
+let titleToLabel = {};
 
-labels_array.forEach((label) => {
+labelsArray.forEach((label) => {
   /* Types */
   if (label.type) {
     if (!types[label.type]) {
@@ -467,21 +468,21 @@ labels_array.forEach((label) => {
   });
 
   /* Sorted tags */
-  sorted_tags.push(label.title);
+  sortedTags.push(label.title);
 
   /* Reverse lookup */
-  title_to_label[label.title] = label;
+  titleToLabel[label.title] = label;
 });
 
-const type_aliases = {
+const typeAliases = {
   article: ["articles"],
   plurality: ["number"],
   case: ["cases"],
   gender: ["genders"],
   person: ["persons"],
 };
-Object.keys(type_aliases).forEach((key) => {
-  type_aliases[key].forEach((type) => {
+Object.keys(typeAliases).forEach((key) => {
+  typeAliases[key].forEach((type) => {
     types[type] = types[key];
   });
 });
@@ -504,10 +505,10 @@ export const normalizeTag = (
 
 export const getTagInfo = (tag, strict) => {
   tag = normalizeTag(tag, strict);
-  return tag && title_to_label[tag];
+  return tag && titleToLabel[tag];
 };
 
 export { shortcuts };
-export { sorted_tags };
+export { sortedTags };
 export { types };
 export { shortcuts_used_in_BIN };

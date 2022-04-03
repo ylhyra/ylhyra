@@ -10,7 +10,7 @@ import express from "express";
 import withLicense from "inflection/server/server-with-database/license";
 import layout from "inflection/server/views/layout";
 import render from "inflection/tables";
-import tree from "inflection/tables/tree";
+import { tree } from "inflection/tables/tree";
 import { cacheControl } from "ylhyra/server/caching";
 
 const router = express.Router();

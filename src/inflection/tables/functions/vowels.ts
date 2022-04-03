@@ -19,12 +19,12 @@ export const endsInVowel = (input) => {
   return string && new RegExp(`[${vowels}]$`, "i").test(string);
 };
 
-export const endsInConsonant = (string) => {
+export const endsInConsonant = (string: string) => {
   // if (typeof string !== 'string') throw new Error('endsInConsonant expected string');
   return !endsInVowel(string);
 };
 
-export const splitOnVowels = (string) => {
+export const splitOnVowels = (string: string) => {
   // if (typeof string !== 'string') throw new Error('splitOnVowelRegions expected string');
   return (
     string &&
@@ -32,7 +32,7 @@ export const splitOnVowels = (string) => {
   );
 };
 
-export const splitOnVowelRegions = (string) => {
+export const splitOnVowelRegions = (string: string) => {
   // if (typeof string !== 'string') throw new Error('splitOnVowelRegions expected string');
   return (
     string &&
@@ -40,7 +40,7 @@ export const splitOnVowelRegions = (string) => {
   );
 };
 
-export const getVowelClusters = (string) => {
+export const getVowelClusters = (string: string) => {
   // if (typeof string !== 'string') throw new Error('splitOnVowelRegions expected string');
   return (
     string &&
@@ -48,7 +48,7 @@ export const getVowelClusters = (string) => {
   );
 };
 
-export const splitOnAll = (string) => {
+export const splitOnAll = (string: string) => {
   // if (typeof string !== 'string') throw new Error('splitOnAll expected string');
   return (
     string &&
@@ -58,12 +58,12 @@ export const splitOnAll = (string) => {
   );
 };
 
-export const isVowellikeCluster = (string) => {
+export const isVowellikeCluster = (string: string) => {
   // if (typeof string !== 'string') throw new Error('splitOnAll expected string');
   return new RegExp(`(${vowellike_clusters}|[${vowels}]+)`, "i").test(string);
 };
 
-export const removeLastVowelCluster = (string) => {
+export const removeLastVowelCluster = (string: string) => {
   // if (typeof string !== 'string') throw new Error('removeLastVowelCluster expected string');
   return (
     string &&
@@ -71,7 +71,7 @@ export const removeLastVowelCluster = (string) => {
   );
 };
 
-export const removeVowellikeClusters = (string) => {
+export const removeVowellikeClusters = (string: string) => {
   return (
     string &&
     string.replace(new RegExp(`(${vowellike_clusters}|[${vowels}]+)`, "ig"), "")

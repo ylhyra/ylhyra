@@ -2,7 +2,7 @@ import {
   normalizeTag,
   types,
 } from "inflection/tables/classification/classification";
-import { sort_by_classification } from "inflection/tables/classification/sort_by_classification";
+import { sortByClassification } from "inflection/tables/classification/sort_by_classification";
 import link from "inflection/tables/link";
 import { Rows } from "inflection/tables/types";
 import Word from "inflection/tables/word";
@@ -13,7 +13,7 @@ export default (rows: Rows, options, more_options /* todo: merge */) => {
   let row_names = options && (options.rows || options.row_names);
   let input_string = more_options?.input_string;
 
-  let word = new Word(rows.sort(sort_by_classification));
+  let word = new Word(rows.sort(sortByClassification));
 
   let table;
   if (give_me || column_names || row_names || options.single) {
@@ -75,14 +75,18 @@ export default (rows: Rows, options, more_options /* todo: merge */) => {
   Temporary helper functions, need to be moved elsewhere
   returns array
 */
-const cleanRowOrColum__temporary = (string) => {
+const cleanRowOrColum__temporary = (string: string) => {
   if (!string) return;
   /* If someone enters "cases" the rest is filled out */
   if (string in types) return types[string];
   // /* Should be made to work in the future */
   return string.split(";").map(clean__temporary);
 };
-const clean__temporary = (string) => {
+const clean__temporary = (string: string): (string | number)[] => {
   if (!string) return [];
-  return string.replace(/_/g, " ").split(",").map(normalizeTag).filter(Boolean);
+  return string
+    .replace(/_/g, " ")
+    .split(",")
+    .map((i: string | number) => normalizeTag(i))
+    .filter(Boolean);
 };

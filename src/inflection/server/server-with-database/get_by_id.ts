@@ -2,7 +2,7 @@
   Note: This file currently relies on being a submodule of Ylhýra.
 */
 import classify from "inflection/tables/classification/BIN_classification";
-import { sort_by_classification } from "inflection/tables/classification/sort_by_classification";
+import { sortByClassification } from "inflection/tables/classification/sort_by_classification";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
 
@@ -49,7 +49,7 @@ export default (id, callback) => {
         try {
           const rows = results[0]
             .map((i) => classify(i))
-            .sort(sort_by_classification);
+            .sort(sortByClassification);
 
           // console.log(results[1][1])
           // console.log(output)

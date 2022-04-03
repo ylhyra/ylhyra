@@ -2,7 +2,7 @@
   To run:
   node build/server/ylhyra_server.js --import-inflections
 */
-import { RawInputRows } from "inflection/tables/types";
+import { RawInputRow } from "inflection/tables/types";
 import LineByLineReader from "line-by-line";
 import path from "path";
 import query from "ylhyra/server/database";
@@ -43,21 +43,21 @@ lr.on("line", (line) => {
       various_feature_markers, // 14
       alternative_entry, // 15
     ]: [
-      RawInputRows["base_word"],
-      RawInputRows["BIN_id"],
-      RawInputRows["word_categories"],
-      RawInputRows["BIN_domain"],
-      RawInputRows["correctness_grade_of_word"],
-      RawInputRows["word_register"],
-      RawInputRows["grammar_group"],
-      RawInputRows["cross_reference"],
-      RawInputRows["should_be_taught"],
-      RawInputRows["inflectional_form"],
-      RawInputRows["grammatical_tag"],
-      RawInputRows["correctness_grade_of_inflectional_form"],
-      RawInputRows["register_of_inflectional_form"],
-      RawInputRows["various_feature_markers"],
-      RawInputRows["alternative_entry"]
+      RawInputRow["base_word"],
+      RawInputRow["BIN_id"],
+      RawInputRow["word_categories"],
+      RawInputRow["BIN_domain"],
+      RawInputRow["correctness_grade_of_word"],
+      RawInputRow["word_register"],
+      RawInputRow["grammar_group"],
+      RawInputRow["cross_reference"],
+      RawInputRow["should_be_taught"],
+      RawInputRow["inflectional_form"],
+      RawInputRow["grammatical_tag"],
+      RawInputRow["correctness_grade_of_inflectional_form"],
+      RawInputRow["register_of_inflectional_form"],
+      RawInputRow["various_feature_markers"],
+      RawInputRow["alternative_entry"]
     ] = line.split(";");
 
     // if(BIN_id != 433568) {
