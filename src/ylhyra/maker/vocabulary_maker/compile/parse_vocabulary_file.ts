@@ -1,5 +1,16 @@
 import _ from "underscore";
 import {
+  CardId,
+  CardIds,
+  TermId,
+  TermIds,
+} from "ylhyra/app/vocabulary/actions/card/types";
+import {
+  DifficultyEnum,
+  ImportanceEnum,
+  LevelsEnum,
+} from "ylhyra/app/vocabulary/constants";
+import {
   formatLemmas,
   formatPrefixes,
   formatVocabularyEntry,
@@ -10,35 +21,74 @@ import {
   getHash,
   getHashesFromCommaSeperated,
 } from "ylhyra/maker/vocabulary_maker/compile/functions";
+import { VocabularyFileRow } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
+import { getSounds } from "ylhyra/server/vocabulary/compile/getSounds";
+
+export type VocabularyFile = {
+  rows: VocabularyFileRow[];
+  sound: Array<VocabularyFileSoundRow>;
+};
+
+export type VocabularyFileSoundRow = {
+  recording_of: string;
+  filename: string;
+  speed: string;
+  speaker: string;
+  date: string;
+};
 
 export type CardData = {
   en_plaintext: string;
   en_formatted: string;
-  terms: string[];
-  level: string;
+  terms: TermIds;
+  level: LevelsEnum;
+  importance?: ImportanceEnum;
+  difficulty?: DifficultyEnum;
   pronunciation?: string;
   lemmas?: string;
   note_regarding_english?: string;
   note?: string;
   literally?: string;
-  row_id: string;
+  row_id: number;
   example_declension?: string;
-  importance?: string;
-  difficulty?: string;
   synonyms?: string;
   is_plaintext: string;
   is_formatted: string;
   from: string;
   id: string;
   spokenSentences?: string[];
+  sound: ReturnType<typeof getSounds>;
+  isSentence?: Boolean;
+  sortKey: number;
+
+  /** Used in backend, TODO: delete */
+  should_teach?: string;
+  fix?: string;
+  eyða?: string;
 };
 
-export const parseVocabularyFile = ({ rows, sound }, sortKeys) => {
-  let terms: { [id: string]: { cards: string[] } } = {};
-  let dependencies: { [id: string]: string[] } = {};
+export type BackendTerms = {
+  [id: TermId]: { cards: CardIds; dependencies?: TermIdToDependencyDepth };
+};
+export type TermIdToDependencyDepth = Record<TermId, number>;
+export type BackendDependencies = { [id: TermId]: TermIds };
+export type BackendCards = { [key: CardId]: CardData };
+export type BackendDeck = {
+  cards: BackendCards;
+  terms: BackendTerms;
+  dependencies: BackendDependencies;
+  alternativeIds: BackendDependencies;
+};
+
+export const parseVocabularyFile = (
+  { rows, sound }: VocabularyFile,
+  sortKeys?
+) => {
+  let terms: BackendTerms = {};
+  let dependencies: BackendDependencies = {};
   let alternativeIds: typeof dependencies = {};
   let plaintextSentences: { [id: string]: boolean } = {};
-  let cards: { [key: string]: CardData } = {};
+  let cards: BackendCards = {};
 
   const TermsToCardId = (_terms: string[], id: string) => {
     _terms.forEach((term) => {
@@ -93,7 +143,7 @@ export const parseVocabularyFile = ({ rows, sound }, sortKeys) => {
       let formattedIcelandicStrings = icelandicStrings.map(
         formatVocabularyEntry
       );
-      const termsInThisLine = icelandicStrings.map(getHash);
+      const termsInThisLine = icelandicStrings.map(getHash) as TermIds;
 
       let altIdLemmas: string[] = [];
       let dependsOnLemmas: string[] = [];
@@ -101,6 +151,7 @@ export const parseVocabularyFile = ({ rows, sound }, sortKeys) => {
         if (/%%/.test(lemma)) {
           return;
         } else if (/%/.test(lemma)) {
+          // @ts-ignore
           altIdLemmas.push(lemma.replaceAll("%", ""));
         } else {
           dependsOnLemmas.push(lemma);
@@ -151,6 +202,11 @@ export const parseVocabularyFile = ({ rows, sound }, sortKeys) => {
         importance: row.importance,
         difficulty: row.difficulty,
         synonyms: row.synonyms,
+
+        /** Used in backend */
+        should_teach: row.should_teach,
+        fix: row.fix,
+        eyða: row.eyða,
       } as const;
 
       if (/{{(ð?u)}}/.test(automaticThu(row.icelandic))) {
@@ -167,6 +223,7 @@ export const parseVocabularyFile = ({ rows, sound }, sortKeys) => {
 
       /* Icelandic to English */
       if (row.direction !== "<-") {
+        /** TODO? What to do about this? */
         if (row.should_split === "yes") {
           icelandicStrings.forEach((i: string, index: number) => {
             toAdd.push({
@@ -368,7 +425,7 @@ export const parseVocabularyFile = ({ rows, sound }, sortKeys) => {
   return {
     terms,
     dependencies,
-    alternative_ids: alternativeIds,
+    alternativeIds: alternativeIds,
     plaintext_sentences: plaintextSentences,
     cards,
     sound,

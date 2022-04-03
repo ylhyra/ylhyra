@@ -44,7 +44,7 @@ router.post("/recorder/save", (req, res) => {
       .replace(/^ +/gm, "")
       .trim();
 
-    fs.writeFileSync(filepath + ".mp3.md", desc, () => {});
+    fs.writeFileSync(filepath + ".mp3.md", desc);
     fs.writeFile(filepath + ".wav", buffer, (err) => {
       if (err) {
         console.error(err);

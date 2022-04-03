@@ -4,43 +4,39 @@
 */
 import fs from "fs";
 import yaml from "js-yaml";
-import _ from "underscore";
 import { GetLowercaseStringForAudioKey } from "ylhyra/maker/vocabulary_maker/compile/functions";
-import { parseVocabularyFile } from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
+import {
+  BackendDeck,
+  parseVocabularyFile,
+  VocabularyFile,
+} from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
 import { content_folder, getBaseDir } from "ylhyra/server/paths_backend";
-import { simplify } from "ylhyra/server/vocabulary/compile/simplify";
-import getSortKeys from "ylhyra/server/vocabulary/sortKeys";
+import { getSounds } from "ylhyra/server/vocabulary/compile/getSounds";
+import { simplifyDeck } from "ylhyra/server/vocabulary/compile/simplifyDeck";
+import { getSortKeysBasedOnWhenWordIsIntroducedInTheCourse } from "ylhyra/server/vocabulary/sortKeys";
 
-export let _deck;
-
-// const DECK = "_da";
 const DECK = process.env.DECK || "";
 const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
 
-// console.log(process.env.DECK);
-// process.exit();
-
-/*
-  Convert vocabulary data into a JavaScript object
-*/
+/**
+ * Convert vocabulary data into a JavaScript object
+ */
 const run = async () => {
   console.log(`Making vocabulary... ${DECK}`);
 
-  const sortKeys = await getSortKeys();
+  const sortKeys = await getSortKeysBasedOnWhenWordIsIntroducedInTheCourse();
 
   fs.readFile(filename, "utf8", (err, data) => {
-    const { terms, dependencies, alternative_ids, cards, sound } =
-      parseVocabularyFile(yaml.load(data), sortKeys);
+    const { terms, dependencies, alternativeIds, cards, sound } =
+      parseVocabularyFile(yaml.load(data) as VocabularyFile, sortKeys);
 
-    const sound_lowercase = sound.map((j) => ({
+    const soundLowercase = sound.map((j) => ({
       ...j,
       recording_of: GetLowercaseStringForAudioKey(j.recording_of),
     }));
 
     Object.keys(cards).forEach((cardId) => {
       const card = cards[cardId];
-      // console.log(cardInSession);
-      // process.exit();
 
       /* Delete junk cards */
       if (
@@ -53,7 +49,7 @@ const run = async () => {
         delete cards[cardId];
       }
 
-      card.sound = getSounds(card.spokenSentences, sound_lowercase);
+      card.sound = getSounds(card.spokenSentences, soundLowercase);
       card.isSentence =
         card.is_plaintext.length > 8 &&
         card.is_plaintext.charAt(0) ===
@@ -120,55 +116,28 @@ const run = async () => {
     });
 
     console.log(`${Object.keys(cards).length} cards`);
-    const full_deck = {
+    const fullDeck: BackendDeck = {
       cards,
       terms,
       dependencies,
-      alternative_ids,
+      alternativeIds,
     };
-    _deck = full_deck;
     if (!DECK) {
       fs.writeFileSync(
-        getBaseDir() + `/build/vocabulary/alternative_ids.json`,
-        JSON.stringify(alternative_ids, null, ""),
-        function () {}
+        getBaseDir() + `/build/vocabulary/alternativeIds.json`,
+        JSON.stringify(alternativeIds, null, "")
       );
     }
     fs.writeFileSync(
       getBaseDir() + `/build/vocabulary/vocabulary_database${DECK}.json`,
-      JSON.stringify(simplify(full_deck), null, ""),
-      function () {}
+      JSON.stringify(simplifyDeck(fullDeck), null, "")
     );
-    // const simplified = simplify(full_deck);
-    // fs.writeFileSync(
-    //   getBaseDir() + `/build/vocabulary/vocabulary_terms${DECK}.json`,
-    //   JSON.stringify(simplified.terms, null, ""),
-    //   function () {}
-    // );
-    // fs.writeFileSync(
-    //   getBaseDir() + `/build/vocabulary/vocabulary_cards${DECK}.json`,
-    //   JSON.stringify(simplified.cards, null, ""),
-    //   function () {}
-    // );
     console.log("Done!");
     process.exit();
   });
 };
 
-run();
-
-const getSounds = (sentences, sound_lowercase) => {
-  let output = [];
-  sentences.forEach((i) => {
-    const b = GetLowercaseStringForAudioKey(i);
-    let s = sound_lowercase
-      .filter((k) => k.recording_of === b)
-      .map((j) => j.filename.replace(/\.mp3$/, ""));
-    output = output.concat(_.shuffle(s));
-  });
-  if (output.length > 0) return output;
-  return null;
-};
+void run();
 
 // const DeleteDependency = (from_term, to_term) => {
 //   deck.dependencies[from_term] = deck.dependencies[from_term].filter(

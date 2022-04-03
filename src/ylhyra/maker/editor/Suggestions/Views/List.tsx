@@ -83,7 +83,7 @@ class Suggestions extends React.Component {
 }
 
 export default connect(
-  (state) => ({
+  (state: RootState) => ({
     translation: state.editor.translation,
     suggestions: state.editor.suggestions,
     selected: state.editor.selected,

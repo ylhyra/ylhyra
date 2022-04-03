@@ -19,7 +19,6 @@ import {
   getPercentageDone,
   updateRemainingTime,
 } from "ylhyra/app/vocabulary/actions/session/functions";
-import { InitializeSession } from "ylhyra/app/vocabulary/actions/session/initialize";
 import { loadCardInInterface } from "ylhyra/app/vocabulary/actions/session/loadCardInInterface";
 import { loadCardsIntoSession } from "ylhyra/app/vocabulary/actions/session/loadCardsIntoSession";
 import { nextCard } from "ylhyra/app/vocabulary/actions/session/nextCard";

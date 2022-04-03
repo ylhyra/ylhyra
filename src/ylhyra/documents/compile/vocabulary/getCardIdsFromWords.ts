@@ -13,8 +13,8 @@ export const getCardIdsFromWords = (
     const hash = getHash(word.split(" = ")[0]);
     if (hash in deck.terms) {
       cardIds = cardIds.concat(deck.terms[hash].cards);
-    } else if (hash in deck.alternative_ids) {
-      deck.alternative_ids[hash].forEach((j) => {
+    } else if (hash in deck.alternativeIds) {
+      deck.alternativeIds[hash].forEach((j) => {
         cardIds = cardIds.concat(deck.terms[j]?.cards || []);
       });
     } else {

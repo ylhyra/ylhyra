@@ -1,8 +1,8 @@
 import forEachAsync from "modules/forEachAsync";
-import { fileSafeTitle, formatUrl } from "ylhyra/server/content/links/paths";
 import { appUrls } from "ylhyra/app/router/appUrls";
 import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/initializeDeckFromFile";
 import { links } from "ylhyra/server/content/links/loadLinks";
+import { fileSafeTitle, formatUrl } from "ylhyra/server/content/links/paths";
 import prerender from "ylhyra/server/content/prerender/prerenderSingle";
 
 const run = async () => {
@@ -17,7 +17,7 @@ const run = async () => {
   });
   let i = 0;
   await forEachAsync(to_render, async (url) => {
-    return new Promise(async (resolve2) => {
+    return new Promise<void>(async (resolve2) => {
       /* Used for testing */
       if (process.env.ONLY && formatUrl(process.env.ONLY) !== url) {
         return resolve2();

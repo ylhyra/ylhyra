@@ -11,24 +11,36 @@ import { sortBySortKey } from "ylhyra/app/vocabulary/actions/createCards/functio
 import { countTerms } from "ylhyra/app/vocabulary/actions/functions";
 import Session from "ylhyra/app/vocabulary/actions/session";
 import { UserData } from "ylhyra/app/vocabulary/actions/userData/userData";
+import { BackendDeck } from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
 
 export let deck: Deck | undefined;
 
+export type Schedule = Record<CardId, Partial<ScheduleData>>;
 class Deck {
   cards: Record<CardId, any>;
   cards_sorted: CardIds;
   terms: Record<TermId, any>;
-  schedule: Record<CardId, Partial<ScheduleData>>;
+  schedule: Schedule;
   user_data: UserData;
   session: Session;
   termCount: number;
   /** Only used in compilation, should be removed */
-  alternative_ids: any;
+  alternativeIds: any;
 
-  constructor({ database, schedule, session, user_data }) {
+  constructor({
+    database,
+    schedule,
+    session,
+    user_data,
+  }: {
+    database?: BackendDeck;
+    schedule?: Schedule;
+    session?: Session;
+    user_data?: UserData;
+  } = {}) {
     deck = this;
-    this.cards = database.cards;
-    this.terms = database.terms;
+    this.cards = database?.cards;
+    this.terms = database?.terms;
     this.user_data = user_data || null;
     this.schedule = schedule || {};
 

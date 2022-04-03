@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
 import _ from "underscore";
 import { RootState } from "ylhyra/app/app/store";
@@ -67,7 +67,7 @@ const Element = styled.span`
   }
 `;
 
-class Word extends React.Component {
+class Word extends React.Component<ConnectedProps<typeof connector>> {
   constructor(props) {
     super(props);
     this.state = { hover: false };
@@ -195,11 +195,12 @@ class Word extends React.Component {
   }
 }
 
-export default connect(
+const connector = connect(
   (state: RootState) => ({
     translation: state.editor.translation,
     selected: state.editor.selected,
     suggestions: state.editor.suggestions,
   }),
   { selectWord, deleteWord }
-)(Word);
+);
+export default connector(Word);

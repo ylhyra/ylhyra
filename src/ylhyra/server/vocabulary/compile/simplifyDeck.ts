@@ -1,24 +1,26 @@
 import stable_stringify from "json-stable-stringify";
 import _ from "underscore";
+import { CardIds, TermId } from "ylhyra/app/vocabulary/actions/card/types";
 import { printWord } from "ylhyra/app/vocabulary/actions/functions";
+import { BackendDeck } from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
 import {
-  CreateDependencyChain__backend,
-  withDependencies__backend,
+  createDependencyChainBackend,
+  withDependenciesBackend,
 } from "ylhyra/server/vocabulary/compile/dependencies";
-import { _deck } from "ylhyra/server/vocabulary/compile/index";
 
-export const simplify = () => {
+export const simplifyDeck = (deck: BackendDeck) => {
   /* Add sortkey for all items */
-  let cardIds = Object.keys(_deck.cards)
+  let cardIds: CardIds = Object.keys(deck.cards)
     .map((key) => {
-      return _deck.cards[key];
+      return deck.cards[key];
     })
     .sort(
       (a, b) =>
         a.level - b.level ||
-        b.hasOwnProperty("sortKey") - a.hasOwnProperty("sortKey") ||
+        (b.hasOwnProperty("sortKey") ? 1 : 0) -
+          (a.hasOwnProperty("sortKey") ? 1 : 0) ||
         a.sortKey - b.sortKey ||
-        Boolean(b.sound) - Boolean(a.sound) ||
+        (Boolean(b.sound) ? 1 : 0) - (Boolean(a.sound) ? 1 : 0) ||
         (a.row_id % 100) - (b.row_id % 100) ||
         a.row_id - b.row_id
     )
@@ -29,17 +31,14 @@ export const simplify = () => {
   // /* Run empty to remove cyclical dependencies */
   // withDependencies__backend(cardIds);
   // /* Run again now that  cyclical dependencies are gone */
-  cardIds = withDependencies__backend(cardIds);
+  cardIds = withDependenciesBackend(deck, cardIds);
   cardIds.forEach((cardId, index) => {
-    _deck.cards[cardId].sortKey = index;
-    delete _deck.cards[cardId].row_id;
+    deck.cards[cardId].sortKey = index;
+    delete deck.cards[cardId].row_id;
   });
 
-  Object.keys(_deck.terms).forEach((term_id) => {
-    const deps = CreateDependencyChain__backend(term_id);
-    // const directDependencies = Object.keys(deps).filter(
-    //   (dep) => deps[dep] === 1
-    // );
+  Object.keys(deck.terms).forEach((termId: TermId) => {
+    const deps = createDependencyChainBackend(deck, termId);
 
     /* The chain above isn't perfect and sometimes skips over values */
     let lowestDep = Infinity;
@@ -50,32 +49,11 @@ export const simplify = () => {
       deps[dep] -= lowestDep - 1;
     });
 
-    // if (term_id === getHash("einhver annar")) {
-    //   Object.keys(deps).forEach((j) => {
-    //     console.log({ word: printWord(j), userLevel: deps[j] });
-    //   });
-    //   console.log({ deps });
-    // }
-    // if (term_id === "1ydhbm") {
-    //   console.log({ deps });
-    // }
-
-    // if (term_id === getHash("frá einhverjum öðrum - til einhvers annars")) {
-    //   Object.keys(deps).forEach((j) => {
-    //     console.log({ word: printWord(j), userLevel: deps[j] });
-    //   });
-    //   // console.log({ deps });
-    // }
-
-    // if (directDependencies.length > 0) {
-    //   deck.terms[term_id].dependsOn = directDependencies;
-    // }
     if (Object.keys(deps).length > 0) {
-      // deck.terms[term_id].allDependencies = allDependencies;
-      _deck.terms[term_id].dependencies = deps;
+      deck.terms[termId].dependencies = deps;
     }
     if (Object.keys(deps).length > 30) {
-      console.log(`very long deps for ${printWord(term_id)}`);
+      console.log(`very long deps for ${printWord(termId)}`);
       Object.keys(deps).forEach((j) => {
         console.log({ word: printWord(j), level: deps[j] });
       });
@@ -84,35 +62,35 @@ export const simplify = () => {
 
   let terms = {};
   let cards = {};
-  Object.keys(_deck.terms).forEach((term_id) => {
-    const term = _deck.terms[term_id];
+  Object.keys(deck.terms).forEach((term_id) => {
+    const term = deck.terms[term_id];
     let minSortKey;
-    Object.keys(_deck.cards[term.cards[0]]).forEach((key) => {
+    Object.keys(deck.cards[term.cards[0]]).forEach((key) => {
       if (key === "sortKey") return;
       if (key === "terms") return;
-      const val = _deck.cards[term.cards[0]][key];
+      const val = deck.cards[term.cards[0]][key];
 
       //tmp?
       if (
         key !== "terms" &&
         term.cards.every(
           (cardId) =>
-            _deck.cards[cardId].terms.length === 1 &&
-            key in _deck.cards[cardId] &&
-            stable_stringify(sortIfArray(_deck.cards[cardId][key])) ===
+            deck.cards[cardId].terms.length === 1 &&
+            key in deck.cards[cardId] &&
+            stable_stringify(sortIfArray(deck.cards[cardId][key])) ===
               stable_stringify(sortIfArray(val))
         )
       ) {
         term[key] = val;
         term.cards.forEach((cardId) => {
-          delete _deck.cards[cardId][key];
+          delete deck.cards[cardId][key];
         });
       }
 
       term.cards.forEach((cardId) => {
-        cards[cardId] = _deck.cards[cardId];
+        cards[cardId] = deck.cards[cardId];
         minSortKey = Math.min(
-          _deck.cards[cardId].sortKey,
+          deck.cards[cardId].sortKey,
           minSortKey || Infinity
         );
       });
@@ -140,7 +118,8 @@ export const simplify = () => {
     cards,
   };
 };
-const sortObject = (obj, sortKey, replace) => {
+
+const sortObject = (obj, sortKey, replace?: Boolean) => {
   let out = {};
   Object.keys(obj)
     .sort((a, b) => obj[a][sortKey] - obj[b][sortKey])

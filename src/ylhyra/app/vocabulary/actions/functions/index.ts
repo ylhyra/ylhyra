@@ -21,7 +21,7 @@ import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { getPlaintextFromFormatted } from "ylhyra/maker/vocabulary_maker/compile/format";
 import { getHash } from "ylhyra/maker/vocabulary_maker/compile/functions";
 
-export const printWord = (id: CardId | TermId) => {
+export const printWord = (id: CardId | TermId | string) => {
   if (!isDev) return;
   if (id in deck.cards) {
     return getPlaintextFromFormatted(

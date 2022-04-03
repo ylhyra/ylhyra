@@ -21,7 +21,7 @@ export const Database = {
   terms: {},
   cards: {},
   dependencies: {},
-  alternative_ids: {},
+  alternativeIds: {},
   plaintext_sentences: {},
   selected_rows: [],
   mode: null,
@@ -193,7 +193,7 @@ export const findMissingDependencies = () => {
     Database.dependencies[from_term].forEach((to_term) => {
       if (
         !(to_term in Database.terms) &&
-        !(to_term in Database.alternative_ids)
+        !(to_term in Database.alternativeIds)
       ) {
         missing.push(to_term);
       }
@@ -229,7 +229,7 @@ export const addRowsIfMissing = (text) => {
     }
     if (
       !(getHash(is) in Database.terms) &&
-      !(getHash(is) in Database.alternative_ids) &&
+      !(getHash(is) in Database.alternativeIds) &&
       !Database.rows.some((j) => j.icelandic === is) &&
       !seen.includes(getHash(is))
     ) {

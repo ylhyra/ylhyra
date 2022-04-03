@@ -1,10 +1,10 @@
 import link from "inflection/tables/link";
+import Word from "inflection/tables/word";
 
 /**
  * @module Word
- * @return {?string}
  */
-export function getWordDescription(): string | null {
+export function getWordDescription(this: Word): string | null {
   let output = [];
 
   output.push(this.getDomain());

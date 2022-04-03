@@ -146,7 +146,7 @@ class TranslatingEditor extends React.Component {
 }
 
 export default connect(
-  (state) => ({
+  (state: RootState) => ({
     editor: state.editor,
     translation: state.editor.translation,
     selected: state.editor.selected,

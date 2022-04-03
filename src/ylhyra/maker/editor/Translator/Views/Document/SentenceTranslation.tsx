@@ -1,9 +1,12 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import AutosizeTextarea from "react-textarea-autosize";
+import { RootState } from "ylhyra/app/app/store";
 import { updateSentence } from "ylhyra/maker/editor/Translator/actions";
 
-class SentenceTranslation extends React.Component {
+class SentenceTranslation extends React.Component<
+  ConnectedProps<typeof connector>
+> {
   constructor(props) {
     super(props);
     this.state = {
@@ -120,10 +123,11 @@ class SentenceTranslation extends React.Component {
   }
 }
 
-export default connect(
-  (state) => ({
+const connector = connect(
+  (state: RootState) => ({
     translation: state.editor.translation,
     suggestions: state.editor.suggestions,
   }),
   { updateSentence }
-)(SentenceTranslation);
+);
+export default connector(SentenceTranslation);

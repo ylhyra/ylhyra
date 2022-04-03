@@ -9,13 +9,46 @@ import {
   DIFFICULT_FOR_ADVANCED,
   DIFFICULT_FOR_BEGINNERS,
   DIFFICULT_FOR_INTERMEDIATE,
+  DifficultyEnum,
+  ImportanceEnum,
   IMPORTANT,
+  LevelsEnum,
   NORMAL_IMPORTANCE,
   NOT_DIFFICULT,
   UNIMPORTANT,
   VERY_IMPORTANT,
   VERY_UNIMPORTANT,
 } from "ylhyra/app/vocabulary/constants";
+
+export type VocabularyFileRow = Partial<{
+  row_id: number;
+  icelandic: string;
+  english: string;
+  lemmas: string;
+  depends_on: string;
+  alternative_id: string;
+  this_is_a_minor_variation_of: string;
+  level: LevelsEnum;
+  importance: ImportanceEnum;
+  difficulty: DifficultyEnum;
+  dont_confuse: string;
+  related_items: string;
+  direction: string;
+  note: string;
+  note_regarding_english: string;
+  literally: string;
+  synonyms: string;
+  pronunciation: string;
+  categories: string;
+  grammar_tags: string;
+  example_declension: string;
+
+  athugasemd_til_min: string;
+  fix: string;
+  eyða: string;
+  should_teach: "yes" | "no";
+  should_split: "yes" | "no";
+}>;
 
 export const row_info_array = [
   { name: "icelandic", alwaysShow: true },
@@ -82,7 +115,7 @@ export const row_info_array = [
   { name: "athugasemd_til_min" },
   { name: "fix" },
   { name: "eyða" },
-];
+] as const;
 
 export const row_info = row_info_array.reduce((prev, row) => {
   return { ...prev, [row.name]: row };

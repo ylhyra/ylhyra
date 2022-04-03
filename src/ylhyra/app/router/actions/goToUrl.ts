@@ -1,22 +1,20 @@
-import { isBrowser } from "modules/isBrowser";
 import Analytics from "ylhyra/app/app/analytics";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import { formatUrl } from "ylhyra/server/content/links/paths";
 import store from "ylhyra/app/app/store";
 import {
   getFrontpageURL,
   urlHasChanged,
 } from "ylhyra/app/router/actions/actions";
-import { appUrls } from "ylhyra/app/router/appUrls";
-import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
-import { HeaderData } from "ylhyra/documents/compile/functions/readContentFile";
-import { clearReadAlongSetup } from "ylhyra/documents/render/audio/readAlong/readAlong";
-import { renderTitle } from "ylhyra/server/content/renderTitle";
 
 import {
   abortLoadingOtherUrls,
   loadContent,
 } from "ylhyra/app/router/actions/load";
+import { appUrls } from "ylhyra/app/router/appUrls";
+import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
+import { HeaderData } from "ylhyra/documents/compile/functions/readContentFile";
+import { formatUrl } from "ylhyra/server/content/links/paths";
+import { renderTitle } from "ylhyra/server/content/renderTitle";
 
 export type RouteContent = {
   parsed: HtmlAsJson;
@@ -59,7 +57,7 @@ export function goToUrl(url: string, options: UpdateURLOptions = {}) {
   } else {
     if (isInitializing) {
     }
-    loadContent({ pathname, section, isInitializing, initializationData });
+    loadContent({ pathname, section, isInitializing });
   }
 }
 

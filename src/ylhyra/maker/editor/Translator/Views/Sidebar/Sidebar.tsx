@@ -1,11 +1,17 @@
 import React from "react";
-import { connect } from "react-redux";
-import { clearSelection, nextWord, updateDefinitionValue, wordsHash } from "ylhyra/maker/editor/Translator/actions";
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "ylhyra/app/app/store";
+import {
+  clearSelection,
+  nextWord,
+  updateDefinitionValue,
+  wordsHash,
+} from "ylhyra/maker/editor/Translator/actions";
 import Field from "ylhyra/maker/editor/Translator/Views/Sidebar/Field";
 
 // import { getLanguage } from 'server/datasets/languages'
 
-class WordSidebar extends React.Component {
+class WordSidebar extends React.Component<ConnectedProps<typeof connector>> {
   state = {};
   focus = () => {
     window.setTimeout(() => {
@@ -168,8 +174,8 @@ class WordSidebar extends React.Component {
   }
 }
 
-export default connect(
-  (state) => ({
+const connector = connect(
+  (state: RootState) => ({
     editor: state.editor,
     translation: state.editor.translation,
     selected: state.editor.selected,
@@ -183,6 +189,7 @@ export default connect(
     nextWord,
     updateDefinitionValue,
   }
-)(WordSidebar);
+);
+export default connector(WordSidebar);
 
 export const isMacintosh = () => navigator.platform.indexOf("Mac") > -1;

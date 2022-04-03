@@ -33,7 +33,7 @@ class Inflections extends React.Component {
 }
 
 export default connect(
-  (state) => ({
+  (state: RootState) => ({
     editor: state.editor,
   }),
   {}

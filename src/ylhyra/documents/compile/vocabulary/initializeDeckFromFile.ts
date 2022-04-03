@@ -1,5 +1,6 @@
 import fs from "fs";
 import Deck, { deck } from "ylhyra/app/vocabulary/actions/deck";
+import { BackendDeck } from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
 import { getBaseDir } from "ylhyra/server/paths_backend";
 
 export const initializeDeckFromFile = () => {
@@ -9,17 +10,17 @@ export const initializeDeckFromFile = () => {
         getBaseDir() + `/build/vocabulary/vocabulary_database.json`,
         "utf8"
       )
-    );
+    ) as BackendDeck;
     new Deck({ database });
-    deck.alternative_ids = JSON.parse(
+    deck.alternativeIds = JSON.parse(
       fs.readFileSync(
-        getBaseDir() + `/build/vocabulary/alternative_ids.json`,
+        getBaseDir() + `/build/vocabulary/alternativeIds.json`,
         "utf8"
       )
     );
   } catch (e) {
-    new Deck({});
-    deck.alternative_ids = {};
+    new Deck();
+    deck.alternativeIds = {};
     console.log("No files to initialize from");
   }
 };
