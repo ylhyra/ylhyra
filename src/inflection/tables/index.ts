@@ -21,24 +21,39 @@ import {
 
 export default (
   rows: Rows,
-  options: SingleTableOptions,
+  options: {
+    single?: Boolean;
+    /** Is converted into InflectionalCategoryList before being sent to tables_single */
+    column_names: string;
+    columns: string;
+    row_names: string;
+    rows: string;
+    give_me: string;
+  },
   /** Unused information from server, can be removed as this is already in rows */
   { input_string }: { input_string: string }
 ): Html => {
-  let give_me = options?.give_me;
-  // @ts-ignore
-  let column_names = options && (options["columns"] || options.column_names);
-  // @ts-ignore
-  let row_names = options && (options.rows || options.row_names);
-
+  let options_column_names =
+    options && (options["columns"] || options.column_names);
+  let options_row_names = options && (options.rows || options.row_names);
   let word = new Word(rows.sort(sortByClassification));
 
   let table;
-  if (give_me || column_names || row_names || options.single) {
-    give_me = getCanonicalGrammaticalTagFromUserInput(give_me);
-    column_names = getRowOrColumnSettingsFromUserInput(column_names);
-    row_names = getRowOrColumnSettingsFromUserInput(row_names);
-    word = word.get(...give_me);
+
+  /** Single table  */
+  if (
+    options.give_me ||
+    options_column_names ||
+    options_row_names ||
+    options.single
+  ) {
+    const give_me = getCanonicalGrammaticalTagFromUserInput(options.give_me);
+    const column_names =
+      getRowOrColumnSettingsFromUserInput(options_column_names);
+    const row_names = getRowOrColumnSettingsFromUserInput(options_row_names);
+    if (give_me) {
+      word = word.get(...give_me);
+    }
     if (word.rows.length > 0) {
       table = word.getSingleTable({
         give_me,
@@ -89,13 +104,14 @@ export default (
   `;
 };
 
-const getRowOrColumnSettingsFromUserInput = (string: string): RowOrColumn => {
+const getRowOrColumnSettingsFromUserInput = (
+  string: string
+): RowOrColumn | undefined => {
   if (!string) return;
   /* If someone enters "cases" the rest is filled out */
   if (string in grammaticalCategories) {
     return getOrderedGrammaticalCategories(string as GrammaticalCategory);
   }
-  // /* Should be made to work in the future */
   return string.split(";").map(getCanonicalGrammaticalTagFromUserInput);
 };
 

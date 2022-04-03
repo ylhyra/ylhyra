@@ -1,22 +1,36 @@
 import link from "inflection/tables/link";
-import { Html } from "inflection/tables/types";
+import {
+  GrammaticalTag,
+  Html,
+  InflectionalCategoryList,
+  Leaf,
+} from "inflection/tables/types";
 import Word, { wordFromTree } from "inflection/tables/word";
 import { flatten } from "lodash";
 import { removeHtmlWhitespace } from "ylhyra/app/app/functions/removeHtmlWhitespace";
 import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
+import { RowOrColumn } from "inflection/tables/tables_single";
+
+export type RenderCellOptions = {
+  linkWords?: boolean;
+};
+export type StructureOption = {
+  column_names: RowOrColumn;
+  row_names: RowOrColumn;
+};
 
 /*
   Wrapper for "RenderTable", creates two alternative versions of the input,
   one original and one by splitting each column into its own table
   to make them fit on small screens
 */
-const AlsoMakeTablesThatFitOnSmallScreens = (
-  input,
-  original_word,
-  structure,
-  highlight,
-  options
-): Html => {
+export default function AlsoMakeTablesThatFitOnSmallScreens(
+  input: Word,
+  original_word: Word,
+  structure: StructureOption,
+  highlight: InflectionalCategoryList,
+  options: RenderCellOptions
+): Html {
   let { column_names, row_names } = structure;
   column_names = column_names || [null];
   row_names = row_names || [null];
@@ -53,43 +67,27 @@ const AlsoMakeTablesThatFitOnSmallScreens = (
       "</div>";
   }
   return output;
-};
-
-export default AlsoMakeTablesThatFitOnSmallScreens;
+}
 
 /**
- * RenderTable - Converts description of table structure into a table
- *
- * @param {object|Word} input
- *   Can either be:
- *   - a leaf from ./tree.js on the form { tag: 'nominative', values: [] }
- *   - a Word
- * @param {Word} original_word
- *   If the first parameter is a leaf, we need to pass the original word
- *   as well so that we have all the information needed
- * @param {object} structure
- *   An object with the keys `column_names` and `row_names`,
- *   which are arrays describing what  they should contain:
- *   {
- *     column_names: types['plurality'],
- *     row_names: types['person']
- *   }
+ * Converts description of table structure into a table
  */
 const RenderTable = (
-  input: object | Word,
+  input: Word | Leaf,
   original_word: Word,
-  structure: object,
-  highlight,
-  options?
+  structure: StructureOption,
+  highlight: InflectionalCategoryList,
+  options?: RenderCellOptions
 ): Html => {
   const { column_names, row_names } = structure;
-  let word;
+  let word: Word;
   if (input instanceof Word) {
     word = input;
   } else {
     word = wordFromTree(input, original_word);
   }
-  let table = [];
+  /** Nested array on form Row > Column > Cell */
+  let table: Array<Array<Word | GrammaticalTag | null>> = [];
   row_names.forEach((row_name, row_index) => {
     /* Add column names */
     if (row_index === 0 && column_names[0] !== null) {
@@ -102,20 +100,24 @@ const RenderTable = (
     }
 
     /* Loop over data */
-    let column = [];
+    let column: Array<Word | GrammaticalTag | null> = [];
     column_names.forEach((column_name, column_index) => {
       /* Add row names */
       if (column_index === 0) {
-        column.push(row_name);
+        column.push(row_name as GrammaticalTag);
       }
       column.push(word.get(column_name, row_name).getFirstAndItsVariants());
     });
     table.push(column);
   });
-  return removeHtmlWhitespace(TableHTML(table, highlight, options));
+  return removeHtmlWhitespace(tableHTML(table, highlight, options));
 };
 
-const TableHTML = (rows, highlight = [], options?) => {
+const tableHTML = (
+  rows: RowOrColumn,
+  highlight: InflectionalCategoryList,
+  options?: RenderCellOptions
+) => {
   return `
     <table class="table">
       <tbody>
@@ -156,7 +158,11 @@ const TableHTML = (rows, highlight = [], options?) => {
   `;
 };
 
-export const renderCell = (word, shouldHighlight, options?) => {
+export const renderCell = (
+  word: Word,
+  shouldHighlight: Boolean,
+  options?: RenderCellOptions
+) => {
   /* No value */
   if (word.rows.length === 0) {
     return '<td colSpan="2">–</td>';

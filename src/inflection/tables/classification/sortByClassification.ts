@@ -1,15 +1,15 @@
 import { sortedTags } from "inflection/tables/classification/classification";
-import { Leaf } from "inflection/tables/types";
+import { Leaf, Row } from "inflection/tables/types";
 
-export const sortByClassification = (a: Leaf, b: Leaf): number => {
+export const sortByClassification = (a: Leaf | Row, b: Leaf | Row): number => {
   /* Sort by single tag */
-  if (a.tag) {
+  if ("tag" in a && "tag" in b) {
     return sortedTags.indexOf(a.tag) - sortedTags.indexOf(b.tag);
   }
 
   if (!a.inflectional_form_categories || !b.inflectional_form_categories) {
     throw new Error(
-      `sort_by_classification received an object which does not contain "inflectional_form_categories"`
+      `sortByClassification received an object which does not contain "inflectional_form_categories"`
     );
   }
 
@@ -24,6 +24,9 @@ export const sortByClassification = (a: Leaf, b: Leaf): number => {
     );
   }
 
-  /* Sort by variant number */
-  return (a.variant_number || 0) - (b.variant_number || 0);
+  if ("variant_number" in a && "variant_number" in b) {
+    return (a.variant_number || 0) - (b.variant_number || 0);
+  }
+
+  return 0;
 };

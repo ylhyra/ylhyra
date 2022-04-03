@@ -130,7 +130,7 @@ class Word {
     return this.original.wordHasUmlaut;
   }
 
-  is(...values: string[]) {
+  is(...values: GrammaticalTagOrVariantNumber[]) {
     values = flatten(values);
     return values.every((value) => {
       /* Test word_categories */
@@ -175,12 +175,12 @@ class Word {
     });
   }
 
-  get(...values: InflectionalCategoryList): Word {
+  get(...values: InflectionalCategoryList | InflectionalCategoryList[]): Word {
     if (!values) return this;
-    values = flatten(values);
+    values = flatten(values) as InflectionalCategoryList;
     return new Word(
       this.rows.filter((row) =>
-        values.filter(Boolean).every(
+        (values as InflectionalCategoryList).filter(Boolean).every(
           (value) =>
             row.inflectional_form_categories.includes(
               getCanonicalGrammaticalTag(value)
@@ -195,19 +195,23 @@ class Word {
   /**
    * Used in string table generation
    */
-  getMostRelevantSibling(...values) {
+  getMostRelevantSibling(
+    ...values: InflectionalCategoryList | InflectionalCategoryList[]
+  ) {
     if (!values) return this;
-    values = flatten(values);
-    let values_types = values.map(
-      (v) => getDescriptionFromGrammaticalTag(v)?.type
+    values = flatten(values) as InflectionalCategoryList;
+    let values_categories = values.map(
+      (v) => getDescriptionFromGrammaticalTag(v)?.category
     );
-    let try_to_match_as_many_as_possible = [];
+    let try_to_match_as_many_as_possible: InflectionalCategoryList = [];
     this.getClassificationOfFirstRow().forEach((c) => {
-      let relevant_type_index = values_types.findIndex(
-        (v) => v === getDescriptionFromGrammaticalTag(c).type
+      let relevant_type_index = values_categories.findIndex(
+        (v) => v === getDescriptionFromGrammaticalTag(c).category
       );
       if (relevant_type_index >= 0) {
-        try_to_match_as_many_as_possible.push(values[relevant_type_index]);
+        try_to_match_as_many_as_possible.push(
+          (values as InflectionalCategoryList)[relevant_type_index]
+        );
       } else {
         try_to_match_as_many_as_possible.push(c);
       }
@@ -323,7 +327,7 @@ class Word {
       .join("\n");
   }
 
-  getWordCategories(): GrammaticalTag[] {
+  getWordCategories(): GrammaticalTagOrVariantNumber[] {
     return this.original.rows[0]?.word_categories || [];
   }
 
@@ -487,9 +491,9 @@ class Word {
 }
 
 /**
- * Todo: What is the purpose of this??
+ * Used by RenderTable
  */
-export const wordFromTree = (input: Tree, original: Word) => {
+export const wordFromTree = (input: Tree | Leaf, original: Word) => {
   let rows: Rows = [];
   const traverse = (x: Tree | Leaf) => {
     if (Array.isArray(x)) {

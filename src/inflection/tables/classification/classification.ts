@@ -117,8 +117,8 @@ export const getCanonicalGrammaticalTag = (
 
 export const getDescriptionFromGrammaticalTag = (
   tag: GrammaticalTagOrVariantNumber,
-  strict: Boolean
-) => {
+  strict?: Boolean
+): Description => {
   tag = getCanonicalGrammaticalTag(tag, strict);
   return tag && titleToDescription[getCanonicalGrammaticalTag(tag, strict)];
 };
