@@ -1,7 +1,7 @@
 import {
   InflectionCategoryTag,
   normalizeTag,
-  shortcuts_used_in_BIN,
+  shortcutsUsedInBin,
 } from "inflection/tables/classification/classification";
 import { isNumber } from "inflection/tables/tree";
 import { Row, RowFromDatabase } from "inflection/tables/types";
@@ -138,7 +138,7 @@ export const get_label_for_BIN_inflection_form = (tag) => {
 
 const tagRegex = (() => {
   let tags = [
-    ...Object.keys(shortcuts_used_in_BIN),
+    ...Object.keys(shortcutsUsedInBin),
     ...Object.keys(BIN_overrides.word_overrides),
     ...Object.keys(BIN_overrides.inflection_form_overrides),
   ];

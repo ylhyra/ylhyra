@@ -1,8 +1,9 @@
 import { VariantNumber } from "inflection/tables/types";
 
 export type Description = {
-  title: string;
+  title: GrammaticalTag;
   icelandic_title: string;
+  /** Must begin with the classification shortcut used in BÍN */
   type: ClassificationTypes;
   shortcuts: string[];
   has_article_on_ylhyra: Boolean;
@@ -445,21 +446,36 @@ const descriptions: Description[] = [
 /**
  * Object containing "name => array of tags", used for getting arrays later on, such as types['gender']
  */
-let types: Partial<Record<ClassificationTypes, string[]>> = {};
+let types: Partial<Record<ClassificationTypes, GrammaticalTag[]>> = {};
 
 /**
- * Abbreviations
- * Object on form {'nf': 'nominative'}
+ * Abbreviations. Object on form {'nf': 'nominative'}
  */
-let shortcuts: Record<string, string> = {};
+let shortcuts: Record<string, GrammaticalTag> = {};
 
-/* Only for BÍN */
-let shortcuts_used_in_BIN: Record<string, string> = {};
+/**
+ * Icelandic shortcuts used in the BÍN database
+ */
+let shortcutsUsedInBin: Record<string, GrammaticalTag> = {};
+
+function strEnum<T extends string>(o: Array<T>): {[K in T]: K} {
+  return o.reduce((res, key) => {
+    res[key] = key;
+    return res;
+  }, Object.create(null));
+}
+const l = descriptions
+  .filter((description) => description.type === "word_class")
+  .map((description) => {
+    return description.title;
+  });
+type J = strEnum (l);
 
 /**
  * Sorted single-userLevel array of tags, used for sorting rows when constructing the tree
  */
 let sortedTags: InflectionalCategoryList = [];
+export type GrammaticalTag = string;
 export type InflectionCategoryTag = string;
 export type InflectionalCategoryList = (
   | InflectionCategoryTag
@@ -469,7 +485,7 @@ export type InflectionalCategoryList = (
 /**
  * Reverses `descriptions` to turn it into a searchable object
  */
-let titleToDescription: Record<string, Description> = {};
+let titleToDescription: Record<GrammaticalTag, Description> = {};
 
 descriptions.forEach((description) => {
   /* Types */
@@ -490,8 +506,9 @@ descriptions.forEach((description) => {
       throw new Error(`SHORTCUT ALREADY EXISTS ${shortcut}`);
     }
     shortcuts[shortcut] = description.title;
+    /** The shortcut list begins with the shortcut used in BÍN */
     if (index === 0) {
-      shortcuts_used_in_BIN[shortcut] = description.title;
+      shortcutsUsedInBin[shortcut] = description.title;
     }
   });
 
@@ -539,4 +556,4 @@ export const getTagInfo = (tag, strict) => {
 export { shortcuts };
 export { sortedTags };
 export { types };
-export { shortcuts_used_in_BIN };
+export { shortcutsUsedInBin };
