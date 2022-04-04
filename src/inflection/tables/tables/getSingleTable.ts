@@ -1,6 +1,5 @@
 import { getOrderedGrammaticalCategories } from "inflection/tables/classification/classification";
 import link, { uppercaseFirstLetterLink } from "inflection/tables/link";
-import RenderTable from "inflection/tables/tables/render_table";
 import {
   GrammaticalTag,
   Html,
@@ -8,6 +7,9 @@ import {
 } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 import { flatten, without } from "lodash";
+import { renderTableWrapperForSmallScreens as renderTable } from "inflection/tables/tables/render/renderTableWrapper";
+import flattenArray from "ylhyra/app/app/functions/flattenArray";
+import flattenArray from "ylhyra/app/app/functions/flattenArray";
 
 export type RowOrColumnNameList = Array<
   GrammaticalTag | GrammaticalTag[] | null
@@ -137,14 +139,14 @@ export default function getSingleTable(
   } else {
     /* As table */
     /* TEMPORARY; MERGE WITH ABOVE */
-    const sibling_classification = without(
+    const siblingClassification = without(
       word.getClassificationOfFirstRow(),
-      ...flatten(row_names),
-      ...flatten(column_names)
+      ...flattenArray(row_names),
+      ...flattenArray(column_names)
     ) as GrammaticalTag[];
-    const siblings = word.getOriginal().get(...sibling_classification);
+    const siblings = word.getOriginal().get(...siblingClassification);
 
-    table = RenderTable(
+    table = renderTable(
       siblings,
       word.getOriginal(),
       { column_names, row_names },
@@ -154,7 +156,7 @@ export default function getSingleTable(
       }
     );
     description = uppercaseFirstLetterLink(
-      sibling_classification.map((i) => link(i)).join(", ")
+      siblingClassification.map((i) => link(i)).join(", ")
     );
     let output;
     if (description && !skip_description) {

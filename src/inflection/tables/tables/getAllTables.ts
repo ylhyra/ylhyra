@@ -1,11 +1,18 @@
 import { getOrderedGrammaticalCategories } from "inflection/tables/classification/classification";
 import { wordFromTree } from "inflection/tables/helperFunctions/wordFromTree";
 import link from "inflection/tables/link";
-import RenderTable, { renderCell } from "inflection/tables/tables/render_table";
 import { isNumber } from "inflection/tables/tree";
-import { Branch, Html, TreeItem, TreeItems } from "inflection/tables/types";
+import {
+  Branch,
+  Html,
+  Tree,
+  TreeItem,
+  TreeItems,
+} from "inflection/tables/types";
 import Word from "inflection/tables/word";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
+import { renderTableWrapperForSmallScreens as renderTable } from "inflection/tables/tables/render/renderTableWrapper";
+import { renderCell } from "inflection/tables/tables/render/renderCell";
 
 /**
  * Prints all tables for a given word
@@ -25,7 +32,7 @@ const traverseTree = (branch: Tree | Branch, original_word: Word): Html => {
     word.is("noun") &&
     getOrderedGrammaticalCategories("plurality").includes(branch.tag)
   ) {
-    table = RenderTable(branch.values, original_word, {
+    table = renderTable(branch.values, original_word, {
       column_names: getOrderedGrammaticalCategories("article"),
       row_names: getOrderedGrammaticalCategories("cases"),
     });
@@ -34,19 +41,19 @@ const traverseTree = (branch: Tree | Branch, original_word: Word): Html => {
     (word.is("pronoun") || word.is("article")) &&
     getOrderedGrammaticalCategories("plurality").includes(branch.tag)
   ) {
-    table = RenderTable(branch.values, original_word, {
+    table = renderTable(branch.values, original_word, {
       column_names: getOrderedGrammaticalCategories("gender"),
       row_names: getOrderedGrammaticalCategories("cases"),
     });
   } else if (word.is("personal pronoun")) {
     /* Personal pronouns */
-    table = RenderTable(branch.values, original_word, {
+    table = renderTable(branch.values, original_word, {
       column_names: getOrderedGrammaticalCategories("plurality"),
       row_names: getOrderedGrammaticalCategories("cases"),
     });
   } else if (word.is("reflexive pronoun")) {
     /* Reflexive pronouns */
-    table = RenderTable(branch.values, original_word, {
+    table = renderTable(branch.values, original_word, {
       column_names: [null],
       row_names: getOrderedGrammaticalCategories("cases"),
     });
@@ -58,7 +65,7 @@ const traverseTree = (branch: Tree | Branch, original_word: Word): Html => {
       word.is("numeral")) &&
     getOrderedGrammaticalCategories("plurality").includes(branch.tag)
   ) {
-    table = RenderTable(branch.values, original_word, {
+    table = renderTable(branch.values, original_word, {
       column_names: getOrderedGrammaticalCategories("gender"),
       row_names: getOrderedGrammaticalCategories("cases"),
     });
@@ -71,20 +78,20 @@ const traverseTree = (branch: Tree | Branch, original_word: Word): Html => {
   ) {
     /* Dummy subjects */
     if (word.is("impersonal with dummy subject")) {
-      table = RenderTable(branch.values, original_word, {
+      table = renderTable(branch.values, original_word, {
         column_names: ["singular"],
         row_names: ["3rd person"],
       });
     } else {
       /* Regular table */
-      table = RenderTable(branch.values, original_word, {
+      table = renderTable(branch.values, original_word, {
         column_names: getOrderedGrammaticalCategories("plurality"),
         row_names: getOrderedGrammaticalCategories("person"),
       });
     }
   } else if (branch.tag === "imperative") {
     /* Imperative */
-    table = RenderTable(branch.values, original_word, {
+    table = renderTable(branch.values, original_word, {
       column_names: [null],
       row_names: ["singular", "plural", "clipped imperative"],
     });
@@ -92,7 +99,7 @@ const traverseTree = (branch: Tree | Branch, original_word: Word): Html => {
     word.is("question form") &&
     getOrderedGrammaticalCategories("tense").includes(branch.tag)
   ) {
-    table = RenderTable(branch.values, original_word, {
+    table = renderTable(branch.values, original_word, {
       column_names: getOrderedGrammaticalCategories("plurality"),
       row_names: ["2nd person"],
     });

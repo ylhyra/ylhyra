@@ -16,8 +16,8 @@ import { getStem } from "inflection/tables/functions/stem";
 import { isStrong, isWeak } from "inflection/tables/functions/strong";
 import { getWordDescription } from "inflection/tables/functions/wordDescription";
 import { getWordNotes } from "inflection/tables/functions/wordNotes";
-import getTables from "inflection/tables/tables/tables_all";
-import getSingleTable from "inflection/tables/tables/tables_single";
+import getTables from "inflection/tables/tables/getAllTables";
+import getSingleTable from "inflection/tables/tables/getSingleTable";
 import { isNumber, tree } from "inflection/tables/tree";
 import {
   GrammaticalCategory,

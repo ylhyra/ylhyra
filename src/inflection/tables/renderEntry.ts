@@ -6,7 +6,7 @@ import {
 } from "inflection/tables/classification/classification";
 import { sortByClassification } from "inflection/tables/classification/sortByClassification";
 import link from "inflection/tables/link";
-import { RowOrColumnNameList } from "inflection/tables/tables/tables_single";
+import { RowOrColumnNameList } from "inflection/tables/tables/getSingleTable";
 import {
   GrammaticalCategory,
   Html,
