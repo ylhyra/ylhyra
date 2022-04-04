@@ -15,10 +15,7 @@ import {
   TableStructure,
 } from "inflection/tables/tables/render_table";
 import { renderCell } from "inflection/tables/tables/render/renderCell";
-import flattenArray from "ylhyra/app/app/functions/flattenArray";
-import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
-import link from "inflection/tables/link";
-import { c } from "modules/noUndefinedInTemplateLiteral";
+import { renderLabelCell } from "inflection/tables/tables/render/renderLabelCell";
 
 /**
  * Converts description of table structure into a table.
@@ -78,7 +75,7 @@ export const tableHtml = (
       <tbody>
         ${tableStructure
           .map((row, row_index) =>
-            renderRow(row, row_index, highlight, options)
+            renderRow(tableStructure, row, row_index, highlight, options)
           )
           .join("")}
       </tbody>
@@ -87,48 +84,26 @@ export const tableHtml = (
 };
 
 const renderRow = (
+  tableStructure: TableStructure,
   row: RowStructure,
   row_index: number,
   highlight?: InflectionalCategoryList,
   options?: RenderCellOptions
 ) => `
-          <tr>
-            ${row
-              .map((cell, column_index) => {
-                if (cell instanceof Word) {
-                  /** Render a cell  */
-                  /** If there is no highlight option passed, then all cells are "highlighted" */
-                  const shouldHighlight =
-                    highlight && highlight.length > 0
-                      ? cell.is(...highlight)
-                      : true;
-                  return renderCell(cell, shouldHighlight, options);
-                } else {
-                  /** Cell is not a Word, render <th/> labels instead */
-                  let isCellToTheLeftEmpty =
-                    tableStructure[row_index][column_index - 1] === null;
-                  let isCellAboveEmpty =
-                    tableStructure[row_index - 1] &&
-                    tableStructure[row_index - 1][column_index] === null;
-                  let cssClass =
-                    isCellAboveEmpty || isCellToTheLeftEmpty ? "first-top" : "";
-
-                  /** Flatten to support multiple distinct items shown in one <th/> label */
-                  let flatListOfGrammaticalTags = flattenArray([
-                    cell,
-                  ]) as (GrammaticalTag | null)[];
-                  if (flatListOfGrammaticalTags[0]) {
-                    flatListOfGrammaticalTags[0] = uppercaseFirstLetter(
-                      flatListOfGrammaticalTags[0]
-                    );
-                  }
-                  const label = flatListOfGrammaticalTags
-                    .map((u) => link(u))
-                    .join(", ");
-
-                  return c`<th colSpan="2" class="${cssClass}">${label}</th>`;
-                }
-              })
-              .join("")}
-          </tr>
-        `;
+    <tr>
+      ${row
+        .map((cell, column_index) => {
+          if (cell instanceof Word) {
+            return renderCell(cell, highlight, options);
+          } else {
+            return renderLabelCell(
+              tableStructure,
+              cell,
+              row_index,
+              column_index
+            );
+          }
+        })
+        .join("")}
+    </tr>
+  `;

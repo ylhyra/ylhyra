@@ -1,16 +1,21 @@
 import Word from "inflection/tables/word";
 import { RenderCellOptions } from "inflection/tables/tables/render_table";
+import { InflectionalCategoryList } from "inflection/tables/types";
 
 export const renderCell = (
   word: Word,
-  shouldHighlight?: Boolean,
+  highlight?: InflectionalCategoryList,
   options?: RenderCellOptions
 ) => {
+  /** If there is no highlight option passed, then all cells are "highlighted" */
+  const shouldHighlight =
+    highlight && highlight.length > 0 ? cell.is(...highlight) : true;
+
   /* No value */
   if (word.rows.length === 0) {
     return '<td colSpan="2">–</td>';
   }
-  /*
+  /**
    * Make sure only variants of the same are passed on, in case multiple were accidentally passed on
    */
   if (word.rows.length > 1) {
