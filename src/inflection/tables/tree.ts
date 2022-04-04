@@ -1,5 +1,5 @@
 import { sortByClassification } from "inflection/tables/classification/sortByClassification";
-import { Leaf, Rows, Tree } from "inflection/tables/types";
+import { TreeItem, Rows, Tree, Branch, Leaf } from "inflection/tables/types";
 
 /**
  * Turns rows into nested tree, with each leaf containing
@@ -16,13 +16,13 @@ export const tree = (rows: Rows): Tree => {
   };
 
   for (const row of rows) {
-    let currentArray: Leaf[] = output.values;
+    let currentArray: TreeItem[] = output.values;
     for (const tag of row.inflectional_form_categories) {
       const alreadyExists = currentArray.find((i) => i.tag === tag);
       if (alreadyExists) {
-        currentArray = alreadyExists.values;
+        currentArray = (alreadyExists as Branch).values;
       } else if (typeof tag === "number") {
-        /* Here, tag is a number, indicating variant. */
+        /* Here, tag is a number, indicating variant. Create leaf. */
         currentArray.push({
           inflectional_form_categories: row.inflectional_form_categories,
           word_categories: row.word_categories,
@@ -33,15 +33,15 @@ export const tree = (rows: Rows): Tree => {
             row.correctness_grade_of_inflectional_form,
           register_of_inflectional_form: row.register_of_inflectional_form,
           formattedOutput: row.formattedOutput,
-          values: [],
           // various_feature_markers: row.various_feature_markers,
         });
       } else {
+        /* Create branch */
         currentArray.push({
           tag,
           values: [],
         });
-        currentArray = currentArray[currentArray.length - 1].values;
+        currentArray = currentArray[currentArray.length - 1].values!;
       }
     }
   }
@@ -52,18 +52,17 @@ export const tree = (rows: Rows): Tree => {
 /**
  * Sort tree based on the list `sorted_tags` array in ./classification/BIN_classification.js
  */
-const traverseAndSort = (input: Tree | Leaf): Tree | Leaf => {
-  // if (Array.isArray(input)) {
-  //   return input.sort(sort_by_classification).map(TraverseAndSort);
-  // } else if (input.values) {
-  // console.log(input.values.slice(0,3))
-  return {
-    ...input,
-    values: input.values.sort(sortByClassification).map(traverseAndSort),
-  };
-  // } else {
-  //   return input;
-  // }
+const traverseAndSort = (input: Tree | TreeItem): Tree | TreeItem => {
+  if (input.values) {
+    /** Branch */
+    return {
+      ...input,
+      values: input.values.sort(sortByClassification).map(traverseAndSort),
+    };
+  } else {
+    /** Leaf */
+    return input;
+  }
 };
 
 export const isNumber = (input: string | number) => {

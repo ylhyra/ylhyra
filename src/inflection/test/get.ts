@@ -1,4 +1,4 @@
-import get_by_id from "inflection/server/server-standalone/get_by_id";
+import get_by_id from "inflection/getViaApi/getById";
 import Word from "inflection/tables/word";
 
 /*

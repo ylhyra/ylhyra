@@ -1,6 +1,6 @@
 import { getOrderedGrammaticalCategories } from "inflection/tables/classification/classification";
 import link, { uppercaseFirstLetterLink } from "inflection/tables/link";
-import RenderTable from "inflection/tables/render_table";
+import RenderTable from "inflection/tables/tables/render_table";
 import {
   GrammaticalTag,
   Html,

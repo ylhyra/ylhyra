@@ -74,9 +74,9 @@ export type OutputWithLicense = {
 export type TableOptionsFromUser = {
   single?: Boolean;
   /** Is converted into InflectionalCategoryList before being sent to tables_single */
-  column_names: string;
-  columns: string;
-  row_names: string;
-  rows: string;
-  give_me: string;
+  column_names?: string;
+  columns?: string;
+  row_names?: string;
+  rows?: string;
+  give_me?: string;
 };

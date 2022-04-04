@@ -6,12 +6,12 @@
 
 */
 import express, { Request, Response } from "express";
-import _Get_by_id from "inflection/server/server-standalone/get_by_id";
-import _Search from "inflection/server/server-standalone/search";
+import _Get_by_id from "inflection/getViaApi/getById";
+import _Search from "inflection/getViaApi/search";
 import withLicense from "inflection/server/server-with-database/license";
 import { MainSearch, WebsiteSearch } from "inflection/server/types";
 import layout from "inflection/server/views/layout";
-import render from "inflection/tables";
+import render from "inflection/tables/renderEntry";
 import { tree } from "inflection/tables/tree";
 import { cacheControl } from "ylhyra/server/caching";
 

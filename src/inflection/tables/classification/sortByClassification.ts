@@ -1,7 +1,10 @@
 import { sortedTags } from "inflection/tables/classification/classification";
-import { Leaf, Row } from "inflection/tables/types";
+import { TreeItem, Row } from "inflection/tables/types";
 
-export const sortByClassification = (a: Leaf | Row, b: Leaf | Row): number => {
+export const sortByClassification = (
+  a: TreeItem | Row,
+  b: TreeItem | Row
+): number => {
   /* Sort by single tag */
   if ("tag" in a && "tag" in b) {
     return sortedTags.indexOf(a.tag) - sortedTags.indexOf(b.tag);

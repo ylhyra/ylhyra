@@ -6,26 +6,27 @@ export type Tree = Pick<
   | "word_register"
   | "word_categories"
 > & {
-  values: Leaf[];
+  values: TreeItems;
 };
 
-export type Leaf = Partial<
-  Pick<
-    Row,
-    | "inflectional_form_categories"
-    | "word_categories"
-    | "inflectional_form"
-    | "should_be_taught"
-    | "correctness_grade_of_inflectional_form"
-    | "register_of_inflectional_form"
-    | "formattedOutput"
-    | "variant_number"
-  >
-> & {
-  tag?: GrammaticalTag;
-  values: Leaf[];
+export type TreeItem = Partial<Branch & Leaf>;
+export type Branch = {
+  tag: GrammaticalTag;
+  values: TreeItem[];
 };
+export type Leaf = Pick<
+  Row,
+  | "inflectional_form_categories"
+  | "word_categories"
+  | "inflectional_form"
+  | "should_be_taught"
+  | "correctness_grade_of_inflectional_form"
+  | "register_of_inflectional_form"
+  | "formattedOutput"
+  | "variant_number"
+>;
 export type Leafs = Leaf[];
+export type TreeItems = TreeItem[];
 
 /** 1 is the main variant, 2 is the secondary variant, etc. */
 export type VariantNumber = number;

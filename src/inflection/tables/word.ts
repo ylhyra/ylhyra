@@ -16,8 +16,8 @@ import { getStem } from "inflection/tables/functions/stem";
 import { isStrong, isWeak } from "inflection/tables/functions/strong";
 import { getWordDescription } from "inflection/tables/functions/wordDescription";
 import { getWordNotes } from "inflection/tables/functions/wordNotes";
-import getTables from "inflection/tables/tables_all";
-import getSingleTable from "inflection/tables/tables_single";
+import getTables from "inflection/tables/tables/tables_all";
+import getSingleTable from "inflection/tables/tables/tables_single";
 import { isNumber, tree } from "inflection/tables/tree";
 import {
   GrammaticalCategory,
@@ -25,8 +25,9 @@ import {
   GrammaticalTagOrVariantNumber,
   Html,
   InflectionalCategoryList,
-  Leafs,
+  TreeItems,
   Rows,
+  Leafs,
 } from "inflection/tables/types";
 import { flatten } from "lodash";
 import { filterEmpty } from "modules/typescript/filterEmpty";

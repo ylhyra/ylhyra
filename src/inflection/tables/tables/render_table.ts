@@ -1,12 +1,12 @@
 import { wordFromTree } from "inflection/tables/helperFunctions/wordFromTree";
 import link from "inflection/tables/link";
-import { RowOrColumnNameList } from "inflection/tables/tables_single";
+import { RowOrColumnNameList } from "inflection/tables/tables/tables_single";
 import {
   GrammaticalTag,
   Html,
   InflectionalCategoryList,
-  Leaf,
-  Leafs,
+  TreeItem,
+  TreeItems,
 } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 import { c } from "modules/noUndefinedInTemplateLiteral";
@@ -36,7 +36,7 @@ export type StructureOption = {
  * to make them fit on small screens
  */
 export default function AlsoMakeTablesThatFitOnSmallScreens(
-  input: Word | Leaf | Leafs,
+  input: Word | TreeItem | TreeItems,
   original_word: Word,
   structure: StructureOption,
   highlight?: InflectionalCategoryList,
@@ -84,7 +84,7 @@ export default function AlsoMakeTablesThatFitOnSmallScreens(
  * Converts description of table structure into a table
  */
 const RenderTable = (
-  input: Word | Leaf | Leafs,
+  input: Word | TreeItem | TreeItems,
   original_word: Word,
   structure: StructureOption,
   highlight?: InflectionalCategoryList,
