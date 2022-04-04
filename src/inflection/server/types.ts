@@ -13,7 +13,8 @@ export type MainSearchParameters =
       id: BIN_id;
       type: "flat" | "html" | "json" | undefined;
       search: SearchOptions["word"];
-    } & SearchOptions;
+    } & SearchOptions &
+      TableOptionsFromUser;
 
 export type WebsiteSearch = {
   embed: Boolean;

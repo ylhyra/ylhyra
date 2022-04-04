@@ -7,7 +7,7 @@ import {
   WebsiteSearch,
 } from "inflection/server/types";
 import layout from "inflection/server/views/layout";
-import render from "inflection/tables/renderEntry";
+import { renderEntry } from "inflection/tables/renderEntry";
 import { tree } from "inflection/tables/tree";
 import { cacheControl } from "ylhyra/server/caching";
 import Get_by_id from "inflection/server/search/getById";
@@ -74,7 +74,7 @@ router.get(
               layout({
                 title: rows[0].base_word || "",
                 string: word,
-                results: render(rows, req.query),
+                results: renderEntry(rows, req.query),
                 id,
                 embed,
               })
@@ -145,7 +145,7 @@ router.get(
                   layout({
                     title: rows[0].base_word || "",
                     string: word,
-                    results: render(rows, req.query),
+                    results: renderEntry(rows, req.query),
                     did_you_mean_in_footer: did_you_mean_string,
                     id: rows[0].BIN_id,
                     embed,

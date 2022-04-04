@@ -18,7 +18,8 @@
     "isolatedModules": false,
     //    "forceConsistentCasingInFileNames": true,
     //    "lib": ["es2020", "dom", "es2021.String"],
-    "strict": true
+    "strict": false,
+    "noImplicitAny": false
   },
   "compileOnSave": true
 }

@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import withLicense from "inflection/server/views/license";
 import { MainSearchParameters, WebsiteSearch } from "inflection/server/types";
 import layout from "inflection/server/views/layout";
-import render from "inflection/tables/renderEntry";
+import { renderEntry } from "inflection/tables/renderEntry";
 import { tree } from "inflection/tables/tree";
 import { cacheControl } from "ylhyra/server/caching";
 import Get_by_id from "inflection/server/search/getById";
@@ -39,7 +39,7 @@ router.get(
             return res.json(withLicense(rows));
           } else if (type === "html") {
             /* HTML */
-            return res.send(render(rows, req.query));
+            return res.send(renderEntry(rows, req.query));
           } else {
             /* Nested */
             return res.send(withLicense(tree(rows)));

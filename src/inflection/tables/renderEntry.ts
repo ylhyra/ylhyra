@@ -18,7 +18,10 @@ import Word from "inflection/tables/word";
 /**
  * Main entry point, renders the entire entry with headers and license footer.
  */
-export default (rows: Rows, options: TableOptionsFromUser): Html => {
+export const renderEntry = (
+  rows: Rows,
+  options: TableOptionsFromUser
+): Html => {
   let options_column_names =
     options && (options["columns"] || options.column_names);
   let options_row_names = options && (options.rows || options.row_names);
