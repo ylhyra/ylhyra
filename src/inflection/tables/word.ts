@@ -29,8 +29,17 @@ import {
   Rows,
   Leafs,
 } from "inflection/tables/types";
-import { flatten } from "lodash";
+
 import { filterEmpty } from "modules/typescript/filterEmpty";
+import flattenArray from "ylhyra/app/app/functions/flattenArray";
+
+/** Used for the spread operator and for creating columns & rows */
+export type InflectionalCategoryListOrNestedList = (
+  | InflectionalCategoryList
+  | InflectionalCategoryList[number]
+  | InflectionalCategoryListOrNestedList
+  | null
+)[];
 
 class Word {
   /** The original Word object without any removed values */
@@ -73,7 +82,7 @@ class Word {
         throw new Error("Malformed input to Word");
     }
 
-    rows = discardUnnecessaryForms(rows);
+    rows = discardUnnecessaryForms(rows) as Rows;
     this.rows = rows;
     if (original instanceof Word) {
       this.original = original.original;
@@ -134,10 +143,8 @@ class Word {
     return this.original.wordHasUmlaut;
   }
 
-  is(
-    ...args: (GrammaticalTagOrVariantNumber | InflectionalCategoryList)[]
-  ): Boolean {
-    const values = flatten(args) as InflectionalCategoryList;
+  is(...args: InflectionalCategoryListOrNestedList): Boolean {
+    const values = flattenArray(args) as InflectionalCategoryList;
     return values.every((value) => {
       /* Test word_categories */
       if (
@@ -157,9 +164,9 @@ class Word {
     });
   }
 
-  isAny(...args: InflectionalCategoryList | InflectionalCategoryList[]) {
+  isAny(...args: InflectionalCategoryListOrNestedList) {
     if (!args) return this;
-    const values = flatten(args) as InflectionalCategoryList;
+    const values = flattenArray(args) as InflectionalCategoryList;
     return values.some((value) => {
       /* Test word_categories */
       if (
@@ -179,15 +186,9 @@ class Word {
     });
   }
 
-  get(
-    ...args: (
-      | InflectionalCategoryList
-      | InflectionalCategoryList[number]
-      | null
-    )[]
-  ): Word {
+  get(...args: InflectionalCategoryListOrNestedList): Word {
     if (!args) return this;
-    const values = flatten(args) as InflectionalCategoryList;
+    const values = flattenArray(args) as InflectionalCategoryList;
     return new Word(
       this.rows.filter((row) =>
         values.filter(Boolean).every(
@@ -205,11 +206,9 @@ class Word {
   /**
    * Used in string table generation
    */
-  getMostRelevantSibling(
-    ...args: InflectionalCategoryList | InflectionalCategoryList[]
-  ): Word {
+  getMostRelevantSibling(...args: InflectionalCategoryListOrNestedList): Word {
     if (!args) return this;
-    const values = flatten(args) as InflectionalCategoryList;
+    const values = flattenArray(args) as InflectionalCategoryList;
     let valuesCategories = values.map(
       (v) => getDescriptionFromGrammaticalTag(v)?.category
     );
@@ -267,15 +266,9 @@ class Word {
   /**
    * Returns all that meet *any* of the input values
    */
-  getMeetingAny(
-    ...args: (
-      | InflectionalCategoryList
-      | InflectionalCategoryList[number]
-      | null
-    )[]
-  ): Word {
+  getMeetingAny(...args: InflectionalCategoryListOrNestedList): Word {
     if (!args) return this;
-    const values = flatten(args) as InflectionalCategoryList;
+    const values = flattenArray(args) as InflectionalCategoryList;
     if (values.filter(Boolean).length === 0) return this;
     return new Word(
       this.rows.filter((row) =>
@@ -351,9 +344,9 @@ class Word {
       []) as GrammaticalTag[];
   }
 
-  without(...args: InflectionalCategoryList | InflectionalCategoryList[]) {
+  without(...args: InflectionalCategoryListOrNestedList) {
     if (!args) return this;
-    const values = flatten(args) as InflectionalCategoryList;
+    const values = flattenArray(args) as InflectionalCategoryList;
     return new Word(
       this.rows.filter((row) =>
         values

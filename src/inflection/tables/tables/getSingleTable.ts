@@ -5,21 +5,18 @@ import {
   Html,
   InflectionalCategoryList,
 } from "inflection/tables/types";
-import Word from "inflection/tables/word";
-import { flatten, without } from "lodash";
+import Word, {
+  InflectionalCategoryListOrNestedList,
+} from "inflection/tables/word";
+import { without } from "lodash";
 import { renderTableWrapperForSmallScreens as renderTable } from "inflection/tables/tables/render/renderTableWrapper";
 import flattenArray from "ylhyra/app/app/functions/flattenArray";
-import flattenArray from "ylhyra/app/app/functions/flattenArray";
-
-export type RowOrColumnNameList = Array<
-  GrammaticalTag | GrammaticalTag[] | null
->;
 
 export type SingleTableOptions = {
   returnAsString?: Boolean;
   give_me?: InflectionalCategoryList;
-  column_names?: RowOrColumnNameList;
-  row_names?: RowOrColumnNameList;
+  column_names?: InflectionalCategoryListOrNestedList;
+  row_names?: InflectionalCategoryListOrNestedList;
   skip_description?: Boolean;
 };
 

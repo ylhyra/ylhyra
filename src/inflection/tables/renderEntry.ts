@@ -6,7 +6,7 @@ import {
 } from "inflection/tables/classification/classification";
 import { sortByClassification } from "inflection/tables/classification/sortByClassification";
 import link from "inflection/tables/link";
-import { RowOrColumnNameList } from "inflection/tables/tables/getSingleTable";
+import { InflectionalCategoryListOrNestedList } from "inflection/tables/tables/getSingleTable";
 import {
   GrammaticalCategory,
   Html,
@@ -90,7 +90,7 @@ export default (rows: Rows, options: TableOptionsFromUser): Html => {
 
 const getRowOrColumnSettingsFromUserInput = (
   string: string
-): RowOrColumnNameList | undefined => {
+): InflectionalCategoryListOrNestedList | undefined => {
   if (!string) return;
   /* If someone enters "cases" the rest is filled out */
   if (string in grammaticalCategories) {
@@ -98,7 +98,9 @@ const getRowOrColumnSettingsFromUserInput = (
   }
   return string
     .split(";")
-    .map(getCanonicalGrammaticalTagFromUserInput) as RowOrColumnNameList;
+    .map(
+      getCanonicalGrammaticalTagFromUserInput
+    ) as InflectionalCategoryListOrNestedList;
 };
 
 const getCanonicalGrammaticalTagFromUserInput = (

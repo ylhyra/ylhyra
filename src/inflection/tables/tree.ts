@@ -23,18 +23,7 @@ export const tree = (rows: Rows): Tree => {
         currentArray = (alreadyExists as Branch).values;
       } else if (typeof tag === "number") {
         /* Here, tag is a number, indicating variant. Create leaf. */
-        currentArray.push({
-          inflectional_form_categories: row.inflectional_form_categories,
-          word_categories: row.word_categories,
-          variant_number: row.variant_number,
-          inflectional_form: row.inflectional_form,
-          should_be_taught: row.should_be_taught,
-          correctness_grade_of_inflectional_form:
-            row.correctness_grade_of_inflectional_form,
-          register_of_inflectional_form: row.register_of_inflectional_form,
-          formattedOutput: row.formattedOutput,
-          // various_feature_markers: row.various_feature_markers,
-        });
+        currentArray.push(row);
       } else {
         /* Create branch */
         currentArray.push({
@@ -66,5 +55,5 @@ const traverseAndSort = (input: Tree | TreeItem): Tree | TreeItem => {
 };
 
 export const isNumber = (input: string | number) => {
-  return typeof input === "number" || /^\d+$/.test(input + "");
+  return typeof input === "number"; //|| /^\d+$/.test(input + "");
 };

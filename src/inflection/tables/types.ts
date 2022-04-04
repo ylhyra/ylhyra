@@ -14,17 +14,18 @@ export type Branch = {
   tag: GrammaticalTag;
   values: TreeItems;
 };
-export type Leaf = Pick<
-  Row,
-  | "inflectional_form_categories"
-  | "word_categories"
-  | "inflectional_form"
-  | "should_be_taught"
-  | "correctness_grade_of_inflectional_form"
-  | "register_of_inflectional_form"
-  | "formattedOutput"
-  | "variant_number"
->;
+// export type Leaf = Pick<
+//   Row,
+//   | "inflectional_form_categories"
+//   | "word_categories"
+//   | "inflectional_form"
+//   | "should_be_taught"
+//   | "correctness_grade_of_inflectional_form"
+//   | "register_of_inflectional_form"
+//   | "formattedOutput"
+//   | "variant_number"
+//   >;
+export type Leaf = Row;
 export type Leafs = Leaf[];
 export type TreeItems = TreeItem[];
 

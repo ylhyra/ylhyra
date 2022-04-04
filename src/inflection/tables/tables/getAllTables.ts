@@ -5,6 +5,8 @@ import { isNumber } from "inflection/tables/tree";
 import {
   Branch,
   Html,
+  Leaf,
+  Leafs,
   Tree,
   TreeItem,
   TreeItems,
@@ -28,7 +30,7 @@ const traverseTree = (branch: Tree | TreeItem, original_word: Word): Html => {
   let table = null;
   const word = wordFromTree(branch, original_word);
 
-  if ("tag" in branch) {
+  if ("tag" in branch && branch.tag && branch.values) {
     /* Nouns */
     if (
       word.is("noun") &&
@@ -122,14 +124,17 @@ const traverseTree = (branch: Tree | TreeItem, original_word: Word): Html => {
        * No table was created above,
        * generate a simple field
        */
-      let rows = branch.values || [branch]; /* For supine of "geta" */
+      let rows = (branch.values as Leafs) || [
+        /* For supine of "geta" */
+        branch as Leaf,
+      ];
       output = `<table class="table not-center"><tbody><tr>${renderCell(
         new Word(rows, original_word)
       )}</tr></tbody></table>`;
     }
   }
 
-  if ("tag" in branch) {
+  if ("tag" in branch && branch.tag) {
     return `<dl class="indent">
       <dt>${link(uppercaseFirstLetter(branch.tag))}</dt>
       <dd>${output}</dd>
