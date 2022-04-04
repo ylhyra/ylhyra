@@ -76,6 +76,7 @@ export default (rows: Rows, options: TableOptionsFromUser): Html => {
 
         ${table}
       </div>
+      
       <div class="license">
         <a href="https://bin.arnastofnun.is/beyging/${word.getId()}" target="_blank">View on BÍN</a> •
         <a href="https://ylhyra.is/Project:Inflections" class="info" target="_blank">About</a> •

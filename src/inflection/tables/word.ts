@@ -422,20 +422,19 @@ class Word {
     }
   }
 
-  getRows() {
-    return this.rows;
-  }
-
   getTree() {
     return tree(this.rows);
   }
 
-  /* Returns formatted values in cell with helper words */
-  renderCell(): Html {
+  /**
+   * Used to render the word to a string outside of a table.
+   * If in a table, the function renderCell() is used.
+   */
+  renderWithHelperWords(): Html {
     let output =
       this.getHelperWordsBefore() +
       " " +
-      this.renderVariantsInCell()
+      this.renderWithoutHelperWords()
         .map((i) => `<b>${i}</b>`)
         .join(" / ") +
       this.getHelperWordsAfter();
@@ -444,7 +443,7 @@ class Word {
     return output;
   }
 
-  renderVariantsInCell(): Html[] {
+  renderWithoutHelperWords(): Html[] {
     return this.rows.map((row) => {
       /* formattedOutput contains umlaut highlights */
       let out = row.formattedOutput || row.inflectional_form;
@@ -453,6 +452,10 @@ class Word {
       }
       return out;
     });
+  }
+
+  debug() {
+    console.log(this.rows.map((row) => row.inflectional_form));
   }
 }
 

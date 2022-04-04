@@ -9,9 +9,6 @@
     "doc": "docs"
   },
   "scripts": {
-    "startX": "nodemon --exec 'npm run styles && npm run server' -e js,styl --ignore styles/build.css",
-    "start": "export NODE_PATH=. && nodemon -r esm ./server/server-standalone/index.js -e js --ignore styles/build.css",
-    "server": "export NODE_PATH=. && node -r esm ./server/server-standalone/index.js",
     "styles": "stylus --include styles/ < styles/index.styl > styles/build.css --compress",
     "style_watch": "nodemon --exec 'npm run styles' -e styl",
     "test": "export NODE_PATH=. && mocha -r esm",
@@ -24,8 +21,5 @@
   },
   "keywords": [
     "icelandic"
-  ],
-  "bugs": {
-    "url": "https://github.com/ylhyra/icelandic-inflections/issues"
-  }
+  ]
 }

@@ -97,6 +97,9 @@ const RenderTable = (
   } else {
     word = wordFromTree(input, original_word);
   }
+  // console.log(input);
+  // word.debug();
+
   let table: TableStructure = [];
   row_names.forEach((row_name, row_index) => {
     /** Add column names above */
@@ -116,6 +119,7 @@ const RenderTable = (
       if (column_index === 0) {
         row.push(row_name as GrammaticalTag);
       }
+
       /** Add cells */
       row.push(word.get(column_name, row_name).getFirstAndItsVariants());
     });

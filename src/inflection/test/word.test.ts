@@ -24,7 +24,7 @@ describe("General word tests", function () {
   it("„Björn“", (done) => {
     get(353885, done, (word) => {
       /* Test that both variants were returned */
-      assert.deepEqual(word.get("genitive").renderVariantsInCell(), [
+      assert.deepEqual(word.get("genitive").renderWithoutHelperWords(), [
         "Björns",
         'B<span class="umlaut">ja</span>rnar',
       ]);

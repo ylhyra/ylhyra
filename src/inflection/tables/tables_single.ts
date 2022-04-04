@@ -128,7 +128,9 @@ export default function getSingleTable(
     return row_names
       .map((c) => word.getMostRelevantSibling(c))
       .map((i) =>
-        i.getFirstAndItsVariants().renderCell(/*{ highlight: give_me }*/)
+        i
+          .getFirstAndItsVariants()
+          .renderWithHelperWords(/*{ highlight: give_me }*/)
       )
       .filter(Boolean)
       .join(", ");

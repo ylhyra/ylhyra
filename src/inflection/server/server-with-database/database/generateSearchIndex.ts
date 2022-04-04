@@ -32,13 +32,19 @@ import { escape } from "sqlstring";
 import flattenArray from "ylhyra/app/app/functions/flattenArray";
 import query from "ylhyra/server/database";
 import LineByLineReader from "line-by-line";
+import { getBaseDir } from "ylhyra/server/paths_backend";
 
 const CSV_FILE_NAME = "ordalisti.csv";
 const CSV_FILE_LINES = 3071707; // Number of lines, calculated with "wc -l"
 let count = 0;
 // import { compareTwoStrings } from 'string-similarity'
 
-var lr = new LineByLineReader(path.resolve(__dirname, `./${CSV_FILE_NAME}`));
+var lr = new LineByLineReader(
+  path.resolve(
+    getBaseDir(),
+    `./src/inflection/server/server-with-database/database/${CSV_FILE_NAME}`
+  )
+);
 lr.on("error", (err) => {
   console.error(err);
 });
