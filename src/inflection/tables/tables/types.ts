@@ -1,4 +1,4 @@
-import { InflectionalCategoryListOrNestedList } from "inflection/tables/tables/getSingleTable";
+import { InflectionalCategoryListOrNestedList } from "inflection/tables/types";
 import { GrammaticalTag } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 

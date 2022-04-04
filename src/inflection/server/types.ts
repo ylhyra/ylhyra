@@ -6,17 +6,19 @@ import {
   Tree,
 } from "inflection/tables/types";
 
+export type BIN_id = number;
+
 export type MainSearch =
   | {
-      id: number;
+      id: BIN_id;
       type: "flat" | "html" | "json" | undefined;
       search: SearchOptions["word"];
     } & SearchOptions;
 
 export type WebsiteSearch = {
   embed: Boolean;
-  id: number;
-  word: string;
+  id: BIN_id;
+  q: SearchOptions["word"];
 } & TableOptionsFromUser;
 
 export type SearchOptions = {

@@ -1,13 +1,13 @@
 import Get_by_id from "inflection/getViaApi/getById";
 import render from "inflection/tables/renderEntry";
-import { TableOptionsFromUser } from "inflection/server/types";
+import { BIN_id, TableOptionsFromUser } from "inflection/server/types";
 
 /**
  * Element displayed in Ylhýra's frontend.
  * @param id - BÍN id
  * @param parameters - Parameters passed as a URL query string
  */
-export const inflectionElement = (id: number, parameters: string) => {
+export const inflectionElement = (id: BIN_id, parameters: string) => {
   return new Promise((resolve) => {
     let params: TableOptionsFromUser = {};
     parameters.replace(

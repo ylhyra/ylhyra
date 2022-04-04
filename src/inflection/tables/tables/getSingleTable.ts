@@ -4,10 +4,9 @@ import {
   GrammaticalTag,
   Html,
   InflectionalCategoryList,
-} from "inflection/tables/types";
-import Word, {
   InflectionalCategoryListOrNestedList,
-} from "inflection/tables/word";
+} from "inflection/tables/types";
+import Word from "inflection/tables/word";
 import { without } from "lodash";
 import { renderTableWrapperForSmallScreens as renderTable } from "inflection/tables/tables/render/renderTableWrapper";
 import flattenArray from "ylhyra/app/app/functions/flattenArray";

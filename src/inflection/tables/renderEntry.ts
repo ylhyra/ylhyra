@@ -6,7 +6,7 @@ import {
 } from "inflection/tables/classification/classification";
 import { sortByClassification } from "inflection/tables/classification/sortByClassification";
 import link from "inflection/tables/link";
-import { InflectionalCategoryListOrNestedList } from "inflection/tables/tables/getSingleTable";
+import { InflectionalCategoryListOrNestedList } from "inflection/tables/types";
 import {
   GrammaticalCategory,
   Html,
@@ -15,6 +15,9 @@ import {
 } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 
+/**
+ * Main entry point, renders the entire entry with headers and license footer.
+ */
 export default (rows: Rows, options: TableOptionsFromUser): Html => {
   let options_column_names =
     options && (options["columns"] || options.column_names);
@@ -30,7 +33,7 @@ export default (rows: Rows, options: TableOptionsFromUser): Html => {
     options_row_names ||
     options.single
   ) {
-    const give_me = getCanonicalGrammaticalTagFromUserInput(options.give_me);
+    const give_me = getCanonicalGrammaticalTagsFromUserInput(options.give_me);
     const column_names =
       getRowOrColumnSettingsFromUserInput(options_column_names);
     const row_names = getRowOrColumnSettingsFromUserInput(options_row_names);
@@ -89,7 +92,7 @@ export default (rows: Rows, options: TableOptionsFromUser): Html => {
 };
 
 const getRowOrColumnSettingsFromUserInput = (
-  string: string
+  string: string | undefined
 ): InflectionalCategoryListOrNestedList | undefined => {
   if (!string) return;
   /* If someone enters "cases" the rest is filled out */
@@ -99,12 +102,12 @@ const getRowOrColumnSettingsFromUserInput = (
   return string
     .split(";")
     .map(
-      getCanonicalGrammaticalTagFromUserInput
+      getCanonicalGrammaticalTagsFromUserInput
     ) as InflectionalCategoryListOrNestedList;
 };
 
-const getCanonicalGrammaticalTagFromUserInput = (
-  string: string
+const getCanonicalGrammaticalTagsFromUserInput = (
+  string: string | undefined
 ): InflectionalCategoryList => {
   if (!string) return [];
   return string

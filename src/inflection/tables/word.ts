@@ -25,21 +25,13 @@ import {
   GrammaticalTagOrVariantNumber,
   Html,
   InflectionalCategoryList,
-  TreeItems,
-  Rows,
+  InflectionalCategoryListOrNestedList,
   Leafs,
+  Rows,
 } from "inflection/tables/types";
 
 import { filterEmpty } from "modules/typescript/filterEmpty";
 import flattenArray from "ylhyra/app/app/functions/flattenArray";
-
-/** Used for the spread operator and for creating columns & rows */
-export type InflectionalCategoryListOrNestedList = (
-  | InflectionalCategoryList
-  | InflectionalCategoryList[number]
-  | InflectionalCategoryListOrNestedList
-  | null
-)[];
 
 class Word {
   /** The original Word object without any removed values */
@@ -214,11 +206,11 @@ class Word {
     );
     let tryToMatchAsManyAsPossible: InflectionalCategoryList = [];
     this.getClassificationOfFirstRow().forEach((c) => {
-      let relevant_type_index = valuesCategories.findIndex(
+      let relevantTypeIndex = valuesCategories.findIndex(
         (v) => v === getDescriptionFromGrammaticalTag(c).category
       );
-      if (relevant_type_index >= 0) {
-        tryToMatchAsManyAsPossible.push(values[relevant_type_index]);
+      if (relevantTypeIndex >= 0) {
+        tryToMatchAsManyAsPossible.push(values[relevantTypeIndex]);
       } else {
         tryToMatchAsManyAsPossible.push(c);
       }
@@ -236,15 +228,15 @@ class Word {
           return null;
         }
 
-        let match_score = 0;
+        let matchScore = 0;
         row.inflectional_form_categories.forEach((cat) => {
           if (tryToMatchAsManyAsPossible.includes(cat)) {
-            match_score++;
+            matchScore++;
           }
         });
         return {
           inflectional_form_categories: row.inflectional_form_categories,
-          match_score,
+          match_score: matchScore,
         };
       })
       .filter(filterEmpty);

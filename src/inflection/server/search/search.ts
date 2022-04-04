@@ -4,7 +4,7 @@
 
   Note: This file currently relies on being a submodule of Ylhýra.
 */
-import FuzzySearch from "inflection/server/server-with-database/fuzzy_search";
+import FuzzySearch from "inflection/server/search/fuzzySearch";
 import {
   PossibleSearchReturns,
   SearchFunction,

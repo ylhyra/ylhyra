@@ -92,10 +92,8 @@ inflections_app.use(
   "/inflection_styles.css",
   staticCached(path.join(getBaseDir(), "/build/inflection_styles.css"))
 );
-inflections_app.use(
-  "/",
-  require("inflection/server/server-with-database/route_loader").default
-);
+inflections_app.use("/", require("inflection/server/routes/api").default);
+inflections_app.use("/", require("inflection/server/routes/website").default);
 app.use((req, res, next) => {
   if (
     /inflections\./.exec(req.headers.host || "") ||
@@ -124,9 +122,9 @@ if (argv["generate-links"]) {
 } else if (argv["prerender"]) {
   require("ylhyra/server/content/prerender/prerenderAll.js");
 } else if (argv["generate-search-index"]) {
-  require("inflection/server/server-with-database/database/generateSearchIndex");
+  require("inflection/server/database/generateSearchIndex");
 } else if (argv["import-inflections"]) {
-  require("inflection/server/server-with-database/database/ImportToDatabase");
+  require("inflection/server/database/importToDatabase");
 } else if (argv["import-vocabulary"]) {
   require("ylhyra/server/vocabulary/compile");
 } else if (argv["generate-sentences"]) {

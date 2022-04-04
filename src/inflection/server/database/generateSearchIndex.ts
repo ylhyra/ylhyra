@@ -26,7 +26,7 @@ import {
   removeTemporaryMarkers,
   with_spelling_errors,
   without_special_characters,
-} from "inflection/server/server-with-database/fuzzy_search";
+} from "inflection/server/search/fuzzySearch";
 import path from "path";
 import { escape } from "sqlstring";
 import flattenArray from "ylhyra/app/app/functions/flattenArray";

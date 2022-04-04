@@ -6,11 +6,12 @@ import { sortByClassification } from "inflection/tables/classification/sortByCla
 import { RowFromDatabase, Rows } from "inflection/tables/types";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
+import { BIN_id } from "inflection/server/types";
 
 /*
   Full table for id
 */
-export default (id: number, callback: (parameter: Rows | null) => any) => {
+export default (id: BIN_id, callback: (parameter: Rows | null) => any) => {
   query(
     sql`
     SELECT

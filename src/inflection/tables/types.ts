@@ -118,3 +118,11 @@ export type GrammaticalCategory =
 export type GrammaticalTag = string;
 export type GrammaticalTagOrVariantNumber = GrammaticalTag | VariantNumber;
 export type InflectionalCategoryList = GrammaticalTagOrVariantNumber[];
+
+/** Used for the spread operator and for creating columns & rows */
+export type InflectionalCategoryListOrNestedList = (
+  | InflectionalCategoryList
+  | InflectionalCategoryList[number]
+  | InflectionalCategoryListOrNestedList
+  | null
+)[];
