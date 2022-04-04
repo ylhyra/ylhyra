@@ -19,7 +19,7 @@ import { links } from "ylhyra/server/content/links/loadLinks";
  * @param depth - How deep in a transclusion chain are we?
  * @param shouldGetData - Load translation data as well?
  */
-export default function Transclude(
+export default async function Transclude(
   title: string,
   depth = 0,
   shouldGetData = true

@@ -5,10 +5,10 @@ import MakeList from "ylhyra/documents/parse/Tokenize/List";
 import { ListData } from "ylhyra/documents/parse/types";
 import long_audio from "ylhyra/maker/editor/Long_audio/reducers";
 import short_audio from "ylhyra/maker/editor/Short_audio/reducers";
-import {
-  analysis,
-  suggestions,
-} from "ylhyra/maker/editor/Suggestions/reducers";
+// import {
+//   analysis,
+//   suggestions,
+// } from "ylhyra/maker/editor/Suggestions/reducers";
 import { selected, translation } from "ylhyra/maker/editor/Translator/reducers";
 
 let autosave;
@@ -46,7 +46,7 @@ const tokenized = (state = [], action) => {
   }
 };
 
-const list = (state: ListData, action) => {
+const list = (state: ListData | null = null, action) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       if (action.currentDocument) {
@@ -92,8 +92,8 @@ export const editor = combineReducers({
   tokenized,
   list, // List of words and sentences
   translation,
-  suggestions,
-  analysis,
+  // suggestions,
+  // analysis,
   selected, // Selected words in the Editor
   long_audio,
   short_audio,

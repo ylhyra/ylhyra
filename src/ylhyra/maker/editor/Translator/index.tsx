@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  applySuggestions,
-  MakeSuggestions,
-} from "ylhyra/maker/editor/Suggestions";
-import Suggestions from "ylhyra/maker/editor/Suggestions/Views/List";
+// import {
+//   applySuggestions,
+//   MakeSuggestions,
+// } from "ylhyra/maker/editor/Suggestions";
+// import Suggestions from "ylhyra/maker/editor/Suggestions/Views/List";
 import { clearSelection } from "ylhyra/maker/editor/Translator/actions";
 import SentenceTranslation from "ylhyra/maker/editor/Translator/Views/Document/SentenceTranslation";
 import Word from "ylhyra/maker/editor/Translator/Views/Document/Word";
@@ -87,16 +87,16 @@ class TranslatingEditor extends React.Component {
                   </tbody>
                 </table>
                 <br />
-                <div>
-                  <button onClick={MakeSuggestions}>Get suggestions</button>
-                  <div>
-                    <small className="editor-hide sysop-hide">
-                      Note: Machine translations are currently only available
-                      for verified editors
-                    </small>
-                  </div>
-                  <button onClick={applySuggestions}>Apply suggestions</button>
-                </div>
+                {/*<div>*/}
+                {/*  <button onClick={MakeSuggestions}>Get suggestions</button>*/}
+                {/*  <div>*/}
+                {/*    <small className="editor-hide sysop-hide">*/}
+                {/*      Note: Machine translations are currently only available*/}
+                {/*      for verified editors*/}
+                {/*    </small>*/}
+                {/*  </div>*/}
+                {/*  <button onClick={applySuggestions}>Apply suggestions</button>*/}
+                {/*</div>*/}
               </div>
             </div>
 
@@ -136,7 +136,7 @@ class TranslatingEditor extends React.Component {
 
         <div className="sidebar form">
           <div className="form">
-            {selected.length > 0 && <Suggestions />}
+            {/*{selected.length > 0 && <Suggestions />}*/}
             {selected.length > 0 && <WordSidebar />}
           </div>
         </div>

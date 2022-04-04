@@ -25,6 +25,11 @@ export type SearchOptions = {
   fuzzy?: Boolean;
 };
 
+export type SearchFunction = (
+  options: SearchOptions,
+  callback: (parameter: PossibleSearchReturns) => any
+) => any;
+
 export type FuzzySearchReturns = {
   perfect_matches: FuzzySearchOutputObject[];
   did_you_mean: FuzzySearchOutputObject[];

@@ -33,22 +33,13 @@ export default (id: number, callback: (parameter: Rows | null) => any) => {
     WHERE inflection.BIN_id = ${id};
     -- AND correctness_grade_of_inflectional_form = 1
     -- AND should_be_taught = 1
-
-    SELECT *
-    FROM vocabulary_input
-    -- LEFT JOIN vocabulary_input
-    --   ON inflection.BIN_id = vocabulary_input.BIN_ID
-    LEFT JOIN vocabulary_fields
-      ON vocabulary_fields.id = vocabulary_input.vocabulary_id
-    WHERE vocabulary_input.BIN_id = ${id};
-
   `,
-    (err: any, results: RowFromDatabase[][]) => {
+    (err: any, results: RowFromDatabase[]) => {
       if (err) {
         callback(null);
       } else {
         try {
-          const rows = results[0]
+          const rows = results
             .map((i) => classify(i))
             .sort(sortByClassification);
 

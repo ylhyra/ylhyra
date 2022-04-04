@@ -123,8 +123,10 @@ if (argv["generate-links"]) {
   require("ylhyra/server/content/preProcessing/sortCourseChapters.js");
 } else if (argv["prerender"]) {
   require("ylhyra/server/content/prerender/prerenderAll.js");
-} else if (argv["import-inflections"] || argv["generate-search-index"]) {
-  // require("inflection/server/server-with-database/database/ImportToDatabase.js");
+} else if (argv["generate-search-index"]) {
+  require("inflection/server/server-with-database/database/generateSearchIndex");
+} else if (argv["import-inflections"]) {
+  require("inflection/server/server-with-database/database/ImportToDatabase");
 } else if (argv["import-vocabulary"]) {
   require("ylhyra/server/vocabulary/compile");
 } else if (argv["generate-sentences"]) {

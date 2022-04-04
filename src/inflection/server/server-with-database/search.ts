@@ -7,6 +7,7 @@
 import FuzzySearch from "inflection/server/server-with-database/fuzzy_search";
 import {
   PossibleSearchReturns,
+  SearchFunction,
   SearchOptions,
   SearchReturnObject,
 } from "inflection/server/types";
@@ -14,20 +15,12 @@ import { classify } from "inflection/tables/classification/BIN_classification";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
 
-// import { IcelandicCharacters } from 'inflection/tables/functions'
 const IcelandicCharacters = /^[a-záéíóúýðþæö ]+$/i;
 
-/*
-  Find possible base words and tags for a given word
-*/
-export default (
-  options: SearchOptions,
-  callback: (parameter: PossibleSearchReturns) => any
-) => {
+const Search: SearchFunction = (options, callback) => {
   let { word, fuzzy, return_rows_if_only_one_match } = options;
   if (!word || word.length > 100 || !IcelandicCharacters.test(word)) {
     return callback(null);
-    // return res.status(400).send({ error: 'Invalid string' })
   }
   word = word.trim().toLowerCase().replace(/\s+/g, " ");
   if (fuzzy) {
@@ -44,7 +37,7 @@ export default (
     `,
       (err, results) => {
         if (err) {
-          callback("Error");
+          callback(null);
         } else {
           let grouped: SearchReturnObject[] = [];
           results.forEach((row) => {
@@ -76,3 +69,4 @@ export default (
     );
   }
 };
+export default Search;

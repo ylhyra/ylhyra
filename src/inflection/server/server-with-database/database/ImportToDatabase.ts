@@ -7,13 +7,21 @@ import LineByLineReader from "line-by-line";
 import path from "path";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
+import { getBaseDir } from "ylhyra/server/paths_backend";
 
 let count = 0;
 
 const CSV_FILE_NAME = "KRISTINsnid.csv";
 const CSV_FILE_LINES = 6334181; // Number of lines, calculated with "wc -l"
 
-var lr = new LineByLineReader(path.resolve(__dirname, `./${CSV_FILE_NAME}`));
+console.log("running");
+
+var lr = new LineByLineReader(
+  path.resolve(
+    getBaseDir(),
+    `./src/inflection/server/server-with-database/database/${CSV_FILE_NAME}`
+  )
+);
 lr.on("error", (err) => {
   console.error(err);
 });
