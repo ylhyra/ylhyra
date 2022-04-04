@@ -5,6 +5,15 @@ export default ({
   id,
   embed,
   did_you_mean_in_footer /* For when one main variant is shown */,
+}: {
+  title: string;
+  /** Search string */
+  string?: string;
+  results?: string;
+  id?: number;
+  embed?: Boolean;
+  /** For when one main variant is shown */
+  did_you_mean_in_footer?: string;
 }) => `
 <!DOCTYPE html>
 <html>

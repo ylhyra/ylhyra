@@ -1,6 +1,15 @@
-import mysql from "mysql";
+import { Scalar } from "modules/typescript/scalar";
+import mysql, { MysqlError, queryCallback } from "mysql";
 
-export const Pool = ({ database, user, password }) =>
+export const Pool = ({
+  database,
+  user,
+  password,
+}: {
+  database: string;
+  user: string;
+  password: string;
+}) =>
   mysql.createPool({
     database,
     user,
@@ -12,35 +21,46 @@ export const Pool = ({ database, user, password }) =>
     charset: "utf8mb4_general_ci",
   });
 
-export const Query = (query, secondParameter, thirdParameter, pool) => {
+export type QueryValuesParameter = Scalar[];
+export type QueryCallbackFunction = (
+  err: MysqlError | Boolean,
+  results: any[] // QueryResultsParameter
+) => void;
+export type QueryResultsParameter = Array<Scalar> | Array<Array<Scalar>>;
+export const Query = (
+  query: string,
+  secondParameter: QueryValuesParameter | QueryCallbackFunction,
+  thirdParameter: QueryCallbackFunction | undefined,
+  pool: ReturnType<typeof Pool>
+) => {
   pool.getConnection((err, connection) => {
     if (err) {
       console.error(err);
       if (Array.isArray(secondParameter)) {
-        thirdParameter(err);
+        (thirdParameter as QueryCallbackFunction)(err, []);
       } else {
-        secondParameter(err);
+        (secondParameter as QueryCallbackFunction)(err, []);
       }
       return;
     }
-    let callback;
+    let callback: QueryCallbackFunction;
 
-    if (Array.isArray(secondParameter)) {
-      callback = thirdParameter;
-      connection.query(query, secondParameter, returns);
-    } else {
-      callback = secondParameter;
-      connection.query(query, returns);
-    }
-
-    function returns(err, results) {
+    const callbackInterceptor: queryCallback = (err, results) => {
       connection.release();
       if (!err) {
         callback(false, results);
       } else {
         console.error(err);
-        callback(err);
+        callback(err, []);
       }
+    };
+
+    if (Array.isArray(secondParameter)) {
+      callback = thirdParameter as QueryCallbackFunction;
+      connection.query(query, secondParameter, callbackInterceptor);
+    } else {
+      callback = secondParameter as QueryCallbackFunction;
+      connection.query(query, callbackInterceptor);
     }
   });
 };

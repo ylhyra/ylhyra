@@ -100,14 +100,23 @@ export const classify = (input: RowFromDatabase): Row => {
   const variant_number = parseInt(grammatical_tag.match(/(\d)$/)?.[0] || "1");
   inflectional_form_categories.push(variant_number);
 
+  /** Make sure output is the correct type */
+  if (typeof rest.correctness_grade_of_word === "string") {
+    rest.correctness_grade_of_word = parseInt(rest.correctness_grade_of_word);
+  }
+  if (typeof rest.correctness_grade_of_inflectional_form === "string") {
+    rest.correctness_grade_of_inflectional_form = parseInt(
+      rest.correctness_grade_of_inflectional_form
+    );
+  }
+
   return {
     word_categories: word_categories_output,
     inflectional_form_categories,
     original_grammatical_tag,
     BIN_domain,
-    // variant_number,
+    variant_number,
     ...rest,
-    // ...input,
   };
 };
 

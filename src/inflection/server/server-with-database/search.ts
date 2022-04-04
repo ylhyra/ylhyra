@@ -5,6 +5,11 @@
   Note: This file currently relies on being a submodule of Ylhýra.
 */
 import FuzzySearch from "inflection/server/server-with-database/fuzzy_search";
+import {
+  PossibleSearchReturns,
+  SearchOptions,
+  SearchReturnObject,
+} from "inflection/server/types";
 import { classify } from "inflection/tables/classification/BIN_classification";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
@@ -15,7 +20,10 @@ const IcelandicCharacters = /^[a-záéíóúýðþæö ]+$/i;
 /*
   Find possible base words and tags for a given word
 */
-export default (options, callback) => {
+export default (
+  options: SearchOptions,
+  callback: (parameter: PossibleSearchReturns) => any
+) => {
   let { word, fuzzy, return_rows_if_only_one_match } = options;
   if (!word || word.length > 100 || !IcelandicCharacters.test(word)) {
     return callback(null);
@@ -38,7 +46,7 @@ export default (options, callback) => {
         if (err) {
           callback("Error");
         } else {
-          let grouped = [];
+          let grouped: SearchReturnObject[] = [];
           results.forEach((row) => {
             let index = grouped.findIndex((i) => i.BIN_id === row.BIN_id);
             if (index < 0) {

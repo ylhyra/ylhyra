@@ -1,6 +1,14 @@
 import axios from "axios";
+import {
+  OutputWithLicense,
+  PossibleSearchReturns,
+  SearchOptions,
+} from "inflection/server/types";
 
-export default (options, callback) => {
+export default (
+  options: SearchOptions,
+  callback: (parameter: PossibleSearchReturns) => any
+) => {
   let { word, fuzzy, return_rows_if_only_one_match } = options;
   axios
     .get("https://ylhyra.is/api/inflection", {
@@ -10,7 +18,7 @@ export default (options, callback) => {
         return_rows_if_only_one_match,
       },
     })
-    .then(function ({ data }) {
+    .then(function ({ data }: { data: OutputWithLicense }) {
       callback(data.results);
     })
     .catch(function (error) {

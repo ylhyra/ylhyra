@@ -11,6 +11,7 @@ import {
 } from "inflection/tables/functions/helperWords";
 import { findIrregularities } from "inflection/tables/functions/irregularities";
 import { getPrincipalParts } from "inflection/tables/functions/principalParts";
+import { getSnippet } from "inflection/tables/functions/snippet";
 import { getStem } from "inflection/tables/functions/stem";
 import { isStrong, isWeak } from "inflection/tables/functions/strong";
 import { getWordDescription } from "inflection/tables/functions/wordDescription";
@@ -24,10 +25,8 @@ import {
   GrammaticalTagOrVariantNumber,
   Html,
   InflectionalCategoryList,
-  Leaf,
-  Row,
+  Leafs,
   Rows,
-  Tree,
 } from "inflection/tables/types";
 import { flatten } from "lodash";
 import { filterEmpty } from "modules/typescript/filterEmpty";
@@ -39,6 +38,8 @@ class Word {
   rows: Rows;
   wordHasUmlaut?: Boolean;
   wordIsIrregular?: Boolean;
+  wordIsHighlyIrregular?: Boolean;
+
   getHelperWordsBefore = getHelperWordsBefore;
   getHelperWordsAfter = getHelperWordsAfter;
   getPrincipalParts = getPrincipalParts;
@@ -50,8 +51,9 @@ class Word {
   getWordDescription = getWordDescription;
   getWordNotes = getWordNotes;
   findIrregularities = findIrregularities;
+  getSnippet = getSnippet;
 
-  constructor(rows: (Rows|Leaf[]) = [], original?: Word) {
+  constructor(rows: Rows | Leafs = [], original?: Word) {
     if (!Array.isArray(rows) && rows !== undefined) {
       throw new Error(
         `Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`
@@ -91,14 +93,14 @@ class Word {
     }
   }
 
-  setup() {
-    this.findIrregularities();
-  }
-
   // /* temp */
   // highlight(input_string) {
   //   if (!input_string) return this;
   // }
+
+  setup() {
+    this.findIrregularities();
+  }
 
   getId() {
     return this.original.rows[0]?.BIN_id;
@@ -366,9 +368,7 @@ class Word {
    * Used to ask "which case does this word have?"
    * E.g. getType('case') returns 'nominative'
    */
-  getType(
-    grammaticalCategory: GrammaticalCategory
-  ): GrammaticalTag | undefined {
+  getType(grammaticalCategory: GrammaticalCategory): GrammaticalTag {
     const classification = [
       ...this.getWordCategories(),
       // TODO: Should we get first class or that which applies to all?
@@ -430,7 +430,21 @@ class Word {
     return tree(this.rows);
   }
 
-  renderForms(): Html[] {
+  /* Returns formatted values in cell with helper words */
+  renderCell(): Html {
+    let output =
+      this.getHelperWordsBefore() +
+      " " +
+      this.renderVariantsInCell()
+        .map((i) => `<b>${i}</b>`)
+        .join(" / ") +
+      this.getHelperWordsAfter();
+    output = output.trim();
+
+    return output;
+  }
+
+  renderVariantsInCell(): Html[] {
     return this.rows.map((row) => {
       /* formattedOutput contains umlaut highlights */
       let out = row.formattedOutput || row.inflectional_form;
@@ -440,77 +454,6 @@ class Word {
       return out;
     });
   }
-
-  /* Returns string with helper words */
-  render(): Html {
-    let output =
-      this.getHelperWordsBefore() +
-      " " +
-      this.renderForms()
-        .map((i) => `<b>${i}</b>`)
-        .join(" / ") +
-      this.getHelperWordsAfter();
-    output = output.trim();
-
-    return output;
-  }
-
-  /**
-   * A snippet is a short example of a conjugation to display in search results
-   */
-  getSnippet(): Html {
-    // if (this.is('verb')) {
-    //   return this.getPrincipalParts()
-    // }
-
-    /* Which variant to highlight? */
-    let chosenVariantToShow: InflectionalCategoryList = [];
-    let variantsMatched: Rows = [];
-    this.rows.forEach((row) => {
-      if (row.variant_matched) {
-        variantsMatched.push(row);
-      }
-    });
-    variantsMatched = variantsMatched.sort((a, b) => {
-      return (
-        (b.should_be_taught ? 1 : 0) +
-        b.correctness_grade_of_inflectional_form +
-        b.correctness_grade_of_word -
-        ((a.should_be_taught ? 1 : 0) +
-          a.correctness_grade_of_inflectional_form +
-          a.correctness_grade_of_word)
-      );
-    });
-    if (variantsMatched.length > 0) {
-      chosenVariantToShow =
-        variantsMatched[0].inflectional_form_categories.filter(
-          (i) => !isNumber(i)
-        );
-    }
-
-    return this.getSingleTable({
-      returnAsString: true,
-      give_me: chosenVariantToShow,
-    });
-  }
 }
-
-/**
- * Used by RenderTable
- */
-export const wordFromTree = (input: Tree | Leaf | Leaf[], original: Word) => {
-  let rows: Rows = [];
-  const traverse = (x: Tree | Leaf) => {
-    if (Array.isArray(x)) {
-      x.map(traverse);
-    } else if (x.values) {
-      x.values.map(traverse);
-    } else {
-      rows.push(x as unknown as Row);
-    }
-  };
-  traverse(input);
-  return new Word(rows, original);
-};
 
 export default Word;

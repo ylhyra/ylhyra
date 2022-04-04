@@ -26,8 +26,7 @@ export const tree = (rows: Rows): Tree => {
         currentArray.push({
           inflectional_form_categories: row.inflectional_form_categories,
           word_categories: row.word_categories,
-          /** TODO: Verify that this is correctly parsed as int */
-          variant_number: tag,
+          variant_number: row.variant_number,
           inflectional_form: row.inflectional_form,
           should_be_taught: row.should_be_taught,
           correctness_grade_of_inflectional_form:

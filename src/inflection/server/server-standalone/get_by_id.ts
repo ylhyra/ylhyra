@@ -1,6 +1,7 @@
 import axios from "axios";
+import { Rows } from "inflection/tables/types";
 
-export default (id, callback) => {
+export default (id: number, callback: (parameter: Rows | null) => any) => {
   // console.log(id)
   axios
     .get(`https://ylhyra.is/api/inflection?id=${id}&type=flat`)

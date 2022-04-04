@@ -7,19 +7,21 @@ import {
 } from "inflection/tables/functions/vowels";
 import Word from "inflection/tables/word";
 import _ from "lodash";
+import { filterEmpty } from "modules/typescript/filterEmpty";
 
 /**
  * Gets the stem of a word. See: https://is.wikipedia.org/wiki/Stofn_(málfræði)
- *
- * * @param {object} options
- *   - masculinizeAdjectiveStem {boolean}
- *   - trimExtra {boolean}
- * @return {?string}
  */
-export function getStem(this: Word, options: object): string | null {
+export function getStem(
+  this: Word,
+  options?: {
+    masculinizeAdjectiveStem?: Boolean;
+    trimExtra?: Boolean;
+  }
+): string {
   let word = this;
   let selection;
-  let output;
+  let output: string | undefined;
   if (this.is("noun")) {
     if (this.isStrong()) {
       selection = this.getOriginal().get(
@@ -39,12 +41,13 @@ export function getStem(this: Word, options: object): string | null {
       )
       .getFirstValue();
     // if (!output) return;
-    /*
-      For the purpose of highlighting umlauts,
-      we want to get the stem with the vowel that's
-      used in the masculine gender
-    */
-    if (output && options.masculinizeAdjectiveStem) {
+
+    /**
+     * For the purpose of highlighting umlauts,
+     * we want to get the stem with the vowel that's
+     * used in the masculine gender
+     */
+    if (output && options?.masculinizeAdjectiveStem) {
       const stemLength = splitOnVowelRegions(output).filter(Boolean).length;
       let masculine = this.getOriginal()
         .get(
@@ -94,57 +97,59 @@ export function getStem(this: Word, options: object): string | null {
   }
 
   /* Trim even further */
-  if (options?.trimExtra && selection) {
+  if (options?.trimExtra && selection && output) {
     output = removeInflectionalPattern(output, selection);
   }
 
-  return output;
+  return output || "";
 }
 
-/*
-  If no stem can be found, attempt to generate it by finding the most common region of unchanged consonants.
-  Todo: May not work with singe letter words
-*/
-const attemptToGenerateStem = (word) => {
-  let y = word
+/**
+ * If no stem can be found, attempt to generate it by finding the most common region of unchanged consonants.
+ * Todo: May not work with singe letter words
+ */
+const attemptToGenerateStem = (word: Word): string => {
+  let values: string[] = word
     .getOriginal()
     .rows.map((row) =>
       removeInflectionalPattern(row.inflectional_form, new Word([row], word))
-    );
-  let x = y.map(removeVowellikeClusters);
-  let shortest = Math.min(...x.map((i) => i.length));
-  let cut = x.map((i) => i.slice(0, shortest));
-  var mostCommonConsonantBeginning = _.head(
+    )
+    .filter(filterEmpty);
+  let valuesWithVowelsRemoved = values.map(removeVowellikeClusters);
+  let shortest = Math.min(...valuesWithVowelsRemoved.map((i) => i.length));
+  let cut = valuesWithVowelsRemoved.map((i) => i.slice(0, shortest));
+  const mostCommonConsonantBeginning = _.head(
     _(cut).countBy().entries().maxBy(_.last)
-  );
-  var firstVariantMatching = y.find((i) =>
-    removeVowellikeClusters(i).slice(0, shortest)
+  ) as string;
+  const firstVariantMatching = values.find((i) =>
+    removeVowellikeClusters(i)?.slice(0, shortest)
   );
 
   /* Find match based on consonants */
   let output = "";
-  let current_consonant_index = 0;
+  let currentConsonantIndex = 0;
   let done = false;
-  firstVariantMatching &&
-    firstVariantMatching.split("").forEach((letter) => {
+  if (firstVariantMatching) {
+    for (const letter of firstVariantMatching.split("")) {
       if (!done) {
         if (!isVowellikeCluster(letter)) {
-          current_consonant_index++;
-          if (current_consonant_index >= mostCommonConsonantBeginning.length) {
+          currentConsonantIndex++;
+          if (currentConsonantIndex >= mostCommonConsonantBeginning.length) {
             done = true;
           }
         }
         output += letter;
       }
-    });
+    }
+  }
 
   /* If the above failed, try to find match using vowels as well */
   if (!output) {
-    let shortest2 = Math.min(...y.map((i) => i.length));
-    let cut2 = y.map((i) => i.slice(0, shortest2));
-    var mostCommonBeginning2 = _.head(
+    let shortest2 = Math.min(...values.map((i) => i.length));
+    let cut2 = values.map((i) => i.slice(0, shortest2));
+    const mostCommonBeginning2 = _.head(
       _(cut2).countBy().entries().maxBy(_.last)
-    );
+    ) as string;
     return mostCommonBeginning2;
   }
 

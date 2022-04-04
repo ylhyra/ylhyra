@@ -1,3 +1,4 @@
+import { wordFromTree } from "inflection/tables/helperFunctions/wordFromTree";
 import link from "inflection/tables/link";
 import { RowOrColumnNameList } from "inflection/tables/tables_single";
 import {
@@ -5,8 +6,9 @@ import {
   Html,
   InflectionalCategoryList,
   Leaf,
+  Leafs,
 } from "inflection/tables/types";
-import Word, { wordFromTree } from "inflection/tables/word";
+import Word from "inflection/tables/word";
 import { c } from "modules/noUndefinedInTemplateLiteral";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 import flattenArray from "ylhyra/app/app/functions/flattenArray";
@@ -20,7 +22,7 @@ type CellStructure = Word | CellHeadingStructure;
 type CellHeadingStructure = GrammaticalTag | RowOrColumnNameList | null;
 
 export type RenderCellOptions = {
-  linkWords?: boolean;
+  linkWords?: Boolean;
 };
 
 export type StructureOption = {
@@ -34,7 +36,7 @@ export type StructureOption = {
  * to make them fit on small screens
  */
 export default function AlsoMakeTablesThatFitOnSmallScreens(
-  input: Word | Leaf | Leaf[],
+  input: Word | Leaf | Leafs,
   original_word: Word,
   structure: StructureOption,
   highlight?: InflectionalCategoryList,
@@ -82,7 +84,7 @@ export default function AlsoMakeTablesThatFitOnSmallScreens(
  * Converts description of table structure into a table
  */
 const RenderTable = (
-  input: Word | Leaf | Leaf[],
+  input: Word | Leaf | Leafs,
   original_word: Word,
   structure: StructureOption,
   highlight?: InflectionalCategoryList,
@@ -158,9 +160,11 @@ const tableHtml = (
                   let flatListOfGrammaticalTags = flattenArray([
                     cell,
                   ]) as (GrammaticalTag | null)[];
-                  flatListOfGrammaticalTags[0] = uppercaseFirstLetter(
-                    flatListOfGrammaticalTags[0]
-                  );
+                  if (flatListOfGrammaticalTags[0]) {
+                    flatListOfGrammaticalTags[0] = uppercaseFirstLetter(
+                      flatListOfGrammaticalTags[0]
+                    );
+                  }
                   const label = flatListOfGrammaticalTags
                     .map((u) => link(u))
                     .join(", ");

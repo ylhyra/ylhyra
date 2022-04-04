@@ -6,9 +6,9 @@ import Word from "inflection/tables/word";
 export const characters = "a-záéíóúýðþæö";
 export const vowels = "aeiouyáéíóúýæö";
 export const dipthongs = "au|e[yi]";
-export const vowellike_clusters = `au|e[yi]|j[auúóöyi]`; // Umlaut (hljóðvarp) and Germanic a-mutation (klofning)
+export const vowellikeClusters = `au|e[yi]|j[auúóöyi]`; // Umlaut (hljóðvarp) and Germanic a-mutation (klofning)
 
-export const endsInVowel = (input) => {
+export const endsInVowel = (input: Word | string | undefined) => {
   let string;
   if (input instanceof Word) {
     string = input.getFirstValue();
@@ -19,61 +19,61 @@ export const endsInVowel = (input) => {
   return string && new RegExp(`[${vowels}]$`, "i").test(string);
 };
 
-export const endsInConsonant = (string: string) => {
+export const endsInConsonant = (string: string | undefined) => {
   // if (typeof string !== 'string') throw new Error('endsInConsonant expected string');
   return !endsInVowel(string);
 };
 
-export const splitOnVowels = (string: string) => {
+export const splitOnVowels = (string: string): string[] => {
+  // if (typeof string !== 'string') throw new Error('splitOnVowelRegions expected string');
+  return string.split(new RegExp(`(${vowellikeClusters}|[${vowels}])`, "ig"));
+};
+
+// export const splitOnVowelRegions = (string: string | undefined)
+// {
+//   (string: "" | undefined): undefined;
+//   (string: string): string[];
+// }
+export const splitOnVowelRegions = (string: string): string[] => {
+  if (typeof string !== "string")
+    throw new Error("splitOnVowelRegions expected string");
+  return string.split(new RegExp(`(${vowellikeClusters}|[${vowels}]+)`, "ig"));
+};
+
+export const getVowelClusters = (string: string | undefined) => {
   // if (typeof string !== 'string') throw new Error('splitOnVowelRegions expected string');
   return (
     string &&
-    string.split(new RegExp(`(${vowellike_clusters}|[${vowels}])`, "ig"))
+    string.match(new RegExp(`(${vowellikeClusters}|[${vowels}])`, "ig"))
   );
 };
 
-export const splitOnVowelRegions = (string: string) => {
-  // if (typeof string !== 'string') throw new Error('splitOnVowelRegions expected string');
-  return (
-    string &&
-    string.split(new RegExp(`(${vowellike_clusters}|[${vowels}]+)`, "ig"))
-  );
-};
-
-export const getVowelClusters = (string: string) => {
-  // if (typeof string !== 'string') throw new Error('splitOnVowelRegions expected string');
-  return (
-    string &&
-    string.match(new RegExp(`(${vowellike_clusters}|[${vowels}])`, "ig"))
-  );
-};
-
-export const splitOnAll = (string: string) => {
+export const splitOnAll = (string: string | undefined) => {
   // if (typeof string !== 'string') throw new Error('splitOnAll expected string');
   return (
     string &&
     string
-      .split(new RegExp(`(${vowellike_clusters}|[${characters}])`, "i"))
+      .split(new RegExp(`(${vowellikeClusters}|[${characters}])`, "i"))
       .filter(Boolean)
   );
 };
 
 export const isVowellikeCluster = (string: string) => {
   // if (typeof string !== 'string') throw new Error('splitOnAll expected string');
-  return new RegExp(`(${vowellike_clusters}|[${vowels}]+)`, "i").test(string);
+  return new RegExp(`(${vowellikeClusters}|[${vowels}]+)`, "i").test(string);
 };
 
-export const removeLastVowelCluster = (string: string) => {
+export const removeLastVowelCluster = (string: string | undefined) => {
   // if (typeof string !== 'string') throw new Error('removeLastVowelCluster expected string');
   return (
     string &&
-    string.replace(new RegExp(`(${vowellike_clusters}|[${vowels}]+)$`, "i"), "")
+    string.replace(new RegExp(`(${vowellikeClusters}|[${vowels}]+)$`, "i"), "")
   );
 };
 
-export const removeVowellikeClusters = (string: string) => {
+export const removeVowellikeClusters = (string: string): string => {
   return (
     string &&
-    string.replace(new RegExp(`(${vowellike_clusters}|[${vowels}]+)`, "ig"), "")
+    string.replace(new RegExp(`(${vowellikeClusters}|[${vowels}]+)`, "ig"), "")
   );
 };

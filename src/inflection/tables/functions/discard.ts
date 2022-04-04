@@ -1,5 +1,9 @@
-import { Rows } from "inflection/tables/types";
-import { last } from "lodash";
+import {
+  CorrectnessGrade,
+  Leafs,
+  PRIMARY_VARIANT_NUMBER,
+  Rows,
+} from "inflection/tables/types";
 
 /**
  * Here we remove variants which are not of any relevance to a second language student.
@@ -7,7 +11,7 @@ import { last } from "lodash";
  *   - Extremely obscure forms
  *   - Incorrect variants
  */
-export const discardUnnecessaryForms = (rows: Rows): Rows => {
+export const discardUnnecessaryForms = (rows: Rows | Leafs): Rows | Leafs => {
   return discardObscureForms(removeIncorrectVariants(rows));
 };
 
@@ -16,7 +20,7 @@ export const discardUnnecessaryForms = (rows: Rows): Rows => {
  * Removed are:
  *   - Infinitive past tense („Hún sagðist hefðu“). See https://bin.arnastofnun.is/korn/23
  */
-export const discardObscureForms = (rows: Rows): Rows => {
+export const discardObscureForms = (rows: Rows | Leafs): Rows | Leafs => {
   return rows.filter(
     (row) =>
       !["infinitive", "past tense"].every((i) =>
@@ -28,7 +32,7 @@ export const discardObscureForms = (rows: Rows): Rows => {
 /**
  * Remove variants which are marked as being "incorrect" in standard Icelandic
  */
-export const removeIncorrectVariants = (rows: Rows): Rows => {
+export const removeIncorrectVariants = (rows: Rows | Leafs): Rows | Leafs => {
   return rows.filter((row) => {
     // console.log(row)
     // /* Note: Commented out as "hendi" is marked with this */
@@ -36,16 +40,12 @@ export const removeIncorrectVariants = (rows: Rows): Rows => {
     //   return true
     // }
     /* Leave the first item */
-    if (
-      last(row.inflectional_form_categories) === 1 ||
-      last(row.inflectional_form_categories) === "1"
-    ) {
+    if (row.variant_number === PRIMARY_VARIANT_NUMBER) {
       return true;
     }
     /* Leave subsequent items if they are correct */
     if (
-      row.correctness_grade_of_inflectional_form === 1 ||
-      row.correctness_grade_of_inflectional_form === "1"
+      row.correctness_grade_of_inflectional_form === CorrectnessGrade.Default
     ) {
       return true;
     }

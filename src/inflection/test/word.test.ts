@@ -1,6 +1,6 @@
 import assert from "assert";
-import { stripHTML } from "inflection/tables/link";
 import { get } from "inflection/test/get";
+import { stripHtml } from "modules/stripHtml";
 
 /*
 Other words that might be interesting:
@@ -24,7 +24,7 @@ describe("General word tests", function () {
   it("„Björn“", (done) => {
     get(353885, done, (word) => {
       /* Test that both variants were returned */
-      assert.deepEqual(word.get("genitive").renderForms(), [
+      assert.deepEqual(word.get("genitive").renderVariantsInCell(), [
         "Björns",
         'B<span class="umlaut">ja</span>rnar',
       ]);
@@ -43,7 +43,7 @@ describe("General word tests", function () {
     get(428183, done, (word) => {
       // console.time('someFunction')
       assert.equal(
-        stripHTML(word.getPrincipalParts()),
+        stripHtml(word.getPrincipalParts()),
         "að muna, mig munaði (í gær), ég hef munað"
       );
       assert.equal(word.isStrong(), false);
@@ -59,7 +59,7 @@ describe("General word tests", function () {
     get(433568, done, (word) => {
       /* Test principal part generation from other than first */
       assert.equal(
-        stripHTML(word.get("past").getPrincipalParts()),
+        stripHtml(word.get("past").getPrincipalParts()),
         "að fara, ég fór (í gær), við fórum (í gær), ég hef farið"
       );
       assert.equal(word.isStrong(), true);

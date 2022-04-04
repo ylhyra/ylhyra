@@ -1,5 +1,6 @@
 import { Html } from "inflection/tables/types";
 import Word from "inflection/tables/word";
+import { filterEmpty } from "modules/typescript/filterEmpty";
 
 /**
  * Principal parts (kennimyndir)
@@ -22,11 +23,11 @@ export function getPrincipalParts(this: Word): Html {
         word.get(/*'indicative',*/ "past tense", "1st person", "plural"),
       word.get("supine"),
     ];
-    // console.log(this.getFirst().render())
-    // console.log(this.get('past tense').rows.length/*.getFirst()/*.render()*/)
+    // console.log(this.getFirst().renderCell())
+    // console.log(this.get('past tense').rows.length/*.getFirst()/*.renderCell()*/)
     return principalParts
-      .filter(Boolean)
-      .map((i) => i.getFirstAndItsVariants().render())
+      .filter(filterEmpty)
+      .map((i) => i.getFirstAndItsVariants().renderCell())
       .join(", ");
   }
   return "";

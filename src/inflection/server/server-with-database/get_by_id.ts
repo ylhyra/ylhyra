@@ -3,13 +3,14 @@
 */
 import { classify } from "inflection/tables/classification/BIN_classification";
 import { sortByClassification } from "inflection/tables/classification/sortByClassification";
+import { RowFromDatabase, Rows } from "inflection/tables/types";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
 
 /*
   Full table for id
 */
-export default (id, callback) => {
+export default (id: number, callback: (parameter: Rows | null) => any) => {
   query(
     sql`
     SELECT
@@ -42,7 +43,7 @@ export default (id, callback) => {
     WHERE vocabulary_input.BIN_id = ${id};
 
   `,
-    (err, results) => {
+    (err: any, results: RowFromDatabase[][]) => {
       if (err) {
         callback(null);
       } else {
@@ -56,7 +57,7 @@ export default (id, callback) => {
           callback(rows);
         } catch (e) {
           console.error(e);
-          callback("Error");
+          callback(null);
         }
       }
     }

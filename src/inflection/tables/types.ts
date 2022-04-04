@@ -1,5 +1,3 @@
-import { InflectionCategoryTag } from "inflection/tables/classification/classification";
-
 export type Tree = Pick<
   Row,
   | "BIN_id"
@@ -21,24 +19,42 @@ export type Leaf = Partial<
     | "correctness_grade_of_inflectional_form"
     | "register_of_inflectional_form"
     | "formattedOutput"
+    | "variant_number"
   >
 > & {
-  tag?: InflectionCategoryTag;
-  variant_number?: VariantNumber;
+  tag?: GrammaticalTag;
   values: Leaf[];
 };
+export type Leafs = Leaf[];
 
 /** 1 is the main variant, 2 is the secondary variant, etc. */
 export type VariantNumber = number;
+export const PRIMARY_VARIANT_NUMBER = 1;
 
-/** Rows from database (as processed in ImportToDatabase.ts) */
+export enum CorrectnessGrade {
+  /** The word can be used in any context and any style or register. */
+  Default = 1,
+  /** The word is not universally accepted, at least not in the most formal of registers. */
+  Used = 2,
+  /** Not accepted. */
+  Not_accepted = 3,
+  /** Error, unacceptable. */
+  Error = 4,
+  /** The word is not used in ordinary context in Modern Icelandic. */
+  Obsolete = 5,
+}
+
+/**
+ * Rows from database (as processed in ImportToDatabase.ts)
+ * See https://bin.arnastofnun.is/DMII/LTdata/k-format/
+ * */
 export type RowFromDatabase = {
   base_word: string;
   BIN_id: string;
   word_categories: string;
   BIN_domain: string;
-  /** TODO: ParseInt in the database */
-  correctness_grade_of_word: number;
+  correctness_grade_of_word: CorrectnessGrade;
+  correctness_grade_of_inflectional_form: CorrectnessGrade;
   word_register: string;
   grammar_group: string;
   cross_reference: string;
@@ -46,14 +62,14 @@ export type RowFromDatabase = {
   should_be_taught: Boolean;
   inflectional_form: string;
   grammatical_tag: string;
-  /** TODO: ParseInt in the database */
-  correctness_grade_of_inflectional_form: number;
   register_of_inflectional_form: string;
   various_feature_markers: string;
   alternative_entry: string;
 
-  /** What term of this Word matched the user's search input? */
+  /** Database search: What term of this Word matched the user's search input? */
   matched_term: string;
+  /** Database search: Exact match? */
+  word_has_perfect_match: Boolean;
   /** Did this row match the user's search input? */
   variant_matched: Boolean;
 };
@@ -69,11 +85,13 @@ export type Row = Omit<
   /** Categories from classification.ts that apply only to the given inflection form (nominative, dative) */
   inflectional_form_categories: InflectionalCategoryList;
 
-  /** Cached formatted output (Todo: Is this necessary?) */
+  /** Cached formatted output with umlauts highlighted */
   formattedOutput?: string;
 
   /** Not used by this project, but returned by the API */
   original_grammatical_tag: string;
+
+  variant_number?: VariantNumber;
 };
 export type Rows = Row[];
 

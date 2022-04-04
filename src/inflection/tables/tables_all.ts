@@ -1,9 +1,10 @@
 import { getOrderedGrammaticalCategories } from "inflection/tables/classification/classification";
+import { wordFromTree } from "inflection/tables/helperFunctions/wordFromTree";
 import link from "inflection/tables/link";
 import RenderTable, { renderCell } from "inflection/tables/render_table";
 import { isNumber } from "inflection/tables/tree";
 import { Html, Leaf } from "inflection/tables/types";
-import Word, { wordFromTree } from "inflection/tables/word";
+import Word from "inflection/tables/word";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 
 /**

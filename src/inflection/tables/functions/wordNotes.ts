@@ -1,21 +1,24 @@
+import { CorrectnessGrade } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 
 /**
- * * @return {?string}
+ * TODO: VERIFY
  */
-export function getWordNotes(this: Word): string | null {
+export function getWordNotes(this: Word): string {
   let notes = [];
   switch (this.original.rows[0].correctness_grade_of_word) {
-    case "0":
+    case CorrectnessGrade.Obsolete:
       notes.push(`This word is not used in modern Icelandic`);
       break;
-    case "2":
-      notes.push(`This word is not considered to be proper standard Icelandic`);
+    case CorrectnessGrade.Used:
+      notes.push(
+        `This word is used but not always to be proper standard Icelandic`
+      );
       break;
-    case "3":
+    case CorrectnessGrade.Not_accepted:
       notes.push(`Don't use this word, it considered to be incorrect`);
       break;
-    case "4":
+    case CorrectnessGrade.Error:
       notes.push(`Never use this word, it considered to be incorrect`);
       break;
     default:

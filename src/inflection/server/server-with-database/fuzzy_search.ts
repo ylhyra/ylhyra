@@ -4,12 +4,18 @@
   Note: This file currently relies on being a submodule of Ylhýra.
 */
 import express from "express";
+import {
+  FuzzySearchOutputObject,
+  PossibleSearchReturns,
+  SearchOptions,
+} from "inflection/server/types";
 import { classify } from "inflection/tables/classification/BIN_classification";
 import { sortByClassification } from "inflection/tables/classification/sortByClassification";
-import { removeLinks } from "inflection/tables/link";
+import { RowFromDatabase, Rows } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 import phoneticHash from "modules/languageProcessing/phoneticHash";
 import { removeDiacritics } from "modules/languageProcessing/removeDiacritics";
+import { removeHtmlLinks } from "modules/removeHtmlLinks";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
 
@@ -19,7 +25,10 @@ export const WITHOUT_SPECIAL_CHARACTERS_MARKER = "@";
 export const WITH_SPELLING_ERROR_MARKER = "^";
 export const PHONETIC_MARKER = "~";
 
-export default ({ word, return_rows_if_only_one_match }, callback) => {
+export default (
+  { word, return_rows_if_only_one_match }: SearchOptions,
+  callback: (parameter: PossibleSearchReturns) => {}
+) => {
   query(
     sql`
     SELECT
@@ -73,7 +82,7 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
        ORDER BY
          base_word_matched DESC
   `,
-    (err, rows) => {
+    (err, rows: RowFromDatabase[]) => {
       if (err) {
         console.error(err);
         callback(null);
@@ -83,8 +92,8 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
         // console.log(rows.map(row => row.base_word).join(', '))
         // console.log(rows.slice(0,2))
         try {
-          let words = [];
-          let BIN_ids = [];
+          let words: Rows[] = [];
+          let BIN_ids: string[] = [];
           rows.forEach((row) => {
             let index = BIN_ids.findIndex((i) => i === row.BIN_id);
             if (index < 0) {
@@ -95,7 +104,7 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
             words[index].push(classify(row));
           });
 
-          let output = [];
+          let output: FuzzySearchOutputObject[] = [];
           words.forEach((rows1) => {
             const word = new Word(rows1.sort(sortByClassification));
             /* Prevent "null" from appearing during index creation, which causes Word() to fail */
@@ -104,16 +113,16 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
                 perfect_match: rows1[0].word_has_perfect_match,
                 BIN_id: word.getId(),
                 base_word: word.getBaseWord(),
-                description: removeLinks(word.getWordDescription()),
-                snippet: removeLinks(word.getSnippet()),
+                description: removeHtmlLinks(word.getWordDescription()),
+                snippet: removeHtmlLinks(word.getSnippet()),
                 matched_term: rows1[0].matched_term,
                 rows: rows1,
               });
             }
           });
 
-          let perfect_matches = [];
-          let did_you_mean = [];
+          let perfect_matches: FuzzySearchOutputObject[] = [];
+          let did_you_mean: FuzzySearchOutputObject[] = [];
 
           output.forEach((item) => {
             if (item.perfect_match) {
@@ -145,7 +154,7 @@ export default ({ word, return_rows_if_only_one_match }, callback) => {
   );
 };
 
-export const cleanInput = (input) => {
+export const cleanInput = (input: string) => {
   return input?.toLowerCase().replace(/[^a-zA-ZÀ-ÿ0-9]/g, "");
 };
 
@@ -163,13 +172,13 @@ export const with_spelling_errors = (string: string) => {
 };
 
 export const phonetic = (string: string) => {
-  return (
-    PHONETIC_MARKER +
-    phoneticHash(removeTemporaryMarkers(without_special_characters(string)))
-  );
+  return (PHONETIC_MARKER +
+    phoneticHash(
+      removeTemporaryMarkers(without_special_characters(string))
+    )) as string;
 };
 
-export const removeTemporaryMarkers = (input) => {
+export const removeTemporaryMarkers = (input: string) => {
   return input
     .replace(WITHOUT_SPECIAL_CHARACTERS_MARKER, "")
     .replace(WITH_SPELLING_ERROR_MARKER, "")

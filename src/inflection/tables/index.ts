@@ -1,3 +1,4 @@
+import { TableOptionsFromUser } from "inflection/server/types";
 import {
   getCanonicalGrammaticalTag,
   getOrderedGrammaticalCategories,
@@ -14,20 +15,7 @@ import {
 } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 
-export default (
-  rows: Rows,
-  options: {
-    single?: Boolean;
-    /** Is converted into InflectionalCategoryList before being sent to tables_single */
-    column_names: string;
-    columns: string;
-    row_names: string;
-    rows: string;
-    give_me: string;
-  },
-  /** Unused information from server, can be removed as this is already in rows */
-  { input_string }: { input_string: string }
-): Html => {
+export default (rows: Rows, options: TableOptionsFromUser): Html => {
   let options_column_names =
     options && (options["columns"] || options.column_names);
   let options_row_names = options && (options.rows || options.row_names);
@@ -107,7 +95,9 @@ const getRowOrColumnSettingsFromUserInput = (
   if (string in grammaticalCategories) {
     return getOrderedGrammaticalCategories(string as GrammaticalCategory);
   }
-  return string.split(";").map(getCanonicalGrammaticalTagFromUserInput);
+  return string
+    .split(";")
+    .map(getCanonicalGrammaticalTagFromUserInput) as RowOrColumnNameList;
 };
 
 const getCanonicalGrammaticalTagFromUserInput = (

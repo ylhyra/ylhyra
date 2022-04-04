@@ -5,27 +5,24 @@ import { formatUrl } from "ylhyra/server/content/links/paths";
 /**
  * Creates a link from our labels to the relevant Ylhýra pages
  */
-export default (link: string | null, label?: string) => {
-  if (!link || typeof link !== "string") return "";
+export default (link: string | null | undefined, label?: string) => {
+  if (!link) return "";
   if (label === undefined) {
     label = link;
   } else if (!label) {
     return "";
   }
 
-  /* Retrieve additional info from "classification.js" file */
-  const info = getDescriptionFromGrammaticalTag(link, false);
-  if (info) {
-    if (info.has_article_on_ylhyra) {
-      link = info.title;
+  /* Retrieve additional info from "classification.ts" file */
+  const description = getDescriptionFromGrammaticalTag(link, false);
+  if (description) {
+    if (description.has_article_on_ylhyra) {
+      link = description.title;
     } else {
       /* Link does not exist */
       return label;
     }
-  }
-
-  /* Link does not exist */
-  if (missing_links.includes(link)) {
+  } else if (itemsMadeInInterfaceThatDontHaveLink.includes(link)) {
     return label;
   }
 
@@ -33,29 +30,16 @@ export default (link: string | null, label?: string) => {
   return `<a class="plainlink" target="_blank" href="${url}">${label}</a>`;
 };
 
-export const removeLinks = (string: string) => {
-  return string?.replace(/<\/a>/g, "").replace(/<a .+?>/g, "");
-};
-
-export const stripHTML = (string: string) => {
-  return (
-    string &&
-    string
-      .replace(/<\/[a-z]+>/g, "")
-      .replace(/<[a-z]+ ?([^>]+)?>/g, "")
-      .replace(/\s+/g, " ")
-      .trim()
-  );
-};
-
-export const ucfirst_link = (input: string) =>
-  input.replace(/^(?:<a .+?>)?(.)/, (part) => {
+export const uppercaseFirstLetterLink = (input: string) =>
+  input.replace(/^(?:<a .+?>)?(.)/, (part: string) => {
     let split = part.split("");
     split[split.length - 1] = uppercaseFirstLetter(split[split.length - 1]);
     return split.join("");
   });
 
-let missing_links = [
+/** Items that do not exist in descriptionsList.ts but which were created in this interface that do not have a link */
+/** TODO: Merge with descriptionsList.ts instead */
+let itemsMadeInInterfaceThatDontHaveLink = [
   "irregular inflection",
   "includes a sound change",
   "regular inflection",

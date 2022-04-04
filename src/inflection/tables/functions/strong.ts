@@ -5,19 +5,19 @@ import Word from "inflection/tables/word";
  * Strong or weak inflection
  * TODO: Pronouns
  */
-export function isStrong(this: Word): boolean | null {
+export function isStrong(this: Word): Boolean | undefined {
   let results;
-  if ("isStrong_cached" in this) {
+  if (typeof this.isStrong_cached !== "undefined") {
     return this.isStrong_cached;
   }
 
   /* Noun */
   if (this.is("noun")) {
-    const table_to_check = this.getOriginal()
+    const tableToCheck = this.getOriginal()
       .get("singular", "without definite article", 1)
       .getForms();
-    if (table_to_check.length === 0) return;
-    results = table_to_check.some(endsInConsonant);
+    if (tableToCheck.length === 0) return;
+    results = tableToCheck.some(endsInConsonant);
   } else if (this.is("verb")) {
     /* Verb */
     // const word = this.getOriginal().without(
@@ -27,11 +27,12 @@ export function isStrong(this: Word): boolean | null {
     //   'impersonal with dummy subject'
     // ).get('active voice')
 
-    const past_tense = this.get(
+    const pastTense = this.get(
       /*'indicative', */ "past tense" /*'1st person', 'singular'*/
     ).getFirstValue();
+    if (!pastTense) return;
     /* Does not end in "-i" */
-    results = !/i$/.test(past_tense);
+    results = !/i$/.test(pastTense);
   }
 
   this.isStrong_cached = results;
@@ -40,10 +41,8 @@ export function isStrong(this: Word): boolean | null {
 
 /**
  * Opposite of the above
- *
- * * @return {?boolean}
  */
-export function isWeak(this: Word): boolean | null {
+export function isWeak(this: Word): Boolean | undefined {
   const strong = this.isStrong();
   if (strong !== undefined) {
     return !strong;

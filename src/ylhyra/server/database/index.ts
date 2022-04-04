@@ -1,4 +1,9 @@
-import { Pool, Query } from "ylhyra/server/database/functions/connection";
+import {
+  Pool,
+  Query,
+  QueryCallbackFunction,
+  QueryValuesParameter,
+} from "ylhyra/server/database/functions/connection";
 
 require("dotenv").config();
 
@@ -8,10 +13,14 @@ if (!process.env.YLHYRA_DATABASE_USER) {
 
 const pool = Pool({
   database: "ylhyra",
-  user: process.env.YLHYRA_DATABASE_USER,
-  password: process.env.YLHYRA_DATABASE_PASSWORD,
+  user: process.env.YLHYRA_DATABASE_USER as string,
+  password: process.env.YLHYRA_DATABASE_PASSWORD as string,
 });
 
-export default (query: string, secondParameter: any, thirdParameter?: any) => {
+export default (
+  query: string,
+  secondParameter: QueryValuesParameter | QueryCallbackFunction,
+  thirdParameter?: QueryCallbackFunction | undefined
+) => {
   Query(query, secondParameter, thirdParameter, pool);
 };

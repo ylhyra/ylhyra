@@ -11,8 +11,4 @@ app.use(
 );
 app.use("/", require(path.join(__dirname, "./route_loader")).default);
 
-app.listen(port, null, (err) => {
-  if (err) {
-    console.log(err.message);
-  }
-});
+app.listen(port);

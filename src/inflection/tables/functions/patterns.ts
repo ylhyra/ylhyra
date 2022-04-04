@@ -1,24 +1,21 @@
-import { grammaticalCategories } from "inflection/tables/classification/classification";
+import { getOrderedGrammaticalCategories } from "inflection/tables/classification/classification";
 import Word from "inflection/tables/word";
 import { without } from "lodash";
 
-const splittableRegexEndingsFromArray = (string: string) => {
+const splittableRegexEndingsFromArray = (input: string[]) => {
   return new RegExp(
-    `(${string.sort((a, b) => b.length - a.length).join("|")})$`
+    `(${input.sort((a, b) => b.length - a.length).join("|")})$`
   );
 };
 
 /**
  * Removes inflectional pattern and returns the rest
- * @param {string} input
- * @param {Word} word
- * @return {?string}
  */
 export const removeInflectionalPattern = (
   input: string,
   word: Word
-): string | null => {
-  if (!input) return;
+): string => {
+  // if (!input) return;
   let stripped = input;
 
   if (
@@ -31,42 +28,40 @@ export const removeInflectionalPattern = (
   } else if (word.is("verb")) {
     stripped = input.replace(verbEndings, "");
   } else if (word.is("noun")) {
-    let possible_endings_for_gender =
-      noun_endings[
+    let possibleEndingsForGender =
+      nounEndings[
         word.getType("gender")
       ]; /*[word.getType('plurality')][word.getType('article')]*/
-    const sibling_classification = without(
+    const siblingClassification = without(
       word.getClassificationOfFirstRow(),
       ...getOrderedGrammaticalCategories("cases")
     );
     const siblings = word
       .getOriginal()
-      .get(...sibling_classification)
+      .get(...siblingClassification)
       .get(1);
-    const word_case_index = getOrderedGrammaticalCategories("cases").indexOf(
+    const wordCaseIndex = getOrderedGrammaticalCategories("cases").indexOf(
       word.getType("case")
     );
     let ending = "";
     /* Find exact pattern matches for primary variants */
     if (word.is(1)) {
-      const result = possible_endings_for_gender.find((pattern) => {
+      const result = possibleEndingsForGender.find((pattern) => {
         return pattern.every((ending, index) => {
-          const case_ = getOrderedGrammaticalCategories("cases")[index];
-          const value = siblings.get(case_).getFirstValue();
+          const _case = getOrderedGrammaticalCategories("cases")[index];
+          const value = siblings.get(_case).getFirstValue();
           if (value) {
-            return new RegExp(`${ending}$`).test(
-              siblings.get(case_).getFirstValue()
-            );
+            return new RegExp(`${ending}$`).test(value);
           } else {
             if (process.env.NODE_ENV === "development") {
-              throw new Error(`Sure that there is no ${case_} for ${input}?`);
+              throw new Error(`Sure that there is no ${_case} for ${input}?`);
             }
             return true;
           }
         });
       });
       if (result) {
-        ending = result[word_case_index];
+        ending = result[wordCaseIndex];
         // console.log('Found ending for ' + input)
         // console.log(result)
       } else {
@@ -76,8 +71,8 @@ export const removeInflectionalPattern = (
       }
     } else {
       /* Secondary variants get just a quick check */
-      const result = possible_endings_for_gender
-        .map((pattern) => pattern[word_case_index])
+      const result = possibleEndingsForGender
+        .map((pattern) => pattern[wordCaseIndex])
         .sort((a, b) => b.length - a.length)
         .find((ending) => {
           return new RegExp(`${ending}$`).test(input);
@@ -96,11 +91,11 @@ export const removeInflectionalPattern = (
 /*
   Helper function for above noun arrays
 */
-const sortLongest = (arrays) => {
+const sortByLongestSubArray = (arrays: Array<Array<string>>) => {
   return arrays.sort((a, b) => b.join("").length - a.join("").length);
 };
-const noun_endings = {
-  masculine: sortLongest([
+const nounEndings: Record<string, Array<Array<string>>> = {
+  masculine: sortByLongestSubArray([
     // EINTALA
     // "bróðir"
     ["(ir)", "(ur)", "(ur)", "(ur)"],
@@ -175,7 +170,7 @@ const noun_endings = {
     ["irnir", "ina", "junum", "janna"],
   ]),
   // Kvenkyn
-  feminine: sortLongest([
+  feminine: sortByLongestSubArray([
     // EINTALA
     // systir
     ["ir", "ur", "ur", "ur"],
@@ -228,7 +223,7 @@ const noun_endings = {
     ["nar", "nar", "num", "nna"],
   ]),
   // Hvorugkyn
-  neuter: sortLongest([
+  neuter: sortByLongestSubArray([
     // EINTALA
     // "ríki"
     ["i", "i", "i", "s"],
@@ -290,13 +285,13 @@ const noun_endings = {
   // },
 };
 
-const nounEndings = splittableRegexEndingsFromArray([
-  "ri",
-  "rið",
-  "rinu",
-  "rinum",
-  "rum",
-]);
+// const nounEndings = splittableRegexEndingsFromArray([
+//   "ri",
+//   "rið",
+//   "rinu",
+//   "rinum",
+//   "rum",
+// ]);
 
 const adjectiveEndings = splittableRegexEndingsFromArray([
   "an",
@@ -351,7 +346,7 @@ const verbEndings = splittableRegexEndingsFromArray([
   "usti",
 ]);
 
-export const isHighlyIrregular = (word) => {
+export const isHighlyIrregular = (word: Word) => {
   if (word.is("noun")) {
     return isHighlyIrregularNouns.some((i) => i.endsWith(word.getBaseWord()));
   }

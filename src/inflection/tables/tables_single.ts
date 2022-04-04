@@ -1,5 +1,5 @@
 import { getOrderedGrammaticalCategories } from "inflection/tables/classification/classification";
-import link, { ucfirst_link } from "inflection/tables/link";
+import link, { uppercaseFirstLetterLink } from "inflection/tables/link";
 import RenderTable from "inflection/tables/render_table";
 import {
   GrammaticalTag,
@@ -127,7 +127,9 @@ export default function getSingleTable(
   if (returnAsString) {
     return row_names
       .map((c) => word.getMostRelevantSibling(c))
-      .map((i) => i.getFirstAndItsVariants().render(/*{ highlight: give_me }*/))
+      .map((i) =>
+        i.getFirstAndItsVariants().renderCell(/*{ highlight: give_me }*/)
+      )
       .filter(Boolean)
       .join(", ");
   } else {
@@ -149,7 +151,7 @@ export default function getSingleTable(
         linkWords: true,
       }
     );
-    description = ucfirst_link(
+    description = uppercaseFirstLetterLink(
       sibling_classification.map((i) => link(i)).join(", ")
     );
     let output;

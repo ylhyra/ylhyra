@@ -9,9 +9,14 @@ import {
 } from "inflection/tables/functions/vowels";
 import Word from "inflection/tables/word";
 
+/**
+ * TODO!! Missing "bróðir" etc.
+ */
 export function findIrregularities(this: Word) {
   let word = this;
-  let wordHasUmlaut, wordIsIrregular, wordIsHighlyIrregular;
+  let wordHasUmlaut: Boolean = false;
+  let wordIsIrregular: Boolean = false;
+  let wordIsHighlyIrregular: Boolean = false;
 
   /* Skip highlighting for certain word classes */
   if (
@@ -49,41 +54,39 @@ export function findIrregularities(this: Word) {
 
   word.rows.forEach((row) => {
     const form = row.inflectional_form;
-    const form_without_ending = removeInflectionalPattern(
+    const formWithoutEnding = removeInflectionalPattern(
       form,
       new Word([row], word)
     );
-    const consonants_in_stem = removeVowellikeClusters(stem);
-    const consonants_in_form_without_ending =
-      removeVowellikeClusters(form_without_ending);
+    const consonantsInStem = removeVowellikeClusters(stem);
+    const consonantsInFormWithoutEnding =
+      removeVowellikeClusters(formWithoutEnding);
     let output = form;
     let hasAnElision;
 
     /*
      * Test umlaut
-     * TODO: Should we ignore umlauts in "maður -> menn"?
      */
     if (!form.startsWith(stem)) {
       let letters = splitOnVowels(form);
-      const vowels_in_stem = getVowelClusters(stem) || [];
-      const vowels_in_form_without_ending =
-        getVowelClusters(form_without_ending) || [];
+      const vowelsInStem = getVowelClusters(stem) || [];
+      const vowelsInFormWithoutEnding =
+        getVowelClusters(formWithoutEnding) || [];
       /* Check two last vowels of stem */
-      const vowel_indexes_to_check = [
-        vowels_in_stem.length - 1,
-        vowels_in_stem.length - 2,
+      const vowelIndexesToCheck = [
+        vowelsInStem.length - 1,
+        vowelsInStem.length - 2,
       ].filter((i) => i >= 0);
-      vowel_indexes_to_check.forEach((vowel_index) => {
-        if (vowels_in_form_without_ending[vowel_index]) {
+      vowelIndexesToCheck.forEach((vowelIndex) => {
+        if (vowelsInFormWithoutEnding[vowelIndex]) {
           /* There is an umlaut */
           if (
-            vowels_in_stem[vowel_index] !==
-            vowels_in_form_without_ending[vowel_index]
+            vowelsInStem[vowelIndex] !== vowelsInFormWithoutEnding[vowelIndex]
           ) {
-            const letter_index = (vowel_index + 1) * 2 - 1;
+            const letterIndex = (vowelIndex + 1) * 2 - 1;
             letters[
-              letter_index
-            ] = `<span class="umlaut">${letters[letter_index]}</span>`;
+              letterIndex
+            ] = `<span class="umlaut">${letters[letterIndex]}</span>`;
             wordHasUmlaut = true;
           }
         } else {
@@ -103,9 +106,9 @@ export function findIrregularities(this: Word) {
     }
     /* Test consonant change irregularity */
     if (
-      (!consonants_in_form_without_ending.startsWith(consonants_in_stem) &&
+      (!consonantsInFormWithoutEnding.startsWith(consonantsInStem) &&
         /* Silly hack for "systir" */
-        !consonants_in_stem.startsWith(consonants_in_form_without_ending)) ||
+        !consonantsInStem.startsWith(consonantsInFormWithoutEnding)) ||
       wordIsHighlyIrregular
     ) {
       output = `<em class="irregular">${output}</em>`;
@@ -116,8 +119,8 @@ export function findIrregularities(this: Word) {
   });
 
   /* Save output into the original Word class */
-  word.wordHasUmlaut = wordHasUmlaut || false;
-  word.wordIsIrregular = wordIsIrregular || false;
+  word.wordHasUmlaut = wordHasUmlaut;
+  word.wordIsIrregular = wordIsIrregular;
 }
 
 // /*
