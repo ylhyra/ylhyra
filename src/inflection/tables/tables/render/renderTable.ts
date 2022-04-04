@@ -11,9 +11,9 @@ import { removeHtmlWhitespace } from "ylhyra/app/app/functions/removeHtmlWhitesp
 import {
   RenderCellOptions,
   RowStructure,
-  StructureOption,
+  StructureOptions,
   TableStructure,
-} from "inflection/tables/tables/render_table";
+} from "inflection/tables/tables/types";
 import { renderCell } from "inflection/tables/tables/render/renderCell";
 import { renderLabelCell } from "inflection/tables/tables/render/renderLabelCell";
 
@@ -23,7 +23,7 @@ import { renderLabelCell } from "inflection/tables/tables/render/renderLabelCell
 export const renderTable = (
   input: Word | TreeItem | TreeItems,
   original_word: Word,
-  structure: StructureOption,
+  structure: StructureOptions,
   highlight?: InflectionalCategoryList,
   options?: RenderCellOptions
 ): Html => {

@@ -1,5 +1,5 @@
 import Word from "inflection/tables/word";
-import { RenderCellOptions } from "inflection/tables/tables/render_table";
+import { RenderCellOptions } from "inflection/tables/tables/types";
 import { InflectionalCategoryList } from "inflection/tables/types";
 
 export const renderCell = (
@@ -9,7 +9,7 @@ export const renderCell = (
 ) => {
   /** If there is no highlight option passed, then all cells are "highlighted" */
   const shouldHighlight =
-    highlight && highlight.length > 0 ? cell.is(...highlight) : true;
+    highlight && highlight.length > 0 ? word.is(...highlight) : true;
 
   /* No value */
   if (word.rows.length === 0) {

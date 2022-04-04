@@ -7,8 +7,8 @@ import {
 } from "inflection/tables/types";
 import {
   RenderCellOptions,
-  StructureOption,
-} from "inflection/tables/tables/render_table";
+  StructureOptions,
+} from "inflection/tables/tables/types";
 import { renderTable } from "inflection/tables/tables/render/renderTable";
 
 /**

@@ -117,9 +117,9 @@ export default function getSingleTable(
   row_names = row_names || [null];
 
   if (give_me && give_me.length > 0) {
-    word = word.get(...give_me);
+    word = word.get(give_me);
   } else {
-    word = word.getMeetingAny(...row_names, ...column_names);
+    word = word.getMeetingAny(row_names, column_names);
   }
 
   // const sibling_classification = without(word.getClassificationOfFirstRow(), ...flatten(row_names), ...flatten(column_names))

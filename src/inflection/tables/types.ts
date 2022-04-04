@@ -12,7 +12,7 @@ export type Tree = Pick<
 export type TreeItem = Partial<Branch & Leaf>;
 export type Branch = {
   tag: GrammaticalTag;
-  values: TreeItem[];
+  values: TreeItems;
 };
 export type Leaf = Pick<
   Row,

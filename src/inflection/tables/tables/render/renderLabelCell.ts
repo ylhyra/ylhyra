@@ -1,7 +1,4 @@
-import {
-  CellStructure,
-  TableStructure,
-} from "inflection/tables/tables/render_table";
+import { CellStructure, TableStructure } from "inflection/tables/tables/types";
 import flattenArray from "ylhyra/app/app/functions/flattenArray";
 import { GrammaticalTag } from "inflection/tables/types";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";

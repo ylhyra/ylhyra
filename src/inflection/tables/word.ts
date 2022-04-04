@@ -268,8 +268,12 @@ class Word {
    * Returns all that meet *any* of the input values
    */
   getMeetingAny(
-    ...args: InflectionalCategoryList | InflectionalCategoryList[]
-  ) {
+    ...args: (
+      | InflectionalCategoryList
+      | InflectionalCategoryList[number]
+      | null
+    )[]
+  ): Word {
     if (!args) return this;
     const values = flatten(args) as InflectionalCategoryList;
     if (values.filter(Boolean).length === 0) return this;

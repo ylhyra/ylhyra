@@ -24,85 +24,88 @@ export default function getTables(this: Word): Html {
 /**
  * Recursively goes through the tree from ./tree.js and prints all tables
  */
-const traverseTree = (branch: Tree | Branch, original_word: Word): Html => {
+const traverseTree = (branch: Tree | TreeItem, original_word: Word): Html => {
   let table = null;
   const word = wordFromTree(branch, original_word);
-  /* Nouns */
-  if (
-    word.is("noun") &&
-    getOrderedGrammaticalCategories("plurality").includes(branch.tag)
-  ) {
-    table = renderTable(branch.values, original_word, {
-      column_names: getOrderedGrammaticalCategories("article"),
-      row_names: getOrderedGrammaticalCategories("cases"),
-    });
-  } else if (
-    /* Pronouns */
-    (word.is("pronoun") || word.is("article")) &&
-    getOrderedGrammaticalCategories("plurality").includes(branch.tag)
-  ) {
-    table = renderTable(branch.values, original_word, {
-      column_names: getOrderedGrammaticalCategories("gender"),
-      row_names: getOrderedGrammaticalCategories("cases"),
-    });
-  } else if (word.is("personal pronoun")) {
-    /* Personal pronouns */
-    table = renderTable(branch.values, original_word, {
-      column_names: getOrderedGrammaticalCategories("plurality"),
-      row_names: getOrderedGrammaticalCategories("cases"),
-    });
-  } else if (word.is("reflexive pronoun")) {
-    /* Reflexive pronouns */
-    table = renderTable(branch.values, original_word, {
-      column_names: [null],
-      row_names: getOrderedGrammaticalCategories("cases"),
-    });
-  } else if (
-    /* Adjectives */
-    (word.is("adjective") ||
-      word.is("past participle") ||
-      word.is("ordinal number") ||
-      word.is("numeral")) &&
-    getOrderedGrammaticalCategories("plurality").includes(branch.tag)
-  ) {
-    table = renderTable(branch.values, original_word, {
-      column_names: getOrderedGrammaticalCategories("gender"),
-      row_names: getOrderedGrammaticalCategories("cases"),
-    });
-  } else if (
-    /* Verbs */
-    word.is("verb") &&
-    getOrderedGrammaticalCategories("tense").includes(branch.tag) &&
-    !word.is("question form") &&
-    !word.is("infinitive")
-  ) {
-    /* Dummy subjects */
-    if (word.is("impersonal with dummy subject")) {
+
+  if ("tag" in branch) {
+    /* Nouns */
+    if (
+      word.is("noun") &&
+      getOrderedGrammaticalCategories("plurality").includes(branch.tag)
+    ) {
       table = renderTable(branch.values, original_word, {
-        column_names: ["singular"],
-        row_names: ["3rd person"],
+        column_names: getOrderedGrammaticalCategories("article"),
+        row_names: getOrderedGrammaticalCategories("cases"),
       });
-    } else {
-      /* Regular table */
+    } else if (
+      /* Pronouns */
+      (word.is("pronoun") || word.is("article")) &&
+      getOrderedGrammaticalCategories("plurality").includes(branch.tag)
+    ) {
+      table = renderTable(branch.values, original_word, {
+        column_names: getOrderedGrammaticalCategories("gender"),
+        row_names: getOrderedGrammaticalCategories("cases"),
+      });
+    } else if (word.is("personal pronoun")) {
+      /* Personal pronouns */
       table = renderTable(branch.values, original_word, {
         column_names: getOrderedGrammaticalCategories("plurality"),
-        row_names: getOrderedGrammaticalCategories("person"),
+        row_names: getOrderedGrammaticalCategories("cases"),
+      });
+    } else if (word.is("reflexive pronoun")) {
+      /* Reflexive pronouns */
+      table = renderTable(branch.values, original_word, {
+        column_names: [null],
+        row_names: getOrderedGrammaticalCategories("cases"),
+      });
+    } else if (
+      /* Adjectives */
+      (word.is("adjective") ||
+        word.is("past participle") ||
+        word.is("ordinal number") ||
+        word.is("numeral")) &&
+      getOrderedGrammaticalCategories("plurality").includes(branch.tag)
+    ) {
+      table = renderTable(branch.values, original_word, {
+        column_names: getOrderedGrammaticalCategories("gender"),
+        row_names: getOrderedGrammaticalCategories("cases"),
+      });
+    } else if (
+      /* Verbs */
+      word.is("verb") &&
+      getOrderedGrammaticalCategories("tense").includes(branch.tag) &&
+      !word.is("question form") &&
+      !word.is("infinitive")
+    ) {
+      /* Dummy subjects */
+      if (word.is("impersonal with dummy subject")) {
+        table = renderTable(branch.values, original_word, {
+          column_names: ["singular"],
+          row_names: ["3rd person"],
+        });
+      } else {
+        /* Regular table */
+        table = renderTable(branch.values, original_word, {
+          column_names: getOrderedGrammaticalCategories("plurality"),
+          row_names: getOrderedGrammaticalCategories("person"),
+        });
+      }
+    } else if (branch.tag === "imperative") {
+      /* Imperative */
+      table = renderTable(branch.values, original_word, {
+        column_names: [null],
+        row_names: ["singular", "plural", "clipped imperative"],
+      });
+    } else if (
+      word.is("question form") &&
+      getOrderedGrammaticalCategories("tense").includes(branch.tag)
+    ) {
+      table = renderTable(branch.values, original_word, {
+        column_names: getOrderedGrammaticalCategories("plurality"),
+        row_names: ["2nd person"],
       });
     }
-  } else if (branch.tag === "imperative") {
-    /* Imperative */
-    table = renderTable(branch.values, original_word, {
-      column_names: [null],
-      row_names: ["singular", "plural", "clipped imperative"],
-    });
-  } else if (
-    word.is("question form") &&
-    getOrderedGrammaticalCategories("tense").includes(branch.tag)
-  ) {
-    table = renderTable(branch.values, original_word, {
-      column_names: getOrderedGrammaticalCategories("plurality"),
-      row_names: ["2nd person"],
-    });
   }
 
   let output = table;
@@ -126,7 +129,7 @@ const traverseTree = (branch: Tree | Branch, original_word: Word): Html => {
     }
   }
 
-  if (branch.tag) {
+  if ("tag" in branch) {
     return `<dl class="indent">
       <dt>${link(uppercaseFirstLetter(branch.tag))}</dt>
       <dd>${output}</dd>
