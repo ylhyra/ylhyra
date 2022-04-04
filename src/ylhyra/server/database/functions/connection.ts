@@ -21,7 +21,7 @@ export const Pool = ({
     charset: "utf8mb4_general_ci",
   });
 
-export type QueryValuesParameter = Scalar[];
+export type QueryValuesParameter = any[];
 export type QueryCallbackFunction = (
   err: MysqlError | Boolean,
   results: any[] // QueryResultsParameter

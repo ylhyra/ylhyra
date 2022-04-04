@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import withLicense from "inflection/server/views/license";
-import { MainSearch, WebsiteSearch } from "inflection/server/types";
+import { MainSearchParameters, WebsiteSearch } from "inflection/server/types";
 import layout from "inflection/server/views/layout";
 import render from "inflection/tables/renderEntry";
 import { tree } from "inflection/tables/tree";
@@ -11,11 +11,11 @@ import Search from "inflection/server/search/search";
 const router = express.Router();
 
 /*
-    API
-  */
+  API
+*/
 router.get(
   "/api/inflections?",
-  (req: Request<{}, {}, {}, MainSearch>, res: Response) => {
+  (req: Request<{}, {}, {}, MainSearchParameters>, res: Response) => {
     cacheControl(res, "cached_html");
     res.setHeader("X-Robots-Tag", "noindex");
     let { id, type, search, fuzzy, return_rows_if_only_one_match } = req.query;
@@ -69,4 +69,4 @@ router.get(
   }
 );
 
-return router;
+export default router;

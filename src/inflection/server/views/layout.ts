@@ -6,7 +6,7 @@ export default ({
   embed,
   did_you_mean_in_footer /* For when one main variant is shown */,
 }: {
-  title: string;
+  title?: string;
   /** Search string */
   string?: string;
   results?: string;

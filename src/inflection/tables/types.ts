@@ -1,3 +1,5 @@
+import { BIN_id } from "inflection/server/types";
+
 export type Tree = Pick<
   Row,
   | "BIN_id"
@@ -52,7 +54,7 @@ export enum CorrectnessGrade {
  * */
 export type RowFromDatabase = {
   base_word: string;
-  BIN_id: string;
+  BIN_id: BIN_id;
   word_categories: string;
   BIN_domain: string;
   correctness_grade_of_word: CorrectnessGrade;

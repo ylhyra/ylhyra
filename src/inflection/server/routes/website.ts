@@ -1,8 +1,9 @@
 import express, { Request, Response } from "express";
 import withLicense from "inflection/server/views/license";
 import {
+  FuzzySearchOutputObject,
   FuzzySearchReturns,
-  MainSearch,
+  MainSearchParameters,
   WebsiteSearch,
 } from "inflection/server/types";
 import layout from "inflection/server/views/layout";
@@ -89,12 +90,12 @@ router.get(
             fuzzy: true,
             return_rows_if_only_one_match: true,
           },
-          (results: FuzzySearchReturns) => {
+          (results) => {
             try {
               /*
                 No results
               */
-              if (!results || results === "Error") {
+              if (!results /*|| results === "Error"*/) {
                 return res.send(
                   layout({
                     title: word,
@@ -110,7 +111,8 @@ router.get(
 
               // console.log(results)
 
-              const { perfect_matches, did_you_mean } = results;
+              const { perfect_matches, did_you_mean } =
+                results as FuzzySearchReturns;
 
               let output = "";
               let did_you_mean_string = "";
@@ -151,8 +153,8 @@ router.get(
                 );
               } else {
                 /*
-                Many results
-              */
+                  Many results
+                */
                 res.send(
                   layout({
                     title: word,
@@ -171,18 +173,17 @@ router.get(
         res.send(layout({}));
       }
     } catch (e) {
-      res
-        .status(400)
-        .send(
-          `There was an error. <br><small>The message was ${e.message}</small>`
-        );
+      res.status(400).send(
+        // @ts-ignore
+        `There was an error. <br><small>The message was ${e.message}</small>`
+      );
     }
   }
 );
 
-return router;
+export default router;
 
-const renderItemOnSearchPage = (i) => `
+const renderItemOnSearchPage = (i: FuzzySearchOutputObject) => `
   <li>
     <a href="/${
       i.matched_term ? encodeURIComponent(i.matched_term) + "/" : ""

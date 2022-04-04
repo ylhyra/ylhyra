@@ -8,7 +8,7 @@ import {
 
 export type BIN_id = number;
 
-export type MainSearch =
+export type MainSearchParameters =
   | {
       id: BIN_id;
       type: "flat" | "html" | "json" | undefined;
