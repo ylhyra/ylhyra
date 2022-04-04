@@ -1,4 +1,4 @@
-import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
+import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 import {
   A1,
   A2,
@@ -127,5 +127,5 @@ export type RowTitles = keyof typeof row_titles;
 
 export const formatRowName = (i: string) => {
   if (!i) return "";
-  return ucfirst(i).replaceAll("_", " ");
+  return uppercaseFirstLetter(i).replaceAll("_", " ");
 };

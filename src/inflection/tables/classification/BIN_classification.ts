@@ -3,7 +3,12 @@ import {
   shortcutsUsedInBin,
 } from "inflection/tables/classification/classification";
 import { isNumber } from "inflection/tables/tree";
-import { GrammaticalTag, Row, RowFromDatabase } from "inflection/tables/types";
+import {
+  GrammaticalTag,
+  InflectionalCategoryList,
+  Row,
+  RowFromDatabase,
+} from "inflection/tables/types";
 
 /**
  * Turns BÍN's classifications into English

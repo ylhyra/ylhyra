@@ -5,19 +5,14 @@ import {
 } from "inflection/tables/classification/classification";
 import { sortByClassification } from "inflection/tables/classification/sortByClassification";
 import link from "inflection/tables/link";
+import { RowOrColumnNameList } from "inflection/tables/tables_single";
 import {
   GrammaticalCategory,
-  GrammaticalTag,
-  GrammaticalTagOrVariantNumber,
   Html,
   InflectionalCategoryList,
   Rows,
 } from "inflection/tables/types";
 import Word from "inflection/tables/word";
-import {
-  RowOrColumn,
-  SingleTableOptions,
-} from "inflection/tables/tables_single";
 
 export default (
   rows: Rows,
@@ -106,7 +101,7 @@ export default (
 
 const getRowOrColumnSettingsFromUserInput = (
   string: string
-): RowOrColumn | undefined => {
+): RowOrColumnNameList | undefined => {
   if (!string) return;
   /* If someone enters "cases" the rest is filled out */
   if (string in grammaticalCategories) {

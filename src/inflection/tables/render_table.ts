@@ -1,4 +1,5 @@
 import link from "inflection/tables/link";
+import { RowOrColumnNameList } from "inflection/tables/tables_single";
 import {
   GrammaticalTag,
   Html,
@@ -6,30 +7,38 @@ import {
   Leaf,
 } from "inflection/tables/types";
 import Word, { wordFromTree } from "inflection/tables/word";
-import { flatten } from "lodash";
+import { c } from "modules/noUndefinedInTemplateLiteral";
+import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
+import flattenArray from "ylhyra/app/app/functions/flattenArray";
 import { removeHtmlWhitespace } from "ylhyra/app/app/functions/removeHtmlWhitespace";
-import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
-import { RowOrColumn } from "inflection/tables/tables_single";
+
+/** Nested array on form Row > Column > Cell */
+type TableStructure = Array<RowStructure>;
+type RowStructure = Array<CellStructure>;
+/** If a cell contains a Word, then it is a content cell. If not, it is a heading cell */
+type CellStructure = Word | CellHeadingStructure;
+type CellHeadingStructure = GrammaticalTag | RowOrColumnNameList | null;
 
 export type RenderCellOptions = {
   linkWords?: boolean;
 };
+
 export type StructureOption = {
-  column_names: RowOrColumn;
-  row_names: RowOrColumn;
+  column_names: RowOrColumnNameList;
+  row_names: RowOrColumnNameList;
 };
 
-/*
-  Wrapper for "RenderTable", creates two alternative versions of the input,
-  one original and one by splitting each column into its own table
-  to make them fit on small screens
-*/
+/**
+ * Wrapper for "RenderTable", creates two alternative versions of the input,
+ * one original and one by splitting each column into its own table
+ * to make them fit on small screens
+ */
 export default function AlsoMakeTablesThatFitOnSmallScreens(
-  input: Word,
+  input: Word | Leaf | Leaf[],
   original_word: Word,
   structure: StructureOption,
-  highlight: InflectionalCategoryList,
-  options: RenderCellOptions
+  highlight?: InflectionalCategoryList,
+  options?: RenderCellOptions
 ): Html {
   let { column_names, row_names } = structure;
   column_names = column_names || [null];
@@ -73,10 +82,10 @@ export default function AlsoMakeTablesThatFitOnSmallScreens(
  * Converts description of table structure into a table
  */
 const RenderTable = (
-  input: Word | Leaf,
+  input: Word | Leaf | Leaf[],
   original_word: Word,
   structure: StructureOption,
-  highlight: InflectionalCategoryList,
+  highlight?: InflectionalCategoryList,
   options?: RenderCellOptions
 ): Html => {
   const { column_names, row_names } = structure;
@@ -86,66 +95,77 @@ const RenderTable = (
   } else {
     word = wordFromTree(input, original_word);
   }
-  /** Nested array on form Row > Column > Cell */
-  let table: Array<Array<Word | GrammaticalTag | null>> = [];
+  let table: TableStructure = [];
   row_names.forEach((row_name, row_index) => {
-    /* Add column names */
+    /** Add column names above */
     if (row_index === 0 && column_names[0] !== null) {
-      let column = [];
-      column.push(null);
+      let row: RowStructure = [];
+      row.push(null);
       column_names.forEach((column_name) => {
-        column.push(column_name);
+        row.push(column_name);
       });
-      table.push(column);
+      table.push(row);
     }
 
-    /* Loop over data */
-    let column: Array<Word | GrammaticalTag | null> = [];
+    /** Loop over data */
+    let row: RowStructure = [];
     column_names.forEach((column_name, column_index) => {
-      /* Add row names */
+      /** Add row names to the left */
       if (column_index === 0) {
-        column.push(row_name as GrammaticalTag);
+        row.push(row_name as GrammaticalTag);
       }
-      column.push(word.get(column_name, row_name).getFirstAndItsVariants());
+      /** Add cells */
+      row.push(word.get(column_name, row_name).getFirstAndItsVariants());
     });
-    table.push(column);
+    table.push(row);
   });
-  return removeHtmlWhitespace(tableHTML(table, highlight, options));
+  return removeHtmlWhitespace(tableHtml(table, highlight, options));
 };
 
-const tableHTML = (
-  rows: RowOrColumn,
-  highlight: InflectionalCategoryList,
+const tableHtml = (
+  tableStructure: TableStructure,
+  highlight?: InflectionalCategoryList,
   options?: RenderCellOptions
-) => {
+): Html => {
   return `
     <table class="table">
       <tbody>
-        ${rows
+        ${tableStructure
           .map(
             (row, row_index) => `
           <tr>
             ${row
               .map((cell, column_index) => {
                 if (cell instanceof Word) {
+                  /** Render a cell  */
+                  /** If there is no highlight option passed, then all cells are "highlighted" */
                   const shouldHighlight =
-                    highlight?.length > 0 ? cell.is(...highlight) : true;
+                    highlight && highlight.length > 0
+                      ? cell.is(...highlight)
+                      : true;
                   return renderCell(cell, shouldHighlight, options);
                 } else {
+                  /** Cell is not a Word, render <th/> labels instead */
                   let isCellToTheLeftEmpty =
-                    rows[row_index][column_index - 1] === null;
+                    tableStructure[row_index][column_index - 1] === null;
                   let isCellAboveEmpty =
-                    rows[row_index - 1] &&
-                    rows[row_index - 1][column_index] === null;
-                  let css_class =
+                    tableStructure[row_index - 1] &&
+                    tableStructure[row_index - 1][column_index] === null;
+                  let cssClass =
                     isCellAboveEmpty || isCellToTheLeftEmpty ? "first-top" : "";
 
-                  /* Flatten to support multiple at once */
-                  let i = flatten([cell]);
-                  i[0] = ucfirst(i[0]);
-                  i = i.map((u) => link(u)).join(", ");
+                  /** Flatten to support multiple distinct items shown in one <th/> label */
+                  let flatListOfGrammaticalTags = flattenArray([
+                    cell,
+                  ]) as (GrammaticalTag | null)[];
+                  flatListOfGrammaticalTags[0] = uppercaseFirstLetter(
+                    flatListOfGrammaticalTags[0]
+                  );
+                  const label = flatListOfGrammaticalTags
+                    .map((u) => link(u))
+                    .join(", ");
 
-                  return `<th colSpan="2" class="${css_class}">${i || ""}</th>`;
+                  return c`<th colSpan="2" class="${cssClass}">${label}</th>`;
                 }
               })
               .join("")}
@@ -160,7 +180,7 @@ const tableHTML = (
 
 export const renderCell = (
   word: Word,
-  shouldHighlight: Boolean,
+  shouldHighlight?: Boolean,
   options?: RenderCellOptions
 ) => {
   /* No value */

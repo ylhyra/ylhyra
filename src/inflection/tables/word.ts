@@ -1,7 +1,7 @@
 import { relevant_BIN_domains } from "inflection/tables/classification/BIN_classification";
 import {
-  getDescriptionFromGrammaticalTag,
   getCanonicalGrammaticalTag,
+  getDescriptionFromGrammaticalTag,
   grammaticalCategories,
 } from "inflection/tables/classification/classification";
 import { discardUnnecessaryForms } from "inflection/tables/functions/discard";
@@ -51,7 +51,7 @@ class Word {
   getWordNotes = getWordNotes;
   findIrregularities = findIrregularities;
 
-  constructor(rows: Rows = [], original?: Word) {
+  constructor(rows: (Rows|Leaf[]) = [], original?: Word) {
     if (!Array.isArray(rows) && rows !== undefined) {
       throw new Error(
         `Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`
@@ -131,8 +131,9 @@ class Word {
     return this.original.wordHasUmlaut;
   }
 
-  is(...args: InflectionalCategoryList | InflectionalCategoryList[]) {
-    if (!args) return this;
+  is(
+    ...args: (GrammaticalTagOrVariantNumber | InflectionalCategoryList)[]
+  ): Boolean {
     const values = flatten(args) as InflectionalCategoryList;
     return values.every((value) => {
       /* Test word_categories */
@@ -175,7 +176,13 @@ class Word {
     });
   }
 
-  get(...args: InflectionalCategoryList | InflectionalCategoryList[]): Word {
+  get(
+    ...args: (
+      | InflectionalCategoryList
+      | InflectionalCategoryList[number]
+      | null
+    )[]
+  ): Word {
     if (!args) return this;
     const values = flatten(args) as InflectionalCategoryList;
     return new Word(
@@ -491,7 +498,7 @@ class Word {
 /**
  * Used by RenderTable
  */
-export const wordFromTree = (input: Tree | Leaf, original: Word) => {
+export const wordFromTree = (input: Tree | Leaf | Leaf[], original: Word) => {
   let rows: Rows = [];
   const traverse = (x: Tree | Leaf) => {
     if (Array.isArray(x)) {

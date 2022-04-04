@@ -1,27 +1,23 @@
-import {
-  getOrderedGrammaticalCategories,
-  grammaticalCategories,
-} from "inflection/tables/classification/classification";
+import { getOrderedGrammaticalCategories } from "inflection/tables/classification/classification";
 import link, { ucfirst_link } from "inflection/tables/link";
 import RenderTable from "inflection/tables/render_table";
 import {
   GrammaticalTag,
-  GrammaticalTagOrVariantNumber,
   Html,
   InflectionalCategoryList,
 } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 import { flatten, without } from "lodash";
 
-export type RowOrColumn = Array<
-  GrammaticalTagOrVariantNumber | InflectionalCategoryList | null
+export type RowOrColumnNameList = Array<
+  GrammaticalTag | GrammaticalTag[] | null
 >;
 
 export type SingleTableOptions = {
   returnAsString?: Boolean;
   give_me?: InflectionalCategoryList;
-  column_names?: RowOrColumn;
-  row_names?: RowOrColumn;
+  column_names?: RowOrColumnNameList;
+  row_names?: RowOrColumnNameList;
   skip_description?: Boolean;
 };
 

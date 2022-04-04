@@ -1,11 +1,11 @@
 import { getDescriptionFromGrammaticalTag } from "inflection/tables/classification/classification";
-import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
+import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 import { formatUrl } from "ylhyra/server/content/links/paths";
 
 /**
  * Creates a link from our labels to the relevant Ylhýra pages
  */
-export default (link: string, label?: string) => {
+export default (link: string | null, label?: string) => {
   if (!link || typeof link !== "string") return "";
   if (label === undefined) {
     label = link;
@@ -51,7 +51,7 @@ export const stripHTML = (string: string) => {
 export const ucfirst_link = (input: string) =>
   input.replace(/^(?:<a .+?>)?(.)/, (part) => {
     let split = part.split("");
-    split[split.length - 1] = ucfirst(split[split.length - 1]);
+    split[split.length - 1] = uppercaseFirstLetter(split[split.length - 1]);
     return split.join("");
   });
 

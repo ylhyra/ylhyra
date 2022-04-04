@@ -1,29 +1,29 @@
-import { grammaticalCategories } from "inflection/tables/classification/classification";
+import { getOrderedGrammaticalCategories } from "inflection/tables/classification/classification";
 import link from "inflection/tables/link";
 import RenderTable, { renderCell } from "inflection/tables/render_table";
 import { isNumber } from "inflection/tables/tree";
-import { Html } from "inflection/tables/types";
+import { Html, Leaf } from "inflection/tables/types";
 import Word, { wordFromTree } from "inflection/tables/word";
-import { ucfirst } from "ylhyra/app/app/functions/ucfirst";
+import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 
 /**
- * getTables - Prints all tables for a given word
+ * Prints all tables for a given word
  */
 export default function getTables(this: Word): Html {
-  return TraverseTree(this.getTree(), this);
+  return traverseTree(this.getTree(), this);
 }
 
 /**
- * TraverseTree - Recursively goes through the tree from ./tree.js and prints all tables
- *
- * @param {object} leaf - Leaf from ./tree.js on the form { tag: 'nominative', values: [] }
- * @param {Word} original_word
+ * Recursively goes through the tree from ./tree.js and prints all tables
  */
-const TraverseTree = (leaf: object, original_word: Word): Html => {
+const traverseTree = (leaf: Leaf, original_word: Word): Html => {
   let table = null;
   const word = wordFromTree(leaf, original_word);
   /* Nouns */
-  if (word.is("noun") && getOrderedGrammaticalCategories("plurality).includes(leaf.tag)") {
+  if (
+    word.is("noun") &&
+    getOrderedGrammaticalCategories("plurality").includes(leaf.tag)
+  ) {
     table = RenderTable(leaf.values, original_word, {
       column_names: getOrderedGrammaticalCategories("article"),
       row_names: getOrderedGrammaticalCategories("cases"),
@@ -31,7 +31,7 @@ const TraverseTree = (leaf: object, original_word: Word): Html => {
   } else if (
     /* Pronouns */
     (word.is("pronoun") || word.is("article")) &&
-    getOrderedGrammaticalCategories("plurality).includes(leaf.tag")
+    getOrderedGrammaticalCategories("plurality").includes(leaf.tag)
   ) {
     table = RenderTable(leaf.values, original_word, {
       column_names: getOrderedGrammaticalCategories("gender"),
@@ -55,7 +55,7 @@ const TraverseTree = (leaf: object, original_word: Word): Html => {
       word.is("past participle") ||
       word.is("ordinal number") ||
       word.is("numeral")) &&
-    getOrderedGrammaticalCategories("plurality).includes(leaf.tag")
+    getOrderedGrammaticalCategories("plurality").includes(leaf.tag)
   ) {
     table = RenderTable(leaf.values, original_word, {
       column_names: getOrderedGrammaticalCategories("gender"),
@@ -64,7 +64,7 @@ const TraverseTree = (leaf: object, original_word: Word): Html => {
   } else if (
     /* Verbs */
     word.is("verb") &&
-    getOrderedGrammaticalCategories("tense).includes(leaf.tag") &&
+    getOrderedGrammaticalCategories("tense").includes(leaf.tag) &&
     !word.is("question form") &&
     !word.is("infinitive")
   ) {
@@ -89,7 +89,7 @@ const TraverseTree = (leaf: object, original_word: Word): Html => {
     });
   } else if (
     word.is("question form") &&
-    getOrderedGrammaticalCategories("tense).includes(leaf.tag")
+    getOrderedGrammaticalCategories("tense").includes(leaf.tag)
   ) {
     table = RenderTable(leaf.values, original_word, {
       column_names: getOrderedGrammaticalCategories("plurality"),
@@ -99,16 +99,16 @@ const TraverseTree = (leaf: object, original_word: Word): Html => {
 
   let output = table;
   if (!output) {
-    /*
-      Go deeper
-    */
+    /**
+     * Go deeper
+     */
     if (leaf.values && !LeafOnlyContainsVariants(leaf.values)) {
-      output = leaf.values.map((i) => TraverseTree(i, original_word)).join("");
+      output = leaf.values.map((i) => traverseTree(i, original_word)).join("");
     } else {
-      /*
-      No table was created above,
-      generate a simple field
-    */
+      /**
+       * No table was created above,
+       * generate a simple field
+       */
       let rows = leaf.values || [leaf]; /* For supine of "geta" */
       output = `<table class="table not-center"><tbody><tr>${renderCell(
         new Word(rows, original_word)
@@ -118,7 +118,7 @@ const TraverseTree = (leaf: object, original_word: Word): Html => {
 
   if (leaf.tag) {
     return `<dl class="indent">
-      <dt>${link(ucfirst(leaf.tag))}</dt>
+      <dt>${link(uppercaseFirstLetter(leaf.tag))}</dt>
       <dd>${output}</dd>
     </dl>`;
   } else {
