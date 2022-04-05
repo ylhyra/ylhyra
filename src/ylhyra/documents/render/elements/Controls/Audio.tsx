@@ -24,7 +24,7 @@ export default (audioId, inlineAudioPlayer, editor) => {
     return null;
   }
 
-  let props = {};
+  let props: Record<string, any> = {};
   if (inlineAudioPlayer === true || inlineAudioPlayer === "true") {
     props["data-inline"] = true;
   }

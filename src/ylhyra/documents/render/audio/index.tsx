@@ -11,8 +11,8 @@ require("ylhyra/documents/render/audio/KeyboardListener");
 let timer;
 
 class Audio extends React.PureComponent<{
-  inline: Boolean;
-  autoplay: Boolean;
+  inline?: Boolean;
+  autoplay?: Boolean;
   src: string;
   audio: RootState["audio"];
 }> {

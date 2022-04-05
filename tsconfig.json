@@ -16,9 +16,8 @@
     "outDir": "build/ts",
     "esModuleInterop": true,
     "isolatedModules": false,
-    //    "forceConsistentCasingInFileNames": true,
     //    "lib": ["es2020", "dom", "es2021.String"],
-    //    "noImplicitAny": false,
+    "noImplicitAny": false,
     "strict": true
   },
   "compileOnSave": true

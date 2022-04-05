@@ -13,8 +13,20 @@ import {
   getHash,
 } from "ylhyra/maker/vocabulary_maker/compile/functions";
 import { vocabularyRowStructureAsObject } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
+import { VocabularyFile } from "ylhyra/maker/vocabulary_maker/types";
 
-export const Database = {
+export const Database: {
+  mode: null;
+  maxID: number;
+  cards: {};
+  terms: {};
+  plaintext_sentences: {};
+  sound: VocabularyFile["sound"];
+  rows: VocabularyFile["rows"];
+  selected_rows: VocabularyFile["rows"];
+  alternativeIds: {};
+  dependencies: {};
+} = {
   maxID: 0,
   rows: [],
   sound: [],

@@ -48,6 +48,8 @@ export type VocabularyFileRow = Partial<{
   eyða: string;
   should_teach: "yes" | "no";
   should_split: "yes" | "no";
+  /** ISO date */
+  last_seen?: string;
 }>;
 
 export const vocabularyRowStructure = [
