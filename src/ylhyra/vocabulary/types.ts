@@ -1,39 +1,37 @@
 import {
-  CardId,
-  CardIds,
-  TermId,
-  TermIds,
-} from "ylhyra/vocabulary/app/actions/card/types";
-import {
   DifficultyEnum,
   ImportanceEnum,
   LevelsEnum,
 } from "ylhyra/vocabulary/app/constants";
-import { getSounds } from "ylhyra/vocabulary/compiler/compiler.server/getSounds.server";
+import { getSounds } from "ylhyra/vocabulary/compiler/compiler.server/getSounds";
+import { Brand } from "ts-brand";
+import { Days, Timestamp } from "modules/time";
 
 export type CardData = {
-  en_plaintext: string;
+  row_id: number;
+  id: CardId;
+  /** Deleted in compilation step */
+  is_plaintext?: string;
+  is_formatted: string;
+  /** Deleted in compilation step */
+  en_plaintext?: string;
   en_formatted: string;
+  from: "is" | "en";
   terms: TermIds;
   level: LevelsEnum;
-  importance?: ImportanceEnum;
   difficulty?: DifficultyEnum;
-  pronunciation?: string;
-  lemmas?: string;
-  note_regarding_english?: string;
-  note?: string;
-  literally?: string;
-  row_id: number;
+  importance?: ImportanceEnum;
   example_declension?: string;
-  synonyms?: string;
-  is_plaintext: string;
-  is_formatted: string;
-  from: "is" | "en";
-  id: CardId;
-  spokenSentences?: string[];
-  sound: ReturnType<typeof getSounds>;
   isSentence?: Boolean;
+  lemmas?: string;
+  literally?: string;
+  note?: string;
+  note_regarding_english?: string;
+  pronunciation?: string;
   sortKey: number;
+  sound: ReturnType<typeof getSounds>;
+  spokenSentences?: string[];
+  synonyms?: string;
 
   /** Used in backend, TODO: delete */
   should_teach?: string;
@@ -99,3 +97,20 @@ export type Terms = {
 export type Cards = { [key: CardId]: CardData };
 export type Dependencies = { [id: TermId]: TermIds };
 export type TermIdToDependencyDepth = Record<TermId, number>;
+
+export type CardId = Brand<string, "CardId">;
+export type CardIds = Array<CardId>;
+export type TermId = Brand<string, "TermId">;
+export type TermIds = Array<TermId>;
+
+export interface ScheduleData {
+  due: Timestamp;
+  last_interval_in_days: Days;
+  score: number;
+  last_seen: Timestamp;
+  sessions_seen: number;
+
+  /* Í VINNSLU */
+  last_bad_timestamp: Timestamp;
+  number_of_bad_sessions: number;
+}

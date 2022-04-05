@@ -2,13 +2,9 @@ import { clearTimeMemoized } from "modules/time";
 import { flatten, uniq } from "underscore";
 import { getTermIds } from "ylhyra/vocabulary/app/actions/card/card_data";
 import { getCardIdsFromTermId } from "ylhyra/vocabulary/app/actions/card/term";
-import {
-  CardId,
-  CardIds,
-  TermIds,
-} from "ylhyra/vocabulary/app/actions/card/types";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { getHash } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
+import { CardId, CardIds, TermIds } from "ylhyra/vocabulary/types";
 
 export const getCardIdsFromTermIds = (termIds: TermIds) => {
   return uniq(

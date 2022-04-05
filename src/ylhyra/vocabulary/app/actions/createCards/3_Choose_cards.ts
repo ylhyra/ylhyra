@@ -1,6 +1,5 @@
 import { isDev } from "modules/isDev";
 import { log, logDev } from "modules/log";
-import { CardIds } from "ylhyra/vocabulary/app/actions/card/types";
 import OldCards from "ylhyra/vocabulary/app/actions/createCards/1_Old_cards";
 import NewCards from "ylhyra/vocabulary/app/actions/createCards/2_New_cards";
 import {
@@ -9,6 +8,7 @@ import {
 } from "ylhyra/vocabulary/app/actions/createCards/functions";
 import { CARDS_TO_CREATE } from "ylhyra/vocabulary/app/actions/createCards/index";
 import { printWord } from "ylhyra/vocabulary/app/actions/functions";
+import { CardIds } from "ylhyra/vocabulary/types";
 
 export default (options): CardIds => {
   /**

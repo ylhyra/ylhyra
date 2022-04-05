@@ -3,9 +3,9 @@ import {
   getScore,
   getSessionsSeen,
 } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { CardId } from "ylhyra/vocabulary/app/actions/card/types";
 import { INCR } from "ylhyra/vocabulary/app/actions/createSchedule";
 import { BAD, EASY, GOOD } from "ylhyra/vocabulary/app/constants";
+import { CardId } from "ylhyra/vocabulary/types";
 
 export const isTooEasy = (id: CardId) => {
   return getScore(id) && getScore(id)! >= EASY && getSessionsSeen(id) === 1;

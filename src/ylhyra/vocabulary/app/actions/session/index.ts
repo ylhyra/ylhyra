@@ -6,7 +6,6 @@ import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import { roundMsToSec, roundToInterval } from "ylhyra/app/app/functions/math";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { doesCardExist } from "ylhyra/vocabulary/app/actions/card/card";
-import { CardIds, TermId } from "ylhyra/vocabulary/app/actions/card/types";
 import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession";
 import { createCards } from "ylhyra/vocabulary/app/actions/createCards";
 import { createSchedule } from "ylhyra/vocabulary/app/actions/createSchedule";
@@ -34,6 +33,7 @@ import { SESSION_PREFIX } from "ylhyra/vocabulary/app/actions/userData/userDataS
 import { rating } from "ylhyra/vocabulary/app/constants";
 import { clearOverview } from "ylhyra/vocabulary/app/elements/OverviewScreen/actions";
 import { getDeckName } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
+import { CardIds, TermId } from "ylhyra/vocabulary/types";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 

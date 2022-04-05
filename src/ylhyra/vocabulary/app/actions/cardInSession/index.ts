@@ -1,4 +1,3 @@
-import { CardId } from "ylhyra/vocabulary/app/actions/card/types";
 import { getRanking } from "ylhyra/vocabulary/app/actions/cardInSession/getRanking";
 import { postponeRelatedCards } from "ylhyra/vocabulary/app/actions/cardInSession/postponeRelatedCards";
 import { rate } from "ylhyra/vocabulary/app/actions/cardInSession/rate";
@@ -8,6 +7,7 @@ import {
 } from "ylhyra/vocabulary/app/actions/cardInSession/showIn";
 import Session from "ylhyra/vocabulary/app/actions/session";
 import { rating } from "ylhyra/vocabulary/app/constants";
+import { CardId } from "ylhyra/vocabulary/types";
 
 class CardInSession {
   id: CardId;

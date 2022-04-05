@@ -3,7 +3,6 @@ import {
   getDifficulty,
   getImportance,
 } from "ylhyra/vocabulary/app/actions/card/card_data";
-import { CardId } from "ylhyra/vocabulary/app/actions/card/types";
 import { getUserLevel } from "ylhyra/vocabulary/app/actions/userLevel/index";
 import {
   A1,
@@ -18,6 +17,7 @@ import {
   USER_LEVEL_INTERMEDIATE,
   USER_LEVEL_NOVICE,
 } from "ylhyra/vocabulary/app/constants";
+import { CardId } from "ylhyra/vocabulary/types";
 
 const userLevelToCEFR = {
   [USER_LEVEL_BEGINNER]: A1,

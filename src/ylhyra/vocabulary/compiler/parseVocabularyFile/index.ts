@@ -1,10 +1,5 @@
 import _ from "underscore";
 import {
-  CardId,
-  TermId,
-  TermIds,
-} from "ylhyra/vocabulary/app/actions/card/types";
-import {
   formatLemmas,
   formatPrefixes,
   formatVocabularyEntry,
@@ -21,6 +16,9 @@ import {
   Terms,
   CardData,
   VocabularyFile,
+  TermIds,
+  TermId,
+  CardId,
 } from "ylhyra/vocabulary/types";
 import { SortKeys } from "ylhyra/vocabulary/compiler/compiler.server/sortKeys.server";
 

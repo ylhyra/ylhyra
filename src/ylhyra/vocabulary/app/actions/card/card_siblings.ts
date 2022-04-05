@@ -3,10 +3,10 @@ import _ from "underscore";
 import { isInSession } from "ylhyra/vocabulary/app/actions/card/card";
 import { getTermIds } from "ylhyra/vocabulary/app/actions/card/card_data";
 import { getCardIdsFromTermId } from "ylhyra/vocabulary/app/actions/card/term";
-import { CardId, CardIds } from "ylhyra/vocabulary/app/actions/card/types";
 import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { BAD } from "ylhyra/vocabulary/app/constants";
+import { CardId, CardIds } from "ylhyra/vocabulary/types";
 
 export const getSiblingCards = (id: CardId): CardIds => {
   // return (this.siblingCardIds);

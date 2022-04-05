@@ -5,14 +5,14 @@ import {
   getCardIdsFromTermId,
   getCardIdsShuffledIfSeen,
 } from "ylhyra/vocabulary/app/actions/card/term";
+import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import {
   CardId,
   CardIds,
   TermId,
   TermIds,
-} from "ylhyra/vocabulary/app/actions/card/types";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
-import { TermIdToDependencyDepth } from "ylhyra/vocabulary/types";
+  TermIdToDependencyDepth,
+} from "ylhyra/vocabulary/types";
 
 export const getDependenciesAsTermIdToDepth = (
   id: CardId

@@ -2,9 +2,9 @@
 import { sortBy } from "underscore";
 import { isAllowed } from "ylhyra/vocabulary/app/actions/card/card";
 import { isInSchedule } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { CardIds } from "ylhyra/vocabulary/app/actions/card/types";
 import { veryRecentlySeenSortedLast } from "ylhyra/vocabulary/app/actions/createCards/functions";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
+import { CardIds } from "ylhyra/vocabulary/types";
 
 export default (options): CardIds => {
   let newCards = deck!.cards_sorted.filter(

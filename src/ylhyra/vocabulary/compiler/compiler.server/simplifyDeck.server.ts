@@ -1,8 +1,7 @@
 import stable_stringify from "json-stable-stringify";
 import _ from "underscore";
-import { CardIds, TermId } from "ylhyra/vocabulary/app/actions/card/types";
 import { printWord } from "ylhyra/vocabulary/app/actions/functions";
-import { DeckDatabase } from "ylhyra/vocabulary/types";
+import { CardIds, DeckDatabase, TermId } from "ylhyra/vocabulary/types";
 import {
   createDependencyChainBackend,
   withDependenciesBackend,

@@ -5,7 +5,7 @@ import {
   getTermLastSeen,
   wasTermVeryRecentlySeen,
 } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { CardIds } from "ylhyra/vocabulary/app/actions/card/types";
+import { CardIds } from "ylhyra/vocabulary/types";
 
 export const oldestFirst = (ids: CardIds) => {
   return sortBy(ids, (id) => getTermLastSeen(id));

@@ -1,10 +1,11 @@
 import _ from "underscore";
 import {
   CardIds,
+  DeckDatabase,
   TermId,
   TermIds,
-} from "ylhyra/vocabulary/app/actions/card/types";
-import { DeckDatabase, TermIdToDependencyDepth } from "ylhyra/vocabulary/types";
+  TermIdToDependencyDepth,
+} from "ylhyra/vocabulary/types";
 
 export const withDependenciesBackend = (
   deck: DeckDatabase,

@@ -11,15 +11,10 @@ import {
 } from "ylhyra/vocabulary/app/actions/card/card_data";
 import { isNewTerm } from "ylhyra/vocabulary/app/actions/card/card_schedule";
 import { getCardIdsFromTermIds } from "ylhyra/vocabulary/app/actions/card/functions";
-import {
-  CardId,
-  CardIds,
-  TermId,
-  TermIds,
-} from "ylhyra/vocabulary/app/actions/card/types";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
 import { getHash } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
+import { CardId, CardIds, TermId, TermIds } from "ylhyra/vocabulary/types";
 
 export const printWord = (id: CardId | TermId | string) => {
   if (!isDev) return;

@@ -6,8 +6,8 @@ import {
   isFairlyBad,
 } from "ylhyra/vocabulary/app/actions/card/card_difficulty";
 import { wasTermSeenMoreRecentlyThan } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { CardIds } from "ylhyra/vocabulary/app/actions/card/types";
 import { withDependencies } from "ylhyra/vocabulary/app/actions/functions/dependencies";
+import { CardIds } from "ylhyra/vocabulary/types";
 
 /* Add bad dependencies */
 export default (chosen_cards: CardIds): CardIds => {

@@ -22,7 +22,7 @@ export const getDeckName = () => {
   return "";
 };
 
-export const GetLowercaseStringForAudioKey = (i) => {
+export const getLowercaseStringForAudioKey = (i) => {
   return getPlaintextFromVocabularyEntry(i).replace(/[.]+$/, "").toLowerCase();
 };
 

@@ -4,8 +4,8 @@ import {
   getSessionsSeen,
   isInSchedule,
 } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { CardIds } from "ylhyra/vocabulary/app/actions/card/types";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
+import { CardIds } from "ylhyra/vocabulary/types";
 
 export const PercentageKnown = (cardIds: CardIds) => {
   if (!deck?.schedule) return 0;

@@ -1,19 +1,20 @@
 import _ from "underscore";
-import { GetLowercaseStringForAudioKey } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
+import { getLowercaseStringForAudioKey } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import { VocabularyFileSoundEntry } from "ylhyra/vocabulary/types";
 
 export const getSounds = (
-  sentences: string[],
+  sentences: string[] | undefined,
   soundLowercase: VocabularyFileSoundEntry[]
 ): string[] | null => {
-  let output = [];
+  if (!sentences) return null;
+  let output: string[] = [];
   sentences.forEach((i) => {
-    const b = GetLowercaseStringForAudioKey(i);
+    const b = getLowercaseStringForAudioKey(i);
     let s = soundLowercase
       .filter((k) => k.recording_of === b)
       .map((j) => j.filename.replace(/\.mp3$/, ""));
     output = output.concat(_.shuffle(s));
   });
-  if (output.length > 0) return output;
-  return null;
+  if (output.length === 0) return null;
+  return output;
 };

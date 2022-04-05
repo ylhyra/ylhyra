@@ -11,10 +11,10 @@ import {
   getAsCardInSession,
 } from "ylhyra/vocabulary/app/actions/card/card_siblings";
 import { getCardIdsFromTermId } from "ylhyra/vocabulary/app/actions/card/term";
-import { CardId, ScheduleData } from "ylhyra/vocabulary/app/actions/card/types";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { saveScheduleForCardId } from "ylhyra/vocabulary/app/actions/userData/userDataSchedule";
 import { GOOD } from "ylhyra/vocabulary/app/constants";
+import { CardId, ScheduleData } from "ylhyra/vocabulary/types";
 
 export const getSchedule = (id: CardId): Partial<ScheduleData> | undefined => {
   if (!deck) {

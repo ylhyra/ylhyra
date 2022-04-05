@@ -1,7 +1,7 @@
-import { CardIds } from "ylhyra/vocabulary/app/actions/card/types";
 import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession";
 import { CreateCardsOptions } from "ylhyra/vocabulary/app/actions/createCards";
 import Session from "ylhyra/vocabulary/app/actions/session/index";
+import { CardIds } from "ylhyra/vocabulary/types";
 
 /**
  * Used to load more cards into an already ongoing session.

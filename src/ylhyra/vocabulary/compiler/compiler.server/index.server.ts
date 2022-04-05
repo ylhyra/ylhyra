@@ -4,11 +4,11 @@
 */
 import fs from "fs";
 import yaml from "js-yaml";
-import { GetLowercaseStringForAudioKey } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
+import { getLowercaseStringForAudioKey } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import { parseVocabularyFile } from "ylhyra/vocabulary/compiler/parseVocabularyFile";
-import { DeckDatabase, VocabularyFile } from "ylhyra/vocabulary/types";
+import { CardId, DeckDatabase, VocabularyFile } from "ylhyra/vocabulary/types";
 import { content_folder, getBaseDir } from "ylhyra/server/paths_backend";
-import { getSounds } from "ylhyra/vocabulary/compiler/compiler.server/getSounds.server";
+import { getSounds } from "ylhyra/vocabulary/compiler/compiler.server/getSounds";
 import { simplifyDeck } from "ylhyra/vocabulary/compiler/compiler.server/simplifyDeck.server";
 import { getSortKeysBasedOnWhenWordIsIntroducedInTheCourse } from "ylhyra/vocabulary/compiler/compiler.server/sortKeys.server";
 
@@ -16,9 +16,9 @@ const DECK = process.env.DECK || "";
 const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
 
 /**
- * Convert vocabulary data into a JavaScript object
+ * Converts vocabulary YAML file into a JSON file
  */
-const run = async () => {
+(async () => {
   console.log(`Making vocabulary... ${DECK}`);
 
   const sortKeys = await getSortKeysBasedOnWhenWordIsIntroducedInTheCourse();
@@ -29,10 +29,12 @@ const run = async () => {
 
     const soundLowercase = sound.map((j) => ({
       ...j,
-      recording_of: GetLowercaseStringForAudioKey(j.recording_of),
+      recording_of: getLowercaseStringForAudioKey(j.recording_of),
     }));
 
-    Object.keys(cards).forEach((cardId) => {
+    let cardId: CardId;
+    for (cardId in cards) {
+      if (!cards.hasOwnProperty(cardId)) continue;
       const card = cards[cardId];
 
       /* Delete junk cards */
@@ -71,12 +73,12 @@ const run = async () => {
           delete card[j];
         }
       });
-    });
+    }
 
     /* Add sortKey */
-    for (let [term, sortKey] of Object.entries(sortKeys)) {
-      if (term in terms) {
-        terms[term].cards.forEach((cardId) => {
+    for (let [termId, sortKey] of Object.entries(sortKeys)) {
+      if (termId in terms) {
+        terms[termId].cards.forEach((cardId) => {
           if (cards[cardId]) {
             cards[cardId].sortKey = sortKey;
           }
@@ -132,9 +134,7 @@ const run = async () => {
     console.log("Done!");
     process.exit();
   });
-};
-
-void run();
+})();
 
 // const DeleteDependency = (from_term, to_term) => {
 //   deck!.dependencies[from_term] = deck!.dependencies[from_term].filter(

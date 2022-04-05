@@ -1,6 +1,6 @@
-import { TermId } from "ylhyra/vocabulary/app/actions/card/types";
 import generateHtml from "ylhyra/documents/compile";
 import { decodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
+import { TermId } from "ylhyra/vocabulary/types";
 
 export type SortKeys = { [termId: TermId]: number };
 /**

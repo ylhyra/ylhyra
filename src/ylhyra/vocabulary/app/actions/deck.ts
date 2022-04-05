@@ -1,16 +1,18 @@
 import { isBrowser } from "modules/isBrowser";
 import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
-import {
-  CardId,
-  CardIds,
-  ScheduleData,
-} from "ylhyra/vocabulary/app/actions/card/types";
 import { sortBySortKey } from "ylhyra/vocabulary/app/actions/createCards/functions";
 import { countTerms } from "ylhyra/vocabulary/app/actions/functions";
 import Session from "ylhyra/vocabulary/app/actions/session";
 import { UserData } from "ylhyra/vocabulary/app/actions/userData/userData";
-import { Cards, DeckDatabase, Terms } from "ylhyra/vocabulary/types";
+import {
+  CardId,
+  CardIds,
+  Cards,
+  DeckDatabase,
+  ScheduleData,
+  Terms,
+} from "ylhyra/vocabulary/types";
 
 export let deck: Deck | undefined;
 

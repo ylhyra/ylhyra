@@ -14,8 +14,8 @@ import {
   timeSinceTermWasSeen,
   wasTermVeryRecentlySeen,
 } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { CardIds } from "ylhyra/vocabulary/app/actions/card/types";
 import { sortBySortKey } from "ylhyra/vocabulary/app/actions/createCards/functions";
+import { CardIds } from "ylhyra/vocabulary/types";
 
 /* Previously seen cards */
 export default () => {

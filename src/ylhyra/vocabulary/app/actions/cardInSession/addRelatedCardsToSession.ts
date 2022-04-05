@@ -14,9 +14,9 @@ import {
   timeSinceTermWasSeen,
   wasTermVeryRecentlySeen,
 } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { CardIds } from "ylhyra/vocabulary/app/actions/card/types";
 import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession/index";
 import { printWord } from "ylhyra/vocabulary/app/actions/functions";
+import { CardIds } from "ylhyra/vocabulary/types";
 
 /**
  * If a cardInSession gets a bad rating, then we make sure

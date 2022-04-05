@@ -9,7 +9,7 @@ import {
 } from "ylhyra/vocabulary/vocabularyEditor/actions/actions";
 import {
   getDeckName,
-  GetLowercaseStringForAudioKey,
+  getLowercaseStringForAudioKey,
 } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 
 let missing_sound = [];
@@ -36,11 +36,11 @@ export const setupSound = () => {
   current_word_recording = 0;
   Database.sound = Database.sound.map((i) => ({
     ...i,
-    lowercase: GetLowercaseStringForAudioKey(i.recording_of),
+    lowercase: getLowercaseStringForAudioKey(i.recording_of),
   }));
   // Object.keys(plaintext_sentences)
   sentences.forEach((word) => {
-    const lowercase = GetLowercaseStringForAudioKey(word);
+    const lowercase = getLowercaseStringForAudioKey(word);
     if (
       !Database.sound.some(
         (i) =>
