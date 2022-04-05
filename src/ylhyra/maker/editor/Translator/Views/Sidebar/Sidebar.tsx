@@ -16,8 +16,8 @@ class WordSidebar extends React.Component<ConnectedProps<typeof connector>> {
   focus = () => {
     window.setTimeout(() => {
       const element = document.getElementById("meaning");
-      element.focus();
-      element.select();
+      element?.focus();
+      // element?.select();
     }, 0);
   };
 
@@ -31,15 +31,17 @@ class WordSidebar extends React.Component<ConnectedProps<typeof connector>> {
     window.removeEventListener("keydown", this.checkKey);
   }
 
-  checkKey = (e) => {
+  checkKey = (e: KeyboardEvent) => {
     // Cmd + D
     if ((e.metaKey || e.ctrlKey) && e.key === "d") {
-      document.querySelector('[name="difficult"]').click();
+      (document.querySelector('[name="difficult"]') as HTMLElement).click();
       e.preventDefault();
     }
     // Cmd + I
     else if ((e.metaKey || e.ctrlKey) && e.key === "i") {
-      document.querySelector('[name="show_definition_above"]').click();
+      (
+        document.querySelector('[name="show_definition_above"]') as HTMLElement
+      ).click();
       e.preventDefault();
     }
     // Escape
@@ -56,7 +58,7 @@ class WordSidebar extends React.Component<ConnectedProps<typeof connector>> {
     }
   };
 
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = (prevProps: ConnectedProps<typeof connector>) => {
     if (prevProps.selected !== this.props.selected) {
       this.focus();
       // this.analysis()

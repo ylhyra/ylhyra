@@ -1,12 +1,11 @@
-import store from "ylhyra/app/app/store";
 import { isDev } from "modules/isDev";
-import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
-import axios from "ylhyra/app/app/axios";
 import Analytics from "ylhyra/app/app/analytics";
-import { setUrl } from "ylhyra/app/router/actions/goToUrl";
-import { readAlongSetup } from "ylhyra/documents/render/audio/readAlong/readAlong";
+import axios from "ylhyra/app/app/axios";
 import { set404, setIndexing } from "ylhyra/app/router/actions/actions";
+import { setUrl } from "ylhyra/app/router/actions/goToUrl";
 import { parseInFrontendIfInDevelopmentMode } from "ylhyra/app/router/actions/parseInDevMode";
+import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
+import { readAlongSetup } from "ylhyra/documents/render/audio/readAlong/readAlong";
 
 const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true && isDev;
 
@@ -95,7 +94,7 @@ export function setContent({
   setUrl({
     pathname,
     section,
-    title: data.title,
+    title: data.header.title,
     routeContent: {
       parsed,
       header: data.header,

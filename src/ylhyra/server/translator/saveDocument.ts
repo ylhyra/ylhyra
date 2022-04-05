@@ -4,17 +4,18 @@ import fs from "fs";
 import { isDev } from "modules/isDev";
 import path from "path";
 import { getValuesForUrl } from "ylhyra/server/content/links/getValuesForUrl";
+import { getBaseDir } from "ylhyra/server/paths_backend";
 
 const router = Router();
 
 router.post("/translator/saveDocument", (req, res) => {
   if (!isDev) return;
   const { title, text } = req.body;
-  let { filepath } = getValuesForUrl("Data:" + title);
-
+  let urlInfo = getValuesForUrl("Data:" + title);
+  let filepath = "filepath" in urlInfo && urlInfo.filepath;
   if (!filepath) {
     filepath = path.resolve(
-      process.env.PWD,
+      getBaseDir(),
       "./../ylhyra_content/data/${FileSafeTitle(title).md"
     );
   }

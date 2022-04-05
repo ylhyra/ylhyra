@@ -1,7 +1,7 @@
+import { queryCallback } from "mysql";
 import {
   Pool,
   Query,
-  QueryCallbackFunction,
   QueryValuesParameter,
 } from "ylhyra/server/database/functions/connection";
 
@@ -19,8 +19,8 @@ const pool = Pool({
 
 export default (
   query: string,
-  secondParameter: QueryValuesParameter | QueryCallbackFunction,
-  thirdParameter?: QueryCallbackFunction | undefined
+  secondParameter: QueryValuesParameter | queryCallback,
+  thirdParameter?: queryCallback | undefined
 ) => {
   Query(query, secondParameter, thirdParameter, pool);
 };
