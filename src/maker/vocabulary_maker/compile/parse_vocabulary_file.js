@@ -125,6 +125,10 @@ export const parse_vocabulary_file = ({ rows, sound }, sortKeys) => {
         literally: formatVocabularyEntry(row.literally),
         row_id: row.row_id,
         example_declension: row.example_declension,
+
+        should_teach: row.should_teach,
+        fix: row.fix,
+        eyða: row.eyða,
       };
 
       if (/{{(ð?u)}}/.test(automaticThu(row.icelandic))) {

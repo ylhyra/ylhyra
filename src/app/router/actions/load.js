@@ -135,7 +135,7 @@ const set = async ({
 
   callback?.();
   updateURL(url + (section ? "#" + section : ""), {
-    title: data.title,
+    title: data.header.title,
     isLoadingContent: true,
     isInitializing,
     routeContent: {
