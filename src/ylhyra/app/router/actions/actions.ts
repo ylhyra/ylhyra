@@ -18,7 +18,9 @@ if (isBrowser) {
   });
 }
 
-export const initializeRouter = (prerenderData: PrerenderedDataSavedInPage) => {
+export const initializeRouter = (
+  prerenderData: PrerenderedDataSavedInPage | null
+) => {
   // @ts-ignore
   if (window["is404"]) {
     return set404();
@@ -26,8 +28,9 @@ export const initializeRouter = (prerenderData: PrerenderedDataSavedInPage) => {
   const url =
     (prerenderData?.url || decodeURI(window.location.pathname)) +
     window.location.hash;
-  cachePrerenderedData(url.split("#")[0], prerenderData);
-
+  if (prerenderData) {
+    cachePrerenderedData(url.split("#")[0], prerenderData);
+  }
   goToUrl(url, {
     isInitializing: true,
   });
@@ -55,5 +58,5 @@ export const setIndexing = (shouldIndex: Boolean | undefined) => {
       .querySelector('meta[name="robots"]')
       ?.setAttribute("content", shouldIndex ? "index" : "noindex");
   }
-  isIndexed = shouldIndex;
+  isIndexed = Boolean(shouldIndex);
 };
