@@ -9,15 +9,18 @@ import {
 class Field extends React.Component<
   ConnectedProps<typeof connector> & {
     name: string;
-    component: Function;
+    component: string;
     type: string;
     placeholder?: string;
     id: string;
   }
 > {
-  handleChange = (e) => {
+  handleChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     this.props.updateDefinitionValue({
       name: this.props.name,
+      // @ts-ignore
       value: e.target.type === "checkbox" ? e.target.checked : e.target.value,
     });
   };
@@ -25,7 +28,8 @@ class Field extends React.Component<
     const { translation, selected, name } = this.props;
     const definition = translation.definitions[wordsHash(selected)] || {};
     const value = definition[name] || "";
-    const Element = this.props.component;
+    // @ts-ignore
+    const Element = this.props.component as Function;
     return (
       <Element
         value={value}

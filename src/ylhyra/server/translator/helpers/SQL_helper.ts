@@ -1,3 +1,10 @@
+// @ts-nocheck
+
+/**
+ * TODO: REMOVE
+ * This is only used by the Translator
+ */
+
 export default class SQL_helper {
   constructor() {
     this.queries = "";

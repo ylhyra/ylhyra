@@ -3,7 +3,7 @@ import query from "ylhyra/server/database";
 export default (input) => {
   if (!input || !input.trim()) return;
   input = input.toLowerCase().trim();
-  return new Promise((resolve) => {
+  return new Promise<void>((resolve) => {
     if (input.length < 50) {
       query(
         "SELECT file FROM sounds WHERE text = ?",

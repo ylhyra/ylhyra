@@ -12,8 +12,8 @@ export type UserData = {
 export type UserDataRows = {
   [keys: string]: {
     value: string;
-    needsSyncing: boolean;
     type: "schedule" | "session" | null;
+    needsSyncing?: boolean;
   };
 };
 

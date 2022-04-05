@@ -5,8 +5,8 @@ import { encodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
 
-const argon_hash = argon2.hash;
-const argon_verify = argon2.verify;
+const argonHash = argon2.hash;
+const argonVerify = argon2.verify;
 const router = Router();
 const speedLimit = require("express-slow-down")({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -67,7 +67,7 @@ const get_user = async ({ username, password, res }) => {
       (err, results) => {
         if (results.length > 0) {
           const row = results[0];
-          if (!argon_verify(row.password, password)) {
+          if (!argonVerify(row.password, password)) {
             return res.send({ error: "ERROR_INCORRECT_PASSWORD" });
           }
           resolve(row);
@@ -105,7 +105,7 @@ const check_if_user_exists = async ({ email, username }) => {
 
 const create_user = ({ username, email, password, res }) => {
   return new Promise(async (resolve) => {
-    const hash = await argon_hash(password);
+    const hash = await argonHash(password);
     query(
       sql`INSERT INTO users SET
       username = ${username},
@@ -114,7 +114,7 @@ const create_user = ({ username, email, password, res }) => {
       `,
       (err, results2) => {
         if (err) {
-          if (err.code === "ER_DUP_ENTRY") {
+          if ("code" in err && err.code === "ER_DUP_ENTRY") {
             return res.status(500).send({ error: "ERROR_USER_ALREADY_EXIST" });
           }
           return res.sendStatus(500);

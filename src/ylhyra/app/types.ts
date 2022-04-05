@@ -9,5 +9,5 @@ export type PrerenderedDataSavedInPage = {
   header: HeaderData;
   shouldBeIndexed?: Boolean;
   redirect_to?: string;
-  title: string;
+  // title: string;
 };

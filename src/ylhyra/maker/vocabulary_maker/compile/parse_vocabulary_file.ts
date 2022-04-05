@@ -300,9 +300,10 @@ export const parseVocabularyFile = (
   let automaticAltIds2: {
     [key: TermId]: TermIds;
   } = {};
-  for (const i in automaticAltIds) {
-    automaticAltIds2[i as TermId] = automaticAltIds[i as TermId].terms;
-    alternativeIds[i as TermId] = automaticAltIds[i as TermId].terms;
+  let i: TermId;
+  for (i in automaticAltIds) {
+    automaticAltIds2[i] = automaticAltIds[i].terms;
+    alternativeIds[i] = automaticAltIds[i].terms;
   }
 
   /* Automatic dependency graphs */
@@ -341,7 +342,7 @@ export const parseVocabularyFile = (
             continue;
           }
 
-          const hash = getHash(range);
+          const hash = getHash(range) as TermId;
           const termIds = [
             hash,
             ...(alternativeIds[hash] || []),

@@ -1,7 +1,8 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import stable_stringify from "json-stable-stringify";
 import { msToS } from "modules/time";
 import removeNullKeys from "ylhyra/app/app/functions/removeNullKeys";
+import { UserDataRows } from "ylhyra/app/vocabulary/actions/userData/userData";
 import { staticCached } from "ylhyra/server/caching";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
@@ -14,7 +15,7 @@ router.use("/vocabulary/", staticCached(getBaseDir() + "/build/vocabulary"));
 
 /* Sync user data */
 router.post("/vocabulary/sync", async (req, res) => {
-  if (!req.session.user_id) {
+  if (!req.session?.user_id) {
     return res.status(401).send({ error: "ERROR_NOT_LOGGED_IN" });
   }
   try {
@@ -33,11 +34,12 @@ router.post("/vocabulary/sync", async (req, res) => {
     if (typeof e !== "string") {
       console.error(e);
     }
+    // @ts-ignore
     res.status(400).send(e.toString() || "");
   }
 });
 
-const getUserData = (req) => {
+const getUserData = (req: express.Request): Promise<UserDataRows> => {
   return new Promise((resolve) => {
     query(
       sql`
@@ -48,11 +50,11 @@ const getUserData = (req) => {
         FROM user_data a
         INNER JOIN (
           SELECT max(id) id, \`key\` FROM user_data
-            WHERE user_id = ${req.session.user_id}
+            WHERE user_id = ${req.session!.user_id}
             GROUP BY \`key\`
         ) b
         ON a.id = b.id
-        WHERE user_id = ${req.session.user_id}
+        WHERE user_id = ${req.session!.user_id}
         AND created_at > FROM_UNIXTIME(${msToS(req.body.lastSynced) || 0})
       `,
       (err, results) => {
@@ -60,13 +62,23 @@ const getUserData = (req) => {
           console.error(err);
           throw new Error();
         } else {
-          let out = {};
-          results.forEach(({ key, value, type }) => {
-            out[key] = {
-              value: value.startsWith("{") ? JSON.parse(value) : value,
+          let out: UserDataRows = {};
+          results.forEach(
+            ({
+              key,
+              value,
               type,
-            };
-          });
+            }: {
+              key: string;
+              value: UserDataRows[string]["value"];
+              type: UserDataRows[string]["type"];
+            }) => {
+              out[key] = {
+                value: value.startsWith("{") ? JSON.parse(value) : value,
+                type,
+              };
+            }
+          );
           resolve(out);
         }
       }
@@ -74,18 +86,18 @@ const getUserData = (req) => {
   });
 };
 
-const saveUserData = (req, object) => {
-  return new Promise((resolve) => {
-    if (Object.keys(object).length === 0) {
+const saveUserData = (req: express.Request, userDataRows: UserDataRows) => {
+  return new Promise<void>((resolve) => {
+    if (Object.keys(userDataRows).length === 0) {
       return resolve();
-    } else if (Object.keys(object).length > 10000) {
+    } else if (Object.keys(userDataRows).length > 10000) {
       // TODO
       throw new Error("Too long");
     }
 
-    const queries = Object.keys(object)
+    const queries = Object.keys(userDataRows)
       .map((key) => {
-        let value = object[key].value;
+        let value = userDataRows[key].value;
         if (
           typeof value !== "string" &&
           typeof value !== "number" &&
@@ -95,8 +107,8 @@ const saveUserData = (req, object) => {
         }
         return sql`
           INSERT INTO user_data SET
-            user_id = ${req.session.user_id},
-            type = ${object[key].type},
+            user_id = ${req.session!.user_id},
+            type = ${userDataRows[key].type},
             \`key\` = ${key},
             value = ${value}
           ;

@@ -1,5 +1,4 @@
-import { Scalar } from "modules/typescript/scalar";
-import mysql, { MysqlError, queryCallback } from "mysql";
+import mysql, { queryCallback } from "mysql";
 
 export const Pool = ({
   database,
@@ -22,33 +21,29 @@ export const Pool = ({
   });
 
 export type QueryValuesParameter = any[];
-export type QueryCallbackFunction = (
-  err: MysqlError | Boolean,
-  results: any[] // QueryResultsParameter
-) => void;
-export type QueryResultsParameter = Array<Scalar> | Array<Array<Scalar>>;
+// export type QueryResultsParameter = Array<Scalar> | Array<Array<Scalar>>;
 export const Query = (
   query: string,
-  secondParameter: QueryValuesParameter | QueryCallbackFunction,
-  thirdParameter: QueryCallbackFunction | undefined,
+  secondParameter: QueryValuesParameter | queryCallback,
+  thirdParameter: queryCallback | undefined,
   pool: ReturnType<typeof Pool>
 ) => {
   pool.getConnection((err, connection) => {
     if (err) {
       console.error(err);
       if (Array.isArray(secondParameter)) {
-        (thirdParameter as QueryCallbackFunction)(err, []);
+        (thirdParameter as queryCallback)(err, []);
       } else {
-        (secondParameter as QueryCallbackFunction)(err, []);
+        (secondParameter as queryCallback)(err, []);
       }
       return;
     }
-    let callback: QueryCallbackFunction;
+    let callback: queryCallback;
 
     const callbackInterceptor: queryCallback = (err, results) => {
       connection.release();
       if (!err) {
-        callback(false, results);
+        callback(null, results);
       } else {
         console.error(err);
         callback(err, []);
@@ -56,10 +51,10 @@ export const Query = (
     };
 
     if (Array.isArray(secondParameter)) {
-      callback = thirdParameter as QueryCallbackFunction;
+      callback = thirdParameter as queryCallback;
       connection.query(query, secondParameter, callbackInterceptor);
     } else {
-      callback = secondParameter as QueryCallbackFunction;
+      callback = secondParameter as queryCallback;
       connection.query(query, callbackInterceptor);
     }
   });

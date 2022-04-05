@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 
-class User extends Component {
+class User extends Component<ConnectedProps<typeof connector>> {
   render() {
     const { user } = this.props;
     if (!user) return <div>LOG IN</div>;
     return (
       <div>
-        Logged in as <b>{user.name}</b>
+        Logged in as <b>{user.username}</b>
       </div>
     );
   }
