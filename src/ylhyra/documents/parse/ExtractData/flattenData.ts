@@ -6,7 +6,7 @@ import {
 export const flattenData = (
   input: DocumentTitleToFlattenedData
 ): FlattenedData => {
-  let output = {
+  let output: FlattenedData = {
     translation: {
       definitions: {},
       sentences: {},

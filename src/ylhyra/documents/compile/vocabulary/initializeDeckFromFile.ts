@@ -12,7 +12,7 @@ export const initializeDeckFromFile = () => {
       )
     ) as BackendDeck;
     new Deck({ database });
-    deck.alternativeIds = JSON.parse(
+    deck!.alternativeIds = JSON.parse(
       fs.readFileSync(
         getBaseDir() + `/build/vocabulary/alternativeIds.json`,
         "utf8"

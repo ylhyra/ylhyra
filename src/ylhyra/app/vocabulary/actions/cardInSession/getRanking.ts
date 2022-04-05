@@ -70,7 +70,7 @@ export function getRanking(this: CardInSession) {
 
   if (!getData(id, "isSentence")) {
     // A sentence should be shown if the userLevel was just increased
-    if (this.session.wasEasinessLevelJustIncreased) {
+    if (false /*this.session.wasEasinessLevelJustIncreased*/) {
       q += 200;
     }
     // Delay words if no sentence has been seen for a while
@@ -79,7 +79,9 @@ export function getRanking(this: CardInSession) {
       // All last three cards were good
       !this.session.ratingHistory.slice(0, 3).some((i) => i === BAD) &&
       // And none were sentences
-      this.session.cardHistory.slice(0, 3).every((i) => !i.isSentence)
+      this.session.cardHistory
+        .slice(0, 3)
+        .every((i) => !getData(i.getId(), "isSentence"))
     ) {
       q += 20;
       // Prevent English from showing up for unknown cards

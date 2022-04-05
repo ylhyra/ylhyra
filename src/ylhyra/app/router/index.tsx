@@ -30,7 +30,7 @@ class App extends React.Component<
     const url = this.props.url || this.props.route.pathname;
 
     if (url in appUrls) {
-      Element = appUrls[url].component;
+      Element = appUrls[url].component!;
       let Section2 = Section;
       if (url === "/vocabulary/play" || url === "/vocabulary") {
         Section2 = (props) => props.children;

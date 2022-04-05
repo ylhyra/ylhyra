@@ -27,7 +27,7 @@ export default function getTables(this: Word): Html {
  * Recursively goes through the tree from ./tree.js and prints all tables
  */
 const traverseTree = (branch: Tree | TreeItem, original_word: Word): Html => {
-  let table = null;
+  let table: string | null = null;
   const word = wordFromTree(branch, original_word);
 
   if ("tag" in branch && branch.tag && branch.values) {

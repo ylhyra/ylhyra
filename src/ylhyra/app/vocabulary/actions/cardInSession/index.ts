@@ -25,8 +25,8 @@ class CardInSession {
     history,
   }: {
     id: CardId;
+    session: Session;
     insertAtPosition?: number;
-    session?: Session;
     history?: Array<rating>;
   }) {
     this.id = id;

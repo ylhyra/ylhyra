@@ -6,18 +6,19 @@ import {
   TermIds,
 } from "ylhyra/app/vocabulary/actions/card/types";
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
+import { CardData } from "ylhyra/maker/vocabulary_maker/types";
 
 export const getCardsInSchedule = (): CardIds => {
   return filterCardsThatExist(Object.keys(deck.schedule) as CardIds);
 };
 
-export const getData = (id: CardId, key: string) => {
-  if (!(id in deck.cards)) {
+export const getData = (id: CardId, key: keyof CardData) => {
+  if (!(id in deck!.cards)) {
     console.error(`Card not found:`, id);
     throw new Error();
   }
-  if (key in deck.cards[id]) {
-    return deck.cards[id][key];
+  if (key in deck!.cards[id]) {
+    return deck!.cards[id][key];
   } else if (key === "terms") {
     return [id.slice(0, -3)];
   } else if (getTermIds(id).length === 1) {

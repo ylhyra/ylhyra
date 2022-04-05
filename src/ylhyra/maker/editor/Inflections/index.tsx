@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { RootState } from "ylhyra/app/app/store";
 
 class Inflections extends React.Component {
   state = {};
