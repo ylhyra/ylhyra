@@ -1,6 +1,6 @@
-import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import store from "ylhyra/app/app/store";
 import { setContent } from "ylhyra/app/router/actions/load";
+import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 
 export async function parseInFrontendIfInDevelopmentMode({
   pathname,
@@ -36,9 +36,10 @@ export async function parseInFrontendIfInDevelopmentMode({
   setContent({
     pathname,
     section,
+    // @ts-ignore
     data: {
-      parsed,
-      flattenedData,
+      parsed: parsed!,
+      flattenedData: flattenedData!,
     },
   });
 }

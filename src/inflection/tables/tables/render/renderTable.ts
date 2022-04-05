@@ -1,4 +1,12 @@
-import Word from "inflection/tables/word";
+import { wordFromTree } from "inflection/tables/helperFunctions/wordFromTree";
+import { renderCell } from "inflection/tables/tables/render/renderCell";
+import { renderLabelCell } from "inflection/tables/tables/render/renderLabelCell";
+import {
+  RenderCellOptions,
+  RowStructure,
+  StructureOptions,
+  TableStructure,
+} from "inflection/tables/tables/types";
 import {
   GrammaticalTag,
   Html,
@@ -6,16 +14,8 @@ import {
   TreeItem,
   TreeItems,
 } from "inflection/tables/types";
-import { wordFromTree } from "inflection/tables/helperFunctions/wordFromTree";
+import Word from "inflection/tables/word";
 import { removeHtmlWhitespace } from "ylhyra/app/app/functions/removeHtmlWhitespace";
-import {
-  RenderCellOptions,
-  RowStructure,
-  StructureOptions,
-  TableStructure,
-} from "inflection/tables/tables/types";
-import { renderCell } from "inflection/tables/tables/render/renderCell";
-import { renderLabelCell } from "inflection/tables/tables/render/renderLabelCell";
 
 /**
  * Converts description of table structure into a table.

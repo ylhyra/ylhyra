@@ -6,7 +6,7 @@ import Word from "inflection/tables/word";
   Callback is a Word
 */
 let cache = {};
-export const get = (id, done, input_function, dont_keep_in_cache) => {
+export const get = (id, done, input_function, dont_keep_in_cache?) => {
   if (cache[id]) {
     try {
       input_function(new Word(cache[id]));

@@ -12,7 +12,7 @@ import {
   getDeckName,
   getHash,
 } from "ylhyra/maker/vocabulary_maker/compile/functions";
-import { row_info } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
+import { vocabularyRowStructureAsObject } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
 
 export const Database = {
   maxID: 0,
@@ -157,8 +157,8 @@ export const submit = (vals, gotonext = true) => {
 };
 
 export const formatVocabularyData = (vals) => {
-  Object.keys(row_info).forEach((row_name) => {
-    if (row_info[row_name].isNumber && vals[row_name]) {
+  Object.keys(vocabularyRowStructureAsObject).forEach((row_name) => {
+    if (vocabularyRowStructureAsObject[row_name].isNumber && vals[row_name]) {
       vals[row_name] = parseInt(vals[row_name]);
     }
   });

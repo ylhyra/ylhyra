@@ -7,7 +7,7 @@ const ControlsHeight = 45;
 
   Note: Currently assumes document fills entire window, is okay as long as the window is always the scrollable element.
 */
-export default function ScrollIntoView(ids) {
+export default function ScrollIntoView(ids: string[]): void {
   if (!ids) return;
   ids = Array.isArray(ids) ? ids : [ids];
   ids.forEach(() => {
@@ -42,7 +42,7 @@ export default function ScrollIntoView(ids) {
 
   let idealPosition = (15 / 100) * (window.innerHeight - ControlsHeight);
   idealPosition = Math.max(100, idealPosition);
-  const idealPositionChange = parseInt(elementRect.y - idealPosition);
+  const idealPositionChange = elementRect.y - idealPosition;
   smoothScroll.scroll(idealPositionChange, isAbove || isBelow);
 }
 

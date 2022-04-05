@@ -14,9 +14,11 @@ export type NotArray =
  * Flattens array deeply
  */
 export default function flattenArray(data: any[]): Array<NotArray> {
-  let r: Array<NotArray> = [];
+  let out: Array<NotArray> = [];
   data.forEach((item) =>
-    Array.isArray(item) ? (r = r.concat(flattenArray(item))) : r.push(item)
+    Array.isArray(item)
+      ? (out = out.concat(flattenArray(item)))
+      : out.push(item)
   );
-  return r;
+  return out;
 }

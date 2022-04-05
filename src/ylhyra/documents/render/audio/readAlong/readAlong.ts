@@ -101,7 +101,10 @@ const showElementsByIndex = (
   isPlaying = true
 ) => {
   if (!currentFilename) return;
-  const current = audioIdToSyncData[currentFilename][index] || { elements: [] };
+  const current: LongAudioSyncData = audioIdToSyncData[currentFilename][index];
+  if (!current) {
+    return console.error(`Non-existent index sent to ${showElementsByIndex}`);
+  }
   scrollIntoView(
     current.elements.filter((i) => !(previous && i in previous.elements))
   );
@@ -136,9 +139,3 @@ export const readAlongSingleSentence = (id: string) => {
     });
   }
 };
-
-// // Delete?
-// export const resetReadAlong = () => {
-//   removeClass(previous.elements);
-//   previous = null;
-// };

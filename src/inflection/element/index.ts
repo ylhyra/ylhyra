@@ -1,6 +1,6 @@
 import Get_by_id from "inflection/getViaApi/getById";
-import render from "inflection/tables/renderEntry";
 import { BIN_id, TableOptionsFromUser } from "inflection/server/types";
+import { renderEntry } from "inflection/tables/renderEntry";
 
 /**
  * Element displayed in Ylhýra's frontend.
@@ -23,7 +23,7 @@ export const inflectionElement = (id: BIN_id, parameters: string) => {
         throw new Error(`No BÍN id ${id}`);
       }
       resolve(
-        `<div class="inflection_wrapper"><div>${render(rows, {
+        `<div class="inflection_wrapper"><div>${renderEntry(rows, {
           single: true,
           // simplifyTerms: true,
           ...params,

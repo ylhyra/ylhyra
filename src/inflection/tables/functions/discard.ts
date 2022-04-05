@@ -1,6 +1,5 @@
 import {
   CorrectnessGrade,
-  TreeItems,
   PRIMARY_VARIANT_NUMBER,
   Rows,
 } from "inflection/tables/types";
@@ -11,9 +10,7 @@ import {
  *   - Extremely obscure forms
  *   - Incorrect variants
  */
-export const discardUnnecessaryForms = (
-  rows: Rows | TreeItems
-): Rows | TreeItems => {
+export const discardUnnecessaryForms = (rows: Rows): Rows => {
   return discardObscureForms(removeIncorrectVariants(rows));
 };
 
@@ -22,9 +19,7 @@ export const discardUnnecessaryForms = (
  * Removed are:
  *   - Infinitive past tense („Hún sagðist hefðu“). See https://bin.arnastofnun.is/korn/23
  */
-export const discardObscureForms = (
-  rows: Rows | TreeItems
-): Rows | TreeItems => {
+export const discardObscureForms = (rows: Rows): Rows => {
   return rows.filter(
     (row) =>
       !["infinitive", "past tense"].every((i) =>
@@ -36,9 +31,7 @@ export const discardObscureForms = (
 /**
  * Remove variants which are marked as being "incorrect" in standard Icelandic
  */
-export const removeIncorrectVariants = (
-  rows: Rows | TreeItems
-): Rows | TreeItems => {
+export const removeIncorrectVariants = (rows: Rows): Rows => {
   return rows.filter((row) => {
     // console.log(row)
     // /* Note: Commented out as "hendi" is marked with this */

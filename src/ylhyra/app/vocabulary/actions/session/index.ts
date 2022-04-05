@@ -19,6 +19,7 @@ import {
   getPercentageDone,
   updateRemainingTime,
 } from "ylhyra/app/vocabulary/actions/session/functions";
+import { initializeSession } from "ylhyra/app/vocabulary/actions/session/initialize";
 import { loadCardInInterface } from "ylhyra/app/vocabulary/actions/session/loadCardInInterface";
 import { loadCardsIntoSession } from "ylhyra/app/vocabulary/actions/session/loadCardsIntoSession";
 import { nextCard } from "ylhyra/app/vocabulary/actions/session/nextCard";
@@ -39,22 +40,22 @@ export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 type SessionCounter = number;
 
 class Session {
-  currentCard: CardInSession;
-  cards: Array<CardInSession>;
+  currentCard?: CardInSession;
+  cards?: Array<CardInSession>;
   deck: Deck;
-  ratingHistory: Array<rating>;
-  cardHistory: Array<CardInSession>;
-  allowed_ids: CardIds;
-  counter: SessionCounter;
-  cardTypeLog: Array<string>;
-  lastSeenTerms: Record<TermId, SessionCounter>;
-  timeStarted: Timestamp;
-  totalTime: Milliseconds;
-  remainingTime: Milliseconds;
-  lastTimestamp: Timestamp;
-  done: boolean;
-  lastUndid: SessionCounter;
-  savedAt: Timestamp;
+  ratingHistory?: Array<rating>;
+  cardHistory?: Array<CardInSession>;
+  allowed_ids?: CardIds;
+  counter?: SessionCounter;
+  cardTypeLog?: Array<string>;
+  lastSeenTerms?: Record<TermId, SessionCounter>;
+  timeStarted?: Timestamp;
+  totalTime?: Milliseconds;
+  remainingTime?: Milliseconds;
+  lastTimestamp?: Timestamp;
+  done?: boolean;
+  lastUndid?: SessionCounter;
+  savedAt?: Timestamp;
   undo = undo;
   undoable = undoable;
   checkForUndoOnKeyDown = checkForUndoOnKeyDown;
@@ -70,7 +71,7 @@ class Session {
   createMoreCards = createMoreCards;
   answer = answer;
 
-  constructor(deck, init) {
+  constructor(deck: Deck, init) {
     this.reset();
     this.deck = deck;
     /* Used to save the progress of a session that was prematurely closed */
@@ -100,13 +101,13 @@ class Session {
   }
 
   reset() {
-    this.allowed_ids = null;
+    this.allowed_ids = undefined;
     this.ratingHistory = [];
     this.cardHistory = [];
     this.counter = 0;
     this.lastSeenTerms = {};
     this.cardTypeLog = [];
-    this.currentCard = null;
+    this.currentCard = undefined;
     this.cards = [];
     this.timeStarted = getTime();
     this.totalTime = (EACH_SESSION_LASTS_X_MINUTES * minutes) as Milliseconds;
@@ -114,7 +115,7 @@ class Session {
     this.lastTimestamp = getTime();
     this.done = false;
     this.lastUndid = 0;
-    this.savedAt = null;
+    this.savedAt = undefined;
   }
 
   async sessionDone(options: any = {}) {

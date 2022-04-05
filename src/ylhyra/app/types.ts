@@ -7,7 +7,7 @@ export type PrerenderedDataSavedInPage = {
   parsed: HtmlAsJson;
   flattenedData: Partial<FlattenedData>;
   header: HeaderData;
-  shouldBeIndexed: Boolean;
+  shouldBeIndexed?: Boolean;
   redirect_to?: string;
   title: string;
 };

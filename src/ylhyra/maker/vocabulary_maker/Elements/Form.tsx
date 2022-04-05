@@ -15,8 +15,8 @@ import { didYouMeanSuggestions } from "ylhyra/maker/vocabulary_maker/actions/did
 import { getDeckName } from "ylhyra/maker/vocabulary_maker/compile/functions";
 import {
   formatRowName,
-  row_info,
-  row_titles,
+  vocabularyRowStructureAsObject,
+  vocabularyRowTitles,
 } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
 
 class Form2 extends React.Component<
@@ -131,16 +131,18 @@ class Form2 extends React.Component<
     const { row } = this.props;
     const { selectedField } = this.state;
     let initialValues = row;
-    row_titles.forEach((i) => (initialValues[i] = row[i] || ""));
+    vocabularyRowTitles.forEach((i) => (initialValues[i] = row[i] || ""));
 
     const shownRowTitles = _.uniq(
       [
-        ...row_titles.filter((row_title) => row_info[row_title].alwaysShow),
+        ...vocabularyRowTitles.filter(
+          (row_title) => vocabularyRowStructureAsObject[row_title].alwaysShow
+        ),
         selectedField,
-        ...row_titles.filter((row_title) => row[row_title]),
+        ...vocabularyRowTitles.filter((row_title) => row[row_title]),
       ].filter(Boolean)
     );
-    const unshownRowTitles = _.difference(row_titles, shownRowTitles);
+    const unshownRowTitles = _.difference(vocabularyRowTitles, shownRowTitles);
 
     return (
       <Formik
@@ -174,7 +176,7 @@ class Form2 extends React.Component<
                 didYouMeanSuggestions(row["icelandic"], row.row_id)}
             </div>
             {shownRowTitles.map((row_name) => {
-              const cur_row_info = row_info[row_name];
+              const cur_row_info = vocabularyRowStructureAsObject[row_name];
               const { options } = cur_row_info;
               return (
                 <label key={row_name} htmlFor={row_name}>

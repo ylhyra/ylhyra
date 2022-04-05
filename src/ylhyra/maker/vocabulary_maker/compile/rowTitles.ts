@@ -50,7 +50,7 @@ export type VocabularyFileRow = Partial<{
   should_split: "yes" | "no";
 }>;
 
-export const row_info_array = [
+export const vocabularyRowStructure = [
   { name: "icelandic", alwaysShow: true },
   { name: "english", alwaysShow: true },
   { name: "lemmas", alwaysShow: true },
@@ -117,15 +117,21 @@ export const row_info_array = [
   { name: "eyða" },
 ] as const;
 
-export const row_info = row_info_array.reduce((prev, row) => {
-  return { ...prev, [row.name]: row };
-}, {});
+export const vocabularyRowStructureAsObject = vocabularyRowStructure.reduce(
+  (prev, row) => {
+    return { ...prev, [row.name]: row };
+  },
+  {}
+);
 
-export const row_titles = Object.keys(row_info);
+export const vocabularyRowTitles = Object.keys(vocabularyRowStructureAsObject);
+export type VocabularyRowTitles = keyof typeof vocabularyRowTitles;
 
-export type RowTitles = keyof typeof row_titles;
-
-export const formatRowName = (i: string) => {
+export const formatRowName = (i: string): string => {
   if (!i) return "";
-  return uppercaseFirstLetter(i).replaceAll("_", " ");
+  return (
+    uppercaseFirstLetter(i)
+      // @ts-ignore
+      .replaceAll("_", " ")
+  );
 };

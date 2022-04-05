@@ -4,7 +4,7 @@ import fs from "fs";
 import yaml from "js-yaml";
 import _ from "underscore";
 import { removeExtraWhitespace } from "ylhyra/app/app/functions/removeExtraWhitespace";
-import { row_titles } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
+import { vocabularyRowTitles } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
 import { content_folder } from "ylhyra/server/paths_backend";
 
 const router = Router();
@@ -34,7 +34,7 @@ router.post("/vocabulary_maker", (req, res) => {
       .map((row) => {
         let out = {};
         // delete row.row_id;
-        _.uniq([...row_titles, "row_id", ...Object.keys(row)]).forEach(
+        _.uniq([...vocabularyRowTitles, "row_id", ...Object.keys(row)]).forEach(
           (key) => {
             if (!row[key]) return;
             if (typeof row[key] === "string") {

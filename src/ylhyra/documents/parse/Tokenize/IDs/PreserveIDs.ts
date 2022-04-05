@@ -23,12 +23,12 @@ export default function Preserve(
   /* Map from new IDs to preserved IDs */
   const PreservedIDs = {
     /* Compares old and new sentences */
-    ...DiffAndPreserveIDs(
+    ...diffAndPreserveIDs(
       simplifiedSentencesArray(first),
       simplifiedSentencesArray(second)
     ),
     /* Compares old and new words */
-    ...DiffAndPreserveIDs(
+    ...diffAndPreserveIDs(
       simplifiedWordsArray(first),
       simplifiedWordsArray(second)
     ),
@@ -57,11 +57,11 @@ export default function Preserve(
   Input: Two arrays of only IDs & text.
   Output: Map of new IDs to preserved IDs
 */
-const DiffAndPreserveIDs = (
+const diffAndPreserveIDs = (
   first: SimplifiedArrayOfIdsAndText,
   second: SimplifiedArrayOfIdsAndText
 ): { [newId: string]: string } => {
-  let ids = {};
+  let newIdsToPreservedIds: Record<string, string> = {};
   let firstIndex = 0;
   let secondIndex = 0;
   const diff = diffArrays(
@@ -69,35 +69,40 @@ const DiffAndPreserveIDs = (
     second.map((i) => i.text)
   );
 
-  /* Keeps track of removed and added parts */
-  let unmatchedIds = {};
+  /**
+   * Keeps track of the position of unmatched ids relative to the diff.
+   * Stored on the ad-hoc format { `${diffPartIndex}_${diffValueIndex}`: id }
+   */
+  let diffPositionsToUnmatchedIds: Record<string, string> = {};
 
-  /* Find perfect matches */
-  diff.forEach((part, partIndex) => {
-    part.value.forEach((value, valueIndex) => {
-      if (part.removed) {
+  /** Find perfect matches */
+  diff.forEach((diffPart, diffPartIndex) => {
+    diffPart.value.forEach((diffValue, diffValueIndex) => {
+      if (diffPart.removed) {
         /* Save id in `diff` to find the closest match later */
-        unmatchedIds[`${partIndex}_${valueIndex}`] = first[firstIndex].id;
+        diffPositionsToUnmatchedIds[`${diffPartIndex}_${diffValueIndex}`] =
+          first[firstIndex].id;
         firstIndex++;
-      } else if (part.added) {
+      } else if (diffPart.added) {
         /* Save id in `diff` to find the closest match later */
-        unmatchedIds[`${partIndex}_${valueIndex}`] = second[secondIndex].id;
+        diffPositionsToUnmatchedIds[`${diffPartIndex}_${diffValueIndex}`] =
+          second[secondIndex].id;
         secondIndex++;
       } else {
         /* Map new ID to preserved ID */
-        ids[second[secondIndex].id] = first[firstIndex].id;
+        newIdsToPreservedIds[second[secondIndex].id] = first[firstIndex].id;
         firstIndex++;
         secondIndex++;
       }
     });
   });
 
-  /* Attempt to find the closest match */
+  /** Attempt to find the closest match */
   diff.forEach((part, partIndex: number) => {
     if (
       diff[partIndex + 1] &&
       diff[partIndex].removed &&
-      diff[partIndex + 1].added // || (diff[index].added && diff[index + 1].removed)
+      diff[partIndex + 1].added
     ) {
       const removed = diff[partIndex];
       const added = diff[partIndex + 1];
@@ -109,24 +114,26 @@ const DiffAndPreserveIDs = (
           remainingPossibleAddedValues
         );
         if (bestMatch.rating < 0.3) return;
-        const removedId = unmatchedIds[`${partIndex}_${removedIndex}`];
-        const addedId = unmatchedIds[`${partIndex + 1}_${bestMatchIndex}`];
-        ids[addedId] = removedId;
+        const removedId =
+          diffPositionsToUnmatchedIds[`${partIndex}_${removedIndex}`];
+        const addedId =
+          diffPositionsToUnmatchedIds[`${partIndex + 1}_${bestMatchIndex}`];
+        newIdsToPreservedIds[addedId] = removedId;
         remainingPossibleAddedValues.splice(bestMatchIndex, 1);
       });
     }
   });
 
-  return ids;
+  return newIdsToPreservedIds;
 };
 
-/*
-  Create flat arrays of words and sentences.
-
-  Output:
-    - Simplified array on the form: [{ id, text }, { id, text }].
-    - All punctuation is removed to make diff simpler.
-*/
+/**
+ * Create flat arrays of words and sentences.
+ *
+ * Output:
+ *   - Simplified array on the form: [{ id, text }, { id, text }].
+ *   - All punctuation is removed to make diff simpler.
+ */
 const simplifiedSentencesArray = (
   paragraphs: TokenizedParagraphsWithIds
 ): SimplifiedArrayOfIdsAndText => {
@@ -149,7 +156,7 @@ const simplifiedSentencesArray = (
         };
       });
     })
-  );
+  ) as SimplifiedArrayOfIdsAndText;
 };
 
 const simplifiedWordsArray = (
@@ -169,7 +176,7 @@ const simplifiedWordsArray = (
           .filter(Boolean);
       });
     })
-  );
+  ) as SimplifiedArrayOfIdsAndText;
 };
 
 type SimplifiedArrayOfIdsAndText = Array<{
