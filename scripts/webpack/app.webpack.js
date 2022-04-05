@@ -46,13 +46,13 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        REACT_APP_PWYW: JSON.stringify(process.env.REACT_APP_PWYW),
-        REACT_APP_PP_CLIENT_ID: JSON.stringify(
-          process.env.REACT_APP_PP_CLIENT_ID
-        ),
-        REACT_APP_MERCHANT_ID: JSON.stringify(
-          process.env.REACT_APP_MERCHANT_ID
-        ),
+        // REACT_APP_PWYW: JSON.stringify(process.env.REACT_APP_PWYW),
+        // REACT_APP_PP_CLIENT_ID: JSON.stringify(
+        //   process.env.REACT_APP_PP_CLIENT_ID
+        // ),
+        // REACT_APP_MERCHANT_ID: JSON.stringify(
+        //   process.env.REACT_APP_MERCHANT_ID
+        // ),
       },
     }),
   ].filter(Boolean),

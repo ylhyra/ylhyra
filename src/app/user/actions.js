@@ -30,12 +30,12 @@ export const login = async (values) => {
       deck.reset();
     }
 
-    if (process.env.REACT_APP_PWYW === "on") {
-      updateURL("/pwyw");
-    } else {
-      // TODO: "Thank you for ..."
-      updateURL("/vocabulary");
-    }
+    // if (process.env.REACT_APP_PWYW === "on") {
+    //   updateURL("/pwyw");
+    // } else {
+    //   // TODO: "Thank you for ..."
+    updateURL("/vocabulary");
+    // }
   } else {
     /* TODO!!!!! */
     deck.reset();
