@@ -4,9 +4,9 @@ import axios from "ylhyra/app/app/axios";
 import { getCookie } from "ylhyra/app/app/functions/cookie";
 import store from "ylhyra/app/app/store";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
-import { deck } from "ylhyra/app/vocabulary/actions/deck";
-import { sync } from "ylhyra/app/vocabulary/actions/userData/sync";
-import { clearOverview } from "ylhyra/app/vocabulary/elements/OverviewScreen/actions";
+import { deck } from "ylhyra/vocabulary/app/actions/deck";
+import { sync } from "ylhyra/vocabulary/app/actions/userData/sync";
+import { clearOverview } from "ylhyra/vocabulary/app/elements/OverviewScreen/actions";
 import { decodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
 
 export const login = async (values) => {

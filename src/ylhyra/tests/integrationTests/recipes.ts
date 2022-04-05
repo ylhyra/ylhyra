@@ -2,9 +2,9 @@ import axios from "ylhyra/app/app/axios";
 import { eraseCookie } from "ylhyra/app/app/functions/cookie";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { login, logout } from "ylhyra/app/user/actions";
-import { deck } from "ylhyra/app/vocabulary/actions/deck";
-import { PercentageKnownOverall } from "ylhyra/app/vocabulary/actions/functions/percentageKnown";
-import { initializeVocabulary } from "ylhyra/app/vocabulary/actions/initialize";
+import { deck } from "ylhyra/vocabulary/app/actions/deck";
+import { PercentageKnownOverall } from "ylhyra/vocabulary/app/actions/functions/percentageKnown";
+import { initializeVocabulary } from "ylhyra/vocabulary/app/actions/initialize";
 import { assert, wait } from "ylhyra/tests/integrationTests/index";
 
 /* 

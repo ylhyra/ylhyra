@@ -3,7 +3,7 @@ import string_hash from "modules/hash";
 /*
   Long audio
 */
-export default (state = {}, action) => {
+export default (state = {}, action: AnyAction) => {
   const { filename } = action;
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":

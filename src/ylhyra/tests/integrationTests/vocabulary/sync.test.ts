@@ -1,5 +1,5 @@
-import { getEasinessLevel } from "ylhyra/app/vocabulary/actions/easinessLevel/functions";
-import { PercentageKnownOverall } from "ylhyra/app/vocabulary/actions/functions/percentageKnown";
+import { getEasinessLevel } from "ylhyra/vocabulary/app/actions/easinessLevel/functions";
+import { PercentageKnownOverall } from "ylhyra/vocabulary/app/actions/functions/percentageKnown";
 import {
   assert,
   notNull,

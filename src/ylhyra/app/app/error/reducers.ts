@@ -1,4 +1,4 @@
-export default (state = null, action) => {
+export default (state = null, action: AnyAction) => {
   switch (action.type) {
     case "ERROR":
       return action.content;

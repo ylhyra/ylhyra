@@ -3,7 +3,7 @@ import { getFilesRecursivelySync } from "modules/getFilesRecursivelySync";
 import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
 import _ from "underscore";
 import { fileSafeTitle, formatUrl } from "ylhyra/server/content/links/paths";
-import { deck } from "ylhyra/app/vocabulary/actions/deck";
+import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import {
   HeaderData,
   readContentFile,

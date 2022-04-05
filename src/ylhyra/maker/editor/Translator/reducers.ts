@@ -8,7 +8,7 @@ import { wordsHash } from "ylhyra/maker/editor/Translator/actions";
  \___ \ / _ \ |/ _ \/ __| __| |/ _ \| '_ \
   ___) |  __/ |  __/ (__| |_| | (_) | | | |
  |____/ \___|_|\___|\___|\__|_|\___/|_| |_|   */
-export const selected = (state = [], action) => {
+export const selected = (state = [], action: AnyAction) => {
   switch (action.type) {
     case "SELECT_WORD":
       // Eru mörg orð í þessu vali?
@@ -47,7 +47,7 @@ const init = {
   definitions: {},
 };
 
-export const translation = (state = init, action) => {
+export const translation = (state = init, action: AnyAction) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       if (action.currentDocumentData) {

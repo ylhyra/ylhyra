@@ -7,7 +7,7 @@ import Router from "ylhyra/app/router";
 import { initializeRouter } from "ylhyra/app/router/actions/actions";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { initializeUser } from "ylhyra/app/user/actions";
-import { initializeVocabulary } from "ylhyra/app/vocabulary/actions/initialize";
+import { initializeVocabulary } from "ylhyra/vocabulary/app/actions/initialize";
 import { textEventListenersOn } from "ylhyra/documents/read/touch";
 import "ylhyra/documents/style/main.styl";
 

@@ -17,7 +17,7 @@
     "esModuleInterop": true,
     "isolatedModules": false,
     //    "lib": ["es2020", "dom", "es2021.String"],
-    "noImplicitAny": false,
+    //    "noImplicitAny": false,
     "strict": true
   },
   "compileOnSave": true

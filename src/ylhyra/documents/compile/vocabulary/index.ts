@@ -2,10 +2,10 @@ import _ from "underscore";
 import {
   getCardIdsFromTermIds,
   getTermIdsFromCardIds,
-} from "ylhyra/app/vocabulary/actions/card/functions";
-import { deck } from "ylhyra/app/vocabulary/actions/deck";
-import { printWord } from "ylhyra/app/vocabulary/actions/functions";
-import { withDependencies } from "ylhyra/app/vocabulary/actions/functions/dependencies";
+} from "ylhyra/vocabulary/app/actions/card/functions";
+import { deck } from "ylhyra/vocabulary/app/actions/deck";
+import { printWord } from "ylhyra/vocabulary/app/actions/functions";
+import { withDependencies } from "ylhyra/vocabulary/app/actions/functions/dependencies";
 import { getCardIdsFromWords } from "ylhyra/documents/compile/vocabulary/getCardIdsFromWords";
 import { initializeDeckFromFile } from "ylhyra/documents/compile/vocabulary/initializeDeckFromFile";
 

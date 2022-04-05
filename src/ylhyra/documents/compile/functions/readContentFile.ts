@@ -1,6 +1,6 @@
 import yaml from "js-yaml";
 import { removeComments } from "ylhyra/documents/compile/functions/functions";
-import { getPlaintextFromVocabularyEntry } from "ylhyra/maker/vocabulary_maker/compile/format";
+import { getPlaintextFromVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
 import { promises as fs } from "fs";
 import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
 

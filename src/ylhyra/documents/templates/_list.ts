@@ -2,7 +2,7 @@ import Frontpage from "ylhyra/app/elements/frontpage";
 import Login from "ylhyra/app/user/LoginForm";
 import PWYW from "ylhyra/app/user/payments/Pay";
 import SignupSteps from "ylhyra/app/user/screens/SignupSteps";
-import VocabularyHeader from "ylhyra/app/vocabulary/elements/InArticles/VocabularyHeader";
+import VocabularyHeader from "ylhyra/vocabulary/app/elements/InArticles/VocabularyHeader";
 import Audio from "ylhyra/documents/templates/Audio";
 import Book from "ylhyra/documents/templates/Book";
 import Button from "ylhyra/documents/templates/Button";

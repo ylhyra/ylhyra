@@ -81,8 +81,14 @@ ylhyraApp.use("/api", require("ylhyra/server/analytics/overview").default);
 ylhyraApp.use("/api", require("ylhyra/server/analytics/userErrors").default);
 ylhyraApp.use("/api", require("ylhyra/server/user").default);
 ylhyraApp.use("/api", require("ylhyra/server/user/pay").default);
-ylhyraApp.use("/api", require("ylhyra/server/vocabulary/sync").default);
-ylhyraApp.use("/api", require("ylhyra/server/vocabulary/maker").default);
+ylhyraApp.use(
+  "/",
+  require("ylhyra/vocabulary/app/actions/userData/sync.server").default
+);
+ylhyraApp.use(
+  "/",
+  require("ylhyra/vocabulary/vocabularyEditor/vocabularyEditor.server").default
+);
 ylhyraApp.use("/", require("ylhyra/server/content").default);
 
 const inflections_app = express();
@@ -126,9 +132,9 @@ if (argv["generate-links"]) {
 } else if (argv["import-inflections"]) {
   require("inflection/server/database/importToDatabase");
 } else if (argv["import-vocabulary"]) {
-  require("ylhyra/server/vocabulary/compile");
+  require("ylhyra/vocabulary/compiler/compile");
 } else if (argv["generate-sentences"]) {
-  require("ylhyra/server/vocabulary/scripts/findEasySentencesFromCorpus");
+  require("ylhyra/vocabulary/compiler/scripts/findEasySentencesFromCorpus");
 } else {
   /* Or, start the app */
   app.listen(port, host, () => {

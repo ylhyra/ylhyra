@@ -1,6 +1,6 @@
 import fs from "fs";
-import Deck, { deck } from "ylhyra/app/vocabulary/actions/deck";
-import { BackendDeck } from "ylhyra/maker/vocabulary_maker/types";
+import Deck, { deck } from "ylhyra/vocabulary/app/actions/deck";
+import { DeckDatabase } from "ylhyra/vocabulary/types";
 import { getBaseDir } from "ylhyra/server/paths_backend";
 
 export const initializeDeckFromFile = () => {
@@ -10,7 +10,7 @@ export const initializeDeckFromFile = () => {
         getBaseDir() + `/build/vocabulary/vocabulary_database.json`,
         "utf8"
       )
-    ) as BackendDeck;
+    ) as DeckDatabase;
     new Deck({ database });
     deck!.alternativeIds = JSON.parse(
       fs.readFileSync(

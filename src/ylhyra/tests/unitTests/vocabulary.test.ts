@@ -1,5 +1,5 @@
-import { getCardByText } from "ylhyra/app/vocabulary/actions/card/functions";
-import { initializeVocabulary } from "ylhyra/app/vocabulary/actions/initialize";
+import { getCardByText } from "ylhyra/vocabulary/app/actions/card/functions";
+import { initializeVocabulary } from "ylhyra/vocabulary/app/actions/initialize";
 
 // import console from "console";
 

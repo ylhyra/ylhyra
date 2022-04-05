@@ -2,7 +2,7 @@
 //   Documentation:
 //   https://ylhyra.is/Software:Suggestions
 // */
-// const suggestions = (state = {}, action) => {
+// const suggestions = (state = {}, action: AnyAction) => {
 //   let update = {};
 //   switch (action.type) {
 //     case "LOAD_EDITOR":

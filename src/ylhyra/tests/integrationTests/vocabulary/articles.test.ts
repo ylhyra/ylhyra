@@ -1,9 +1,9 @@
 import _ from "underscore";
-import { deck } from "ylhyra/app/vocabulary/actions/deck";
+import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import {
   printWord,
   studyParticularIds,
-} from "ylhyra/app/vocabulary/actions/functions";
+} from "ylhyra/vocabulary/app/actions/functions";
 import { assert } from "ylhyra/tests/integrationTests/index";
 
 export default {

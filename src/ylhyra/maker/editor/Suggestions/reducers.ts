@@ -1,4 +1,4 @@
-export const suggestions = (state = {}, action) => {
+export const suggestions = (state = {}, action: AnyAction) => {
   let update = {};
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
@@ -18,7 +18,7 @@ export const suggestions = (state = {}, action) => {
   }
 };
 
-export const analysis = (state = {}, action) => {
+export const analysis = (state = {}, action: AnyAction) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       return action.currentDocumentData?.analysis || {};

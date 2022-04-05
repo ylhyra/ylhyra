@@ -17,7 +17,7 @@ if (typeof window !== "undefined") {
 }
 
 const isOpen = isBrowser ? getParameter("editor") : false;
-const open = (state = isOpen, action) => {
+const open = (state = isOpen, action: AnyAction) => {
   switch (action.type) {
     case "OPEN_EDITOR":
       return action.page;
@@ -28,7 +28,7 @@ const open = (state = isOpen, action) => {
   }
 };
 
-const parsed = (state = null, action) => {
+const parsed = (state = null, action: AnyAction) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       return action.parsed || state;
@@ -37,7 +37,7 @@ const parsed = (state = null, action) => {
   }
 };
 
-const tokenized = (state = [], action) => {
+const tokenized = (state = [], action: AnyAction) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       return action.currentDocument || state;
@@ -46,7 +46,7 @@ const tokenized = (state = [], action) => {
   }
 };
 
-const list = (state: ListData | null = null, action) => {
+const list = (state: ListData | null = null, action: AnyAction) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       if (action.currentDocument) {
@@ -59,7 +59,7 @@ const list = (state: ListData | null = null, action) => {
   }
 };
 
-const isSaved = (state = true, action) => {
+const isSaved = (state = true, action: AnyAction) => {
   switch (action.type) {
     case "LOAD_EDITOR":
     case "SAVED":
@@ -105,7 +105,7 @@ export const editor = combineReducers({
 // import audio from 'Editor/4-Audio/reducers'
 // import pronunciation from 'Editor/4-Audio/Pronunciation'
 //
-// const id = (state = null, action) => {
+// const id = (state = null, action: AnyAction) => {
 //   switch (action.type) {
 //     case 'LOAD_EDITOR':
 //       return action.content.id

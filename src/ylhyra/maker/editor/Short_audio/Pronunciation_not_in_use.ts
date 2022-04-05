@@ -1,4 +1,4 @@
-const pronunciation = (state = {}, action) => {
+const pronunciation = (state = {}, action: AnyAction) => {
   switch (action.type) {
     case "LOAD_EDITOR":
       return action.content.pronunciation || state;
