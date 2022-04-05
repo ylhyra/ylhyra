@@ -2,7 +2,7 @@ import { TermId } from "ylhyra/app/vocabulary/actions/card/types";
 import generateHtml from "ylhyra/documents/compile";
 import { decodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
 
-type SortKeys = { [termId: TermId]: number };
+export type SortKeys = { [termId: TermId]: number };
 /**
  * Read the page "Course" and find the order of its vocabulary list
  */

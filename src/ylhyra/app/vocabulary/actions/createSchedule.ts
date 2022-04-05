@@ -22,6 +22,7 @@ import {
 } from "ylhyra/app/vocabulary/actions/card/card_siblings";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
 import { printWord } from "ylhyra/app/vocabulary/actions/functions";
+import Session from "ylhyra/app/vocabulary/actions/session/index";
 import { BAD, EASY, GOOD } from "ylhyra/app/vocabulary/constants";
 
 /** Increment score by how much? */
@@ -35,9 +36,9 @@ const GOOD_INITIAL_INTERVAL = 5;
 
 /**
  * Long-term scheduling
- * @memberOf Session#
+ *
  */
-export function createSchedule() {
+export function createSchedule(this: Session) {
   const session = this;
   if (!session) {
     console.error("createSchedule called without an active session!");

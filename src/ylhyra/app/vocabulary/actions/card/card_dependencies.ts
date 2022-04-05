@@ -22,7 +22,7 @@ export const termGetDependenciesAsTermIdToDepth = (
   termId: TermId
 ): Record<TermId, number> => {
   return {
-    ...(deck.terms[termId].dependencies || {}),
+    ...(deck?.terms[termId].dependencies || {}),
     [termId]: 0,
   };
 };

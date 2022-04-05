@@ -1,15 +1,15 @@
 import { getFrom } from "ylhyra/app/vocabulary/actions/card/card_data";
 import { isBad } from "ylhyra/app/vocabulary/actions/card/card_difficulty";
-import { getSessionsSeen, isInSchedule } from "ylhyra/app/vocabulary/actions/card/card_schedule";
+import {
+  getSessionsSeen,
+  isInSchedule,
+} from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import { addRelatedCardsToSession } from "ylhyra/app/vocabulary/actions/cardInSession/addRelatedCardsToSession";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession/index";
 import { keepTrackOfEasiness } from "ylhyra/app/vocabulary/actions/easinessLevel";
 import { BAD, EASY, GOOD } from "ylhyra/app/vocabulary/constants";
 
-/**
- * @memberOf CardInSession#
- */
-export function rate(rating) {
+export function rate(this: CardInSession, rating) {
   const card: CardInSession = this;
   const id = card.getId();
   const timesSeenBeforeInSession = card.history.length;

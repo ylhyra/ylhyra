@@ -1,27 +1,24 @@
-/**
- * @memberOf Session#
- */
-export function undo() {
-  const card = this.cardHistory[0];
+import Session from "ylhyra/app/vocabulary/actions/session/index";
+
+export function undo(this: Session) {
+  const card = this.cardHistory?.[0];
   if (!card) return;
   card.history.shift();
   this.currentCard = card;
-  this.cardHistory.shift();
+  this.cardHistory!.shift();
   this.lastUndid = this.counter;
   this.loadCardInInterface();
 }
 
-/**
- * @memberOf Session#
- */
-export function undoable() {
-  return this.cardHistory.length > 0 && this.lastUndid !== this.counter;
+export function undoable(this: Session) {
+  return (
+    this.cardHistory &&
+    this.cardHistory.length > 0 &&
+    this.lastUndid !== this.counter
+  );
 }
 
-/**
- * @memberOf Session#
- */
-export function checkForUndoOnKeyDown(e) {
+export function checkForUndoOnKeyDown(this: Session, e: KeyboardEvent) {
   if (
     e.keyCode === 90 &&
     (e.ctrlKey || e.metaKey) &&

@@ -1,15 +1,9 @@
 import _ from "underscore";
 import {
   CardId,
-  CardIds,
   TermId,
   TermIds,
 } from "ylhyra/app/vocabulary/actions/card/types";
-import {
-  DifficultyEnum,
-  ImportanceEnum,
-  LevelsEnum,
-} from "ylhyra/app/vocabulary/constants";
 import {
   formatLemmas,
   formatPrefixes,
@@ -21,68 +15,18 @@ import {
   getHash,
   getHashesFromCommaSeperated,
 } from "ylhyra/maker/vocabulary_maker/compile/functions";
-import { VocabularyFileRow } from "ylhyra/maker/vocabulary_maker/compile/rowTitles";
-import { getSounds } from "ylhyra/server/vocabulary/compile/getSounds";
-
-export type VocabularyFile = {
-  rows: VocabularyFileRow[];
-  sound: Array<VocabularyFileSoundRow>;
-};
-
-export type VocabularyFileSoundRow = {
-  recording_of: string;
-  filename: string;
-  speed: string;
-  speaker: string;
-  date: string;
-};
-
-export type CardData = {
-  en_plaintext: string;
-  en_formatted: string;
-  terms: TermIds;
-  level: LevelsEnum;
-  importance?: ImportanceEnum;
-  difficulty?: DifficultyEnum;
-  pronunciation?: string;
-  lemmas?: string;
-  note_regarding_english?: string;
-  note?: string;
-  literally?: string;
-  row_id: number;
-  example_declension?: string;
-  synonyms?: string;
-  is_plaintext: string;
-  is_formatted: string;
-  from: string;
-  id: string;
-  spokenSentences?: string[];
-  sound: ReturnType<typeof getSounds>;
-  isSentence?: Boolean;
-  sortKey: number;
-
-  /** Used in backend, TODO: delete */
-  should_teach?: string;
-  fix?: string;
-  eyða?: string;
-};
-
-export type BackendTerms = {
-  [id: TermId]: { cards: CardIds; dependencies?: TermIdToDependencyDepth };
-};
-export type TermIdToDependencyDepth = Record<TermId, number>;
-export type BackendDependencies = { [id: TermId]: TermIds };
-export type BackendCards = { [key: CardId]: CardData };
-export type BackendDeck = {
-  cards: BackendCards;
-  terms: BackendTerms;
-  dependencies: BackendDependencies;
-  alternativeIds: BackendDependencies;
-};
+import {
+  BackendCards,
+  BackendDependencies,
+  BackendTerms,
+  CardData,
+  VocabularyFile,
+} from "ylhyra/maker/vocabulary_maker/types";
+import { SortKeys } from "ylhyra/server/vocabulary/sortKeys";
 
 export const parseVocabularyFile = (
   { rows, sound }: VocabularyFile,
-  sortKeys?
+  sortKeys?: SortKeys
 ) => {
   let terms: BackendTerms = {};
   let dependencies: BackendDependencies = {};
@@ -90,7 +34,7 @@ export const parseVocabularyFile = (
   let plaintextSentences: { [id: string]: boolean } = {};
   let cards: BackendCards = {};
 
-  const TermsToCardId = (_terms: string[], id: string) => {
+  const TermsToCardId = (_terms: TermIds, id: CardId) => {
     _terms.forEach((term) => {
       if (!terms[term]) {
         terms[term] = {
@@ -103,8 +47,8 @@ export const parseVocabularyFile = (
   };
 
   const AddToDependencyGraph = (
-    first: string[],
-    second: string[],
+    first: TermIds,
+    second: TermIds,
     type?: "alt_ids"
   ) => {
     if (!second || second.length === 0) return;
@@ -163,7 +107,7 @@ export const parseVocabularyFile = (
         ...altIdLemmas.map(getHash),
       ];
 
-      const dependsOn = [
+      const dependsOn: TermIds = [
         ...getHashesFromCommaSeperated(row.depends_on?.replace(/%/g, "")),
         ...dependsOnLemmas.map(getHash),
         ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
@@ -299,8 +243,8 @@ export const parseVocabularyFile = (
   );
   const enPrefix = new RegExp(`${prefixes.map((i) => i[1]).join("|")} `, "i");
   let automaticAltIds: {
-    [sentenceHash: string]: {
-      terms: CardData["terms"];
+    [key: TermId]: {
+      terms: TermIds;
       score: number;
     };
   } = {};
@@ -318,9 +262,9 @@ export const parseVocabularyFile = (
 
     card.is_plaintext.split(/ ?[,;-] ?/g).forEach((sentence) => {
       /* Notað til að bæta við strengjum sem eru splittaðir með bandstriki */
-      const sentenceHash = getHash(sentence);
-      if (!(sentenceHash in terms) && !(sentenceHash in alternativeIds)) {
-        automaticAltIds[sentenceHash] = {
+      const termId: TermId = getHash(sentence) as TermId;
+      if (!(termId in terms) && !(termId in alternativeIds)) {
+        automaticAltIds[termId] = {
           terms: card.terms,
           score: 0,
         };
@@ -335,15 +279,16 @@ export const parseVocabularyFile = (
         const score = prefixes
           .map((i) => i[0])
           .indexOf((sentence.match(isPrefix)?.[1] as string).toLowerCase());
-        const hash = getHash(without);
+        const termId: TermId = getHash(without) as TermId;
         if (
-          hash in terms ||
-          hash in alternativeIds ||
-          (hash in automaticAltIds && automaticAltIds[hash].score < score) ||
+          termId in terms ||
+          termId in alternativeIds ||
+          (termId in automaticAltIds &&
+            automaticAltIds[termId].score < score) ||
           ["að"].includes(without)
         )
           return;
-        automaticAltIds[hash] = {
+        automaticAltIds[termId] = {
           terms: card.terms,
           score: score,
         };
@@ -353,12 +298,12 @@ export const parseVocabularyFile = (
 
   /* TODO: Spaghetti code */
   let automaticAltIds2: {
-    [sentenceHash: string]: CardData["terms"];
+    [key: TermId]: TermIds;
   } = {};
-  Object.keys(automaticAltIds).forEach((i) => {
-    automaticAltIds2[i] = automaticAltIds[i].terms;
-    alternativeIds[i] = automaticAltIds[i].terms;
-  });
+  for (const i in automaticAltIds) {
+    automaticAltIds2[i as TermId] = automaticAltIds[i as TermId].terms;
+    alternativeIds[i as TermId] = automaticAltIds[i as TermId].terms;
+  }
 
   /* Automatic dependency graphs */
   const ignoredAutomaticWords = [

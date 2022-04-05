@@ -1,17 +1,16 @@
 import { log } from "modules/log";
 import { getTime } from "modules/time";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
-import { MAX_SECONDS_TO_COUNT_PER_ITEM } from "ylhyra/app/vocabulary/actions/session/index";
+import Session, {
+  MAX_SECONDS_TO_COUNT_PER_ITEM,
+} from "ylhyra/app/vocabulary/actions/session/index";
 
-/**
- * @memberOf Session#
- */
-export function updateRemainingTime() {
+export function updateRemainingTime(this: Session) {
   const diff = Math.min(
     MAX_SECONDS_TO_COUNT_PER_ITEM * 1000,
-    getTime() - this.lastTimestamp
+    getTime() - (this.lastTimestamp || 0)
   );
-  this.remainingTime = Math.max(0, this.remainingTime - diff);
+  this.remainingTime = Math.max(0, (this.remainingTime || 0) - diff);
   this.lastTimestamp = getTime();
   if (this.remainingTime <= 0) {
     this.sessionDone();
@@ -19,19 +18,16 @@ export function updateRemainingTime() {
   }
 }
 
-/**
- * @memberOf Session#
- */
-export function getPercentageDone() {
-  return ((this.totalTime - this.remainingTime) / this.totalTime) * 100;
+export function getPercentageDone(this: Session) {
+  if (this.totalTime && this.remainingTime) {
+    return ((this.totalTime - this.remainingTime) / this.totalTime) * 100;
+  } else {
+    return 0;
+  }
 }
 
-/**
- * @memberOf Session#
- * @return {void}
- */
-export function checkIfCardsRemaining(): void {
-  const areThereNewCardsRemaining = this.cards.some(
+export function checkIfCardsRemaining(this: Session): void {
+  const areThereNewCardsRemaining = this.cards?.some(
     (i: CardInSession) => !i.hasBeenSeenInSession() && !i.done && i.canBeShown()
   );
   if (!areThereNewCardsRemaining) {
@@ -40,18 +36,12 @@ export function checkIfCardsRemaining(): void {
   }
 }
 
-/**
- * @memberOf Session#
- */
-export function createMoreCards() {
+export function createMoreCards(this: Session) {
   this.createCards();
   log("New cards generated");
 }
 
-/**
- * @memberOf Session#
- */
-export function answer(rating: number) {
+export function answer(this: Session, rating: number) {
   const session = this;
   session.currentCard?.rate(rating);
   session.nextCard();

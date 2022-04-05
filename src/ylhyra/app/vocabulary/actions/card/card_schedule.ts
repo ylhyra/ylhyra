@@ -1,4 +1,9 @@
-import { getTimeMemoized, minutes, Timestamp } from "modules/time";
+import {
+  getTimeMemoized,
+  Milliseconds,
+  minutes,
+  Timestamp,
+} from "modules/time";
 import { minIgnoreFalsy, roundMsTo100Sec } from "ylhyra/app/app/functions/math";
 import { getTermIds } from "ylhyra/app/vocabulary/actions/card/card_data";
 import {
@@ -11,11 +16,15 @@ import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { saveScheduleForCardId } from "ylhyra/app/vocabulary/actions/userData/userDataSchedule";
 import { GOOD } from "ylhyra/app/vocabulary/constants";
 
-export const getSchedule = (id: CardId): Partial<ScheduleData> | null => {
+export const getSchedule = (id: CardId): Partial<ScheduleData> | undefined => {
+  if (!deck) {
+    console.error("Deck not initialized");
+    return;
+  }
   return deck.schedule[id];
 };
 
-export const getDue = (id: CardId): Timestamp | null => {
+export const getDue = (id: CardId): Timestamp | undefined => {
   return getSchedule(id)?.due;
 };
 
@@ -50,13 +59,23 @@ export const isUnseenSiblingOfANonGoodCard = (id: CardId) => {
 };
 
 export const isInSchedule = (id: CardId) => {
+  if (!deck) {
+    console.error("Deck not initialized");
+    return;
+  }
   return id in deck.schedule;
 };
 
 export const setSchedule = (id: CardId, data: Partial<ScheduleData>) => {
+  if (!deck) {
+    console.error("Deck not initialized");
+    return;
+  }
+
   /* Round timestamps */
   ["due", "last_seen", "last_bad_timestamp"].forEach((key) => {
-    if (data[key]) {
+    if (key in data) {
+      // @ts-ignore
       data[key] = roundMsTo100Sec(data[key]);
     }
   });
@@ -73,7 +92,7 @@ export const isUnseenTerm = (id: CardId) => {
 };
 
 export const getLowestAvailableTermScore = (id: CardId) => {
-  let lowest;
+  let lowest: number | null = null;
   getAllCardIdsWithSameTerm(id).forEach((card) => {
     if (getScore(card)) {
       lowest = minIgnoreFalsy(lowest, getScore(card));
@@ -92,7 +111,7 @@ export const getTermLastSeen = (id: CardId) => {
   // });
 };
 
-export const timeSinceTermWasSeen = (id: CardId) => {
+export const timeSinceTermWasSeen = (id: CardId): Milliseconds | null => {
   let j = getTermLastSeen(id);
   if (!j) return null;
   return getTimeMemoized() - j;
@@ -102,7 +121,7 @@ export const wasTermVeryRecentlySeen = (id: CardId) => {
   return wasTermSeenMoreRecentlyThan(id, 45 * minutes);
 };
 
-export const wasTermSeenMoreRecentlyThan = (id: CardId, time) => {
+export const wasTermSeenMoreRecentlyThan = (id: CardId, time: Timestamp) => {
   const i = timeSinceTermWasSeen(id);
   return i && i < time;
 };
@@ -110,6 +129,7 @@ export const wasTermSeenMoreRecentlyThan = (id: CardId, time) => {
 export const isNewCard = (id: CardId) => {
   return !isInSchedule(id);
 };
+
 export const isNewTerm = (id: CardId) => {
   // There exists at least one term
   return getTermIds(id).some((term) =>

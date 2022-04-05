@@ -1,6 +1,6 @@
 import _ from "underscore";
 import { GetLowercaseStringForAudioKey } from "ylhyra/maker/vocabulary_maker/compile/functions";
-import { VocabularyFileSoundRow } from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
+import { VocabularyFileSoundRow } from "ylhyra/maker/vocabulary_maker/types";
 
 export const getSounds = (
   sentences: string[],

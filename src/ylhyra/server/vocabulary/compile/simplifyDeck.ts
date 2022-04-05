@@ -2,7 +2,7 @@ import stable_stringify from "json-stable-stringify";
 import _ from "underscore";
 import { CardIds, TermId } from "ylhyra/app/vocabulary/actions/card/types";
 import { printWord } from "ylhyra/app/vocabulary/actions/functions";
-import { BackendDeck } from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
+import { BackendDeck } from "ylhyra/maker/vocabulary_maker/types";
 import {
   createDependencyChainBackend,
   withDependenciesBackend,

@@ -7,15 +7,12 @@ import {
 import { getLastSeen } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession";
 import { printWord } from "ylhyra/app/vocabulary/actions/functions";
+import Session from "ylhyra/app/vocabulary/actions/session/index";
 
-let LOGGING;
+let LOGGING = false;
 // LOGGING = true;
 
-/**
- * @memberOf Session#
- * @this Session
- */
-export function nextCard(depth = 0) {
+export function nextCard(this: Session, depth = 0) {
   this.counter++;
   this.updateRemainingTime();
   if (this.done) return;

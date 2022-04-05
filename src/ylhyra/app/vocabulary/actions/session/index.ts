@@ -40,12 +40,12 @@ export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 type SessionCounter = number;
 
 class Session {
-  currentCard?: CardInSession;
+  currentCard: CardInSession | null = null;
   cards?: Array<CardInSession>;
   deck: Deck;
   ratingHistory?: Array<rating>;
   cardHistory?: Array<CardInSession>;
-  allowed_ids?: CardIds;
+  allowed_ids: CardIds | null = null;
   counter?: SessionCounter;
   cardTypeLog?: Array<string>;
   lastSeenTerms?: Record<TermId, SessionCounter>;
@@ -55,7 +55,7 @@ class Session {
   lastTimestamp?: Timestamp;
   done?: boolean;
   lastUndid?: SessionCounter;
-  savedAt?: Timestamp;
+  savedAt: Timestamp | null = null;
   undo = undo;
   undoable = undoable;
   checkForUndoOnKeyDown = checkForUndoOnKeyDown;
@@ -101,13 +101,13 @@ class Session {
   }
 
   reset() {
-    this.allowed_ids = undefined;
+    this.allowed_ids = null;
     this.ratingHistory = [];
     this.cardHistory = [];
     this.counter = 0;
     this.lastSeenTerms = {};
     this.cardTypeLog = [];
-    this.currentCard = undefined;
+    this.currentCard = null;
     this.cards = [];
     this.timeStarted = getTime();
     this.totalTime = (EACH_SESSION_LASTS_X_MINUTES * minutes) as Milliseconds;
@@ -115,7 +115,7 @@ class Session {
     this.lastTimestamp = getTime();
     this.done = false;
     this.lastUndid = 0;
-    this.savedAt = undefined;
+    this.savedAt = null;
   }
 
   async sessionDone(options: any = {}) {

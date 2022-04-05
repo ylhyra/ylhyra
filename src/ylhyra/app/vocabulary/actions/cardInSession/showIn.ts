@@ -1,20 +1,24 @@
+import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession/index";
+
 /**
- * @memberOf CardInSession#
  * All values are relative to the currently shown card, which is at 0.
  */
-export function showIn({
-  interval,
-  minInterval,
-  cannotBeShownBefore,
-}: {
-  /** An interval of "1" means that the cardInSession will be shown immediately.
+export function showIn(
+  this: CardInSession,
+  {
+    interval,
+    minInterval,
+    cannotBeShownBefore,
+  }: {
+    /** An interval of "1" means that the cardInSession will be shown immediately.
       Used to give a card a particular queue position. */
-  interval?: number;
-  /** Used to push a card back without pushing it to the front. */
-  minInterval?: number;
-  /** Adds hard requirements for when a card can be shown. */
-  cannotBeShownBefore?: number;
-}) {
+    interval?: number;
+    /** Used to push a card back without pushing it to the front. */
+    minInterval?: number;
+    /** Adds hard requirements for when a card can be shown. */
+    cannotBeShownBefore?: number;
+  }
+) {
   /* Set queue position (soft requirements) */
   if (interval) {
     this.setQueuePosition(interval);
@@ -25,7 +29,7 @@ export function showIn({
 
   /* Can absolutely not be shown before X (strong requirements) */
   if (!cannotBeShownBefore) {
-    if ((interval || minInterval) > 6) {
+    if ((interval || minInterval || 0) > 6) {
       cannotBeShownBefore = 6;
     } else {
       cannotBeShownBefore = 3;
@@ -45,12 +49,9 @@ export function showIn({
   // );
 }
 
-/**
- * @memberOf CardInSession#
- */
-export function canBeShown(): boolean {
+export function canBeShown(this: CardInSession): boolean {
   return (
     !this.cannotBeShownBefore ||
-    this.cannotBeShownBefore <= this.session.counter
+    this.cannotBeShownBefore <= this.session.counter!
   );
 }

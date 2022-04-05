@@ -1,3 +1,4 @@
+import { filterEmpty } from "modules/typescript/filterEmpty";
 import _ from "underscore";
 import { isInSession } from "ylhyra/app/vocabulary/actions/card/card";
 import { getTermIds } from "ylhyra/app/vocabulary/actions/card/card_data";
@@ -17,11 +18,12 @@ export const getSiblingCards = (id: CardId): CardIds => {
 export const getSiblingCardsInSession = (id: CardId): Array<CardInSession> => {
   return getSiblingCards(id)
     .filter((card) => isInSession(card))
-    .map((card) => getAsCardInSession(card));
+    .map((card) => getAsCardInSession(card))
+    .filter(filterEmpty);
 };
 
-export const getAsCardInSession = (id: CardId): CardInSession => {
-  return deck.session.cards.find((card) => card.id === id);
+export const getAsCardInSession = (id: CardId): CardInSession | undefined => {
+  return deck?.session.cards?.find((card) => card.id === id);
 };
 
 export const didAnySiblingCardsGetABadRatingInThisSession = (id: CardId) => {
@@ -32,7 +34,7 @@ export const didAnySiblingCardsGetABadRatingInThisSession = (id: CardId) => {
 
 export const getAllCardIdsWithSameTerm = (id: CardId): CardIds => {
   // return memoize(id, "getAllCardIdsWithSameTerm", () => {
-  let out = [];
+  let out: CardIds = [];
   getTermIds(id).forEach((term) => {
     out = out.concat(getCardIdsFromTermId(term));
   });

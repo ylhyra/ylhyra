@@ -5,23 +5,22 @@ import {
   CardId,
   CardIds,
   ScheduleData,
-  TermId,
 } from "ylhyra/app/vocabulary/actions/card/types";
 import { sortBySortKey } from "ylhyra/app/vocabulary/actions/createCards/functions";
 import { countTerms } from "ylhyra/app/vocabulary/actions/functions";
 import Session from "ylhyra/app/vocabulary/actions/session";
 import { UserData } from "ylhyra/app/vocabulary/actions/userData/userData";
-import { BackendDeck } from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
+import { BackendDeck } from "ylhyra/maker/vocabulary_maker/types";
 
 export let deck: Deck | undefined;
 
 export type Schedule = Record<CardId, Partial<ScheduleData>>;
 class Deck {
-  cards: Record<CardId, any>;
+  cards: BackendDeck["cards"];
   cards_sorted: CardIds;
-  terms: Record<TermId, any>;
+  terms: BackendDeck["terms"];
   schedule: Schedule;
-  user_data: UserData;
+  user_data: UserData | null;
   session: Session;
   termCount: number;
   /** Only used in compilation, should be removed */
@@ -33,14 +32,14 @@ class Deck {
     session,
     user_data,
   }: {
-    database?: BackendDeck;
+    database: BackendDeck;
     schedule?: Schedule;
     session?: Session;
     user_data?: UserData;
-  } = {}) {
+  }) {
     deck = this;
-    this.cards = database?.cards;
-    this.terms = database?.terms;
+    this.cards = database.cards;
+    this.terms = database.terms;
     this.user_data = user_data || null;
     this.schedule = schedule || {};
 
@@ -49,6 +48,7 @@ class Deck {
     });
     this.termCount = countTerms(deck.cards_sorted);
     if (isBrowser) {
+      // @ts-ignore
       window["deck"] = this;
     }
     this.session = new Session(deck, session);
@@ -56,7 +56,7 @@ class Deck {
   continueStudying() {
     goToUrl("/vocabulary/play");
     this.session.reset();
-    this.session.initializeSession();
+    void this.session.initializeSession();
   }
   reset() {
     saveInLocalStorage("vocabulary-user-data", null);

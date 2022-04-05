@@ -7,10 +7,7 @@ import { isNewCard } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession/index";
 import { BAD } from "ylhyra/app/vocabulary/constants";
 
-/**
- * @memberOf CardInSession#
- */
-export function getRanking() {
+export function getRanking(this: CardInSession) {
   const card: CardInSession = this;
 
   const id = this.getId();

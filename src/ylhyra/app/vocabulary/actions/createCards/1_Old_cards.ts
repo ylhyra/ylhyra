@@ -3,12 +3,16 @@ import { shuffleLocally } from "modules/shuffleLocally";
 import { getTimeMemoized, hours, minutes } from "modules/time";
 import { isAllowed } from "ylhyra/app/vocabulary/actions/card/card";
 import { getCardsInSchedule } from "ylhyra/app/vocabulary/actions/card/card_data";
-import { isBad, isBelowGood, isTooEasy } from "ylhyra/app/vocabulary/actions/card/card_difficulty";
+import {
+  isBad,
+  isBelowGood,
+  isTooEasy,
+} from "ylhyra/app/vocabulary/actions/card/card_difficulty";
 import {
   getDue,
   isUnseenSiblingOfANonGoodCard,
   timeSinceTermWasSeen,
-  wasTermVeryRecentlySeen
+  wasTermVeryRecentlySeen,
 } from "ylhyra/app/vocabulary/actions/card/card_schedule";
 import { CardIds } from "ylhyra/app/vocabulary/actions/card/types";
 import { sortBySortKey } from "ylhyra/app/vocabulary/actions/createCards/functions";
@@ -25,7 +29,8 @@ export default () => {
     .forEach((id) => {
       /* Overdue */
       if (
-        getDue(id) < getTimeMemoized() + 16 * hours &&
+        getDue(id) &&
+        getDue(id)! < getTimeMemoized() + 16 * hours &&
         !isTooEasy(id) &&
         !wasTermVeryRecentlySeen(id)
       ) {
@@ -36,7 +41,7 @@ export default () => {
         }
       }
       // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
-      else if (isBad(id) && timeSinceTermWasSeen(id) > 20 * minutes) {
+      else if (isBad(id) && (timeSinceTermWasSeen(id) || 0) > 20 * minutes) {
         not_overdue_very_bad.push(id);
       } else {
         not_overdue.push(id);

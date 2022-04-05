@@ -3,12 +3,14 @@ import { c } from "modules/noUndefinedInTemplateLiteral";
 import { removeExtraWhitespace } from "ylhyra/app/app/functions/removeExtraWhitespace";
 import { automaticThu } from "ylhyra/maker/vocabulary_maker/compile/functions";
 
-export const getPlaintextFromVocabularyEntry = (input: string) => {
+export const getPlaintextFromVocabularyEntry = (input: string | undefined) => {
   if (!input) return "";
   return getPlaintextFromFormatted(formatVocabularyEntry(input));
 };
 
-export const getPlaintextFromFormatted = (input: string): string => {
+export const getPlaintextFromFormatted = (
+  input: string | undefined
+): string => {
   if (!input) {
     console.error("Missing plaintext!");
     return "";
@@ -25,7 +27,7 @@ export const getPlaintextFromFormatted = (input: string): string => {
   );
 };
 
-export const formatVocabularyEntry = (input: string): string => {
+export const formatVocabularyEntry = (input: string | undefined): string => {
   if (!input) return "";
   if (typeof input !== "string") {
     // @ts-ignore
@@ -126,7 +128,10 @@ export const formatVocabularyEntry = (input: string): string => {
   return input;
 };
 
-export const formatPrefixes = (first: string, second: string) => {
+export const formatPrefixes = (
+  first: string | undefined,
+  second: string | undefined
+) => {
   // return first;
   if (!first || !second) return first;
   const re = /(^| - )(hér eru?|um|frá|til|here is|here are|about|from|to)( )/g;
@@ -136,7 +141,7 @@ export const formatPrefixes = (first: string, second: string) => {
   return first;
 };
 
-export const formatLemmas = (input: string) => {
+export const formatLemmas = (input: string | undefined) => {
   if (!input) return "";
   input = formatVocabularyEntry(input)
     .replace(/%/g, "")

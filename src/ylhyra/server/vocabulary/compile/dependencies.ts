@@ -7,7 +7,7 @@ import {
 import {
   BackendDeck,
   TermIdToDependencyDepth,
-} from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
+} from "ylhyra/maker/vocabulary_maker/types";
 
 export const withDependenciesBackend = (
   deck: BackendDeck,

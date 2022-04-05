@@ -1,7 +1,7 @@
 import {
   dependencyDepthOfCard,
   hasDependenciesInCommonWith,
-  hasTermsInCommonWith
+  hasTermsInCommonWith,
 } from "ylhyra/app/vocabulary/actions/card/card_dependencies";
 import { isBad } from "ylhyra/app/vocabulary/actions/card/card_difficulty";
 import { isInSchedule } from "ylhyra/app/vocabulary/actions/card/card_schedule";
@@ -9,10 +9,7 @@ import { getSiblingCardsInSession } from "ylhyra/app/vocabulary/actions/card/car
 import CardInSession from "ylhyra/app/vocabulary/actions/cardInSession/index";
 import { BAD, GOOD } from "ylhyra/app/vocabulary/constants";
 
-/**
- * @memberOf CardInSession#
- */
-export function postponeRelatedCards(card1interval) {
+export function postponeRelatedCards(this: CardInSession, card1interval) {
   const card1: CardInSession = this;
 
   this.getOtherCardsInSession().forEach((card2: CardInSession) => {

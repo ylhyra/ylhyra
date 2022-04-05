@@ -1,6 +1,6 @@
 import fs from "fs";
 import Deck, { deck } from "ylhyra/app/vocabulary/actions/deck";
-import { BackendDeck } from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
+import { BackendDeck } from "ylhyra/maker/vocabulary_maker/types";
 import { getBaseDir } from "ylhyra/server/paths_backend";
 
 export const initializeDeckFromFile = () => {

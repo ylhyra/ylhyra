@@ -5,11 +5,11 @@
 import fs from "fs";
 import yaml from "js-yaml";
 import { GetLowercaseStringForAudioKey } from "ylhyra/maker/vocabulary_maker/compile/functions";
+import { parseVocabularyFile } from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
 import {
   BackendDeck,
-  parseVocabularyFile,
   VocabularyFile,
-} from "ylhyra/maker/vocabulary_maker/compile/parse_vocabulary_file";
+} from "ylhyra/maker/vocabulary_maker/types";
 import { content_folder, getBaseDir } from "ylhyra/server/paths_backend";
 import { getSounds } from "ylhyra/server/vocabulary/compile/getSounds";
 import { simplifyDeck } from "ylhyra/server/vocabulary/compile/simplifyDeck";

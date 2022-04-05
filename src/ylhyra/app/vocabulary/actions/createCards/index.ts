@@ -7,13 +7,16 @@ import {
 import { rememoizeCards } from "ylhyra/app/vocabulary/actions/card/functions";
 import ChooseCards from "ylhyra/app/vocabulary/actions/createCards/3_Choose_cards";
 import Dependencies from "ylhyra/app/vocabulary/actions/createCards/4_Dependencies";
+import Session from "ylhyra/app/vocabulary/actions/session/index";
 
 export const CARDS_TO_CREATE = 50;
 
-/**
- * @memberOf Session#
- */
-export function createCards(options) {
+export type CreateCardsOptions = {
+  skip_dependencies?: Boolean;
+  skipOverTheEasiest?: Boolean;
+  insertImmediately?: Boolean;
+};
+export function createCards(this: Session, options?: CreateCardsOptions): void {
   warnIfSlow.start("createCards");
 
   rememoizeCards();
@@ -31,15 +34,15 @@ export function createCards(options) {
   }
 
   /* Create cards */
-  let chosen_cards = ChooseCards(options);
+  let chosenCards = ChooseCards(options);
 
   /* Add dependencies */
   if (!options?.skip_dependencies) {
-    chosen_cards = Dependencies(chosen_cards);
+    chosenCards = Dependencies(chosenCards);
   }
 
   /* Failed to generate cards, turn off allowed cards and try again */
-  if (chosen_cards.length === 0 && session.allowed_ids) {
+  if (chosenCards.length === 0 && session.allowed_ids) {
     console.warn(
       `Failed to generate more cards using the allowed ones, switching to all cards.`
     );
@@ -49,5 +52,5 @@ export function createCards(options) {
 
   warnIfSlow.end("createCards");
 
-  this.loadCardsIntoSession(chosen_cards, options);
+  this.loadCardsIntoSession(chosenCards, options);
 }
