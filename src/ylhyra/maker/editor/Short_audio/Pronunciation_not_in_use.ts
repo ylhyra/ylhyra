@@ -1,3 +1,4 @@
+import { AnyAction } from "redux";
 const pronunciation = (state = {}, action: AnyAction) => {
   switch (action.type) {
     case "LOAD_EDITOR":

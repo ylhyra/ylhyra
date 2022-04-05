@@ -1,3 +1,4 @@
+import { AnyAction } from "redux";
 export const suggestions = (state = {}, action: AnyAction) => {
   let update = {};
   switch (action.type) {

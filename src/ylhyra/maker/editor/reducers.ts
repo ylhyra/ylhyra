@@ -1,3 +1,4 @@
+import { AnyAction } from "redux";
 import getParameter from "get-parameter";
 import { isBrowser } from "modules/isBrowser";
 import { combineReducers } from "redux";

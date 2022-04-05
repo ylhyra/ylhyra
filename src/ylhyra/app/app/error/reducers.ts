@@ -1,3 +1,4 @@
+import { AnyAction } from "redux";
 export default (state = null, action: AnyAction) => {
   switch (action.type) {
     case "ERROR":

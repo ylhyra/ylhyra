@@ -3,7 +3,7 @@ export default (
     soundList: [], // Shorter sound bites
     sounds: {}, // Shorter sound bites
   },
-  action
+  action: AnyAction
 ) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":

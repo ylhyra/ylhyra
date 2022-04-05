@@ -4,7 +4,7 @@ export const audio = (
     begin?: Number;
     end?: Number;
   } = {},
-  action
+  action: AnyAction
 ) => {
   switch (action.type) {
     case "CURRENTLY_PLAYING":

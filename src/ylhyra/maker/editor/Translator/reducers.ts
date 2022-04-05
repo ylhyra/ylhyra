@@ -1,3 +1,4 @@
+import { AnyAction } from "redux";
 import { sortByArray } from "modules/sortByArray";
 import { omit, uniq } from "underscore";
 import { wordsHash } from "ylhyra/maker/editor/Translator/actions";

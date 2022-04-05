@@ -1,3 +1,4 @@
+import { AnyAction } from "redux";
 import string_hash from "modules/hash";
 
 /*

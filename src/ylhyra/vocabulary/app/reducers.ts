@@ -1,5 +1,4 @@
-import { AnyAction } from 'redux'
-import { combineReducers } from "redux";
+import { AnyAction, combineReducers } from "redux";
 import {
   getFromLocalStorage,
   saveInLocalStorage,
@@ -36,9 +35,6 @@ const overview = (state = {}, action: AnyAction) => {
   }
 };
 
-, action: AnyAction) =>
-: AnyAction
-
 export interface CardReducer {
   counter?: number;
   answered?: boolean;
@@ -64,7 +60,7 @@ const volume = (
   // state = getFromLocalStorage("volume") !== "off",
   state = process.env.NODE_ENV !== "development" &&
     getFromLocalStorage("volume") !== "off",
-  action
+  action: AnyAction
 ) => {
   switch (action.type) {
     case "VOCABULARY_AUDIO_ONOFF":

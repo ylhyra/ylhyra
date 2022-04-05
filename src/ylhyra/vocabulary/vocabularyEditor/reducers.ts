@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { AnyAction, combineReducers } from "redux";
 
 const data = (state = null, action: AnyAction) => {
   switch (action.type) {
@@ -21,7 +21,7 @@ const word_to_record = (
     word: null,
     remaining: null,
   },
-  action
+  action: AnyAction
 ) => {
   switch (action.type) {
     case "VOCABULARY_TO_RECORD":
