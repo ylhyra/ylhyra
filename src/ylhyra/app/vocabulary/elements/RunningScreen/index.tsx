@@ -17,11 +17,11 @@ class RunningScreen extends Component<{ vocabulary: any }> {
   };
   componentDidUpdate = () => {
     const { deck } = this.props.vocabulary;
-    if (!deck.session.currentCard) {
+    if (!deck!.session.currentCard) {
       log(
         "No current cardInSession when GameContainer was loaded, initializing"
       );
-      deck.session.initializeSession(); //tmp!
+      deck!.session.initializeSession(); //tmp!
     }
   };
   componentWillUnmount() {

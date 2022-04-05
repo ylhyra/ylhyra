@@ -46,11 +46,11 @@
 // export const getLowestBadCardSortKey = () => {
 //   return minIgnoreFalsy(
 //     /* Lowest bad in session */
-//     ...deck.session.cards
+//     ...deck!.session.cards
 //       .filter((card) => card.history.includes(BAD))
 //       .map((card) => card.getSortKey()),
 //     /* Lowest bad in schedule */
-//     deck.cards_sorted.find((card) => card.isBelowGood())?.getSortKey()
+//     deck!.cards_sorted.find((card) => card.isBelowGood())?.getSortKey()
 //   );
 // };
 //
@@ -60,7 +60,7 @@
 //
 //   /* Can not go higher than userLevel B1 */
 //   const highestCardInLevelB1 =
-//     deck.cards_sorted
+//     deck!.cards_sorted
 //       .slice()
 //       /* Goes backwards to find the last cardInSession that is on a B1 userLevel */
 //       .reverse()
@@ -70,20 +70,20 @@
 //   return minIgnoreFalsy(
 //     lowestBadCard,
 //     highestCardInLevelB1,
-//     deck.cards_sorted.length - MAX_JUMP_UP
+//     deck!.cards_sorted.length - MAX_JUMP_UP
 //   );
 // };
 //
 // export const recreateSessionCardsAfterChangingEasinessLevel = (change) => {
 //   /* Clear unseen cards */
 //   /** @type {Array.<CardInSession>} */
-//   deck.session.cards = deck.session.cards.filter(
+//   deck!.session.cards = deck!.session.cards.filter(
 //     (card) =>
 //       card.hasBeenSeenInSession() || card.cannotBeShownBefore || card.done
 //   );
 //
 //   /* Find cards that are now too easy and postpone them */
-//   deck.session.cards.forEach((card) => {
+//   deck!.session.cards.forEach((card) => {
 //     if (card.done) return;
 //     if (card.getSortKey() < getEasinessLevel()) {
 //       card.showIn({
@@ -96,7 +96,7 @@
 //   // if (change < 0) {
 //   //   /* Find cards that are exactly in the newly lowered range */
 //   //   const cardsInLoweredRange =
-//   //     deck.session.cards.filter(
+//   //     deck!.session.cards.filter(
 //   //       (card) =>
 //   //         !card.done &&
 //   //         getEasinessLevel() <= card.getSortKey() &&
@@ -107,8 +107,8 @@
 //   //   }
 //   // }
 //
-//   deck.session.wasEasinessLevelJustIncreased = true;
-//   deck.session.createCards({ insertImmediately: true });
+//   deck!.session.wasEasinessLevelJustIncreased = true;
+//   deck!.session.createCards({ insertImmediately: true });
 // };
 //
 // export const setEasinessLevel = (val) => {
@@ -123,5 +123,5 @@
 // };
 //
 // export function isEasinessLevelOn() {
-//   return Boolean(!deck.session.allowed_ids && getEasinessLevel());
+//   return Boolean(!deck!.session.allowed_ids && getEasinessLevel());
 // }

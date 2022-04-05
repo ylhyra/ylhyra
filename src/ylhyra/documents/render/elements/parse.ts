@@ -6,7 +6,7 @@
 
   The attribute data-name becomes a key in the object.
 */
-export const ParseHTMLtoObject = (children) => {
+export const parseHtmlToObject = (children) => {
   let output = {};
   const Traverse = (input) => {
     if (input === null) {
@@ -17,9 +17,9 @@ export const ParseHTMLtoObject = (children) => {
       const name = input.props["data-name"];
       const childrenType = input.props["data-children"];
       if (childrenType === "array") {
-        output[name] = ParseHTMLtoArray(input.props.children);
+        output[name] = parseHtmlToArray(input.props.children);
       } else if (childrenType === "object") {
-        output[name] = ParseHTMLtoObject(input.props.children);
+        output[name] = parseHtmlToObject(input.props.children);
       } else if (childrenType === "string") {
         output[name] = getTextFromReactElement(input.props.children);
       } else if (childrenType === "boolean") {
@@ -35,7 +35,7 @@ export const ParseHTMLtoObject = (children) => {
   return output;
 };
 
-export const ParseHTMLtoArray = (children) => {
+export const parseHtmlToArray = (children) => {
   let output = [];
   const Traverse = (input) => {
     if (input === null) {
@@ -48,10 +48,10 @@ export const ParseHTMLtoArray = (children) => {
       if (childrenType === "array") {
         output.push({
           name,
-          children: ParseHTMLtoArray(input.props.children),
+          children: parseHtmlToArray(input.props.children),
         });
       } else if (childrenType === "object") {
-        output.push(ParseHTMLtoObject(input.props.children));
+        output.push(parseHtmlToObject(input.props.children));
       } else if (childrenType === "string") {
         output[name] = getTextFromReactElement(input.props.children);
       } else if (childrenType === "boolean") {

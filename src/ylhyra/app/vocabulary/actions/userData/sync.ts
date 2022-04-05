@@ -58,7 +58,7 @@ export const sync = async (options: any = {}): Promise<UserData> => {
   };
   saveUserDataInLocalStorage(user_data, { assignToDeck: true });
   if (deck) {
-    deck.schedule = getScheduleFromUserData(user_data);
+    deck!.schedule = getScheduleFromUserData(user_data);
   }
   log("Data synced");
 
@@ -71,13 +71,13 @@ export const syncIfNecessary = async () => {
   // const data = getFromLocalStorage("vocabulary-user-data");
   // /* Localstorage data has been updated in another tab, so we reload */
   // if (data) {
-  //   if (data.lastSaved > deck.lastSaved) {
+  //   if (data.lastSaved > deck!.lastSaved) {
   //     saveUserDataInLocalStorage(data, { assignToDeck: true });
   //   }
   // }
   // if (isUserLoggedIn()) {
   //   /* Sync if more than 10 minutes since sync */
-  //   if (now() > deck.lastSynced + 10 * 60 * 1000) {
+  //   if (now() > deck!.lastSynced + 10 * 60 * 1000) {
   //     // TODO
   //     await sync();
   //   }

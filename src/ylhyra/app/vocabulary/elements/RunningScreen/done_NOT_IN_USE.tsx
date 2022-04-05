@@ -8,7 +8,7 @@ export default () => (
     <div>Done for today!</div>
     <div>
       <button
-        onClick={() => store.getState().vocabulary.deck.continueStudying()}
+        onClick={() => store.getState().vocabulary.deck!.continueStudying()}
       >
         Continue studying
       </button>

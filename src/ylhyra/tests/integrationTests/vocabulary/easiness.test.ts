@@ -25,7 +25,7 @@
 //     });
 //     notNull(getEasinessLevel());
 //     const checkIfCardsAreAboveEasinessLevel = () => {
-//       const cardsStillInSession = deck.session.cards.filter(
+//       const cardsStillInSession = deck!.session.cards.filter(
 //         (card) =>
 //           !card.done &&
 //           (!card.hasBeenSeenInSession() || card.history.includes(BAD)) &&
@@ -39,7 +39,7 @@
 //       );
 //     };
 //     checkIfCardsAreAboveEasinessLevel();
-//     const v1 = deck.session.currentCard.sortKey;
+//     const v1 = deck!.session.currentCard.sortKey;
 //     await run.continue_vocabulary_session({
 //       values: [BAD, GOOD],
 //     });

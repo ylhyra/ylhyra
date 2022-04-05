@@ -14,7 +14,7 @@ let current_word_recording = 0;
 export const setupSound = () => {
   if (getDeckName()) return;
   let sentences = [];
-  let ids = _.shuffle(deck.cards_sorted.filter((c) => getSortKey(c))).sort(
+  let ids = _.shuffle(deck!.cards_sorted.filter((c) => getSortKey(c))).sort(
     (a, b) => Math.floor(getSortKey(a) / 50) - Math.floor(getSortKey(b) / 50)
   );
   ids = withDependencies(ids);

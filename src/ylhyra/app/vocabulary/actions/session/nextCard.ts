@@ -44,7 +44,9 @@ export function nextCard(this: Session, depth = 0) {
         seen: i.hasBeenSeenInSession() ? "SEEN" : "",
         word: printWord(i.getId()),
         sortKey: getSortKey(i.getId()),
-        schdl: deck.schedule[i.getId()] ? new Date(getLastSeen(i.getId())) : "",
+        schdl: deck!.schedule[i.getId()]
+          ? new Date(getLastSeen(i.getId()))
+          : "",
       }))
     );
   }

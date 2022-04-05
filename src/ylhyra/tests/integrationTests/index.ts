@@ -64,7 +64,7 @@ export const wait = (ms) => {
 
 // const isDeckInitialized = async () => {
 //   if (!deck) {
-//     logger("Waiting for deck...");
+//     logger("Waiting for deck!...");
 //     await wait(300);
 //     await isDeckInitialized();
 //   }

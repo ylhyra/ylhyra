@@ -13,7 +13,7 @@ export const parseVocabularyList = (vocabulary_list) => {
   if (!vocabulary_list) return;
   if (!deck) initializeDeckFromFile();
   const cardIds = getCardIdsFromWords(vocabulary_list).filter(
-    (id) => id in deck.cards
+    (id) => id in deck!.cards
   );
   // const missing = getCardIdsFromWords(vocabulary_list, true);
   const terms = getTermIdsFromCardIds(cardIds);

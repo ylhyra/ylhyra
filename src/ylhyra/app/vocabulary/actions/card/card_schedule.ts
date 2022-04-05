@@ -21,7 +21,7 @@ export const getSchedule = (id: CardId): Partial<ScheduleData> | undefined => {
     console.error("Deck not initialized");
     return;
   }
-  return deck.schedule[id];
+  return deck!.schedule[id];
 };
 
 export const getDue = (id: CardId): Timestamp | undefined => {
@@ -63,7 +63,7 @@ export const isInSchedule = (id: CardId) => {
     console.error("Deck not initialized");
     return;
   }
-  return id in deck.schedule;
+  return id in deck!.schedule;
 };
 
 export const setSchedule = (id: CardId, data: Partial<ScheduleData>) => {
@@ -80,8 +80,8 @@ export const setSchedule = (id: CardId, data: Partial<ScheduleData>) => {
     }
   });
 
-  deck.schedule[id] = {
-    ...(deck.schedule[id] || {}),
+  deck!.schedule[id] = {
+    ...(deck!.schedule[id] || {}),
     ...data,
   };
   saveScheduleForCardId(id);

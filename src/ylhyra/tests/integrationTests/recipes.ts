@@ -23,10 +23,10 @@ export const run = {
   },
   start_session: async () => {
     goToUrl("/vocabulary/play");
-    await deck.session.initializeSession();
+    await deck!.session.initializeSession();
   },
   end_session: async () => {
-    await deck.session.sessionDone();
+    await deck!.session.sessionDone();
   },
   vocabulary_session: async (options = {}) => {
     if (!options.dontStart) {
@@ -34,11 +34,11 @@ export const run = {
     }
     if (options.values) {
       options.values.forEach((v) => {
-        deck.session.answer(v);
+        deck!.session.answer(v);
       });
     } else {
       for (let i = 0; i < 10; i++) {
-        deck.session.answer(Math.ceil(Math.random() * 3));
+        deck!.session.answer(Math.ceil(Math.random() * 3));
       }
     }
     if (!options.dontEnd) {
@@ -65,7 +65,7 @@ export const run = {
     });
   },
   fakeReload: async () => {
-    deck.clear();
+    deck!.clear();
     goToUrl("/vocabulary");
     await wait(500);
     await initializeVocabulary();

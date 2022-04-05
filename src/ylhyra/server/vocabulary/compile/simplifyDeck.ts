@@ -10,9 +10,9 @@ import {
 
 export const simplifyDeck = (deck: BackendDeck) => {
   /* Add sortkey for all items */
-  let cardIds: CardIds = Object.keys(deck.cards)
+  let cardIds: CardIds = Object.keys(deck!.cards)
     .map((key) => {
-      return deck.cards[key];
+      return deck!.cards[key];
     })
     .sort(
       (a, b) =>
@@ -33,11 +33,11 @@ export const simplifyDeck = (deck: BackendDeck) => {
   // /* Run again now that  cyclical dependencies are gone */
   cardIds = withDependenciesBackend(deck, cardIds);
   cardIds.forEach((cardId, index) => {
-    deck.cards[cardId].sortKey = index;
-    delete deck.cards[cardId].row_id;
+    deck!.cards[cardId].sortKey = index;
+    delete deck!.cards[cardId].row_id;
   });
 
-  Object.keys(deck.terms).forEach((termId: TermId) => {
+  Object.keys(deck!.terms).forEach((termId: TermId) => {
     const deps = createDependencyChainBackend(deck, termId);
 
     /* The chain above isn't perfect and sometimes skips over values */
@@ -50,7 +50,7 @@ export const simplifyDeck = (deck: BackendDeck) => {
     });
 
     if (Object.keys(deps).length > 0) {
-      deck.terms[termId].dependencies = deps;
+      deck!.terms[termId].dependencies = deps;
     }
     if (Object.keys(deps).length > 30) {
       console.log(`very long deps for ${printWord(termId)}`);
@@ -62,35 +62,35 @@ export const simplifyDeck = (deck: BackendDeck) => {
 
   let terms = {};
   let cards = {};
-  Object.keys(deck.terms).forEach((term_id) => {
-    const term = deck.terms[term_id];
+  Object.keys(deck!.terms).forEach((term_id) => {
+    const term = deck!.terms[term_id];
     let minSortKey;
-    Object.keys(deck.cards[term.cards[0]]).forEach((key) => {
+    Object.keys(deck!.cards[term.cards[0]]).forEach((key) => {
       if (key === "sortKey") return;
       if (key === "terms") return;
-      const val = deck.cards[term.cards[0]][key];
+      const val = deck!.cards[term.cards[0]][key];
 
       //tmp?
       if (
         key !== "terms" &&
         term.cards.every(
           (cardId) =>
-            deck.cards[cardId].terms.length === 1 &&
-            key in deck.cards[cardId] &&
-            stable_stringify(sortIfArray(deck.cards[cardId][key])) ===
+            deck!.cards[cardId].terms.length === 1 &&
+            key in deck!.cards[cardId] &&
+            stable_stringify(sortIfArray(deck!.cards[cardId][key])) ===
               stable_stringify(sortIfArray(val))
         )
       ) {
         term[key] = val;
         term.cards.forEach((cardId) => {
-          delete deck.cards[cardId][key];
+          delete deck!.cards[cardId][key];
         });
       }
 
       term.cards.forEach((cardId) => {
-        cards[cardId] = deck.cards[cardId];
+        cards[cardId] = deck!.cards[cardId];
         minSortKey = Math.min(
-          deck.cards[cardId].sortKey,
+          deck!.cards[cardId].sortKey,
           minSortKey || Infinity
         );
       });

@@ -25,7 +25,7 @@ export const getCardByText = (text: string) => {
 };
 
 export const rememoizeCards = () => {
-  // deck.cards_sorted.forEach((card) => {
+  // deck!.cards_sorted.forEach((card) => {
   //   card.clearMemoizations();
   // });
   clearTimeMemoized();

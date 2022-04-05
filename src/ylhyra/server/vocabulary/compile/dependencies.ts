@@ -20,8 +20,8 @@ export const withDependenciesBackend = (
     cardIds = [cardIds];
   }
   cardIds
-    .filter((cardId) => cardId in deck.cards)
-    .forEach((cardId) => (termIds = termIds.concat(deck.cards[cardId].terms)));
+    .filter((cardId) => cardId in deck!.cards)
+    .forEach((cardId) => (termIds = termIds.concat(deck!.cards[cardId].terms)));
   termIds = _.uniq(termIds);
   termIds.forEach((termId) => {
     let termsWithDependencySortKey = [{ term: termId, dependencySortKey: 0 }];
@@ -34,22 +34,22 @@ export const withDependenciesBackend = (
     );
     termsWithDependencySortKey.forEach((obj) => {
       termId = obj.term;
-      [termId, ...(deck.alternativeIds[termId] || [])].forEach((j) => {
-        if (j in deck.terms) {
-          let cardIds = deck.terms[j].cards;
+      [termId, ...(deck!.alternativeIds[termId] || [])].forEach((j) => {
+        if (j in deck!.terms) {
+          let cardIds = deck!.terms[j].cards;
           cardIds = cardIds.sort((a) => {
             if (a.endsWith("is")) return -1;
             return 1;
           });
           returns = returns.concat(cardIds);
-          deck.terms[j].cards.forEach((cardId) => {
+          deck!.terms[j].cards.forEach((cardId) => {
             depth[cardId] = Math.max(depth[cardId] || 0, obj.dependencySortKey);
           });
         }
       });
     });
   });
-  const out = _.uniq(returns).filter((cardId) => cardId in deck.cards);
+  const out = _.uniq(returns).filter((cardId) => cardId in deck!.cards);
   // if (showDepth) {
   //   let k = {};
   //   out.forEach((cardId) => {
@@ -71,8 +71,8 @@ export const createDependencyChainBackend = (
   depth = 1,
   type = "deep" // or "shallow"
 ): TermIdToDependencyDepth => {
-  if (fromTerm in deck.dependencies) {
-    deck.dependencies[fromTerm].forEach((term) => {
+  if (fromTerm in deck!.dependencies) {
+    deck!.dependencies[fromTerm].forEach((term) => {
       if (!term) return;
       /* Deep copy in order to only watch direct parents */
       const alreadySeenDirectParents = [..._alreadySeenDirectParents];
@@ -89,7 +89,7 @@ export const createDependencyChainBackend = (
       [
         term,
         /* Through alternative ids */
-        ...(deck.alternativeIds[term] || []),
+        ...(deck!.alternativeIds[term] || []),
       ]
         .filter(Boolean)
         .forEach((j) => {

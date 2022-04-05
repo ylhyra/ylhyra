@@ -33,8 +33,8 @@ class Overview extends Component<{ vocabulary: any }> {
           </button>
           {deck && p !== null && (
             <div>
-              {/*{p}% known out of {countTerms(deck.cards_sorted)} terms*/}
-              {p}% known out of {deck.termCount} terms
+              {/*{p}% known out of {countTerms(deck!.cards_sorted)} terms*/}
+              {p}% known out of {deck!.termCount} terms
             </div>
           )}
         </div>

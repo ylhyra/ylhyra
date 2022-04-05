@@ -26,11 +26,11 @@ export const clearMemoizations = (id: CardId) => {
 // };
 
 export const isInSession = (id: CardId) => {
-  return deck.session.cards.some((i) => i.getId() === id);
+  return deck!.session.cards.some((i) => i.getId() === id);
 };
 
 export const isAllowed = (id: CardId) => {
-  const { allowed_ids } = deck.session;
+  const { allowed_ids } = deck!.session;
   return (
     /* Ignore cards that are already in the session */
     !isInSession(id) &&
@@ -38,7 +38,7 @@ export const isAllowed = (id: CardId) => {
     (!allowed_ids || allowed_ids.includes(id)) &&
     /* In case we're adding cards to an already ongoing session,
          ignore cards that are similar to a card the user has just seen */
-    !deck.session.cardHistory.slice(0, 3).some(
+    !deck!.session.cardHistory.slice(0, 3).some(
       (card) =>
         hasTermsInCommonWith(id, card.getId()) ||
         hasDependenciesInCommonWith(id, card.getId())
@@ -48,7 +48,7 @@ export const isAllowed = (id: CardId) => {
 };
 
 export const doesCardExist = (id: CardId) => {
-  return id in deck.cards;
+  return id in deck!.cards;
 };
 
 export const filterCardsThatExist = (ids: CardIds) => {
@@ -57,6 +57,6 @@ export const filterCardsThatExist = (ids: CardIds) => {
 
 export const wasSeenInSession = (id) => {
   return (
-    deck.session.cards.find((card) => card.getId() === id)?.history.length > 0
+    deck!.session.cards.find((card) => card.getId() === id)?.history.length > 0
   );
 };

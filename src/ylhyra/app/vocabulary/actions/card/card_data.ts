@@ -9,7 +9,7 @@ import { deck } from "ylhyra/app/vocabulary/actions/deck";
 import { CardData } from "ylhyra/maker/vocabulary_maker/types";
 
 export const getCardsInSchedule = (): CardIds => {
-  return filterCardsThatExist(Object.keys(deck.schedule) as CardIds);
+  return filterCardsThatExist(Object.keys(deck!.schedule) as CardIds);
 };
 
 export const getData = (id: CardId, key: keyof CardData) => {

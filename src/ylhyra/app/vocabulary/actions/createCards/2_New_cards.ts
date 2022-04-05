@@ -7,13 +7,13 @@ import { veryRecentlySeenSortedLast } from "ylhyra/app/vocabulary/actions/create
 import { deck } from "ylhyra/app/vocabulary/actions/deck";
 
 export default (options): CardIds => {
-  let newCards = deck.cards_sorted.filter(
+  let newCards = deck!.cards_sorted.filter(
     (card) => !isInSchedule(card) && isAllowed(card)
   );
 
-  if (deck.session.allowed_ids && !options?.dont_sort_by_allowed_ids) {
+  if (deck!.session.allowed_ids && !options?.dont_sort_by_allowed_ids) {
     /* Sort in same order as allowed_ids */
-    newCards = sortBy(newCards, (id) => deck.session.allowed_ids.indexOf(id));
+    newCards = sortBy(newCards, (id) => deck!.session.allowed_ids.indexOf(id));
   }
   // else if (isEasinessLevelOn()) {
   //   new_cards = sortBy(new_cards, (i) =>

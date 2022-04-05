@@ -19,8 +19,8 @@ export const initializeDeckFromFile = () => {
       )
     );
   } catch (e) {
-    new Deck();
-    deck.alternativeIds = {};
+    new Deck({});
+    deck!.alternativeIds = {};
     console.log("No files to initialize from");
   }
 };

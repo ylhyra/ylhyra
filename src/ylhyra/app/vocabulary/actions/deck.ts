@@ -10,17 +10,21 @@ import { sortBySortKey } from "ylhyra/app/vocabulary/actions/createCards/functio
 import { countTerms } from "ylhyra/app/vocabulary/actions/functions";
 import Session from "ylhyra/app/vocabulary/actions/session";
 import { UserData } from "ylhyra/app/vocabulary/actions/userData/userData";
-import { BackendDeck } from "ylhyra/maker/vocabulary_maker/types";
+import {
+  BackendCards,
+  BackendDeck,
+  BackendTerms,
+} from "ylhyra/maker/vocabulary_maker/types";
 
 export let deck: Deck | undefined;
 
 export type Schedule = Record<CardId, Partial<ScheduleData>>;
 class Deck {
-  cards: BackendDeck["cards"];
-  cards_sorted: CardIds;
-  terms: BackendDeck["terms"];
-  schedule: Schedule;
-  user_data: UserData | null;
+  cards: BackendCards = {};
+  cards_sorted: CardIds = [];
+  terms: BackendTerms = {};
+  schedule: Schedule = {};
+  user_data: UserData | null = null;
   session: Session;
   termCount: number;
   /** Only used in compilation, should be removed */
@@ -32,21 +36,23 @@ class Deck {
     session,
     user_data,
   }: {
-    database: BackendDeck;
+    database?: BackendDeck;
     schedule?: Schedule;
     session?: Session;
     user_data?: UserData;
   }) {
     deck = this;
-    this.cards = database.cards;
-    this.terms = database.terms;
-    this.user_data = user_data || null;
-    this.schedule = schedule || {};
+    if (database) {
+      this.cards = database.cards;
+      this.terms = database.terms;
+      this.user_data = user_data || null;
+      this.schedule = schedule || {};
 
-    this.cards_sorted = sortBySortKey(Object.keys(this.cards) as CardIds, {
-      englishLast: true,
-    });
-    this.termCount = countTerms(deck.cards_sorted);
+      this.cards_sorted = sortBySortKey(Object.keys(this.cards) as CardIds, {
+        englishLast: true,
+      });
+    }
+    this.termCount = countTerms(deck!.cards_sorted);
     if (isBrowser) {
       // @ts-ignore
       window["deck"] = this;

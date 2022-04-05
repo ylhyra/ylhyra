@@ -27,7 +27,7 @@ export const login = async (values) => {
       await sync({ syncEverything: true });
     } else {
       log("Data not synced");
-      deck.reset();
+      deck!.reset();
     }
 
     if (process.env.REACT_APP_PWYW === "on") {
@@ -38,7 +38,7 @@ export const login = async (values) => {
     }
   } else {
     /* TODO!!!!! */
-    deck.reset();
+    deck!.reset();
     await sync();
     goToUrl("/vocabulary");
   }
@@ -86,7 +86,7 @@ export const isUserLoggedIn = () => {
 };
 
 export const existsSchedule = () => {
-  return deck?.schedule && Object.keys(deck.schedule).length >= 6;
+  return deck?.schedule && Object.keys(deck!.schedule).length >= 6;
 };
 
 /* Called on route changes */

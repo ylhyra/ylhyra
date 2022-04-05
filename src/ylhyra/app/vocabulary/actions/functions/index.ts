@@ -23,13 +23,13 @@ import { getHash } from "ylhyra/maker/vocabulary_maker/compile/functions";
 
 export const printWord = (id: CardId | TermId | string) => {
   if (!isDev) return;
-  if (id in deck.cards) {
+  if (id in deck!.cards) {
     return getPlaintextFromFormatted(
       getData(id as CardId, getFrom(id as CardId) + "_formatted")
     );
     // return card[card.getFrom() + "_plaintext"];
-  } else if (id in deck.terms) {
-    return printWord(deck.terms[id].cards[0]);
+  } else if (id in deck!.terms) {
+    return printWord(deck!.terms[id].cards[0]);
   } else {
     log(`No id ${id}`);
   }
@@ -46,8 +46,8 @@ export const studyParticularIds = async (allowed_ids: CardIds, options?) => {
 
 export const studyNewTerms = () => {
   const newTerms: CardIds = [];
-  (Object.keys(deck.cards) as CardIds).forEach((id) => {
-    if (!(id in deck.schedule) && isNewTerm(id)) {
+  (Object.keys(deck!.cards) as CardIds).forEach((id) => {
+    if (!(id in deck!.schedule) && isNewTerm(id)) {
       newTerms.push(id);
     }
   });

@@ -140,7 +140,7 @@ const run = async () => {
 void run();
 
 // const DeleteDependency = (from_term, to_term) => {
-//   deck.dependencies[from_term] = deck.dependencies[from_term].filter(
+//   deck!.dependencies[from_term] = deck!.dependencies[from_term].filter(
 //     (j) => j !== to_term
 //   );
 // };

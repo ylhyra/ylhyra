@@ -11,7 +11,7 @@ let easyInARow = 0;
 export function keepTrackOfEasiness({ rating, isANewCard, card }) {
   // /* Currently only turned on for the overall
   //    game and not article-specific games */
-  // if (deck.session.allowed_ids) return;
+  // if (deck!.session.allowed_ids) return;
   //
   // /* Tracks only new cards in a row */
   // if (isANewCard) {

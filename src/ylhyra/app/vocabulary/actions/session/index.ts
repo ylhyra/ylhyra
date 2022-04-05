@@ -97,7 +97,7 @@ class Session {
         this.sessionDone({ isInitializing: true });
       }, 10);
     }
-    // log({ session_log: this.deck.session_log });
+    // log({ session_log: this.deck!.session_log });
   }
 
   reset() {

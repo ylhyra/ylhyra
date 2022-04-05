@@ -107,7 +107,7 @@ class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
   };
   sound = (answered?) => {
     const { volume } = this.props.vocabulary;
-    const card = deck.session.currentCard;
+    const card = deck!.session.currentCard;
     if (!card) return;
     const id = card.getId();
 
@@ -184,7 +184,7 @@ class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
   render() {
     const { volume, deck } = this.props.vocabulary;
     const { answered } = this.props.vocabulary.card;
-    const card: CardInSession = deck.session.currentCard;
+    const card: CardInSession = deck!.session.currentCard;
     if (!card)
       return <div>Unable to create cards. Please report this error.</div>;
     const id = card.getId();

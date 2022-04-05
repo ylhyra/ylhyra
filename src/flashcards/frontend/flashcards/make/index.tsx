@@ -13,7 +13,7 @@ export default observer(function () {
       <ul>
         {Object.entries(decks.decks).map(([deckId, deck]) => (
           <li key={deckId}>
-            {deck.title} ({Object.keys(deck.cards).length} cards)
+            {deck!.title} ({Object.keys(deck!.cards).length} cards)
           </li>
         ))}
       </ul>

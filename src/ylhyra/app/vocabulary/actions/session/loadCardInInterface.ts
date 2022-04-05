@@ -20,14 +20,14 @@ export function loadCardInInterface(this: Session) {
 
   // // Debug: Show score
   // if (
-  //   this.deck.schedule[session.currentCard.id] &&
+  //   this.deck!.schedule[session.currentCard.id] &&
   //   isDev
   // ) {
   //   log(
   //     `Score of "${printWord(session.currentCard.id)}": ${
-  //       this.deck.schedule[session.currentCard.id].score
+  //       this.deck!.schedule[session.currentCard.id].score
   //     } - last interval: ${
-  //       this.deck.schedule[session.currentCard.id].last_interval_in_days
+  //       this.deck!.schedule[session.currentCard.id].last_interval_in_days
   //     }`
   //   );
   // }
