@@ -15,13 +15,13 @@ import {
   TermIds,
   VocabularyFile,
 } from "ylhyra/vocabulary/types";
-import { content_folder, getBaseDir } from "ylhyra/server/paths_backend";
+import { contentFolder, getBaseDir } from "ylhyra/server/paths.server";
 import { getSounds } from "ylhyra/vocabulary/compiler/compiler.server/getSounds";
 import { simplifyDeck } from "ylhyra/vocabulary/compiler/compiler.server/simplifyDeck.server";
 import { getSortKeysBasedOnWhenWordIsIntroducedInTheCourse } from "ylhyra/vocabulary/compiler/compiler.server/sortKeys.server";
 
 const DECK = process.env.DECK || "";
-const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
+const filename = contentFolder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
 
 /**
  * Converts vocabulary YAML file into a JSON file

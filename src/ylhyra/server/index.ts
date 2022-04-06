@@ -12,14 +12,14 @@ import { staticCached } from "ylhyra/server/caching";
 import {
   processedImageUrl,
   unprocessedImageUrl,
-} from "ylhyra/server/content/links/paths";
+} from "ylhyra/content/content/links/paths";
 import query from "ylhyra/server/database";
 import {
-  build_folder,
+  buildFolder,
   getBaseDir,
-  image_output_folder,
-  ylhyra_content_files,
-} from "ylhyra/server/paths_backend";
+  imageOutputFolder,
+  ylhyraContentFiles,
+} from "ylhyra/server/paths.server";
 
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
@@ -62,9 +62,9 @@ setTimeout(() => {
 }, 30 * 1000);
 
 const ylhyraApp = express();
-ylhyraApp.use(processedImageUrl, staticCached(image_output_folder));
-ylhyraApp.use(unprocessedImageUrl, staticCached(ylhyra_content_files));
-ylhyraApp.use("/", staticCached(build_folder));
+ylhyraApp.use(processedImageUrl, staticCached(imageOutputFolder));
+ylhyraApp.use(unprocessedImageUrl, staticCached(ylhyraContentFiles));
+ylhyraApp.use("/", staticCached(buildFolder));
 
 /*
   Private APIs
@@ -75,7 +75,11 @@ ylhyraApp.use("/api", require("ylhyra/server/audio/recorder").default);
 // app.use('/api', require('server/audio/GetOneAudioFile').default)
 // app.use('/api', require('server/audio/Synchronize').default)
 // app.use('/api', require('server/translator/save').default)
-ylhyraApp.use("/api", require("ylhyra/server/translator/saveDocument").default);
+ylhyraApp.use(
+  "/api",
+  require("ylhyra/content/translator/translator.server/saveTranslationData.server")
+    .default
+);
 ylhyraApp.use("/api", require("ylhyra/server/analytics").default);
 ylhyraApp.use("/api", require("ylhyra/server/analytics/overview").default);
 ylhyraApp.use("/api", require("ylhyra/server/analytics/userErrors").default);
@@ -89,7 +93,7 @@ ylhyraApp.use(
   "/",
   require("ylhyra/vocabulary/vocabularyEditor/vocabularyEditor.server").default
 );
-ylhyraApp.use("/", require("ylhyra/server/content").default);
+ylhyraApp.use("/", require("ylhyra/content/content").default);
 
 const inflections_app = express();
 inflections_app.use(cors({ origin: "*" }));
@@ -120,13 +124,13 @@ const port = process.env.SERVER_PORT || argv.port || 9123;
 
 /* Import steps */
 if (argv["generate-links"]) {
-  require("ylhyra/server/content/links/generateLinks.js");
+  require("ylhyra/content/content/links/generateLinks.js");
 } else if (argv["sitemap"]) {
-  require("ylhyra/server/content/prerender/generateSitemap.js");
+  require("ylhyra/content/content/prerender/generateSitemap.js");
 } else if (argv["sort_course_chapters"]) {
-  require("ylhyra/server/content/preProcessing/sortCourseChapters.js");
+  require("ylhyra/content/content/preProcessing/sortCourseChapters.js");
 } else if (argv["prerender"]) {
-  require("ylhyra/server/content/prerender/prerenderAll.js");
+  require("ylhyra/content/content/prerender/prerenderAll.js");
 } else if (argv["generate-search-index"]) {
   require("inflection/server/database/generateSearchIndex");
 } else if (argv["import-inflections"]) {

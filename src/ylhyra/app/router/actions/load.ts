@@ -5,7 +5,7 @@ import { set404, setIndexing } from "ylhyra/app/router/actions/actions";
 import { setUrl } from "ylhyra/app/router/actions/goToUrl";
 import { parseInFrontendIfInDevelopmentMode } from "ylhyra/app/router/actions/parseInDevMode";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
-import { readAlongSetup } from "ylhyra/documents/render/audio/readAlong/readAlong";
+import { readAlongSetup } from "ylhyra/content/documents/render/audio/readAlong/readAlong";
 
 const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true && isDev;
 

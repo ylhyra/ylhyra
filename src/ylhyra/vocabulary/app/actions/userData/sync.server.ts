@@ -6,7 +6,7 @@ import { UserDataRows } from "ylhyra/vocabulary/app/actions/userData/userData";
 import { staticCached } from "ylhyra/server/caching";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
-import { getBaseDir } from "ylhyra/server/paths_backend";
+import { getBaseDir } from "ylhyra/server/paths.server";
 
 const router = Router();
 

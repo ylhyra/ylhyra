@@ -6,7 +6,7 @@ import query from "ylhyra/server/database";
 
 const router = Router();
 
-router.get("/analytics", async (req, res) => {
+router.get("/api/analytics", async (req, res) => {
   if (!isDev && req.session.username !== "egill") {
     return res.sendStatus(200);
   }
@@ -106,7 +106,7 @@ const CountUsers = async ({ daysBack }) => {
 /*
   List most popular pages by unique visitors
 */
-router.get("/a", () => {
+router.get("/api/a", () => {
   // query(sql`
   //   SELECT
   //     page_name,

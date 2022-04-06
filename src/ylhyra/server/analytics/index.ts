@@ -15,7 +15,7 @@ const rateLimit = require("express-rate-limit")({
 
 // const MAX_TO_SAVE = 300;
 
-router.post("/a", rateLimit, (req, res) => {
+router.post("/api/a", rateLimit, (req, res) => {
   /* Ignore robots */
   if (new Crawler(req).isCrawler()) {
     return res.sendStatus(200);
@@ -83,7 +83,7 @@ router.post("/a", rateLimit, (req, res) => {
 // /*
 //   List most popular pages by unique visitors
 // */
-// router.get("/analytics/overview", (req, res) => {
+// router.get("/api/analytics/overview", (req, res) => {
 //   query(
 //     sql`
 //     SELECT

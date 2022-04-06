@@ -8,7 +8,7 @@ const rateLimit = require("express-rate-limit")({
   max: 1,
 });
 
-router.post("/error", rateLimit, (req, res) => {
+router.post("/api/error", rateLimit, (req, res) => {
   if (process.env.NODE_ENV === "development") return res.sendStatus(200);
 
   /* Ignore robots */

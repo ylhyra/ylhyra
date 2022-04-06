@@ -12,9 +12,9 @@ import {
 } from "ylhyra/app/router/actions/load";
 import { appUrls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
-import { HeaderData } from "ylhyra/documents/compile/functions/readContentFile";
-import { formatUrl } from "ylhyra/server/content/links/paths";
-import { renderTitle } from "ylhyra/server/content/renderTitle";
+import { HeaderData } from "ylhyra/content/documents/compile/functions/readContentFile";
+import { formatUrl } from "ylhyra/content/content/links/paths";
+import { renderTitle } from "ylhyra/content/content/renderTitle";
 
 export type RouteContent = {
   parsed: HtmlAsJson;

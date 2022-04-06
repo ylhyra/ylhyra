@@ -6,7 +6,7 @@ import Settings from "ylhyra/app/user/screens/Settings";
 import VocabularyOverview from "ylhyra/vocabulary/app/elements/OverviewScreen";
 import VocabularyRunning from "ylhyra/vocabulary/app/elements/RunningScreen";
 import UserLevel from "ylhyra/vocabulary/app/elements/UserLevelScreen";
-import NotFound from "ylhyra/documents/templates/404";
+import NotFound from "ylhyra/content/documents/templates/404";
 
 /**
  * Pages that are rendered by the app and are not content pages

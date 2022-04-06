@@ -4,7 +4,7 @@ import fileExtension from "file-extension";
 import fs from "fs";
 import path from "path";
 import shortid from "shortid";
-import { AeneasOutput } from "ylhyra/documents/parse/types";
+import { AeneasOutput } from "ylhyra/content/documents/parse/types";
 import { upload_path } from "ylhyra/server/index";
 
 const router = Router();
@@ -12,7 +12,7 @@ const router = Router();
 /*
   TODO: This should be put as a queued process
 */
-router.post("/audio/synchronize", (req, res) => {
+router.post("/api/audio/synchronize", (req, res) => {
   const { filename, xml } = req.body;
   if (!filename || !xml) {
     res.status(400);

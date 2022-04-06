@@ -1,7 +1,7 @@
 import argon2 from "argon2";
 import { Router } from "express";
 import request from "request";
-import { encodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
+import { encodeDataInHtml } from "ylhyra/content/documents/compile/functions/functions";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
 
@@ -19,7 +19,7 @@ const rateLimit = require("express-rate-limit")({
   max: process.env.TESTING ? Infinity : 5,
 });
 
-router.post("/user", speedLimit, rateLimit, async (req, res) => {
+router.post("/api/user", speedLimit, rateLimit, async (req, res) => {
   let username = req.body.username?.trim().replace(/\s+/g, " ");
   const email = req.body.email?.trim();
   const { password, captcha_token, type } = req.body;
@@ -154,7 +154,7 @@ const captcha = (captcha_token, res, callback) => {
 };
 
 /* TODO: CSRF */
-router.post("/user/logout", async (req, res) => {
+router.post("/api/user/logout", async (req, res) => {
   req.session.user_id = null;
   req.session.username = null;
   req.session.username_encoded = null;

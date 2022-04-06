@@ -10,7 +10,7 @@ import {
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { appUrls } from "ylhyra/app/router/appUrls";
 import LoadContent from "ylhyra/app/router/Content";
-import Section from "ylhyra/documents/templates/Section";
+import Section from "ylhyra/content/documents/templates/Section";
 
 class App extends React.Component<
   ConnectedProps<typeof connector> & {

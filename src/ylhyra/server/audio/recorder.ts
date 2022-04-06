@@ -1,17 +1,17 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
-import { ylhyra_content_files } from "ylhyra/server/paths_backend";
+import { ylhyraContentFiles } from "ylhyra/server/paths.server";
 
 const router = express.Router();
 
-router.post("/recorder/save", (req, res) => {
+router.post("/api/recorder/save", (req, res) => {
   if (process.env.NODE_ENV !== "development") return;
   const { base64_data, word, speaker, speed } = req.body;
   var buffer = Buffer.from(base64_data, "base64");
 
   const output_folder = path.resolve(
-    ylhyra_content_files,
+    ylhyraContentFiles,
     `./audio/pronunciation/`
   );
   let filename =

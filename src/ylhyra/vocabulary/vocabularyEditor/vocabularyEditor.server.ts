@@ -5,10 +5,10 @@ import yaml from "js-yaml";
 import _ from "underscore";
 import { removeExtraWhitespace } from "ylhyra/app/app/functions/removeExtraWhitespace";
 import { vocabularyRowTitles } from "ylhyra/vocabulary/vocabularyEditor/rowTitles";
-import { content_folder } from "ylhyra/server/paths_backend";
+import { contentFolder } from "ylhyra/server/paths.server";
 
 const router = Router();
-const filename = content_folder + `/not_data/vocabulary/vocabulary`;
+const filename = contentFolder + `/not_data/vocabulary/vocabulary`;
 
 router.post("/api/vocabulary_maker/get", (req, res) => {
   fs.readFile(

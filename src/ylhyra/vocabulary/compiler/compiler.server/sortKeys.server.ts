@@ -1,5 +1,5 @@
-import generateHtml from "ylhyra/documents/compile";
-import { decodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
+import generateHtml from "ylhyra/content/documents/compile";
+import { decodeDataInHtml } from "ylhyra/content/documents/compile/functions/functions";
 import { TermId } from "ylhyra/vocabulary/types";
 
 export type SortKeys = { [termId: TermId]: number };

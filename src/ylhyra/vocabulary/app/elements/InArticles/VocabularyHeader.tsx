@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { studyParticularIds } from "ylhyra/vocabulary/app/actions/functions";
 import { PercentageKnown } from "ylhyra/vocabulary/app/actions/functions/percentageKnown";
-import { decodeDataInHtml } from "ylhyra/documents/compile/functions/functions";
+import { decodeDataInHtml } from "ylhyra/content/documents/compile/functions/functions";
 
 class X extends Component<{ vocabulary: any; route: any; data: any }> {
   render() {

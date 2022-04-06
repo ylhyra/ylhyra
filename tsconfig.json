@@ -3,7 +3,7 @@
   "exclude": [
     "build",
     "node_modules",
-    "./src/ylhyra/documents/render/elements/Speed_reading"
+    "./src/ylhyra/content/documents/render/elements/Speed_reading"
   ],
   "typeAcquisition": {
     "exclude": ["crc-32", "fast-safe-stringify"]

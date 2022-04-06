@@ -11,7 +11,7 @@ const speedLimit = require("express-slow-down")({
 });
 
 /* Payments */
-router.post("/pwyw", speedLimit, async (req, res) => {
+router.post("/api/pwyw", speedLimit, async (req, res) => {
   const user_id = req.session?.user_id;
   // if (!user_id) return res.status(400).send("Not logged in");
 
