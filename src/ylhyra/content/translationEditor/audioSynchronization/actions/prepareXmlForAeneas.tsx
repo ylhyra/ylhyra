@@ -1,12 +1,13 @@
-import { XmlForAeneas } from "ylhyra/content/translationEditor/audioSynchronization/types";
 import { arrayIncludesAnyOfOtherArray } from "modules/arrayIncludesAnyOfOtherArray";
 import React from "react";
+import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
+import { Jsx } from "modules/typescript/jsx";
 
 /**
  * Prepare an XML file for audio synchronization.
  * Only leaves id tags on sentences and words.
  */
-export const prepareXmlForAeneas = (input, index = 0): XmlForAeneas => {
+export const prepareXmlForAeneas = (input: HtmlAsJson, index = 0): Jsx => {
   if (!input) return null;
   if (Array.isArray(input)) {
     return input.map((x) => prepareXmlForAeneas(x));
