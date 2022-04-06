@@ -77,7 +77,7 @@ ylhyraApp.use("/api", require("ylhyra/server/audio/recorder").default);
 // app.use('/api', require('server/translator/save').default)
 ylhyraApp.use(
   "/api",
-  require("ylhyra/content/translator/translator.server/saveTranslationData.server")
+  require("ylhyra/content/translationEditor/main/saveTranslationData.server")
     .default
 );
 ylhyraApp.use("/api", require("ylhyra/server/analytics").default);

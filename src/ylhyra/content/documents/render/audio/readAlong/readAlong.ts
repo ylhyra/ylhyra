@@ -1,8 +1,9 @@
 import { Seconds } from "modules/time";
 import store from "ylhyra/app/app/store";
-import { FlattenedData, LongAudioSyncData } from "ylhyra/content/documents/parse/types";
+import { FlattenedData } from "ylhyra/content/documents/parse/types";
 import scrollIntoView from "ylhyra/content/documents/render/audio/Scroll/ScrollIntoView";
 import { addClass, removeClass } from "ylhyra/content/documents/render/helpers";
+import { LongAudioSyncData } from "ylhyra/content/translationEditor/audioSynchronization/types";
 
 let audioIdToSyncData: { [id: string]: LongAudioSyncData[] } = {};
 let sentenceIdToTimestamps: {

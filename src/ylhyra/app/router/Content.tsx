@@ -7,7 +7,9 @@ import { RootState } from "ylhyra/app/app/store";
 import Render from "ylhyra/content/documents/render";
 import NotFound from "ylhyra/content/documents/templates/404";
 
-const RenderEditor = React.lazy(() => import("ylhyra/content/translator/editor"));
+const RenderEditor = React.lazy(
+  () => import("ylhyra/content/translationEditor/main/translator")
+);
 
 /**
  * Renders data loaded from server

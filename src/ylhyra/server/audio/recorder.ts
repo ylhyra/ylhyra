@@ -5,6 +5,9 @@ import { ylhyraContentFiles } from "ylhyra/server/paths.server";
 
 const router = express.Router();
 
+/**
+ * Used by the vocabulary editor
+ */
 router.post("/api/recorder/save", (req, res) => {
   if (process.env.NODE_ENV !== "development") return;
   const { base64_data, word, speaker, speed } = req.body;

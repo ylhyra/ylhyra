@@ -1,4 +1,4 @@
-import { Seconds } from "modules/time";
+import { LongAudioReducer } from "ylhyra/content/translationEditor/audioSynchronization/types";
 
 export type FlattenedData = {
   translation: TranslationData;
@@ -8,14 +8,7 @@ export type FlattenedData = {
     sounds: {};
     wordID_to_text: {};
   };
-  long_audio: {
-    [filename: string]: {
-      sync: {
-        list: LongAudioSyncData[];
-      };
-    };
-  };
-
+  long_audio: LongAudioReducer;
   tokenized?: TokenizedParagraphsWithIds;
 };
 
@@ -84,39 +77,3 @@ export type TokenizedFlattenedForWrapInTags = Array<
     // index: number; // Needed here since index is optional on TokenizedParagraphWithIds
   } & TokenizedParagraphWithIds
 >;
-
-/**
- * Audio sync
- */
-export type AeneasOutput = {
-  fragments: Array<{
-    id: "root";
-    /** Sentence-level elements */
-    children: Array<{
-      begin: string;
-      end: string;
-      id: string;
-      /** Word-level elements */
-      children?: Array<{
-        begin: string;
-        end: string;
-        id: string;
-      }>;
-    }>;
-  }>;
-};
-
-export type UnprocessedLongAudioSyncData = {
-  begin: Seconds;
-  end: Seconds;
-  id: string;
-};
-
-export type LongAudioSyncData = {
-  begin: Seconds;
-  end: Seconds;
-  /**
-   * Elements that are highlighted during this time
-   */
-  elements: string[];
-};

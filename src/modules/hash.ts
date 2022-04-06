@@ -1,7 +1,11 @@
 import stable_stringify from "json-stable-stringify";
+// @ts-ignore
 import hash from "string-hash";
 
-export default function (input) {
+/**
+ * Stable hash of any item
+ */
+export default function (input: any): string {
   if (typeof input === "object") {
     input = stable_stringify(input);
   } else if (typeof input !== "string") {

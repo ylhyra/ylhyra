@@ -7,7 +7,7 @@ import { route } from "ylhyra/app/router/reducers";
 import { user } from "ylhyra/app/user/reducers";
 import { vocabulary } from "ylhyra/vocabulary/app/reducers";
 import { audio } from "ylhyra/content/documents/render/audio/reducers";
-import { editor } from "ylhyra/content/translator/editor/reducers";
+import { editor } from "ylhyra/content/translationEditor/main/reducers";
 import { vocabularyMaker } from "ylhyra/vocabulary/vocabularyEditor/reducers";
 
 /*
