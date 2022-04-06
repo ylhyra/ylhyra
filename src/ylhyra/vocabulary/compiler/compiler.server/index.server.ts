@@ -6,7 +6,15 @@ import fs from "fs";
 import yaml from "js-yaml";
 import { getLowercaseStringForAudioKey } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import { parseVocabularyFile } from "ylhyra/vocabulary/compiler/parseVocabularyFile";
-import { CardId, DeckDatabase, VocabularyFile } from "ylhyra/vocabulary/types";
+import {
+  CardData,
+  CardId,
+  CardIds,
+  DeckDatabase,
+  TermId,
+  TermIds,
+  VocabularyFile,
+} from "ylhyra/vocabulary/types";
 import { content_folder, getBaseDir } from "ylhyra/server/paths_backend";
 import { getSounds } from "ylhyra/vocabulary/compiler/compiler.server/getSounds";
 import { simplifyDeck } from "ylhyra/vocabulary/compiler/compiler.server/simplifyDeck.server";
@@ -50,10 +58,10 @@ const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
 
       card.sound = getSounds(card.spokenSentences, soundLowercase);
       card.isSentence =
-        card.is_plaintext.length > 8 &&
-        card.is_plaintext.charAt(0) ===
-          card.is_plaintext.charAt(0).toUpperCase() &&
-        card.is_plaintext.match(/^([^;(]+)/)?.[1]?.includes(" ");
+        (card.is_plaintext?.length || 0) > 8 &&
+        card.is_plaintext?.charAt(0) ===
+          card.is_plaintext?.charAt(0).toUpperCase() &&
+        card.is_plaintext?.match(/^([^;(]+)/)?.[1]?.includes(" ");
       delete card.spokenSentences;
 
       // card.siblingCardIds = [];
@@ -68,17 +76,17 @@ const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
 
       delete card.is_plaintext;
       delete card.en_plaintext;
-      Object.keys(card).forEach((j) => {
-        if (!card[j]) {
-          delete card[j];
+      for (const j of Object.keys(card)) {
+        if (!card[j as keyof CardData]) {
+          delete card[j as keyof CardData];
         }
-      });
+      }
     }
 
     /* Add sortKey */
     for (let [termId, sortKey] of Object.entries(sortKeys)) {
-      if (termId in terms) {
-        terms[termId].cards.forEach((cardId) => {
+      if ((termId as TermId) in terms) {
+        terms[termId as TermId].cards.forEach((cardId) => {
           if (cards[cardId]) {
             cards[cardId].sortKey = sortKey;
           }
@@ -87,32 +95,32 @@ const filename = content_folder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
     }
 
     /* Delete unneeded terms & dependencies */
-    Object.keys(terms).forEach((term) => {
-      let out = [];
-      terms[term].cards.forEach((cardId) => {
+    for (const termId of Object.keys(terms)) {
+      let out: CardIds = [];
+      terms[termId as TermId].cards.forEach((cardId) => {
         if (cardId in cards) {
           out.push(cardId);
         }
       });
       if (out.length >= 1) {
-        terms[term].cards = out;
+        terms[termId as TermId].cards = out;
       } else {
-        delete terms[term];
+        delete terms[termId as TermId];
       }
-    });
-    Object.keys(dependencies).forEach((from_term) => {
-      let out = [];
-      dependencies[from_term].forEach((to_term) => {
-        if (to_term in terms) {
-          out.push(to_term);
+    }
+    for (const fromTermId of Object.keys(dependencies)) {
+      let out: TermIds = [];
+      for (const toTermId of dependencies[fromTermId as TermId]) {
+        if (toTermId in terms) {
+          out.push(toTermId as TermId);
         }
-      });
-      if (out.length >= 1) {
-        dependencies[from_term] = out;
-      } else {
-        delete dependencies[from_term];
       }
-    });
+      if (out.length >= 1) {
+        dependencies[fromTermId as TermId] = out;
+      } else {
+        delete dependencies[fromTermId as TermId];
+      }
+    }
 
     console.log(`${Object.keys(cards).length} cards`);
     const fullDeck: DeckDatabase = {
