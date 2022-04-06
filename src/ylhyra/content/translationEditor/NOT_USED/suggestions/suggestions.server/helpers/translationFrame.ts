@@ -1,4 +1,4 @@
-import simplifyString from "ylhyra/content/translationEditor/suggestions/suggestions.server/helpers/simplifyString";
+import simplifyString from "src/ylhyra/content/translationEditor/NOT_USED/suggestions/suggestions.server/helpers/simplifyString";
 
 export default (words: string[], index: number, contains?) => {
   let translationFrame = {};

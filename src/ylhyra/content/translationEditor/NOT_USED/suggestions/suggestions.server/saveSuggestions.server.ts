@@ -1,12 +1,12 @@
 import { Router } from "express";
-import string_hash from "modules/hash";
-import query from "ylhyra/server/database";
-import simplifyString from "ylhyra/content/translationEditor/suggestions/suggestions.server/helpers/simplifyString";
-import SQL_helper from "ylhyra/content/translationEditor/suggestions/suggestions.server/helpers/SQL_helper";
-import GetTranslationFrame from "ylhyra/content/translationEditor/suggestions/suggestions.server/helpers/translationFrame";
+import string_hash from "src/modules/hash";
+import query from "src/ylhyra/server/database";
+import simplifyString from "src/ylhyra/content/translationEditor/NOT_USED/suggestions/suggestions.server/helpers/simplifyString";
+import SQL_helper from "src/ylhyra/content/translationEditor/NOT_USED/suggestions/suggestions.server/helpers/SQL_helper";
+import GetTranslationFrame from "src/ylhyra/content/translationEditor/NOT_USED/suggestions/suggestions.server/helpers/translationFrame";
 
 const router = Router();
-require("modules/sortByArray");
+require("src/modules/sortByArray");
 
 router.put("/api/save", (req, res) => {
   const { document_id, from, to, translation, list } = req.body.data;

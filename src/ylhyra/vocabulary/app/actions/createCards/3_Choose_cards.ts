@@ -6,11 +6,15 @@ import {
   sortCardsByScore,
   veryRecentlySeenSortedLast,
 } from "ylhyra/vocabulary/app/actions/createCards/functions";
-import { CARDS_TO_CREATE } from "ylhyra/vocabulary/app/actions/createCards/index";
+import {
+  CARDS_TO_CREATE,
+  CreateCardsOptions,
+} from "ylhyra/vocabulary/app/actions/createCards/index";
 import { printWord } from "ylhyra/vocabulary/app/actions/functions";
 import { CardIds } from "ylhyra/vocabulary/types";
+import { isEmpty } from "modules/isEmpty";
 
-export default (options): CardIds => {
+export default (options?: CreateCardsOptions): CardIds => {
   /**
    * Chosen_cards starts out as an array of nulls;
    * the slots will later be filled.
@@ -18,7 +22,7 @@ export default (options): CardIds => {
   let chosenCards = new Array(CARDS_TO_CREATE).fill(null);
 
   /* Helper function to add to chosen_cards */
-  const add = (arr: CardIds, desc: string, pos?) => {
+  const add = (arr: CardIds, desc: string, pos?: number) => {
     if (!isEmpty(arr)) {
       if (pos === undefined) {
         pos = chosenCards.findIndex((j) => j === null);
@@ -97,8 +101,7 @@ export default (options): CardIds => {
   return chosenCards;
 };
 
-export const isEmpty = (array) => array.length === 0;
-export const sumOfArrayLengths = (...arrays) => {
+export const sumOfArrayLengths = (...arrays: any[][]) => {
   let length = 0;
   arrays.forEach((a) => (length += a.length));
   return length;

@@ -15,6 +15,7 @@ export type CreateCardsOptions = {
   skip_dependencies?: Boolean;
   skipOverTheEasiest?: Boolean;
   insertImmediately?: Boolean;
+  dont_sort_by_allowed_ids?: Boolean;
 };
 export function createCards(this: Session, options?: CreateCardsOptions): void {
   warnIfSlow.start("createCards");

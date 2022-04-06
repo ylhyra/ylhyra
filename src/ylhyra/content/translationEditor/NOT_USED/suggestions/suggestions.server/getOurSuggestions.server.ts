@@ -1,11 +1,11 @@
-import forEachAsync from "modules/forEachAsync";
-import string_hash from "modules/hash";
+import forEachAsync from "src/modules/forEachAsync";
+import string_hash from "src/modules/hash";
 import { escape } from "sqlstring";
-import flattenArray from "ylhyra/app/app/functions/flattenArray";
-import query from "ylhyra/server/database";
-import sql from "ylhyra/server/database/functions/SQL-template-literal";
-import simplifyString from "ylhyra/content/translationEditor/suggestions/suggestions.server/helpers/simplifyString";
-import GetTranslationFrame from "ylhyra/content/translationEditor/suggestions/suggestions.server/helpers/translationFrame";
+import flattenArray from "src/ylhyra/app/app/functions/flattenArray";
+import query from "src/ylhyra/server/database";
+import sql from "src/ylhyra/server/database/functions/SQL-template-literal";
+import simplifyString from "src/ylhyra/content/translationEditor/NOT_USED/suggestions/suggestions.server/helpers/simplifyString";
+import GetTranslationFrame from "src/ylhyra/content/translationEditor/NOT_USED/suggestions/suggestions.server/helpers/translationFrame";
 
 /**
  * Suggestions based on our previous translations
