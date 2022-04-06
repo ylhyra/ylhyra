@@ -91,7 +91,7 @@ ylhyraApp.use(
   "/",
   require("ylhyra/vocabulary/vocabularyEditor/vocabularyEditor.server").default
 );
-ylhyraApp.use("/", require("ylhyra/documents/getContent.server").default);
+ylhyraApp.use("/", require("ylhyra/documents/get/getContent.server").default);
 
 const inflections_app = express();
 inflections_app.use(cors({ origin: "*" }));

@@ -95,8 +95,8 @@ const loginSuccessful = (req: Request, res: Response, user) => {
 };
 
 router.post("/api/logout", async (req, res) => {
-  req.session.userId = null;
-  req.session.usernameEncoded = null;
+  req.session!.userId = null;
+  req.session!.usernameEncoded = null;
   return res.sendStatus(200);
 });
 
