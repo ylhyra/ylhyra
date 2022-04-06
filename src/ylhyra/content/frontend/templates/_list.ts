@@ -3,20 +3,20 @@ import Login from "ylhyra/app/user/LoginForm";
 import PWYW from "ylhyra/app/user/payments/Pay";
 import SignupSteps from "ylhyra/app/user/screens/SignupSteps";
 import VocabularyHeader from "ylhyra/vocabulary/app/elements/InArticles/VocabularyHeader";
-import Audio from "ylhyra/content/documents/templates/Audio";
-import Book from "ylhyra/content/documents/templates/Book";
-import Button from "ylhyra/content/documents/templates/Button";
-import Chapter from "ylhyra/content/documents/templates/Chapter";
-import Collapse from "ylhyra/content/documents/templates/Collapse";
-import Constant from "ylhyra/content/documents/templates/Constant";
-import H1 from "ylhyra/content/documents/templates/H1";
-import Image from "ylhyra/content/documents/templates/Image";
-import Instagram from "ylhyra/content/documents/templates/Instagram";
-import Level from "ylhyra/content/documents/templates/Level";
-import Parts from "ylhyra/content/documents/templates/Parts";
-import Section from "ylhyra/content/documents/templates/Section";
-import Spacer from "ylhyra/content/documents/templates/Spacer";
-import Tweet from "ylhyra/content/documents/templates/Tweet";
+import Audio from "ylhyra/content/frontend/templates/Audio";
+import Book from "ylhyra/content/frontend/templates/Book";
+import Button from "ylhyra/content/frontend/templates/Button";
+import Chapter from "ylhyra/content/frontend/templates/Chapter";
+import Collapse from "ylhyra/content/frontend/templates/Collapse";
+import Constant from "ylhyra/content/frontend/templates/Constant";
+import H1 from "ylhyra/content/frontend/templates/H1";
+import Image from "ylhyra/content/frontend/templates/Image";
+import Instagram from "ylhyra/content/frontend/templates/Instagram";
+import Level from "ylhyra/content/frontend/templates/Level";
+import Parts from "ylhyra/content/frontend/templates/Parts";
+import Section from "ylhyra/content/frontend/templates/Section";
+import Spacer from "ylhyra/content/frontend/templates/Spacer";
+import Tweet from "ylhyra/content/frontend/templates/Tweet";
 
 const template = {
   Audio: Audio,

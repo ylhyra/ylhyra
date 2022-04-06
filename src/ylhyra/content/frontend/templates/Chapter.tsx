@@ -4,7 +4,7 @@ import { RootState } from "ylhyra/app/app/store";
 import Link from "ylhyra/app/router/Link";
 import ChapterPercentage from "ylhyra/vocabulary/app/elements/InArticles/ChapterPercentage";
 import ChapterWords from "ylhyra/vocabulary/app/elements/InArticles/ChapterWords";
-import { decodeDataInHtml } from "ylhyra/content/documents/compile/functions/functions";
+import { decodeDataInHtml } from "ylhyra/content/documents/compileDocument/functions/functions";
 
 class X extends Component<
   ConnectedProps<typeof connector> & {

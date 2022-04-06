@@ -1,6 +1,6 @@
 import React from "react";
-import Audio from "ylhyra/content/documents/render/audio";
-import Spacer from "ylhyra/content/documents/templates/Spacer";
+import Audio from "ylhyra/content/frontend/audio/audioPlayer";
+import Spacer from "ylhyra/content/frontend/templates/Spacer";
 
 export default (props) => {
   return (

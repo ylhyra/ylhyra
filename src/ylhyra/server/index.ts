@@ -12,7 +12,7 @@ import { staticCached } from "ylhyra/server/caching";
 import {
   processedImageUrl,
   unprocessedImageUrl,
-} from "ylhyra/content/content/links/paths";
+} from "ylhyra/content/documents/links/format/paths";
 import query from "ylhyra/server/database";
 import {
   buildFolder,
@@ -93,7 +93,10 @@ ylhyraApp.use(
   "/",
   require("ylhyra/vocabulary/vocabularyEditor/vocabularyEditor.server").default
 );
-ylhyraApp.use("/", require("ylhyra/content/content").default);
+ylhyraApp.use(
+  "/",
+  require("ylhyra/content/documents/getContent.server").default
+);
 
 const inflections_app = express();
 inflections_app.use(cors({ origin: "*" }));
@@ -124,13 +127,13 @@ const port = process.env.SERVER_PORT || argv.port || 9123;
 
 /* Import steps */
 if (argv["generate-links"]) {
-  require("ylhyra/content/content/links/generateLinks.js");
+  require("ylhyra/content/documents/links/generateLinks.server.js");
 } else if (argv["sitemap"]) {
-  require("ylhyra/content/content/prerender/generateSitemap.js");
+  require("ylhyra/content/documents/prerender/generateSitemap.server.js");
 } else if (argv["sort_course_chapters"]) {
-  require("ylhyra/content/content/preProcessing/sortCourseChapters.js");
+  require("ylhyra/content/documents/preProcessing/sortCourseChapters.js");
 } else if (argv["prerender"]) {
-  require("ylhyra/content/content/prerender/prerenderAll.js");
+  require("ylhyra/content/documents/prerender/prerenderAll.server.js");
 } else if (argv["generate-search-index"]) {
   require("inflection/server/database/generateSearchIndex");
 } else if (argv["import-inflections"]) {

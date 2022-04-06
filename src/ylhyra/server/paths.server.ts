@@ -1,5 +1,5 @@
 import path from "path";
-import { unprocessedImageUrl } from "ylhyra/content/content/links/paths";
+import { unprocessedImageUrl } from "ylhyra/content/documents/links/format/paths";
 
 export const getBaseDir = () => process.env.PWD as string;
 

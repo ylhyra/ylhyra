@@ -2,11 +2,8 @@ import { AnyAction, combineReducers } from "redux";
 // @ts-ignore
 import getParameter from "get-parameter";
 import { isBrowser } from "modules/isBrowser";
-import MakeList from "ylhyra/content/documents/parse/Tokenize/List";
-import {
-  ListData,
-  TokenizedParagraphsWithIds,
-} from "ylhyra/content/documents/parse/types";
+import MakeList from "ylhyra/content/documents/compileWithTranslation/Tokenize/List";
+import { ListData, TokenizedParagraphsWithIds } from "ylhyra/content/types";
 import { long_audio } from "ylhyra/content/translationEditor/audioSynchronization/frontend/reducers";
 import short_audio from "ylhyra/content/translationEditor/NOT_USED/shortAudio.NOT_USED/reducers";
 // import {

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ReactActivityCalendar from "ylhyra/app/app/functions/react-activity-calendar";
 import { withPlural } from "ylhyra/app/app/functions/simplePlural";
-import Spacer from "ylhyra/content/documents/templates/Spacer";
+import Spacer from "ylhyra/content/frontend/templates/Spacer";
 
 class ActivityCalendar extends Component<{ vocabulary: any }> {
   render() {

@@ -3,7 +3,7 @@ import { Router } from "express";
 import fs from "fs";
 import { isDev } from "modules/isDev";
 import path from "path";
-import { getValuesForUrl } from "ylhyra/content/content/links/getValuesForUrl";
+import { getValuesForUrl } from "ylhyra/content/documents/links/getValuesForUrl.server";
 import { getBaseDir } from "ylhyra/server/paths.server";
 
 const router = Router();

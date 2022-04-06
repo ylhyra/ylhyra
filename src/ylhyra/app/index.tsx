@@ -8,8 +8,8 @@ import { initializeRouter } from "ylhyra/app/router/actions/actions";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { initializeUser } from "ylhyra/app/user/actions";
 import { initializeVocabulary } from "ylhyra/vocabulary/app/actions/initialize";
-import { textEventListenersOn } from "ylhyra/content/documents/read/touch";
-import "ylhyra/content/documents/style/main.styl";
+import { textEventListenersOn } from "ylhyra/content/frontend/textInteractions/eventListeners";
+import "ylhyra/content/frontend/style/main.styl";
 
 let prerenderData: PrerenderedDataSavedInPage | null = null;
 if (isBrowser && "ylhyra_data" in window) {
