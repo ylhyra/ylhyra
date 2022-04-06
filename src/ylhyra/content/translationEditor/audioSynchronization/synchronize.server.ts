@@ -1,13 +1,14 @@
 import { exec } from "child_process";
 import { Response, Router } from "express";
-import fs from "fs";
+import { promises as fs } from "fs";
 import path from "path";
 import shortid from "shortid";
-import { upload_path } from "ylhyra/server";
+
 import {
   AeneasAudioSyncOutput,
   XmlForAeneas,
 } from "ylhyra/content/translationEditor/audioSynchronization/types";
+import { uploadPath } from "ylhyra/server/paths.server";
 
 const router = Router();
 
@@ -20,9 +21,9 @@ router.post("/api/audio/synchronize", (req, res) => {
     res.status(400);
     res.send(`Missing parameters`);
   } else {
-    /** TODO: Get file from ylhyra_content */
     throw new Error("Not implemented");
-    synchronize({ audioFilepath: filepath, xml }, res);
+    /** TODO: Get filepath from ylhyra_content */
+    // synchronize({ audioFilepath: filepath, xml }, res);
   }
 });
 
@@ -46,15 +47,10 @@ const synchronize = async (
   const tmpName = `tmp_${shortid.generate()}`;
   const LANGUAGE_CODE = lang || "isl";
   const AUDIO_FILE_PATH = audioFilepath;
-  const INPUT_XML = path.resolve(upload_path, `${tmpName}.xhtml`);
-  const OUTPUT_JSON = path.resolve(upload_path, `${tmpName}.json`);
+  const INPUT_XML_PATH = path.resolve(uploadPath, `${tmpName}.xhtml`);
+  const OUTPUT_JSON_PATH = path.resolve(uploadPath, `${tmpName}.json`);
 
-  await new Promise<void>((resolve) => {
-    fs.writeFile(INPUT_XML, `<xml id="root">${xml}</xml>`, (err) => {
-      if (err) throw err;
-      resolve();
-    });
-  });
+  await fs.writeFile(INPUT_XML_PATH, `<xml id="root">${xml}</xml>`);
 
   try {
     await new Promise<void>((resolve, reject) => {
@@ -64,27 +60,27 @@ const synchronize = async (
         command =
           ` python -m aeneas.tools.execute_task ` +
           `  ${AUDIO_FILE_PATH} ` +
-          `  ${INPUT_XML} ` +
+          `  ${INPUT_XML_PATH} ` +
           `  "task_language=${LANGUAGE_CODE}|` +
           `os_task_file_format=json|` +
           `is_text_type=unparsed|` +
           `is_text_unparsed_id_sort=unsorted|` +
           `is_text_unparsed_id_regex=s[A-Za-z0-9_\\-]+"` +
-          ` ${OUTPUT_JSON} `;
+          ` ${OUTPUT_JSON_PATH} `;
       } else {
-        /* WORD LEVEL */
-        command =
-          ` python -m aeneas.tools.execute_task ` +
-          `  ${AUDIO_FILE_PATH} ` +
-          `  ${INPUT_XML} ` +
-          `  "task_language=${LANGUAGE_CODE}|` +
-          `os_task_file_format=json|` +
-          `is_text_type=munparsed|` +
-          `is_text_munparsed_l1_id_regex=root|` +
-          `is_text_munparsed_l2_id_regex=s[A-Za-z0-9_\\-]+|` +
-          `is_text_munparsed_l3_id_regex=w[A-Za-z0-9_\\-]+"` +
-          ` ${OUTPUT_JSON} ` +
-          ` --presets-word`;
+        // /* WORD LEVEL */
+        // command =
+        //   ` python -m aeneas.tools.execute_task ` +
+        //   `  ${AUDIO_FILE_PATH} ` +
+        //   `  ${INPUT_XML_PATH} ` +
+        //   `  "task_language=${LANGUAGE_CODE}|` +
+        //   `os_task_file_format=json|` +
+        //   `is_text_type=munparsed|` +
+        //   `is_text_munparsed_l1_id_regex=root|` +
+        //   `is_text_munparsed_l2_id_regex=s[A-Za-z0-9_\\-]+|` +
+        //   `is_text_munparsed_l3_id_regex=w[A-Za-z0-9_\\-]+"` +
+        //   ` ${OUTPUT_JSON_PATH} ` +
+        //   ` --presets-word`;
       }
       exec(command, (err, stdout, stderr) => {
         if (stderr) {
@@ -103,19 +99,15 @@ const synchronize = async (
     return res.send(e);
   }
 
-  const json: AeneasAudioSyncOutput = await new Promise((resolve) => {
-    fs.readFile(OUTPUT_JSON, "utf8", (err, data) => {
-      if (err) throw err;
-      // console.log(data)
-      resolve(data);
-    });
-  });
+  const json: AeneasAudioSyncOutput = JSON.parse(
+    await fs.readFile(OUTPUT_JSON_PATH, "utf8")
+  );
 
   res.send(json);
 
-  fs.unlink(OUTPUT_JSON, () => {});
-  fs.unlink(INPUT_XML, () => {});
-  fs.unlink(AUDIO_FILE_PATH, () => {});
+  await fs.unlink(OUTPUT_JSON_PATH);
+  await fs.unlink(INPUT_XML_PATH);
+  await fs.unlink(AUDIO_FILE_PATH);
 };
 
 export default router;

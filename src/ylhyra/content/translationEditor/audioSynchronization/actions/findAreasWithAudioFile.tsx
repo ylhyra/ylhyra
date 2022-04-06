@@ -1,58 +1,53 @@
 import React from "react";
-import ReactDOMServer from "react-dom/server";
 import { notify } from "ylhyra/app/app/error";
-import { html2json } from "ylhyra/app/app/functions/html2json";
 import store from "ylhyra/app/app/store";
 import { prepareXmlForAeneas } from "ylhyra/content/translationEditor/audioSynchronization/actions/prepareXmlForAeneas";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
+import { XmlForAeneas } from "ylhyra/content/translationEditor/audioSynchronization/types";
 
 /*
-  Allows just a single audio file
+  Note: Allows just a single audio file
 */
-export default () => {
-  const { parsed } = store.getState().editor;
+export const findAreasWithAudioFile = () => {
+  const parsed: HtmlAsJson = store.getState().editor.parsed;
   if (!parsed) {
     return notify(
       "There is no {parsed} for Long audio. Consider turning off server-side rendering."
     );
   }
-  /**
-   * Render document.
-   * (We are using some components in the Compile() stage that need to be rendered.)
-   */
-  const json = html2json(ReactDOMServer.renderToStaticMarkup(parsed));
+
+  // Todo: This must be an error, since there is no way to pass parsed to ReactDOMServer
+  // /**
+  //  * (We are using some components in the Compile() stage that need to be rendered.)
+  //  */
+  // const json = html2json(ReactDOMServer.renderToStaticMarkup(parsed));
+
+  const json = parsed;
 
   let done: Boolean;
-  findAreasWithAudioFile(json, (node: HtmlAsJson, filename) => {
+  traverseAndFindAreasWithAudioFile(json, (node: HtmlAsJson, filename) => {
     if (done) {
       notify(
         "Only one audio area can be used at a time, for multiple uses you must transclude them."
       );
     } else {
       done = true;
-      const XML = prepareXmlForAeneas(node);
-      const output = ReactDOMServer.renderToStaticMarkup(XML).replace(
-        /(<\/div>)/g,
-        "</div>\n"
-      );
-      console.log({ output });
-      if (!output || !/<(span|div)/.test(output)) {
-        return notify(
-          "Could not create audio XML, no spans found. Check Long_audio/actions.js"
-        );
+      const XML: XmlForAeneas = prepareXmlForAeneas(node);
+      if (!XML || !/<(span|div)/.test(XML)) {
+        return notify("Could not create audio XML, no spans found");
       }
       if (XML) {
         store.dispatch({
           type: "AUDIO_AREA",
           filename,
-          content: output,
+          content: XML,
         });
       }
     }
   });
 };
 
-export const findAreasWithAudioFile = (
+export const traverseAndFindAreasWithAudioFile = (
   input: HtmlAsJson,
   callback: (output: HtmlAsJson, filename: string) => void
 ): void => {
@@ -61,7 +56,7 @@ export const findAreasWithAudioFile = (
     if (attr && attr["data-audio-file"]) {
       callback(input, attr["data-audio-file"]);
     } else {
-      child.forEach((x) => findAreasWithAudioFile(x, callback));
+      child.forEach((x) => traverseAndFindAreasWithAudioFile(x, callback));
     }
   }
 };

@@ -7,7 +7,7 @@ import fs from "fs";
 
 const http = require("https");
 
-const upload_path = path.resolve(
+const uploadPath = path.resolve(
   process.env.PWD,
   "./../ylhyra_content/not_data/files/images/blær"
 );
@@ -28,11 +28,11 @@ data.replace(/"(https?:[^"]+?\.[a-z0-9]+)"/gi, (x, url) => {
   await forEachAsync(FILES_TO_DOWNLOAD, async (file_url) => {
     return new Promise((resolve) => {
       const filename = "Blaer_egg_i_askrift_" + file_url.replace(/^.+\//, "");
-      const file = fs.createWriteStream(path.resolve(upload_path, filename));
+      const file = fs.createWriteStream(path.resolve(uploadPath, filename));
       http.get(file_url, function (response) {
         response.pipe(file);
         fs.writeFileSync(
-          path.resolve(upload_path, filename + ".md"),
+          path.resolve(uploadPath, filename + ".md"),
           `
           ---
           title: File:${filename}

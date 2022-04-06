@@ -109,16 +109,3 @@ export const editor = combineReducers({
   // audio,
   // pronunciation,
 });
-
-// import audio from 'Editor/4-Audio/reducers'
-// import pronunciation from 'Editor/4-Audio/Pronunciation'
-//
-// const id = (state = null, action: AnyAction) => {
-//   switch (action.type) {
-//     case 'LOAD_EDITOR':
-//       return action.content.id
-//     default:
-//       return state
-//   }
-// }
-//

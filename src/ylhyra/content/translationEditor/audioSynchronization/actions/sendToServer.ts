@@ -1,9 +1,9 @@
 import axios from "ylhyra/app/app/axios";
 import { notify } from "ylhyra/app/app/error";
 import store from "ylhyra/app/app/store";
-import MergeShortWords from "ylhyra/content/translationEditor/audioSynchronization/actions/Synchronize/2-Merge-short-words";
-import FlattenAeneasData from "ylhyra/content/translationEditor/audioSynchronization/actions/Synchronize/3-Flatten";
-import MakeLongAudioSyncList from "ylhyra/content/translationEditor/audioSynchronization/actions/Synchronize/4-Make-list";
+import MergeShortWords from "ylhyra/content/translationEditor/audioSynchronization/actions/postprocessing/1_merge_short_words";
+import FlattenAeneasData from "ylhyra/content/translationEditor/audioSynchronization/actions/postprocessing/2_flatten";
+import MakeLongAudioSyncList from "ylhyra/content/translationEditor/audioSynchronization/actions/postprocessing/3_make_list";
 import { AeneasAudioSyncOutput } from "ylhyra/content/translationEditor/audioSynchronization/types";
 
 // const TESTING_WITH_LOCALHOST = true

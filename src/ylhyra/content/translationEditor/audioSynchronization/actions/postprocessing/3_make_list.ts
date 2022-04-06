@@ -1,26 +1,24 @@
-/*
-
-   Merge overlapping time spans.
-
-   Example input: [
-     { begin: 0.000, end: 4.400, id: "s0",  },
-     { begin: 0.000, end: 1.930, id: "w1",  },
-     { begin: 1.930, end: 2.315, id: "w2",  },
-   ]
-
-   Example output: [
-    { begin: 0.000, end: 1.930, elements: ["s0","w1"] },
-    { begin: 1.930, end: 2.315, elements: ["s0","w2"] }
-    { begin: 2.315, end: 4.400, elements: ["s0"] }
-   ]
-
-*/
-
 import {
   LongAudioSyncData,
   LongAudioSyncDataIntermediateForm,
 } from "ylhyra/content/translationEditor/audioSynchronization/types";
 
+/**
+ *
+ * Merge overlapping time spans.
+ *
+ * Example input: [
+ *   { begin: 0.000, end: 4.400, id: "s0",  },
+ *   { begin: 0.000, end: 1.930, id: "w1",  },
+ *   { begin: 1.930, end: 2.315, id: "w2",  },
+ * ]
+ *
+ * Example output: [
+ *  { begin: 0.000, end: 1.930, elements: ["s0","w1"] },
+ *  { begin: 1.930, end: 2.315, elements: ["s0","w2"] }
+ *  { begin: 2.315, end: 4.400, elements: ["s0"] }
+ * ]
+ */
 export default function MakeLongAudioSyncList(
   input: LongAudioSyncDataIntermediateForm[]
 ): LongAudioSyncData[] {

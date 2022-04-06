@@ -1,13 +1,13 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 // import Upload from './Upload'
-import findAudioSections from "ylhyra/content/translator/editor/Long_audio/actions";
-import { synchronize } from "ylhyra/content/translator/editor/Long_audio/Synchronize";
+import { findAreasWithAudioFile } from "ylhyra/content/translationEditor/audioSynchronization/actions/findAreasWithAudioFile";
+import { synchronize } from "ylhyra/content/translationEditor/audioSynchronization/actions/sendToServer";
 
 class LongAudio extends React.Component<ConnectedProps<typeof connector>> {
   componentDidMount = () => {
-    findAudioSections();
+    findAreasWithAudioFile();
   };
   render() {
     const { long_audio } = this.props;

@@ -12,3 +12,5 @@ export const ylhyraContentFiles = contentFolder + "/not_data/files";
 
 export const getUnprocessedImageUrl = (file: string) =>
   `${unprocessedImageUrl}/${encodeURIComponent(file)}`;
+
+export const uploadPath = path.resolve(getBaseDir(), "./uploads");

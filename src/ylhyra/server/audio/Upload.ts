@@ -10,18 +10,18 @@
 // import mime from 'mime'
 // import urlSlug from 'src/app/App/functions/url-slug'
 // import mkdirp from 'mkdirp'
-// import { upload_path } from 'config.js'
+// import { uploadPath } from 'config.js'
 // import synchronize from './Synchronize'
 //
 // const UploadSettings = multer({
 //   storage: multer.diskStorage({
 //     destination: (req, file, callback) => {
-//       // const upload_path = path.resolve(__dirname, '../../uploads')
-//       mkdirp(upload_path, err => {
+//       // const uploadPath = path.resolve(__dirname, '../../uploads')
+//       mkdirp(uploadPath, err => {
 //         if (err) {
 //           console.error(err)
 //         }
-//         callback(err, upload_path)
+//         callback(err, uploadPath)
 //       })
 //     },
 //     filename: (req, file, callback) => {
