@@ -12,10 +12,10 @@ import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { BAD, EASY, GOOD, rating } from "ylhyra/vocabulary/app/constants";
 import { VocabularyReducer } from "ylhyra/vocabulary/app/reducers";
-import AudioClip from "ylhyra/content/frontend/audio/audioWithoutInterface.NOT_USED";
+import AudioClip from "ylhyra/documents/renderDocument/audio/audioWithoutInterface.NOT_USED";
 import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
 import { getDeckName } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
-import { getProcessedImageUrl } from "ylhyra/content/documents/links/format/paths";
+import { getProcessedImageUrl } from "ylhyra/server/paths";
 
 class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
   isKeyDown: boolean;

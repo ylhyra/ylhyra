@@ -4,11 +4,11 @@ import React, { Component, Suspense } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { RootState } from "ylhyra/app/app/store";
-import Render from "ylhyra/content/frontend/render";
-import NotFound from "ylhyra/content/frontend/templates/404";
+import Render from "ylhyra/documents/renderDocument/render";
+import NotFound from "ylhyra/documents/renderDocument/templates/404";
 
 const RenderEditor = React.lazy(
-  () => import("ylhyra/content/translationEditor/main/translator")
+  () => import("ylhyra/documents/translationEditor/main/translator")
 );
 
 /**

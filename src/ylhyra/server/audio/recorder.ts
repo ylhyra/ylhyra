@@ -1,7 +1,7 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
-import { ylhyraContentFiles } from "ylhyra/server/paths.server";
+import { ylhyraContentFiles } from "ylhyra/server/paths";
 
 const router = express.Router();
 

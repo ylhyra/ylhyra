@@ -1,6 +1,6 @@
 import { UserProfile } from "flashcards/frontend/user/types";
 import { isBrowser } from "modules/isBrowser";
-import { decodeDataInHtml } from "ylhyra/content/documents/compileDocument/functions/functions";
+import { decodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";
 
 export const COOKIE_NAME = "s";
 

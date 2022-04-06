@@ -7,7 +7,7 @@ import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { sync } from "ylhyra/vocabulary/app/actions/userData/sync";
 import { clearOverview } from "ylhyra/vocabulary/app/elements/OverviewScreen/actions";
-import { decodeDataInHtml } from "ylhyra/content/documents/compileDocument/functions/functions";
+import { decodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";
 
 export const login = async (values) => {
   const response = (await axios.post("/api/user", values)).data;

@@ -1,6 +1,6 @@
 import { getDescriptionFromGrammaticalTag } from "inflection/tables/classification/classification";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
-import { formatUrl } from "ylhyra/content/documents/links/format/formatUrl";
+import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 
 /**
  * Creates a link from our labels to the relevant Ylhýra pages

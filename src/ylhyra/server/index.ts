@@ -9,17 +9,15 @@ import path from "path";
 import "regenerator-runtime/runtime";
 import requestIp from "request-ip";
 import { staticCached } from "ylhyra/server/caching";
-import {
-  processedImageUrl,
-  unprocessedImageUrl,
-} from "ylhyra/content/documents/links/format/paths";
 import query from "ylhyra/server/database";
 import {
   buildFolder,
   getBaseDir,
   imageOutputFolder,
+  processedImageUrl,
+  unprocessedImageUrl,
   ylhyraContentFiles,
-} from "ylhyra/server/paths.server";
+} from "ylhyra/server/paths";
 
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
@@ -77,7 +75,7 @@ ylhyraApp.use("/api", require("ylhyra/server/audio/recorder").default);
 // app.use('/api', require('server/translator/save').default)
 ylhyraApp.use(
   "/api",
-  require("ylhyra/content/translationEditor/main/saveTranslationData.server")
+  require("ylhyra/documents/translationEditor/main/saveTranslationData.server")
     .default
 );
 ylhyraApp.use("/api", require("ylhyra/server/analytics").default);
@@ -93,10 +91,7 @@ ylhyraApp.use(
   "/",
   require("ylhyra/vocabulary/vocabularyEditor/vocabularyEditor.server").default
 );
-ylhyraApp.use(
-  "/",
-  require("ylhyra/content/documents/getContent.server").default
-);
+ylhyraApp.use("/", require("ylhyra/documents/getContent.server").default);
 
 const inflections_app = express();
 inflections_app.use(cors({ origin: "*" }));
@@ -127,13 +122,13 @@ const port = process.env.SERVER_PORT || argv.port || 9123;
 
 /* Import steps */
 if (argv["generate-links"]) {
-  require("ylhyra/content/documents/links/generateLinks.server.js");
+  require("ylhyra/documents/compilation/links/generateLinks.server.js");
 } else if (argv["sitemap"]) {
-  require("ylhyra/content/documents/prerender/generateSitemap.server.js");
+  require("ylhyra/documents/compilation/prerender/generateSitemap.server.js");
 } else if (argv["sort_course_chapters"]) {
-  require("ylhyra/content/documents/preProcessing/sortCourseChapters.js");
+  require("ylhyra/documents/compilation/preProcessing/sortCourseChapters.js");
 } else if (argv["prerender"]) {
-  require("ylhyra/content/documents/prerender/prerenderAll.server.js");
+  require("ylhyra/documents/compilation/prerender/prerenderAll.server.js");
 } else if (argv["generate-search-index"]) {
   require("inflection/server/database/generateSearchIndex");
 } else if (argv["import-inflections"]) {

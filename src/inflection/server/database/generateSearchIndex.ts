@@ -32,7 +32,7 @@ import { escape } from "sqlstring";
 import flattenArray from "ylhyra/app/app/functions/flattenArray";
 import query from "ylhyra/server/database";
 import LineByLineReader from "line-by-line";
-import { getBaseDir } from "ylhyra/server/paths.server";
+import { getBaseDir } from "ylhyra/server/paths";
 
 const CSV_FILE_NAME = "ordalisti.csv";
 const CSV_FILE_LINES = 3071707; // Number of lines, calculated with "wc -l"

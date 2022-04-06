@@ -1,6 +1,6 @@
 import { isDev } from "modules/isDev";
-import reset from "ylhyra/content/frontend/textInteractions/Reset";
-import showWord from "ylhyra/content/frontend/textInteractions/ShowWord";
+import reset from "ylhyra/documents/renderDocument/textInteractions/Reset";
+import showWord from "ylhyra/documents/renderDocument/textInteractions/ShowWord";
 
 /*
   Front page demo

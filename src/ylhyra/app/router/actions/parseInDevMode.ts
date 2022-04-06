@@ -15,7 +15,7 @@ export async function parseInFrontendIfInDevelopmentMode({
   const Parse = (
     await import(
       /* webpackChunkName: "parse" */
-      "ylhyra/content/documents/compileWithTranslation"
+      "ylhyra/documents/compilation/compileWithTranslation"
     )
   ).default;
   const out = Parse({

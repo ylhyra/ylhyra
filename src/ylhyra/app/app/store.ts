@@ -6,8 +6,8 @@ import error from "ylhyra/app/app/error/reducers";
 import { route } from "ylhyra/app/router/reducers";
 import { user } from "ylhyra/app/user/reducers";
 import { vocabulary } from "ylhyra/vocabulary/app/reducers";
-import { audio } from "ylhyra/content/frontend/audio/reducers";
-import { editor } from "ylhyra/content/translationEditor/main/reducers";
+import { audio } from "ylhyra/documents/renderDocument/audio/reducers";
+import { editor } from "ylhyra/documents/translationEditor/main/reducers";
 import { vocabularyMaker } from "ylhyra/vocabulary/vocabularyEditor/reducers";
 
 /*

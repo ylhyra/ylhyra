@@ -6,8 +6,8 @@ import { studyNewTerms } from "ylhyra/vocabulary/app/actions/functions";
 import { getUserLevel } from "ylhyra/vocabulary/app/actions/userLevel";
 import { calculateOverview } from "ylhyra/vocabulary/app/elements/OverviewScreen/actions";
 import ActivityOverview from "ylhyra/vocabulary/app/elements/OverviewScreen/ActivityCalendar";
-import Section from "ylhyra/content/frontend/templates/Section";
-import Spacer from "ylhyra/content/frontend/templates/Spacer";
+import Section from "ylhyra/documents/renderDocument/templates/Section";
+import Spacer from "ylhyra/documents/renderDocument/templates/Spacer";
 
 class Overview extends Component<{ vocabulary: any }> {
   componentDidMount() {
