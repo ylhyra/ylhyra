@@ -1,7 +1,11 @@
 import { AnyAction } from "redux";
 import string_hash from "modules/hash";
+import {
+  LongAudioReducer,
+  XmlForAeneas,
+} from "ylhyra/content/translationEditor/audioSynchronization/types";
 
-export const long_audio = (state = {}, action: AnyAction) => {
+export const long_audio = (state: LongAudioReducer = {}, action: AnyAction) => {
   const filename: string = action.filename;
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
@@ -11,7 +15,7 @@ export const long_audio = (state = {}, action: AnyAction) => {
         return state;
       }
     case "AUDIO_AREA":
-      const xml_hash = hash(action.content);
+      const xml_hash = adHocHashForAeneasXml(action.content);
       if (!filename) {
         return console.error("No filename!");
       }
@@ -21,7 +25,10 @@ export const long_audio = (state = {}, action: AnyAction) => {
           [filename]: {},
         };
       }
-      if (xml_hash === state.xml_hash && action.filename === state.filename) {
+      if (
+        xml_hash === state[filename].xml_hash &&
+        action.filename === state.filename
+      ) {
         return state;
       } else {
         return {
@@ -46,6 +53,6 @@ export const long_audio = (state = {}, action: AnyAction) => {
   }
 };
 
-const hash = (input) => {
+const adHocHashForAeneasXml = (input: XmlForAeneas) => {
   return string_hash(input.replace(/^[A-zÀ-ÿ0-9/<>_-]/, ""));
 };
