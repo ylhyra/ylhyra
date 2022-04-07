@@ -1,5 +1,6 @@
+import type { Request, Response } from "express";
+import { Router } from "express";
 import argon2 from "argon2";
-import { Request, Response, Router } from "express";
 import { errors } from "flashcards/errors";
 import { db } from "flashcards/server/database/db";
 import { throwError } from "flashcards/server/functions/various";

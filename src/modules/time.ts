@@ -17,6 +17,7 @@ export const second = 1000 as Milliseconds;
 export const seconds = second;
 export const minute = (60 * second) as Milliseconds;
 export const minutes = minute;
+export const years = (365 * days) as Milliseconds;
 
 export const getTime = (): Timestamp => Date.now() as Timestamp;
 
