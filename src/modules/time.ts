@@ -1,4 +1,4 @@
-import { roundToInterval } from "ylhyra/app/app/functions/math";
+import { roundToInterval } from "modules/math";
 import { withPlural } from "ylhyra/app/app/functions/simplePlural";
 
 // export type Milliseconds = number & { Milliseconds: "Milliseconds" };

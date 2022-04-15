@@ -1,4 +1,4 @@
-import { roundMsTo100Sec, toFixedFloat } from "ylhyra/app/app/functions/math";
+import { roundMsTo100Sec, toFixedFloat } from "modules/math";
 
 test("roundToSignificantDigits", () => {
   expect(toFixedFloat(1.4000000000000001, 1)).toBe(1.4);

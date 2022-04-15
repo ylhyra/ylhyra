@@ -1,14 +1,9 @@
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 import { log } from "modules/log";
-import { roundToInterval } from "ylhyra/app/app/functions/math";
+import { roundToInterval } from "modules/math";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
-import {
-  getCardsInSchedule,
-  getData,
-  getFrom,
-  getTermIds,
-} from "ylhyra/vocabulary/app/actions/card/card_data";
+import { getCardsInSchedule, getData, getFrom, getTermIds } from "ylhyra/vocabulary/app/actions/card/card_data";
 import { isNewTerm } from "ylhyra/vocabulary/app/actions/card/card_schedule";
 import { getCardIdsFromTermIds } from "ylhyra/vocabulary/app/actions/card/functions";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
