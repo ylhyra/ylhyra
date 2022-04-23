@@ -2,7 +2,7 @@ import fs from "fs";
 import { c } from "modules/noUndefinedInTemplateLiteral";
 import path from "path";
 import { links } from "ylhyra/documents/compilation/links/loadLinks.server";
-import { buildFolder } from "ylhyra/server/paths";
+import { buildFolder } from "ylhyra/server/paths_directories";
 
 const run = async () => {
   let sitemap = "";

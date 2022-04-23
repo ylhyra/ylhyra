@@ -2,7 +2,7 @@ import fs from "fs";
 import { Html } from "inflection/tables/types";
 import hash from "modules/hash";
 import path from "path";
-import { buildFolder } from "ylhyra/server/paths";
+import { buildFolder } from "ylhyra/server/paths_directories";
 
 const fileHash = (filepath: string) => {
   try {

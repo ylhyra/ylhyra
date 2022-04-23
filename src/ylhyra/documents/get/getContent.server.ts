@@ -7,7 +7,7 @@ import { getValuesForUrl } from "ylhyra/documents/compilation/links/getValuesFor
 import { addBuildIds } from "ylhyra/documents/get/addBuildIds.server";
 import { LinkDataWithUrl } from "ylhyra/documents/types";
 import { cacheControl } from "ylhyra/server/caching";
-import { buildFolder, getBaseDir } from "ylhyra/server/paths";
+import { buildFolder, getBaseDir } from "ylhyra/server/paths_directories";
 
 const router = Router({ strict: true });
 

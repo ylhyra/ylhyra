@@ -7,7 +7,7 @@ import LineByLineReader from "line-by-line";
 import path from "path";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
-import { getBaseDir } from "ylhyra/server/paths";
+import { getBaseDir } from "ylhyra/server/paths_directories";
 
 let count = 0;
 

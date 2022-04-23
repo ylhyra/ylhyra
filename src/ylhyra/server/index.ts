@@ -14,10 +14,12 @@ import {
   buildFolder,
   getBaseDir,
   imageOutputFolder,
+  ylhyraContentFiles,
+} from "ylhyra/server/paths_directories";
+import {
   processedImageUrl,
   unprocessedImageUrl,
-  ylhyraContentFiles,
-} from "ylhyra/server/paths";
+} from "ylhyra/server/paths_urls";
 
 require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
@@ -69,20 +71,20 @@ ylhyraApp.use("/", staticCached(buildFolder));
 */
 ylhyraApp.use(cors({ origin: "https://ylhyra.is" }));
 // app.use('/api', require('server/server-side-rendering').default)
-ylhyraApp.use("/api", require("ylhyra/server/audio/recorder").default);
+ylhyraApp.use("/", require("ylhyra/server/audio/recorder").default);
 // app.use('/api', require('server/audio/GetOneAudioFile').default)
 // app.use('/api', require('server/audio/Synchronize').default)
 // app.use('/api', require('server/translator/save').default)
 ylhyraApp.use(
-  "/api",
+  "/",
   require("ylhyra/documents/translationEditor/main/saveTranslationData.server")
     .default
 );
-ylhyraApp.use("/api", require("ylhyra/server/analytics").default);
-ylhyraApp.use("/api", require("ylhyra/server/analytics/overview").default);
-ylhyraApp.use("/api", require("ylhyra/server/analytics/userErrors").default);
-ylhyraApp.use("/api", require("ylhyra/server/user").default);
-ylhyraApp.use("/api", require("ylhyra/server/user/pay").default);
+ylhyraApp.use("/", require("ylhyra/server/analytics").default);
+ylhyraApp.use("/", require("ylhyra/server/analytics/overview").default);
+ylhyraApp.use("/", require("ylhyra/server/analytics/userErrors").default);
+ylhyraApp.use("/", require("ylhyra/server/user").default);
+ylhyraApp.use("/", require("ylhyra/server/user/pay").default);
 ylhyraApp.use(
   "/",
   require("ylhyra/vocabulary/app/actions/userData/sync.server").default
@@ -134,7 +136,7 @@ if (argv["generate-links"]) {
 } else if (argv["import-inflections"]) {
   require("inflection/server/database/importToDatabase");
 } else if (argv["import-vocabulary"]) {
-  require("ylhyra/vocabulary/compiler/compile");
+  require("ylhyra/vocabulary/compiler/compiler.server/index.server");
 } else if (argv["generate-sentences"]) {
   require("ylhyra/vocabulary/compiler/scripts/findEasySentencesFromCorpus");
 } else {

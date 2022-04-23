@@ -4,8 +4,9 @@ import forEachAsync from "modules/forEachAsync";
 import _ from "underscore";
 import Transclude from "ylhyra/documents/compilation/compileDocument/transclude";
 import { links } from "ylhyra/documents/compilation/links/loadLinks.server";
-import { imageOutputFolder, processedImageUrl } from "ylhyra/server/paths";
+import { imageOutputFolder } from "ylhyra/server/paths_directories";
 import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
+import { processedImageUrl } from "ylhyra/server/paths_urls";
 
 export type ImageElementParameters = {
   width?: number;

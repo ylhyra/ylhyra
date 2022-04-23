@@ -15,7 +15,7 @@ import { VocabularyReducer } from "ylhyra/vocabulary/app/reducers";
 import AudioClip from "ylhyra/documents/renderDocument/audio/audioWithoutInterface.NOT_USED";
 import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
 import { getDeckName } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
-import { getProcessedImageUrl } from "ylhyra/server/paths";
+import { getProcessedImageUrl } from "ylhyra/server/paths_urls";
 
 class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
   isKeyDown: boolean;

@@ -1,5 +1,3 @@
--- Run /scripts/database/create.sh to run this
-
 DROP DATABASE IF EXISTS ylhyra;
 CREATE DATABASE ylhyra
   DEFAULT CHARACTER SET utf8mb4
@@ -8,8 +6,9 @@ CREATE DATABASE ylhyra
 USE ylhyra;
 SET sql_mode = '';
 
--- CREATE USER 'example_user'@'localhost' IDENTIFIED BY 'example_password';
--- GRANT ALL ON `ylhyra`.* TO 'example_user'@'localhost';
+-- For localhost
+CREATE USER 'example_user'@'localhost' IDENTIFIED BY 'example_password';
+GRANT ALL ON `ylhyra`.* TO 'example_user'@'localhost';
 
 -- -- Sentence analysis from Greinir
 -- DROP TABLE IF EXISTS analysis;

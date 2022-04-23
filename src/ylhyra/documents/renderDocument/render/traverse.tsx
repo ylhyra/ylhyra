@@ -8,7 +8,7 @@ export default function Traverse(json: HtmlAsJson, index: Number = 0): Jsx {
   if (!json) return null;
   let { node, tag, attr, child, text } = json;
   if (node === "element" || node === "root") {
-    let Tag = tag || "span";
+    let Tag: any = tag || "span";
     attr = attr || {};
     if (node === "root") {
       return child.map((e, i) => Traverse(e, i));

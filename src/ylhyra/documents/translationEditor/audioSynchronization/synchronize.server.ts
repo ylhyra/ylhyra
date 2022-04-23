@@ -8,7 +8,7 @@ import {
   AeneasAudioSyncOutput,
   XmlForAeneas,
 } from "ylhyra/documents/translationEditor/audioSynchronization/types";
-import { uploadPath } from "ylhyra/server/paths";
+import { uploadPath } from "ylhyra/server/paths_directories";
 
 const router = Router();
 

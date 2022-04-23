@@ -15,7 +15,7 @@ import {
   TermIds,
   VocabularyFile,
 } from "ylhyra/vocabulary/types";
-import { contentFolder, getBaseDir } from "ylhyra/server/paths";
+import { contentFolder, getBaseDir } from "ylhyra/server/paths_directories";
 import { getSounds } from "ylhyra/vocabulary/compiler/compiler.server/getSounds";
 import { simplifyDeck } from "ylhyra/vocabulary/compiler/compiler.server/simplifyDeck.server";
 import { getSortKeysBasedOnWhenWordIsIntroducedInTheCourse } from "ylhyra/vocabulary/compiler/compiler.server/sortKeys.server";

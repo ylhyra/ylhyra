@@ -1,7 +1,7 @@
 import { renameSync } from "modules/renameSync";
 import { getOrderOfChapters } from "ylhyra/documents/compilation/compileDocument/functions/getOrderOfChapters";
 import { getValuesForUrl } from "ylhyra/documents/compilation/links/getValuesForUrl.server";
-import { contentFolder } from "ylhyra/server/paths";
+import { contentFolder } from "ylhyra/server/paths_directories";
 
 /**
  * Unimportant housekeeping script:

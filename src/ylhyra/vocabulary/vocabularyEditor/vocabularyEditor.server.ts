@@ -5,7 +5,7 @@ import yaml from "js-yaml";
 import _ from "underscore";
 import { removeExtraWhitespace } from "ylhyra/app/app/functions/removeExtraWhitespace";
 import { vocabularyRowTitles } from "ylhyra/vocabulary/vocabularyEditor/rowTitles";
-import { contentFolder } from "ylhyra/server/paths";
+import { contentFolder } from "ylhyra/server/paths_directories";
 
 const router = Router();
 const filename = contentFolder + `/not_data/vocabulary/vocabulary`;

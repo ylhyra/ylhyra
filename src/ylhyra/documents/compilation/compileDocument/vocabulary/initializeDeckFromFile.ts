@@ -1,7 +1,7 @@
 import fs from "fs";
 import Deck, { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { DeckDatabase } from "ylhyra/vocabulary/types";
-import { getBaseDir } from "ylhyra/server/paths";
+import { getBaseDir } from "ylhyra/server/paths_directories";
 
 export const initializeDeckFromFile = () => {
   try {
@@ -21,6 +21,6 @@ export const initializeDeckFromFile = () => {
   } catch (e) {
     new Deck({});
     deck!.alternativeIds = {};
-    console.log("No files to initialize from");
+    console.error("No files to initialize from");
   }
 };

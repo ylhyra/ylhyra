@@ -86,7 +86,7 @@ export const save = async () => {
   "Are you sure you want to close your window?"
   dialog when user has unsaved changes.
 */
-if (!isProd && window) {
+if (!isProd && isBrowser) {
   window.onbeforeunload = function (e) {
     if (!store.getState().editor.isSaved) {
       e.preventDefault();

@@ -1,14 +1,10 @@
 import fs from "fs";
 import { getFilesRecursivelySync } from "modules/getFilesRecursivelySync";
-import _ from "underscore";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import {
   HeaderData,
   readContentFile,
 } from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
-import { getCardIdsFromWords } from "ylhyra/documents/compilation/compileDocument/vocabulary/getCardIdsFromWords";
-import { initializeDeckFromFile } from "ylhyra/documents/compilation/compileDocument/vocabulary/initializeDeckFromFile";
-import { contentFolder } from "ylhyra/server/paths";
+import { contentFolder } from "ylhyra/server/paths_directories";
 import { FullFilePath, LinkData } from "ylhyra/documents/types";
 import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 import { fileSafeTitle } from "ylhyra/documents/compilation/links/format/fileSafeTitle";
@@ -33,7 +29,7 @@ const run = async () => {
   for (const filepath of files) {
     if (typeof filepath !== "string") continue;
     let { header, body } = await readContentFile(filepath);
-    if (!header || !("url" in header)) continue;
+    if (!header /*|| !("url" in header)*/) continue;
     const filename = fileSafeTitle(header.title);
     const url = formatUrl(header.url || header.title);
     if (url in links) {
@@ -71,29 +67,29 @@ const run = async () => {
         };
       });
 
-    /**
-     * Housekeeping:
-     * Keep track of which vocabulary entries are listed in articles,
-     * so that we can fill in the missing ones.
-     * Not used in content.
-     */
-    if (header.vocabulary) {
-      allVocabularyEntriesUsedInArticles =
-        allVocabularyEntriesUsedInArticles.concat(header.vocabulary);
-    }
+    // /**
+    //  * Housekeeping:
+    //  * Keep track of which vocabulary entries are listed in articles,
+    //  * so that we can fill in the missing ones.
+    //  * Not used in content.
+    //  */
+    // if (header.vocabulary) {
+    //   allVocabularyEntriesUsedInArticles =
+    //     allVocabularyEntriesUsedInArticles.concat(header.vocabulary);
+    // }
   }
   /* Write links */
   fs.writeFileSync("build/links.json", JSON.stringify(links, null, 2));
 
-  /* Keep track of missing vocabulary entries */
-  if (!deck) initializeDeckFromFile();
-  const missingVocabularyEntries = allVocabularyEntriesUsedInArticles.filter(
-    (sentence) => getCardIdsFromWords([sentence]).length === 0
-  );
-  fs.writeFileSync(
-    "build/missingVocabularyEntries.txt",
-    _.uniq(missingVocabularyEntries).join("\n")
-  );
+  // /* Keep track of missing vocabulary entries */
+  // if (!deck) initializeDeckFromFile();
+  // const missingVocabularyEntries = allVocabularyEntriesUsedInArticles.filter(
+  //   (sentence) => getCardIdsFromWords([sentence]).length === 0
+  // );
+  // fs.writeFileSync(
+  //   "build/missingVocabularyEntries.txt",
+  //   _.uniq(missingVocabularyEntries).join("\n")
+  // );
 
   process.exit();
 };

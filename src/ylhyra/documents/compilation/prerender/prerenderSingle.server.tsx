@@ -9,7 +9,7 @@ import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import generateHtml from "ylhyra/documents/compilation/compileDocument";
 import Parse from "ylhyra/documents/compilation/compileWithTranslation";
 import { renderTitle } from "ylhyra/documents/compilation/links/format/renderTitle";
-import { buildFolder, getBaseDir } from "ylhyra/server/paths";
+import { buildFolder, getBaseDir } from "ylhyra/server/paths_directories";
 import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 
 let TESTING = false;

@@ -4,7 +4,7 @@ import fs from "fs";
 import { isDev } from "modules/isDev";
 import path from "path";
 import { getValuesForUrl } from "ylhyra/documents/compilation/links/getValuesForUrl.server";
-import { getBaseDir } from "ylhyra/server/paths";
+import { getBaseDir } from "ylhyra/server/paths_directories";
 
 const router = Router();
 

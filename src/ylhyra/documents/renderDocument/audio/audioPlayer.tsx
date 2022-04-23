@@ -4,11 +4,9 @@ import { notify } from "ylhyra/app/app/error";
 import store, { RootState } from "ylhyra/app/app/store";
 import { readAlong } from "ylhyra/documents/renderDocument/audio/readAlong/readAlong";
 import smoothScroll from "ylhyra/documents/renderDocument/audio/readAlong/scroll/smoothScroll";
-import { getDynamicFileUrl } from "ylhyra/server/paths";
+import { getDynamicFileUrl } from "ylhyra/server/paths_urls";
 
-require("ylhyra/documents/renderDocument/audio/KeyboardListener");
-
-let timer;
+let timer: NodeJS.Timeout;
 
 class Audio extends React.PureComponent<{
   inline?: Boolean;
@@ -16,7 +14,7 @@ class Audio extends React.PureComponent<{
   src: string;
   audio: RootState["audio"];
 }> {
-  audio: React.RefObject<any> = null;
+  audio: React.RefObject<any> | null = null;
   errorCount = 0; // Keep count on how often we have re-attempted reloading file
   state = {
     playing: null,

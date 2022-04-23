@@ -94,7 +94,7 @@ export function setContent({
   setUrl({
     pathname,
     section,
-    title: data.header.title,
+    title: data.header?.title,
     routeContent: {
       parsed,
       header: data.header,
