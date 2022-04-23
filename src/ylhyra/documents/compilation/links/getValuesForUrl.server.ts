@@ -3,7 +3,7 @@ import { appUrls } from "ylhyra/app/router/appUrls";
 import { fileSafeTitle } from "ylhyra/documents/compilation/links/format/fileSafeTitle";
 import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 import { links } from "ylhyra/documents/compilation/links/loadLinks.server";
-import { LinkDataWithUrl } from "ylhyra/documents/types";
+import { LinkDataWithUrl } from "ylhyra/documents/compilation/links/types";
 
 export const getValuesForUrl = (url: string): Partial<LinkDataWithUrl> => {
   if (!url && url !== "") return {};

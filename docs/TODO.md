@@ -18,10 +18,12 @@
 - fréttabréfstakki?
 
 ### Parsing
+
 * Parse->Merge virkar ekki rétt innan í <em/>, kíkja á http://localhost:3000/bl%C3%A6r/silfursvanurinn/3: krók og kima, hliðstæð orð ættu að mergast!!!
 * html2json er löturhægt á stórum fælum
 
 ### Efni
+
 * "verst hvað maður er orðinn" í silfur 8 - ekki beint!
 
 # Annað

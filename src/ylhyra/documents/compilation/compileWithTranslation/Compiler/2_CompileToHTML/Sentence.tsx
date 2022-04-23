@@ -1,10 +1,10 @@
 import React from "react";
 import exists from "ylhyra/app/app/functions/exists";
 import Box from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/Sentence";
-import { DefinitionObject } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/Word";
+import { WordDefinition } from "ylhyra/documents/compilation/compileWithTranslation/types";
 
 class Sentence extends React.Component<{
-  definition: DefinitionObject;
+  definition: WordDefinition;
   id: string;
 }> {
   render() {

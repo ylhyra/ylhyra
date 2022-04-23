@@ -5,9 +5,12 @@ import {
   readContentFile,
 } from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
 import { contentFolder } from "ylhyra/server/paths_directories";
-import { FullFilePath, LinkData } from "ylhyra/documents/types";
 import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 import { fileSafeTitle } from "ylhyra/documents/compilation/links/format/fileSafeTitle";
+import {
+  FullFilePath,
+  LinkData,
+} from "ylhyra/documents/compilation/links/types";
 
 const links: { [key: string]: Partial<LinkData> } = {};
 

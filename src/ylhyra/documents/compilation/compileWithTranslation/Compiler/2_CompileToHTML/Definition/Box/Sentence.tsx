@@ -1,10 +1,10 @@
 import React from "react";
 import exists from "ylhyra/app/app/functions/exists";
-import { DefinitionObject } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/Word";
 import { ItalicsAndBold } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Tooltip";
+import { SentenceDefinition } from "ylhyra/documents/compilation/compileWithTranslation/types";
 
 export default class SentenceBox extends React.PureComponent<{
-  definition: DefinitionObject;
+  definition: SentenceDefinition;
   id: string;
   // hidden?: boolean;
 }> {

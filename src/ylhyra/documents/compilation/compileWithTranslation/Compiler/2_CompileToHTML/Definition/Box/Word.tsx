@@ -1,25 +1,10 @@
 import React from "react";
 import exists from "ylhyra/app/app/functions/exists";
 import { ItalicsAndBold } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Tooltip";
-
-export type DefinitionObject = {
-  base?: string;
-  base_meaning?: string;
-  base_direct?: string;
-  note?: string;
-  direct?: string;
-  grammatical_analysis?: string;
-  sound?: string[];
-  pronunciation?: string;
-  difficult?: Boolean;
-  show_definition_above?: Boolean;
-  contains: string[] /** Array of connected ids */;
-  inline_translation?: string;
-  meaning?: string;
-};
+import { WordDefinition } from "ylhyra/documents/compilation/compileWithTranslation/types";
 
 export default class WordBox extends React.PureComponent<{
-  definition: DefinitionObject;
+  definition: WordDefinition;
   id: string;
   hidden?: boolean;
 }> {
@@ -108,7 +93,7 @@ export default class WordBox extends React.PureComponent<{
               </span>
             )}
         </span>
-        {definition.sound?.length > 0 && <span>🔈</span>}
+        {definition.sound && definition.sound?.length > 0 && <span>🔈</span>}
         {definition.pronunciation && (
           <span className="small">
             <label>Pronunciation</label>

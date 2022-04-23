@@ -1,6 +1,6 @@
 import fs from "fs";
 import { getBaseDir } from "ylhyra/server/paths_directories";
-import { LinkDataWithUrl } from "ylhyra/documents/types";
+import { LinkDataWithUrl } from "ylhyra/documents/compilation/links/types";
 
 export let _links: { [key: string]: LinkDataWithUrl } = {};
 try {

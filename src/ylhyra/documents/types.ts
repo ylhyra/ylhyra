@@ -1,15 +1,20 @@
 import { LongAudioReducer } from "ylhyra/documents/translationEditor/audioSynchronization/types";
+import {
+  SentenceDefinition,
+  WordDefinition,
+} from "ylhyra/documents/compilation/compileWithTranslation/types";
 
 export type FlattenedData = {
   translation: TranslationData;
   list: ListData;
+  long_audio: LongAudioReducer;
+  tokenized?: TokenizedParagraphsWithIds;
+  /** UNUSED */
   short_audio: {
     soundList: string[];
     sounds: {};
     wordID_to_text: {};
   };
-  long_audio: LongAudioReducer;
-  tokenized?: TokenizedParagraphsWithIds;
 };
 
 export type DocumentTitleToFlattenedData = {
@@ -17,9 +22,19 @@ export type DocumentTitleToFlattenedData = {
 };
 
 export type TranslationData = {
-  definitions: {};
-  sentences: {};
-  words: {};
+  /** Sentence id to sentence definition */
+  sentences: Record<string, SentenceDefinition>;
+  /**
+   * Word id to definition id.
+   * Since several words can make up a single phrase,
+   * multiple words can point to the same definition
+   */
+  words: Record<string, string>;
+  /**
+   * Word definition id to word definition.
+   * NOTE: Should have been called "word definitions"
+   */
+  definitions: Record<string, WordDefinition>;
 };
 
 export type ListData = {
@@ -77,18 +92,3 @@ export type TokenizedFlattenedForWrapInTags = Array<
     // index: number; // Needed here since index is optional on TokenizedParagraphWithIds
   } & TokenizedParagraphWithIds
 >;
-
-export type LinkData = {
-  title: string;
-  /**Just the name of the file itself and not its path*/
-  filename: string;
-  filepath: FullFilePath;
-  redirect_to: string;
-  section: string;
-  shouldBeCreated: boolean;
-  shouldBeIndexed: boolean;
-};
-export type LinkDataWithUrl = LinkData & {
-  url: string;
-};
-export type FullFilePath = string;

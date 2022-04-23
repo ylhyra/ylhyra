@@ -5,9 +5,9 @@ import path from "path";
 import generateHtml from "ylhyra/documents/compilation/compileDocument";
 import { getValuesForUrl } from "ylhyra/documents/compilation/links/getValuesForUrl.server";
 import { addBuildIds } from "ylhyra/documents/get/addBuildIds.server";
-import { LinkDataWithUrl } from "ylhyra/documents/types";
 import { cacheControl } from "ylhyra/server/caching";
 import { buildFolder, getBaseDir } from "ylhyra/server/paths_directories";
+import { LinkDataWithUrl } from "ylhyra/documents/compilation/links/types";
 
 const router = Router({ strict: true });
 

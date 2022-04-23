@@ -3,14 +3,13 @@ import React from "react";
 import _ from "underscore";
 import exists from "ylhyra/app/app/functions/exists";
 import { getUpdatedId } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_Precompile/UpdateID";
-import Box, {
-  DefinitionObject,
-} from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/Word";
+import Box from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/Word";
 import InlineTranslation from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/InlineTranslation";
 import Tooltip from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Tooltip";
+import { WordDefinition } from "ylhyra/documents/compilation/compileWithTranslation/types";
 
 export default class WordElement extends React.Component<{
-  definition: DefinitionObject;
+  definition: WordDefinition;
   id: string;
   appendText?: string;
 }> {
