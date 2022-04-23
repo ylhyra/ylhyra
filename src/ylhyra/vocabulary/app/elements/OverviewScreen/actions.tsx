@@ -1,10 +1,6 @@
+import { clamp, mapValueToRange, mapZeroToInfinityToZeroToOne } from "modules/math";
 import { day, days } from "modules/time";
 import _ from "underscore";
-import {
-  clamp,
-  mapValueToRange,
-  mapZeroToInfinityToZeroToOne,
-} from "ylhyra/app/app/functions/math";
 import store from "ylhyra/app/app/store";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { PercentageKnownOverall } from "ylhyra/vocabulary/app/actions/functions/percentageKnown";

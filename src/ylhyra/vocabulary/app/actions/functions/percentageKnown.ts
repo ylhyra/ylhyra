@@ -1,9 +1,5 @@
-import { clamp, mapValueToRange } from "ylhyra/app/app/functions/math";
-import {
-  getScore,
-  getSessionsSeen,
-  isInSchedule,
-} from "ylhyra/vocabulary/app/actions/card/card_schedule";
+import { clamp, mapValueToRange } from "modules/math";
+import { getScore, getSessionsSeen, isInSchedule } from "ylhyra/vocabulary/app/actions/card/card_schedule";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { CardIds } from "ylhyra/vocabulary/types";
 

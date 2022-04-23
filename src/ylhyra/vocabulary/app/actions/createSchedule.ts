@@ -1,11 +1,6 @@
 import { log } from "modules/log";
+import { addSomeRandomness, average, clamp, toFixedFloat } from "modules/math";
 import { daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
-import {
-  addSomeRandomness,
-  average,
-  clamp,
-  toFixedFloat,
-} from "ylhyra/app/app/functions/math";
 import { wasSeenInSession } from "ylhyra/vocabulary/app/actions/card/card";
 import {
   getDue,
@@ -14,11 +9,11 @@ import {
   getNumberOfBadSessions,
   getScore,
   getSessionsSeen,
-  setSchedule,
+  setSchedule
 } from "ylhyra/vocabulary/app/actions/card/card_schedule";
 import {
   didAnySiblingCardsGetABadRatingInThisSession,
-  getSiblingCards,
+  getSiblingCards
 } from "ylhyra/vocabulary/app/actions/card/card_siblings";
 import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession";
 import { printWord } from "ylhyra/vocabulary/app/actions/functions";

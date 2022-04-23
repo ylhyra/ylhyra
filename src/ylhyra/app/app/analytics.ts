@@ -3,6 +3,7 @@
 */
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
+import { roundToInterval } from "modules/math";
 import { getTime, seconds } from "modules/time";
 import axios from "ylhyra/app/app/axios";
 import {
@@ -10,7 +11,6 @@ import {
   getFromLocalStorage,
   saveInLocalStorage
 } from "ylhyra/app/app/functions/localStorage";
-import { roundToInterval } from "ylhyra/app/app/functions/math";
 
 const ignoredUrls = ["/", "/frontpage"];
 
