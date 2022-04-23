@@ -118,9 +118,11 @@ export const getCanonicalGrammaticalTag = (
 export const getDescriptionFromGrammaticalTag = (
   tag: GrammaticalTagOrVariantNumber,
   strict?: Boolean
-): Description => {
+): Description | null => {
   tag = getCanonicalGrammaticalTag(tag, strict);
-  return tag && titleToDescription[getCanonicalGrammaticalTag(tag, strict)];
+  return tag
+    ? titleToDescription[getCanonicalGrammaticalTag(tag, strict)]
+    : null;
 };
 
 export { shortcuts };
