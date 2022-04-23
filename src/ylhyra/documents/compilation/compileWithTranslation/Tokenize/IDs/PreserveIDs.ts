@@ -14,11 +14,11 @@
 import { diffArrays } from "diff";
 import { findBestMatch } from "string-similarity";
 import flattenArray from "ylhyra/app/app/functions/flattenArray";
-import { TokenizedParagraphsWithIds } from "ylhyra/documents/types";
+import { TokenizedParagraphs } from "ylhyra/documents/types/various";
 
 export default function Preserve(
-  first: TokenizedParagraphsWithIds,
-  second: TokenizedParagraphsWithIds
+  first: TokenizedParagraphs,
+  second: TokenizedParagraphs
 ) {
   /* Map from new IDs to preserved IDs */
   const PreservedIDs = {
@@ -135,7 +135,7 @@ const diffAndPreserveIDs = (
  *   - All punctuation is removed to make diff simpler.
  */
 const simplifiedSentencesArray = (
-  paragraphs: TokenizedParagraphsWithIds
+  paragraphs: TokenizedParagraphs
 ): SimplifiedArrayOfIdsAndText => {
   return flattenArray(
     paragraphs.map((paragraph) => {
@@ -160,7 +160,7 @@ const simplifiedSentencesArray = (
 };
 
 const simplifiedWordsArray = (
-  paragraphs: TokenizedParagraphsWithIds
+  paragraphs: TokenizedParagraphs
 ): SimplifiedArrayOfIdsAndText => {
   return flattenArray(
     paragraphs.map((paragraph) => {

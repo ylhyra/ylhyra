@@ -11,10 +11,10 @@ import ExtractText from "ylhyra/documents/compilation/compileWithTranslation/Ext
 import Tokenizer from "ylhyra/documents/compilation/compileWithTranslation/Tokenize";
 import {
   DocumentTitleToFlattenedData,
-  DocumentTitleToTokenizedParagraphsWithIds,
   FlattenedData,
-} from "ylhyra/documents/types";
+} from "ylhyra/documents/types/types";
 import WrapInTags from "ylhyra/documents/compilation/compileWithTranslation/WrapInTags";
+import { DocumentTitleToTokenizedParagraphsWithIds } from "ylhyra/documents/types/various";
 
 const entities = new Entities();
 

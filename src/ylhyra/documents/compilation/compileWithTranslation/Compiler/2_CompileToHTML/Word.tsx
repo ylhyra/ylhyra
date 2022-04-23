@@ -6,7 +6,7 @@ import { getUpdatedId } from "ylhyra/documents/compilation/compileWithTranslatio
 import Box from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/Word";
 import InlineTranslation from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/InlineTranslation";
 import Tooltip from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Tooltip";
-import { WordDefinition } from "ylhyra/documents/compilation/compileWithTranslation/types";
+import { WordDefinition } from "ylhyra/documents/types/translationTypes";
 
 export default class WordElement extends React.Component<{
   definition: WordDefinition;

@@ -1,7 +1,7 @@
 import { html2json, json2html } from "ylhyra/app/app/functions/html2json";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import { ArrayOfEitherSentencesOrWords } from "ylhyra/documents/types";
 import { TEMPORARY_SPLIT_MARKER } from "ylhyra/documents/compilation/compileWithTranslation/WrapInTags/1-InsertSplit";
+import { ArrayOfEitherTokenizedSentencesOrWords } from "ylhyra/documents/types/various";
 
 /*
   STEP 2:
@@ -12,7 +12,7 @@ import { TEMPORARY_SPLIT_MARKER } from "ylhyra/documents/compilation/compileWith
 
 export default function (
   html: string,
-  tokenizedSplit: ArrayOfEitherSentencesOrWords,
+  tokenizedSplit: ArrayOfEitherTokenizedSentencesOrWords,
   elementName: "sentence" | "word",
   innerFunction: Function | undefined,
   tempAttributeName: "data-temp-id" | "data-temp-id2"

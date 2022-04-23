@@ -3,7 +3,7 @@ import hash from "modules/hash";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { newTitle } from "ylhyra/documents/compilation/compileWithTranslation/ExtractData";
 import groupParagraphs from "ylhyra/documents/compilation/compileWithTranslation/ExtractText/Paragraphs";
-import { DocumentTitleToArrayOfRawText } from "ylhyra/documents/types";
+import { DocumentTitleToRawParagraphs } from "ylhyra/documents/types/various";
 
 /**
   Convert document into raw text.
@@ -13,7 +13,7 @@ import { DocumentTitleToArrayOfRawText } from "ylhyra/documents/types";
   3. Gets raw text
   4. Returns a list of paragraphs (text & hash)
  */
-export default function (json: HtmlAsJson): DocumentTitleToArrayOfRawText {
+export default function (json: HtmlAsJson): DocumentTitleToRawParagraphs {
   let paragraphs: Array<{
     index: number;
     documentTitle: string;

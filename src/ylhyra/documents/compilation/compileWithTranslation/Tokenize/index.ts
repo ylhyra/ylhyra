@@ -4,17 +4,19 @@ import CreateIDs from "ylhyra/documents/compilation/compileWithTranslation/Token
 import PreserveIDs from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/IDs/PreserveIDs";
 import tokenizer from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/Tokenizer";
 import {
-  DocumentTitleToArrayOfRawText,
   DocumentTitleToFlattenedData,
-  DocumentTitleToTokenizedParagraphsWithIds,
   FlattenedData,
-  ParagraphsWithHash,
+} from "ylhyra/documents/types/types";
+import {
+  DocumentTitleToRawParagraphs,
+  DocumentTitleToTokenizedParagraphsWithIds,
+  RawParagraphsWithHash,
   RawTokenizedParagraphs,
-  TokenizedParagraphsWithIds,
-} from "ylhyra/documents/types";
+  TokenizedParagraphs,
+} from "ylhyra/documents/types/various";
 
 export default function (
-  documents: DocumentTitleToArrayOfRawText,
+  documents: DocumentTitleToRawParagraphs,
   data: DocumentTitleToFlattenedData
 ): DocumentTitleToTokenizedParagraphsWithIds {
   let tokenized: DocumentTitleToTokenizedParagraphsWithIds = {};
@@ -34,7 +36,7 @@ const tokenizeDocument = ({
   previousData,
 }: {
   documentTitle: string;
-  paragraphs: ParagraphsWithHash;
+  paragraphs: RawParagraphsWithHash;
   previousData: FlattenedData;
 }) => {
   const oldHashes = previousData.tokenized?.map((p) => p.hash) || [];
@@ -64,7 +66,7 @@ const tokenizeDocument = ({
     };
   }) as RawTokenizedParagraphs;
 
-  let tokenizedWithIds: TokenizedParagraphsWithIds = CreateIDs(
+  let tokenizedWithIds: TokenizedParagraphs = CreateIDs(
     documentTitle,
     tokenizedRaw
   );
@@ -84,7 +86,7 @@ const tokenizeDocument = ({
   return tokenizedWithIds;
 };
 
-const hashOfIds = (paragraph: TokenizedParagraphsWithIds[number]) => {
+const hashOfIds = (paragraph: TokenizedParagraphs[number]) => {
   let ids: string[] = [];
   paragraph.sentences.forEach((sentence) => {
     ids.push(sentence.id);

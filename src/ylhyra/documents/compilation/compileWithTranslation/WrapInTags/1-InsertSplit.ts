@@ -1,6 +1,6 @@
 import { json2html } from "ylhyra/app/app/functions/html2json";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import { ArrayOfEitherSentencesOrWords } from "ylhyra/documents/types";
+import { ArrayOfEitherTokenizedSentencesOrWords } from "ylhyra/documents/types/various";
 // import SplitIntoUnicodeCharacters from './helpers/runes'
 // import { getTextFromTokenized } from 'server/api/translate/tokenizer/create-ids'
 
@@ -14,7 +14,7 @@ export const TEMPORARY_SPLIT_MARKER = "{{SPLIT HERE}}";
 
 export default function (
   input: HtmlAsJson[],
-  tokenizedSplit: ArrayOfEitherSentencesOrWords
+  tokenizedSplit: ArrayOfEitherTokenizedSentencesOrWords
 ): string {
   // Turn tokenized data into an array of text
   const array = tokenizedSplit.map(getTextFromTokenized);
@@ -83,7 +83,7 @@ export default function (
 }
 
 export const getTextFromTokenized = (
-  t: ArrayOfEitherSentencesOrWords[number]
+  t: ArrayOfEitherTokenizedSentencesOrWords[number]
 ): string => {
   if (Array.isArray(t)) {
     return t.map(getTextFromTokenized).join("");

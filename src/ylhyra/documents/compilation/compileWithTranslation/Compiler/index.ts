@@ -6,7 +6,7 @@ import Precompile from "ylhyra/documents/compilation/compileWithTranslation/Comp
 import { resetIds } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_Precompile/UpdateID";
 import CompileToHTML from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Traverse";
 import PrepareJSONForReact from "ylhyra/documents/compilation/compileWithTranslation/Compiler/PrepareJSONForReact";
-import { FlattenedData } from "ylhyra/documents/types";
+import { FlattenedData } from "ylhyra/documents/types/types";
 
 const entities = new Entities();
 

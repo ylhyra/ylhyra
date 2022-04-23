@@ -5,7 +5,7 @@ import {
   removeTempIds,
   tempIds,
 } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_Precompile/TempIDs";
-import { FlattenedData } from "ylhyra/documents/types";
+import { FlattenedData } from "ylhyra/documents/types/types";
 // import PronunciationAndSound from './PronunciationAndSound'
 // import WrapInTags from 'Editor/2-Parse/2.3-WrapInTags'
 

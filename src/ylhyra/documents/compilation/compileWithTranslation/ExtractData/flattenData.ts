@@ -1,7 +1,7 @@
 import {
   DocumentTitleToFlattenedData,
   FlattenedData,
-} from "ylhyra/documents/types";
+} from "ylhyra/documents/types/types";
 
 export const flattenData = (
   input: DocumentTitleToFlattenedData

@@ -26,27 +26,22 @@ import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { newTitle } from "ylhyra/documents/compilation/compileWithTranslation/ExtractData";
 import { getTextFromJson } from "ylhyra/documents/compilation/compileWithTranslation/ExtractText/ExtractText";
 import groupParagraphs from "ylhyra/documents/compilation/compileWithTranslation/ExtractText/Paragraphs";
-import {
-  ArrayOfEitherSentencesOrWords,
-  DocumentTitleToTokenizedParagraphsWithIds,
-  TokenizedFlattenedForWrapInTags,
-  TokenizedParagraphWithIds,
-} from "ylhyra/documents/types";
 import InsertSplit from "ylhyra/documents/compilation/compileWithTranslation/WrapInTags/1-InsertSplit";
 import SplitAndWrap from "ylhyra/documents/compilation/compileWithTranslation/WrapInTags/2-SplitAndWrap";
 import InvertElementsThatOnlyContainOneThing from "ylhyra/documents/compilation/compileWithTranslation/WrapInTags/3-Invert";
 import MergeElementsThatHaveBeenSplitUnnecessarily from "ylhyra/documents/compilation/compileWithTranslation/WrapInTags/4-Merge";
+import {
+  ArrayOfEitherTokenizedSentencesOrWords,
+  DocumentTitleToTokenizedParagraphsWithIds,
+  TokenizedFlattenedForWrapInTags,
+  TokenizedParagraph,
+} from "ylhyra/documents/types/various";
 
-/*
-  Parse input and split paragraphs
-*/
 export default function (
   json: HtmlAsJson,
   tokenized: DocumentTitleToTokenizedParagraphsWithIds
 ): HtmlAsJson {
-  /*
-    Flatten tokenized
-  */
+  /** By flattening, we can keep track of multiple transcluded documents. */
   let tokenizedFlattened: TokenizedFlattenedForWrapInTags = [];
   for (const documentTitle of Object.keys(tokenized)) {
     for (const paragraph of tokenized[documentTitle]) {
@@ -56,8 +51,7 @@ export default function (
       });
     }
   }
-  // @ts-ignore
-  tokenizedFlattened = tokenizedFlattened.sort((a, b) => a.index - b.index);
+  tokenizedFlattened = tokenizedFlattened.sort((a, b) => a.index! - b.index!);
 
   let index = 0;
   let wrapped: HtmlAsJson = groupParagraphs({
@@ -79,19 +73,19 @@ export default function (
   return wrapped;
 }
 
-/*
-  Extract sentences from paragraph
-*/
+/**
+ * Extract sentences from paragraph
+ */
 const Sentences = (
   paragraph_HTML: HtmlAsJson[],
-  sentences: TokenizedParagraphWithIds["sentences"]
+  sentences: TokenizedParagraph["sentences"]
 ): HtmlAsJson[] => {
+  let i = 0;
+
   /*
     Extract words from sentence
     (Creates a function that will be called in "WrapInTags.js")
   */
-  let i = 0;
-
   function Words(sentence_HTML: HtmlAsJson[]) {
     const words = sentences[i++].words;
     return WrapInTags(sentence_HTML, words, "word");
@@ -103,7 +97,7 @@ const Sentences = (
 
 const WrapInTags = (
   input: HtmlAsJson[],
-  tokenizedSplit: ArrayOfEitherSentencesOrWords,
+  tokenizedSplit: ArrayOfEitherTokenizedSentencesOrWords,
   elementName: "sentence" | "word",
   innerFunction?: Function
 ): HtmlAsJson[] => {

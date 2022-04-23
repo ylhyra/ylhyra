@@ -3,7 +3,7 @@ import { decodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/f
 import {
   DocumentTitleToFlattenedData,
   FlattenedData,
-} from "ylhyra/documents/types";
+} from "ylhyra/documents/types/types";
 
 /*
   Returns an object containing:

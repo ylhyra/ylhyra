@@ -2,15 +2,15 @@ import hash from "modules/hash";
 import shortid from "shortid";
 import {
   RawTokenizedParagraphs,
-  TokenizedParagraphsWithIds,
-} from "ylhyra/documents/types";
+  TokenizedParagraphs,
+} from "ylhyra/documents/types/various";
 
 export const wordRegex = /[A-zÀ-ÿ0-9]/;
 
 const CreateIDs = (
   documentTitle: string,
   paragraphs: RawTokenizedParagraphs
-): TokenizedParagraphsWithIds => {
+): TokenizedParagraphs => {
   const seed = hash(shortid.generate() + "" + documentTitle).slice(0, 4);
   let i = 0;
   const makeID = () => {

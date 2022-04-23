@@ -1,6 +1,6 @@
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { HeaderData } from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
-import { FlattenedData } from "ylhyra/documents/types";
+import { FlattenedData } from "ylhyra/documents/types/types";
 
 export type PrerenderedDataSavedInPage = {
   url: string;

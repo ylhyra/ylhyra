@@ -1,6 +1,6 @@
 import React from "react";
 import exists from "ylhyra/app/app/functions/exists";
-import { WordDefinition } from "ylhyra/documents/compilation/compileWithTranslation/types";
+import { WordDefinition } from "ylhyra/documents/types/translationTypes";
 
 export default class Definition extends React.PureComponent<{
   definition: WordDefinition;

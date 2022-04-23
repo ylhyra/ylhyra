@@ -1,12 +1,12 @@
 import sentenceTokenizer from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/Tokenizer/sentenceTokenizer";
 import wordTokenizer from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/Tokenizer/wordTokenizer";
 import {
-  ParagraphsWithHash,
+  RawParagraphsWithHash,
   RawTokenizedParagraphs,
-} from "ylhyra/documents/types";
+} from "ylhyra/documents/types/various";
 
 export default function Tokenize(
-  paragraphs: ParagraphsWithHash
+  paragraphs: RawParagraphsWithHash
 ): RawTokenizedParagraphs {
   return paragraphs.map(({ hash, text }) => {
     return {

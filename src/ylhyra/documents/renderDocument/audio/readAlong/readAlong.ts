@@ -1,6 +1,6 @@
 import { Seconds } from "modules/time";
 import store from "ylhyra/app/app/store";
-import { FlattenedData } from "ylhyra/documents/types";
+import { FlattenedData } from "ylhyra/documents/types/types";
 import scrollIntoView from "ylhyra/documents/renderDocument/audio/readAlong/scroll/scrollIntoView";
 import { LongAudioSyncData } from "ylhyra/documents/translationEditor/audioSynchronization/types";
 import { addClass, removeClass } from "modules/addCssClass.NOT_USED";

@@ -1,3 +1,19 @@
+export type TranslationData = {
+  /* Sentence id to sentence definition */
+  sentences: Record<string, SentenceDefinition>;
+  /**
+   * Word id to definition id.
+   * Since several words can make up a single phrase,
+   * multiple words can point to the same definition
+   */
+  words: Record<string, string>;
+  /**
+   * Word definition id to word definition.
+   * Note: Should have been called "word definitions"
+   */
+  definitions: Record<string, WordDefinition>;
+};
+
 export type SentenceDefinition = {
   /** A translation of sentence that should convey most of the sentence’s nuances. */
   meaning?: string;
@@ -6,6 +22,7 @@ export type SentenceDefinition = {
   /** Explains cultural connotations. */
   note?: string;
 };
+
 export type WordDefinition = {
   /** Word translation that should convey most of the meaning. */
   meaning: string;

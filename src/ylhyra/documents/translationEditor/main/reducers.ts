@@ -3,7 +3,7 @@ import { AnyAction, combineReducers } from "redux";
 import getParameter from "get-parameter";
 import { isBrowser } from "modules/isBrowser";
 import MakeList from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/List";
-import { ListData, TokenizedParagraphsWithIds } from "ylhyra/documents/types";
+import { TranslationList } from "ylhyra/documents/types/types";
 import { long_audio } from "ylhyra/documents/translationEditor/audioSynchronization/frontend/reducers";
 import short_audio from "ylhyra/documents/translationEditor/NOT_USED/shortAudio.NOT_USED/reducers";
 // import {
@@ -17,6 +17,7 @@ import {
 
 import { autosave } from "ylhyra/documents/translationEditor/main/actions";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
+import { TokenizedParagraphs } from "ylhyra/documents/types/various";
 
 const isOpen = isBrowser ? getParameter("editor") : false;
 const open = (state = isOpen, action: AnyAction) => {
@@ -39,10 +40,7 @@ const parsed = (state: HtmlAsJson | null = null, action: AnyAction) => {
   }
 };
 
-const tokenized = (
-  state: TokenizedParagraphsWithIds = [],
-  action: AnyAction
-) => {
+const tokenized = (state: TokenizedParagraphs = [], action: AnyAction) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       return action.currentDocument || state;
@@ -51,7 +49,7 @@ const tokenized = (
   }
 };
 
-const list = (state: ListData | null = null, action: AnyAction) => {
+const list = (state: TranslationList | null = null, action: AnyAction) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       if (action.currentDocument) {
