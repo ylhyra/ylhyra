@@ -33,7 +33,8 @@ class Content extends Component<
       return [
         Render(parsed) || <span>Could not render</span>,
         <Suspense fallback={""} key={2}>
-          <RenderEditor />
+          {/* Todo: Turn this on again to be able to translate articles */}
+          {/*<RenderEditor />*/}
         </Suspense>,
       ];
     } else {
