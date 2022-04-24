@@ -1,20 +1,14 @@
 import Analytics from "ylhyra/app/app/analytics";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import store from "ylhyra/app/app/store";
-import {
-  getFrontpageURL,
-  urlHasChanged,
-} from "ylhyra/app/router/actions/actions";
+import { getFrontpageURL, urlHasChanged } from "ylhyra/app/router/actions/actions";
 
-import {
-  abortLoadingOtherUrls,
-  loadContent,
-} from "ylhyra/app/router/actions/load";
+import { abortLoadingOtherUrls, loadContent } from "ylhyra/app/router/actions/load";
 import { appUrls } from "ylhyra/app/router/appUrls";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
-import { HeaderData } from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
-import { renderTitle } from "ylhyra/documents/compilation/links/format/renderTitle";
+import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
 import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
+import { renderTitle } from "ylhyra/documents/compilation/links/format/renderTitle";
 
 export type RouteContent = {
   parsed: HtmlAsJson;

@@ -1,4 +1,3 @@
-import { HeaderData } from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
 import markdown_to_html from "ylhyra/documents/compilation/compileDocument/markdown";
 import withHeaderAndFooter from "ylhyra/documents/compilation/compileDocument/templates/HeaderAndFooter";
 import images from "ylhyra/documents/compilation/compileDocument/templates/images";
@@ -7,6 +6,7 @@ import { References } from "ylhyra/documents/compilation/compileDocument/templat
 import Sections from "ylhyra/documents/compilation/compileDocument/templates/Sections";
 import Table from "ylhyra/documents/compilation/compileDocument/templates/Table";
 import Transclude from "ylhyra/documents/compilation/compileDocument/transclude";
+import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
 
 /**
  * Input: URL or page title

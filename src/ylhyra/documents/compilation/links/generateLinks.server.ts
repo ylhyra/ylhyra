@@ -1,16 +1,11 @@
 import fs from "fs";
 import { getFilesRecursivelySync } from "modules/getFilesRecursivelySync";
-import {
-  HeaderData,
-  readContentFile,
-} from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
-import { contentFolder } from "ylhyra/server/paths_directories";
-import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
+import { readContentFile } from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
+import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
 import { fileSafeTitle } from "ylhyra/documents/compilation/links/format/fileSafeTitle";
-import {
-  FullFilePath,
-  LinkData,
-} from "ylhyra/documents/compilation/links/types";
+import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
+import { FullFilePath, LinkData } from "ylhyra/documents/compilation/links/types";
+import { contentFolder } from "ylhyra/server/paths_directories";
 
 const links: { [key: string]: Partial<LinkData> } = {};
 

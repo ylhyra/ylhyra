@@ -1,11 +1,8 @@
 import { c } from "modules/noUndefinedInTemplateLiteral";
 import { getOrderOfChapters } from "ylhyra/documents/compilation/compileDocument/functions/getOrderOfChapters";
-import { HeaderData } from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
+import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
+import { formatUrl, getSectionId } from "ylhyra/documents/compilation/links/format/formatUrl";
 import { getValuesForUrl } from "ylhyra/documents/compilation/links/getValuesForUrl.server";
-import {
-  formatUrl,
-  getSectionId,
-} from "ylhyra/documents/compilation/links/format/formatUrl";
 
 /**
  * Creates HTML breadcrumbs, as in "Home > Unit 1 > Chapter 1".

@@ -1,16 +1,11 @@
 import forEachAsync from "modules/forEachAsync";
-import {
-  encodeDataInHtml,
-  removeComments,
-} from "ylhyra/documents/compilation/compileDocument/functions/functions";
-import {
-  HeaderData,
-  readContentFile,
-} from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
+import { encodeDataInHtml, removeComments } from "ylhyra/documents/compilation/compileDocument/functions/functions";
+import { readContentFile } from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
 import TOC from "ylhyra/documents/compilation/compileDocument/templates/TOC";
+import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
+import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 import { getValuesForUrl } from "ylhyra/documents/compilation/links/getValuesForUrl.server";
 import { links } from "ylhyra/documents/compilation/links/loadLinks.server";
-import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 import { FlattenedData } from "ylhyra/documents/types/types";
 
 /**

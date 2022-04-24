@@ -1,5 +1,5 @@
 import { c } from "modules/noUndefinedInTemplateLiteral";
-import { HeaderData } from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
+import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
 
 /**
  * Each section placed into its own container (for styling)

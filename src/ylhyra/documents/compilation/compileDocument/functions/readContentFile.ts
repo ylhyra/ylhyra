@@ -1,27 +1,9 @@
-import yaml from "js-yaml";
-import { removeComments } from "ylhyra/documents/compilation/compileDocument/functions/functions";
-import { getPlaintextFromVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
 import { promises as fs } from "fs";
+import yaml from "js-yaml";
 import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
-
-export type HeaderData = {
-  "title": string;
-  "level"?: string;
-  "license"?: string;
-  "vocabulary"?: string[];
-  "redirects"?: string[];
-  "published"?: boolean;
-  "typos fixed"?: boolean;
-  "classes"?: string[];
-  "status"?: "draft";
-  "index"?: "yes" | "no";
-  /** Used when overwriting the default URL which is generated from the title of the page */
-  "url"?: string;
-  /** Added later */
-  "has_data"?: Boolean;
-  /** Added by References.ts in order to be printed in HeaderAndFooter.ts */
-  "reflist"?: string;
-};
+import { removeComments } from "ylhyra/documents/compilation/compileDocument/functions/functions";
+import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
+import { getPlaintextFromVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
 
 export const readContentFile = async (
   filepath: string

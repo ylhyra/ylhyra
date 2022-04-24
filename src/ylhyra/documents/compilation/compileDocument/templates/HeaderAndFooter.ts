@@ -1,9 +1,9 @@
 import { c } from "modules/noUndefinedInTemplateLiteral";
 import { encodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";
 import { getOrderOfChapters } from "ylhyra/documents/compilation/compileDocument/functions/getOrderOfChapters";
-import { HeaderData } from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
 import markdown_to_html from "ylhyra/documents/compilation/compileDocument/markdown";
 import { breadcrumbs } from "ylhyra/documents/compilation/compileDocument/templates/breadcrumbs";
+import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
 import { parseVocabularyList } from "ylhyra/documents/compilation/compileDocument/vocabulary";
 import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 
