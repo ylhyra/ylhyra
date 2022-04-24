@@ -1,33 +1,23 @@
 import { LongAudioReducer } from "ylhyra/documents/translationEditor/audioSynchronization/types";
-import {
-  TokenizedParagraphs,
-  TokenizedSentence,
-  TokenizedWord,
-} from "ylhyra/documents/types/various";
+import { TokenizedParagraphs } from "ylhyra/documents/types/various";
 
 /** Data as stored in the "Data:" namespace */
 export type FlattenedData = {
   translation: TranslationData;
-  list: TranslationItemList;
+  // list: TranslationItemList;
   long_audio: LongAudioReducer;
+  /** Used by {@link tokenizeDocument} to know the previous tokenization */
   tokenized?: TokenizedParagraphs;
-  /** NO LONGER USED */
-  short_audio: {
-    soundList: string[];
-    sounds: {};
-    wordID_to_text: {};
-  };
 };
 
 export type DocumentTitleToFlattenedData = {
   [documentTitle: string]: FlattenedData;
 };
 
+/** TODO: Deprecated */
 export type TranslationItemList = {
   /** Used by the translator to jump to next word */
   arrayOfAllWordIDs: string[];
-  sentences: Record<string, TokenizedSentence>;
-  words: Record<string, TokenizedWord>;
 };
 
 export type TranslationData = {

@@ -1,11 +1,12 @@
 import { exec } from "child_process";
 import fs from "fs";
+import { createDirectoryIfMissing } from "modules/createDirectoryIfMissing";
 import forEachAsync from "modules/forEachAsync";
 import _ from "underscore";
 import Transclude from "ylhyra/documents/compilation/compileDocument/transclude";
+import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 import { links } from "ylhyra/documents/compilation/links/loadLinks.server";
 import { imageOutputFolder } from "ylhyra/server/paths_directories";
-import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 import { processedImageUrl } from "ylhyra/server/paths_urls";
 
 export type ImageElementParameters = {
@@ -57,7 +58,7 @@ const Images = (data: string): Promise<string> => {
 
         exec(`identify ${file}`, async (error, stdout) => {
           if (error) return console.error(`exec error: ${error}`);
-          const q = stdout.match(/^[^ ]+ [^ ]+ ([0-9]+)x([0-9]+)/);
+          const q = stdout.match(/^[^ ]+ [^ ]+ ([0-9]+)x([0-9]+)/) as string[];
           let originalWidth = parseInt(q[1]);
           let originalHeight = parseInt(q[2]);
 
@@ -149,14 +150,18 @@ const Images = (data: string): Promise<string> => {
               .replace(/\n/g, " ")
           );
 
+          /**
+           * Resize image using ImageMagick's `convert`.
+           */
+          createDirectoryIfMissing(imageOutputFolder);
           fs.stat(
             `${imageOutputFolder}/${name}-${boxes[0][2]}x${boxes[0][3]}.${ending}`,
             function (err) {
               if (err === null) {
-                // File exists
+                /* File exists */
                 return resolve2();
               } else if (err.code === "ENOENT") {
-                // File does not exist
+                /* File does not exist */
                 exec(
                   sizesAsHeightXWidth
                     .map(

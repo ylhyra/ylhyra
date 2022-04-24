@@ -1,4 +1,4 @@
-import generateHtml from "ylhyra/documents/compilation/compileDocument";
+import { compileDocument } from "ylhyra/documents/compilation/compileDocument";
 import { decodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";
 import { TermId } from "ylhyra/vocabulary/types";
 
@@ -8,7 +8,7 @@ export type SortKeys = { [termId: TermId]: number };
  */
 export async function getSortKeysBasedOnWhenWordIsIntroducedInTheCourse(): Promise<SortKeys> {
   if (process.env.DECK) return {};
-  const { content } = await generateHtml("course");
+  const { content } = await compileDocument("course");
   let i = 1;
   let sortKeys: SortKeys = {}; /* Term to sortKey */
   // let sentences = {};

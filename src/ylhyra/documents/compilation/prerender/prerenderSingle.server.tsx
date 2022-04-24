@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import store from "ylhyra/app/app/store";
 import Router from "ylhyra/app/router";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
-import generateHtml from "ylhyra/documents/compilation/compileDocument";
+import { compileDocument } from "ylhyra/documents/compilation/compileDocument";
 import { compileWithTranslation } from "ylhyra/documents/compilation/compileWithTranslation";
 import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 import { renderTitle } from "ylhyra/documents/compilation/links/format/renderTitle";
@@ -59,7 +59,7 @@ export default async function prerender({
   let content, header, necessaryData, output, props;
 
   if (isContent) {
-    const h = await generateHtml(url);
+    const h = await compileDocument(url);
     content = h.content;
     header = h.header;
     const out = compileWithTranslation({ html: content });

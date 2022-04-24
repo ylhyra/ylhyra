@@ -30,7 +30,7 @@
     "prerender_single": "npm run build_server && npm run prerender_only",
     "build_app": "./scripts/app.build.sh && npm run inflection_styles",
     "build_server": "export NODE_ENV=production && node scripts/esbuild/esbuild.js",
-    "server": "export NODE_ENV=development && nodemon --exec 'node scripts/esbuild/esbuild.js && node build/server/ylhyra_server.js' --watch src/ylhyra/server --watch package.json --watch src/inflection --watch src/documents/compile --watch build/links.json -e js,ts,json",
+    "server": "export NODE_ENV=development && nodemon --exec 'node scripts/esbuild/esbuild.js && node build/server/ylhyra_server.js' --watch src/ylhyra/server --watch **server.ts --watch package.json --watch src/inflection --watch src/documents/compile --watch build/links.json -e js,ts,json",
     "build_all": "./scripts/build_all.sh",
     "build_all_and_prerender": "npm run build_all && npm run prerender_only",
     "push_to_server": "./scripts/push_to_server.sh",
@@ -129,7 +129,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.15.4",
     "@babel/plugin-proposal-pipeline-operator": "^7.15.0",
-    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.15.6",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",

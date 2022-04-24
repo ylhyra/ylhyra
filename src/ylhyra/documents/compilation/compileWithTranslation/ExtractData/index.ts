@@ -5,12 +5,14 @@ import {
   FlattenedData,
 } from "ylhyra/documents/types/types";
 
-/*
-  Returns an object containing:
-    DocumentTitle => Data
-*/
-const ExtractData = (input: HtmlAsJson): DocumentTitleToFlattenedData => {
-  let output = {};
+/**
+ * Data is stored in inline data tags,
+ * see {@link DocumentationRegardingInlineDataInHtml}
+ */
+export const ExtractData = (
+  input: HtmlAsJson
+): DocumentTitleToFlattenedData => {
+  let output: DocumentTitleToFlattenedData = {};
   const getNewTitle = new newTitle();
   Traverse(input, ({ documentTitle, data }) => {
     const title = getNewTitle.get(documentTitle);
@@ -28,7 +30,7 @@ const Traverse = (
     documentTitle: string;
     data: FlattenedData;
   }) => void
-) => {
+): unknown => {
   const { node, attr } = input;
   if (typeof input === "string") return;
   if (node === "text") return;
@@ -52,14 +54,12 @@ const Traverse = (
   }
 };
 
-export default ExtractData;
-
-/*
-  Prevent clashes if the same document is transcluded twice
-*/
+/**
+ * Prevent clashes if the same document is transcluded twice
+ */
 export class newTitle {
   index = 0;
-  array = [];
+  array: string[] = [];
 
   get(title: string) {
     if (this.array.includes(title)) {
@@ -69,12 +69,3 @@ export class newTitle {
     return title;
   }
 }
-
-// /*
-//   //Todo
-//   Prepend title to all IDs to prevent clashing, would be added in ExtractData
-// */
-// const updateIds = (data) => {
-//   // console.log(data)
-//   return data;
-// };

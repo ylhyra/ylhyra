@@ -1,27 +1,3 @@
-/**
-
- 1. Parses input
- 2. Loops over tokenization
- 3. Merges tokenization and HTML to produce <sentence/> and <word/> tags
-
----
-
-  We split up Words and Sentences based on raw text, not based on HTML structure.
-
-  The purpose of these functions is to turn this HTML:
-      <b>Blabla bla! <i>Bla</i></b> bla bla.
-  Into:
-      <sentence>
-        <b>Blabla bla!</b>
-      </sentence>
-      <sentence>
-        <b><i>Bla</i></b> bla bla.
-      </sentence>
-
-  That is to say, it breaks out of HTML tags at the correct spots in
-  order to encapsulate the text into <sentence/> tags.
-
-*/
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { newTitle } from "ylhyra/documents/compilation/compileWithTranslation/ExtractData";
 import { getTextFromJson } from "ylhyra/documents/compilation/compileWithTranslation/ExtractText/ExtractText";
@@ -37,10 +13,32 @@ import {
   TokenizedParagraph,
 } from "ylhyra/documents/types/various";
 
-export default function (
+/**
+ * 1. Parses input
+ * 2. Loops over tokenization
+ * 3. Merges tokenization and HTML to produce <sentence/> and <word/> tags
+ *
+ * ---
+ *
+ * We split up Words and Sentences based on raw text, not based on HTML structure.
+ *
+ * The purpose of these functions is to turn this HTML:
+ *   <b>Blabla bla! <i>Bla</i></b> bla bla.
+ * Into:
+ *   <sentence>
+ *     <b>Blabla bla!</b>
+ *   </sentence>
+ *   <sentence>
+ *     <b><i>Bla</i></b> bla bla.
+ *   </sentence>
+ *
+ * That is to say, it breaks out of HTML tags at the correct spots in
+ * order to encapsulate the text into <sentence/> tags.
+ */
+export const WrapInTags = (
   json: HtmlAsJson,
   tokenized: DocumentTitleToTokenizedParagraphsWithIds
-): HtmlAsJson {
+): HtmlAsJson => {
   /** By flattening, we can keep track of multiple transcluded documents. */
   let tokenizedFlattened: TokenizedFlattenedForWrapInTags = [];
   for (const documentTitle of Object.keys(tokenized)) {
@@ -71,7 +69,7 @@ export default function (
   wrapped = removeDocumentStartTags(wrapped);
 
   return wrapped;
-}
+};
 
 /**
  * Extract sentences from paragraph
@@ -88,14 +86,14 @@ const Sentences = (
   */
   function Words(sentence_HTML: HtmlAsJson[]) {
     const words = sentences[i++].words;
-    return WrapInTags(sentence_HTML, words, "word");
+    return WrapInTags2(sentence_HTML, words, "word");
   }
 
   /* TODO!!! Verify, this previously returned x.child!! */
-  return WrapInTags(paragraph_HTML, sentences, "sentence", Words);
+  return WrapInTags2(paragraph_HTML, sentences, "sentence", Words);
 };
 
-const WrapInTags = (
+const WrapInTags2 = (
   input: HtmlAsJson[],
   tokenizedSplit: ArrayOfEitherTokenizedSentencesOrWords,
   elementName: "sentence" | "word",

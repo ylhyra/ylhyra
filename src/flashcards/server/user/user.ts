@@ -1,9 +1,9 @@
 import type { Request } from "express";
-import { StatusCodes } from "http-status-codes";
 import { errors } from "flashcards/errors";
+import { UserId, Username } from "flashcards/frontend/user/types";
 import { db } from "flashcards/server/database/db";
 import { throwError } from "flashcards/server/functions/various";
-import { UserId, Username } from "flashcards/frontend/user/types";
+import { StatusCodes } from "http-status-codes";
 import { encodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";
 
 export const getUserId = (req: Request): UserId | undefined => {
@@ -16,7 +16,7 @@ export const setSession = (
   username: Username
 ) => {
   req.session!.userId = userId;
-  req.session!.usernameEncoded = encodeDataInHtml(username, true);
+  req.session!.usernameEncoded = encodeDataInHtml(username);
 };
 
 export const getUserIdFromUsername = async (username: Username) => {

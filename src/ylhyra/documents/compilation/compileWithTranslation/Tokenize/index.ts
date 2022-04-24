@@ -1,8 +1,8 @@
 import hash from "modules/hash";
 import _ from "underscore";
-import CreateIDs from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/IDs/CreateIDs";
-import PreserveIDs from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/IDs/PreserveIDs";
-import tokenizer from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/Tokenizer";
+import { CreateIDs } from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/IDs/CreateIDs";
+import { PreserveIDs } from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/IDs/PreserveIDs";
+import { tokenizer } from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/Tokenizer";
 import {
   DocumentTitleToFlattenedData,
   FlattenedData,
@@ -15,7 +15,7 @@ import {
   TokenizedParagraphs,
 } from "ylhyra/documents/types/various";
 
-export default function (
+export function Tokenizer(
   documents: DocumentTitleToRawParagraphs,
   data: DocumentTitleToFlattenedData
 ): DocumentTitleToTokenizedParagraphsWithIds {
@@ -30,7 +30,7 @@ export default function (
   return tokenized;
 }
 
-const tokenizeDocument = ({
+export const tokenizeDocument = ({
   documentTitle,
   paragraphs,
   previousData,
@@ -55,7 +55,9 @@ const tokenizeDocument = ({
     Step 2: Merge the new tokenizations with the previously calculated ones.
     We make sure to maintain the `index` order that already exists on the paragraph.
   */
-  const arrayOfNewAndOldTokenizations = [
+  const arrayOfNewAndOldTokenizations: Array<
+    TokenizedParagraphs[number] | RawTokenizedParagraphs[number]
+  > = [
     ...(previousData.tokenized || []), // Previous tokenization
     ...tokenizedRaw, // New tokenization
   ];
@@ -70,6 +72,7 @@ const tokenizeDocument = ({
     documentTitle,
     tokenizedRaw
   );
+
   if (previousData.tokenized) {
     tokenizedWithIds = PreserveIDs(previousData.tokenized, tokenizedWithIds);
   }

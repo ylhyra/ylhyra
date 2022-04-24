@@ -1,25 +1,22 @@
-/*
-
-  - Compares old and new tokenization and attempts to preserve IDs.
-  - This is done to prevent loss of translations when editing the input text.
-
-  Input:
-    1. Old tokenized text
-    2. New tokenized text
-  Output:
-    1. New tokenized text with preserved IDs when possible
-
-*/
-
 import { diffArrays } from "diff";
 import { findBestMatch } from "string-similarity";
 import flattenArray from "ylhyra/app/app/functions/flattenArray";
 import { TokenizedParagraphs } from "ylhyra/documents/types/various";
 
-export default function Preserve(
+/**
+ * - Compares old and new tokenization and attempts to preserve IDs.
+ * - This is done to prevent loss of translations when editing the input text.
+ *
+ * Input:
+ *   1. Old tokenized text
+ *   2. New tokenized text
+ * Output:
+ *   1. New tokenized text with preserved IDs when possible
+ */
+export function PreserveIDs(
   first: TokenizedParagraphs,
   second: TokenizedParagraphs
-) {
+): TokenizedParagraphs {
   /* Map from new IDs to preserved IDs */
   const PreservedIDs = {
     /* Compares old and new sentences */

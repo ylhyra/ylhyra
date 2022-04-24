@@ -12,17 +12,6 @@ export const flattenData = (
       sentences: {},
       words: {},
     },
-    list: {
-      arrayOfAllWordIDs: [],
-      items: {},
-      sentences: {},
-      words: {},
-    },
-    short_audio: {
-      soundList: [],
-      sounds: {},
-      wordID_to_text: {},
-    },
     long_audio: {},
   };
 
@@ -38,12 +27,15 @@ const merge = (first: FlattenedData, second: FlattenedData): FlattenedData => {
   //   return [...first, ...second];
   // } else
   if (typeof first === "object") {
-    let output = first;
+    let output: FlattenedData = first;
     if (second && typeof second === "object") {
       for (const key of Object.keys(second)) {
+        // @ts-ignore
         if (output[key]) {
+          // @ts-ignore
           output[key] = merge(output[key], second[key]);
         } else {
+          // @ts-ignore
           output[key] = second[key];
         }
       }

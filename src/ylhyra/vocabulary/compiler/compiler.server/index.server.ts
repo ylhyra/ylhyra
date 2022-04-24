@@ -4,8 +4,13 @@
 */
 import fs from "fs";
 import yaml from "js-yaml";
-import { getLowercaseStringForAudioKey } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
+import { createDirectoryIfMissing } from "modules/createDirectoryIfMissing";
+import { contentFolder, getBaseDir } from "ylhyra/server/paths_directories";
+import { getSounds } from "ylhyra/vocabulary/compiler/compiler.server/getSounds";
+import { simplifyDeck } from "ylhyra/vocabulary/compiler/compiler.server/simplifyDeck.server";
+import { getSortKeysBasedOnWhenWordIsIntroducedInTheCourse } from "ylhyra/vocabulary/compiler/compiler.server/sortKeys.server";
 import { parseVocabularyFile } from "ylhyra/vocabulary/compiler/parseVocabularyFile";
+import { getLowercaseStringForAudioKey } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import {
   CardData,
   CardId,
@@ -15,10 +20,6 @@ import {
   TermIds,
   VocabularyFile,
 } from "ylhyra/vocabulary/types";
-import { contentFolder, getBaseDir } from "ylhyra/server/paths_directories";
-import { getSounds } from "ylhyra/vocabulary/compiler/compiler.server/getSounds";
-import { simplifyDeck } from "ylhyra/vocabulary/compiler/compiler.server/simplifyDeck.server";
-import { getSortKeysBasedOnWhenWordIsIntroducedInTheCourse } from "ylhyra/vocabulary/compiler/compiler.server/sortKeys.server";
 
 const DECK = process.env.DECK || "";
 const filename = contentFolder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
@@ -123,6 +124,7 @@ const filename = contentFolder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
     }
 
     console.log(`${Object.keys(cards).length} cards`);
+    createDirectoryIfMissing(getBaseDir() + "/build/vocabulary/");
     const fullDeck: DeckDatabase = {
       cards,
       terms,

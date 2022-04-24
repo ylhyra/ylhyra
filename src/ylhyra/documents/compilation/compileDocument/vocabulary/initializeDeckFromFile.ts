@@ -1,7 +1,7 @@
 import fs from "fs";
+import { getBaseDir } from "ylhyra/server/paths_directories";
 import Deck, { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { DeckDatabase } from "ylhyra/vocabulary/types";
-import { getBaseDir } from "ylhyra/server/paths_directories";
 
 export const initializeDeckFromFile = () => {
   try {
@@ -21,6 +21,8 @@ export const initializeDeckFromFile = () => {
   } catch (e) {
     new Deck({});
     deck!.alternativeIds = {};
-    console.error("No files to initialize from");
+    console.error(
+      "Vocabulary not initialized in compilation step as the file has not been generated (run `npm run vocabulary`)"
+    );
   }
 };

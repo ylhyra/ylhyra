@@ -5,7 +5,7 @@ import {
   RawTokenizedParagraphs,
 } from "ylhyra/documents/types/various";
 
-export default function Tokenize(
+export function tokenizer(
   paragraphs: RawParagraphsWithHash
 ): RawTokenizedParagraphs {
   return paragraphs.map(({ hash, text }) => {

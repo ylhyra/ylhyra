@@ -51,8 +51,8 @@ router.post("/api/user", speedLimit, rateLimit, async (req, res) => {
       user_id = await create_user({ email, username, password, res });
     }
 
-    req.session.user_id = user_id;
-    req.session.username_encoded = encodeDataInHtml(username, true);
+    req.session!.user_id = user_id;
+    req.session!.username_encoded = encodeDataInHtml(username);
     return res.send({ user_id, username, did_user_exist });
   });
 });

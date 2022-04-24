@@ -3,13 +3,17 @@ import shortid from "shortid";
 import {
   RawTokenizedParagraphs,
   TokenizedParagraphs,
+  TokenizedSentence,
+  TokenizedWord,
 } from "ylhyra/documents/types/various";
 
 export const wordRegex = /[A-zÀ-ÿ0-9]/;
 
-const CreateIDs = (
+export const CreateIDs = (
   documentTitle: string,
-  paragraphs: RawTokenizedParagraphs
+  paragraphs: Array<
+    TokenizedParagraphs[number] | RawTokenizedParagraphs[number]
+  >
 ): TokenizedParagraphs => {
   const seed = hash(shortid.generate() + "" + documentTitle).slice(0, 4);
   let i = 0;
@@ -30,11 +34,13 @@ const CreateIDs = (
         */
         const sentenceText = getTextFromTokenized(sentence).trim();
         const sentenceId = makeID();
+        const words: TokenizedWord[] | string[] =
+          "words" in sentence ? sentence.words : sentence;
         return {
           id: "s_" + sentenceId,
           text: sentenceText,
-          words: sentence
-            .map((word) => {
+          words: words
+            .map((word: TokenizedWord | string) => {
               /*
                 Word
               */
@@ -48,11 +54,11 @@ const CreateIDs = (
             })
             // Filter out empty ends
             .filter((word, index) => {
-              const isAtEnd = index === 0 || index === sentence.length - 1;
+              const isAtEnd = index === 0 || index === words.length - 1;
               const isEmpty = !(typeof word === "string"
                 ? word.trim()
                 : word.text?.trim());
-              return isAtEnd && isEmpty;
+              return !(isAtEnd && isEmpty);
             }),
         };
       }),
@@ -60,12 +66,9 @@ const CreateIDs = (
   });
 };
 
-export default CreateIDs;
-
-/*
-  Gets text from tokenized output
-*/
-export const getTextFromTokenized = (t) => {
+export const getTextFromTokenized = (
+  t: TokenizedSentence | TokenizedWord | string[] | string
+): string => {
   if (Array.isArray(t)) {
     return t.map(getTextFromTokenized).join("");
   }

@@ -1,3 +1,4 @@
+// @ts-ignore
 import emoji_strip from "emoji-strip";
 import hash from "modules/hash";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
@@ -13,7 +14,7 @@ import { DocumentTitleToRawParagraphs } from "ylhyra/documents/types/various";
   3. Gets raw text
   4. Returns a list of paragraphs (text & hash)
  */
-export default function (json: HtmlAsJson): DocumentTitleToRawParagraphs {
+export function ExtractText(json: HtmlAsJson): DocumentTitleToRawParagraphs {
   let paragraphs: Array<{
     index: number;
     documentTitle: string;

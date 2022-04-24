@@ -10,7 +10,7 @@ import { FlattenedData } from "ylhyra/documents/types/types";
 
 const entities = new Entities();
 
-const TextCompiler = ({
+export const Compiler = ({
   json,
   data,
 }: {
@@ -28,5 +28,3 @@ const TextCompiler = ({
   output = PrepareJSONForReact(output);
   return output;
 };
-
-export default TextCompiler;

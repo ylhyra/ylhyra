@@ -1,4 +1,4 @@
-import generateHtml from "ylhyra/documents/compilation/compileDocument/index";
+import { compileDocument } from "ylhyra/documents/compilation/compileDocument/index";
 import { getValuesForUrl } from "ylhyra/documents/compilation/links/getValuesForUrl.server";
 
 type UnitsToUrl = Array<{ unit: number; prefix: number; url: string }>;
@@ -19,7 +19,7 @@ export const getOrderOfChapters = async (): Promise<
   typeof cachedOrderOfChapters
 > => {
   if (cachedOrderOfChapters) return cachedOrderOfChapters;
-  const { content } = await generateHtml("course");
+  const { content } = await compileDocument("course");
   let currentUnit = 0;
   let index = 1;
   let urls: Urls = [];
