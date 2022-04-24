@@ -68,7 +68,7 @@ export default function (
       return paragraph;
     },
   });
-  wrapped = removeInlineData(wrapped);
+  wrapped = removeDocumentStartTags(wrapped);
 
   return wrapped;
 }
@@ -122,23 +122,21 @@ const WrapInTags = (
   return [json];
 };
 
-/*
-  Removes the inline data printed in the "Start" template
-*/
-const removeInlineData = (input: HtmlAsJson): HtmlAsJson => {
+/**
+ * Removes the "data-document-start" span tags printed in Transclude.ts.
+ * They also include translation data.
+ */
+const removeDocumentStartTags = (input: HtmlAsJson): HtmlAsJson => {
   if (!input) return input;
-  // if (Array.isArray(input)) {
-  //   return input.map((j) => removeInlineData(j));
-  // }
   const { node, attr, child } = input;
   if (node === "element" || node === "root") {
     if (attr && (attr["data-document-start"] || attr["data-document-end"])) {
-      return { node: "text", text: "" }; // Hlýtur að vera til betri leið til að henda út greinum...
+      return { node: "text", text: "" };
     }
     if (child) {
       return {
         ...input,
-        child: child.map((item) => removeInlineData(item)),
+        child: child.map((item) => removeDocumentStartTags(item)),
       };
     }
     return input;

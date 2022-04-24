@@ -13,7 +13,6 @@ export const flattenData = (
       words: {},
     },
     list: {
-      arrayOfAllItemIDs: [],
       arrayOfAllWordIDs: [],
       items: {},
       sentences: {},

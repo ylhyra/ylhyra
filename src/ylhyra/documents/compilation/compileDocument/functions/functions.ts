@@ -1,4 +1,6 @@
+// @ts-ignore
 import atob from "atob";
+// @ts-ignore
 import btoa from "btoa";
 
 export const removeComments = (i: string) =>
@@ -7,10 +9,12 @@ export const removeComments = (i: string) =>
 /**
  * Returns Base64-encoded
  */
-export const encodeDataInHtml = (input: any, alreadyStringified = false) => {
+export const encodeDataInHtml = (input: any) => {
   if (!input) return;
   return btoa(
-    encodeURIComponent(alreadyStringified ? input : JSON.stringify(input))
+    encodeURIComponent(
+      typeof input === "string" ? input : JSON.stringify(input)
+    )
   );
 };
 

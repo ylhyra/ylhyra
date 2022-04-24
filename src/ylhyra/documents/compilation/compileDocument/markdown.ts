@@ -1,5 +1,6 @@
 import marked from "marked";
 import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
+// @ts-ignore
 import sass from "sass";
 import { html2json, json2html } from "ylhyra/app/app/functions/html2json";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
@@ -8,6 +9,7 @@ import typeset from "ylhyra/documents/compilation/compileDocument/functions/type
 import Conversation from "ylhyra/documents/compilation/compileDocument/templates/Conversations";
 import { getTextFromJson } from "ylhyra/documents/compilation/compileWithTranslation/ExtractText/ExtractText";
 import { getSectionId } from "ylhyra/documents/compilation/links/format/formatUrl";
+import { c } from "modules/noUndefinedInTemplateLiteral";
 
 /**
  * Here we convert Markdown text blocks to HTML.
@@ -31,13 +33,12 @@ export default (input: string): string => {
 
 const Traverse = (json: HtmlAsJson): HtmlAsJson => {
   // if (!json) return null;
-  const { node, tag, attr, child, text } = json;
+  const { node, tag, attr, child } = json;
   if (node === "element" || node === "root") {
     if (tag === "Conversation") {
       return Conversation(json);
-    } else if (tag === "TOC") {
-      // return TOC(json);
     } else if (tag === "style") {
+      /** Render SASS CSS */
       return {
         node: "element",
         tag: "style",
@@ -146,20 +147,20 @@ export const processText = (input: string): string => {
 
   /* Markdown */
   if (!input.trim()) return input;
-  // @ts-ignore
-  let [, pre, middle, post] = input.match(/^([\s]+)?([\s\S]+)( +)?$/);
+  let [, pre, middle, post] = input.match(
+    /^([\s]+)?([\s\S]+)( +)?$/
+  ) as string[];
   /* Lagfæra lista */
   middle = middle.replace(/(\n-[^\n]+)\n([^-])/g, "$1\n\n$2");
-  middle = middle.replace(
-    /^ +([^- ])/gm,
-    "$1"
-  ); /* Fjarlægja bil frá byrjun línu */
-  let m = marked(middle).trim(); /* Á að trimma? */
+  /* Fjarlægja bil frá byrjun línu */
+  middle = middle.replace(/^ +([^- ])/gm, "$1");
+  // @ts-ignore
+  let middle2 = marked(middle).trim(); /* Á að trimma? */
   /* TODO: Virkar ekki með töflur */
   if (!/\n\n/.test(middle)) {
-    m = m.replace(/<p>(.+)<\/p>/, "$1");
+    middle2 = middle2.replace(/<p>(.+)<\/p>/, "$1");
   }
-  input = (pre || "") + m + (post || "");
+  input = c`${pre}${middle2}${post}`;
 
   input = input.replace(/<p>([\s]+)?<\/p>/, "$1");
 

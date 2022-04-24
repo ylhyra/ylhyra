@@ -11,6 +11,7 @@ import TOC from "ylhyra/documents/compilation/compileDocument/templates/TOC";
 import { getValuesForUrl } from "ylhyra/documents/compilation/links/getValuesForUrl.server";
 import { links } from "ylhyra/documents/compilation/links/loadLinks.server";
 import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
+import { FlattenedData } from "ylhyra/documents/types/types";
 
 /**
  * Enter a title and receive its contents with everything transcluded
@@ -34,7 +35,7 @@ export default async function Transclude(
   }
   const { filepath } = values;
 
-  let { header, body } = await readContentFile(filepath);
+  let { header, body } = await readContentFile(filepath!);
 
   let output = body;
 
@@ -54,14 +55,14 @@ export default async function Transclude(
     output = await TranscludeFromText(output, depth);
   }
   if (shouldGetData && header) {
-    const data2 = await getData(header);
-    if (data2) {
+    const associatedData = await getData(header);
+    if (associatedData) {
       output =
-        `<span data-document-start="${(data2 || header).title}" data-data="${
-          data2 ? encodeDataInHtml(data2.output, true) : ""
-        }"></span>` +
+        `<span data-document-start="${
+          header.title
+        }" data-data="${encodeDataInHtml(associatedData)}"></span>` +
         output +
-        `<span data-document-end="${(data2 || header).title}"></span>`;
+        `<span data-document-end="${header.title}"></span>`;
       output = output.replace(/(<\/span>)(?:==##)/g, "$1\n$2");
       header.has_data = true;
     }
@@ -74,7 +75,6 @@ export default async function Transclude(
  * Enter the contents of a file and receive it back with everything transcluded
  * @param input - Raw markdown file contents
  * @param depth - How deep in a transclusion chain are we?
- * @constructor
  */
 export const TranscludeFromText = async (input: string, depth: number) => {
   let output = "";
@@ -90,10 +90,12 @@ export const TranscludeFromText = async (input: string, depth: number) => {
       /* Get header info */
       /* TODO: Find better syntax to get header info */
       if (/(>>>)/.test(q)) {
-        const [title_, param_] = q.split(">>>");
-        const transclusion = await Transclude(title_, depth + 1);
-        if (transclusion.header) {
-          output += encodeDataInHtml(transclusion.header[param_]);
+        const [_title, _param] = q.split(">>>");
+        const transclusion = await Transclude(_title, depth + 1);
+        if (transclusion.header && _param in transclusion.header) {
+          output += encodeDataInHtml(
+            transclusion.header[_param as keyof HeaderData]
+          );
         }
       } else {
         /* Transclude */
@@ -125,22 +127,18 @@ export const TranscludeFromText = async (input: string, depth: number) => {
   return output;
 };
 
+/**
+ * Get translation data stored in the "Data:" namespace.
+ * They store data on the "FlattenedData" type format.
+ */
 const getData = async (
   header: HeaderData
-): Promise<
-  | {
-      output: string;
-      title: string;
-    }
-  | undefined
-> => {
-  const dataTitle = [header.title, ...(header.redirects || [])].find(
+): Promise<FlattenedData | undefined> => {
+  const dataDocumentTitle = [header.title, ...(header.redirects || [])].find(
     (t) => formatUrl("Data:" + t) in links
   );
-  if (!dataTitle) return;
-  const output = (await Transclude("Data:" + dataTitle, 0, false)).output;
-  return {
-    output: JSON.stringify(JSON.parse(output)),
-    title: dataTitle,
-  };
+  if (!dataDocumentTitle) return;
+  const output = (await Transclude("Data:" + dataDocumentTitle, 0, false))
+    .output;
+  return JSON.parse(output);
 };

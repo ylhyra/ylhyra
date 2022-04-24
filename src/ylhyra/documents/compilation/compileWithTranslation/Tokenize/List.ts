@@ -1,27 +1,19 @@
-import { TranslationList } from "ylhyra/documents/types/types";
+import { TranslationItemList } from "ylhyra/documents/types/types";
 import { TokenizedParagraphs } from "ylhyra/documents/types/various";
 
 /**
- * Todo:
- * Is only called in a reducer, which is a very unclear place to put this.
- *
- * Todo?
- * It is most often unnecessary to use "Words" and "Sentences",
- * we could instead only rely on the more general "Items".
+ * A helper list.
+ * This list is created when INITIALIZE_WITH_TOKENIZED_AND_DATA is called.
  */
-export default (paragraphs: TokenizedParagraphs): TranslationList => {
-  let items: TranslationList["items"] = {};
-  let arrayOfAllItemIDs: TranslationList["arrayOfAllItemIDs"] = [];
-  let sentences: TranslationList["sentences"] = {};
-  let words: TranslationList["words"] = {};
-  let arrayOfAllWordIDs: TranslationList["arrayOfAllWordIDs"] = [];
+export default (paragraphs: TokenizedParagraphs): TranslationItemList => {
+  let sentences: TranslationItemList["sentences"] = {};
+  let words: TranslationItemList["words"] = {};
+  let arrayOfAllWordIDs: TranslationItemList["arrayOfAllWordIDs"] = [];
 
   paragraphs &&
     paragraphs.forEach((paragraph) => {
       paragraph.sentences.forEach((sentence) => {
         sentences[sentence.id] = sentence;
-        items[sentence.id] = sentence;
-        arrayOfAllItemIDs.push(sentence.id);
         sentence.words.forEach((word) => {
           if (typeof word !== "string" && word.id) {
             word = {
@@ -29,9 +21,7 @@ export default (paragraphs: TokenizedParagraphs): TranslationList => {
               belongsToSentence: sentence.id,
             };
             words[word.id] = word;
-            items[word.id] = word;
             arrayOfAllWordIDs.push(word.id);
-            arrayOfAllItemIDs.push(word.id);
           }
         });
       });
@@ -42,8 +32,6 @@ export default (paragraphs: TokenizedParagraphs): TranslationList => {
   }
 
   return {
-    items,
-    arrayOfAllItemIDs,
     sentences,
     words,
     arrayOfAllWordIDs,

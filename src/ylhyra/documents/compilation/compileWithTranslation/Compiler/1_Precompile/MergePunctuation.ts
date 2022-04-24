@@ -3,31 +3,42 @@
   Merge phrases into a single word
 */
 
-import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
+import {
+  emptyHtmlAsJsonNode,
+  HtmlAsJson,
+} from "ylhyra/app/app/functions/html2json/types";
+import { TranslationData } from "ylhyra/documents/types/types";
 
-let translation;
-let removedIds;
+// let translation: TranslationData;
+let removedIds: string[];
 
-const init = (tree: HtmlAsJson, _translation) => {
-  translation = _translation;
+export default (
+  tree: HtmlAsJson,
+  _translation: TranslationData
+): HtmlAsJson => {
+  // translation = _translation;
   removedIds = [];
   return Traverse(tree);
 };
 
-const Traverse = (input: HtmlAsJson, siblings: HtmlAsJson[] = []) => {
+const Traverse = (
+  input: HtmlAsJson,
+  siblings: HtmlAsJson[] = []
+): HtmlAsJson => {
   if (!input) return input;
   const { node, tag, attr, child } = input;
   const id = attr?.id || null;
   if (node === "element" || node === "root") {
     if (tag === "word") {
-      if (removedIds.includes(id)) return null;
-      const definition = translation.definitions[translation.words[id]];
+      if (removedIds.includes(id!)) return emptyHtmlAsJsonNode;
+      // TODO!!!!!!! Verify still works !
+      // const definition = translation.definitions[translation.words[id]];
       return {
         ...input,
         attr: {
           ...input.attr,
-          definition,
-          appendText: findTextSiblings(siblings, id),
+          // definition,
+          appendText: findTextSiblings(siblings, id!),
         },
       };
     } else {
@@ -37,7 +48,8 @@ const Traverse = (input: HtmlAsJson, siblings: HtmlAsJson[] = []) => {
       };
     }
   } else if (node === "text") {
-    if (removedIds.includes(id)) return null;
+    /* Text nodes were given temp ids */
+    if (removedIds.includes(id!)) return emptyHtmlAsJsonNode;
     return input;
   }
   return input;
@@ -48,14 +60,15 @@ const findTextSiblings = (siblings: HtmlAsJson[], startId: string) => {
   let returnString = "";
   siblings.forEach((element) => {
     if (!element) return;
-    if (removedIds.includes(element.attr.id)) return;
+    if (removedIds.includes(element.attr?.id!)) return;
 
-    if (element.attr.id === startId) {
+    if (element.attr?.id! === startId) {
       listening = true;
     } else if (listening) {
-      if (element.node === "text" && !element.text.startsWith(" ")) {
+      if (element.node === "text" && !element.text!.startsWith(" ")) {
         returnString += element.text;
-        removedIds.push(element.attr.id);
+        /* Text nodes were given temp ids */
+        removedIds.push(element.attr!.id);
       } else {
         listening = false;
       }
@@ -63,5 +76,3 @@ const findTextSiblings = (siblings: HtmlAsJson[], startId: string) => {
   });
   return returnString;
 };
-
-export default init;
