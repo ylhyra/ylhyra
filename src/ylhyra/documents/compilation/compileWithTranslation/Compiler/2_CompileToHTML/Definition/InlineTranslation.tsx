@@ -11,18 +11,18 @@ import { ItalicsAndBold } from "ylhyra/documents/compilation/compileWithTranslat
 */
 
 export class InlineTranslation extends React.PureComponent<{
-  definition: WordDefinition;
+  definition: WordDefinition | undefined;
 }> {
   render() {
     const { definition } = this.props;
-    if (!exists(definition) || !definition.show_definition_above) {
+    if (!exists(definition) || !definition!.show_definition_above) {
       return null;
     }
-    const text = definition.inline_translation || definition.meaning;
+    const text = definition!.inline_translation || definition!.meaning;
     return (
       <>
         {/** These hidden parentheses are only here to make the HTML
-             be at least legible }when the CSS file is missing.
+             be at least legible when the CSS file is missing.
              This is probably not necessary. */}
         <span className="hidden"> (</span>
         <span className="inline_translation" data-not-text="true" lang="en">

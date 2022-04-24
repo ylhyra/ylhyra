@@ -6,7 +6,7 @@ import { WordContainer } from "ylhyra/documents/compilation/compileWithTranslati
 import { FlattenedData } from "ylhyra/documents/types/types";
 
 /**
- * Returns a JSX-type object
+ * Here tooltips and inline translation elements are created.
  */
 const Traverse = ({
   json,

@@ -8,8 +8,11 @@ import CompileToJsx from "ylhyra/documents/compilation/compileWithTranslation/Co
 import { PrepareJSONForReact } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/PrepareJSONForReact";
 import { FlattenedData } from "ylhyra/documents/types/types";
 
-const entities = new Entities();
-
+/**
+ * Two steps:
+ *   1. {@link PrepareForCompilation} merges adjacent words
+ *   2. {@link CompileToJsx} creates tooltips and inline elements
+ */
 export const Compiler = ({
   json,
   data,
@@ -24,6 +27,7 @@ export const Compiler = ({
   output = PrepareJSONForReact(output);
   output = CompileToJsx({ json: output, data });
   output = ReactDOMServer.renderToStaticMarkup(output);
+  const entities = new Entities();
   output = entities.decode(output);
   output = html2json(output);
   output = PrepareJSONForReact(output);

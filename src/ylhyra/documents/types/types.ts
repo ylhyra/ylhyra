@@ -14,12 +14,6 @@ export type DocumentTitleToFlattenedData = {
   [documentTitle: string]: FlattenedData;
 };
 
-/** TODO: Deprecated */
-export type TranslationItemList = {
-  /** Used by the translator to jump to next word */
-  arrayOfAllWordIDs: string[];
-};
-
 export type TranslationData = {
   /* Sentence id to sentence definition */
   sentences: Record<string, SentenceDefinition>;

@@ -6,7 +6,7 @@ import { getUpdatedId } from "ylhyra/documents/compilation/compileWithTranslatio
 import { WordBox } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/WordBox";
 import { InlineTranslation } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/InlineTranslation";
 import { Tooltip } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Tooltip";
-import { FlattenedData } from "ylhyra/documents/types/types";
+import { FlattenedData, WordDefinition } from "ylhyra/documents/types/types";
 
 /**
  * Attributes:
@@ -27,7 +27,7 @@ export class WordContainer extends React.Component<{
 }> {
   render() {
     const { id, data, punctuationToAppendInsideWordContainer } = this.props;
-    const definition =
+    const definition: WordDefinition | undefined =
       data?.translation.definitions[data.translation.words[id!]];
 
     let classes = [];
@@ -42,14 +42,14 @@ export class WordContainer extends React.Component<{
         .has-inline-translation
       */
       classes = [
-        definition.difficult ? "difficult" : null,
-        definition.show_definition_above ? "has-inline-translation" : null,
+        definition?.difficult ? "difficult" : null,
+        definition?.show_definition_above ? "has-inline-translation" : null,
       ];
 
       /*
         [data-connected-words]
       */
-      if (definition.contains.length > 1) {
+      if (definition && definition?.contains.length > 1) {
         attrs["data-connected-words"] = _.uniq(
           definition.contains.map((id) => getUpdatedId(id))
         )

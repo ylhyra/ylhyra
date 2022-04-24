@@ -7,13 +7,14 @@ import { ItalicsAndBold } from "ylhyra/documents/compilation/compileWithTranslat
  * Box with extra information shown at the bottom of the screen
  */
 export class WordBox extends React.PureComponent<{
-  definition: WordDefinition;
+  definition: WordDefinition | undefined;
   id: string;
   hidden?: boolean;
 }> {
   render() {
     const { definition } = this.props;
     if (
+      !definition ||
       !exists(definition) ||
       (!definition.base &&
         !definition.base_meaning &&

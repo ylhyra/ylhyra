@@ -2,8 +2,6 @@ import { AnyAction, combineReducers } from "redux";
 // @ts-ignore
 import getParameter from "get-parameter";
 import { isBrowser } from "modules/isBrowser";
-import MakeList from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/List";
-import { TranslationItemList } from "ylhyra/documents/types/types";
 import { long_audio } from "ylhyra/documents/translationEditor/audioSynchronization/frontend/reducers";
 import short_audio from "ylhyra/documents/translationEditor/NOT_USED/shortAudio.NOT_USED/reducers";
 // import {
@@ -49,18 +47,18 @@ const tokenized = (state: TokenizedParagraphs = [], action: AnyAction) => {
   }
 };
 
-const list = (state: TranslationItemList | null = null, action: AnyAction) => {
-  switch (action.type) {
-    case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
-      if (action.currentDocument) {
-        return MakeList(action.currentDocument);
-      } else {
-        return state;
-      }
-    default:
-      return state;
-  }
-};
+// const list = (state: TranslationItemList | null = null, action: AnyAction) => {
+//   switch (action.type) {
+//     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
+//       if (action.currentDocument) {
+//         return MakeList(action.currentDocument);
+//       } else {
+//         return state;
+//       }
+//     default:
+//       return state;
+//   }
+// };
 
 const isSaved = (state = true, action: AnyAction) => {
   switch (action.type) {
@@ -93,7 +91,6 @@ export const editor = combineReducers({
   open,
   isSaved,
   tokenized,
-  list, // List of words and sentences
   translation,
   // suggestions,
   // analysis,

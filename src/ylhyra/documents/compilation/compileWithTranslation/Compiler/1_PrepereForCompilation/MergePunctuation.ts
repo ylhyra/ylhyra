@@ -8,10 +8,12 @@ let removedIds: string[];
 
 /**
  * Punctuation that follows this word has to be included in the word's
- * container or else the browser breaks the line before it.
- * (Todo: I cannot remember if this is the actual reason)
- * Here that punctuation is stored in an attribute for words named
- * `punctuationToAppendInsideWordContainer` and removed from the DOM.
+ * container. This is done for two reasons:
+ *   - It is necessary for properly displaying inline translations, which sometimes take up a lot of space.
+ *   - It prevents line breaks before punctuation.
+ *
+ * Here that punctuation is stored in a new attribute for words named
+ * `punctuationToAppendInsideWordContainer`, and the punctuation is removed from the DOM.
  */
 export const MergePunctuation = (
   tree: HtmlAsJson,

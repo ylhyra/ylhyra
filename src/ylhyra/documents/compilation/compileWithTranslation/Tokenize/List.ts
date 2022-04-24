@@ -1,12 +1,9 @@
-import { TranslationItemList } from "ylhyra/documents/types/types";
 import { TokenizedParagraphs } from "ylhyra/documents/types/various";
 
-/**
- * A helper list.
- * This list is created when INITIALIZE_WITH_TOKENIZED_AND_DATA is called.
- */
-export default (paragraphs: TokenizedParagraphs): TranslationItemList => {
-  let arrayOfAllWordIDs: TranslationItemList["arrayOfAllWordIDs"] = [];
+export const getArrayOfAllWordIDs = (
+  paragraphs: TokenizedParagraphs
+): string[] => {
+  let arrayOfAllWordIDs: string[] = [];
 
   paragraphs &&
     paragraphs.forEach((paragraph) => {
@@ -23,7 +20,5 @@ export default (paragraphs: TokenizedParagraphs): TranslationItemList => {
     console.error('Missing "paragraphs" in List.js"');
   }
 
-  return {
-    arrayOfAllWordIDs,
-  };
+  return arrayOfAllWordIDs;
 };
