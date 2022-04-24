@@ -38,7 +38,7 @@ export const traverse = (input: HtmlAsJson, index = 0): Jsx => {
       if (tag === "sup") return null;
       let attrs: Record<string, any> = {};
       let Tag = tag || "span";
-      if (attr && "data-will-have-audio" in attr) {
+      if (attr && "data-item-that-may-have-audio" in attr) {
         attrs = {
           id: attr?.id,
         };

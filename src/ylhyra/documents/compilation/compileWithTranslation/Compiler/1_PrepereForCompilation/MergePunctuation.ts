@@ -7,9 +7,13 @@ import { TranslationData } from "ylhyra/documents/types/types";
 let removedIds: string[];
 
 /**
- * Merge adjacent words that belong to the same phrase into a single word
+ * Punctuation that follows this word has to be included in the word's
+ * container or else the browser breaks the line before it.
+ * (Todo: I cannot remember if this is the actual reason)
+ * Here that punctuation is stored in an attribute for words named
+ * `punctuationToAppendInsideWordContainer` and removed from the DOM.
  */
-export default (
+export const MergePunctuation = (
   tree: HtmlAsJson,
   _translation: TranslationData
 ): HtmlAsJson => {
@@ -31,7 +35,10 @@ const Traverse = (
         ...input,
         attr: {
           ...input.attr,
-          appendText: findAdjacentPunctuation(siblings, id!),
+          punctuationToAppendInsideWordContainer: findAdjacentPunctuation(
+            siblings,
+            id!
+          ),
         },
       };
     } else {
@@ -48,11 +55,6 @@ const Traverse = (
   return input;
 };
 
-/**
- * Punctuation that follows this word has to be included in the word's
- * container or else the browser may break the line before it
- * (Todo: I cannot remember if this is the actual reason)
- */
 export const findAdjacentPunctuation = (
   siblings: HtmlAsJson[],
   startId: string

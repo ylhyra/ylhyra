@@ -5,14 +5,12 @@ import {
 import { updateId } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/UpdateID";
 import { TranslationData } from "ylhyra/documents/types/types";
 
-/*
-  Step 1:
-  Merge phrases into a single word
-*/
-
 let translation: TranslationData;
 let removedIds: string[];
 
+/**
+ * Merge adjacent words that belong to the same phrase into a single word
+ */
 export default (
   tree: HtmlAsJson,
   _translation: TranslationData

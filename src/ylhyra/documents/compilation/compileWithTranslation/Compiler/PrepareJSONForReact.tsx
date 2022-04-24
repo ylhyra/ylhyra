@@ -1,23 +1,26 @@
-/**
- * Converts certain HTML attributes to React attributes
- */
+// @ts-ignore
 import isBooleanAttribute from "is-boolean-attribute";
 import React from "react";
+// @ts-ignore
 import convert from "react-attr-converter";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import inlineStyle2Json from "ylhyra/app/app/functions/inline-style-2-json";
 
-const Traverse = (json: HtmlAsJson): HtmlAsJson => {
+/**
+ * - Converts certain HTML attributes to React attributes
+ * - Opens external links in new window
+ */
+export const PrepareJSONForReact = (json: HtmlAsJson): HtmlAsJson => {
   // if (!json) return null;
   let { node, tag, attr, child, text } = json;
   if (attr?.id === null) {
     delete attr.id;
   }
   if (node === "element" || node === "root") {
-    /*
-      Attribute values can be arrays (from html2json).
-      Here we merge them together with spaces
-    */
+    /**
+     * Attribute values in {@link HtmlAsJson} can be arrays
+     * Here we merge them together with spaces
+     */
     let attrConverted: any = {};
     for (const property of Object.keys(attr || {})) {
       // Converts HTML attribute into React attribute
@@ -56,7 +59,7 @@ const Traverse = (json: HtmlAsJson): HtmlAsJson => {
     let out = json;
     if (child) {
       out.child = child
-        .map((e) => Traverse(e))
+        .map((e) => PrepareJSONForReact(e))
         .filter((i) => i !== null && typeof i !== "undefined");
     }
     if (Object.keys(attrConverted).length > 0) {
@@ -72,5 +75,3 @@ const Traverse = (json: HtmlAsJson): HtmlAsJson => {
     return {};
   }
 };
-
-export default Traverse;

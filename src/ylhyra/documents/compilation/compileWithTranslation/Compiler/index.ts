@@ -5,7 +5,7 @@ import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { PrepareForCompilation } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation";
 import { resetIds } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/UpdateID";
 import CompileToJsx from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Traverse";
-import PrepareJSONForReact from "ylhyra/documents/compilation/compileWithTranslation/Compiler/PrepareJSONForReact";
+import { PrepareJSONForReact } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/PrepareJSONForReact";
 import { FlattenedData } from "ylhyra/documents/types/types";
 
 const entities = new Entities();

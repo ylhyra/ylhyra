@@ -23,9 +23,6 @@ export const flattenData = (
 };
 
 const merge = (first: FlattenedData, second: FlattenedData): FlattenedData => {
-  // if (Array.isArray(first)) {
-  //   return [...first, ...second];
-  // } else
   if (typeof first === "object") {
     let output: FlattenedData = first;
     if (second && typeof second === "object") {

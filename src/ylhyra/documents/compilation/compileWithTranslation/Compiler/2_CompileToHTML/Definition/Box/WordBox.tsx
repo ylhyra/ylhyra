@@ -1,9 +1,12 @@
 import React from "react";
 import exists from "ylhyra/app/app/functions/exists";
-import { ItalicsAndBold } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Tooltip";
 import { WordDefinition } from "ylhyra/documents/types/types";
+import { ItalicsAndBold } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/functions";
 
-export default class WordBox extends React.PureComponent<{
+/**
+ * Box with extra information shown at the bottom of the screen
+ */
+export class WordBox extends React.PureComponent<{
   definition: WordDefinition;
   id: string;
   hidden?: boolean;

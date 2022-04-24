@@ -1,5 +1,5 @@
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import MergePunctuation from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/MergePunctuation";
+import { MergePunctuation } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/MergePunctuation";
 import MergeWords from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/MergeWords";
 import {
   removeTempIds,

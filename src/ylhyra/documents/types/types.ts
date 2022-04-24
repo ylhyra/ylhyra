@@ -62,7 +62,10 @@ export type WordDefinition = {
   /** Array of connected word ids */
   contains: string[];
   show_definition_above?: Boolean;
-  /** If`show_definition_above` is selected, `inline_translation` will be shown above it. If `inline_translation` is empty, `meaning` will be shown. */
+  /**
+   * If `show_definition_above` is selected,
+   * an {@link InlineTranslation} will be shown above it.
+   * If `inline_translation` is empty, `meaning` will be shown. */
   inline_translation?: string;
   /** UNUSED */
   grammatical_analysis?: string;

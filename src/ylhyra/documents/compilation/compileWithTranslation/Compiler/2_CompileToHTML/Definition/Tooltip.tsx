@@ -1,8 +1,9 @@
 import React from "react";
 import exists from "ylhyra/app/app/functions/exists";
 import { WordDefinition } from "ylhyra/documents/types/types";
+import { ItalicsAndBold } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/functions";
 
-export default class Definition extends React.PureComponent<{
+export class Tooltip extends React.PureComponent<{
   definition: WordDefinition;
   id: string;
   hidden?: Boolean;
@@ -33,10 +34,3 @@ export default class Definition extends React.PureComponent<{
     );
   }
 }
-
-export const ItalicsAndBold = (input) => {
-  return input
-    .replace(/\*\*([^ ].+?[^ ])\*\*/g, "<b>$1</b>")
-    .replace(/\*([^ ].+?[^ ])\*/g, "<i>$1</i>")
-    .replace(/_([^ ].+?[^ ])_/g, "<i>$1</i>");
-};
