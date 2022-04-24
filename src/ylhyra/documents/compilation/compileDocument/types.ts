@@ -1,6 +1,7 @@
 import { Html } from "inflection/tables/types";
 
-export type HeaderData = HeaderDataInYamlHeader & HeaderDataValuesThatAreDynamicallyCreated
+export type HeaderData = HeaderDataInYamlHeader &
+  HeaderDataValuesThatAreDynamicallyCreated;
 
 /**
  * These values are a part of the Yaml header
@@ -12,7 +13,7 @@ export type HeaderDataInYamlHeader = {
   "url"?: string;
   /** CEFR level */
   "level"?: string;
-  "license"?: 'CC0';
+  "license"?: "CC0";
   /** List of incoming redirects */
   "redirects"?: string[];
   "published"?: boolean;
@@ -29,9 +30,9 @@ export type HeaderDataInYamlHeader = {
  */
 export type HeaderDataValuesThatAreDynamicallyCreated = {
   /** Does this file have an associated tranlsation data file? */
-  "has_data"?: Boolean;
+  has_data?: Boolean;
   /** Added by References.ts in order to be printed in HeaderAndFooter.ts */
-  "reflist"?: Html;
+  reflist?: Html;
   /** Dynamically created by parsing the contents of <vocabulary/> elements */
-  "vocabulary"?: string[];
-}
+  vocabulary?: string[];
+};

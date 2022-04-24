@@ -1,5 +1,8 @@
 import forEachAsync from "modules/forEachAsync";
-import { encodeDataInHtml, removeComments } from "ylhyra/documents/compilation/compileDocument/functions/functions";
+import {
+  encodeDataInHtml,
+  removeComments,
+} from "ylhyra/documents/compilation/compileDocument/functions/functions";
 import { readContentFile } from "ylhyra/documents/compilation/compileDocument/functions/readContentFile";
 import TOC from "ylhyra/documents/compilation/compileDocument/templates/TOC";
 import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
@@ -51,6 +54,10 @@ export default async function Transclude(
   }
   if (shouldGetData && header) {
     const associatedData = await getData(header);
+
+    /**
+     * @see DocumentationRegardingInlineDataInHtml
+     */
     if (associatedData) {
       output =
         `<span data-document-start="${
@@ -137,3 +144,15 @@ const getData = async (
     .output;
   return JSON.parse(output);
 };
+
+/**
+ * Documents automatically start with a:
+ *   <span data-document-start="title" data-data="{@link FlattenedData}"></span>
+ * and end with a:
+ *   <span data-document-end="title"></span>
+ *
+ * The purpose of this is twofold:
+ *    1. To allow us to know where one document begins and ends in the case of transcluded documents.
+ *    2. To be able to send translation data to the {@link compileWithTranslation} step.
+ */
+export const DocumentationRegardingInlineDataInHtml = "";

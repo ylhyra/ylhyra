@@ -1,13 +1,13 @@
 import { inflectionElement } from "inflection/element";
+import { Html } from "inflection/tables/types";
 import { replaceAsync } from "modules/replaceAsync";
-import { BIN_id } from "inflection/server/types";
 
-export default async (input: BIN_id) => {
+export default async (input: Html) => {
   return await replaceAsync(
     input,
     /<Inflection id="(.+)?" parameters="(.+)?"><\/Inflection>/gi,
     async (x: string, id: string, parameters: string) => {
-      return await inflectionElement(id, parameters);
+      return await inflectionElement(parseInt(id), parameters);
     }
   );
 };

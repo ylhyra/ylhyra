@@ -2,12 +2,12 @@ import { Request, Response, Router } from "express";
 import fs from "fs";
 import { isDev } from "modules/isDev";
 import path from "path";
-import generateHtml from "ylhyra/documents/compilation/compileDocument";
+import { compileDocument } from "ylhyra/documents/compilation/compileDocument";
 import { getValuesForUrl } from "ylhyra/documents/compilation/links/getValuesForUrl.server";
+import { LinkDataWithUrl } from "ylhyra/documents/compilation/links/types";
 import { addBuildIds } from "ylhyra/documents/get/addBuildIds.server";
 import { cacheControl } from "ylhyra/server/caching";
 import { buildFolder, getBaseDir } from "ylhyra/server/paths_directories";
-import { LinkDataWithUrl } from "ylhyra/documents/compilation/links/types";
 
 const router = Router({ strict: true });
 
@@ -78,7 +78,7 @@ router.get(
           type === "json" &&
           values.filepath
         ) {
-          const { content, header } = await generateHtml(url);
+          const { content, header } = await compileDocument(url);
           if ("html" in req.query) {
             return res.send(content);
           }

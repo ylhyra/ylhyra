@@ -1,3 +1,4 @@
+import { Html } from "inflection/tables/types";
 import markdown_to_html from "ylhyra/documents/compilation/compileDocument/markdown";
 import withHeaderAndFooter from "ylhyra/documents/compilation/compileDocument/templates/HeaderAndFooter";
 import images from "ylhyra/documents/compilation/compileDocument/templates/images";
@@ -9,11 +10,18 @@ import Transclude from "ylhyra/documents/compilation/compileDocument/transclude"
 import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
 
 /**
+ * Here we:
+ *   1. convert the Markdown content files into HTML
+ *   2. process images
+ *   3. process ad-hoc templates
+ *
+ * The output of this is then sent to {@link compileWithTranslation} for tokenization
+ *
  * Input: URL or page title
  * Output: Processed HTML with all items transcluded
  */
-export default async function generateHtml(url: string): Promise<{
-  content: string;
+export async function compileDocument(url: string): Promise<{
+  content: Html;
   header?: HeaderData;
 }> {
   let { output: content, header } = await Transclude(url);

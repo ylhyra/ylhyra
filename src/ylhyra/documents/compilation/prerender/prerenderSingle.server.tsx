@@ -7,10 +7,10 @@ import store from "ylhyra/app/app/store";
 import Router from "ylhyra/app/router";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import generateHtml from "ylhyra/documents/compilation/compileDocument";
-import Parse from "ylhyra/documents/compilation/compileWithTranslation";
+import { compileWithTranslation } from "ylhyra/documents/compilation/compileWithTranslation";
+import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 import { renderTitle } from "ylhyra/documents/compilation/links/format/renderTitle";
 import { buildFolder, getBaseDir } from "ylhyra/server/paths_directories";
-import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 
 let TESTING = false;
 
@@ -62,7 +62,7 @@ export default async function prerender({
     const h = await generateHtml(url);
     content = h.content;
     header = h.header;
-    const out = Parse({ html: content });
+    const out = compileWithTranslation({ html: content });
     const { parsed, flattenedData } = out;
     props = { prerender: parsed };
     if (parsed && header) {
