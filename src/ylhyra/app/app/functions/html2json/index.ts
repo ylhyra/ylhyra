@@ -132,7 +132,16 @@ export const html2json = function html2json(html: string): HtmlAsJson {
   return results;
 };
 
-export const json2html = function json2html(json: HtmlAsJson): string {
+export const json2html = function json2html(
+  json: HtmlAsJson | HtmlAsJson[] | undefined
+): string | null {
+  if (Array.isArray(json)) {
+    return json2html({
+      node: "root",
+      child: json,
+    });
+  }
+
   // Empty Elements - HTML 4.01
   var empty = [
     "area",

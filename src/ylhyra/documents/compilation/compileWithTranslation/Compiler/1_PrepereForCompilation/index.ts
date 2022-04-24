@@ -10,7 +10,7 @@ import { FlattenedData } from "ylhyra/documents/types/types";
 /**
  * Minor fixes such as merging words
  */
-export default function Compile({
+export function PrepareForCompilation({
   json,
   data,
 }: {

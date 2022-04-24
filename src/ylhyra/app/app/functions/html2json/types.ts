@@ -4,9 +4,6 @@ export type HtmlAsJson = {
   attr?: {
     [key: string]: string;
   };
-  // & {
-  //   definition?: WordDefinition;
-  // };
   child?: HtmlAsJson[];
   text?: string;
 };

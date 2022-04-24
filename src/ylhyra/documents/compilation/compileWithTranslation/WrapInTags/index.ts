@@ -14,9 +14,7 @@ import {
 } from "ylhyra/documents/types/various";
 
 /**
- * 1. Parses input
- * 2. Loops over tokenization
- * 3. Merges tokenization and HTML to produce <sentence/> and <word/> tags
+ * Merges tokenization and HTML to produce <sentence/> and <word/> tags
  *
  * ---
  *
@@ -52,6 +50,7 @@ export const WrapInTags = (
   tokenizedFlattened = tokenizedFlattened.sort((a, b) => a.index! - b.index!);
 
   let index = 0;
+  /** Todo: Spaghetti code */
   let wrapped: HtmlAsJson = groupParagraphs({
     input: json,
     getNewTitle: new newTitle(),
@@ -61,7 +60,7 @@ export const WrapInTags = (
         return paragraph;
       }
       if (text) {
-        return Sentences(paragraph, tokenizedFlattened[index++].sentences);
+        return WrapSentences(paragraph, tokenizedFlattened[index++].sentences);
       }
       return paragraph;
     },
@@ -74,7 +73,7 @@ export const WrapInTags = (
 /**
  * Extract sentences from paragraph
  */
-const Sentences = (
+const WrapSentences = (
   paragraph_HTML: HtmlAsJson[],
   sentences: TokenizedParagraph["sentences"]
 ): HtmlAsJson[] => {
@@ -84,22 +83,27 @@ const Sentences = (
     Extract words from sentence
     (Creates a function that will be called in "WrapInTags.js")
   */
-  function Words(sentence_HTML: HtmlAsJson[]) {
+  const WrapWords: WrapWordsFunctionType = (sentence_HTML: HtmlAsJson[]) => {
     const words = sentences[i++].words;
     return WrapInTags2(sentence_HTML, words, "word");
-  }
+  };
 
   /* TODO!!! Verify, this previously returned x.child!! */
-  return WrapInTags2(paragraph_HTML, sentences, "sentence", Words);
+  return WrapInTags2(paragraph_HTML, sentences, "sentence", WrapWords);
 };
+
+export type WrapWordsFunctionType = (
+  sentence_HTML: HtmlAsJson[]
+) => HtmlAsJson[];
 
 const WrapInTags2 = (
   input: HtmlAsJson[],
   tokenizedSplit: ArrayOfEitherTokenizedSentencesOrWords,
   elementName: "sentence" | "word",
-  innerFunction?: Function
+  wrapWordsFunction?: WrapWordsFunctionType
 ): HtmlAsJson[] => {
-  const tempAttributeName = innerFunction ? `data-temp-id` : `data-temp-id2`;
+  const tempAttributeName =
+    elementName === "sentence" ? `data-temp-id` : `data-temp-id2`;
 
   if (!tokenizedSplit || tokenizedSplit.length === 0) {
     console.log("Empty tokenizedSplit");
@@ -110,7 +114,7 @@ const WrapInTags2 = (
     html,
     tokenizedSplit,
     elementName,
-    innerFunction,
+    wrapWordsFunction,
     tempAttributeName
   );
 
@@ -121,8 +125,8 @@ const WrapInTags2 = (
 };
 
 /**
- * Removes the "data-document-start" span tags printed in Transclude.ts.
- * They also include translation data.
+ * Removes the "data-document-start" span tags
+ * @see DocumentationRegardingInlineDataInHtml
  */
 const removeDocumentStartTags = (input: HtmlAsJson): HtmlAsJson => {
   if (!input) return input;

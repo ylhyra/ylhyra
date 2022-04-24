@@ -6,15 +6,20 @@ import { getUpdatedId } from "ylhyra/documents/compilation/compileWithTranslatio
 import Box from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/Word";
 import InlineTranslation from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/InlineTranslation";
 import Tooltip from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Tooltip";
-import { WordDefinition } from "ylhyra/documents/types/types";
+import { FlattenedData } from "ylhyra/documents/types/types";
 
 export default class WordElement extends React.Component<{
-  definition: WordDefinition;
+  // definition: WordDefinition;
   id: string;
+  /** @see findAdjacentPunctuation */
   appendText?: string;
+  data: FlattenedData;
 }> {
   render() {
-    const { id, definition, appendText } = this.props;
+    const { id, data, appendText } = this.props;
+    const definition =
+      data.translation.definitions[data.translation.words[id!]];
+
     let classes = [];
     let attrs: { [key: string]: string | boolean } = {};
     if (exists(definition)) {
@@ -45,16 +50,19 @@ export default class WordElement extends React.Component<{
       classes.push("missing");
     }
 
-    return [
-      <Box id={id} definition={definition} key={1} hidden={true} />,
-      <Tooltip id={id} definition={definition} key={2} hidden={true} />,
-      <span className={`word-container ${classes.join(" ")}`} key={3}>
-        <span className="word" {...attrs} id={id} data-will-have-audio="true">
-          {this.props.children}
+    return (
+      <>
+        <Box id={id} definition={definition} hidden={true} />
+        <Tooltip id={id} definition={definition} hidden={true} />
+        <span className={`word-container ${classes.join(" ")}`}>
+          <span className="word" {...attrs} id={id} data-will-have-audio="true">
+            {this.props.children}
+          </span>
+          <InlineTranslation definition={definition} />
+          {/** @see findAdjacentPunctuation */}
+          {appendText}
         </span>
-        <InlineTranslation definition={definition} />
-        {appendText}
-      </span>,
-    ];
+      </>
+    );
   }
 }

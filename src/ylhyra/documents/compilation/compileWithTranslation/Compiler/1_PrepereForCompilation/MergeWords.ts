@@ -36,14 +36,14 @@ const Traverse = (
 
       let addSiblings: HtmlAsJson[] = [];
       if (definition?.contains.length > 1) {
-        addSiblings = readSiblings(siblings, id!, definition.contains);
+        addSiblings = getNextSiblingsThatBelongToTheSameDefinition(
+          siblings,
+          id!,
+          definition.contains
+        );
       }
       return {
         ...input,
-        attr: {
-          ...input.attr,
-          // definition,
-        },
         child: [
           ...(child?.map((e) => Traverse(e, child)) || []),
           ...addSiblings,
@@ -52,10 +52,6 @@ const Traverse = (
     } else if (tag === "sentence") {
       return {
         ...input,
-        attr: {
-          ...input.attr,
-          // definition: translation.sentences[attr.id],
-        },
         child: child?.map((e) => Traverse(e, child)),
       };
     } else {
@@ -74,7 +70,7 @@ const Traverse = (
 /**
  * Loops over next siblings, checks if they belong to the same definition, and merges them
  */
-const readSiblings = (
+const getNextSiblingsThatBelongToTheSameDefinition = (
   siblings: HtmlAsJson[],
   startId: string,
   wordGroupContents: string[]

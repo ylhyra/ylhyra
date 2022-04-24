@@ -1,6 +1,7 @@
 import { html2json, json2html } from "ylhyra/app/app/functions/html2json";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { TEMPORARY_SPLIT_MARKER } from "ylhyra/documents/compilation/compileWithTranslation/WrapInTags/1-InsertSplit";
+import { WrapWordsFunctionType } from "ylhyra/documents/compilation/compileWithTranslation/WrapInTags/index";
 import { ArrayOfEitherTokenizedSentencesOrWords } from "ylhyra/documents/types/various";
 
 /*
@@ -14,7 +15,7 @@ export default function (
   html: string,
   tokenizedSplit: ArrayOfEitherTokenizedSentencesOrWords,
   elementName: "sentence" | "word",
-  innerFunction: Function | undefined,
+  wrapWordsFunction: WrapWordsFunctionType | undefined,
   tempAttributeName: "data-temp-id" | "data-temp-id2"
 ): HtmlAsJson {
   let count = 0;
@@ -70,7 +71,7 @@ export default function (
         });
 
       const item = tokenizedSplit[index];
-      const id = typeof item !== "string" && item.id;
+      const id = typeof item !== "string" ? item.id : null;
 
       /*
         Empty data, punctuation, or empty tags
@@ -83,16 +84,16 @@ export default function (
         Do we send this data deeper?
         [This is done by sentences() to send its children into words()]
       */
-      if (innerFunction) {
-        returns = json2html(innerFunction(html2json(returns).child, id));
+      if (elementName === "sentence" && wrapWordsFunction) {
+        returns = json2html(wrapWordsFunction(html2json(returns).child!)) || "";
       }
 
-      /*
-        Surrounding spaces will not be inside the tag
-      */
-      if (!returns) {
-        returns = "";
-      }
+      // /*
+      //   Surrounding spaces will not be inside the tag
+      // */
+      // if (!returns) {
+      //   returns = "";
+      // }
 
       // Move spaces to around any tags (shows up if surrounded by <em/> tags)
       returns = returns.replace(/(<[^<>/]+>) /g, " $1");

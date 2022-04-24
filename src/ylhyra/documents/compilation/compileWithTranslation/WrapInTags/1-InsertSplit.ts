@@ -74,10 +74,7 @@ export default function (
     Turns the JSON into a HTML string
     (which includes "{{SPLIT HERE}}" in the correct places)
   */
-  const html = json2html({
-    node: "root",
-    child: input.map((x) => insertTemporarySplitMarker(x)),
-  });
+  const html = json2html(input.map((x) => insertTemporarySplitMarker(x))) || "";
 
   return html;
 }

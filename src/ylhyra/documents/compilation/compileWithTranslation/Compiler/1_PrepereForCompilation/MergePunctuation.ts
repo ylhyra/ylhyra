@@ -1,22 +1,18 @@
-/*
-  Step 1:
-  Merge phrases into a single word
-*/
-
 import {
   emptyHtmlAsJsonNode,
   HtmlAsJson,
 } from "ylhyra/app/app/functions/html2json/types";
 import { TranslationData } from "ylhyra/documents/types/types";
 
-// let translation: TranslationData;
 let removedIds: string[];
 
+/**
+ * Merge adjacent words that belong to the same phrase into a single word
+ */
 export default (
   tree: HtmlAsJson,
   _translation: TranslationData
 ): HtmlAsJson => {
-  // translation = _translation;
   removedIds = [];
   return Traverse(tree);
 };
@@ -31,14 +27,11 @@ const Traverse = (
   if (node === "element" || node === "root") {
     if (tag === "word") {
       if (removedIds.includes(id!)) return emptyHtmlAsJsonNode;
-      // TODO!!!!!!! Verify still works !
-      // const definition = translation.definitions[translation.words[id]];
       return {
         ...input,
         attr: {
           ...input.attr,
-          // definition,
-          appendText: findTextSiblings(siblings, id!),
+          appendText: findAdjacentPunctuation(siblings, id!),
         },
       };
     } else {
@@ -55,7 +48,15 @@ const Traverse = (
   return input;
 };
 
-const findTextSiblings = (siblings: HtmlAsJson[], startId: string) => {
+/**
+ * Punctuation that follows this word has to be included in the word's
+ * container or else the browser may break the line before it
+ * (Todo: I cannot remember if this is the actual reason)
+ */
+export const findAdjacentPunctuation = (
+  siblings: HtmlAsJson[],
+  startId: string
+) => {
   let listening = false;
   let returnString = "";
   siblings.forEach((element) => {
