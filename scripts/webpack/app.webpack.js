@@ -43,7 +43,7 @@ module.exports = {
         use: [
           {
             loader: "babel-loader",
-            options: require(resolve("babel.config.js")),
+            options: require(resolve("scripts/webpack/babel.config.js")),
           },
           {
             loader: "webpack-module-hot-accept",
