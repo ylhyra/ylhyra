@@ -1,6 +1,7 @@
 import { logShown } from "ylhyra/documents/renderDocument/textInteractions/Reset";
 import FindAGoodPositionForTooltip from "ylhyra/documents/renderDocument/textInteractions/TooltipPosition";
 import AudioClip from "ylhyra/documents/renderDocument/audio/audioWithoutInterface.NOT_USED";
+import { addClass } from "modules/addCssClass";
 
 /*
   Keep track of which ID is currently shown.
@@ -61,8 +62,8 @@ export default function showWord(id: string) {
   logShown(`${id}-box`);
 }
 
-const addClass = (id, css) => {
-  const element = document.getElementById(id);
-  if (!element) return;
-  element.classList.add(css);
-};
+// const addClass = (id, css) => {
+//   const element = document.getElementById(id);
+//   if (!element) return;
+//   element.classList.add(css);
+// };

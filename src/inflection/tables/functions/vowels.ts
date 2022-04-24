@@ -70,6 +70,12 @@ export const removeLastVowelCluster = (string: string | undefined) => {
     string.replace(new RegExp(`(${vowellikeClusters}|[${vowels}]+)$`, "i"), "")
   );
 };
+const l = [
+  ["syngja", "syng"],
+  ["já", "j"],
+  ["ja", ""],
+  ["Kjartan", "Kjartan"],
+];
 
 export const removeVowellikeClusters = (string: string): string => {
   return (
