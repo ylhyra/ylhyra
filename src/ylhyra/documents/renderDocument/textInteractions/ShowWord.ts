@@ -12,7 +12,7 @@ let currentId;
 /*
   Show word
 */
-export default function showWord(id) {
+export default function showWord(id: string) {
   currentId = id;
 
   // console.log(id)

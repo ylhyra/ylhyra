@@ -5,6 +5,7 @@ const minimumTime = 0.3;
 /**
  * Words under 0.3 seconds are
  * merged into their sibling
+ * @see audioSynchronization/README.md
  */
 export default function MergeShortWords(
   input: AeneasAudioSyncOutput["fragments"]

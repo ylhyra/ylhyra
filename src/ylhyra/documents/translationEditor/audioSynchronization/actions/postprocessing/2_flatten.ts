@@ -35,6 +35,9 @@ import {
   LongAudioSyncDataIntermediateForm,
 } from "ylhyra/documents/translationEditor/audioSynchronization/types";
 
+/**
+ * @see audioSynchronization/README.md
+ */
 export default function FlattenAeneasData(
   input: AeneasAudioSyncOutput["fragments"]
 ): LongAudioSyncDataIntermediateForm[] {

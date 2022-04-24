@@ -4,7 +4,6 @@ import {
 } from "ylhyra/documents/translationEditor/audioSynchronization/types";
 
 /**
- *
  * Merge overlapping time spans.
  *
  * Example input: [
@@ -18,6 +17,7 @@ import {
  *  { begin: 1.930, end: 2.315, elements: ["s0","w2"] }
  *  { begin: 2.315, end: 4.400, elements: ["s0"] }
  * ]
+ * @see audioSynchronization/README.md
  */
 export default function MakeLongAudioSyncList(
   input: LongAudioSyncDataIntermediateForm[]

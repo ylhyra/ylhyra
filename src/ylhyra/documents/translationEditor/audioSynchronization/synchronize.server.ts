@@ -28,8 +28,7 @@ router.post("/api/audio/synchronize", (req, res) => {
 });
 
 /**
- * Here we use [Aeneas](https://github.com/readbeyond/aeneas)
- * to automatically synchronize audio and text.
+ * @see audioSynchronization/README.md
  */
 const synchronize = async (
   {
