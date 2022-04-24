@@ -37,8 +37,8 @@ export const removeTempIds = (input: HtmlAsJson): HtmlAsJson => {
       ...attr,
       id,
     };
-  } else {
-    attr = undefined;
+  } else if (attr) {
+    delete attr.id;
   }
   return {
     ...input,

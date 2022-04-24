@@ -2,7 +2,6 @@ import Frontpage from "ylhyra/app/elements/frontpage";
 import Login from "ylhyra/app/user/LoginForm";
 import PWYW from "ylhyra/app/user/payments/Pay";
 import SignupSteps from "ylhyra/app/user/screens/SignupSteps";
-import VocabularyHeader from "ylhyra/vocabulary/app/elements/InArticles/VocabularyHeader";
 import Audio from "ylhyra/documents/renderDocument/templates/Audio";
 import Book from "ylhyra/documents/renderDocument/templates/Book";
 import Button from "ylhyra/documents/renderDocument/templates/Button";
@@ -17,6 +16,7 @@ import Parts from "ylhyra/documents/renderDocument/templates/Parts";
 import Section from "ylhyra/documents/renderDocument/templates/Section";
 import Spacer from "ylhyra/documents/renderDocument/templates/Spacer";
 import Tweet from "ylhyra/documents/renderDocument/templates/Tweet";
+import VocabularyHeader from "ylhyra/vocabulary/app/elements/InArticles/VocabularyHeader";
 
 const template = {
   Audio: Audio,
@@ -38,12 +38,14 @@ const template = {
   Tweet: Tweet,
   VocabularyHeader: VocabularyHeader,
   Spacer: Spacer,
-};
+} as const;
 const lowercaseKeyToTemplate = {};
 Object.keys(template).forEach((key) => {
+  // @ts-ignore
   lowercaseKeyToTemplate[key.toLowerCase()] = template[key];
 });
 
-export default (name) => {
+export default (name: string) => {
+  // @ts-ignore
   return lowercaseKeyToTemplate[name.toLowerCase()] || null;
 };
