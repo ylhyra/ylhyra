@@ -13,14 +13,14 @@ export const updateId = (from: string, to: string) => {
 };
 
 // Recursive lookup
-export const getUpdatedId = (id, depth = 0) => {
+export const getUpdatedId = (id: string, depth = 0): string => {
   if (updatedIds[id] && depth < 10) {
     return getUpdatedId(updatedIds[id], depth + 1);
   }
   return id;
 };
 
-export const getPreviousId = (id) => {
+export const getPreviousId = (id: string) => {
   return previousIds[id];
 };
 

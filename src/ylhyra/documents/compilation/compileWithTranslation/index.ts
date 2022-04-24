@@ -9,18 +9,18 @@ import ExtractData from "ylhyra/documents/compilation/compileWithTranslation/Ext
 import { flattenData } from "ylhyra/documents/compilation/compileWithTranslation/ExtractData/flattenData";
 import ExtractText from "ylhyra/documents/compilation/compileWithTranslation/ExtractText/ExtractText";
 import Tokenizer from "ylhyra/documents/compilation/compileWithTranslation/Tokenize";
+import WrapInTags from "ylhyra/documents/compilation/compileWithTranslation/WrapInTags";
 import {
   DocumentTitleToFlattenedData,
   FlattenedData,
 } from "ylhyra/documents/types/types";
-import WrapInTags from "ylhyra/documents/compilation/compileWithTranslation/WrapInTags";
 import { DocumentTitleToTokenizedParagraphsWithIds } from "ylhyra/documents/types/various";
 
 const entities = new Entities();
 
-/*
-  Parser
-*/
+/**
+ * Here, we receive an HTML document with the associated data.
+ */
 export default ({
   html,
 }: {
