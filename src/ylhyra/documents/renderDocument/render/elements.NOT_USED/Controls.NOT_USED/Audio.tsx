@@ -1,5 +1,5 @@
 import React from "react";
-import { getUpdatedId } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_Precompile/UpdateID";
+import { getUpdatedId } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/UpdateID";
 
 // /*
 //   [optional] Temporarily mute the audio in development

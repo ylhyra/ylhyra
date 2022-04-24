@@ -1,5 +1,5 @@
 // import _ from "underscore";
-// import { getPreviousID } from "documents/Parse/Compiler/1_Precompile/UpdateID";
+// import { getPreviousID } from "documents/Parse/Compiler/1_PrepereForCompilation/UpdateID";
 //
 // export default (updatedID, editor) => {
 //   const { short_audio } = editor;

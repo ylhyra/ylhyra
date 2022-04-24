@@ -2,7 +2,7 @@ import {
   emptyHtmlAsJsonNode,
   HtmlAsJson,
 } from "ylhyra/app/app/functions/html2json/types";
-import { updateId } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_Precompile/UpdateID";
+import { updateId } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/UpdateID";
 import { TranslationData } from "ylhyra/documents/types/types";
 
 /*

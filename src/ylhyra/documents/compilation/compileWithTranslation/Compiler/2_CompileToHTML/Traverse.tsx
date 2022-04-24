@@ -1,3 +1,4 @@
+import { Jsx } from "modules/typescript/jsx";
 import React from "react";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import Sentence from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Sentence";
@@ -12,7 +13,7 @@ const Traverse = ({
 }: {
   json: HtmlAsJson;
   index?: Number;
-}): any => {
+}): Jsx => {
   if (!json) return null;
   const { node, tag, attr, child, text } = json;
   if (node === "element" || node === "root") {

@@ -16,12 +16,6 @@ export default () => (
         <span className="footer-gray">
           <a href="mailto:ylhyra@ylhyra.is">Report&nbsp;errors</a>
         </span>
-        <span className="pwyw-on">
-          •
-          <span className="footer-gray">
-            <Link href="/donate">Donate</Link>
-          </span>
-        </span>
       </span>
     </div>
   </div>

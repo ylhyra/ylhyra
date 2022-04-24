@@ -2,7 +2,7 @@
 import React from "react";
 import _ from "underscore";
 import exists from "ylhyra/app/app/functions/exists";
-import { getUpdatedId } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_Precompile/UpdateID";
+import { getUpdatedId } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/UpdateID";
 import Box from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/Word";
 import InlineTranslation from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/InlineTranslation";
 import Tooltip from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Tooltip";

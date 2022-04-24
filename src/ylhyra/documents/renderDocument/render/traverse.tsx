@@ -27,16 +27,17 @@ export default function Traverse(json: HtmlAsJson, index: Number = 0): Jsx {
     /*
       Convert custom elements to 'span' or 'div'
       and add their name as a className
+      TODO: Confusing
     */
     if (typeof Tag === "string") {
-      getCustomTag(Tag, attr?.className, (output) => {
+      getCustomTag(Tag, attr?.className, (output: any) => {
         Tag = output.tag;
-        attr.className = output.className;
+        attr!.className = output.className;
       });
     }
 
     return (
-      <Tag {...attr} key={attr?.id || index}>
+      <Tag {...attr} key={attr!.id || index}>
         {child?.map((e, i) => Traverse(e, i))}
       </Tag>
     );
@@ -54,11 +55,11 @@ const customTags = {
   "translate": "span",
   "isl": "span",
   "small-box": "span",
-};
-const getCustomTag = (tag, className, callback) => {
+} as const;
+const getCustomTag = (tag: string, className: string, callback: Function) => {
   if (tag in customTags) {
     className = ((className || "") + " " + tag).trim();
-    tag = customTags[tag];
+    tag = customTags[tag as keyof typeof customTags];
   }
   callback({ tag, className });
 };

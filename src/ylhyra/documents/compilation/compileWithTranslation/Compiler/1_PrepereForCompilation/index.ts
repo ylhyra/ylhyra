@@ -1,10 +1,10 @@
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import MergePunctuation from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_Precompile/MergePunctuation";
-import MergeWords from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_Precompile/MergeWords";
+import MergePunctuation from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/MergePunctuation";
+import MergeWords from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/MergeWords";
 import {
   removeTempIds,
   tempIds,
-} from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_Precompile/TempIDs";
+} from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/TempIDs";
 import { FlattenedData } from "ylhyra/documents/types/types";
 
 /**

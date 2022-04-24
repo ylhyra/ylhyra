@@ -1,10 +1,10 @@
 import React from "react";
 import exists from "ylhyra/app/app/functions/exists";
 import Box from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/Sentence";
-import { WordDefinition } from "ylhyra/documents/types/types";
+import { SentenceDefinition } from "ylhyra/documents/types/types";
 
 class Sentence extends React.Component<{
-  definition: WordDefinition;
+  definition: SentenceDefinition;
   id: string;
 }> {
   render() {
@@ -18,6 +18,7 @@ class Sentence extends React.Component<{
     } else {
       classes.push("missing");
     }
+    // console.log(this.props);
     return [
       <Box id={id} definition={definition} key={1} />,
       <span
