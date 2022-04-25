@@ -1,11 +1,11 @@
 import React from "react";
 import { compareTwoStrings } from "string-similarity";
 import _ from "underscore";
+import { formatVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/format";
 import {
   Database,
   delete_row,
 } from "ylhyra/vocabulary/vocabularyEditor/actions/actions";
-import { formatVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
 
 let memoizedSuggestions: any = {};
 export const didYouMeanSuggestions = (is, input_row_id) => {

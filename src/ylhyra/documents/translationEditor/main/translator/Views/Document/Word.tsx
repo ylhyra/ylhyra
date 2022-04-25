@@ -102,10 +102,10 @@ export class _Word extends React.Component<Props> {
 
     return (
       <span
-        className="word-outer-container"
+        className="editor-word-outer-container"
         style={{ minWidth: this.state.minWidth }}
       >
-        <span className="word-container">
+        <span className="editor-word-container">
           {inline_translation && (
             <InlineTranslation
               text={inline_translation}
@@ -122,7 +122,7 @@ export class _Word extends React.Component<Props> {
 
           <span
             className={c`
-              word
+              editor-word
               ${this.state.hover && "hover"}
               ${_.contains(selected, id) && "selected"}
               ${(definition?.difficult || null) && "difficult_word"}

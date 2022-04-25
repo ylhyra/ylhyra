@@ -1,9 +1,9 @@
 import fs from "fs";
 import path from "path";
-import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
-import { getHash } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import { getBaseDir } from "ylhyra/server/paths_directories";
 import { getSortKeysBasedOnWhenWordIsIntroducedInTheCourse } from "ylhyra/vocabulary/compiler/compiler.server/sortKeys.server";
+import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
+import { getHash } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 
 /*
   Finds sentences from dataset that only use terms that are already included in the vocabulary dataset and which are marked as easy

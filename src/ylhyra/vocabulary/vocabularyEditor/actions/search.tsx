@@ -1,10 +1,10 @@
 import React from "react";
+import { getPlaintextFromVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
 import {
   Database,
   select,
   selectRows,
 } from "ylhyra/vocabulary/vocabularyEditor/actions/actions";
-import { getPlaintextFromVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
 
 export let isSearching = false;
 export let reDoSearch;

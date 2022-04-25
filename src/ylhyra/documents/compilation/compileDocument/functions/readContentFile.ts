@@ -3,7 +3,7 @@ import yaml from "js-yaml";
 import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
 import { removeComments } from "ylhyra/documents/compilation/compileDocument/functions/functions";
 import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
-import { getPlaintextFromVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
+import { getPlaintextFromVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
 
 export const readContentFile = async (
   filepath: string

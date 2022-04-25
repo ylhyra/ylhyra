@@ -3,11 +3,16 @@ import { isDev } from "modules/isDev";
 import { log } from "modules/log";
 import { roundToInterval } from "modules/math";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
-import { getCardsInSchedule, getData, getFrom, getTermIds } from "ylhyra/vocabulary/app/actions/card/card_data";
+import {
+  getCardsInSchedule,
+  getData,
+  getFrom,
+  getTermIds,
+} from "ylhyra/vocabulary/app/actions/card/card_data";
 import { isNewTerm } from "ylhyra/vocabulary/app/actions/card/card_schedule";
 import { getCardIdsFromTermIds } from "ylhyra/vocabulary/app/actions/card/functions";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
-import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
+import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
 import { getHash } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import { CardId, CardIds, TermId, TermIds } from "ylhyra/vocabulary/types";
 
@@ -71,7 +76,7 @@ export const countTermsInSchedule = () => {
 if (isBrowser && isDev) {
   window["studyParticularWords"] = async (...words) => {
     await studyParticularIds(
-      getCardIdsFromTermIds(words.map(getHash) as TermIds)
+      getCardIdsFromTermIds(words.map((i) => getHash(i)) as TermIds)
     );
   };
   window["studyParticularIds"] = studyParticularIds;

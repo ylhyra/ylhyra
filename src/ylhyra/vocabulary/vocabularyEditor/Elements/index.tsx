@@ -1,6 +1,7 @@
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
+import { formatVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/format";
 import {
   addEmpty,
   changeMode,
@@ -9,9 +10,8 @@ import {
 } from "ylhyra/vocabulary/vocabularyEditor/actions/actions";
 import { load } from "ylhyra/vocabulary/vocabularyEditor/actions/initialize";
 import { search } from "ylhyra/vocabulary/vocabularyEditor/actions/search";
-import { formatVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
-import { vocabularyRowTitles } from "ylhyra/vocabulary/vocabularyEditor/rowTitles";
 import VocabularyMakerForm from "ylhyra/vocabulary/vocabularyEditor/Elements/Form";
+import { vocabularyRowTitles } from "ylhyra/vocabulary/vocabularyEditor/rowTitles";
 
 class VocabularyMaker extends React.Component<
   ConnectedProps<typeof connector>

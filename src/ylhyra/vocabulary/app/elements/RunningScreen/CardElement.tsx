@@ -14,7 +14,7 @@ import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { BAD, EASY, GOOD, rating } from "ylhyra/vocabulary/app/constants";
 import { VocabularyReducer } from "ylhyra/vocabulary/app/reducers";
-import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
+import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
 import { getDeckName } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 
 class CardElement extends Component<{ vocabulary: VocabularyReducer }> {

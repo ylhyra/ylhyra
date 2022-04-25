@@ -1,26 +1,28 @@
 import _ from "underscore";
+import { SortKeys } from "ylhyra/vocabulary/compiler/compiler.server/sortKeys.server";
 import {
   formatLemmas,
   formatPrefixes,
   formatVocabularyEntry,
-  getPlaintextFromVocabularyEntry,
-} from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
+} from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/format";
 import {
-  automaticThu,
+  automaticThuForCommonWords,
+  getPlaintextFromVocabularyEntry,
+} from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
+import {
   getHash,
   getHashesFromCommaSeperated,
 } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import {
+  CardData,
+  CardId,
   Cards,
   Dependencies,
-  Terms,
-  CardData,
-  VocabularyFile,
-  TermIds,
   TermId,
-  CardId,
+  TermIds,
+  Terms,
+  VocabularyFile,
 } from "ylhyra/vocabulary/types";
-import { SortKeys } from "ylhyra/vocabulary/compiler/compiler.server/sortKeys.server";
 
 export const parseVocabularyFile = (
   { rows, sound }: VocabularyFile,
@@ -85,10 +87,13 @@ export const parseVocabularyFile = (
       let formattedIcelandicStrings = icelandicStrings.map(
         formatVocabularyEntry
       );
-      const termsInThisLine = icelandicStrings.map(getHash) as TermIds;
+      const termsInThisLine = icelandicStrings.map((i) =>
+        getHash(i)
+      ) as TermIds;
 
       let altIdLemmas: string[] = [];
       let dependsOnLemmas: string[] = [];
+      /** See {@link VocabularyFileEntry -> lemmas} for formatting syntax */
       row.lemmas?.split(/[,;]/g).forEach((lemma: string) => {
         if (/%%/.test(lemma)) {
           return;
@@ -102,12 +107,13 @@ export const parseVocabularyFile = (
 
       let alternativeIds = [
         ...getHashesFromCommaSeperated(row.alternative_id),
-        ...altIdLemmas.map(getHash),
+        ...altIdLemmas.map((i) => getHash(i)),
       ];
 
+      /** See {@link VocabularyFileEntry -> depends_on} */
       const dependsOn: TermIds = [
         ...getHashesFromCommaSeperated(row.depends_on?.replace(/%/g, "")),
-        ...dependsOnLemmas.map(getHash),
+        ...dependsOnLemmas.map((i) => getHash(i)),
         ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
       ];
 
@@ -151,10 +157,11 @@ export const parseVocabularyFile = (
         eyða: row.eyða,
       } as const;
 
-      if (/{{(ð?u)}}/.test(automaticThu(row.icelandic))) {
-        const [, full, verb] = automaticThu(row.icelandic).match(
+      /** {@see DocumentationRegardingThuMerging} */
+      if (/{{(ð?u)}}/.test(automaticThuForCommonWords(row.icelandic))) {
+        const [, full, verb] = automaticThuForCommonWords(row.icelandic).match(
           /(([^ "„,.]+){{ð?u}})/
-        );
+        ) as string[];
         cardSkeleton.note =
           cardSkeleton.note +
           " " +
@@ -258,7 +265,7 @@ export const parseVocabularyFile = (
       continue;
     }
 
-    card.is_plaintext.split(/ ?[,;-] ?/g).forEach((sentence) => {
+    card.is_plaintext!.split(/ ?[,;-] ?/g).forEach((sentence) => {
       /* Notað til að bæta við strengjum sem eru splittaðir með bandstriki */
       const termId: TermId = getHash(sentence) as TermId;
       if (!(termId in terms) && !(termId in alternativeIds)) {
@@ -272,7 +279,7 @@ export const parseVocabularyFile = (
       }
 
       /* Prefixar */
-      if (sentence.match(isPrefix) && card.en_plaintext.match(enPrefix)) {
+      if (sentence.match(isPrefix) && card.en_plaintext!.match(enPrefix)) {
         const without = sentence.replace(isPrefix, "");
         const score = prefixes
           .map((i) => i[0])
@@ -328,7 +335,7 @@ export const parseVocabularyFile = (
   ];
   // TODO: Sleppa þegar deps innihalda nú þegar þetta orð!
   for (let [, card] of Object.entries(cards)) {
-    card.is_plaintext.split(/[,;] ?/g).forEach((sentence) => {
+    card.is_plaintext!.split(/[,;] ?/g).forEach((sentence) => {
       const split = sentence.replace(/[,.!;:?"„“]/g, "").split(/ /g);
       const minLen = 1;
       for (let i = 0; i + minLen <= split.length && i <= 5; i++) {

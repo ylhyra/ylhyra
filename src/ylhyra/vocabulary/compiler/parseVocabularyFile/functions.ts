@@ -1,7 +1,7 @@
 import _hash from "modules/hash";
 import { isBrowser } from "modules/isBrowser";
 import { getUserFromCookie } from "ylhyra/app/user/actions";
-import { getPlaintextFromVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
+import { getPlaintextFromVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
 
 /* Only used for testing */
 export const getDeckName = () => {
@@ -22,11 +22,14 @@ export const getDeckName = () => {
   return "";
 };
 
-export const getLowercaseStringForAudioKey = (i) => {
+export const getLowercaseStringForAudioKey = (i: string) => {
   return getPlaintextFromVocabularyEntry(i).replace(/[.]+$/, "").toLowerCase();
 };
 
-export const getHash = (input, options?): string => {
+export const getHash = (
+  input: string[] | string,
+  options?: { skip_hash?: Boolean }
+): string => {
   if (!input) return "";
   if (Array.isArray(input)) {
     return getHash(input.map(getPlaintextFromVocabularyEntry).join(";"));
@@ -35,6 +38,7 @@ export const getHash = (input, options?): string => {
     .replace(/[.?!]+$/, "")
     .toLowerCase();
   if (!string) return "";
+  /** Todo: This has to be removed from here, but it is used to find missing entries */
   if (
     options?.skip_hash ||
     (isBrowser &&
@@ -45,16 +49,13 @@ export const getHash = (input, options?): string => {
   return _hash(string);
 };
 
-export const getHashesFromCommaSeperated = (i) => {
+export const getHashesFromCommaSeperated = (i: string[] | string): string[] => {
   if (!i) return [];
   if (Array.isArray(i)) {
-    return i.map(getHash);
+    return i.map((i) => getHash(i));
   }
-  return i.split(",").map(getHash).filter(Boolean);
-};
-
-export const automaticThu = (input) => {
-  return input
-    .replace(/\b(ert)u\b/gi, "$1{{u}}")
-    .replace(/\b(ætlar)ðu\b/gi, "$1{{ðu}}");
+  return i
+    .split(",")
+    .map((i) => getHash(i))
+    .filter(Boolean);
 };
