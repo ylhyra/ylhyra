@@ -7,8 +7,11 @@ import { RootState } from "ylhyra/app/app/store";
 import Render from "ylhyra/documents/renderDocument/render";
 import NotFound from "ylhyra/documents/renderDocument/templates/404";
 
+/**
+ * The translation editor is only turned on in development mode
+ */
 const RenderEditor = React.lazy(
-  () => import("ylhyra/documents/translationEditor/main/translator")
+  () => import("ylhyra/documents/translationEditor/main")
 );
 
 /**
@@ -25,16 +28,14 @@ class Content extends Component<
 
     if (!parsed) return <Loading key={this.props.route.pathname} />;
 
-    // import(
-    //   /* webpackChunkName: "editor" */
-    //   "./maker/editor/index.js"
-    //   );
+    /**
+     * The translation editor is only turned on in development mode
+     */
     if (isDev && isBrowser) {
       return [
         Render(parsed) || <span>Could not render</span>,
         <Suspense fallback={""} key={2}>
-          {/* Todo: Turn this on again to be able to translate articles */}
-          {/*<RenderEditor />*/}
+          <RenderEditor />
         </Suspense>,
       ];
     } else {

@@ -4,6 +4,7 @@ import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import _ from "underscore";
 import { RootState } from "ylhyra/app/app/store";
+import { getDeckName } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import {
   Database,
   delete_row,
@@ -12,7 +13,6 @@ import {
   submit,
 } from "ylhyra/vocabulary/vocabularyEditor/actions/actions";
 import { didYouMeanSuggestions } from "ylhyra/vocabulary/vocabularyEditor/actions/didYouMean";
-import { getDeckName } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import {
   formatRowName,
   vocabularyRowStructureAsObject,
@@ -69,7 +69,7 @@ class Form2 extends React.Component<
     // );
   };
 
-  checkKey = (e) => {
+  checkKey = (e: React.KeyboardEvent) => {
     const key = keycode.names[e.keyCode];
     if (e.altKey && e.metaKey) return;
     console.log({ key });

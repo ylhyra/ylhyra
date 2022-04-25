@@ -5,7 +5,7 @@ import {
   startStop,
 } from "src/ylhyra/documents/renderDocument/render/elements.NOT_USED/Speed_reading.NOT_USED/actions/actions";
 
-export const checkKey = (e) => {
+export const checkKey = (e: React.KeyboardEvent) => {
   // console.log((e.keyCode))
   /* Space */
   if (e.keyCode === 32) {

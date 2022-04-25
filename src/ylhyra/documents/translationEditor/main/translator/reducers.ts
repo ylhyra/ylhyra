@@ -1,15 +1,10 @@
-import { AnyAction } from "redux";
 import { sortByArray } from "modules/sortByArray";
+import { AnyAction } from "redux";
 import { omit, uniq } from "underscore";
 import { wordsHash } from "ylhyra/documents/translationEditor/main/translator/actions";
+import { TranslationData, WordDefinition } from "ylhyra/documents/types/types";
 
-/*
-  ____       _           _   _
- / ___|  ___| | ___  ___| |_(_) ___  _ __
- \___ \ / _ \ |/ _ \/ __| __| |/ _ \| '_ \
-  ___) |  __/ |  __/ (__| |_| | (_) | | | |
- |____/ \___|_|\___|\___|\__|_|\___/|_| |_|   */
-export const selected = (state = [], action: AnyAction) => {
+export const selected = (state: string[] = [], action: AnyAction) => {
   switch (action.type) {
     case "SELECT_WORD":
       // Eru mörg orð í þessu vali?
@@ -36,25 +31,22 @@ export const selected = (state = [], action: AnyAction) => {
   }
 };
 
-/*
-  _____                    _       _   _
- |_   _| __ __ _ _ __  ___| | __ _| |_(_) ___  _ __
-   | || '__/ _` | '_ \/ __| |/ _` | __| |/ _ \| '_ \
-   | || | | (_| | | | \__ \ | (_| | |_| | (_) | | | |
-   |_||_|  \__,_|_| |_|___/_|\__,_|\__|_|\___/|_| |_|  */
-const init = {
+const emptyTranslationData: TranslationData = {
   sentences: {},
   words: {},
   definitions: {},
 };
 
-export const translation = (state = init, action: AnyAction) => {
+export const translation = (
+  state: TranslationData = emptyTranslationData,
+  action: AnyAction
+) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       if (action.currentDocumentData) {
-        return action.currentDocumentData.translation;
+        return action.currentDocumentData.translation as TranslationData;
       } else {
-        return init;
+        return emptyTranslationData;
       }
 
     case "UPDATE_SENTENCE": {
@@ -65,7 +57,7 @@ export const translation = (state = init, action: AnyAction) => {
           ...state.sentences,
           [sentence_id]: content,
         },
-      };
+      } as TranslationData;
     }
 
     case "UPDATE_SENTENCE_VALUE": {
@@ -78,11 +70,14 @@ export const translation = (state = init, action: AnyAction) => {
         if (Object.keys(sentence).length === 0) {
           /* Return object without sentence */
           let sentences = state.sentences;
-          sentences = omit(sentences, sentence_id); // Clear field
+          sentences = omit(
+            sentences,
+            sentence_id
+          ) as TranslationData["sentences"]; // Clear field
           return {
             ...state,
             sentences,
-          };
+          } as TranslationData;
         } else {
           /* Return sentence without the deleted field */
           return {
@@ -91,7 +86,7 @@ export const translation = (state = init, action: AnyAction) => {
               ...state.sentences,
               [sentence_id]: sentence,
             },
-          };
+          } as TranslationData;
         }
       }
       return {
@@ -103,7 +98,7 @@ export const translation = (state = init, action: AnyAction) => {
             [fieldName]: value,
           },
         },
-      };
+      } as TranslationData;
     }
 
     /*
@@ -112,9 +107,9 @@ export const translation = (state = init, action: AnyAction) => {
     case "UPDATE_DEFINITION": {
       const { definition, selected } = action;
       const hash = wordsHash(selected);
-      let words = {};
+      let words: Record<string, string> = {};
       for (let id of selected) {
-        words[id] = hash;
+        words[id as string] = hash;
       }
       return {
         ...state,
@@ -129,7 +124,7 @@ export const translation = (state = init, action: AnyAction) => {
             ...definition,
           },
         },
-      };
+      } as TranslationData;
     }
 
     /*
@@ -138,14 +133,14 @@ export const translation = (state = init, action: AnyAction) => {
     case "UPDATE_DEFINITION_VALUE": {
       const { name, value, selected } = action;
       const hash = wordsHash(selected);
-      let words = {};
+      let words: Record<string, string> = {};
       for (let id of selected) {
         words[id] = hash;
       }
       /* If user has deleted definition */
       if (!value) {
         let definition = state.definitions[hash];
-        definition = omit(definition, name); // Clear field
+        definition = omit(definition, name) as WordDefinition; // Clear field
         /* Is entire definition empty? */
         if (Object.keys(definition).length <= 1) {
           /* Return object without word */
@@ -153,7 +148,7 @@ export const translation = (state = init, action: AnyAction) => {
             ...state,
             words: omit(state.words, ...selected),
             definitions: omit(state.definitions, hash),
-          };
+          } as TranslationData;
         } else {
           /* Return word without the deleted field */
           return {
@@ -165,11 +160,11 @@ export const translation = (state = init, action: AnyAction) => {
             definitions: {
               ...state.definitions,
               [hash]: {
-                contains: selected,
                 ...definition,
+                contains: selected,
               },
             },
-          };
+          } as TranslationData;
         }
       }
       return {
@@ -186,7 +181,7 @@ export const translation = (state = init, action: AnyAction) => {
             [name]: value,
           },
         },
-      };
+      } as TranslationData;
     }
 
     case "DELETE_WORD": {
@@ -210,7 +205,7 @@ export const translation = (state = init, action: AnyAction) => {
         definitions: {
           ...definitions,
         },
-      };
+      } as TranslationData;
     }
 
     default:

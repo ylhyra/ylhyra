@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withPlural } from "ylhyra/app/app/functions/simplePlural";
 import store from "ylhyra/app/app/store";
+import AudioClip from "ylhyra/documents/renderDocument/audio/audioWithoutInterface.NOT_USED";
+import { getProcessedImageUrl } from "ylhyra/server/paths_urls";
 import {
   getData,
   getFrom,
@@ -12,10 +14,8 @@ import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { BAD, EASY, GOOD, rating } from "ylhyra/vocabulary/app/constants";
 import { VocabularyReducer } from "ylhyra/vocabulary/app/reducers";
-import AudioClip from "ylhyra/documents/renderDocument/audio/audioWithoutInterface.NOT_USED";
 import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format";
 import { getDeckName } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
-import { getProcessedImageUrl } from "ylhyra/server/paths_urls";
 
 class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
   isKeyDown: boolean;
@@ -46,7 +46,7 @@ class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
   keyUp = () => {
     this.isKeyDown = false;
   };
-  checkKey = (e) => {
+  checkKey = (e: React.KeyboardEvent) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (this.isKeyDown) return;
     const { answered } = this.props.vocabulary.card;

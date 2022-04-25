@@ -1,0 +1,44 @@
+.word-outer-container {
+  display: inline-block;
+  .word-container {
+    position: relative;
+    font-weight: 600;
+    .word {
+      cursor: pointer;
+      color: black;
+      &.difficult_word {
+        color: "#1f85ff"
+      }
+      z-index: 2;
+      padding: 1px 1px;
+      border-radius: 2px;
+      border: 1px solid transparent;
+
+      /* Sýna bakrunn fyrir hluti sem eru ekki með skýringu */
+      &:not(.has_definition) {
+        background: #ffe76f;
+        border-color: #eccd5c;
+      }
+
+      /* Þegar orð eru valin til að skýra */
+      .selected {
+        background: #63dfe1;
+        border-color: #54c5e1;
+        &:active {
+          background: #4fd2d4;
+        }
+      }
+      &.hover:not(.selected) {
+        background: #fec96d;
+        border-color: #eb9f5f;
+      }
+    }
+
+    .inline-translation {
+      color: "#adadad";
+      &.show_definition_above {
+        color: "#444" ;
+      }
+    }
+  }
+}

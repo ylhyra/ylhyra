@@ -1,27 +1,23 @@
-import { AnyAction, combineReducers } from "redux";
 // @ts-ignore
 import getParameter from "get-parameter";
 import { isBrowser } from "modules/isBrowser";
+import { AnyAction, combineReducers } from "redux";
+import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { long_audio } from "ylhyra/documents/translationEditor/audioSynchronization/frontend/reducers";
-import short_audio from "ylhyra/documents/translationEditor/NOT_USED/shortAudio.NOT_USED/reducers";
-// import {
-//   analysis,
-//   suggestions,
-// } from "ylhyra/maker/editor/Suggestions/reducers";
+
+import { autosave } from "ylhyra/documents/translationEditor/main/actions";
 import {
   selected,
   translation,
 } from "ylhyra/documents/translationEditor/main/translator/reducers";
-
-import { autosave } from "ylhyra/documents/translationEditor/main/actions";
-import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
+import short_audio from "ylhyra/documents/translationEditor/NOT_USED/shortAudio.NOT_USED/reducers";
 import { TokenizedParagraphs } from "ylhyra/documents/types/various";
 
 const isOpen = isBrowser ? getParameter("editor") : false;
-const open = (state = isOpen, action: AnyAction) => {
+const open = (state: string | Boolean = isOpen, action: AnyAction) => {
   switch (action.type) {
     case "OPEN_EDITOR":
-      return action.page;
+      return action.page as string;
     case "CLOSE_EDITOR":
       return false;
     default:
@@ -32,7 +28,7 @@ const open = (state = isOpen, action: AnyAction) => {
 const parsed = (state: HtmlAsJson | null = null, action: AnyAction) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
-      return action.parsed || state;
+      return (action.parsed as HtmlAsJson) || state;
     default:
       return state;
   }
@@ -41,24 +37,11 @@ const parsed = (state: HtmlAsJson | null = null, action: AnyAction) => {
 const tokenized = (state: TokenizedParagraphs = [], action: AnyAction) => {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
-      return action.currentDocument || state;
+      return (action.currentDocument as TokenizedParagraphs) || state;
     default:
       return state;
   }
 };
-
-// const list = (state: TranslationItemList | null = null, action: AnyAction) => {
-//   switch (action.type) {
-//     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
-//       if (action.currentDocument) {
-//         return MakeList(action.currentDocument);
-//       } else {
-//         return state;
-//       }
-//     default:
-//       return state;
-//   }
-// };
 
 const isSaved = (state = true, action: AnyAction) => {
   switch (action.type) {

@@ -1,8 +1,9 @@
-import _ from "underscore";
 import hash from "modules/hash";
-import { getArrayOfAllWordIDs } from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/List";
 import { Dispatch } from "redux";
+import _ from "underscore";
 import store from "ylhyra/app/app/store";
+import { getArrayOfAllWordIDs } from "ylhyra/documents/compilation/compileWithTranslation/Tokenize/List";
+import { WordDefinition } from "ylhyra/documents/types/types";
 
 /*
   If the user has selected several non-adjacent words,
@@ -28,6 +29,7 @@ export const nextWord =
       const nextIndex = index + 1;
       if (nextIndex === arrayOfAllWordIDs.length) return;
       const nextSelected = arrayOfAllWordIDs[nextIndex];
+      // @ts-ignore // TODO
       dispatch(selectWord(nextSelected, isAdding));
     } else if (direction === "previous") {
       const first = selected[0];
@@ -35,38 +37,47 @@ export const nextWord =
       const prevIndex = index - 1;
       if (prevIndex < 0) return;
       const prevSelected = arrayOfAllWordIDs[prevIndex];
+      // @ts-ignore // TODO
       dispatch(selectWord(prevSelected, isAdding));
     }
   };
 
-export const selectWord = (id, adding) => (dispatch: Dispatch, getState: typeof store.getState) => { => {
-  const translation = getState().editor.translation;
-  const definition = translation.definitions[translation.words[id]];
-  const containsMany = definition?.contains.length > 1;
-  recentlySelected = _.uniq([id, ...recentlySelected]).slice(0, 5);
+export const selectWord =
+  (id: string, adding: Boolean) =>
+  (dispatch: Dispatch, getState: typeof store.getState) => {
+    const translation = getState().editor.translation;
+    const definition = translation.definitions[translation.words[id]];
+    const containsMany = definition?.contains.length > 1;
+    recentlySelected = _.uniq([id, ...recentlySelected]).slice(0, 5);
 
-  // Select
-  if (containsMany)
-    dispatch({
-      type: "SELECT_WORD",
-      contains: definition.contains,
-      arrayOfAllWordIDs: getArrayOfAllWordIDs(getState().editor.tokenized),
-    });
-  else {
-    dispatch({
-      type: "SELECT_WORD",
-      id,
-      adding,
-      arrayOfAllWordIDs: getArrayOfAllWordIDs(getState().editor.tokenized),
-    });
-  }
-};
+    // Select
+    if (containsMany)
+      dispatch({
+        type: "SELECT_WORD",
+        contains: definition.contains,
+        arrayOfAllWordIDs: getArrayOfAllWordIDs(getState().editor.tokenized),
+      });
+    else {
+      dispatch({
+        type: "SELECT_WORD",
+        id,
+        adding,
+        arrayOfAllWordIDs: getArrayOfAllWordIDs(getState().editor.tokenized),
+      });
+    }
+  };
 
 export const clearSelection = () => ({ type: "CLEAR_SELECTION" });
 
 /* Update entire definition object at once */
 export const updateDefinition =
-  ({ definition, selected }) =>
+  ({
+    definition,
+    selected,
+  }: {
+    definition: WordDefinition;
+    selected: string[];
+  }) =>
   (dispatch: Dispatch) => {
     dispatch({
       type: "UPDATE_DEFINITION",
@@ -77,7 +88,7 @@ export const updateDefinition =
 
 /* Update only one part of definition object */
 export const updateDefinitionValue =
-  ({ name, value }) =>
+  ({ name, value }: { name: string; value: string }) =>
   (dispatch: Dispatch, getState: typeof store.getState) => {
     const selected = getState().editor.selected;
     dispatch({
@@ -88,14 +99,16 @@ export const updateDefinitionValue =
     });
   };
 
-export const updateSentence = (data) => (dispatch: Dispatch) => {
-  dispatch({
-    type: "UPDATE_SENTENCE_VALUE",
-    sentence_id: data.sentence_id,
-    fieldName: data.fieldName || "meaning",
-    value: data.value,
-  });
-};
+export const updateSentence =
+  (data: { sentence_id: string; fieldName: string; value: string }) =>
+  (dispatch: Dispatch) => {
+    dispatch({
+      type: "UPDATE_SENTENCE_VALUE",
+      sentence_id: data.sentence_id,
+      fieldName: data.fieldName || "meaning",
+      value: data.value,
+    });
+  };
 
 export const deleteWord = (id: string) => {
   return {

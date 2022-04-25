@@ -1,5 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "ylhyra/app/app/store";
 // import {
 //   applySuggestions,
 //   MakeSuggestions,
@@ -12,14 +13,16 @@ import WordSidebar, {
   isMacintosh,
 } from "ylhyra/documents/translationEditor/main/translator/Views/Sidebar/Sidebar";
 
-class TranslatingEditor extends React.Component {
+class TranslatingEditor extends React.Component<
+  ConnectedProps<typeof connector>
+> {
   componentDidMount() {
     window.addEventListener("keydown", this.checkKey);
   }
   componentWillUnmount() {
     window.removeEventListener("keydown", this.checkKey);
   }
-  checkKey = (e) => {
+  checkKey = (e: KeyboardEvent) => {
     // Escape
     if (e.keyCode === 27) {
       this.props.clearSelection();
@@ -58,7 +61,7 @@ class TranslatingEditor extends React.Component {
                       <td>Delete word</td>
                     </tr>
                     <tr>
-                      <td colSpan="2"></td>
+                      <td colSpan={2}></td>
                     </tr>
                     <tr>
                       <td>
@@ -145,7 +148,7 @@ class TranslatingEditor extends React.Component {
   }
 }
 
-export default connect(
+const connector = connect(
   (state: RootState) => ({
     editor: state.editor,
     translation: state.editor.translation,
@@ -154,4 +157,5 @@ export default connect(
   {
     clearSelection,
   }
-)(TranslatingEditor);
+);
+export default connector(TranslatingEditor);

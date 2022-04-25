@@ -1,10 +1,16 @@
+import { c } from "modules/noUndefinedInTemplateLiteral";
 import React from "react";
 import ReactDOM from "react-dom";
+import { ItalicsAndBold } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/functions";
+import { _Word } from "ylhyra/documents/translationEditor/main/translator/Views/Document/Word";
 
-// import { ItalicsAndBold } from 'Parse/Compiler/2_CompileToHTML/Definition/Tooltip'
-
-class InlineTranslation extends React.PureComponent {
-  timer = null;
+type Props = {
+  text: string;
+  setMinWidth: _Word["setMinWidth"];
+  show_definition_above?: Boolean;
+};
+export default class InlineTranslation extends React.PureComponent<Props> {
+  timer: NodeJS.Timeout | null = null;
   componentDidMount = () => {
     this.updateWidth();
     /* Update width again in case the document was too slow to render */
@@ -12,24 +18,29 @@ class InlineTranslation extends React.PureComponent {
       this.updateWidth();
     }, 1200);
   };
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = (prevProps: Props) => {
     if (prevProps.text !== this.props.text) {
       this.updateWidth();
     }
   };
   updateWidth = () => {
     const DOMNode = ReactDOM.findDOMNode(this);
-    const rectangle = DOMNode.getBoundingClientRect();
-    const width = Math.floor(rectangle.width);
-    this.props.setMinWidth(width + 10);
-    // console.log({width,text:this.props.text})
+    if (DOMNode && "getBoundingClientRect" in DOMNode) {
+      const rectangle = DOMNode.getBoundingClientRect();
+      const width = Math.floor(rectangle.width);
+      this.props.setMinWidth(width + 10);
+    }
   };
   componentWillUnmount = () => {
     this.timer && clearTimeout(this.timer);
   };
   render() {
     return (
-      <div className="inline-translation">
+      <div
+        className={c`inline-translation ${
+          this.props.show_definition_above && "show_definition_above"
+        }`}
+      >
         <span
           dangerouslySetInnerHTML={{
             __html: ItalicsAndBold(this.props.text),
@@ -39,12 +50,3 @@ class InlineTranslation extends React.PureComponent {
     );
   }
 }
-
-export default InlineTranslation;
-
-export const ItalicsAndBold = (input) => {
-  return input
-    .replace(/\*\*([^ ].+?[^ ])\*\*/g, "<b>$1</b>")
-    .replace(/\*([^ ].+?[^ ])\*/g, "<i>$1</i>")
-    .replace(/_([^ ].+?[^ ])_/g, "<i>$1</i>");
-};

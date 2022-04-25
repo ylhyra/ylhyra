@@ -52,13 +52,13 @@ class SentenceTranslation extends React.Component<
     return false;
   };
   render() {
-    const { translation, id, suggestions } = this.props;
+    const { translation, id /*suggestions*/ } = this.props;
     const sentence = translation.sentences[id] || {};
 
     let placeholder = "";
-    if (suggestions && id in suggestions && suggestions[id].length > 0) {
-      placeholder = suggestions[id][0].definition.meaning;
-    }
+    // if (suggestions && id in suggestions && suggestions[id].length > 0) {
+    //   placeholder = suggestions[id][0].definition.meaning;
+    // }
 
     return (
       <div className="sentence">
@@ -126,7 +126,7 @@ class SentenceTranslation extends React.Component<
 const connector = connect(
   (state: RootState) => ({
     translation: state.editor.translation,
-    suggestions: state.editor.suggestions,
+    // suggestions: state.editor.suggestions,
   }),
   { updateSentence }
 );

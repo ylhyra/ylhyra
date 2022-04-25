@@ -120,7 +120,6 @@ const diffAndPreserveIDs = (
       });
     }
   });
-  console.log({ newIdsToPreservedIds });
   return newIdsToPreservedIds;
 };
 
