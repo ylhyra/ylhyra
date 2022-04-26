@@ -1,3 +1,7 @@
+/**
+ * This is here so that Jest can use the same Babel configuration
+ */
+
 const path = require("path");
 
 const node_modules = path.resolve(__dirname, "./node_modules");

@@ -137,6 +137,7 @@
     "@types/diff": "^5.0.2",
     "@types/express": "^4.17.13",
     "@types/is-empty-object": "^1.1.0",
+    "@types/jest": "^27.4.1",
     "@types/js-yaml": "^4.0.5",
     "@types/json-stable-stringify": "^1.0.34",
     "@types/line-by-line": "^0.1.6",
@@ -165,6 +166,8 @@
     "file-loader": "^6.2.0",
     "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^5.3.2",
+    "jest": "^28.0.0",
+    "jest-same-file-tests": "^0.1.1",
     "react-refresh": "^0.10.0",
     "style-loader": "^3.2.1",
     "stylus": "^0.55.0",
@@ -195,16 +198,22 @@
   },
   "jest": {
     "moduleDirectories": [
-      "node_modules",
-      "src"
+      "src",
+      "node_modules"
     ],
-    "testEnvironment": "jsdom",
+    "setupFiles": [
+      "./src/modules/tests/sameFileTestsSetup.ts"
+    ],
+    "testEnvironment2": "jsdom",
     "testPathIgnorePatterns": [
       "/inflection/",
       "/node_modules/"
     ],
-    "testURL": "http://localhost:9123",
-    "testRegex": "src/tests/unitTests/.*\\.test\\.[jt]sx?$",
+    "testEnvironmentOptions": {
+      "url": "http://localhost:9123"
+    },
+    "testRegex": "src/modules/.*\\.tsx?$",
+    "testRegex2": "src/tests/unitTests/.*\\.test\\.[jt]sx?$",
     "moduleNameMapper": {
       "\\.(css)$": "<rootDir>/src/tests/unitTests/mockIgnore.js"
     }
