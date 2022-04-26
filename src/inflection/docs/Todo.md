@@ -32,5 +32,16 @@ Testing:
 - verst
 
 - Custom tables:
--  // http://localhost:4545/fara/433568?rows=infinitive;1p,sing;2p,sing;3p,sing;1p,pl;2p,pl;3p,pl
+- // http://localhost:4545/fara/433568?rows=infinitive;1p,sing;2p,sing;3p,sing;1p,pl;2p,pl;3p,pl
 // http://localhost:4545/fara/433568?rows=infinitive;1p,sing;2p,sing;3p,sing;1p,pl;2p,pl;3p,pl&give_me=past
+
+- variants
+- // aflkópa has correctness_grade_of_word 0
+// ballans has correctness_grade_of_word 2
+// eignaréttur has correctness_grade_of_word 3
+// balansera has correctness_grade_of_word 4
+
+- interesting words to test: 
+  - dró
+
+- Á að gera eitthvað með orð eins og "munaði" sem eru bæði ópersónuleg í þf og þgf?

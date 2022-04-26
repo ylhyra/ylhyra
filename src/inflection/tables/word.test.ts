@@ -39,12 +39,12 @@ describe("General word tests", () => {
     });
   });
 
-  it("„muna“", (done) => {
+  it("„muna“ (ópersónulegt)", (done) => {
     getWordFromServer(428183, done, (word) => {
       // console.time('someFunction')
       assert.equal(
         stripHtml(word.getPrincipalParts()),
-        "að muna, mig munaði (í gær), ég hef munað"
+        "að muna, mig munaði (í gær), mig hefur munað"
       );
       assert.equal(word.isStrong(), false);
       assert.equal(word.getIsWordIrregular(), false);
@@ -66,9 +66,4 @@ describe("General word tests", () => {
       done();
     });
   });
-
-  // it.only('Junk data', () => {
-  //   assert.throws(new Word(['ok']), Error)
-  //   return
-  // })
 });

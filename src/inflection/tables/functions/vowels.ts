@@ -29,11 +29,7 @@ export const splitOnVowels = (string: string): string[] => {
   return string.split(new RegExp(`(${vowellikeClusters}|[${vowels}])`, "ig"));
 };
 
-// export const splitOnVowelRegions = (string: string | undefined)
-// {
-//   (string: "" | undefined): undefined;
-//   (string: string): string[];
-// }
+/** @hasTests */
 export const splitOnVowelRegions = (string: string): string[] => {
   if (typeof string !== "string")
     throw new Error("splitOnVowelRegions expected string");
@@ -63,6 +59,7 @@ export const isVowellikeCluster = (string: string) => {
   return new RegExp(`(${vowellikeClusters}|[${vowels}]+)`, "i").test(string);
 };
 
+/** @hasTests */
 export const removeLastVowelCluster = (string: string | undefined) => {
   // if (typeof string !== 'string') throw new Error('removeLastVowelCluster expected string');
   return (

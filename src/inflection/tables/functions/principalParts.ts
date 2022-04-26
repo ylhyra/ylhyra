@@ -4,6 +4,7 @@ import { filterEmpty } from "modules/typescript/filterEmpty";
 
 /**
  * Principal parts (kennimyndir)
+ * Currently only used for verbs.
  */
 export function getPrincipalParts(this: Word): Html {
   if (this.is("verb")) {
@@ -19,15 +20,23 @@ export function getPrincipalParts(this: Word): Html {
     let principalParts = [
       word.get("infinitive"),
       word.get(/*'indicative', */ "past tense", "1st person", "singular"),
-      word.isStrong() &&
-        word.get(/*'indicative',*/ "past tense", "1st person", "plural"),
+      word.isStrong()
+        ? word.get(/*'indicative',*/ "past tense", "1st person", "plural")
+        : null,
       word.get("supine"),
     ];
-    // console.log(this.getFirst().renderWithHelperWords())
-    // console.log(this.get('past tense').rows.length/*.getFirst()/*.renderWithHelperWords()*/)
+
     return principalParts
       .filter(filterEmpty)
-      .map((i) => i.getFirstAndItsVariants().renderWithHelperWords())
+      .map((i: Word) => {
+        /** Done to allow supine to get matching helper words */
+        if (i.is("supine") && principalParts[1]) {
+          return i
+            .getFirstAndItsVariants()
+            .renderWithHelperWords(principalParts[1].getFirst());
+        }
+        return i.getFirstAndItsVariants().renderWithHelperWords();
+      })
       .join(", ");
   }
   return "";

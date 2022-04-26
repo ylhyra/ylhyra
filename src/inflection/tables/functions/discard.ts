@@ -38,6 +38,7 @@ export const removeIncorrectVariants = (rows: Rows): Rows => {
     // if (row.should_be_taught) {
     //   return true
     // }
+    if (!row.variant_number) throw new Error("Missing variant_number!");
     /* Leave the first item */
     if (row.variant_number === PRIMARY_VARIANT_NUMBER) {
       return true;

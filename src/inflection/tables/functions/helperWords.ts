@@ -4,8 +4,12 @@ import Word from "inflection/tables/word";
 
 /**
  * Text shown before value
+ * @param shouldMatchWhichWord - Used by the supine in the making of principal parts
  */
-export function getHelperWordsBefore(this: Word): Html {
+export function getHelperWordsBefore(
+  this: Word,
+  shouldMatchWhichWord?: Word
+): Html {
   let text = "";
   /* Nouns et al. */
   if (
@@ -48,7 +52,21 @@ export function getHelperWordsBefore(this: Word): Html {
       text = "að";
     }
     if (this.is("supine")) {
-      text = "ég hef";
+      /**
+       * The supine is given separately from impersonal use.
+       * Therefore, we need to get some other variant to compare it to.
+       */
+      if (shouldMatchWhichWord) {
+        text = shouldMatchWhichWord.dependingOnSubject(
+          "ég hef",
+          "mig hefur",
+          "mér hefur",
+          "mín hefur",
+          "það hefur"
+        );
+      } else {
+        text = "ég hef";
+      }
     }
     if (this.is("present participle")) {
       text = "hann er";

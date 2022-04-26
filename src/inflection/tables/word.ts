@@ -42,6 +42,13 @@ class Word {
   wordIsIrregular?: Boolean;
   wordIsHighlyIrregular?: Boolean;
 
+  // /**
+  //  * Used by principal parts to allow the helper words for the supine to match the
+  //  * personal or impersonal usage the precedes it.
+  //  * This is necessary since the supine is given separately from impersonal use.
+  //  */
+  // precededByWordInPrincipalParts?: Word;
+
   getHelperWordsBefore = getHelperWordsBefore;
   getHelperWordsAfter = getHelperWordsAfter;
   getPrincipalParts = getPrincipalParts;
@@ -74,12 +81,11 @@ class Word {
         throw new Error("Malformed input to Word");
     }
 
-    rows = discardUnnecessaryForms(rows) as Rows;
+    rows = discardUnnecessaryForms(rows);
     this.rows = rows;
     if (original instanceof Word) {
       this.original = original.original;
     } else if (original) {
-      // console.log(original)
       throw new Error("Expected original to be a Word");
     } else {
       this.original = this;
@@ -100,6 +106,10 @@ class Word {
   //   if (!input_string) return this;
   // }
 
+  /**
+   * We find irregularities at the beginning in order to prevent expensive
+   * recalculation. Todo: This could perhaps just be cached instead of precalculated.
+   */
   setup() {
     this.findIrregularities();
   }
@@ -315,16 +325,16 @@ class Word {
     return this.rows.map((row) => row.inflectional_form);
   }
 
-  getForms_describe_as_string__temp() {
-    return this.rows
-      .map(
-        (row) =>
-          `${row.inflectional_form} ${row.inflectional_form_categories.join(
-            ","
-          )}`
-      )
-      .join("\n");
-  }
+  // getForms_describe_as_string__temp() {
+  //   return this.rows
+  //     .map(
+  //       (row) =>
+  //         `${row.inflectional_form} ${row.inflectional_form_categories.join(
+  //           ","
+  //         )}`
+  //     )
+  //     .join("\n");
+  // }
 
   getWordCategories(): GrammaticalTagOrVariantNumber[] {
     return this.original.rows[0]?.word_categories || [];
@@ -385,7 +395,7 @@ class Word {
    * based on the gender of the word.
    * Used when generating helper words
    */
-  dependingOnGender(...values: any[]) {
+  dependingOnGender(...values: [masculine: any, feminine: any, neuter: any]) {
     return values[
       ["masculine", "feminine", "neuter"].indexOf(
         this.getType("gender") as string
@@ -397,8 +407,18 @@ class Word {
    * Five values are inputted, a value is returned
    * based on the subject type of the verb
    * Used when generating helper words
+   *
+   * Input is an array with 5 values.
    */
-  dependingOnSubject(...values: any[]) {
+  dependingOnSubject(
+    ...values: [
+      notImpersonal: any,
+      impersonalAccusative: any,
+      impersonalDative: any,
+      impersonalGenitive: any,
+      dummySubject: any
+    ]
+  ) {
     if (this.is("impersonal with accusative subject")) {
       return values[1];
     } else if (this.is("impersonal with dative subject")) {
@@ -419,10 +439,11 @@ class Word {
   /**
    * Used to render the word to a string outside of a table.
    * If in a table, the function renderCell() is used.
+   * @param shouldMatchWhichWord - Used by the supine in the making of principal parts
    */
-  renderWithHelperWords(): Html {
+  renderWithHelperWords(shouldMatchWhichWord?: Word): Html {
     let output =
-      this.getHelperWordsBefore() +
+      this.getHelperWordsBefore(shouldMatchWhichWord) +
       " " +
       this.renderWithoutHelperWords()
         .map((i) => `<b>${i}</b>`)
