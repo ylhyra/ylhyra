@@ -3,16 +3,19 @@ import { classify } from "inflection/tables/classification/BIN_classification";
 
 it("BÍN classification", () => {
   assert.deepEqual(
+    // @ts-ignore
     classify({ word_categories: "kvk", grammatical_tag: "FT-ÞF" })
       .inflectional_form_categories,
     ["plural", "accusative", "without definite article", 1]
   );
   assert.deepEqual(
+    // @ts-ignore
     classify({ word_categories: "kvk", grammatical_tag: "FT-ÞF2" })
       .inflectional_form_categories,
     ["plural", "accusative", "without definite article", 2]
   );
   assert.deepEqual(
+    // @ts-ignore
     classify({
       word_categories: "so",
       grammatical_tag: "GM-VH-ÞT-2P-ET2",

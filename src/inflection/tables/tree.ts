@@ -1,5 +1,5 @@
 import { sortByClassification } from "inflection/tables/classification/sortByClassification";
-import { TreeItem, Rows, Tree, Branch, Leaf } from "inflection/tables/types";
+import { Branch, Rows, Tree, TreeItem } from "inflection/tables/types";
 
 /**
  * Turns rows into nested tree, with each leaf containing

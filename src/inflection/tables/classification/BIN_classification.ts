@@ -2,7 +2,6 @@ import {
   getCanonicalGrammaticalTag,
   shortcutsUsedInBin,
 } from "inflection/tables/classification/classification";
-import { isNumber } from "inflection/tables/tree";
 import {
   GrammaticalTag,
   InflectionalCategoryList,
@@ -40,7 +39,7 @@ export const classify = (input: RowFromDatabase): Row => {
   let word_categories_output =
     get_label_for_BIN_word(word_categories).split(", ");
 
-  if (relevant_BIN_domains[BIN_domain]) {
+  if (BIN_domain && relevant_BIN_domains[BIN_domain]) {
     word_categories_output.push(relevant_BIN_domains[BIN_domain]);
   }
 
@@ -59,7 +58,8 @@ export const classify = (input: RowFromDatabase): Row => {
     .filter(Boolean)
     .forEach((tag) => {
       if (tag === "-") return;
-      if (isNumber(tag)) {
+      /** Test if tag is a number, which indicates a variant */
+      if (/^\d+$/.test(tag + "")) {
         // inflectional_form_categories.push(tag)
       } else if (get_label_for_BIN_inflection_form(tag)) {
         inflectional_form_categories.push(

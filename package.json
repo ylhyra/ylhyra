@@ -201,13 +201,14 @@
       "node_modules"
     ],
     "testPathIgnorePatterns": [
-      "/inflection/",
+      "/inflection/test/",
+      "/ylhyra/tests/",
       "/node_modules/"
     ],
     "testEnvironmentOptions": {
       "url": "http://localhost:9123"
     },
-    "testRegex": "src/modules/.*\\.test\\.tsx?$",
+    "testRegex": "src/.*\\.test\\.tsx?$",
     "moduleNameMapper": {
       "\\.(css)$": "<rootDir>/src/tests/unitTests/mockIgnore.js"
     }
