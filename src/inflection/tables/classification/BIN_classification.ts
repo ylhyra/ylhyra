@@ -26,6 +26,8 @@ import {
  *     apply to all the forms of the word (a noun, adjective...)
  * - inflectional_form_categories - An array of
  *     values that only apply to certain forms of the word (plurality, case...)
+ *
+ * @hasTests
  */
 export const classify = (input: RowFromDatabase): Row => {
   let { word_categories, grammatical_tag, BIN_domain, ...rest } = input;

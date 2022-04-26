@@ -1,4 +1,3 @@
-import { testHelper } from "modules/tests/testHelper";
 import {
   days,
   hours,
@@ -7,14 +6,14 @@ import {
   seconds,
 } from "modules/time";
 
-testHelper(prettyPrintDaysMinutesHours, [
-  [
-    prettyPrintDaysMinutesHours(12 * days + 10 * minutes),
-    "12 days, 10 minutes",
-  ],
-  [
-    prettyPrintDaysMinutesHours(2 * days + 23 * hours + 100 * seconds),
-    "2 days, 23 hours",
-  ],
-  [prettyPrintDaysMinutesHours(12 * hours + 10 * seconds), "12 hours"],
-]);
+test("", () => {
+  expect(prettyPrintDaysMinutesHours(12 * days + 10 * minutes)).toBe(
+    "12 days, 10 minutes"
+  );
+  expect(
+    prettyPrintDaysMinutesHours(2 * days + 23 * hours + 100 * seconds)
+  ).toBe("2 days, 23 hours");
+  expect(prettyPrintDaysMinutesHours(12 * hours + 10 * seconds)).toBe(
+    "12 hours"
+  );
+});
