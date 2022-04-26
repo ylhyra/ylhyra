@@ -1,25 +1,20 @@
 /**
  * A helper to reduce boilerplate for Jest.
- * Used to test functions that only have one input.
  */
-export const testSimpleInputOutput = (
+export const testHelper = (
+  /**
+   * We pass the function itself in order to get its name
+   * (otherwise the test title won't update when variables are renamed)
+   */
   fn: Function,
-  simpleInputOutputArray: Array<{ input: any; output: any }>
+  /**
+   * Array containing elements of the form [input, expectedOutput]
+   */
+  inputOutputPair: Array<[any, any]>
 ) => {
   test(fn.name, () => {
-    simpleInputOutputArray.forEach((inputOutput) => {
-      expect(fn(inputOutput.input)).toBe(inputOutput.output);
-    });
-  });
-};
-
-export const multipleTests = (
-  fn: Function,
-  array: Array<{ value: any; shouldBe: any }>
-) => {
-  test(fn.name, () => {
-    array.forEach((item) => {
-      expect(fn(item.value)).toBe(item.shouldBe);
+    inputOutputPair.forEach((inputOutput) => {
+      expect(inputOutput[0]).toBe(inputOutput[1]);
     });
   });
 };

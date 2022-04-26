@@ -1,4 +1,4 @@
-import { testSimpleInputOutput } from "modules/tests/testHelper";
+import { testHelper } from "modules/tests/testHelper";
 import {
   days,
   hours,
@@ -7,8 +7,14 @@ import {
   seconds,
 } from "modules/time";
 
-testSimpleInputOutput(prettyPrintDaysMinutesHours, [
-  { input: 12 * days + 10 * minutes, output: "12 days, 10 minutes" },
-  { input: 2 * days + 23 * hours + 100 * seconds, output: "2 days, 23 hours" },
-  { input: 12 * hours + 10 * seconds, output: "12 hours" },
+testHelper(prettyPrintDaysMinutesHours, [
+  [
+    prettyPrintDaysMinutesHours(12 * days + 10 * minutes),
+    "12 days, 10 minutes",
+  ],
+  [
+    prettyPrintDaysMinutesHours(2 * days + 23 * hours + 100 * seconds),
+    "2 days, 23 hours",
+  ],
+  [prettyPrintDaysMinutesHours(12 * hours + 10 * seconds), "12 hours"],
 ]);
