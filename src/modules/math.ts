@@ -69,10 +69,16 @@ export const roundMsToSec = (v: Milliseconds) => {
   return roundToInterval(v, seconds);
 };
 
+/**
+ * @hasTests
+ */
 export const roundMsTo100Sec = (v: Milliseconds) => {
   return roundToInterval(v, 100 * seconds);
 };
 
+/**
+ * @hasTests
+ */
 export const toFixedFloat = (input: number, f: number) => {
   return parseFloat(input.toFixed(f));
 };
