@@ -1,6 +1,6 @@
 import Frontpage from "ylhyra/app/elements/frontpage";
 import Login from "ylhyra/app/user/LoginForm";
-import PWYW from "ylhyra/app/user/payments/Pay";
+// import PWYW from "ylhyra/app/user/payments/Pay";
 import SignupSteps from "ylhyra/app/user/screens/SignupSteps";
 import Audio from "ylhyra/documents/renderDocument/templates/Audio";
 import Book from "ylhyra/documents/renderDocument/templates/Book";
@@ -31,7 +31,7 @@ const template = {
   Instagram: Instagram,
   Level: Level,
   Login: Login,
-  PWYW: PWYW,
+  // PWYW: PWYW,
   Parts: Parts,
   Section: Section,
   SignupSteps: SignupSteps,

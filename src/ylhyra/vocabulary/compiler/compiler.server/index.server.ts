@@ -12,6 +12,7 @@ import { getSortKeysBasedOnWhenWordIsIntroducedInTheCourse } from "ylhyra/vocabu
 import { parseVocabularyFile } from "ylhyra/vocabulary/compiler/parseVocabularyFile";
 import { getLowercaseStringForAudioKey } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import {
+  CardDataInCompilationStep,
   CardId,
   CardIds,
   DeckDatabaseInCompilationStep,
@@ -79,11 +80,13 @@ const filename = contentFolder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
 
       delete card.is_plaintext;
       delete card.en_plaintext;
-      for (const j of Object.keys(card)) {
-        if (!card[j as keyof CardDataInCompilationStep]) {
-          delete card[j as keyof CardDataInCompilationStep];
+      (Object.keys(card) as Array<keyof CardDataInCompilationStep>).forEach(
+        (j) => {
+          if (!card[j]) {
+            delete card[j];
+          }
         }
-      }
+      );
     }
 
     /* Add sortKey */

@@ -57,7 +57,7 @@ export const save = async () => {
         translation: data.translation,
         // suggestions: data.suggestions,
         // analysis: data.analysis,
-        short_audio: data.short_audio,
+        // short_audio: data.short_audio,
         long_audio: data.long_audio,
         // pronunciation: data.pronunciation,
       };

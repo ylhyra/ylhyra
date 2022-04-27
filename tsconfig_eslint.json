@@ -12,6 +12,7 @@
     "outDir": "build/ts",
     "esModuleInterop": true,
     "isolatedModules": false,
+    "skipLibCheck": true,
     "strict": true
   },
   "compileOnSave": true

@@ -14,7 +14,7 @@ export const parseVocabularyList = (vocabulary_list) => {
   if (!deck) initializeDeckFromFile();
   const cardIds = getCardIdsFromWords(vocabulary_list).filter(
     (id) => id in deck!.cards
-  );
+  ) as CardIds;
   // const missing = getCardIdsFromWords(vocabulary_list, true);
   const terms = getTermIdsFromCardIds(cardIds);
   const dependencyTerms = getTermIdsFromCardIds(

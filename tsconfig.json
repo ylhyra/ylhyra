@@ -12,6 +12,7 @@
     "outDir": "build/ts",
     "esModuleInterop": true,
     "isolatedModules": false,
+    "skipLibCheck": true,
     //    "lib": ["es2020", "dom", "es2021.String"],
     //    "noImplicitAny": false,
     "strict": false

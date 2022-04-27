@@ -19,7 +19,7 @@ export default (props) => {
         </div>
       </div>
       <div className="video">
-        <Video type="video" src={props.file} autoplay="true" />
+        <Video type="video" src={props.file} autoplay={true} />
       </div>
       <div className="video-sidebar">
         <div className="video-sidebar-content">
