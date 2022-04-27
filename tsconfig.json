@@ -13,7 +13,7 @@
     "esModuleInterop": true,
     "isolatedModules": false,
     "skipLibCheck": true,
-    "strict": false
+    "strict": true
   },
   "compileOnSave": true
 }
