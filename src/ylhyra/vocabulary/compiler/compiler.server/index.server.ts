@@ -12,10 +12,9 @@ import { getSortKeysBasedOnWhenWordIsIntroducedInTheCourse } from "ylhyra/vocabu
 import { parseVocabularyFile } from "ylhyra/vocabulary/compiler/parseVocabularyFile";
 import { getLowercaseStringForAudioKey } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import {
-  CardData,
   CardId,
   CardIds,
-  DeckDatabase,
+  DeckDatabaseInCompilationStep,
   TermId,
   TermIds,
   VocabularyFile,
@@ -138,7 +137,7 @@ const filename = contentFolder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
     // console.log(cards["zk9meu_is"]);
 
     createDirectoryIfMissing(getBaseDir() + "/build/vocabulary/");
-    const fullDeck: DeckDatabase = {
+    const fullDeck: DeckDatabaseInCompilationStep = {
       cards,
       terms,
       dependencies,

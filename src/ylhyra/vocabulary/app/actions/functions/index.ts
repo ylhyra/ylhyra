@@ -20,7 +20,12 @@ export const printWord = (id: CardId | TermId | string) => {
   if (!isDev) return;
   if (id in deck!.cards) {
     return getPlaintextFromFormatted(
-      getCardData(id as CardId, getFrom(id as CardId) + "_formatted")
+      getCardData(
+        id as CardId,
+        (getFrom(id as CardId) + "_formatted") as
+          | "is_formatted"
+          | "en_formatted"
+      )
     );
     // return card[card.getFrom() + "_plaintext"];
   } else if (id in deck!.terms) {
