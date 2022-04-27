@@ -7,15 +7,11 @@ import query from "ylhyra/server/database";
 const router = Router();
 
 router.get("/api/analytics", async (req, res) => {
-  if (!isDev && req.session.username !== "egill") {
+  if (!isDev && req.session!.username !== "egill") {
     return res.sendStatus(200);
   }
   let html = "";
 
-  html += await CountPayments({ daysBack: 1 });
-  html += await CountPayments({ daysBack: 7 });
-  html += await CountPayments({ daysBack: 30 });
-  html += "<hr/>";
   html += await CountUsers({ daysBack: 1 });
   html += await CountUsers({ daysBack: 7 });
   html += await CountUsers({ daysBack: 30 });
@@ -28,35 +24,12 @@ router.get("/api/analytics", async (req, res) => {
   res.send(html);
 });
 
-const CountPayments = async ({ daysBack }) => {
-  return new Promise((resolve) => {
-    query(
-      c`
-      SELECT SUM(price) as price FROM payments
-      WHERE created_at > ${getDaysBack(daysBack)}
-    `,
-      (err, results) => {
-        if (err) {
-          console.error(err);
-        } else {
-          // resolve(tableify(results));
-          resolve(
-            c`$${results[0]?.price || 0} received ${
-              daysBack ? `in the last ${daysBack} days` : `overall`
-            }<br/>`
-          );
-        }
-      }
-    );
-  });
-};
-
-const CountUniqueVisitors = async ({ daysBack }) => {
+const CountUniqueVisitors = ({ daysBack }: { daysBack?: number }) => {
   return new Promise((resolve) => {
     query(
       `
         SELECT COUNT(*) as count FROM (
-          ${distinct_ids(daysBack)}
+          ${distinctIds(daysBack)}
         ) distinct_ids
     `,
       (err, results) => {
@@ -75,7 +48,7 @@ const CountUniqueVisitors = async ({ daysBack }) => {
   });
 };
 
-const CountUsers = async ({ daysBack }) => {
+const CountUsers = ({ daysBack }: { daysBack?: number }) => {
   return new Promise((resolve) => {
     query(
       c`
@@ -138,14 +111,13 @@ router.get("/api/a", () => {
 
 export default router;
 
-const getDaysBack = (i) => {
-  if (i)
-    return `
-  FROM_UNIXTIME(${(new Date().getTime() - i * days) / 1000})`;
+const getDaysBackAsUnixDate = (daysBack?: number) => {
+  if (daysBack)
+    return `FROM_UNIXTIME(${(new Date().getTime() - daysBack * days) / 1000})`;
   else return `FROM_UNIXTIME(0)`;
 };
 
-const distinct_ids = (daysBack) => `
+const distinctIds = (daysBack?: number) => `
   SELECT
     DISTINCT(IFNULL(unique_sessions.user_id, unique_sessions.session_id)) distinct_id
     FROM (
@@ -153,7 +125,7 @@ const distinct_ids = (daysBack) => `
       SELECT a3.user_id, a2.session_id FROM
         (
           SELECT DISTINCT(session_id) as session_id FROM analytics
-          WHERE timestamp > ${getDaysBack(daysBack)}
+          WHERE timestamp > ${getDaysBackAsUnixDate(daysBack)}
         ) a2
         -- Get last associated user_id
         LEFT JOIN analytics a3

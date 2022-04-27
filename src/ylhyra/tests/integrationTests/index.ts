@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import forEachAsync from "modules/forEachAsync";
 import _ from "underscore";
 import { run } from "ylhyra/tests/integrationTests/recipes";

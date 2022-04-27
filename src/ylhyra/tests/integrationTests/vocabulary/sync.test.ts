@@ -1,11 +1,6 @@
-import { getEasinessLevel } from "ylhyra/vocabulary/app/actions/easinessLevel/functions";
-import { PercentageKnownOverall } from "ylhyra/vocabulary/app/actions/functions/percentageKnown";
-import {
-  assert,
-  notNull,
-  shouldEqual,
-} from "ylhyra/tests/integrationTests/index";
+import { notNull, shouldEqual } from "ylhyra/tests/integrationTests/index";
 import { run } from "ylhyra/tests/integrationTests/recipes";
+import { PercentageKnownOverall } from "ylhyra/vocabulary/app/actions/functions/percentageKnown";
 
 export default {
   "Progress saved upon signup": async () => {
@@ -14,7 +9,7 @@ export default {
     await run.signup_logout_login();
     // await wait(200);
     const known2 = PercentageKnownOverall();
-    assert(getEasinessLevel() === 0);
+    // assert(getEasinessLevel() === 0);
     notNull(known1, known2);
     shouldEqual(known1, known2);
   },

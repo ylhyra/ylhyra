@@ -176,6 +176,7 @@ export type Terms = {
 export type Cards = { [key: CardId]: never /*CardData*/ };
 export type Dependencies = { [id: TermId]: TermIds };
 export type TermIdToDependencyDepth = Record<TermId, number>;
+export type CardIdToDependencyDepth = Record<CardId, number>;
 
 /**
  * A CardId is on the format "{@link TermId}_is" or "{@link TermId}_en"

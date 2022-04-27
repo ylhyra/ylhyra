@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import puppeteer from "puppeteer-core";
 
 const exit = (err) => {

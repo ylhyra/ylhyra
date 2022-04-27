@@ -1,6 +1,9 @@
 import _ from "underscore";
+import { getCardData } from "ylhyra/vocabulary/app/actions/card/card_data";
 import {
+  CardId,
   CardIds,
+  CardIdToDependencyDepth,
   DeckDatabase,
   TermId,
   TermIds,
@@ -13,19 +16,24 @@ export const withDependenciesBackend = (
 ): CardIds => {
   let returns: CardIds = [];
   let termIds: TermIds = [];
-  let depth: TermIdToDependencyDepth = {};
+  let cardIdToDepth: CardIdToDependencyDepth = {};
   if (typeof cardIds === "string") {
     cardIds = [cardIds];
   }
   cardIds
     .filter((cardId) => cardId in deck!.cards)
-    .forEach((cardId) => (termIds = termIds.concat(deck!.cards[cardId].terms)));
+    .forEach((cardId) => {
+      termIds = termIds.concat(getCardData(cardId, "terms"));
+    });
   termIds = _.uniq(termIds);
   termIds.forEach((termId) => {
     let termsWithDependencySortKey = [{ term: termId, dependencySortKey: 0 }];
     const chain = createDependencyChainBackend(deck, termId);
-    Object.keys(chain).forEach((k: TermId) => {
-      termsWithDependencySortKey.push({ term: k, dependencySortKey: chain[k] });
+    Object.keys(chain).forEach((termId) => {
+      termsWithDependencySortKey.push({
+        term: termId as TermId,
+        dependencySortKey: chain[termId as TermId],
+      });
     });
     termsWithDependencySortKey = termsWithDependencySortKey.sort(
       (a, b) => b.dependencySortKey - a.dependencySortKey
@@ -41,20 +49,16 @@ export const withDependenciesBackend = (
           });
           returns = returns.concat(cardIds);
           deck!.terms[j].cards.forEach((cardId) => {
-            depth[cardId] = Math.max(depth[cardId] || 0, obj.dependencySortKey);
+            cardIdToDepth[cardId as CardId] = Math.max(
+              cardIdToDepth[cardId as CardId] || 0,
+              obj.dependencySortKey
+            );
           });
         }
       });
     });
   });
   const out = _.uniq(returns).filter((cardId) => cardId in deck!.cards);
-  // if (showDepth) {
-  //   let k = {};
-  //   out.forEach((cardId) => {
-  //     k[cardId] = depth[cardId];
-  //   });
-  //   return k;
-  // }
   return out;
 };
 
@@ -64,26 +68,21 @@ export const withDependenciesBackend = (
 export const createDependencyChainBackend = (
   deck: DeckDatabase,
   fromTerm: TermId,
-  _alreadySeenDirectParents = [],
+  _alreadySeenDirectParents: TermIds = [],
   output: TermIdToDependencyDepth = {},
-  depth = 1,
-  type = "deep" // or "shallow"
+  depth = 1
 ): TermIdToDependencyDepth => {
   if (fromTerm in deck!.dependencies) {
     deck!.dependencies[fromTerm].forEach((term) => {
       if (!term) return;
       /* Deep copy in order to only watch direct parents */
-      const alreadySeenDirectParents = [..._alreadySeenDirectParents];
+      const alreadySeenDirectParents: TermIds = [..._alreadySeenDirectParents];
       if (alreadySeenDirectParents.includes(term)) {
         return;
       }
       alreadySeenDirectParents.push(term);
 
-      if (type === "shallow") {
-        output[term] = Math.min(output[term] || 100, depth);
-      } else if (type === "deep") {
-        output[term] = Math.max(output[term] || 0, depth);
-      }
+      output[term] = Math.max(output[term] || 0, depth);
       [
         term,
         /* Through alternative ids */
@@ -97,8 +96,7 @@ export const createDependencyChainBackend = (
             j,
             alreadySeenDirectParents,
             output,
-            depth + (isThroughAltId ? 0 : 1),
-            type
+            depth + (isThroughAltId ? 0 : 1)
           );
         });
     });
