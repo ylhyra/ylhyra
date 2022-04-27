@@ -55,11 +55,11 @@ export const hasTermsInCommonWith = (id: CardId, card2: CardId) => {
   return _.intersection(getTermIds(id), getTermIds(card2)).length > 0;
 };
 
-export const hasDependenciesInCommonWith = (id: CardId, card2: CardId) => {
-  const x2 = getDependenciesAsArrayOfCardIds(card2);
-  return getDependenciesAsArrayOfCardIds(id).some((cardId) =>
-    x2.includes(cardId)
-  );
+/** @hasTests */
+export const hasDependenciesInCommonWith = (card1: CardId, card2: CardId) => {
+  const deps1 = getDependenciesAsArrayOfCardIds(card1);
+  const deps2 = getDependenciesAsArrayOfCardIds(card2);
+  return deps1.some((cardId) => deps2.includes(cardId));
 };
 
 export const getSortedTermDependencies = (termId: TermId): TermIds => {

@@ -1,12 +1,24 @@
 import stable_stringify from "json-stable-stringify";
 import _ from "underscore";
 import { printWord } from "ylhyra/vocabulary/app/actions/functions";
-import { CardIds, DeckDatabase, TermId } from "ylhyra/vocabulary/types";
 import {
   createDependencyChainBackend,
   withDependenciesBackend,
 } from "ylhyra/vocabulary/compiler/compiler.server/dependencies.server";
+import {
+  CardId,
+  CardIds,
+  CardsInCompilationStep,
+  DeckDatabase,
+  TermId,
+  Terms,
+} from "ylhyra/vocabulary/types";
 
+/**
+ * - Data that is shared across all sibling cards is moved to be stored in the
+ *     term instead, {@see getCardDataInCompilationStep}
+ * - Sortkeys are added
+ */
 export const simplifyDeck = (deck: DeckDatabase) => {
   /* Add sortkey for all items */
   let cardIds: CardIds = Object.keys(deck!.cards)
@@ -59,8 +71,8 @@ export const simplifyDeck = (deck: DeckDatabase) => {
     }
   });
 
-  let terms = {};
-  let cards = {};
+  let terms: Terms = {};
+  let cards: CardsInCompilationStep = {};
   Object.keys(deck!.terms).forEach((term_id) => {
     const term = deck!.terms[term_id];
     let minSortKey;
@@ -98,17 +110,17 @@ export const simplifyDeck = (deck: DeckDatabase) => {
     terms[term_id] = term;
   });
 
-  terms = sortObject(terms, "sortKey");
-  cards = sortObject(cards, "sortKey");
+  terms = sortObjectsBasedOnParameter(terms, "sortKey");
+  cards = sortObjectsBasedOnParameter(cards, "sortKey");
   Object.keys(terms).forEach((term_id) => {
     // delete terms[term_id].sortKey;
   });
   Object.keys(cards).forEach((cardId) => {
-    delete cards[cardId].id;
-    delete cards[cardId].sortKey;
-    delete cards[cardId].from;
-    if (cards[cardId].terms.length === 1) {
-      delete cards[cardId].terms;
+    delete cards[cardId as CardId].id;
+    delete cards[cardId as CardId].sortKey;
+    delete cards[cardId as CardId].from;
+    if (cards[cardId as CardId].terms.length === 1) {
+      delete cards[cardId as CardId].terms;
     }
   });
 
@@ -118,18 +130,25 @@ export const simplifyDeck = (deck: DeckDatabase) => {
   };
 };
 
-const sortObject = (obj, sortKey, replace?: Boolean) => {
-  let out = {};
+/**
+ * A completely unnecessary function that is just used to make the JSON output file
+ * have the entries in the correct order.
+ */
+function sortObjectsBasedOnParameter<
+  T extends Record<string, Record<string, any>>
+>(obj: T, sortByWhichParameter: string, replace?: Boolean): T {
+  let out: Record<string, Record<string, any>> = {};
   Object.keys(obj)
-    .sort((a, b) => obj[a][sortKey] - obj[b][sortKey])
+    // @ts-ignore
+    .sort((a, b) => obj[a][sortByWhichParameter] - obj[b][sortByWhichParameter])
     .forEach((k, index) => {
       out[k] = obj[k];
       if (replace) {
-        out[k][sortKey] = index + 1;
+        out[k][sortByWhichParameter] = index + 1;
       }
     });
-  return out;
-};
+  return out as T;
+}
 
 const sortIfArray = (val) => {
   if (Array.isArray(val)) {

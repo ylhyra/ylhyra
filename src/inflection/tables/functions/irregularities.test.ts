@@ -1,16 +1,15 @@
 import assert from "assert";
-import { getWordFromServer } from "inflection/test/getWordFromServer";
+import { getWordFromServerForTesting } from "inflection/test/getWordFromServerForTesting";
 
+/*
+Wikipedia: „Óreglulega beygingu hafa sex sterk karlkynsorð; faðir, bróðir, vetur, fótur, fingur og maður. Nokkur sterk kvenkynsorð hafa einnig óreglulega beygingu; hönd, kýr, ær, sýr, mús, lús, móðir, dóttir, systir, mær (mey).“
+https://vefir.mms.is/flettibaekur/namsefni/gullvor/28/
+
+Ekki hér: orðstír (et.), mjólk (et.), dyr (ft.) buxur
+*/
 describe("Irregularities", () => {
-  /*
-  Wikipedia: „Óreglulega beygingu hafa sex sterk karlkynsorð; faðir, bróðir, vetur, fótur, fingur og maður. Nokkur sterk kvenkynsorð hafa einnig óreglulega beygingu; hönd, kýr, ær, sýr, mús, lús, móðir, dóttir, systir, mær (mey).“
-  https://vefir.mms.is/flettibaekur/namsefni/gullvor/28/
-
-  Test: orðstír (et.), mjólk (et.), dyr (ft.) buxur
-  */
-
   it("„bróðir“", (done) => {
-    getWordFromServer(4385, done, (word) => {
+    getWordFromServerForTesting(4385, done, (word) => {
       assert.equal(word.getIsWordIrregular(), true);
       assert.equal(
         word.get("genitive", "plural").getFirstValueRendered(),
@@ -21,7 +20,7 @@ describe("Irregularities", () => {
   });
 
   it("„systir“", (done) => {
-    getWordFromServer(12258, done, (word) => {
+    getWordFromServerForTesting(12258, done, (word) => {
       assert.equal(
         word.getFirstValueRendered(),
         '<em class="irregular">systir</em>'
@@ -37,7 +36,7 @@ describe("Irregularities", () => {
   });
 
   it("„farinn“", (done) => {
-    getWordFromServer(390363, done, (word) => {
+    getWordFromServerForTesting(390363, done, (word) => {
       assert.equal(
         word.get("neuter", "dative").getFirstValueRendered(),
         '<span class="elision">f<span class="umlaut">ö</span>rnu</span>'
@@ -47,14 +46,14 @@ describe("Irregularities", () => {
   });
 
   it("„hér er á“", (done) => {
-    getWordFromServer(390363, done, (word) => {
+    getWordFromServerForTesting(390363, done, (word) => {
       assert.equal(word.getIsWordIrregular(), false);
       done();
     });
   });
 
   it("„sjá“", (done) => {
-    getWordFromServer(466523, done, (word) => {
+    getWordFromServerForTesting(466523, done, (word) => {
       assert.equal(
         word
           .get("mediopassive", "subjunctive", "past tense")
@@ -66,7 +65,7 @@ describe("Irregularities", () => {
   });
 
   it("„hamar“", (done) => {
-    getWordFromServer(471203, done, (word) => {
+    getWordFromServerForTesting(471203, done, (word) => {
       assert.equal(word.getWordHasUmlaut(), true);
       assert.equal(
         word.get("dative").getFirstValueRendered(),
@@ -87,14 +86,14 @@ describe("Irregularities", () => {
   // frá himni
 
   it("„sykrið mitt“", (done) => {
-    getWordFromServer(3700, done, (word) => {
+    getWordFromServerForTesting(3700, done, (word) => {
       assert.equal(word.getWordHasUmlaut(), false);
       done();
     });
   });
 
   it("„að ausa“", (done) => {
-    getWordFromServer(480329, done, (word) => {
+    getWordFromServerForTesting(480329, done, (word) => {
       assert.equal(
         word.get("2nd person").getFirstValueRendered(),
         '<span class="umlaut">ey</span>st'

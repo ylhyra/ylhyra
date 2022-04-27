@@ -1,5 +1,5 @@
 import React from "react";
-import { getPlaintextFromVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
+import { getPlaintextFromUnformattedVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
 import {
   Database,
   select,
@@ -25,8 +25,8 @@ export const search = (e) => {
           !j.icelandic ||
           new RegExp(text, "i").test(
             [
-              getPlaintextFromVocabularyEntry(j.icelandic),
-              getPlaintextFromVocabularyEntry(j.english),
+              getPlaintextFromUnformattedVocabularyEntry(j.icelandic),
+              getPlaintextFromUnformattedVocabularyEntry(j.english),
               j.lemmas,
               j.depends_on,
               j.note,

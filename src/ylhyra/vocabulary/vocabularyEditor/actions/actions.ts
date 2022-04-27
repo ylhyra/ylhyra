@@ -4,16 +4,16 @@ import _ from "underscore";
 import axios from "ylhyra/app/app/axios";
 import store from "ylhyra/app/app/store";
 import {
+  getDeckName,
+  getHashForVocabulary,
+} from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
+import { VocabularyFile } from "ylhyra/vocabulary/types";
+import {
   isSearching,
   reDoSearch,
   turnOffSearch,
 } from "ylhyra/vocabulary/vocabularyEditor/actions/search";
-import {
-  getDeckName,
-  getHash,
-} from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import { vocabularyRowStructureAsObject } from "ylhyra/vocabulary/vocabularyEditor/rowTitles";
-import { VocabularyFile } from "ylhyra/vocabulary/types";
 
 export const Database: {
   mode: null;
@@ -240,10 +240,10 @@ export const addRowsIfMissing = (text) => {
       en = en?.replace(/;+/g, ";;").replace(/,/g, ";");
     }
     if (
-      !(getHash(is) in Database.terms) &&
-      !(getHash(is) in Database.alternativeIds) &&
+      !(getHashForVocabulary(is) in Database.terms) &&
+      !(getHashForVocabulary(is) in Database.alternativeIds) &&
       !Database.rows.some((j) => j.icelandic === is) &&
-      !seen.includes(getHash(is))
+      !seen.includes(getHashForVocabulary(is))
     ) {
       Database.rows.push({
         row_id: Database.maxID++ + 1,
@@ -257,7 +257,7 @@ export const addRowsIfMissing = (text) => {
         note: note || "",
       });
       console.log("added " + is);
-      seen.push(getHash(is));
+      seen.push(getHashForVocabulary(is));
     }
   });
   // console.log(rows);

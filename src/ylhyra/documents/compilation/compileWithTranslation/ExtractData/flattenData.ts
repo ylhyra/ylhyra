@@ -16,13 +16,16 @@ export const flattenData = (
   };
 
   for (const documentTitle of Object.keys(input)) {
-    output = merge(output, input[documentTitle]);
+    output = mergeFlattenedData(output, input[documentTitle]);
   }
 
   return output;
 };
 
-const merge = (first: FlattenedData, second: FlattenedData): FlattenedData => {
+const mergeFlattenedData = (
+  first: FlattenedData,
+  second: FlattenedData
+): FlattenedData => {
   if (typeof first === "object") {
     let output: FlattenedData = first;
     if (second && typeof second === "object") {
@@ -30,7 +33,7 @@ const merge = (first: FlattenedData, second: FlattenedData): FlattenedData => {
         // @ts-ignore
         if (output[key]) {
           // @ts-ignore
-          output[key] = merge(output[key], second[key]);
+          output[key] = mergeFlattenedData(output[key], second[key]);
         } else {
           // @ts-ignore
           output[key] = second[key];
@@ -39,6 +42,8 @@ const merge = (first: FlattenedData, second: FlattenedData): FlattenedData => {
     }
     return output;
   } else {
-    throw new Error("Merge() can only merge FlattenedData objects");
+    throw new Error(
+      `Merge() can only merge FlattenedData objects, received: ${first}`
+    );
   }
 };

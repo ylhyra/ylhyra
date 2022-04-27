@@ -1,5 +1,5 @@
 import {
-  getData,
+  getCardData,
   getFrom,
   getTermIds,
 } from "ylhyra/vocabulary/app/actions/card/card_data";
@@ -68,7 +68,7 @@ export function getRanking(this: CardInSession) {
     }
   }
 
-  if (!getData(id, "isSentence")) {
+  if (!getCardData(id, "isSentence")) {
     // A sentence should be shown if the userLevel was just increased
     if (false /*this.session.wasEasinessLevelJustIncreased*/) {
       q += 200;
@@ -81,7 +81,7 @@ export function getRanking(this: CardInSession) {
       // And none were sentences
       this.session.cardHistory
         .slice(0, 3)
-        .every((i) => !getData(i.getId(), "isSentence"))
+        .every((i) => !getCardData(i.getId(), "isSentence"))
     ) {
       q += 20;
       // Prevent English from showing up for unknown cards

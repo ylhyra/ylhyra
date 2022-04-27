@@ -3,7 +3,7 @@ import path from "path";
 import { getBaseDir } from "ylhyra/server/paths_directories";
 import { getSortKeysBasedOnWhenWordIsIntroducedInTheCourse } from "ylhyra/vocabulary/compiler/compiler.server/sortKeys.server";
 import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
-import { getHash } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
+import { getHashForVocabulary } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 
 /*
   Finds sentences from dataset that only use terms that are already included in the vocabulary dataset and which are marked as easy
@@ -32,7 +32,7 @@ const run = () => {
               "alternative_id",
             ].forEach((c) => {
               c.split(/[;,]+/g).forEach((s) => {
-                const j = getHash(s.replace("%", ""), {
+                const j = getHashForVocabulary(s.replace("%", ""), {
                   skip_hash: true,
                 });
                 if (!(j in sortKeys)) {
@@ -70,7 +70,8 @@ const run = () => {
                 .forEach((line) => {
                   line = line.replace(/\s+/g, " ").trim();
                   if (!line) return;
-                  const lower = getHash(line, { skip_hash: true }) || "";
+                  const lower =
+                    getHashForVocabulary(line, { skip_hash: true }) || "";
                   let max_sortkey = 0;
                   let fail = false;
                   if (lower in sortKeys) return;

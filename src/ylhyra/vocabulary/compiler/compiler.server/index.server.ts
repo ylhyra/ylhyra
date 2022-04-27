@@ -46,7 +46,10 @@ const filename = contentFolder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
       if (!cards.hasOwnProperty(cardId)) continue;
       const card = cards[cardId];
 
-      /* Delete junk cards */
+      /**
+       * Delete junk cards
+       * See test: "Check that cards marked for deletion are actually deleted"
+       */
       if (
         !card.en_plaintext ||
         card.should_teach === "no" ||
@@ -78,8 +81,8 @@ const filename = contentFolder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
       delete card.is_plaintext;
       delete card.en_plaintext;
       for (const j of Object.keys(card)) {
-        if (!card[j as keyof CardData]) {
-          delete card[j as keyof CardData];
+        if (!card[j as keyof CardDataInCompilationStep]) {
+          delete card[j as keyof CardDataInCompilationStep];
         }
       }
     }
@@ -124,6 +127,16 @@ const filename = contentFolder + `/not_data/vocabulary/vocabulary${DECK}.yml`;
     }
 
     console.log(`${Object.keys(cards).length} cards`);
+
+    // /** Test for accidentally empty cards */
+    // Object.keys(cards).forEach((cardId1) => {
+    //   if (isEmpty(cards[cardId1 as CardId])) {
+    //     throw new Error('Card with the id "' + cardId1 + '" is empty!');
+    //   }
+    // });
+    // // @ts-ignore
+    // console.log(cards["zk9meu_is"]);
+
     createDirectoryIfMissing(getBaseDir() + "/build/vocabulary/");
     const fullDeck: DeckDatabase = {
       cards,

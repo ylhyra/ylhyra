@@ -11,18 +11,16 @@ import { getSounds } from "ylhyra/vocabulary/compiler/compiler.server/getSounds"
 /**
  * This is the processed card data.
  * For the raw vocabulary file entries, see {@link VocabularyFileEntry}
+ *
+ * NOTE: Due to {@link simplifyDeck}, data that is shared across all sibling cards
+ * is actually stored in the term instead and must be accessed with {@link getCardData}!!
+ * TODO: This thing with simplifyDeck is very confusing, should be reconsidered!!!
  */
 export type CardData = {
-  row_id: number;
-  id: CardId;
   /** As formatted by {@link formatVocabularyEntry} */
   is_formatted: Html;
   /** As formatted by {@link formatVocabularyEntry} */
   en_formatted: string;
-  /** Temporary value deleted in compilation step */
-  is_plaintext?: string;
-  /** Temporary value deleted in compilation step */
-  en_plaintext?: string;
   from: "is" | "en";
   terms: TermIds;
   level: LevelsEnum;
@@ -39,12 +37,23 @@ export type CardData = {
   sound: ReturnType<typeof getSounds>;
   spokenSentences?: string[];
   synonyms?: string;
+};
 
+export type CardDataInCompilationStep = {
+  /** Deleted in compilation step */
+  id?: CardId;
+  // /** Temporary value deleted in compilation step */
+  // row_id?: number;
+  /** Is {@link VocabularyFileEntry -> icelandic} */
+  is_plaintext?: string;
+  /** Is {@link VocabularyFileEntry -> english} */
+  en_plaintext?: string;
   /** Used in backend, TODO: delete */
   should_teach?: string;
   fix?: string;
   eyða?: string;
-};
+} & CardData;
+export type CardsInCompilationStep = Record<CardId, CardDataInCompilationStep>;
 
 /**
  * The format of the YAML vocabulary file
@@ -147,15 +156,32 @@ export type DeckDatabase = {
   dependencies: Dependencies;
   alternativeIds: Dependencies;
 };
+/**
+ * Due to {@link simplifyDeck}, shared card values are stored here
+ */
 export type Terms = {
-  [id: TermId]: { cards: CardIds; dependencies?: TermIdToDependencyDepth };
+  [id: TermId]: {
+    cards: CardIds;
+    dependencies?: TermIdToDependencyDepth;
+  } & Partial<CardData>;
 };
-export type Cards = { [key: CardId]: CardData };
+/**
+ * "Never" is to prevent accessing keys that should be accessed with
+ * {@link getCardData} instead
+ */
+export type Cards = { [key: CardId]: never /*CardData*/ };
 export type Dependencies = { [id: TermId]: TermIds };
 export type TermIdToDependencyDepth = Record<TermId, number>;
 
+/**
+ * A CardId is on the format "{@link TermId}_is" or "{@link TermId}_en"
+ */
 export type CardId = Brand<string, "CardId">;
 export type CardIds = Array<CardId>;
+
+/**
+ * A TermId is simply the output of {@link getHashForVocabulary}
+ */
 export type TermId = Brand<string, "TermId">;
 export type TermIds = Array<TermId>;
 

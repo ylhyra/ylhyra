@@ -50,7 +50,7 @@ lr.on("line", (line) => {
       register_of_inflectional_form, // 13
       various_feature_markers, // 14
       alternative_entry, // 15
-    ]: [
+    ] = line.split(";") as [
       RowFromDatabase["base_word"],
       RowFromDatabase["BIN_id"],
       RowFromDatabase["word_categories"],
@@ -66,7 +66,7 @@ lr.on("line", (line) => {
       RowFromDatabase["register_of_inflectional_form"],
       RowFromDatabase["various_feature_markers"],
       RowFromDatabase["alternative_entry"]
-    ] = line.split(";");
+    ];
 
     // if(BIN_id != 433568) {
     //   return  lr.resume()

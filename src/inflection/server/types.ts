@@ -39,7 +39,7 @@ export type FuzzySearchReturns = {
 };
 export type FuzzySearchOutputObject = {
   perfect_match: Boolean;
-  BIN_id: string;
+  BIN_id: BIN_id;
   base_word: string;
   description: string;
   snippet: Html;

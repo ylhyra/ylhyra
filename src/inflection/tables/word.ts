@@ -215,14 +215,14 @@ class Word {
       (v) => getDescriptionFromGrammaticalTag(v)?.category
     );
     let tryToMatchAsManyAsPossible: InflectionalCategoryList = [];
-    this.getClassificationOfFirstRow().forEach((c) => {
+    this.getClassificationOfFirstRow().forEach((tag) => {
       let relevantTypeIndex = valuesCategories.findIndex(
-        (v) => v === getDescriptionFromGrammaticalTag(c).category
+        (v) => v === getDescriptionFromGrammaticalTag(tag)?.category
       );
       if (relevantTypeIndex >= 0) {
         tryToMatchAsManyAsPossible.push(values[relevantTypeIndex]);
       } else {
-        tryToMatchAsManyAsPossible.push(c);
+        tryToMatchAsManyAsPossible.push(tag);
       }
     });
 

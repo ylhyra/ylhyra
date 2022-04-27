@@ -1,5 +1,5 @@
 import assert from "assert";
-import { getWordFromServer } from "inflection/test/getWordFromServer";
+import { getWordFromServerForTesting } from "inflection/test/getWordFromServerForTesting";
 import { stripHtml } from "modules/stripHtml";
 
 /*
@@ -9,7 +9,7 @@ Other words that might be interesting:
 
 describe("General word tests", () => {
   it("„farinn“", (done) => {
-    getWordFromServer(390363, done, (word) => {
+    getWordFromServerForTesting(390363, done, (word) => {
       assert.equal(word.get("weak declension").getFirstValue(), "farni");
       assert.equal(word.getFirst().is("masculine"), true);
       assert.equal(word.getFirst().is("neuter"), false);
@@ -22,7 +22,7 @@ describe("General word tests", () => {
   });
 
   it("„Björn“", (done) => {
-    getWordFromServer(353885, done, (word) => {
+    getWordFromServerForTesting(353885, done, (word) => {
       /* Test that both variants were returned */
       assert.deepEqual(word.get("genitive").renderWithoutHelperWords(), [
         "Björns",
@@ -33,14 +33,14 @@ describe("General word tests", () => {
   });
 
   it("„sjár“", (done) => {
-    getWordFromServer(5198, done, (word) => {
+    getWordFromServerForTesting(5198, done, (word) => {
       assert.equal(word.getWordHasUmlaut(), false);
       done();
     });
   });
 
   it("„muna“ (ópersónulegt)", (done) => {
-    getWordFromServer(428183, done, (word) => {
+    getWordFromServerForTesting(428183, done, (word) => {
       // console.time('someFunction')
       assert.equal(
         stripHtml(word.getPrincipalParts()),
@@ -56,7 +56,7 @@ describe("General word tests", () => {
   });
 
   it("„fara“", (done) => {
-    getWordFromServer(433568, done, (word) => {
+    getWordFromServerForTesting(433568, done, (word) => {
       /* Test principal part generation from other than first */
       assert.equal(
         stripHtml(word.get("past").getPrincipalParts()),

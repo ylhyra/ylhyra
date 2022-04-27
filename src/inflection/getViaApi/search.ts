@@ -1,13 +1,9 @@
 import axios from "axios";
-import {
-  OutputWithLicense,
-  PossibleSearchReturns,
-  SearchOptions,
-} from "inflection/server/types";
+import { OutputWithLicense, SearchOptions } from "inflection/server/types";
 
 export default (
   options: SearchOptions,
-  callback: (parameter: PossibleSearchReturns) => any
+  callback: (parameter: OutputWithLicense["results"]) => any
 ) => {
   let { word, fuzzy, return_rows_if_only_one_match } = options;
   axios

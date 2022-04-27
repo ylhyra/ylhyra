@@ -345,30 +345,3 @@ const verbEndings = splittableRegexEndingsFromArray([
   "isti",
   "usti",
 ]);
-
-export const isHighlyIrregular = (word: Word) => {
-  if (word.is("noun")) {
-    return isHighlyIrregularNouns.some((i) => i.endsWith(word.getBaseWord()));
-  }
-};
-
-const isHighlyIrregularNouns = [
-  /* Masculine */
-  "bróðir",
-  "faðir",
-  "fingur",
-  "fótur",
-  "maður",
-  "vetur",
-  /* Feminine */
-  "ær",
-  "dóttir",
-  "hönd",
-  "kýr",
-  "lús",
-  "mær",
-  "móðir",
-  "mús",
-  "sýr",
-  "systir",
-];

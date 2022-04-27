@@ -5,6 +5,7 @@
 */
 import express from "express";
 import {
+  BIN_id,
   FuzzySearchOutputObject,
   PossibleSearchReturns,
   SearchOptions,
@@ -93,7 +94,7 @@ export default (
         // console.log(rows.slice(0,2))
         try {
           let words: Rows[] = [];
-          let BIN_ids: string[] = [];
+          let BIN_ids: BIN_id[] = [];
           rows.forEach((row) => {
             let index = BIN_ids.findIndex((i) => i === row.BIN_id);
             if (index < 0) {

@@ -1,11 +1,20 @@
 import { removeExtraWhitespace } from "ylhyra/app/app/functions/removeExtraWhitespace";
 import { formatVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/format";
 
-export const getPlaintextFromVocabularyEntry = (input: string | undefined) => {
+/**
+ * Input is any unformatted string such as the raw Icelandic side or English side.
+ * This plaintext is then derived from stripping the HTML from {@link formatVocabularyEntry}.
+ */
+export const getPlaintextFromUnformattedVocabularyEntry = (
+  input: string | undefined
+) => {
   if (!input) return "";
   return getPlaintextFromFormatted(formatVocabularyEntry(input));
 };
 
+/**
+ * Strips the HTML from {@link formatVocabularyEntry}
+ */
 export const getPlaintextFromFormatted = (
   input: string | undefined
 ): string => {

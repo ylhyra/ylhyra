@@ -1,12 +1,11 @@
-// @ts-nocheck
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 
 /**
  * Helper functions for debugging
- * Log for everyone
  */
-export const log = (...items) => {
+export const log = (...items: any[]) => {
+  if (process.env.JEST_WORKER_ID) return;
   items.forEach((item) => {
     if (typeof item === "string" && isBrowser) {
       console.log("%c " + item, "color: #CBCBCB");
@@ -17,9 +16,9 @@ export const log = (...items) => {
 };
 
 /**
- * Log in development mode
+ * Log only in development mode
  */
-export const logDev = (...items) => {
+export const logDev = (...items: any[]) => {
   if (isDev) {
     log(...items);
   }

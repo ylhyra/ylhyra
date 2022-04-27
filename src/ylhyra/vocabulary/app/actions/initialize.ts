@@ -14,20 +14,12 @@ export const initializeVocabulary = async () => {
   log("Downloading database");
   const database = (
     await axios.get(
-      `/api/vocabulary/vocabulary_database${getDeckName()}.json?v=${getBuildId()}`
+      `/api/vocabulary/vocabulary_database${getDeckName()}.json?v=${getVocabularyBuildId()}`
     )
   ).data;
   const user_data: UserData = await sync({ isInitializing: true });
   const schedule = getScheduleFromUserData(user_data);
   const session = getFromLocalStorage("vocabulary-session");
-
-  // TODO: log
-  // if (getFromLocalStorage("vocabulary-session-remaining")) {
-  //   session_log.push({
-  //     //       seconds_spent
-  //     // timestamp
-  //   });
-  // }
 
   const deck = new Deck({
     database,
@@ -42,13 +34,16 @@ export const initializeVocabulary = async () => {
   clearOverview();
 };
 
-let buildId: string;
-const getBuildId = () => {
+let vocabularyBuildId: string;
+/**
+ * Used to prevent caching of out-dated vocabulary files
+ */
+const getVocabularyBuildId = () => {
   if (isDev) return Math.random();
-  if (buildId) return buildId;
-  buildId =
+  if (vocabularyBuildId) return vocabularyBuildId;
+  vocabularyBuildId =
     document
       .querySelector('meta[name="vocabulary_id"]')
       ?.getAttribute("content") || "";
-  return buildId;
+  return vocabularyBuildId;
 };

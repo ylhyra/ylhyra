@@ -5,7 +5,7 @@ import store from "ylhyra/app/app/store";
 import AudioClip from "ylhyra/documents/renderDocument/audio/audioWithoutInterface.NOT_USED";
 import { getProcessedImageUrl } from "ylhyra/server/paths_urls";
 import {
-  getData,
+  getCardData,
   getFrom,
   getSound,
 } from "ylhyra/vocabulary/app/actions/card/card_data";
@@ -131,8 +131,8 @@ class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
         let utter = new SpeechSynthesisUtterance();
         // window["utter"] = utter;
 
-        const is = getData(id, "is_formatted");
-        const en = getData(id, "en_formatted");
+        const is = getCardData(id, "is_formatted");
+        const en = getCardData(id, "en_formatted");
         let lang = getFrom(id) === "is" ? "is" : "en";
         if (answered) {
           lang = getFrom(id) !== "is" ? "is" : "en";
@@ -190,15 +190,15 @@ class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
     const id = card.getId();
 
     let from = getFrom(id);
-    let lemmas = getData(id, "lemmas");
-    let note_regarding_english = getData(id, "note_regarding_english");
-    let note = getData(id, "note");
-    let literally = getData(id, "literally");
-    let example_declension = getData(id, "example_declension");
-    let pronunciation = getData(id, "pronunciation");
-    let synonyms = getData(id, "synonyms");
-    const is = getData(id, "is_formatted");
-    const en = getData(id, "en_formatted");
+    let lemmas = getCardData(id, "lemmas");
+    let note_regarding_english = getCardData(id, "note_regarding_english");
+    let note = getCardData(id, "note");
+    let literally = getCardData(id, "literally");
+    let example_declension = getCardData(id, "example_declension");
+    let pronunciation = getCardData(id, "pronunciation");
+    let synonyms = getCardData(id, "synonyms");
+    const is = getCardData(id, "is_formatted");
+    const en = getCardData(id, "en_formatted");
 
     /* Loading */
     if (!is) {

@@ -1,7 +1,7 @@
 import _hash from "modules/hash";
 import { isBrowser } from "modules/isBrowser";
 import { getUserFromCookie } from "ylhyra/app/user/actions";
-import { getPlaintextFromVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
+import { getPlaintextFromUnformattedVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
 
 /* Only used for testing */
 export const getDeckName = () => {
@@ -23,18 +23,36 @@ export const getDeckName = () => {
 };
 
 export const getLowercaseStringForAudioKey = (i: string) => {
-  return getPlaintextFromVocabularyEntry(i).replace(/[.]+$/, "").toLowerCase();
+  return getPlaintextFromUnformattedVocabularyEntry(i)
+    .replace(/[.]+$/, "")
+    .toLowerCase();
 };
 
-export const getHash = (
+/**
+ * Gives a stable hash for a given word or sentence
+ * which is then used as the card's {@link TermId}.
+ *
+ * Important: The output of this function has to be
+ * the same as for previous versions.
+ *
+ * @param input -
+ *   Typically an Icelandic string (front side of card).
+ *   Lemmas and depends_on are also passed into this function.
+ * @param options
+ * @returns string - which is the base of {@link TermId}
+ * @hasTests
+ */
+export const getHashForVocabulary = (
   input: string[] | string,
   options?: { skip_hash?: Boolean }
 ): string => {
   if (!input) return "";
   if (Array.isArray(input)) {
-    return getHash(input.map(getPlaintextFromVocabularyEntry).join(";"));
+    return getHashForVocabulary(
+      input.map(getPlaintextFromUnformattedVocabularyEntry).join(";")
+    );
   }
-  const string = getPlaintextFromVocabularyEntry(input)
+  const string = getPlaintextFromUnformattedVocabularyEntry(input)
     .replace(/[.?!]+$/, "")
     .toLowerCase();
   if (!string) return "";
@@ -52,10 +70,10 @@ export const getHash = (
 export const getHashesFromCommaSeperated = (i: string[] | string): string[] => {
   if (!i) return [];
   if (Array.isArray(i)) {
-    return i.map((i) => getHash(i));
+    return i.map((i) => getHashForVocabulary(i));
   }
   return i
     .split(",")
-    .map((i) => getHash(i))
+    .map((i) => getHashForVocabulary(i))
     .filter(Boolean);
 };

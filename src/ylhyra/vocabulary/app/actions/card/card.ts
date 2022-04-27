@@ -5,26 +5,6 @@ import {
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { CardId, CardIds } from "ylhyra/vocabulary/types";
 
-export const clearMemoizations = (id: CardId) => {
-  // ["isAllowed", "getTermLastSeen"].forEach((key) => {
-  //   if (getMemoizeKey(key) in this) {
-  //     delete getMemoizeKey(id, key)];
-  //   }
-  // });
-};
-
-// memoize(key, func) {
-//   key = getMemoizeKey(key);
-//   if (this[key] === undefined) {
-//     this[key] = func.call(this);
-//   }
-//   return this[key];
-// }
-
-// export const isIn = (id: CardId, arrayOfCards) => {
-//   return arrayOfCards.some((s) => s === id);
-// };
-
 export const isInSession = (id: CardId) => {
   return deck!.session.cards.some((i) => i.getId() === id);
 };

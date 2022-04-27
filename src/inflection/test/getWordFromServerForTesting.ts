@@ -17,9 +17,9 @@ if (
   Callback is a Word
 */
 let cache: Record<string, Rows> = {};
-export const getWordFromServer = (
+export const getWordFromServerForTesting = (
   id: BIN_id,
-  jestDoneCallback: DoneCallback,
+  jestDoneCallback: DoneCallback | Function,
   callback: (arg0: Word) => any,
   dont_keep_in_cache?: Boolean
 ) => {

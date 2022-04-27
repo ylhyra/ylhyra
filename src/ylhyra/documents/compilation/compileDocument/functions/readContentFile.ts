@@ -3,7 +3,7 @@ import yaml from "js-yaml";
 import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
 import { removeComments } from "ylhyra/documents/compilation/compileDocument/functions/functions";
 import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
-import { getPlaintextFromVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
+import { getPlaintextFromUnformattedVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
 
 export const readContentFile = async (
   filepath: string
@@ -36,7 +36,7 @@ export const readContentFile = async (
       header.vocabulary = voc
         .split(/\n/g)
         .filter(Boolean)
-        .map(getPlaintextFromVocabularyEntry);
+        .map(getPlaintextFromUnformattedVocabularyEntry);
     }
     return "";
   });

@@ -7,16 +7,16 @@ import {
 } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/format";
 import {
   automaticThuForCommonWords,
-  getPlaintextFromVocabularyEntry,
+  getPlaintextFromUnformattedVocabularyEntry,
 } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
 import {
-  getHash,
   getHashesFromCommaSeperated,
+  getHashForVocabulary,
 } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import {
   CardData,
   CardId,
-  Cards,
+  CardsInCompilationStep,
   Dependencies,
   TermId,
   TermIds,
@@ -32,7 +32,7 @@ export const parseVocabularyFile = (
   let dependencies: Dependencies = {};
   let alternativeIds: typeof dependencies = {};
   let plaintextSentences: { [id: string]: boolean } = {};
-  let cards: Cards = {};
+  let cards: CardsInCompilationStep = {};
 
   const TermsToCardId = (_terms: TermIds, id: CardId) => {
     _terms.forEach((term) => {
@@ -67,7 +67,7 @@ export const parseVocabularyFile = (
   const getSpokenSentences = (input: string) => {
     let output: string[] = [];
     input.split(/;+/g).forEach((i) => {
-      getPlaintextFromVocabularyEntry(i)
+      getPlaintextFromUnformattedVocabularyEntry(i)
         .split(/ [-–—] /g)
         .forEach((j: string) => {
           output.push(j);
@@ -80,7 +80,7 @@ export const parseVocabularyFile = (
     .sort((a, b) => (a.level || 100) - (b.level || 100))
     .forEach((row) => {
       if (!row.icelandic) return;
-      let toAdd: CardData[] = [];
+      let toAdd: CardDataInCompilationStep[] = [];
 
       /* Can have multiple */
       let icelandicStrings = row.icelandic.split(/;+/g);
@@ -88,7 +88,7 @@ export const parseVocabularyFile = (
         formatVocabularyEntry
       );
       const termsInThisLine = icelandicStrings.map((i) =>
-        getHash(i)
+        getHashForVocabulary(i)
       ) as TermIds;
 
       let altIdLemmas: string[] = [];
@@ -107,13 +107,13 @@ export const parseVocabularyFile = (
 
       let alternativeIds = [
         ...getHashesFromCommaSeperated(row.alternative_id),
-        ...altIdLemmas.map((i) => getHash(i)),
+        ...altIdLemmas.map((i) => getHashForVocabulary(i)),
       ];
 
       /** See {@link VocabularyFileEntry -> depends_on} */
       const dependsOn: TermIds = [
         ...getHashesFromCommaSeperated(row.depends_on?.replace(/%/g, "")),
-        ...dependsOnLemmas.map((i) => getHash(i)),
+        ...dependsOnLemmas.map((i) => getHashForVocabulary(i)),
         ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
       ];
 
@@ -125,14 +125,14 @@ export const parseVocabularyFile = (
       }
 
       icelandicStrings.forEach((t: string) => {
-        const s = getPlaintextFromVocabularyEntry(t);
+        const s = getPlaintextFromUnformattedVocabularyEntry(t);
         s.split(/ [-–—] /g).forEach((k: string) => {
           plaintextSentences[k] = true;
         });
       });
 
-      let cardSkeleton: Partial<CardData> = {
-        en_plaintext: getPlaintextFromVocabularyEntry(row.english),
+      let cardSkeleton: Partial<CardDataInCompilationStep> = {
+        en_plaintext: getPlaintextFromUnformattedVocabularyEntry(row.english),
         en_formatted: formatVocabularyEntry(
           formatPrefixes(row.english, row.icelandic)
         ),
@@ -176,43 +176,47 @@ export const parseVocabularyFile = (
         if (row.should_split === "yes") {
           icelandicStrings.forEach((i: string, index: number) => {
             toAdd.push({
-              is_plaintext: getPlaintextFromVocabularyEntry(i),
+              is_plaintext: getPlaintextFromUnformattedVocabularyEntry(i),
               is_formatted: formatPrefixes(
                 formattedIcelandicStrings[index],
                 row.english
               ),
 
               from: "is",
-              id: getHash(i) + "_is",
+              id: getHashForVocabulary(i) + "_is",
               spokenSentences: getSpokenSentences(i),
               // sound: getSounds(i),
               ...cardSkeleton,
-            } as CardData);
+            } as CardDataInCompilationStep);
           });
         } else {
           toAdd.push({
-            is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
+            is_plaintext: getPlaintextFromUnformattedVocabularyEntry(
+              row.icelandic
+            ),
             is_formatted: formatVocabularyEntry(
               formatPrefixes(row.icelandic, row.english)
             ),
             from: "is",
-            id: getHash(row.icelandic) + "_is",
+            id: getHashForVocabulary(row.icelandic) + "_is",
             spokenSentences: getSpokenSentences(row.icelandic),
             ...cardSkeleton,
-          } as CardData);
+          } as CardDataInCompilationStep);
         }
       }
 
       /* English to Icelandic */
       if (row.direction !== "->") {
         toAdd.push({
-          is_plaintext: getPlaintextFromVocabularyEntry(row.icelandic),
+          is_plaintext: getPlaintextFromUnformattedVocabularyEntry(
+            row.icelandic
+          ),
           is_formatted: formatVocabularyEntry(row.icelandic),
           from: "en",
-          id: getHash(row.icelandic) + "_en",
+          id: getHashForVocabulary(row.icelandic) + "_en",
           spokenSentences: getSpokenSentences(row.icelandic),
           ...cardSkeleton,
-        } as CardData);
+        } as CardDataInCompilationStep);
       }
 
       toAdd.forEach((card) => {
@@ -267,7 +271,7 @@ export const parseVocabularyFile = (
 
     card.is_plaintext!.split(/ ?[,;-] ?/g).forEach((sentence) => {
       /* Notað til að bæta við strengjum sem eru splittaðir með bandstriki */
-      const termId: TermId = getHash(sentence) as TermId;
+      const termId: TermId = getHashForVocabulary(sentence) as TermId;
       if (!(termId in terms) && !(termId in alternativeIds)) {
         automaticAltIds[termId] = {
           terms: card.terms,
@@ -284,7 +288,7 @@ export const parseVocabularyFile = (
         const score = prefixes
           .map((i) => i[0])
           .indexOf((sentence.match(isPrefix)?.[1] as string).toLowerCase());
-        const termId: TermId = getHash(without) as TermId;
+        const termId: TermId = getHashForVocabulary(without) as TermId;
         if (
           termId in terms ||
           termId in alternativeIds ||
@@ -347,7 +351,7 @@ export const parseVocabularyFile = (
             continue;
           }
 
-          const hash = getHash(range) as TermId;
+          const hash = getHashForVocabulary(range) as TermId;
           const termIds = [
             hash,
             ...(alternativeIds[hash] || []),

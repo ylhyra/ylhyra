@@ -4,7 +4,6 @@ import {
   filterCardsThatExist,
   isInSession,
 } from "ylhyra/vocabulary/app/actions/card/card";
-import { rememoizeCards } from "ylhyra/vocabulary/app/actions/card/functions";
 import ChooseCards from "ylhyra/vocabulary/app/actions/createCards/3_Choose_cards";
 import Dependencies from "ylhyra/vocabulary/app/actions/createCards/4_Dependencies";
 import Session from "ylhyra/vocabulary/app/actions/session";
@@ -19,8 +18,6 @@ export type CreateCardsOptions = {
 };
 export function createCards(this: Session, options?: CreateCardsOptions): void {
   warnIfSlow.start("createCards");
-
-  rememoizeCards();
 
   const session = this;
 

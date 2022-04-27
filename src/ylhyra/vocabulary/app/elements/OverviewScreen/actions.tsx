@@ -1,4 +1,8 @@
-import { clamp, mapValueToRange, mapZeroToInfinityToZeroToOne } from "modules/math";
+import {
+  clamp,
+  mapValueToRange,
+  mapZeroToInfinityToZeroToOne,
+} from "modules/math";
 import { day, days } from "modules/time";
 import _ from "underscore";
 import store from "ylhyra/app/app/store";
@@ -9,7 +13,7 @@ import { getSessions } from "ylhyra/vocabulary/app/actions/userData/userDataSess
 const MIN_DAYS_TO_SHOW = 2.5 * 30;
 const MAX_DAYS_TO_SHOW = 365;
 
-export const clearOverview = async () => {
+export const clearOverview = () => {
   store.dispatch({
     type: "LOAD_OVERVIEW",
     content: {

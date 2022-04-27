@@ -1,7 +1,4 @@
-import {
-  isHighlyIrregular,
-  removeInflectionalPattern,
-} from "inflection/tables/functions/patterns";
+import { removeInflectionalPattern } from "inflection/tables/functions/patterns";
 import {
   getVowelClusters,
   removeVowellikeClusters,
@@ -9,9 +6,6 @@ import {
 } from "inflection/tables/functions/vowels";
 import Word from "inflection/tables/word";
 
-/**
- * TODO!! Missing "bróðir" etc.
- */
 export function findIrregularities(this: Word) {
   let word = this;
   let wordHasUmlaut: Boolean = false;
@@ -170,3 +164,29 @@ export function findIrregularities(this: Word) {
 //     }
 //   }
 // }
+
+export const isHighlyIrregular = (word: Word) => {
+  if (word.is("noun")) {
+    return isHighlyIrregularNouns.some((i) => i.endsWith(word.getBaseWord()));
+  }
+};
+const isHighlyIrregularNouns = [
+  /* Masculine */
+  "bróðir",
+  "faðir",
+  "fingur",
+  "fótur",
+  "maður",
+  "vetur",
+  /* Feminine */
+  "ær",
+  "dóttir",
+  "hönd",
+  "kýr",
+  "lús",
+  "mær",
+  "móðir",
+  "mús",
+  "sýr",
+  "systir",
+];
