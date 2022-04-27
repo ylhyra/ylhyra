@@ -13,7 +13,7 @@ module.exports = {
     {
       files: ["*.ts", "*.tsx"],
       parserOptions: {
-        project: "./tsconfig.json",
+        project: "./tsconfig_strict.json",
         tsconfigRootDir: __dirname,
       },
       rules: {
