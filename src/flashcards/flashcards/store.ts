@@ -10,7 +10,7 @@ export class flashcardStore {
     order: [],
     decks: {
       a: {
-        title: "Deck A",
+        title: "Spænska",
         topic: "asd",
         cards: {
           a: {
