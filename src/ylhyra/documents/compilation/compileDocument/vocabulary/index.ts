@@ -8,6 +8,7 @@ import { printWord } from "ylhyra/vocabulary/app/actions/functions";
 import { withDependencies } from "ylhyra/vocabulary/app/actions/functions/dependencies";
 import { getCardIdsFromWords } from "ylhyra/documents/compilation/compileDocument/vocabulary/getCardIdsFromWords";
 import { initializeDeckFromFile } from "ylhyra/documents/compilation/compileDocument/vocabulary/initializeDeckFromFile";
+import { CardIds } from "ylhyra/vocabulary/types";
 
 export const parseVocabularyList = (vocabulary_list) => {
   if (!vocabulary_list) return;

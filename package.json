@@ -44,7 +44,8 @@
     "integration_tests_only": "node -r esm src/ylhyra/tests/integrationTests/puppeteer.js",
     "start_test_server": "export SERVER_PORT=9999 && node build/server/ylhyra_server.js",
     "inflection_styles": "stylus --include src/inflection/styles/ < src/inflection/styles/index.styl > build//inflection_styles.css --compress",
-    "flashcards_db": "npx prisma format && npx prisma db push && npx prisma generate"
+    "flashcards_db": "npx prisma format && npx prisma db push && npx prisma generate",
+    "ts_watch": "tsc --watch --noEmit"
   },
   "proxy": "http://localhost:9123",
   "dependencies": {

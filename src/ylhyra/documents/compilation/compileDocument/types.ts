@@ -29,7 +29,7 @@ export type HeaderDataInYamlHeader = {
  * While these values are returned when the document is parsed
  */
 export type HeaderDataValuesThatAreDynamicallyCreated = {
-  /** Does this file have an associated tranlsation data file? */
+  /** Does this file have an associated translation data file? */
   has_data?: Boolean;
   /** Added by References.ts in order to be printed in HeaderAndFooter.ts */
   reflist?: Html;
