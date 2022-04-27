@@ -4,7 +4,7 @@ import {
   CardId,
   CardIds,
   CardIdToDependencyDepth,
-  DeckDatabase,
+  DeckDatabaseInCompilationStep,
   TermId,
   TermIds,
   TermIdToDependencyDepth,
@@ -16,7 +16,7 @@ import {
  * seeing a card) always come before the card that depends on it.
  */
 export const sortDependenciesBeforeCardsThatDependOnThem = (
-  deck: DeckDatabase,
+  deck: DeckDatabaseInCompilationStep,
   cardIds: CardIds
 ): CardIds => {
   let returns: CardIds = [];
@@ -71,7 +71,7 @@ export const sortDependenciesBeforeCardsThatDependOnThem = (
  * Returns an object on the form { [key]: [depth] }
  */
 export const createDependencyChainBackend = (
-  deck: DeckDatabase,
+  deck: DeckDatabaseInCompilationStep,
   fromTerm: TermId,
   _alreadySeenDirectParents: TermIds = [],
   output: TermIdToDependencyDepth = {},

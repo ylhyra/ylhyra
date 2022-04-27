@@ -21,8 +21,7 @@ export type CardData = {
   is_formatted: Html;
   /** As formatted by {@link formatVocabularyEntry} */
   en_formatted: string;
-  from: "is" | "en";
-  terms: TermIds;
+  terms?: TermIds;
   level: LevelsEnum;
   difficulty?: DifficultyEnum;
   importance?: ImportanceEnum;
@@ -33,16 +32,17 @@ export type CardData = {
   note?: string;
   note_regarding_english?: string;
   pronunciation?: string;
-  sortKey: number;
   sound: ReturnType<typeof getSounds>;
   spokenSentences?: string[];
   synonyms?: string;
+  /** Used for sorting easy cards first */
+  sortKey: number;
 };
 
 export type CardDataInCompilationStep = {
   /** Deleted in compilation step */
   id?: CardId;
-  row_id: number;
+  row_id?: number;
   // /** Temporary value deleted in compilation step */
   // row_id?: number;
   /** Is {@link VocabularyFileEntry -> icelandic} */
@@ -53,6 +53,11 @@ export type CardDataInCompilationStep = {
   should_teach?: string;
   fix?: string;
   eyða?: string;
+  /**
+   * This is currently deleted, which is slightly confusing.
+   * "From" is later dynamically retrieved from the CardId in {@link getFrom}
+   */
+  from?: "is" | "en";
 } & CardData;
 export type CardsInCompilationStep = Record<CardId, CardDataInCompilationStep>;
 
@@ -157,9 +162,18 @@ export type VocabularyFileSoundEntry = {
 export type DeckDatabase = {
   cards: Cards;
   terms: Terms;
+  /* Todo: Is this used */
+  dependencies?: Dependencies;
+  alternativeIds?: Dependencies;
+};
+
+export type DeckDatabaseInCompilationStep = {
+  cards: CardsInCompilationStep;
+  terms: Terms;
   dependencies: Dependencies;
   alternativeIds: Dependencies;
 };
+
 /**
  * Due to {@link simplifyDeck}, shared card values are stored here
  */

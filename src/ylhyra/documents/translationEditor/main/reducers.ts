@@ -10,7 +10,6 @@ import {
   selected,
   translation,
 } from "ylhyra/documents/translationEditor/main/translator/reducers";
-import short_audio from "ylhyra/documents/translationEditor/NOT_USED/shortAudio.NOT_USED/reducers";
 import { TokenizedParagraphs } from "ylhyra/documents/types/various";
 
 const isOpen = isBrowser ? getParameter("editor") : false;
@@ -79,7 +78,6 @@ export const editor = combineReducers({
   // analysis,
   selected, // Selected words in the Editor
   long_audio,
-  short_audio,
   parsed,
   // audio,
   // pronunciation,

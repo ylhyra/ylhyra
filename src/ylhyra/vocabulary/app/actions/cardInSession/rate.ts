@@ -1,12 +1,8 @@
 import { getFrom } from "ylhyra/vocabulary/app/actions/card/card_data";
 import { isBad } from "ylhyra/vocabulary/app/actions/card/card_difficulty";
-import {
-  getSessionsSeen,
-  isInSchedule,
-} from "ylhyra/vocabulary/app/actions/card/card_schedule";
+import { getSessionsSeen } from "ylhyra/vocabulary/app/actions/card/card_schedule";
 import { addRelatedCardsToSession } from "ylhyra/vocabulary/app/actions/cardInSession/addRelatedCardsToSession";
 import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession/index";
-import { keepTrackOfEasiness } from "ylhyra/vocabulary/app/actions/easinessLevel";
 import { BAD, EASY, GOOD } from "ylhyra/vocabulary/app/constants";
 
 export function rate(this: CardInSession, rating) {
@@ -67,9 +63,9 @@ export function rate(this: CardInSession, rating) {
   card.postponeRelatedCards(interval);
   card.session.cardTypeLog.unshift(getFrom(id));
 
-  keepTrackOfEasiness({
-    rating,
-    isANewCard: !isInSchedule(id) && timesSeenBeforeInSession === 0,
-    card,
-  });
+  // keepTrackOfEasiness({
+  //   rating,
+  //   isANewCard: !isInSchedule(id) && timesSeenBeforeInSession === 0,
+  //   card,
+  // });
 }

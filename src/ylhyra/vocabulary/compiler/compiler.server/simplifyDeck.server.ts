@@ -4,26 +4,25 @@ import { printWord } from "ylhyra/vocabulary/app/actions/functions";
 import {
   createDependencyChainBackend,
   sortDependenciesBeforeCardsThatDependOnThem,
-} from "ylhyra/vocabulary/compiler/compiler.server/dependencies.server";
+} from "ylhyra/vocabulary/compiler/compiler.server/dependencies";
 import {
-  CardId,
   CardIds,
   CardsInCompilationStep,
-  DeckDatabase,
+  DeckDatabaseInCompilationStep,
   TermId,
+  TermIds,
+  TermIdToDependencyDepth,
   Terms,
 } from "ylhyra/vocabulary/types";
 
 /**
  * - Data that is shared across all sibling cards is moved to be stored in the
- *     term instead, {@see getCardDataInCompilationStep}
- * - Sortkeys are added
+ *     term instead, {@see getCardData}
  */
-export const simplifyDeck = (deck: DeckDatabase) => {
-  /* Add sortkey for all items */
-  let cardIds: CardIds = Object.keys(deck!.cards)
+export const simplifyDeck = (deck: DeckDatabaseInCompilationStep) => {
+  let cardIds: CardIds = (Object.keys(deck!.cards) as CardIds)
     .map((key) => {
-      return deck!.cards[key];
+      return deck!.cards[key]!;
     })
     .sort(
       (a, b) =>
@@ -32,11 +31,11 @@ export const simplifyDeck = (deck: DeckDatabase) => {
           (a.hasOwnProperty("sortKey") ? 1 : 0) ||
         a.sortKey - b.sortKey ||
         (Boolean(b.sound) ? 1 : 0) - (Boolean(a.sound) ? 1 : 0) ||
-        (a.row_id % 100) - (b.row_id % 100) ||
-        a.row_id - b.row_id
+        (a.row_id! % 100) - (b.row_id! % 100) ||
+        a.row_id! - b.row_id!
     )
     .map((card) => {
-      return card.id;
+      return card.id!;
     });
 
   // /* Run empty to remove cyclical dependencies */
@@ -48,15 +47,18 @@ export const simplifyDeck = (deck: DeckDatabase) => {
     delete deck!.cards[cardId].row_id;
   });
 
-  Object.keys(deck!.terms).forEach((termId: TermId) => {
-    const deps = createDependencyChainBackend(deck, termId);
+  (Object.keys(deck!.terms) as TermIds).forEach((termId: TermId) => {
+    const deps: TermIdToDependencyDepth = createDependencyChainBackend(
+      deck,
+      termId
+    );
 
     /* The chain above isn't perfect and sometimes skips over values */
     let lowestDep = Infinity;
-    Object.keys(deps).forEach((dep) => {
+    (Object.keys(deps) as TermIds).forEach((dep) => {
       lowestDep = Math.min(lowestDep, deps[dep]);
     });
-    Object.keys(deps).forEach((dep) => {
+    (Object.keys(deps) as TermIds).forEach((dep) => {
       deps[dep] -= lowestDep - 1;
     });
 
@@ -65,7 +67,7 @@ export const simplifyDeck = (deck: DeckDatabase) => {
     }
     if (Object.keys(deps).length > 30) {
       console.log(`very long deps for ${printWord(termId)}`);
-      Object.keys(deps).forEach((j) => {
+      (Object.keys(deps) as TermIds).forEach((j) => {
         console.log({ word: printWord(j), level: deps[j] });
       });
     }
@@ -73,9 +75,12 @@ export const simplifyDeck = (deck: DeckDatabase) => {
 
   let terms: Terms = {};
   let cards: CardsInCompilationStep = {};
-  Object.keys(deck!.terms).forEach((term_id) => {
+  /**
+   * TODO: Ég man ekki hvað ég er að gera hérna :(
+   */
+  (Object.keys(deck!.terms) as TermIds).forEach((term_id) => {
     const term = deck!.terms[term_id];
-    let minSortKey;
+    let minSortKey: number = Infinity;
     Object.keys(deck!.cards[term.cards[0]]).forEach((key) => {
       if (key === "sortKey") return;
       if (key === "terms") return;
@@ -110,17 +115,16 @@ export const simplifyDeck = (deck: DeckDatabase) => {
     terms[term_id] = term;
   });
 
-  terms = sortObjectsBasedOnParameter(terms, "sortKey");
-  cards = sortObjectsBasedOnParameter(cards, "sortKey");
+  terms = sortObjectChildrenBasedOnTheirParameter(terms, "sortKey");
+  cards = sortObjectChildrenBasedOnTheirParameter(cards, "sortKey");
   Object.keys(terms).forEach((term_id) => {
     // delete terms[term_id].sortKey;
   });
-  Object.keys(cards).forEach((cardId) => {
-    delete cards[cardId as CardId].id;
-    delete cards[cardId as CardId].sortKey;
-    delete cards[cardId as CardId].from;
-    if (cards[cardId as CardId].terms.length === 1) {
-      delete cards[cardId as CardId].terms;
+  (Object.keys(cards) as CardIds).forEach((cardId) => {
+    delete cards[cardId].id;
+    delete cards[cardId].from;
+    if (cards[cardId].terms!.length === 1) {
+      delete cards[cardId].terms;
     }
   });
 
@@ -134,7 +138,7 @@ export const simplifyDeck = (deck: DeckDatabase) => {
  * A completely unnecessary function that is just used to make the JSON output file
  * have the entries in the correct order.
  */
-function sortObjectsBasedOnParameter<
+function sortObjectChildrenBasedOnTheirParameter<
   T extends Record<string, Record<string, any>>
 >(obj: T, sortByWhichParameter: string, replace?: Boolean): T {
   let out: Record<string, Record<string, any>> = {};
@@ -150,7 +154,7 @@ function sortObjectsBasedOnParameter<
   return out as T;
 }
 
-const sortIfArray = (val) => {
+const sortIfArray = (val: any) => {
   if (Array.isArray(val)) {
     return _.sortBy(val, (i) => i);
   }

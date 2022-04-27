@@ -13,19 +13,18 @@ export const getCardsInSchedule = (): CardIds => {
  *
  * That is extremely confusing, though, and should be rethought!
  */
-export const getCardData = <T extends keyof CardData>(
-  id: CardId,
-  key: T
-): CardData[T] => {
+export const getCardData: {
+  (id: CardId, key: "terms"): TermIds;
+  <T extends keyof CardData>(id: CardId, key: T): CardData[T];
+} = (id: CardId, key: string) => {
   if (!(id in deck!.cards)) {
     console.error(`Card not found:`, id);
     throw new Error();
   }
   if (key in deck!.cards[id]) {
-    return (deck!.cards[id] as CardData)[key];
+    return (deck!.cards[id] as CardData)[key as keyof CardData];
   } else if (key === "terms") {
     /** The CardId is just a TermId with "_is" or "_en" added to the end */
-    // @ts-ignore
     return [id.slice(0, -3)] as TermIds;
   } else if (getTermIds(id).length === 1) {
     // @ts-ignore
@@ -37,7 +36,7 @@ export const getCardData = <T extends keyof CardData>(
 
 /**
  * "From" is encoded as the final part of the CardId, e.g. asdf_is or asdf_en.
- * TODO: Is "from" not in CardData?
+ * "From" was deleted in the {@link simplifyDeck} step to reduce size.
  */
 export const getFrom = (id: CardId) => {
   return id.slice(-2) as "is" | "en";
@@ -66,7 +65,7 @@ export const getSound = (cardId: CardId) => {
 };
 
 export const getTermIds = (cardId: CardId) => {
-  return getCardData(cardId, "terms");
+  return getCardData(cardId, "terms")!;
 };
 
 export const getSortKey = (
