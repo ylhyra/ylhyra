@@ -69,7 +69,7 @@ class Form2 extends React.Component<
     // );
   };
 
-  checkKey = (e: React.KeyboardEvent) => {
+  checkKey = (e: KeyboardEvent) => {
     const key = keycode.names[e.keyCode];
     if (e.altKey && e.metaKey) return;
     console.log({ key });

@@ -1,9 +1,9 @@
 import stable_stringify from "json-stable-stringify";
+import { isBrowser } from "modules/isBrowser";
 import { isProd } from "modules/isDev";
 import axios from "ylhyra/app/app/axios";
 import { notify } from "ylhyra/app/app/error";
 import store from "ylhyra/app/app/store";
-import { isBrowser } from "modules/isBrowser";
 
 export const openEditor = (page) => {
   store.dispatch({
@@ -53,10 +53,10 @@ export const save = async () => {
 
       const dataToSave = {
         tokenized: data.tokenized,
-        list: data.list,
+        // list: data.list,
         translation: data.translation,
-        suggestions: data.suggestions,
-        analysis: data.analysis,
+        // suggestions: data.suggestions,
+        // analysis: data.analysis,
         short_audio: data.short_audio,
         long_audio: data.long_audio,
         // pronunciation: data.pronunciation,
@@ -65,6 +65,7 @@ export const save = async () => {
       await axios.post(`/api/translator/saveTranslationData`, {
         title: `${title}`,
         text: stable_stringify(dataToSave, {
+          // @ts-ignore
           space: {
             toString: () => "" /*Workaround for zero spaces*/,
           },

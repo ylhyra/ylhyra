@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { ReactMic } from "react-mic";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import Sound from "react-sound";
 import { RootState } from "ylhyra/app/app/store";
 import { load } from "ylhyra/vocabulary/vocabularyEditor/actions/initialize";
@@ -20,7 +20,7 @@ window["recording_metadata"] = {
   speed: "slow", // ["slow", "normal", "fast"]
 };
 
-class RecorderElement extends React.Component {
+class RecorderElement extends React.Component<{ word: string }> {
   isKeyDown = false;
   state = {
     recording: false,
@@ -28,6 +28,12 @@ class RecorderElement extends React.Component {
     remaining: [],
     blob: null,
     isKeyDown: null,
+    /**
+     * The actual recording lags behind the user clicking,
+     * therefore we need to update the interface a few seconds
+     * after the click.
+     */
+    hasRecordingActuallyStarted: false,
   };
 
   componentDidMount() {
@@ -68,7 +74,7 @@ class RecorderElement extends React.Component {
       });
       setTimeout(() => {
         this.setState({
-          interfaceShowsRecording: true,
+          hasRecordingActuallyStarted: true,
         });
       }, 400);
     }, START_LAG_IN_MILLISECONDS);
@@ -77,7 +83,7 @@ class RecorderElement extends React.Component {
     setTimeout(() => {
       this.setState({
         recording: false,
-        interfaceShowsRecording: false,
+        hasRecordingActuallyStarted: false,
       });
     }, STOP_LAG_IN_MILLISECONDS);
   };
@@ -89,13 +95,15 @@ class RecorderElement extends React.Component {
       });
   };
   save = () => {
-    var reader = new window.FileReader();
-    reader.readAsDataURL(this.state.blob.blob);
-    reader.onloadend = async () => {
-      if (!reader.result) {
+    var fileReader = new window.FileReader();
+    fileReader.readAsDataURL(this.state.blob.blob);
+    fileReader.onloadend = async () => {
+      if (!fileReader.result) {
         return console.error("Could not read");
       }
-      const base64_data = reader.result.match(/^data:.+\/(.+);base64,(.*)$/)[2];
+      const base64_data = (fileReader.result as string).match(
+        /^data:.+\/(.+);base64,(.*)$/
+      )[2];
       let { word } = this.props;
       if (!word) {
         return console.error("No word");
@@ -136,7 +144,7 @@ class RecorderElement extends React.Component {
           onTouchStart={this.start}
           onTouchEnd={this.stop}
           className={`recorder ${
-            this.state.recording && this.state.interfaceShowsRecording
+            this.state.recording && this.state.hasRecordingActuallyStarted
               ? "recording"
               : ""
           }`}
@@ -166,8 +174,12 @@ class RecorderElement extends React.Component {
   }
 }
 
-class Record extends React.Component<ConnectedProps<typeof connector>> {
-  state = {};
+class Record extends React.Component<
+  ConnectedProps<typeof connector> & { word: string }
+> {
+  state = {
+    started: false,
+  };
   componentDidMount = async () => {
     setTimeout(() => {
       load();

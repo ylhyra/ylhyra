@@ -1,3 +1,4 @@
+import { Jsx } from "modules/typescript/jsx";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withPlural } from "ylhyra/app/app/functions/simplePlural";
@@ -46,7 +47,7 @@ class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
   keyUp = () => {
     this.isKeyDown = false;
   };
-  checkKey = (e: React.KeyboardEvent) => {
+  checkKey = (e: KeyboardEvent) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (this.isKeyDown) return;
     const { answered } = this.props.vocabulary.card;
@@ -185,18 +186,19 @@ class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
     const { volume, deck } = this.props.vocabulary;
     const { answered } = this.props.vocabulary.card;
     const card: CardInSession = deck!.session.currentCard;
-    if (!card)
+    if (!card) {
       return <div>Unable to create cards. Please report this error.</div>;
+    }
     const id = card.getId();
 
-    let from = getFrom(id);
-    let lemmas = getCardData(id, "lemmas");
-    let note_regarding_english = getCardData(id, "note_regarding_english");
-    let note = getCardData(id, "note");
-    let literally = getCardData(id, "literally");
-    let example_declension = getCardData(id, "example_declension");
-    let pronunciation = getCardData(id, "pronunciation");
-    let synonyms = getCardData(id, "synonyms");
+    let from: Jsx = getFrom(id);
+    let lemmas: Jsx = getCardData(id, "lemmas");
+    let note_regarding_english: Jsx = getCardData(id, "note_regarding_english");
+    let note: Jsx = getCardData(id, "note");
+    let literally: Jsx = getCardData(id, "literally");
+    let example_declension: Jsx = getCardData(id, "example_declension");
+    let pronunciation: Jsx = getCardData(id, "pronunciation");
+    let synonyms: Jsx = getCardData(id, "synonyms");
     const is = getCardData(id, "is_formatted");
     const en = getCardData(id, "en_formatted");
 

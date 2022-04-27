@@ -1,43 +1,52 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import Link from "ylhyra/app/router/Link";
 
-class X extends Component {
+/**
+ * Shows up as "Previous - 1 - 2 - 3 - Next"
+ */
+class Parts extends Component<
+  ConnectedProps<typeof connector> & {
+    /** Total number of parts this article has been split up into */
+    parts: number | string;
+  }
+> {
   render() {
-    const parts = parseInt(this.props.parts);
+    const parts =
+      typeof this.props.parts === "string"
+        ? parseInt(this.props.parts)
+        : this.props.parts;
     const url = this.props.route.pathname;
     if (!url || url === "/") {
       console.error(`Part.js received url: ${url}`);
       return null;
     }
-    const basename = url.replace(/\/(\d+)$/, "") + "/";
-    const part = parseInt(url.match(/\/(\d+)$/)?.[1]) || 1;
+    const articleBaseUrl = url.replace(/\/(\d+)$/, "");
+    const currentPartNumber = parseInt(url.match(/\/(\d+)$/)?.[1]) || 1;
     let array = [];
     for (let i = 1; i <= parts; i++) {
       array.push(i);
     }
-    let next = part + 1 <= parts ? part + 1 : null;
-    const f = (j) => basename + j.toString();
+    let nextPartNumber =
+      currentPartNumber + 1 <= parts ? currentPartNumber + 1 : null;
+    const getBaseUrl = (partNumber) =>
+      `${articleBaseUrl}/${partNumber.toString()}`;
     return (
       <div>
-        {/*<div className="small gray center sans-serif">*/}
-        {/*  This article has been split up into {parts} parts:*/}
-        {/*</div>*/}
         <div className="parts">
-          {/* <Link>1</Link> */}
           <ul>
             {array.map((k, index) => (
               <li
                 key={index}
                 className={`numbers ${index === 0 ? "first" : ""}`}
               >
-                <Link href={f(k)}>{k}</Link>
+                <Link href={getBaseUrl(k)}>{k}</Link>
               </li>
             ))}
-            {next && (
+            {nextPartNumber && (
               <li className="next">
-                <Link href={f(next)}>Next</Link>
+                <Link href={getBaseUrl(nextPartNumber)}>Next</Link>
               </li>
             )}
           </ul>
@@ -50,4 +59,4 @@ class X extends Component {
 const connector = connect((state: RootState) => ({
   route: state.route,
 }));
-export default connector(X);
+export default connector(Parts);

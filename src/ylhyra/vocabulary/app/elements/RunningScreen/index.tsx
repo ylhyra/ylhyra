@@ -27,7 +27,7 @@ class RunningScreen extends Component<{ vocabulary: any }> {
   componentWillUnmount() {
     window.removeEventListener("keydown", this.checkKey);
   }
-  checkKey = (e: React.KeyboardEvent) => {
+  checkKey = (e: KeyboardEvent) => {
     this.props.vocabulary.deck?.session?.checkForUndoOnKeyDown(e);
   };
   render() {

@@ -2,7 +2,6 @@ import _ from "underscore";
 import { SortKeys } from "ylhyra/vocabulary/compiler/compiler.server/sortKeys.server";
 import {
   formatLemmas,
-  formatPrefixes,
   formatVocabularyEntry,
 } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/format";
 import {
@@ -14,7 +13,7 @@ import {
   getHashForVocabulary,
 } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import {
-  CardData,
+  CardDataInCompilationStep,
   CardId,
   CardsInCompilationStep,
   Dependencies,
@@ -105,17 +104,17 @@ export const parseVocabularyFile = (
         }
       });
 
-      let alternativeIds = [
+      let alternativeIds: TermIds = [
         ...getHashesFromCommaSeperated(row.alternative_id),
         ...altIdLemmas.map((i) => getHashForVocabulary(i)),
-      ];
+      ] as TermIds;
 
       /** See {@link VocabularyFileEntry -> depends_on} */
       const dependsOn: TermIds = [
         ...getHashesFromCommaSeperated(row.depends_on?.replace(/%/g, "")),
         ...dependsOnLemmas.map((i) => getHashForVocabulary(i)),
         ...getHashesFromCommaSeperated(row["this is a minor variation of"]),
-      ];
+      ] as TermIds;
 
       AddToDependencyGraph(termsInThisLine, dependsOn);
       AddToDependencyGraph(alternativeIds, termsInThisLine, "alt_ids");
@@ -133,9 +132,7 @@ export const parseVocabularyFile = (
 
       let cardSkeleton: Partial<CardDataInCompilationStep> = {
         en_plaintext: getPlaintextFromUnformattedVocabularyEntry(row.english),
-        en_formatted: formatVocabularyEntry(
-          formatPrefixes(row.english, row.icelandic)
-        ),
+        en_formatted: formatVocabularyEntry(row.english),
         terms: termsInThisLine,
         level: row.level,
         pronunciation: row.pronunciation,
@@ -177,10 +174,7 @@ export const parseVocabularyFile = (
           icelandicStrings.forEach((i: string, index: number) => {
             toAdd.push({
               is_plaintext: getPlaintextFromUnformattedVocabularyEntry(i),
-              is_formatted: formatPrefixes(
-                formattedIcelandicStrings[index],
-                row.english
-              ),
+              is_formatted: formattedIcelandicStrings[index],
 
               from: "is",
               id: getHashForVocabulary(i) + "_is",
@@ -194,9 +188,7 @@ export const parseVocabularyFile = (
             is_plaintext: getPlaintextFromUnformattedVocabularyEntry(
               row.icelandic
             ),
-            is_formatted: formatVocabularyEntry(
-              formatPrefixes(row.icelandic, row.english)
-            ),
+            is_formatted: formatVocabularyEntry(row.icelandic),
             from: "is",
             id: getHashForVocabulary(row.icelandic) + "_is",
             spokenSentences: getSpokenSentences(row.icelandic),

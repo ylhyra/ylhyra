@@ -8,11 +8,18 @@ import { getDynamicFileUrl } from "ylhyra/server/paths_urls";
 
 let timer: NodeJS.Timeout;
 
+/**
+ * This is both an audio and a video player
+ */
 class Audio extends React.PureComponent<{
   inline?: Boolean;
   autoplay?: Boolean;
   src: string;
   audio: RootState["audio"];
+  /** Only used by the Instagram player */
+  label?: "Slow audio";
+  /** Only used by the Instagram player */
+  type?: "video";
 }> {
   audio: React.RefObject<any> | null = null;
   errorCount = 0; // Keep count on how often we have re-attempted reloading file
@@ -152,12 +159,12 @@ class Audio extends React.PureComponent<{
     let { src, type, label } = this.props;
     const inline = this.props.inline;
     if (!src) return null;
-    let ContainerTag = "div";
+    let ContainerTag: React.ElementType = "div";
     if (inline) {
       ContainerTag = "span";
     }
     const isVideo = type === "video";
-    let Tag = isVideo ? "video" : "audio";
+    let Tag: React.ElementType = isVideo ? "video" : "audio";
 
     if (!(/^\//.test(src) || /:\/\//.test(src))) {
       src = getDynamicFileUrl(src);
@@ -171,7 +178,8 @@ class Audio extends React.PureComponent<{
         data-ignore
         key={this.state.key}
       >
-        <Tag // controls
+        <Tag
+          // controls
           ref={this.audio}
           preload={this.props.autoplay ? "metadata" : "none"}
           loop={isVideo}

@@ -1,3 +1,5 @@
+import { AnyAction } from "redux";
+
 export const audio = (
   state: {
     currentlyPlaying?: string;

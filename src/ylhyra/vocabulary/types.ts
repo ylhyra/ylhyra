@@ -42,6 +42,7 @@ export type CardData = {
 export type CardDataInCompilationStep = {
   /** Deleted in compilation step */
   id?: CardId;
+  row_id: number;
   // /** Temporary value deleted in compilation step */
   // row_id?: number;
   /** Is {@link VocabularyFileEntry -> icelandic} */
@@ -143,11 +144,14 @@ export type VocabularyFileEntry = Partial<{
 }>;
 
 export type VocabularyFileSoundEntry = {
+  /** Which sentence is this a recording of? */
   recording_of: string;
   filename: string;
   speed: string;
   speaker: string;
   date: string;
+  /** Transient value used in compilation step, not in data file */
+  lowercase?: string;
 };
 
 export type DeckDatabase = {

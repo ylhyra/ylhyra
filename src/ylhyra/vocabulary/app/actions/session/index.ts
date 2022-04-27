@@ -16,13 +16,17 @@ import {
   checkIfCardsRemaining,
   createMoreCards,
   getPercentageDone,
-  updateRemainingTime
+  updateRemainingTime,
 } from "ylhyra/vocabulary/app/actions/session/functions";
 import { initializeSession } from "ylhyra/vocabulary/app/actions/session/initialize";
 import { loadCardInInterface } from "ylhyra/vocabulary/app/actions/session/loadCardInInterface";
 import { loadCardsIntoSession } from "ylhyra/vocabulary/app/actions/session/loadCardsIntoSession";
 import { nextCard } from "ylhyra/vocabulary/app/actions/session/nextCard";
-import { checkForUndoOnKeyDown, undo, undoable } from "ylhyra/vocabulary/app/actions/session/undo";
+import {
+  checkForUndoOnKeyDown,
+  undo,
+  undoable,
+} from "ylhyra/vocabulary/app/actions/session/undo";
 import { sync } from "ylhyra/vocabulary/app/actions/userData/sync";
 import { setUserData } from "ylhyra/vocabulary/app/actions/userData/userData";
 import { SESSION_PREFIX } from "ylhyra/vocabulary/app/actions/userData/userDataSessions";
@@ -79,6 +83,7 @@ class Session {
             return new CardInSession({
               id,
               history,
+              session: this,
             });
           } else {
             console.warn("No id " + id);
@@ -86,14 +91,14 @@ class Session {
           }
         })
         .filter(Boolean);
-      /* TODO:
-        Þetta virkar ekki án timeout þar sem Deck.session er ekki búið að initializeras fyrst
+      /**
+       * TODO:
+       * Þetta virkar ekki án timeout þar sem Deck.session er ekki búið að initializeras fyrst
        */
       setTimeout(() => {
-        this.sessionDone({ isInitializing: true });
+        void this.sessionDone({ isInitializing: true });
       }, 10);
     }
-    // log({ session_log: this.deck!.session_log });
   }
 
   reset() {
@@ -116,14 +121,14 @@ class Session {
 
   async sessionDone(options: any = {}) {
     this.done = true;
-    await this.createSchedule();
+    this.createSchedule();
     this.clearInLocalStorage();
     if (!options.isInitializing) {
       await exitVocabularyScreen();
     }
     this.saveSessionLog();
     await sync();
-    await clearOverview();
+    clearOverview();
     this.reset();
 
     if (process.env.NODE_ENV === "development" && getDeckName()) {

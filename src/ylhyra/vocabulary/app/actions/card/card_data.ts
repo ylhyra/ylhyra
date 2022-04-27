@@ -47,18 +47,17 @@ export const getId = (id: CardId) => {
   return id; // getCardData(id, "id");
 };
 
-export const getLevel = (id: CardId): number => {
+export const getLevel = (id: CardId) => {
   return getCardData(id, "level");
 };
 
-export const getCardLevel = getLevel;
 export const getCardCEFR = getLevel;
 
-export const getImportance = (cardId: CardId): number => {
+export const getImportance = (cardId: CardId) => {
   return getCardData(cardId, "importance");
 };
 
-export const getDifficulty = (cardId: CardId): number => {
+export const getDifficulty = (cardId: CardId) => {
   return getCardData(cardId, "difficulty");
 };
 
@@ -66,13 +65,20 @@ export const getSound = (cardId: CardId) => {
   return getCardData(cardId, "sound");
 };
 
-export const getTermIds = (cardId: CardId): TermIds => {
+export const getTermIds = (cardId: CardId) => {
   return getCardData(cardId, "terms");
 };
 
-export const getSortKey = (cardId: CardId, options?): number => {
+export const getSortKey = (
+  cardId: CardId,
+  options?: {
+    englishLast?: Boolean;
+  }
+): number => {
   if (options?.englishLast) {
-    return getCardData(cardId, "sortKey") + getFrom(cardId) === "en" ? 0.5 : 0;
+    return (
+      getCardData(cardId, "sortKey") + (getFrom(cardId) === "en" ? 0.5 : 0)
+    );
   } else {
     return getCardData(cardId, "sortKey");
   }

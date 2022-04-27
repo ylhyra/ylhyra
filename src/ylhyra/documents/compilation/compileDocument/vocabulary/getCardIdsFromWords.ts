@@ -6,7 +6,7 @@ import { CardIds } from "ylhyra/vocabulary/types";
 export const getCardIdsFromWords = (
   words: string[],
   returnMissing?: boolean
-): CardIds => {
+): CardIds | string[] => {
   let missingWords: string[] = [];
   let cardIds: CardIds = [];
   words.forEach((word) => {

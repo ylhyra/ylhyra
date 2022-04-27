@@ -31,7 +31,7 @@ export function nextCard(this: Session, depth = 0) {
     this.checkIfCardsRemaining();
   }
 
-  this.currentCard = _.min(this.cards, (i) => i.getRanking());
+  this.currentCard = _.min(this.cards, (i) => i.getRanking()) as CardInSession;
 
   /* Logging */
   if ((LOGGING || window["logging"]) && isDev) {
@@ -56,6 +56,5 @@ export function nextCard(this: Session, depth = 0) {
     this.lastSeenTerms[termId] = this.counter;
   });
 
-  this.wasEasinessLevelJustIncreased = false;
   this.saveSessionInLocalStorage();
 }
