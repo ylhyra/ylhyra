@@ -10,7 +10,12 @@ import {
   TermIdToDependencyDepth,
 } from "ylhyra/vocabulary/types";
 
-export const withDependenciesBackend = (
+/**
+ * Returns an array of card ids sorted in such a way that
+ * dependencies (cards that the user must have studied before
+ * seeing a card) always come before the card that depends on it.
+ */
+export const sortDependenciesBeforeCardsThatDependOnThem = (
   deck: DeckDatabase,
   cardIds: CardIds
 ): CardIds => {

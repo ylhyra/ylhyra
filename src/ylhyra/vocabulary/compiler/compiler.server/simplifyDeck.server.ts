@@ -3,7 +3,7 @@ import _ from "underscore";
 import { printWord } from "ylhyra/vocabulary/app/actions/functions";
 import {
   createDependencyChainBackend,
-  withDependenciesBackend,
+  sortDependenciesBeforeCardsThatDependOnThem,
 } from "ylhyra/vocabulary/compiler/compiler.server/dependencies.server";
 import {
   CardId,
@@ -42,7 +42,7 @@ export const simplifyDeck = (deck: DeckDatabase) => {
   // /* Run empty to remove cyclical dependencies */
   // withDependencies__backend(cardIds);
   // /* Run again now that  cyclical dependencies are gone */
-  cardIds = withDependenciesBackend(deck, cardIds);
+  cardIds = sortDependenciesBeforeCardsThatDependOnThem(deck, cardIds);
   cardIds.forEach((cardId, index) => {
     deck!.cards[cardId].sortKey = index;
     delete deck!.cards[cardId].row_id;
