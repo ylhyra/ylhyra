@@ -5,13 +5,21 @@ import { RootState } from "ylhyra/app/app/store";
 import { updateSentence } from "ylhyra/documents/translationEditor/main/translator/actions";
 
 class SentenceTranslation extends React.Component<
-  ConnectedProps<typeof connector>
+  ConnectedProps<typeof connector> & {
+    id: string;
+  }
 > {
+  // directRef: React.RefObject<HTMLTextAreaElement>;
+  // meaningRef: React.RefObject<HTMLTextAreaElement>;
+  // noteRef: React.RefObject<HTMLTextAreaElement>;
   constructor(props) {
     super(props);
     this.state = {
       focus: false,
     };
+    // this.directRef = React.createRef();
+    // this.meaningRef = React.createRef();
+    // this.noteRef = React.createRef();
   }
   handleEnter = (e) => {
     if (e.which === 13) {
@@ -37,12 +45,12 @@ class SentenceTranslation extends React.Component<
   };
   shouldComponentUpdate = (nextProps) => {
     const { id } = this.props;
-    if (
-      this.props.suggestions !== nextProps.suggestions &&
-      this.props.suggestions[id] !== nextProps.suggestions[id]
-    ) {
-      return true;
-    }
+    // if (
+    //   this.props.suggestions !== nextProps.suggestions &&
+    //   this.props.suggestions[id] !== nextProps.suggestions[id]
+    // ) {
+    //   return true;
+    // }
     if (
       this.props.translation.sentences[id] !==
       nextProps.translation.sentences[id]
@@ -71,12 +79,12 @@ class SentenceTranslation extends React.Component<
             className="textarea"
             // focus={this.state.focus}
             value={sentence.meaning || ""}
-            onKeyPress={this.handleEnter}
+            onKeyDown={this.handleEnter}
             onChange={(e) => this.handleChange(e, "meaning")}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             placeholder={placeholder}
-            ref="meaning"
+            // ref={this.meaningRef}
           />
         </div>
 
@@ -88,11 +96,11 @@ class SentenceTranslation extends React.Component<
             className="textarea"
             // isFocused={this.state.focus}
             value={sentence.direct || ""}
-            onKeyPress={this.handleEnter}
+            onKeyDown={this.handleEnter}
             onChange={(e) => this.handleChange(e, "direct")}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
-            ref="direct"
+            // ref={this.directRef}
           />
         </div>
 
@@ -103,12 +111,12 @@ class SentenceTranslation extends React.Component<
           <AutosizeTextarea
             className="textarea"
             // focus={this.state.focus}
-            onKeyPress={this.handleEnter}
+            onKeyDown={this.handleEnter}
             value={sentence.note || ""}
             onChange={(e) => this.handleChange(e, "note")}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
-            ref="note"
+            // ref={this.noteRef}
           />
         </div>
         {/* <div>

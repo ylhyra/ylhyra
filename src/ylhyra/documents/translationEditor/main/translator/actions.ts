@@ -88,7 +88,7 @@ export const updateDefinition =
 
 /* Update only one part of definition object */
 export const updateDefinitionValue =
-  ({ name, value }: { name: string; value: string }) =>
+  ({ name, value }: { name: string; value: string | Boolean }) =>
   (dispatch: Dispatch, getState: typeof store.getState) => {
     const selected = getState().editor.selected;
     dispatch({
