@@ -16,7 +16,7 @@ export default observer(function () {
             <NavLink to="/">Front page</NavLink>
           </li>
           <li>
-            <NavLink to="/overview">Flashcards</NavLink>
+            <NavLink to="/flashcards">Flashcards</NavLink>
           </li>
         </ul>
 

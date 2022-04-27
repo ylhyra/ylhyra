@@ -10,7 +10,7 @@ import { withDependencies } from "ylhyra/vocabulary/app/actions/functions/depend
 import { CardIds } from "ylhyra/vocabulary/types";
 
 /* Add bad dependencies */
-export default (chosen_cards?: CardIds): CardIds => {
+export default (chosen_cards: CardIds): CardIds => {
   const after = withDependencies(chosen_cards, { skipSiblings: true }).filter(
     (id) =>
       !isInSession(id) &&

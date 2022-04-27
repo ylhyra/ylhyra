@@ -2,9 +2,9 @@ import type { Request, Response } from "express";
 import { Router } from "express";
 import argon2 from "argon2";
 import { errors } from "flashcards/errors";
-import { db } from "flashcards/server/database/db";
-import { throwError } from "flashcards/server/functions/various";
-import { setSession } from "flashcards/server/user/user";
+import { db } from "flashcards/server/database/database.server";
+import { throwError } from "flashcards/server/functions/sendError.server";
+import { setSession } from "flashcards/frontend/user/user.server";
 import { StatusCodes } from "http-status-codes";
 
 const router = Router();

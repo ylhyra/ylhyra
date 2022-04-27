@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import { StoreContext } from "flashcards/frontend/store";
-import { flashcardStore } from "flashcards/frontend/flashcards/store";
 
 export default observer(function () {
   const store = useContext(StoreContext);

@@ -3,7 +3,7 @@ import { Observer } from "mobx-react-lite";
 import { form } from "modules/form";
 import React from "react";
 import { useLocation } from "react-router";
-import type { LoginData } from "flashcards/server/user/login";
+import type { LoginData } from "flashcards/frontend/user/login.server";
 
 export default () => {
   const { pathname } = useLocation();

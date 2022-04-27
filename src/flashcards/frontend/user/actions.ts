@@ -1,5 +1,8 @@
 import { store } from "flashcards/frontend/store";
-import type { LoginData, LoginResponse } from "flashcards/server/user/login";
+import type {
+  LoginData,
+  LoginResponse,
+} from "flashcards/frontend/user/login.server";
 import axios2 from "modules/axios2";
 import { customHistory } from "modules/router";
 

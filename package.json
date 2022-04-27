@@ -10,7 +10,6 @@
   "private": false,
   "homepage": "https://ylhyra.is",
   "scripts": {
-    "start_f": "export PROJECT=flashcards && npm run start",
     "start_y": "export PROJECT=ylhyra && npm run start",
     "start": "export BROWSER=none && export NODE_ENV=development && export $(cat .env) && npx webpack serve --config scripts/webpack/app.webpack.js",
     "links": "./../ylhyra_content/scripts/cleanup.sh && export NODE_ENV=production && npm run build_server && npm run links_only",
@@ -45,7 +44,8 @@
     "start_test_server": "export SERVER_PORT=9999 && node build/server/ylhyra_server.js",
     "inflection_styles": "stylus --include src/inflection/styles/ < src/inflection/styles/index.styl > build//inflection_styles.css --compress",
     "flashcards_db": "npx prisma format && npx prisma db push && npx prisma generate",
-    "ts_watch": "tsc --watch --noEmit"
+    "ts_watch": "tsc --watch --noEmit",
+    "start_f": "export PROJECT=flashcards && npm run start"
   },
   "proxy": "http://localhost:9123",
   "dependencies": {
