@@ -8,17 +8,5 @@ export const FlashcardsEdit = observer(() => {
   const store = useContext(StoreContext);
   const deck = store.flashcardStore.decks[deckId!]!;
 
-  return (
-    <div>
-      Decks:
-      <ul>
-        {Object.entries(decks.decks).map(([deckId, deck]) => (
-          <li key={deckId}>
-            {deck!.title} ({Object.keys(deck!.cards).length} cards){" "}
-            <button>Edit</button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <div></div>;
 });

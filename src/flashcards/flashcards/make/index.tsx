@@ -11,7 +11,7 @@ export const FlashcardsMake = observer(function () {
     <div>
       Decks:
       <ul>
-        {Object.entries(decks.decks).map(([deckId, deck]) => (
+        {Object.entries(decks).map(([deckId, deck]) => (
           <li key={deckId}>
             {deck!.title} ({Object.keys(deck!.cards).length} cards){" "}
             <Link to={`/flashcards/deck/${deckId}`}>Edit</Link>
