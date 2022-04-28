@@ -23,7 +23,6 @@ export const FlashcardsEdit = observer(() => {
           </div>
         ))}
       </div>
-      ;
     </div>
   );
 });

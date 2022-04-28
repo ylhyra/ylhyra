@@ -5,7 +5,7 @@ import React from "react";
 import { useLocation } from "react-router";
 import type { LoginData } from "flashcards/frontend/user/login.server";
 
-export const Login () => {
+export const Login = () => {
   const { pathname } = useLocation();
   const isSignup = pathname === "/signup";
 
