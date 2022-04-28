@@ -2,6 +2,7 @@ import { StoreContext } from "flashcards/frontend/store";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { entries } from "modules/typescript/objectEntries";
 
 export const FlashcardsMake = observer(function () {
   const store = useContext(StoreContext);
@@ -11,9 +12,9 @@ export const FlashcardsMake = observer(function () {
     <div>
       Decks:
       <ul>
-        {Object.entries(decks).map(([deckId, deck]) => (
+        {entries(decks).map(([deckId, deck]) => (
           <li key={deckId}>
-            {deck!.title} ({Object.keys(deck!.cards).length} cards){" "}
+            {deck.title} ({Object.keys(deck.cards).length} cards){" "}
             <Link to={`/flashcards/deck/${deckId}`}>Edit</Link>
           </li>
         ))}

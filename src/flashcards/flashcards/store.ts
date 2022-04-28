@@ -1,4 +1,4 @@
-import { DecksObject } from "flashcards/flashcards/types";
+import { Deck, DecksObject } from "flashcards/flashcards/types";
 import { makeAutoObservable } from "mobx";
 
 export class flashcardStore {
@@ -27,8 +27,18 @@ export class flashcardStore {
       },
     },
   };
+
   constructor() {
     makeAutoObservable(this);
   }
+
+  getDeck = (id: string): Deck => {
+    if (id in this.decks) {
+      return this.decks[id];
+    } else {
+      throw new Error(`Deck with id ${id} does not exist`);
+    }
+  };
+
   load() {}
 }
