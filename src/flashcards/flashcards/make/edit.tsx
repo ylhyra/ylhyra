@@ -15,8 +15,7 @@ export const FlashcardsEdit = observer(() => {
       <h1>{deck.title}</h1>
       {entries(deck.cards).map(([cardId, card]) => (
         <div key={card.id}>
-          <h2>{card.front}</h2>
-          <h2>{card.back}</h2>
+          <b>{card.front}</b> – <span>{card.back}</span>
         </div>
       ))}
       ;
