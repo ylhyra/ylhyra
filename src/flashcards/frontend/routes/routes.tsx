@@ -1,14 +1,14 @@
-import FlashcardsMake from "flashcards/flashcards/make/index";
-import Frontpage from "flashcards/frontend/routes/frontpage";
+import { FlashcardsEdit } from "flashcards/flashcards/make/edit";
+import { FlashcardsMake } from "flashcards/flashcards/make/index";
+import { Frontpage } from "flashcards/frontend/routes/frontpage";
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes as ReactRouterRoutes } from "react-router-dom";
 
-export default function () {
-  return (
-    <Routes>
-      <Route path="/" element={<Frontpage />} />
-      <Route path="/flashcards" element={<FlashcardsMake />} />
-      {/*<Route path="/friends/:friendUserId" element={<FriendProfile />} />*/}
-    </Routes>
-  );
-}
+export const Routes = () => (
+  <ReactRouterRoutes>
+    <Route path="/" element={<Frontpage />} />
+    <Route path="/flashcards" element={<FlashcardsMake />} />
+    <Route path="/flashcards/deck/:deckId" element={<FlashcardsEdit />} />
+    {/*<Route path="/friends/:friendUserId" element={<FriendProfile />} />*/}
+  </ReactRouterRoutes>
+);

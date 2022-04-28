@@ -1,18 +1,22 @@
 export type Card = {
   id: string;
-  question: string;
-  answer: string;
-  deckId: string;
-  createdAt: string;
-  updatedAt: string;
+  front: string;
+  back: string;
+  // deckId: string;
+  // createdAt: string;
+  // updatedAt: string;
 };
+export type CardsObject = Record<Card["id"], Card>;
 
 export type Deck = {
   id: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
+  title: string;
+  topic?: string;
+  // createdAt: string;
+  // updatedAt: string;
+  cards: CardsObject;
 };
+export type DecksObject = Record<Deck["id"], Deck>;
 
 export type CardInputData = {
   front: string;

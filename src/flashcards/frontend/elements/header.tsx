@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
-export default observer(function () {
+export const Header = observer(() => {
   const store = useContext(StoreContext);
   const { user } = store.userStore;
 

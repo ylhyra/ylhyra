@@ -1,5 +1,4 @@
 module.exports = {
-  ignorePatterns: ["**/esbuild.js"],
   extends: ["react-app"],
   plugins: ["@typescript-eslint", "import"],
   parser: "@typescript-eslint/parser",
@@ -28,6 +27,9 @@ module.exports = {
             leadingUnderscore: "allowSingleOrDouble",
           },
         ],
+        "import/no-default-export": "warn",
+        "import/no-relative-packages": "error",
+        "import/no-commonjs": "warn",
         "no-throw-literal": "off",
         "import/no-anonymous-default-export": "off",
         "no-unused-vars": "off",
@@ -41,11 +43,26 @@ module.exports = {
         "@typescript-eslint/no-invalid-this": ["warn"],
         "@typescript-eslint/prefer-for-of": "warn",
 
-        // "@typescript-eslint/no-unsafe-argument": "warn",
-        // "@typescript-eslint/no-unsafe-assignment": "warn",
-        // "@typescript-eslint/no-unsafe-call": "warn",
-        // "@typescript-eslint/no-unsafe-member-access": "warn",
-        // "@typescript-eslint/no-unsafe-return": "warn",
+        "@typescript-eslint/no-unsafe-argument": "warn",
+        "@typescript-eslint/no-unsafe-assignment": "warn",
+        "@typescript-eslint/no-unsafe-call": "warn",
+        "@typescript-eslint/no-unsafe-member-access": "warn",
+        "@typescript-eslint/no-unsafe-return": "warn",
+      },
+    },
+    /**
+     * Prevent Flashcards from importing from Ylhýra for now to prevent
+     * accidental clashes.
+     */
+    {
+      files: ["src/flashcards/**/*.ts", "src/flashcards/**/*.tsx"],
+      rules: {
+        "no-restricted-imports": [
+          "error",
+          {
+            patterns: ["ylhyra/*"],
+          },
+        ],
       },
     },
   ],

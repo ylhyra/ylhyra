@@ -1,3 +1,1 @@
-export default function () {
-  return <div>:)</div>;
-}
+export const Frontpage = () => <div>:)</div>;

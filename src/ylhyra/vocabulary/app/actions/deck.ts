@@ -25,8 +25,9 @@ class Deck {
   user_data: UserData | null = null;
   session: Session;
   termCount: number;
+
   /** Only used in compilation, should be removed */
-  alternativeIds: any;
+  alternativeIds: DeckDatabase["alternativeIds"];
 
   constructor({
     database,

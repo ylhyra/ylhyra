@@ -2,6 +2,7 @@ import _hash from "modules/hash";
 import { isBrowser } from "modules/isBrowser";
 import { getUserFromCookie } from "ylhyra/app/user/actions";
 import { getPlaintextFromUnformattedVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
+import { TermId } from "ylhyra/vocabulary/types";
 
 /* Only used for testing */
 export const getDeckName = () => {

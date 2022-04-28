@@ -1,7 +1,7 @@
 import _ from "underscore";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { getHashForVocabulary } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
-import { CardIds } from "ylhyra/vocabulary/types";
+import { CardIds, TermId } from "ylhyra/vocabulary/types";
 
 export const getCardIdsFromWords = (
   words: string[],
@@ -11,11 +11,11 @@ export const getCardIdsFromWords = (
   let cardIds: CardIds = [];
   words.forEach((word) => {
     if (!word) return;
-    const hash = getHashForVocabulary(word.split(" = ")[0]);
-    if (hash in deck!.terms) {
-      cardIds = cardIds.concat(deck!.terms[hash].cards);
-    } else if (hash in deck!.alternativeIds) {
-      deck!.alternativeIds[hash].forEach((j) => {
+    const termId = getHashForVocabulary(word.split(" = ")[0]) as TermId;
+    if (termId in deck!.terms) {
+      cardIds = cardIds.concat(deck!.terms[termId].cards);
+    } else if (deck!.alternativeIds && termId in deck!.alternativeIds) {
+      deck!.alternativeIds[termId].forEach((j) => {
         cardIds = cardIds.concat(deck!.terms[j]?.cards || []);
       });
     } else {
