@@ -14,7 +14,7 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 let project = {};
 if (process.env.PROJECT === "flashcards") {
   project = {
-    entry: "./src/flashcards/frontend/index.tsx",
+    entry: "./src/flashcards/app/app.tsx",
     filename: "ylhyra.[name].js",
   };
 } else {

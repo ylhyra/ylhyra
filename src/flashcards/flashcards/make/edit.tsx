@@ -1,8 +1,8 @@
-import { StoreContext } from "flashcards/frontend/store";
+import { StoreContext } from "flashcards/app/store";
 import { observer } from "mobx-react-lite";
+import { entries } from "modules/typescript/objectEntries";
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
-import { entries } from "modules/typescript/objectEntries";
 
 export const addLine = () => {};
 

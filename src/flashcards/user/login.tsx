@@ -1,11 +1,11 @@
-import { login } from "flashcards/frontend/user/actions";
+import { login } from "flashcards/user/actions";
+import type { LoginData } from "flashcards/user/login.server";
 import { Observer } from "mobx-react-lite";
 import { form } from "modules/form";
 import React from "react";
 import { useLocation } from "react-router";
-import type { LoginData } from "flashcards/frontend/user/login.server";
 
-export const Login () => {
+export const Login = () => {
   const { pathname } = useLocation();
   const isSignup = pathname === "/signup";
 

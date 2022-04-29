@@ -1,6 +1,6 @@
+import { Frontpage } from "flashcards/app/frontpage";
+import { FlashcardsMake } from "flashcards/flashcards/make";
 import { FlashcardsEdit } from "flashcards/flashcards/make/edit";
-import { FlashcardsMake } from "flashcards/flashcards/make/index";
-import { Frontpage } from "flashcards/frontend/routes/frontpage";
 import React from "react";
 import { Route, Routes as ReactRouterRoutes } from "react-router-dom";
 

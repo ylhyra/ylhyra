@@ -1,5 +1,6 @@
-import { UserProfile } from "flashcards/frontend/user/types";
+import { UserProfile } from "flashcards/user/types";
 import { isBrowser } from "modules/isBrowser";
+// eslint-disable-next-line no-restricted-imports
 import { decodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";
 
 export const COOKIE_NAME = "s";

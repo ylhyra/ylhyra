@@ -1,10 +1,10 @@
+import argon2 from "argon2";
 import type { Request, Response } from "express";
 import { Router } from "express";
-import argon2 from "argon2";
+import { db } from "flashcards/database/database.server";
 import { errors } from "flashcards/errors";
-import { db } from "flashcards/server/database/database.server";
-import { throwError } from "flashcards/server/functions/sendError.server";
-import { setSession } from "flashcards/frontend/user/user.server";
+import { throwError } from "flashcards/functions/sendError.server";
+import { setSession } from "flashcards/user/user.server";
 import { StatusCodes } from "http-status-codes";
 
 const router = Router();
