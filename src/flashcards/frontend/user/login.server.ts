@@ -9,7 +9,7 @@ import { StatusCodes } from "http-status-codes";
 
 const router = Router();
 
-export type LoginData = {
+export type LoginRequest = {
   username: string;
   email?: string;
   password: string;
@@ -21,7 +21,7 @@ export type LoginResponse = {
   username: string;
 };
 
-router.post("/api/login", async (req: Request<{}, {}, LoginData>, res) => {
+router.post("/api/login", async (req: Request<{}, {}, LoginRequest>, res) => {
   const username = req.body.username?.trim().replace(/\s+/g, " ");
   const email = req.body.email?.trim();
   const { password, isLoginOrSignup } = req.body;
@@ -48,7 +48,17 @@ router.post("/api/login", async (req: Request<{}, {}, LoginData>, res) => {
   }
 });
 
-const login = async ({ username, password, req, res }) => {
+const login = async ({
+  username,
+  password,
+  req,
+  res,
+}: {
+  username: string;
+  password: string;
+  req: Request;
+  res: Response;
+}) => {
   const user = await db.user.findUnique({
     where: { username: username },
     select: { userId: true, username: true, password: true },
@@ -66,7 +76,15 @@ const login = async ({ username, password, req, res }) => {
   }
 };
 
-export const checkIfUserExists = async ({ email, username, res }) => {
+export const checkIfUserExists = async ({
+  email,
+  username,
+  res,
+}: {
+  username: string;
+  email?: string;
+  res: Response;
+}) => {
   const user = await db.user.findUnique({
     where: { username: username },
     select: { userId: true, username: true, password: true },
@@ -76,7 +94,19 @@ export const checkIfUserExists = async ({ email, username, res }) => {
   }
 };
 
-const createUser = async ({ username, email, password, req, res }) => {
+const createUser = async ({
+  username,
+  email,
+  password,
+  req,
+  res,
+}: {
+  username: string;
+  password: string;
+  email?: string;
+  req: Request;
+  res: Response;
+}) => {
   await checkIfUserExists({ email, username, res });
   const user = await db.user.create({
     data: { username, password: await argon2.hash(password) },
@@ -89,13 +119,13 @@ const createUser = async ({ username, email, password, req, res }) => {
   }
 };
 
-const loginSuccessful = (req: Request, res: Response, user) => {
+const loginSuccessful = (req: Request, res: Response, user: LoginResponse) => {
   const { userId, username } = user;
   setSession(req, userId, username);
   return res.send({ userId, username });
 };
 
-router.post("/api/logout", async (req, res) => {
+router.post("/api/logout", (req, res) => {
   req.session!.userId = null;
   req.session!.usernameEncoded = null;
   return res.sendStatus(200);

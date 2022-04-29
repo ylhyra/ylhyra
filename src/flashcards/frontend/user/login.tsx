@@ -3,7 +3,7 @@ import { Observer } from "mobx-react-lite";
 import { form } from "modules/form";
 import React from "react";
 import { useLocation } from "react-router";
-import type { LoginData } from "flashcards/frontend/user/login.server";
+import type { LoginRequest } from "flashcards/frontend/user/login.server";
 
 export const Login = () => {
   const { pathname } = useLocation();
@@ -16,7 +16,7 @@ export const Login = () => {
       email: "",
       password: "",
       isLoginOrSignup: isSignup ? "signup" : "login",
-    } as LoginData,
+    } as LoginRequest,
   });
 
   return (
