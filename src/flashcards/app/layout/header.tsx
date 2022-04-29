@@ -1,5 +1,5 @@
-import { StoreContext } from "flashcards/frontend/store";
-import { logout } from "flashcards/frontend/user/actions";
+import { StoreContext } from "flashcards/app/store";
+import { logout } from "flashcards/user/actions";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";

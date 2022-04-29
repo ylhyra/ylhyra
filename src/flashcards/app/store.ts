@@ -1,6 +1,6 @@
-import { userStore } from "flashcards/frontend/user/store";
-import { createContext } from "react";
 import { flashcardStore } from "flashcards/flashcards/store";
+import { userStore } from "flashcards/user/store";
+import { createContext } from "react";
 
 export const store = {
   userStore: new userStore(),

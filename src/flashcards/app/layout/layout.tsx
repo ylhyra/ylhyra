@@ -1,4 +1,4 @@
-import { Header } from "flashcards/frontend/elements/header";
+import { Header } from "flashcards/app/layout/header";
 import React from "react";
 
 export const Layout: React.FC = ({ children }) => {
