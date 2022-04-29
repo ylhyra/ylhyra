@@ -19,6 +19,13 @@ describe("Irregularities", () => {
     });
   });
 
+  it("„ég eldist“", (done) => {
+    getWordFromServerForTesting(434620, done, (word) => {
+      assert.equal(word.getIsWordIrregular(), false);
+      done();
+    });
+  });
+
   it("„systir“", (done) => {
     getWordFromServerForTesting(12258, done, (word) => {
       assert.equal(

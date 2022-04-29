@@ -100,8 +100,10 @@ export function findIrregularities(this: Word) {
     }
     /* Test consonant change irregularity */
     if (
-      (!consonantsInFormWithoutEnding.startsWith(consonantsInStem) &&
-        /* Silly hack for "systir" */
+      (!ignoreConsonantsThatMayDisappear(
+        consonantsInFormWithoutEnding
+      ).startsWith(ignoreConsonantsThatMayDisappear(consonantsInStem)) &&
+        /* Silly hack for "systir". TODO: Document this */
         !consonantsInStem.startsWith(consonantsInFormWithoutEnding)) ||
       wordIsHighlyIrregular
     ) {
@@ -116,6 +118,15 @@ export function findIrregularities(this: Word) {
   word.wordHasUmlaut = wordHasUmlaut;
   word.wordIsIrregular = wordIsIrregular;
 }
+
+/**
+ * elda -> elti is not irregular.
+ * We need some way to ignore the dropped "d".
+ * TODO: This is a hack.
+ */
+const ignoreConsonantsThatMayDisappear = (input: string) => {
+  return input.replace(/d/g, "t");
+};
 
 // /*
 //
