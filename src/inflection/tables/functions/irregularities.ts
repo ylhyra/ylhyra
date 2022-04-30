@@ -6,6 +6,9 @@ import {
 } from "inflection/tables/functions/vowels";
 import Word from "inflection/tables/word";
 
+/**
+ *
+ */
 export function findIrregularities(this: Word) {
   let word = this;
   let wordHasUmlaut: Boolean = false;
@@ -98,6 +101,7 @@ export function findIrregularities(this: Word) {
     if (hasAnElision) {
       output = `<span class="elision">${output}</span>`;
     }
+
     /* Test consonant change irregularity */
     if (
       (!ignoreConsonantsThatMayDisappear(
@@ -122,6 +126,7 @@ export function findIrregularities(this: Word) {
 /**
  * elda -> elti is not irregular.
  * We need some way to ignore the dropped "d".
+ *
  * TODO: This is a hack.
  */
 const ignoreConsonantsThatMayDisappear = (input: string) => {
