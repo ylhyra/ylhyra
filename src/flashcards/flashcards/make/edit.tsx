@@ -17,6 +17,31 @@ export const FlashcardsEdit = observer(() => {
       <h1>{deck.title}</h1>
       <button onClick={addLine}>Add</button>
       <div>
+        <b>Deck settings</b>
+        Title: <input />
+        <label>
+          Type:{" "}
+          <select>
+            <option>Foreign language</option>
+          </select>
+        </label>
+        <label>
+          Direction:{" "}
+          <select>
+            <option>Both directions</option>
+            <option>Front to back</option>
+            <option>Back to front</option>
+          </select>
+        </label>
+        <label>
+          Which side should be shown first:{" "}
+          <select>
+            <option>Show front side first</option>
+            <option>Either side can be shown first</option>
+          </select>
+        </label>
+      </div>
+      <div>
         {entries(deck.cards).map(([cardId, card]) => (
           <div key={card.id}>
             <b>{card.front}</b> – <span>{card.back}</span>
