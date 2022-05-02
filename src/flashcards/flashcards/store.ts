@@ -1,4 +1,4 @@
-import { Deck, DecksObject } from "flashcards/flashcards/types";
+import { Deck, DecksObject } from "flashcards/flashcards/types/types";
 import { makeAutoObservable } from "mobx";
 
 export class flashcardStore {
