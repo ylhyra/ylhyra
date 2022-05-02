@@ -1,4 +1,4 @@
-import { Deck, DecksObject } from "flashcards/flashcards/types/types";
+import { Deck, IdToDeck } from "flashcards/flashcards/types/types";
 import { makeAutoObservable } from "mobx";
 
 export class flashcardStore {
@@ -8,7 +8,7 @@ export class flashcardStore {
     },
   };
   deckOrder = [];
-  decks: DecksObject = {
+  decks: IdToDeck = {
     a: {
       id: "a",
       title: "Spænska",
