@@ -31,3 +31,20 @@ export class form {
     return <form onSubmit={this._onSubmit}>{props.children}</form>;
   };
 }
+
+export const InputWithLabel = ({
+  name,
+  title,
+}: {
+  name: string;
+  title: string;
+}) => {
+  return (
+    <label>
+      <div>{title}:</div>
+      <div>
+        <input type="text" />
+      </div>
+    </label>
+  );
+};

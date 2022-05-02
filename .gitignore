@@ -13,3 +13,4 @@ build/*
 .secret
 .putout.json*
 .idea
+**/output.css

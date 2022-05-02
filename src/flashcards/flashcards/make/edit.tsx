@@ -1,5 +1,6 @@
 import { StoreContext } from "flashcards/app/store";
 import { observer } from "mobx-react-lite";
+import { InputWithLabel } from "modules/form/index2";
 import { entries } from "modules/typescript/objectEntries";
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
@@ -18,13 +19,8 @@ export const FlashcardsEdit = observer(() => {
       <button onClick={addLine}>Add</button>
       <div>
         <b>Deck settings</b>
-        Title: <input />
-        <label>
-          Type:{" "}
-          <select>
-            <option>Foreign language</option>
-          </select>
-        </label>
+        <InputWithLabel name="title" title="Title" />
+
         <label>
           Direction:{" "}
           <select>
