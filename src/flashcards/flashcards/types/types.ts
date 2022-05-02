@@ -5,11 +5,10 @@ export type CardInputData = {
   id: string;
   front: string;
   back: string;
-} & Partial<{
   direction?: DirectionSettings;
   automaticDependencies?: Boolean;
   automaticallyDependOnThis?: Boolean;
-  lemmas: string;
+  lemmas?: string;
   // /**
   //  * Comma seperated list of entries that the user
   //  * has to have studied prior to seeing this card
@@ -62,7 +61,7 @@ export type CardInputData = {
   // "this is a minor variation of"?: string;
   // /** ISO date */
   // "last_seen"?: string;
-}>;
+};
 
 export type IdToCard = Record<CardInputData["id"], CardInputData>;
 
