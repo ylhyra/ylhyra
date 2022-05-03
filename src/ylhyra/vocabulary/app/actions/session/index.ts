@@ -1,9 +1,9 @@
+import { saveInLocalStorage } from "modules/localStorage";
 import { log } from "modules/log";
 import { roundMsToSec, roundToInterval } from "modules/math";
 import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
 import Analytics from "ylhyra/app/app/analytics";
 import { EACH_SESSION_LASTS_X_MINUTES } from "ylhyra/app/app/constants";
-import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { doesCardExist } from "ylhyra/vocabulary/app/actions/card/card";
 import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession";

@@ -1,4 +1,4 @@
-import { flashcardStore } from "flashcards/flashcards/store";
+import { flashcardStore } from "flashcards/flashcards/flashcardsStore";
 import { userStore } from "flashcards/user/store";
 import { createContext } from "react";
 

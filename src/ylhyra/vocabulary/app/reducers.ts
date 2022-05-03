@@ -1,8 +1,5 @@
+import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
 import { AnyAction, combineReducers } from "redux";
-import {
-  getFromLocalStorage,
-  saveInLocalStorage,
-} from "ylhyra/app/app/functions/localStorage";
 import Deck from "ylhyra/vocabulary/app/actions/deck";
 
 const deck = (state = null, action: AnyAction) => {

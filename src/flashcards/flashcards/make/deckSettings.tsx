@@ -90,7 +90,8 @@ const deckSettingsFields: FieldsSetup<DeckSettings> = [
 
 export const DeckSettingsElement = observer(
   ({ deckId }: { deckId: string }) => {
-    const deck = store.flashcardStore.getDeck(deckId);
+    const deck = store.flashcardStore.getDeckById(deckId);
+    if (!deck) return null;
 
     const { Form, Fields } = new form({
       onSubmit: login,

@@ -1,8 +1,9 @@
 import { StoreContext } from "flashcards/app/store";
-import { getDeckTitle } from "flashcards/flashcards/store";
+import { getDeckTitle } from "flashcards/flashcards/flashcardsStore";
+import { newDeck } from "flashcards/flashcards/make/actions";
 import { observer } from "mobx-react-lite";
 import { entries } from "modules/typescript/objectEntries";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 export const FlashcardsMake = observer(function () {
@@ -12,6 +13,7 @@ export const FlashcardsMake = observer(function () {
   return (
     <div>
       Decks:
+      <button onClick={newDeck}>New deck</button>
       <ul>
         {entries(decks).map(([deckId, deck]) => (
           <li key={deckId}>
@@ -20,6 +22,7 @@ export const FlashcardsMake = observer(function () {
           </li>
         ))}
       </ul>
+      {Object.keys(decks).length === 0 && <div>No decks.</div>}
     </div>
   );
 });

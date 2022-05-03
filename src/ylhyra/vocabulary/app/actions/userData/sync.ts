@@ -1,6 +1,6 @@
+import { getFromLocalStorage } from "modules/localStorage";
 import { log } from "modules/log";
 import axios from "ylhyra/app/app/axios";
-import { getFromLocalStorage } from "ylhyra/app/app/functions/localStorage";
 import { isUserLoggedIn } from "ylhyra/app/user/actions";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import {

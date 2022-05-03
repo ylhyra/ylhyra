@@ -3,18 +3,16 @@
 */
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
+import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
 import { roundToInterval } from "modules/math";
 import { getTime, seconds } from "modules/time";
 import axios from "ylhyra/app/app/axios";
-import {
-  ANALYTICS_LOCALSTORAGE_LABEL,
-  getFromLocalStorage,
-  saveInLocalStorage
-} from "ylhyra/app/app/functions/localStorage";
+
+export const ANALYTICS_LOCALSTORAGE_LABEL = "_a";
 
 const ignoredUrls = ["/", "/frontpage"];
 
-let likelyNotABot = null;
+let likelyNotABot: Boolean | null = null;
 
 class Analytics {
   timer = null;

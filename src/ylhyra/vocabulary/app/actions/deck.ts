@@ -1,5 +1,5 @@
 import { isBrowser } from "modules/isBrowser";
-import { saveInLocalStorage } from "ylhyra/app/app/functions/localStorage";
+import { saveInLocalStorage } from "modules/localStorage";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { sortBySortKey } from "ylhyra/vocabulary/app/actions/createCards/functions";
 import { countTerms } from "ylhyra/vocabulary/app/actions/functions";

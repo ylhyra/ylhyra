@@ -1,6 +1,6 @@
 import { StoreContext } from "flashcards/app/store";
+import { getDeckTitle } from "flashcards/flashcards/flashcardsStore";
 import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
-import { getDeckTitle } from "flashcards/flashcards/store";
 import { CardInputData } from "flashcards/flashcards/types/types";
 import { observer } from "mobx-react-lite";
 // import { InputWithL.abel } from "modules/form/index2";
@@ -12,15 +12,15 @@ export const addLine = () => {};
 
 export const FlashcardsEdit = observer(() => {
   let { deckId } = useParams<{ deckId: string }>();
-  if (!deckId) throw new Error();
   const store = useContext(StoreContext);
-  const deck = store.flashcardStore.getDeck(deckId);
+  const deck = store.flashcardStore.getDeckById(deckId!);
+  if (!deck) return <div>No deck with that id.</div>;
 
   return (
     <div>
       <h1>{getDeckTitle(deck)}</h1>
       <button onClick={addLine}>Add</button>
-      <DeckSettingsElement deckId={deckId} />
+      <DeckSettingsElement deckId={deckId!} />
 
       <div>
         {entries(deck.cards).map(([cardId, card]) => (

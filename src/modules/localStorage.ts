@@ -1,16 +1,9 @@
 import { isBrowser } from "modules/isBrowser";
 
-export const ANALYTICS_LOCALSTORAGE_LABEL = "_a";
-
-const compressed_keys = [
-  "vocabulary-database",
-  "vocabulary-user-data",
-  "vocabulary-schedule", // Temporary, to be removed after migration
-  ANALYTICS_LOCALSTORAGE_LABEL,
-];
+const compressed_keys = [];
 
 /* Helper functions to stringify in local storage */
-export const saveInLocalStorage = (name, input) => {
+export const saveInLocalStorage = (name: string, input: any) => {
   if (!isBrowser) return;
   let data;
   if (!input || (Array.isArray(input) && input.length === 0)) {
@@ -19,19 +12,17 @@ export const saveInLocalStorage = (name, input) => {
     data = JSON.stringify(input);
   }
 
-  // // TODO!! Too slow?
+  // /* This is not currently used since it is too slow */
   // if (data && compressed_keys.includes(name)) {
   //   console.time("Data compression");
   //   data = compressToBase64(data);
   //   console.timeEnd("Data compression");
   // }
 
-  // console.time("Saving in localstorage");
   localStorage.setItem(name, data);
-  // console.timeEnd("Saving in localstorage");
 };
 
-export const getFromLocalStorage = (name) => {
+export const getFromLocalStorage = (name: string): any => {
   if (!isBrowser) return;
   let data = localStorage.getItem(name);
   if (!data) return null;
