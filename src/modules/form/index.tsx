@@ -71,8 +71,10 @@ export class form {
     };
   };
   onSubmitInternal = (event: React.FormEvent) => {
-    event.preventDefault();
-    this.onSubmit && this.onSubmit(this.values);
+    if (this.onSubmit) {
+      event.preventDefault();
+      this.onSubmit(this.values);
+    }
   };
   Form: React.FC = (props) => {
     return <form onSubmit={this.onSubmitInternal}>{props.children}</form>;

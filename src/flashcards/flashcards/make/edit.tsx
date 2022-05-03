@@ -19,9 +19,9 @@ export const FlashcardsEdit = observer(() => {
   return (
     <div>
       <h1>{getDeckTitle(deck)}</h1>
-      <button onClick={addLine}>Add</button>
       <DeckSettingsElement deckId={deckId!} />
-
+      <hr />
+      <button onClick={addLine}>Add row</button>
       <div>
         {entries(deck.cards).map(([cardId, card]) => (
           <Row key={card.id} card={card} />
