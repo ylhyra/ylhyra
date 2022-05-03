@@ -2,18 +2,27 @@ import { makeAutoObservable } from "mobx";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 import React from "react";
 
-export type FieldsSetup<TypeThisIsDescribing = void> = Array<{
-  name: Extract<keyof TypeThisIsDescribing, string>;
+export type FieldsSetup<TypeThisIsDescribing = void> = Array<
+  FieldsSetupField<
+    TypeThisIsDescribing,
+    Extract<keyof TypeThisIsDescribing, string>
+  >
+>;
+export type FieldsSetupField<
+  TypeThisIsDescribing extends Record<string, any>,
+  TypeKey extends string
+> = {
+  name: TypeKey;
   /** If not passed, then by default uppercase first of name */
   label?: string;
   type: "text" | "select" | "checkbox";
   defaultValue?: string | Number | Boolean;
   description?: string;
   options?: Array<{
-    value: string | Number;
+    value: TypeThisIsDescribing[TypeKey];
     label: string;
   }>;
-}>;
+};
 
 export class form {
   values: Record<string, any> = {};
