@@ -1,7 +1,8 @@
 import { StoreContext } from "flashcards/app/store";
+import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
 import { CardInputData } from "flashcards/flashcards/types/types";
 import { observer } from "mobx-react-lite";
-import { InputWithLabel } from "modules/form/index2";
+// import { InputWithL.abel } from "modules/form/index2";
 import { entries } from "modules/typescript/objectEntries";
 import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
@@ -18,26 +19,7 @@ export const FlashcardsEdit = observer(() => {
     <div>
       <h1>{deck.title}</h1>
       <button onClick={addLine}>Add</button>
-      <div>
-        <b>Deck settings</b>
-        <InputWithLabel name="title" title="Title" />
-
-        <label>
-          Direction:{" "}
-          <select>
-            <option>Both directions</option>
-            <option>Front to back</option>
-            <option>Back to front</option>
-          </select>
-        </label>
-        <label>
-          Which side should be shown first:{" "}
-          <select>
-            <option>Show front side first</option>
-            <option>Either side can be shown first</option>
-          </select>
-        </label>
-      </div>
+      <DeckSettingsElement deckId={deckId} />
 
       <div>
         {entries(deck.cards).map(([cardId, card]) => (

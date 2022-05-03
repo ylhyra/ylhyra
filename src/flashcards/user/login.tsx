@@ -1,9 +1,9 @@
 import { login } from "flashcards/user/actions";
+import type { LoginRequest } from "flashcards/user/login.server";
 import { Observer } from "mobx-react-lite";
 import { form } from "modules/form";
 import React from "react";
 import { useLocation } from "react-router";
-import type { LoginRequest } from "flashcards/user/login.server";
 
 export const Login = () => {
   const { pathname } = useLocation();
