@@ -11,8 +11,10 @@ export class flashcardStore {
   decks: IdToDeck = {
     a: {
       id: "a",
-      title: "Spænska",
-      topic: "asd",
+      settings: {
+        title: "Spænska",
+        topic: "asd",
+      },
       cards: {
         a: {
           id: "a",
@@ -42,3 +44,7 @@ export class flashcardStore {
 
   load() {}
 }
+
+export const getDeckTitle = (deck: Deck) => {
+  return deck.settings.title || "(untitled)";
+};

@@ -68,9 +68,11 @@ export type IdToCard = Record<CardInputData["id"], CardInputData>;
 export type Deck = {
   id: string;
   cards: IdToCard;
-} & DeckSettings;
+  settings: DeckSettings;
+};
 export type IdToDeck = Record<Deck["id"], Deck>;
 
+/** Interface form is at {@link deckSettingsFields} */
 export type DeckSettings = Partial<{
   title: string;
   topic?: string;
@@ -78,24 +80,26 @@ export type DeckSettings = Partial<{
     | "FOREIGN_LANGUAGE_PERSONAL_USE"
     | "FOREIGN_LANGUAGE_FOR_OTHERS"
     | "NONE";
-  fromLanguage: string;
-  toLanguage: string;
+  frontSideLanguage: string;
+  backSideLanguage: string;
   direction?: DirectionSettings;
   sideToShowFirst?: "FRONT_SIDE" | "RANDOM";
   automaticDependencies?: Boolean;
   automaticallyOccludeClashing?: Boolean;
-  scheduling?: {
-    goal: "MEMORIZE_PERFECTLY" | "MEMORIZE_WELL" | "SEE_MANY_CARDS" | "CRAM";
-    newCardsPrioritization:
-      | "PRIORITIZE_LOWER_RANK"
-      | "PRIORITIZE_IMPORTANCE"
-      | "PRIORITIZE_RECENTLY_ADDED";
-    seenCardsPrioritization:
-      | "PRIORITIZE_LOWER_RANK"
-      | "PRIORITIZE_IMPORTANCE"
-      | "PRIORITIZE_FIRST_SEEN"
-      | "PRIORITIZE_RECENTLY_SEEN";
-  };
+  schedulingGoal:
+    | "MEMORIZE_PERFECTLY"
+    | "MEMORIZE_WELL"
+    | "SEE_MANY_CARDS"
+    | "CRAM";
+  schedulingNewCardsPrioritization:
+    | "PRIORITIZE_LOWER_RANK"
+    | "PRIORITIZE_IMPORTANCE"
+    | "PRIORITIZE_RECENTLY_ADDED";
+  schedulingSeenCardsPrioritization:
+    | "PRIORITIZE_LOWER_RANK"
+    | "PRIORITIZE_IMPORTANCE"
+    | "PRIORITIZE_FIRST_SEEN"
+    | "PRIORITIZE_RECENTLY_SEEN";
   stringReplacements: [];
   automaticReplacementsToFindAlternativeId: [];
   /**

@@ -11,7 +11,7 @@ export const Login = () => {
 
   const { Form, getFieldProps, setValues } = new form({
     onSubmit: login,
-    initialValues: {
+    values: {
       username: "",
       email: "",
       password: "",

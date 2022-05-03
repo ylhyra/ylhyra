@@ -1,4 +1,5 @@
 import { StoreContext } from "flashcards/app/store";
+import { getDeckTitle } from "flashcards/flashcards/store";
 import { observer } from "mobx-react-lite";
 import { entries } from "modules/typescript/objectEntries";
 import { useContext } from "react";
@@ -14,7 +15,7 @@ export const FlashcardsMake = observer(function () {
       <ul>
         {entries(decks).map(([deckId, deck]) => (
           <li key={deckId}>
-            {deck.title} ({Object.keys(deck.cards).length} cards){" "}
+            {getDeckTitle(deck)} ({Object.keys(deck.cards).length} cards){" "}
             <Link to={`/flashcards/deck/${deckId}`}>Edit</Link>
           </li>
         ))}

@@ -1,5 +1,6 @@
 import { StoreContext } from "flashcards/app/store";
 import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
+import { getDeckTitle } from "flashcards/flashcards/store";
 import { CardInputData } from "flashcards/flashcards/types/types";
 import { observer } from "mobx-react-lite";
 // import { InputWithL.abel } from "modules/form/index2";
@@ -17,7 +18,7 @@ export const FlashcardsEdit = observer(() => {
 
   return (
     <div>
-      <h1>{deck.title}</h1>
+      <h1>{getDeckTitle(deck)}</h1>
       <button onClick={addLine}>Add</button>
       <DeckSettingsElement deckId={deckId} />
 
@@ -34,8 +35,8 @@ export const Row: React.FC<{ card: CardInputData }> = ({ card }) => {
   return (
     <div>
       <div>
-        <input type="text" value={card.front} />
-        <input type="text" value={card.back} />
+        {/*<input type="text" value={card.front} />*/}
+        {/*<input type="text" value={card.back} />*/}
       </div>
     </div>
   );
