@@ -6,3 +6,5 @@ type Entries<T> = {
  * Wrapper for Object.entries with types
  */
 export const entries = <T>(obj: T): Entries<T> => Object.entries(obj) as any;
+
+// export const entriesOnly = <T>(obj: T): Entries<T> => Object.entries(obj) as any;

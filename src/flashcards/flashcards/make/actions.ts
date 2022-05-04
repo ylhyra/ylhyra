@@ -1,10 +1,10 @@
-import { store } from "flashcards/app/store";
+import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
 import { customHistory } from "modules/router";
 import shortid from "shortid";
 
 export const newDeck = () => {
   const id = shortid.generate();
-  store.flashcardStore.decks[id] = {
+  getFlashcardsStore().decks[id] = {
     id,
     settings: {},
     cards: {},
@@ -15,7 +15,7 @@ export const newDeck = () => {
 export const addLine = (deckId: string) => {
   const id = shortid.generate();
 
-  store.flashcardStore.decks[deckId].cards[id] = {
+  getFlashcardsStore().decks[deckId].cards[id] = {
     id,
   };
   return id;

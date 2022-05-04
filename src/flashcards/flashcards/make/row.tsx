@@ -1,8 +1,8 @@
-import { CardInputData } from "flashcards/flashcards/types/types";
+import { CardEntry } from "flashcards/flashcards/types/cardEntry";
 import { FieldsSetup, form } from "modules/form";
 import React from "react";
 
-const rowFields: FieldsSetup<CardInputData> = [
+const rowFields: FieldsSetup<CardEntry> = [
   {
     name: "front",
     label: "Front side",
@@ -65,8 +65,8 @@ const rowFields: FieldsSetup<CardInputData> = [
   { name: "lemmas", label: "Lemmas" },
 ];
 
-export const Row = ({ card }: { card: CardInputData }) => {
-  const { Form, AllFields, Input } = new form<CardInputData>({
+export const Row = ({ card }: { card: CardEntry }) => {
+  const { Form, AllFields, Input } = new form<CardEntry>({
     values: card,
     fields: rowFields,
   });

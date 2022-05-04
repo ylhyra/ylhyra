@@ -1,18 +1,17 @@
-import { StoreContext } from "flashcards/app/store";
-import { initializeSession } from "flashcards/flashcards/play/actions/session/initialize";
+import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
+import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
 import { observer } from "mobx-react-lite";
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 export const FlashcardsPlay = observer(function () {
   let { deckId } = useParams<{ deckId: string }>();
-  const store = useContext(StoreContext);
-  const deck = store.flashcardStore.getDeckById(deckId!);
+  const deck = getFlashcardsStore().getDeckById(deckId!);
   if (!deck) return <div>No deck with that id.</div>;
 
   useEffect(() => {
     void initializeSession({ deckId });
-  }, []);
+  }, [deckId]);
 
   return (
     <div id="vocabulary-screen">

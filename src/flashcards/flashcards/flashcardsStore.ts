@@ -1,13 +1,9 @@
-import { Deck, IdToDeck } from "flashcards/flashcards/types/types";
+import { IdToDeck, UnprocessedDeck } from "flashcards/flashcards/types/types";
 import { makeAutoObservable } from "mobx";
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
 
 export class flashcardStore {
-  topics = {
-    asd: {
-      title: "asd",
-    },
-  };
+  topics = {};
   deckOrder = [];
   decks: IdToDeck = getFromLocalStorage("decks") || {};
 
@@ -15,7 +11,7 @@ export class flashcardStore {
     makeAutoObservable(this);
   }
 
-  getDeckById = (id: string): Deck | undefined => {
+  getDeckById = (id: string): UnprocessedDeck | undefined => {
     if (id in this.decks) {
       return this.decks[id];
     }
@@ -27,6 +23,9 @@ export class flashcardStore {
   load() {}
 }
 
-export const printDeckTitle = (deck: Deck) => {
+export const printDeckTitle = (deck: UnprocessedDeck) => {
   return deck.settings.title || "(untitled)";
 };
+
+const store = new flashcardStore();
+export const getFlashcardsStore = (): flashcardStore => store;
