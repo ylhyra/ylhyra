@@ -13,6 +13,14 @@ import {
   TermIds,
   TermIdToDependencyDepth,
 } from "ylhyra/vocabulary/types";
+import _ from "underscore";
+import {
+  CardId,
+  CardIds,
+  TermId,
+  TermIds,
+  TermIdToDependencyDepth,
+} from "ylhyra/vocabulary/types";
 
 export const getDependenciesAsTermIdToDepth = (
   id: CardId

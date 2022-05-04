@@ -1,18 +1,25 @@
-export function undo("flashcards/app/store") {
-  const card = this.cardHistory?.[0];
+import { loadCardInInterface } from "flashcards/flashcards/play/actions/session/loadCardInInterface";
+import { getSession } from "flashcards/flashcards/play/actions/session/sessionStore";
+
+export function undoSession() {
+  const session = getSession();
+
+  const card = session.cardHistory?.[0];
   if (!card) return;
   card.history.shift();
-  this.currentCard = card;
-  this.cardHistory!.shift();
-  this.lastUndid = this.counter;
-  this.loadCardInInterface();
+  session.currentCard = card;
+  session.cardHistory!.shift();
+  session.lastUndid = session.counter;
+  loadCardInInterface();
 }
 
-export function undoable("flashcards/app/store") {
+export function isSessionUndoable() {
+  const session = getSession();
+
   return (
-    this.cardHistory &&
-    this.cardHistory.length > 0 &&
-    this.lastUndid !== this.counter
+    session.cardHistory &&
+    session.cardHistory.length > 0 &&
+    session.lastUndid !== session.counter
   );
 }
 
@@ -21,9 +28,9 @@ export function checkForUndoOnKeyDown(e: KeyboardEvent) {
     e.keyCode === 90 &&
     (e.ctrlKey || e.metaKey) &&
     !e.altKey &&
-    this.undoable()
+    isSessionUndoable()
   ) {
     e.preventDefault();
-    this.undo();
+    undoSession();
   }
 }

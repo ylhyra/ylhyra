@@ -77,6 +77,7 @@ export type Deck = {
 export type IdToDeck = Record<Deck["id"], Deck>;
 
 export type DirectionSettings = "BOTH" | "FRONT_TO_BACK" | "BACK_TO_FRONT";
+export type Direction = "FRONT_TO_BACK" | "BACK_TO_FRONT";
 
 export enum ImportanceEnum {
   VERY_UNIMPORTANT = 1,

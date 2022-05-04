@@ -1,16 +1,19 @@
 import { store } from "flashcards/app/store";
-import { checkIfCardsRemaining } from "flashcards/flashcards/play/actions/session/functions";
+import { createCardsIfNoneAreRemaining } from "flashcards/flashcards/play/actions/session/functions";
+import { nextCard } from "flashcards/flashcards/play/actions/session/nextCard";
+import { syncIfNecessary } from "flashcards/flashcards/play/actions/userData/sync";
 
-export async function initializeSession({ deckId }: { deckId: string }) {
+export function initializeSession({ deckId }: { deckId: string }) {
   const deck = store.flashcardStore.getDeckById(deckId!);
   if (!deck) throw new Error();
-  checkIfCardsRemaining();
+  createCardsIfNoneAreRemaining();
+  nextCard();
+  void syncIfNecessary();
 
-  // await syncIfNecessary();
   // if (options.shouldReset !== false) {
-  //   this.reset();
+  //   session.reset();
   // }
-  // this.checkIfCardsRemaining();
-  // this.nextCard();
-  // this.loadCardInInterface();
+  // session.checkIfCardsRemaining();
+  // session.nextCard();
+  // session.loadCardInInterface();
 }

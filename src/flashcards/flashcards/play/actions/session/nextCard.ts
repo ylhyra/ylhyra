@@ -1,59 +1,49 @@
-import {
-  getSortKey,
-  getTermIds,
-} from "flashcards/flashcards/play/actions/card/card_data";
-import { getLastSeen } from "flashcards/flashcards/play/actions/card/card_schedule";
+import { getTermIds } from "flashcards/flashcards/play/actions/card/card_data";
 import CardInSession from "flashcards/flashcards/play/actions/cardInSession";
-import { printWord } from "flashcards/flashcards/play/actions/functions";
-import { isDev } from "modules/isDev";
+import { createCards } from "flashcards/flashcards/play/actions/createCards";
+import { debugSession } from "flashcards/flashcards/play/actions/session/debugging";
+import {
+  createCardsIfNoneAreRemaining,
+  updateRemainingTime,
+} from "flashcards/flashcards/play/actions/session/functions";
+import { saveSessionInLocalStorage } from "flashcards/flashcards/play/actions/session/sessionSaveLocalStorage";
+import { getSession } from "flashcards/flashcards/play/actions/session/sessionStore";
+import { log } from "modules/log";
 import _ from "underscore";
 
-let LOGGING = false;
-// LOGGING = true;
-
+/**
+ * @param depth - Used to prevent infinite calls
+ */
 export function nextCard(depth = 0) {
-  this.counter++;
-  this.updateRemainingTime();
-  if (this.done) return;
-  if (this.cards.length === 0) {
-    console.error("No cards");
-    this.createMoreCards();
+  const session = getSession();
+
+  session.counter++;
+  updateRemainingTime();
+  if (session.done) return;
+  if (session.cards.length === 0) {
+    log("No cards");
+    createCards();
     /* Prevent infinite calls */
     if (depth === 0) {
-      this.nextCard(1);
+      nextCard(1);
     } else {
       throw new Error("Failed to generate cards");
       // TODO User-facing error?
     }
     return;
   } else {
-    this.checkIfCardsRemaining();
+    createCardsIfNoneAreRemaining();
   }
 
-  this.currentCard = _.min(this.cards, (i) => i.getRanking()) as CardInSession;
+  session.currentCard = _.min(session.cards, (i) =>
+    i.getRanking()
+  ) as CardInSession;
 
-  /* Logging */
-  if ((LOGGING || window["logging"]) && isDev) {
-    const { deck } = this;
-    console.table(
-      _.sortBy(this.cards, (i) => i.getRanking()).map((i: CardInSession) => ({
-        Rank: Math.round(i.getRanking()),
-        Queue: i.absoluteQueuePosition - i.session.counter,
-        Prohib: (i.cannotBeShownBefore || 0) - i.session.counter,
-        seen: i.hasBeenSeenInSession() ? "SEEN" : "",
-        word: printWord(i.getId()),
-        sortKey: getSortKey(i.getId()),
-        schdl: deck!.schedule[i.getId()]
-          ? new Date(getLastSeen(i.getId()))
-          : "",
-      }))
-    );
-  }
-
-  /* Store when this term was last seen */
-  getTermIds(this.currentCard.getId()).forEach((termId) => {
-    this.lastSeenTerms[termId] = this.counter;
+  /* Store when session.term was last seen */
+  getTermIds(session.currentCard.getId()).forEach((termId) => {
+    session.lastSeenTerms[termId] = session.counter;
   });
 
-  this.saveSessionInLocalStorage();
+  saveSessionInLocalStorage();
+  debugSession();
 }

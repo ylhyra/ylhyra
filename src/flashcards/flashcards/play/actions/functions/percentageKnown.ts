@@ -5,6 +5,7 @@ import {
 } from "flashcards/flashcards/play/actions/card/card_schedule";
 import { deck } from "flashcards/flashcards/play/actions/deck";
 import { clamp, mapValueToRange } from "modules/math";
+import { clamp, mapValueToRange } from "modules/math";
 
 export const PercentageKnown = (cardIds: CardIds) => {
   if (!deck?.schedule) return 0;

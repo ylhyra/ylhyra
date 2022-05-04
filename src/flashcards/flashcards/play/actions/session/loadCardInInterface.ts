@@ -1,13 +1,10 @@
-import store from "ylhyra/app/app/store";
-
-export function loadCardInInterface("flashcards/app/store") {
-  const session = this;
-  if (!session?.currentCard) return console.error("no cards");
-  store.dispatch({
-    type: "NEW_CARD_IN_INTERFACE",
-    content: session.counter,
-  });
-
+export function loadCardInInterface() {
+  // const session = getSession();
+  // if (!session?.currentCard) return console.error("no cards");
+  // store.dispatch({
+  //   type: "NEW_CARD_IN_INTERFACE",
+  //   content: session.counter,
+  // });
   // // Debug: Show dependencies
   // if (isDev) {
   //   log(
@@ -16,17 +13,16 @@ export function loadCardInInterface("flashcards/app/store") {
   //     ).map(printWord)
   //   );
   // }
-
   // // Debug: Show score
   // if (
-  //   this.deck!.schedule[session.currentCard.id] &&
+  //   session.deck!.schedule[session.currentCard.id] &&
   //   isDev
   // ) {
   //   log(
   //     `Score of "${printWord(session.currentCard.id)}": ${
-  //       this.deck!.schedule[session.currentCard.id].score
+  //       session.deck!.schedule[session.currentCard.id].score
   //     } - last interval: ${
-  //       this.deck!.schedule[session.currentCard.id].last_interval_in_days
+  //       session.deck!.schedule[session.currentCard.id].last_interval_in_days
   //     }`
   //   );
   // }

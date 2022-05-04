@@ -14,8 +14,6 @@ import {
   Terms,
 } from "ylhyra/vocabulary/types";
 
-export let deck: Deck | undefined;
-
 export type Schedule = Record<CardId, Partial<ScheduleData>>;
 class Deck {
   cards: Cards = {};

@@ -6,12 +6,12 @@ import {
   showIn,
 } from "flashcards/flashcards/play/actions/cardInSession/showIn";
 import Session from "flashcards/flashcards/play/actions/session";
-import { rating } from "ylhyra/vocabulary/app/constants";
+import { Rating } from "flashcards/flashcards/types/types";
 
 class CardInSession {
   id: CardId;
   session: Session;
-  history: Array<rating>;
+  history: Array<Rating>;
   absoluteQueuePosition: number; /* Counter */
   cannotBeShownBefore?: number; /* Counter */
   lastSeen?: number; /* Counter */
@@ -26,7 +26,7 @@ class CardInSession {
     id: CardId;
     session: Session;
     insertAtPosition?: number;
-    history?: Array<rating>;
+    history?: Array<Rating>;
   }) {
     this.id = id;
     this.session = session;

@@ -3,6 +3,8 @@ import { getCardIdsFromTermId } from "flashcards/flashcards/play/actions/card/te
 import { deck } from "flashcards/flashcards/play/actions/deck";
 import { flatten, uniq } from "underscore";
 import { getHashForVocabulary } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
+import { flatten, uniq } from "underscore";
+import { getHashForVocabulary } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 
 export const getCardIdsFromTermIds = (termIds: TermIds) => {
   return uniq(

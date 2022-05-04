@@ -2,19 +2,18 @@ import {
   hasDependenciesInCommonWith,
   hasTermsInCommonWith,
 } from "flashcards/flashcards/play/actions/card/card_dependencies";
-import { deck } from "flashcards/flashcards/play/actions/deck";
 
 export const isInSession = (id: CardId) => {
   return deck!.session.cards.some((i) => i.getId() === id);
 };
 
 export const isAllowed = (id: CardId) => {
-  const { allowed_ids } = deck!.session;
+  const { allowedIds } = deck!.session;
   return (
     /* Ignore cards that are already in the session */
     !isInSession(id) &&
-    /* If allowed_ids is on, only select allowed cards */
-    (!allowed_ids || allowed_ids.includes(id)) &&
+    /* If allowedIds is on, only select allowed cards */
+    (!allowedIds || allowedIds.includes(id)) &&
     /* In case we're adding cards to an already ongoing session,
          ignore cards that are similar to a card the user has just seen */
     !deck!.session.cardHistory.slice(0, 3).some(

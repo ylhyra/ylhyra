@@ -1,5 +1,3 @@
-import { deck } from "flashcards/flashcards/play/actions/deck";
-
 export const SESSION_PREFIX = "s_";
 
 export const getSessions = (): Array<any> => {

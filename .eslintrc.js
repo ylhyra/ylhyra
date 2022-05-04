@@ -16,7 +16,7 @@ module.exports = {
         tsconfigRootDir: __dirname,
       },
       rules: {
-        "no-undef": "error",
+        // "no-undef": "error",
         "import/no-unused-modules": ["warn", { unusedExports: true }],
 
         "@typescript-eslint/naming-convention": [

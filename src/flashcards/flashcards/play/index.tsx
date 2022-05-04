@@ -92,7 +92,7 @@ export const FlashcardsPlay = observer(function () {
 //     if (!getUserLevel()) {
 //       return <SelectLevelScreen />;
 //     }
-//     const session: Session = this.props.vocabulary.deck?.session;
+//     const session: session = getSession().props.vocabulary.deck?.session;
 //     if (!session) return null;
 //     const { card } = this.props.vocabulary;
 //     if (!card) return null;

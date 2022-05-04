@@ -6,14 +6,10 @@ import {
 } from "flashcards/flashcards/play/actions/card/card_data";
 import { isNewTerm } from "flashcards/flashcards/play/actions/card/card_schedule";
 import { getCardIdsFromTermIds } from "flashcards/flashcards/play/actions/card/functions";
-import { deck } from "flashcards/flashcards/play/actions/deck";
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 import { log } from "modules/log";
 import { roundToInterval } from "modules/math";
-import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
-import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
-import { getHashForVocabulary } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 
 export const printWord = (id: CardId | TermId | string) => {
   if (!isDev) return;
@@ -34,10 +30,10 @@ export const printWord = (id: CardId | TermId | string) => {
   }
 };
 
-export const studyParticularIds = async (allowed_ids: CardIds, options?) => {
+export const studyParticularIds = async (allowedIds: CardIds, options?) => {
   const { session } = deck;
   session.reset();
-  session.allowed_ids = allowed_ids;
+  session.allowedIds = allowedIds;
   session.createCards(options);
   await session.initializeSession({ shouldReset: false });
   goToUrl("/vocabulary/play");
@@ -52,7 +48,7 @@ export const studyNewTerms = () => {
   });
   studyParticularIds(newTerms, {
     skip_dependencies: true,
-    dont_sort_by_allowed_ids: true,
+    dont_sort_by_allowedIds: true,
   });
 };
 

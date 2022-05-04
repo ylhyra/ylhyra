@@ -5,15 +5,16 @@ import { CreateCardsOptions } from "flashcards/flashcards/play/actions/createCar
 import { veryRecentlySeenSortedLast } from "flashcards/flashcards/play/actions/createCards/functions";
 import { deck } from "flashcards/flashcards/play/actions/deck";
 import { sortBy } from "underscore";
+import { sortBy } from "underscore";
 
 export default (options?: CreateCardsOptions): CardIds => {
   let newCards = deck!.cards_sorted.filter(
     (card) => !isInSchedule(card) && isAllowed(card)
   );
 
-  if (deck!.session.allowed_ids && !options?.dont_sort_by_allowed_ids) {
-    /* Sort in same order as allowed_ids */
-    newCards = sortBy(newCards, (id) => deck!.session.allowed_ids!.indexOf(id));
+  if (deck!.session.allowedIds && !options?.dont_sort_by_allowedIds) {
+    /* Sort in same order as allowedIds */
+    newCards = sortBy(newCards, (id) => deck!.session.allowedIds!.indexOf(id));
   }
   // else if (isEasinessLevelOn()) {
   //   new_cards = sortBy(new_cards, (i) =>
@@ -23,7 +24,7 @@ export default (options?: CreateCardsOptions): CardIds => {
   else if (options?.skipOverTheEasiest) {
     // todo!!!
     // /*
-    //   If we are unable to create cards with a given allowed_ids,
+    //   If we are unable to create cards with a given allowedIds,
     //   the user does not want to see "Hæ", so we skip over the beginning.
     // */
     // const lowest = clamp(getLowestBadCardSortKey() || Infinity, 50, 300);

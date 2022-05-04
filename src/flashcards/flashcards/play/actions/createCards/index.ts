@@ -4,7 +4,10 @@ import {
 } from "flashcards/flashcards/play/actions/card/card";
 import ChooseCards from "flashcards/flashcards/play/actions/createCards/3_Choose_cards";
 import Dependencies from "flashcards/flashcards/play/actions/createCards/4_Dependencies";
+import { loadCardsIntoSession } from "flashcards/flashcards/play/actions/session/loadCardsIntoSession";
+import { getSession } from "flashcards/flashcards/play/actions/session/sessionStore";
 import { logDev } from "modules/log";
+// eslint-disable-next-line no-restricted-imports
 import { warnIfSlow } from "ylhyra/app/app/functions/warnIfSlow";
 
 export const CARDS_TO_CREATE = 50;
@@ -13,21 +16,21 @@ export type CreateCardsOptions = {
   skip_dependencies?: Boolean;
   skipOverTheEasiest?: Boolean;
   insertImmediately?: Boolean;
-  dont_sort_by_allowed_ids?: Boolean;
+  dont_sort_by_allowedIds?: Boolean;
 };
 export function createCards(options?: CreateCardsOptions): void {
   warnIfSlow.start("createCards");
 
-  const session = this;
+  const session = getSession();
 
-  /* If all allowed_ids are already in use, clear it */
+  /* If all allowedIds are already in use, clear it */
   if (
-    session.allowed_ids &&
-    (filterCardsThatExist(session.allowed_ids).length === 0 ||
-      filterCardsThatExist(session.allowed_ids).every((id) => isInSession(id)))
+    session.allowedIds &&
+    (filterCardsThatExist(session.allowedIds).length === 0 ||
+      filterCardsThatExist(session.allowedIds).every((id) => isInSession(id)))
   ) {
-    session.allowed_ids = null;
-    logDev("allowed_ids cleared");
+    session.allowedIds = null;
+    logDev("allowedIds cleared");
   }
 
   /* Create cards */
@@ -39,15 +42,15 @@ export function createCards(options?: CreateCardsOptions): void {
   }
 
   /* Failed to generate cards, turn off allowed cards and try again */
-  if (chosenCards.length === 0 && session.allowed_ids) {
+  if (chosenCards.length === 0 && session.allowedIds) {
     console.warn(
       `Failed to generate more cards using the allowed ones, switching to all cards.`
     );
-    session.allowed_ids = null;
-    return this.createCards({ skipOverTheEasiest: true });
+    session.allowedIds = null;
+    return createCards({ skipOverTheEasiest: true });
   }
 
   warnIfSlow.end("createCards");
 
-  this.loadCardsIntoSession(chosenCards, options);
+  loadCardsIntoSession(chosenCards, options);
 }

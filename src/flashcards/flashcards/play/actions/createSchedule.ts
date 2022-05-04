@@ -1,6 +1,3 @@
-import { log } from "modules/log";
-import { addSomeRandomness, average, clamp, toFixedFloat } from "modules/math";
-import { daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
 import { wasSeenInSession } from "flashcards/flashcards/play/actions/card/card";
 import {
   getDue,
@@ -9,15 +6,19 @@ import {
   getNumberOfBadSessions,
   getScore,
   getSessionsSeen,
-  setSchedule
+  setSchedule,
 } from "flashcards/flashcards/play/actions/card/card_schedule";
 import {
   didAnySiblingCardsGetABadRatingInThisSession,
-  getSiblingCards
+  getSiblingCards,
 } from "flashcards/flashcards/play/actions/card/card_siblings";
 import CardInSession from "flashcards/flashcards/play/actions/cardInSession";
 import { printWord } from "flashcards/flashcards/play/actions/functions";
-import { BAD, EASY, GOOD } from "ylhyra/vocabulary/app/constants";
+import { getSession } from "flashcards/flashcards/play/actions/session/sessionStore";
+import { Rating } from "flashcards/flashcards/types/types";
+import { log } from "modules/log";
+import { addSomeRandomness, average, clamp, toFixedFloat } from "modules/math";
+import { Days, daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
 
 /** Increment score by how much? */
 export const INCR = 0.4;
@@ -30,10 +31,9 @@ const GOOD_INITIAL_INTERVAL = 5;
 
 /**
  * Long-term scheduling
- *
  */
-export function createSchedule("flashcards/app/store") {
-  const session = this;
+export function createSchedule() {
+  const session = getSession();
   if (!session) {
     console.error("createSchedule called without an active session!");
     return;
@@ -41,17 +41,17 @@ export function createSchedule("flashcards/app/store") {
   if (!session.cards?.some((i) => i.hasBeenSeenInSession())) return;
 
   session.cards.forEach((card: CardInSession) => {
-    let due_in_days;
+    let dueInDays: Days = 1;
     const id = card.getId();
     const prevScore = getScore(id);
-    const sessions_seen = getSessionsSeen(id);
+    const sessionsSeen = getSessionsSeen(id);
     const isNew = !prevScore;
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
     const avgRating = average(sessionHistory);
-    const last_interval_in_days = getLastIntervalInDays(id);
-    const last_seen = getLastSeen(id);
-    const badCount = sessionHistory.filter((i) => i === BAD).length;
+    const lastIntervalInDays = getLastIntervalInDays(id);
+    const lastSeen = getLastSeen(id);
+    const badCount = sessionHistory.filter((i) => i === Rating.BAD).length;
     const anyBad = badCount > 0;
 
     let score = prevScore || avgRating;
@@ -59,44 +59,45 @@ export function createSchedule("flashcards/app/store") {
     /* SCORE */
     if (isNew) {
       if (anyBad) {
-        score = BAD;
+        score = Rating.BAD;
       } else {
         score = avgRating; //- 0.05;
       }
     } else {
       if (anyBad) {
-        score = BAD;
+        score = Rating.BAD;
       } else {
-        score = clamp(score + INCR, BAD, EASY + 1);
+        score = clamp(score + INCR, Rating.BAD, Rating.EASY + 1);
       }
     }
 
     /* SCHEDULE */
     if (anyBad) {
-      due_in_days = BAD_INITIAL_INTERVAL;
+      dueInDays = BAD_INITIAL_INTERVAL;
     } else if (isNew) {
-      if (avgRating === EASY) {
-        due_in_days = 40;
-      } else if (avgRating === GOOD) {
-        due_in_days = GOOD_INITIAL_INTERVAL;
+      if (avgRating === Rating.EASY) {
+        dueInDays = 40;
+      } else if (avgRating === Rating.GOOD) {
+        dueInDays = GOOD_INITIAL_INTERVAL;
       }
     } else {
-      const multiplier = avgRating === EASY ? EASY_MULTIPLIER : GOOD_MULTIPLIER;
-      due_in_days = (last_interval_in_days || 1) * multiplier;
+      const multiplier =
+        avgRating === Rating.EASY ? EASY_MULTIPLIER : GOOD_MULTIPLIER;
+      dueInDays = (lastIntervalInDays || 1) * multiplier;
 
       /*
         If we showed the item far in advance of the scheduled due date,
         then we give the user the same interval as last time
       */
-      const actual_interval_in_days = msToDays(getTime() - last_seen);
-      if (actual_interval_in_days / last_interval_in_days < 0.3) {
-        const new_due_in_days = last_interval_in_days;
+      const actualIntervalInDays = msToDays(getTime() - lastSeen);
+      if (actualIntervalInDays / lastIntervalInDays < 0.3) {
+        const newDueInDays = lastIntervalInDays;
         log(
           `${printWord(
             card.getId()
-          )} - given ${new_due_in_days} instead of ${due_in_days}`
+          )} - given ${newDueInDays} instead of ${dueInDays}`
         );
-        due_in_days = new_due_in_days;
+        dueInDays = newDueInDays;
       }
     }
 
@@ -104,9 +105,12 @@ export function createSchedule("flashcards/app/store") {
      * If any sibling cards got a bad rating in this session,
      * this card can not be given a good score
      */
-    if (score >= GOOD && didAnySiblingCardsGetABadRatingInThisSession(id)) {
-      due_in_days = Math.min(2, due_in_days);
-      score = Math.min(BAD + INCR, score);
+    if (
+      score >= Rating.GOOD &&
+      didAnySiblingCardsGetABadRatingInThisSession(id)
+    ) {
+      dueInDays = Math.min(2, dueInDays);
+      score = Math.min(Rating.BAD + INCR, score);
       log(
         `${printWord(
           id
@@ -115,11 +119,11 @@ export function createSchedule("flashcards/app/store") {
     }
 
     setSchedule(card.id, {
-      due: daysFromNowToTimestamp(addSomeRandomness(due_in_days)),
-      last_interval_in_days: toFixedFloat(due_in_days, 1),
+      due: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
+      last_interval_in_days: toFixedFloat(dueInDays, 1),
       score: toFixedFloat(score, 2),
       last_seen: getTime(),
-      sessions_seen: sessions_seen + 1,
+      sessions_seen: sessionsSeen + 1,
       ...(anyBad
         ? {
             last_bad_timestamp: getTime(),
@@ -131,7 +135,7 @@ export function createSchedule("flashcards/app/store") {
     log(
       printWord(id),
       `score: ${toFixedFloat(score, 2)}`,
-      `days: ${toFixedFloat(due_in_days, 1)}`
+      `days: ${toFixedFloat(dueInDays, 1)}`
     );
 
     /* Postpone siblings */
@@ -141,7 +145,7 @@ export function createSchedule("flashcards/app/store") {
       .forEach((sibling_card) => {
         /* Postpone based on a portion of the main card's due_in_days,
            but never more than 10 days */
-        const newDue = daysFromNowToTimestamp(Math.min(due_in_days * 0.8, 10));
+        const newDue = daysFromNowToTimestamp(Math.min(dueInDays * 0.8, 10));
         const actualDue = getDue(sibling_card);
         if (!actualDue || actualDue < newDue) {
           setSchedule(sibling_card, {
