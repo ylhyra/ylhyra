@@ -29,9 +29,9 @@ import {
   Leafs,
   Rows,
 } from "inflection/tables/types";
+import flattenArray from "modules/flattenArray";
 
 import { filterEmpty } from "modules/typescript/filterEmpty";
-import flattenArray from "ylhyra/app/app/functions/flattenArray";
 
 class Word {
   /** The original Word object without any removed values */

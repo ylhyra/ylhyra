@@ -15,7 +15,7 @@ import {
   TreeItems,
 } from "inflection/tables/types";
 import Word from "inflection/tables/word";
-import { removeHtmlWhitespace } from "ylhyra/app/app/functions/removeHtmlWhitespace";
+import { removeHtmlWhitespace } from "modules/removeHtmlWhitespace";
 
 /**
  * Converts description of table structure into a table.

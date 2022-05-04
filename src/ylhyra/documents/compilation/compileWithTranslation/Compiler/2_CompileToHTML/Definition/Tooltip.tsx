@@ -1,7 +1,7 @@
+import exists from "modules/exists";
 import React from "react";
-import exists from "ylhyra/app/app/functions/exists";
-import { WordDefinition } from "ylhyra/documents/types/types";
 import { ItalicsAndBold } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/functions";
+import { WordDefinition } from "ylhyra/documents/types/types";
 
 export class Tooltip extends React.PureComponent<{
   definition: WordDefinition | undefined;

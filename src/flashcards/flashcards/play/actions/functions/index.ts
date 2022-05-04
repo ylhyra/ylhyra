@@ -6,6 +6,7 @@ import {
 } from "flashcards/flashcards/play/actions/card/card_data";
 import { isNewTerm } from "flashcards/flashcards/play/actions/card/card_schedule";
 import { getCardIdsFromTermIds } from "flashcards/flashcards/play/actions/card/functions";
+import { getSession } from "flashcards/flashcards/play/actions/session/sessionStore";
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 import { log } from "modules/log";
@@ -31,11 +32,12 @@ export const printWord = (id: CardId | TermId | string) => {
 };
 
 export const studyParticularIds = async (allowedIds: CardIds, options?) => {
-  const { session } = deck;
+  const session = getSession();
+
   session.reset();
   session.allowedIds = allowedIds;
-  session.createCards(options);
-  await session.initializeSession({ shouldReset: false });
+  createCards(options);
+  initializeSession({ shouldReset: false });
   goToUrl("/vocabulary/play");
 };
 

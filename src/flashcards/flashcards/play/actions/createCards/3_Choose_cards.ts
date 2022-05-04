@@ -13,7 +13,7 @@ import { isDev } from "modules/isDev";
 import { isEmpty } from "modules/isEmpty";
 import { log, logDev } from "modules/log";
 
-export default (options?: CreateCardsOptions): CardIds => {
+export const chooseCards = (options?: CreateCardsOptions): CardIds => {
   /**
    * Chosen_cards starts out as an array of nulls;
    * the slots will later be filled.

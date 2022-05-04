@@ -2,13 +2,11 @@ import {
   filterCardsThatExist,
   isInSession,
 } from "flashcards/flashcards/play/actions/card/card";
-import ChooseCards from "flashcards/flashcards/play/actions/createCards/3_Choose_cards";
-import Dependencies from "flashcards/flashcards/play/actions/createCards/4_Dependencies";
 import { loadCardsIntoSession } from "flashcards/flashcards/play/actions/session/loadCardsIntoSession";
 import { getSession } from "flashcards/flashcards/play/actions/session/sessionStore";
 import { logDev } from "modules/log";
 // eslint-disable-next-line no-restricted-imports
-import { warnIfSlow } from "ylhyra/app/app/functions/warnIfSlow";
+import { warnIfSlow } from "modules/warnIfSlow";
 
 export const CARDS_TO_CREATE = 50;
 

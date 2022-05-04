@@ -1,5 +1,6 @@
 import { getOrderedGrammaticalCategories } from "inflection/tables/classification/classification";
 import link, { uppercaseFirstLetterLink } from "inflection/tables/link";
+import { renderTableWrapperForSmallScreens as renderTable } from "inflection/tables/tables/render/renderTableWrapper";
 import {
   GrammaticalTag,
   Html,
@@ -8,8 +9,7 @@ import {
 } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 import { without } from "lodash";
-import { renderTableWrapperForSmallScreens as renderTable } from "inflection/tables/tables/render/renderTableWrapper";
-import flattenArray from "ylhyra/app/app/functions/flattenArray";
+import flattenArray from "modules/flattenArray";
 
 export type SingleTableOptions = {
   returnAsString?: Boolean;

@@ -1,9 +1,9 @@
-import { CellStructure, TableStructure } from "inflection/tables/tables/types";
-import flattenArray from "ylhyra/app/app/functions/flattenArray";
-import { GrammaticalTag } from "inflection/tables/types";
-import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 import link from "inflection/tables/link";
+import { CellStructure, TableStructure } from "inflection/tables/tables/types";
+import { GrammaticalTag } from "inflection/tables/types";
+import flattenArray from "modules/flattenArray";
 import { c } from "modules/noUndefinedInTemplateLiteral";
+import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 
 /**
  * Renders <th/> labels, i.e. the row and column names

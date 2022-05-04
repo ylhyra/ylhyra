@@ -3,8 +3,8 @@
 - Then sends these grouped paragraphs to the inputted "paragraphCallback".
 - Returns a JSON tree of the entire document.
 */
+import lastInArray from "modules/lastInArray";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import lastInArray from "ylhyra/app/app/functions/lastInArray";
 import { newTitle } from "ylhyra/documents/compilation/compileWithTranslation/ExtractData";
 
 /** TODO! This should not be global!! */

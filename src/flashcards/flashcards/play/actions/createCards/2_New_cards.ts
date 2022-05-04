@@ -5,9 +5,8 @@ import { CreateCardsOptions } from "flashcards/flashcards/play/actions/createCar
 import { veryRecentlySeenSortedLast } from "flashcards/flashcards/play/actions/createCards/functions";
 import { deck } from "flashcards/flashcards/play/actions/deck";
 import { sortBy } from "underscore";
-import { sortBy } from "underscore";
 
-export default (options?: CreateCardsOptions): CardIds => {
+export const newCards = (options?: CreateCardsOptions): CardIds => {
   let newCards = deck!.cards_sorted.filter(
     (card) => !isInSchedule(card) && isAllowed(card)
   );

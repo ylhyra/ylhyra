@@ -1,5 +1,5 @@
+import exists from "modules/exists";
 import React from "react";
-import exists from "ylhyra/app/app/functions/exists";
 import { SentenceBox } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/SentenceBox";
 import { FlattenedData } from "ylhyra/documents/types/types";
 

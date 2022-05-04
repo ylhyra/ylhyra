@@ -1,8 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { withPlural } from "modules/simplePlural";
 import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import errors from "ylhyra/app/app/error/messages";
-import { withPlural } from "ylhyra/app/app/functions/simplePlural";
 import { RootState } from "ylhyra/app/app/store";
 import { existsSchedule, login } from "ylhyra/app/user/actions";
 import { countTermsInSchedule } from "ylhyra/vocabulary/app/actions/functions";

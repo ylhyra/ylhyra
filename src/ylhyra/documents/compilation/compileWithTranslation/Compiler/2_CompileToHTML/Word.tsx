@@ -1,7 +1,7 @@
 // import GetSound from 'documents/Parse/Compiler/2_CompileToHTML/Sound'
+import exists from "modules/exists";
 import React from "react";
 import _ from "underscore";
-import exists from "ylhyra/app/app/functions/exists";
 import { getUpdatedId } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/UpdateID";
 import { WordBox } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/WordBox";
 import { InlineTranslation } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/InlineTranslation";

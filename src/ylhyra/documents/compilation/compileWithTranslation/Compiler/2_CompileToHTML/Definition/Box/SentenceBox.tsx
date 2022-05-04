@@ -1,7 +1,7 @@
+import exists from "modules/exists";
 import React from "react";
-import exists from "ylhyra/app/app/functions/exists";
-import { SentenceDefinition } from "ylhyra/documents/types/types";
 import { ItalicsAndBold } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/functions";
+import { SentenceDefinition } from "ylhyra/documents/types/types";
 
 /**
  * Box with extra information shown at the bottom of the screen

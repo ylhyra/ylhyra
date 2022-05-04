@@ -27,11 +27,11 @@ import {
   with_spelling_errors,
   without_special_characters,
 } from "inflection/server/search/fuzzySearch";
+import LineByLineReader from "line-by-line";
+import flattenArray from "modules/flattenArray";
 import path from "path";
 import { escape } from "sqlstring";
-import flattenArray from "ylhyra/app/app/functions/flattenArray";
 import query from "ylhyra/server/database";
-import LineByLineReader from "line-by-line";
 import { getBaseDir } from "ylhyra/server/paths_directories";
 
 const CSV_FILE_NAME = "ordalisti.csv";

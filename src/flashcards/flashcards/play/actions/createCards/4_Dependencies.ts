@@ -9,7 +9,7 @@ import { isDev } from "modules/isDev";
 import { days, minutes } from "modules/time"; /* Add bad dependencies */
 
 /* Add bad dependencies */
-export default (chosen_cards: CardIds): CardIds => {
+export const dependencies = (chosen_cards: CardIds): CardIds => {
   const after = withDependencies(chosen_cards, { skipSiblings: true }).filter(
     (id) =>
       !isInSession(id) &&

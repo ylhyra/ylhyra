@@ -1,6 +1,6 @@
 import { diffArrays } from "diff";
+import flattenArray from "modules/flattenArray";
 import { findBestMatch } from "string-similarity";
-import flattenArray from "ylhyra/app/app/functions/flattenArray";
 import { TokenizedParagraphs } from "ylhyra/documents/types/various";
 
 /**
