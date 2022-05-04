@@ -4,7 +4,7 @@ import { Brand } from "ts-brand";
 
 export type RowsObject = Record<RowId, Row>;
 
-export type DeckId = Brand<string, "DeckId">;
+export type DeckId = string;
 export type UnprocessedDeck = {
   id: DeckId;
   rows: RowsObject;
