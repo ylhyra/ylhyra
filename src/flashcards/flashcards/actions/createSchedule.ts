@@ -7,11 +7,11 @@ import {
   getScore,
   getSessionsSeen,
   setSchedule,
-} from "flashcards/flashcards/actions/card/card_schedule";
+} from "flashcards/flashcards/actions/card/cardSchedule";
 import {
   didAnySiblingCardsGetABadRatingInThisSession,
   getSiblingCards,
-} from "flashcards/flashcards/actions/card/card_siblings";
+} from "flashcards/flashcards/actions/card/cardSiblings";
 import CardInSession from "flashcards/flashcards/actions/cardInSession";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { getSession } from "flashcards/flashcards/sessionStore";

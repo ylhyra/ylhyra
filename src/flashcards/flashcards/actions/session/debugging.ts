@@ -1,4 +1,4 @@
-import { getSortKey } from "flashcards/flashcards/actions/card/card_data";
+import { getSortKey } from "flashcards/flashcards/actions/card/cardData";
 import CardInSession from "flashcards/flashcards/actions/cardInSession";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { getSession } from "flashcards/flashcards/sessionStore";

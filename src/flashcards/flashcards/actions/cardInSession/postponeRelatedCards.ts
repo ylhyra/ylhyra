@@ -2,10 +2,10 @@ import {
   dependencyDepthOfCard,
   hasDependenciesInCommonWith,
   hasTermsInCommonWith,
-} from "flashcards/flashcards/actions/card/card_dependencies";
-import { isBad } from "flashcards/flashcards/actions/card/card_difficulty";
-import { isInSchedule } from "flashcards/flashcards/actions/card/card_schedule";
-import { getSiblingCardsInSession } from "flashcards/flashcards/actions/card/card_siblings";
+} from "flashcards/flashcards/actions/card/cardDependencies";
+import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
+import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
+import { getSiblingCardsInSession } from "flashcards/flashcards/actions/card/cardSiblings";
 import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
 import { BAD, GOOD } from "ylhyra/vocabulary/app/constants";
 

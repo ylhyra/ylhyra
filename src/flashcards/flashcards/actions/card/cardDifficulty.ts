@@ -2,7 +2,7 @@ import {
   getLowestAvailableTermScore,
   getScore,
   getSessionsSeen,
-} from "flashcards/flashcards/actions/card/card_schedule";
+} from "flashcards/flashcards/actions/card/cardSchedule";
 import { INCR } from "flashcards/flashcards/actions/createSchedule";
 import { BAD, EASY, GOOD } from "ylhyra/vocabulary/app/constants";
 

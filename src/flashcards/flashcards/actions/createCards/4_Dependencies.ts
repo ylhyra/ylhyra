@@ -2,8 +2,8 @@ import { isInSession } from "flashcards/flashcards/actions/card/card";
 import {
   isBad,
   isFairlyBad,
-} from "flashcards/flashcards/actions/card/card_difficulty";
-import { wasTermSeenMoreRecentlyThan } from "flashcards/flashcards/actions/card/card_schedule";
+} from "flashcards/flashcards/actions/card/cardDifficulty";
+import { wasTermSeenMoreRecentlyThan } from "flashcards/flashcards/actions/card/cardSchedule";
 import { withDependencies } from "flashcards/flashcards/actions/functions/dependencies";
 import { isDev } from "modules/isDev";
 import { days, minutes } from "modules/time";

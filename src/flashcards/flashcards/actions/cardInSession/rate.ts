@@ -1,6 +1,6 @@
-import { getFrom } from "flashcards/flashcards/actions/card/card_data";
-import { isBad } from "flashcards/flashcards/actions/card/card_difficulty";
-import { getSessionsSeen } from "flashcards/flashcards/actions/card/card_schedule";
+import { getDirection } from "flashcards/flashcards/actions/card/cardData";
+import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
+import { getSessionsSeen } from "flashcards/flashcards/actions/card/cardSchedule";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
 import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
 import { BAD, EASY, GOOD } from "ylhyra/vocabulary/app/constants";
@@ -61,7 +61,7 @@ export function rate(this: CardInSession, rating) {
 
   card.showIn({ interval });
   card.postponeRelatedCards(interval);
-  card.session.cardTypeLog.unshift(getFrom(id));
+  card.session.cardTypeLog.unshift(getDirection(id));
 
   // keepTrackOfEasiness({
   //   rating,

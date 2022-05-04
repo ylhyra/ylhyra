@@ -1,5 +1,5 @@
 import { isInSession } from "flashcards/flashcards/actions/card/card";
-import { getTermIds } from "flashcards/flashcards/actions/card/card_data";
+import { getTermIds } from "flashcards/flashcards/actions/card/cardData";
 import { getCardIdsFromTermId } from "flashcards/flashcards/actions/card/term";
 import CardInSession from "flashcards/flashcards/actions/cardInSession";
 import { filterEmpty } from "modules/typescript/filterEmpty";

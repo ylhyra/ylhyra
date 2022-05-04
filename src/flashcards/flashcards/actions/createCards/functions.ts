@@ -1,9 +1,9 @@
-import { getSortKey } from "flashcards/flashcards/actions/card/card_data";
+import { getSortKey } from "flashcards/flashcards/actions/card/cardData";
 import {
   getScore,
   getTermLastSeen,
   wasTermVeryRecentlySeen,
-} from "flashcards/flashcards/actions/card/card_schedule";
+} from "flashcards/flashcards/actions/card/cardSchedule";
 import { sortBy } from "underscore";
 
 export const oldestFirst = (ids: CardIds) => {

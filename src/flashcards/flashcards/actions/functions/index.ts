@@ -1,10 +1,10 @@
 import {
   getCardData,
   getCardsInSchedule,
-  getFrom,
+  getDirection,
   getTermIds,
-} from "flashcards/flashcards/actions/card/card_data";
-import { isNewTerm } from "flashcards/flashcards/actions/card/card_schedule";
+} from "flashcards/flashcards/actions/card/cardData";
+import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
 import { getCardIdsFromTermIds } from "flashcards/flashcards/actions/card/functions";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { isBrowser } from "modules/isBrowser";
@@ -18,7 +18,7 @@ export const printWord = (id: CardId | TermId | string) => {
     return getPlaintextFromFormatted(
       getCardData(
         id as CardId,
-        (getFrom(id as CardId) + "_formatted") as
+        (getDirection(id as CardId) + "_formatted") as
           | "is_formatted"
           | "en_formatted"
       )

@@ -1,4 +1,4 @@
-import { hasDependenciesInCommonWith } from "flashcards/flashcards/actions/card/card_dependencies";
+import { hasDependenciesInCommonWith } from "flashcards/flashcards/actions/card/cardDependencies";
 import { getCardIdByText } from "flashcards/flashcards/actions/card/functions";
 import { initializeVocabulary } from "flashcards/flashcards/actions/initialize";
 

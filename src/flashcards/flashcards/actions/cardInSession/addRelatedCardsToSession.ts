@@ -2,16 +2,16 @@ import { isInSession } from "flashcards/flashcards/actions/card/card";
 import {
   dependencyDepthOfCard,
   getDependenciesAsArrayOfCardIds,
-} from "flashcards/flashcards/actions/card/card_dependencies";
+} from "flashcards/flashcards/actions/card/cardDependencies";
 import {
   isBad,
   isFairlyBad,
-} from "flashcards/flashcards/actions/card/card_difficulty";
+} from "flashcards/flashcards/actions/card/cardDifficulty";
 import {
   isUnseenTerm,
   timeSinceTermWasSeen,
   wasTermVeryRecentlySeen,
-} from "flashcards/flashcards/actions/card/card_schedule";
+} from "flashcards/flashcards/actions/card/cardSchedule";
 import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { log } from "modules/log";

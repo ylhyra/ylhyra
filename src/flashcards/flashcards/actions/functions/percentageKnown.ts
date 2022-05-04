@@ -2,7 +2,7 @@ import {
   getScore,
   getSessionsSeen,
   isInSchedule,
-} from "flashcards/flashcards/actions/card/card_schedule";
+} from "flashcards/flashcards/actions/card/cardSchedule";
 
 import { clamp, mapValueToRange } from "modules/math";
 

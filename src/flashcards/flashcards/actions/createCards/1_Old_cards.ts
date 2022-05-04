@@ -1,16 +1,16 @@
 import { isAllowed } from "flashcards/flashcards/actions/card/card";
-import { getCardsInSchedule } from "flashcards/flashcards/actions/card/card_data";
+import { getCardsInSchedule } from "flashcards/flashcards/actions/card/cardData";
 import {
   isBad,
   isBelowGood,
   isTooEasy,
-} from "flashcards/flashcards/actions/card/card_difficulty";
+} from "flashcards/flashcards/actions/card/cardDifficulty";
 import {
   getDue,
   isUnseenSiblingOfANonGoodCard,
   timeSinceTermWasSeen,
   wasTermVeryRecentlySeen,
-} from "flashcards/flashcards/actions/card/card_schedule";
+} from "flashcards/flashcards/actions/card/cardSchedule";
 import { sortBySortKey } from "flashcards/flashcards/actions/createCards/functions";
 import { log } from "modules/log";
 import { shuffleLocally } from "modules/shuffleLocally";

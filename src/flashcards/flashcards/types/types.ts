@@ -12,11 +12,11 @@ export type UnprocessedDeck = {
   settings: DeckSettings;
 };
 export type UnprocessedDecksObject = Record<DeckId, UnprocessedDeck>;
-export type ProcessedDecksObject = Record<DeckId, UnprocessedDeck>;
 
 export type DirectionSettings = "BOTH" | "FRONT_TO_BACK" | "BACK_TO_FRONT";
 export type Direction = "FRONT_TO_BACK" | "BACK_TO_FRONT";
 
+export type ProcessedDecksObject = Record<DeckId, DeckProcessed>;
 export type DeckProcessed = {
   // id: DeckId;
   cards: Record<
@@ -57,6 +57,10 @@ export enum Rating {
 }
 
 declare global {
+  /**
+   * TermId and direction is encoded in CardId
+   * @see createCardId
+   */
   type CardId = Brand<string, "CardId">;
   type CardIds = Array<CardId>;
   type TermId = Brand<string, "TermId">;

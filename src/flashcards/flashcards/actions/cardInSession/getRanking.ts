@@ -1,9 +1,9 @@
 import {
   getCardData,
-  getFrom,
+  getDirection,
   getTermIds,
-} from "flashcards/flashcards/actions/card/card_data";
-import { isNewCard } from "flashcards/flashcards/actions/card/card_schedule";
+} from "flashcards/flashcards/actions/card/cardData";
+import { isNewCard } from "flashcards/flashcards/actions/card/cardSchedule";
 import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
 import { BAD } from "ylhyra/vocabulary/app/constants";
 
@@ -11,7 +11,7 @@ export function getRanking(this: CardInSession) {
   const card: CardInSession = this;
 
   const id = this.getId();
-  const from = getFrom(id);
+  const from = getDirection(id);
   let q = this.getQueuePosition();
 
   // New terms are not relevant unless there are no overdue cards

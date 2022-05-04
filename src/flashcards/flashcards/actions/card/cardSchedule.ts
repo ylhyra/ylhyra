@@ -1,8 +1,8 @@
-import { getTermIds } from "flashcards/flashcards/actions/card/card_data";
+import { getTermIds } from "flashcards/flashcards/actions/card/cardData";
 import {
   getAllCardIdsWithSameTerm,
   getAsCardInSession,
-} from "flashcards/flashcards/actions/card/card_siblings";
+} from "flashcards/flashcards/actions/card/cardSiblings";
 import { getCardIdsFromTermId } from "flashcards/flashcards/actions/card/term";
 
 import { saveScheduleForCardId } from "flashcards/flashcards/actions/userData/userDataSchedule";

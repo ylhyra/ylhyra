@@ -1,4 +1,4 @@
-import { getTermIds } from "flashcards/flashcards/actions/card/card_data";
+import { getTermIds } from "flashcards/flashcards/actions/card/cardData";
 import CardInSession from "flashcards/flashcards/actions/cardInSession";
 import { createCards } from "flashcards/flashcards/actions/createCards";
 import { debugSession } from "flashcards/flashcards/actions/session/debugging";
