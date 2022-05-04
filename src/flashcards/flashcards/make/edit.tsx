@@ -1,6 +1,6 @@
 import { Button } from "flashcards/app/elements/button";
 import { StoreContext } from "flashcards/app/store";
-import { getDeckTitle } from "flashcards/flashcards/flashcardsStore";
+import { printDeckTitle } from "flashcards/flashcards/flashcardsStore";
 import { addLine } from "flashcards/flashcards/make/actions";
 import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
 import { Row } from "flashcards/flashcards/make/row";
@@ -17,7 +17,7 @@ export const FlashcardsEdit = observer(() => {
 
   return (
     <div>
-      <h1>{getDeckTitle(deck)}</h1>
+      <h1>{printDeckTitle(deck)}</h1>
       <DeckSettingsElement deckId={deckId!} />
       <hr />
       <Button type="button" onClick={() => addLine(deckId!)}>

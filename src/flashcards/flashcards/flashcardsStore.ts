@@ -27,6 +27,6 @@ export class flashcardStore {
   load() {}
 }
 
-export const getDeckTitle = (deck: Deck) => {
+export const printDeckTitle = (deck: Deck) => {
   return deck.settings.title || "(untitled)";
 };

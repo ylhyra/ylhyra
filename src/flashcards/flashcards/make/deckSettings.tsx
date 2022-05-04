@@ -1,6 +1,6 @@
 import { Button } from "flashcards/app/elements/button";
 import { store } from "flashcards/app/store";
-import { DeckSettings } from "flashcards/flashcards/types/types";
+import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
 import { observer } from "mobx-react-lite";
 import { FieldsSetup, form } from "modules/form";
 import React from "react";
