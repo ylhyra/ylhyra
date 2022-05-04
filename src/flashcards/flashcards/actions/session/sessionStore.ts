@@ -1,12 +1,7 @@
 import CardInSession from "flashcards/flashcards/actions/cardInSession";
-import {
-  Direction,
-  Rating,
-  UnprocessedDeck,
-} from "flashcards/flashcards/types/types";
+import { Direction, Rating } from "flashcards/flashcards/types/types";
 import { makeAutoObservable } from "mobx";
 import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
-import { entries } from "modules/typescript/objectEntries";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
@@ -34,16 +29,17 @@ export class sessionStore {
   totalTime?: Milliseconds;
 
   /** Temp: Todo: find better title */
-  allowedDecks: UnprocessedDeck[] = [];
-  getCardIdsFromAllowedDecks = (): CardIds => {
-    let out: CardIds = [];
-    this.allowedDecks.forEach((deck) => {
-      entries(deck.cards).forEach(([cardId]) => {
-        out.push(cardId as CardId);
-      });
-    });
-    return out;
-  };
+  deck: any;
+  // allowedDecks: UnprocessedDeck[] = [];
+  // getCardIdsFromAllowedDecks = (): CardIds => {
+  //   let out: CardIds = [];
+  //   this.allowedDecks.forEach((deck) => {
+  //     entries(deck.cards).forEach(([cardId]) => {
+  //       out.push(cardId as CardId);
+  //     });
+  //   });
+  //   return out;
+  // };
 
   constructor() {
     makeAutoObservable(this);

@@ -9,7 +9,10 @@ export type UnprocessedDeck = {
   cards: IdToUnprocessedCardEntry;
   settings: DeckSettings;
 };
-export type IdToDeck = Record<UnprocessedDeck["id"], UnprocessedDeck>;
+export type IdToUnprocessedDeck = Record<
+  UnprocessedDeck["id"],
+  UnprocessedDeck
+>;
 
 export type DirectionSettings = "BOTH" | "FRONT_TO_BACK" | "BACK_TO_FRONT";
 export type Direction = "FRONT_TO_BACK" | "BACK_TO_FRONT";
@@ -37,6 +40,9 @@ export enum Rating {
 
 export type UnprocessedCardEntryId = Brand<string, "UnprocessedCardEntryId">;
 export type UnprocessedCardEntryIds = Array<UnprocessedCardEntryId>;
+export type RowId = UnprocessedCardEntryId;
+export type RowIds = UnprocessedCardEntryIds;
+export type RowIdToRowIds = { [id: RowId]: RowIds };
 
 declare global {
   type CardId = Brand<string, "CardId">;

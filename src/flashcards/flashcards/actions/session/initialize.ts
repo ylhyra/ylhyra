@@ -2,6 +2,7 @@ import { createCardsIfNoneAreRemaining } from "flashcards/flashcards/actions/ses
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/sessionStore";
 import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
+import { compileDeck } from "flashcards/flashcards/compile/compile";
 import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
 
 export function initializeSession({ deckId }: { deckId: string | undefined }) {
@@ -10,8 +11,10 @@ export function initializeSession({ deckId }: { deckId: string | undefined }) {
   const session = getSession();
 
   session.reset();
+
   /* Temp */
-  session.allowedDecks = [deck];
+  // session.allowedDecks = [deck];
+  session.deck = compileDeck(deck);
 
   createCardsIfNoneAreRemaining();
   nextCard();

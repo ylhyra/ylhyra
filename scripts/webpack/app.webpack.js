@@ -131,15 +131,10 @@ module.exports = {
         },
       },
       issue: {
-        include: [
-          { file: "**/src/flashcards/**/*.{ts,tsx}" },
-          { file: "**/src/ylhyra/server/**/*.{ts,tsx}" },
-        ],
+        include: [{ file: "**/src/flashcards/**/*.{ts,tsx}" }],
         exclude: [
-          { file: "**/tests/**" },
-          { file: "**/src/ylhyra/server/**" },
-          { file: "**/src/ylhyra/server/vocabulary/**" },
-          { file: "**/src/ylhyra/server/translator/**" },
+          /** TEMP */
+          { file: "**/src/flashcards/flashcards/actions/**" },
         ],
       },
     }),
