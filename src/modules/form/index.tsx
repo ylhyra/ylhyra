@@ -31,7 +31,7 @@ export type FieldsSetup<TypeThisIsDescribing = void> = Array<
   }[keyof TypeThisIsDescribing]
 >;
 
-export class form {
+export class form<TypeThisIsDescribing = void> {
   values: Record<string, any> = {};
   touched: Record<string, Boolean> = {};
   onSubmit: Function | undefined;
@@ -64,7 +64,7 @@ export class form {
   handleBlur = (fieldName: string) => () => {
     this.touched[fieldName] = true;
   };
-  getFieldProps = (fieldName: string, isCheckbox?: Boolean) => {
+  getChangeHandlers = (fieldName: string, isCheckbox?: Boolean) => {
     return {
       onChange: this.handleChange(fieldName, isCheckbox),
       onBlur: this.handleBlur(fieldName),
@@ -79,8 +79,12 @@ export class form {
   Form: React.FC = (props) => {
     return <form onSubmit={this.onSubmitInternal}>{props.children}</form>;
   };
-  Fields: React.FC = () => {
-    const InputWithLabel = this.InputWithLabel;
+
+  /**
+   * Used to automatically print all fields with labels
+   */
+  AllFields: React.FC = () => {
+    const InputWithLabel = this.InputWithLabelInternal;
     return (
       <div>
         {this.fields?.map((field, index) => (
@@ -89,54 +93,97 @@ export class form {
       </div>
     );
   };
+
   /**
-   * Todo: https://reactjs.org/docs/uncontrolled-components.html
+   * Used externally to print a single input just by its name
    */
-  InputWithLabel = observer((props: FieldsSetup<any>[number]) => {
-    const label = props.label || uppercaseFirstLetter(props.name);
-    const value = this.values[props.name] ?? props.defaultValue;
+  Input = ({ name }: { name: keyof TypeThisIsDescribing }) => {
+    const field = this.fields?.find((j) => j.name === name);
+    if (!field) throw new Error(`No field with name ${name}`);
+    const InputInternal = this.InputInternal;
+    return <InputInternal {...field} />;
+  };
+
+  /**
+   * Used externally to print an input just by its name
+   */
+  InputWithLabel = ({ name }: { name: keyof TypeThisIsDescribing }) => {
+    const field = this.fields?.find((j) => j.name === name);
+    if (!field) throw new Error(`No field with name ${name}`);
+    const InputWithLabelInternal = this.InputWithLabelInternal;
+    return <InputWithLabelInternal {...field} />;
+  };
+
+  /**
+   * Used internally, a {@link FieldsSetup} object must be passed to it.
+   */
+  InputWithLabelInternal = (field: FieldsSetup<any>[number]) => {
+    const label = field.label || uppercaseFirstLetter(field.name);
+    const Input = this.InputInternal;
     return (
       <>
-        {props.type === "checkbox" ? (
+        {field.type === "checkbox" ? (
           <label>
-            <input
-              type="checkbox"
-              name={props.name}
-              checked={value}
-              {...this.getFieldProps(props.name, true)}
-            />{" "}
-            {label}
+            <Input {...field} /> {label}
           </label>
         ) : (
           <label>
             <div>{label}:</div>
             <div>
-              {(props.type === "text" || !props.type) && (
-                <input
-                  type="text"
-                  name={props.name}
-                  value={value || ""}
-                  {...this.getFieldProps(props.name)}
-                />
-              )}
-              {props.type === "select" && (
-                <select
-                  name={props.name}
-                  value={value}
-                  {...this.getFieldProps(props.name)}
-                >
-                  {props.options?.map((option) => (
-                    <option value={option.value} key={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              )}
+              <Input {...field} />
             </div>
           </label>
         )}
-        <div className="text-sm text-gray-400">{props.description}</div>
+        <div className="text-sm text-gray-400">{field.description}</div>
       </>
     );
+  };
+
+  /**
+   * Used internally, a {@link FieldsSetup} object must be passed to it.
+   * Todo: https://reactjs.org/docs/uncontrolled-components.html
+   */
+  InputInternal = observer((field: FieldsSetup<any>[number]) => {
+    const value = this.values[field.name] ?? field.defaultValue;
+
+    if (field.type === "checkbox") {
+      return (
+        <input
+          type="checkbox"
+          name={field.name}
+          checked={value}
+          {...this.getChangeHandlers(field.name, true)}
+        />
+      );
+    }
+
+    if (field.type === "select") {
+      return (
+        <select
+          name={field.name}
+          value={value}
+          {...this.getChangeHandlers(field.name)}
+        >
+          {field.options?.map((option) => (
+            <option value={option.value} key={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      );
+    }
+
+    if (field.type === "text" || !field.type) {
+      return (
+        <input
+          type="text"
+          name={field.name}
+          value={value || ""}
+          {...this.getChangeHandlers(field.name)}
+        />
+      );
+    }
+
+    return null;
   });
 }

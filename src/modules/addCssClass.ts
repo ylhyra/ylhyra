@@ -14,3 +14,7 @@ export const removeClass = (ids: string | string[], cssClass = "audio") => {
     element.classList.remove(cssClass);
   });
 };
+
+export const joinClassNames = (...input: string[]) => {
+  return input.filter(Boolean).join(" ");
+};

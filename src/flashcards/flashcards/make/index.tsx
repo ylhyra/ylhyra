@@ -1,3 +1,4 @@
+import { Button } from "flashcards/app/elements/button";
 import { StoreContext } from "flashcards/app/store";
 import { getDeckTitle } from "flashcards/flashcards/flashcardsStore";
 import { newDeck } from "flashcards/flashcards/make/actions";
@@ -13,7 +14,7 @@ export const FlashcardsMake = observer(function () {
   return (
     <div>
       Decks:
-      <button onClick={newDeck}>New deck</button>
+      <Button onClick={newDeck}>New deck</Button>
       <ul>
         {entries(decks).map(([deckId, deck]) => (
           <li key={deckId}>

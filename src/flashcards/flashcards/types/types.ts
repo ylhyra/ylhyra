@@ -1,14 +1,16 @@
 /**
  * Raw entry in database
+ * @see rowFields
  */
 export type CardInputData = {
   id: string;
-  front: string;
-  back: string;
+  front?: string;
+  back?: string;
   direction?: DirectionSettings;
   automaticDependencies?: Boolean;
   automaticallyDependOnThis?: Boolean;
   lemmas?: string;
+  sideToShowFirst?: DeckSettings["sideToShowFirst"];
   // /**
   //  * Comma seperated list of entries that the user
   //  * has to have studied prior to seeing this card

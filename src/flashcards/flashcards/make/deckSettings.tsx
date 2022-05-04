@@ -1,3 +1,4 @@
+import { Button } from "flashcards/app/elements/button";
 import { store } from "flashcards/app/store";
 import { DeckSettings } from "flashcards/flashcards/types/types";
 import { observer } from "mobx-react-lite";
@@ -5,7 +6,7 @@ import { FieldsSetup, form } from "modules/form";
 import React from "react";
 
 /** See type {@link DeckSettings} */
-const deckSettingsFields: FieldsSetup<DeckSettings> = [
+export const deckSettingsFields: FieldsSetup<DeckSettings> = [
   {
     name: "title",
   },
@@ -92,7 +93,7 @@ export const DeckSettingsElement = observer(
     const deck = store.flashcardStore.getDeckById(deckId);
     if (!deck) return null;
 
-    const { Form, Fields } = new form({
+    const { Form, AllFields } = new form({
       values: deck.settings,
       fields: deckSettingsFields,
     });
@@ -100,10 +101,10 @@ export const DeckSettingsElement = observer(
     return (
       <div>
         <Form>
-          <Fields />
-          <button type="button" onClick={() => store.flashcardStore.save()}>
+          <AllFields />
+          <Button type="button" onClick={() => store.flashcardStore.save()}>
             Save
-          </button>
+          </Button>
         </Form>
       </div>
     );

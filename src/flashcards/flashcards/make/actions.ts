@@ -11,3 +11,12 @@ export const newDeck = () => {
   };
   customHistory.replace(`/flashcards/deck/${id}`);
 };
+
+export const addLine = (deckId: string) => {
+  const id = shortid.generate();
+
+  store.flashcardStore.decks[deckId].cards[id] = {
+    id,
+  };
+  return id;
+};

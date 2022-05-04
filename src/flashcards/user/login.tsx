@@ -9,7 +9,7 @@ export const Login = () => {
   const { pathname } = useLocation();
   const isSignup = pathname === "/signup";
 
-  const { Form, getFieldProps, setValues } = new form({
+  const { Form, getChangeHandlers, setValues } = new form({
     onSubmit: login,
     values: {
       username: "",
@@ -28,7 +28,7 @@ export const Login = () => {
             <input
               type="text"
               className="input"
-              {...getFieldProps("username")}
+              {...getChangeHandlers("username")}
             />
           </label>
           <label>
@@ -36,7 +36,7 @@ export const Login = () => {
             <input
               type="password"
               className="input"
-              {...getFieldProps("password")}
+              {...getChangeHandlers("password")}
             />
           </label>
 

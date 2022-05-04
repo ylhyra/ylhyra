@@ -1,14 +1,13 @@
+import { Button } from "flashcards/app/elements/button";
 import { StoreContext } from "flashcards/app/store";
 import { getDeckTitle } from "flashcards/flashcards/flashcardsStore";
+import { addLine } from "flashcards/flashcards/make/actions";
 import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
-import { CardInputData } from "flashcards/flashcards/types/types";
+import { Row } from "flashcards/flashcards/make/row";
 import { observer } from "mobx-react-lite";
-// import { InputWithL.abel } from "modules/form/index2";
 import { entries } from "modules/typescript/objectEntries";
 import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
-
-export const addLine = () => {};
 
 export const FlashcardsEdit = observer(() => {
   let { deckId } = useParams<{ deckId: string }>();
@@ -21,7 +20,9 @@ export const FlashcardsEdit = observer(() => {
       <h1>{getDeckTitle(deck)}</h1>
       <DeckSettingsElement deckId={deckId!} />
       <hr />
-      <button onClick={addLine}>Add row</button>
+      <Button type="button" onClick={() => addLine(deckId!)}>
+        Add row
+      </Button>
       <div>
         {entries(deck.cards).map(([cardId, card]) => (
           <Row key={card.id} card={card} />
@@ -30,14 +31,3 @@ export const FlashcardsEdit = observer(() => {
     </div>
   );
 });
-
-export const Row: React.FC<{ card: CardInputData }> = ({ card }) => {
-  return (
-    <div>
-      <div>
-        {/*<input type="text" value={card.front} />*/}
-        {/*<input type="text" value={card.back} />*/}
-      </div>
-    </div>
-  );
-};
