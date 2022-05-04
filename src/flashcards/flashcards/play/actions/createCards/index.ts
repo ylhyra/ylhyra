@@ -1,12 +1,11 @@
-import { logDev } from "modules/log";
-import { warnIfSlow } from "ylhyra/app/app/functions/warnIfSlow";
 import {
   filterCardsThatExist,
   isInSession,
-} from "ylhyra/vocabulary/app/actions/card/card";
-import ChooseCards from "ylhyra/vocabulary/app/actions/createCards/3_Choose_cards";
-import Dependencies from "ylhyra/vocabulary/app/actions/createCards/4_Dependencies";
-import Session from "ylhyra/vocabulary/app/actions/session";
+} from "flashcards/flashcards/play/actions/card/card";
+import ChooseCards from "flashcards/flashcards/play/actions/createCards/3_Choose_cards";
+import Dependencies from "flashcards/flashcards/play/actions/createCards/4_Dependencies";
+import { logDev } from "modules/log";
+import { warnIfSlow } from "ylhyra/app/app/functions/warnIfSlow";
 
 export const CARDS_TO_CREATE = 50;
 
@@ -16,7 +15,7 @@ export type CreateCardsOptions = {
   insertImmediately?: Boolean;
   dont_sort_by_allowed_ids?: Boolean;
 };
-export function createCards(this: Session, options?: CreateCardsOptions): void {
+export function createCards(options?: CreateCardsOptions): void {
   warnIfSlow.start("createCards");
 
   const session = this;

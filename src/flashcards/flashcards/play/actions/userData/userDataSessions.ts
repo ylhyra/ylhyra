@@ -1,4 +1,4 @@
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
+import { deck } from "flashcards/flashcards/play/actions/deck";
 
 export const SESSION_PREFIX = "s_";
 

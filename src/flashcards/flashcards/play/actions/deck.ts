@@ -1,10 +1,10 @@
+import { sortBySortKey } from "flashcards/flashcards/play/actions/createCards/functions";
+import { countTerms } from "flashcards/flashcards/play/actions/functions";
+import Session from "flashcards/flashcards/play/actions/session";
+import { UserData } from "flashcards/flashcards/play/actions/userData/userData";
 import { isBrowser } from "modules/isBrowser";
 import { saveInLocalStorage } from "modules/localStorage";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
-import { sortBySortKey } from "ylhyra/vocabulary/app/actions/createCards/functions";
-import { countTerms } from "ylhyra/vocabulary/app/actions/functions";
-import Session from "ylhyra/vocabulary/app/actions/session";
-import { UserData } from "ylhyra/vocabulary/app/actions/userData/userData";
 import {
   CardId,
   CardIds,

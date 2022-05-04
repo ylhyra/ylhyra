@@ -1,8 +1,8 @@
 import express, { Router } from "express";
+import { UserDataRows } from "flashcards/flashcards/play/actions/userData/userData";
 import stable_stringify from "json-stable-stringify";
 import { msToS } from "modules/time";
 import removeNullKeys from "ylhyra/app/app/functions/removeNullKeys";
-import { UserDataRows } from "ylhyra/vocabulary/app/actions/userData/userData";
 import { staticCached } from "ylhyra/server/caching";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";

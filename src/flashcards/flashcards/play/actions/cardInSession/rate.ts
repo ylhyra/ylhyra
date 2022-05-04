@@ -1,8 +1,8 @@
-import { getFrom } from "ylhyra/vocabulary/app/actions/card/card_data";
-import { isBad } from "ylhyra/vocabulary/app/actions/card/card_difficulty";
-import { getSessionsSeen } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { addRelatedCardsToSession } from "ylhyra/vocabulary/app/actions/cardInSession/addRelatedCardsToSession";
-import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession/index";
+import { getFrom } from "flashcards/flashcards/play/actions/card/card_data";
+import { isBad } from "flashcards/flashcards/play/actions/card/card_difficulty";
+import { getSessionsSeen } from "flashcards/flashcards/play/actions/card/card_schedule";
+import { addRelatedCardsToSession } from "flashcards/flashcards/play/actions/cardInSession/addRelatedCardsToSession";
+import CardInSession from "flashcards/flashcards/play/actions/cardInSession/index";
 import { BAD, EASY, GOOD } from "ylhyra/vocabulary/app/constants";
 
 export function rate(this: CardInSession, rating) {

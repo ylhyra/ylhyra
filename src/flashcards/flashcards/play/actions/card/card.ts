@@ -1,9 +1,8 @@
 import {
   hasDependenciesInCommonWith,
   hasTermsInCommonWith,
-} from "ylhyra/vocabulary/app/actions/card/card_dependencies";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
-import { CardId, CardIds } from "ylhyra/vocabulary/types";
+} from "flashcards/flashcards/play/actions/card/card_dependencies";
+import { deck } from "flashcards/flashcards/play/actions/deck";
 
 export const isInSession = (id: CardId) => {
   return deck!.session.cards.some((i) => i.getId() === id);

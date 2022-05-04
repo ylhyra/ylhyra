@@ -2,10 +2,9 @@ import {
   getLowestAvailableTermScore,
   getScore,
   getSessionsSeen,
-} from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { INCR } from "ylhyra/vocabulary/app/actions/createSchedule";
+} from "flashcards/flashcards/play/actions/card/card_schedule";
+import { INCR } from "flashcards/flashcards/play/actions/createSchedule";
 import { BAD, EASY, GOOD } from "ylhyra/vocabulary/app/constants";
-import { CardId } from "ylhyra/vocabulary/types";
 
 export const isTooEasy = (id: CardId) => {
   return getScore(id) && getScore(id)! >= EASY && getSessionsSeen(id) === 1;

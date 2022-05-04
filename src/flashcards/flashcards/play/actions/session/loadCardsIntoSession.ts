@@ -1,7 +1,6 @@
-import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession";
-import { CreateCardsOptions } from "ylhyra/vocabulary/app/actions/createCards";
-import Session from "ylhyra/vocabulary/app/actions/session/index";
-import { CardIds } from "ylhyra/vocabulary/types";
+import CardInSession from "flashcards/flashcards/play/actions/cardInSession";
+import { CreateCardsOptions } from "flashcards/flashcards/play/actions/createCards";
+;
 
 /**
  * Used to load more cards into an already ongoing session.
@@ -9,7 +8,7 @@ import { CardIds } from "ylhyra/vocabulary/types";
  *
  */
 export function loadCardsIntoSession(
-  this: Session,
+  "flashcards/app/store",
   cardIds: CardIds,
   options: CreateCardsOptions = {}
 ) {

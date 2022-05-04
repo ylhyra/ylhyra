@@ -1,8 +1,7 @@
+import { getSortedCardDependenciesAsCardIds } from "flashcards/flashcards/play/actions/card/card_dependencies";
+import { getTermIdsFromCardIds } from "flashcards/flashcards/play/actions/card/functions";
+import { getCardIdsFromTermId } from "flashcards/flashcards/play/actions/card/term";
 import _ from "underscore";
-import { getSortedCardDependenciesAsCardIds } from "ylhyra/vocabulary/app/actions/card/card_dependencies";
-import { getTermIdsFromCardIds } from "ylhyra/vocabulary/app/actions/card/functions";
-import { getCardIdsFromTermId } from "ylhyra/vocabulary/app/actions/card/term";
-import { CardIds } from "ylhyra/vocabulary/types";
 
 /**
  * Returns an array of cards with all

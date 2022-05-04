@@ -1,18 +1,17 @@
-import { isDev } from "modules/isDev";
-import { isEmpty } from "modules/isEmpty";
-import { log, logDev } from "modules/log";
 import {
   CARDS_TO_CREATE,
   CreateCardsOptions,
-} from "ylhyra/vocabulary/app/actions/createCards";
-import OldCards from "ylhyra/vocabulary/app/actions/createCards/1_Old_cards";
-import NewCards from "ylhyra/vocabulary/app/actions/createCards/2_New_cards";
+} from "flashcards/flashcards/play/actions/createCards";
+import OldCards from "flashcards/flashcards/play/actions/createCards/1_Old_cards";
+import NewCards from "flashcards/flashcards/play/actions/createCards/2_New_cards";
 import {
   sortCardsByScore,
   veryRecentlySeenSortedLast,
-} from "ylhyra/vocabulary/app/actions/createCards/functions";
-import { printWord } from "ylhyra/vocabulary/app/actions/functions";
-import { CardIds } from "ylhyra/vocabulary/types";
+} from "flashcards/flashcards/play/actions/createCards/functions";
+import { printWord } from "flashcards/flashcards/play/actions/functions";
+import { isDev } from "modules/isDev";
+import { isEmpty } from "modules/isEmpty";
+import { log, logDev } from "modules/log";
 
 export default (options?: CreateCardsOptions): CardIds => {
   /**

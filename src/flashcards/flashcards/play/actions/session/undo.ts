@@ -1,6 +1,4 @@
-import Session from "ylhyra/vocabulary/app/actions/session/index";
-
-export function undo(this: Session) {
+export function undo("flashcards/app/store") {
   const card = this.cardHistory?.[0];
   if (!card) return;
   card.history.shift();
@@ -10,7 +8,7 @@ export function undo(this: Session) {
   this.loadCardInInterface();
 }
 
-export function undoable(this: Session) {
+export function undoable("flashcards/app/store") {
   return (
     this.cardHistory &&
     this.cardHistory.length > 0 &&
@@ -18,7 +16,7 @@ export function undoable(this: Session) {
   );
 }
 
-export function checkForUndoOnKeyDown(this: Session, e: KeyboardEvent) {
+export function checkForUndoOnKeyDown(e: KeyboardEvent) {
   if (
     e.keyCode === 90 &&
     (e.ctrlKey || e.metaKey) &&

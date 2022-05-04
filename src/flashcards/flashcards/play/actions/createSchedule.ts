@@ -1,7 +1,7 @@
 import { log } from "modules/log";
 import { addSomeRandomness, average, clamp, toFixedFloat } from "modules/math";
 import { daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
-import { wasSeenInSession } from "ylhyra/vocabulary/app/actions/card/card";
+import { wasSeenInSession } from "flashcards/flashcards/play/actions/card/card";
 import {
   getDue,
   getLastIntervalInDays,
@@ -10,14 +10,13 @@ import {
   getScore,
   getSessionsSeen,
   setSchedule
-} from "ylhyra/vocabulary/app/actions/card/card_schedule";
+} from "flashcards/flashcards/play/actions/card/card_schedule";
 import {
   didAnySiblingCardsGetABadRatingInThisSession,
   getSiblingCards
-} from "ylhyra/vocabulary/app/actions/card/card_siblings";
-import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession";
-import { printWord } from "ylhyra/vocabulary/app/actions/functions";
-import Session from "ylhyra/vocabulary/app/actions/session";
+} from "flashcards/flashcards/play/actions/card/card_siblings";
+import CardInSession from "flashcards/flashcards/play/actions/cardInSession";
+import { printWord } from "flashcards/flashcards/play/actions/functions";
 import { BAD, EASY, GOOD } from "ylhyra/vocabulary/app/constants";
 
 /** Increment score by how much? */
@@ -33,7 +32,7 @@ const GOOD_INITIAL_INTERVAL = 5;
  * Long-term scheduling
  *
  */
-export function createSchedule(this: Session) {
+export function createSchedule("flashcards/app/store") {
   const session = this;
   if (!session) {
     console.error("createSchedule called without an active session!");

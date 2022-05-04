@@ -2,9 +2,9 @@ import {
   getCardData,
   getFrom,
   getTermIds,
-} from "ylhyra/vocabulary/app/actions/card/card_data";
-import { isNewCard } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession/index";
+} from "flashcards/flashcards/play/actions/card/card_data";
+import { isNewCard } from "flashcards/flashcards/play/actions/card/card_schedule";
+import CardInSession from "flashcards/flashcards/play/actions/cardInSession/index";
 import { BAD } from "ylhyra/vocabulary/app/constants";
 
 export function getRanking(this: CardInSession) {

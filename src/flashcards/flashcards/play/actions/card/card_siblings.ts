@@ -1,12 +1,11 @@
+import { isInSession } from "flashcards/flashcards/play/actions/card/card";
+import { getTermIds } from "flashcards/flashcards/play/actions/card/card_data";
+import { getCardIdsFromTermId } from "flashcards/flashcards/play/actions/card/term";
+import CardInSession from "flashcards/flashcards/play/actions/cardInSession";
+import { deck } from "flashcards/flashcards/play/actions/deck";
 import { filterEmpty } from "modules/typescript/filterEmpty";
 import _ from "underscore";
-import { isInSession } from "ylhyra/vocabulary/app/actions/card/card";
-import { getTermIds } from "ylhyra/vocabulary/app/actions/card/card_data";
-import { getCardIdsFromTermId } from "ylhyra/vocabulary/app/actions/card/term";
-import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { BAD } from "ylhyra/vocabulary/app/constants";
-import { CardId, CardIds } from "ylhyra/vocabulary/types";
 
 export const getSiblingCards = (id: CardId): CardIds => {
   // return (this.siblingCardIds);

@@ -1,20 +1,19 @@
-import { isBrowser } from "modules/isBrowser";
-import { isDev } from "modules/isDev";
-import { log } from "modules/log";
-import { roundToInterval } from "modules/math";
-import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import {
   getCardData,
   getCardsInSchedule,
   getFrom,
   getTermIds,
-} from "ylhyra/vocabulary/app/actions/card/card_data";
-import { isNewTerm } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { getCardIdsFromTermIds } from "ylhyra/vocabulary/app/actions/card/functions";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
+} from "flashcards/flashcards/play/actions/card/card_data";
+import { isNewTerm } from "flashcards/flashcards/play/actions/card/card_schedule";
+import { getCardIdsFromTermIds } from "flashcards/flashcards/play/actions/card/functions";
+import { deck } from "flashcards/flashcards/play/actions/deck";
+import { isBrowser } from "modules/isBrowser";
+import { isDev } from "modules/isDev";
+import { log } from "modules/log";
+import { roundToInterval } from "modules/math";
+import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
 import { getHashForVocabulary } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
-import { CardId, CardIds, TermId, TermIds } from "ylhyra/vocabulary/types";
 
 export const printWord = (id: CardId | TermId | string) => {
   if (!isDev) return;

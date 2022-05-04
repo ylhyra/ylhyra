@@ -1,9 +1,8 @@
+import { getTermIds } from "flashcards/flashcards/play/actions/card/card_data";
+import { getCardIdsFromTermId } from "flashcards/flashcards/play/actions/card/term";
+import { deck } from "flashcards/flashcards/play/actions/deck";
 import { flatten, uniq } from "underscore";
-import { getTermIds } from "ylhyra/vocabulary/app/actions/card/card_data";
-import { getCardIdsFromTermId } from "ylhyra/vocabulary/app/actions/card/term";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { getHashForVocabulary } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
-import { CardId, CardIds, TermIds } from "ylhyra/vocabulary/types";
 
 export const getCardIdsFromTermIds = (termIds: TermIds) => {
   return uniq(

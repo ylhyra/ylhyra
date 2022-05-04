@@ -1,14 +1,14 @@
-import { getFromLocalStorage } from "modules/localStorage";
-import { log } from "modules/log";
-import axios from "ylhyra/app/app/axios";
-import { isUserLoggedIn } from "ylhyra/app/user/actions";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
+import { deck } from "flashcards/flashcards/play/actions/deck";
 import {
   saveUserDataInLocalStorage,
   UserData,
   UserDataRows,
-} from "ylhyra/vocabulary/app/actions/userData/userData";
-import { getScheduleFromUserData } from "ylhyra/vocabulary/app/actions/userData/userDataSchedule";
+} from "flashcards/flashcards/play/actions/userData/userData";
+import { getScheduleFromUserData } from "flashcards/flashcards/play/actions/userData/userDataSchedule";
+import { getFromLocalStorage } from "modules/localStorage";
+import { log } from "modules/log";
+import axios from "ylhyra/app/app/axios";
+import { isUserLoggedIn } from "ylhyra/app/user/actions";
 import { clearOverview } from "ylhyra/vocabulary/app/elements/OverviewScreen/actions";
 
 /**

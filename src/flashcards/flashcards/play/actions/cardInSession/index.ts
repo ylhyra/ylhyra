@@ -1,13 +1,12 @@
-import { getRanking } from "ylhyra/vocabulary/app/actions/cardInSession/getRanking";
-import { postponeRelatedCards } from "ylhyra/vocabulary/app/actions/cardInSession/postponeRelatedCards";
-import { rate } from "ylhyra/vocabulary/app/actions/cardInSession/rate";
+import { getRanking } from "flashcards/flashcards/play/actions/cardInSession/getRanking";
+import { postponeRelatedCards } from "flashcards/flashcards/play/actions/cardInSession/postponeRelatedCards";
+import { rate } from "flashcards/flashcards/play/actions/cardInSession/rate";
 import {
   canBeShown,
   showIn,
-} from "ylhyra/vocabulary/app/actions/cardInSession/showIn";
-import Session from "ylhyra/vocabulary/app/actions/session";
+} from "flashcards/flashcards/play/actions/cardInSession/showIn";
+import Session from "flashcards/flashcards/play/actions/session";
 import { rating } from "ylhyra/vocabulary/app/constants";
-import { CardId } from "ylhyra/vocabulary/types";
 
 class CardInSession {
   id: CardId;

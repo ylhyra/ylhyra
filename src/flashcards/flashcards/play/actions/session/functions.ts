@@ -1,4 +1,4 @@
-// export function updateRemainingTime(this: Session) {
+// export function updateRemainingTime("flashcards/app/store") {
 //   const diff = Math.min(
 //     MAX_SECONDS_TO_COUNT_PER_ITEM * 1000,
 //     getTime() - (this.lastTimestamp || 0)
@@ -11,7 +11,7 @@
 //   }
 // }
 //
-// export function getPercentageDone(this: Session) {
+// export function getPercentageDone("flashcards/app/store") {
 //   if (this.totalTime && this.remainingTime) {
 //     return ((this.totalTime - this.remainingTime) / this.totalTime) * 100;
 //   } else {
@@ -19,22 +19,24 @@
 //   }
 // }
 
+import { createCards } from "flashcards/flashcards/play/actions/createCards";
+
 export function checkIfCardsRemaining(): void {
   // const areThereNewCardsRemaining = this.cards?.some(
   //   (i: CardInSession) => !i.hasBeenSeenInSession() && !i.done && i.canBeShown()
   // );
   // if (!areThereNewCardsRemaining) {
   //   log("No cards remaining");
-  createMoreCards();
+  createCards();
   // }
 }
 
-// export function createMoreCards(this: Session) {
+// export function createMoreCards("flashcards/app/store") {
 //   this.createCards();
 //   log("New cards generated");
 // }
 
-// export function answer(this: Session, rating: number) {
+// export function answer(rating: number) {
 //   const session = this;
 //   session.currentCard?.rate(rating);
 //   session.nextCard();

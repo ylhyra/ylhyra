@@ -1,7 +1,7 @@
+import { deck } from "flashcards/flashcards/play/actions/deck";
 import { isBrowser } from "modules/isBrowser";
 import { saveInLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
 
 export type UserData = {
   lastSynced: Timestamp;

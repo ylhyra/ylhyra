@@ -2,11 +2,11 @@ import {
   dependencyDepthOfCard,
   hasDependenciesInCommonWith,
   hasTermsInCommonWith,
-} from "ylhyra/vocabulary/app/actions/card/card_dependencies";
-import { isBad } from "ylhyra/vocabulary/app/actions/card/card_difficulty";
-import { isInSchedule } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { getSiblingCardsInSession } from "ylhyra/vocabulary/app/actions/card/card_siblings";
-import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession/index";
+} from "flashcards/flashcards/play/actions/card/card_dependencies";
+import { isBad } from "flashcards/flashcards/play/actions/card/card_difficulty";
+import { isInSchedule } from "flashcards/flashcards/play/actions/card/card_schedule";
+import { getSiblingCardsInSession } from "flashcards/flashcards/play/actions/card/card_siblings";
+import CardInSession from "flashcards/flashcards/play/actions/cardInSession/index";
 import { BAD, GOOD } from "ylhyra/vocabulary/app/constants";
 
 export function postponeRelatedCards(this: CardInSession, card1interval) {

@@ -1,6 +1,6 @@
-import { hasDependenciesInCommonWith } from "ylhyra/vocabulary/app/actions/card/card_dependencies";
-import { getCardIdByText } from "ylhyra/vocabulary/app/actions/card/functions";
-import { initializeVocabulary } from "ylhyra/vocabulary/app/actions/initialize";
+import { hasDependenciesInCommonWith } from "flashcards/flashcards/play/actions/card/card_dependencies";
+import { getCardIdByText } from "flashcards/flashcards/play/actions/card/functions";
+import { initializeVocabulary } from "flashcards/flashcards/play/actions/initialize";
 
 beforeAll(async () => {
   await initializeVocabulary();

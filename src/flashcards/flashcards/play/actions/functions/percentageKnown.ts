@@ -1,7 +1,10 @@
+import {
+  getScore,
+  getSessionsSeen,
+  isInSchedule,
+} from "flashcards/flashcards/play/actions/card/card_schedule";
+import { deck } from "flashcards/flashcards/play/actions/deck";
 import { clamp, mapValueToRange } from "modules/math";
-import { getScore, getSessionsSeen, isInSchedule } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
-import { CardIds } from "ylhyra/vocabulary/types";
 
 export const PercentageKnown = (cardIds: CardIds) => {
   if (!deck?.schedule) return 0;

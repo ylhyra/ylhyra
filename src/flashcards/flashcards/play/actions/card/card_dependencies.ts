@@ -1,11 +1,11 @@
-import _ from "underscore";
-import { getTermIds } from "ylhyra/vocabulary/app/actions/card/card_data";
-import { getCardIdsFromTermIds } from "ylhyra/vocabulary/app/actions/card/functions";
+import { getTermIds } from "flashcards/flashcards/play/actions/card/card_data";
+import { getCardIdsFromTermIds } from "flashcards/flashcards/play/actions/card/functions";
 import {
   getCardIdsFromTermId,
   getCardIdsShuffledIfSeen,
-} from "ylhyra/vocabulary/app/actions/card/term";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
+} from "flashcards/flashcards/play/actions/card/term";
+import { deck } from "flashcards/flashcards/play/actions/deck";
+import _ from "underscore";
 import {
   CardId,
   CardIds,

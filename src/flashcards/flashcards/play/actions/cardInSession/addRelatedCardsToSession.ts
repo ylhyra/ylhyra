@@ -1,22 +1,21 @@
-import { log } from "modules/log";
-import { days } from "modules/time";
-import { isInSession } from "ylhyra/vocabulary/app/actions/card/card";
+import { isInSession } from "flashcards/flashcards/play/actions/card/card";
 import {
   dependencyDepthOfCard,
   getDependenciesAsArrayOfCardIds,
-} from "ylhyra/vocabulary/app/actions/card/card_dependencies";
+} from "flashcards/flashcards/play/actions/card/card_dependencies";
 import {
   isBad,
   isFairlyBad,
-} from "ylhyra/vocabulary/app/actions/card/card_difficulty";
+} from "flashcards/flashcards/play/actions/card/card_difficulty";
 import {
   isUnseenTerm,
   timeSinceTermWasSeen,
   wasTermVeryRecentlySeen,
-} from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession/index";
-import { printWord } from "ylhyra/vocabulary/app/actions/functions";
-import { CardIds } from "ylhyra/vocabulary/types";
+} from "flashcards/flashcards/play/actions/card/card_schedule";
+import CardInSession from "flashcards/flashcards/play/actions/cardInSession/index";
+import { printWord } from "flashcards/flashcards/play/actions/functions";
+import { log } from "modules/log";
+import { days } from "modules/time";
 
 /**
  * If a cardInSession gets a bad rating, then we make sure

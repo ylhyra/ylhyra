@@ -1,7 +1,6 @@
 import store from "ylhyra/app/app/store";
-import Session from "ylhyra/vocabulary/app/actions/session/index";
 
-export function loadCardInInterface(this: Session) {
+export function loadCardInInterface("flashcards/app/store") {
   const session = this;
   if (!session?.currentCard) return console.error("no cards");
   store.dispatch({

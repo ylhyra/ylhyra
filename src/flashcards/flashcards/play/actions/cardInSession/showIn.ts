@@ -1,4 +1,4 @@
-import CardInSession from "ylhyra/vocabulary/app/actions/cardInSession/index";
+import CardInSession from "flashcards/flashcards/play/actions/cardInSession/index";
 
 /**
  * All values are relative to the currently shown card, which is at 0.

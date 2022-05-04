@@ -1,6 +1,5 @@
-import { isInSchedule } from "ylhyra/vocabulary/app/actions/card/card_schedule";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
-import { CardIds, TermId, Terms } from "ylhyra/vocabulary/types";
+import { isInSchedule } from "flashcards/flashcards/play/actions/card/card_schedule";
+import { deck } from "flashcards/flashcards/play/actions/deck";
 
 export const getTermData = (termId: TermId): Terms[TermId] | undefined => {
   return deck?.terms[termId];

@@ -1,9 +1,8 @@
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
+import { deck } from "flashcards/flashcards/play/actions/deck";
 import {
   setUserData,
   UserData,
-} from "ylhyra/vocabulary/app/actions/userData/userData";
-import { CardId, ScheduleData } from "ylhyra/vocabulary/types";
+} from "flashcards/flashcards/play/actions/userData/userData";
 
 export const getScheduleFromUserData = (
   user_data: UserData

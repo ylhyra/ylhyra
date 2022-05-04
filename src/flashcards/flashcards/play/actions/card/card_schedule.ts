@@ -1,12 +1,19 @@
+import { getTermIds } from "flashcards/flashcards/play/actions/card/card_data";
+import {
+  getAllCardIdsWithSameTerm,
+  getAsCardInSession,
+} from "flashcards/flashcards/play/actions/card/card_siblings";
+import { getCardIdsFromTermId } from "flashcards/flashcards/play/actions/card/term";
+import { deck } from "flashcards/flashcards/play/actions/deck";
+import { saveScheduleForCardId } from "flashcards/flashcards/play/actions/userData/userDataSchedule";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
-import { getTimeMemoized, Milliseconds, minutes, Timestamp } from "modules/time";
-import { getTermIds } from "ylhyra/vocabulary/app/actions/card/card_data";
-import { getAllCardIdsWithSameTerm, getAsCardInSession } from "ylhyra/vocabulary/app/actions/card/card_siblings";
-import { getCardIdsFromTermId } from "ylhyra/vocabulary/app/actions/card/term";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
-import { saveScheduleForCardId } from "ylhyra/vocabulary/app/actions/userData/userDataSchedule";
+import {
+  getTimeMemoized,
+  Milliseconds,
+  minutes,
+  Timestamp,
+} from "modules/time";
 import { GOOD } from "ylhyra/vocabulary/app/constants";
-import { CardId, ScheduleData } from "ylhyra/vocabulary/types";
 
 export const getSchedule = (id: CardId): Partial<ScheduleData> | undefined => {
   if (!deck) {

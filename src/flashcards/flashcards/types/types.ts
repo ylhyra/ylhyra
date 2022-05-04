@@ -1,5 +1,4 @@
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
-import { Brand } from "ts-brand";
 
 /**
  * Raw entry in database
@@ -99,8 +98,3 @@ export enum Rating {
   GOOD = 2,
   EASY = 3,
 }
-
-export type CardId = Brand<string, "CardId">;
-export type CardIds = Array<CardId>;
-export type TermId = Brand<string, "TermId">;
-export type TermIds = Array<TermId>;
