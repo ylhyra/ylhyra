@@ -1,7 +1,7 @@
 import { Jsx } from "modules/typescript/jsx";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withPlural } from "ylhyra/app/app/functions/simplePlural";
+import { withPlural } from "modules/simplePlural";
 import store from "ylhyra/app/app/store";
 import AudioClip from "ylhyra/documents/renderDocument/audio/audioWithoutInterface.NOT_USED";
 import { getProcessedImageUrl } from "ylhyra/server/paths_urls";

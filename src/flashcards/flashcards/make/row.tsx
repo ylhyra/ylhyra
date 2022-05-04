@@ -65,7 +65,7 @@ const rowFields: FieldsSetup<Row> = [
   { name: "lemmas", label: "Lemmas" },
 ];
 
-export const Row = ({ card }: { card: Row }) => {
+export const EditRow = ({ card }: { card: Row }) => {
   const { Form, AllFields, Input } = new form<Row>({
     values: card,
     fields: rowFields,

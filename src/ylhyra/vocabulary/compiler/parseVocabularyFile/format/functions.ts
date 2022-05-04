@@ -1,4 +1,4 @@
-import { removeExtraWhitespace } from "ylhyra/app/app/functions/removeExtraWhitespace";
+import { removeExtraWhitespace } from "modules/removeExtraWhitespace";
 import { formatVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/format";
 
 /**

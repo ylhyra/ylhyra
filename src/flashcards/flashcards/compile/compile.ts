@@ -1,8 +1,5 @@
-import { Row } from "flashcards/flashcards/types/row";
-import {
-  RowIdToRowIds,
-  UnprocessedDeck,
-} from "flashcards/flashcards/types/types";
+import { Row, RowIdToRowIds } from "flashcards/flashcards/types/row";
+import { UnprocessedDeck } from "flashcards/flashcards/types/types";
 
 export const compileDeck = (deck: UnprocessedDeck) => {
   return deck;

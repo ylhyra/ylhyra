@@ -38,10 +38,6 @@ export enum Rating {
   EASY = 3,
 }
 
-export type RowId = Brand<string, "RowId">;
-export type RowIds = Array<RowId>;
-export type RowIdToRowIds = { [id: RowId]: RowIds };
-
 declare global {
   type CardId = Brand<string, "CardId">;
   type CardIds = Array<CardId>;

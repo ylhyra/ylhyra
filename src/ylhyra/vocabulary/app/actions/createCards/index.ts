@@ -1,5 +1,4 @@
 import { logDev } from "modules/log";
-import { warnIfSlow } from "ylhyra/app/app/functions/warnIfSlow";
 import {
   filterCardsThatExist,
   isInSession,
@@ -17,8 +16,6 @@ export type CreateCardsOptions = {
   dont_sort_by_allowed_ids?: Boolean;
 };
 export function createCards(this: Session, options?: CreateCardsOptions): void {
-  warnIfSlow.start("createCards");
-
   const session = this;
 
   /* If all allowed_ids are already in use, clear it */
@@ -47,8 +44,6 @@ export function createCards(this: Session, options?: CreateCardsOptions): void {
     session.allowed_ids = null;
     return this.createCards({ skipOverTheEasiest: true });
   }
-
-  warnIfSlow.end("createCards");
 
   this.loadCardsIntoSession(chosenCards, options);
 }

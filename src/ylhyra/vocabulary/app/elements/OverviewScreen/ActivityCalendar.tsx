@@ -2,7 +2,7 @@ import { prettyPrintDaysMinutesHours, seconds } from "modules/time";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import ReactActivityCalendar from "ylhyra/app/app/functions/react-activity-calendar";
-import { withPlural } from "ylhyra/app/app/functions/simplePlural";
+import { withPlural } from "modules/simplePlural";
 import Spacer from "ylhyra/documents/renderDocument/templates/Spacer";
 
 class ActivityCalendar extends Component<{ vocabulary: any }> {

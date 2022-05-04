@@ -6,15 +6,15 @@ import {
 import { wasTermSeenMoreRecentlyThan } from "flashcards/flashcards/actions/card/card_schedule";
 import { withDependencies } from "flashcards/flashcards/actions/functions/dependencies";
 import { isDev } from "modules/isDev";
-import { days, minutes } from "modules/time"; /* Add bad dependencies */
+import { days, minutes } from "modules/time";
 
 /* Add bad dependencies */
-export const dependencies = (chosen_cards: CardIds): CardIds => {
-  const after = withDependencies(chosen_cards, { skipSiblings: true }).filter(
+export const dependencies = (chosenCards: CardIds): CardIds => {
+  const after = withDependencies(chosenCards, { skipSiblings: true }).filter(
     (id) =>
       !isInSession(id) &&
       /* Keep in those already chosen */
-      (chosen_cards.includes(id) ||
+      (chosenCards.includes(id) ||
         (isBad(id) && wasTermSeenMoreRecentlyThan(id, 45 * minutes)) ||
         (isFairlyBad(id) && wasTermSeenMoreRecentlyThan(id, 2 * days)))
   );

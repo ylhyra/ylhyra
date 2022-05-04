@@ -1,5 +1,10 @@
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
-import { DirectionSettings, RowId } from "flashcards/flashcards/types/types";
+import { DirectionSettings } from "flashcards/flashcards/types/types";
+import { Brand } from "ts-brand";
+
+export type RowId = Brand<string, "RowId">;
+export type RowIds = Array<RowId>;
+export type RowIdToRowIds = { [id: RowId]: RowIds };
 
 /**
  * Raw user input describing flashcard
