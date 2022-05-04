@@ -1,6 +1,7 @@
 import { Row, RowId } from "flashcards/flashcards/types/row";
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
 import { Brand } from "ts-brand";
+import { Sentence } from "flashcards/flashcards/compile/compile";
 
 export type RowsObject = Record<RowId, Row>;
 
@@ -11,12 +12,13 @@ export type UnprocessedDeck = {
   settings: DeckSettings;
 };
 export type UnprocessedDecksObject = Record<DeckId, UnprocessedDeck>;
+export type ProcessedDecksObject = Record<DeckId, UnprocessedDeck>;
 
 export type DirectionSettings = "BOTH" | "FRONT_TO_BACK" | "BACK_TO_FRONT";
 export type Direction = "FRONT_TO_BACK" | "BACK_TO_FRONT";
 
 export type DeckProcessed = {
-  id: DeckId;
+  // id: DeckId;
   cards: Record<
     CardId,
     {
@@ -29,8 +31,8 @@ export type DeckProcessed = {
       cardIds: CardIds;
     }
   >;
-  // dependencies?: Dependencies;
-  // alternativeIds?: Dependencies;
+  dependencies?: Record<TermId, Sentence[]>;
+  alternativeIds?: Record<TermId, Sentence[]>;
 };
 
 export enum ImportanceEnum {

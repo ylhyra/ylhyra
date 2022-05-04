@@ -1,23 +1,25 @@
 import {
+  ProcessedDecksObject,
   UnprocessedDeck,
   UnprocessedDecksObject,
 } from "flashcards/flashcards/types/types";
 import { makeAutoObservable } from "mobx";
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
-import { UserData } from "flashcards/flashcards/actions/userData/userData";
+import { compileDeck } from "flashcards/flashcards/compile/compile";
 
 export class flashcardsStore {
-  topics = {};
   deckOrder = [];
   decks: UnprocessedDecksObject = {};
-  processedDecks = {};
-
-  cards: Cards = {};
-  terms: Terms = {};
+  processedDecks: ProcessedDecksObject = {};
 
   constructor() {
     makeAutoObservable(this);
     this.decks = getFromLocalStorage("decks") || {};
+
+    /* tmp */
+    Object.keys(this.decks).forEach((deckId) => {
+      this.processedDecks[deckId] = compileDeck(this.decks[deckId]);
+    });
   }
   save = () => {
     saveInLocalStorage("decks", this.decks);
@@ -33,8 +35,4 @@ export const getDeckById = (
   if (id && id in store.decks) {
     return store.decks[id];
   }
-};
-
-export const printDeckTitle = (deck: UnprocessedDeck) => {
-  return deck.settings.title || "(untitled)";
 };

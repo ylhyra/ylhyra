@@ -12,7 +12,7 @@ export type RowIdToRowIds = { [id: RowId]: RowIds };
  */
 export type Row = {
   /** Random string */
-  id: RowId;
+  rowId: RowId;
   /** Index of this row in the deck */
   rowNumber: number;
   front?: string;
