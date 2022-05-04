@@ -3,7 +3,7 @@ import {
   getCardIdsFromTermIds,
   getTermIdsFromCardIds,
 } from "ylhyra/vocabulary/app/actions/card/functions";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
+
 import { printWord } from "ylhyra/vocabulary/app/actions/functions";
 import { withDependencies } from "ylhyra/vocabulary/app/actions/functions/dependencies";
 import { getCardIdsFromWords } from "ylhyra/documents/compilation/compileDocument/vocabulary/getCardIdsFromWords";

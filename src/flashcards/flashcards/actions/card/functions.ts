@@ -1,6 +1,5 @@
 import { getTermIds } from "flashcards/flashcards/actions/card/card_data";
 import { getCardIdsFromTermId } from "flashcards/flashcards/actions/card/term";
-import { deck } from "flashcards/flashcards/actions/deck";
 import { flatten, uniq } from "underscore";
 import { getHashForVocabulary } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 

@@ -4,15 +4,8 @@ import {
   getCardIdsFromTermId,
   getCardIdsShuffledIfSeen,
 } from "flashcards/flashcards/actions/card/term";
-import { deck } from "flashcards/flashcards/actions/deck";
+
 import _ from "underscore";
-import {
-  CardId,
-  CardIds,
-  TermId,
-  TermIds,
-  TermIdToDependencyDepth,
-} from "ylhyra/vocabulary/types";
 
 export const getDependenciesAsTermIdToDepth = (
   id: CardId

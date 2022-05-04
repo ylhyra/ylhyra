@@ -116,9 +116,6 @@ module.exports = {
     new ForkTsCheckerWebpackPlugin({
       async: !isProduction,
       typescript: {
-        // typescriptPath: resolve.sync('typescript', {
-        //   basedir: paths.appNodeModules,
-        // }),
         configOverwrite: {
           compilerOptions: {
             skipLibCheck: true,
@@ -133,8 +130,8 @@ module.exports = {
       issue: {
         include: [{ file: "**/src/flashcards/**/*.{ts,tsx}" }],
         exclude: [
-          /** TEMP */
-          { file: "**/src/flashcards/flashcards/actions/**" },
+          // /** TEMP */
+          // { file: "**/src/flashcards/flashcards/actions/**" },
         ],
       },
     }),

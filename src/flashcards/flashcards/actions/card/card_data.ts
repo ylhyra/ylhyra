@@ -1,6 +1,5 @@
 import { filterCardsThatExist } from "ylhyra/vocabulary/app/actions/card/card";
 import { getTermData } from "ylhyra/vocabulary/app/actions/card/term";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
 
 export const getCardsInSchedule = (): CardIds => {
   return filterCardsThatExist(Object.keys(deck!.schedule) as CardIds);

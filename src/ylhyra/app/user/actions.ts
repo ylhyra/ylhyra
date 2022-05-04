@@ -4,7 +4,7 @@ import axios from "ylhyra/app/app/axios";
 import { getCookie } from "ylhyra/app/app/functions/cookie";
 import store from "ylhyra/app/app/store";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
+
 import { sync } from "ylhyra/vocabulary/app/actions/userData/sync";
 import { clearOverview } from "ylhyra/vocabulary/app/elements/OverviewScreen/actions";
 import { decodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";

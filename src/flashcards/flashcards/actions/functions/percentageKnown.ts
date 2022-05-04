@@ -3,7 +3,7 @@ import {
   getSessionsSeen,
   isInSchedule,
 } from "flashcards/flashcards/actions/card/card_schedule";
-import { deck } from "flashcards/flashcards/actions/deck";
+
 import { clamp, mapValueToRange } from "modules/math";
 
 export const PercentageKnown = (cardIds: CardIds) => {

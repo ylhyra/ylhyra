@@ -6,9 +6,6 @@ import {
 import { getScheduleFromUserData } from "flashcards/flashcards/actions/userData/userDataSchedule";
 import { getFromLocalStorage } from "modules/localStorage";
 import { log } from "modules/log";
-import axios from "ylhyra/app/app/axios";
-import { isUserLoggedIn } from "ylhyra/app/user/actions";
-import { clearOverview } from "ylhyra/vocabulary/app/elements/OverviewScreen/actions";
 
 /**
  * TODO:

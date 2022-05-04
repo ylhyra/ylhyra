@@ -1,6 +1,6 @@
 import _ from "underscore";
 import { assert } from "ylhyra/tests/integrationTests/index";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
+
 import {
   printWord,
   studyParticularIds,

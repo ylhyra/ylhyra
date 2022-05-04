@@ -1,4 +1,3 @@
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { assert } from "ylhyra/tests/integrationTests/index";
 import { run } from "ylhyra/tests/integrationTests/recipes";
 

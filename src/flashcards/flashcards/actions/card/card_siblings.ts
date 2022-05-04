@@ -2,10 +2,9 @@ import { isInSession } from "flashcards/flashcards/actions/card/card";
 import { getTermIds } from "flashcards/flashcards/actions/card/card_data";
 import { getCardIdsFromTermId } from "flashcards/flashcards/actions/card/term";
 import CardInSession from "flashcards/flashcards/actions/cardInSession";
-import { deck } from "flashcards/flashcards/actions/deck";
 import { filterEmpty } from "modules/typescript/filterEmpty";
 import _ from "underscore";
-import { BAD } from "ylhyra/vocabulary/app/constants";
+import { Rating } from "flashcards/flashcards/types/types";
 
 export const getSiblingCards = (id: CardId): CardIds => {
   // return (this.siblingCardIds);
@@ -27,7 +26,7 @@ export const getAsCardInSession = (id: CardId): CardInSession | undefined => {
 
 export const didAnySiblingCardsGetABadRatingInThisSession = (id: CardId) => {
   return getSiblingCards(id).some((sibling_cardId) => {
-    return getAsCardInSession(sibling_cardId)?.history.includes(BAD);
+    return getAsCardInSession(sibling_cardId)?.history.includes(Rating.BAD);
   });
 };
 

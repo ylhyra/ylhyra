@@ -5,7 +5,7 @@ import { eraseCookie } from "ylhyra/app/app/functions/cookie";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
 import { login, logout } from "ylhyra/app/user/actions";
 import { assert, wait } from "ylhyra/tests/integrationTests/index";
-import { deck } from "ylhyra/vocabulary/app/actions/deck";
+
 import { PercentageKnownOverall } from "ylhyra/vocabulary/app/actions/functions/percentageKnown";
 import { initializeVocabulary } from "ylhyra/vocabulary/app/actions/initialize";
 

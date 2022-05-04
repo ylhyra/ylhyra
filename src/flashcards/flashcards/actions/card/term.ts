@@ -1,5 +1,4 @@
 import { isInSchedule } from "flashcards/flashcards/actions/card/card_schedule";
-import { deck } from "flashcards/flashcards/actions/deck";
 
 export const getTermData = (termId: TermId): Terms[TermId] | undefined => {
   return deck?.terms[termId];
