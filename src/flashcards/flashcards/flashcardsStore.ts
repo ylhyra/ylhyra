@@ -19,22 +19,22 @@ export class flashcardsStore {
     makeAutoObservable(this);
     this.decks = getFromLocalStorage("decks") || {};
   }
-
-  getDeckById = (id: string): UnprocessedDeck | undefined => {
-    if (id in this.decks) {
-      return this.decks[id];
-    }
-  };
   save = () => {
     saveInLocalStorage("decks", this.decks);
   };
-
-  load() {}
 }
+
+const store = new flashcardsStore();
+export const getFlashcardsStore = (): flashcardsStore => store;
+
+export const getDeckById = (
+  id: string | undefined
+): UnprocessedDeck | undefined => {
+  if (id && id in store.decks) {
+    return store.decks[id];
+  }
+};
 
 export const printDeckTitle = (deck: UnprocessedDeck) => {
   return deck.settings.title || "(untitled)";
 };
-
-const store = new flashcardsStore();
-export const getFlashcardsStore = (): flashcardsStore => store;

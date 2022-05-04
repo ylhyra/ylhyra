@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 export const FlashcardsPlay = observer(function () {
   let { deckId } = useParams<{ deckId: string }>();
-  const deck = getFlashcardsStore().getDeckById(deckId!);
+  const deck = getDeckById(deckId!);
   if (!deck) return <div>No deck with that id.</div>;
 
   useEffect(() => {
