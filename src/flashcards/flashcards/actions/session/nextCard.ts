@@ -6,8 +6,8 @@ import {
   createCardsIfNoneAreRemaining,
   updateRemainingTime,
 } from "flashcards/flashcards/actions/session/functions";
-import { saveSessionInLocalStorage } from "flashcards/flashcards/actions/session/sessionSaveLocalStorage";
-import { getSession } from "flashcards/flashcards/actions/session/sessionStore";
+import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/saveOngoingSessionInLocalStorage";
+import { getSession } from "flashcards/flashcards/sessionStore";
 import { log } from "modules/log";
 import _ from "underscore";
 
@@ -44,6 +44,6 @@ export function nextCard(depth = 0) {
     session.lastSeenTerms[termId] = session.counter;
   });
 
-  saveSessionInLocalStorage();
+  saveOngoingSessionInLocalStorage();
   debugSession();
 }

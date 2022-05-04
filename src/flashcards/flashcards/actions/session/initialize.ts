@@ -1,6 +1,6 @@
 import { createCardsIfNoneAreRemaining } from "flashcards/flashcards/actions/session/functions";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
-import { getSession } from "flashcards/flashcards/actions/session/sessionStore";
+import { getSession } from "flashcards/flashcards/sessionStore";
 import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
 import { compileDeck } from "flashcards/flashcards/compile/compile";
 import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";

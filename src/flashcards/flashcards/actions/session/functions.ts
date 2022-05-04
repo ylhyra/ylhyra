@@ -5,7 +5,7 @@ import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import {
   getSession,
   MAX_SECONDS_TO_COUNT_PER_ITEM,
-} from "flashcards/flashcards/actions/session/sessionStore";
+} from "flashcards/flashcards/sessionStore";
 import { Rating } from "flashcards/flashcards/types/types";
 import { log } from "modules/log";
 import { getTime } from "modules/time";

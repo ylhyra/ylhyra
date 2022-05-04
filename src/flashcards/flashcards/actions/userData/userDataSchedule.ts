@@ -4,12 +4,12 @@ import {
 } from "flashcards/flashcards/actions/userData/userData";
 
 export const getScheduleFromUserData = (
-  user_data: UserData
+  userData: UserData
 ): { [cardId: string]: ScheduleData } => {
   const schedule = {};
-  Object.keys(user_data?.rows || {}).forEach((key) => {
-    if (user_data.rows[key].type === "schedule") {
-      schedule[key] = user_data.rows[key].value;
+  Object.keys(userData?.rows || {}).forEach((key) => {
+    if (userData.rows[key].type === "schedule") {
+      schedule[key] = userData.rows[key].value;
     }
   });
   return schedule;

@@ -2,7 +2,7 @@ import { isAllowed } from "flashcards/flashcards/actions/card/card";
 import { isInSchedule } from "flashcards/flashcards/actions/card/card_schedule";
 import { veryRecentlySeenSortedLast } from "flashcards/flashcards/actions/createCards/functions";
 import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards/index";
-import { getSession } from "flashcards/flashcards/actions/session/sessionStore";
+import { getSession } from "flashcards/flashcards/sessionStore";
 import { sortBy } from "underscore";
 
 export const getNewCards = (options?: CreateCardsOptions): CardIds => {

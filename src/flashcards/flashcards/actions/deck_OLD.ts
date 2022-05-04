@@ -14,35 +14,30 @@ import {
   Terms,
 } from "ylhyra/vocabulary/types";
 
-export type Schedule = Record<CardId, Partial<ScheduleData>>;
 class Deck {
   cards: Cards = {};
   cards_sorted: CardIds = [];
   terms: Terms = {};
   schedule: Schedule = {};
-  user_data: UserData | null = null;
+  userData: UserData | null = null;
   session: Session;
-  termCount: number;
-
-  /** Only used in compilation, should be removed */
-  alternativeIds: DeckDatabase["alternativeIds"];
 
   constructor({
     database,
     schedule,
     session,
-    user_data,
+    userData,
   }: {
     database?: DeckDatabase;
     schedule?: Schedule;
     session?: Session;
-    user_data?: UserData;
+    userData?: UserData;
   }) {
     deck = this;
     if (database) {
       this.cards = database.cards;
       this.terms = database.terms;
-      this.user_data = user_data || null;
+      this.userData = userData || null;
       this.schedule = schedule || {};
 
       this.cards_sorted = sortBySortKey(Object.keys(this.cards) as CardIds, {
@@ -64,7 +59,7 @@ class Deck {
   reset() {
     saveInLocalStorage("vocabulary-user-data", null);
     saveInLocalStorage("vocabulary-session", null);
-    this.user_data = null;
+    this.userData = null;
     this.schedule = {};
   }
   // /* Only used for testing */

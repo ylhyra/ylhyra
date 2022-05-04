@@ -14,7 +14,7 @@ import { log } from "modules/log";
 
 export const chooseCards = (options?: CreateCardsOptions): CardIds => {
   /**
-   * Chosen_cards starts out as an array of nulls;
+   * chosenCards starts out as an array of nulls;
    * the slots will later be filled.
    */
   let chosenCards = new Array(CARDS_TO_CREATE).fill(null);
@@ -49,8 +49,8 @@ export const chooseCards = (options?: CreateCardsOptions): CardIds => {
 
   const newCards = getNewCards(options);
 
-  let totalOptions = sumOfArrayLengths(overdueBad, overdueGood);
-  let badCount = sumOfArrayLengths(overdueBad);
+  let totalOptions = overdueBad.length + overdueGood.length;
+  let badCount = overdueBad.length;
 
   // isDev &&
   //   logDev({
@@ -69,10 +69,10 @@ export const chooseCards = (options?: CreateCardsOptions): CardIds => {
     newCardEvery = 4;
   }
 
-  /*
-    Start by spreading new cards into chosen_cards with a given interval.
-    Unfilled slots are left as null.
-  */
+  /**
+   * Start by spreading new cards into chosen_cards with a given interval.
+   * Unfilled slots are left as null.
+   */
   for (
     let pos = newCardEvery;
     pos < CARDS_TO_CREATE && !isEmpty(newCards);
@@ -81,9 +81,9 @@ export const chooseCards = (options?: CreateCardsOptions): CardIds => {
     addToChosenCards(newCards, "New", pos);
   }
 
-  /*
-    Now scheduled cards are placed into the slots left over
-  */
+  /**
+   * Now scheduled cards are placed into the slots left over
+   */
   for (
     let i = 0;
     chosenCards.filter(Boolean).length <
@@ -109,10 +109,4 @@ export const chooseCards = (options?: CreateCardsOptions): CardIds => {
   }
 
   return chosenCards;
-};
-
-export const sumOfArrayLengths = (...arrays: any[][]) => {
-  let length = 0;
-  arrays.forEach((a) => (length += a.length));
-  return length;
 };

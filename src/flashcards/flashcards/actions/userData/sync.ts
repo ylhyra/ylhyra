@@ -13,17 +13,17 @@ import { log } from "modules/log";
  * - tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
  */
 export const sync = async (options: any = {}): Promise<UserData> => {
-  let user_data: UserData;
+  let userData: UserData;
 
-  if (Object.keys(deck?.user_data?.rows || {}).length > 0) {
-    user_data = deck!.user_data;
+  if (Object.keys(deck?.userData?.rows || {}).length > 0) {
+    userData = deck!.userData;
   } else {
-    user_data = getFromLocalStorage("vocabulary-user-data") || {};
+    userData = getFromLocalStorage("vocabulary-user-data") || {};
   }
 
-  let rows: UserDataRows = user_data.rows || {};
+  let rows: UserDataRows = userData.rows || {};
 
-  const { lastSynced } = user_data;
+  const { lastSynced } = userData;
 
   if (!options.isInitializing) {
     saveUserDataInLocalStorage({ rows });
@@ -31,7 +31,7 @@ export const sync = async (options: any = {}): Promise<UserData> => {
 
   if (!isUserLoggedIn()) {
     log(`Not synced to server as user isn't logged in`);
-    return user_data;
+    return userData;
   }
 
   const unsynced = getUnsynced(rows, options);
@@ -48,17 +48,17 @@ export const sync = async (options: any = {}): Promise<UserData> => {
 
   rows = mergeResponse(rows, response.rows);
 
-  user_data = {
+  userData = {
     rows,
     lastSynced: response.lastSynced,
   };
-  saveUserDataInLocalStorage(user_data, { assignToDeck: true });
+  saveUserDataInLocalStorage(userData, { assignToDeck: true });
   if (deck) {
-    deck!.schedule = getScheduleFromUserData(user_data);
+    deck!.schedule = getScheduleFromUserData(userData);
   }
   log("Data synced");
 
-  return user_data;
+  return userData;
 };
 
 export const syncIfNecessary = async () => {

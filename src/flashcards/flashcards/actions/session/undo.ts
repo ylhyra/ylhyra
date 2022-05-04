@@ -1,5 +1,5 @@
 import { loadCardInInterface } from "flashcards/flashcards/actions/session/loadCardInInterface";
-import { getSession } from "flashcards/flashcards/actions/session/sessionStore";
+import { getSession } from "flashcards/flashcards/sessionStore";
 
 export function undoSession() {
   const session = getSession();

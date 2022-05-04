@@ -6,7 +6,7 @@ import {
 } from "flashcards/flashcards/actions/card/card_data";
 import { isNewTerm } from "flashcards/flashcards/actions/card/card_schedule";
 import { getCardIdsFromTermIds } from "flashcards/flashcards/actions/card/functions";
-import { getSession } from "flashcards/flashcards/actions/session/sessionStore";
+import { getSession } from "flashcards/flashcards/sessionStore";
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 import { log } from "modules/log";

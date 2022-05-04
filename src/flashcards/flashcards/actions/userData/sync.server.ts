@@ -47,9 +47,9 @@ const getUserData = (req: express.Request): Promise<UserDataRows> => {
           a.key,
           a.value,
           a.type
-        FROM user_data a
+        FROM userData a
         INNER JOIN (
-          SELECT max(id) id, \`key\` FROM user_data
+          SELECT max(id) id, \`key\` FROM userData
             WHERE user_id = ${req.session!.user_id}
             GROUP BY \`key\`
         ) b
@@ -106,7 +106,7 @@ const saveUserData = (req: express.Request, userDataRows: UserDataRows) => {
           value = stable_stringify(removeNullKeys(value));
         }
         return sql`
-          INSERT INTO user_data SET
+          INSERT INTO userData SET
             user_id = ${req.session!.user_id},
             type = ${userDataRows[key].type},
             \`key\` = ${key},
@@ -131,8 +131,8 @@ export default router;
 
 export const delete_test_data = () => {
   return sql`
-    DELETE FROM user_data 
-      JOIN users ON user_data.user_id = users.id
+    DELETE FROM userData 
+      JOIN users ON userData.user_id = users.id
       WHERE username LIKE 'test_%;
     DELETE FROM users WHERE username LIKE 'test_%';
   `;

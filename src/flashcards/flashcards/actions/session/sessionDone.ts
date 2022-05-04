@@ -1,7 +1,7 @@
 import { createSchedule } from "flashcards/flashcards/actions/createSchedule";
 import { exitVocabularyScreen } from "flashcards/flashcards/actions/functions";
-import { clearInLocalStorage } from "flashcards/flashcards/actions/session/sessionSaveLocalStorage";
-import { getSession } from "flashcards/flashcards/actions/session/sessionStore";
+import { clearOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/saveOngoingSessionInLocalStorage";
+import { getSession } from "flashcards/flashcards/sessionStore";
 import { sync } from "flashcards/flashcards/actions/userData/sync";
 import { setUserData } from "flashcards/flashcards/actions/userData/userData";
 import { SESSION_PREFIX } from "flashcards/flashcards/actions/userData/userDataSessions";
@@ -14,7 +14,7 @@ export const sessionDone = async (options: any = {}) => {
 
   session.done = true;
   createSchedule();
-  clearInLocalStorage();
+  clearOngoingSessionInLocalStorage();
   if (!options.isInitializing) {
     await exitVocabularyScreen();
   }

@@ -5,7 +5,7 @@ import {
 import { chooseCards } from "flashcards/flashcards/actions/createCards/3_Choose_cards";
 import { dependencies } from "flashcards/flashcards/actions/createCards/4_Dependencies";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
-import { getSession } from "flashcards/flashcards/actions/session/sessionStore";
+import { getSession } from "flashcards/flashcards/sessionStore";
 import { logDev } from "modules/log";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 

@@ -1,8 +1,8 @@
-import { getSession } from "flashcards/flashcards/actions/session/sessionStore";
+import { getSession } from "flashcards/flashcards/sessionStore";
 import { saveInLocalStorage } from "modules/localStorage";
 import { getTime } from "modules/time";
 
-export const saveSessionInLocalStorage = () => {
+export const saveOngoingSessionInLocalStorage = () => {
   const session = getSession();
 
   if (!session.cards.some((i) => i.hasBeenSeenInSession())) {
@@ -20,6 +20,6 @@ export const saveSessionInLocalStorage = () => {
   session.savedAt = getTime();
 };
 
-export const clearInLocalStorage = () => {
+export const clearOngoingSessionInLocalStorage = () => {
   saveInLocalStorage("vocabulary-session", null);
 };
