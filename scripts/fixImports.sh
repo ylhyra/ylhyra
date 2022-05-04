@@ -11,11 +11,13 @@ set -e
 
 folder="src"
 
+echo 'Starting eslint'
 files="$(eslint "$folder" --format unix |\
   grep 'Error/no-undef' |\
   awk -F  ":" '{print $1}' |\
   sort -u)"
 
+echo 'Starting importjs'
 for file in $files
 do
   npx importjs fix --overwrite "$file"

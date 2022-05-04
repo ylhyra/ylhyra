@@ -7,6 +7,10 @@ module.exports = {
     expect: true,
     beforeAll: true,
     NodeJS: true,
+    CardId: true,
+    CardIds: true,
+    TermId: true,
+    TermIds: true,
   },
   overrides: [
     {
@@ -16,7 +20,7 @@ module.exports = {
         tsconfigRootDir: __dirname,
       },
       rules: {
-        // "no-undef": "error",
+        "no-undef": "error",
         "import/no-unused-modules": ["warn", { unusedExports: true }],
 
         "@typescript-eslint/naming-convention": [

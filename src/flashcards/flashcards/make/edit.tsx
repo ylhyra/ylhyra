@@ -1,8 +1,8 @@
-import { Button } from "flashcards/app/elements/button";
 import {
-  getFlashcardsStore,
+  getDeckById,
   printDeckTitle,
 } from "flashcards/flashcards/flashcardsStore";
+import { Button } from "flashcards/app/elements/button";
 import { addLine } from "flashcards/flashcards/make/actions";
 import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
 import { EditRow } from "flashcards/flashcards/make/row";
