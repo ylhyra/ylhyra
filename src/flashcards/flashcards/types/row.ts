@@ -1,15 +1,15 @@
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
-import {
-  DirectionSettings,
-  UnprocessedCardEntryId,
-} from "flashcards/flashcards/types/types";
+import { DirectionSettings, RowId } from "flashcards/flashcards/types/types";
 
 /**
- * Raw entry in database
+ * Raw user input describing flashcard
  * @see rowFields
  */
-export type CardEntry = {
-  id: UnprocessedCardEntryId;
+export type Row = {
+  /** Random string */
+  id: RowId;
+  /** Index of this row in the deck */
+  rowNumber: number;
   front?: string;
   back?: string;
   direction?: DirectionSettings;

@@ -1,16 +1,17 @@
-import { addValuesToADependencyGraph } from "flashcards/flashcards/compile/dependencyGraph";
-import { CardEntry } from "flashcards/flashcards/types/cardEntry";
+import { Row } from "flashcards/flashcards/types/row";
 import {
   RowIdToRowIds,
   UnprocessedDeck,
 } from "flashcards/flashcards/types/types";
 
-export const compileDeck = (deck: UnprocessedDeck) => {};
+export const compileDeck = (deck: UnprocessedDeck) => {
+  return deck;
+};
 
 /**
  * Calculates certain items such as alternativeIds and dependsOn
  */
-export const compileRow = (row: CardEntry) => {
+export const compileRow = (row: Row) => {
   if (!row.front || !row.back) return null;
 
   let dependencies: RowIdToRowIds = {};

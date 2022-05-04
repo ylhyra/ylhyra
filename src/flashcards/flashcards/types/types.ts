@@ -1,12 +1,12 @@
-import { CardEntry } from "flashcards/flashcards/types/cardEntry";
+import { Row } from "flashcards/flashcards/types/row";
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
 import { Brand } from "ts-brand";
 
-export type IdToUnprocessedCardEntry = Record<CardEntry["id"], CardEntry>;
+export type IdToRow = Record<Row["id"], Row>;
 
 export type UnprocessedDeck = {
   id: string;
-  cards: IdToUnprocessedCardEntry;
+  rows: IdToRow;
   settings: DeckSettings;
 };
 export type IdToUnprocessedDeck = Record<
@@ -38,10 +38,8 @@ export enum Rating {
   EASY = 3,
 }
 
-export type UnprocessedCardEntryId = Brand<string, "UnprocessedCardEntryId">;
-export type UnprocessedCardEntryIds = Array<UnprocessedCardEntryId>;
-export type RowId = UnprocessedCardEntryId;
-export type RowIds = UnprocessedCardEntryIds;
+export type RowId = Brand<string, "RowId">;
+export type RowIds = Array<RowId>;
 export type RowIdToRowIds = { [id: RowId]: RowIds };
 
 declare global {

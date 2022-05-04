@@ -7,7 +7,7 @@ export const newDeck = () => {
   getFlashcardsStore().decks[id] = {
     id,
     settings: {},
-    cards: {},
+    rows: {},
   };
   customHistory.replace(`/flashcards/deck/${id}`);
 };
@@ -15,7 +15,7 @@ export const newDeck = () => {
 export const addLine = (deckId: string) => {
   const id = shortid.generate();
 
-  getFlashcardsStore().decks[deckId].cards[id] = {
+  getFlashcardsStore().decks[deckId].rows[id] = {
     id,
   };
   return id;

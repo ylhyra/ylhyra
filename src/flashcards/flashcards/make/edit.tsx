@@ -25,7 +25,7 @@ export const FlashcardsEdit = observer(() => {
         Add row
       </Button>
       <div>
-        {entries(deck.cards).map(([cardId, card]) => (
+        {entries(deck.rows).map(([cardId, card]) => (
           <Row key={card.id} card={card} />
         ))}
       </div>
