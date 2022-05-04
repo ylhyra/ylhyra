@@ -1,6 +1,6 @@
 import {
-  IdToUnprocessedDeck,
   UnprocessedDeck,
+  UnprocessedDecksObject,
 } from "flashcards/flashcards/types/types";
 import { makeAutoObservable } from "mobx";
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
@@ -8,7 +8,8 @@ import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
 export class flashcardStore {
   topics = {};
   deckOrder = [];
-  decks: IdToUnprocessedDeck = getFromLocalStorage("decks") || {};
+  decks: UnprocessedDecksObject = getFromLocalStorage("decks") || {};
+  processedDecks = {};
 
   constructor() {
     makeAutoObservable(this);

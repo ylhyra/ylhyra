@@ -1,21 +1,37 @@
-import { Row } from "flashcards/flashcards/types/row";
+import { Row, RowId } from "flashcards/flashcards/types/row";
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
 import { Brand } from "ts-brand";
 
-export type IdToRow = Record<Row["id"], Row>;
+export type RowsObject = Record<RowId, Row>;
 
+export type DeckId = Brand<string, "DeckId">;
 export type UnprocessedDeck = {
-  id: string;
-  rows: IdToRow;
+  id: DeckId;
+  rows: RowsObject;
   settings: DeckSettings;
 };
-export type IdToUnprocessedDeck = Record<
-  UnprocessedDeck["id"],
-  UnprocessedDeck
->;
+export type UnprocessedDecksObject = Record<DeckId, UnprocessedDeck>;
 
 export type DirectionSettings = "BOTH" | "FRONT_TO_BACK" | "BACK_TO_FRONT";
 export type Direction = "FRONT_TO_BACK" | "BACK_TO_FRONT";
+
+export type DeckProcessed = {
+  id: DeckId;
+  cards: Record<
+    CardId,
+    {
+      termId: TermId;
+    }
+  >;
+  terms: Record<
+    TermId,
+    {
+      cardIds: CardIds;
+    }
+  >;
+  // dependencies?: Dependencies;
+  // alternativeIds?: Dependencies;
+};
 
 export enum ImportanceEnum {
   VERY_UNIMPORTANT = 1,
