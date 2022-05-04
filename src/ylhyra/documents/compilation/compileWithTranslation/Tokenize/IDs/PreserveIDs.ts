@@ -1,5 +1,5 @@
 import { diffArrays } from "diff";
-import flattenArray from "modules/flattenArray";
+import flattenArray from "modules/arrays/flattenArray";
 import { findBestMatch } from "string-similarity";
 import { TokenizedParagraphs } from "ylhyra/documents/types/various";
 

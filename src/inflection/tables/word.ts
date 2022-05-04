@@ -29,7 +29,7 @@ import {
   Leafs,
   Rows,
 } from "inflection/tables/types";
-import flattenArray from "modules/flattenArray";
+import flattenArray from "modules/arrays/flattenArray";
 
 import { filterEmpty } from "modules/typescript/filterEmpty";
 

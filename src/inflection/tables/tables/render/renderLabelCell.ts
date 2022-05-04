@@ -1,7 +1,7 @@
 import link from "inflection/tables/link";
 import { CellStructure, TableStructure } from "inflection/tables/tables/types";
 import { GrammaticalTag } from "inflection/tables/types";
-import flattenArray from "modules/flattenArray";
+import flattenArray from "modules/arrays/flattenArray";
 import { c } from "modules/noUndefinedInTemplateLiteral";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 

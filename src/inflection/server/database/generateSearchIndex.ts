@@ -28,7 +28,7 @@ import {
   without_special_characters,
 } from "inflection/server/search/fuzzySearch";
 import LineByLineReader from "line-by-line";
-import flattenArray from "modules/flattenArray";
+import flattenArray from "modules/arrays/flattenArray";
 import path from "path";
 import { escape } from "sqlstring";
 import query from "ylhyra/server/database";

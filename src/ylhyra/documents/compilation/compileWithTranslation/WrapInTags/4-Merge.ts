@@ -1,4 +1,4 @@
-import flattenArray from "modules/flattenArray";
+import flattenArray from "modules/arrays/flattenArray";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 
 /**

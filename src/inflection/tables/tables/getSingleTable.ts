@@ -9,7 +9,7 @@ import {
 } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 import { without } from "lodash";
-import flattenArray from "modules/flattenArray";
+import flattenArray from "modules/arrays/flattenArray";
 
 export type SingleTableOptions = {
   returnAsString?: Boolean;

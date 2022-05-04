@@ -2,16 +2,15 @@ import {
   CARDS_TO_CREATE,
   CreateCardsOptions,
 } from "flashcards/flashcards/play/actions/createCards";
-import OldCards from "flashcards/flashcards/play/actions/createCards/1_Old_cards";
-import NewCards from "flashcards/flashcards/play/actions/createCards/2_New_cards";
+import { oldCards } from "flashcards/flashcards/play/actions/createCards/1_Old_cards";
+import { getNewCards } from "flashcards/flashcards/play/actions/createCards/2_New_cards";
 import {
   sortCardsByScore,
   veryRecentlySeenSortedLast,
 } from "flashcards/flashcards/play/actions/createCards/functions";
 import { printWord } from "flashcards/flashcards/play/actions/functions";
-import { isDev } from "modules/isDev";
 import { isEmpty } from "modules/isEmpty";
-import { log, logDev } from "modules/log";
+import { log } from "modules/log";
 
 export const chooseCards = (options?: CreateCardsOptions): CardIds => {
   /**
@@ -20,34 +19,46 @@ export const chooseCards = (options?: CreateCardsOptions): CardIds => {
    */
   let chosenCards = new Array(CARDS_TO_CREATE).fill(null);
 
-  /* Helper function to add to chosen_cards */
-  const add = (arr: CardIds, desc: string, pos?: number) => {
-    if (!isEmpty(arr)) {
+  /**
+   * Helper function to add to chosenCards.
+   * Manipulates chosenCards directly.
+   */
+  const addToChosenCards = (
+    cardIds: CardIds,
+    /** Only used for logging */
+    description: string,
+    pos?: number
+  ) => {
+    if (!isEmpty(cardIds)) {
       if (pos === undefined) {
         pos = chosenCards.findIndex((j) => j === null);
         if (pos < 0) {
           pos = chosenCards.length;
         }
       }
-      log(`${desc} card "${printWord(arr[0])}" added at position ${pos + 1}`);
-      chosenCards[pos] = arr.shift();
+      log(
+        `${description} card "${printWord(cardIds[0])}" added at position ${
+          pos + 1
+        }`
+      );
+      chosenCards[pos] = cardIds.shift();
     }
   };
 
-  const { overdueBad, overdueGood, notOverdue } = OldCards();
+  const { overdueBad, overdueGood, notOverdue } = oldCards();
 
-  const newCards = NewCards(options);
+  const newCards = getNewCards(options);
 
   let totalOptions = sumOfArrayLengths(overdueBad, overdueGood);
   let badCount = sumOfArrayLengths(overdueBad);
 
-  isDev &&
-    logDev({
-      overdueGood: { ...overdueGood },
-      overdueBad: { ...overdueBad },
-      new_cards: { ...newCards },
-      notOverdue: { ...notOverdue },
-    });
+  // isDev &&
+  //   logDev({
+  //     overdueGood: { ...overdueGood },
+  //     overdueBad: { ...overdueBad },
+  //     newCards: { ...newCards },
+  //     notOverdue: { ...notOverdue },
+  //   });
 
   let newCardEvery = 2;
   if (badCount > 100) {
@@ -67,7 +78,7 @@ export const chooseCards = (options?: CreateCardsOptions): CardIds => {
     pos < CARDS_TO_CREATE && !isEmpty(newCards);
     pos += newCardEvery
   ) {
-    add(newCards, "New", pos);
+    addToChosenCards(newCards, "New", pos);
   }
 
   /*
@@ -79,8 +90,8 @@ export const chooseCards = (options?: CreateCardsOptions): CardIds => {
       Math.min(CARDS_TO_CREATE, totalOptions) && i < 1000;
     i++
   ) {
-    add(overdueGood, "Overdue good");
-    add(overdueBad, "Overdue bad");
+    addToChosenCards(overdueGood, "Overdue good");
+    addToChosenCards(overdueBad, "Overdue bad");
   }
 
   chosenCards = chosenCards.filter(Boolean);
