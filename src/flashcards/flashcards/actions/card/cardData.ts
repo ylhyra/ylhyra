@@ -8,8 +8,8 @@ import {
   TermIds,
 } from "flashcards/flashcards/types/types";
 import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
-import { filterCardsThatExist } from "ylhyra/vocabulary/app/actions/card/card";
-import { getTermData } from "ylhyra/vocabulary/app/actions/card/term";
+import { filterCardsThatExist } from "flashcards/flashcards/actions/card/card";
+import { getTermData } from "flashcards/flashcards/actions/card/term";
 import { CARD_ID_PART_SEPARATOR } from "flashcards/flashcards/compile/functions";
 
 export const getCardsInSchedule = (): CardIds => {
@@ -41,7 +41,7 @@ export const getCardData: {
  * Direction is encoded in CardId
  * @see createCardId
  */
-export const getDirection = (cardId: CardId) => {
+export const getDirection = (cardId: CardId): Direction => {
   return cardId.split(CARD_ID_PART_SEPARATOR)[1] as Direction;
 };
 

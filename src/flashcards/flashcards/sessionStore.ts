@@ -37,21 +37,10 @@ export class sessionStore {
   currentCard: CardInSession | null = null;
   /** Is volume on? */
   volume: boolean = true;
-  /** Has the user answered the card? */
-  answered: boolean = false;
+  hasUserAnswered: boolean = false;
 
-  /** Temp: Todo: find better title */
-  // deck: any;
+  /** Temp */
   allowedDeckIds: DeckId[] = [];
-  // getCardIdsFromAllowedDecks = (): CardIds => {
-  //   let out: CardIds = [];
-  //   this.allowedDecks.forEach((deck) => {
-  //     entries(deck.cards).forEach(([cardId]) => {
-  //       out.push(cardId as CardId);
-  //     });
-  //   });
-  //   return out;
-  // };
 
   constructor() {
     makeAutoObservable(this);
@@ -75,7 +64,7 @@ export class sessionStore {
     this.savedAt = null;
     this.allowedDeckIds = [];
     this.userFacingError = undefined;
-    this.answered = false;
+    this.hasUserAnswered = false;
   }
 }
 

@@ -1,7 +1,14 @@
 import { Jsx } from "modules/typescript/jsx";
 import React, { Component } from "react";
-import { withPlural } from "modules/simplePlural";
 import { sessionStore } from "flashcards/flashcards/sessionStore";
+import {
+  getCardData,
+  getDirection,
+} from "flashcards/flashcards/actions/card/cardData";
+import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
+import { Rating } from "flashcards/flashcards/types/types";
+import { answer } from "flashcards/flashcards/actions/session/functions";
+import { joinClassNames } from "modules/addCssClass";
 
 type Props = { session: sessionStore };
 export class CardElement extends Component<Props> {
@@ -11,7 +18,7 @@ export class CardElement extends Component<Props> {
     clickingOnShowButton?: boolean;
   } = {};
   componentDidMount() {
-    this.componentDidUpdate();
+    this.sound();
     window.addEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
   }
@@ -19,24 +26,25 @@ export class CardElement extends Component<Props> {
     window.removeEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
   }
-  componentDidUpdate(prevProps?: Props) {
-    const { card } = this.props.vocabulary;
-    const prevCard = prevProps?.vocabulary.card;
-    if (!prevProps || card.counter !== prevCard.counter) {
-      this.setState({
-        answer: null,
-        clickingOnShowButton: null,
-      });
-      this.sound();
-    }
-  }
+  // componentDidUpdate(prevProps?: Props) {
+  //   const prevCounter = prevProps.session.counter;
+  //   const counter = this.props.session.counter;
+  //   const prevCard = prevProps?.vocabulary.card;
+  //   if (!prevProps || card.counter !== prevCard.counter) {
+  //     this.setState({
+  //       answer: null,
+  //       clickingOnShowButton: null,
+  //     });
+  //     this.sound();
+  //   }
+  // }
   keyUp = () => {
     this.isKeyDown = false;
   };
   checkKey = (e: KeyboardEvent) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (this.isKeyDown) return;
-    const { answered } = this.props.vocabulary.card;
+    const answered = this.props.session.hasUserAnswered;
     this.isKeyDown = true;
     if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */) {
       if (answered) {
@@ -76,18 +84,22 @@ export class CardElement extends Component<Props> {
       e.preventDefault();
     }
   };
-  answer = (i, timeout?, e?) => {
+  answer = (
+    rating: Rating,
+    timeout?: NodeJS.Timeout | false,
+    e?: MouseEvent
+  ) => {
     e?.stopPropagation();
     if (this.state.answer) return;
     const { session } = this.props;
     if (timeout === false) {
-      session.answer(i);
+      answer(rating);
     } else {
       this.setState({
-        answer: i,
+        answer: rating,
       });
       setTimeout(() => {
-        session.answer(i);
+        answer(rating);
       }, 100);
     }
   };
@@ -97,7 +109,7 @@ export class CardElement extends Component<Props> {
     // if (!card) return;
     // const id = card.getId();
     //
-    // if (volume && getSound(id) && (getFrom(id) === "is" || answered)) {
+    // if (volume && getSound(id) && (getFrom(id) === "FRONT_TO_BACK" || answered)) {
     //   try {
     //     AudioClip.play(
     //       getSound(id).map((s) => getProcessedImageUrl(s + ".mp3", true))
@@ -118,12 +130,12 @@ export class CardElement extends Component<Props> {
     //
     //     const is = getCardData(id, "is_formatted");
     //     const en = getCardData(id, "en_formatted");
-    //     let lang = getFrom(id) === "is" ? "is" : "en";
+    //     let lang = getFrom(id) === "FRONT_TO_BACK" ? "FRONT_TO_BACK" : "BACK_TO_FRONT";
     //     if (answered) {
-    //       lang = getFrom(id) !== "is" ? "is" : "en";
+    //       lang = getFrom(id) !== "FRONT_TO_BACK" ? "FRONT_TO_BACK" : "BACK_TO_FRONT";
     //     }
     //
-    //     if (lang === "is") {
+    //     if (lang === "FRONT_TO_BACK") {
     //       switch (getDeckName()) {
     //         case "_de":
     //           utter.lang = "de-DE";
@@ -138,69 +150,67 @@ export class CardElement extends Component<Props> {
     //       utter.lang = "is-IS";
     //     }
     //
-    //     utter.text = getPlaintextFromFormatted(lang === "is" ? is : en);
+    //     utter.text = getPlaintextFromFormatted(lang === "FRONT_TO_BACK" ? is : en);
     //     utter.volume = 0.5;
     //     utter.rate = 0.9;
     //     window.speechSynthesis.speak(utter);
     //   }
     // }
   };
-  show = (timeout?: NodeJS.Timeout) => {
-    if (this.props.vocabulary.card.answered) {
+  show = (timeout?: NodeJS.Timeout | false) => {
+    if (this.props.session.hasUserAnswered) {
       this.sound(true);
       return;
     }
     if (timeout === false) {
-      store.dispatch({
-        type: "ANSWER_CARD",
-      });
+      this.props.session.hasUserAnswered = true;
     } else {
       this.setState({
         clickingOnShowButton: true,
       });
       setTimeout(() => {
-        store.dispatch({
-          type: "ANSWER_CARD",
-        });
+        this.props.session.hasUserAnswered = true;
       }, 50);
     }
     this.sound(true);
   };
   render() {
-    const { volume, deck } = this.props.vocabulary;
-    const { answered } = this.props.vocabulary.card;
-    const card: CardInSession = deck!.session.currentCard;
-    if (!card) {
+    const volume = this.props.session.volume;
+    const answered = this.props.session.hasUserAnswered;
+    const cardInSession = this.props.session.currentCard;
+    if (!cardInSession) {
       return <div>Unable to create cards. Please report this error.</div>;
     }
-    const id = card.getId();
+    const cardId = cardInSession.id;
 
-    let from: Jsx = getFrom(id);
-    let lemmas: Jsx = getCardData(id, "lemmas");
-    let note_regarding_english: Jsx = getCardData(id, "note_regarding_english");
-    let note: Jsx = getCardData(id, "note");
-    let literally: Jsx = getCardData(id, "literally");
-    let example_declension: Jsx = getCardData(id, "example_declension");
-    let pronunciation: Jsx = getCardData(id, "pronunciation");
-    let synonyms: Jsx = getCardData(id, "synonyms");
-    const is = getCardData(id, "is_formatted");
-    const en = getCardData(id, "en_formatted");
+    let direction = getDirection(cardId);
+    let lemmas: Jsx = getCardData(cardId, "lemmas");
+    // let note_regarding_english: Jsx = getCardData(id, "note_regarding_english");
+    // let note: Jsx = getCardData(id, "note");
+    // let literally: Jsx = getCardData(id, "literally");
+    // let example_declension: Jsx = getCardData(id, "example_declension");
+    // let pronunciation: Jsx = getCardData(id, "pronunciation");
+    // let synonyms: Jsx = getCardData(id, "synonyms");
+    const front = getCardData(cardId, "front");
+    const back = getCardData(cardId, "back");
 
     /* Loading */
-    if (!is) {
+    if (!front || !back) {
       return null;
     }
 
-    literally = label("Literally", literally);
-    synonyms = label(withPlural(/,/.test(synonyms), "Synonym"), synonyms);
-    lemmas = label(withPlural(/,/.test(lemmas), "Dictionary form"), lemmas);
-    example_declension = label("Example declension", example_declension);
-    pronunciation = label(
-      "Pronounced",
-      pronunciation && `<i>${pronunciation}</i>`
-    );
-    note = label("Note", note);
-    note_regarding_english = label("Note", note_regarding_english);
+    // literally = label("Literally", literally);
+    // synonyms = label(withPlural(/,/.test(synonyms), "Synonym"), synonyms);
+    // lemmas = label(withPlural(/,/.test(lemmas), "Dictionary form"), lemmas);
+    // example_declension = label("Example declension", example_declension);
+    // pronunciation = label(
+    //   "Pronounced",
+    //   pronunciation && `<i>${pronunciation}</i>`
+    // );
+    // note = label("Note", note);
+    // note_regarding_english = label("Note", note_regarding_english);
+
+    const AnswerButton = this.AnswerButton;
 
     return (
       <div
@@ -208,99 +218,116 @@ export class CardElement extends Component<Props> {
           vocabulary-card
           flashcard
           ${answered ? "answered" : "not-answered"}
-          ${getSound(id) && volume ? "has-sound" : ""}
-          ${isNewTerm(id) ? "new" : ""}
+          ${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}
+          ${isNewTerm(cardId) ? "new" : ""}
         `}
         onClick={() => this.show(false)}
       >
         <div
           className={`
           flashcard-top
-          flashcard-prompt-${from === "is" ? "icelandic" : "english"}
+          flashcard-prompt-${
+            direction === "FRONT_TO_BACK" ? "icelandic" : "english"
+          }
         `}
         >
-          {getSound(id) && <div className="has-audio-icon" />}
-          <div>{html(from === "is" ? is : en)}</div>
+          {/*{getSound(cardId) && <div className="has-audio-icon" />}*/}
+          <div>{html(direction === "FRONT_TO_BACK" ? front : back)}</div>
         </div>
         <div
           className={`
           flashcard-bottom
-          flashcard-prompt-${from !== "is" ? "icelandic" : "english"}
+          flashcard-prompt-${
+            direction !== "FRONT_TO_BACK" ? "icelandic" : "english"
+          }
         `}
         >
-          {(answered || /"occluded/.test(from !== "is" ? is : en)) && (
-            <div>{html(from !== "is" ? is : en)}</div>
+          {(answered ||
+            /"occluded/.test(direction !== "FRONT_TO_BACK" ? front : back)) && (
+            <div>{html(direction !== "FRONT_TO_BACK" ? front : back)}</div>
           )}
         </div>
         <div className="card-notes">
           <div className="card-notes-inner">
-            <div className={from === "en" ? "" : "show-after-answer"}>
-              {note_regarding_english}
-            </div>
-            <div className="show-after-answer">
-              {note}
-              {literally}
-              {lemmas}
-              {example_declension}
-              {synonyms}
-              {pronunciation}
-            </div>
+            {/*<div*/}
+            {/*  className={*/}
+            {/*    direction === "BACK_TO_FRONT" ? "" : "show-after-answer"*/}
+            {/*  }*/}
+            {/*>*/}
+            {/*  {note_regarding_english}*/}
+            {/*</div>*/}
+            {/*<div className="show-after-answer">*/}
+            {/*  {note}*/}
+            {/*  {literally}*/}
+            {/*  {lemmas}*/}
+            {/*  {example_declension}*/}
+            {/*  {synonyms}*/}
+            {/*  {pronunciation}*/}
+            {/*</div>*/}
           </div>
-
-          {/* {cardInSession.counter <= 1 && (
-            <div className="rate-how-well">Rate how well you knew this:</div>
-          )} */}
         </div>
 
         <div className="flashcard-buttons">
           {!answered ? (
             <div>
               <button
+                type="button"
                 className={`
-              not-answered
-              button-show-answer
-              nostyle
-              ${this.state.clickingOnShowButton ? "selected" : ""}
-            `}
+                  not-answered
+                  button-show-answer
+                  nostyle
+                  ${this.state.clickingOnShowButton ? "selected" : ""}
+                `}
               >
                 Click to show answer
               </button>
             </div>
           ) : (
             <div>
-              <button
-                className={
-                  "button-bad nostyle " +
-                  (this.state.answer === BAD ? "selected" : "")
-                }
-                onClick={(e) => this.answer(BAD, false, e)}
-              >
-                Bad
-              </button>
-              <button
-                className={
-                  "button-good nostyle " +
-                  (this.state.answer === GOOD ? "selected" : "")
-                }
-                onClick={(e) => this.answer(GOOD, false, e)}
-              >
-                Good
-              </button>
-              <button
-                className={
-                  "button-easy nostyle " +
-                  (this.state.answer === EASY ? "selected" : "")
-                }
-                onClick={(e) => this.answer(EASY, false, e)}
-              >
-                Easy
-              </button>
+              <AnswerButton
+                className="button-bad"
+                label="Bad"
+                rating={Rating.BAD}
+              />
+              <AnswerButton
+                className="button-good"
+                label="Good"
+                rating={Rating.GOOD}
+              />
+              <AnswerButton
+                className="button-easy"
+                label="Easy"
+                rating={Rating.EASY}
+              />
             </div>
           )}
         </div>
       </div>
     );
   }
+  AnswerButton = ({
+    className,
+    label,
+    rating,
+  }: {
+    className: string;
+    label: string;
+    rating: Rating;
+  }) => {
+    return (
+      <button
+        type="button"
+        className={joinClassNames(
+          className,
+          "nostyle",
+          this.state.answer === rating ? "selected" : ""
+        )}
+        onClick={() => this.answer(rating, false)}
+      >
+        {label}
+      </button>
+    );
+  };
 }
 
 /**
@@ -323,10 +350,10 @@ const html = (text?: string): Jsx => {
 //   } else if (text.length > 25) {
 //     size -= 2;
 //   }
-//   return size - (lang === "en" ? 1 : 0);
+//   return size - (lang === "BACK_TO_FRONT" ? 1 : 0);
 // };
 
-const label = (name, value) => {
+const label = (name: string, value: string) => {
   if (!value) return null;
   return (
     <div>

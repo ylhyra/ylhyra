@@ -14,7 +14,10 @@ export type UnprocessedDeck = {
 };
 export type UnprocessedDecksObject = Record<DeckId, UnprocessedDeck>;
 
-export type DirectionSettings = "BOTH" | "FRONT_TO_BACK" | "BACK_TO_FRONT";
+export type DirectionSettings =
+  | "BOTH"
+  | "ONLY_FRONT_TO_BACK"
+  | "ONLY_BACK_TO_FRONT";
 export type Direction = "FRONT_TO_BACK" | "BACK_TO_FRONT";
 
 export type ProcessedDecksObject = Record<DeckId, DeckProcessed>;

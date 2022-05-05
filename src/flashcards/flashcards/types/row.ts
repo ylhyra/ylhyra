@@ -8,7 +8,7 @@ export type RowIdToRowIds = { [id: RowId]: RowIds };
 
 /**
  * Raw user input describing flashcard
- * @see rowFields for more details.
+ * See {@link rowFields} for more details.
  *
  * For the processed information, see
  * {@link ProcessedCardExtraInformation} (work in progress)

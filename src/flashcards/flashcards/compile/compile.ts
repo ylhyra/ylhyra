@@ -1,4 +1,8 @@
-import { createCardId } from "flashcards/flashcards/compile/functions";
+import {
+  createCardId,
+  shouldCreateBackToFront,
+  shouldCreateFrontToBack,
+} from "flashcards/flashcards/compile/functions";
 import { Row } from "flashcards/flashcards/types/row";
 import {
   CardIds,
@@ -6,6 +10,7 @@ import {
   TermId,
   UnprocessedDeck,
 } from "flashcards/flashcards/types/types";
+import { log } from "modules/log";
 import { entries } from "modules/typescript/objectEntries";
 
 export const compileDeck = (deck: UnprocessedDeck): DeckProcessed => {
@@ -15,10 +20,11 @@ export const compileDeck = (deck: UnprocessedDeck): DeckProcessed => {
     dependencies: {},
     alternativeIds: {},
   };
-  console.log(deck);
+  log(deck);
   entries(deck.rows).forEach(([, row]) => {
     compileRow(row, deckProcessed);
   });
+  log(deckProcessed);
   return deckProcessed;
 };
 
@@ -41,10 +47,10 @@ export const compileRow = (row: Row, deckProcessed: DeckProcessed) => {
   // addValuesToADependencyGraph(dependencies, termsInThisLine, dependsOn);
   // addValuesToADependencyGraph(alternativeIds, alternativeIds, termsInThisLine);
 
-  if (row.direction === "BOTH" || row.direction === "FRONT_TO_BACK") {
+  if (shouldCreateFrontToBack(row)) {
     cardIds.push(createCardId(termId, "FRONT_TO_BACK"));
   }
-  if (row.direction === "BOTH" || row.direction === "BACK_TO_FRONT") {
+  if (shouldCreateBackToFront(row)) {
     cardIds.push(createCardId(termId, "BACK_TO_FRONT"));
   }
 

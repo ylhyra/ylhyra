@@ -32,11 +32,11 @@ export const deckSettingsFields: FieldsSetup<DeckSettings> = [
         label: "Both sides can be shown as prompts",
       },
       {
-        value: "FRONT_TO_BACK",
+        value: "ONLY_FRONT_TO_BACK",
         label: "Only use front side as a prompt",
       },
       {
-        value: "BACK_TO_FRONT",
+        value: "ONLY_BACK_TO_FRONT",
         label: "Only use back side as a prompt",
       },
     ],

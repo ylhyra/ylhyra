@@ -1,5 +1,6 @@
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
+import { toJS } from "mobx";
 
 /**
  * Helper functions for debugging
@@ -10,7 +11,7 @@ export const log = (...items: any[]) => {
     if (typeof item === "string" && isBrowser) {
       console.log("%c " + item, "color: #CBCBCB");
     } else {
-      console.log(item);
+      console.log(toJS(item));
     }
   });
 };
