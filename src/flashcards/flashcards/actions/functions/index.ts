@@ -3,14 +3,14 @@ import {
   getTermIds,
 } from "flashcards/flashcards/actions/card/cardData";
 import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
-import { getCardsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
+import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
 import { CardId, CardIds, TermId } from "flashcards/flashcards/types/types";
 import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
 import { isDev } from "modules/isDev";
 import { roundToInterval } from "modules/math";
 
 export const printWord = (id: CardId | TermId | string) => {
-  throw new Error("Not implemented");
+  // throw new Error("Not implemented");
   if (!isDev) return;
   // if (id in getCardsFromAllDecks()) {
   //   return getPlaintextFromFormatted(
@@ -41,7 +41,7 @@ export const studyParticularIds = async (allowedIds: CardIds, options?) => {
 
 export const studyNewTerms = () => {
   const newTerms: CardIds = [];
-  (Object.keys(getCardsFromAllDecks()) as CardIds).forEach((id) => {
+  (Object.keys(getCardIdsFromAllDecks()) as CardIds).forEach((id) => {
     if (!(id in getEntireSchedule()) && isNewTerm(id)) {
       newTerms.push(id);
     }

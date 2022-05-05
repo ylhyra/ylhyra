@@ -7,7 +7,6 @@ import {
   getCardIdsFromTermIds,
   getCardIdsShuffledIfSeen,
 } from "flashcards/flashcards/actions/card/term";
-import { getTermsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
 import {
   CardId,
   CardIds,
@@ -17,7 +16,7 @@ import {
 } from "flashcards/flashcards/types/types";
 import _ from "underscore";
 
-export const getDependenciesAsTermIdToDepth = (
+export const cardGetDependenciesAsTermIdToDepth = (
   id: CardId
 ): TermIdToDependencyDepth => {
   const termId: TermId = getTermId(id);
@@ -27,7 +26,8 @@ export const getDependenciesAsTermIdToDepth = (
 export const termGetDependenciesAsTermIdToDepth = (
   termId: TermId
 ): TermIdToDependencyDepth => {
-  throw new Error("Not implemented");
+  console.warn("termGetDependenciesAsTermIdToDepth not implemented");
+  return {};
   // return {
   //   ...(getTermsFromAllDecks()[termId].dependencies || {}),
   //   [termId]: 0,
@@ -36,7 +36,7 @@ export const termGetDependenciesAsTermIdToDepth = (
 
 export const getDependenciesAsCardIdToDepth = (id: CardId) => {
   let out: Record<CardId, number> = {};
-  const deps = getDependenciesAsTermIdToDepth(id);
+  const deps = cardGetDependenciesAsTermIdToDepth(id);
   (Object.keys(deps) as TermIds).forEach((termId) => {
     getCardIdsFromTermId(termId).forEach((cardId) => {
       out[cardId] = deps[termId];
@@ -47,7 +47,7 @@ export const getDependenciesAsCardIdToDepth = (id: CardId) => {
 
 export const getDependenciesAsArrayOfCardIds = (id: CardId): CardIds => {
   return getCardIdsFromTermIds(
-    Object.keys(getDependenciesAsTermIdToDepth(id)) as TermIds
+    Object.keys(cardGetDependenciesAsTermIdToDepth(id)) as TermIds
   ).filter((cardId) => cardId !== id);
 };
 

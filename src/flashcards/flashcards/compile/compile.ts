@@ -29,7 +29,8 @@ export const compileDeck = (deck: UnprocessedDeck): DeckProcessed => {
 };
 
 /**
- * Calculates certain items such as alternativeIds and dependsOn
+ * Calculates certain items such as alternativeIds and dependsOn,
+ * creates cardIds
  */
 export const compileRow = (row: Row, deckProcessed: DeckProcessed) => {
   if (!row.front || !row.back) return null;

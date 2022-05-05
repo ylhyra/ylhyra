@@ -2,7 +2,7 @@ import {
   hasDependenciesInCommonWith,
   hasTermsInCommonWith,
 } from "flashcards/flashcards/actions/card/cardDependencies";
-import { getCardsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
+import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { CardId, CardIds } from "flashcards/flashcards/types/types";
 
@@ -31,7 +31,7 @@ export const isAllowed = (cardId: CardId) => {
 };
 
 export const doesCardExist = (cardId: CardId) => {
-  return cardId in getCardsFromAllDecks();
+  return cardId in getCardIdsFromAllDecks();
 };
 
 export const filterCardsThatExist = (cardIds: CardIds) => {

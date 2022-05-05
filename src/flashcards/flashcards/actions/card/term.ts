@@ -2,6 +2,7 @@ import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
 import { Row } from "flashcards/flashcards/types/row";
 import { CardIds, TermId, TermIds } from "flashcards/flashcards/types/types";
 import { flatten, uniq } from "underscore";
+import { getTermsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
 
 export const getTermData = (termId: TermId): Row | undefined => {
   throw new Error("Not implemented");
@@ -9,8 +10,7 @@ export const getTermData = (termId: TermId): Row | undefined => {
 };
 
 export const getCardIdsFromTermId = (termId: TermId): CardIds => {
-  throw new Error("Not implemented");
-  // return getTermData(termId)?.cards || [];
+  return getTermsFromAllDecks()[termId]?.cardIds || [];
 };
 
 export const getCardIdsFromTermIds = (termIds: TermIds) => {

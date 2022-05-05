@@ -1,6 +1,7 @@
 import { compileDeck } from "flashcards/flashcards/compile/compile";
 import {
   CardIds,
+  DeckProcessed,
   ProcessedDecksObject,
   UnprocessedDeck,
   UnprocessedDecksObject,
@@ -39,16 +40,24 @@ export const getDeckById = (
   }
 };
 
-export const getCardsFromAllDecks = (): CardIds => {
+export const getCardIdsFromAllDecks = (): CardIds => {
   let out: CardIds = [];
-  entries(getFlashcardsStore().processedDecks).map(([, deck]) => {
+  values(getFlashcardsStore().processedDecks).map((deck) => {
     out = out.concat(keys(deck.cards));
   });
   return out;
 };
-export const getTermsFromAllDecks = () => {};
+export const getTermsFromAllDecks = (): DeckProcessed["terms"] => {
+  let out: DeckProcessed["terms"] = {};
+  values(getFlashcardsStore().processedDecks).map((deck) => {
+    entries(deck.terms).map(([termId, termInfo]) => {
+      out[termId] = termInfo;
+    });
+  });
+  return out;
+};
 
 // @ts-ignore
 window["getFlashcardsStore"] = getFlashcardsStore;
 // @ts-ignore
-window["getCardsFromAllDecks"] = getCardsFromAllDecks;
+window["getCardsFromAllDecks"] = getCardIdsFromAllDecks;

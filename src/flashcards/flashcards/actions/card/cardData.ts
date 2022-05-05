@@ -1,4 +1,4 @@
-import { getCardsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
+import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
 import { Row } from "flashcards/flashcards/types/row";
 import {
   CardId,
@@ -20,12 +20,12 @@ export const getCardData: {
   (id: CardId, key: "terms"): TermIds;
   <T extends keyof Row>(id: CardId, key: T): Row[T];
 } = (id: CardId, key: string) => {
-  if (!(id in getCardsFromAllDecks())) {
+  if (!(id in getCardIdsFromAllDecks())) {
     console.error(`Card not found:`, id);
     throw new Error();
   }
-  if (key in getCardsFromAllDecks()[id]) {
-    return (getCardsFromAllDecks()[id] as Row)[key as keyof Row];
+  if (key in getCardIdsFromAllDecks()[id]) {
+    return (getCardIdsFromAllDecks()[id] as Row)[key as keyof Row];
   } else if (key === "terms") {
     /** The CardId is just a TermId with "_is" or "_en" added to the end */
     return [id.slice(0, -3)] as TermIds;
