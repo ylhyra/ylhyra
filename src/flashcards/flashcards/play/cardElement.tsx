@@ -3,7 +3,7 @@ import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
 import { answer } from "flashcards/flashcards/actions/session/functions";
 import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
 import { sessionStore } from "flashcards/flashcards/sessionStore";
-import { Rating } from "flashcards/flashcards/types/types";
+import { Direction, Rating } from "flashcards/flashcards/types/types";
 import { joinClassNames } from "modules/addCssClass";
 import { Jsx } from "modules/typescript/jsx";
 import React, { Component } from "react";

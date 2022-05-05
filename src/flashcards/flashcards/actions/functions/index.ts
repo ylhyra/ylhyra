@@ -10,7 +10,12 @@ import {
   getCardIdsFromAllDecks,
   getTermsFromAllDecks,
 } from "flashcards/flashcards/flashcardsStore.functions";
-import { CardId, CardIds, TermId } from "flashcards/flashcards/types/types";
+import {
+  CardId,
+  CardIds,
+  Direction,
+  TermId,
+} from "flashcards/flashcards/types/types";
 import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
 import { isDev } from "modules/isDev";
 import { log } from "modules/log";

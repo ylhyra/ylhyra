@@ -7,6 +7,7 @@ import { Row } from "flashcards/flashcards/types/row";
 import {
   CardIds,
   DeckProcessed,
+  Direction,
   UnprocessedDeck,
 } from "flashcards/flashcards/types/types";
 import { entries } from "modules/typescript/objectEntries";
