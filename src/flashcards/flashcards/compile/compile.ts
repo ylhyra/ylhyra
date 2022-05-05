@@ -51,7 +51,7 @@ export const compileRow = (row: Row, deckProcessed: DeckProcessed) => {
     cardIds.push(createCardId(termId, Direction.FRONT_TO_BACK));
   }
   if (shouldCreateBackToFront(row)) {
-    cardIds.push(createCardId(termId, "BACK_TO_FRONT"));
+    cardIds.push(createCardId(termId, Direction.BACK_TO_FRONT));
   }
 
   /** Register output in deckProcessed */

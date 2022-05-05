@@ -128,9 +128,9 @@ export class CardElement extends Component<Props> {
     //
     //     const is = getCardData(id, "is_formatted");
     //     const en = getCardData(id, "en_formatted");
-    //     let lang = getFrom(id) === Direction.FRONT_TO_BACK ? Direction.FRONT_TO_BACK : "BACK_TO_FRONT";
+    //     let lang = getFrom(id) === Direction.FRONT_TO_BACK ? Direction.FRONT_TO_BACK : Direction.BACK_TO_FRONT;
     //     if (answered) {
-    //       lang = getFrom(id) !== Direction.FRONT_TO_BACK ? Direction.FRONT_TO_BACK : "BACK_TO_FRONT";
+    //       lang = getFrom(id) !== Direction.FRONT_TO_BACK ? Direction.FRONT_TO_BACK : Direction.BACK_TO_FRONT;
     //     }
     //
     //     if (lang === Direction.FRONT_TO_BACK) {
@@ -255,7 +255,7 @@ export class CardElement extends Component<Props> {
           <div className="card-notes-inner">
             {/*<div*/}
             {/*  className={*/}
-            {/*    direction === "BACK_TO_FRONT" ? "" : "show-after-answer"*/}
+            {/*    direction === Direction.BACK_TO_FRONT ? "" : "show-after-answer"*/}
             {/*  }*/}
             {/*>*/}
             {/*  {note_regarding_english}*/}
@@ -354,7 +354,7 @@ const html = (text?: string): Jsx => {
 //   } else if (text.length > 25) {
 //     size -= 2;
 //   }
-//   return size - (lang === "BACK_TO_FRONT" ? 1 : 0);
+//   return size - (lang === Direction.BACK_TO_FRONT ? 1 : 0);
 // };
 
 const label = (name: string, value: string) => {
