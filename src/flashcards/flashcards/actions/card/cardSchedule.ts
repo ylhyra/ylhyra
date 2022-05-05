@@ -32,19 +32,19 @@ export const getScore = (id: CardId) => {
 };
 
 export const getSessionsSeen = (id: CardId) => {
-  return getSchedule(id)?.sessions_seen || 0;
+  return getSchedule(id)?.sessionsSeen || 0;
 };
 
 export const getNumberOfBadSessions = (id: CardId) => {
-  return getSchedule(id)?.number_of_bad_sessions || 0;
+  return getSchedule(id)?.numberOfBadSessions || 0;
 };
 
 export const getLastIntervalInDays = (id: CardId) => {
-  return getSchedule(id)?.last_interval_in_days;
+  return getSchedule(id)?.lastIntervalInDays;
 };
 
 export const getLastSeen = (id: CardId) => {
-  return getSchedule(id)?.last_seen;
+  return getSchedule(id)?.lastSeen;
 };
 
 export const isUnseenCard = (id: CardId) => {
@@ -72,7 +72,7 @@ export const setSchedule = (id: CardId, data: Partial<ScheduleData>) => {
   }
 
   /* Round timestamps */
-  ["due", "last_seen", "last_bad_timestamp"].forEach((key) => {
+  ["due", "lastSeen", "lastBadTimestamp"].forEach((key) => {
     if (key in data) {
       // @ts-ignore
       data[key] = roundMsTo100Sec(data[key]);

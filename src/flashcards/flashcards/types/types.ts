@@ -1,5 +1,6 @@
 import { Row, RowId } from "flashcards/flashcards/types/row";
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
+import { Days, Timestamp } from "modules/time";
 import { Brand } from "ts-brand";
 import { Sentence } from "flashcards/flashcards/compile/compile";
 
@@ -56,13 +57,23 @@ export enum Rating {
   EASY = 3,
 }
 
-declare global {
-  /**
-   * TermId and direction is encoded in CardId
-   * @see createCardId
-   */
-  type CardId = Brand<string, "CardId">;
-  type CardIds = Array<CardId>;
-  type TermId = Brand<string, "TermId">;
-  type TermIds = Array<TermId>;
+/**
+ * TermId and direction is encoded in CardId
+ * @see createCardId
+ */
+type CardId = Brand<string, "CardId">;
+type CardIds = Array<CardId>;
+type TermId = Brand<string, "TermId">;
+type TermIds = Array<TermId>;
+
+export interface ScheduleData {
+  due: Timestamp;
+  lastIntervalInDays: Days /** Previously last_interval_in_days */;
+  score: number;
+  lastSeen: Timestamp;
+  sessionsSeen: number;
+
+  /* Í VINNSLU */
+  lastBadTimestamp: Timestamp;
+  numberOfBadSessions: number;
 }

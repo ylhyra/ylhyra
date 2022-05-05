@@ -73,5 +73,5 @@ export type Row = {
   // /** TODO: Not currently used, the intended purpose was to indicate when items were very related (such as just teaching different inflections) in order to allow the user to skip over items that he'd recently seen */
   // "this is a minor variation of"?: string;
   // /** ISO date */
-  // "last_seen"?: string;
+  // "lastSeen"?: string;
 };

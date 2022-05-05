@@ -16,8 +16,8 @@ export function initializeSession({ deckId }: { deckId: string | undefined }) {
   session.reset();
 
   /* Temp */
-  // session.allowedDecks = [deck];
-  session.deck = compileDeck(deck);
+  session.allowedDeckIds = [deckId!];
+  // session.deck = compileDeck(deck);
 
   createCardsIfNoneAreRemaining();
   nextCard();

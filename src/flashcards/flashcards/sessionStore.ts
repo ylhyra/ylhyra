@@ -1,5 +1,5 @@
 import CardInSession from "flashcards/flashcards/actions/cardInSession";
-import { Direction, Rating } from "flashcards/flashcards/types/types";
+import { DeckId, Direction, Rating } from "flashcards/flashcards/types/types";
 import { makeAutoObservable } from "mobx";
 import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
 
@@ -29,8 +29,8 @@ export class sessionStore {
   totalTime?: Milliseconds;
 
   /** Temp: Todo: find better title */
-  deck: any;
-  // allowedDecks: UnprocessedDeck[] = [];
+  // deck: any;
+  allowedDeckIds: DeckId[] = [];
   // getCardIdsFromAllowedDecks = (): CardIds => {
   //   let out: CardIds = [];
   //   this.allowedDecks.forEach((deck) => {
@@ -61,7 +61,7 @@ export class sessionStore {
     this.done = false;
     this.lastUndid = 0;
     this.savedAt = null;
-    this.allowedDecks = [];
+    this.allowedDeckIds = [];
   }
 }
 

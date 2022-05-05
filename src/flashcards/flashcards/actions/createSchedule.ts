@@ -120,14 +120,14 @@ export function createSchedule() {
 
     setSchedule(card.id, {
       due: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
-      last_interval_in_days: toFixedFloat(dueInDays, 1),
+      lastIntervalInDays: toFixedFloat(dueInDays, 1),
       score: toFixedFloat(score, 2),
-      last_seen: getTime(),
-      sessions_seen: sessionsSeen + 1,
+      lastSeen: getTime(),
+      sessionsSeen: sessionsSeen + 1,
       ...(anyBad
         ? {
-            last_bad_timestamp: getTime(),
-            number_of_bad_sessions: getNumberOfBadSessions(card.getId()) + 1,
+            lastBadTimestamp: getTime(),
+            numberOfBadSessions: getNumberOfBadSessions(card.getId()) + 1,
           }
         : {}),
     });

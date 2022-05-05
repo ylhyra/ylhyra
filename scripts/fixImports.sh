@@ -8,8 +8,13 @@ set -e
 #
 # Prerequesites:
 # - Add ImportJS (https://github.com/Galooshi/import-js) to your project.
+#
+# To run:
+#   ./src/fixImports.sh
+# Or:
+#   ./src/fixImports.sh NameOfFolderInSrc
 
-folder="src"
+folder="src/$1"
 
 echo 'Starting eslint'
 files="$(eslint "$folder" --format unix |\

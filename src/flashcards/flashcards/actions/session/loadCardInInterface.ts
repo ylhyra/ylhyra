@@ -22,7 +22,7 @@ export function loadCardInInterface() {
   //     `Score of "${printWord(session.currentCard.id)}": ${
   //       session.deck!.schedule[session.currentCard.id].score
   //     } - last interval: ${
-  //       session.deck!.schedule[session.currentCard.id].last_interval_in_days
+  //       session.deck!.schedule[session.currentCard.id].lastIntervalInDays
   //     }`
   //   );
   // }

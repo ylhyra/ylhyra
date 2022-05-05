@@ -20,8 +20,8 @@ export const veryRecentlySeenSortedLast = (ids: CardIds) => {
 
 // const wasTermVeryRecentlySeen2_temp = (id, time) => {
 //   return [id, ...deck!.cards_temp[id].siblingCardIds].some((sibling_id) => {
-//     const last_seen = deck!.schedule[sibling_id]?.last_seen;
-//     return last_seen && time - last_seen < 45 * minutes;
+//     const lastSeen = deck!.schedule[sibling_id]?.lastSeen;
+//     return lastSeen && time - lastSeen < 45 * minutes;
 //   });
 // };
 

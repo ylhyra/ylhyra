@@ -7,10 +7,6 @@ module.exports = {
     expect: true,
     beforeAll: true,
     NodeJS: true,
-    CardId: true,
-    CardIds: true,
-    TermId: true,
-    TermIds: true,
   },
   overrides: [
     {
