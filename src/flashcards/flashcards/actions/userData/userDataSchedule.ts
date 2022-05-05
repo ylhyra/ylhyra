@@ -2,6 +2,7 @@ import {
   setUserData,
   UserData,
 } from "flashcards/flashcards/actions/userData/userData";
+import { CardId, ScheduleData } from "flashcards/flashcards/types/types";
 
 export const getScheduleFromUserData = (
   userData: UserData

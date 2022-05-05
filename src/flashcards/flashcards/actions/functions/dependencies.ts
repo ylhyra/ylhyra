@@ -1,6 +1,7 @@
 import { getSortedCardDependenciesAsCardIds } from "flashcards/flashcards/actions/card/cardDependencies";
 import { getTermIdsFromCardIds } from "flashcards/flashcards/actions/card/functions";
 import { getCardIdsFromTermId } from "flashcards/flashcards/actions/card/term";
+import { CardIds } from "flashcards/flashcards/types/types";
 import _ from "underscore";
 
 /**

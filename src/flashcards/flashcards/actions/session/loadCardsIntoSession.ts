@@ -1,6 +1,7 @@
 import CardInSession from "flashcards/flashcards/actions/cardInSession";
 import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
 import { getSession } from "flashcards/flashcards/sessionStore";
+import { CardIds } from "flashcards/flashcards/types/types";
 
 /**
  * Used to load more cards into an already ongoing session.

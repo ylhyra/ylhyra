@@ -1,10 +1,12 @@
+import { createCardId } from "flashcards/flashcards/compile/functions";
 import { Row } from "flashcards/flashcards/types/row";
 import {
+  CardIds,
   DeckProcessed,
+  TermId,
   UnprocessedDeck,
 } from "flashcards/flashcards/types/types";
 import { entries } from "modules/typescript/objectEntries";
-import { createCardId } from "flashcards/flashcards/compile/functions";
 
 export const compileDeck = (deck: UnprocessedDeck): DeckProcessed => {
   const deckProcessed: DeckProcessed = {

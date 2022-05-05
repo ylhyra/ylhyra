@@ -9,6 +9,7 @@ import {
   CreateCardsOptions,
 } from "flashcards/flashcards/actions/createCards/index";
 import { printWord } from "flashcards/flashcards/actions/functions";
+import { CardIds } from "flashcards/flashcards/types/types";
 import { isEmpty } from "modules/isEmpty";
 import { log } from "modules/log";
 

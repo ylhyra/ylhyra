@@ -6,7 +6,7 @@ import {
   showIn,
 } from "flashcards/flashcards/actions/cardInSession/showIn";
 import Session from "flashcards/flashcards/actions/session";
-import { Rating } from "flashcards/flashcards/types/types";
+import { CardId, Rating } from "flashcards/flashcards/types/types";
 
 class CardInSession {
   id: CardId;

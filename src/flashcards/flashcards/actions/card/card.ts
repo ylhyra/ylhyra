@@ -2,6 +2,7 @@ import {
   hasDependenciesInCommonWith,
   hasTermsInCommonWith,
 } from "flashcards/flashcards/actions/card/cardDependencies";
+import { CardId, CardIds } from "flashcards/flashcards/types/types";
 
 export const isInSession = (id: CardId) => {
   return deck!.session.cards.some((i) => i.getId() === id);

@@ -14,6 +14,7 @@ import {
 } from "flashcards/flashcards/actions/card/cardSchedule";
 import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
 import { printWord } from "flashcards/flashcards/actions/functions";
+import { CardIds } from "flashcards/flashcards/types/types";
 import { log } from "modules/log";
 import { days } from "modules/time";
 

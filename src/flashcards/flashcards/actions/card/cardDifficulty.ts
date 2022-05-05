@@ -4,7 +4,7 @@ import {
   getSessionsSeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
 import { INCR } from "flashcards/flashcards/actions/createSchedule";
-import { Rating } from "flashcards/flashcards/types/types";
+import { CardId, Rating } from "flashcards/flashcards/types/types";
 
 export const isTooEasy = (id: CardId) => {
   return (

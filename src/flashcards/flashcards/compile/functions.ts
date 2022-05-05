@@ -1,4 +1,4 @@
-import { Direction } from "flashcards/flashcards/types/types";
+import { CardId, Direction, TermId } from "flashcards/flashcards/types/types";
 
 /**
  * A CardId encodes both the rowId and the direction

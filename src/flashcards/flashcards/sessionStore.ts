@@ -1,5 +1,11 @@
 import CardInSession from "flashcards/flashcards/actions/cardInSession";
-import { DeckId, Direction, Rating } from "flashcards/flashcards/types/types";
+import {
+  CardIds,
+  DeckId,
+  Direction,
+  Rating,
+  TermId,
+} from "flashcards/flashcards/types/types";
 import { makeAutoObservable } from "mobx";
 import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
 

@@ -4,8 +4,8 @@ import {
   getAsCardInSession,
 } from "flashcards/flashcards/actions/card/cardSiblings";
 import { getCardIdsFromTermId } from "flashcards/flashcards/actions/card/term";
-
 import { saveScheduleForCardId } from "flashcards/flashcards/actions/userData/userDataSchedule";
+import { CardId, ScheduleData } from "flashcards/flashcards/types/types";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
 import {
   getTimeMemoized,

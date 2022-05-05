@@ -1,3 +1,4 @@
+import { compileDeck } from "flashcards/flashcards/compile/compile";
 import {
   ProcessedDecksObject,
   UnprocessedDeck,
@@ -5,7 +6,6 @@ import {
 } from "flashcards/flashcards/types/types";
 import { makeAutoObservable } from "mobx";
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
-import { compileDeck } from "flashcards/flashcards/compile/compile";
 
 export class flashcardsStore {
   deckOrder = [];

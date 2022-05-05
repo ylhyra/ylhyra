@@ -4,6 +4,7 @@ import {
   getTermLastSeen,
   wasTermVeryRecentlySeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
+import { CardIds } from "flashcards/flashcards/types/types";
 import { sortBy } from "underscore";
 
 export const oldestFirst = (ids: CardIds) => {

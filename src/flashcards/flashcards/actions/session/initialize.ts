@@ -1,12 +1,8 @@
 import { createCardsIfNoneAreRemaining } from "flashcards/flashcards/actions/session/functions";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
-import { getSession } from "flashcards/flashcards/sessionStore";
 import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
-import { compileDeck } from "flashcards/flashcards/compile/compile";
-import {
-  getDeckById,
-  getFlashcardsStore,
-} from "flashcards/flashcards/flashcardsStore";
+import { getDeckById } from "flashcards/flashcards/flashcardsStore";
+import { getSession } from "flashcards/flashcards/sessionStore";
 
 export function initializeSession({ deckId }: { deckId: string | undefined }) {
   const deck = getDeckById(deckId);

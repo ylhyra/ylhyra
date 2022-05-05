@@ -1,8 +1,8 @@
-import { Row, RowId } from "flashcards/flashcards/types/row";
+import { Sentence } from "flashcards/flashcards/compile/compile";
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
+import { Row, RowId } from "flashcards/flashcards/types/row";
 import { Days, Timestamp } from "modules/time";
 import { Brand } from "ts-brand";
-import { Sentence } from "flashcards/flashcards/compile/compile";
 
 export type RowsObject = Record<RowId, Row>;
 

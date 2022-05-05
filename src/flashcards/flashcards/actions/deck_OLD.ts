@@ -2,17 +2,11 @@ import { sortBySortKey } from "flashcards/flashcards/actions/createCards/functio
 import { countTerms } from "flashcards/flashcards/actions/functions";
 import Session from "flashcards/flashcards/actions/session";
 import { UserData } from "flashcards/flashcards/actions/userData/userData";
+import { Schedule } from "flashcards/flashcards/userDataStore";
 import { isBrowser } from "modules/isBrowser";
 import { saveInLocalStorage } from "modules/localStorage";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
-import {
-  CardId,
-  CardIds,
-  Cards,
-  DeckDatabase,
-  ScheduleData,
-  Terms,
-} from "ylhyra/vocabulary/types";
+import { CardIds, Cards, DeckDatabase, Terms } from "ylhyra/vocabulary/types";
 
 class Deck {
   cards: Cards = {};

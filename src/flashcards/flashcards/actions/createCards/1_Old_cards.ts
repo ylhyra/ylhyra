@@ -12,13 +12,10 @@ import {
   wasTermVeryRecentlySeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
 import { sortBySortKey } from "flashcards/flashcards/actions/createCards/functions";
+import { CardIds } from "flashcards/flashcards/types/types";
 import { log } from "modules/log";
 import { shuffleLocally } from "modules/shuffleLocally";
-import {
-  getTimeMemoized,
-  hours,
-  minutes,
-} from "modules/time"; /* Previously seen cards */
+import { getTimeMemoized, hours, minutes } from "modules/time";
 
 /* Previously seen cards */
 export const oldCards = () => {

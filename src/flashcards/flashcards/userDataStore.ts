@@ -1,10 +1,6 @@
-import {
-  UnprocessedDeck,
-  UnprocessedDecksObject,
-} from "flashcards/flashcards/types/types";
-import { makeAutoObservable } from "mobx";
-import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
 import { UserData } from "flashcards/flashcards/actions/userData/userData";
+import { CardId, ScheduleData } from "flashcards/flashcards/types/types";
+import { makeAutoObservable } from "mobx";
 
 export type Schedule = Record<CardId, Partial<ScheduleData>>;
 
