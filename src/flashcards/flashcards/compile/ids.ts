@@ -1,16 +1,15 @@
+import { RowId } from "flashcards/flashcards/types/row";
 import {
   CardId,
   DeckId,
   Direction,
   TermId,
 } from "flashcards/flashcards/types/types";
-import { RowId } from "flashcards/flashcards/types/row";
 
 /**
  * Can not be "-" due to shortId.generate() using it.
  */
-export const ID_SEPARATOR_BETWEEN_DECK_ID_AND_ROW_ID = ":";
-export const ID_SEPARATOR_BETWEEN_ROW_ID_AND_DIRECTION = ">";
+export const CARD_ID_SEPARATOR = ":";
 
 /**
  * A CardId encodes three parts:
@@ -23,32 +22,37 @@ export const ID_SEPARATOR_BETWEEN_ROW_ID_AND_DIRECTION = ">";
  *    - "aaaaa:bbbbb:ccccc"
  */
 export const createCardId = (termId: TermId, direction: Direction): CardId => {
-  return `${termId}${ID_SEPARATOR_BETWEEN_ROW_ID_AND_DIRECTION}${direction}` as CardId;
+  return `${termId}${CARD_ID_SEPARATOR}${direction}` as CardId;
 };
 
 /**
  * A termId is a combination of the deckId and the rowId.
  */
 export const createTermId = (deckId: DeckId, rowId: RowId): TermId => {
-  return `${deckId}${ID_SEPARATOR_BETWEEN_DECK_ID_AND_ROW_ID}${rowId}` as TermId;
+  return `${deckId}${CARD_ID_SEPARATOR}${rowId}` as TermId;
 };
 
 export const getDeckIdFromTermIdOrCardId = (id: CardId | TermId): DeckId => {
-  return id.split(ID_SEPARATOR_BETWEEN_DECK_ID_AND_ROW_ID)[0] as DeckId;
+  return id.split(CARD_ID_SEPARATOR)[0] as DeckId;
+};
+
+export const getRowIdFromTermIdOrCardId = (id: CardId | TermId): RowId => {
+  return id.split(CARD_ID_SEPARATOR)[1] as RowId;
 };
 
 /**
  * TermId is encoded in CardId
  */
 export const getTermIdFromCardId = (cardId: CardId) => {
-  return cardId.split(ID_SEPARATOR_BETWEEN_ROW_ID_AND_DIRECTION)[0] as TermId;
+  return cardId
+    .split(CARD_ID_SEPARATOR)
+    .slice(0, 2)
+    .join(CARD_ID_SEPARATOR) as TermId;
 };
 
 /**
  * Direction is encoded in CardId
  */
 export const getDirectionFromCardId = (cardId: CardId): Direction => {
-  return cardId.split(
-    ID_SEPARATOR_BETWEEN_ROW_ID_AND_DIRECTION
-  )[1] as Direction;
+  return cardId.split(CARD_ID_SEPARATOR)[2] as Direction;
 };

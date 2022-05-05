@@ -4,16 +4,17 @@ import {
   getTermIds,
 } from "flashcards/flashcards/actions/card/cardData";
 import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
-import { CardId, CardIds, TermId } from "flashcards/flashcards/types/types";
-import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
-import { isDev } from "modules/isDev";
-import { roundToInterval } from "modules/math";
+import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
+import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
 import {
   getCardIdsFromAllDecks,
   getTermsFromAllDecks,
 } from "flashcards/flashcards/flashcardsStore.functions";
+import { CardId, CardIds, TermId } from "flashcards/flashcards/types/types";
+import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
+import { isDev } from "modules/isDev";
 import { log } from "modules/log";
-import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
+import { roundToInterval } from "modules/math";
 
 /**
  * Used for debugging (printing cards to the console)
@@ -23,10 +24,9 @@ export const printWord = (id: CardId | TermId | string): string | undefined => {
   if (getCardIdsFromAllDecks().includes(id as CardId)) {
     return getCardData(
       id as CardId,
-      "front"
-      // (getDirection(id as CardId) + "_formatted") as
-      //   | "is_formatted"
-      //   | "en_formatted"
+      getDirectionFromCardId(id as CardId) === Direction.FRONT_TO_BACK
+        ? "front"
+        : "back"
     );
     // return card[card.getFrom() + "_plaintext"];
   } else if (id in getTermsFromAllDecks()) {

@@ -18,11 +18,15 @@ export type DirectionSettings =
   | "BOTH"
   | "ONLY_FRONT_TO_BACK"
   | "ONLY_BACK_TO_FRONT";
-export type Direction = "FRONT_TO_BACK" | "BACK_TO_FRONT";
+
+export enum Direction {
+  FRONT_TO_BACK = 1,
+  BACK_TO_FRONT = 2,
+}
 
 export type ProcessedDecksObject = Record<DeckId, DeckProcessed>;
 export type DeckProcessed = {
-  // id: DeckId;
+  deckId: DeckId;
   cards: Record<
     CardId,
     {

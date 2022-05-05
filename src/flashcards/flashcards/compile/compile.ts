@@ -2,29 +2,28 @@ import {
   shouldCreateBackToFront,
   shouldCreateFrontToBack,
 } from "flashcards/flashcards/compile/functions";
+import { createCardId, createTermId } from "flashcards/flashcards/compile/ids";
 import { Row } from "flashcards/flashcards/types/row";
 import {
   CardIds,
   DeckProcessed,
-  TermId,
   UnprocessedDeck,
 } from "flashcards/flashcards/types/types";
-import { log } from "modules/log";
 import { entries } from "modules/typescript/objectEntries";
-import { createCardId } from "flashcards/flashcards/compile/ids";
 
 export const compileDeck = (deck: UnprocessedDeck): DeckProcessed => {
   const deckProcessed: DeckProcessed = {
+    deckId: deck.deckId,
     cards: {},
     terms: {},
     dependencies: {},
     alternativeIds: {},
   };
-  log(deck);
+  // log(deck);
   entries(deck.rows).forEach(([, row]) => {
     compileRow(row, deckProcessed);
   });
-  log(deckProcessed);
+  // log(deckProcessed);
   return deckProcessed;
 };
 
@@ -41,7 +40,7 @@ export const compileRow = (row: Row, deckProcessed: DeckProcessed) => {
   let alternativeIds: Sentence[] = [];
   let cardIds: CardIds = [];
   /** TODO find better naming */
-  const termId = row.rowId as unknown as TermId;
+  const termId = createTermId(deckProcessed.deckId, row.rowId);
 
   // let termsInThisLine = [row.front, ...row.front.split(/(?:;+| [-–—] )/g)];
   //
@@ -49,7 +48,7 @@ export const compileRow = (row: Row, deckProcessed: DeckProcessed) => {
   // addValuesToADependencyGraph(alternativeIds, alternativeIds, termsInThisLine);
 
   if (shouldCreateFrontToBack(row)) {
-    cardIds.push(createCardId(termId, "FRONT_TO_BACK"));
+    cardIds.push(createCardId(termId, Direction.FRONT_TO_BACK));
   }
   if (shouldCreateBackToFront(row)) {
     cardIds.push(createCardId(termId, "BACK_TO_FRONT"));

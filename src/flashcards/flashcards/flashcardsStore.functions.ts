@@ -1,12 +1,12 @@
+import { compileDeck } from "flashcards/flashcards/compile/compile";
+import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
 import {
   CardIds,
   DeckProcessed,
   UnprocessedDeck,
 } from "flashcards/flashcards/types/types";
-import { entries, keys, values } from "modules/typescript/objectEntries";
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
-import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
-import { compileDeck } from "flashcards/flashcards/compile/compile";
+import { entries, keys, values } from "modules/typescript/objectEntries";
 
 export const loadDecks = () => {
   getFlashcardsStore().decks = getFromLocalStorage("decks") || {};

@@ -1,12 +1,12 @@
-import { Jsx } from "modules/typescript/jsx";
-import React, { Component } from "react";
-import { sessionStore } from "flashcards/flashcards/sessionStore";
 import { getCardData } from "flashcards/flashcards/actions/card/cardData";
 import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
-import { Rating } from "flashcards/flashcards/types/types";
 import { answer } from "flashcards/flashcards/actions/session/functions";
-import { joinClassNames } from "modules/addCssClass";
 import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
+import { sessionStore } from "flashcards/flashcards/sessionStore";
+import { Rating } from "flashcards/flashcards/types/types";
+import { joinClassNames } from "modules/addCssClass";
+import { Jsx } from "modules/typescript/jsx";
+import React, { Component } from "react";
 
 type Props = { session: sessionStore };
 export class CardElement extends Component<Props> {
@@ -107,7 +107,7 @@ export class CardElement extends Component<Props> {
     // if (!card) return;
     // const id = card.getId();
     //
-    // if (volume && getSound(id) && (getFrom(id) === "FRONT_TO_BACK" || answered)) {
+    // if (volume && getSound(id) && (getFrom(id) === Direction.FRONT_TO_BACK || answered)) {
     //   try {
     //     AudioClip.play(
     //       getSound(id).map((s) => getProcessedImageUrl(s + ".mp3", true))
@@ -128,12 +128,12 @@ export class CardElement extends Component<Props> {
     //
     //     const is = getCardData(id, "is_formatted");
     //     const en = getCardData(id, "en_formatted");
-    //     let lang = getFrom(id) === "FRONT_TO_BACK" ? "FRONT_TO_BACK" : "BACK_TO_FRONT";
+    //     let lang = getFrom(id) === Direction.FRONT_TO_BACK ? Direction.FRONT_TO_BACK : "BACK_TO_FRONT";
     //     if (answered) {
-    //       lang = getFrom(id) !== "FRONT_TO_BACK" ? "FRONT_TO_BACK" : "BACK_TO_FRONT";
+    //       lang = getFrom(id) !== Direction.FRONT_TO_BACK ? Direction.FRONT_TO_BACK : "BACK_TO_FRONT";
     //     }
     //
-    //     if (lang === "FRONT_TO_BACK") {
+    //     if (lang === Direction.FRONT_TO_BACK) {
     //       switch (getDeckName()) {
     //         case "_de":
     //           utter.lang = "de-DE";
@@ -148,7 +148,7 @@ export class CardElement extends Component<Props> {
     //       utter.lang = "is-IS";
     //     }
     //
-    //     utter.text = getPlaintextFromFormatted(lang === "FRONT_TO_BACK" ? is : en);
+    //     utter.text = getPlaintextFromFormatted(lang === Direction.FRONT_TO_BACK ? is : en);
     //     utter.volume = 0.5;
     //     utter.rate = 0.9;
     //     window.speechSynthesis.speak(utter);
@@ -225,24 +225,30 @@ export class CardElement extends Component<Props> {
           className={`
           flashcard-top
           flashcard-prompt-${
-            direction === "FRONT_TO_BACK" ? "icelandic" : "english"
+            direction === Direction.FRONT_TO_BACK ? "icelandic" : "english"
           }
         `}
         >
           {/*{getSound(cardId) && <div className="has-audio-icon" />}*/}
-          <div>{html(direction === "FRONT_TO_BACK" ? front : back)}</div>
+          <div>
+            {html(direction === Direction.FRONT_TO_BACK ? front : back)}
+          </div>
         </div>
         <div
           className={`
           flashcard-bottom
           flashcard-prompt-${
-            direction !== "FRONT_TO_BACK" ? "icelandic" : "english"
+            direction !== Direction.FRONT_TO_BACK ? "icelandic" : "english"
           }
         `}
         >
           {(answered ||
-            /"occluded/.test(direction !== "FRONT_TO_BACK" ? front : back)) && (
-            <div>{html(direction !== "FRONT_TO_BACK" ? front : back)}</div>
+            /"occluded/.test(
+              direction !== Direction.FRONT_TO_BACK ? front : back
+            )) && (
+            <div>
+              {html(direction !== Direction.FRONT_TO_BACK ? front : back)}
+            </div>
           )}
         </div>
         <div className="card-notes">

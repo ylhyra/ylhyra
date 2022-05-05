@@ -1,34 +1,26 @@
+import { filterCardsThatExist } from "flashcards/flashcards/actions/card/card";
+import {
+  getDeckIdFromTermIdOrCardId,
+  getRowIdFromTermIdOrCardId,
+  getTermIdFromCardId,
+} from "flashcards/flashcards/compile/ids";
+import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
 import { Row } from "flashcards/flashcards/types/row";
 import { CardId, CardIds, TermIds } from "flashcards/flashcards/types/types";
 import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
-import { filterCardsThatExist } from "flashcards/flashcards/actions/card/card";
-import { getTermData } from "flashcards/flashcards/actions/card/term";
-import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore.functions";
-import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
 
 export const getCardsInSchedule = (): CardIds => {
   return filterCardsThatExist(Object.keys(getEntireSchedule()) as CardIds);
 };
 
-export const getCardData: {
-  (id: CardId, key: "terms"): TermIds;
-  <T extends keyof Row>(id: CardId, key: T): Row[T];
-} = (id: CardId, key: string) => {
-  if (!(id in getCardIdsFromAllDecks())) {
-    console.error(`Card not found:`, id);
-    throw new Error();
-  }
-  if (key in getCardIdsFromAllDecks()[id]) {
-    return (getCardIdsFromAllDecks()[id] as Row)[key as keyof Row];
-  } else if (key === "terms") {
-    /** The CardId is just a TermId with "_is" or "_en" added to the end */
-    return [id.slice(0, -3)] as TermIds;
-  } else if (getTermIds(id).length === 1) {
-    // @ts-ignore
-    return getTermData(getTermIdFromCardId(id))[key];
-  } else {
-    return null;
-  }
+export const getCardData = <T extends keyof Row>(
+  cardId: CardId,
+  key: T
+): Row[T] => {
+  const deckId = getDeckIdFromTermIdOrCardId(cardId);
+  const rowId = getRowIdFromTermIdOrCardId(cardId);
+  /* Todo: Catch if doesn't exist? */
+  return getFlashcardsStore().decks[deckId].rows[rowId][key];
 };
 
 /**
