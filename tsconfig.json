@@ -14,7 +14,8 @@
     "isolatedModules": false,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true
+    "noEmit": true,
+    "experimentalDecorators": true
   },
   "compileOnSave": true
 }

@@ -6,7 +6,7 @@ import {
   Rating,
   TermId,
 } from "flashcards/flashcards/types/types";
-import { makeAutoObservable } from "mobx";
+import { makeObservable, observable } from "mobx";
 import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
@@ -22,7 +22,6 @@ export class sessionStore {
   cardHistory: Array<CardInSession> = [];
   cardTypeLog: Array<Direction> = [];
   cards: Array<CardInSession> = [];
-  counter: SessionCounter = 0;
   done?: boolean;
   lastSeenTerms: Record<TermId, SessionCounter> = {};
   lastTimestamp?: Timestamp;
@@ -32,18 +31,23 @@ export class sessionStore {
   savedAt: Timestamp | null = null;
   timeStarted?: Timestamp;
   totalTime?: Milliseconds;
-  userFacingError?: string;
 
+  counter: SessionCounter = 0;
+  userFacingError: string = "";
   currentCard: CardInSession | null = null;
-  /** Is volume on? */
-  volume: boolean = true;
+  isVolumeOn: boolean = true;
   hasUserAnswered: boolean = false;
 
   /** Temp */
   allowedDeckIds: DeckId[] = [];
 
   constructor() {
-    makeAutoObservable(this);
+    makeObservable(this, {
+      counter: observable,
+      userFacingError: observable,
+      isVolumeOn: observable,
+      hasUserAnswered: observable,
+    });
   }
 
   reset() {

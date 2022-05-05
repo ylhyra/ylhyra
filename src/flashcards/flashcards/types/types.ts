@@ -20,8 +20,8 @@ export type DirectionSettings =
   | "ONLY_BACK_TO_FRONT";
 
 export enum Direction {
-  FRONT_TO_BACK = 1,
-  BACK_TO_FRONT = 2,
+  FRONT_TO_BACK = "0",
+  BACK_TO_FRONT = "1",
 }
 
 export type ProcessedDecksObject = Record<DeckId, DeckProcessed>;

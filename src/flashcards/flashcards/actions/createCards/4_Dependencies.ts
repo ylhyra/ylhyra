@@ -11,6 +11,9 @@ import { days, minutes } from "modules/time";
 
 /* Add bad dependencies */
 export const dependencies = (chosenCards: CardIds): CardIds => {
+  console.warn("dependencies not implemented");
+  return chosenCards;
+
   const after = withDependencies(chosenCards, { skipSiblings: true }).filter(
     (id) =>
       !isInSession(id) &&

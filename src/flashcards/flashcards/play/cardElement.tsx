@@ -173,7 +173,7 @@ export class CardElement extends Component<Props> {
     this.sound(true);
   };
   render() {
-    const volume = this.props.session.volume;
+    const volume = this.props.session.isVolumeOn;
     const answered = this.props.session.hasUserAnswered;
     const cardInSession = this.props.session.currentCard;
     if (!cardInSession) {

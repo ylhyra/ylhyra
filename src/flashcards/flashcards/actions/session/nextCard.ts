@@ -27,6 +27,7 @@ export function nextCard(depth = 0) {
     if (depth === 0) {
       nextCard(1);
     } else {
+      console.error("Failed to create cards");
       session.userFacingError = "Failed to create cards";
     }
     return;

@@ -10,6 +10,7 @@ import { CardId, Rating } from "flashcards/flashcards/types/types";
 
 export class CardInSession {
   id: CardId;
+  /** Todo: Move out of here */
   session: sessionStore;
   history: Array<Rating> = [];
   absoluteQueuePosition: number; /* Counter */

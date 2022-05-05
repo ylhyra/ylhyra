@@ -5,7 +5,7 @@ import { CardIds } from "flashcards/flashcards/types/types";
 
 /**
  * Used to load more cards into an already ongoing session.
- * Called from createCards.
+ * Called from {@link createCards}.
  */
 export function loadCardsIntoSession(
   cardIds: CardIds,
@@ -16,14 +16,14 @@ export function loadCardsIntoSession(
   let insertAtPosition = 0;
   if (!options.insertImmediately) {
     /* Insert new cards after the current cards */
-    insertAtPosition = session.cards!.filter((i) => !i.done).length;
+    insertAtPosition = session.cards.filter((i) => !i.done).length;
     if (insertAtPosition) {
       insertAtPosition += 200;
     }
   }
 
   cardIds.forEach((id, index) => {
-    session.cards!.push(
+    session.cards.push(
       new CardInSession({
         id,
         insertAtPosition: insertAtPosition + index,

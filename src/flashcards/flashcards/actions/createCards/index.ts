@@ -6,7 +6,7 @@ import { chooseCards } from "flashcards/flashcards/actions/createCards/3_Choose_
 import { dependencies } from "flashcards/flashcards/actions/createCards/4_Dependencies";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
 import { getSession } from "flashcards/flashcards/sessionStore";
-import { logDev } from "modules/log";
+import { log, logDev } from "modules/log";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export const CARDS_TO_CREATE = 50;
@@ -35,6 +35,7 @@ export const createCards = warnIfFunctionIsSlow(
 
     /* Create cards */
     let chosenCards = chooseCards(options);
+    log({ chosenCards });
 
     /* Add dependencies */
     if (!options?.skipDependencies) {
