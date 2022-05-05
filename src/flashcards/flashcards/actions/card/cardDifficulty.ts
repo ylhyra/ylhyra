@@ -4,18 +4,20 @@ import {
   getSessionsSeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
 import { INCR } from "flashcards/flashcards/actions/createSchedule";
-import { BAD, EASY, GOOD } from "ylhyra/vocabulary/app/constants";
+import { Rating } from "flashcards/flashcards/types/types";
 
 export const isTooEasy = (id: CardId) => {
-  return getScore(id) && getScore(id)! >= EASY && getSessionsSeen(id) === 1;
+  return (
+    getScore(id) && getScore(id)! >= Rating.EASY && getSessionsSeen(id) === 1
+  );
 };
 export const isBad = (id: CardId) => {
-  return getScore(id) === BAD;
+  return getScore(id) === Rating.BAD;
 };
 export const isFairlyBad = (id: CardId) => {
-  return getScore(id) && getScore(id)! <= BAD + INCR;
+  return getScore(id) && getScore(id)! <= Rating.BAD + INCR;
 };
 export const isBelowGood = (id: CardId) => {
   const j = getScore(id) || getLowestAvailableTermScore(id);
-  return j && j < GOOD;
+  return j && j < Rating.GOOD;
 };

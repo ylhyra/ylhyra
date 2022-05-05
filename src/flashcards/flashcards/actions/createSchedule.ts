@@ -141,17 +141,17 @@ export function createSchedule() {
     /* Postpone siblings */
     getSiblingCards(id)
       /* Ignore cards that were seen in this session */
-      .filter((sibling_card) => !wasSeenInSession(sibling_card))
-      .forEach((sibling_card) => {
+      .filter((siblingCard) => !wasSeenInSession(siblingCard))
+      .forEach((siblingCard) => {
         /* Postpone based on a portion of the main card's due_in_days,
            but never more than 10 days */
         const newDue = daysFromNowToTimestamp(Math.min(dueInDays * 0.8, 10));
-        const actualDue = getDue(sibling_card);
+        const actualDue = getDue(siblingCard);
         if (!actualDue || actualDue < newDue) {
-          setSchedule(sibling_card, {
+          setSchedule(siblingCard, {
             due: newDue,
           });
-          log(`${printWord(sibling_card)} postponed`);
+          log(`${printWord(siblingCard)} postponed`);
         }
       });
   });

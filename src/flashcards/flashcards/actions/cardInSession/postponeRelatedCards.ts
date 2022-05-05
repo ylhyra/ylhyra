@@ -61,8 +61,8 @@ export function postponeRelatedCards(this: CardInSession, card1interval) {
       card1.showIn({ interval: 6 });
       card2.showIn({ interval: 3 });
 
-      getSiblingCardsInSession(card2.getId()).forEach((sibling_card) => {
-        sibling_card.showIn({ interval: 6 });
+      getSiblingCardsInSession(card2.getId()).forEach((siblingCard) => {
+        siblingCard.showIn({ interval: 6 });
       });
     }
 

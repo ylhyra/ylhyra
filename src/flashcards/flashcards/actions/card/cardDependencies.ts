@@ -1,7 +1,7 @@
 import { getTermIds } from "flashcards/flashcards/actions/card/cardData";
-import { getCardIdsFromTermIds } from "flashcards/flashcards/actions/card/functions";
 import {
   getCardIdsFromTermId,
+  getCardIdsFromTermIds,
   getCardIdsShuffledIfSeen,
 } from "flashcards/flashcards/actions/card/term";
 import _ from "underscore";

@@ -5,12 +5,12 @@ import {
   getTermIds,
 } from "flashcards/flashcards/actions/card/cardData";
 import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
-import { getCardIdsFromTermIds } from "flashcards/flashcards/actions/card/functions";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 import { log } from "modules/log";
 import { roundToInterval } from "modules/math";
+import { getCardIdsFromTermIds } from "flashcards/flashcards/actions/card/term";
 
 export const printWord = (id: CardId | TermId | string) => {
   if (!isDev) return;

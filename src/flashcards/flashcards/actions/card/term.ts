@@ -1,13 +1,25 @@
+import { flatten, uniq } from "underscore";
+import { Row } from "flashcards/flashcards/types/row";
 import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
 
-export const getTermData = (termId: TermId): Terms[TermId] | undefined => {
-  return deck?.terms[termId];
+export const getTermData = (termId: TermId): Row | undefined => {
+  throw new Error("Not implemented");
+  // return deck?.terms[termId];
 };
 
 export const getCardIdsFromTermId = (termId: TermId): CardIds => {
   return getTermData(termId)?.cards || [];
 };
 
+export const getCardIdsFromTermIds = (termIds: TermIds) => {
+  return uniq(
+    flatten(termIds.map((t) => getCardIdsFromTermId(t)).filter(Boolean))
+  );
+};
+
+/**
+ * @deprecated
+ */
 export const getCardIdsShuffledIfSeen = (termId: TermId): CardIds => {
   if (
     getCardIdsFromTermId(termId).some((cardId) => isInSchedule(cardId)) &&
