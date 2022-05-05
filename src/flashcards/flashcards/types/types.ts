@@ -37,7 +37,7 @@ export type DeckProcessed = {
 };
 
 export type ProcessedCardExtraInformation = {
-  isSentence: Boolean;
+  isSentence: boolean;
 };
 
 export enum ImportanceEnum {
@@ -60,6 +60,12 @@ export enum Rating {
   GOOD = 2,
   EASY = 3,
 }
+
+/**
+ * See {@link createSchedule} for how score is calculated.
+ * A number between 1 (Bad) and 4 (Excellent)
+ */
+export type Score = number;
 
 /**
  * TermId and direction is encoded in CardId

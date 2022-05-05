@@ -47,7 +47,7 @@ export class CardInSession {
   }
 
   getOtherCardsInSession(): Array<CardInSession> {
-    return this.session.cards.filter((card) => card.getId() !== this.getId());
+    return this.session.cards.filter((card) => card.id !== this.id);
   }
 
   getQueuePosition(): number {

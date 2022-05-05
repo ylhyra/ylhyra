@@ -1,5 +1,4 @@
 import {
-  getCardData,
   getDirection,
   getTermIds,
 } from "flashcards/flashcards/actions/card/cardData";
@@ -10,7 +9,7 @@ import { Rating } from "flashcards/flashcards/types/types";
 export function getRanking(this: CardInSession) {
   const card: CardInSession = this;
 
-  const id = this.getId();
+  const id = this.id;
   const from = getDirection(id);
   let q = this.getQueuePosition();
 
@@ -61,7 +60,7 @@ export function getRanking(this: CardInSession) {
         // And all of them were new cards
         this.session.cardHistory
           .slice(0, 3)
-          .every((i: CardInSession) => isNewCard(i.getId()))
+          .every((i: CardInSession) => isNewCard(i.id))
       ) {
         q += 2000;
       }
@@ -82,7 +81,7 @@ export function getRanking(this: CardInSession) {
   //     // And none were sentences
   //     this.session.cardHistory
   //       .slice(0, 3)
-  //       .every((i) => !getCardData(i.getId(), "isSentence"))
+  //       .every((i) => !getCardData(i.id, "isSentence"))
   //   ) {
   //     q += 20;
   //     // Prevent English from showing up for unknown cards

@@ -21,8 +21,8 @@ export type Row = {
   front?: string;
   back?: string;
   direction?: DirectionSettings;
-  automaticDependencies?: Boolean;
-  automaticallyDependOnThis?: Boolean;
+  automaticDependencies?: boolean;
+  automaticallyDependOnThis?: boolean;
   lemmas?: string;
   sideToShowFirst?: DeckSettings["sideToShowFirst"];
   // /**

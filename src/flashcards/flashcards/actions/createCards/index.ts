@@ -12,10 +12,10 @@ import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 export const CARDS_TO_CREATE = 50;
 
 export type CreateCardsOptions = {
-  skipDependencies?: Boolean;
-  skipOverTheEasiest?: Boolean;
-  insertImmediately?: Boolean;
-  dontSortByAllowedIds?: Boolean;
+  skipDependencies?: boolean;
+  skipOverTheEasiest?: boolean;
+  insertImmediately?: boolean;
+  dontSortByAllowedIds?: boolean;
 };
 
 export const createCards = warnIfFunctionIsSlow(

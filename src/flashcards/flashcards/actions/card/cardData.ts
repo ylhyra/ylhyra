@@ -82,7 +82,7 @@ export const getCardCEFR = getLevel;
 export const getSortKey = (
   cardId: CardId,
   options?: {
-    englishLast?: Boolean;
+    englishLast?: boolean;
   }
 ): number => {
   throw new Error("Not implemented");

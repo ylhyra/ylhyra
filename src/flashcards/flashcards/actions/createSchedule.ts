@@ -15,7 +15,7 @@ import {
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { getSession } from "flashcards/flashcards/sessionStore";
-import { Rating } from "flashcards/flashcards/types/types";
+import { Rating, Score } from "flashcards/flashcards/types/types";
 import { log } from "modules/log";
 import { addSomeRandomness, average, clamp, toFixedFloat } from "modules/math";
 import { Days, daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
@@ -42,7 +42,7 @@ export function createSchedule() {
 
   session.cards.forEach((card: CardInSession) => {
     let dueInDays: Days = 1;
-    const id = card.getId();
+    const id = card.id;
     const prevScore = getScore(id);
     const sessionsSeen = getSessionsSeen(id);
     const isNew = !prevScore;
@@ -54,7 +54,7 @@ export function createSchedule() {
     const badCount = sessionHistory.filter((i) => i === Rating.BAD).length;
     const anyBad = badCount > 0;
 
-    let score = prevScore || avgRating;
+    let score: Score = prevScore || avgRating;
 
     /* SCORE */
     if (isNew) {
@@ -80,7 +80,7 @@ export function createSchedule() {
       } else if (avgRating === Rating.GOOD) {
         dueInDays = GOOD_INITIAL_INTERVAL;
       }
-    } else {
+    } else if (lastIntervalInDays && lastSeen && sessionsSeen) {
       const multiplier =
         avgRating === Rating.EASY ? EASY_MULTIPLIER : GOOD_MULTIPLIER;
       dueInDays = (lastIntervalInDays || 1) * multiplier;
@@ -94,7 +94,7 @@ export function createSchedule() {
         const newDueInDays = lastIntervalInDays;
         log(
           `${printWord(
-            card.getId()
+            card.id
           )} - given ${newDueInDays} instead of ${dueInDays}`
         );
         dueInDays = newDueInDays;
@@ -127,7 +127,7 @@ export function createSchedule() {
       ...(anyBad
         ? {
             lastBadTimestamp: getTime(),
-            numberOfBadSessions: getNumberOfBadSessions(card.getId()) + 1,
+            numberOfBadSessions: getNumberOfBadSessions(card.id) + 1,
           }
         : {}),
     });

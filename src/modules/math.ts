@@ -5,8 +5,8 @@ export const average = (arr: number[] = []) => {
   return arr.reduce((a, b) => a + b, 0) / arr.length;
 };
 
-export const clamp = function (input: number, min: number, max: number) {
-  return minIgnoreUndef(maxIgnoreUndef(input, min), max);
+export const clamp = (input: number, min: number, max: number): number => {
+  return minIgnoreUndef(maxIgnoreUndef(input, min), max)!;
 };
 
 export const mapValueToRange = ({

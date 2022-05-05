@@ -80,7 +80,7 @@ export const syncIfNecessary = async () => {
 
 const getUnsynced = (
   obj: UserDataRows,
-  options: { syncEverything?: Boolean } = {}
+  options: { syncEverything?: boolean } = {}
 ): UserDataRows => {
   if (!obj) return {};
   const { syncEverything } = options;

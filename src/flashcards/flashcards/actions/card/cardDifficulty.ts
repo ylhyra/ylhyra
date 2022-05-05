@@ -6,18 +6,20 @@ import {
 import { INCR } from "flashcards/flashcards/actions/createSchedule";
 import { CardId, Rating } from "flashcards/flashcards/types/types";
 
-export const isTooEasy = (id: CardId) => {
+export const isTooEasy = (cardId: CardId) => {
   return (
-    getScore(id) && getScore(id)! >= Rating.EASY && getSessionsSeen(id) === 1
+    getScore(cardId) &&
+    getScore(cardId)! >= Rating.EASY &&
+    getSessionsSeen(cardId) === 1
   );
 };
-export const isBad = (id: CardId) => {
-  return getScore(id) === Rating.BAD;
+export const isBad = (cardId: CardId) => {
+  return getScore(cardId) === Rating.BAD;
 };
-export const isFairlyBad = (id: CardId) => {
-  return getScore(id) && getScore(id)! <= Rating.BAD + INCR;
+export const isFairlyBad = (cardId: CardId) => {
+  return getScore(cardId) && getScore(cardId)! <= Rating.BAD + INCR;
 };
-export const isBelowGood = (id: CardId) => {
-  const j = getScore(id) || getLowestAvailableTermScore(id);
+export const isBelowGood = (cardId: CardId) => {
+  const j = getScore(cardId) || getLowestAvailableTermScore(cardId);
   return j && j < Rating.GOOD;
 };

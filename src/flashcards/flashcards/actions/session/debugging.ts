@@ -23,15 +23,15 @@ export const debugSession = () => {
         Queue: card.absoluteQueuePosition - card.session.counter,
         notShowBfr: (card.cannotBeShownBefore || 0) - card.session.counter,
         seen: card.hasBeenSeenInSession() ? "SEEN" : "",
-        word: printWord(card.getId()),
-        sortKey: getSortKey(card.getId()),
-        // schdl: getEntireSchedule()[i.getId()]
-        //   ? new Date(getLastSeen(i.getId()))
+        word: printWord(card.id),
+        sortKey: getSortKey(card.id),
+        // schdl: getEntireSchedule()[i.id]
+        //   ? new Date(getLastSeen(i.id))
         //   : "",
       }))
     );
   }
 };
 declare global {
-  var logging: Boolean;
+  var logging: boolean;
 }

@@ -1,50 +1,42 @@
 import {
-  getCardData,
   getCardsInSchedule,
-  getDirection,
   getTermIds,
 } from "flashcards/flashcards/actions/card/cardData";
 import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
-import { createCards } from "flashcards/flashcards/actions/createCards";
-import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
-import {
-  getCardsFromAllDecks,
-  getTermsFromAllDecks,
-} from "flashcards/flashcards/flashcardsStore";
-import { getSession } from "flashcards/flashcards/sessionStore";
+import { getCardsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
 import { CardId, CardIds, TermId } from "flashcards/flashcards/types/types";
 import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
 import { isDev } from "modules/isDev";
-import { log } from "modules/log";
 import { roundToInterval } from "modules/math";
 
 export const printWord = (id: CardId | TermId | string) => {
+  throw new Error("Not implemented");
   if (!isDev) return;
-  if (id in getCardsFromAllDecks()) {
-    return getPlaintextFromFormatted(
-      getCardData(
-        id as CardId,
-        (getDirection(id as CardId) + "_formatted") as
-          | "is_formatted"
-          | "en_formatted"
-      )
-    );
-    // return card[card.getFrom() + "_plaintext"];
-  } else if (id in getTermsFromAllDecks()) {
-    return printWord(getTermsFromAllDecks()[id].cards[0]);
-  } else {
-    log(`No id ${id}`);
-  }
+  // if (id in getCardsFromAllDecks()) {
+  //   return getPlaintextFromFormatted(
+  //     getCardData(
+  //       id as CardId,
+  //       (getDirection(id as CardId) + "_formatted") as
+  //         | "is_formatted"
+  //         | "en_formatted"
+  //     )
+  //   );
+  //   // return card[card.getFrom() + "_plaintext"];
+  // } else if (id in getTermsFromAllDecks()) {
+  //   return printWord(getTermsFromAllDecks()[id].cards[0]);
+  // } else {
+  //   log(`No id ${id}`);
+  // }
 };
 
 export const studyParticularIds = async (allowedIds: CardIds, options?) => {
-  const session = getSession();
-
-  session.reset();
-  session.allowedIds = allowedIds;
-  createCards(options);
-  initializeSession({ shouldReset: false });
-  goToUrl("/vocabulary/play");
+  throw new Error("Not implemented");
+  // const session = getSession();
+  // session.reset();
+  // session.allowedIds = allowedIds;
+  // createCards(options);
+  // initializeSession({ shouldReset: false });
+  // goToUrl("/vocabulary/play");
 };
 
 export const studyNewTerms = () => {

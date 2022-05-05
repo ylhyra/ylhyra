@@ -12,8 +12,8 @@ export type DeckSettings = Partial<{
   backSideLanguage: string;
   direction?: DirectionSettings;
   sideToShowFirst?: "FRONT_SIDE" | "RANDOM";
-  automaticDependencies?: Boolean;
-  automaticallyOccludeClashing?: Boolean;
+  automaticDependencies?: boolean;
+  automaticallyOccludeClashing?: boolean;
   schedulingGoal:
     | "MEMORIZE_PERFECTLY"
     | "MEMORIZE_WELL"
@@ -35,7 +35,7 @@ export type DeckSettings = Partial<{
    * this multiplier can be used to make certain decks more important
    * than others
    */
-  deckImportanceMultiplier?: Number;
+  deckImportanceMultiplier?: number;
   /**
    * Choose between "Bad - Good" or "Bad - Good - Easy"
    */

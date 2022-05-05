@@ -24,13 +24,13 @@ import { days } from "modules/time";
  * to add very related cards to the session.
  */
 export const addRelatedCardsToSession = (card: CardInSession) => {
-  const id = card.getId();
+  const id = card.id;
   let toAdd: CardIds = [];
 
   /* Bail for repeated failures ... */
   if (card.history.length > 1) return;
 
-  getDependenciesAsArrayOfCardIds(card.getId()).forEach((relatedCardId) => {
+  getDependenciesAsArrayOfCardIds(card.id).forEach((relatedCardId) => {
     /* Ignore cards already in session */
     if (isInSession(relatedCardId)) return;
 

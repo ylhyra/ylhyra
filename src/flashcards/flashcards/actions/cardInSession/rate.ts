@@ -1,13 +1,13 @@
 import { getDirection } from "flashcards/flashcards/actions/card/cardData";
 import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import { getSessionsSeen } from "flashcards/flashcards/actions/card/cardSchedule";
-import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
 import { Rating } from "flashcards/flashcards/types/types";
 
 export function rate(this: CardInSession, rating) {
   const card: CardInSession = this;
-  const id = card.getId();
+  const id = card.id;
   const timesSeenBeforeInSession = card.history.length;
   card.history.unshift(rating);
   card.session.ratingHistory.unshift(rating);

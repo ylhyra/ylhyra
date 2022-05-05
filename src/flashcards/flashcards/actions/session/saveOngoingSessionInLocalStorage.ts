@@ -9,7 +9,7 @@ export const saveOngoingSessionInLocalStorage = () => {
     return;
   }
   let toSave = session.cards.map((card) => ({
-    id: card.getId(),
+    id: card.id,
     history: card.history,
   }));
   saveInLocalStorage("vocabulary-session", {

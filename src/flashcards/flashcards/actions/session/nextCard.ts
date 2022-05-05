@@ -40,7 +40,7 @@ export function nextCard(depth = 0) {
   ) as CardInSession;
 
   /* Store when session.term was last seen */
-  getTermIds(session.currentCard.getId()).forEach((termId) => {
+  getTermIds(session.currentCard.id).forEach((termId) => {
     session.lastSeenTerms[termId] = session.counter;
   });
 

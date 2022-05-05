@@ -7,7 +7,7 @@ import { getSession } from "flashcards/flashcards/sessionStore";
 import { CardId, CardIds } from "flashcards/flashcards/types/types";
 
 export const isInSession = (cardId: CardId) => {
-  return getSession().cards.some((i) => i.getId() === cardId);
+  return getSession().cards.some((i) => i.id === cardId);
 };
 
 export const isAllowed = (cardId: CardId) => {
@@ -23,8 +23,8 @@ export const isAllowed = (cardId: CardId) => {
       .cardHistory.slice(0, 3)
       .some(
         (card) =>
-          hasTermsInCommonWith(cardId, card.getId()) ||
-          hasDependenciesInCommonWith(cardId, card.getId())
+          hasTermsInCommonWith(cardId, card.id) ||
+          hasDependenciesInCommonWith(cardId, card.id)
         // || isTextSimilarTo(id, card)
       )
   );
@@ -39,8 +39,6 @@ export const filterCardsThatExist = (cardIds: CardIds) => {
 };
 
 export const wasSeenInSession = (cardId: CardId) => {
-  return (
-    getSession().cards.find((card) => card.getId() === cardId)?.history.length >
-    0
-  );
+  const cardInSession = getSession().cards.find((card) => card.id === cardId);
+  return cardInSession && cardInSession.history.length > 0;
 };

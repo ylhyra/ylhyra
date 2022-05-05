@@ -9,6 +9,7 @@ import {
   CardId,
   Rating,
   ScheduleData,
+  Score,
 } from "flashcards/flashcards/types/types";
 import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
@@ -30,15 +31,15 @@ export const getDue = (id: CardId): Timestamp | undefined => {
   return getScheduleForCard(id)?.due;
 };
 
-export const getScore = (id: CardId) => {
+export const getScore = (id: CardId): Score | undefined => {
   return getScheduleForCard(id)?.score;
 };
 
-export const getSessionsSeen = (id: CardId): Number => {
+export const getSessionsSeen = (id: CardId): number => {
   return getScheduleForCard(id)?.sessionsSeen || 0;
 };
 
-export const getNumberOfBadSessions = (id: CardId): Number => {
+export const getNumberOfBadSessions = (id: CardId): number => {
   return getScheduleForCard(id)?.numberOfBadSessions || 0;
 };
 
@@ -50,7 +51,7 @@ export const getLastSeen = (id: CardId): Timestamp | undefined => {
   return getScheduleForCard(id)?.lastSeen;
 };
 
-export const isUnseenCard = (id: CardId): Boolean => {
+export const isUnseenCard = (id: CardId): boolean => {
   return !getScore(id);
 };
 
@@ -84,14 +85,14 @@ export const isUnseenTerm = (id: CardId) => {
   return !getTermLastSeen(id);
 };
 
-export const getLowestAvailableTermScore = (id: CardId) => {
-  let lowest: number | null = null;
+export const getLowestAvailableTermScore = (id: CardId): Score | null => {
+  let lowestScore: Score | null = null;
   getAllCardIdsWithSameTerm(id).forEach((card) => {
     if (getScore(card)) {
-      lowest = minIgnoreFalsy(lowest, getScore(card));
+      lowestScore = minIgnoreFalsy(lowestScore, getScore(card));
     }
   });
-  return lowest;
+  return lowestScore;
 };
 
 export const getTermLastSeen = (id: CardId): Timestamp | null => {

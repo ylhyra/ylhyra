@@ -10,7 +10,7 @@ import _ from "underscore";
  */
 export const withDependencies = (
   cardIds: CardIds,
-  options?: { skipSiblings?: Boolean }
+  options?: { skipSiblings?: boolean }
 ): CardIds => {
   let out: CardIds = [];
   getTermIdsFromCardIds(cardIds).forEach((termId) => {
