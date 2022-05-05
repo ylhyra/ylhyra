@@ -5,7 +5,7 @@ import { flatten, uniq } from "underscore";
 
 export const getTermData = (termId: TermId): Row | undefined => {
   throw new Error("Not implemented");
-  // return deck?.terms[termId];
+  // return getTermsFromAllDecks()[termId];
 };
 
 export const getCardIdsFromTermId = (termId: TermId): CardIds => {

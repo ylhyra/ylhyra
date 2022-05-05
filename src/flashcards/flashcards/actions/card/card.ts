@@ -5,11 +5,11 @@ import {
 import { CardId, CardIds } from "flashcards/flashcards/types/types";
 
 export const isInSession = (id: CardId) => {
-  return deck!.session.cards.some((i) => i.getId() === id);
+  return getSession().cards.some((i) => i.getId() === id);
 };
 
 export const isAllowed = (id: CardId) => {
-  const { allowedIds } = deck!.session;
+  const { allowedIds } = getSession();
   return (
     /* Ignore cards that are already in the session */
     !isInSession(id) &&
@@ -17,12 +17,14 @@ export const isAllowed = (id: CardId) => {
     (!allowedIds || allowedIds.includes(id)) &&
     /* In case we're adding cards to an already ongoing session,
          ignore cards that are similar to a card the user has just seen */
-    !deck!.session.cardHistory.slice(0, 3).some(
-      (card) =>
-        hasTermsInCommonWith(id, card.getId()) ||
-        hasDependenciesInCommonWith(id, card.getId())
-      // || isTextSimilarTo(id, card)
-    )
+    !getSession()
+      .cardHistory.slice(0, 3)
+      .some(
+        (card) =>
+          hasTermsInCommonWith(id, card.getId()) ||
+          hasDependenciesInCommonWith(id, card.getId())
+        // || isTextSimilarTo(id, card)
+      )
   );
 };
 
@@ -36,6 +38,6 @@ export const filterCardsThatExist = (ids: CardIds) => {
 
 export const wasSeenInSession = (id) => {
   return (
-    deck!.session.cards.find((card) => card.getId() === id)?.history.length > 0
+    getSession().cards.find((card) => card.getId() === id)?.history.length > 0
   );
 };

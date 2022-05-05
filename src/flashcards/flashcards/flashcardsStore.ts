@@ -38,3 +38,4 @@ export const getDeckById = (
 };
 
 export const getCardsFromAllDecks = () => {};
+export const getTermsFromAllDecks = () => {};

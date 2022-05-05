@@ -32,8 +32,8 @@ export const printWord = (id: CardId | TermId | string) => {
       )
     );
     // return card[card.getFrom() + "_plaintext"];
-  } else if (id in deck!.terms) {
-    return printWord(deck!.terms[id].cards[0]);
+  } else if (id in getTermsFromAllDecks()) {
+    return printWord(getTermsFromAllDecks()[id].cards[0]);
   } else {
     log(`No id ${id}`);
   }
@@ -79,25 +79,24 @@ export const rapidFlattenArrayAndCountUnique = (arrOfArrs) => {
 };
 
 export const countTermsInSchedule = () => {
-  if (!deck) return null;
   return countTerms(getCardsInSchedule());
 };
 
-if (isBrowser && isDev) {
-  window["studyParticularWords"] = async (...words) => {
-    await studyParticularIds(
-      getCardIdsFromTermIds(
-        words.map((i) => getHashForVocabulary(i)) as TermIds
-      )
-    );
-  };
-  window["studyParticularIds"] = studyParticularIds;
-}
+// if (isBrowser && isDev) {
+//   window["studyParticularWords"] = async (...words) => {
+//     await studyParticularIds(
+//       getCardIdsFromTermIds(
+//         words.map((i) => getHashForVocabulary(i)) as TermIds
+//       )
+//     );
+//   };
+//   window["studyParticularIds"] = studyParticularIds;
+// }
 
 export const exitVocabularyScreen = async () => {
   let url = window.location.pathname;
   if (url === "/vocabulary/play" || url === "/vocabulary/difficulty") {
     url = "/vocabulary";
   }
-  goToUrl(url);
+  // goToUrl(url);
 };

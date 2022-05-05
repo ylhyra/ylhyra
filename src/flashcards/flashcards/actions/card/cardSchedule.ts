@@ -55,19 +55,10 @@ export const isUnseenSiblingOfANonGoodCard = (id: CardId) => {
 };
 
 export const isInSchedule = (id: CardId) => {
-  if (!deck) {
-    console.error("Deck not initialized");
-    return;
-  }
   return id in getEntireSchedule();
 };
 
 export const setSchedule = (id: CardId, data: Partial<ScheduleData>) => {
-  if (!deck) {
-    console.error("Deck not initialized");
-    return;
-  }
-
   /* Round timestamps */
   ["due", "lastSeen", "lastBadTimestamp"].forEach((key) => {
     if (key in data) {

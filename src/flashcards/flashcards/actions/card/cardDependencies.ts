@@ -26,7 +26,7 @@ export const termGetDependenciesAsTermIdToDepth = (
   termId: TermId
 ): TermIdToDependencyDepth => {
   return {
-    ...(deck?.terms[termId].dependencies || {}),
+    ...(getTermsFromAllDecks()[termId].dependencies || {}),
     [termId]: 0,
   };
 };
