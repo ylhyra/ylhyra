@@ -1,9 +1,9 @@
-import { getDirection } from "flashcards/flashcards/actions/card/cardData";
 import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import { getSessionsSeen } from "flashcards/flashcards/actions/card/cardSchedule";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
 import { Rating } from "flashcards/flashcards/types/types";
+import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
 
 export function rate(this: CardInSession, rating) {
   const card: CardInSession = this;
@@ -61,7 +61,7 @@ export function rate(this: CardInSession, rating) {
 
   card.showIn({ interval });
   card.postponeRelatedCards(interval);
-  card.session.cardTypeLog.unshift(getDirection(id));
+  card.session.cardTypeLog.unshift(getDirectionFromCardId(id));
 
   // keepTrackOfEasiness({
   //   rating,

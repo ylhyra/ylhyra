@@ -1,10 +1,10 @@
 import { isInSession } from "flashcards/flashcards/actions/card/card";
-import { getTermId } from "flashcards/flashcards/actions/card/cardData";
 import { getCardIdsFromTermId } from "flashcards/flashcards/actions/card/term";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { CardId, CardIds, Rating } from "flashcards/flashcards/types/types";
 import { filterEmpty } from "modules/typescript/filterEmpty";
+import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
 
 export const getSiblingCards = (id: CardId): CardIds => {
   return getAllCardIdsWithSameTerm(id).filter(
@@ -30,5 +30,5 @@ export const didAnySiblingCardsGetABadRatingInThisSession = (id: CardId) => {
 };
 
 export const getAllCardIdsWithSameTerm = (cardId: CardId): CardIds => {
-  return getCardIdsFromTermId(getTermId(cardId));
+  return getCardIdsFromTermId(getTermIdFromCardId(cardId));
 };

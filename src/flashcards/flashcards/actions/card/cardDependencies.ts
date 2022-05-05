@@ -1,7 +1,4 @@
-import {
-  getTermId,
-  getTermIds,
-} from "flashcards/flashcards/actions/card/cardData";
+import { getTermIds } from "flashcards/flashcards/actions/card/cardData";
 import {
   getCardIdsFromTermId,
   getCardIdsFromTermIds,
@@ -15,11 +12,12 @@ import {
   TermIdToDependencyDepth,
 } from "flashcards/flashcards/types/types";
 import _ from "underscore";
+import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
 
 export const cardGetDependenciesAsTermIdToDepth = (
   id: CardId
 ): TermIdToDependencyDepth => {
-  const termId: TermId = getTermId(id);
+  const termId: TermId = getTermIdFromCardId(id);
   return termGetDependenciesAsTermIdToDepth(termId);
 };
 

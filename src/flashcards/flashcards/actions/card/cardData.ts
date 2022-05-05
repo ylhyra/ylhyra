@@ -1,16 +1,10 @@
 import { Row } from "flashcards/flashcards/types/row";
-import {
-  CardId,
-  CardIds,
-  Direction,
-  TermId,
-  TermIds,
-} from "flashcards/flashcards/types/types";
+import { CardId, CardIds, TermIds } from "flashcards/flashcards/types/types";
 import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
 import { filterCardsThatExist } from "flashcards/flashcards/actions/card/card";
 import { getTermData } from "flashcards/flashcards/actions/card/term";
-import { CARD_ID_PART_SEPARATOR } from "flashcards/flashcards/compile/functions";
 import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore.functions";
+import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
 
 export const getCardsInSchedule = (): CardIds => {
   return filterCardsThatExist(Object.keys(getEntireSchedule()) as CardIds);
@@ -31,26 +25,10 @@ export const getCardData: {
     return [id.slice(0, -3)] as TermIds;
   } else if (getTermIds(id).length === 1) {
     // @ts-ignore
-    return getTermData(getTermId(id))[key];
+    return getTermData(getTermIdFromCardId(id))[key];
   } else {
     return null;
   }
-};
-
-/**
- * Direction is encoded in CardId
- * @see createCardId
- */
-export const getDirection = (cardId: CardId): Direction => {
-  return cardId.split(CARD_ID_PART_SEPARATOR)[1] as Direction;
-};
-
-/**
- * TermId is encoded in CardId
- * @see createCardId
- */
-export const getTermId = (cardId: CardId) => {
-  return cardId.split(CARD_ID_PART_SEPARATOR)[0] as TermId;
 };
 
 /**
@@ -58,7 +36,7 @@ export const getTermId = (cardId: CardId) => {
  * @deprecated
  */
 export const getTermIds = (cardId: CardId): TermIds => {
-  return [getTermId(cardId)];
+  return [getTermIdFromCardId(cardId)];
 };
 
 export const getLevel = (id: CardId) => {

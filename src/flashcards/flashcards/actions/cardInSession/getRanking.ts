@@ -1,16 +1,14 @@
-import {
-  getDirection,
-  getTermIds,
-} from "flashcards/flashcards/actions/card/cardData";
+import { getTermIds } from "flashcards/flashcards/actions/card/cardData";
 import { isNewCard } from "flashcards/flashcards/actions/card/cardSchedule";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types/types";
+import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
 
 export function getRanking(this: CardInSession) {
   const card: CardInSession = this;
 
   const id = this.id;
-  const from = getDirection(id);
+  const from = getDirectionFromCardId(id);
   let q = this.getQueuePosition();
 
   // New terms are not relevant unless there are no overdue cards

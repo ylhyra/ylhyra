@@ -1,9 +1,9 @@
-import { getTermId } from "flashcards/flashcards/actions/card/cardData";
 import { CardId, CardIds, TermIds } from "flashcards/flashcards/types/types";
 import { uniq } from "underscore";
+import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
 
 export const getTermIdsFromCardIds = (ids: CardIds): TermIds => {
-  return uniq(ids.map((id) => getTermId(id)));
+  return uniq(ids.map((id) => getTermIdFromCardId(id)));
 };
 
 /**
