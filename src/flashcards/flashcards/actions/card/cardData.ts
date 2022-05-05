@@ -10,6 +10,7 @@ import {
 import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
 import { filterCardsThatExist } from "ylhyra/vocabulary/app/actions/card/card";
 import { getTermData } from "ylhyra/vocabulary/app/actions/card/term";
+import { CARD_ID_PART_SEPARATOR } from "flashcards/flashcards/compile/functions";
 
 export const getCardsInSchedule = (): CardIds => {
   return filterCardsThatExist(Object.keys(getEntireSchedule()) as CardIds);
@@ -41,7 +42,7 @@ export const getCardData: {
  * @see createCardId
  */
 export const getDirection = (cardId: CardId) => {
-  return cardId.split("-")[1] as Direction;
+  return cardId.split(CARD_ID_PART_SEPARATOR)[1] as Direction;
 };
 
 /**
@@ -49,7 +50,7 @@ export const getDirection = (cardId: CardId) => {
  * @see createCardId
  */
 export const getTermId = (cardId: CardId) => {
-  return cardId.split("-")[0] as TermId;
+  return cardId.split(CARD_ID_PART_SEPARATOR)[0] as TermId;
 };
 
 /**

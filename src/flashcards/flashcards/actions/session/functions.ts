@@ -24,7 +24,7 @@ export const updateRemainingTime = () => {
   }
 };
 
-export const getPercentageDone = () => {
+export const getPercentageDoneOfSession = () => {
   const session = getSession();
 
   if (session.totalTime && session.remainingTime) {

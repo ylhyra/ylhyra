@@ -27,8 +27,7 @@ export function nextCard(depth = 0) {
     if (depth === 0) {
       nextCard(1);
     } else {
-      throw new Error("Failed to generate cards");
-      // TODO User-facing error?
+      session.userFacingError = "Failed to create cards";
     }
     return;
   } else {

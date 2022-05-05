@@ -50,3 +50,5 @@ export const getTermsFromAllDecks = () => {};
 
 // @ts-ignore
 window["getFlashcardsStore"] = getFlashcardsStore;
+// @ts-ignore
+window["getCardsFromAllDecks"] = getCardsFromAllDecks;

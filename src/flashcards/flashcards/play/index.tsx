@@ -3,6 +3,9 @@ import { getDeckById } from "flashcards/flashcards/flashcardsStore";
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { getSession } from "flashcards/flashcards/sessionStore";
+import { Progress } from "flashcards/flashcards/play/progress";
+import { CardElement } from "flashcards/flashcards/play/cardElement";
 
 export const FlashcardsPlay = observer(function () {
   let { deckId } = useParams<{ deckId: string }>();
@@ -12,6 +15,8 @@ export const FlashcardsPlay = observer(function () {
   useEffect(() => {
     void initializeSession({ deckId });
   }, [deckId]);
+
+  const session = getSession();
 
   return (
     <div id="vocabulary-screen">
@@ -57,10 +62,18 @@ export const FlashcardsPlay = observer(function () {
         {/*</div>*/}
 
         <div id="game-container">
-          <div className="vocabulary-card-outer-container">
-            {/*<Card key={card.counter} />*/}
-          </div>
-          {/*<Progress />*/}
+          {session.userFacingError ? (
+            <div id="error-message">
+              <div>{session.userFacingError}</div>
+            </div>
+          ) : (
+            <>
+              <div className="vocabulary-card-outer-container">
+                <CardElement key={session.counter} session={session} />
+              </div>
+              <Progress />
+            </>
+          )}
         </div>
       </div>
     </div>

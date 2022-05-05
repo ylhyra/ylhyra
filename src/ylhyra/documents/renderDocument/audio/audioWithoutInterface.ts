@@ -1,8 +1,10 @@
 import store from "ylhyra/app/app/store";
 
-/*
-  Short audio clips, like words on hover, that do not require an audio player interface
-*/
+/**
+ * Short audio clips, like words on hover, that do not require an audio player interface
+ *
+ * Used by Card in Vocabulary
+ */
 
 let audio: HTMLAudioElement;
 

@@ -23,7 +23,6 @@ export class sessionStore {
   cardTypeLog: Array<Direction> = [];
   cards: Array<CardInSession> = [];
   counter: SessionCounter = 0;
-  currentCard: CardInSession | null = null;
   done?: boolean;
   lastSeenTerms: Record<TermId, SessionCounter> = {};
   lastTimestamp?: Timestamp;
@@ -33,6 +32,13 @@ export class sessionStore {
   savedAt: Timestamp | null = null;
   timeStarted?: Timestamp;
   totalTime?: Milliseconds;
+  userFacingError?: string;
+
+  currentCard: CardInSession | null = null;
+  /** Is volume on? */
+  volume: boolean = true;
+  /** Has the user answered the card? */
+  answered: boolean = false;
 
   /** Temp: Todo: find better title */
   // deck: any;
@@ -68,6 +74,8 @@ export class sessionStore {
     this.lastUndid = 0;
     this.savedAt = null;
     this.allowedDeckIds = [];
+    this.userFacingError = undefined;
+    this.answered = false;
   }
 }
 
