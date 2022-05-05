@@ -16,20 +16,22 @@ export type UserDataRows = {
   };
 };
 
-export const getUserData = (key: string) => {
-  return getUserData().rows?.[key]?.value || null;
-};
+// export const getUserData = (key: string) => {
+//   return getUserData().rows?.[key]?.value || null;
+// };
 
-export const setUserData = (
+export const setUserDataKey = (
   key: string,
   value: any,
   type?: UserDataRows[string]["type"]
 ) => {
+  throw new Error("Not implemented");
+
   if (key.length > 20) {
     throw new Error("Max key length is 20");
   }
   if (!("rows" in getUserData())) {
-    (getUserData() as UserData).rows = {};
+    getUserData().rows = {};
   }
   getUserData().rows[key] = {
     value,
@@ -50,7 +52,7 @@ export const saveUserDataInLocalStorage = (
     // lastSaved: getTime(),
   } as UserData;
 
-  if (deck && options.assignToDeck) {
+  if (options.assignToDeck) {
     if (!toSave.rows) {
       console.warn({ toSave, userData_input: userData });
       throw new Error(`saveUserDataInLocalStorage didn't receive rows`);
@@ -63,6 +65,6 @@ export const saveUserDataInLocalStorage = (
   }, 1000);
 };
 
-if (isBrowser) {
-  window["getUserData"] = getUserData;
-}
+// if (isBrowser) {
+//   window["getUserData"] = getUserData;
+// }

@@ -2,7 +2,7 @@ import { createSchedule } from "flashcards/flashcards/actions/createSchedule";
 import { exitVocabularyScreen } from "flashcards/flashcards/actions/functions";
 import { clearOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/saveOngoingSessionInLocalStorage";
 import { sync } from "flashcards/flashcards/actions/userData/sync";
-import { setUserData } from "flashcards/flashcards/actions/userData/userData";
+import { setUserDataKey } from "flashcards/flashcards/actions/userData/userData";
 import { SESSION_PREFIX } from "flashcards/flashcards/actions/userData/userDataSessions";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { log } from "modules/log";
@@ -41,7 +41,7 @@ export const saveSessionLog = () => {
   if (session.cardHistory.length > 0 && getSecondsSpent() > 10) {
     const timestamp = roundMsToSec(session.savedAt || getTime());
     const timestampInSeconds = Math.round(timestamp / 1000);
-    setUserData(
+    setUserDataKey(
       SESSION_PREFIX + timestampInSeconds.toString(),
       {
         seconds_spent: roundToInterval(getSecondsSpent(), 10),

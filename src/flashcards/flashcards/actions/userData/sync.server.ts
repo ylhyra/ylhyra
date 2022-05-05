@@ -22,7 +22,7 @@ router.post("/api/vocabulary/sync", async (req, res) => {
     return res.status(401).send({ error: "ERROR_NOT_LOGGED_IN" });
   }
   try {
-    const unsyncedFromServer = await getUserData(req);
+    const unsyncedFromServer = await serverGetUserData(req);
     const unsyncedFromUser = req.body.unsynced;
     await saveUserData(req, unsyncedFromUser);
     res.send({
@@ -39,7 +39,7 @@ router.post("/api/vocabulary/sync", async (req, res) => {
   }
 });
 
-const getUserData = (req: express.Request): Promise<UserDataRows> => {
+const serverGetUserData = (req: express.Request): Promise<UserDataRows> => {
   return new Promise((resolve) => {
     query(
       sql`
