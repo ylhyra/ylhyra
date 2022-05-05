@@ -1,6 +1,5 @@
 import { Button } from "flashcards/app/elements/button";
-import { getDeckById } from "flashcards/flashcards/flashcardsStore";
-import { printDeckTitle } from "flashcards/flashcards/functions";
+import { printDeckTitle } from "flashcards/flashcards/make/functions";
 import { addLine } from "flashcards/flashcards/make/actions";
 import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
 import { EditRow } from "flashcards/flashcards/make/row";
@@ -8,6 +7,7 @@ import { observer } from "mobx-react-lite";
 import { values } from "modules/typescript/objectEntries";
 import React from "react";
 import { useParams } from "react-router-dom";
+import { getDeckById } from "flashcards/flashcards/flashcardsStore.functions";
 
 export const FlashcardsEdit = observer(() => {
   let { deckId } = useParams<{ deckId: string }>();

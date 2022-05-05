@@ -6,6 +6,7 @@ import { Milliseconds } from "modules/time";
  * Wrap this around a function.
  */
 export const warnIfFunctionIsSlow = <T extends Function>(
+  name: string,
   fn: T,
   maxTimeMs = 30
 ): T => {
@@ -15,7 +16,7 @@ export const warnIfFunctionIsSlow = <T extends Function>(
     const functionOutput = fn(...args);
     const time: Milliseconds = performance.now() - start;
     if (time > maxTimeMs) {
-      console.warn(`This function took ${Math.round(time)}ms`);
+      console.warn(`Function "${name}" took ${Math.round(time)}ms`);
     }
     return functionOutput;
   } as unknown as T;

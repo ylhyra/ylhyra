@@ -1,11 +1,11 @@
 import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
-import { getDeckById } from "flashcards/flashcards/flashcardsStore";
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { Progress } from "flashcards/flashcards/play/progress";
 import { CardElement } from "flashcards/flashcards/play/cardElement";
+import { getDeckById } from "flashcards/flashcards/flashcardsStore.functions";
 
 export const FlashcardsPlay = observer(function () {
   let { deckId } = useParams<{ deckId: string }>();

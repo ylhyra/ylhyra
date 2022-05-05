@@ -19,6 +19,7 @@ export type CreateCardsOptions = {
 };
 
 export const createCards = warnIfFunctionIsSlow(
+  "createCards",
   (options?: CreateCardsOptions): void => {
     const session = getSession();
 

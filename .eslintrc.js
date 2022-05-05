@@ -42,6 +42,25 @@ module.exports = {
         "no-invalid-this": "off",
         "@typescript-eslint/no-invalid-this": ["warn"],
         "@typescript-eslint/prefer-for-of": "warn",
+
+        "prevent-in-operator-for-arrays": {
+          create: function (context) {
+            return {
+              JSXExpressionContainer(node) {
+                if (
+                  node.expression.type === "BinaryExpression" &&
+                  node.expression.operator === "in" &&
+                  node.expression.right.type === "ArrayExpression"
+                ) {
+                  context.report({
+                    node: node.expression.left,
+                    message: 'Do not use "in" for arrays',
+                  });
+                }
+              },
+            };
+          },
+        },
       },
     },
     /**

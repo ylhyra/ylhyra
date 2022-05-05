@@ -1,35 +1,45 @@
 import {
+  getCardData,
   getCardsInSchedule,
   getTermIds,
 } from "flashcards/flashcards/actions/card/cardData";
 import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
-import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
 import { CardId, CardIds, TermId } from "flashcards/flashcards/types/types";
 import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
 import { isDev } from "modules/isDev";
 import { roundToInterval } from "modules/math";
+import {
+  getCardIdsFromAllDecks,
+  getTermsFromAllDecks,
+} from "flashcards/flashcards/flashcardsStore.functions";
+import { log } from "modules/log";
+import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
 
-export const printWord = (id: CardId | TermId | string) => {
-  // throw new Error("Not implemented");
+/**
+ * Used for debugging (printing cards to the console)
+ */
+export const printWord = (id: CardId | TermId | string): string | undefined => {
   if (!isDev) return;
-  // if (id in getCardsFromAllDecks()) {
-  //   return getPlaintextFromFormatted(
-  //     getCardData(
-  //       id as CardId,
-  //       (getDirection(id as CardId) + "_formatted") as
-  //         | "is_formatted"
-  //         | "en_formatted"
-  //     )
-  //   );
-  //   // return card[card.getFrom() + "_plaintext"];
-  // } else if (id in getTermsFromAllDecks()) {
-  //   return printWord(getTermsFromAllDecks()[id].cards[0]);
-  // } else {
-  //   log(`No id ${id}`);
-  // }
+  if (getCardIdsFromAllDecks().includes(id as CardId)) {
+    return getCardData(
+      id as CardId,
+      "front"
+      // (getDirection(id as CardId) + "_formatted") as
+      //   | "is_formatted"
+      //   | "en_formatted"
+    );
+    // return card[card.getFrom() + "_plaintext"];
+  } else if (id in getTermsFromAllDecks()) {
+    return printWord(getTermsFromAllDecks()[id as TermId]!.cardIds[0]);
+  } else {
+    log(`No id ${id}`);
+  }
 };
 
-export const studyParticularIds = async (allowedIds: CardIds, options?) => {
+export const studyParticularIds = async (
+  allowedIds: CardIds,
+  options?: CreateCardsOptions
+) => {
   throw new Error("Not implemented");
   // const session = getSession();
   // session.reset();

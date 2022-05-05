@@ -1,4 +1,3 @@
-import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
 import { Row } from "flashcards/flashcards/types/row";
 import {
   CardId,
@@ -11,6 +10,7 @@ import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
 import { filterCardsThatExist } from "flashcards/flashcards/actions/card/card";
 import { getTermData } from "flashcards/flashcards/actions/card/term";
 import { CARD_ID_PART_SEPARATOR } from "flashcards/flashcards/compile/functions";
+import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore.functions";
 
 export const getCardsInSchedule = (): CardIds => {
   return filterCardsThatExist(Object.keys(getEntireSchedule()) as CardIds);
