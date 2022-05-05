@@ -1,11 +1,12 @@
 import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
+import { RowId } from "flashcards/flashcards/types/row";
 import { customHistory } from "modules/router";
 import shortid from "shortid";
 
 export const newDeck = () => {
   const id = shortid.generate();
   getFlashcardsStore().decks[id] = {
-    id,
+    deckId: id,
     settings: {},
     rows: {},
   };
@@ -13,10 +14,12 @@ export const newDeck = () => {
 };
 
 export const addLine = (deckId: string) => {
-  const id = shortid.generate();
-
-  getFlashcardsStore().decks[deckId].rows[id] = {
-    id,
+  const rowId = shortid.generate() as RowId;
+  /* Todo */
+  const rowNumber = 0;
+  getFlashcardsStore().decks[deckId].rows[rowId] = {
+    rowId,
+    rowNumber,
   };
-  return id;
+  return rowId;
 };

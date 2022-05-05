@@ -5,7 +5,7 @@ import { addLine } from "flashcards/flashcards/make/actions";
 import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
 import { EditRow } from "flashcards/flashcards/make/row";
 import { observer } from "mobx-react-lite";
-import { entries } from "modules/typescript/objectEntries";
+import { values } from "modules/typescript/objectEntries";
 import React from "react";
 import { useParams } from "react-router-dom";
 
@@ -23,8 +23,8 @@ export const FlashcardsEdit = observer(() => {
         Add row
       </Button>
       <div>
-        {entries(deck.rows).map(([cardId, card]) => (
-          <EditRow key={card.id} card={card} />
+        {values(deck.rows).map((card) => (
+          <EditRow key={card.rowId} card={card} />
         ))}
       </div>
     </div>

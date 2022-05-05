@@ -15,6 +15,7 @@ export const compileDeck = (deck: UnprocessedDeck): DeckProcessed => {
     dependencies: {},
     alternativeIds: {},
   };
+  console.log(deck);
   entries(deck.rows).forEach(([, row]) => {
     compileRow(row, deckProcessed);
   });

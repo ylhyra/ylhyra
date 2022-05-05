@@ -8,7 +8,7 @@ export type RowsObject = Record<RowId, Row>;
 
 export type DeckId = string;
 export type UnprocessedDeck = {
-  id: DeckId;
+  deckId: DeckId;
   rows: RowsObject;
   settings: DeckSettings;
 };

@@ -7,7 +7,7 @@ import {
 } from "flashcards/flashcards/types/types";
 import { makeAutoObservable } from "mobx";
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
-import { entries, keys } from "modules/typescript/objectEntries";
+import { entries, keys, values } from "modules/typescript/objectEntries";
 
 export class flashcardsStore {
   deckOrder = [];
@@ -19,8 +19,8 @@ export class flashcardsStore {
     this.decks = getFromLocalStorage("decks") || {};
 
     /* tmp */
-    keys(this.decks).forEach((deckId) => {
-      this.processedDecks[deckId] = compileDeck(this.decks[deckId]);
+    values(this.decks).forEach((deck) => {
+      this.processedDecks[deck.deckId] = compileDeck(deck);
     });
   }
   save = () => {
@@ -47,3 +47,6 @@ export const getCardsFromAllDecks = (): CardIds => {
   return out;
 };
 export const getTermsFromAllDecks = () => {};
+
+// @ts-ignore
+window["getFlashcardsStore"] = getFlashcardsStore;

@@ -72,9 +72,8 @@ export const EditRow = ({ card }: { card: Row }) => {
   });
 
   return (
-    <div>
+    <div key={card.rowId}>
       <Form>
-        {/*<Fields />*/}
         <Input name="front" />
         <Input name="back" />
       </Form>
