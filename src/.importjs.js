@@ -1,7 +1,8 @@
 module.exports = {
   useRelativePaths: false,
-  environments: ["browser", "node"],
   declarationKeyword: "import",
-  sortImports: false,
-  excludes: [],
+  excludes: ["./ylhyra/**"],
+  globals: ["Record"],
+  environments: ["browser", "node", "jest"],
+  emptyLineBetweenGroups: false,
 };
