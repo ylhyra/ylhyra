@@ -1,4 +1,4 @@
 module.exports = {
-  excludes: ["ylhyra/**"],
+  excludes: ["**/ylhyra/**", "ylhyra/**"],
   emptyLineBetweenGroups: false,
 };

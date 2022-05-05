@@ -61,10 +61,10 @@ export enum Rating {
  * TermId and direction is encoded in CardId
  * @see createCardId
  */
-type CardId = Brand<string, "CardId">;
-type CardIds = Array<CardId>;
-type TermId = Brand<string, "TermId">;
-type TermIds = Array<TermId>;
+export type CardId = Brand<string, "CardId">;
+export type CardIds = Array<CardId>;
+export type TermId = Brand<string, "TermId">;
+export type TermIds = Array<TermId>;
 
 export interface ScheduleData {
   due: Timestamp;
