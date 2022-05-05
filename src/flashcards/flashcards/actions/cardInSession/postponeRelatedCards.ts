@@ -7,7 +7,6 @@ import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
 import { getSiblingCardsInSession } from "flashcards/flashcards/actions/card/cardSiblings";
 import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
-import { BAD, GOOD } from "ylhyra/vocabulary/app/constants";
 
 export function postponeRelatedCards(this: CardInSession, card1interval) {
   const card1: CardInSession = this;
@@ -15,16 +14,22 @@ export function postponeRelatedCards(this: CardInSession, card1interval) {
   this.getOtherCardsInSession().forEach((card2: CardInSession) => {
     // Same term
     if (hasTermsInCommonWith(card1.getId(), card2.getId())) {
-      if (card1.history.includes(BAD) || card2.history.includes(BAD)) {
+      if (
+        card1.history.includes(Rating.BAD) ||
+        card2.history.includes(Rating.BAD)
+      ) {
         card2.done = false;
       } else {
         card2.done = true;
       }
 
-      if (card1.history[0] >= GOOD) {
+      if (card1.history[0] >= Rating.GOOD) {
         card2.showIn({ minInterval: 8 });
-      } else if (card1.history[0] === BAD) {
-        if (card1.history[1] === BAD && !(card2.history[0] >= GOOD)) {
+      } else if (card1.history[0] === Rating.BAD) {
+        if (
+          card1.history[1] === Rating.BAD &&
+          !(card2.history[0] >= Rating.GOOD)
+        ) {
           card1.showIn({ interval: card1interval + 1 });
           card2.showIn({ interval: card1interval });
         } else {
@@ -36,7 +41,7 @@ export function postponeRelatedCards(this: CardInSession, card1interval) {
     // Cards that directly rely on this card
     else if (dependencyDepthOfCard(card2.getId(), card1.getId()) >= 1) {
       let min = dependencyDepthOfCard(card2.getId(), card1.getId()) * 3;
-      if (card1.history[0] === BAD) {
+      if (card1.history[0] === Rating.BAD) {
         min *= 2;
         if (dependencyDepthOfCard(card2.getId(), card1.getId()) >= 2) {
           card2.done = true;
@@ -50,12 +55,12 @@ export function postponeRelatedCards(this: CardInSession, card1interval) {
 
     // Cards that this card depends directly on
     else if (
-      card1.history[0] === BAD &&
+      card1.history[0] === Rating.BAD &&
       dependencyDepthOfCard(card1.getId(), card2.getId()) === 1 &&
       // And other card is new
       ((!isInSchedule(card2.getId()) && !card2.hasBeenSeenInSession()) ||
         // Or other card is bad (includes some randomness)
-        ((isBad(card2.getId()) || card2.history[0] === BAD) &&
+        ((isBad(card2.getId()) || card2.history[0] === Rating.BAD) &&
           Math.random() > 0.5))
     ) {
       card1.showIn({ interval: 6 });

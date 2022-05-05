@@ -36,3 +36,5 @@ export const getDeckById = (
     return store.decks[id];
   }
 };
+
+export const getCardsFromAllDecks = () => {};

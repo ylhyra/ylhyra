@@ -3,7 +3,6 @@ import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import { getSessionsSeen } from "flashcards/flashcards/actions/card/cardSchedule";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
 import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
-import { BAD, EASY, GOOD } from "ylhyra/vocabulary/app/constants";
 
 export function rate(this: CardInSession, rating) {
   const card: CardInSession = this;
@@ -17,14 +16,14 @@ export function rate(this: CardInSession, rating) {
   const nextLastRating = card.history[2];
   let interval;
 
-  if (rating === BAD) {
+  if (rating === Rating.BAD) {
     interval = getSessionsSeen(id) > 0 ? 4 : 3;
 
     /* Two bad ratings in a row */
-    if (lastRating === BAD) {
+    if (lastRating === Rating.BAD) {
       interval = 3;
       // Three bad ratings in a row always get an interval of 2
-      if (nextLastRating === BAD) {
+      if (nextLastRating === Rating.BAD) {
         interval = 2;
       }
       // But two bad ratings in a row also occasionally get an interval of 2
@@ -39,23 +38,23 @@ export function rate(this: CardInSession, rating) {
     }
 
     card.done = false;
-  } else if (rating === GOOD) {
+  } else if (rating === Rating.GOOD) {
     interval = 200;
     card.done = true;
-    if (lastRating === BAD) {
+    if (lastRating === Rating.BAD) {
       interval = 5;
       card.done = false;
-    } else if (nextLastRating === BAD) {
+    } else if (nextLastRating === Rating.BAD) {
       interval = 10;
     } else if (isBad(id) && timesSeenBeforeInSession === 0) {
       interval = 12;
     }
-  } else if (rating === EASY) {
+  } else if (rating === Rating.EASY) {
     interval = 800;
     card.done = true;
   }
 
-  if (rating === BAD) {
+  if (rating === Rating.BAD) {
     addRelatedCardsToSession(card);
   }
 

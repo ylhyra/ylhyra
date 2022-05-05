@@ -13,15 +13,10 @@ import {
   minutes,
   Timestamp,
 } from "modules/time";
-import { GOOD } from "ylhyra/vocabulary/app/constants";
 
 export const getScheduleForCard = (
   id: CardId
 ): Partial<ScheduleData> | undefined => {
-  if (!deck) {
-    console.error("Deck not initialized");
-    return;
-  }
   return getEntireSchedule()[id];
 };
 
@@ -56,7 +51,7 @@ export const isUnseenCard = (id: CardId) => {
 export const isUnseenSiblingOfANonGoodCard = (id: CardId) => {
   if (!isUnseenCard(id)) return false;
   const l = getLowestAvailableTermScore(id);
-  return l && l < GOOD;
+  return l && l < Rating.GOOD;
 };
 
 export const isInSchedule = (id: CardId) => {

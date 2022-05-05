@@ -22,7 +22,7 @@ import { roundToInterval } from "modules/math";
 
 export const printWord = (id: CardId | TermId | string) => {
   if (!isDev) return;
-  if (id in deck!.cards) {
+  if (id in getCardsFromAllDecks()) {
     return getPlaintextFromFormatted(
       getCardData(
         id as CardId,
@@ -51,7 +51,7 @@ export const studyParticularIds = async (allowedIds: CardIds, options?) => {
 
 export const studyNewTerms = () => {
   const newTerms: CardIds = [];
-  (Object.keys(deck!.cards) as CardIds).forEach((id) => {
+  (Object.keys(getCardsFromAllDecks()) as CardIds).forEach((id) => {
     if (!(id in getEntireSchedule()) && isNewTerm(id)) {
       newTerms.push(id);
     }

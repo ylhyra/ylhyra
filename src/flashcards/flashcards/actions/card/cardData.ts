@@ -18,12 +18,12 @@ export const getCardData: {
   (id: CardId, key: "terms"): TermIds;
   <T extends keyof Row>(id: CardId, key: T): Row[T];
 } = (id: CardId, key: string) => {
-  if (!(id in deck!.cards)) {
+  if (!(id in getCardsFromAllDecks())) {
     console.error(`Card not found:`, id);
     throw new Error();
   }
-  if (key in deck!.cards[id]) {
-    return (deck!.cards[id] as Row)[key as keyof Row];
+  if (key in getCardsFromAllDecks()[id]) {
+    return (getCardsFromAllDecks()[id] as Row)[key as keyof Row];
   } else if (key === "terms") {
     /** The CardId is just a TermId with "_is" or "_en" added to the end */
     return [id.slice(0, -3)] as TermIds;

@@ -27,7 +27,7 @@ export const isAllowed = (id: CardId) => {
 };
 
 export const doesCardExist = (id: CardId) => {
-  return id in deck!.cards;
+  return id in getCardsFromAllDecks();
 };
 
 export const filterCardsThatExist = (ids: CardIds) => {

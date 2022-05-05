@@ -5,7 +5,6 @@ import {
 } from "flashcards/flashcards/actions/card/cardData";
 import { isNewCard } from "flashcards/flashcards/actions/card/cardSchedule";
 import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
-import { BAD } from "ylhyra/vocabulary/app/constants";
 
 export function getRanking(this: CardInSession) {
   const card: CardInSession = this;
@@ -33,7 +32,7 @@ export function getRanking(this: CardInSession) {
 
   /* A bad cardInSession that is due exactly now has priority */
   if (
-    this.history[0] === BAD &&
+    this.history[0] === Rating.BAD &&
     q === 0 &&
     this.session.counter % 2 === 0 /* (But not always, to prevent staleness) */
   ) {
@@ -57,7 +56,7 @@ export function getRanking(this: CardInSession) {
       if (
         this.session.cardTypeLog[2] === from &&
         // Only if a user says "Good" to all three previous
-        !this.session.ratingHistory.slice(0, 3).some((i) => i === BAD) &&
+        !this.session.ratingHistory.slice(0, 3).some((i) => i === Rating.BAD) &&
         // And all of them were new cards
         this.session.cardHistory
           .slice(0, 3)
@@ -77,7 +76,7 @@ export function getRanking(this: CardInSession) {
     else if (
       this.session.ratingHistory.length >= 3 &&
       // All last three cards were good
-      !this.session.ratingHistory.slice(0, 3).some((i) => i === BAD) &&
+      !this.session.ratingHistory.slice(0, 3).some((i) => i === Rating.BAD) &&
       // And none were sentences
       this.session.cardHistory
         .slice(0, 3)

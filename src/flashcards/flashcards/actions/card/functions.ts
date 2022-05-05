@@ -12,8 +12,8 @@ export const getTermIdsFromCardIds = (ids: CardIds): TermIds => {
 export const getCardIdByText = (text: string): CardId => {
   throw new Error("Not implemented");
   // const id = (getHashForVocabulary(text) + "_is") as CardId;
-  // // const id = deck?.cards[(getHashForVocabulary(text) + "_is") as CardId]?.id;
-  // if (!(id in deck!.cards))
+  // // const id = getCardsFromAllDecks()[(getHashForVocabulary(text) + "_is") as CardId]?.id;
+  // if (!(id in getCardsFromAllDecks()))
   //   throw new Error(`No card found with text "${text}", id would be ${id}`);
   // return id;
 };
