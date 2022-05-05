@@ -1,12 +1,15 @@
-import { UserData } from "flashcards/flashcards/actions/userData/userData";
 import { CardId, ScheduleData } from "flashcards/flashcards/types/types";
+import { UserData, UserDataRows } from "flashcards/flashcards/types/userData";
 import { makeAutoObservable } from "mobx";
+import { Timestamp } from "modules/time";
 
 export type Schedule = Record<CardId, Partial<ScheduleData>>;
 
 export class userDataStore {
   schedule: Schedule = {};
-  userData: UserData | null = null;
+  userData: UserData = {
+    rows: {},
+  };
   constructor() {
     makeAutoObservable(this);
   }
@@ -15,7 +18,10 @@ export class userDataStore {
 const store = new userDataStore();
 export const getUserDataStore = (): userDataStore => store;
 export const getEntireSchedule = (): Schedule => getUserDataStore().schedule;
-export const getUserData = () => getUserDataStore().userData;
+export const getUserData = (): UserData => getUserDataStore().userData;
+export const setUserData = (input: UserData) => {
+  store.userData = input;
+};
 export const setEntireSchedule = (input: Schedule) => {
   throw new Error("Not implemented");
 };

@@ -1,5 +1,5 @@
-import express, { Router } from "express";
-import { UserDataRows } from "flashcards/flashcards/actions/userData/userData";
+import { UserData, UserDataRows } from "flashcards/flashcards/types/userData";
+import express, { Router, Response } from "express";
 import stable_stringify from "json-stable-stringify";
 import removeNullKeys from "modules/removeNullKeys";
 import { msToS } from "modules/time";
@@ -17,27 +17,29 @@ router.use(
 );
 
 /* Sync user data */
-router.post("/api/vocabulary/sync", async (req, res) => {
-  if (!req.session?.user_id) {
-    return res.status(401).send({ error: "ERROR_NOT_LOGGED_IN" });
-  }
-  try {
-    const unsyncedFromServer = await serverGetUserData(req);
-    const unsyncedFromUser = req.body.unsynced;
-    await saveUserData(req, unsyncedFromUser);
-    res.send({
-      user_id: req.session.user_id,
-      rows: unsyncedFromServer || {},
-      lastSynced: new Date().getTime(),
-    });
-  } catch (e) {
-    if (typeof e !== "string") {
-      console.error(e);
+router.post(
+  "/api/vocabulary/sync",
+  async (req, res: Response<UserData | { error: string }>) => {
+    if (!req.session?.user_id) {
+      return res.status(401).send({ error: "ERROR_NOT_LOGGED_IN" });
     }
-    // @ts-ignore
-    res.status(400).send(e.toString() || "");
+    try {
+      const unsyncedFromServer = await serverGetUserData(req);
+      const unsyncedFromUser = req.body.unsynced;
+      await saveUserData(req, unsyncedFromUser);
+      res.send({
+        user_id: req.session.user_id,
+        rows: unsyncedFromServer || {},
+        lastSynced: new Date().getTime(),
+      });
+    } catch (e) {
+      if (e instanceof Error) {
+        res.status(400).send({ error: e.toString() });
+        console.error(e);
+      }
+    }
   }
-});
+);
 
 const serverGetUserData = (req: express.Request): Promise<UserDataRows> => {
   return new Promise((resolve) => {

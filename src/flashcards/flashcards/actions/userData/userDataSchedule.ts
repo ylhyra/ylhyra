@@ -1,8 +1,6 @@
-import {
-  setUserDataKey,
-  UserData,
-} from "flashcards/flashcards/actions/userData/userData";
+import { setUserDataKey } from "flashcards/flashcards/actions/userData/userData";
 import { CardId } from "flashcards/flashcards/types/types";
+import { UserData } from "flashcards/flashcards/types/userData";
 import {
   getEntireSchedule,
   Schedule,

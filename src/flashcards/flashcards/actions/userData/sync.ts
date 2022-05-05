@@ -1,13 +1,12 @@
-import {
-  saveUserDataInLocalStorage,
-  UserData,
-  UserDataRows,
-} from "flashcards/flashcards/actions/userData/userData";
+import { saveUserDataInLocalStorage } from "flashcards/flashcards/actions/userData/userData";
 import { getScheduleFromUserData } from "flashcards/flashcards/actions/userData/userDataSchedule";
+import { UserData, UserDataRows } from "flashcards/flashcards/types/userData";
 import {
   getUserData,
   setEntireSchedule,
 } from "flashcards/flashcards/userDataStore";
+import { isUserLoggedIn } from "flashcards/user/actions";
+import axios2 from "modules/axios2";
 import { getFromLocalStorage } from "modules/localStorage";
 import { log } from "modules/log";
 
@@ -40,15 +39,13 @@ export const sync = async (options: any = {}): Promise<UserData> => {
 
   const unsynced = getUnsynced(rows, options);
 
-  const response = (
-    await axios.post(`/api/vocabulary/sync`, {
-      unsynced,
-      lastSynced: lastSynced || 0,
-    })
-  ).data;
+  const response = (await axios2.post(`/api/vocabulary/sync`, {
+    unsynced,
+    lastSynced: lastSynced || 0,
+  })) as UserData;
 
-  /* Force recalculation of overview screen */
-  if (response.rows.length > 0) clearOverview();
+  // /* Force recalculation of overview screen */
+  // if (response.rows.length > 0) clearOverview();
 
   rows = mergeResponse(rows, response.rows);
 
@@ -64,7 +61,6 @@ export const sync = async (options: any = {}): Promise<UserData> => {
 };
 
 export const syncIfNecessary = async () => {
-  if (!deck) return;
   // TODO
   // const data = getFromLocalStorage("vocabulary-user-data");
   // /* Localstorage data has been updated in another tab, so we reload */
@@ -84,11 +80,11 @@ export const syncIfNecessary = async () => {
 
 const getUnsynced = (
   obj: UserDataRows,
-  options?: { syncEverything: Boolean }
+  options: { syncEverything?: Boolean } = {}
 ): UserDataRows => {
   if (!obj) return {};
   const { syncEverything } = options;
-  let toSave = {};
+  let toSave: UserDataRows = {};
   Object.keys(obj).forEach((key) => {
     if (obj[key].needsSyncing || syncEverything) {
       toSave[key] = obj[key];

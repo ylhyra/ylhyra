@@ -1,21 +1,8 @@
+import { UserData, UserDataRows } from "flashcards/flashcards/types/userData";
+import { getUserData, setUserData } from "flashcards/flashcards/userDataStore";
 import { saveInLocalStorage } from "modules/localStorage";
-import { Timestamp } from "modules/time";
 
-export type UserData = {
-  lastSynced: Timestamp;
-  rows: UserDataRows;
-  /** TODO */
-  user_id?: string;
-};
-export type UserDataRows = {
-  [keys: string]: {
-    value: string;
-    type: "schedule" | "session" | null;
-    needsSyncing?: boolean;
-  };
-};
-
-// export const getUserData = (key: string) => {
+// export const getUserDataForKey = (key: string) => {
 //   return getUserData().rows?.[key]?.value || null;
 // };
 
@@ -56,7 +43,7 @@ export const saveUserDataInLocalStorage = (
       console.warn({ toSave, userData_input: userData });
       throw new Error(`saveUserDataInLocalStorage didn't receive rows`);
     }
-    getUserData() = toSave;
+    setUserData(toSave);
   }
   timer && clearTimeout(timer);
   timer = setTimeout(() => {

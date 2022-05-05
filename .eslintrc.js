@@ -52,7 +52,7 @@ module.exports = {
       files: ["src/flashcards/**/*.ts", "src/flashcards/**/*.tsx"],
       rules: {
         "no-restricted-imports": [
-          "error",
+          "warn",
           {
             patterns: ["ylhyra/*"],
           },

@@ -66,6 +66,9 @@ export type CardIds = Array<CardId>;
 export type TermId = Brand<string, "TermId">;
 export type TermIds = Array<TermId>;
 
+export type TermIdToDependencyDepth = Record<TermId, number>;
+export type CardIdToDependencyDepth = Record<CardId, number>;
+
 export interface ScheduleData {
   due: Timestamp;
   lastIntervalInDays: Days /** Previously last_interval_in_days */;
