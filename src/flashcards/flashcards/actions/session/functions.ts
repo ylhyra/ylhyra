@@ -1,4 +1,4 @@
-import CardInSession from "flashcards/flashcards/actions/cardInSession";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { createCards } from "flashcards/flashcards/actions/createCards";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";

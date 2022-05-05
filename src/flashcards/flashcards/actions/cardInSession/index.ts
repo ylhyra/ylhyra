@@ -5,13 +5,13 @@ import {
   canBeShown,
   showIn,
 } from "flashcards/flashcards/actions/cardInSession/showIn";
-import Session from "flashcards/flashcards/actions/session";
+import { sessionStore } from "flashcards/flashcards/sessionStore";
 import { CardId, Rating } from "flashcards/flashcards/types/types";
 
-class CardInSession {
+export class CardInSession {
   id: CardId;
-  session: Session;
-  history: Array<Rating>;
+  session: sessionStore;
+  history: Array<Rating> = [];
   absoluteQueuePosition: number; /* Counter */
   cannotBeShownBefore?: number; /* Counter */
   lastSeen?: number; /* Counter */
@@ -24,7 +24,7 @@ class CardInSession {
     history,
   }: {
     id: CardId;
-    session: Session;
+    session: sessionStore;
     insertAtPosition?: number;
     history?: Array<Rating>;
   }) {
@@ -35,6 +35,9 @@ class CardInSession {
       (session?.counter || 0) + (insertAtPosition || 0);
   }
 
+  /**
+   * @deprecated
+   */
   getId() {
     return this.id;
   }
@@ -68,5 +71,3 @@ class CardInSession {
   showIn = showIn;
   canBeShown = canBeShown;
 }
-
-export default CardInSession;

@@ -8,7 +8,10 @@ export type RowIdToRowIds = { [id: RowId]: RowIds };
 
 /**
  * Raw user input describing flashcard
- * @see rowFields
+ * @see rowFields for more details.
+ *
+ * For the processed information, see
+ * {@link ProcessedCardExtraInformation} (work in progress)
  */
 export type Row = {
   /** Random string */

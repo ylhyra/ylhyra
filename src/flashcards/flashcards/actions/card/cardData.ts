@@ -61,7 +61,8 @@ export const getTermIds = (cardId: CardId): TermIds => {
 };
 
 export const getLevel = (id: CardId) => {
-  return getCardData(id, "level");
+  throw new Error("Not implemented");
+  // return getCardData(id, "level");
 };
 
 export const getCardCEFR = getLevel;
@@ -84,11 +85,12 @@ export const getSortKey = (
     englishLast?: Boolean;
   }
 ): number => {
-  if (options?.englishLast) {
-    return (
-      getCardData(cardId, "sortKey") + (getDirection(cardId) === "en" ? 0.5 : 0)
-    );
-  } else {
-    return getCardData(cardId, "sortKey");
-  }
+  throw new Error("Not implemented");
+  // if (options?.englishLast) {
+  //   return (
+  //     getCardData(cardId, "sortKey") + (getDirection(cardId) === "en" ? 0.5 : 0)
+  //   );
+  // } else {
+  //   return getCardData(cardId, "sortKey");
+  // }
 };

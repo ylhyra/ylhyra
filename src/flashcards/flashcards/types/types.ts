@@ -36,6 +36,10 @@ export type DeckProcessed = {
   alternativeIds?: Record<TermId, Sentence[]>;
 };
 
+export type ProcessedCardExtraInformation = {
+  isSentence: Boolean;
+};
+
 export enum ImportanceEnum {
   VERY_UNIMPORTANT = 1,
   UNIMPORTANT = 2,

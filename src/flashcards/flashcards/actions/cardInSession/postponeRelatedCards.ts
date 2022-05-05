@@ -6,7 +6,7 @@ import {
 import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
 import { getSiblingCardsInSession } from "flashcards/flashcards/actions/card/cardSiblings";
-import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types/types";
 
 export function postponeRelatedCards(this: CardInSession, card1interval) {

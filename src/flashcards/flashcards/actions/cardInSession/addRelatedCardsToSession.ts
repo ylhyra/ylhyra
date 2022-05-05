@@ -12,8 +12,9 @@ import {
   timeSinceTermWasSeen,
   wasTermVeryRecentlySeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
-import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { printWord } from "flashcards/flashcards/actions/functions";
+import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
 import { CardIds } from "flashcards/flashcards/types/types";
 import { log } from "modules/log";
 import { days } from "modules/time";
@@ -24,41 +25,41 @@ import { days } from "modules/time";
  */
 export const addRelatedCardsToSession = (card: CardInSession) => {
   const id = card.getId();
-  let to_add: CardIds = [];
+  let toAdd: CardIds = [];
 
   /* Bail for repeated failures ... */
   if (card.history.length > 1) return;
 
-  getDependenciesAsArrayOfCardIds(card.getId()).forEach((related_cardId) => {
+  getDependenciesAsArrayOfCardIds(card.getId()).forEach((relatedCardId) => {
     /* Ignore cards already in session */
-    if (isInSession(related_cardId)) return;
+    if (isInSession(relatedCardId)) return;
 
     /* Add cards with the same term */
-    if (dependencyDepthOfCard(id, related_cardId) === 0) {
-      return to_add.push(related_cardId);
+    if (dependencyDepthOfCard(id, relatedCardId) === 0) {
+      return toAdd.push(relatedCardId);
     }
 
     /* Ignore cyclical dependencies */
-    if (dependencyDepthOfCard(related_cardId, id) > 0) return;
+    if (dependencyDepthOfCard(relatedCardId, id) > 0) return;
 
-    if (wasTermVeryRecentlySeen(related_cardId)) return;
+    if (wasTermVeryRecentlySeen(relatedCardId)) return;
 
     /* Add cards that this term directly depends on */
     if (
-      dependencyDepthOfCard(id, related_cardId) === 1 &&
+      dependencyDepthOfCard(id, relatedCardId) === 1 &&
       /* Unseen or unknown cards */
-      (isUnseenTerm(related_cardId) ||
-        isBad(related_cardId) ||
-        (isFairlyBad(related_cardId) &&
-          timeSinceTermWasSeen(related_cardId) > 5 * days &&
+      (isUnseenTerm(relatedCardId) ||
+        isBad(relatedCardId) ||
+        (isFairlyBad(relatedCardId) &&
+          timeSinceTermWasSeen(relatedCardId)! > 5 * days &&
           Math.random() > 0.7))
     ) {
-      log(`Direct dependency "${printWord(related_cardId)}" added`);
-      to_add.push(related_cardId);
+      log(`Direct dependency "${printWord(relatedCardId)}" added`);
+      toAdd.push(relatedCardId);
     }
   });
 
-  card.session.loadCardsIntoSession(to_add, {
+  loadCardsIntoSession(toAdd, {
     insertImmediately: true,
   });
 };

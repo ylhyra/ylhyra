@@ -12,7 +12,7 @@ import {
   didAnySiblingCardsGetABadRatingInThisSession,
   getSiblingCards,
 } from "flashcards/flashcards/actions/card/cardSiblings";
-import CardInSession from "flashcards/flashcards/actions/cardInSession";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { Rating } from "flashcards/flashcards/types/types";

@@ -4,7 +4,7 @@ import {
   getTermIds,
 } from "flashcards/flashcards/actions/card/cardData";
 import { isNewCard } from "flashcards/flashcards/actions/card/cardSchedule";
-import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types/types";
 
 export function getRanking(this: CardInSession) {
@@ -68,28 +68,29 @@ export function getRanking(this: CardInSession) {
     }
   }
 
-  if (!getCardData(id, "isSentence")) {
-    // A sentence should be shown if the userLevel was just increased
-    if (false /*this.session.wasEasinessLevelJustIncreased*/) {
-      q += 200;
-    }
-    // Delay words if no sentence has been seen for a while
-    else if (
-      this.session.ratingHistory.length >= 3 &&
-      // All last three cards were good
-      !this.session.ratingHistory.slice(0, 3).some((i) => i === Rating.BAD) &&
-      // And none were sentences
-      this.session.cardHistory
-        .slice(0, 3)
-        .every((i) => !getCardData(i.getId(), "isSentence"))
-    ) {
-      q += 20;
-      // Prevent English from showing up for unknown cards
-      if (from === "en" || isNewCard(id)) {
-        q += 20;
-      }
-    }
-  }
+  // TODO
+  // if (!getCardData(id, "isSentence")) {
+  //   // A sentence should be shown if the userLevel was just increased
+  //   if (false /*this.session.wasEasinessLevelJustIncreased*/) {
+  //     q += 200;
+  //   }
+  //   // Delay words if no sentence has been seen for a while
+  //   else if (
+  //     this.session.ratingHistory.length >= 3 &&
+  //     // All last three cards were good
+  //     !this.session.ratingHistory.slice(0, 3).some((i) => i === Rating.BAD) &&
+  //     // And none were sentences
+  //     this.session.cardHistory
+  //       .slice(0, 3)
+  //       .every((i) => !getCardData(i.getId(), "isSentence"))
+  //   ) {
+  //     q += 20;
+  //     // Prevent English from showing up for unknown cards
+  //     if (from === "en" || isNewCard(id)) {
+  //       q += 20;
+  //     }
+  //   }
+  // }
 
   return q;
 }

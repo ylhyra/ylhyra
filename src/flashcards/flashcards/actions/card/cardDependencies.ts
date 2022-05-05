@@ -13,6 +13,7 @@ import {
   CardIds,
   TermId,
   TermIds,
+  TermIdToDependencyDepth,
 } from "flashcards/flashcards/types/types";
 import _ from "underscore";
 
@@ -26,10 +27,11 @@ export const getDependenciesAsTermIdToDepth = (
 export const termGetDependenciesAsTermIdToDepth = (
   termId: TermId
 ): TermIdToDependencyDepth => {
-  return {
-    ...(getTermsFromAllDecks()[termId].dependencies || {}),
-    [termId]: 0,
-  };
+  throw new Error("Not implemented");
+  // return {
+  //   ...(getTermsFromAllDecks()[termId].dependencies || {}),
+  //   [termId]: 0,
+  // };
 };
 
 export const getDependenciesAsCardIdToDepth = (id: CardId) => {

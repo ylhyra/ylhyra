@@ -1,4 +1,4 @@
-import CardInSession from "flashcards/flashcards/actions/cardInSession";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import {
   CardIds,
   DeckId,

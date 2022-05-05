@@ -7,7 +7,7 @@ import {
 import {
   CARDS_TO_CREATE,
   CreateCardsOptions,
-} from "flashcards/flashcards/actions/createCards/index";
+} from "flashcards/flashcards/actions/createCards";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { CardIds } from "flashcards/flashcards/types/types";
 import { isEmpty } from "modules/isEmpty";

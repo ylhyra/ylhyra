@@ -1,7 +1,8 @@
 import { isAllowed } from "flashcards/flashcards/actions/card/card";
 import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
+import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
 import { veryRecentlySeenSortedLast } from "flashcards/flashcards/actions/createCards/functions";
-import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards/index";
+import { getCardsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { CardIds } from "flashcards/flashcards/types/types";
 import { sortBy } from "underscore";
@@ -9,9 +10,9 @@ import { sortBy } from "underscore";
 export const getNewCards = (options?: CreateCardsOptions): CardIds => {
   const session = getSession();
 
-  let newCards = session
-    .getCardIdsFromAllowedDecks()
-    .filter((cardId) => !isInSchedule(cardId) && isAllowed(cardId));
+  let newCards = getCardsFromAllDecks().filter(
+    (cardId) => !isInSchedule(cardId) && isAllowed(cardId)
+  );
 
   /**
    * TODO! Sorting based on simplicity

@@ -9,7 +9,8 @@ export const getTermData = (termId: TermId): Row | undefined => {
 };
 
 export const getCardIdsFromTermId = (termId: TermId): CardIds => {
-  return getTermData(termId)?.cards || [];
+  throw new Error("Not implemented");
+  // return getTermData(termId)?.cards || [];
 };
 
 export const getCardIdsFromTermIds = (termIds: TermIds) => {

@@ -1,4 +1,4 @@
-import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 
 /**
  * All values are relative to the currently shown card, which is at 0.

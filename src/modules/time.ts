@@ -1,11 +1,10 @@
 import { roundToInterval } from "modules/math";
 import { withPlural } from "modules/simplePlural";
 
-// export type Milliseconds = number & { Milliseconds: "Milliseconds" };
-export type Milliseconds = number; //Brand<number, "Milliseconds">;
-export type Seconds = number; //Brand<number, "Seconds">;
-export type Days = number; //Brand<number, "Days">;
-export type Timestamp = number; //Brand<number, "Timestamp">;
+export type Milliseconds = number; // Brand<number, "Milliseconds">;
+export type Seconds = number; // Brand<number, "Seconds">;
+export type Days = number; // Brand<number, "Days">;
+export type Timestamp = number; // Brand<number, "Timestamp">;
 
 const msInHour = (1000 * 60 * 60) as Milliseconds;
 const msInDay = (msInHour * 24) as Milliseconds;

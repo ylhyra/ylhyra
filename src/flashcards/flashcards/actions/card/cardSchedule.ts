@@ -13,6 +13,7 @@ import {
 import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
 import {
+  Days,
   getTimeMemoized,
   Milliseconds,
   minutes,
@@ -33,23 +34,23 @@ export const getScore = (id: CardId) => {
   return getScheduleForCard(id)?.score;
 };
 
-export const getSessionsSeen = (id: CardId) => {
+export const getSessionsSeen = (id: CardId): Number => {
   return getScheduleForCard(id)?.sessionsSeen || 0;
 };
 
-export const getNumberOfBadSessions = (id: CardId) => {
+export const getNumberOfBadSessions = (id: CardId): Number => {
   return getScheduleForCard(id)?.numberOfBadSessions || 0;
 };
 
-export const getLastIntervalInDays = (id: CardId) => {
+export const getLastIntervalInDays = (id: CardId): Days | undefined => {
   return getScheduleForCard(id)?.lastIntervalInDays;
 };
 
-export const getLastSeen = (id: CardId) => {
+export const getLastSeen = (id: CardId): Timestamp | undefined => {
   return getScheduleForCard(id)?.lastSeen;
 };
 
-export const isUnseenCard = (id: CardId) => {
+export const isUnseenCard = (id: CardId): Boolean => {
   return !getScore(id);
 };
 
@@ -93,14 +94,12 @@ export const getLowestAvailableTermScore = (id: CardId) => {
   return lowest;
 };
 
-export const getTermLastSeen = (id: CardId) => {
-  // return memoize(id, "getTermLastSeen", () => {
-  let max = 0;
+export const getTermLastSeen = (id: CardId): Timestamp | null => {
+  let max: Timestamp | null = null;
   getAllCardIdsWithSameTerm(id).forEach((card) => {
-    max = Math.max(max, getLastSeen(card) || 0);
+    max = Math.max(max || 0, getLastSeen(card) || 0);
   });
   return max;
-  // });
 };
 
 export const timeSinceTermWasSeen = (id: CardId): Milliseconds | null => {
@@ -113,7 +112,7 @@ export const wasTermVeryRecentlySeen = (id: CardId) => {
   return wasTermSeenMoreRecentlyThan(id, 45 * minutes);
 };
 
-export const wasTermSeenMoreRecentlyThan = (id: CardId, time: Timestamp) => {
+export const wasTermSeenMoreRecentlyThan = (id: CardId, time: Milliseconds) => {
   const i = timeSinceTermWasSeen(id);
   return i && i < time;
 };
