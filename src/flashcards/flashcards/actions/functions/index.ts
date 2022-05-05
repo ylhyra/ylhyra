@@ -20,6 +20,8 @@ import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
  */
 export const printWord = (id: CardId | TermId | string): string | undefined => {
   if (!isDev) return;
+  if (1 in [1]) {
+  }
   if (getCardIdsFromAllDecks().includes(id as CardId)) {
     return getCardData(
       id as CardId,

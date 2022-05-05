@@ -1,6 +1,6 @@
 module.exports = {
   extends: ["react-app"],
-  plugins: ["@typescript-eslint", "import"],
+  plugins: ["@typescript-eslint", "import", "no-in-array"],
   parser: "@typescript-eslint/parser",
   root: true,
   globals: {
@@ -42,25 +42,7 @@ module.exports = {
         "no-invalid-this": "off",
         "@typescript-eslint/no-invalid-this": ["warn"],
         "@typescript-eslint/prefer-for-of": "warn",
-
-        "prevent-in-operator-for-arrays": {
-          create: function (context) {
-            return {
-              JSXExpressionContainer(node) {
-                if (
-                  node.expression.type === "BinaryExpression" &&
-                  node.expression.operator === "in" &&
-                  node.expression.right.type === "ArrayExpression"
-                ) {
-                  context.report({
-                    node: node.expression.left,
-                    message: 'Do not use "in" for arrays',
-                  });
-                }
-              },
-            };
-          },
-        },
+        "no-in-array/no-in-array": "error",
       },
     },
     /**

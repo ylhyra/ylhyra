@@ -166,6 +166,7 @@
     "esbuild-stylus-loader": "^0.3.2",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-no-in-array": "github:egilll/eslint-plugin-no-in-array",
     "file-loader": "^6.2.0",
     "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^5.3.2",
