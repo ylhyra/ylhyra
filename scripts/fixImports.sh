@@ -6,13 +6,12 @@ set -e
 # (which is by itself too slow to run on an
 #  entire project through the command line)
 #
-# Prerequesites:
-# - Add ImportJS (https://github.com/Galooshi/import-js) to your project.
+# Uses ImportJS (https://github.com/Galooshi/import-js) 
 #
 # To run:
-#   ./src/fixImports.sh
+#   ./scripts/fixImports.sh
 # Or:
-#   ./src/fixImports.sh NameOfFolderInSrc
+#   ./scripts/fixImports.sh NameOfFolderInSrc
 
 folder="src/$1"
 
@@ -25,7 +24,7 @@ files="$(eslint "$folder" --format unix |\
 echo 'Starting importjs'
 for file in $files
 do
-  npx importjs fix --overwrite "$file"
+  npx import-js fix --overwrite "$file"
   npx prettier "$file" --write
 done
 
