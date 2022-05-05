@@ -14,4 +14,5 @@ export class userDataStore {
 
 const store = new userDataStore();
 export const getUserDataStore = (): userDataStore => store;
-export const getSchedule = (): Schedule => getUserDataStore().schedule;
+export const getEntireSchedule = (): Schedule => getUserDataStore().schedule;
+export const getUserData = () => getUserDataStore().userData;

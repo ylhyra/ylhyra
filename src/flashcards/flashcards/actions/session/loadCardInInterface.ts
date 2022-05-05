@@ -15,14 +15,14 @@ export function loadCardInInterface() {
   // }
   // // Debug: Show score
   // if (
-  //   session.deck!.schedule[session.currentCard.id] &&
+  //   session.getEntireSchedule()[session.currentCard.id] &&
   //   isDev
   // ) {
   //   log(
   //     `Score of "${printWord(session.currentCard.id)}": ${
-  //       session.deck!.schedule[session.currentCard.id].score
+  //       session.getEntireSchedule()[session.currentCard.id].score
   //     } - last interval: ${
-  //       session.deck!.schedule[session.currentCard.id].lastIntervalInDays
+  //       session.getEntireSchedule()[session.currentCard.id].lastIntervalInDays
   //     }`
   //   );
   // }

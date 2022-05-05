@@ -6,7 +6,7 @@ export default {
     await run.vocabulary_session({ dontEnd: true });
     await run.fakeReload();
     assert(
-      Object.keys(deck!.schedule).length > 0,
+      Object.keys(getEntireSchedule()).length > 0,
       "Schedule not saved for a logged out user"
     );
     // TODO logging
@@ -17,6 +17,6 @@ export default {
   //     await run.vocabulary_session({ dontEnd: true });
   //     eraseCookie();
   //     await run.fakeReload();
-  //     assert(Object.keys(deck!.schedule).length === 0);
+  //     assert(Object.keys(getEntireSchedule()).length === 0);
   //   },
 };

@@ -17,7 +17,7 @@ export type UserDataRows = {
 };
 
 export const getUserData = (key: string) => {
-  return deck?.userData?.rows?.[key]?.value || null;
+  return getUserData().rows?.[key]?.value || null;
 };
 
 export const setUserData = (
@@ -28,10 +28,10 @@ export const setUserData = (
   if (key.length > 20) {
     throw new Error("Max key length is 20");
   }
-  if (!("rows" in deck!.userData)) {
-    (deck!.userData as UserData).rows = {};
+  if (!("rows" in getUserData())) {
+    (getUserData() as UserData).rows = {};
   }
-  deck!.userData.rows[key] = {
+  getUserData().rows[key] = {
     value,
     needsSyncing: true, // getTime(),
     type,
@@ -45,7 +45,7 @@ export const saveUserDataInLocalStorage = (
   options: any = {}
 ) => {
   const toSave = {
-    ...(deck?.userData || {}),
+    ...(getUserData() || {}),
     ...userData,
     // lastSaved: getTime(),
   } as UserData;
@@ -55,7 +55,7 @@ export const saveUserDataInLocalStorage = (
       console.warn({ toSave, userData_input: userData });
       throw new Error(`saveUserDataInLocalStorage didn't receive rows`);
     }
-    deck!.userData = toSave;
+    getUserData() = toSave;
   }
   timer && clearTimeout(timer);
   timer = setTimeout(() => {

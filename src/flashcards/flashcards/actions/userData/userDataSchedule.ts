@@ -17,5 +17,5 @@ export const getScheduleFromUserData = (
 };
 
 export const saveScheduleForCardId = (cardId: CardId) => {
-  setUserData(cardId, deck!.schedule[cardId], "schedule");
+  setUserData(cardId, getEntireSchedule()[cardId], "schedule");
 };

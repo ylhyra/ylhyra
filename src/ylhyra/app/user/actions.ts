@@ -86,7 +86,7 @@ export const isUserLoggedIn = () => {
 };
 
 export const existsSchedule = () => {
-  return deck?.schedule && Object.keys(deck!.schedule).length >= 6;
+  return getEntireSchedule() && Object.keys(getEntireSchedule()).length >= 6;
 };
 
 /* Called on route changes */

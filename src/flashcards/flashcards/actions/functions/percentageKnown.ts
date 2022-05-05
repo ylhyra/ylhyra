@@ -7,7 +7,7 @@ import { CardIds } from "flashcards/flashcards/types/types";
 import { clamp, mapValueToRange } from "modules/math";
 
 export const PercentageKnown = (cardIds: CardIds) => {
-  if (!deck?.schedule) return 0;
+  if (!getEntireSchedule()) return 0;
   let done = 0;
   let remaining = 0;
   cardIds.forEach((id) => {

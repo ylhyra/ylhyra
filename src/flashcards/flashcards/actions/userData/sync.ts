@@ -15,8 +15,8 @@ import { log } from "modules/log";
 export const sync = async (options: any = {}): Promise<UserData> => {
   let userData: UserData;
 
-  if (Object.keys(deck?.userData?.rows || {}).length > 0) {
-    userData = deck!.userData;
+  if (Object.keys(getUserData().rows || {}).length > 0) {
+    userData = getUserData();
   } else {
     userData = getFromLocalStorage("vocabulary-user-data") || {};
   }
@@ -54,7 +54,7 @@ export const sync = async (options: any = {}): Promise<UserData> => {
   };
   saveUserDataInLocalStorage(userData, { assignToDeck: true });
   if (deck) {
-    deck!.schedule = getScheduleFromUserData(userData);
+    getEntireSchedule() = getScheduleFromUserData(userData);
   }
   log("Data synced");
 

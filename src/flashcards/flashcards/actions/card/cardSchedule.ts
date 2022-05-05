@@ -15,36 +15,38 @@ import {
 } from "modules/time";
 import { GOOD } from "ylhyra/vocabulary/app/constants";
 
-export const getSchedule = (id: CardId): Partial<ScheduleData> | undefined => {
+export const getScheduleForCard = (
+  id: CardId
+): Partial<ScheduleData> | undefined => {
   if (!deck) {
     console.error("Deck not initialized");
     return;
   }
-  return deck!.schedule[id];
+  return getEntireSchedule()[id];
 };
 
 export const getDue = (id: CardId): Timestamp | undefined => {
-  return getSchedule(id)?.due;
+  return getScheduleForCard(id)?.due;
 };
 
 export const getScore = (id: CardId) => {
-  return getSchedule(id)?.score;
+  return getScheduleForCard(id)?.score;
 };
 
 export const getSessionsSeen = (id: CardId) => {
-  return getSchedule(id)?.sessionsSeen || 0;
+  return getScheduleForCard(id)?.sessionsSeen || 0;
 };
 
 export const getNumberOfBadSessions = (id: CardId) => {
-  return getSchedule(id)?.numberOfBadSessions || 0;
+  return getScheduleForCard(id)?.numberOfBadSessions || 0;
 };
 
 export const getLastIntervalInDays = (id: CardId) => {
-  return getSchedule(id)?.lastIntervalInDays;
+  return getScheduleForCard(id)?.lastIntervalInDays;
 };
 
 export const getLastSeen = (id: CardId) => {
-  return getSchedule(id)?.lastSeen;
+  return getScheduleForCard(id)?.lastSeen;
 };
 
 export const isUnseenCard = (id: CardId) => {
@@ -62,7 +64,7 @@ export const isInSchedule = (id: CardId) => {
     console.error("Deck not initialized");
     return;
   }
-  return id in deck!.schedule;
+  return id in getEntireSchedule();
 };
 
 export const setSchedule = (id: CardId, data: Partial<ScheduleData>) => {
@@ -79,8 +81,8 @@ export const setSchedule = (id: CardId, data: Partial<ScheduleData>) => {
     }
   });
 
-  deck!.schedule[id] = {
-    ...(deck!.schedule[id] || {}),
+  getEntireSchedule()[id] = {
+    ...(getEntireSchedule()[id] || {}),
     ...data,
   };
   saveScheduleForCardId(id);

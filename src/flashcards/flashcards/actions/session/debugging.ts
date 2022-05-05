@@ -25,7 +25,7 @@ export const debugSession = () => {
         seen: card.hasBeenSeenInSession() ? "SEEN" : "",
         word: printWord(card.getId()),
         sortKey: getSortKey(card.getId()),
-        // schdl: deck!.schedule[i.getId()]
+        // schdl: getEntireSchedule()[i.getId()]
         //   ? new Date(getLastSeen(i.getId()))
         //   : "",
       }))

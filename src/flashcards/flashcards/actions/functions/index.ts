@@ -52,7 +52,7 @@ export const studyParticularIds = async (allowedIds: CardIds, options?) => {
 export const studyNewTerms = () => {
   const newTerms: CardIds = [];
   (Object.keys(deck!.cards) as CardIds).forEach((id) => {
-    if (!(id in deck!.schedule) && isNewTerm(id)) {
+    if (!(id in getEntireSchedule()) && isNewTerm(id)) {
       newTerms.push(id);
     }
   });

@@ -6,12 +6,12 @@ import {
   TermId,
   TermIds,
 } from "flashcards/flashcards/types/types";
-import { getSchedule } from "flashcards/flashcards/userDataStore";
+import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
 import { filterCardsThatExist } from "ylhyra/vocabulary/app/actions/card/card";
 import { getTermData } from "ylhyra/vocabulary/app/actions/card/term";
 
 export const getCardsInSchedule = (): CardIds => {
-  return filterCardsThatExist(Object.keys(getSchedule()) as CardIds);
+  return filterCardsThatExist(Object.keys(getEntireSchedule()) as CardIds);
 };
 
 export const getCardData: {
