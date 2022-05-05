@@ -6,7 +6,7 @@ set -e
 # (which is by itself too slow to run on an
 #  entire project through the command line)
 #
-# Uses ImportJS (https://github.com/Galooshi/import-js) 
+# Uses ImportJS (https://github.com/Galooshi/import-js)
 #
 # To run:
 #   ./scripts/fixImports.sh
