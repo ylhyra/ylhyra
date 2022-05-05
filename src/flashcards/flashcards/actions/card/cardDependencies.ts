@@ -7,6 +7,7 @@ import {
   getCardIdsFromTermIds,
   getCardIdsShuffledIfSeen,
 } from "flashcards/flashcards/actions/card/term";
+import { getTermsFromAllDecks } from "flashcards/flashcards/flashcardsStore";
 import {
   CardId,
   CardIds,

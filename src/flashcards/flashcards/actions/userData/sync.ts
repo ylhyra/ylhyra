@@ -4,7 +4,10 @@ import {
   UserDataRows,
 } from "flashcards/flashcards/actions/userData/userData";
 import { getScheduleFromUserData } from "flashcards/flashcards/actions/userData/userDataSchedule";
-import { setEntireSchedule } from "flashcards/flashcards/userDataStore";
+import {
+  getUserData,
+  setEntireSchedule,
+} from "flashcards/flashcards/userDataStore";
 import { getFromLocalStorage } from "modules/localStorage";
 import { log } from "modules/log";
 

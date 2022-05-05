@@ -3,6 +3,7 @@ import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import { getSessionsSeen } from "flashcards/flashcards/actions/card/cardSchedule";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
 import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
+import { Rating } from "flashcards/flashcards/types/types";
 
 export function rate(this: CardInSession, rating) {
   const card: CardInSession = this;

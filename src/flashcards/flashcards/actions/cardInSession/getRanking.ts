@@ -5,6 +5,7 @@ import {
 } from "flashcards/flashcards/actions/card/cardData";
 import { isNewCard } from "flashcards/flashcards/actions/card/cardSchedule";
 import CardInSession from "flashcards/flashcards/actions/cardInSession/index";
+import { Rating } from "flashcards/flashcards/types/types";
 
 export function getRanking(this: CardInSession) {
   const card: CardInSession = this;

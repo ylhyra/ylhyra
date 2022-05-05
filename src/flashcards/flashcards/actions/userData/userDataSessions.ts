@@ -1,3 +1,5 @@
+import { getUserData } from "flashcards/flashcards/userDataStore";
+
 export const SESSION_PREFIX = "s_";
 
 export const getSessions = (): Array<any> => {

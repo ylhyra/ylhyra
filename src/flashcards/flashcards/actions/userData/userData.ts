@@ -1,4 +1,3 @@
-import { isBrowser } from "modules/isBrowser";
 import { saveInLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
 
