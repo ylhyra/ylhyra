@@ -52,7 +52,7 @@ export class CardElement extends Component {
     this.isKeyDown = true;
     if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */) {
       if (answered) {
-        this.clickOnAnswer(Rating.GOOD);
+        this.ratingClicked(Rating.GOOD);
       } else {
         this.cardClicked();
       }
@@ -61,7 +61,7 @@ export class CardElement extends Component {
       [49 /* One */, 74 /* J */, 65 /* A */, 37 /* Left */].includes(e.keyCode)
     ) {
       if (answered) {
-        this.clickOnAnswer(Rating.BAD);
+        this.ratingClicked(Rating.BAD);
       } else {
         this.cardClicked();
       }
@@ -70,7 +70,7 @@ export class CardElement extends Component {
       [50 /* Two */, 75 /* K */, 83 /* S */, 40 /* Down */].includes(e.keyCode)
     ) {
       if (answered) {
-        this.clickOnAnswer(Rating.GOOD);
+        this.ratingClicked(Rating.GOOD);
       } else {
         this.cardClicked();
       }
@@ -81,7 +81,7 @@ export class CardElement extends Component {
       )
     ) {
       if (answered) {
-        this.clickOnAnswer(Rating.EASY);
+        this.ratingClicked(Rating.EASY);
       } else {
         this.cardClicked();
       }
@@ -94,8 +94,6 @@ export class CardElement extends Component {
    *    the user is clicking to be noticeable
    */
   cardClicked = (timeout?: NodeJS.Timeout) => {
-    const session = getSession();
-
     if (this.state.isShowingBottomSide) {
       this.sound(true);
       return;
@@ -105,17 +103,17 @@ export class CardElement extends Component {
         clickingOnShowButton: true,
       });
       setTimeout(() => {
-        this.state.isShowingBottomSide = true;
+        this.setState({ isShowingBottomSide: true });
       }, 50);
     } else {
-      this.state.isShowingBottomSide = true;
+      this.setState({ isShowingBottomSide: true });
     }
     this.sound(true);
   };
   /**
    * {@link CardElement.cardClicked} is also invoked at the same time (I believe)
    */
-  clickOnAnswer = (
+  ratingClicked = (
     rating: Rating,
     timeout?: NodeJS.Timeout | false,
     e?: MouseEvent
@@ -193,8 +191,6 @@ export class CardElement extends Component {
   };
   render() {
     const session = getSession();
-    console.log(session.counter);
-    console.log(this.state.chosenRating);
 
     const isVolumeOn = session.isVolumeOn;
     const answered = this.state.isShowingBottomSide;
@@ -348,7 +344,7 @@ export class CardElement extends Component {
           "nostyle",
           this.state.chosenRating === rating ? "selected" : ""
         )}
-        onClick={() => this.clickOnAnswer(rating, false)}
+        onClick={() => this.ratingClicked(rating, false)}
       >
         {label}
       </button>

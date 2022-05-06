@@ -23,7 +23,7 @@ export class sessionStore {
   cardHistory: CardInSession[] = [];
   cardTypeLog: Direction[] = [];
 
-  /** Todo: Verify this is being used */
+  /** Set by {@link sessionDone} so that {@link nextCard} can exit */
   done: boolean = false;
   lastSeenTerms: Record<TermId, sessionStore["counter"]> = {};
   lastUndidAtCounter?: sessionStore["counter"];
@@ -31,16 +31,20 @@ export class sessionStore {
   savedAt: Timestamp | null = null;
 
   /** How long should a session last? */
-  totalTime: Milliseconds;
+  totalTime?: Milliseconds;
   /** Used to update the progress bar and to see when the time is up */
-  remainingTime: Milliseconds;
+  remainingTime?: Milliseconds;
   /** Used by {@link updateRemainingTime} */
-  remainingTimeLastUpdatedAt: Timestamp;
+  remainingTimeLastUpdatedAt?: Timestamp;
 
   /**
    * This counter increases for every card the user has seen.
    * It is used for scheduling cards within the session,
    * e.g. "This card should be shown when the counter is at 8".
+   *
+   * Note: The counter is increased by {@link nextCard} before
+   * a new card is loaded, therefore the counter for the first card
+   * is "1".
    */
   counter: number = 0;
   userFacingError: string | null = null;
@@ -50,23 +54,40 @@ export class sessionStore {
   allowedDeckIds: DeckId[] = [];
 
   constructor() {
+    this.reset();
     makeObservable(this, {
       counter: observable,
       userFacingError: observable,
       isVolumeOn: observable,
     });
+  }
+
+  /**
+   * We have to reset instead of creating a new session object
+   * in order to allow MobX to listen to changes
+   * (the interface would otherwise be listening to an older object)
+   */
+  reset() {
+    this.allowedIds = null;
+    this.ratingHistory = [];
+    this.cardHistory = [];
+    this.counter = 0;
+    this.lastSeenTerms = {};
+    this.cardTypeLog = [];
+    this.currentCard = null;
+    this.cards = [];
     this.totalTime = (EACH_SESSION_LASTS_X_MINUTES * minutes) as Milliseconds;
     this.remainingTime = this.totalTime;
     this.remainingTimeLastUpdatedAt = getTime();
+    this.done = false;
+    this.lastUndidAtCounter = 0;
+    this.savedAt = null;
+    this.allowedDeckIds = [];
+    this.userFacingError = null;
   }
 }
 
 let store: sessionStore;
 export const getSession = (): sessionStore => {
   return store || (store = new sessionStore());
-};
-
-/** Initialize a new session object */
-export const resetSession = (): sessionStore => {
-  return (store = new sessionStore());
 };

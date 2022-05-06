@@ -16,9 +16,11 @@ export const isAllowed = (cardId: CardId) => {
     /* Ignore cards that are already in the session */
     !isInSession(cardId) &&
     /* If allowedIds is on, only select allowed cards */
-    (!allowedIds || allowedIds.includes(cardId)) &&
-    /* In case we're adding cards to an already ongoing session,
-         ignore cards that are similar to a card the user has just seen */
+    (!allowedIds ||
+      allowedIds.includes(
+        cardId
+      )) /* In case we're adding cards to an already ongoing session,
+         ignore cards that are similar to a card the user has just seen */ &&
     !getSession()
       .cardHistory.slice(0, 3)
       .some(

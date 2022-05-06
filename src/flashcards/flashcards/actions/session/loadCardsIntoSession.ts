@@ -27,7 +27,6 @@ export function loadCardsIntoSession(
       new CardInSession({
         id,
         insertAtPosition: insertAtPosition + index,
-        session: session,
       })
     );
   });

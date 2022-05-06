@@ -20,8 +20,8 @@ export const debugSession = () => {
     console.table(
       cards.map((card) => ({
         Rank: Math.round(card.getRanking()),
-        Queue: card.absoluteQueuePosition - card.session.counter,
-        notShowBfr: (card.cannotBeShownBefore || 0) - card.session.counter,
+        Queue: card.absoluteQueuePosition - session.counter,
+        notShowBfr: (card.cannotBeShownBefore || 0) - session.counter,
         seen: card.hasBeenSeenInSession() ? "SEEN" : "",
         word: printWord(card.id),
         sortKey: getSortKey(card.id),

@@ -98,7 +98,7 @@ export const countTermsInSchedule = () => {
 //   window["studyParticularIds"] = studyParticularIds;
 // }
 
-export const exitVocabularyScreen = async () => {
+export const exitVocabularyScreen = () => {
   let url = window.location.pathname;
   if (url === "/vocabulary/play" || url === "/vocabulary/difficulty") {
     url = "/vocabulary";

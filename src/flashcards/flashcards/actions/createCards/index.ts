@@ -14,6 +14,7 @@ export const CARDS_TO_CREATE = 50;
 export type CreateCardsOptions = {
   skipDependencies?: boolean;
   skipOverTheEasiest?: boolean;
+  /** Used by {@link loadCardsIntoSession} */
   insertImmediately?: boolean;
   dontSortByAllowedIds?: boolean;
 };

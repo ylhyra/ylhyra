@@ -18,7 +18,7 @@ export const chooseCards = (options?: CreateCardsOptions): CardIds => {
    * chosenCards starts out as an array of nulls;
    * the slots will later be filled.
    */
-  let chosenCards = new Array(CARDS_TO_CREATE).fill(null);
+  let chosenCards = Array(CARDS_TO_CREATE).fill(null);
 
   /**
    * Helper function to add to chosenCards.

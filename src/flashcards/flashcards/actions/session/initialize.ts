@@ -2,12 +2,13 @@ import { createCardsIfNoneAreRemaining } from "flashcards/flashcards/actions/ses
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
 import { getDeckById } from "flashcards/flashcards/flashcardsStore.functions";
-import { resetSession } from "flashcards/flashcards/sessionStore";
+import { getSession } from "flashcards/flashcards/sessionStore";
 
 export function initializeSession({ deckId }: { deckId: string | undefined }) {
   const deck = getDeckById(deckId);
   if (!deck) throw new Error();
-  const session = resetSession();
+  const session = getSession();
+  session.reset();
 
   /* Temp */
   session.allowedDeckIds = [deckId!];
