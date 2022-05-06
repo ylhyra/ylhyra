@@ -33,7 +33,7 @@ export class sessionStore {
   totalTime?: Milliseconds;
 
   counter: SessionCounter = 0;
-  userFacingError: string = "";
+  userFacingError: string | null = null;
   currentCard: CardInSession | null = null;
   isVolumeOn: boolean = true;
   hasUserAnswered: boolean = false;
@@ -67,7 +67,7 @@ export class sessionStore {
     this.lastUndid = 0;
     this.savedAt = null;
     this.allowedDeckIds = [];
-    this.userFacingError = undefined;
+    this.userFacingError = null;
     this.hasUserAnswered = false;
   }
 }

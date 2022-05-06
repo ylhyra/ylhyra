@@ -92,6 +92,7 @@
     "mini-css-extract-plugin": "^1.6.0",
     "minimist": "^1.2.5",
     "mobx": "^6.5.0",
+    "mobx-react": "^7.3.0",
     "mobx-react-lite": "^3.3.0",
     "mysql": "^2.18.1",
     "nodemailer": "^6.6.1",

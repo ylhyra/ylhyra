@@ -1,18 +1,20 @@
 import { getCardData } from "flashcards/flashcards/actions/card/cardData";
 import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
-import { answer } from "flashcards/flashcards/actions/session/functions";
+import { answerCardInSession } from "flashcards/flashcards/actions/session/functions";
 import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
-import { sessionStore } from "flashcards/flashcards/sessionStore";
+import { getSession } from "flashcards/flashcards/sessionStore";
 import { Direction, Rating } from "flashcards/flashcards/types/types";
+import { observer } from "mobx-react";
 import { joinClassNames } from "modules/addCssClass";
 import { Jsx } from "modules/typescript/jsx";
 import React, { Component } from "react";
 
-type Props = { session: sessionStore };
-export class CardElement extends Component<Props> {
+@observer
+export class CardElement extends Component {
   isKeyDown: boolean = false;
   state: {
     answer?: Rating;
+    /** Used to make UI show a slight lag between keyboard shortcuts and answering */
     clickingOnShowButton?: boolean;
   } = {};
   componentDidMount() {
@@ -26,7 +28,7 @@ export class CardElement extends Component<Props> {
   }
   // componentDidUpdate(prevProps?: Props) {
   //   const prevCounter = prevProps.session.counter;
-  //   const counter = this.props.session.counter;
+  //   const counter = session.counter;
   //   const prevCard = prevProps?.vocabulary.card;
   //   if (!prevProps || card.counter !== prevCard.counter) {
   //     this.setState({
@@ -40,33 +42,35 @@ export class CardElement extends Component<Props> {
     this.isKeyDown = false;
   };
   checkKey = (e: KeyboardEvent) => {
+    const session = getSession();
+
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (this.isKeyDown) return;
-    const answered = this.props.session.hasUserAnswered;
+    const answered = session.hasUserAnswered;
     this.isKeyDown = true;
     if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */) {
       if (answered) {
-        this.answer(Rating.GOOD);
+        this.clickOnAnswer(Rating.GOOD);
       } else {
-        this.show();
+        this.cardClicked();
       }
       e.preventDefault();
     } else if (
       [49 /* One */, 74 /* J */, 65 /* A */, 37 /* Left */].includes(e.keyCode)
     ) {
       if (answered) {
-        this.answer(Rating.BAD);
+        this.clickOnAnswer(Rating.BAD);
       } else {
-        this.show();
+        this.cardClicked();
       }
       e.preventDefault();
     } else if (
       [50 /* Two */, 75 /* K */, 83 /* S */, 40 /* Down */].includes(e.keyCode)
     ) {
       if (answered) {
-        this.answer(Rating.GOOD);
+        this.clickOnAnswer(Rating.GOOD);
       } else {
-        this.show();
+        this.cardClicked();
       }
       e.preventDefault();
     } else if (
@@ -75,29 +79,59 @@ export class CardElement extends Component<Props> {
       )
     ) {
       if (answered) {
-        this.answer(Rating.EASY);
+        this.clickOnAnswer(Rating.EASY);
       } else {
-        this.show();
+        this.cardClicked();
       }
       e.preventDefault();
     }
   };
-  answer = (
+  /**
+   * @param timeout – A timeout is used when using keyboard shortcuts
+   *    to add enough lag to the user interface for which button
+   *    the user is clicking to be noticeable
+   */
+  cardClicked = (timeout?: NodeJS.Timeout) => {
+    const session = getSession();
+
+    if (session.hasUserAnswered) {
+      this.sound(true);
+      return;
+    }
+    if (timeout) {
+      this.setState({
+        clickingOnShowButton: true,
+      });
+      setTimeout(() => {
+        session.hasUserAnswered = true;
+      }, 50);
+    } else {
+      session.hasUserAnswered = true;
+    }
+    this.sound(true);
+  };
+  /**
+   * {@link CardElement.cardClicked} is also invoked at the same time (I believe)
+   */
+  clickOnAnswer = (
     rating: Rating,
     timeout?: NodeJS.Timeout | false,
     e?: MouseEvent
   ) => {
+    /**
+     * TODO: The buttons below no longer send this event,
+     * check to see if stopping propogation is really necessary
+     */
     e?.stopPropagation();
     if (this.state.answer) return;
-    const { session } = this.props;
     if (timeout === false) {
-      answer(rating);
+      answerCardInSession(rating);
     } else {
       this.setState({
         answer: rating,
       });
       setTimeout(() => {
-        answer(rating);
+        answerCardInSession(rating);
       }, 100);
     }
   };
@@ -155,27 +189,12 @@ export class CardElement extends Component<Props> {
     //   }
     // }
   };
-  show = (timeout?: NodeJS.Timeout | false) => {
-    if (this.props.session.hasUserAnswered) {
-      this.sound(true);
-      return;
-    }
-    if (timeout === false) {
-      this.props.session.hasUserAnswered = true;
-    } else {
-      this.setState({
-        clickingOnShowButton: true,
-      });
-      setTimeout(() => {
-        this.props.session.hasUserAnswered = true;
-      }, 50);
-    }
-    this.sound(true);
-  };
   render() {
-    const volume = this.props.session.isVolumeOn;
-    const answered = this.props.session.hasUserAnswered;
-    const cardInSession = this.props.session.currentCard;
+    const session = getSession();
+
+    const isVolumeOn = session.isVolumeOn;
+    const answered = session.hasUserAnswered;
+    const cardInSession = session.currentCard;
     if (!cardInSession) {
       return <div>Unable to create cards. Please report this error.</div>;
     }
@@ -219,7 +238,7 @@ export class CardElement extends Component<Props> {
           ${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}
           ${isNewTerm(cardId) ? "new" : ""}
         `}
-        onClick={() => this.show(false)}
+        onClick={() => this.cardClicked()}
       >
         <div
           className={`
@@ -326,7 +345,7 @@ export class CardElement extends Component<Props> {
           "nostyle",
           this.state.answer === rating ? "selected" : ""
         )}
-        onClick={() => this.answer(rating, false)}
+        onClick={() => this.clickOnAnswer(rating, false)}
       >
         {label}
       </button>
@@ -365,3 +384,8 @@ const label = (name: string, value: string) => {
     </div>
   );
 };
+
+// export const CardElement = observer(
+//
+//
+//   _CardElement)

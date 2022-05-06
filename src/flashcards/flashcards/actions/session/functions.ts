@@ -49,7 +49,7 @@ export const createCardsIfNoneAreRemaining = (): void => {
   }
 };
 
-export const answer = (rating: Rating) => {
+export const answerCardInSession = (rating: Rating) => {
   const session = getSession();
   session.currentCard?.rate(rating);
   nextCard();
