@@ -14,7 +14,7 @@ import _ from "underscore";
 /**
  * @param depth - Used to prevent infinite calls
  */
-export function nextCard(depth = 0) {
+export const nextCard = (depth = 0) => {
   const session = getSession();
 
   session.counter++;
@@ -46,4 +46,4 @@ export function nextCard(depth = 0) {
 
   saveOngoingSessionInLocalStorage();
   debugSession();
-}
+};

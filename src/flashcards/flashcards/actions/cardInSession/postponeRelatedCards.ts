@@ -9,7 +9,10 @@ import { getSiblingCardsInSession } from "flashcards/flashcards/actions/card/car
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types/types";
 
-export function postponeRelatedCards(this: CardInSession, card1interval) {
+export function postponeRelatedCards(
+  this: CardInSession,
+  card1interval: number
+) {
   const card1: CardInSession = this;
 
   this.getOtherCardsInSession().forEach((card2: CardInSession) => {

@@ -1,4 +1,5 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { getSession } from "flashcards/flashcards/sessionStore";
 
 /**
  * All values are relative to the currently shown card, which is at 0.
@@ -52,6 +53,6 @@ export function showIn(
 export function canBeShown(this: CardInSession): boolean {
   return (
     !this.cannotBeShownBefore ||
-    this.cannotBeShownBefore <= this.session.counter!
+    this.cannotBeShownBefore <= getSession().counter
   );
 }

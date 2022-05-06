@@ -4,24 +4,25 @@ import { clearOngoingSessionInLocalStorage } from "flashcards/flashcards/actions
 import { sync } from "flashcards/flashcards/actions/userData/sync";
 import { setUserDataKey } from "flashcards/flashcards/actions/userData/userData";
 import { SESSION_PREFIX } from "flashcards/flashcards/actions/userData/userDataSessions";
-import { getSession } from "flashcards/flashcards/sessionStore";
+import { getSession, resetSession } from "flashcards/flashcards/sessionStore";
 import { log } from "modules/log";
 import { roundMsToSec, roundToInterval } from "modules/math";
 import { getTime } from "modules/time";
 
-export const sessionDone = async (options: any = {}) => {
+export const sessionDone = (options: any = {}): void => {
   const session = getSession();
 
+  /** TODO: Is this used? */
   session.done = true;
   createSchedule();
   clearOngoingSessionInLocalStorage();
   if (!options.isInitializing) {
-    await exitVocabularyScreen();
+    void exitVocabularyScreen();
   }
   saveSessionLog();
-  await sync();
+  void sync();
   // clearOverview();
-  session.reset();
+  resetSession();
 
   // if (process.env.NODE_ENV === "development" && getDeckName()) {
   //   goToUrl("/vocabulary/play");

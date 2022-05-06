@@ -9,7 +9,7 @@ export function undoSession() {
   card.history.shift();
   session.currentCard = card;
   session.cardHistory!.shift();
-  session.lastUndid = session.counter;
+  session.lastUndidAtCounter = session.counter;
   loadCardInInterface();
 }
 
@@ -19,7 +19,7 @@ export function isSessionUndoable() {
   return (
     session.cardHistory &&
     session.cardHistory.length > 0 &&
-    session.lastUndid !== session.counter
+    session.lastUndidAtCounter !== session.counter
   );
 }
 

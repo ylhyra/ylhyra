@@ -4,6 +4,7 @@ import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
+import { getSession } from "flashcards/flashcards/sessionStore";
 import { Rating } from "flashcards/flashcards/types/types";
 
 /**
@@ -11,13 +12,15 @@ import { Rating } from "flashcards/flashcards/types/types";
  * the user is here rating how well he knew a card
  */
 export function rate(this: CardInSession, rating: Rating): void {
+  const session = getSession();
+
   const cardInSession: CardInSession = this;
   const id = cardInSession.id;
   const timesSeenBeforeInSession = cardInSession.history.length;
   cardInSession.history.unshift(rating);
-  cardInSession.session.ratingHistory.unshift(rating);
-  cardInSession.session.cardHistory.unshift(cardInSession);
-  cardInSession.lastSeen = cardInSession.session.counter;
+  session.ratingHistory.unshift(rating);
+  session.cardHistory.unshift(cardInSession);
+  cardInSession.lastSeen = session.counter;
   const lastRating = cardInSession.history[1];
   const nextLastRating = cardInSession.history[2];
   let interval;
@@ -66,7 +69,7 @@ export function rate(this: CardInSession, rating: Rating): void {
 
   cardInSession.showIn({ interval });
   cardInSession.postponeRelatedCards(interval);
-  cardInSession.session.cardTypeLog.unshift(getDirectionFromCardId(id));
+  session.cardTypeLog.unshift(getDirectionFromCardId(id));
 
   // keepTrackOfEasiness({
   //   rating,
@@ -75,7 +78,7 @@ export function rate(this: CardInSession, rating: Rating): void {
   // });
 
   nextCard();
-  if (!this.session.done) {
+  if (!session.done) {
     // session.loadCardInInterface();
   }
 }

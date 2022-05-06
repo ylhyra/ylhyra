@@ -5,13 +5,11 @@ import {
   canBeShown,
   showIn,
 } from "flashcards/flashcards/actions/cardInSession/showIn";
-import { sessionStore } from "flashcards/flashcards/sessionStore";
+import { getSession } from "flashcards/flashcards/sessionStore";
 import { CardId, Rating } from "flashcards/flashcards/types/types";
 
 export class CardInSession {
   id: CardId;
-  /** Todo: Move out of here */
-  session: sessionStore;
   history: Array<Rating> = [];
   absoluteQueuePosition: number; /* Counter */
   cannotBeShownBefore?: number; /* Counter */
@@ -21,19 +19,16 @@ export class CardInSession {
   constructor({
     id,
     insertAtPosition,
-    session,
     history,
   }: {
     id: CardId;
-    session: sessionStore;
     insertAtPosition?: number;
     history?: Array<Rating>;
   }) {
     this.id = id;
-    this.session = session;
     this.history = history || [];
     this.absoluteQueuePosition =
-      (session?.counter || 0) + (insertAtPosition || 0);
+      (getSession().counter || 0) + (insertAtPosition || 0);
   }
 
   /**
@@ -48,21 +43,21 @@ export class CardInSession {
   }
 
   getOtherCardsInSession(): Array<CardInSession> {
-    return this.session.cards.filter((card) => card.id !== this.id);
+    return getSession().cards.filter((card) => card.id !== this.id);
   }
 
   getQueuePosition(): number {
-    return this.absoluteQueuePosition - this.session.counter;
+    return this.absoluteQueuePosition - getSession().counter;
   }
 
   setQueuePosition(interval: number) {
-    this.absoluteQueuePosition = this.session.counter + interval;
+    this.absoluteQueuePosition = getSession().counter + interval;
   }
 
   setCannotBeShownBefore(interval: number) {
     this.cannotBeShownBefore = Math.max(
       this.cannotBeShownBefore || 0,
-      this.session.counter + interval
+      getSession().counter + interval
     );
   }
 

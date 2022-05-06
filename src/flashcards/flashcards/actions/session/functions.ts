@@ -8,17 +8,19 @@ import {
 import { log } from "modules/log";
 import { getTime } from "modules/time";
 
+/**
+ * Called by {@link nextCard}
+ */
 export const updateRemainingTime = () => {
   const session = getSession();
   const diff = Math.min(
     MAX_SECONDS_TO_COUNT_PER_ITEM * 1000,
-    getTime() - (session.lastTimestamp || 0)
+    getTime() - (session.remainingTimeLastUpdatedAt || 0)
   );
   session.remainingTime = Math.max(0, (session.remainingTime || 0) - diff);
-  session.lastTimestamp = getTime();
+  session.remainingTimeLastUpdatedAt = getTime();
   if (session.remainingTime <= 0) {
     sessionDone();
-    session.done = true;
   }
 };
 

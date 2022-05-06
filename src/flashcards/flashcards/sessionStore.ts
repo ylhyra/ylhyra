@@ -13,28 +13,37 @@ export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
 
 /**
- * A counter that increases with each card seen
+ * A session is the currently ongoing flashcard game.
+ * There can only be one ongoing session at a time.
  */
-type SessionCounter = number;
-
 export class sessionStore {
+  cards: Array<CardInSession> = [];
+  currentCard: CardInSession | null = null;
   allowedIds: CardIds | null = null;
   cardHistory: Array<CardInSession> = [];
   cardTypeLog: Array<Direction> = [];
-  cards: Array<CardInSession> = [];
-  done?: boolean;
-  lastSeenTerms: Record<TermId, SessionCounter> = {};
-  lastTimestamp?: Timestamp;
-  lastUndid?: SessionCounter;
-  ratingHistory: Array<Rating> = [];
-  remainingTime?: Milliseconds;
-  savedAt: Timestamp | null = null;
-  timeStarted?: Timestamp;
-  totalTime?: Milliseconds;
 
-  counter: SessionCounter = 0;
+  /** Todo: Verify this is being used */
+  done: boolean = false;
+  lastSeenTerms: Record<TermId, sessionStore["counter"]> = {};
+  lastUndidAtCounter?: sessionStore["counter"];
+  ratingHistory: Array<Rating> = [];
+  savedAt: Timestamp | null = null;
+
+  /** How long should a session last? */
+  totalTime?: Milliseconds;
+  /** Used to update the progress bar and to see when the time is up */
+  remainingTime?: Milliseconds;
+  /** Used by {@link updateRemainingTime} */
+  remainingTimeLastUpdatedAt?: Timestamp;
+
+  /**
+   * This counter increases for every card the user has seen.
+   * It is used for scheduling cards within the session,
+   * e.g. "This card should be shown when the counter is at 8".
+   */
+  counter: number = 0;
   userFacingError: string | null = null;
-  currentCard: CardInSession | null = null;
   isVolumeOn: boolean = true;
 
   /** Temp */
@@ -46,31 +55,18 @@ export class sessionStore {
       userFacingError: observable,
       isVolumeOn: observable,
     });
-  }
-
-  reset() {
-    this.allowedIds = null;
-    this.ratingHistory = [];
-    this.cardHistory = [];
-    this.counter = 0;
-    this.lastSeenTerms = {};
-    this.cardTypeLog = [];
-    this.currentCard = null;
-    this.cards = [];
-    this.timeStarted = getTime();
     this.totalTime = (EACH_SESSION_LASTS_X_MINUTES * minutes) as Milliseconds;
     this.remainingTime = this.totalTime;
-    this.lastTimestamp = getTime();
-    this.done = false;
-    this.lastUndid = 0;
-    this.savedAt = null;
-    this.allowedDeckIds = [];
-    this.userFacingError = null;
+    this.remainingTimeLastUpdatedAt = getTime();
   }
 }
 
-/**
- * Trying out whether global stores are better than context stores
- */
-const store = new sessionStore();
-export const getSession = (): sessionStore => store;
+let store: sessionStore;
+export const getSession = (): sessionStore => {
+  return store || (store = new sessionStore());
+};
+
+/** Initialize a new session object */
+export const resetSession = (): sessionStore => {
+  return (store = new sessionStore());
+};
