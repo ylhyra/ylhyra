@@ -38,8 +38,18 @@ export type DeckProcessed = {
       cardIds: CardIds;
     }
   >;
-  dependencies?: Record<TermId, RawText[]>;
-  alternativeIds?: Record<TermId, RawText[]>;
+  /**
+   * Sentences pointing to termIds
+   */
+  alternativeIds: Record<RawText, TermId[]>;
+  /**
+   * This term depends on which sentences?
+   * (Note, these sentences point to an alternativeId)
+   */
+  dependenciesUnprocessed: Record<TermId, RawText[]>;
+  dependencyGraph: TermIdToDependencyDepth;
+  /** This one is used in the frontend, while the above only during compilation */
+  dependencyList: Record<TermId, TermId[]>;
 };
 
 export type ProcessedCardExtraInformation = {
@@ -100,4 +110,4 @@ export interface ScheduleData {
 /**
  * Used for dependencies and such to redirect text to an id.
  */
-export type RawText = string;
+export type RawText = Brand<string, "RawText">;

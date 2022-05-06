@@ -12,20 +12,24 @@ import {
   UnprocessedDeck,
 } from "flashcards/flashcards/types/types";
 import { entries } from "modules/typescript/objectEntries";
+import { calculateDependencyGraph } from "flashcards/flashcards/compile/dependencies/dependencyGraph";
 
 export const compileDeck = (deck: UnprocessedDeck): DeckProcessed => {
   const deckProcessed: DeckProcessed = {
     deckId: deck.deckId,
     cards: {},
     terms: {},
-    dependencies: {},
     alternativeIds: {},
+    dependenciesUnprocessed: {},
+    dependencyGraph: {},
+    dependencyList: {},
   };
   // log(deck);
   entries(deck.rows).forEach(([, row]) => {
     compileRow(row, deckProcessed);
   });
   // log(deckProcessed);
+  deck.dependencyGraph = calculateDependencyGraph(deck);
   return deckProcessed;
 };
 

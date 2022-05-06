@@ -7,4 +7,7 @@ module.exports = {
   environments: ["browser", "node", "jest"],
   emptyLineBetweenGroups: false,
   danglingCommas: false,
+  aliases: {
+    _: "third-party-libs/underscore",
+  },
 };

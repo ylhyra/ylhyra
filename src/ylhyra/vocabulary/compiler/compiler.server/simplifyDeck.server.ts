@@ -76,7 +76,8 @@ export const simplifyDeck = (deck: DeckDatabaseInCompilationStep) => {
   let terms: Terms = {};
   let cards: CardsInCompilationStep = {};
   /**
-   * TODO: Ég man ekki hvað ég er að gera hérna :(
+   * Move all items that are shared between all of a term's cards to the term
+   * (this was done to limit the size of the deck)
    */
   (Object.keys(deck!.terms) as TermIds).forEach((term_id) => {
     const term = deck!.terms[term_id];
