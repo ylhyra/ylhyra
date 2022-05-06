@@ -47,9 +47,9 @@ export type DeckProcessed = {
    * (Note, these sentences point to an alternativeId)
    */
   dependenciesUnprocessed: Record<TermId, RawText[]>;
-  dependencyGraph: DependenciesForOneTermAsDependencyToDepth;
-  /** This one is used in the frontend, while the above only during compilation */
-  dependencyList: Record<TermId, TermId[]>;
+  dependencyGraph: DependenciesForAllTermsAsTermIdToDependencyToDepth;
+  // /** TODO: Remove? */
+  // dependencyList: Record<TermId, TermId[]>;
 };
 
 export type ProcessedCardExtraInformation = {

@@ -13,23 +13,29 @@ import {
 } from "flashcards/flashcards/types/types";
 import { entries } from "modules/typescript/objectEntries";
 import { calculateDependencyGraph } from "flashcards/flashcards/compile/dependencies/dependencyGraph";
+import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
+import { log } from "modules/log";
 
-export const compileDeck = (deck: UnprocessedDeck): DeckProcessed => {
+export const compileDeck = (
+  unprocessedDeck: UnprocessedDeck
+): DeckProcessed => {
   const deckProcessed: DeckProcessed = {
-    deckId: deck.deckId,
+    deckId: unprocessedDeck.deckId,
     cards: {},
     terms: {},
     alternativeIds: {},
     dependenciesUnprocessed: {},
     dependencyGraph: {},
-    dependencyList: {},
   };
   // log(deck);
-  entries(deck.rows).forEach(([, row]) => {
+  warnIfFunctionIsSlow.start("compileRows");
+  entries(unprocessedDeck.rows).forEach(([, row]) => {
     compileRow(row, deckProcessed);
   });
-  // log(deckProcessed);
-  deck.dependencyGraph = calculateDependencyGraph(deck);
+  warnIfFunctionIsSlow.end("compileRows");
+
+  deckProcessed.dependencyGraph = calculateDependencyGraph(deckProcessed);
+  log(deckProcessed);
   return deckProcessed;
 };
 

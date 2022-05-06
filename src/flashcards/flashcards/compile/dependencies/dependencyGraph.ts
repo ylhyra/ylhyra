@@ -1,23 +1,3 @@
-// import _ from "underscore";
-//
-// export const addValuesToADependencyGraph = (
-//   input: Record<string, string[]>,
-//   /** These will become keys */
-//   first: string[],
-//   /** These will become values for each of the above keys */
-//   second: string[]
-// ) => {
-//   if (!second || second.length === 0) return;
-//   first.forEach((key) => {
-//     input[key] = _.uniq([...(input[key] || []), ...second]).filter(
-//       (j) => j !== key
-//     );
-//     if (input[key].length === 0) {
-//       delete input[key];
-//     }
-//   });
-// };
-
 import {
   DeckProcessed,
   DependenciesForAllTermsAsTermIdToDependencyToDepth,
@@ -26,6 +6,7 @@ import {
   TermIds,
 } from "flashcards/flashcards/types/types";
 import { entries, keys } from "modules/typescript/objectEntries";
+import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 /**
  * Prevent ridiculously deep dependencies
@@ -35,6 +16,7 @@ const MAX_DEPTH = 10;
 export const calculateDependencyGraph = (
   deck: DeckProcessed
 ): DependenciesForAllTermsAsTermIdToDependencyToDepth => {
+  warnIfFunctionIsSlow.start("calculateDependencyGraph");
   let output: DependenciesForAllTermsAsTermIdToDependencyToDepth = {};
 
   const directDependencies = directDependenciesGraph(deck);
@@ -45,7 +27,7 @@ export const calculateDependencyGraph = (
       termId
     );
   });
-
+  warnIfFunctionIsSlow.end("calculateDependencyGraph", 5);
   return output;
 };
 
@@ -130,6 +112,26 @@ export const dependencyToDepthForASingleTerm = (
 //       (Object.keys(deps) as TermIds).forEach((j) => {
 //         console.log({ word: printWord(j), level: deps[j] });
 //       });
+//     }
+//   });
+// };
+
+// import _ from "underscore";
+//
+// export const addValuesToADependencyGraph = (
+//   input: Record<string, string[]>,
+//   /** These will become keys */
+//   first: string[],
+//   /** These will become values for each of the above keys */
+//   second: string[]
+// ) => {
+//   if (!second || second.length === 0) return;
+//   first.forEach((key) => {
+//     input[key] = _.uniq([...(input[key] || []), ...second]).filter(
+//       (j) => j !== key
+//     );
+//     if (input[key].length === 0) {
+//       delete input[key];
 //     }
 //   });
 // };
