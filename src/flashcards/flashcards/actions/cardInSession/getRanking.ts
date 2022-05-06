@@ -97,9 +97,8 @@ export function getRanking(this: CardInSession) {
     }
   }
 
-  // TODO Prioritize
+  // TODO Delay words if no sentence has been seen for a while
   // if (!getCardData(id, "isSentence")) {
-  //   // Delay words if no sentence has been seen for a while
   //   if (
   //     session.ratingHistory.length >= 3 &&
   //     // All last three cards were good
