@@ -13,6 +13,10 @@ export const keys = <K extends string, T>(obj: Record<K, T>): K[] => {
   return Object.keys(obj) as K[];
 };
 
+/**
+ * Note:
+ * You can use for (const element of array) instead!
+ */
 export const values = <K extends string, T>(obj: Record<K, T>): T[] => {
   return Object.values(obj);
 };

@@ -2,7 +2,7 @@ import { getUserData } from "flashcards/flashcards/userDataStore";
 
 export const SESSION_PREFIX = "s_";
 
-export const getSessions = (): Array<any> => {
+export const getSessions = (): any[] => {
   const sessions = [];
   Object.keys(getUserData().rows || {}).forEach((key) => {
     if (getUserData().rows[key].type === "session") {

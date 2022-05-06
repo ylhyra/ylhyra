@@ -6,7 +6,7 @@ import {
   MAX_SECONDS_TO_COUNT_PER_ITEM,
 } from "flashcards/flashcards/sessionStore";
 import { log } from "modules/log";
-import { getTime } from "modules/time";
+import { getTime, seconds } from "modules/time";
 
 /**
  * Called by {@link nextCard}
@@ -14,25 +14,13 @@ import { getTime } from "modules/time";
 export const updateRemainingTime = () => {
   const session = getSession();
   const diff = Math.min(
-    MAX_SECONDS_TO_COUNT_PER_ITEM * 1000,
+    MAX_SECONDS_TO_COUNT_PER_ITEM * seconds,
     getTime() - (session.remainingTimeLastUpdatedAt || 0)
   );
   session.remainingTime = Math.max(0, (session.remainingTime || 0) - diff);
   session.remainingTimeLastUpdatedAt = getTime();
-  if (session.remainingTime <= 0) {
+  if (session.remainingTime === 0) {
     sessionDone();
-  }
-};
-
-export const getPercentageDoneOfSession = () => {
-  const session = getSession();
-
-  if (session.totalTime && session.remainingTime) {
-    return (
-      ((session.totalTime - session.remainingTime) / session.totalTime) * 100
-    );
-  } else {
-    return 0;
   }
 };
 

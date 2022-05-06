@@ -12,7 +12,7 @@ export const getSiblingCards = (id: CardId): CardIds => {
   );
 };
 
-export const getSiblingCardsInSession = (id: CardId): Array<CardInSession> => {
+export const getSiblingCardsInSession = (id: CardId): CardInSession[] => {
   return getSiblingCards(id)
     .filter((card) => isInSession(card))
     .map((card) => getAsCardInSession(card))

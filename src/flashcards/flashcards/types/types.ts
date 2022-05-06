@@ -79,9 +79,9 @@ export type Score = number;
  * @see createCardId
  */
 export type CardId = Brand<string, "CardId">;
-export type CardIds = Array<CardId>;
+export type CardIds = CardId[];
 export type TermId = Brand<string, "TermId">;
-export type TermIds = Array<TermId>;
+export type TermIds = TermId[];
 
 export type TermIdToDependencyDepth = Record<TermId, number>;
 export type CardIdToDependencyDepth = Record<CardId, number>;

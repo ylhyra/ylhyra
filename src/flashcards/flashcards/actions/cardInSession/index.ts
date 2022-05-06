@@ -10,7 +10,7 @@ import { CardId, Rating } from "flashcards/flashcards/types/types";
 
 export class CardInSession {
   id: CardId;
-  history: Array<Rating> = [];
+  history: Rating[] = [];
   absoluteQueuePosition: number; /* Counter */
   cannotBeShownBefore?: number; /* Counter */
   lastSeen?: number; /* Counter */
@@ -23,7 +23,7 @@ export class CardInSession {
   }: {
     id: CardId;
     insertAtPosition?: number;
-    history?: Array<Rating>;
+    history?: Rating[];
   }) {
     this.id = id;
     this.history = history || [];
@@ -42,7 +42,7 @@ export class CardInSession {
     return this.history.length > 0;
   }
 
-  getOtherCardsInSession(): Array<CardInSession> {
+  getOtherCardsInSession(): CardInSession[] {
     return getSession().cards.filter((card) => card.id !== this.id);
   }
 

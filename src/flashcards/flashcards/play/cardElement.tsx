@@ -293,7 +293,6 @@ export class CardElement extends Component {
             {/*</div>*/}
           </div>
         </div>
-
         <div className="flashcard-buttons">
           {!answered ? (
             <div>

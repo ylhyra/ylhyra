@@ -17,25 +17,25 @@ export const EACH_SESSION_LASTS_X_MINUTES = 3;
  * There can only be one ongoing session at a time.
  */
 export class sessionStore {
-  cards: Array<CardInSession> = [];
+  cards: CardInSession[] = [];
   currentCard: CardInSession | null = null;
   allowedIds: CardIds | null = null;
-  cardHistory: Array<CardInSession> = [];
-  cardTypeLog: Array<Direction> = [];
+  cardHistory: CardInSession[] = [];
+  cardTypeLog: Direction[] = [];
 
   /** Todo: Verify this is being used */
   done: boolean = false;
   lastSeenTerms: Record<TermId, sessionStore["counter"]> = {};
   lastUndidAtCounter?: sessionStore["counter"];
-  ratingHistory: Array<Rating> = [];
+  ratingHistory: Rating[] = [];
   savedAt: Timestamp | null = null;
 
   /** How long should a session last? */
-  totalTime?: Milliseconds;
+  totalTime: Milliseconds;
   /** Used to update the progress bar and to see when the time is up */
-  remainingTime?: Milliseconds;
+  remainingTime: Milliseconds;
   /** Used by {@link updateRemainingTime} */
-  remainingTimeLastUpdatedAt?: Timestamp;
+  remainingTimeLastUpdatedAt: Timestamp;
 
   /**
    * This counter increases for every card the user has seen.

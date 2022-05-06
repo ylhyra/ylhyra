@@ -3,7 +3,7 @@ import { DirectionSettings } from "flashcards/flashcards/types/types";
 import { Brand } from "ts-brand";
 
 export type RowId = Brand<string, "RowId">;
-export type RowIds = Array<RowId>;
+export type RowIds = RowId[];
 export type RowIdToRowIds = { [id: RowId]: RowIds };
 
 /**

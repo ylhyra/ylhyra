@@ -1,7 +1,7 @@
 import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
 import { getDeckById } from "flashcards/flashcards/flashcardsStore.functions";
 import { CardElement } from "flashcards/flashcards/play/cardElement";
-import { Progress } from "flashcards/flashcards/play/progress";
+import { ProgressBar } from "flashcards/flashcards/play/progressBar";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
@@ -71,7 +71,7 @@ export const FlashcardsPlay = observer(function () {
               <div className="vocabulary-card-outer-container">
                 <CardElement key={session.counter} />
               </div>
-              <Progress />
+              <ProgressBar />
             </>
           )}
         </div>
