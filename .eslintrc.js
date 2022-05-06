@@ -1,6 +1,6 @@
 module.exports = {
   extends: ["react-app"],
-  plugins: ["@typescript-eslint", "import", "no-in-array"],
+  plugins: ["@typescript-eslint", "import"],
   parser: "@typescript-eslint/parser",
   root: true,
   globals: {
@@ -42,7 +42,6 @@ module.exports = {
         "no-invalid-this": "off",
         "@typescript-eslint/no-invalid-this": ["warn"],
         "@typescript-eslint/prefer-for-of": "warn",
-        "no-in-array/no-in-array": "error",
       },
     },
     /**

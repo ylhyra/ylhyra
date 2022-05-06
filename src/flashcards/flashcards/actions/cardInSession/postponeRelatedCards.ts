@@ -53,7 +53,7 @@ export function postponeRelatedCards(
       }
       card2.showIn({
         minInterval: min,
-        cannotBeShownBefore: min,
+        cannotBeShownBeforeInterval: min,
       });
     }
 
@@ -77,7 +77,7 @@ export function postponeRelatedCards(
 
     // Cards that share the same dependencies
     else if (hasDependenciesInCommonWith(card1.cardId, card2.cardId)) {
-      card2.showIn({ cannotBeShownBefore: 2 });
+      card2.showIn({ cannotBeShownBeforeInterval: 2 });
       // log(`"${printWord(card2.id)}" postponed`);
     }
 

@@ -1,13 +1,15 @@
 import { getRanking } from "flashcards/flashcards/actions/cardInSession/getRanking";
 import { postponeRelatedCards } from "flashcards/flashcards/actions/cardInSession/postponeRelatedCards";
 import { rate } from "flashcards/flashcards/actions/cardInSession/rate";
-import {
-  canBeShown,
-  showIn,
-} from "flashcards/flashcards/actions/cardInSession/showIn";
+import { showIn } from "flashcards/flashcards/actions/cardInSession/showIn";
 import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
 import { getSession, sessionStore } from "flashcards/flashcards/sessionStore";
 import { CardId, Rating } from "flashcards/flashcards/types/types";
+
+/**
+ * An interval of "1" would mean that that card is shown next.
+ */
+export type IntervalRelativeToCurrentCardBeingAtZero = number;
 
 export class CardInSession {
   cardId: CardId;
@@ -18,6 +20,10 @@ export class CardInSession {
   cannotBeShownBefore?: sessionStore["counter"];
   lastSeen?: sessionStore["counter"];
   done?: boolean;
+  getRanking = getRanking;
+  rate = rate;
+  postponeRelatedCards = postponeRelatedCards;
+  showIn = showIn;
 
   constructor({
     cardId,
@@ -55,28 +61,33 @@ export class CardInSession {
     return this.absoluteQueuePosition - getSession().counter;
   }
 
-  setQueuePosition(interval: number) {
+  setQueuePosition(interval: IntervalRelativeToCurrentCardBeingAtZero) {
     this.absoluteQueuePosition = getSession().counter + interval;
   }
 
-  isOverdue() {
-    return this.getQueuePosition() < 0;
-  }
-
-  isDueExactlyNow() {
-    return this.getQueuePosition() === 0;
-  }
-
-  setCannotBeShownBefore(interval: number) {
+  setCannotBeShownBefore(interval: IntervalRelativeToCurrentCardBeingAtZero) {
     this.cannotBeShownBefore = Math.max(
       this.cannotBeShownBefore || 0,
       getSession().counter + interval
     );
   }
 
-  getRanking = getRanking;
-  rate = rate;
-  postponeRelatedCards = postponeRelatedCards;
-  showIn = showIn;
-  canBeShown = canBeShown;
+  canBeShown(): boolean {
+    return (
+      !this.cannotBeShownBefore ||
+      this.cannotBeShownBefore <= getSession().counter
+    );
+  }
+
+  /**
+   * Whether the card is overdue to be shown in this session
+   * (note: not the same as being overdue in the schedule)
+   */
+  isOverdueInCurrentSession() {
+    return this.getQueuePosition() < 0;
+  }
+
+  isDueExactlyNow() {
+    return this.getQueuePosition() === 0;
+  }
 }

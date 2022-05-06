@@ -1,6 +1,9 @@
 import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import { getSessionsSeen } from "flashcards/flashcards/actions/card/cardSchedule";
-import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import {
+  CardInSession,
+  IntervalRelativeToCurrentCardBeingAtZero,
+} from "flashcards/flashcards/actions/cardInSession";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
@@ -23,7 +26,7 @@ export function rate(this: CardInSession, rating: Rating): void {
   cardInSession.lastSeen = session.counter;
   const lastRating = cardInSession.history[1];
   const nextLastRating = cardInSession.history[2];
-  let interval;
+  let interval: IntervalRelativeToCurrentCardBeingAtZero;
 
   if (rating === Rating.BAD) {
     interval = getSessionsSeen(id) > 0 ? 4 : 3;

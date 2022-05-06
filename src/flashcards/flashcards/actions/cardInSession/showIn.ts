@@ -1,24 +1,27 @@
-import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { getSession } from "flashcards/flashcards/sessionStore";
+import {
+  CardInSession,
+  IntervalRelativeToCurrentCardBeingAtZero,
+} from "flashcards/flashcards/actions/cardInSession";
+
+type ShowInOptions = {
+  /**
+   * An interval of "1" means that the cardInSession will be shown immediately.
+   * Used to give a card a particular queue position.
+   */
+  interval?: IntervalRelativeToCurrentCardBeingAtZero;
+  /** Used to push a card back without pushing it to the front */
+  minInterval?: IntervalRelativeToCurrentCardBeingAtZero;
+  /** Adds hard requirements for when a card can be shown.*/
+  cannotBeShownBeforeInterval?: IntervalRelativeToCurrentCardBeingAtZero;
+};
 
 /**
- * All values are relative to the currently shown card, which is at 0.
+ * Used to control the next time a card should be shown in this session.
+ * Used by {@link postponeRelatedCards} and {@link rate}.
  */
 export function showIn(
   this: CardInSession,
-  {
-    interval,
-    minInterval,
-    cannotBeShownBefore,
-  }: {
-    /** An interval of "1" means that the cardInSession will be shown immediately.
-      Used to give a card a particular queue position. */
-    interval?: number;
-    /** Used to push a card back without pushing it to the front. */
-    minInterval?: number;
-    /** Adds hard requirements for when a card can be shown. */
-    cannotBeShownBefore?: number;
-  }
+  { interval, minInterval, cannotBeShownBeforeInterval }: ShowInOptions
 ) {
   /* Set queue position (soft requirements) */
   if (interval) {
@@ -29,17 +32,20 @@ export function showIn(
   }
 
   /* Can absolutely not be shown before X (strong requirements) */
-  if (!cannotBeShownBefore) {
+  if (!cannotBeShownBeforeInterval) {
     if ((interval || minInterval || 0) > 6) {
-      cannotBeShownBefore = 6;
+      cannotBeShownBeforeInterval = 6;
     } else {
-      cannotBeShownBefore = 3;
+      cannotBeShownBeforeInterval = 3;
     }
   }
   if (interval) {
-    cannotBeShownBefore = Math.min(cannotBeShownBefore, interval);
+    cannotBeShownBeforeInterval = Math.min(
+      cannotBeShownBeforeInterval,
+      interval
+    );
   }
-  this.setCannotBeShownBefore(cannotBeShownBefore);
+  this.setCannotBeShownBefore(cannotBeShownBeforeInterval);
 
   // log(
   //   `${printWord(this.id)} – cannotBeShownBefore ${
@@ -48,11 +54,4 @@ export function showIn(
   //     this.absoluteQueuePosition - this.session.counter
   //   }. Input: ${JSON.stringify({ interval, minInterval, cannotBeShownBefore })}`
   // );
-}
-
-export function canBeShown(this: CardInSession): boolean {
-  return (
-    !this.cannotBeShownBefore ||
-    this.cannotBeShownBefore <= getSession().counter
-  );
 }

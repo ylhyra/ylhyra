@@ -25,52 +25,57 @@ export function getRanking(this: CardInSession) {
 
   /**
    * Starts out as the card's queue position.
-   * If the queue position is 0, the card is up
    * A card is overdue if its queue position is less than 0.
+   * If the queue position is 0, the card is due now.
    */
-  let q = this.getQueuePosition();
+  let rank = this.getQueuePosition();
 
   /**
-   * New terms are not relevant unless there are no overdue cards
+   * Terms that haven't already been seen in this session
+   * are moved back in the queue. They will only be shown
+   * if there are no overdue seen terms (non-overdue seen terms
+   * are moved back in the next step).
    */
   if (!this.hasTermBeenSeenInSession()) {
-    q += 1000;
+    rank += 1000;
   }
 
-  // Seen cards
-  else {
-    /* Seen cards are not relevant if they are not overdue */
-    if (q > 0 && this.canBeShown()) {
-      q += 2000;
-    }
+  /**
+   * Seen terms are not relevant if they are not overdue.
+   */
+  if (this.hasTermBeenSeenInSession() && !this.isOverdueInCurrentSession()) {
+    rank += 2000;
   }
 
-  /** A card may be marked as being absolutely prohibited from being shown
-      until a later time */
+  /**
+   *
+   * A card may be marked as being absolutely prohibited from being shown
+   * until a later time
+   */
   if (!this.canBeShown()) {
-    q += 3000;
+    rank += 3000;
   }
 
   /* A bad cardInSession that is due exactly now has priority */
   if (
     this.history[0] === Rating.BAD &&
-    q === 0 &&
+    this.isDueExactlyNow() &&
     session.counter % 2 === 0 /* (But not always, to prevent staleness) */
   ) {
-    q -= 50;
+    rank -= 50;
   }
 
   if (this.done) {
-    q += 7000;
+    rank += 7000;
   }
 
   /* Prevent rows of the same cardInSession type from appearing right next to each other too often */
   if (session.cardDirectionLog[0] === direction) {
-    q += 0.4;
+    rank += 0.4;
     if (session.cardDirectionLog[1] === direction) {
       /* Two in a row */
       if (this.hasBeenSeenInSession() || !isNewCard(this.cardId)) {
-        q += 5;
+        rank += 5;
       }
 
       /* Three new cards in a row */
@@ -83,7 +88,7 @@ export function getRanking(this: CardInSession) {
           .slice(0, 3)
           .every((i: CardInSession) => isNewCard(i.cardId))
       ) {
-        q += 2000;
+        rank += 2000;
       }
     }
   }
@@ -112,5 +117,5 @@ export function getRanking(this: CardInSession) {
   //   }
   // }
 
-  return q;
+  return rank;
 }
