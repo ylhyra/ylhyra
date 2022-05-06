@@ -2,19 +2,24 @@ import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import { getSessionsSeen } from "flashcards/flashcards/actions/card/cardSchedule";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
-import { Rating } from "flashcards/flashcards/types/types";
+import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
+import { Rating } from "flashcards/flashcards/types/types";
 
-export function rate(this: CardInSession, rating) {
-  const card: CardInSession = this;
-  const id = card.id;
-  const timesSeenBeforeInSession = card.history.length;
-  card.history.unshift(rating);
-  card.session.ratingHistory.unshift(rating);
-  card.session.cardHistory.unshift(card);
-  card.lastSeen = card.session.counter;
-  const lastRating = card.history[1];
-  const nextLastRating = card.history[2];
+/**
+ * Called from the user interface in {@link CardElement},
+ * the user is here rating how well he knew a card
+ */
+export function rate(this: CardInSession, rating: Rating): void {
+  const cardInSession: CardInSession = this;
+  const id = cardInSession.id;
+  const timesSeenBeforeInSession = cardInSession.history.length;
+  cardInSession.history.unshift(rating);
+  cardInSession.session.ratingHistory.unshift(rating);
+  cardInSession.session.cardHistory.unshift(cardInSession);
+  cardInSession.lastSeen = cardInSession.session.counter;
+  const lastRating = cardInSession.history[1];
+  const nextLastRating = cardInSession.history[2];
   let interval;
 
   if (rating === Rating.BAD) {
@@ -38,13 +43,13 @@ export function rate(this: CardInSession, rating) {
       interval = 8;
     }
 
-    card.done = false;
+    cardInSession.done = false;
   } else if (rating === Rating.GOOD) {
     interval = 200;
-    card.done = true;
+    cardInSession.done = true;
     if (lastRating === Rating.BAD) {
       interval = 5;
-      card.done = false;
+      cardInSession.done = false;
     } else if (nextLastRating === Rating.BAD) {
       interval = 10;
     } else if (isBad(id) && timesSeenBeforeInSession === 0) {
@@ -52,20 +57,25 @@ export function rate(this: CardInSession, rating) {
     }
   } else if (rating === Rating.EASY) {
     interval = 800;
-    card.done = true;
+    cardInSession.done = true;
   }
 
   if (rating === Rating.BAD) {
-    addRelatedCardsToSession(card);
+    addRelatedCardsToSession(cardInSession);
   }
 
-  card.showIn({ interval });
-  card.postponeRelatedCards(interval);
-  card.session.cardTypeLog.unshift(getDirectionFromCardId(id));
+  cardInSession.showIn({ interval });
+  cardInSession.postponeRelatedCards(interval);
+  cardInSession.session.cardTypeLog.unshift(getDirectionFromCardId(id));
 
   // keepTrackOfEasiness({
   //   rating,
   //   isANewCard: !isInSchedule(id) && timesSeenBeforeInSession === 0,
   //   card,
   // });
+
+  nextCard();
+  if (!this.session.done) {
+    // session.loadCardInInterface();
+  }
 }

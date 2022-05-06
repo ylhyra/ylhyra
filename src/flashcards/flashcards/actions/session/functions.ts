@@ -1,12 +1,10 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { createCards } from "flashcards/flashcards/actions/createCards";
-import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import {
   getSession,
   MAX_SECONDS_TO_COUNT_PER_ITEM,
 } from "flashcards/flashcards/sessionStore";
-import { Rating } from "flashcards/flashcards/types/types";
 import { log } from "modules/log";
 import { getTime } from "modules/time";
 
@@ -46,14 +44,5 @@ export const createCardsIfNoneAreRemaining = (): void => {
     log("No cards remaining");
     createCards();
     log("New cards generated");
-  }
-};
-
-export const answerCardInSession = (rating: Rating) => {
-  const session = getSession();
-  session.currentCard?.rate(rating);
-  nextCard();
-  if (!session.done) {
-    // session.loadCardInInterface();
   }
 };

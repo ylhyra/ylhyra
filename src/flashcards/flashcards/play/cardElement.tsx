@@ -1,6 +1,5 @@
 import { getCardData } from "flashcards/flashcards/actions/card/cardData";
 import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
-import { answerCardInSession } from "flashcards/flashcards/actions/session/functions";
 import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { Direction, Rating } from "flashcards/flashcards/types/types";
@@ -13,7 +12,10 @@ import React, { Component } from "react";
 export class CardElement extends Component {
   isKeyDown: boolean = false;
   state: {
-    answer?: Rating;
+    /** First the user clicks the card to show the other side */
+    isShowingBottomSide?: boolean;
+    /** Then he rates how well he knew it */
+    chosenRating?: Rating;
     /** Used to make UI show a slight lag between keyboard shortcuts and answering */
     clickingOnShowButton?: boolean;
   } = {};
@@ -46,7 +48,7 @@ export class CardElement extends Component {
 
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (this.isKeyDown) return;
-    const answered = session.hasUserAnswered;
+    const answered = this.state.isShowingBottomSide;
     this.isKeyDown = true;
     if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */) {
       if (answered) {
@@ -94,7 +96,7 @@ export class CardElement extends Component {
   cardClicked = (timeout?: NodeJS.Timeout) => {
     const session = getSession();
 
-    if (session.hasUserAnswered) {
+    if (this.state.isShowingBottomSide) {
       this.sound(true);
       return;
     }
@@ -103,10 +105,10 @@ export class CardElement extends Component {
         clickingOnShowButton: true,
       });
       setTimeout(() => {
-        session.hasUserAnswered = true;
+        this.state.isShowingBottomSide = true;
       }, 50);
     } else {
-      session.hasUserAnswered = true;
+      this.state.isShowingBottomSide = true;
     }
     this.sound(true);
   };
@@ -123,15 +125,15 @@ export class CardElement extends Component {
      * check to see if stopping propogation is really necessary
      */
     e?.stopPropagation();
-    if (this.state.answer) return;
+    if (this.state.chosenRating) return;
     if (timeout === false) {
-      answerCardInSession(rating);
+      getSession().currentCard?.rate(rating);
     } else {
       this.setState({
         answer: rating,
       });
       setTimeout(() => {
-        answerCardInSession(rating);
+        getSession().currentCard?.rate(rating);
       }, 100);
     }
   };
@@ -192,10 +194,10 @@ export class CardElement extends Component {
   render() {
     const session = getSession();
     console.log(session.counter);
-    console.log(this.state.answer);
+    console.log(this.state.chosenRating);
 
     const isVolumeOn = session.isVolumeOn;
-    const answered = session.hasUserAnswered;
+    const answered = this.state.isShowingBottomSide;
     const cardInSession = session.currentCard;
     if (!cardInSession) {
       return <div>Unable to create cards. Please report this error.</div>;
@@ -345,7 +347,7 @@ export class CardElement extends Component {
         className={joinClassNames(
           className,
           "nostyle",
-          this.state.answer === rating ? "selected" : ""
+          this.state.chosenRating === rating ? "selected" : ""
         )}
         onClick={() => this.clickOnAnswer(rating, false)}
       >

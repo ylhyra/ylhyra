@@ -66,7 +66,6 @@ export class sessionStore {
     this.savedAt = null;
     this.allowedDeckIds = [];
     this.userFacingError = null;
-    this.hasUserAnswered = false;
   }
 }
 
