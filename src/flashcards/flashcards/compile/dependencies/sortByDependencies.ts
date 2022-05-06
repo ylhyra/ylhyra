@@ -1,12 +1,12 @@
 import {
   CardId,
-  CardIdToDependencyDepth,
   CardIds,
+  CardIdToDependencyDepth,
   TermId,
   TermIds,
 } from "flashcards/flashcards/types/types";
 import { getCardData } from "flashcards/flashcards/actions/card/cardData";
-import { createDependencyChainBackend } from "flashcards/flashcards/compile/dependencies/dependencyGraph";
+import { dependencyToDepthForASingleTerm } from "flashcards/flashcards/compile/dependencies/dependencyGraph";
 import _ from "underscore";
 
 /**
@@ -32,7 +32,7 @@ export const sortDependenciesBeforeCardsThatDependOnThem = (
   termIds = _.uniq(termIds);
   termIds.forEach((termId) => {
     let termsWithDependencySortKey = [{ term: termId, dependencySortKey: 0 }];
-    const chain = createDependencyChainBackend(deck, termId);
+    const chain = dependencyToDepthForASingleTerm(deck, termId);
     Object.keys(chain).forEach((termId) => {
       termsWithDependencySortKey.push({
         term: termId as TermId,

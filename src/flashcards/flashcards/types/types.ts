@@ -47,7 +47,7 @@ export type DeckProcessed = {
    * (Note, these sentences point to an alternativeId)
    */
   dependenciesUnprocessed: Record<TermId, RawText[]>;
-  dependencyGraph: TermIdToDependencyDepth;
+  dependencyGraph: DependenciesForOneTermAsDependencyToDepth;
   /** This one is used in the frontend, while the above only during compilation */
   dependencyList: Record<TermId, TermId[]>;
 };
@@ -92,7 +92,13 @@ export type CardIds = CardId[];
 export type TermId = Brand<string, "TermId">;
 export type TermIds = TermId[];
 
-export type TermIdToDependencyDepth = Record<TermId, number>;
+/** TODO: Find a better name */
+export type DependenciesForAllTermsAsTermIdToDependencyToDepth = Record<
+  TermId,
+  DependenciesForOneTermAsDependencyToDepth
+>;
+export type DependenciesForOneTermAsDependencyToDepth = Record<TermId, number>;
+/** @deprecated */
 export type CardIdToDependencyDepth = Record<CardId, number>;
 
 export interface ScheduleData {

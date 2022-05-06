@@ -7,23 +7,23 @@ import {
 import {
   CardId,
   CardIds,
+  DependenciesForOneTermAsDependencyToDepth,
   TermId,
   TermIds,
-  TermIdToDependencyDepth,
 } from "flashcards/flashcards/types/types";
 import _ from "underscore";
 import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
 
 export const cardGetDependenciesAsTermIdToDepth = (
   id: CardId
-): TermIdToDependencyDepth => {
+): DependenciesForOneTermAsDependencyToDepth => {
   const termId: TermId = getTermIdFromCardId(id);
   return termGetDependenciesAsTermIdToDepth(termId);
 };
 
 export const termGetDependenciesAsTermIdToDepth = (
   termId: TermId
-): TermIdToDependencyDepth => {
+): DependenciesForOneTermAsDependencyToDepth => {
   console.warn("termGetDependenciesAsTermIdToDepth not implemented");
   return {};
   // return {
