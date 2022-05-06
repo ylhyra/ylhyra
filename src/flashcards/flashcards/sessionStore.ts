@@ -20,12 +20,17 @@ export class sessionStore {
   cards: CardInSession[] = [];
   currentCard: CardInSession | null = null;
   allowedIds: CardIds | null = null;
+
+  /** The most recent card is pushed to the front of this array */
   cardHistory: CardInSession[] = [];
-  cardTypeLog: Direction[] = [];
+  /** The most recent card is pushed to the front of this array */
+  cardDirectionLog: Direction[] = [];
 
   /** Set by {@link sessionDone} so that {@link nextCard} can exit */
   done: boolean = false;
-  lastSeenTerms: Record<TermId, sessionStore["counter"]> = {};
+
+  /** Used by {@link getRanking} in order to prioritize seen cards */
+  termsSeen = new Set<TermId>();
   lastUndidAtCounter?: sessionStore["counter"];
   ratingHistory: Rating[] = [];
   savedAt: Timestamp | null = null;
@@ -34,7 +39,7 @@ export class sessionStore {
   totalTime?: Milliseconds;
   /** Used to update the progress bar and to see when the time is up */
   remainingTime?: Milliseconds;
-  /** Used by {@link updateRemainingTime} */
+  /** Used by {@link getRemainingTime} */
   remainingTimeLastUpdatedAt?: Timestamp;
 
   /**
@@ -72,8 +77,8 @@ export class sessionStore {
     this.ratingHistory = [];
     this.cardHistory = [];
     this.counter = 0;
-    this.lastSeenTerms = {};
-    this.cardTypeLog = [];
+    this.termsSeen = new Set<TermId>();
+    this.cardDirectionLog = [];
     this.currentCard = null;
     this.cards = [];
     this.totalTime = (EACH_SESSION_LASTS_X_MINUTES * minutes) as Milliseconds;

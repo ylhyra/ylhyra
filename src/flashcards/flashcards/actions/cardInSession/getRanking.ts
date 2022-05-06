@@ -1,20 +1,39 @@
-import { getTermIds } from "flashcards/flashcards/actions/card/cardData";
 import { isNewCard } from "flashcards/flashcards/actions/card/cardSchedule";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { Rating } from "flashcards/flashcards/types/types";
 
+/**
+ * Returns a ranking for a given {@link CardInSession} indicating
+ * how likely it is that it should be chosen as the next card:
+ *   - A low ranking (close to zero) indicates that it should be chosen.
+ *   - A high ranking indicates it should NOT be chosen.
+ *
+ * Each card has a queue position (see {@link getQueuePosition}),
+ * but here we add or subtract to that value based on whether it is actually relevant:
+ *   - Seen cards are not relevant if they are not overdue
+ *   - New terms are not relevant unless there are no overdue cards
+ *   - A card that is "done" should never be chosen if there are other availabilities
+ *   - A card may be marked as being absolutely prohibited from being shown
+ *     until a later time ({@see canBeShown}), meaning that cards later in the queue
+ *     will be chosen instead.
+ */
 export function getRanking(this: CardInSession) {
-  const card: CardInSession = this;
   const session = getSession();
+  const direction = getDirectionFromCardId(this.cardId);
 
-  const id = this.id;
-  const from = getDirectionFromCardId(id);
+  /**
+   * Starts out as the card's queue position.
+   * If the queue position is 0, the card is up
+   * A card is overdue if its queue position is less than 0.
+   */
   let q = this.getQueuePosition();
 
-  // New terms are not relevant unless there are no overdue cards
-  if (!getTermIds(id).some((termId) => termId in session.lastSeenTerms)) {
+  /**
+   * New terms are not relevant unless there are no overdue cards
+   */
+  if (!this.hasTermBeenSeenInSession()) {
     q += 1000;
   }
 
@@ -26,6 +45,8 @@ export function getRanking(this: CardInSession) {
     }
   }
 
+  /** A card may be marked as being absolutely prohibited from being shown
+      until a later time */
   if (!this.canBeShown()) {
     q += 3000;
   }
@@ -44,23 +65,23 @@ export function getRanking(this: CardInSession) {
   }
 
   /* Prevent rows of the same cardInSession type from appearing right next to each other too often */
-  if (session.cardTypeLog[0] === from) {
+  if (session.cardDirectionLog[0] === direction) {
     q += 0.4;
-    if (session.cardTypeLog[1] === from) {
+    if (session.cardDirectionLog[1] === direction) {
       /* Two in a row */
-      if (this.hasBeenSeenInSession() || !isNewCard(id)) {
+      if (this.hasBeenSeenInSession() || !isNewCard(this.cardId)) {
         q += 5;
       }
 
       /* Three new cards in a row */
       if (
-        session.cardTypeLog[2] === from &&
+        session.cardDirectionLog[2] === direction &&
         // Only if a user says "Good" to all three previous
         !session.ratingHistory.slice(0, 3).some((i) => i === Rating.BAD) &&
         // And all of them were new cards
         session.cardHistory
           .slice(0, 3)
-          .every((i: CardInSession) => isNewCard(i.id))
+          .every((i: CardInSession) => isNewCard(i.cardId))
       ) {
         q += 2000;
       }

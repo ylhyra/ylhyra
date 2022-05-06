@@ -23,8 +23,8 @@ export const debugSession = () => {
         Queue: card.absoluteQueuePosition - session.counter,
         notShowBfr: (card.cannotBeShownBefore || 0) - session.counter,
         seen: card.hasBeenSeenInSession() ? "SEEN" : "",
-        word: printWord(card.id),
-        sortKey: getSortKey(card.id),
+        word: printWord(card.cardId),
+        sortKey: getSortKey(card.cardId),
         // schdl: getEntireSchedule()[i.id]
         //   ? new Date(getLastSeen(i.id))
         //   : "",

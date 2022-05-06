@@ -198,7 +198,7 @@ export class CardElement extends Component {
     if (!cardInSession) {
       return <div>Unable to create cards. Please report this error.</div>;
     }
-    const cardId = cardInSession.id;
+    const cardId = cardInSession.cardId;
 
     let direction = getDirectionFromCardId(cardId);
     let lemmas: Jsx = getCardData(cardId, "lemmas");

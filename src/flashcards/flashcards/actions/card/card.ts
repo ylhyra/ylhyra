@@ -2,12 +2,12 @@ import {
   hasDependenciesInCommonWith,
   hasTermsInCommonWith,
 } from "flashcards/flashcards/actions/card/cardDependencies";
+import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore.functions";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { CardId, CardIds } from "flashcards/flashcards/types/types";
-import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore.functions";
 
 export const isInSession = (cardId: CardId) => {
-  return getSession().cards.some((i) => i.id === cardId);
+  return getSession().cards.some((i) => i.cardId === cardId);
 };
 
 export const isAllowed = (cardId: CardId) => {
@@ -25,8 +25,8 @@ export const isAllowed = (cardId: CardId) => {
       .cardHistory.slice(0, 3)
       .some(
         (card) =>
-          hasTermsInCommonWith(cardId, card.id) ||
-          hasDependenciesInCommonWith(cardId, card.id)
+          hasTermsInCommonWith(cardId, card.cardId) ||
+          hasDependenciesInCommonWith(cardId, card.cardId)
         // || isTextSimilarTo(id, card)
       )
   );
@@ -41,6 +41,8 @@ export const filterCardsThatExist = (cardIds: CardIds) => {
 };
 
 export const wasSeenInSession = (cardId: CardId) => {
-  const cardInSession = getSession().cards.find((card) => card.id === cardId);
+  const cardInSession = getSession().cards.find(
+    (card) => card.cardId === cardId
+  );
   return cardInSession && cardInSession.history.length > 0;
 };

@@ -42,7 +42,7 @@ export function createSchedule() {
 
   session.cards.forEach((card: CardInSession) => {
     let dueInDays: Days = 1;
-    const id = card.id;
+    const id = card.cardId;
     const prevScore = getScore(id);
     const sessionsSeen = getSessionsSeen(id);
     const isNew = !prevScore;
@@ -94,7 +94,7 @@ export function createSchedule() {
         const newDueInDays = lastIntervalInDays;
         log(
           `${printWord(
-            card.id
+            card.cardId
           )} - given ${newDueInDays} instead of ${dueInDays}`
         );
         dueInDays = newDueInDays;
@@ -118,7 +118,7 @@ export function createSchedule() {
       );
     }
 
-    setSchedule(card.id, {
+    setSchedule(card.cardId, {
       due: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
       lastIntervalInDays: toFixedFloat(dueInDays, 1),
       score: toFixedFloat(score, 2),
@@ -127,7 +127,7 @@ export function createSchedule() {
       ...(anyBad
         ? {
             lastBadTimestamp: getTime(),
-            numberOfBadSessions: getNumberOfBadSessions(card.id) + 1,
+            numberOfBadSessions: getNumberOfBadSessions(card.cardId) + 1,
           }
         : {}),
     });

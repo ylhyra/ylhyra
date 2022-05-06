@@ -17,7 +17,7 @@ export function postponeRelatedCards(
 
   this.getOtherCardsInSession().forEach((card2: CardInSession) => {
     // Same term
-    if (hasTermsInCommonWith(card1.id, card2.id)) {
+    if (hasTermsInCommonWith(card1.cardId, card2.cardId)) {
       if (
         card1.history.includes(Rating.BAD) ||
         card2.history.includes(Rating.BAD)
@@ -43,11 +43,11 @@ export function postponeRelatedCards(
     }
 
     // Cards that directly rely on this card
-    else if (dependencyDepthOfCard(card2.id, card1.id) >= 1) {
-      let min = dependencyDepthOfCard(card2.id, card1.id) * 3;
+    else if (dependencyDepthOfCard(card2.cardId, card1.cardId) >= 1) {
+      let min = dependencyDepthOfCard(card2.cardId, card1.cardId) * 3;
       if (card1.history[0] === Rating.BAD) {
         min *= 2;
-        if (dependencyDepthOfCard(card2.id, card1.id) >= 2) {
+        if (dependencyDepthOfCard(card2.cardId, card1.cardId) >= 2) {
           card2.done = true;
         }
       }
@@ -60,23 +60,23 @@ export function postponeRelatedCards(
     // Cards that this card depends directly on
     else if (
       card1.history[0] === Rating.BAD &&
-      dependencyDepthOfCard(card1.id, card2.id) === 1 &&
+      dependencyDepthOfCard(card1.cardId, card2.cardId) === 1 &&
       // And other card is new
-      ((!isInSchedule(card2.id) && !card2.hasBeenSeenInSession()) ||
+      ((!isInSchedule(card2.cardId) && !card2.hasBeenSeenInSession()) ||
         // Or other card is bad (includes some randomness)
-        ((isBad(card2.id) || card2.history[0] === Rating.BAD) &&
+        ((isBad(card2.cardId) || card2.history[0] === Rating.BAD) &&
           Math.random() > 0.5))
     ) {
       card1.showIn({ interval: 6 });
       card2.showIn({ interval: 3 });
 
-      getSiblingCardsInSession(card2.id).forEach((siblingCard) => {
+      getSiblingCardsInSession(card2.cardId).forEach((siblingCard) => {
         siblingCard.showIn({ interval: 6 });
       });
     }
 
     // Cards that share the same dependencies
-    else if (hasDependenciesInCommonWith(card1.id, card2.id)) {
+    else if (hasDependenciesInCommonWith(card1.cardId, card2.cardId)) {
       card2.showIn({ cannotBeShownBefore: 2 });
       // log(`"${printWord(card2.id)}" postponed`);
     }

@@ -9,11 +9,13 @@ import { log } from "modules/log";
 import { roundMsToSec, roundToInterval } from "modules/math";
 import { getTime } from "modules/time";
 
+/**
+ * Called either when the user exits
+ * or when no time is remaining (in {@link nextCard})
+ */
 export const sessionDone = (options: any = {}): void => {
   const session = getSession();
 
-  /** Set here so that {@link nextCard} can exit */
-  session.done = true;
   createSchedule();
   clearOngoingSessionInLocalStorage();
   if (!options.isInitializing) {

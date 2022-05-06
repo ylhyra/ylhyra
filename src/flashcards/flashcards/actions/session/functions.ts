@@ -1,27 +1,27 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { createCards } from "flashcards/flashcards/actions/createCards";
-import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import {
   getSession,
   MAX_SECONDS_TO_COUNT_PER_ITEM,
 } from "flashcards/flashcards/sessionStore";
 import { log } from "modules/log";
-import { getTime, seconds } from "modules/time";
+import { getTime, Milliseconds, seconds } from "modules/time";
 
 /**
- * Called by {@link nextCard}
+ * Recalculates and then returns the remaining time.
+ * Returns 0 if there is no time remaining.
+ * Used by {@link nextCard}.
  */
-export const updateRemainingTime = () => {
+export const getRemainingTime = (): Milliseconds => {
   const session = getSession();
   const diff = Math.min(
     MAX_SECONDS_TO_COUNT_PER_ITEM * seconds,
     getTime() - (session.remainingTimeLastUpdatedAt || 0)
   );
+  /** Cannot be negative */
   session.remainingTime = Math.max(0, (session.remainingTime || 0) - diff);
   session.remainingTimeLastUpdatedAt = getTime();
-  if (session.remainingTime === 0) {
-    sessionDone();
-  }
+  return session.remainingTime;
 };
 
 export const createCardsIfNoneAreRemaining = (): void => {

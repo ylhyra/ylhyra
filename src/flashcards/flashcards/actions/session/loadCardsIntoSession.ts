@@ -22,10 +22,10 @@ export function loadCardsIntoSession(
     }
   }
 
-  cardIds.forEach((id, index) => {
+  cardIds.forEach((cardId, index) => {
     session.cards.push(
       new CardInSession({
-        id,
+        cardId,
         insertAtPosition: insertAtPosition + index,
       })
     );

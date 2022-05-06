@@ -19,6 +19,10 @@ export type CreateCardsOptions = {
   dontSortByAllowedIds?: boolean;
 };
 
+/**
+ * Goes through the database of cards, finds relevant ones,
+ * and then loads them into the session as {@link CardInSession}.
+ */
 export const createCards = warnIfFunctionIsSlow(
   "createCards",
   (options?: CreateCardsOptions): void => {
