@@ -11,13 +11,8 @@ import { Rating } from "flashcards/flashcards/types/types";
  *   - A high ranking indicates it should NOT be chosen.
  *
  * Each card has a queue position (see {@link getQueuePosition}),
- * but here we add or subtract to that value based on whether it is actually relevant:
- *   - Seen cards are not relevant if they are not overdue
- *   - New terms are not relevant unless there are no overdue cards
- *   - A card that is "done" should never be chosen if there are other availabilities
- *   - A card may be marked as being absolutely prohibited from being shown
- *     until a later time ({@see canBeShown}), meaning that cards later in the queue
- *     will be chosen instead.
+ * but here we add or subtract to that value based on whether it is actually relevant,
+ * such as preferring overdue cards and prohibiting cards that are too recent.
  */
 export function getRanking(this: CardInSession) {
   const session = getSession();
@@ -76,8 +71,8 @@ export function getRanking(this: CardInSession) {
    */
   if (session.cardDirectionLog[0] === direction) {
     rank += 0.4;
+    /* Two in a row */
     if (session.cardDirectionLog[1] === direction) {
-      /* Two in a row */
       if (this.hasBeenSeenInSession() || !isNewCard(this.cardId)) {
         rank += 5;
       }

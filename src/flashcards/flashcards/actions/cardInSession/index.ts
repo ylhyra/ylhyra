@@ -15,7 +15,11 @@ export class CardInSession {
   cardId: CardId;
   history: Rating[] = [];
 
-  /** Queue position relative to session counter */
+  /**
+   * Queue position in relation to the session's counter
+   * (e.g. "This card should be shown when the counter is at 8")
+   * {@link CardInSession.getQueuePosition} is however relative to the current cart
+   */
   absoluteQueuePosition: sessionStore["counter"];
   /** Hard limit on when a card can be shown */
   cannotBeShownBefore?: sessionStore["counter"];

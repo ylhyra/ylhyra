@@ -1,5 +1,6 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import {
+  CardId,
   CardIds,
   DeckId,
   Direction,
@@ -19,6 +20,8 @@ export const EACH_SESSION_LASTS_X_MINUTES = 3;
 export class sessionStore {
   cards: CardInSession[] = [];
   currentCard: CardInSession | null = null;
+  /** This is necessary in order to tell MobX to update the interface */
+  currentCardId: CardId | null = null;
   allowedIds: CardIds | null = null;
 
   /** The most recent card is pushed to the front of this array */
@@ -61,7 +64,7 @@ export class sessionStore {
   constructor() {
     this.reset();
     makeObservable(this, {
-      counter: observable,
+      currentCardId: observable,
       userFacingError: observable,
       isVolumeOn: observable,
     });
@@ -89,6 +92,7 @@ export class sessionStore {
     this.savedAt = null;
     this.allowedDeckIds = [];
     this.userFacingError = null;
+    this.currentCardId = null;
   }
 }
 

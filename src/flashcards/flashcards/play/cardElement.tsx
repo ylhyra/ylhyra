@@ -191,14 +191,13 @@ export class CardElement extends Component {
   };
   render() {
     const session = getSession();
-
     const isVolumeOn = session.isVolumeOn;
     const answered = this.state.isShowingBottomSide;
-    const cardInSession = session.currentCard;
-    if (!cardInSession) {
-      return <div>Unable to create cards. Please report this error.</div>;
+    /** This value is that which makes MobX update the interface */
+    const cardId = session.currentCardId;
+    if (!cardId) {
+      return <div>Unable to create cards.</div>;
     }
-    const cardId = cardInSession.cardId;
 
     let direction = getDirectionFromCardId(cardId);
     let lemmas: Jsx = getCardData(cardId, "lemmas");

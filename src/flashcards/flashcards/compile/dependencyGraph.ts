@@ -17,3 +17,8 @@
 //     }
 //   });
 // };
+
+const deps: TermIdToDependencyDepth = createDependencyChainBackend(
+  deck,
+  termId
+);

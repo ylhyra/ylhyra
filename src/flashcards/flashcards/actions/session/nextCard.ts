@@ -48,6 +48,7 @@ export const nextCard = (depth = 0) => {
   session.currentCard = _.min(session.cards, (i) =>
     i.getRanking()
   ) as CardInSession;
+  session.currentCardId = session.currentCard.cardId;
 
   session.termsSeen.add(getTermIdFromCardId(session.currentCard.cardId));
 

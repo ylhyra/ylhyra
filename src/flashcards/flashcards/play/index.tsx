@@ -36,7 +36,7 @@ export const FlashcardsPlay = observer(function () {
           ) : (
             <>
               <div className="vocabulary-card-outer-container">
-                <CardElement key={session.counter} />
+                <CardElement key={session.currentCardId} />
               </div>
               <ProgressBar />
             </>

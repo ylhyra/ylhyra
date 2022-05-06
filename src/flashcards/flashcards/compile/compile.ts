@@ -8,6 +8,7 @@ import {
   CardIds,
   DeckProcessed,
   Direction,
+  RawText,
   UnprocessedDeck,
 } from "flashcards/flashcards/types/types";
 import { entries } from "modules/typescript/objectEntries";
@@ -37,8 +38,8 @@ export const compileRow = (row: Row, deckProcessed: DeckProcessed) => {
 
   // let dependencies: RowIdToRowIds = {};
   // let alternativeIds: RowIdToRowIds = {};
-  let dependsOn: Sentence[] = [];
-  let alternativeIds: Sentence[] = [];
+  let dependsOn: RawText[] = [];
+  let alternativeIds: RawText[] = [];
   let cardIds: CardIds = [];
   /** TODO find better naming */
   const termId = createTermId(deckProcessed.deckId, row.rowId);
@@ -65,5 +66,3 @@ export const compileRow = (row: Row, deckProcessed: DeckProcessed) => {
     cardIds,
   };
 };
-
-export type Sentence = string;

@@ -1,4 +1,3 @@
-import { Sentence } from "flashcards/flashcards/compile/compile";
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
 import { Row, RowId } from "flashcards/flashcards/types/row";
 import { Days, Timestamp } from "modules/time";
@@ -39,8 +38,8 @@ export type DeckProcessed = {
       cardIds: CardIds;
     }
   >;
-  dependencies?: Record<TermId, Sentence[]>;
-  alternativeIds?: Record<TermId, Sentence[]>;
+  dependencies?: Record<TermId, RawText[]>;
+  alternativeIds?: Record<TermId, RawText[]>;
 };
 
 export type ProcessedCardExtraInformation = {
@@ -97,3 +96,8 @@ export interface ScheduleData {
   lastBadTimestamp: Timestamp;
   numberOfBadSessions: number;
 }
+
+/**
+ * Used for dependencies and such to redirect text to an id.
+ */
+export type RawText = string;
