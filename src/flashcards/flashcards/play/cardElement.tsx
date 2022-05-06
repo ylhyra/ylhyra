@@ -191,6 +191,8 @@ export class CardElement extends Component {
   };
   render() {
     const session = getSession();
+    console.log(session.counter);
+    console.log(this.state.answer);
 
     const isVolumeOn = session.isVolumeOn;
     const answered = session.hasUserAnswered;

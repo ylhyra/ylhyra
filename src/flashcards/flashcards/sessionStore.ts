@@ -36,7 +36,6 @@ export class sessionStore {
   userFacingError: string | null = null;
   currentCard: CardInSession | null = null;
   isVolumeOn: boolean = true;
-  hasUserAnswered: boolean = false;
 
   /** Temp */
   allowedDeckIds: DeckId[] = [];
@@ -46,7 +45,6 @@ export class sessionStore {
       counter: observable,
       userFacingError: observable,
       isVolumeOn: observable,
-      hasUserAnswered: observable,
     });
   }
 
