@@ -15,10 +15,16 @@ export class CardInSession {
   cardId: CardId;
   history: Rating[] = [];
 
-  /* Queue position relative to session counter */
+  /** Queue position relative to session counter */
   absoluteQueuePosition: sessionStore["counter"];
+  /** Hard limit on when a card can be shown */
   cannotBeShownBefore?: sessionStore["counter"];
-  lastSeen?: sessionStore["counter"];
+  lastSeenAtCounter?: sessionStore["counter"];
+
+  /**
+   * A card is done if the user has said he knows it well.
+   * Set by {@link rate}.
+   */
   done?: boolean;
   getRanking = getRanking;
   rate = rate;
@@ -57,7 +63,7 @@ export class CardInSession {
    * A card is overdue if its queue position is less than 0.
    * Note: Multiple cards can have the same queue position
    */
-  getQueuePosition(): number {
+  getQueuePosition(): IntervalRelativeToCurrentCardBeingAtZero {
     return this.absoluteQueuePosition - getSession().counter;
   }
 

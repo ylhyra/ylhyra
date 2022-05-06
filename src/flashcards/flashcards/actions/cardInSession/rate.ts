@@ -18,18 +18,18 @@ export function rate(this: CardInSession, rating: Rating): void {
   const session = getSession();
 
   const cardInSession: CardInSession = this;
-  const id = cardInSession.cardId;
+  const cardId = cardInSession.cardId;
   const timesSeenBeforeInSession = cardInSession.history.length;
   cardInSession.history.unshift(rating);
   session.ratingHistory.unshift(rating);
   session.cardHistory.unshift(cardInSession);
-  cardInSession.lastSeen = session.counter;
+  cardInSession.lastSeenAtCounter = session.counter;
   const lastRating = cardInSession.history[1];
   const nextLastRating = cardInSession.history[2];
   let interval: IntervalRelativeToCurrentCardBeingAtZero;
 
   if (rating === Rating.BAD) {
-    interval = getSessionsSeen(id) > 0 ? 4 : 3;
+    interval = getSessionsSeen(cardId) > 0 ? 4 : 3;
 
     /* Two bad ratings in a row */
     if (lastRating === Rating.BAD) {
@@ -50,6 +50,7 @@ export function rate(this: CardInSession, rating: Rating): void {
     }
 
     cardInSession.done = false;
+    addRelatedCardsToSession(cardInSession);
   } else if (rating === Rating.GOOD) {
     interval = 200;
     cardInSession.done = true;
@@ -58,7 +59,7 @@ export function rate(this: CardInSession, rating: Rating): void {
       cardInSession.done = false;
     } else if (nextLastRating === Rating.BAD) {
       interval = 10;
-    } else if (isBad(id) && timesSeenBeforeInSession === 0) {
+    } else if (isBad(cardId) && timesSeenBeforeInSession === 0) {
       interval = 12;
     }
   } else if (rating === Rating.EASY) {
@@ -66,13 +67,9 @@ export function rate(this: CardInSession, rating: Rating): void {
     cardInSession.done = true;
   }
 
-  if (rating === Rating.BAD) {
-    addRelatedCardsToSession(cardInSession);
-  }
-
-  cardInSession.showIn({ interval });
-  cardInSession.postponeRelatedCards(interval);
-  session.cardDirectionLog.unshift(getDirectionFromCardId(id));
+  cardInSession.showIn({ interval: interval! });
+  cardInSession.postponeRelatedCards(interval!);
+  session.cardDirectionLog.unshift(getDirectionFromCardId(cardId));
 
   // keepTrackOfEasiness({
   //   rating,

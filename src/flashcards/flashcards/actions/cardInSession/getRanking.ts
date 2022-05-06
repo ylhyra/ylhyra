@@ -48,15 +48,16 @@ export function getRanking(this: CardInSession) {
   }
 
   /**
-   *
-   * A card may be marked as being absolutely prohibited from being shown
-   * until a later time
+   * Sees if there is a hard limit in place
+   * in {@link CardInSession.cannotBeShownBefore}
    */
   if (!this.canBeShown()) {
-    rank += 3000;
+    rank += 10000;
   }
 
-  /* A bad cardInSession that is due exactly now has priority */
+  /**
+   * A bad cardInSession that is due exactly now has priority
+   */
   if (
     this.history[0] === Rating.BAD &&
     this.isDueExactlyNow() &&
@@ -69,7 +70,10 @@ export function getRanking(this: CardInSession) {
     rank += 7000;
   }
 
-  /* Prevent rows of the same cardInSession type from appearing right next to each other too often */
+  /**
+   * Prevent cards all going in the same direction
+   * from appearing right next to each other too often
+   */
   if (session.cardDirectionLog[0] === direction) {
     rank += 0.4;
     if (session.cardDirectionLog[1] === direction) {
@@ -81,7 +85,7 @@ export function getRanking(this: CardInSession) {
       /* Three new cards in a row */
       if (
         session.cardDirectionLog[2] === direction &&
-        // Only if a user says "Good" to all three previous
+        // Only if a user says "Good" or "Easy" to all three previous
         !session.ratingHistory.slice(0, 3).some((i) => i === Rating.BAD) &&
         // And all of them were new cards
         session.cardHistory
@@ -93,14 +97,10 @@ export function getRanking(this: CardInSession) {
     }
   }
 
-  // TODO
+  // TODO Prioritize
   // if (!getCardData(id, "isSentence")) {
-  //   // A sentence should be shown if the userLevel was just increased
-  //   if (false /*session.wasEasinessLevelJustIncreased*/) {
-  //     q += 200;
-  //   }
   //   // Delay words if no sentence has been seen for a while
-  //   else if (
+  //   if (
   //     session.ratingHistory.length >= 3 &&
   //     // All last three cards were good
   //     !session.ratingHistory.slice(0, 3).some((i) => i === Rating.BAD) &&
