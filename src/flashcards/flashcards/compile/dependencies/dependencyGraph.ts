@@ -33,9 +33,21 @@ export const calculateDependencyGraph = (
   let output: TermIdToDependencyDepth = {};
 
   /**
-   * Start by calculating a shallow graph (only termId to the termIds it directly depends on)
+   * Start by calculating a shallow graph
+   * (only termId to the termIds it directly depends on)
    */
-  entries(deck.dependenciesUnprocessed).forEach(([termId, dependsOn]) => {});
+  let shallowGraph: Record<TermId, TermId[]> = {};
+  entries(deck.dependenciesUnprocessed).forEach(
+    ([termId, dependsOnSentences]) => {
+      dependsOnSentences.forEach((dependsOnSentence) => {
+        if (dependsOnSentence in deck.alternativeIds) {
+          shallowGraph[termId] = (shallowGraph[termId] || []).concat(
+            deck.alternativeIds[dependsOnSentence]
+          );
+        }
+      });
+    }
+  );
 
   return output;
 };
