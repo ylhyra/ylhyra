@@ -1,4 +1,4 @@
-import { CardIds, ProcessedDeck } from "flashcards/flashcards/types/types";
+import { ProcessedDeck, TermIds } from "flashcards/flashcards/types/types";
 
 /**
  * Returns an array of card ids sorted in such a way that
@@ -7,8 +7,8 @@ import { CardIds, ProcessedDeck } from "flashcards/flashcards/types/types";
  */
 export const sortDependenciesBeforeCardsThatDependOnThem = (
   deck: ProcessedDeck,
-  cardIds: CardIds
-): CardIds => {
+  termIds: TermIds
+): TermIds => {
   throw new Error("Not implemented");
   // let returns: CardIds = [];
   // let termIds: TermIds = [];

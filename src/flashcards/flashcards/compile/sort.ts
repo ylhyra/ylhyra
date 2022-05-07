@@ -1,12 +1,9 @@
-import {
-  CardIds,
-  ProcessedDeck,
-  TermIds
-} from 'flashcards/flashcards/types/types';
+import { ProcessedDeck, TermIds } from "flashcards/flashcards/types/types";
+import { keys } from "modules/typescript/objectEntries";
 import { sortDependenciesBeforeCardsThatDependOnThem } from "flashcards/flashcards/compile/dependencies/sortByDependencies";
 
 export const getSortedTermIds = (deck: ProcessedDeck): TermIds => {
-  let cardIds: CardIds = (Object.keys(deck!.cards) as CardIds)
+  let termIds: TermIds = keys(deck.terms)
     .map((key) => {
       return deck!.cards[key]!;
     })
@@ -27,9 +24,11 @@ export const getSortedTermIds = (deck: ProcessedDeck): TermIds => {
   // /* Run empty to remove cyclical dependencies */
   // withDependencies__backend(cardIds);
   // /* Run again now that  cyclical dependencies are gone */
-  cardIds = sortDependenciesBeforeCardsThatDependOnThem(deck, cardIds);
-  cardIds.forEach((cardId, index) => {
+  termIds = sortDependenciesBeforeCardsThatDependOnThem(deck, termIds);
+  termIds.forEach((cardId, index) => {
     deck!.cards[cardId].sortKey = index;
     delete deck!.cards[cardId].row_id;
   });
+
+  return termIds;
 };
