@@ -1,4 +1,4 @@
-import { getPlaintextFromUnformattedVocabularyEntry } from "flashcards/flashcards/make/format/format";
+import { getPlaintextFromUnformattedVocabularyEntry } from "flashcards/flashcards/compile/format/format";
 import { isBrowser } from "modules/isBrowser";
 import _hash from "modules/hash";
 import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";

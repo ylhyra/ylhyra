@@ -1,5 +1,6 @@
-import { matchWordsAndLetters } from "modules/languageProcessing/regexes";
+import { Html } from "inflection/tables/types";
 import { c } from "modules/noUndefinedInTemplateLiteral";
+import { matchWordsAndLetters } from "modules/languageProcessing/regexes";
 
 /**
  * Occlusion is used to give the user hints.
@@ -19,11 +20,39 @@ import { c } from "modules/noUndefinedInTemplateLiteral";
  */
 export const DocumentationRegardingOcclusion = "";
 
+export const occludeMain = (input: string) => {
+  return (
+    input
+      /**
+       * Occlusion, {@see DocumentationRegardingOcclusion}
+       * Here, items between "*"s are occluded
+       * and items after a single "*" are occluded.
+       */
+      .replace(
+        /( )?\*([^*;$!.,<>"=]+)\*?( )?/g,
+        (
+          x: string,
+          space_before: string,
+          text: string,
+          space_after: string
+        ) => {
+          return occludeThisText(c`${space_before}${text}${space_after}`);
+        }
+      )
+      /**
+       * Here, letters in the same word after "%" are occluded
+       */
+      .replace(/[%]([^ .!?;:<>"=]+)/g, (x: string, text: string) => {
+        return occludeThisText(text);
+      })
+  );
+};
+
 /**
  * The input is the part that is to be occluded.
  * @see DocumentationRegardingOcclusion
  */
-export const occlude = (input: string) => {
+export const occludeThisText = (input: string): Html => {
   let text = input
     /* Ignore HTML */
     .split(/(<.+?>)/g)
