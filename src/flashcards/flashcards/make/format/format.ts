@@ -18,7 +18,7 @@ export const getPlaintextFromFormatted = (
   if (!input) {
     console.error("Missing plaintext!");
     return "";
-  } 
+  }
   return removeExtraWhitespace(
     input
       .replace(/<span class="separator">,<\/span>/g, ";")
