@@ -1,7 +1,7 @@
 import {
-  areCardsBelongingToSameTerm,
   dependencyDepthOfCard,
   hasDependenciesInCommonWith,
+  hasTheSameTermAs,
 } from "flashcards/flashcards/actions/card/cardDependencies";
 import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
@@ -17,7 +17,7 @@ export function postponeRelatedCards(
 
   this.getOtherCardsInSession().forEach((card2: CardInSession) => {
     // Same term
-    if (areCardsBelongingToSameTerm(card1.cardId, card2.cardId)) {
+    if (hasTheSameTermAs(card1.cardId, card2.cardId)) {
       if (
         card1.history.includes(Rating.BAD) ||
         card2.history.includes(Rating.BAD)

@@ -3,6 +3,7 @@ import { getTermsFromAllDecks } from "flashcards/flashcards/flashcardsStore.func
 import { Row } from "flashcards/flashcards/types/row";
 import { CardIds, TermId, TermIds } from "flashcards/flashcards/types/types";
 import { flatten, uniq } from "underscore";
+import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
 
 export const getTermData = (termId: TermId): Row | undefined => {
   throw new Error("Not implemented");
@@ -31,4 +32,8 @@ export const getCardIdsShuffledIfSeen = (termId: TermId): CardIds => {
   } else {
     return getCardIdsFromTermId(termId);
   }
+};
+
+export const getTermIdsFromCardIds = (ids: CardIds): TermIds => {
+  return uniq(ids.map((id) => getTermIdFromCardId(id)));
 };

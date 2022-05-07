@@ -1,8 +1,5 @@
 import { getTermIds } from "flashcards/flashcards/actions/card/cardData";
-import {
-  getAllCardIdsWithSameTerm,
-  getAsCardInSession,
-} from "flashcards/flashcards/actions/card/cardSiblings";
+import { getAllCardIdsWithSameTerm } from "flashcards/flashcards/actions/card/cardSiblings";
 import { getCardIdsFromTermId } from "flashcards/flashcards/actions/card/term";
 import { saveScheduleForCardId } from "flashcards/flashcards/actions/userData/userDataSchedule";
 import {
@@ -20,6 +17,7 @@ import {
   minutes,
   Timestamp,
 } from "modules/time";
+import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
 
 export const getScheduleForCard = (
   id: CardId

@@ -1,6 +1,6 @@
 import {
-  areCardsBelongingToSameTerm,
   hasDependenciesInCommonWith,
+  hasTheSameTermAs,
 } from "flashcards/flashcards/actions/card/cardDependencies";
 import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore.functions";
 import { getSession } from "flashcards/flashcards/sessionStore";
@@ -10,34 +10,38 @@ export const isInSession = (cardId: CardId) => {
   return getSession().cards.some((i) => i.cardId === cardId);
 };
 
-export const isAllowed = (cardId: CardId) => {
+/**
+ * Whether a card is allowed to be chosen by {@link createCards}
+ * to be added to the session.
+ */
+export const isAllowed = (cardId: CardId): boolean => {
+  /* Ignore cards that are already in the session */
+  if (isInSession(cardId)) return false;
+
+  /* If allowedIds is on, only select allowed cards */
   const { allowedIds } = getSession();
-  return (
-    /* Ignore cards that are already in the session */
-    !isInSession(cardId) &&
-    /* If allowedIds is on, only select allowed cards */
-    (!allowedIds ||
-      allowedIds.includes(
-        cardId
-      )) /* In case we're adding cards to an already ongoing session,
-         ignore cards that are similar to a card the user has just seen */ &&
-    !getSession()
+  if (allowedIds && !allowedIds.includes(cardId)) return false;
+
+  /* In case we're adding cards to an already ongoing session,
+     ignore cards that are similar to a card the user has just seen */
+  if (
+    getSession()
       .cardHistory.slice(0, 3)
       .some(
         (card) =>
-          areCardsBelongingToSameTerm(cardId, card.cardId) ||
+          hasTheSameTermAs(cardId, card.cardId) ||
           hasDependenciesInCommonWith(cardId, card.cardId)
         // || isTextSimilarTo(id, card)
       )
-  );
-};
+  )
+    return false;
 
-export const doesCardExist = (cardId: CardId) => {
-  return cardId in getCardIdsFromAllDecks();
+  return true;
 };
 
 export const filterCardsThatExist = (cardIds: CardIds) => {
-  return cardIds.filter(doesCardExist);
+  const cardsThatExist = getCardIdsFromAllDecks();
+  return cardIds.filter((cardId) => cardId in cardsThatExist);
 };
 
 export const wasSeenInSession = (cardId: CardId) => {

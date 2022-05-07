@@ -57,7 +57,7 @@ export const dependencyDepthOfCard = (card1: CardId, card2: CardId): number => {
   return getDependenciesAsCardIdToDepth(card1)[card2];
 };
 
-export const areCardsBelongingToSameTerm = (card1: CardId, card2: CardId) => {
+export const hasTheSameTermAs = (card1: CardId, card2: CardId) => {
   return getTermIdFromCardId(card1) === getTermIdFromCardId(card2);
 };
 
