@@ -1,6 +1,6 @@
 export const addRowsIfMissing = (text: string) => {
   let seen = [];
-  let prompt_level = !getDeckName() ? window.prompt("Level:") : null;
+  // let promptLevel = !getDeckName() ? window.prompt("Level:") : null;
   text.split(/\n/g).forEach((row) => {
     if (!row || !row.trim()) return;
     let [is, en, note /*level, depends_on, lemmas*/] = row

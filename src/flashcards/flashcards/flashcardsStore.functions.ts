@@ -24,6 +24,16 @@ export const getDeckById = (
   }
 };
 
+export const getDeckByIdRequired = (
+  id: string | undefined
+): UnprocessedDeck => {
+  const deck = getDeckById(id);
+  if (!deck) {
+    throw new Error(`Deck with id ${id} not found`);
+  }
+  return deck;
+};
+
 /**
  * Todo: Refactor, somehow merge
  */
