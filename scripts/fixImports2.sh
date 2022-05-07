@@ -1,24 +1,38 @@
 #!/bin/bash
-{
-    sleep 3
-    kill $$
-} &
+#{
+#    sleep 3
+#    kill $$
+#} &
 
 # Webstorm - run importjs on file save
 # Install https://plugins.jetbrains.com/plugin/7177-file-watchers/
+# Run:
+# brew install watchman
 # npm i -g import-js
-#
-# Edit the following file:
-#   > /usr/local/lib/node_modules/import-js/build/importjs.js
-# Change
-#     if (process.stdin.isTTY)
-# to
-#     if (true)
 #
 # Settings:
 #    Program: $ProjectFileDir$/scripts/fixImports2.sh
 #    Args: $FilePathRelativeToProjectRoot$
 
-cat "$1" | npx import-js fix --overwrite "$1"
-npx prettier "$1" --write
-exit 0
+#ps -ef | grep "importjs start"
+
+#npx eslint --no-eslintrc  --rule "no-undef: error" --rule "no-unused-vars: error" /Users/egill/ylhyra/src/flashcards/flashcards/make/format/tmp.ts
+
+#cat "$1" | npx import-js fix --overwrite "$1"
+
+
+#/Users/egill/ylhyra/src/flashcards/flashcards/make/format/tmp.ts
+#cat "$1" | prettierd file.ts --write
+
+
+# npm install -g @fsouza/prettierd
+# npm install -g eslint_d
+cat "$1" | prettierd "$1" >| "$1"
+
+hasErrors="$(eslint_d --rule "no-undef: error" --rule "no-unused-vars: error" "$1" | grep -q "no-undef\|no-unused"
+if [ hasErrors ]; then
+  cat "$1" | npx import-js fix --overwrite "$1"
+fi;
+
+# npx prettier "$1" --write
+# exit 0
