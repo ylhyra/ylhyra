@@ -27,12 +27,16 @@
 
 # npm install -g @fsouza/prettierd
 # npm install -g eslint_d
-cat "$1" | prettierd "$1" >| "$1"
 
-hasErrors="$(eslint_d --rule "no-undef: error" --rule "no-unused-vars: error" "$1" | grep -q "no-undef\|no-unused"
+hasErrors="$(eslint_d --rule "no-undef: error" --rule "no-unused-vars: error" "$1" | grep -q "no-undef\|no-unused")"
 if [ hasErrors ]; then
   cat "$1" | npx import-js fix --overwrite "$1"
 fi;
 
+prettified="$(cat "$1" | prettierd "$1")"
+echo "$prettified" >| "$1"
+
+#>| "$1"
+
 # npx prettier "$1" --write
-# exit 0
+exit 1
