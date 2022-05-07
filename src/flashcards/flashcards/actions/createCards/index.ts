@@ -2,8 +2,8 @@ import {
   filterCardsThatExist,
   isInSession,
 } from "flashcards/flashcards/actions/card/card";
-import { chooseCards } from "flashcards/flashcards/actions/createCards/3_Choose_cards";
-import { dependencies } from "flashcards/flashcards/actions/createCards/4_Dependencies";
+import { addBadDependencies } from "flashcards/flashcards/actions/createCards/addBadDependencies";
+import { chooseCards } from "flashcards/flashcards/actions/createCards/chooseCards";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { log, logDev } from "modules/log";
@@ -43,7 +43,7 @@ export const createCards = (options?: CreateCardsOptions): void => {
 
   /* Add dependencies */
   if (!options?.skipDependencies) {
-    chosenCards = dependencies(chosenCards);
+    chosenCards = addBadDependencies(chosenCards);
   }
 
   /* Failed to generate cards, turn off allowed cards and try again */

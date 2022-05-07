@@ -1,3 +1,4 @@
+import { calculateDependencyGraph } from "flashcards/flashcards/compile/dependencies/dependencyGraph";
 import {
   shouldCreateBackToFront,
   shouldCreateFrontToBack,
@@ -6,20 +7,19 @@ import { createCardId, createTermId } from "flashcards/flashcards/compile/ids";
 import { Row } from "flashcards/flashcards/types/row";
 import {
   CardIds,
-  DeckProcessed,
   Direction,
+  ProcessedDeck,
   RawText,
   UnprocessedDeck,
 } from "flashcards/flashcards/types/types";
-import { entries } from "modules/typescript/objectEntries";
-import { calculateDependencyGraph } from "flashcards/flashcards/compile/dependencies/dependencyGraph";
-import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 import { log } from "modules/log";
+import { entries } from "modules/typescript/objectEntries";
+import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export const compileDeck = (
   unprocessedDeck: UnprocessedDeck
-): DeckProcessed => {
-  const deckProcessed: DeckProcessed = {
+): ProcessedDeck => {
+  const deckProcessed: ProcessedDeck = {
     deckId: unprocessedDeck.deckId,
     cards: {},
     terms: {},
@@ -43,7 +43,7 @@ export const compileDeck = (
  * Calculates certain items such as alternativeIds and dependsOn,
  * creates cardIds
  */
-export const compileRow = (row: Row, deckProcessed: DeckProcessed) => {
+export const compileRow = (row: Row, deckProcessed: ProcessedDeck) => {
   if (!row.front || !row.back) return null;
 
   // let dependencies: RowIdToRowIds = {};

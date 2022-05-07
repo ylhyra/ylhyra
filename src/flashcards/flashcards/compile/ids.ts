@@ -32,7 +32,7 @@ export const createTermId = (deckId: DeckId, rowId: RowId): TermId => {
   return `${deckId}${CARD_ID_SEPARATOR}${rowId}` as TermId;
 };
 
-export const getDeckIdFromTermIdOrCardId = (id: CardId | TermId): DeckId => {
+export const getDeckId = (id: CardId | TermId): DeckId => {
   return id.split(CARD_ID_SEPARATOR)[0] as DeckId;
 };
 

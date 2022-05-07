@@ -1,6 +1,6 @@
 import { filterCardsThatExist } from "flashcards/flashcards/actions/card/card";
 import {
-  getDeckIdFromTermIdOrCardId,
+  getDeckId,
   getRowIdFromTermIdOrCardId,
   getTermIdFromCardId,
 } from "flashcards/flashcards/compile/ids";
@@ -17,7 +17,7 @@ export const getCardData = <T extends keyof Row>(
   cardId: CardId,
   key: T
 ): Row[T] => {
-  const deckId = getDeckIdFromTermIdOrCardId(cardId);
+  const deckId = getDeckId(cardId);
   const rowId = getRowIdFromTermIdOrCardId(cardId);
   /* Todo: Catch if doesn't exist? */
   return getFlashcardsStore().decks[deckId].rows[rowId][key];

@@ -2,7 +2,7 @@ import { compileDeck } from "flashcards/flashcards/compile/compile";
 import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
 import {
   CardIds,
-  DeckProcessed,
+  ProcessedDeck,
   UnprocessedDeck,
 } from "flashcards/flashcards/types/types";
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
@@ -25,6 +25,17 @@ export const getDeckById = (
 };
 
 /**
+ * Todo: Refactor, somehow merge
+ */
+export const getProcessedDeckById = (
+  id: string | undefined
+): ProcessedDeck | undefined => {
+  if (id && id in getFlashcardsStore().processedDecks) {
+    return getFlashcardsStore().processedDecks[id];
+  }
+};
+
+/**
  * @deprecated
  */
 export const getCardIdsFromAllDecks = (): CardIds => {
@@ -38,8 +49,8 @@ export const getCardIdsFromAllDecks = (): CardIds => {
 /**
  * @deprecated
  */
-export const getTermsFromAllDecks = (): DeckProcessed["terms"] => {
-  let out: DeckProcessed["terms"] = {};
+export const getTermsFromAllDecks = (): ProcessedDeck["terms"] => {
+  let out: ProcessedDeck["terms"] = {};
   values(getFlashcardsStore().processedDecks).forEach((deck) => {
     entries(deck.terms).forEach(([termId, termInfo]) => {
       out[termId] = termInfo;

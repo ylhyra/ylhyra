@@ -1,14 +1,14 @@
+import { tempInitializeDecks } from "flashcards/flashcards/flashcardsStore.functions";
 import {
-  ProcessedDecksObject,
-  UnprocessedDecksObject,
+  DeckIdToProcessedDeck,
+  DeckIdToUnprocessedDeck,
 } from "flashcards/flashcards/types/types";
 import { makeAutoObservable } from "mobx";
-import { tempInitializeDecks } from "flashcards/flashcards/flashcardsStore.functions";
 
 export class flashcardsStore {
   deckOrder = [];
-  decks: UnprocessedDecksObject = {};
-  processedDecks: ProcessedDecksObject = {};
+  decks: DeckIdToUnprocessedDeck = {};
+  processedDecks: DeckIdToProcessedDeck = {};
 
   constructor() {
     makeAutoObservable(this);

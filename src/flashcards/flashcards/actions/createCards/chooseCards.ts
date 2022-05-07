@@ -1,13 +1,13 @@
-import { oldCards } from "flashcards/flashcards/actions/createCards/1_Old_cards";
-import { getNewCards } from "flashcards/flashcards/actions/createCards/2_New_cards";
-import {
-  sortCardsByScore,
-  veryRecentlySeenSortedLast,
-} from "flashcards/flashcards/actions/createCards/functions";
 import {
   CARDS_TO_CREATE,
   CreateCardsOptions,
 } from "flashcards/flashcards/actions/createCards";
+import {
+  sortCardsByScore,
+  veryRecentlySeenSortedLast,
+} from "flashcards/flashcards/actions/createCards/functions";
+import { getNewCards } from "flashcards/flashcards/actions/createCards/newCards";
+import { oldCards } from "flashcards/flashcards/actions/createCards/oldCards";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { CardIds } from "flashcards/flashcards/types/types";
 import { isEmpty } from "modules/isEmpty";

@@ -1,6 +1,6 @@
 import {
+  areCardsBelongingToSameTerm,
   hasDependenciesInCommonWith,
-  hasTermsInCommonWith,
 } from "flashcards/flashcards/actions/card/cardDependencies";
 import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore.functions";
 import { getSession } from "flashcards/flashcards/sessionStore";
@@ -25,7 +25,7 @@ export const isAllowed = (cardId: CardId) => {
       .cardHistory.slice(0, 3)
       .some(
         (card) =>
-          hasTermsInCommonWith(cardId, card.cardId) ||
+          areCardsBelongingToSameTerm(cardId, card.cardId) ||
           hasDependenciesInCommonWith(cardId, card.cardId)
         // || isTextSimilarTo(id, card)
       )

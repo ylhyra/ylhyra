@@ -2,11 +2,15 @@ import { isAllowed } from "flashcards/flashcards/actions/card/card";
 import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
 import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
 import { veryRecentlySeenSortedLast } from "flashcards/flashcards/actions/createCards/functions";
+import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore.functions";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { CardIds } from "flashcards/flashcards/types/types";
 import { sortBy } from "underscore";
-import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore.functions";
 
+/**
+ * Returns ALL new cards
+ * Called by {@link chooseCards}, which will choose a few cards from these.
+ */
 export const getNewCards = (options?: CreateCardsOptions): CardIds => {
   const session = getSession();
 

@@ -9,18 +9,17 @@ import { CardIds } from "flashcards/flashcards/types/types";
 import { isDev } from "modules/isDev";
 import { days, minutes } from "modules/time";
 
-/* Add bad dependencies */
-export const dependencies = (chosenCards: CardIds): CardIds => {
+export const addBadDependencies = (chosenCards: CardIds): CardIds => {
   console.warn("dependencies not implemented");
   return chosenCards;
 
   const after = withDependencies(chosenCards, { skipSiblings: true }).filter(
-    (id) =>
-      !isInSession(id) &&
+    (cardId) =>
+      !isInSession(cardId) &&
       /* Keep in those already chosen */
-      (chosenCards.includes(id) ||
-        (isBad(id) && wasTermSeenMoreRecentlyThan(id, 45 * minutes)) ||
-        (isFairlyBad(id) && wasTermSeenMoreRecentlyThan(id, 2 * days)))
+      (chosenCards.includes(cardId) ||
+        (isBad(cardId) && wasTermSeenMoreRecentlyThan(cardId, 45 * minutes)) ||
+        (isFairlyBad(cardId) && wasTermSeenMoreRecentlyThan(cardId, 2 * days)))
   );
 
   if (isDev) {

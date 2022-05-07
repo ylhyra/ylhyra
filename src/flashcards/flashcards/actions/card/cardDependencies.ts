@@ -1,9 +1,13 @@
-import { getTermIds } from "flashcards/flashcards/actions/card/cardData";
 import {
   getCardIdsFromTermId,
   getCardIdsFromTermIds,
   getCardIdsShuffledIfSeen,
 } from "flashcards/flashcards/actions/card/term";
+import {
+  getDeckId,
+  getTermIdFromCardId,
+} from "flashcards/flashcards/compile/ids";
+import { getProcessedDeckById } from "flashcards/flashcards/flashcardsStore.functions";
 import {
   CardId,
   CardIds,
@@ -12,7 +16,6 @@ import {
   TermIds,
 } from "flashcards/flashcards/types/types";
 import _ from "underscore";
-import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
 
 export const cardGetDependenciesAsTermIdToDepth = (
   id: CardId
@@ -21,15 +24,16 @@ export const cardGetDependenciesAsTermIdToDepth = (
   return termGetDependenciesAsTermIdToDepth(termId);
 };
 
+/**
+ * Note: Also includes itself as depth=0. I don't remember if this is used.
+ */
 export const termGetDependenciesAsTermIdToDepth = (
   termId: TermId
 ): DependenciesForOneTermAsDependencyToDepth => {
-  console.warn("termGetDependenciesAsTermIdToDepth not implemented");
-  return {};
-  // return {
-  //   ...(getTermsFromAllDecks()[termId].dependencies || {}),
-  //   [termId]: 0,
-  // };
+  return {
+    ...(getProcessedDeckById(getDeckId(termId))?.dependencyGraph[termId] || {}),
+    [termId]: 0,
+  };
 };
 
 export const getDependenciesAsCardIdToDepth = (id: CardId) => {
@@ -43,21 +47,20 @@ export const getDependenciesAsCardIdToDepth = (id: CardId) => {
   return out;
 };
 
-export const getDependenciesAsArrayOfCardIds = (id: CardId): CardIds => {
+export const getDependenciesAsArrayOfCardIds = (cardId: CardId): CardIds => {
   return getCardIdsFromTermIds(
-    Object.keys(cardGetDependenciesAsTermIdToDepth(id)) as TermIds
-  ).filter((cardId) => cardId !== id);
+    Object.keys(cardGetDependenciesAsTermIdToDepth(cardId)) as TermIds
+  ).filter((siblingCardId) => siblingCardId !== cardId);
 };
 
-export const dependencyDepthOfCard = (id: CardId, card2: CardId): number => {
-  return getDependenciesAsCardIdToDepth(id)[card2];
+export const dependencyDepthOfCard = (card1: CardId, card2: CardId): number => {
+  return getDependenciesAsCardIdToDepth(card1)[card2];
 };
 
-export const hasTermsInCommonWith = (id: CardId, card2: CardId) => {
-  return _.intersection(getTermIds(id), getTermIds(card2)).length > 0;
+export const areCardsBelongingToSameTerm = (card1: CardId, card2: CardId) => {
+  return getTermIdFromCardId(card1) === getTermIdFromCardId(card2);
 };
 
-/** @hasTests */
 export const hasDependenciesInCommonWith = (card1: CardId, card2: CardId) => {
   const deps1 = getDependenciesAsArrayOfCardIds(card1);
   const deps2 = getDependenciesAsArrayOfCardIds(card2);

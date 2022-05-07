@@ -1,7 +1,7 @@
 import {
-  DeckProcessed,
   DependenciesForAllTermsAsTermIdToDependencyToDepth,
   DependenciesForOneTermAsDependencyToDepth,
+  ProcessedDeck,
   TermId,
   TermIds,
 } from "flashcards/flashcards/types/types";
@@ -14,7 +14,7 @@ import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 const MAX_DEPTH = 10;
 
 export const calculateDependencyGraph = (
-  deck: DeckProcessed
+  deck: ProcessedDeck
 ): DependenciesForAllTermsAsTermIdToDependencyToDepth => {
   warnIfFunctionIsSlow.start("calculateDependencyGraph");
   let output: DependenciesForAllTermsAsTermIdToDependencyToDepth = {};
@@ -36,7 +36,7 @@ export const calculateDependencyGraph = (
  */
 export type DirectDependencies = Record<TermId, TermId[]>;
 export const directDependenciesGraph = (
-  deck: DeckProcessed
+  deck: ProcessedDeck
 ): DirectDependencies => {
   let directDependencies: DirectDependencies = {};
   entries(deck.dependenciesUnprocessed).forEach(

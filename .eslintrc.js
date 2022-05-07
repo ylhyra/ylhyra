@@ -34,6 +34,7 @@ module.exports = {
         "import/no-anonymous-default-export": "off",
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-unused-expressions": "warn",
         "@typescript-eslint/no-for-in-array": "warn",
         "require-await": "warn",
         "@typescript-eslint/require-await": "warn",

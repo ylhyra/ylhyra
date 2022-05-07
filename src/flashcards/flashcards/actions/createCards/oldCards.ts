@@ -17,7 +17,10 @@ import { log } from "modules/log";
 import { shuffleLocally } from "modules/shuffleLocally";
 import { getTimeMemoized, hours, minutes } from "modules/time";
 
-/* Previously seen cards */
+/**
+ * Returns ALL cards that have previously been seen.
+ * Called by {@link chooseCards}, which will choose a few cards from these.
+ */
 export const oldCards = () => {
   let overdueGood: CardIds = [];
   let overdueBad: CardIds = [];

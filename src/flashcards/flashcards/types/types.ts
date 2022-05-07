@@ -11,7 +11,7 @@ export type UnprocessedDeck = {
   rows: RowsObject;
   settings: DeckSettings;
 };
-export type UnprocessedDecksObject = Record<DeckId, UnprocessedDeck>;
+export type DeckIdToUnprocessedDeck = Record<DeckId, UnprocessedDeck>;
 
 export type DirectionSettings =
   | "BOTH"
@@ -23,8 +23,8 @@ export enum Direction {
   BACK_TO_FRONT = "2",
 }
 
-export type ProcessedDecksObject = Record<DeckId, DeckProcessed>;
-export type DeckProcessed = {
+export type DeckIdToProcessedDeck = Record<DeckId, ProcessedDeck>;
+export type ProcessedDeck = {
   deckId: DeckId;
   cards: Record<
     CardId,
