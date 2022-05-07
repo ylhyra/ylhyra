@@ -7,12 +7,12 @@
 # Webstorm - run importjs on file save
 # Install https://plugins.jetbrains.com/plugin/7177-file-watchers/
 # Run:
-# brew install watchman
 # npm i -g import-js
 #
 # Settings:
 #    Program: $ProjectFileDir$/scripts/fixImports2.sh
 #    Args: $FilePathRelativeToProjectRoot$
+#    Working directory: $ProjectFileDir$
 
 #ps -ef | grep "importjs start"
 
@@ -29,7 +29,7 @@
 # npm install -g eslint_d
 
 hasErrors="$(eslint_d --rule "no-undef: error" --rule "no-unused-vars: error" "$1" | grep -q "no-undef\|no-unused")"
-if [ hasErrors ]; then
+if [ "$hasErrors" ]; then
   cat "$1" | npx import-js fix --overwrite "$1"
 fi;
 
@@ -39,4 +39,4 @@ echo "$prettified" >| "$1"
 #>| "$1"
 
 # npx prettier "$1" --write
-exit 1
+#exit 1

@@ -20,7 +20,7 @@ if [ "$1" == "git" ]; then
 else
   folder="src/$1"
   echo 'Starting eslint'
-  files="$(eslint "$folder" --format unix |\
+  files="$(eslint_d "$folder" --format unix |\
     grep 'Error/no-undef' |\
     awk -F  ":" '{print $1}' |\
     sort -u)"
