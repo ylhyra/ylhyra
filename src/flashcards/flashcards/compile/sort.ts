@@ -1,7 +1,11 @@
-import { CardIds } from "flashcards/flashcards/types/types";
+import {
+  CardIds,
+  ProcessedDeck,
+  TermIds
+} from 'flashcards/flashcards/types/types';
 import { sortDependenciesBeforeCardsThatDependOnThem } from "flashcards/flashcards/compile/dependencies/sortByDependencies";
 
-export const sort = () => {
+export const getSortedTermIds = (deck: ProcessedDeck): TermIds => {
   let cardIds: CardIds = (Object.keys(deck!.cards) as CardIds)
     .map((key) => {
       return deck!.cards[key]!;
