@@ -9,12 +9,12 @@ export const entries = <T extends Object>(obj: T): Entries<T> => {
   return Object.entries(obj) as any;
 };
 
-export const keys = <T extends Object>(obj: T): (keyof T)[] => {
-  return Object.keys(obj) as any;
-};
-// export const keys = <K extends string, T>(obj: Record<K, T>): K[] => {
-//   return Object.keys(obj) as K[];
+// export const keys = <T extends Object>(obj: T): (keyof T)[] => {
+//   return Object.keys(obj) as any;
 // };
+export const keys = <K extends string, T>(obj: Record<K, T>): K[] => {
+  return Object.keys(obj) as K[];
+};
 
 /**
  * Note:

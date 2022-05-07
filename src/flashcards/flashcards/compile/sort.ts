@@ -1,33 +1,56 @@
-import { ProcessedDeck, TermIds } from "flashcards/flashcards/types/types";
+import {
+  ProcessedDeck,
+  TermId,
+  TermIds,
+  UnprocessedDeck,
+} from 'flashcards/flashcards/types/types';
+import { getRowIdFromTermIdOrCardId } from "flashcards/flashcards/compile/ids";
 import { keys } from "modules/typescript/objectEntries";
 import { sortDependenciesBeforeCardsThatDependOnThem } from "flashcards/flashcards/compile/dependencies/sortByDependencies";
+import _ from "underscore";
 
-export const getSortedTermIds = (deck: ProcessedDeck): TermIds => {
-  let termIds: TermIds = keys(deck.terms)
-    .map((key) => {
-      return deck!.cards[key]!;
-    })
-    .sort(
-      (a, b) =>
-        a.level - b.level ||
-        (b.hasOwnProperty("sortKey") ? 1 : 0) -
-          (a.hasOwnProperty("sortKey") ? 1 : 0) ||
-        a.sortKey - b.sortKey ||
-        (Boolean(b.sound) ? 1 : 0) - (Boolean(a.sound) ? 1 : 0) ||
-        (a.row_id! % 100) - (b.row_id! % 100) ||
-        a.row_id! - b.row_id!
-    )
-    .map((card) => {
-      return card.id!;
-    });
+export const getSortedTermIds = (
+  unprocessedDeck: UnprocessedDeck,
+  processedDeck: ProcessedDeck
+): TermIds => {
+  let termIds: TermIds =
+    keys(processedDeck.terms)
+      .sort((termId1, termId2) => {
+        const a = unprocessedDeck.rows[getRowIdFromTermIdOrCardId(termId1)];
+        const b = unprocessedDeck.rows[getRowIdFromTermIdOrCardId(termId2)];
+
+        return compare(a, b,
+        j => j.level)
+        // return
+        //     a.level - b.level ||
+        //     (b.hasOwnProperty("sortKey") ? 1 : 0) -
+        //       (a.hasOwnProperty("sortKey") ? 1 : 0) ||
+        //     a.sortKey - b.sortKey ||
+        //     (Boolean(b.sound) ? 1 : 0) - (Boolean(a.sound) ? 1 : 0) ||
+        //     (a.row_id! % 100) - (b.row_id! % 100) ||
+        //     a.row_id! - b.row_id!
+      })
+  );
+  // .sort(
+  //   (a, b) =>
+  //     a.level - b.level ||
+  //     (b.hasOwnProperty("sortKey") ? 1 : 0) -
+  //       (a.hasOwnProperty("sortKey") ? 1 : 0) ||
+  //     a.sortKey - b.sortKey ||
+  //     (Boolean(b.sound) ? 1 : 0) - (Boolean(a.sound) ? 1 : 0) ||
+  //     (a.row_id! % 100) - (b.row_id! % 100) ||
+  //     a.row_id! - b.row_id!
+  // )
+  // .map((term) => {
+  //   return term.id!;
+  // });
 
   // /* Run empty to remove cyclical dependencies */
   // withDependencies__backend(cardIds);
   // /* Run again now that  cyclical dependencies are gone */
-  termIds = sortDependenciesBeforeCardsThatDependOnThem(deck, termIds);
+  termIds = sortDependenciesBeforeCardsThatDependOnThem(processedDeck, termIds);
   termIds.forEach((cardId, index) => {
-    deck!.cards[cardId].sortKey = index;
-    delete deck!.cards[cardId].row_id;
+    processedDeck!.cards[cardId].sortKey = index;
   });
 
   return termIds;

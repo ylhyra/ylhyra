@@ -7,7 +7,7 @@ module.exports = {
   emptyLineBetweenGroups: false,
   danglingCommas: false,
   aliases: {
-    _: "third-party-libs/underscore",
+    _: "underscore",
   },
   logLevel: "debug",
 };
