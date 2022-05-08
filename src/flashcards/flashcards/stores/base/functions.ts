@@ -1,17 +1,23 @@
-import { getFlashcardsStore } from "flashcards/flashcards/stores/base/flashcardsStore";
 import {
   CardIds,
   ProcessedDeck,
   UnprocessedDeck,
 } from "flashcards/flashcards/types/types";
-import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
+import { action } from 'mobx';
+import { deck } from "flashcards/flashcards/stores/deck/deck";
 import { entries, keys, values } from "modules/typescript/objectEntries";
+import { getFlashcardsStore } from "flashcards/flashcards/stores/base/flashcardsStore";
+import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
 
-export const initializeFlashcardsStore = () => {
-  getFlashcardsStore().decks = getFromLocalStorage("decks") || {};
-};
+export const initializeFlashcardsStore = action(() => {
+  const decks = getFromLocalStorage("decks") || {};
+  entries(decks).forEach(([deckId, rows]) => {
+    getFlashcardsStore().decks[deckId] = new deck(deckId, rows);
+  });
+});
 
 export const saveFlashcardsStore = () => {
+  throw new Error("Not implemented");
   saveInLocalStorage("decks", getFlashcardsStore().decks);
 };
 

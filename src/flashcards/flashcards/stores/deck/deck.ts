@@ -7,18 +7,11 @@ export class deck {
   rows: RowsObject;
   settings: DeckSettings;
 
-  constructor({
-    deckId,
-    rows,
-    settings,
-  }: {
-    deckId: DeckId;
-    rows?: RowsObject;
-    settings?: DeckSettings;
-  }) {
+  constructor(deckId: DeckId, rows?: RowsObject, settings?: DeckSettings) {
     this.deckId = deckId;
     this.rows = rows || {};
     this.settings = settings || {};
+    console.log(this.rows);
     makeAutoObservable(this);
   }
 }

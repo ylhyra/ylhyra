@@ -16,11 +16,11 @@ export const EACH_SESSION_LASTS_X_MINUTES = 3;
  * A session is the currently ongoing flashcard game.
  * There can only be one ongoing session at a time.
  */
-export class sessionStore {
+export class session {
   cards: CardInSession[] = [];
-  currentCard: CardInSession | null = null;
+  currentCard?: CardInSession;
 
-  allowedIds: CardIds | null = null;
+  allowedIds?: CardIds;
 
   /** The most recent card is pushed to the front of this array */
   cardHistory: CardInSession[] = [];
@@ -32,9 +32,9 @@ export class sessionStore {
 
   /** Used by {@link getRanking} in order to prioritize seen cards */
   termsSeen = new Set<TermId>();
-  lastUndidAtCounter?: sessionStore["counter"];
+  lastUndidAtCounter?: session["counter"];
   ratingHistory: Rating[] = [];
-  savedAt: Timestamp | null = null;
+  savedAt?: Timestamp;
 
   /** How long should a session last? */
   totalTime?: Milliseconds;
@@ -53,7 +53,7 @@ export class sessionStore {
    * The user interface relies on this value for refreshing.
    */
   @observable counter: number = 0;
-  @observable userFacingError: string | null = null;
+  @observable userFacingError?: string;
   @observable isVolumeOn: boolean = true;
 
   /** Temp */
@@ -70,26 +70,26 @@ export class sessionStore {
    * (the interface would otherwise be listening to an older object)
    */
   reset() {
-    this.allowedIds = null;
+    this.allowedIds = undefined;
     this.ratingHistory = [];
     this.cardHistory = [];
     this.counter = 0;
     this.termsSeen = new Set<TermId>();
     this.cardDirectionLog = [];
-    this.currentCard = null;
+    this.currentCard = undefined;
     this.cards = [];
     this.totalTime = (EACH_SESSION_LASTS_X_MINUTES * minutes) as Milliseconds;
     this.remainingTime = this.totalTime;
     this.remainingTimeLastUpdatedAt = getTime();
     this.done = false;
     this.lastUndidAtCounter = 0;
-    this.savedAt = null;
+    this.savedAt = undefined;
     this.allowedDeckIds = [];
-    this.userFacingError = null;
+    this.userFacingError = undefined;
   }
 }
 
-let store: sessionStore;
-export const getSession = (): sessionStore => {
-  return store || (store = new sessionStore());
+let store: session;
+export const getSession = (): session => {
+  return store || (store = new session());
 };
