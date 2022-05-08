@@ -21,16 +21,18 @@ export class rowStore {
     return this.data;
   }
 
-  @computed
-  compile() {}
+  @computed shouldCreate() {
+    return this.data.front && this.data.back;
+  }
 
-  @computed
-  getTermId(): TermId {
+  @computed compile() {}
+
+  @computed getTermId(): TermId {
     return createTermId(this.deck.deckId, this.data.rowId);
   }
 
-  @computed
-  getCardIds(): CardIds {
+  @computed getCardIds(): CardIds | null {
+    if (!this.shouldCreate()) return null;
     let cardIds: CardIds = [];
     if (shouldCreateFrontToBack(this.data)) {
       cardIds.push(createCardId(this.getTermId(), Direction.FRONT_TO_BACK));

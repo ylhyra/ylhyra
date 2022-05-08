@@ -1,19 +1,10 @@
 import { calculateDependencyGraph } from "flashcards/flashcards/compile/dependencies/dependencyGraph";
 import {
-  shouldCreateBackToFront,
-  shouldCreateFrontToBack,
-} from "flashcards/flashcards/compile/functions";
-import { createCardId, createTermId } from "flashcards/flashcards/compile/ids";
-import {
-  CardIds,
-  Direction,
   ProcessedDeck,
   RawText,
   UnprocessedDeck,
 } from "flashcards/flashcards/types/types";
 import { log } from "modules/log";
-import { entries } from "modules/typescript/objectEntries";
-import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 import { rowStore } from "flashcards/flashcards/stores/deck/rowStore";
 
 export const compileDeck = (
@@ -27,12 +18,6 @@ export const compileDeck = (
     dependenciesUnprocessed: {},
     dependencyGraph: {},
   };
-  // log(deck);
-  warnIfFunctionIsSlow(() => {
-    entries(unprocessedDeck.rows).forEach(([, row]) => {
-      compileRow(row, deckProcessed);
-    });
-  });
 
   deckProcessed.dependencyGraph = calculateDependencyGraph(deckProcessed);
   log(deckProcessed);
@@ -44,27 +29,14 @@ export const compileDeck = (
  * creates cardIds
  */
 export function compileRow(this: rowStore, deckProcessed: ProcessedDeck) {
-  if (!this.data.front || !this.data.back) return null;
-
   // let dependencies: RowIdToRowIds = {};
   // let alternativeIds: RowIdToRowIds = {};
   let dependsOn: RawText[] = [];
   let alternativeIds: RawText[] = [];
-  let cardIds: CardIds = [];
-  /** TODO find better naming */
-  const termId = createTermId(deckProcessed.deckId, this.data.rowId);
 
   // let termsInThisLine = [this.data.front, ...this.data.front.split(/(?:;+| [-–—] )/g)];
-  //
   // addValuesToADependencyGraph(dependencies, termsInThisLine, dependsOn);
   // addValuesToADependencyGraph(alternativeIds, alternativeIds, termsInThisLine);
-
-  if (shouldCreateFrontToBack(row)) {
-    cardIds.push(createCardId(termId, Direction.FRONT_TO_BACK));
-  }
-  if (shouldCreateBackToFront(row)) {
-    cardIds.push(createCardId(termId, Direction.BACK_TO_FRONT));
-  }
 
   /** Register output in deckProcessed */
   cardIds.forEach((cardId) => {
