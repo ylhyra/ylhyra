@@ -2,8 +2,8 @@ import {
   hasDependenciesInCommonWith,
   hasTheSameTermAs,
 } from "flashcards/flashcards/actions/card/cardDependencies";
-import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore.functions";
-import { getSession } from "flashcards/flashcards/sessionStore";
+import { getCardIdsFromAllDecks } from "flashcards/flashcards/stores/base/functions";
+import { getSession } from "flashcards/flashcards/stores/sessionStore";
 import { CardId, CardIds } from "flashcards/flashcards/types/types";
 
 export const isInSession = (cardId: CardId) => {

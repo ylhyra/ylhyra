@@ -1,6 +1,6 @@
 import { createCardsIfNoneAreRemaining } from "flashcards/flashcards/actions/session/functions";
-import { getDeckById } from "flashcards/flashcards/flashcardsStore.functions";
-import { getSession } from "flashcards/flashcards/sessionStore";
+import { getDeckById } from "flashcards/flashcards/stores/base/functions";
+import { getSession } from "flashcards/flashcards/stores/sessionStore";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
 import { action } from "mobx";

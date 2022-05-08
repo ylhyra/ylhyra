@@ -1,4 +1,4 @@
-import { tempInitializeDecks } from "flashcards/flashcards/flashcardsStore.functions";
+import { initializeFlashcardsStore } from "flashcards/flashcards/stores/base/functions";
 import {
   DeckIdToProcessedDeck,
   DeckIdToUnprocessedDeck,
@@ -18,7 +18,7 @@ export class flashcardsStore {
 const store = new flashcardsStore();
 export const getFlashcardsStore = (): flashcardsStore => store;
 
-tempInitializeDecks();
+initializeFlashcardsStore();
 
 // @ts-ignore
 window["getFlashcardsStore"] = getFlashcardsStore;

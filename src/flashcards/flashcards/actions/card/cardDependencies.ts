@@ -7,7 +7,7 @@ import {
   getDeckId,
   getTermIdFromCardId,
 } from "flashcards/flashcards/compile/ids";
-import { getProcessedDeckById } from "flashcards/flashcards/flashcardsStore.functions";
+import { getProcessedDeckById } from "flashcards/flashcards/stores/base/functions";
 import {
   CardId,
   CardIds,

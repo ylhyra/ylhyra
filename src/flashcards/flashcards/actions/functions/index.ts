@@ -11,14 +11,14 @@ import {
 import {
   getCardIdsFromAllDecks,
   getTermsFromAllDecks,
-} from "flashcards/flashcards/flashcardsStore.functions";
+} from "flashcards/flashcards/stores/base/functions";
 import {
   CardId,
   CardIds,
   Direction,
   TermId,
 } from "flashcards/flashcards/types/types";
-import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
+import { getEntireSchedule } from "flashcards/flashcards/stores/userDataStore";
 import { isDev } from "modules/isDev";
 import { log } from "modules/log";
 import { roundToInterval } from "modules/math";

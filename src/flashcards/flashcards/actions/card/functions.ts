@@ -1,6 +1,6 @@
 import { CardId } from "flashcards/flashcards/types/types";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { getSession } from "flashcards/flashcards/sessionStore";
+import { getSession } from "flashcards/flashcards/stores/sessionStore";
 
 /**
  * Used for testing

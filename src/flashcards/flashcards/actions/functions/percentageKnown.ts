@@ -4,9 +4,9 @@ import {
   isInSchedule,
 } from "flashcards/flashcards/actions/card/cardSchedule";
 import { CardIds } from "flashcards/flashcards/types/types";
-import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
+import { getEntireSchedule } from "flashcards/flashcards/stores/userDataStore";
 import { clamp, mapValueToRange } from "modules/math";
-import { getCardIdsFromAllDecks } from "flashcards/flashcards/flashcardsStore.functions";
+import { getCardIdsFromAllDecks } from "flashcards/flashcards/stores/base/functions";
 
 export const PercentageKnown = (cardIds: CardIds) => {
   if (!getEntireSchedule()) return 0;

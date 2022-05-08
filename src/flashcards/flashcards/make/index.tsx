@@ -1,5 +1,5 @@
 import { Button } from "flashcards/app/elements/button";
-import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
+import { getFlashcardsStore } from "flashcards/flashcards/stores/base/flashcardsStore";
 import { printDeckTitle } from "flashcards/flashcards/make/functions";
 import { newDeck } from "flashcards/flashcards/make/actions";
 import { observer } from "mobx-react-lite";

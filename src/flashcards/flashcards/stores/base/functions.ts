@@ -1,5 +1,4 @@
-import { compileDeck } from "flashcards/flashcards/compile/compile";
-import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
+import { getFlashcardsStore } from "flashcards/flashcards/stores/base/flashcardsStore";
 import {
   CardIds,
   ProcessedDeck,
@@ -8,11 +7,11 @@ import {
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
 import { entries, keys, values } from "modules/typescript/objectEntries";
 
-export const loadDecks = () => {
+export const initializeFlashcardsStore = () => {
   getFlashcardsStore().decks = getFromLocalStorage("decks") || {};
 };
 
-export const saveDecks = () => {
+export const saveFlashcardsStore = () => {
   saveInLocalStorage("decks", getFlashcardsStore().decks);
 };
 
@@ -67,12 +66,4 @@ export const getTermsFromAllDecks = (): ProcessedDeck["terms"] => {
     });
   });
   return out;
-};
-
-/* tmp */
-export const tempInitializeDecks = () => {
-  loadDecks();
-  values(getFlashcardsStore().decks).forEach((deck) => {
-    getFlashcardsStore().processedDecks[deck.deckId] = compileDeck(deck);
-  });
 };

@@ -4,7 +4,7 @@ import { UserData } from "flashcards/flashcards/types/userData";
 import {
   getEntireSchedule,
   Schedule,
-} from "flashcards/flashcards/userDataStore";
+} from "flashcards/flashcards/stores/userDataStore";
 
 export const getScheduleFromUserData = (userData: UserData): Schedule => {
   const schedule: Schedule = {};

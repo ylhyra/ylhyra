@@ -1,5 +1,5 @@
 import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
-import { getTermsFromAllDecks } from "flashcards/flashcards/flashcardsStore.functions";
+import { getTermsFromAllDecks } from "flashcards/flashcards/stores/base/functions";
 import { Row } from "flashcards/flashcards/types/row";
 import { CardIds, TermId, TermIds } from "flashcards/flashcards/types/types";
 import { flatten, uniq } from "underscore";

@@ -5,8 +5,8 @@ import { FieldsSetup, form } from "modules/form";
 import React from "react";
 import {
   getDeckById,
-  saveDecks,
-} from "flashcards/flashcards/flashcardsStore.functions";
+  saveFlashcardsStore,
+} from "flashcards/flashcards/stores/base/functions";
 
 /** See type {@link DeckSettings} */
 export const deckSettingsFields: FieldsSetup<DeckSettings> = [
@@ -105,7 +105,7 @@ export const DeckSettingsElement = observer(
       <div>
         <Form>
           <AllFields />
-          <Button type="button" onClick={() => saveDecks()}>
+          <Button type="button" onClick={() => saveFlashcardsStore()}>
             Save
           </Button>
         </Form>

@@ -1,4 +1,4 @@
-import { getUserData } from "flashcards/flashcards/userDataStore";
+import { getUserData } from "flashcards/flashcards/stores/userDataStore";
 
 export const SESSION_PREFIX = "s_";
 

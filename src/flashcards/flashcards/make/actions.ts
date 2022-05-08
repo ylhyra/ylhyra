@@ -1,7 +1,7 @@
 import { RowId } from "flashcards/flashcards/types/row";
 import { customHistory } from "modules/router";
-import { getDeckByIdRequired } from "flashcards/flashcards/flashcardsStore.functions";
-import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
+import { getDeckByIdRequired } from "flashcards/flashcards/stores/base/functions";
+import { getFlashcardsStore } from "flashcards/flashcards/stores/base/flashcardsStore";
 import { getPlaintextFromUnformattedVocabularyEntry } from "flashcards/flashcards/compile/format/format";
 import { values } from "modules/typescript/objectEntries";
 import _ from "underscore";
@@ -17,13 +17,13 @@ export const newDeck = () => {
   customHistory.replace(`/flashcards/deck/${id}`);
 };
 
-export const addLine = (deckId: string) => {
+export const addRow = (deckId: string) => {
   const rowId = shortid.generate() as RowId;
   /* Todo */
   const rowNumber = 0;
   getDeckByIdRequired(deckId).rows[rowId] = {
     rowId,
-    rowNumber,
+    rowNumber: getHighestRowNumber(deckId) + 1,
   };
   return rowId;
 };

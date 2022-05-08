@@ -4,10 +4,10 @@ import {
   getRowIdFromTermIdOrCardId,
   getTermIdFromCardId,
 } from "flashcards/flashcards/compile/ids";
-import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
+import { getFlashcardsStore } from "flashcards/flashcards/stores/base/flashcardsStore";
 import { Row } from "flashcards/flashcards/types/row";
 import { CardId, CardIds, TermIds } from "flashcards/flashcards/types/types";
-import { getEntireSchedule } from "flashcards/flashcards/userDataStore";
+import { getEntireSchedule } from "flashcards/flashcards/stores/userDataStore";
 
 export const getCardsInSchedule = (): CardIds => {
   return filterCardsThatExist(Object.keys(getEntireSchedule()) as CardIds);

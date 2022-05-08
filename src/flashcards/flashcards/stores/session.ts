@@ -7,10 +7,11 @@ import {
 } from "flashcards/flashcards/types/types";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
+import { createViewModel } from "mobx-utils";
 import { makeObservable, observable } from "mobx";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
-export const EACH_SESSION_LASTS_X_MINUTES = 3;
+export const EACH_SESSION_LASTS_HOW_LONG: Milliseconds = 3 * minutes;
 
 /**
  * A session is the currently ongoing flashcard game.
@@ -37,11 +38,11 @@ export class sessionStore {
   savedAt: Timestamp | null = null;
 
   /** How long should a session last? */
-  totalTime?: Milliseconds;
+  totalTime?: Milliseconds = EACH_SESSION_LASTS_HOW_LONG;
   /** Used to update the progress bar and to see when the time is up */
-  remainingTime?: Milliseconds;
+  remainingTime?: Milliseconds = EACH_SESSION_LASTS_HOW_LONG;
   /** Used by {@link getRemainingTime} */
-  remainingTimeLastUpdatedAt?: Timestamp;
+  remainingTimeLastUpdatedAt?: Timestamp = getTime();
 
   /**
    * This counter increases for every new card the user sees.
@@ -60,36 +61,37 @@ export class sessionStore {
   allowedDeckIds: DeckId[] = [];
 
   constructor() {
-    this.reset();
+    // this.reset();
     makeObservable(this);
   }
 
-  /**
-   * We have to reset instead of creating a new session object
-   * in order to allow MobX to listen to changes
-   * (the interface would otherwise be listening to an older object)
-   */
-  reset() {
-    this.allowedIds = null;
-    this.ratingHistory = [];
-    this.cardHistory = [];
-    this.counter = 0;
-    this.termsSeen = new Set<TermId>();
-    this.cardDirectionLog = [];
-    this.currentCard = null;
-    this.cards = [];
-    this.totalTime = (EACH_SESSION_LASTS_X_MINUTES * minutes) as Milliseconds;
-    this.remainingTime = this.totalTime;
-    this.remainingTimeLastUpdatedAt = getTime();
-    this.done = false;
-    this.lastUndidAtCounter = 0;
-    this.savedAt = null;
-    this.allowedDeckIds = [];
-    this.userFacingError = null;
-  }
+  // /**
+  //  * We have to reset instead of creating a new session object
+  //  * in order to allow MobX to listen to changes
+  //  * (the interface would otherwise be listening to an older object)
+  //  * No longer needed due to createViewModel (todo:verify)
+  //  */
+  // @action reset() {
+  //   this.allowedIds = null;
+  //   this.ratingHistory = [];
+  //   this.cardHistory = [];
+  //   this.counter = 0;
+  //   this.termsSeen = new Set<TermId>();
+  //   this.cardDirectionLog = [];
+  //   this.currentCard = null;
+  //   this.cards = [];
+  //   this.totalTime = (EACH_SESSION_LASTS_X_MINUTES * minutes) as Milliseconds;
+  //   this.remainingTime = this.totalTime;
+  //   this.remainingTimeLastUpdatedAt = getTime();
+  //   this.done = false;
+  //   this.lastUndidAtCounter = 0;
+  //   this.savedAt = null;
+  //   this.allowedDeckIds = [];
+  //   this.userFacingError = null;
+  // }
 }
 
-let store: sessionStore;
-export const getSession = (): sessionStore => {
-  return store || (store = new sessionStore());
+let store = createViewModel(new sessionStore());
+export const getSession = () => {
+  return store; // || (store = createViewModel(new sessionStore()));
 };

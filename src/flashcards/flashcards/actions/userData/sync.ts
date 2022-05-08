@@ -4,7 +4,7 @@ import { UserData, UserDataRows } from "flashcards/flashcards/types/userData";
 import {
   getUserData,
   setEntireSchedule,
-} from "flashcards/flashcards/userDataStore";
+} from "flashcards/flashcards/stores/userDataStore";
 import { isUserLoggedIn } from "flashcards/user/actions";
 import axios2 from "modules/axios2";
 import { getFromLocalStorage } from "modules/localStorage";

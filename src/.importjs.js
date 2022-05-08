@@ -10,4 +10,7 @@ module.exports = {
     _: "underscore",
   },
   logLevel: "debug",
+  namedExports: {
+    mobx: ["action", "makeObservable", "observable"],
+  },
 };

@@ -1,4 +1,4 @@
-import { getSession } from "flashcards/flashcards/sessionStore";
+import { getSession } from "flashcards/flashcards/stores/sessionStore";
 import { saveInLocalStorage } from "modules/localStorage";
 import { getTime } from "modules/time";
 

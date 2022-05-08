@@ -3,7 +3,10 @@ import { postponeRelatedCards } from "flashcards/flashcards/actions/cardInSessio
 import { rate } from "flashcards/flashcards/actions/cardInSession/rate";
 import { showIn } from "flashcards/flashcards/actions/cardInSession/showIn";
 import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
-import { getSession, sessionStore } from "flashcards/flashcards/sessionStore";
+import {
+  getSession,
+  sessionStore,
+} from "flashcards/flashcards/stores/sessionStore";
 import { CardId, Rating } from "flashcards/flashcards/types/types";
 
 /**
