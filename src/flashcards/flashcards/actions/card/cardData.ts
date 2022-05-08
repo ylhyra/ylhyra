@@ -20,7 +20,7 @@ export const getCardData = <T extends keyof RowData>(
   const deckId = getDeckId(cardId);
   const rowId = getRowIdFromTermIdOrCardId(cardId);
   /* Todo: Catch if doesn't exist? */
-  return getFlashcardsStore().OLDdecks[deckId].rows[rowId][key];
+  return getFlashcardsStore().decks[deckId].rows[rowId][key];
 };
 
 /**

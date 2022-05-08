@@ -15,11 +15,11 @@ export const initializeFlashcardsStore = action(() => {
 
 export const saveFlashcardsStore = () => {
   throw new Error("Not implemented");
-  saveInLocalStorage("decks", getFlashcardsStore().OLDdecks);
+  saveInLocalStorage("decks", getFlashcardsStore().decks);
 };
 
 export const getDeckById = (id: string | undefined): deckStore | undefined => {
-  if (id && id in getFlashcardsStore().OLDdecks) {
+  if (id && id in getFlashcardsStore().decks) {
     return getFlashcardsStore().decks[id];
   }
 };
@@ -45,11 +45,12 @@ export const getCardIdsFromAllDecks = (): CardIds => {
  * @deprecated
  */
 export const getTermsFromAllDecks = (): ProcessedDeck["terms"] => {
-  let out: ProcessedDeck["terms"] = {};
-  values(getFlashcardsStore().OLDprocessedDecks).forEach((deck) => {
-    entries(deck.terms).forEach(([termId, termInfo]) => {
-      out[termId] = termInfo;
-    });
-  });
-  return out;
+  throw new Error("Not implemented");
+  // let out: ProcessedDeck["terms"] = {};
+  // values(getFlashcardsStore().decks).forEach((deck) => {
+  //   entries(deck.terms).forEach(([termId, termInfo]) => {
+  //     out[termId] = termInfo;
+  //   });
+  // });
+  // return out;
 };

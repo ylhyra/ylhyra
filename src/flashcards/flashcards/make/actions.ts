@@ -9,7 +9,7 @@ import shortid from "shortid";
 
 export const newDeck = () => {
   const id = shortid.generate();
-  getFlashcardsStore().OLDdecks[id] = {
+  getFlashcardsStore().decks[id] = {
     deckId: id,
     settings: {},
     rows: {},
