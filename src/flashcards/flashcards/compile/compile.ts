@@ -1,4 +1,4 @@
-import { calculateDependencyGraph } from "flashcards/flashcards/compile/dependencies/dependencyGraph";
+import { getDependencyGraph } from "flashcards/flashcards/compile/dependencies/dependencyGraph";
 import {
   ProcessedDeck,
   RawText,
@@ -19,7 +19,7 @@ export const compileDeck = (
     dependencyGraph: {},
   };
 
-  deckProcessed.dependencyGraph = calculateDependencyGraph(deckProcessed);
+  deckProcessed.dependencyGraph = getDependencyGraph(deckProcessed);
   log(deckProcessed);
   return deckProcessed;
 };

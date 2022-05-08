@@ -13,12 +13,12 @@ export type NotArray =
 /**
  * Flattens array deeply
  */
-export default function flattenArray(data: any[]): Array<NotArray> {
-  let out: Array<NotArray> = [];
+export const flattenArray = (data: any[]): Array<any> => {
+  let out: Array<any> = [];
   data.forEach((item) =>
     Array.isArray(item)
       ? (out = out.concat(flattenArray(item)))
       : out.push(item)
   );
   return out;
-}
+};

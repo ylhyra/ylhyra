@@ -7,15 +7,16 @@ import {
 } from "flashcards/flashcards/types/types";
 import { entries, keys } from "modules/typescript/objectEntries";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
+import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
 
 /**
  * Prevent ridiculously deep dependencies
  */
 const MAX_DEPTH = 10;
 
-export const calculateDependencyGraph = (
-  deck: ProcessedDeck
-): DependenciesForAllTermsAsTermIdToDependencyToDepth => {
+export function getDependencyGraph(
+  this: deckStore
+): DependenciesForAllTermsAsTermIdToDependencyToDepth {
   return warnIfFunctionIsSlow(() => {
     let output: DependenciesForAllTermsAsTermIdToDependencyToDepth = {};
 
@@ -29,7 +30,7 @@ export const calculateDependencyGraph = (
     });
     return output;
   });
-};
+}
 
 /**
  * A termId to the termIds it directly depends on

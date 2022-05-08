@@ -1,9 +1,11 @@
-import { DeckId, RowsObject } from "flashcards/flashcards/types/types";
+import { CardIds, DeckId, RowsObject } from "flashcards/flashcards/types/types";
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
 import { RowId } from "flashcards/flashcards/types/rowData";
 import { computed, makeAutoObservable } from "mobx";
-import { entries } from "modules/typescript/objectEntries";
+import { entries, values } from "modules/typescript/objectEntries";
+import { getDependencyGraph } from "flashcards/flashcards/compile/dependencies/dependencyGraph";
 import { rowStore } from "flashcards/flashcards/stores/deck/rowStore";
+import { flattenArray } from "modules/arrays/flattenArray";
 
 export class deckStore {
   deckId: DeckId;
@@ -29,6 +31,13 @@ export class deckStore {
     makeAutoObservable(this);
   }
 
-  @computed
-  cards() {}
+  @computed({ keepAlive: true })
+  getCardIds(): CardIds {
+    return flattenArray(
+      values(this.rows).map((row) => row.getCardIds())
+    ) as CardIds;
+  }
+
+  @computed({ keepAlive: true })
+  getDependencyGraph = getDependencyGraph;
 }

@@ -1,9 +1,10 @@
 import { CardIds, ProcessedDeck } from "flashcards/flashcards/types/types";
 import { action } from "mobx";
 import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
-import { entries, keys, values } from "modules/typescript/objectEntries";
+import { entries, values } from "modules/typescript/objectEntries";
 import { getFlashcardsStore } from "flashcards/flashcards/stores/base/flashcardsStore";
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
+import { flattenArray } from "modules/arrays/flattenArray";
 
 export const initializeFlashcardsStore = action(() => {
   const decks = getFromLocalStorage("decks") || {};
@@ -35,11 +36,9 @@ export const getDeckByIdRequired = (id: string | undefined): deckStore => {
  * @deprecated
  */
 export const getCardIdsFromAllDecks = (): CardIds => {
-  let out: CardIds = [];
-  values(getFlashcardsStore().decks).forEach((deck) => {
-    out = out.concat(keys(deck.cards));
-  });
-  return out;
+  return flattenArray(
+    values(getFlashcardsStore().decks).map((deck) => deck.getCardIds())
+  );
 };
 
 /**

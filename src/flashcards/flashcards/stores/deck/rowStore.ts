@@ -21,18 +21,22 @@ export class rowStore {
     return this.data;
   }
 
-  @computed shouldCreate() {
+  @computed({ keepAlive: true })
+  shouldCreate() {
     return this.data.front && this.data.back;
   }
 
-  @computed compile() {}
+  @computed({ keepAlive: true })
+  compile() {}
 
-  @computed getTermId(): TermId {
+  @computed({ keepAlive: true })
+  getTermId(): TermId {
     return createTermId(this.deck.deckId, this.data.rowId);
   }
 
-  @computed getCardIds(): CardIds | null {
-    if (!this.shouldCreate()) return null;
+  @computed({ keepAlive: true })
+  getCardIds(): CardIds | [] {
+    if (!this.shouldCreate()) return [];
     let cardIds: CardIds = [];
     if (shouldCreateFrontToBack(this.data)) {
       cardIds.push(createCardId(this.getTermId(), Direction.FRONT_TO_BACK));
@@ -42,4 +46,10 @@ export class rowStore {
     }
     return cardIds;
   }
+
+  @computed({ keepAlive: true })
+  getDependsOn() {}
+
+  @computed({ keepAlive: true })
+  getAlternativeIds() {}
 }
