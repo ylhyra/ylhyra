@@ -4,7 +4,6 @@ import {
   shouldCreateFrontToBack,
 } from "flashcards/flashcards/compile/functions";
 import { createCardId, createTermId } from "flashcards/flashcards/compile/ids";
-import { RowData } from "flashcards/flashcards/types/rowData";
 import {
   CardIds,
   Direction,
@@ -15,6 +14,7 @@ import {
 import { log } from "modules/log";
 import { entries } from "modules/typescript/objectEntries";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
+import { rowStore } from "flashcards/flashcards/stores/deck/rowStore";
 
 export const compileDeck = (
   unprocessedDeck: UnprocessedDeck
@@ -43,8 +43,8 @@ export const compileDeck = (
  * Calculates certain items such as alternativeIds and dependsOn,
  * creates cardIds
  */
-export const compileRow = (row: RowData, deckProcessed: ProcessedDeck) => {
-  if (!row.front || !row.back) return null;
+export function compileRow(this: rowStore, deckProcessed: ProcessedDeck) {
+  if (!this.data.front || !this.data.back) return null;
 
   // let dependencies: RowIdToRowIds = {};
   // let alternativeIds: RowIdToRowIds = {};
@@ -52,9 +52,9 @@ export const compileRow = (row: RowData, deckProcessed: ProcessedDeck) => {
   let alternativeIds: RawText[] = [];
   let cardIds: CardIds = [];
   /** TODO find better naming */
-  const termId = createTermId(deckProcessed.deckId, row.rowId);
+  const termId = createTermId(deckProcessed.deckId, this.data.rowId);
 
-  // let termsInThisLine = [row.front, ...row.front.split(/(?:;+| [-–—] )/g)];
+  // let termsInThisLine = [this.data.front, ...this.data.front.split(/(?:;+| [-–—] )/g)];
   //
   // addValuesToADependencyGraph(dependencies, termsInThisLine, dependsOn);
   // addValuesToADependencyGraph(alternativeIds, alternativeIds, termsInThisLine);
@@ -75,4 +75,4 @@ export const compileRow = (row: RowData, deckProcessed: ProcessedDeck) => {
   deckProcessed.terms[termId] = {
     cardIds,
   };
-};
+}
