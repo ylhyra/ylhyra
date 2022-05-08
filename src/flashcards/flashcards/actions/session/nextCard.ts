@@ -7,7 +7,7 @@ import {
 } from "flashcards/flashcards/actions/session/functions";
 import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/saveOngoingSessionInLocalStorage";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
-import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
+import { getTermIdFromCardId } from "flashcards/flashcards/stores/deck/compile/ids";
 import { getSession } from "flashcards/flashcards/stores/sessionStore";
 import { log } from "modules/log";
 import _ from "underscore";

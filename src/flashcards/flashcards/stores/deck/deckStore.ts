@@ -4,7 +4,7 @@ import { RowData, RowId } from "flashcards/flashcards/types/rowData";
 import { computed, makeAutoObservable } from "mobx";
 import { entries, values } from "modules/typescript/objectEntries";
 import { flattenArray } from "modules/arrays/flattenArray";
-import { getDependencyGraph } from "flashcards/flashcards/compile/dependencies/dependencyGraph";
+import { getDependencyGraph } from "flashcards/flashcards/stores/deck/compile/dependencies/dependencyGraph";
 import { rowStore } from "flashcards/flashcards/stores/deck/rowStore";
 
 export class deckStore {

@@ -2,7 +2,7 @@ import { getRanking } from "flashcards/flashcards/actions/cardInSession/getRanki
 import { postponeRelatedCards } from "flashcards/flashcards/actions/cardInSession/postponeRelatedCards";
 import { rate } from "flashcards/flashcards/actions/cardInSession/rate";
 import { showIn } from "flashcards/flashcards/actions/cardInSession/showIn";
-import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
+import { getTermIdFromCardId } from "flashcards/flashcards/stores/deck/compile/ids";
 import {
   getSession,
   sessionStore,

@@ -1,12 +1,16 @@
 import { RowData } from "flashcards/flashcards/types/rowData";
 import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
 import { computed, observable } from "mobx";
-import { createCardId, createTermId } from "flashcards/flashcards/compile/ids";
+import {
+  createCardId,
+  createTermId,
+} from "flashcards/flashcards/stores/deck/compile/ids";
 import { CardIds, Direction, TermId } from "flashcards/flashcards/types/types";
 import {
   shouldCreateBackToFront,
   shouldCreateFrontToBack,
-} from "flashcards/flashcards/compile/functions";
+} from "flashcards/flashcards/stores/deck/compile/functions";
+import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
 
 export class rowStore {
   deck: deckStore;
@@ -52,4 +56,17 @@ export class rowStore {
 
   @computed({ keepAlive: true })
   getAlternativeIds() {}
+
+  /**
+   * Gets the row setting, falling back to the deck setting, falling back to defaults.
+   */
+  getSetting(key: keyof DeckSettings & keyof RowData) {
+    /* "!= null" tests for null and undefined */
+    if (this.data[key] != null) {
+      return this.data[key];
+    }
+    if (this.deck.settings[key] != null) {
+      return this.deck.settings[key];
+    }
+  }
 }

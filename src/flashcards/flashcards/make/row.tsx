@@ -1,16 +1,17 @@
 import { RowData } from "flashcards/flashcards/types/rowData";
 import { form } from "modules/form";
-import React from "react";
 import { rowFields } from "flashcards/flashcards/make/rowFields";
+import { rowStore } from "flashcards/flashcards/stores/deck/rowStore";
+import React from "react";
 
-export const EditRow = ({ card }: { card: RowData }) => {
+export const EditRow = ({ row }: { row: rowStore }) => {
   const { Form, AllFields, Input } = new form<RowData>({
-    values: card,
+    values: row.data,
     fields: rowFields,
   });
 
   return (
-    <div key={card.rowId}>
+    <div key={row.data.rowId}>
       <Form>
         <Input name="front" />
         <Input name="back" />

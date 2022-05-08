@@ -3,7 +3,7 @@ import {
   getDeckId,
   getRowId,
   getTermIdFromCardId,
-} from "flashcards/flashcards/compile/ids";
+} from "flashcards/flashcards/stores/deck/compile/ids";
 import { getFlashcardsStore } from "flashcards/flashcards/stores/base/flashcardsStore";
 import { RowData } from "flashcards/flashcards/types/rowData";
 import { CardId, CardIds, TermIds } from "flashcards/flashcards/types/types";

@@ -3,11 +3,7 @@ import {
   getCardIdsFromTermIds,
   getCardIdsShuffledIfSeen,
 } from "flashcards/flashcards/actions/card/term";
-import {
-  getDeckId,
-  getTermIdFromCardId,
-} from "flashcards/flashcards/compile/ids";
-import { getProcessedDeckById } from "flashcards/flashcards/stores/base/functions";
+import { getTermIdFromCardId } from "flashcards/flashcards/stores/deck/compile/ids";
 import {
   CardId,
   CardIds,
@@ -30,10 +26,11 @@ export const cardGetDependenciesAsTermIdToDepth = (
 export const termGetDependenciesAsTermIdToDepth = (
   termId: TermId
 ): DependenciesForOneTermAsDependencyToDepth => {
-  return {
-    ...(getProcessedDeckById(getDeckId(termId))?.dependencyGraph[termId] || {}),
-    [termId]: 0,
-  };
+  throw new Error("Not implemented");
+  // return {
+  //   ...(getProcessedDeckById(getDeckId(termId))?.dependencyGraph[termId] || {}),
+  //   [termId]: 0,
+  // };
 };
 
 export const getDependenciesAsCardIdToDepth = (id: CardId) => {

@@ -33,7 +33,7 @@ export const createCards = (options?: CreateCardsOptions): void => {
       (filterCardsThatExist(session.allowedIds).length === 0 ||
         filterCardsThatExist(session.allowedIds).every((id) => isInSession(id)))
     ) {
-      session.allowedIds = null;
+      session.allowedIds = undefined;
       logDev("allowedIds cleared");
     }
 
@@ -51,7 +51,7 @@ export const createCards = (options?: CreateCardsOptions): void => {
       console.warn(
         `Failed to generate more cards using the allowed ones, switching to all cards.`
       );
-      session.allowedIds = null;
+      session.allowedIds = undefined;
       return createCards({ skipOverTheEasiest: true });
     }
 

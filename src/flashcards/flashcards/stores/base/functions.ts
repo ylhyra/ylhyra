@@ -44,7 +44,7 @@ export const getCardIdsFromAllDecks = (): CardIds => {
 /**
  * @deprecated
  */
-export const getTermsFromAllDecks = (): deckStore["terms"] => {
+export const getTermsFromAllDecks = () => {
   throw new Error("Not implemented");
   // let out: deckStore["terms"] = {};
   // values(getFlashcardsStore().decks).forEach((deck) => {

@@ -6,7 +6,7 @@ import {
   getDeckId,
   getRowId,
   getTermIdFromCardId,
-} from "flashcards/flashcards/compile/ids";
+} from "flashcards/flashcards/stores/deck/compile/ids";
 import { getDeckById } from "flashcards/flashcards/stores/base/functions";
 
 export const getTermData = (termId: TermId): RowData | undefined => {

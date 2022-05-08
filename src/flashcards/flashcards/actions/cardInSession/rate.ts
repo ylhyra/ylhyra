@@ -6,7 +6,7 @@ import {
 } from "flashcards/flashcards/actions/cardInSession";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
-import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
+import { getDirectionFromCardId } from "flashcards/flashcards/stores/deck/compile/ids";
 import { getSession } from "flashcards/flashcards/stores/sessionStore";
 import { Rating } from "flashcards/flashcards/types/types";
 

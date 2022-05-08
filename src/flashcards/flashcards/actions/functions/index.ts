@@ -7,7 +7,7 @@ import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
 import {
   getDirectionFromCardId,
   getTermIdFromCardId,
-} from "flashcards/flashcards/compile/ids";
+} from "flashcards/flashcards/stores/deck/compile/ids";
 import {
   getCardIdsFromAllDecks,
   getTermsFromAllDecks,
@@ -37,7 +37,7 @@ export const printWord = (id: CardId | TermId | string): string | undefined => {
     );
     // return card[card.getFrom() + "_plaintext"];
   } else if (id in getTermsFromAllDecks()) {
-    return printWord(getTermsFromAllDecks()[id as TermId]!.cardIds[0]);
+    // return printWord(getTermsFromAllDecks()[id as TermId]!.cardIds[0]);
   } else {
     log(`No id ${id}`);
   }

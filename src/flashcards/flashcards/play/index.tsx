@@ -1,22 +1,23 @@
-import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
-import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
+import { CardElement } from "flashcards/flashcards/play/cardElement";
+import { DeckId } from "flashcards/flashcards/types/types";
+import { ProgressBar } from "flashcards/flashcards/play/progressBar";
 import {
   checkForUndoOnKeyDown,
   isSessionUndoable,
   undoSession,
 } from "flashcards/flashcards/actions/session/undo";
 import { getDeckById } from "flashcards/flashcards/stores/base/functions";
-import { CardElement } from "flashcards/flashcards/play/cardElement";
-import { ProgressBar } from "flashcards/flashcards/play/progressBar";
 import { getSession } from "flashcards/flashcards/stores/sessionStore";
+import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
 import { observer } from "mobx-react-lite";
-import React, { Component, useEffect } from "react";
+import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { useParams } from "react-router-dom";
+import React, { Component, useEffect } from "react";
 
 export const FlashcardsPlay = observer(function () {
-  let { deckId } = useParams<{ deckId: string }>();
-  const deck = getDeckById(deckId!);
-  if (!deck) return <div>No deck with that id.</div>;
+  let { deckId } = useParams<{ deckId: DeckId }>();
+  const deck = getDeckById(deckId! as DeckId);
+  if (!deck || !deckId) return <div>No deck with that id.</div>;
 
   useEffect(() => {
     void initializeSession({ deckId });
