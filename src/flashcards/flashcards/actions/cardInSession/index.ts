@@ -3,10 +3,7 @@ import { postponeRelatedCards } from "flashcards/flashcards/actions/cardInSessio
 import { rate } from "flashcards/flashcards/actions/cardInSession/rate";
 import { showIn } from "flashcards/flashcards/actions/cardInSession/showIn";
 import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
-import {
-  getSession,
-  sessionStore,
-} from "flashcards/flashcards/stores/sessionStore";
+import { getSession, session } from "flashcards/flashcards/stores/session";
 import { CardId, Rating } from "flashcards/flashcards/types/types";
 
 /**
@@ -23,10 +20,10 @@ export class CardInSession {
    * (e.g. "This card should be shown when the counter is at 8")
    * {@link CardInSession.getQueuePosition} is however relative to the current cart
    */
-  absoluteQueuePosition: sessionStore["counter"];
+  absoluteQueuePosition: session["counter"];
   /** Hard limit on when a card can be shown */
-  cannotBeShownBefore?: sessionStore["counter"];
-  lastSeenAtCounter?: sessionStore["counter"];
+  cannotBeShownBefore?: session["counter"];
+  lastSeenAtCounter?: session["counter"];
 
   /**
    * A card is done if the user has said he knows it well.

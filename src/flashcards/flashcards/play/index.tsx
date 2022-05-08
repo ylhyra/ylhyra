@@ -8,7 +8,7 @@ import {
 import { getDeckById } from "flashcards/flashcards/stores/base/functions";
 import { CardElement } from "flashcards/flashcards/play/cardElement";
 import { ProgressBar } from "flashcards/flashcards/play/progressBar";
-import { getSession } from "flashcards/flashcards/stores/sessionStore";
+import { getSession } from "flashcards/flashcards/stores/session";
 import { observer } from "mobx-react-lite";
 import React, { Component, useEffect } from "react";
 import { useParams } from "react-router-dom";

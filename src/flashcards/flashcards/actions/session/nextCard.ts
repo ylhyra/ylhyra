@@ -8,7 +8,7 @@ import {
 import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/saveOngoingSessionInLocalStorage";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
-import { getSession } from "flashcards/flashcards/stores/sessionStore";
+import { getSession } from "flashcards/flashcards/stores/session";
 import { log } from "modules/log";
 import _ from "underscore";
 import { action } from "mobx";

@@ -5,7 +5,7 @@ import {
 import { addBadDependencies } from "flashcards/flashcards/actions/createCards/addBadDependencies";
 import { chooseCards } from "flashcards/flashcards/actions/createCards/chooseCards";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
-import { getSession } from "flashcards/flashcards/stores/sessionStore";
+import { getSession } from "flashcards/flashcards/stores/session";
 import { log, logDev } from "modules/log";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 

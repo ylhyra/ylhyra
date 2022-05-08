@@ -3,7 +3,7 @@ import {
   hasTheSameTermAs,
 } from "flashcards/flashcards/actions/card/cardDependencies";
 import { getCardIdsFromAllDecks } from "flashcards/flashcards/stores/base/functions";
-import { getSession } from "flashcards/flashcards/stores/sessionStore";
+import { getSession } from "flashcards/flashcards/stores/session";
 import { CardId, CardIds } from "flashcards/flashcards/types/types";
 
 export const isInSession = (cardId: CardId) => {

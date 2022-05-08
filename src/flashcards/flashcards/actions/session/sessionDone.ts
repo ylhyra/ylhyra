@@ -4,7 +4,7 @@ import { clearOngoingSessionInLocalStorage } from "flashcards/flashcards/actions
 import { sync } from "flashcards/flashcards/actions/userData/sync";
 import { setUserDataKey } from "flashcards/flashcards/actions/userData/userData";
 import { SESSION_PREFIX } from "flashcards/flashcards/actions/userData/userDataSessions";
-import { getSession } from "flashcards/flashcards/stores/sessionStore";
+import { getSession } from "flashcards/flashcards/stores/session";
 import { log } from "modules/log";
 import { roundMsToSec, roundToInterval } from "modules/math";
 import { getTime } from "modules/time";

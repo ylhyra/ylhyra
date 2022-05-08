@@ -3,7 +3,7 @@ import { createCards } from "flashcards/flashcards/actions/createCards";
 import {
   getSession,
   MAX_SECONDS_TO_COUNT_PER_ITEM,
-} from "flashcards/flashcards/stores/sessionStore";
+} from "flashcards/flashcards/stores/session";
 import { log } from "modules/log";
 import { getTime, Milliseconds, seconds } from "modules/time";
 
