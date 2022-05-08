@@ -1,13 +1,12 @@
 import {
   DependenciesForAllTermsAsTermIdToDependencyToDepth,
   DependenciesForOneTermAsDependencyToDepth,
-  ProcessedDeck,
   TermId,
   TermIds,
 } from "flashcards/flashcards/types/types";
+import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
 import { entries, keys } from "modules/typescript/objectEntries";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
-import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
 
 /**
  * Prevent ridiculously deep dependencies
@@ -37,7 +36,7 @@ export function getDependencyGraph(
  */
 export type DirectDependencies = Record<TermId, TermId[]>;
 export const directDependenciesGraph = (
-  deck: ProcessedDeck
+  deck: deckStore
 ): DirectDependencies => {
   let directDependencies: DirectDependencies = {};
   entries(deck.dependenciesUnprocessed).forEach(

@@ -1,5 +1,5 @@
-import { UnprocessedDeck } from "flashcards/flashcards/types/types";
+import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
 
-export const printDeckTitle = (deck: UnprocessedDeck) => {
+export const printDeckTitle = (deck: deckStore) => {
   return deck.settings.title || "(untitled)";
 };

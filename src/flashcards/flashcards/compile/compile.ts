@@ -1,34 +1,12 @@
-import { getDependencyGraph } from "flashcards/flashcards/compile/dependencies/dependencyGraph";
-import {
-  ProcessedDeck,
-  RawText,
-  UnprocessedDeck,
-} from "flashcards/flashcards/types/types";
-import { log } from "modules/log";
+import { RawText } from "flashcards/flashcards/types/types";
+import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
 import { rowStore } from "flashcards/flashcards/stores/deck/rowStore";
-
-export const compileDeck = (
-  unprocessedDeck: UnprocessedDeck
-): ProcessedDeck => {
-  const deckProcessed: ProcessedDeck = {
-    deckId: unprocessedDeck.deckId,
-    cards: {},
-    terms: {},
-    alternativeIds: {},
-    dependenciesUnprocessed: {},
-    dependencyGraph: {},
-  };
-
-  deckProcessed.dependencyGraph = getDependencyGraph(deckProcessed);
-  log(deckProcessed);
-  return deckProcessed;
-};
 
 /**
  * Calculates certain items such as alternativeIds and dependsOn,
  * creates cardIds
  */
-export function compileRow(this: rowStore, deckProcessed: ProcessedDeck) {
+export function compileRow(this: rowStore, deckProcessed: deckStore) {
   // let dependencies: RowIdToRowIds = {};
   // let alternativeIds: RowIdToRowIds = {};
   let dependsOn: RawText[] = [];
@@ -37,14 +15,7 @@ export function compileRow(this: rowStore, deckProcessed: ProcessedDeck) {
   // let termsInThisLine = [this.data.front, ...this.data.front.split(/(?:;+| [-–—] )/g)];
   // addValuesToADependencyGraph(dependencies, termsInThisLine, dependsOn);
   // addValuesToADependencyGraph(alternativeIds, alternativeIds, termsInThisLine);
-
-  /** Register output in deckProcessed */
-  cardIds.forEach((cardId) => {
-    deckProcessed.cards[cardId] = {
-      termId,
-    };
-  });
-  deckProcessed.terms[termId] = {
-    cardIds,
-  };
+  // deckProcessed.terms[termId] = {
+  //   cardIds,
+  // };
 }

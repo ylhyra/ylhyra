@@ -1,17 +1,5 @@
-import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
-import { RowData, RowId } from "flashcards/flashcards/types/rowData";
-import { Days, Timestamp } from "modules/time";
 import { Brand } from "ts-brand";
-
-export type RowsObject = Record<RowId, RowData>;
-
-export type DeckId = string;
-export type UnprocessedDeck = {
-  deckId: DeckId;
-  rows: RowsObject;
-  settings: DeckSettings;
-};
-export type DeckIdToUnprocessedDeck = Record<DeckId, UnprocessedDeck>;
+import { Days, Timestamp } from "modules/time";
 
 export type DirectionSettings =
   | "BOTH"
@@ -23,34 +11,20 @@ export enum Direction {
   BACK_TO_FRONT = "2",
 }
 
-export type DeckIdToProcessedDeck = Record<DeckId, ProcessedDeck>;
-export type ProcessedDeck = {
-  deckId: DeckId;
-  cards: Record<
-    CardId,
-    {
-      termId: TermId;
-    }
-  >;
-  terms: Record<
-    TermId,
-    {
-      cardIds: CardIds;
-    }
-  >;
-  /**
-   * Sentences pointing to termIds
-   */
-  alternativeIds: Record<RawText, TermId[]>;
-  /**
-   * This term depends on which sentences?
-   * (Note, these sentences point to an alternativeId)
-   */
-  dependenciesUnprocessed: Record<TermId, RawText[]>;
-  dependencyGraph: DependenciesForAllTermsAsTermIdToDependencyToDepth;
-  // /** TODO: Remove? */
-  // dependencyList: Record<TermId, TermId[]>;
-};
+// export type ProcessedDeck = {
+//   /**
+//    * Sentences pointing to termIds
+//    */
+//   alternativeIds: Record<RawText, TermId[]>;
+//   /**
+//    * This term depends on which sentences?
+//    * (Note, these sentences point to an alternativeId)
+//    */
+//   dependenciesUnprocessed: Record<TermId, RawText[]>;
+//   dependencyGraph: DependenciesForAllTermsAsTermIdToDependencyToDepth;
+//   // /** TODO: Remove? */
+//   // dependencyList: Record<TermId, TermId[]>;
+// };
 
 export type ProcessedCardExtraInformation = {
   isSentence: boolean;
@@ -100,6 +74,7 @@ export type CardId = Brand<string, "CardId">;
 export type CardIds = CardId[];
 export type TermId = Brand<string, "TermId">;
 export type TermIds = TermId[];
+export type DeckId = Brand<string, "DeckId">;
 
 /** TODO: Find a better name */
 export type DependenciesForAllTermsAsTermIdToDependencyToDepth = Record<

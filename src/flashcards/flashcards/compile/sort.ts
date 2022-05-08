@@ -1,20 +1,17 @@
-import {
-  ProcessedDeck,
-  TermIds,
-  UnprocessedDeck,
-} from "flashcards/flashcards/types/types";
-import { getRowIdFromTermIdOrCardId } from "flashcards/flashcards/compile/ids";
+import { TermIds } from "flashcards/flashcards/types/types";
+import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
+import { getRowId } from "flashcards/flashcards/compile/ids";
 import { keys } from "modules/typescript/objectEntries";
 import { sortDependenciesBeforeCardsThatDependOnThem } from "flashcards/flashcards/compile/dependencies/sortByDependencies";
 
 export const getSortedTermIds = (
-  unprocessedDeck: UnprocessedDeck,
-  processedDeck: ProcessedDeck
+  unprocessedDeck: deckStore,
+  processedDeck: deckStore
 ): TermIds => {
   throw new Error("Not implemented");
   let termIds: TermIds = keys(processedDeck.terms).sort((termId1, termId2) => {
-    const a = unprocessedDeck.rows[getRowIdFromTermIdOrCardId(termId1)];
-    const b = unprocessedDeck.rows[getRowIdFromTermIdOrCardId(termId2)];
+    const a = unprocessedDeck.rows[getRowId(termId1)];
+    const b = unprocessedDeck.rows[getRowId(termId2)];
     return 0;
     // return compare(a, b,);
     // a.level - b.level ||

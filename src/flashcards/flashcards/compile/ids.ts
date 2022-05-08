@@ -36,7 +36,7 @@ export const getDeckId = (id: CardId | TermId): DeckId => {
   return id.split(CARD_ID_SEPARATOR)[0] as DeckId;
 };
 
-export const getRowIdFromTermIdOrCardId = (id: CardId | TermId): RowId => {
+export const getRowId = (id: CardId | TermId): RowId => {
   return id.split(CARD_ID_SEPARATOR)[1] as RowId;
 };
 

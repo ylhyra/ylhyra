@@ -1,9 +1,13 @@
 import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
-import { getTermsFromAllDecks } from "flashcards/flashcards/stores/base/functions";
 import { RowData } from "flashcards/flashcards/types/rowData";
 import { CardIds, TermId, TermIds } from "flashcards/flashcards/types/types";
 import { flatten, uniq } from "underscore";
-import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
+import {
+  getDeckId,
+  getRowId,
+  getTermIdFromCardId,
+} from "flashcards/flashcards/compile/ids";
+import { getDeckById } from "flashcards/flashcards/stores/base/functions";
 
 export const getTermData = (termId: TermId): RowData | undefined => {
   throw new Error("Not implemented");
@@ -11,7 +15,9 @@ export const getTermData = (termId: TermId): RowData | undefined => {
 };
 
 export const getCardIdsFromTermId = (termId: TermId): CardIds => {
-  return getTermsFromAllDecks()[termId]?.cardIds || [];
+  return (
+    getDeckById(getDeckId(termId))?.rows[getRowId(termId)]?.getCardIds() || []
+  );
 };
 
 export const getCardIdsFromTermIds = (termIds: TermIds) => {

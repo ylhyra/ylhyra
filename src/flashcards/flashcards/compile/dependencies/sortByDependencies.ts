@@ -1,4 +1,5 @@
-import { ProcessedDeck, TermIds } from "flashcards/flashcards/types/types";
+import { TermIds } from "flashcards/flashcards/types/types";
+import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
 
 /**
  * Returns an array of card ids sorted in such a way that
@@ -6,7 +7,7 @@ import { ProcessedDeck, TermIds } from "flashcards/flashcards/types/types";
  * seeing a card) always come before the card that depends on it.
  */
 export const sortDependenciesBeforeCardsThatDependOnThem = (
-  deck: ProcessedDeck,
+  deck: deckStore,
   termIds: TermIds
 ): TermIds => {
   throw new Error("Not implemented");
