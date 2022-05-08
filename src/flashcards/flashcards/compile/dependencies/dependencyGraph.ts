@@ -16,19 +16,19 @@ const MAX_DEPTH = 10;
 export const calculateDependencyGraph = (
   deck: ProcessedDeck
 ): DependenciesForAllTermsAsTermIdToDependencyToDepth => {
-  warnIfFunctionIsSlow.start("calculateDependencyGraph");
-  let output: DependenciesForAllTermsAsTermIdToDependencyToDepth = {};
+  return warnIfFunctionIsSlow(() => {
+    let output: DependenciesForAllTermsAsTermIdToDependencyToDepth = {};
 
-  const directDependencies = directDependenciesGraph(deck);
+    const directDependencies = directDependenciesGraph(deck);
 
-  keys(directDependencies).forEach((termId) => {
-    output[termId] = dependencyToDepthForASingleTerm(
-      directDependencies,
-      termId
-    );
+    keys(directDependencies).forEach((termId) => {
+      output[termId] = dependencyToDepthForASingleTerm(
+        directDependencies,
+        termId
+      );
+    });
+    return output;
   });
-  warnIfFunctionIsSlow.end("calculateDependencyGraph", 5);
-  return output;
 };
 
 /**

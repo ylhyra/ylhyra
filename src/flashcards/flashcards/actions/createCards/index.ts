@@ -24,37 +24,37 @@ export type CreateCardsOptions = {
  * and then loads them into the session as {@link CardInSession}.
  */
 export const createCards = (options?: CreateCardsOptions): void => {
-  warnIfFunctionIsSlow.start("createCards");
-  const session = getSession();
+  warnIfFunctionIsSlow(() => {
+    const session = getSession();
 
-  /* If all allowedIds are already in use, clear it */
-  if (
-    session.allowedIds &&
-    (filterCardsThatExist(session.allowedIds).length === 0 ||
-      filterCardsThatExist(session.allowedIds).every((id) => isInSession(id)))
-  ) {
-    session.allowedIds = null;
-    logDev("allowedIds cleared");
-  }
+    /* If all allowedIds are already in use, clear it */
+    if (
+      session.allowedIds &&
+      (filterCardsThatExist(session.allowedIds).length === 0 ||
+        filterCardsThatExist(session.allowedIds).every((id) => isInSession(id)))
+    ) {
+      session.allowedIds = null;
+      logDev("allowedIds cleared");
+    }
 
-  /* Create cards */
-  let chosenCards = chooseCards(options);
-  log({ chosenCards });
+    /* Create cards */
+    let chosenCards = chooseCards(options);
+    log({ chosenCards });
 
-  /* Add dependencies */
-  if (!options?.skipDependencies) {
-    chosenCards = addBadDependencies(chosenCards);
-  }
+    /* Add dependencies */
+    if (!options?.skipDependencies) {
+      chosenCards = addBadDependencies(chosenCards);
+    }
 
-  /* Failed to generate cards, turn off allowed cards and try again */
-  if (chosenCards.length === 0 && session.allowedIds) {
-    console.warn(
-      `Failed to generate more cards using the allowed ones, switching to all cards.`
-    );
-    session.allowedIds = null;
-    return createCards({ skipOverTheEasiest: true });
-  }
+    /* Failed to generate cards, turn off allowed cards and try again */
+    if (chosenCards.length === 0 && session.allowedIds) {
+      console.warn(
+        `Failed to generate more cards using the allowed ones, switching to all cards.`
+      );
+      session.allowedIds = null;
+      return createCards({ skipOverTheEasiest: true });
+    }
 
-  loadCardsIntoSession(chosenCards, options);
-  warnIfFunctionIsSlow.end("createCards");
+    loadCardsIntoSession(chosenCards, options);
+  });
 };

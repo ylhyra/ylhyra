@@ -28,11 +28,11 @@ export const compileDeck = (
     dependencyGraph: {},
   };
   // log(deck);
-  warnIfFunctionIsSlow.start("compileRows");
-  entries(unprocessedDeck.rows).forEach(([, row]) => {
-    compileRow(row, deckProcessed);
+  warnIfFunctionIsSlow(() => {
+    entries(unprocessedDeck.rows).forEach(([, row]) => {
+      compileRow(row, deckProcessed);
+    });
   });
-  warnIfFunctionIsSlow.end("compileRows");
 
   deckProcessed.dependencyGraph = calculateDependencyGraph(deckProcessed);
   log(deckProcessed);

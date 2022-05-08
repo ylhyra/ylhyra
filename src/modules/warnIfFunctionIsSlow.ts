@@ -1,26 +1,64 @@
 import { isDev } from "modules/isDev";
-import { Milliseconds, Timestamp } from "modules/time";
+import { Milliseconds } from "modules/time";
+import { entries } from "modules/typescript/objectEntries";
+import _ from "underscore";
 
-let functionStartedAt: Record<string, Timestamp> = {};
-export const warnIfFunctionIsSlow = {
-  start: (name: string) => {
-    if (!isDev) return;
-    functionStartedAt[name] = performance.now();
-  },
-  end: (name: string, maxMs: Milliseconds = 30) => {
-    if (!isDev) return;
-    if (functionStartedAt[name]) {
-      const time: Milliseconds = performance.now() - functionStartedAt[name];
-      if (time > maxMs) {
-        console.warn(`"${name}" took ${Math.round(time)}ms`);
-      }
-    }
-  },
+// let functionStartedAt: Record<string, Timestamp> = {};
+// export const warnIfFunctionIsSlow = {
+//   start: (name: string) => {
+//     if (!isDev) return;
+//     functionStartedAt[name] = performance.now();
+//   },
+//   end: (name: string, maxMs: Milliseconds = 30) => {
+//     if (!isDev) return;
+//     if (functionStartedAt[name]) {
+//       const time: Milliseconds = performance.now() - functionStartedAt[name];
+//       if (time > maxMs) {
+//         console.warn(`"${name}" took ${Math.round(time)}ms`);
+//       }
+//     }
+//   },
+// };
+
+let timer: NodeJS.Timeout;
+let functionsAndTheirTotalTime: Record<string, Milliseconds> = {};
+
+/**
+ * Warns in console if a function is too slow.
+ * Wrap this around the inner portions of a function.
+ * Must wrap around an anonymous argument-less function.
+ *
+ * const functionName = () => {
+ *   return warnIfFunctionIsSlow2(() => {
+ *     ...
+ *   });
+ * };
+ *
+ * Sums up the time spent in each function (summing by each second).
+ */
+export const warnIfFunctionIsSlow = <T extends () => any>(
+  fn: T
+): ReturnType<T> => {
+  if (!isDev) return fn();
+
+  const functionName = new Error().stack?.split("\n")[2]?.split(" ")[5];
+  const start: Milliseconds = performance.now();
+  const functionOutput = fn();
+  const time: Milliseconds = performance.now() - start;
+  functionsAndTheirTotalTime[functionName!] =
+    (functionsAndTheirTotalTime[functionName!] || 0) + time;
+  timer && clearTimeout(timer);
+  setTimeout(printFunctionsThatTookTooMuchTimeInTheLastSecond, 1000);
+  return functionOutput;
 };
 
-function wrap(any: any) {
-  console.log(arguments.callee);
-  return () => {};
-}
-const jaja = wrap(() => {});
-jaja();
+export const printFunctionsThatTookTooMuchTimeInTheLastSecond = () => {
+  const maxTotalTimeMs = 30;
+  _.sortBy(entries(functionsAndTheirTotalTime), (j) => j[1]).forEach(
+    ([name, time]) => {
+      if (time > maxTotalTimeMs) {
+        console.warn(`Function "${name}" took a total of ${time}ms`);
+      }
+    }
+  );
+};
