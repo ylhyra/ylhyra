@@ -1,18 +1,20 @@
-import { DeckId } from "flashcards/flashcards/types/types";
-import { Row } from "flashcards/flashcards/types/row";
-import { observable } from "mobx";
+import { RowData } from "flashcards/flashcards/types/rowData";
+import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
+import { computed, observable } from "mobx";
 
 export class row {
-  deckId: DeckId;
-  @observable data: Row;
+  deck: deckStore;
+  @observable data: RowData;
 
-  constructor({ deckId, values }: { deckId: DeckId; values: Row }) {
-    this.deckId = deckId;
-    this.data = values;
-    // makeAutoObservable(this);
+  constructor(deck: deckStore, data: RowData) {
+    this.deck = deck;
+    this.data = data;
   }
 
   toJSON() {
     return this.data;
   }
+
+  @computed
+  cards() {}
 }

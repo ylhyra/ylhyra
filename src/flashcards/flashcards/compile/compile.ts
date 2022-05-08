@@ -4,7 +4,7 @@ import {
   shouldCreateFrontToBack,
 } from "flashcards/flashcards/compile/functions";
 import { createCardId, createTermId } from "flashcards/flashcards/compile/ids";
-import { Row } from "flashcards/flashcards/types/row";
+import { RowData } from "flashcards/flashcards/types/rowData";
 import {
   CardIds,
   Direction,
@@ -43,7 +43,7 @@ export const compileDeck = (
  * Calculates certain items such as alternativeIds and dependsOn,
  * creates cardIds
  */
-export const compileRow = (row: Row, deckProcessed: ProcessedDeck) => {
+export const compileRow = (row: RowData, deckProcessed: ProcessedDeck) => {
   if (!row.front || !row.back) return null;
 
   // let dependencies: RowIdToRowIds = {};

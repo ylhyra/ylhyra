@@ -1,10 +1,10 @@
-import { Row } from "flashcards/flashcards/types/row";
+import { RowData } from "flashcards/flashcards/types/rowData";
 import { form } from "modules/form";
 import React from "react";
 import { rowFields } from "flashcards/flashcards/make/rowFields";
 
-export const EditRow = ({ card }: { card: Row }) => {
-  const { Form, AllFields, Input } = new form<Row>({
+export const EditRow = ({ card }: { card: RowData }) => {
+  const { Form, AllFields, Input } = new form<RowData>({
     values: card,
     fields: rowFields,
   });

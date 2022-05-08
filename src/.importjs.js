@@ -11,6 +11,14 @@ module.exports = {
   },
   logLevel: "debug",
   namedExports: {
-    mobx: ["action", "makeObservable", "observable"],
+    mobx: [
+      "action",
+      "autorun",
+      "computed",
+      "makeAutoObservable",
+      "makeObservable",
+      "observable",
+      "observer",
+    ],
   },
 };

@@ -1,7 +1,7 @@
 import { FieldsSetup } from "modules/form";
-import { Row } from "flashcards/flashcards/types/row";
+import { RowData } from "flashcards/flashcards/types/rowData";
 
-export const rowFields: FieldsSetup<Row> = [
+export const rowFields: FieldsSetup<RowData> = [
   {
     name: "front",
     label: "Front side",

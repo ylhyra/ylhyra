@@ -1,4 +1,4 @@
-import { RowId } from "flashcards/flashcards/types/row";
+import { RowId } from "flashcards/flashcards/types/rowData";
 import { customHistory } from "modules/router";
 import { getDeckByIdRequired } from "flashcards/flashcards/stores/base/functions";
 import { getFlashcardsStore } from "flashcards/flashcards/stores/base/flashcardsStore";
@@ -9,7 +9,7 @@ import shortid from "shortid";
 
 export const newDeck = () => {
   const id = shortid.generate();
-  getFlashcardsStore().decks[id] = {
+  getFlashcardsStore().OLDdecks[id] = {
     deckId: id,
     settings: {},
     rows: {},

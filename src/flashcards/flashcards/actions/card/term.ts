@@ -1,11 +1,11 @@
 import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
 import { getTermsFromAllDecks } from "flashcards/flashcards/stores/base/functions";
-import { Row } from "flashcards/flashcards/types/row";
+import { RowData } from "flashcards/flashcards/types/rowData";
 import { CardIds, TermId, TermIds } from "flashcards/flashcards/types/types";
 import { flatten, uniq } from "underscore";
 import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
 
-export const getTermData = (termId: TermId): Row | undefined => {
+export const getTermData = (termId: TermId): RowData | undefined => {
   throw new Error("Not implemented");
   // return getTermsFromAllDecks()[termId];
 };

@@ -1,7 +1,7 @@
 import { getCardData } from "flashcards/flashcards/actions/card/cardData";
 import { isNewTermThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
-import { getSession } from "flashcards/flashcards/stores/session";
+import { getSession } from "flashcards/flashcards/stores/sessionStore";
 import { Direction, Rating } from "flashcards/flashcards/types/types";
 import { observer } from "mobx-react";
 import { joinClassNames } from "modules/addCssClass";

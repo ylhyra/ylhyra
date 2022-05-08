@@ -13,7 +13,7 @@ export type RowIdToRowIds = { [id: RowId]: RowIds };
  * For the processed information, see
  * {@link ProcessedCardExtraInformation} (work in progress)
  */
-export type Row = {
+export type RowData = {
   /** Random string */
   rowId: RowId;
   /** Index of this row in the deck */

@@ -5,7 +5,7 @@ import {
   getTermIdFromCardId,
 } from "flashcards/flashcards/compile/ids";
 import { getFlashcardsStore } from "flashcards/flashcards/stores/base/flashcardsStore";
-import { Row } from "flashcards/flashcards/types/row";
+import { RowData } from "flashcards/flashcards/types/rowData";
 import { CardId, CardIds, TermIds } from "flashcards/flashcards/types/types";
 import { getEntireSchedule } from "flashcards/flashcards/stores/userDataStore";
 
@@ -13,14 +13,14 @@ export const getCardsInSchedule = (): CardIds => {
   return filterCardsThatExist(Object.keys(getEntireSchedule()) as CardIds);
 };
 
-export const getCardData = <T extends keyof Row>(
+export const getCardData = <T extends keyof RowData>(
   cardId: CardId,
   key: T
-): Row[T] => {
+): RowData[T] => {
   const deckId = getDeckId(cardId);
   const rowId = getRowIdFromTermIdOrCardId(cardId);
   /* Todo: Catch if doesn't exist? */
-  return getFlashcardsStore().decks[deckId].rows[rowId][key];
+  return getFlashcardsStore().OLDdecks[deckId].rows[rowId][key];
 };
 
 /**

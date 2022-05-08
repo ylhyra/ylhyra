@@ -8,14 +8,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export const FlashcardsMake = observer(function () {
-  const { decks } = getFlashcardsStore();
+  const { OLDdecks } = getFlashcardsStore();
 
   return (
     <div>
       Decks:
       <Button onClick={newDeck}>New deck</Button>
       <ul>
-        {entries(decks).map(([deckId, deck]) => (
+        {entries(OLDdecks).map(([deckId, deck]) => (
           <li key={deckId}>
             {printDeckTitle(deck)} ({Object.keys(deck.rows).length} cards){" "}
             <Link to={`/flashcards/deck/${deckId}`}>Edit</Link>{" "}
@@ -23,7 +23,7 @@ export const FlashcardsMake = observer(function () {
           </li>
         ))}
       </ul>
-      {Object.keys(decks).length === 0 && <div>No decks.</div>}
+      {Object.keys(OLDdecks).length === 0 && <div>No decks.</div>}
     </div>
   );
 });

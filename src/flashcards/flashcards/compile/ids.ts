@@ -1,4 +1,4 @@
-import { RowId } from "flashcards/flashcards/types/row";
+import { RowId } from "flashcards/flashcards/types/rowData";
 import {
   CardId,
   DeckId,

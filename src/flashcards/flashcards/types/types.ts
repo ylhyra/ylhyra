@@ -1,9 +1,9 @@
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
-import { Row, RowId } from "flashcards/flashcards/types/row";
+import { RowData, RowId } from "flashcards/flashcards/types/rowData";
 import { Days, Timestamp } from "modules/time";
 import { Brand } from "ts-brand";
 
-export type RowsObject = Record<RowId, Row>;
+export type RowsObject = Record<RowId, RowData>;
 
 export type DeckId = string;
 export type UnprocessedDeck = {

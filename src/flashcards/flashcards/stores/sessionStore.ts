@@ -16,7 +16,7 @@ export const EACH_SESSION_LASTS_X_MINUTES = 3;
  * A session is the currently ongoing flashcard game.
  * There can only be one ongoing session at a time.
  */
-export class session {
+export class sessionStore {
   cards: CardInSession[] = [];
   currentCard?: CardInSession;
 
@@ -32,7 +32,7 @@ export class session {
 
   /** Used by {@link getRanking} in order to prioritize seen cards */
   termsSeen = new Set<TermId>();
-  lastUndidAtCounter?: session["counter"];
+  lastUndidAtCounter?: sessionStore["counter"];
   ratingHistory: Rating[] = [];
   savedAt?: Timestamp;
 
@@ -89,7 +89,7 @@ export class session {
   }
 }
 
-let store: session;
-export const getSession = (): session => {
-  return store || (store = new session());
+let store: sessionStore;
+export const getSession = (): sessionStore => {
+  return store || (store = new sessionStore());
 };
