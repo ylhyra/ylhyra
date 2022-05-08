@@ -1,11 +1,13 @@
 import {
   getCardData,
   getCardsInSchedule,
-  getTermIds,
 } from "flashcards/flashcards/actions/card/cardData";
-import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
+import { isNewTermThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
-import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
+import {
+  getDirectionFromCardId,
+  getTermIdFromCardId,
+} from "flashcards/flashcards/compile/ids";
 import {
   getCardIdsFromAllDecks,
   getTermsFromAllDecks,
@@ -57,7 +59,10 @@ export const studyParticularIds = async (
 export const studyNewTerms = () => {
   const newTerms: CardIds = [];
   (Object.keys(getCardIdsFromAllDecks()) as CardIds).forEach((id) => {
-    if (!(id in getEntireSchedule()) && isNewTerm(id)) {
+    if (
+      !(id in getEntireSchedule()) &&
+      isNewTermThatHasNotBeenSeenInSession(id)
+    ) {
       newTerms.push(id);
     }
   });
@@ -67,21 +72,17 @@ export const studyNewTerms = () => {
   });
 };
 
-export const countTerms = (ids: CardIds) => {
-  const i = rapidFlattenArrayAndCountUnique(ids.map((id) => getTermIds(id)));
-  return roundToInterval(i, i > 200 ? 50 : 5);
+export const countTerms = (ids: CardIds, round = true) => {
+  const i = rapidCountUnique(ids.map((id) => getTermIdFromCardId(id)));
+  if (round) {
+    return roundToInterval(i, i > 200 ? 50 : 5);
+  } else {
+    return i;
+  }
 };
 
-export const rapidCountUnique = (i) => new Set(i).size;
-export const rapidFlattenArrayAndCountUnique = (arrOfArrs) => {
-  let s = new Set();
-  arrOfArrs.forEach((arr) => {
-    arr.forEach((i) => {
-      s.add(i);
-    });
-  });
-  return s.size;
-};
+/** Only used by {@link countTerms} */
+export const rapidCountUnique = (i: any[]) => new Set(i).size;
 
 export const countTermsInSchedule = () => {
   return countTerms(getCardsInSchedule());
@@ -99,9 +100,5 @@ export const countTermsInSchedule = () => {
 // }
 
 export const exitVocabularyScreen = () => {
-  let url = window.location.pathname;
-  if (url === "/vocabulary/play" || url === "/vocabulary/difficulty") {
-    url = "/vocabulary";
-  }
-  // goToUrl(url);
+  throw new Error("Not implemented");
 };

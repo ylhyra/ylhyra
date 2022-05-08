@@ -1,4 +1,4 @@
-import { createSchedule } from "flashcards/flashcards/actions/createSchedule";
+import { createSchedule } from "flashcards/flashcards/actions/createSchedule/createSchedule";
 import { exitVocabularyScreen } from "flashcards/flashcards/actions/functions";
 import { clearOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/saveOngoingSessionInLocalStorage";
 import { sync } from "flashcards/flashcards/actions/userData/sync";

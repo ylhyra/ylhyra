@@ -1,6 +1,4 @@
-import { getTermIds } from "flashcards/flashcards/actions/card/cardData";
 import { getAllCardIdsWithSameTerm } from "flashcards/flashcards/actions/card/cardSiblings";
-import { getCardIdsFromTermId } from "flashcards/flashcards/actions/card/term";
 import { saveScheduleForCardId } from "flashcards/flashcards/actions/userData/userDataSchedule";
 import {
   CardId,
@@ -29,6 +27,9 @@ export const getDue = (id: CardId): Timestamp | undefined => {
   return getScheduleForCard(id)?.due;
 };
 
+/**
+ * @see Score
+ */
 export const getScore = (id: CardId): Score | undefined => {
   return getScheduleForCard(id)?.score;
 };
@@ -49,16 +50,16 @@ export const getLastSeen = (id: CardId): Timestamp | undefined => {
   return getScheduleForCard(id)?.lastSeen;
 };
 
-export const isUnseenCard = (id: CardId): boolean => {
-  return !getScore(id);
-};
-
 export const isUnseenSiblingOfANonGoodCard = (id: CardId) => {
-  if (!isUnseenCard(id)) return false;
-  const l = getLowestAvailableTermScore(id);
-  return l && l < Rating.GOOD;
+  if (!isNewCard(id)) return false;
+  const lowest = getLowestAvailableTermScore(id);
+  return lowest && lowest < Rating.GOOD;
 };
 
+/**
+ * Note that a card may be in the schedule without having been seen
+ * (it may just have been postponed instead).
+ */
 export const isInSchedule = (id: CardId) => {
   return id in getEntireSchedule();
 };
@@ -107,26 +108,34 @@ export const timeSinceTermWasSeen = (id: CardId): Milliseconds | null => {
   return getTimeMemoized() - j;
 };
 
+/**
+ * Whether a term was seen in the previous 45 minutes
+ */
 export const wasTermVeryRecentlySeen = (id: CardId) => {
   return wasTermSeenMoreRecentlyThan(id, 45 * minutes);
 };
 
+/**
+ * Input is a time span but not a timestamp,
+ * e.g. "was this seen in the last day?".
+ */
 export const wasTermSeenMoreRecentlyThan = (id: CardId, time: Milliseconds) => {
   const i = timeSinceTermWasSeen(id);
   return i && i < time;
 };
 
-export const isNewCard = (id: CardId) => {
-  return !isInSchedule(id);
+export const isNewCard = (id: CardId): boolean => {
+  return !getScore(id);
 };
 
-export const isNewTerm = (id: CardId) => {
-  // There exists at least one term
-  return getTermIds(id).some((term) =>
-    // Where every cardInSession is new
-    getCardIdsFromTermId(term).every(
-      (id) =>
-        !isInSchedule(id) && !getAsCardInSession(id)?.hasBeenSeenInSession()
-    )
-  );
+/**
+ * Primarily used by the interface ({@link CardElement})
+ * to indicate a card being new.
+ */
+export const isNewTermThatHasNotBeenSeenInSession = (cardId: CardId) => {
+  return getAllCardIdsWithSameTerm(cardId).every((cardId2) => {
+    return (
+      isNewCard(cardId2) && !getAsCardInSession(cardId2)?.hasBeenSeenInSession()
+    );
+  });
 };

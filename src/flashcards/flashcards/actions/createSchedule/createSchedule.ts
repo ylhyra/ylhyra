@@ -20,24 +20,23 @@ import { log } from "modules/log";
 import { addSomeRandomness, average, clamp, toFixedFloat } from "modules/math";
 import { Days, daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
 
-/** Increment score by how much? */
-export const INCR = 0.4;
+export const SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY = 0.4;
 
-const EASY_MULTIPLIER = 7;
+/** Multiplies the last dueInDays by this factor. */
 const GOOD_MULTIPLIER = 2.5;
+const EASY_MULTIPLIER = 7;
 
-const BAD_INITIAL_INTERVAL = 1.3;
-const GOOD_INITIAL_INTERVAL = 5;
+const BAD_INITIAL_DUE_IN_DAYS = 1.3;
+const GOOD_INITIAL_DUE_IN_DAYS = 5;
 
 /**
- * Long-term scheduling
+ * Long-term scheduling.
+ * Calculates:
+ *   - When a card should be shown again
+ *   - Its score ({@see Score}).
  */
 export function createSchedule() {
   const session = getSession();
-  if (!session) {
-    console.error("createSchedule called without an active session!");
-    return;
-  }
   if (!session.cards?.some((i) => i.hasBeenSeenInSession())) return;
 
   session.cards.forEach((card: CardInSession) => {
@@ -56,7 +55,10 @@ export function createSchedule() {
 
     let score: Score = prevScore || avgRating;
 
-    /* SCORE */
+    /**
+     * SCORE
+     * @see Score
+     */
     if (isNew) {
       if (anyBad) {
         score = Rating.BAD;
@@ -67,20 +69,24 @@ export function createSchedule() {
       if (anyBad) {
         score = Rating.BAD;
       } else {
-        score = clamp(score + INCR, Rating.BAD, Rating.EASY + 1);
+        score = clamp(
+          score + SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY,
+          Rating.BAD,
+          Rating.EASY + 1
+        );
       }
     }
 
     /* SCHEDULE */
     if (anyBad) {
-      dueInDays = BAD_INITIAL_INTERVAL;
+      dueInDays = BAD_INITIAL_DUE_IN_DAYS;
     } else if (isNew) {
       if (avgRating === Rating.EASY) {
         dueInDays = 40;
       } else if (avgRating === Rating.GOOD) {
-        dueInDays = GOOD_INITIAL_INTERVAL;
+        dueInDays = GOOD_INITIAL_DUE_IN_DAYS;
       }
-    } else if (lastIntervalInDays && lastSeen && sessionsSeen) {
+    } else {
       const multiplier =
         avgRating === Rating.EASY ? EASY_MULTIPLIER : GOOD_MULTIPLIER;
       dueInDays = (lastIntervalInDays || 1) * multiplier;
@@ -89,9 +95,9 @@ export function createSchedule() {
         If we showed the item far in advance of the scheduled due date,
         then we give the user the same interval as last time
       */
-      const actualIntervalInDays = msToDays(getTime() - lastSeen);
-      if (actualIntervalInDays / lastIntervalInDays < 0.3) {
-        const newDueInDays = lastIntervalInDays;
+      const actualIntervalInDays = msToDays(getTime() - lastSeen!);
+      if (actualIntervalInDays / lastIntervalInDays! < 0.3) {
+        const newDueInDays = lastIntervalInDays!;
         log(
           `${printWord(
             card.cardId
@@ -102,15 +108,17 @@ export function createSchedule() {
     }
 
     /**
-     * If any sibling cards got a bad rating in this session,
-     * this card can not be given a good score
+     * If any sibling cards got a bad rating in this session, then:
+     *   - This card's score is set to  "1.4".
+     *   - It is scheduled to be shown no later than in three days.
      */
     if (
       score >= Rating.GOOD &&
       didAnySiblingCardsGetABadRatingInThisSession(id)
     ) {
-      dueInDays = Math.min(2, dueInDays);
-      score = Math.min(Rating.BAD + INCR, score);
+      dueInDays = Math.min(3, dueInDays);
+      score =
+        Rating.BAD + SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY;
       log(
         `${printWord(
           id
@@ -119,6 +127,7 @@ export function createSchedule() {
     }
 
     setSchedule(card.cardId, {
+      /** Randomly add or subtract up to 10% of the dueInDays just for some variety */
       due: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
       lastIntervalInDays: toFixedFloat(dueInDays, 1),
       score: toFixedFloat(score, 2),
@@ -138,12 +147,12 @@ export function createSchedule() {
       `days: ${toFixedFloat(dueInDays, 1)}`
     );
 
-    /* Postpone siblings */
+    /* Postpone siblings (i.e. the other side of the card */
     getSiblingCards(id)
       /* Ignore cards that were seen in this session */
       .filter((siblingCard) => !wasSeenInSession(siblingCard))
       .forEach((siblingCard) => {
-        /* Postpone based on a portion of the main card's due_in_days,
+        /* Postpone based on a portion of the main card's dueInDays,
            but never more than 10 days */
         const newDue = daysFromNowToTimestamp(Math.min(dueInDays * 0.8, 10));
         const actualDue = getDue(siblingCard);

@@ -1,5 +1,5 @@
 import { getCardData } from "flashcards/flashcards/actions/card/cardData";
-import { isNewTerm } from "flashcards/flashcards/actions/card/cardSchedule";
+import { isNewTermThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { getDirectionFromCardId } from "flashcards/flashcards/compile/ids";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { Direction, Rating } from "flashcards/flashcards/types/types";
@@ -235,7 +235,7 @@ export class CardElement extends Component {
           flashcard
           ${answered ? "answered" : "not-answered"}
           ${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}
-          ${isNewTerm(cardId) ? "new" : ""}
+          ${isNewTermThatHasNotBeenSeenInSession(cardId) ? "new" : ""}
         `}
         onClick={() => this.cardClicked()}
       >
