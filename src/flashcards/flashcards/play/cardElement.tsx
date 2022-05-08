@@ -194,7 +194,7 @@ export class CardElement extends Component {
     const isVolumeOn = session.isVolumeOn;
     const answered = this.state.isShowingBottomSide;
     /** This value is that which makes MobX update the interface */
-    const cardId = session.currentCardId;
+    const cardId = session.currentCard?.cardId;
     if (!cardId) {
       return <div>Unable to create cards.</div>;
     }

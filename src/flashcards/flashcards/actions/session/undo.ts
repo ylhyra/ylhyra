@@ -1,7 +1,7 @@
-import { loadCardInInterface } from "flashcards/flashcards/actions/session/loadCardInInterface";
 import { getSession } from "flashcards/flashcards/sessionStore";
+import { action } from "mobx";
 
-export function undoSession() {
+export const undoSession = action(() => {
   const session = getSession();
 
   const card = session.cardHistory?.[0];
@@ -10,10 +10,9 @@ export function undoSession() {
   session.currentCard = card;
   session.cardHistory!.shift();
   session.lastUndidAtCounter = session.counter;
-  loadCardInInterface();
-}
+});
 
-export function isSessionUndoable() {
+export const isSessionUndoable = () => {
   const session = getSession();
 
   return (
@@ -21,9 +20,9 @@ export function isSessionUndoable() {
     session.cardHistory.length > 0 &&
     session.lastUndidAtCounter !== session.counter
   );
-}
+};
 
-export function checkForUndoOnKeyDown(e: KeyboardEvent) {
+export const checkForUndoOnKeyDown = (e: KeyboardEvent) => {
   if (
     e.keyCode === 90 &&
     (e.ctrlKey || e.metaKey) &&
@@ -33,4 +32,4 @@ export function checkForUndoOnKeyDown(e: KeyboardEvent) {
     e.preventDefault();
     undoSession();
   }
-}
+};

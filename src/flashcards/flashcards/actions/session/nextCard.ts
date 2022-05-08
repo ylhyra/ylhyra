@@ -11,17 +11,21 @@ import { getTermIdFromCardId } from "flashcards/flashcards/compile/ids";
 import { getSession } from "flashcards/flashcards/sessionStore";
 import { log } from "modules/log";
 import _ from "underscore";
+import { action } from "mobx";
 
 /**
  * Finds the next CardInSession (based on its {@link getRanking})
  * and then sets it as the session's currentCard.
  *
- * @param depth - Used to prevent infinite calls
+ * @param isRecursiveCall - Used to prevent infinite calls
  */
-export const nextCard = (depth = 0) => {
+export const nextCard = action((isRecursiveCall = false) => {
   const session = getSession();
 
-  /** Todo: The counter is updated here at the top, which is perhaps slightly confusing? */
+  /**
+   * The counter is updated here at the top since we have now moved to the
+   * next slot and are trying to find a card to fill that slot.
+   */
   session.counter++;
 
   if (getRemainingTime() === 0) {
@@ -33,8 +37,8 @@ export const nextCard = (depth = 0) => {
     log("No cards");
     createCards();
     /* Prevent infinite calls */
-    if (depth === 0) {
-      nextCard(1);
+    if (!isRecursiveCall) {
+      nextCard(true);
       return;
     } else {
       console.error("Failed to create cards");
@@ -48,10 +52,9 @@ export const nextCard = (depth = 0) => {
   session.currentCard = _.min(session.cards, (i) =>
     i.getRanking()
   ) as CardInSession;
-  session.currentCardId = session.currentCard.cardId;
 
   session.termsSeen.add(getTermIdFromCardId(session.currentCard.cardId));
 
   saveOngoingSessionInLocalStorage();
   debugSession();
-};
+});

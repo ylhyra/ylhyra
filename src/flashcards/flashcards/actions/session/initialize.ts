@@ -1,30 +1,33 @@
 import { createCardsIfNoneAreRemaining } from "flashcards/flashcards/actions/session/functions";
-import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
-import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
 import { getDeckById } from "flashcards/flashcards/flashcardsStore.functions";
 import { getSession } from "flashcards/flashcards/sessionStore";
+import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
+import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
+import { action } from "mobx";
 
-export function initializeSession({ deckId }: { deckId: string | undefined }) {
-  const deck = getDeckById(deckId);
-  if (!deck) throw new Error();
-  const session = getSession();
-  session.reset();
+export const initializeSession = action(
+  ({ deckId }: { deckId: string | undefined }) => {
+    const deck = getDeckById(deckId);
+    if (!deck) throw new Error();
+    const session = getSession();
+    session.reset();
 
-  /* Temp */
-  session.allowedDeckIds = [deckId!];
-  // session.deck = compileDeck(deck);
+    /* Temp */
+    session.allowedDeckIds = [deckId!];
+    // session.deck = compileDeck(deck);
 
-  createCardsIfNoneAreRemaining();
-  nextCard();
-  void syncIfNecessary();
+    createCardsIfNoneAreRemaining();
+    nextCard();
+    void syncIfNecessary();
 
-  // if (options.shouldReset !== false) {
-  //   session.reset();
-  // }
-  // session.checkIfCardsRemaining();
-  // session.nextCard();
-  // session.loadCardInInterface();
-}
+    // if (options.shouldReset !== false) {
+    //   session.reset();
+    // }
+    // session.checkIfCardsRemaining();
+    // session.nextCard();
+    // session.loadCardInInterface();
+  }
+);
 
 /* The constructor of the old Session file */
 // constructor(deck: Deck, init) {

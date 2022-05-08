@@ -1,14 +1,13 @@
-import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import {
-  CardId,
   CardIds,
   DeckId,
   Direction,
   Rating,
   TermId,
 } from "flashcards/flashcards/types/types";
-import { makeObservable, observable } from "mobx";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
+import { makeObservable, observable } from "mobx";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
@@ -20,8 +19,7 @@ export const EACH_SESSION_LASTS_X_MINUTES = 3;
 export class sessionStore {
   cards: CardInSession[] = [];
   currentCard: CardInSession | null = null;
-  /** This is necessary in order to tell MobX to update the interface */
-  currentCardId: CardId | null = null;
+
   allowedIds: CardIds | null = null;
 
   /** The most recent card is pushed to the front of this array */
@@ -46,28 +44,24 @@ export class sessionStore {
   remainingTimeLastUpdatedAt?: Timestamp;
 
   /**
-   * This counter increases for every card the user has seen.
+   * This counter increases for every new card the user sees.
    * It is used for scheduling cards within the session,
    * e.g. "This card should be shown when the counter is at 8".
    *
-   * Note: The counter is increased by {@link nextCard} before
-   * a new card is loaded, therefore the counter for the first card
-   * is "1".
+   * The counter value for the first card is "1".
+   *
+   * The user interface relies on this value for refreshing.
    */
-  counter: number = 0;
-  userFacingError: string | null = null;
-  isVolumeOn: boolean = true;
+  @observable counter: number = 0;
+  @observable userFacingError: string | null = null;
+  @observable isVolumeOn: boolean = true;
 
   /** Temp */
   allowedDeckIds: DeckId[] = [];
 
   constructor() {
     this.reset();
-    makeObservable(this, {
-      currentCardId: observable,
-      userFacingError: observable,
-      isVolumeOn: observable,
-    });
+    makeObservable(this);
   }
 
   /**
@@ -92,7 +86,6 @@ export class sessionStore {
     this.savedAt = null;
     this.allowedDeckIds = [];
     this.userFacingError = null;
-    this.currentCardId = null;
   }
 }
 

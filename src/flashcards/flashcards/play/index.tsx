@@ -23,7 +23,6 @@ export const FlashcardsPlay = observer(function () {
   }, [deckId]);
 
   const session = getSession();
-
   return (
     <div id="vocabulary-screen">
       <div id="vocabulary-screen-inner">
@@ -36,7 +35,7 @@ export const FlashcardsPlay = observer(function () {
           ) : (
             <>
               <div className="vocabulary-card-outer-container">
-                <CardElement key={session.currentCardId} />
+                <CardElement key={session.counter} />
               </div>
               <ProgressBar />
             </>

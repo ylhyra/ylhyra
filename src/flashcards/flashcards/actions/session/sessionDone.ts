@@ -8,12 +8,13 @@ import { getSession } from "flashcards/flashcards/sessionStore";
 import { log } from "modules/log";
 import { roundMsToSec, roundToInterval } from "modules/math";
 import { getTime } from "modules/time";
+import { action } from "mobx";
 
 /**
  * Called either when the user exits
  * or when no time is remaining (in {@link nextCard})
  */
-export const sessionDone = (options: any = {}): void => {
+export const sessionDone = action((options: any = {}): void => {
   const session = getSession();
 
   createSchedule();
@@ -30,7 +31,7 @@ export const sessionDone = (options: any = {}): void => {
   //   goToUrl("/vocabulary/play");
   //   initializeSession();
   // }
-};
+});
 
 function getSecondsSpent() {
   const session = getSession();

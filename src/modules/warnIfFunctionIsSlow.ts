@@ -17,3 +17,10 @@ export const warnIfFunctionIsSlow = {
     }
   },
 };
+
+function wrap(any: any) {
+  console.log(arguments.callee);
+  return () => {};
+}
+const jaja = wrap(() => {});
+jaja();
