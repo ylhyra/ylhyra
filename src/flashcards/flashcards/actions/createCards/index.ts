@@ -24,6 +24,7 @@ export type CreateCardsOptions = {
  * and then loads them into the session as {@link CardInSession}.
  */
 export const createCards = (options?: CreateCardsOptions): void => {
+  // await new Promise(resolve => setTimeout(resolve, 0));
   warnIfFunctionIsSlow(() => {
     const session = getSession();
 

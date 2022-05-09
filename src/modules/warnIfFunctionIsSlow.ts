@@ -57,7 +57,9 @@ export const printFunctionsThatTookTooMuchTimeInTheLastSecond = () => {
   _.sortBy(entries(functionsAndTheirTotalTime), (j) => j[1]).forEach(
     ([name, time]) => {
       if (time > maxTotalTimeMs) {
-        console.warn(`Function "${name}" took a total of ${time}ms`);
+        console.warn(
+          `Function "${name}" took a total of ${Math.round(time)}ms`
+        );
       }
     }
   );

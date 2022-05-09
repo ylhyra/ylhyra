@@ -11,6 +11,9 @@ import {
   shouldCreateFrontToBack,
 } from "flashcards/flashcards/stores/deck/compile/functions";
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
+import { deckSettingsFields } from "flashcards/flashcards/make/deckSettings";
+import { rowFields } from "flashcards/flashcards/make/rowFields";
+import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export class rowStore {
   deck: deckStore;
@@ -42,10 +45,10 @@ export class rowStore {
   getCardIds(): CardIds | [] {
     if (!this.shouldCreate()) return [];
     let cardIds: CardIds = [];
-    if (shouldCreateFrontToBack(this.data)) {
+    if (shouldCreateFrontToBack(this)) {
       cardIds.push(createCardId(this.getTermId(), Direction.FRONT_TO_BACK));
     }
-    if (shouldCreateBackToFront(this.data)) {
+    if (shouldCreateBackToFront(this)) {
       cardIds.push(createCardId(this.getTermId(), Direction.BACK_TO_FRONT));
     }
     return cardIds;
@@ -60,13 +63,21 @@ export class rowStore {
   /**
    * Gets the row setting, falling back to the deck setting, falling back to defaults.
    */
-  getSetting(key: keyof DeckSettings & keyof RowData) {
-    /* "!= null" tests for null and undefined */
-    if (this.data[key] != null) {
-      return this.data[key];
-    }
-    if (this.deck.settings[key] != null) {
-      return this.deck.settings[key];
-    }
+  getSetting<T extends keyof DeckSettings & keyof RowData>(
+    key: T
+  ): (DeckSettings & RowData)[T] {
+    return warnIfFunctionIsSlow(() => {
+      /* "!= null" tests for null and undefined */
+      if (this.data[key] != null) {
+        return this.data[key];
+      }
+      if (this.deck.settings[key] != null) {
+        return this.deck.settings[key];
+      }
+      return (
+        rowFields.find((field) => field.name === key)?.defaultValue ??
+        deckSettingsFields.find((field) => field.name === key)?.defaultValue
+      );
+    }) as (DeckSettings & RowData)[T];
   }
 }
