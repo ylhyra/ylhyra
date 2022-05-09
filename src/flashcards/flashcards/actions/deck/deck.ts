@@ -28,7 +28,6 @@ export class Deck {
       this.rows[rowId] = new Row(this, rowData);
     });
     this.settings = settings || {};
-    console.log(this.rows);
     makeAutoObservable(this);
   }
 

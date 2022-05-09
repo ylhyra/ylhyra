@@ -5,14 +5,8 @@ import {
   getRowId,
   getTermIdFromCardId,
 } from "flashcards/flashcards/actions/deck/compile/ids";
-import { RowData } from "flashcards/flashcards/types/rowData";
 import { CardIds, TermId, TermIds } from "flashcards/flashcards/types/types";
 import { flatten, uniq } from "underscore";
-
-export const getTermData = (termId: TermId): RowData | undefined => {
-  throw new Error("Not implemented");
-  // return getTermsFromAllDecks()[termId];
-};
 
 export const getCardIdsFromTermId = (termId: TermId): CardIds => {
   return (
