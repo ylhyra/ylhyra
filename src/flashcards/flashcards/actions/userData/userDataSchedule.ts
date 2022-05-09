@@ -3,7 +3,6 @@ import {
   getEntireSchedule,
   Schedule,
 } from "flashcards/flashcards/actions/userData/userDataStore";
-import { CardId } from "flashcards/flashcards/types/types";
 import { UserData } from "flashcards/flashcards/types/userData";
 
 export const getScheduleFromUserData = (userData: UserData): Schedule => {
@@ -16,6 +15,6 @@ export const getScheduleFromUserData = (userData: UserData): Schedule => {
   return schedule;
 };
 
-export const saveScheduleForCardId = (cardId: CardId) => {
+export function saveScheduleForCardId(this: Card) {
   setUserDataKey(cardId, getEntireSchedule()[cardId], "schedule");
-};
+}

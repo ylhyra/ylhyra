@@ -12,28 +12,34 @@ import { filterEmpty } from "modules/typescript/filterEmpty";
  * previous versions allowed many related cards to share a "term".
  * Returning an array is therefore not necessary currently)
  */
-export const getSiblingCards = (id: CardId): CardIds => {
+export function getSiblingCards(this: Card): CardIds {
   return getAllCardIdsWithSameTerm(id).filter(
     (siblingCardId) => siblingCardId !== id
   );
-};
+}
 
 /**
  * Returns both sides of this term (including the input card)
  */
-export const getAllCardIdsWithSameTerm = (cardId: CardId): CardIds => {
+export function getAllCardIdsWithSameTerm(this: Card): CardIds {
   return getCardIdsFromTermId(getTermIdFromCardId(cardId));
-};
+}
 
-export const getSiblingCardsInSession = (id: CardId): CardInSession[] => {
+export function getSiblingCardsInSession(
+  this: Card,
+  id: CardId
+): CardInSession[] {
   return getSiblingCards(id)
     .filter((card) => isInSession(card))
     .map((card) => getAsCardInSession(card))
     .filter(filterEmpty);
-};
+}
 
-export const didAnySiblingCardsGetABadRatingInThisSession = (id: CardId) => {
+export function didAnySiblingCardsGetABadRatingInThisSession(
+  this: Card,
+  id: CardId
+) {
   return getSiblingCards(id).some((siblingCardId) => {
     return getAsCardInSession(siblingCardId)?.history.includes(Rating.BAD);
   });
-};
+}

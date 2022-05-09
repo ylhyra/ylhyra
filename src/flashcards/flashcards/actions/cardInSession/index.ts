@@ -1,3 +1,4 @@
+import { Card } from "flashcards/flashcards/actions/card/card";
 import { getRanking } from "flashcards/flashcards/actions/cardInSession/getRanking";
 import { postponeRelatedCards } from "flashcards/flashcards/actions/cardInSession/postponeRelatedCards";
 import { rate } from "flashcards/flashcards/actions/cardInSession/rate";
@@ -14,8 +15,8 @@ import { CardId, Rating } from "flashcards/flashcards/types/types";
  */
 export type IntervalRelativeToCurrentCardBeingAtZero = number;
 
-export class CardInSession {
-  cardId: CardId;
+export class CardInSession extends Card {
+  // cardId: CardId;
   history: Rating[] = [];
 
   /**
@@ -39,15 +40,18 @@ export class CardInSession {
   showIn = showIn;
 
   constructor({
+    row,
     cardId,
     insertAtPosition,
     history,
   }: {
+    row: Row;
     cardId: CardId;
     insertAtPosition?: number;
     /** Used for initializing again from a saved state */
     history?: Rating[];
   }) {
+    super(row, cardId);
     this.cardId = cardId;
     this.history = history || [];
     this.absoluteQueuePosition =

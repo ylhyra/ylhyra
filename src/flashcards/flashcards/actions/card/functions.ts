@@ -14,6 +14,9 @@ export const getCardIdByText = (text: string): CardId => {
   // return id;
 };
 
-export const getAsCardInSession = (id: CardId): CardInSession | undefined => {
+export function getAsCardInSession(
+  this: Card,
+  id: CardId
+): CardInSession | undefined {
   return getSession().cards?.find((card) => card.cardId === id);
-};
+}

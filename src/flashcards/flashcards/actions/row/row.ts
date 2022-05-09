@@ -29,6 +29,10 @@ export class Row {
     return this.data;
   }
 
+  get rowId() {
+    return this.data.rowId;
+  }
+
   @computed({ keepAlive: true })
   shouldCreate() {
     return this.data.front && this.data.back;

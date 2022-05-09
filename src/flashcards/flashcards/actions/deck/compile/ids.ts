@@ -33,27 +33,27 @@ export const createTermId = (deckId: DeckId, rowId: RowId): TermId => {
   return `${deckId}${CARD_ID_SEPARATOR}${rowId}` as TermId;
 };
 
-export const getDeckId = (id: CardId | TermId): DeckId => {
+export function getDeckId(this: Card | TermId): DeckId {
   return id.split(CARD_ID_SEPARATOR)[0] as DeckId;
-};
+}
 
-export const getRowId = (id: CardId | TermId): RowId => {
+export function getRowId(this: Card | TermId): RowId {
   return id.split(CARD_ID_SEPARATOR)[1] as RowId;
-};
+}
 
 /**
  * TermId is encoded in CardId
  */
-export const getTermIdFromCardId = (cardId: CardId) => {
+export function getTermIdFromCardId(this: Card) {
   return cardId
     .split(CARD_ID_SEPARATOR)
     .slice(0, 2)
     .join(CARD_ID_SEPARATOR) as TermId;
-};
+}
 
 /**
  * Direction is encoded in CardId
  */
-export const getDirectionFromCardId = (cardId: CardId): Direction => {
+export function getDirectionFromCardId(this: Card): Direction {
   return cardId.split(CARD_ID_SEPARATOR)[2] as Direction;
-};
+}

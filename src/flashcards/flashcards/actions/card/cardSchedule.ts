@@ -23,48 +23,55 @@ export const getScheduleForCard = (
   return getEntireSchedule()[id];
 };
 
-export const getDue = (id: CardId): Timestamp | undefined => {
+export function getDue(this: Card): Timestamp | undefined {
   return getScheduleForCard(id)?.due;
-};
+}
 
 /**
  * @see Score
  */
-export const getScore = (id: CardId): Score | undefined => {
+export function getScore(this: Card): Score | undefined {
   return getScheduleForCard(id)?.score;
-};
+}
 
-export const getSessionsSeen = (id: CardId): number => {
+export function getSessionsSeen(this: Card): number {
   return getScheduleForCard(id)?.sessionsSeen || 0;
-};
+}
 
-export const getNumberOfBadSessions = (id: CardId): number => {
+export function getNumberOfBadSessions(this: Card): number {
   return getScheduleForCard(id)?.numberOfBadSessions || 0;
-};
+}
 
-export const getLastIntervalInDays = (id: CardId): Days | undefined => {
+export function getLastIntervalInDays(
+  this: Card,
+  id: CardId
+): Days | undefined {
   return getScheduleForCard(id)?.lastIntervalInDays;
-};
+}
 
-export const getLastSeen = (id: CardId): Timestamp | undefined => {
+export function getLastSeen(this: Card): Timestamp | undefined {
   return getScheduleForCard(id)?.lastSeen;
-};
+}
 
-export const isUnseenSiblingOfANonGoodCard = (id: CardId) => {
+export function isUnseenSiblingOfANonGoodCard(this: Card) {
   if (!isNewCard(id)) return false;
   const lowest = getLowestAvailableTermScore(id);
   return lowest && lowest < Rating.GOOD;
-};
+}
 
 /**
  * Note that a card may be in the schedule without having been seen
  * (it may just have been postponed instead).
  */
-export const isInSchedule = (id: CardId) => {
+export function isInSchedule(this: Card) {
   return id in getEntireSchedule();
-};
+}
 
-export const setSchedule = (id: CardId, data: Partial<ScheduleData>) => {
+export function setSchedule(
+  this: Card,
+  id: CardId,
+  data: Partial<ScheduleData>
+) {
   /* Round timestamps */
   ["due", "lastSeen", "lastBadTimestamp"].forEach((key) => {
     if (key in data) {
@@ -78,13 +85,16 @@ export const setSchedule = (id: CardId, data: Partial<ScheduleData>) => {
     ...data,
   };
   saveScheduleForCardId(id);
-};
+}
 
-export const isUnseenTerm = (id: CardId) => {
+export function isUnseenTerm(this: Card) {
   return !getTermLastSeen(id);
-};
+}
 
-export const getLowestAvailableTermScore = (id: CardId): Score | null => {
+export function getLowestAvailableTermScore(
+  this: Card,
+  id: CardId
+): Score | null {
   let lowestScore: Score | null = null;
   getAllCardIdsWithSameTerm(id).forEach((card) => {
     if (getScore(card)) {
@@ -92,50 +102,60 @@ export const getLowestAvailableTermScore = (id: CardId): Score | null => {
     }
   });
   return lowestScore;
-};
+}
 
-export const getTermLastSeen = (id: CardId): Timestamp | null => {
+export function getTermLastSeen(this: Card): Timestamp | null {
   let max: Timestamp | null = null;
   getAllCardIdsWithSameTerm(id).forEach((card) => {
     max = Math.max(max || 0, getLastSeen(card) || 0);
   });
   return max;
-};
+}
 
-export const timeSinceTermWasSeen = (id: CardId): Milliseconds | null => {
+export function timeSinceTermWasSeen(
+  this: Card,
+  id: CardId
+): Milliseconds | null {
   let j = getTermLastSeen(id);
   if (!j) return null;
   return getTimeMemoized() - j;
-};
+}
 
 /**
  * Whether a term was seen in the previous 45 minutes
  */
-export const wasTermVeryRecentlySeen = (id: CardId) => {
+export function wasTermVeryRecentlySeen(this: Card) {
   return wasTermSeenMoreRecentlyThan(id, 45 * minutes);
-};
+}
 
 /**
  * Input is a time span but not a timestamp,
  * e.g. "was this seen in the last day?".
  */
-export const wasTermSeenMoreRecentlyThan = (id: CardId, time: Milliseconds) => {
+export function wasTermSeenMoreRecentlyThan(
+  this: Card,
+  id: CardId,
+  time: Milliseconds
+) {
   const i = timeSinceTermWasSeen(id);
   return i && i < time;
-};
+}
 
-export const isNewCard = (id: CardId): boolean => {
+export function isNewCard(this: Card): boolean {
   return !getScore(id);
-};
+}
 
 /**
  * Primarily used by the interface ({@link CardElement})
  * to indicate a card being new.
  */
-export const isNewTermThatHasNotBeenSeenInSession = (cardId: CardId) => {
+export function isNewTermThatHasNotBeenSeenInSession(
+  this: Card,
+  cardId: CardId
+) {
   return getAllCardIdsWithSameTerm(cardId).every((cardId2) => {
     return (
       isNewCard(cardId2) && !getAsCardInSession(cardId2)?.hasBeenSeenInSession()
     );
   });
-};
+}

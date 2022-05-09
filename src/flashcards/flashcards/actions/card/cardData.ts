@@ -27,26 +27,26 @@ export const getCardData = <T extends keyof RowData>(
  * Deprecated: Each card can now only have one term
  * @deprecated
  */
-export const getTermIds = (cardId: CardId): TermIds => {
+export function getTermIds(this: Card): TermIds {
   return [getTermIdFromCardId(cardId)];
-};
+}
 
-export const getLevel = (id: CardId) => {
+export function getLevel(this: Card) {
   throw new Error("Not implemented");
   // return getCardData(id, "level");
-};
+}
 
 export const getCardCEFR = getLevel;
 
-// export const getImportance = (cardId: CardId) => {
+// export function getImportance(this: Card) {
 //   return getCardData(cardId, "importance");
 // };
 //
-// export const getDifficulty = (cardId: CardId) => {
+// export function getDifficulty(this: Card) {
 //   return getCardData(cardId, "difficulty");
 // };
 //
-// export const getSound = (cardId: CardId) => {
+// export function getSound(this: Card) {
 //   return getCardData(cardId, "sound");
 // };
 

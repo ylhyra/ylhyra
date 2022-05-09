@@ -26,7 +26,10 @@ import { roundToInterval } from "modules/math";
 /**
  * Used for debugging (printing cards to the console)
  */
-export const printWord = (id: CardId | TermId | string): string | undefined => {
+export function printWord(
+  this: Card,
+  id: CardId | TermId | string
+): string | undefined {
   if (!isDev) return;
   if (getCardIdsFromAllDecks().includes(id as CardId)) {
     return getCardData(
@@ -41,7 +44,7 @@ export const printWord = (id: CardId | TermId | string): string | undefined => {
   } else {
     log(`No id ${id}`);
   }
-};
+}
 
 export const studyParticularIds = async (
   allowedIds: CardIds,
