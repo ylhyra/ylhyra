@@ -1,10 +1,11 @@
-import { RowId } from "flashcards/flashcards/types/rowData";
+import { Card } from "flashcards/flashcards/actions/card/card";
 import {
   CardId,
   DeckId,
   Direction,
   TermId,
 } from "flashcards/flashcards/types/types";
+import { RowId } from "flashcards/flashcards/types/rowData";
 
 /**
  * Can not be "-" due to shortId.generate() using it.

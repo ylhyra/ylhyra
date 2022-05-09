@@ -1,13 +1,14 @@
-import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
-import { filterCardsThatExist } from "flashcards/flashcards/actions/card/card";
+import { Card } from "flashcards/flashcards/actions/card/card";
+import { CardId, CardIds, TermIds } from "flashcards/flashcards/types/types";
+import { RowData } from "flashcards/flashcards/types/rowData";
+import { filterCardsThatExist } from "flashcards/flashcards/actions/card/functions";
 import {
   getDeckId,
   getRowId,
   getTermIdFromCardId,
 } from "flashcards/flashcards/actions/deck/compile/ids";
 import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
-import { RowData } from "flashcards/flashcards/types/rowData";
-import { CardId, CardIds, TermIds } from "flashcards/flashcards/types/types";
+import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
 
 export const getCardsInSchedule = (): CardIds => {
   return filterCardsThatExist(Object.keys(getEntireSchedule()) as CardIds);

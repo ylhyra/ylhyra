@@ -1,7 +1,5 @@
-import {
-  filterCardsThatExist,
-  isInSession,
-} from "flashcards/flashcards/actions/card/card";
+import { isInSession } from "flashcards/flashcards/actions/card/card";
+import { filterCardsThatExist } from "flashcards/flashcards/actions/card/functions";
 import { addBadDependencies } from "flashcards/flashcards/actions/createCards/addBadDependencies";
 import { chooseCards } from "flashcards/flashcards/actions/createCards/chooseCards";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";

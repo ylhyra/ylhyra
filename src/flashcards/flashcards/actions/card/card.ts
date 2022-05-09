@@ -1,8 +1,43 @@
-import { getCardIdsFromAllDecks } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import { hasDependenciesInCommonWith } from "flashcards/flashcards/actions/card/cardDependencies";
+import { CardId } from "flashcards/flashcards/types/types";
 import { Row } from "flashcards/flashcards/actions/row/row";
+import {
+  didAnySiblingCardsGetABadRatingInThisSession,
+  getAllCardIdsWithSameTerm,
+  getSiblingCards,
+  getSiblingCardsInSession,
+} from "flashcards/flashcards/actions/card/cardSiblings";
+import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
+import {
+  getDue,
+  getLastIntervalInDays,
+  getLastSeen,
+  getLowestAvailableTermScore,
+  getNumberOfBadSessions,
+  getScore,
+  getSessionsSeen,
+  getTermLastSeen,
+  isInSchedule,
+  isNewCard,
+  isNewTermThatHasNotBeenSeenInSession,
+  isUnseenSiblingOfANonGoodCard,
+  isUnseenTerm,
+  setSchedule,
+  timeSinceTermWasSeen,
+  wasTermSeenMoreRecentlyThan,
+  wasTermVeryRecentlySeen,
+} from "flashcards/flashcards/actions/card/cardSchedule";
+import {
+  getLevel,
+  getTermIds,
+} from "flashcards/flashcards/actions/card/cardData";
 import { getSession } from "flashcards/flashcards/actions/session/session";
-import { CardId, CardIds } from "flashcards/flashcards/types/types";
+import { hasDependenciesInCommonWith } from "flashcards/flashcards/actions/card/cardDependencies";
+import {
+  isBad,
+  isBelowGood,
+  isFairlyBad,
+  isTooEasy,
+} from "flashcards/flashcards/actions/card/cardDifficulty";
 
 export class Card {
   row: Row;
@@ -15,10 +50,43 @@ export class Card {
 
   isInSession = isInSession;
   hasDependenciesInCommonWith = hasDependenciesInCommonWith;
+  isAllowed = isAllowed;
+  wasSeenInSession = wasSeenInSession;
+  getTermIds = getTermIds;
+  getLevel = getLevel;
+  getDependenciesAsCardIdToDepth = getDependenciesAsCardIdToDepth;
+  getDependenciesAsArrayOfCardIds = getDependenciesAsArrayOfCardIds;
+  isTooEasy = isTooEasy;
+  isBad = isBad;
+  isFairlyBad = isFairlyBad;
+  isBelowGood = isBelowGood;
+  getDue = getDue;
+  getScore = getScore;
+  getSessionsSeen = getSessionsSeen;
+  getNumberOfBadSessions = getNumberOfBadSessions;
+  getLastIntervalInDays = getLastIntervalInDays;
+  getLastSeen = getLastSeen;
+  isUnseenSiblingOfANonGoodCard = isUnseenSiblingOfANonGoodCard;
+  isInSchedule = isInSchedule;
+  setSchedule = setSchedule;
+  isUnseenTerm = isUnseenTerm;
+  getLowestAvailableTermScore = getLowestAvailableTermScore;
+  getTermLastSeen = getTermLastSeen;
+  timeSinceTermWasSeen = timeSinceTermWasSeen;
+  wasTermVeryRecentlySeen = wasTermVeryRecentlySeen;
+  wasTermSeenMoreRecentlyThan = wasTermSeenMoreRecentlyThan;
+  isNewCard = isNewCard;
+  isNewTermThatHasNotBeenSeenInSession = isNewTermThatHasNotBeenSeenInSession;
+  getSiblingCards = getSiblingCards;
+  getAllCardIdsWithSameTerm = getAllCardIdsWithSameTerm;
+  getSiblingCardsInSession = getSiblingCardsInSession;
+  didAnySiblingCardsGetABadRatingInThisSession =
+    didAnySiblingCardsGetABadRatingInThisSession;
+  getAsCardInSession = getAsCardInSession;
 }
 
 export function isInSession(this: Card) {
-  return getSession().cards.some((i) => i.cardId === cardId);
+  return getSession().cards.some((i) => i.cardId === this.cardId);
 }
 
 /**
@@ -49,11 +117,6 @@ export function isAllowed(this: Card): boolean {
 
   return true;
 }
-
-export const filterCardsThatExist = (cardIds: CardIds) => {
-  const cardsThatExist = getCardIdsFromAllDecks();
-  return cardIds.filter((cardId) => cardId in cardsThatExist);
-};
 
 export function wasSeenInSession(this: Card) {
   const cardInSession = getSession().cards.find(

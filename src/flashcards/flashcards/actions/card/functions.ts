@@ -1,6 +1,8 @@
+import { Card } from "flashcards/flashcards/actions/card/card";
+import { CardId, CardIds } from "flashcards/flashcards/types/types";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { getCardIdsFromAllDecks } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { getSession } from "flashcards/flashcards/actions/session/session";
-import { CardId } from "flashcards/flashcards/types/types";
 
 /**
  * Used for testing
@@ -20,3 +22,8 @@ export function getAsCardInSession(
 ): CardInSession | undefined {
   return getSession().cards?.find((card) => card.cardId === id);
 }
+
+export const filterCardsThatExist = (cardIds: CardIds) => {
+  const cardsThatExist = getCardIdsFromAllDecks();
+  return cardIds.filter((cardId) => cardId in cardsThatExist);
+};
