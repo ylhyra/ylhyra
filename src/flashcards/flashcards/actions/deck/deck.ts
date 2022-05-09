@@ -1,4 +1,4 @@
-import { Card } from "flashcards/flashcards/actions/card/card2";
+import { Card } from "flashcards/flashcards/actions/card/card";
 import { getDependencyGraph } from "flashcards/flashcards/actions/deck/compile/dependencies/dependencyGraph";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";

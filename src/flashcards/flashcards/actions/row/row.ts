@@ -1,4 +1,4 @@
-import { Card } from "flashcards/flashcards/actions/card/card2";
+import { Card } from "flashcards/flashcards/actions/card/card";
 import {
   shouldCreateBackToFront,
   shouldCreateFrontToBack,

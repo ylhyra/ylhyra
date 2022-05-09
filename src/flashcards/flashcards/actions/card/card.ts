@@ -3,12 +3,23 @@ import {
   hasDependenciesInCommonWith,
   hasTheSameTermAs,
 } from "flashcards/flashcards/actions/card/cardDependencies";
+import { Row } from "flashcards/flashcards/actions/row/row";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { CardId, CardIds } from "flashcards/flashcards/types/types";
 
-export const isInSession = (cardId: CardId) => {
+export class Card {
+  row: Row;
+  cardId: CardId;
+
+  constructor(row: Row, cardId: CardId) {
+    this.row = row;
+    this.cardId = cardId;
+  }
+}
+
+export function isInSession(this: Card, cardId: CardId) {
   return getSession().cards.some((i) => i.cardId === cardId);
-};
+}
 
 /**
  * Whether a card is allowed to be chosen by {@link createCards}
