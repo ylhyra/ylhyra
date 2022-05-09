@@ -1,5 +1,4 @@
 import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
 import {
   getDeckId,
   getRowId,
@@ -25,7 +24,7 @@ export const getCardIdsFromTermIds = (termIds: TermIds) => {
  */
 export const getCardIdsShuffledIfSeen = (termId: TermId): CardIds => {
   if (
-    getCardIdsFromTermId(termId).some((cardId) => isInSchedule(cardId)) &&
+    getCardIdsFromTermId(termId).some((cardId) => cardId.isInSchedule()) &&
     Math.random() > 0.5
   ) {
     return getCardIdsFromTermId(termId).reverse();

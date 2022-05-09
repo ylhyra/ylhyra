@@ -26,7 +26,7 @@ export const debugSession = () => {
         word: printWord(card.cardId),
         sortKey: getSortKey(card.cardId),
         // schdl: getEntireSchedule()[i.id]
-        //   ? new Date(getLastSeen(i.id))
+        //   ? new Date(i.getLastSeen())
         //   : "",
       }))
     );

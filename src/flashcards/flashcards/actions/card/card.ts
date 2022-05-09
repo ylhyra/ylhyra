@@ -1,18 +1,22 @@
-import { CardId } from "flashcards/flashcards/types/types";
-import { Row } from "flashcards/flashcards/actions/row/row";
+import { getLevel } from "flashcards/flashcards/actions/card/cardData";
 import {
-  didAnySiblingCardsGetABadRatingInThisSession,
-  getAllCardIdsWithSameTerm,
-  getSiblingCards,
-  getSiblingCardsInSession,
-} from "flashcards/flashcards/actions/card/cardSiblings";
-import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
+  getDependenciesAsArrayOfCardIds,
+  getDependenciesAsCardIdToDepth,
+  hasDependenciesInCommonWith,
+} from "flashcards/flashcards/actions/card/cardDependencies";
+import {
+  isBad,
+  isBelowGood,
+  isFairlyBad,
+  isTooEasy,
+} from "flashcards/flashcards/actions/card/cardDifficulty";
 import {
   getDue,
   getLastIntervalInDays,
   getLastSeen,
   getLowestAvailableTermScore,
   getNumberOfBadSessions,
+  getScheduleForCard,
   getScore,
   getSessionsSeen,
   getTermLastSeen,
@@ -27,17 +31,15 @@ import {
   wasTermVeryRecentlySeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
 import {
-  getLevel,
-  getTermIds,
-} from "flashcards/flashcards/actions/card/cardData";
+  didAnySiblingCardsGetABadRatingInThisSession,
+  getAllCardIdsWithSameTerm,
+  getSiblingCards,
+  getSiblingCardsInSession,
+} from "flashcards/flashcards/actions/card/cardSiblings";
+import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
+import { Row } from "flashcards/flashcards/actions/row/row";
 import { getSession } from "flashcards/flashcards/actions/session/session";
-import { hasDependenciesInCommonWith } from "flashcards/flashcards/actions/card/cardDependencies";
-import {
-  isBad,
-  isBelowGood,
-  isFairlyBad,
-  isTooEasy,
-} from "flashcards/flashcards/actions/card/cardDifficulty";
+import { CardId } from "flashcards/flashcards/types/types";
 
 export class Card {
   row: Row;
@@ -52,7 +54,6 @@ export class Card {
   hasDependenciesInCommonWith = hasDependenciesInCommonWith;
   isAllowed = isAllowed;
   wasSeenInSession = wasSeenInSession;
-  getTermIds = getTermIds;
   getLevel = getLevel;
   getDependenciesAsCardIdToDepth = getDependenciesAsCardIdToDepth;
   getDependenciesAsArrayOfCardIds = getDependenciesAsArrayOfCardIds;
@@ -83,6 +84,8 @@ export class Card {
   didAnySiblingCardsGetABadRatingInThisSession =
     didAnySiblingCardsGetABadRatingInThisSession;
   getAsCardInSession = getAsCardInSession;
+  getScheduleForCard = getScheduleForCard;
+  saveCardSchedule = saveCardSchedule;
 }
 
 export function isInSession(this: Card) {

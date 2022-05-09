@@ -1,4 +1,3 @@
-import { isNewCard } from "flashcards/flashcards/actions/card/cardSchedule";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { getDirectionFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
 import { getSession } from "flashcards/flashcards/actions/session/session";
@@ -73,7 +72,7 @@ export function getRanking(this: CardInSession) {
     rank += 0.4;
     /* Two in a row */
     if (session.cardDirectionLog[1] === direction) {
-      if (this.hasBeenSeenInSession() || !isNewCard(this.cardId)) {
+      if (this.hasBeenSeenInSession() || !this.isNewCard()) {
         rank += 5;
       }
 
@@ -85,7 +84,7 @@ export function getRanking(this: CardInSession) {
         // And all of them were new cards
         session.cardHistory
           .slice(0, 3)
-          .every((i: CardInSession) => isNewCard(i.cardId))
+          .every((i: CardInSession) => i.isNewCard())
       ) {
         rank += 2000;
       }
@@ -105,7 +104,7 @@ export function getRanking(this: CardInSession) {
   //   ) {
   //     q += 20;
   //     // Prevent English from showing up for unknown cards
-  //     if (from === "en" || isNewCard(id)) {
+  //     if (from === "en" || id.isNewCard()) {
   //       q += 20;
   //     }
   //   }

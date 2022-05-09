@@ -1,24 +1,10 @@
-import { wasSeenInSession } from "flashcards/flashcards/actions/card/card";
-import {
-  getDue,
-  getLastIntervalInDays,
-  getLastSeen,
-  getNumberOfBadSessions,
-  getScore,
-  getSessionsSeen,
-  setSchedule,
-} from "flashcards/flashcards/actions/card/cardSchedule";
-import {
-  didAnySiblingCardsGetABadRatingInThisSession,
-  getSiblingCards,
-} from "flashcards/flashcards/actions/card/cardSiblings";
-import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { printWord } from "flashcards/flashcards/actions/functions";
-import { getSession } from "flashcards/flashcards/actions/session/session";
-import { Rating, Score } from "flashcards/flashcards/types/types";
-import { log } from "modules/log";
-import { addSomeRandomness, average, clamp, toFixedFloat } from "modules/math";
-import { Days, daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
+import {CardInSession} from "flashcards/flashcards/actions/cardInSession";
+import {printWord} from "flashcards/flashcards/actions/functions";
+import {getSession} from "flashcards/flashcards/actions/session/session";
+import {Rating, Score} from "flashcards/flashcards/types/types";
+import {log} from "modules/log";
+import {addSomeRandomness, average, clamp, toFixedFloat} from "modules/math";
+import {Days, daysFromNowToTimestamp, getTime, msToDays} from "modules/time";
 
 export const SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY = 0.4;
 
@@ -42,14 +28,14 @@ export function createSchedule() {
   session.cards.forEach((card: CardInSession) => {
     let dueInDays: Days = 1;
     const id = card.cardId;
-    const prevScore = getScore(id);
-    const sessionsSeen = getSessionsSeen(id);
+    const prevScore = id.getScore();
+    const sessionsSeen = id.getSessionsSeen();
     const isNew = !prevScore;
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
     const avgRating = average(sessionHistory);
-    const lastIntervalInDays = getLastIntervalInDays(id);
-    const lastSeen = getLastSeen(id);
+    const lastIntervalInDays = id.getLastIntervalInDays();
+    const lastSeen = id.getLastSeen();
     const badCount = sessionHistory.filter((i) => i === Rating.BAD).length;
     const anyBad = badCount > 0;
 
@@ -114,7 +100,7 @@ export function createSchedule() {
      */
     if (
       score >= Rating.GOOD &&
-      didAnySiblingCardsGetABadRatingInThisSession(id)
+      id.didAnySiblingCardsGetABadRatingInThisSession()
     ) {
       dueInDays = Math.min(3, dueInDays);
       score =
@@ -126,7 +112,7 @@ export function createSchedule() {
       );
     }
 
-    setSchedule(card.cardId, {
+    card.setSchedule(, {
       /** Randomly add or subtract up to 10% of the dueInDays just for some variety */
       due: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
       lastIntervalInDays: toFixedFloat(dueInDays, 1),
@@ -136,7 +122,7 @@ export function createSchedule() {
       ...(anyBad
         ? {
             lastBadTimestamp: getTime(),
-            numberOfBadSessions: getNumberOfBadSessions(card.cardId) + 1,
+            numberOfBadSessions: card.getNumberOfBadSessions() + 1,
           }
         : {}),
     });
@@ -148,16 +134,16 @@ export function createSchedule() {
     );
 
     /* Postpone siblings (i.e. the other side of the card */
-    getSiblingCards(id)
+    id.getSiblingCards()
       /* Ignore cards that were seen in this session */
-      .filter((siblingCard) => !wasSeenInSession(siblingCard))
+      .filter((siblingCard) => !siblingCard.wasSeenInSession())
       .forEach((siblingCard) => {
         /* Postpone based on a portion of the main card's dueInDays,
            but never more than 10 days */
         const newDue = daysFromNowToTimestamp(Math.min(dueInDays * 0.8, 10));
-        const actualDue = getDue(siblingCard);
+        const actualDue = siblingCard.getDue();
         if (!actualDue || actualDue < newDue) {
-          setSchedule(siblingCard, {
+          siblingCard.setSchedule(, {
             due: newDue,
           });
           log(`${printWord(siblingCard)} postponed`);

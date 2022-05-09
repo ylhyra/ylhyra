@@ -1,5 +1,5 @@
-import { removeExtraWhitespace } from "modules/removeExtraWhitespace";
 import { Html } from "inflection/tables/types";
+import { removeExtraWhitespace } from "modules/removeExtraWhitespace";
 
 /**
  * Strips the HTML from {@link formatVocabularyEntry}

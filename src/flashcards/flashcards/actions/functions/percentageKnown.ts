@@ -1,9 +1,4 @@
 import { getCardIdsFromAllDecks } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import {
-  getScore,
-  getSessionsSeen,
-  isInSchedule,
-} from "flashcards/flashcards/actions/card/cardSchedule";
 import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
 import { CardIds } from "flashcards/flashcards/types/types";
 import { clamp, mapValueToRange } from "modules/math";
@@ -13,14 +8,14 @@ export const PercentageKnown = (cardIds: CardIds) => {
   let done = 0;
   let remaining = 0;
   cardIds.forEach((id) => {
-    if (isInSchedule(id)) {
-      let score = getScore(id) || 2;
+    if (id.isInSchedule()) {
+      let score = id.getScore() || 2;
       let toAdd;
       if (score < 1.9) {
         toAdd = mapValueToRange({
           value:
-            clamp(getSessionsSeen(id), 0, 10) +
-            clamp((getSessionsSeen(id) - 10) / 3, 0, 10),
+            clamp(id.getSessionsSeen(), 0, 10) +
+            clamp((id.getSessionsSeen() - 10) / 3, 0, 10),
           input_from: 0,
           input_to: 20,
           output_from: 0.1,

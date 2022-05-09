@@ -1,16 +1,4 @@
-import { isAllowed } from "flashcards/flashcards/actions/card/card";
-import { getCardsInSchedule } from "flashcards/flashcards/actions/card/cardData";
-import {
-  isBad,
-  isBelowGood,
-  isTooEasy,
-} from "flashcards/flashcards/actions/card/cardDifficulty";
-import {
-  getDue,
-  isUnseenSiblingOfANonGoodCard,
-  timeSinceTermWasSeen,
-  wasTermVeryRecentlySeen,
-} from "flashcards/flashcards/actions/card/cardSchedule";
+import { getCardsInSchedule } from "flashcards/flashcards/actions/card/functions";
 import { sortBySortKey } from "flashcards/flashcards/actions/createCards/functions";
 import { CardIds } from "flashcards/flashcards/types/types";
 import { log } from "modules/log";
@@ -28,23 +16,23 @@ export const oldCards = () => {
   let notOverdue: CardIds = [];
 
   getCardsInSchedule()
-    .filter((id) => isAllowed(id))
+    .filter((id) => id.isAllowed())
     .forEach((id) => {
       /* Overdue */
       if (
-        getDue(id) &&
-        getDue(id)! < getTimeMemoized() + 16 * hours &&
-        !isTooEasy(id) &&
-        !wasTermVeryRecentlySeen(id)
+        id.getDue() &&
+        id.getDue()! < getTimeMemoized() + 16 * hours &&
+        !id.isTooEasy() &&
+        !id.wasTermVeryRecentlySeen()
       ) {
-        if (isBelowGood(id) || isUnseenSiblingOfANonGoodCard(id)) {
+        if (id.isBelowGood() || id.isUnseenSiblingOfANonGoodCard()) {
           overdueBad.push(id);
         } else {
           overdueGood.push(id);
         }
       }
       // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
-      else if (isBad(id) && (timeSinceTermWasSeen(id) || 0) > 20 * minutes) {
+      else if (id.isBad() && (id.timeSinceTermWasSeen() || 0) > 20 * minutes) {
         notOverdueVeryBad.push(id);
       } else {
         notOverdue.push(id);

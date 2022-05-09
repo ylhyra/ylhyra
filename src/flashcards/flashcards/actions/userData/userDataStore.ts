@@ -1,7 +1,6 @@
 import { CardId, ScheduleData } from "flashcards/flashcards/types/types";
-import { UserData, UserDataRows } from "flashcards/flashcards/types/userData";
+import { UserData } from "flashcards/flashcards/types/userData";
 import { makeAutoObservable } from "mobx";
-import { Timestamp } from "modules/time";
 
 export type Schedule = Record<CardId, Partial<ScheduleData>>;
 

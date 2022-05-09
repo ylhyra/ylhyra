@@ -1,62 +1,46 @@
-import { Card } from "flashcards/flashcards/actions/card/card";
-import {
-  CardId,
-  Rating,
-  ScheduleData,
-  Score,
-} from "flashcards/flashcards/types/types";
-import {
-  Days,
-  getTimeMemoized,
-  Milliseconds,
-  minutes,
-  Timestamp,
-} from "modules/time";
-import { getAllCardIdsWithSameTerm } from "flashcards/flashcards/actions/card/cardSiblings";
-import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
-import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
-import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
-import { saveScheduleForCardId } from "flashcards/flashcards/actions/userData/userDataSchedule";
+import {Card} from "flashcards/flashcards/actions/card/card";
+import {getEntireSchedule} from "flashcards/flashcards/actions/userData/userDataStore";
+import {CardId, Rating, ScheduleData, Score,} from "flashcards/flashcards/types/types";
+import {minIgnoreFalsy, roundMsTo100Sec} from "modules/math";
+import {Days, getTimeMemoized, Milliseconds, minutes, Timestamp,} from "modules/time";
 
-export const getScheduleForCard = (
-  id: CardId
-): Partial<ScheduleData> | undefined => {
-  return getEntireSchedule()[id];
-};
+export function getScheduleForCard(this: Card): Partial<ScheduleData> | undefined {
+  return getEntireSchedule()[this.cardId];
+}
 
 export function getDue(this: Card): Timestamp | undefined {
-  return getScheduleForCard(id)?.due;
+  return this.getScheduleForCard()?.due;
 }
 
 /**
  * @see Score
  */
 export function getScore(this: Card): Score | undefined {
-  return getScheduleForCard(id)?.score;
+  return this.getScheduleForCard()?.score;
 }
 
 export function getSessionsSeen(this: Card): number {
-  return getScheduleForCard(id)?.sessionsSeen || 0;
+  return this.getScheduleForCard()?.sessionsSeen || 0;
 }
 
 export function getNumberOfBadSessions(this: Card): number {
-  return getScheduleForCard(id)?.numberOfBadSessions || 0;
+  return this.getScheduleForCard()?.numberOfBadSessions || 0;
 }
 
 export function getLastIntervalInDays(
   this: Card,
   id: CardId
 ): Days | undefined {
-  return getScheduleForCard(id)?.lastIntervalInDays;
+  return this.getScheduleForCard()?.lastIntervalInDays;
 }
 
 export function getLastSeen(this: Card): Timestamp | undefined {
-  return getScheduleForCard(id)?.lastSeen;
+  return this.getScheduleForCard()?.lastSeen;
 }
 
 export function isUnseenSiblingOfANonGoodCard(this: Card) {
-  if (!isNewCard(id)) return false;
-  const lowest = getLowestAvailableTermScore(id);
+  if (!this.isNewCard()) return false;
+  const lowest = this.getLowestAvailableTermScore();
   return lowest && lowest < Rating.GOOD;
 }
 
@@ -65,7 +49,7 @@ export function isUnseenSiblingOfANonGoodCard(this: Card) {
  * (it may just have been postponed instead).
  */
 export function isInSchedule(this: Card) {
-  return id in getEntireSchedule();
+  return this.cardId in getEntireSchedule();
 }
 
 export function setSchedule(
@@ -81,15 +65,15 @@ export function setSchedule(
     }
   });
 
-  getEntireSchedule()[id] = {
-    ...(getEntireSchedule()[id] || {}),
+  getEntireSchedule()[this.cardId] = {
+    ...(getEntireSchedule()[this.cardId] || {}),
     ...data,
   };
-  saveScheduleForCardId(id);
+  this.saveCardSchedule();
 }
 
 export function isUnseenTerm(this: Card) {
-  return !getTermLastSeen(id);
+  return !this.getTermLastSeen();
 }
 
 export function getLowestAvailableTermScore(
@@ -97,9 +81,9 @@ export function getLowestAvailableTermScore(
   id: CardId
 ): Score | null {
   let lowestScore: Score | null = null;
-  getAllCardIdsWithSameTerm(id).forEach((card) => {
-    if (getScore(card)) {
-      lowestScore = minIgnoreFalsy(lowestScore, getScore(card));
+  this.getAllCardIdsWithSameTerm().forEach((card) => {
+    if (card.getScore()) {
+      lowestScore = minIgnoreFalsy(lowestScore, card.getScore());
     }
   });
   return lowestScore;
@@ -107,8 +91,8 @@ export function getLowestAvailableTermScore(
 
 export function getTermLastSeen(this: Card): Timestamp | null {
   let max: Timestamp | null = null;
-  getAllCardIdsWithSameTerm(id).forEach((card) => {
-    max = Math.max(max || 0, getLastSeen(card) || 0);
+  this.getAllCardIdsWithSameTerm().forEach((card) => {
+    max = Math.max(max || 0, card.getLastSeen() || 0);
   });
   return max;
 }
@@ -117,7 +101,7 @@ export function timeSinceTermWasSeen(
   this: Card,
   id: CardId
 ): Milliseconds | null {
-  let j = getTermLastSeen(id);
+  let j = id.getTermLastSeen();
   if (!j) return null;
   return getTimeMemoized() - j;
 }
@@ -126,7 +110,7 @@ export function timeSinceTermWasSeen(
  * Whether a term was seen in the previous 45 minutes
  */
 export function wasTermVeryRecentlySeen(this: Card) {
-  return wasTermSeenMoreRecentlyThan(id, 45 * minutes);
+  return id.wasTermSeenMoreRecentlyThan(, 45 * minutes);
 }
 
 /**
@@ -138,12 +122,12 @@ export function wasTermSeenMoreRecentlyThan(
   id: CardId,
   time: Milliseconds
 ) {
-  const i = timeSinceTermWasSeen(id);
+  const i = id.timeSinceTermWasSeen();
   return i && i < time;
 }
 
 export function isNewCard(this: Card): boolean {
-  return !getScore(id);
+  return !id.getScore();
 }
 
 /**
@@ -154,9 +138,9 @@ export function isNewTermThatHasNotBeenSeenInSession(
   this: Card,
   cardId: CardId
 ) {
-  return getAllCardIdsWithSameTerm(cardId).every((cardId2) => {
+  return cardId.getAllCardIdsWithSameTerm(((cardId2) => {
     return (
-      isNewCard(cardId2) && !getAsCardInSession(cardId2)?.hasBeenSeenInSession()
+      cardId2.isNewCard() && !cardId2.getAsCardInSession()?.hasBeenSeenInSession()
     );
   });
 }

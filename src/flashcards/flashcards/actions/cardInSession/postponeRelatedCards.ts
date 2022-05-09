@@ -3,9 +3,6 @@ import {
   hasDependenciesInCommonWith,
   hasTheSameTermAs,
 } from "flashcards/flashcards/actions/card/cardDependencies";
-import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
-import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
-import { getSiblingCardsInSession } from "flashcards/flashcards/actions/card/cardSiblings";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types/types";
 
@@ -62,15 +59,15 @@ export function postponeRelatedCards(
       card1.history[0] === Rating.BAD &&
       dependencyDepthOfCard(card1.cardId, card2.cardId) === 1 &&
       // And other card is new
-      ((!isInSchedule(card2.cardId) && !card2.hasBeenSeenInSession()) ||
+      ((!card2.isInSchedule() && !card2.hasBeenSeenInSession()) ||
         // Or other card is bad (includes some randomness)
-        ((isBad(card2.cardId) || card2.history[0] === Rating.BAD) &&
+        ((card2.isBad() || card2.history[0] === Rating.BAD) &&
           Math.random() > 0.5))
     ) {
       card1.showIn({ interval: 6 });
       card2.showIn({ interval: 3 });
 
-      getSiblingCardsInSession(card2.cardId).forEach((siblingCard) => {
+      card2.getSiblingCardsInSession().forEach((siblingCard) => {
         siblingCard.showIn({ interval: 6 });
       });
     }

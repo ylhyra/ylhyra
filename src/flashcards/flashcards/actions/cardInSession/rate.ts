@@ -1,5 +1,3 @@
-import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
-import { getSessionsSeen } from "flashcards/flashcards/actions/card/cardSchedule";
 import {
   CardInSession,
   IntervalRelativeToCurrentCardBeingAtZero,
@@ -29,7 +27,7 @@ export function rate(this: CardInSession, rating: Rating): void {
   let interval: IntervalRelativeToCurrentCardBeingAtZero;
 
   if (rating === Rating.BAD) {
-    interval = getSessionsSeen(cardId) > 0 ? 4 : 3;
+    interval = cardId.getSessionsSeen() > 0 ? 4 : 3;
 
     /* Two bad ratings in a row */
     if (lastRating === Rating.BAD) {
@@ -59,7 +57,7 @@ export function rate(this: CardInSession, rating: Rating): void {
       cardInSession.done = false;
     } else if (nextLastRating === Rating.BAD) {
       interval = 10;
-    } else if (isBad(cardId) && timesSeenBeforeInSession === 0) {
+    } else if (cardId.isBad() && timesSeenBeforeInSession === 0) {
       interval = 12;
     }
   } else if (rating === Rating.EASY) {
@@ -73,7 +71,7 @@ export function rate(this: CardInSession, rating: Rating): void {
 
   // keepTrackOfEasiness({
   //   rating,
-  //   isANewCard: !isInSchedule(id) && timesSeenBeforeInSession === 0,
+  //   isANewCard: !id.isInSchedule() && timesSeenBeforeInSession === 0,
   //   card,
   // });
 

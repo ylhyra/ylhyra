@@ -1,14 +1,9 @@
 import { getSortKey } from "flashcards/flashcards/actions/card/cardData";
-import {
-  getScore,
-  getTermLastSeen,
-  wasTermVeryRecentlySeen,
-} from "flashcards/flashcards/actions/card/cardSchedule";
 import { CardIds } from "flashcards/flashcards/types/types";
 import { sortBy } from "underscore";
 
 export const oldestFirst = (ids: CardIds) => {
-  return sortBy(ids, (id) => getTermLastSeen(id));
+  return sortBy(ids, (id) => id.getTermLastSeen());
 };
 
 // export const newestFirst = (ids: CardIds) => {
@@ -16,7 +11,7 @@ export const oldestFirst = (ids: CardIds) => {
 // };
 
 export const veryRecentlySeenSortedLast = (ids: CardIds) => {
-  return sortBy(ids, (id) => wasTermVeryRecentlySeen(id));
+  return sortBy(ids, (id) => id.wasTermVeryRecentlySeen());
 };
 
 // const wasTermVeryRecentlySeen2_temp = (id, time) => {
@@ -27,7 +22,7 @@ export const veryRecentlySeenSortedLast = (ids: CardIds) => {
 // };
 
 export const sortCardsByScore = (ids: CardIds) => {
-  return sortBy(ids, (id) => getScore(id));
+  return sortBy(ids, (id) => id.getScore());
 };
 
 export const sortBySortKey = (ids: CardIds, options?) => {

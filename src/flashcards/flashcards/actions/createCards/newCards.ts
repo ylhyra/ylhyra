@@ -1,6 +1,4 @@
 import { getCardIdsFromAllDecks } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import { isAllowed } from "flashcards/flashcards/actions/card/card";
-import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
 import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
 import { veryRecentlySeenSortedLast } from "flashcards/flashcards/actions/createCards/functions";
 import { getSession } from "flashcards/flashcards/actions/session/session";
@@ -15,7 +13,7 @@ export const getNewCards = (options?: CreateCardsOptions): CardIds => {
   const session = getSession();
 
   let newCards = getCardIdsFromAllDecks().filter(
-    (cardId) => !isInSchedule(cardId) && isAllowed(cardId)
+    (cardId) => !cardId.isInSchedule() && cardId.isAllowed()
   );
 
   /**

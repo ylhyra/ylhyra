@@ -1,17 +1,5 @@
 import { isInSession } from "flashcards/flashcards/actions/card/card";
-import {
-  dependencyDepthOfCard,
-  getDependenciesAsArrayOfCardIds,
-} from "flashcards/flashcards/actions/card/cardDependencies";
-import {
-  isBad,
-  isFairlyBad,
-} from "flashcards/flashcards/actions/card/cardDifficulty";
-import {
-  isUnseenTerm,
-  timeSinceTermWasSeen,
-  wasTermVeryRecentlySeen,
-} from "flashcards/flashcards/actions/card/cardSchedule";
+import { dependencyDepthOfCard } from "flashcards/flashcards/actions/card/cardDependencies";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
@@ -30,7 +18,7 @@ export const addRelatedCardsToSession = (card: CardInSession) => {
   /* Bail for repeated failures ... */
   if (card.history.length > 1) return;
 
-  getDependenciesAsArrayOfCardIds(card.cardId).forEach((relatedCardId) => {
+  card.getDependenciesAsArrayOfCardIds().forEach((relatedCardId) => {
     /* Ignore cards already in session */
     if (isInSession(relatedCardId)) return;
 
@@ -42,16 +30,16 @@ export const addRelatedCardsToSession = (card: CardInSession) => {
     /* Ignore cyclical dependencies */
     if (dependencyDepthOfCard(relatedCardId, id) > 0) return;
 
-    if (wasTermVeryRecentlySeen(relatedCardId)) return;
+    if (relatedCardId.wasTermVeryRecentlySeen()) return;
 
     /* Add cards that this term directly depends on */
     if (
       dependencyDepthOfCard(id, relatedCardId) === 1 &&
       /* Unseen or unknown cards */
-      (isUnseenTerm(relatedCardId) ||
-        isBad(relatedCardId) ||
-        (isFairlyBad(relatedCardId) &&
-          timeSinceTermWasSeen(relatedCardId)! > 5 * days &&
+      (relatedCardId.isUnseenTerm() ||
+        relatedCardId.isBad() ||
+        (relatedCardId.isFairlyBad() &&
+          relatedCardId.timeSinceTermWasSeen()! > 5 * days &&
           Math.random() > 0.7))
     ) {
       log(`Direct dependency "${printWord(relatedCardId)}" added`);

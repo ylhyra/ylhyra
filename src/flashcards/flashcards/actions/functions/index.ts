@@ -1,26 +1,23 @@
+import {
+  getCardIdsFromAllDecks,
+  getTermsFromAllDecks,
+} from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Card } from "flashcards/flashcards/actions/card/card";
+import { getCardData } from "flashcards/flashcards/actions/card/cardData";
+import { getCardsInSchedule } from "flashcards/flashcards/actions/card/functions";
+import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
+import {
+  getDirectionFromCardId,
+  getTermIdFromCardId,
+} from "flashcards/flashcards/actions/deck/compile/ids";
+import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
 import {
   CardId,
   CardIds,
   Direction,
   TermId,
 } from "flashcards/flashcards/types/types";
-import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
-import {
-  getCardData,
-  getCardsInSchedule,
-} from "flashcards/flashcards/actions/card/cardData";
-import {
-  getCardIdsFromAllDecks,
-  getTermsFromAllDecks,
-} from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import {
-  getDirectionFromCardId,
-  getTermIdFromCardId,
-} from "flashcards/flashcards/actions/deck/compile/ids";
-import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
 import { isDev } from "modules/isDev";
-import { isNewTermThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { log } from "modules/log";
 import { roundToInterval } from "modules/math";
 
@@ -65,7 +62,7 @@ export const studyNewTerms = () => {
   (Object.keys(getCardIdsFromAllDecks()) as CardIds).forEach((id) => {
     if (
       !(id in getEntireSchedule()) &&
-      isNewTermThatHasNotBeenSeenInSession(id)
+      id.isNewTermThatHasNotBeenSeenInSession()
     ) {
       newTerms.push(id);
     }

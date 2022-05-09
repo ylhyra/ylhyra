@@ -54,12 +54,12 @@ export function getDependenciesAsArrayOfCardIds(
 }
 
 export const dependencyDepthOfCard = (this: Card, card2: Card): number => {
-  return getDependenciesAsCardIdToDepth(card1)[card2];
+  return card1.getDependenciesAsCardIdToDepth()[card2];
 };
 
 export const hasDependenciesInCommonWith = (this: Card, card2: Card) => {
-  const deps1 = getDependenciesAsArrayOfCardIds(card1);
-  const deps2 = getDependenciesAsArrayOfCardIds(card2);
+  const deps1 = card1.getDependenciesAsArrayOfCardIds();
+  const deps2 = card2.getDependenciesAsArrayOfCardIds();
   return deps1.some((cardId) => deps2.includes(cardId));
 };
 

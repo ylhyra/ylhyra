@@ -1,15 +1,15 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { CardId, Rating } from "flashcards/flashcards/types/types";
-import { Row } from "flashcards/flashcards/actions/row/row";
 import { getRanking } from "flashcards/flashcards/actions/cardInSession/getRanking";
+import { postponeRelatedCards } from "flashcards/flashcards/actions/cardInSession/postponeRelatedCards";
+import { rate } from "flashcards/flashcards/actions/cardInSession/rate";
+import { showIn } from "flashcards/flashcards/actions/cardInSession/showIn";
+import { getTermIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
+import { Row } from "flashcards/flashcards/actions/row/row";
 import {
   getSession,
   Session,
 } from "flashcards/flashcards/actions/session/session";
-import { getTermIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
-import { postponeRelatedCards } from "flashcards/flashcards/actions/cardInSession/postponeRelatedCards";
-import { rate } from "flashcards/flashcards/actions/cardInSession/rate";
-import { showIn } from "flashcards/flashcards/actions/cardInSession/showIn";
+import { CardId, Rating } from "flashcards/flashcards/types/types";
 
 /**
  * An interval of "1" would mean that that card is shown next.
