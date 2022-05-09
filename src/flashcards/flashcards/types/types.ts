@@ -1,5 +1,5 @@
-import { Brand } from "ts-brand";
 import { Days, Timestamp } from "modules/time";
+import { Brand } from "ts-brand";
 
 export type DirectionSettings =
   | "BOTH"
@@ -72,7 +72,9 @@ export type Score = number;
  */
 export type CardId = Brand<string, "CardId">;
 export type CardIds = CardId[];
+/** @deprecated */
 export type TermId = Brand<string, "TermId">;
+/** @deprecated */
 export type TermIds = TermId[];
 export type DeckId = Brand<string, "DeckId">;
 

@@ -1,12 +1,12 @@
-import {Card} from "flashcards/flashcards/actions/card/card2";
-import { CardId, CardIds, DeckId } from 'flashcards/flashcards/types/types';
-import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
-import { Row } from "flashcards/flashcards/actions/row/row";
-import { RowData, RowId } from "flashcards/flashcards/types/rowData";
-import { computed, makeAutoObservable } from "mobx";
-import { entries, values } from "modules/typescript/objectEntries";
-import { flattenArray } from "modules/arrays/flattenArray";
+import { Card } from "flashcards/flashcards/actions/card/card2";
 import { getDependencyGraph } from "flashcards/flashcards/actions/deck/compile/dependencies/dependencyGraph";
+import { Row } from "flashcards/flashcards/actions/row/row";
+import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
+import { RowData, RowId } from "flashcards/flashcards/types/rowData";
+import { CardIds, DeckId } from "flashcards/flashcards/types/types";
+import { computed, makeAutoObservable } from "mobx";
+import { flattenArray } from "modules/arrays/flattenArray";
+import { entries, values } from "modules/typescript/objectEntries";
 
 export class Deck {
   deckId: DeckId;
@@ -32,7 +32,7 @@ export class Deck {
     makeAutoObservable(this);
   }
 
-  @computed({ keepAlive: true })
+  /** @deprecated */
   getCardIds(): CardIds {
     return flattenArray(
       values(this.rows).map((row) => row.getCardIds())
@@ -44,6 +44,7 @@ export class Deck {
     return flattenArray(
       values(this.rows).map((row) => row.getCards())
     ) as Card[];
+  }
 
   @computed({ keepAlive: true })
   getDependencyGraph = getDependencyGraph;

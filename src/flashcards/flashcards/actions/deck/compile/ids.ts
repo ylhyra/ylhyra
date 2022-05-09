@@ -27,6 +27,7 @@ export const createCardId = (termId: TermId, direction: Direction): CardId => {
 
 /**
  * A termId is a combination of the deckId and the rowId.
+ * @deprecated
  */
 export const createTermId = (deckId: DeckId, rowId: RowId): TermId => {
   return `${deckId}${CARD_ID_SEPARATOR}${rowId}` as TermId;

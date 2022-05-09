@@ -47,10 +47,20 @@ export class Row {
     if (!this.shouldCreate()) return [];
     let cardIds: CardIds = [];
     if (shouldCreateFrontToBack(this)) {
-      cardIds.push(createCardId(this.getTermId(), Direction.FRONT_TO_BACK));
+      cardIds.push(
+        createCardId(
+          createTermId(this.deck.deckId, this.data.rowId),
+          Direction.FRONT_TO_BACK
+        )
+      );
     }
     if (shouldCreateBackToFront(this)) {
-      cardIds.push(createCardId(this.getTermId(), Direction.BACK_TO_FRONT));
+      cardIds.push(
+        createCardId(
+          createTermId(this.deck.deckId, this.data.rowId),
+          Direction.BACK_TO_FRONT
+        )
+      );
     }
     return cardIds;
   }
