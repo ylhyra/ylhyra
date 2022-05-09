@@ -1,4 +1,8 @@
 import {
+  getCardIdsFromAllDecks,
+  getTermsFromAllDecks,
+} from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
+import {
   getCardData,
   getCardsInSchedule,
 } from "flashcards/flashcards/actions/card/cardData";
@@ -7,18 +11,14 @@ import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
 import {
   getDirectionFromCardId,
   getTermIdFromCardId,
-} from "flashcards/flashcards/stores/deck/compile/ids";
-import {
-  getCardIdsFromAllDecks,
-  getTermsFromAllDecks,
-} from "flashcards/flashcards/stores/base/functions";
+} from "flashcards/flashcards/actions/deck/compile/ids";
+import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
 import {
   CardId,
   CardIds,
   Direction,
   TermId,
 } from "flashcards/flashcards/types/types";
-import { getEntireSchedule } from "flashcards/flashcards/stores/userDataStore";
 import { isDev } from "modules/isDev";
 import { log } from "modules/log";
 import { roundToInterval } from "modules/math";

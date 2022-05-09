@@ -1,10 +1,10 @@
 import { isInSession } from "flashcards/flashcards/actions/card/card";
+import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
 import { getCardIdsFromTermId } from "flashcards/flashcards/actions/card/term";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { getTermIdFromCardId } from "flashcards/flashcards/stores/deck/compile/ids";
+import { getTermIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
 import { CardId, CardIds, Rating } from "flashcards/flashcards/types/types";
 import { filterEmpty } from "modules/typescript/filterEmpty";
-import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
 
 /**
  * Gets the other side of the card.

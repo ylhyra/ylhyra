@@ -1,17 +1,17 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { createCards } from "flashcards/flashcards/actions/createCards";
+import { getTermIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
 import { debugSession } from "flashcards/flashcards/actions/session/debugging";
 import {
   createCardsIfNoneAreRemaining,
   getRemainingTime,
 } from "flashcards/flashcards/actions/session/functions";
 import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/saveOngoingSessionInLocalStorage";
+import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
-import { getTermIdFromCardId } from "flashcards/flashcards/stores/deck/compile/ids";
-import { getSession } from "flashcards/flashcards/stores/sessionStore";
+import { action } from "mobx";
 import { log } from "modules/log";
 import _ from "underscore";
-import { action } from "mobx";
 
 /**
  * Finds the next CardInSession (based on its {@link getRanking})

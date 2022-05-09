@@ -129,10 +129,10 @@ export function createCalendarTheme(baseColor: ColorInput): any {
   }
 
   // return {
-  //   level4: base.setAlpha(0.92).toHslString(),
-  //   level3: base.setAlpha(0.76).toHslString(),
-  //   level2: base.setAlpha(0.6).toHslString(),
-  //   level1: base.setAlpha(0.44).toHslString(),
+  //   level4: baseFlashcardsStore.setAlpha(0.92).toHslString(),
+  //   level3: baseFlashcardsStore.setAlpha(0.76).toHslString(),
+  //   level2: baseFlashcardsStore.setAlpha(0.6).toHslString(),
+  //   level1: baseFlashcardsStore.setAlpha(0.44).toHslString(),
   //   level0: emptyColor,
   // };
 }

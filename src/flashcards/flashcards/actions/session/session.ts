@@ -1,3 +1,4 @@
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import {
   CardIds,
   DeckId,
@@ -5,9 +6,8 @@ import {
   Rating,
   TermId,
 } from "flashcards/flashcards/types/types";
-import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
 import { makeObservable, observable } from "mobx";
+import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
@@ -16,7 +16,7 @@ export const EACH_SESSION_LASTS_X_MINUTES = 3;
  * A session is the currently ongoing flashcard game.
  * There can only be one ongoing session at a time.
  */
-export class sessionStore {
+export class Session {
   cards: CardInSession[] = [];
   currentCard?: CardInSession;
 
@@ -32,7 +32,7 @@ export class sessionStore {
 
   /** Used by {@link getRanking} in order to prioritize seen cards */
   termsSeen = new Set<TermId>();
-  lastUndidAtCounter?: sessionStore["counter"];
+  lastUndidAtCounter?: Session["counter"];
   ratingHistory: Rating[] = [];
   savedAt?: Timestamp;
 
@@ -89,7 +89,7 @@ export class sessionStore {
   }
 }
 
-let store: sessionStore;
-export const getSession = (): sessionStore => {
-  return store || (store = new sessionStore());
+let store: Session;
+export const getSession = (): Session => {
+  return store || (store = new Session());
 };

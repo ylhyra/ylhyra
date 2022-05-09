@@ -1,5 +1,5 @@
-import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
 
-export const printDeckTitle = (deck: deckStore) => {
+export const printDeckTitle = (deck: Deck) => {
   return deck.settings.title || "(untitled)";
 };

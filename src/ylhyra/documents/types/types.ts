@@ -42,11 +42,11 @@ export type SentenceDefinition = {
 export type WordDefinition = {
   /** Word translation that should convey most of the meaning. */
   meaning: string;
-  /** Icelandic base version of word (without inflections). */
+  /** Icelandic baseFlashcardsStore version of word (without inflections). */
   base?: string;
-  /** Translation of the base version (without inflections). */
+  /** Translation of the baseFlashcardsStore version (without inflections). */
   base_meaning?: string;
-  /** Translation of the base version, if necessary. */
+  /** Translation of the baseFlashcardsStore version, if necessary. */
   base_direct?: string;
   /** Explains cultural connotations. */
   note?: string;

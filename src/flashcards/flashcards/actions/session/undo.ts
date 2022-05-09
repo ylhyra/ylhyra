@@ -1,4 +1,4 @@
-import { getSession } from "flashcards/flashcards/stores/sessionStore";
+import { getSession } from "flashcards/flashcards/actions/session/session";
 import { action } from "mobx";
 
 export const undoSession = action(() => {

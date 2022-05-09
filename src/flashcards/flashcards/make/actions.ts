@@ -1,18 +1,18 @@
-import { DeckId } from "flashcards/flashcards/types/types";
+import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
+import { getDeckByIdRequired } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
+import { getPlaintextFromUnformattedVocabularyEntry } from "flashcards/flashcards/actions/deck/compile/format/format";
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowId } from "flashcards/flashcards/types/rowData";
+import { DeckId } from "flashcards/flashcards/types/types";
 import { customHistory } from "modules/router";
-import { getDeckByIdRequired } from "flashcards/flashcards/stores/base/functions";
-import { getFlashcardsStore } from "flashcards/flashcards/stores/base/flashcardsStore";
-import { getPlaintextFromUnformattedVocabularyEntry } from "flashcards/flashcards/stores/deck/compile/format/format";
 import { values } from "modules/typescript/objectEntries";
-import _ from "underscore";
 import shortid from "shortid";
-import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
-import { rowStore } from "flashcards/flashcards/stores/deck/rowStore";
+import _ from "underscore";
 
 export const newDeck = () => {
   const id = shortid.generate() as DeckId;
-  getFlashcardsStore().decks[id] = new deckStore({
+  getFlashcardsStore().decks[id] = new Deck({
     deckId: id,
     settings: {},
     rows: {},
@@ -24,7 +24,7 @@ export const addRow = (deckId: DeckId) => {
   const rowId = shortid.generate() as RowId;
   /* Todo */
   const rowNumber = 0;
-  getDeckByIdRequired(deckId).rows[rowId] = new rowStore(
+  getDeckByIdRequired(deckId).rows[rowId] = new Row(
     getDeckByIdRequired(deckId),
     {
       rowId,

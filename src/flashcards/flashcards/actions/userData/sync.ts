@@ -1,10 +1,10 @@
 import { saveUserDataInLocalStorage } from "flashcards/flashcards/actions/userData/userData";
 import { getScheduleFromUserData } from "flashcards/flashcards/actions/userData/userDataSchedule";
-import { UserData, UserDataRows } from "flashcards/flashcards/types/userData";
 import {
   getUserData,
   setEntireSchedule,
-} from "flashcards/flashcards/stores/userDataStore";
+} from "flashcards/flashcards/actions/userData/userDataStore";
+import { UserData, UserDataRows } from "flashcards/flashcards/types/userData";
 import { isUserLoggedIn } from "flashcards/user/actions";
 import axios2 from "modules/axios2";
 import { getFromLocalStorage } from "modules/localStorage";

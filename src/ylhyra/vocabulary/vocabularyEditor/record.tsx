@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { ReactMic } from "react-mic";
+// import { ReactMic } from "react-mic";
 import { connect, ConnectedProps } from "react-redux";
 import Sound from "react-sound";
 import { RootState } from "ylhyra/app/app/store";
@@ -152,13 +152,13 @@ class RecorderElement extends React.Component<{ word: string }> {
           {this.props.word}
         </div>
 
-        <ReactMic
-          record={this.state.recording}
-          onStop={this.recordingDone}
-          mimeType="audio/wav"
-          strokeColor="#cb0d51"
-          backgroundColor="#ffffff"
-        />
+        {/*<ReactMic*/}
+        {/*  record={this.state.recording}*/}
+        {/*  onStop={this.recordingDone}*/}
+        {/*  mimeType="audio/wav"*/}
+        {/*  strokeColor="#cb0d51"*/}
+        {/*  backgroundColor="#ffffff"*/}
+        {/*/>*/}
 
         {this.state.blob &&
           this.state.blob.blobURL &&

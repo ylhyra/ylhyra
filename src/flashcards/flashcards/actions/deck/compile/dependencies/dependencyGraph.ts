@@ -1,10 +1,10 @@
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import {
   DependenciesForAllTermsAsTermIdToDependencyToDepth,
   DependenciesForOneTermAsDependencyToDepth,
   TermId,
   TermIds,
 } from "flashcards/flashcards/types/types";
-import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
 
 /**
  * Prevent ridiculously deep dependencies
@@ -12,7 +12,7 @@ import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
 const MAX_DEPTH = 10;
 
 export function getDependencyGraph(
-  this: deckStore
+  this: Deck
 ): DependenciesForAllTermsAsTermIdToDependencyToDepth {
   throw new Error("Not implemented");
 
@@ -35,9 +35,7 @@ export function getDependencyGraph(
  * A termId to the termIds it directly depends on
  */
 export type DirectDependencies = Record<TermId, TermId[]>;
-export const directDependenciesGraph = (
-  deck: deckStore
-): DirectDependencies => {
+export const directDependenciesGraph = (deck: Deck): DirectDependencies => {
   throw new Error("Not implemented");
   // let directDependencies: DirectDependencies = {};
   // entries(deck.dependenciesUnprocessed).forEach(

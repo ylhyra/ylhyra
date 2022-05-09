@@ -1,25 +1,26 @@
-import { RowData } from "flashcards/flashcards/types/rowData";
-import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
-import { computed, observable } from "mobx";
-import {
-  createCardId,
-  createTermId,
-} from "flashcards/flashcards/stores/deck/compile/ids";
-import { CardIds, Direction, TermId } from "flashcards/flashcards/types/types";
+import { Card } from "flashcards/flashcards/actions/card/card2";
 import {
   shouldCreateBackToFront,
   shouldCreateFrontToBack,
-} from "flashcards/flashcards/stores/deck/compile/functions";
-import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
+} from "flashcards/flashcards/actions/deck/compile/functions";
+import {
+  createCardId,
+  createTermId,
+} from "flashcards/flashcards/actions/deck/compile/ids";
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { deckSettingsFields } from "flashcards/flashcards/make/deckSettings";
 import { rowFields } from "flashcards/flashcards/make/rowFields";
+import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
+import { RowData } from "flashcards/flashcards/types/rowData";
+import { CardIds, Direction, TermId } from "flashcards/flashcards/types/types";
+import { computed, observable } from "mobx";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
-export class rowStore {
-  deck: deckStore;
+export class Row {
+  deck: Deck;
   @observable data: RowData;
 
-  constructor(deck: deckStore, data: RowData) {
+  constructor(deck: Deck, data: RowData) {
     this.deck = deck;
     this.data = data;
   }
@@ -52,6 +53,12 @@ export class rowStore {
       cardIds.push(createCardId(this.getTermId(), Direction.BACK_TO_FRONT));
     }
     return cardIds;
+  }
+
+  @computed({ keepAlive: true })
+  getCards(): Card[] {
+    const row = this;
+    return this.getCardIds().map((cardId) => new Card(row, cardId));
   }
 
   @computed({ keepAlive: true })

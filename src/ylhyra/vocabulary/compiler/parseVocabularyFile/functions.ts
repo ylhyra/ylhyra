@@ -40,7 +40,7 @@ export const getLowercaseStringForAudioKey = (i: string) => {
  *   Typically an Icelandic string (front side of card).
  *   Lemmas and depends_on are also passed into this function.
  * @param options
- * @returns string - which is the base of {@link TermId}
+ * @returns string - which is the baseFlashcardsStore of {@link TermId}
  * @hasTests
  */
 export const getHashForVocabulary = (

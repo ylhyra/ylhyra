@@ -1,15 +1,16 @@
-import { CardIds, DeckId } from "flashcards/flashcards/types/types";
+import {Card} from "flashcards/flashcards/actions/card/card2";
+import { CardId, CardIds, DeckId } from 'flashcards/flashcards/types/types';
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
+import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowData, RowId } from "flashcards/flashcards/types/rowData";
 import { computed, makeAutoObservable } from "mobx";
 import { entries, values } from "modules/typescript/objectEntries";
 import { flattenArray } from "modules/arrays/flattenArray";
-import { getDependencyGraph } from "flashcards/flashcards/stores/deck/compile/dependencies/dependencyGraph";
-import { rowStore } from "flashcards/flashcards/stores/deck/rowStore";
+import { getDependencyGraph } from "flashcards/flashcards/actions/deck/compile/dependencies/dependencyGraph";
 
-export class deckStore {
+export class Deck {
   deckId: DeckId;
-  rows: Record<RowId, rowStore>;
+  rows: Record<RowId, Row>;
   settings: DeckSettings;
 
   constructor({
@@ -24,7 +25,7 @@ export class deckStore {
     this.deckId = deckId;
     this.rows = {};
     entries(rows || {}).forEach(([rowId, rowData]) => {
-      this.rows[rowId] = new rowStore(this, rowData);
+      this.rows[rowId] = new Row(this, rowData);
     });
     this.settings = settings || {};
     console.log(this.rows);
@@ -37,6 +38,12 @@ export class deckStore {
       values(this.rows).map((row) => row.getCardIds())
     ) as CardIds;
   }
+
+  @computed({ keepAlive: true })
+  getCards(): Card[] {
+    return flattenArray(
+      values(this.rows).map((row) => row.getCards())
+    ) as Card[];
 
   @computed({ keepAlive: true })
   getDependencyGraph = getDependencyGraph;

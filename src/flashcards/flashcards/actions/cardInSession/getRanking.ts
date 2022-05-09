@@ -1,8 +1,8 @@
-import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { Rating } from "flashcards/flashcards/types/types";
-import { getDirectionFromCardId } from "flashcards/flashcards/stores/deck/compile/ids";
-import { getSession } from "flashcards/flashcards/stores/sessionStore";
 import { isNewCard } from "flashcards/flashcards/actions/card/cardSchedule";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { getDirectionFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
+import { getSession } from "flashcards/flashcards/actions/session/session";
+import { Rating } from "flashcards/flashcards/types/types";
 
 /**
  * Returns a ranking for a given {@link CardInSession} indicating

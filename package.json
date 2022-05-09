@@ -54,7 +54,6 @@
     "@prisma/client": "^3.11.1",
     "argon2": "^0.28.2",
     "atob": "^2.1.2",
-    "audio-react-recorder": "^1.0.4",
     "axios": "^0.21.1",
     "btoa": "^1.2.1",
     "cookie-session": "^1.4.0",
@@ -102,10 +101,8 @@
     "react": "^17.0.2",
     "react-attr-converter": "^0.3.1",
     "react-dom": "^17.0.2",
-    "react-mic": "^12.4.6",
     "react-redux": "^7.2.4",
     "react-router-dom": "^6.2.2",
-    "react-sound": "^1.2.0",
     "react-textarea-autosize": "^8.3.3",
     "redux": "^4.1.0",
     "redux-logger": "^3.0.6",
@@ -204,7 +201,7 @@
     "quoteProps": "consistent"
   },
   "prisma": {
-    "schema": "src/flashcards/server/database/schema.prisma"
+    "schema": "src/flashcards/database/schema.prisma"
   },
   "jest": {
     "moduleDirectories": [

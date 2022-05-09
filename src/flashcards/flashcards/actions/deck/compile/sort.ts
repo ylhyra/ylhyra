@@ -1,9 +1,9 @@
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { TermIds } from "flashcards/flashcards/types/types";
-import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
 
 export const getSortedTermIds = (
-  unprocessedDeck: deckStore,
-  processedDeck: deckStore
+  unprocessedDeck: Deck,
+  processedDeck: Deck
 ): TermIds => {
   throw new Error("Not implemented");
   // let termIds: TermIds = keys(processedDeck.terms).sort((termId1, termId2) => {

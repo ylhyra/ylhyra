@@ -1,10 +1,10 @@
+import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
+import { createCardsIfNoneAreRemaining } from "flashcards/flashcards/actions/session/functions";
+import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
+import { getSession } from "flashcards/flashcards/actions/session/session";
+import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
 import { DeckId } from "flashcards/flashcards/types/types";
 import { action } from "mobx";
-import { createCardsIfNoneAreRemaining } from "flashcards/flashcards/actions/session/functions";
-import { getDeckById } from "flashcards/flashcards/stores/base/functions";
-import { getSession } from "flashcards/flashcards/stores/sessionStore";
-import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
-import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
 
 export const initializeSession = action(
   ({ deckId }: { deckId: DeckId | undefined }) => {

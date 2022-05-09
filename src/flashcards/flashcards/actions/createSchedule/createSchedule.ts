@@ -14,7 +14,7 @@ import {
 } from "flashcards/flashcards/actions/card/cardSiblings";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { printWord } from "flashcards/flashcards/actions/functions";
-import { getSession } from "flashcards/flashcards/stores/sessionStore";
+import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Rating, Score } from "flashcards/flashcards/types/types";
 import { log } from "modules/log";
 import { addSomeRandomness, average, clamp, toFixedFloat } from "modules/math";

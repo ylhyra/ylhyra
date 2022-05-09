@@ -1,12 +1,12 @@
 import { Button } from "flashcards/app/elements/button";
-import { DeckId } from "flashcards/flashcards/types/types";
-import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
-import { FieldsSetup, form } from "modules/form";
 import {
   getDeckById,
   saveFlashcardsStore,
-} from "flashcards/flashcards/stores/base/functions";
+} from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
+import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
+import { DeckId } from "flashcards/flashcards/types/types";
 import { observer } from "mobx-react-lite";
+import { FieldsSetup, form } from "modules/form";
 import React from "react";
 
 /** See type {@link DeckSettings} */

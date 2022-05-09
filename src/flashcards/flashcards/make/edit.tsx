@@ -1,16 +1,16 @@
 import { Button } from "flashcards/app/elements/button";
-import { DeckId } from "flashcards/flashcards/types/types";
-import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
-import { EditRow } from "flashcards/flashcards/make/row";
-import { ImportFlashcards } from "flashcards/flashcards/make/import/import";
+import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { addRow } from "flashcards/flashcards/make/actions";
-import { addRowsIfMissing } from "flashcards/flashcards/make/import/actions";
-import { getDeckById } from "flashcards/flashcards/stores/base/functions";
-import { observer } from "mobx-react-lite";
+import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
 import { printDeckTitle } from "flashcards/flashcards/make/functions";
-import { useParams } from "react-router-dom";
+import { addRowsIfMissing } from "flashcards/flashcards/make/import/actions";
+import { ImportFlashcards } from "flashcards/flashcards/make/import/import";
+import { EditRow } from "flashcards/flashcards/make/row";
+import { DeckId } from "flashcards/flashcards/types/types";
+import { observer } from "mobx-react-lite";
 import { values } from "modules/typescript/objectEntries";
 import React from "react";
+import { useParams } from "react-router-dom";
 
 export const FlashcardsEdit = observer(() => {
   let { deckId } = useParams<{ deckId: DeckId }>();

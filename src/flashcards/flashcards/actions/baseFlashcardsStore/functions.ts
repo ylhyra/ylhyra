@@ -1,15 +1,15 @@
+import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { CardIds, DeckId } from "flashcards/flashcards/types/types";
 import { action } from "mobx";
-import { deckStore } from "flashcards/flashcards/stores/deck/deckStore";
-import { entries, values } from "modules/typescript/objectEntries";
 import { flattenArray } from "modules/arrays/flattenArray";
-import { getFlashcardsStore } from "flashcards/flashcards/stores/base/flashcardsStore";
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
+import { entries, values } from "modules/typescript/objectEntries";
 
 export const initializeFlashcardsStore = action(() => {
   const decks = getFromLocalStorage("decks") || {};
   entries(decks).forEach(([deckId, data]) => {
-    getFlashcardsStore().decks[deckId as DeckId] = new deckStore(data);
+    getFlashcardsStore().decks[deckId as DeckId] = new Deck(data);
   });
 });
 
@@ -18,13 +18,13 @@ export const saveFlashcardsStore = () => {
   saveInLocalStorage("decks", getFlashcardsStore().decks);
 };
 
-export const getDeckById = (id: DeckId | undefined): deckStore | undefined => {
+export const getDeckById = (id: DeckId | undefined): Deck | undefined => {
   if (id && id in getFlashcardsStore().decks) {
     return getFlashcardsStore().decks[id];
   }
 };
 
-export const getDeckByIdRequired = (id: DeckId | undefined): deckStore => {
+export const getDeckByIdRequired = (id: DeckId | undefined): Deck => {
   const _deck = getDeckById(id);
   if (!_deck) {
     throw new Error(`Deck with id ${id} not found`);

@@ -5,9 +5,9 @@ import {
   IntervalRelativeToCurrentCardBeingAtZero,
 } from "flashcards/flashcards/actions/cardInSession";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
+import { getDirectionFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
-import { getDirectionFromCardId } from "flashcards/flashcards/stores/deck/compile/ids";
-import { getSession } from "flashcards/flashcards/stores/sessionStore";
+import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Rating } from "flashcards/flashcards/types/types";
 
 /**

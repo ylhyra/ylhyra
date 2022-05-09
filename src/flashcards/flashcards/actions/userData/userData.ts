@@ -1,8 +1,8 @@
-import { UserData, UserDataRows } from "flashcards/flashcards/types/userData";
 import {
   getUserData,
   setUserData,
-} from "flashcards/flashcards/stores/userDataStore";
+} from "flashcards/flashcards/actions/userData/userDataStore";
+import { UserData, UserDataRows } from "flashcards/flashcards/types/userData";
 import { saveInLocalStorage } from "modules/localStorage";
 
 // export const getUserDataForKey = (key: string) => {

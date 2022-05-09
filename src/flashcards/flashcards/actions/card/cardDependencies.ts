@@ -3,7 +3,7 @@ import {
   getCardIdsFromTermIds,
   getCardIdsShuffledIfSeen,
 } from "flashcards/flashcards/actions/card/term";
-import { getTermIdFromCardId } from "flashcards/flashcards/stores/deck/compile/ids";
+import { getTermIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
 import {
   CardId,
   CardIds,

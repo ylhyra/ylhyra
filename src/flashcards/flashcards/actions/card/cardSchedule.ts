@@ -1,12 +1,13 @@
 import { getAllCardIdsWithSameTerm } from "flashcards/flashcards/actions/card/cardSiblings";
+import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
 import { saveScheduleForCardId } from "flashcards/flashcards/actions/userData/userDataSchedule";
+import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
 import {
   CardId,
   Rating,
   ScheduleData,
   Score,
 } from "flashcards/flashcards/types/types";
-import { getEntireSchedule } from "flashcards/flashcards/stores/userDataStore";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
 import {
   Days,
@@ -15,7 +16,6 @@ import {
   minutes,
   Timestamp,
 } from "modules/time";
-import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
 
 export const getScheduleForCard = (
   id: CardId

@@ -1,4 +1,4 @@
-import { getSession } from "flashcards/flashcards/stores/sessionStore";
+import { getSession } from "flashcards/flashcards/actions/session/session";
 import React from "react";
 
 export const ProgressBar = () => {

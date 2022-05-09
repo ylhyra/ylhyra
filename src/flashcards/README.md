@@ -1,3 +1,10 @@
+Setup:
+
+```
+npm run flashcards_db
+echo "" >> .env
+```
+
 To start, run:
 
 ```
