@@ -1,9 +1,12 @@
+import { toJS } from "mobx";
 import { isBrowser } from "modules/isBrowser";
 
 const compressed_keys = [];
 
 /* Helper functions to stringify in local storage */
 export const saveInLocalStorage = (name: string, input: any) => {
+  /** Strip MobX proxies */
+  input = toJS(input);
   if (!isBrowser) return;
   let data;
   if (!input || (Array.isArray(input) && input.length === 0)) {

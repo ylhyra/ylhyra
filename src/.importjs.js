@@ -20,6 +20,8 @@ module.exports = {
       "makeObservable",
       "observable",
       "observer",
+      "toJS",
+      "spy",
     ],
   },
 };

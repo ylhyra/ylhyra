@@ -13,7 +13,6 @@ export const initializeFlashcardsStore = action(() => {
 });
 
 export const saveFlashcardsStore = () => {
-  throw new Error("Not implemented");
   saveInLocalStorage("decks", getFlashcardsStore().decks);
 };
 
