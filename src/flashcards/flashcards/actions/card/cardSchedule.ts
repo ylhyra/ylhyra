@@ -1,10 +1,23 @@
-import {Card} from "flashcards/flashcards/actions/card/card";
-import {getEntireSchedule} from "flashcards/flashcards/actions/userData/userDataStore";
-import {CardId, Rating, ScheduleData, Score,} from "flashcards/flashcards/types/types";
-import {minIgnoreFalsy, roundMsTo100Sec} from "modules/math";
-import {Days, getTimeMemoized, Milliseconds, minutes, Timestamp,} from "modules/time";
+import { Card } from "flashcards/flashcards/actions/card/card";
+import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
+import {
+  CardId,
+  Rating,
+  ScheduleData,
+  Score,
+} from "flashcards/flashcards/types/types";
+import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
+import {
+  Days,
+  getTimeMemoized,
+  Milliseconds,
+  minutes,
+  Timestamp,
+} from "modules/time";
 
-export function getScheduleForCard(this: Card): Partial<ScheduleData> | undefined {
+export function getScheduleForCard(
+  this: Card
+): Partial<ScheduleData> | undefined {
   return getEntireSchedule()[this.cardId];
 }
 
@@ -97,10 +110,8 @@ export function getTermLastSeen(this: Card): Timestamp | null {
   return max;
 }
 
-export function timeSinceTermWasSeen(
-  this: Card,
-): Milliseconds | null {
-  let j = id.getTermLastSeen();
+export function timeSinceTermWasSeen(this: Card): Milliseconds | null {
+  let j = this.getTermLastSeen();
   if (!j) return null;
   return getTimeMemoized() - j;
 }
@@ -109,19 +120,15 @@ export function timeSinceTermWasSeen(
  * Whether a term was seen in the previous 45 minutes
  */
 export function wasTermVeryRecentlySeen(this: Card) {
-  return id.wasTermSeenMoreRecentlyThan( 45 * minutes);
+  return this.wasTermSeenMoreRecentlyThan(45 * minutes);
 }
 
 /**
  * Input is a time span but not a timestamp,
  * e.g. "was this seen in the last day?".
  */
-export function wasTermSeenMoreRecentlyThan(
-  this: Card,
-  id: CardId,
-  time: Milliseconds
-) {
-  const i = id.timeSinceTermWasSeen();
+export function wasTermSeenMoreRecentlyThan(this: Card, time: Milliseconds) {
+  const i = this.timeSinceTermWasSeen();
   return i && i < time;
 }
 
@@ -137,9 +144,10 @@ export function isNewTermThatHasNotBeenSeenInSession(
   this: Card,
   cardId: CardId
 ) {
-  return cardId.getAllCardIdsWithSameTerm(((cardId2) => {
+  return cardId.getAllCardIdsWithSameTerm().forEach((cardId2) => {
     return (
-      cardId2.isNewCard() && !cardId2.getAsCardInSession()?.hasBeenSeenInSession()
+      cardId2.isNewCard() &&
+      !cardId2.getAsCardInSession()?.hasBeenSeenInSession()
     );
   });
 }

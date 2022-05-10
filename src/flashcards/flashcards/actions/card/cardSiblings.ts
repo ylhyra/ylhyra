@@ -28,17 +28,16 @@ export function getSiblingCardsInSession(
   this: Card,
   id: CardId
 ): CardInSession[] {
-  return id.getSiblingCards()
-    .filter((card) => isInSession(card))
+  return this.getSiblingCards()
+    .filter((card) => card.isInSession())
     .map((card) => card.getAsCardInSession())
     .filter(filterEmpty);
 }
 
 export function didAnySiblingCardsGetABadRatingInThisSession(
   this: Card,
-  id: CardId
 ) {
-  return id.getSiblingCards(((siblingCardId) => {
-    return siblingCardId.getAsCardInSession()?.history.includes(Rating.BAD);
+  return this.getSiblingCards().forEach((siblingCard) => {
+    return siblingCard.getAsCardInSession()?.history.includes(Rating.BAD);
   });
 }
