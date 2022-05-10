@@ -10,7 +10,7 @@ export function hasDependenciesInCommonWith(this: Card, card2: Card) {
 }
 
 export function dependencyDepthOfCard(this: Card, card2: Card): number {
-  return this.row.getDependencies()[card2.rowId];
+  return this.row.dependencies[card2.rowId];
 }
 
 export function getDependenciesAsArrayOfCards(this: Card): Card[] {

@@ -26,10 +26,9 @@ export class Row {
       data: observable,
       shouldCreateCards: computed({ keepAlive: true }),
       cardIds: computed({ keepAlive: true }),
-      compile: computed({ keepAlive: true }),
       cards: computed({ keepAlive: true }),
-      getDependsOn: computed({ keepAlive: true }),
-      getAlternativeIds: computed({ keepAlive: true }),
+      dependsOn: computed({ keepAlive: true }),
+      alternativeIds: computed({ keepAlive: true }),
     });
 
     this.deck = deck;
@@ -40,14 +39,12 @@ export class Row {
     return this.data.rowId;
   }
 
-  shouldCreateCards() {
+  get shouldCreateCards() {
     return this.data.front && this.data.back;
   }
 
-  compile() {}
-
   get cardIds(): CardIds | [] {
-    if (!this.shouldCreateCards()) return [];
+    if (!this.shouldCreateCards) return [];
     let cardIds: CardIds = [];
     const directionSetting = this.getSetting("direction");
     if (
@@ -74,17 +71,21 @@ export class Row {
     return this.cardIds.map((cardId) => new Card(row, cardId));
   }
 
-  getDependsOn() {}
+  get dependsOn() {
+    throw new Error("Not implemented");
+  }
 
-  getDependencies(): DependenciesForOneRowAsDependencyToDepth {
-    return this.deck.getDependencyGraph()[this.rowId];
+  get dependencies(): DependenciesForOneRowAsDependencyToDepth {
+    return this.deck.dependencyGraph[this.rowId];
   }
 
   getDependenciesAsArrayOfRowIds(): RowIds {
-    return keys(this.deck.getDependencyGraph()[this.rowId]);
+    return keys(this.deck.dependencyGraph[this.rowId]);
   }
 
-  getAlternativeIds() {}
+  get alternativeIds() {
+    throw new Error("Not implemented");
+  }
 
   /**
    * Gets the row setting, falling back to the deck setting, falling back to defaults.
