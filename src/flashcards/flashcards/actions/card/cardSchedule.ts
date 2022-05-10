@@ -99,7 +99,6 @@ export function getTermLastSeen(this: Card): Timestamp | null {
 
 export function timeSinceTermWasSeen(
   this: Card,
-  id: CardId
 ): Milliseconds | null {
   let j = id.getTermLastSeen();
   if (!j) return null;
@@ -110,7 +109,7 @@ export function timeSinceTermWasSeen(
  * Whether a term was seen in the previous 45 minutes
  */
 export function wasTermVeryRecentlySeen(this: Card) {
-  return id.wasTermSeenMoreRecentlyThan(, 45 * minutes);
+  return id.wasTermSeenMoreRecentlyThan( 45 * minutes);
 }
 
 /**

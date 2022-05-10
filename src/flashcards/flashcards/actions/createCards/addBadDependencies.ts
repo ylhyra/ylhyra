@@ -1,8 +1,8 @@
-import {isInSession} from "flashcards/flashcards/actions/card/card";
-import {withDependencies} from "flashcards/flashcards/actions/functions/dependencies";
-import {CardIds} from "flashcards/flashcards/types/types";
-import {isDev} from "modules/isDev";
-import {days, minutes} from "modules/time";
+import { isInSession } from "flashcards/flashcards/actions/card/card";
+import { withDependencies } from "flashcards/flashcards/actions/functions/dependencies";
+import { CardIds } from "flashcards/flashcards/types/types";
+import { isDev } from "modules/isDev";
+import { days, minutes } from "modules/time";
 
 export const addBadDependencies = (chosenCards: CardIds): CardIds => {
   console.warn("dependencies not implemented");
@@ -13,8 +13,8 @@ export const addBadDependencies = (chosenCards: CardIds): CardIds => {
       !isInSession(cardId) &&
       /* Keep in those already chosen */
       (chosenCards.includes(cardId) ||
-        (cardId.isBad() && cardId.wasTermSeenMoreRecentlyThan(, 45 * minutes)) ||
-        (cardId.isFairlyBad() && cardId.wasTermSeenMoreRecentlyThan(, 2 * days)))
+        (cardId.isBad() && cardId.wasTermSeenMoreRecentlyThan(45 * minutes)) ||
+        (cardId.isFairlyBad() && cardId.wasTermSeenMoreRecentlyThan(2 * days)))
   );
 
   if (isDev) {

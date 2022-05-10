@@ -1,10 +1,10 @@
-import {CardInSession} from "flashcards/flashcards/actions/cardInSession";
-import {printWord} from "flashcards/flashcards/actions/functions";
-import {getSession} from "flashcards/flashcards/actions/session/session";
-import {Rating, Score} from "flashcards/flashcards/types/types";
-import {log} from "modules/log";
-import {addSomeRandomness, average, clamp, toFixedFloat} from "modules/math";
-import {Days, daysFromNowToTimestamp, getTime, msToDays} from "modules/time";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { printWord } from "flashcards/flashcards/actions/functions";
+import { getSession } from "flashcards/flashcards/actions/session/session";
+import { Rating, Score } from "flashcards/flashcards/types/types";
+import { log } from "modules/log";
+import { addSomeRandomness, average, clamp, toFixedFloat } from "modules/math";
+import { Days, daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
 
 export const SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY = 0.4;
 
@@ -112,7 +112,7 @@ export function createSchedule() {
       );
     }
 
-    card.setSchedule(, {
+    card.setSchedule({
       /** Randomly add or subtract up to 10% of the dueInDays just for some variety */
       due: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
       lastIntervalInDays: toFixedFloat(dueInDays, 1),
@@ -143,7 +143,7 @@ export function createSchedule() {
         const newDue = daysFromNowToTimestamp(Math.min(dueInDays * 0.8, 10));
         const actualDue = siblingCard.getDue();
         if (!actualDue || actualDue < newDue) {
-          siblingCard.setSchedule(, {
+          siblingCard.setSchedule({
             due: newDue,
           });
           log(`${printWord(siblingCard)} postponed`);
