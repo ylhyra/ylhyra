@@ -3,7 +3,7 @@ import {
   IntervalRelativeToCurrentCardBeingAtZero,
 } from "flashcards/flashcards/actions/cardInSession";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
-import { getDirectionFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
+import { getDirection } from "flashcards/flashcards/actions/deck/compile/ids";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Rating } from "flashcards/flashcards/types";
@@ -67,7 +67,7 @@ export function rate(this: CardInSession, rating: Rating): void {
 
   cardInSession.showIn({ interval: interval! });
   cardInSession.postponeRelatedCards(interval!);
-  session.cardDirectionLog.unshift(getDirectionFromCardId(cardId));
+  session.cardDirectionLog.unshift(getDirection(cardId));
 
   // keepTrackOfEasiness({
   //   rating,

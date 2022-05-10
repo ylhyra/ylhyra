@@ -4,12 +4,11 @@ import { postponeRelatedCards } from "flashcards/flashcards/actions/cardInSessio
 import { rate } from "flashcards/flashcards/actions/cardInSession/rate";
 import { showIn } from "flashcards/flashcards/actions/cardInSession/showIn";
 import { getRowIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
-import { Row } from "flashcards/flashcards/actions/row/row";
 import {
   getSession,
   Session,
 } from "flashcards/flashcards/actions/session/session";
-import { CardId, Rating } from "flashcards/flashcards/types";
+import { Rating } from "flashcards/flashcards/types";
 
 /**
  * An interval of "1" would mean that that card is shown next.
@@ -17,7 +16,6 @@ import { CardId, Rating } from "flashcards/flashcards/types";
 export type IntervalRelativeToCurrentCardBeingAtZero = number;
 
 export class CardInSession extends Card {
-  // cardId: CardId;
   history: Rating[] = [];
 
   /**
@@ -41,19 +39,16 @@ export class CardInSession extends Card {
   showIn = showIn;
 
   constructor({
-    row,
-    cardId,
+    card,
     insertAtPosition,
     history,
   }: {
-    row: Row;
-    cardId: CardId;
+    card: Card;
     insertAtPosition?: number;
     /** Used for initializing again from a saved state */
     history?: Rating[];
   }) {
-    super(row, cardId);
-    this.cardId = cardId;
+    super(card.row, card.cardId);
     this.history = history || [];
     this.absoluteQueuePosition =
       (getSession().counter || 0) + (insertAtPosition || 0);

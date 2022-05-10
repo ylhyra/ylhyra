@@ -50,6 +50,6 @@ export function getRowIdFromCardId(this: Card) {
 /**
  * Direction is encoded in CardId
  */
-export function getDirectionFromCardId(this: Card): Direction {
+export function getDirection(this: Card): Direction {
   return cardId.split(CARD_ID_SEPARATOR)[2] as Direction;
 }

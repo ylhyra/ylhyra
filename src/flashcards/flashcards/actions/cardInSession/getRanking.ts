@@ -1,5 +1,4 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { getDirectionFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Rating } from "flashcards/flashcards/types";
 
@@ -15,7 +14,7 @@ import { Rating } from "flashcards/flashcards/types";
  */
 export function getRanking(this: CardInSession) {
   const session = getSession();
-  const direction = getDirectionFromCardId(this.cardId);
+  const direction = this.getDirection();
 
   /**
    * Starts out as the card's queue position.

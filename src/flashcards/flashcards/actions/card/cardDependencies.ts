@@ -8,7 +8,6 @@ import { getRowIdFromCardId } from "flashcards/flashcards/actions/deck/compile/i
 import { RowId, RowIds } from "flashcards/flashcards/actions/row/rowData.types";
 import {
   CardId,
-  CardIds,
   DependenciesForOneRowAsDependencyToDepth,
 } from "flashcards/flashcards/types";
 import _ from "underscore";
@@ -44,10 +43,10 @@ export function getDependenciesAsCardIdToDepth(this: Card) {
   return out;
 }
 
-export function getDependenciesAsArrayOfCardIds(this: Card): CardIds {
+export function getDependenciesAsArrayOfCards(this: Card): Card[] {
   return getCardIdsFromRowIds(
     Object.keys(cardGetDependenciesAsRowIdToDepth(cardId)) as RowIds
-  ).filter((siblingCardId) => siblingCardId !== cardId);
+  ).filter((siblingCard) => siblingCard.cardId !== this.cardId);
 }
 
 export function dependencyDepthOfCard(this: Card, card2: Card): number {
@@ -55,8 +54,8 @@ export function dependencyDepthOfCard(this: Card, card2: Card): number {
 }
 
 export function hasDependenciesInCommonWith(this: Card, card2: Card) {
-  const deps1 = this.getDependenciesAsArrayOfCardIds();
-  const deps2 = card2.getDependenciesAsArrayOfCardIds();
+  const deps1 = this.getDependenciesAsArrayOfCards();
+  const deps2 = card2.getDependenciesAsArrayOfCards();
   return deps1.some((cardId) => deps2.includes(cardId));
 }
 

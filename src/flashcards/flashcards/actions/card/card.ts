@@ -1,6 +1,6 @@
 import { getLevel } from "flashcards/flashcards/actions/card/cardData";
 import {
-  getDependenciesAsArrayOfCardIds,
+  getDependenciesAsArrayOfCards,
   getDependenciesAsCardIdToDepth,
   hasDependenciesInCommonWith,
 } from "flashcards/flashcards/actions/card/cardDependencies";
@@ -58,7 +58,7 @@ export class Card {
   wasSeenInSession = wasSeenInSession;
   getLevel = getLevel;
   getDependenciesAsCardIdToDepth = getDependenciesAsCardIdToDepth;
-  getDependenciesAsArrayOfCardIds = getDependenciesAsArrayOfCardIds;
+  getDependenciesAsArrayOfCards = getDependenciesAsArrayOfCards;
   isTooEasy = isTooEasy;
   isBad = isBad;
   isFairlyBad = isFairlyBad;

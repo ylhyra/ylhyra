@@ -1,6 +1,6 @@
 import { getCardData } from "flashcards/flashcards/actions/card/cardData";
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
-import { getDirectionFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
+import { getDirection } from "flashcards/flashcards/actions/deck/compile/ids";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Direction, Rating } from "flashcards/flashcards/types";
 import { observer } from "mobx-react";
@@ -199,7 +199,7 @@ export class CardElement extends Component {
       return <div>Unable to create cards.</div>;
     }
 
-    let direction = getDirectionFromCardId(cardId);
+    let direction = getDirection(cardId);
     let lemmas: Jsx = getCardData(cardId, "lemmas");
     // let note_regarding_english: Jsx = getCardData(id, "note_regarding_english");
     // let note: Jsx = getCardData(id, "note");
