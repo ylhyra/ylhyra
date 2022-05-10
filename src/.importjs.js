@@ -10,6 +10,7 @@ module.exports = {
     _: "underscore",
   },
   logLevel: "debug",
+  sortImports: false,
   namedExports: {
     mobx: [
       "action",

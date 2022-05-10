@@ -1,6 +1,6 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { CardIds, Rating } from "flashcards/flashcards/types/types";
+import { Rating } from "flashcards/flashcards/types/types";
 import { filterEmpty } from "modules/typescript/filterEmpty";
 
 /**
@@ -9,9 +9,9 @@ import { filterEmpty } from "modules/typescript/filterEmpty";
  * previous versions allowed many related cards to share a "term".
  * Returning an array is therefore not necessary currently)
  */
-export function getSiblingCards(this: Card): CardIds {
+export function getSiblingCards(this: Card): Card[] {
   return this.getAllCardIdsWithSameTerm(
-    (siblingCardId) => siblingCardId !== this.cardId
+    (siblingCard) => siblingCard.cardId !== this.cardId
   );
 }
 

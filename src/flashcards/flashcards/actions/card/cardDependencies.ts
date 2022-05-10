@@ -1,3 +1,4 @@
+import { Card } from "flashcards/flashcards/actions/card/card";
 import {
   getCardIdsFromTermId,
   getCardIdsFromTermIds,
@@ -13,12 +14,12 @@ import {
 } from "flashcards/flashcards/types/types";
 import _ from "underscore";
 
-export const cardGetDependenciesAsTermIdToDepth = (
-  id: CardId
-): DependenciesForOneTermAsDependencyToDepth => {
+export function cardGetDependenciesAsTermIdToDepth(
+  this: Card
+): DependenciesForOneTermAsDependencyToDepth {
   const termId: TermId = getTermIdFromCardId(id);
   return termGetDependenciesAsTermIdToDepth(termId);
-};
+}
 
 /**
  * Note: Also includes itself as depth=0. I don't remember if this is used.
@@ -35,7 +36,7 @@ export const termGetDependenciesAsTermIdToDepth = (
 
 export function getDependenciesAsCardIdToDepth(this: Card) {
   let out: Record<CardId, number> = {};
-  const deps = cardGetDependenciesAsTermIdToDepth(id);
+  const deps = this.cardGetDependenciesAsTermIdToDepth();
   (Object.keys(deps) as TermIds).forEach((termId) => {
     getCardIdsFromTermId(termId).forEach((cardId) => {
       out[cardId] = deps[termId];
@@ -44,24 +45,21 @@ export function getDependenciesAsCardIdToDepth(this: Card) {
   return out;
 }
 
-export function getDependenciesAsArrayOfCardIds(
-  this: Card,
-  cardId: CardId
-): CardIds {
+export function getDependenciesAsArrayOfCardIds(this: Card): CardIds {
   return getCardIdsFromTermIds(
     Object.keys(cardGetDependenciesAsTermIdToDepth(cardId)) as TermIds
   ).filter((siblingCardId) => siblingCardId !== cardId);
 }
 
-export const dependencyDepthOfCard = (this: Card, card2: Card): number => {
-  return card1.getDependenciesAsCardIdToDepth()[card2];
-};
+export function dependencyDepthOfCard(this: Card, card2: Card): number {
+  return this.getDependenciesAsCardIdToDepth()[card2.cardId];
+}
 
-export const hasDependenciesInCommonWith = (this: Card, card2: Card) => {
-  const deps1 = card1.getDependenciesAsArrayOfCardIds();
+export function hasDependenciesInCommonWith(this: Card, card2: Card) {
+  const deps1 = this.getDependenciesAsArrayOfCardIds();
   const deps2 = card2.getDependenciesAsArrayOfCardIds();
   return deps1.some((cardId) => deps2.includes(cardId));
-};
+}
 
 export const getSortedTermDependencies = (termId: TermId): TermIds => {
   const dependenciesAsTermIdToDepth =

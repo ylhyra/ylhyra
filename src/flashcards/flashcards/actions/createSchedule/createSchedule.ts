@@ -27,15 +27,14 @@ export function createSchedule() {
 
   session.cards.forEach((card: CardInSession) => {
     let dueInDays: Days = 1;
-    const id = card.cardId;
-    const prevScore = id.getScore();
-    const sessionsSeen = id.getSessionsSeen();
+    const prevScore = card.getScore();
+    const sessionsSeen = card.getSessionsSeen();
     const isNew = !prevScore;
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
     const avgRating = average(sessionHistory);
-    const lastIntervalInDays = id.getLastIntervalInDays();
-    const lastSeen = id.getLastSeen();
+    const lastIntervalInDays = card.getLastIntervalInDays();
+    const lastSeen = card.getLastSeen();
     const badCount = sessionHistory.filter((i) => i === Rating.BAD).length;
     const anyBad = badCount > 0;
 
@@ -100,15 +99,13 @@ export function createSchedule() {
      */
     if (
       score >= Rating.GOOD &&
-      id.didAnySiblingCardsGetABadRatingInThisSession()
+      card.didAnySiblingCardsGetABadRatingInThisSession()
     ) {
       dueInDays = Math.min(3, dueInDays);
       score =
         Rating.BAD + SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY;
       log(
-        `${printWord(
-          id
-        )} given a low score due to siblings having gotten a bad rating`
+        `${card.printWord()} given a low score due to siblings having gotten a bad rating`
       );
     }
 
@@ -128,13 +125,14 @@ export function createSchedule() {
     });
 
     log(
-      printWord(id),
+      card.printWord(),
       `score: ${toFixedFloat(score, 2)}`,
       `days: ${toFixedFloat(dueInDays, 1)}`
     );
 
     /* Postpone siblings (i.e. the other side of the card */
-    id.getSiblingCards()
+    card
+      .getSiblingCards()
       /* Ignore cards that were seen in this session */
       .filter((siblingCard) => !siblingCard.wasSeenInSession())
       .forEach((siblingCard) => {
@@ -146,7 +144,7 @@ export function createSchedule() {
           siblingCard.setSchedule({
             due: newDue,
           });
-          log(`${printWord(siblingCard)} postponed`);
+          log(`${siblingCard.printWord()} postponed`);
         }
       });
   });

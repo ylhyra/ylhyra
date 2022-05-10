@@ -1,11 +1,6 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
-import {
-  CardId,
-  Rating,
-  ScheduleData,
-  Score,
-} from "flashcards/flashcards/types/types";
+import { Rating, ScheduleData, Score } from "flashcards/flashcards/types/types";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
 import {
   Days,
@@ -82,10 +77,7 @@ export function isUnseenTerm(this: Card) {
   return !this.getTermLastSeen();
 }
 
-export function getLowestAvailableTermScore(
-  this: Card,
-  id: CardId
-): Score | null {
+export function getLowestAvailableTermScore(this: Card): Score | null {
   let lowestScore: Score | null = null;
   this.getAllCardIdsWithSameTerm().forEach((card) => {
     if (card.getScore()) {

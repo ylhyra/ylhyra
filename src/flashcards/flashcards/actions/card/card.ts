@@ -37,8 +37,10 @@ import {
   getSiblingCardsInSession,
 } from "flashcards/flashcards/actions/card/cardSiblings";
 import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
+import { printWord } from "flashcards/flashcards/actions/functions";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { getSession } from "flashcards/flashcards/actions/session/session";
+import { saveCardSchedule } from "flashcards/flashcards/actions/userData/userDataSchedule";
 import { CardId } from "flashcards/flashcards/types/types";
 
 export class Card {
@@ -86,6 +88,7 @@ export class Card {
   getAsCardInSession = getAsCardInSession;
   getScheduleForCard = getScheduleForCard;
   saveCardSchedule = saveCardSchedule;
+  printWord = printWord;
 }
 
 export function isInSession(this: Card) {

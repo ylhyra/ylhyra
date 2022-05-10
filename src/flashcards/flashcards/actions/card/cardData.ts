@@ -5,12 +5,12 @@ export function getLevel(this: Card) {
   // return getCardData(id, "level");
 }
 
-export const getSortKey = (
+export function getSortKey(
   this: Card,
   options?: {
     englishLast?: boolean;
   }
-): number => {
+): number {
   throw new Error("Not implemented");
   // if (options?.englishLast) {
   //   return (
@@ -19,4 +19,4 @@ export const getSortKey = (
   // } else {
   //   return getCardData(cardId, "sortKey");
   // }
-};
+}
