@@ -1,5 +1,5 @@
-import { FieldsSetup } from "modules/form";
 import { RowData } from "flashcards/flashcards/types/rowData";
+import { FieldsSetup } from "modules/form";
 
 export const rowFields: FieldsSetup<RowData> = [
   {

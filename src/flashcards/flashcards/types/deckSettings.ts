@@ -1,4 +1,4 @@
-import { DirectionSettings } from "flashcards/flashcards/types/types";
+import {DirectionSettings} from "flashcards/flashcards/types/types";
 
 /** Interface form is at {@link deckSettingsFields} */
 export type DeckSettings = Partial<{

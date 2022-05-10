@@ -14,25 +14,25 @@ import {
   getDue,
   getLastIntervalInDays,
   getLastSeen,
-  getLowestAvailableTermScore,
+  getLowestAvailableRowScore,
   getNumberOfBadSessions,
+  getRowLastSeen,
   getScheduleForCard,
   getScore,
   getSessionsSeen,
-  getTermLastSeen,
   isInSchedule,
   isNewCard,
-  isNewTermThatHasNotBeenSeenInSession,
+  isNewRowThatHasNotBeenSeenInSession,
+  isUnseenRow,
   isUnseenSiblingOfANonGoodCard,
-  isUnseenTerm,
   setSchedule,
-  timeSinceTermWasSeen,
-  wasTermSeenMoreRecentlyThan,
-  wasTermVeryRecentlySeen,
+  timeSinceRowWasSeen,
+  wasRowSeenMoreRecentlyThan,
+  wasRowVeryRecentlySeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
 import {
   didAnySiblingCardsGetABadRatingInThisSession,
-  getAllCardIdsWithSameTerm,
+  getAllCardIdsWithSameRow,
   getSiblingCards,
   getSiblingCardsInSession,
 } from "flashcards/flashcards/actions/card/cardSiblings";
@@ -72,16 +72,16 @@ export class Card {
   isUnseenSiblingOfANonGoodCard = isUnseenSiblingOfANonGoodCard;
   isInSchedule = isInSchedule;
   setSchedule = setSchedule;
-  isUnseenTerm = isUnseenTerm;
-  getLowestAvailableTermScore = getLowestAvailableTermScore;
-  getTermLastSeen = getTermLastSeen;
-  timeSinceTermWasSeen = timeSinceTermWasSeen;
-  wasTermVeryRecentlySeen = wasTermVeryRecentlySeen;
-  wasTermSeenMoreRecentlyThan = wasTermSeenMoreRecentlyThan;
+  isUnseenRow = isUnseenRow;
+  getLowestAvailableRowScore = getLowestAvailableRowScore;
+  getRowLastSeen = getRowLastSeen;
+  timeSinceRowWasSeen = timeSinceRowWasSeen;
+  wasRowVeryRecentlySeen = wasRowVeryRecentlySeen;
+  wasRowSeenMoreRecentlyThan = wasRowSeenMoreRecentlyThan;
   isNewCard = isNewCard;
-  isNewTermThatHasNotBeenSeenInSession = isNewTermThatHasNotBeenSeenInSession;
+  isNewRowThatHasNotBeenSeenInSession = isNewRowThatHasNotBeenSeenInSession;
   getSiblingCards = getSiblingCards;
-  getAllCardIdsWithSameTerm = getAllCardIdsWithSameTerm;
+  getAllCardIdsWithSameRow = getAllCardIdsWithSameRow;
   getSiblingCardsInSession = getSiblingCardsInSession;
   didAnySiblingCardsGetABadRatingInThisSession =
     didAnySiblingCardsGetABadRatingInThisSession;

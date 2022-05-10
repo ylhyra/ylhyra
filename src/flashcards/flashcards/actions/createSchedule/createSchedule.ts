@@ -16,7 +16,7 @@ const BAD_INITIAL_DUE_IN_DAYS = 1.3;
 const GOOD_INITIAL_DUE_IN_DAYS = 5;
 
 /**
- * Long-term scheduling.
+ * Long-row scheduling.
  * Calculates:
  *   - When a card should be shown again
  *   - Its score ({@see Score}).

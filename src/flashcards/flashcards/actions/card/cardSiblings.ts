@@ -1,16 +1,16 @@
-import { Card } from "flashcards/flashcards/actions/card/card";
-import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { Rating } from "flashcards/flashcards/types/types";
-import { filterEmpty } from "modules/typescript/filterEmpty";
+import {Card} from "flashcards/flashcards/actions/card/card";
+import {CardInSession} from "flashcards/flashcards/actions/cardInSession";
+import {Rating} from "flashcards/flashcards/types/types";
+import {filterEmpty} from "modules/typescript/filterEmpty";
 
 /**
  * Gets the other side of the card.
  * (Although currently there can only be two sides,
- * previous versions allowed many related cards to share a "term".
+ * previous versions allowed many related cards to share a "row".
  * Returning an array is therefore not necessary currently)
  */
 export function getSiblingCards(this: Card): Card[] {
-  return this.getAllCardIdsWithSameTerm(
+  return this.getAllCardIdsWithSameRow(
     (siblingCard) => siblingCard.cardId !== this.cardId
   );
 }

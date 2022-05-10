@@ -1,10 +1,10 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { RowId } from "flashcards/flashcards/types/rowData";
 import {
   CardIds,
   DeckId,
   Direction,
   Rating,
-  TermId,
 } from "flashcards/flashcards/types/types";
 import { makeObservable, observable } from "mobx";
 import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
@@ -31,7 +31,7 @@ export class Session {
   done: boolean = false;
 
   /** Used by {@link getRanking} in order to prioritize seen cards */
-  termsSeen = new Set<TermId>();
+  rowsSeen = new Set<RowId>();
   lastUndidAtCounter?: Session["counter"];
   ratingHistory: Rating[] = [];
   savedAt?: Timestamp;
@@ -74,7 +74,7 @@ export class Session {
     this.ratingHistory = [];
     this.cardHistory = [];
     this.counter = 0;
-    this.termsSeen = new Set<TermId>();
+    this.rowsSeen = new Set<RowId>();
     this.cardDirectionLog = [];
     this.currentCard = undefined;
     this.cards = [];

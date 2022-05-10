@@ -1,7 +1,4 @@
-import {
-  CardInSession,
-  IntervalRelativeToCurrentCardBeingAtZero,
-} from "flashcards/flashcards/actions/cardInSession";
+import {CardInSession, IntervalRelativeToCurrentCardBeingAtZero,} from "flashcards/flashcards/actions/cardInSession";
 
 /**
  * Used to control the next time a card should be shown in this session.

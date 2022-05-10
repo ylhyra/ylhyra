@@ -1,9 +1,9 @@
-import { getCardsInSchedule } from "flashcards/flashcards/actions/card/functions";
-import { sortBySortKey } from "flashcards/flashcards/actions/createCards/functions";
-import { CardIds } from "flashcards/flashcards/types/types";
-import { log } from "modules/log";
-import { shuffleLocally } from "modules/shuffleLocally";
-import { getTimeMemoized, hours, minutes } from "modules/time";
+import {getCardsInSchedule} from "flashcards/flashcards/actions/card/functions";
+import {sortBySortKey} from "flashcards/flashcards/actions/createCards/functions";
+import {CardIds} from "flashcards/flashcards/types/types";
+import {log} from "modules/log";
+import {shuffleLocally} from "modules/shuffleLocally";
+import {getTimeMemoized, hours, minutes} from "modules/time";
 
 /**
  * Returns ALL cards that have previously been seen.
@@ -23,7 +23,7 @@ export const oldCards = () => {
         id.getDue() &&
         id.getDue()! < getTimeMemoized() + 16 * hours &&
         !id.isTooEasy() &&
-        !id.wasTermVeryRecentlySeen()
+        !id.wasRowVeryRecentlySeen()
       ) {
         if (id.isBelowGood() || id.isUnseenSiblingOfANonGoodCard()) {
           overdueBad.push(id);
@@ -32,7 +32,7 @@ export const oldCards = () => {
         }
       }
       // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
-      else if (id.isBad() && (id.timeSinceTermWasSeen() || 0) > 20 * minutes) {
+      else if (id.isBad() && (id.timeSinceRowWasSeen() || 0) > 20 * minutes) {
         notOverdueVeryBad.push(id);
       } else {
         notOverdue.push(id);

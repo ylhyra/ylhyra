@@ -1,53 +1,52 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import {
-  getCardIdsFromTermId,
-  getCardIdsFromTermIds,
+  getCardIdsFromRowId,
+  getCardIdsFromRowIds,
   getCardIdsShuffledIfSeen,
-} from "flashcards/flashcards/actions/card/term";
-import { getTermIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
+} from "flashcards/flashcards/actions/card/row";
+import { getRowIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
+import { RowId, RowIds } from "flashcards/flashcards/types/rowData";
 import {
   CardId,
   CardIds,
-  DependenciesForOneTermAsDependencyToDepth,
-  TermId,
-  TermIds,
+  DependenciesForOneRowAsDependencyToDepth,
 } from "flashcards/flashcards/types/types";
 import _ from "underscore";
 
-export function cardGetDependenciesAsTermIdToDepth(
+export function cardGetDependenciesAsRowIdToDepth(
   this: Card
-): DependenciesForOneTermAsDependencyToDepth {
-  const termId: TermId = getTermIdFromCardId(id);
-  return termGetDependenciesAsTermIdToDepth(termId);
+): DependenciesForOneRowAsDependencyToDepth {
+  const rowId: RowId = getRowIdFromCardId(id);
+  return rowGetDependenciesAsRowIdToDepth(rowId);
 }
 
 /**
  * Note: Also includes itself as depth=0. I don't remember if this is used.
  */
-export const termGetDependenciesAsTermIdToDepth = (
-  termId: TermId
-): DependenciesForOneTermAsDependencyToDepth => {
+export const rowGetDependenciesAsRowIdToDepth = (
+  rowId: RowId
+): DependenciesForOneRowAsDependencyToDepth => {
   throw new Error("Not implemented");
   // return {
-  //   ...(getProcessedDeckById(getDeckId(termId))?.dependencyGraph[termId] || {}),
-  //   [termId]: 0,
+  //   ...(getProcessedDeckById(getDeckId(rowId))?.dependencyGraph[rowId] || {}),
+  //   [rowId]: 0,
   // };
 };
 
 export function getDependenciesAsCardIdToDepth(this: Card) {
   let out: Record<CardId, number> = {};
-  const deps = this.cardGetDependenciesAsTermIdToDepth();
-  (Object.keys(deps) as TermIds).forEach((termId) => {
-    getCardIdsFromTermId(termId).forEach((cardId) => {
-      out[cardId] = deps[termId];
+  const deps = this.cardGetDependenciesAsRowIdToDepth();
+  (Object.keys(deps) as RowIds).forEach((rowId) => {
+    getCardIdsFromRowId(rowId).forEach((cardId) => {
+      out[cardId] = deps[rowId];
     });
   });
   return out;
 }
 
 export function getDependenciesAsArrayOfCardIds(this: Card): CardIds {
-  return getCardIdsFromTermIds(
-    Object.keys(cardGetDependenciesAsTermIdToDepth(cardId)) as TermIds
+  return getCardIdsFromRowIds(
+    Object.keys(cardGetDependenciesAsRowIdToDepth(cardId)) as RowIds
   ).filter((siblingCardId) => siblingCardId !== cardId);
 }
 
@@ -61,23 +60,22 @@ export function hasDependenciesInCommonWith(this: Card, card2: Card) {
   return deps1.some((cardId) => deps2.includes(cardId));
 }
 
-export const getSortedTermDependencies = (termId: TermId): TermIds => {
-  const dependenciesAsTermIdToDepth =
-    termGetDependenciesAsTermIdToDepth(termId);
-  let termIds = (Object.keys(dependenciesAsTermIdToDepth) as TermIds).sort(
-    (a, b) => dependenciesAsTermIdToDepth[b] - dependenciesAsTermIdToDepth[a]
+export const getSortedRowDependencies = (rowId: RowId): RowIds => {
+  const dependenciesAsRowIdToDepth = rowGetDependenciesAsRowIdToDepth(rowId);
+  let rowIds = (Object.keys(dependenciesAsRowIdToDepth) as RowIds).sort(
+    (a, b) => dependenciesAsRowIdToDepth[b] - dependenciesAsRowIdToDepth[a]
   );
   // if (options?.onlyDirect) {
-  //   termIds = termIds.filter((a) => dependenciesAsTermIdToDepth[a] <= 1);
+  //   rowIds = rowIds.filter((a) => dependenciesAsRowIdToDepth[a] <= 1);
   // }
-  return termIds;
+  return rowIds;
 };
 
-export const getSortedCardDependenciesAsCardIds = (termId: TermId) => {
+export const getSortedCardDependenciesAsCardIds = (rowId: RowId) => {
   return _.uniq(
     _.flatten(
-      getSortedTermDependencies(termId).map((term) =>
-        getCardIdsShuffledIfSeen(term)
+      getSortedRowDependencies(rowId).map((row) =>
+        getCardIdsShuffledIfSeen(row)
       )
     )
   );

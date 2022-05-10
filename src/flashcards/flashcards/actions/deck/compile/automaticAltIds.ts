@@ -24,8 +24,8 @@
 // );
 // const enPrefix = new RegExp(`${prefixes.map((i) => i[1]).join("|")} `, "i");
 // let automaticAltIds: {
-//   [key: TermId]: {
-//     terms: TermIds;
+//   [key: RowId]: {
+//     rows: RowIds;
 //     score: number;
 //   };
 // } = {};
@@ -35,7 +35,7 @@
 //   /* Sleppa sjálfvirku á allra fyrstu orðunum í listanum */
 //   if (
 //     sortKeys &&
-//     card.terms.some((term) => sortKeys[term] && sortKeys[term] < 20)
+//     card.rows.some((row) => sortKeys[row] && sortKeys[row] < 20)
 //   ) {
 //     // console.log(card.en_plaintext + " hætt við vegna lágs sortkeys");
 //     continue;
@@ -43,10 +43,10 @@
 //
 //   card.is_plaintext!.split(/ ?[,;-] ?/g).forEach((sentence) => {
 //     /* Notað til að bæta við strengjum sem eru splittaðir með bandstriki */
-//     const termId: TermId = getHashForVocabulary(sentence) as TermId;
-//     if (!(termId in terms) && !(termId in alternativeIds)) {
-//       automaticAltIds[termId] = {
-//         terms: card.terms,
+//     const rowId: RowId = getHashForVocabulary(sentence) as RowId;
+//     if (!(rowId in rows) && !(rowId in alternativeIds)) {
+//       automaticAltIds[rowId] = {
+//         rows: card.rows,
 //         score: 0,
 //       };
 //       // if (sentence.match(/frá sér/)) {
@@ -60,17 +60,17 @@
 //       const score = prefixes
 //         .map((i) => i[0])
 //         .indexOf((sentence.match(isPrefix)?.[1] as string).toLowerCase());
-//       const termId: TermId = getHashForVocabulary(without) as TermId;
+//       const rowId: RowId = getHashForVocabulary(without) as RowId;
 //       if (
-//         termId in terms ||
-//         termId in alternativeIds ||
-//         (termId in automaticAltIds &&
-//           automaticAltIds[termId].score < score) ||
+//         rowId in rows ||
+//         rowId in alternativeIds ||
+//         (rowId in automaticAltIds &&
+//           automaticAltIds[rowId].score < score) ||
 //         ["að"].includes(without)
 //       )
 //         return;
-//       automaticAltIds[termId] = {
-//         terms: card.terms,
+//       automaticAltIds[rowId] = {
+//         rows: card.rows,
 //         score: score,
 //       };
 //     }
@@ -79,10 +79,10 @@
 //
 // /* TODO: Spaghetti code */
 // let automaticAltIds2: {
-//   [key: TermId]: TermIds;
+//   [key: RowId]: RowIds;
 // } = {};
-// let i: TermId;
+// let i: RowId;
 // for (i in automaticAltIds) {
-//   automaticAltIds2[i] = automaticAltIds[i].terms;
-//   alternativeIds[i] = automaticAltIds[i].terms;
+//   automaticAltIds2[i] = automaticAltIds[i].rows;
+//   alternativeIds[i] = automaticAltIds[i].rows;
 // }

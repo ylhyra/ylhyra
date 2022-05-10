@@ -1,9 +1,8 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { RowId, RowIds } from "flashcards/flashcards/types/rowData";
 import {
-  DependenciesForAllTermsAsTermIdToDependencyToDepth,
-  DependenciesForOneTermAsDependencyToDepth,
-  TermId,
-  TermIds,
+  DependenciesForAllRowsAsRowIdToDependencyToDepth,
+  DependenciesForOneRowAsDependencyToDepth,
 } from "flashcards/flashcards/types/types";
 
 /**
@@ -13,18 +12,18 @@ const MAX_DEPTH = 10;
 
 export function getDependencyGraph(
   this: Deck
-): DependenciesForAllTermsAsTermIdToDependencyToDepth {
+): DependenciesForAllRowsAsRowIdToDependencyToDepth {
   throw new Error("Not implemented");
 
   // return warnIfFunctionIsSlow(() => {
-  //   let output: DependenciesForAllTermsAsTermIdToDependencyToDepth = {};
+  //   let output: DependenciesForAllRowsAsRowIdToDependencyToDepth = {};
   //
   //   const directDependencies = directDependenciesGraph(deck);
   //
-  //   keys(directDependencies).forEach((termId) => {
-  //     output[termId] = dependencyToDepthForASingleTerm(
+  //   keys(directDependencies).forEach((rowId) => {
+  //     output[rowId] = dependencyToDepthForASingleRow(
   //       directDependencies,
-  //       termId
+  //       rowId
   //     );
   //   });
   //   return output;
@@ -32,18 +31,18 @@ export function getDependencyGraph(
 }
 
 /**
- * A termId to the termIds it directly depends on
+ * A rowId to the rowIds it directly depends on
  */
-export type DirectDependencies = Record<TermId, TermId[]>;
+export type DirectDependencies = Record<RowId, RowId[]>;
 export const directDependenciesGraph = (deck: Deck): DirectDependencies => {
   throw new Error("Not implemented");
   // let directDependencies: DirectDependencies = {};
   // entries(deck.dependenciesUnprocessed).forEach(
-  //   ([termId, dependsOnSentences]) => {
+  //   ([rowId, dependsOnSentences]) => {
   //     dependsOnSentences.forEach((dependsOnSentence) => {
   //       if (dependsOnSentence in deck.alternativeIds) {
-  //         directDependencies[termId] = (
-  //           directDependencies[termId] || []
+  //         directDependencies[rowId] = (
+  //           directDependencies[rowId] || []
   //         ).concat(deck.alternativeIds[dependsOnSentence]);
   //       }
   //     });
@@ -59,23 +58,23 @@ export const directDependenciesGraph = (deck: Deck): DirectDependencies => {
  *
  * Todo: Remove recursive dependencies before?
  */
-export const dependencyToDepthForASingleTerm = (
+export const dependencyToDepthForASingleRow = (
   directDependencies: DirectDependencies,
-  fromTermId: TermId,
-  alreadySeenDirectParents: TermIds = [],
-  output: DependenciesForOneTermAsDependencyToDepth = {},
+  fromRowId: RowId,
+  alreadySeenDirectParents: RowIds = [],
+  output: DependenciesForOneRowAsDependencyToDepth = {},
   depth = 1
-): DependenciesForOneTermAsDependencyToDepth => {
+): DependenciesForOneRowAsDependencyToDepth => {
   if (depth > MAX_DEPTH) return output;
-  directDependencies[fromTermId].forEach((toTermId) => {
-    if (alreadySeenDirectParents.includes(toTermId)) return;
+  directDependencies[fromRowId].forEach((toRowId) => {
+    if (alreadySeenDirectParents.includes(toRowId)) return;
 
-    output[toTermId] = Math.max(output[toTermId] || 0, depth);
-    dependencyToDepthForASingleTerm(
+    output[toRowId] = Math.max(output[toRowId] || 0, depth);
+    dependencyToDepthForASingleRow(
       directDependencies,
-      toTermId,
+      toRowId,
       /* Deep copy in order to only watch direct parents */
-      [...alreadySeenDirectParents, toTermId],
+      [...alreadySeenDirectParents, toRowId],
       output,
       depth + 1
     );
@@ -90,25 +89,25 @@ export const dependencyToDepthForASingleTerm = (
  * I think it is not since I created the directDependenciesGraph first now.
  */
 // export const temp = () => {
-//   (Object.keys(deck!.terms) as TermIds).forEach((termId: TermId) => {
-//     const deps: DependenciesForOneTermAsDependencyToDepth =
-//       dependencyToDepthForASingleTerm(deck, termId);
+//   (Object.keys(deck!.rows) as RowIds).forEach((rowId: RowId) => {
+//     const deps: DependenciesForOneRowAsDependencyToDepth =
+//       dependencyToDepthForASingleRow(deck, rowId);
 //
 //     /* The chain above isn't perfect and sometimes skips over values */
 //     let lowestDep = Infinity;
-//     (Object.keys(deps) as TermIds).forEach((dep) => {
+//     (Object.keys(deps) as RowIds).forEach((dep) => {
 //       lowestDep = Math.min(lowestDep, deps[dep]);
 //     });
-//     (Object.keys(deps) as TermIds).forEach((dep) => {
+//     (Object.keys(deps) as RowIds).forEach((dep) => {
 //       deps[dep] -= lowestDep - 1;
 //     });
 //
 //     if (Object.keys(deps).length > 0) {
-//       deck!.terms[termId].dependencies = deps;
+//       deck!.rows[rowId].dependencies = deps;
 //     }
 //     if (Object.keys(deps).length > 30) {
-//       console.log(`very long deps for ${printWord(termId)}`);
-//       (Object.keys(deps) as TermIds).forEach((j) => {
+//       console.log(`very long deps for ${printWord(rowId)}`);
+//       (Object.keys(deps) as RowIds).forEach((j) => {
 //         console.log({ word: printWord(j), level: deps[j] });
 //       });
 //     }

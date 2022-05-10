@@ -1,15 +1,12 @@
-import { Card } from "flashcards/flashcards/actions/card/card";
-import { getRanking } from "flashcards/flashcards/actions/cardInSession/getRanking";
-import { postponeRelatedCards } from "flashcards/flashcards/actions/cardInSession/postponeRelatedCards";
-import { rate } from "flashcards/flashcards/actions/cardInSession/rate";
-import { showIn } from "flashcards/flashcards/actions/cardInSession/showIn";
-import { getTermIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
-import { Row } from "flashcards/flashcards/actions/row/row";
-import {
-  getSession,
-  Session,
-} from "flashcards/flashcards/actions/session/session";
-import { CardId, Rating } from "flashcards/flashcards/types/types";
+import {Card} from "flashcards/flashcards/actions/card/card";
+import {getRanking} from "flashcards/flashcards/actions/cardInSession/getRanking";
+import {postponeRelatedCards} from "flashcards/flashcards/actions/cardInSession/postponeRelatedCards";
+import {rate} from "flashcards/flashcards/actions/cardInSession/rate";
+import {showIn} from "flashcards/flashcards/actions/cardInSession/showIn";
+import {getRowIdFromCardId} from "flashcards/flashcards/actions/deck/compile/ids";
+import {Row} from "flashcards/flashcards/actions/row/row";
+import {getSession, Session,} from "flashcards/flashcards/actions/session/session";
+import {CardId, Rating} from "flashcards/flashcards/types/types";
 
 /**
  * An interval of "1" would mean that that card is shown next.
@@ -63,8 +60,8 @@ export class CardInSession extends Card {
     return this.history.length > 0;
   }
 
-  hasTermBeenSeenInSession() {
-    return getSession().termsSeen.has(getTermIdFromCardId(this.cardId));
+  hasRowBeenSeenInSession() {
+    return getSession().rowsSeen.has(getRowIdFromCardId(this.cardId));
   }
 
   getOtherCardsInSession(): CardInSession[] {

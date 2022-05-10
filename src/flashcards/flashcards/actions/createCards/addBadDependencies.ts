@@ -13,8 +13,8 @@ export const addBadDependencies = (chosenCards: CardIds): CardIds => {
       !isInSession(cardId) &&
       /* Keep in those already chosen */
       (chosenCards.includes(cardId) ||
-        (cardId.isBad() && cardId.wasTermSeenMoreRecentlyThan(45 * minutes)) ||
-        (cardId.isFairlyBad() && cardId.wasTermSeenMoreRecentlyThan(2 * days)))
+        (cardId.isBad() && cardId.wasRowSeenMoreRecentlyThan(45 * minutes)) ||
+        (cardId.isFairlyBad() && cardId.wasRowSeenMoreRecentlyThan(2 * days)))
   );
 
   if (isDev) {

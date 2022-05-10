@@ -1,6 +1,6 @@
-import { Html } from "inflection/tables/types";
-import { matchWordsAndLetters } from "modules/languageProcessing/regexes";
-import { c } from "modules/noUndefinedInTemplateLiteral";
+import {Html} from "inflection/tables/types";
+import {matchWordsAndLetters} from "modules/languageProcessing/regexes";
+import {c} from "modules/noUndefinedInTemplateLiteral";
 
 /**
  * Occlusion is used to give the user hints.

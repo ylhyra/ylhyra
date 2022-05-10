@@ -44,12 +44,12 @@ export const getCardIdsFromAllDecks = (): CardIds => {
 /**
  * @deprecated
  */
-export const getTermsFromAllDecks = () => {
+export const getRowsFromAllDecks = () => {
   throw new Error("Not implemented");
-  // let out: deckStore["terms"] = {};
+  // let out: deckStore["rows"] = {};
   // values(getFlashcardsStore().decks).forEach((deck) => {
-  //   entries(deck.terms).forEach(([termId, termInfo]) => {
-  //     out[termId] = termInfo;
+  //   entries(deck.rows).forEach(([rowId, rowInfo]) => {
+  //     out[rowId] = rowInfo;
   //   });
   // });
   // return out;

@@ -1,5 +1,5 @@
 - Deck → Row → Card
-  - **Deck** – A `deck` is a collection of `terms`.
+  - **Deck** – A `deck` is a collection of `rows`.
   - **Row** – A `row` is a single row in the user's input file, e.g. "hola = hello".
   - **Card** – Each row can have two `cards` (i.e. flashcard sides) that each teaches a specific direction, e.g. "hola → hello" and "hello → hola".
-- A deck can have multiple folders, which contain links to terms.
+- A deck can have multiple folders, which contain links to rows.

@@ -1,12 +1,12 @@
-import { getCardIdsFromAllDecks } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import { Card } from "flashcards/flashcards/actions/card/card";
-import { getCardsInSchedule } from "flashcards/flashcards/actions/card/functions";
-import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
-import { getTermIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
-import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
-import { CardIds, Direction } from "flashcards/flashcards/types/types";
-import { isDev } from "modules/isDev";
-import { roundToInterval } from "modules/math";
+import {getCardIdsFromAllDecks} from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
+import {Card} from "flashcards/flashcards/actions/card/card";
+import {getCardsInSchedule} from "flashcards/flashcards/actions/card/functions";
+import {CreateCardsOptions} from "flashcards/flashcards/actions/createCards";
+import {getRowIdFromCardId} from "flashcards/flashcards/actions/deck/compile/ids";
+import {getEntireSchedule} from "flashcards/flashcards/actions/userData/userDataStore";
+import {CardIds, Direction} from "flashcards/flashcards/types/types";
+import {isDev} from "modules/isDev";
+import {roundToInterval} from "modules/math";
 
 /**
  * Used for debugging (printing cards to the console)
@@ -31,24 +31,24 @@ export const studyParticularIds = async (
   // goToUrl("/vocabulary/play");
 };
 
-export const studyNewTerms = () => {
-  const newTerms: CardIds = [];
+export const studyNewRows = () => {
+  const newRows: CardIds = [];
   (Object.keys(getCardIdsFromAllDecks()) as CardIds).forEach((id) => {
     if (
       !(id in getEntireSchedule()) &&
-      id.isNewTermThatHasNotBeenSeenInSession()
+      id.isNewRowThatHasNotBeenSeenInSession()
     ) {
-      newTerms.push(id);
+      newRows.push(id);
     }
   });
-  studyParticularIds(newTerms, {
+  studyParticularIds(newRows, {
     skipDependencies: true,
     dontSortByAllowedIds: true,
   });
 };
 
-export const countTerms = (ids: CardIds, round = true) => {
-  const i = rapidCountUnique(ids.map((id) => getTermIdFromCardId(id)));
+export const countRows = (ids: CardIds, round = true) => {
+  const i = rapidCountUnique(ids.map((id) => getRowIdFromCardId(id)));
   if (round) {
     return roundToInterval(i, i > 200 ? 50 : 5);
   } else {
@@ -56,18 +56,18 @@ export const countTerms = (ids: CardIds, round = true) => {
   }
 };
 
-/** Only used by {@link countTerms} */
+/** Only used by {@link countRows} */
 export const rapidCountUnique = (i: any[]) => new Set(i).size;
 
-export const countTermsInSchedule = () => {
-  return countTerms(getCardsInSchedule());
+export const countRowsInSchedule = () => {
+  return countRows(getCardsInSchedule());
 };
 
 // if (isBrowser && isDev) {
 //   window["studyParticularWords"] = async (...words) => {
 //     await studyParticularIds(
-//       getCardIdsFromTermIds(
-//         words.map((i) => getHashForVocabulary(i)) as TermIds
+//       getCardIdsFromRowIds(
+//         words.map((i) => getHashForVocabulary(i)) as RowIds
 //       )
 //     );
 //   };

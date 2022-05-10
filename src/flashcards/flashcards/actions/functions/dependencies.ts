@@ -1,9 +1,6 @@
-import { getSortedCardDependenciesAsCardIds } from "flashcards/flashcards/actions/card/cardDependencies";
-import {
-  getCardIdsFromTermId,
-  getTermIdsFromCardIds,
-} from "flashcards/flashcards/actions/card/term";
-import { CardIds } from "flashcards/flashcards/types/types";
+import {getSortedCardDependenciesAsCardIds} from "flashcards/flashcards/actions/card/cardDependencies";
+import {getCardIdsFromRowId, getRowIdsFromCardIds,} from "flashcards/flashcards/actions/card/row";
+import {CardIds} from "flashcards/flashcards/types/types";
 import _ from "underscore";
 
 /**
@@ -15,14 +12,14 @@ export const withDependencies = (
   options?: { skipSiblings?: boolean }
 ): CardIds => {
   let out: CardIds = [];
-  getTermIdsFromCardIds(cardIds).forEach((termId) => {
-    let k = getSortedCardDependenciesAsCardIds(termId);
+  getRowIdsFromCardIds(cardIds).forEach((rowId) => {
+    let k = getSortedCardDependenciesAsCardIds(rowId);
 
     /* Filter siblings, leaving dependencies */
     if (options?.skipSiblings) {
       k = k.filter(
         (cardId) =>
-          !getCardIdsFromTermId(termId).includes(cardId) ||
+          !getCardIdsFromRowId(rowId).includes(cardId) ||
           cardIds.includes(cardId)
       );
     }

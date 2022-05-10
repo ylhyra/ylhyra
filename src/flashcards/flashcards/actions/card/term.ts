@@ -1,15 +1,16 @@
-import { CardIds, TermId } from "flashcards/flashcards/types/types";
+import { RowId } from "flashcards/flashcards/types/rowData";
+import { CardIds } from "flashcards/flashcards/types/types";
 
 /**
  * @deprecated
  */
-export const getCardIdsShuffledIfSeen = (termId: TermId): CardIds => {
+export const getCardIdsShuffledIfSeen = (rowId: RowId): CardIds => {
   if (
-    getCardIdsFromTermId(termId).some((cardId) => cardId.isInSchedule()) &&
+    getCardIdsFromRowId(rowId).some((cardId) => cardId.isInSchedule()) &&
     Math.random() > 0.5
   ) {
-    return getCardIdsFromTermId(termId).reverse();
+    return getCardIdsFromRowId(rowId).reverse();
   } else {
-    return getCardIdsFromTermId(termId);
+    return getCardIdsFromRowId(rowId);
   }
 };

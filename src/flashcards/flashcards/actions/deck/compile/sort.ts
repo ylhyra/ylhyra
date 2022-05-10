@@ -1,14 +1,14 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { TermIds } from "flashcards/flashcards/types/types";
+import { RowIds } from "flashcards/flashcards/types/rowData";
 
-export const getSortedTermIds = (
+export const getSortedRowIds = (
   unprocessedDeck: Deck,
   processedDeck: Deck
-): TermIds => {
+): RowIds => {
   throw new Error("Not implemented");
-  // let termIds: TermIds = keys(processedDeck.terms).sort((termId1, termId2) => {
-  // const a = unprocessedDeck.rows[getRowId(termId1)];
-  // const b = unprocessedDeck.rows[getRowId(termId2)];
+  // let rowIds: RowIds = keys(processedDeck.rows).sort((rowId1, rowId2) => {
+  // const a = unprocessedDeck.rows[getRowId(rowId1)];
+  // const b = unprocessedDeck.rows[getRowId(rowId2)];
   // return 0;
   // return compare(a, b,);
   // a.level - b.level ||
@@ -29,17 +29,17 @@ export const getSortedTermIds = (
   //     (a.row_id! % 100) - (b.row_id! % 100) ||
   //     a.row_id! - b.row_id!
   // )
-  // .map((term) => {
-  //   return term.id!;
+  // .map((row) => {
+  //   return row.id!;
   // });
 
   // /* Run empty to remove cyclical dependencies */
   // withDependencies__backend(cardIds);
   // /* Run again now that  cyclical dependencies are gone */
-  // termIds = sortDependenciesBeforeCardsThatDependOnThem(processedDeck, termIds);
-  // termIds.forEach((cardId, index) => {
+  // rowIds = sortDependenciesBeforeCardsThatDependOnThem(processedDeck, rowIds);
+  // rowIds.forEach((cardId, index) => {
   //   processedDeck!.cards[cardId].sortKey = index;
   // });
 
-  // return termIds;
+  // return rowIds;
 };

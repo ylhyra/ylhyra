@@ -1,7 +1,7 @@
-import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { getDirectionFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
-import { getSession } from "flashcards/flashcards/actions/session/session";
-import { Rating } from "flashcards/flashcards/types/types";
+import {CardInSession} from "flashcards/flashcards/actions/cardInSession";
+import {getDirectionFromCardId} from "flashcards/flashcards/actions/deck/compile/ids";
+import {getSession} from "flashcards/flashcards/actions/session/session";
+import {Rating} from "flashcards/flashcards/types/types";
 
 /**
  * Returns a ranking for a given {@link CardInSession} indicating
@@ -25,19 +25,19 @@ export function getRanking(this: CardInSession) {
   let rank = this.getQueuePosition();
 
   /**
-   * Terms that haven't already been seen in this session
+   * Rows that haven't already been seen in this session
    * are moved back in the queue. They will only be shown
-   * if there are no overdue seen terms (non-overdue seen terms
+   * if there are no overdue seen rows (non-overdue seen rows
    * are moved back in the next step).
    */
-  if (!this.hasTermBeenSeenInSession()) {
+  if (!this.hasRowBeenSeenInSession()) {
     rank += 1000;
   }
 
   /**
-   * Seen terms are not relevant if they are not overdue.
+   * Seen rows are not relevant if they are not overdue.
    */
-  if (this.hasTermBeenSeenInSession() && !this.isOverdueInCurrentSession()) {
+  if (this.hasRowBeenSeenInSession() && !this.isOverdueInCurrentSession()) {
     rank += 2000;
   }
 

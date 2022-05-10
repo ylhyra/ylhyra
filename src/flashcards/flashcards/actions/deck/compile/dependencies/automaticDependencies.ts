@@ -36,23 +36,23 @@ export const automaticDependencies = () => {};
 //             continue;
 //           }
 //
-//           const hash = getHashForVocabulary(range) as TermId;
-//           const termIds = [
+//           const hash = getHashForVocabulary(range) as RowId;
+//           const rowIds = [
 //             hash,
 //             ...(alternativeIds[hash] || []),
 //             ...(automaticAltIds2[hash] || []),
 //           ];
 //
-//           termIds.forEach((term_id) => {
-//             let term = terms[term_id];
-//             if (term) {
+//           rowIds.forEach((row_id) => {
+//             let row = rows[row_id];
+//             if (row) {
 //               if (
-//                 term.cards.some((cardId) => cards[cardId].level <= card.level)
+//                 row.cards.some((cardId) => cards[cardId].level <= card.level)
 //               ) {
 //                 // if (sentence === "Þetta er mjög auðvelt.") {
-//                 //   console.log(term_id);
+//                 //   console.log(row_id);
 //                 // }
-//                 AddToDependencyGraph(card.terms, [term_id]);
+//                 AddToDependencyGraph(card.rows, [row_id]);
 //               }
 //             }
 //           });

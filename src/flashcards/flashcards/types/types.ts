@@ -1,3 +1,4 @@
+import { RowId } from "flashcards/flashcards/types/rowData";
 import { Days, Timestamp } from "modules/time";
 import { Brand } from "ts-brand";
 
@@ -13,17 +14,17 @@ export enum Direction {
 
 // export type ProcessedDeck = {
 //   /**
-//    * Sentences pointing to termIds
+//    * Sentences pointing to rowIds
 //    */
-//   alternativeIds: Record<RawText, TermId[]>;
+//   alternativeIds: Record<RawText, RowId[]>;
 //   /**
-//    * This term depends on which sentences?
+//    * This row depends on which sentences?
 //    * (Note, these sentences point to an alternativeId)
 //    */
-//   dependenciesUnprocessed: Record<TermId, RawText[]>;
-//   dependencyGraph: DependenciesForAllTermsAsTermIdToDependencyToDepth;
+//   dependenciesUnprocessed: Record<RowId, RawText[]>;
+//   dependencyGraph: DependenciesForAllRowsAsRowIdToDependencyToDepth;
 //   // /** TODO: Remove? */
-//   // dependencyList: Record<TermId, TermId[]>;
+//   // dependencyList: Record<RowId, RowId[]>;
 // };
 
 export type ProcessedCardExtraInformation = {
@@ -67,23 +68,19 @@ export enum Rating {
 export type Score = number;
 
 /**
- * TermId and direction is encoded in CardId
+ * RowId and direction is encoded in CardId
  * @see createCardId
  */
 export type CardId = Brand<string, "CardId">;
 export type CardIds = CardId[];
-/** @deprecated */
-export type TermId = Brand<string, "TermId">;
-/** @deprecated */
-export type TermIds = TermId[];
 export type DeckId = Brand<string, "DeckId">;
 
 /** TODO: Find a better name */
-export type DependenciesForAllTermsAsTermIdToDependencyToDepth = Record<
-  TermId,
-  DependenciesForOneTermAsDependencyToDepth
+export type DependenciesForAllRowsAsRowIdToDependencyToDepth = Record<
+  RowId,
+  DependenciesForOneRowAsDependencyToDepth
 >;
-export type DependenciesForOneTermAsDependencyToDepth = Record<TermId, number>;
+export type DependenciesForOneRowAsDependencyToDepth = Record<RowId, number>;
 /** @deprecated */
 export type CardIdToDependencyDepth = Record<CardId, number>;
 

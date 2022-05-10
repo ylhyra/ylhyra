@@ -1,7 +1,7 @@
-import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { getSession } from "flashcards/flashcards/actions/session/session";
-import { getSortKey } from "flashcards/flashcards/actions/card/cardData";
-import { printWord } from "flashcards/flashcards/actions/functions";
+import {getSortKey} from "flashcards/flashcards/actions/card/cardData";
+import {CardInSession} from "flashcards/flashcards/actions/cardInSession";
+import {printWord} from "flashcards/flashcards/actions/functions";
+import {getSession} from "flashcards/flashcards/actions/session/session";
 import _ from "underscore";
 
 /**

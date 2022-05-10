@@ -5,14 +5,14 @@ import {
 } from "flashcards/flashcards/actions/deck/compile/functions";
 import {
   createCardId,
-  createTermId,
+  createRowId,
 } from "flashcards/flashcards/actions/deck/compile/ids";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { deckSettingsFields } from "flashcards/flashcards/make/deckSettings";
 import { rowFields } from "flashcards/flashcards/make/rowFields";
 import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
-import { RowData } from "flashcards/flashcards/types/rowData";
-import { CardIds, Direction, TermId } from "flashcards/flashcards/types/types";
+import { RowData, RowId } from "flashcards/flashcards/types/rowData";
+import { CardIds, Direction } from "flashcards/flashcards/types/types";
 import { computed, observable } from "mobx";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
@@ -42,8 +42,8 @@ export class Row {
   compile() {}
 
   @computed({ keepAlive: true })
-  getTermId(): TermId {
-    return createTermId(this.deck.deckId, this.data.rowId);
+  getRowId(): RowId {
+    return createRowId(this.deck.deckId, this.data.rowId);
   }
 
   @computed({ keepAlive: true })
@@ -53,7 +53,7 @@ export class Row {
     if (shouldCreateFrontToBack(this)) {
       cardIds.push(
         createCardId(
-          createTermId(this.deck.deckId, this.data.rowId),
+          createRowId(this.deck.deckId, this.data.rowId),
           Direction.FRONT_TO_BACK
         )
       );
@@ -61,7 +61,7 @@ export class Row {
     if (shouldCreateBackToFront(this)) {
       cardIds.push(
         createCardId(
-          createTermId(this.deck.deckId, this.data.rowId),
+          createRowId(this.deck.deckId, this.data.rowId),
           Direction.BACK_TO_FRONT
         )
       );

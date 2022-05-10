@@ -1,11 +1,11 @@
-import { isInSession } from "flashcards/flashcards/actions/card/card";
-import { dependencyDepthOfCard } from "flashcards/flashcards/actions/card/cardDependencies";
-import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { printWord } from "flashcards/flashcards/actions/functions";
-import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
-import { CardIds } from "flashcards/flashcards/types/types";
-import { log } from "modules/log";
-import { days } from "modules/time";
+import {isInSession} from "flashcards/flashcards/actions/card/card";
+import {dependencyDepthOfCard} from "flashcards/flashcards/actions/card/cardDependencies";
+import {CardInSession} from "flashcards/flashcards/actions/cardInSession";
+import {printWord} from "flashcards/flashcards/actions/functions";
+import {loadCardsIntoSession} from "flashcards/flashcards/actions/session/loadCardsIntoSession";
+import {CardIds} from "flashcards/flashcards/types/types";
+import {log} from "modules/log";
+import {days} from "modules/time";
 
 /**
  * If a cardInSession gets a bad rating, then we make sure
@@ -22,7 +22,7 @@ export const addRelatedCardsToSession = (card: CardInSession) => {
     /* Ignore cards already in session */
     if (isInSession(relatedCardId)) return;
 
-    /* Add cards with the same term */
+    /* Add cards with the same row */
     if (dependencyDepthOfCard(id, relatedCardId) === 0) {
       return toAdd.push(relatedCardId);
     }
@@ -30,16 +30,16 @@ export const addRelatedCardsToSession = (card: CardInSession) => {
     /* Ignore cyclical dependencies */
     if (dependencyDepthOfCard(relatedCardId, id) > 0) return;
 
-    if (relatedCardId.wasTermVeryRecentlySeen()) return;
+    if (relatedCardId.wasRowVeryRecentlySeen()) return;
 
-    /* Add cards that this term directly depends on */
+    /* Add cards that this row directly depends on */
     if (
       dependencyDepthOfCard(id, relatedCardId) === 1 &&
       /* Unseen or unknown cards */
-      (relatedCardId.isUnseenTerm() ||
+      (relatedCardId.isUnseenRow() ||
         relatedCardId.isBad() ||
         (relatedCardId.isFairlyBad() &&
-          relatedCardId.timeSinceTermWasSeen()! > 5 * days &&
+          relatedCardId.timeSinceRowWasSeen()! > 5 * days &&
           Math.random() > 0.7))
     ) {
       log(`Direct dependency "${printWord(relatedCardId)}" added`);

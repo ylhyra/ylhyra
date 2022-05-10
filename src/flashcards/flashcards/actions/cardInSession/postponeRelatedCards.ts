@@ -1,7 +1,7 @@
 import {
   dependencyDepthOfCard,
   hasDependenciesInCommonWith,
-  hasTheSameTermAs,
+  hasTheSameRowAs,
 } from "flashcards/flashcards/actions/card/cardDependencies";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types/types";
@@ -13,8 +13,8 @@ export function postponeRelatedCards(
   const card1: CardInSession = this;
 
   this.getOtherCardsInSession().forEach((card2: CardInSession) => {
-    // Same term
-    if (hasTheSameTermAs(card1.cardId, card2.cardId)) {
+    // Same row
+    if (hasTheSameRowAs(card1.cardId, card2.cardId)) {
       if (
         card1.history.includes(Rating.BAD) ||
         card2.history.includes(Rating.BAD)

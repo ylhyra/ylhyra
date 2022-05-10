@@ -3,7 +3,7 @@ import { CardIds } from "flashcards/flashcards/types/types";
 import { sortBy } from "underscore";
 
 export const oldestFirst = (ids: CardIds) => {
-  return sortBy(ids, (id) => id.getTermLastSeen());
+  return sortBy(ids, (id) => id.getRowLastSeen());
 };
 
 // export const newestFirst = (ids: CardIds) => {
@@ -11,10 +11,10 @@ export const oldestFirst = (ids: CardIds) => {
 // };
 
 export const veryRecentlySeenSortedLast = (ids: CardIds) => {
-  return sortBy(ids, (id) => id.wasTermVeryRecentlySeen());
+  return sortBy(ids, (id) => id.wasRowVeryRecentlySeen());
 };
 
-// const wasTermVeryRecentlySeen2_temp = (id, time) => {
+// const wasRowVeryRecentlySeen2_temp = (id, time) => {
 //   return [id, ...deck!.cards_temp[id].siblingCardIds].some((sibling_id) => {
 //     const lastSeen = getEntireSchedule()[sibling_id]?.lastSeen;
 //     return lastSeen && time - lastSeen < 45 * minutes;
