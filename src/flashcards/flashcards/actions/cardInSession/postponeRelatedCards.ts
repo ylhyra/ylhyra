@@ -9,7 +9,7 @@ export function postponeRelatedCards(
 
   this.getOtherCardsInSession().forEach((card2: CardInSession) => {
     // Same row
-    if (card1.row.rowId === card2.row.rowId) {
+    if (card1.rowId === card2.rowId) {
       if (
         card1.history.includes(Rating.BAD) ||
         card2.history.includes(Rating.BAD)

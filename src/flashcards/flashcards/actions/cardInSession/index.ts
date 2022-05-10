@@ -37,16 +37,17 @@ export class CardInSession extends Card {
   postponeRelatedCards = postponeRelatedCards;
   showIn = showIn;
 
-  constructor({
-    card,
-    insertAtPosition,
-    history,
-  }: {
-    card: Card;
-    insertAtPosition?: number;
-    /** Used for initializing again from a saved state */
-    history?: Rating[];
-  }) {
+  constructor(
+    card: Card,
+    {
+      insertAtPosition,
+      history,
+    }: {
+      insertAtPosition?: number;
+      /** Used for initializing again from a saved state */
+      history?: Rating[];
+    }
+  ) {
     super(card.row, card.cardId);
     this.history = history || [];
     this.absoluteQueuePosition =
@@ -58,7 +59,7 @@ export class CardInSession extends Card {
   }
 
   hasRowBeenSeenInSession() {
-    return getSession().rowsSeen.has(this.row.rowId);
+    return getSession().rowsSeen.has(this.rowId);
   }
 
   getOtherCardsInSession(): CardInSession[] {

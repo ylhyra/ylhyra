@@ -33,17 +33,17 @@ import {
 } from "flashcards/flashcards/actions/card/cardSchedule";
 import {
   didAnySiblingCardsGetABadRatingInThisSession,
-  getAllCardIdsWithSameRow,
   getSiblingCards,
   getSiblingCardsInSession,
 } from "flashcards/flashcards/actions/card/cardSiblings";
 import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
-import { getDirection } from "flashcards/flashcards/actions/deck/compile/ids";
+import { getDirectionFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { Row } from "flashcards/flashcards/actions/row/row";
+import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { saveCardSchedule } from "flashcards/flashcards/actions/userData/userDataSchedule";
-import { CardId } from "flashcards/flashcards/types";
+import { CardId, Direction } from "flashcards/flashcards/types";
 
 export class Card {
   row: Row;
@@ -52,6 +52,23 @@ export class Card {
   constructor(row: Row, cardId: CardId) {
     this.row = row;
     this.cardId = cardId;
+  }
+
+  getCardData<T extends keyof RowData>(key: T): RowData[T] {
+    return this.row.data[key];
+  }
+
+  get rowId() {
+    return this.row.rowId;
+  }
+
+  get direction(): Direction {
+    return getDirectionFromCardId(this.cardId);
+  }
+
+  /** @deprecated */
+  getSortKey() {
+    throw new Error("Not implemented");
   }
 
   dependencyDepthOfCard = dependencyDepthOfCard;
@@ -84,7 +101,6 @@ export class Card {
   isNewCard = isNewCard;
   isNewRowThatHasNotBeenSeenInSession = isNewRowThatHasNotBeenSeenInSession;
   getSiblingCards = getSiblingCards;
-  getAllCardIdsWithSameRow = getAllCardIdsWithSameRow;
   getSiblingCardsInSession = getSiblingCardsInSession;
   didAnySiblingCardsGetABadRatingInThisSession =
     didAnySiblingCardsGetABadRatingInThisSession;
@@ -92,7 +108,6 @@ export class Card {
   getScheduleForCard = getScheduleForCard;
   saveCardSchedule = saveCardSchedule;
   printWord = printWord;
-  getDirection = getDirection;
 }
 
 export function isInSession(this: Card) {
@@ -118,8 +133,7 @@ export function isAllowed(this: Card): boolean {
       .cardHistory.slice(0, 3)
       .some(
         (card) =>
-          this.row.rowId === card.row.rowId ||
-          this.hasDependenciesInCommonWith(card)
+          this.rowId === card.rowId || this.hasDependenciesInCommonWith(card)
         // || isTextSimilarTo(id, card)
       )
   )
@@ -134,3 +148,7 @@ export function wasSeenInSession(this: Card) {
   );
   return cardInSession && cardInSession.history.length > 0;
 }
+
+export const getCardById = (id: CardId): Card => {
+  throw new Error("Not implemented");
+};

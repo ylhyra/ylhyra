@@ -1,6 +1,5 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { createCards } from "flashcards/flashcards/actions/createCards";
-import { getRowIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
 import { debugSession } from "flashcards/flashcards/actions/session/debugging";
 import {
   createCardsIfNoneAreRemaining,
@@ -53,7 +52,7 @@ export const nextCard = action((isRecursiveCall = false) => {
     i.getRanking()
   ) as CardInSession;
 
-  session.rowsSeen.add(session.currentCard.cardId.row.rowId);
+  session.rowsSeen.add(session.currentCard.rowId);
 
   saveOngoingSessionInLocalStorage();
   debugSession();

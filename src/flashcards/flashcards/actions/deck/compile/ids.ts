@@ -1,6 +1,6 @@
-import {Card} from "flashcards/flashcards/actions/card/card";
-import {RowId} from "flashcards/flashcards/actions/row/rowData.types";
-import {CardId, DeckId, Direction} from "flashcards/flashcards/types";
+import { Card } from "flashcards/flashcards/actions/card/card";
+import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
+import { CardId, DeckId, Direction } from "flashcards/flashcards/types";
 
 /**
  * Can not be "-" due to shortId.generate() using it.
@@ -38,18 +38,9 @@ export function getRowId(this: Card | RowId): RowId {
 }
 
 /**
- * RowId is encoded in CardId
- */
-export function this: Card.row.rowId {
-  return cardId
-    .split(CARD_ID_SEPARATOR)
-    .slice(0, 2)
-    .join(CARD_ID_SEPARATOR) as RowId;
-}
-
-/**
  * Direction is encoded in CardId
+ * @deprecated
  */
-export function getDirection(this: Card): Direction {
-  return this.cardId.split(CARD_ID_SEPARATOR)[2] as Direction;
+export function getDirectionFromCardId(cardId: CardId): Direction {
+  return cardId.split(CARD_ID_SEPARATOR)[2] as Direction;
 }

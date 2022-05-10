@@ -14,7 +14,7 @@ import _ from "underscore";
 export function cardGetDependenciesAsRowIdToDepth(
   this: Card
 ): DependenciesForOneRowAsDependencyToDepth {
-  const rowId: RowId = id.row.rowId;
+  const rowId: RowId = id.rowId;
   return rowGetDependenciesAsRowIdToDepth(rowId);
 }
 

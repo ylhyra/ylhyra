@@ -1,3 +1,4 @@
+import { Card } from "flashcards/flashcards/actions/card/card";
 import {
   CARDS_TO_CREATE,
   CreateCardsOptions,
@@ -8,29 +9,28 @@ import {
 } from "flashcards/flashcards/actions/createCards/functions";
 import { getNewCards } from "flashcards/flashcards/actions/createCards/newCards";
 import { oldCards } from "flashcards/flashcards/actions/createCards/oldCards";
-import { printWord } from "flashcards/flashcards/actions/functions";
-import { CardIds } from "flashcards/flashcards/types";
 import { isEmpty } from "modules/isEmpty";
 import { log } from "modules/log";
 
-export const chooseCards = (options?: CreateCardsOptions): CardIds => {
+export const chooseCards = (options?: CreateCardsOptions): Card[] => {
   /**
    * chosenCards starts out as an array of nulls;
    * the slots will later be filled.
    */
-  let chosenCards = Array(CARDS_TO_CREATE).fill(null);
+  let chosenCards: (Card | null | undefined)[] =
+    Array(CARDS_TO_CREATE).fill(null);
 
   /**
    * Helper function to add to chosenCards.
    * Manipulates chosenCards directly.
    */
   const addToChosenCards = (
-    cardIds: CardIds,
+    cards: Card[],
     /** Only used for logging */
     description: string,
     pos?: number
   ) => {
-    if (!isEmpty(cardIds)) {
+    if (!isEmpty(cards)) {
       if (pos === undefined) {
         pos = chosenCards.findIndex((j) => j === null);
         if (pos < 0) {
@@ -38,11 +38,11 @@ export const chooseCards = (options?: CreateCardsOptions): CardIds => {
         }
       }
       log(
-        `${description} card "${printWord(cardIds[0])}" added at position ${
+        `${description} card "${cards[0].printWord()}" added at position ${
           pos + 1
         }`
       );
-      chosenCards[pos] = cardIds.shift();
+      chosenCards[pos] = cards.shift();
     }
   };
 
@@ -109,5 +109,5 @@ export const chooseCards = (options?: CreateCardsOptions): CardIds => {
     console.error("No cards generated. Falling back to all cards.");
   }
 
-  return chosenCards;
+  return chosenCards as Card[];
 };

@@ -4,9 +4,10 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   root: true,
   globals: {
-    expect: true,
-    beforeAll: true,
-    NodeJS: true,
+    // expect: true,
+    // beforeAll: true,
+    // NodeJS: true,
+    // globalThis: true,
   },
   overrides: [
     {
@@ -16,7 +17,7 @@ module.exports = {
         tsconfigRootDir: __dirname,
       },
       rules: {
-        "no-undef": "error",
+        // "no-undef": "error",
         "import/no-unused-modules": ["warn", { unusedExports: true }],
 
         "@typescript-eslint/naming-convention": [

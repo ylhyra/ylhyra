@@ -26,6 +26,6 @@ export const filterCardsThatExist = (cardIds: CardIds) => {
   return cardIds.filter((cardId) => cardId in cardsThatExist);
 };
 
-export const getCardsInSchedule = (): CardIds => {
+export const getCardsInSchedule = (): Card[] => {
   return filterCardsThatExist(Object.keys(getEntireSchedule()) as CardIds);
 };

@@ -1,10 +1,9 @@
-import { isInSession } from "flashcards/flashcards/actions/card/card";
+import { Card, isInSession } from "flashcards/flashcards/actions/card/card";
 import { withDependencies } from "flashcards/flashcards/actions/functions/dependencies";
-import { CardIds } from "flashcards/flashcards/types";
 import { isDev } from "modules/isDev";
 import { days, minutes } from "modules/time";
 
-export const addBadDependencies = (chosenCards: CardIds): CardIds => {
+export const addBadDependencies = (chosenCards: Card[]): Card[] => {
   console.warn("dependencies not implemented");
   return chosenCards;
 

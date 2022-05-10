@@ -1,6 +1,3 @@
-import { getCardData } from "flashcards/flashcards/actions/card/cardData";
-import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
-import { getDirection } from "flashcards/flashcards/actions/deck/compile/ids";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Direction, Rating } from "flashcards/flashcards/types";
 import { observer } from "mobx-react";
@@ -193,22 +190,21 @@ export class CardElement extends Component {
     const session = getSession();
     const isVolumeOn = session.isVolumeOn;
     const answered = this.state.isShowingBottomSide;
-    /** This value is that which makes MobX update the interface */
-    const cardId = session.currentCard?.cardId;
-    if (!cardId) {
+    const card = session.currentCard;
+    if (!card) {
       return <div>Unable to create cards.</div>;
     }
 
-    let direction = getDirection(cardId);
-    let lemmas: Jsx = getCardData(cardId, "lemmas");
+    let direction = card.direction;
+    let lemmas: Jsx = card.getCardData("lemmas");
     // let note_regarding_english: Jsx = getCardData(id, "note_regarding_english");
     // let note: Jsx = getCardData(id, "note");
     // let literally: Jsx = getCardData(id, "literally");
     // let example_declension: Jsx = getCardData(id, "example_declension");
     // let pronunciation: Jsx = getCardData(id, "pronunciation");
     // let synonyms: Jsx = getCardData(id, "synonyms");
-    const front = getCardData(cardId, "front");
-    const back = getCardData(cardId, "back");
+    const front = card.getCardData("front");
+    const back = card.getCardData("back");
 
     /* Loading */
     if (!front || !back) {
@@ -235,7 +231,7 @@ export class CardElement extends Component {
           flashcard
           ${answered ? "answered" : "not-answered"}
           ${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}
-          ${isNewRowThatHasNotBeenSeenInSession(cardId) ? "new" : ""}
+          ${card.isNewRowThatHasNotBeenSeenInSession() ? "new" : ""}
         `}
         onClick={() => this.cardClicked()}
       >

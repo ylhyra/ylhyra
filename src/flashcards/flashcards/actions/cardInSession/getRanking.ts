@@ -14,7 +14,7 @@ import { Rating } from "flashcards/flashcards/types";
  */
 export function getRanking(this: CardInSession) {
   const session = getSession();
-  const direction = this.getDirection();
+  const direction = this.direction;
 
   /**
    * Starts out as the card's queue position.

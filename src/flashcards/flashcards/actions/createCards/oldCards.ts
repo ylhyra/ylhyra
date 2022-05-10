@@ -1,6 +1,6 @@
+import { Card } from "flashcards/flashcards/actions/card/card";
 import { getCardsInSchedule } from "flashcards/flashcards/actions/card/functions";
 import { sortBySortKey } from "flashcards/flashcards/actions/createCards/functions";
-import { CardIds } from "flashcards/flashcards/types";
 import { log } from "modules/log";
 import { shuffleLocally } from "modules/shuffleLocally";
 import { getTimeMemoized, hours, minutes } from "modules/time";
@@ -10,32 +10,35 @@ import { getTimeMemoized, hours, minutes } from "modules/time";
  * Called by {@link chooseCards}, which will choose a few cards from these.
  */
 export const oldCards = () => {
-  let overdueGood: CardIds = [];
-  let overdueBad: CardIds = [];
-  let notOverdueVeryBad: CardIds = [];
-  let notOverdue: CardIds = [];
+  let overdueGood: Card[] = [];
+  let overdueBad: Card[] = [];
+  let notOverdueVeryBad: Card[] = [];
+  let notOverdue: Card[] = [];
 
   getCardsInSchedule()
-    .filter((id) => id.isAllowed())
-    .forEach((id) => {
+    .filter((card) => card.isAllowed())
+    .forEach((card) => {
       /* Overdue */
       if (
-        id.getDue() &&
-        id.getDue()! < getTimeMemoized() + 16 * hours &&
-        !id.isTooEasy() &&
-        !id.wasRowVeryRecentlySeen()
+        card.getDue() &&
+        card.getDue()! < getTimeMemoized() + 16 * hours &&
+        !card.isTooEasy() &&
+        !card.wasRowVeryRecentlySeen()
       ) {
-        if (id.isBelowGood() || id.isUnseenSiblingOfANonGoodCard()) {
-          overdueBad.push(id);
+        if (card.isBelowGood() || card.isUnseenSiblingOfANonGoodCard()) {
+          overdueBad.push(card);
         } else {
-          overdueGood.push(id);
+          overdueGood.push(card);
         }
       }
       // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
-      else if (id.isBad() && (id.timeSinceRowWasSeen() || 0) > 20 * minutes) {
-        notOverdueVeryBad.push(id);
+      else if (
+        card.isBad() &&
+        (card.timeSinceRowWasSeen() || 0) > 20 * minutes
+      ) {
+        notOverdueVeryBad.push(card);
       } else {
-        notOverdue.push(id);
+        notOverdue.push(card);
       }
     });
 

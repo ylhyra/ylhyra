@@ -65,7 +65,7 @@ export function rate(this: CardInSession, rating: Rating): void {
 
   card.showIn({ interval: interval! });
   card.postponeRelatedCards(interval!);
-  session.cardDirectionLog.unshift(card.getDirection());
+  session.cardDirectionLog.unshift(card.direction);
 
   // keepTrackOfEasiness({
   //   rating,

@@ -1,17 +1,16 @@
-import { getSortKey } from "flashcards/flashcards/actions/card/cardData";
-import { CardIds } from "flashcards/flashcards/types";
+import { Card } from "flashcards/flashcards/actions/card/card";
 import { sortBy } from "underscore";
 
-export const oldestFirst = (ids: CardIds) => {
-  return sortBy(ids, (id) => id.getRowLastSeen());
+export const oldestFirst = (cards: Card[]) => {
+  return sortBy(cards, (card) => card.getRowLastSeen());
 };
 
-// export const newestFirst = (ids: CardIds) => {
+// export const newestFirst = (ids: Card[]) => {
 //   return oldestFirst(ids).reverse();
 // };
 
-export const veryRecentlySeenSortedLast = (ids: CardIds) => {
-  return sortBy(ids, (id) => id.wasRowVeryRecentlySeen());
+export const veryRecentlySeenSortedLast = (cards: Card[]) => {
+  return sortBy(cards, (card) => card.wasRowVeryRecentlySeen());
 };
 
 // const wasRowVeryRecentlySeen2_temp = (id, time) => {
@@ -21,10 +20,10 @@ export const veryRecentlySeenSortedLast = (ids: CardIds) => {
 //   });
 // };
 
-export const sortCardsByScore = (ids: CardIds) => {
-  return sortBy(ids, (id) => id.getScore());
+export const sortCardsByScore = (cards: Card[]) => {
+  return sortBy(cards, (card) => card.getScore());
 };
 
-export const sortBySortKey = (ids: CardIds, options?) => {
-  return sortBy(ids, (id) => getSortKey(id, options));
+export const sortBySortKey = (cards: Card[], options?: any) => {
+  return sortBy(cards, (card) => card.getSortKey(options));
 };

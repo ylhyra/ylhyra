@@ -1,19 +1,18 @@
-import { getCardIdsFromAllDecks } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
+import { Card } from "flashcards/flashcards/actions/card/card";
 import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
 import { veryRecentlySeenSortedLast } from "flashcards/flashcards/actions/createCards/functions";
 import { getSession } from "flashcards/flashcards/actions/session/session";
-import { CardIds } from "flashcards/flashcards/types";
 import { sortBy } from "underscore";
 
 /**
  * Returns ALL new cards
  * Called by {@link chooseCards}, which will choose a few cards from these.
  */
-export const getNewCards = (options?: CreateCardsOptions): CardIds => {
+export const getNewCards = (options?: CreateCardsOptions): Card[] => {
   const session = getSession();
 
-  let newCards = getCardIdsFromAllDecks().filter(
-    (cardId) => !cardId.isInSchedule() && cardId.isAllowed()
+  let newCards = getCardsFromAllDecks().filter(
+    (card) => !card.isInSchedule() && card.isAllowed()
   );
 
   /**

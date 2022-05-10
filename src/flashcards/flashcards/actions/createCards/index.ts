@@ -1,4 +1,4 @@
-import { isInSession } from "flashcards/flashcards/actions/card/card";
+import { getCardById } from "flashcards/flashcards/actions/card/card";
 import { filterCardsThatExist } from "flashcards/flashcards/actions/card/functions";
 import { addBadDependencies } from "flashcards/flashcards/actions/createCards/addBadDependencies";
 import { chooseCards } from "flashcards/flashcards/actions/createCards/chooseCards";
@@ -29,8 +29,9 @@ export const createCards = (options?: CreateCardsOptions): void => {
     /* If all allowedIds are already in use, clear it */
     if (
       session.allowedIds &&
-      (filterCardsThatExist(session.allowedIds).length === 0 ||
-        filterCardsThatExist(session.allowedIds).every((id) => isInSession(id)))
+      filterCardsThatExist(session.allowedIds).every((id) =>
+        getCardById(id).isInSession()
+      )
     ) {
       session.allowedIds = undefined;
       logDev("allowedIds cleared");

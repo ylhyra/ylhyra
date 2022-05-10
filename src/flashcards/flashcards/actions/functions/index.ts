@@ -1,11 +1,7 @@
-import { getCardIdsFromAllDecks } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { getCardsInSchedule } from "flashcards/flashcards/actions/card/functions";
 import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
-import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
 import { CardIds, Direction } from "flashcards/flashcards/types";
 import { isDev } from "modules/isDev";
-import { roundToInterval } from "modules/math";
 
 /**
  * Used for debugging (printing cards to the console)
@@ -13,7 +9,7 @@ import { roundToInterval } from "modules/math";
 export function printWord(this: Card): string | undefined {
   if (!isDev) return;
   return this.getCardData(
-    this.getDirection() === Direction.FRONT_TO_BACK ? "front" : "back"
+    this.direction === Direction.FRONT_TO_BACK ? "front" : "back"
   );
 }
 
@@ -31,35 +27,37 @@ export const studyParticularIds = async (
 };
 
 export const studyNewRows = () => {
-  const newRows: CardIds = [];
-  (Object.keys(getCardIdsFromAllDecks()) as CardIds).forEach((id) => {
-    if (
-      !(id in getEntireSchedule()) &&
-      id.isNewRowThatHasNotBeenSeenInSession()
-    ) {
-      newRows.push(id);
-    }
-  });
-  studyParticularIds(newRows, {
-    skipDependencies: true,
-    dontSortByAllowedIds: true,
-  });
+  // const newRows: CardIds = [];
+  // (Object.keys(getCardIdsFromAllDecks()) as CardIds).forEach((id) => {
+  //   if (
+  //     !(id in getEntireSchedule()) &&
+  //     id.isNewRowThatHasNotBeenSeenInSession()
+  //   ) {
+  //     newRows.push(id);
+  //   }
+  // });
+  // studyParticularIds(newRows, {
+  //   skipDependencies: true,
+  //   dontSortByAllowedIds: true,
+  // });
 };
 
 export const countRows = (ids: CardIds, round = true) => {
-  const i = rapidCountUnique(ids.map((id) => id.row.rowId));
-  if (round) {
-    return roundToInterval(i, i > 200 ? 50 : 5);
-  } else {
-    return i;
-  }
+  throw new Error("Not implemented");
+  // const i = rapidCountUnique(ids.map((id) => id.rowId));
+  // if (round) {
+  //   return roundToInterval(i, i > 200 ? 50 : 5);
+  // } else {
+  //   return i;
+  // }
 };
 
 /** Only used by {@link countRows} */
 export const rapidCountUnique = (i: any[]) => new Set(i).size;
 
 export const countRowsInSchedule = () => {
-  return countRows(getCardsInSchedule());
+  throw new Error("Not implemented");
+  // return countRows(getCardsInSchedule());
 };
 
 // if (isBrowser && isDev) {

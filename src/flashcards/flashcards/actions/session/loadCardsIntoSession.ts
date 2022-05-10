@@ -13,19 +13,24 @@ export function loadCardsIntoSession(
 ) {
   const session = getSession();
 
-  let insertAtPosition = 0;
-  if (!options.insertImmediately) {
-    /* Insert new cards after the current cards */
-    insertAtPosition = session.cards.filter((i) => !i.done).length;
-    if (insertAtPosition) {
-      insertAtPosition += 200;
-    }
-  }
+  /**
+   * Todo:
+   * getRanking() doesn't actually rely on the insert position as these are new cards,
+   * which are all moved back. So this may need some reconsidering.
+   */
+  const insertAtPosition = 0;
+  // if (!options.insertImmediately) {
+  //   insertAtPosition = 200;
+  //   // /* Insert new cards after the current cards */
+  //   // const numberOfRemainingCards = session.cards.filter((i) => !i.done).length;
+  //   // if (numberOfRemainingCards) {
+  //   //   insertAtPosition = numberOfRemainingCards+200;
+  //   // }
+  // }
 
-  cards.forEach((cardId, index) => {
+  cards.forEach((card, index) => {
     session.cards.push(
-      new CardInSession({
-        cardId,
+      new CardInSession(card, {
         insertAtPosition: insertAtPosition + index,
       })
     );

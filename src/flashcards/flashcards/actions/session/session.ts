@@ -20,7 +20,8 @@ export class Session {
   cards: CardInSession[] = [];
   currentCard?: CardInSession;
 
-  allowedIds?: CardIds;
+  /** Can be undefined but not empty */
+  allowedIds: CardIds | undefined;
 
   /** The most recent card is pushed to the front of this array */
   cardHistory: CardInSession[] = [];
@@ -73,7 +74,7 @@ export class Session {
     this.allowedIds = undefined;
     this.ratingHistory = [];
     this.cardHistory = [];
-    this.counter = 0;
+    // this.counter = 0;
     this.rowsSeen = new Set<RowId>();
     this.cardDirectionLog = [];
     this.currentCard = undefined;

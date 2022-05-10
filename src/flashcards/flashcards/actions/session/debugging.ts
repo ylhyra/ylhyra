@@ -1,6 +1,4 @@
-import { getSortKey } from "flashcards/flashcards/actions/card/cardData";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { printWord } from "flashcards/flashcards/actions/functions";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import _ from "underscore";
 
@@ -23,8 +21,8 @@ export const debugSession = () => {
         Queue: card.absoluteQueuePosition - session.counter,
         notShowBfr: (card.cannotBeShownBefore || 0) - session.counter,
         seen: card.hasBeenSeenInSession() ? "SEEN" : "",
-        word: printWord(card.cardId),
-        sortKey: getSortKey(card.cardId),
+        word: card.printWord(),
+        sortKey: card.getSortKey(),
         // schdl: getEntireSchedule()[i.id]
         //   ? new Date(i.getLastSeen())
         //   : "",
