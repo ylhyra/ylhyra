@@ -1,9 +1,9 @@
 import { printWord } from "flashcards/flashcards/actions/_functions";
+import { getAsCardInSession } from "flashcards/flashcards/actions/card/_functions";
 import { getLevel } from "flashcards/flashcards/actions/card/cardData";
 import {
   dependencyDepthOfCard,
   getDependenciesAsArrayOfCards,
-  getDependenciesAsCardIdToDepth,
   hasDependenciesInCommonWith,
 } from "flashcards/flashcards/actions/card/cardDependencies";
 import {
@@ -37,7 +37,6 @@ import {
   getSiblingCards,
   getSiblingCardsInSession,
 } from "flashcards/flashcards/actions/card/cardSiblings";
-import { getAsCardInSession } from "flashcards/flashcards/actions/card/_functions";
 import { getDirectionFromCardId } from "flashcards/flashcards/actions/row/ids";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
@@ -63,8 +62,20 @@ export class Card {
     return this.row.rowId;
   }
 
+  get deck() {
+    return this.row.deck;
+  }
+
   get direction(): Direction {
     return getDirectionFromCardId(this.cardId);
+  }
+
+  isIn(cards: Card[]) {
+    return cards.some((card) => card.is(this));
+  }
+
+  is(card: Card) {
+    return this.cardId === card.cardId;
   }
 
   /** @deprecated */
@@ -78,7 +89,6 @@ export class Card {
   isAllowed = isAllowed;
   wasSeenInSession = wasSeenInSession;
   getLevel = getLevel;
-  getDependenciesAsCardIdToDepth = getDependenciesAsCardIdToDepth;
   getDependenciesAsArrayOfCards = getDependenciesAsArrayOfCards;
   isTooEasy = isTooEasy;
   isBad = isBad;
@@ -112,7 +122,7 @@ export class Card {
 }
 
 export function isInSession(this: Card) {
-  return getSession().cards.some((i) => i.cardId === this.cardId);
+  return this.isIn(getSession().cards);
 }
 
 /**
@@ -126,7 +136,7 @@ export function isAllowed(this: Card): boolean {
 
     /* If allowedCards is on, only select allowed cards */
     const { allowedCards } = getSession();
-    if (allowedCards && !allowedCards.some((j) => j.cardId === this.cardId)) {
+    if (allowedCards && this.isIn(allowedCards)) {
       return false;
     }
 
@@ -154,9 +164,7 @@ export function isAllowed(this: Card): boolean {
 }
 
 export function wasSeenInSession(this: Card) {
-  const cardInSession = getSession().cards.find(
-    (card) => card.cardId === this.cardId
-  );
+  const cardInSession = this.getAsCardInSession();
   return cardInSession && cardInSession.history.length > 0;
 }
 

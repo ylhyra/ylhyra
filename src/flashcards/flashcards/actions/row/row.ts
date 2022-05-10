@@ -2,14 +2,19 @@ import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSettings.fields";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
-import {
-  createCardId,
-  createRowId,
-} from "flashcards/flashcards/actions/row/ids";
+import { createCardId } from "flashcards/flashcards/actions/row/ids";
 import { rowFields } from "flashcards/flashcards/actions/row/rowData.fields";
-import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
-import { CardIds, Direction } from "flashcards/flashcards/types";
+import {
+  RowData,
+  RowIds,
+} from "flashcards/flashcards/actions/row/rowData.types";
+import {
+  CardIds,
+  DependenciesForOneRowAsDependencyToDepth,
+  Direction,
+} from "flashcards/flashcards/types";
 import { computed, makeObservable, observable } from "mobx";
+import { keys } from "modules/typescript/objectEntries";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export class Row {
@@ -19,7 +24,7 @@ export class Row {
   constructor(deck: Deck, data: RowData) {
     makeObservable(this, {
       data: observable,
-      shouldCreate: computed({ keepAlive: true }),
+      shouldCreateCards: computed({ keepAlive: true }),
       cardIds: computed({ keepAlive: true }),
       compile: computed({ keepAlive: true }),
       cards: computed({ keepAlive: true }),
@@ -35,14 +40,14 @@ export class Row {
     return this.data.rowId;
   }
 
-  shouldCreate() {
+  shouldCreateCards() {
     return this.data.front && this.data.back;
   }
 
   compile() {}
 
   get cardIds(): CardIds | [] {
-    if (!this.shouldCreate()) return [];
+    if (!this.shouldCreateCards()) return [];
     let cardIds: CardIds = [];
     const directionSetting = this.getSetting("direction");
     if (
@@ -50,10 +55,7 @@ export class Row {
       directionSetting === "ONLY_FRONT_TO_BACK"
     ) {
       cardIds.push(
-        createCardId(
-          createRowId(this.deck.deckId, this.data.rowId),
-          Direction.FRONT_TO_BACK
-        )
+        createCardId(this.deck.deckId, this.data.rowId, Direction.FRONT_TO_BACK)
       );
     }
     if (
@@ -61,10 +63,7 @@ export class Row {
       directionSetting === "ONLY_BACK_TO_FRONT"
     ) {
       cardIds.push(
-        createCardId(
-          createRowId(this.deck.deckId, this.data.rowId),
-          Direction.BACK_TO_FRONT
-        )
+        createCardId(this.deck.deckId, this.data.rowId, Direction.BACK_TO_FRONT)
       );
     }
     return cardIds;
@@ -76,6 +75,14 @@ export class Row {
   }
 
   getDependsOn() {}
+
+  getDependencies(): DependenciesForOneRowAsDependencyToDepth {
+    return this.deck.getDependencyGraph()[this.rowId];
+  }
+
+  getDependenciesAsArrayOfRowIds(): RowIds {
+    return keys(this.deck.getDependencyGraph()[this.rowId]);
+  }
 
   getAlternativeIds() {}
 

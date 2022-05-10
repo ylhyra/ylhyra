@@ -10,9 +10,7 @@ import { filterEmpty } from "modules/typescript/filterEmpty";
  * Returning an array is therefore not necessary currently)
  */
 export function getSiblingCards(this: Card): Card[] {
-  return this.getAllCardIdsWithSameRow(
-    (siblingCard) => siblingCard.cardId !== this.cardId
-  );
+  return this.row.cards.filter((siblingCard) => !siblingCard.is(this));
 }
 
 export function getSiblingCardsInSession(this: Card): CardInSession[] {
@@ -24,8 +22,10 @@ export function getSiblingCardsInSession(this: Card): CardInSession[] {
   );
 }
 
-export function didAnySiblingCardsGetABadRatingInThisSession(this: Card) {
-  return this.getSiblingCards().forEach((siblingCard) => {
+export function didAnySiblingCardsGetABadRatingInThisSession(
+  this: Card
+): boolean {
+  return this.getSiblingCards().some((siblingCard) => {
     return siblingCard.getAsCardInSession()?.history.includes(Rating.BAD);
   });
 }

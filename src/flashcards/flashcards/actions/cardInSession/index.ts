@@ -63,7 +63,7 @@ export class CardInSession extends Card {
   }
 
   getOtherCardsInSession(): CardInSession[] {
-    return getSession().cards.filter((card) => card.cardId !== this.cardId);
+    return getSession().cards.filter((card) => !card.is(this));
   }
 
   /**

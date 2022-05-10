@@ -79,7 +79,7 @@ export function isUnseenRow(this: Card) {
 
 export function getLowestAvailableRowScore(this: Card): Score | null {
   let lowestScore: Score | null = null;
-  this.getAllCardIdsWithSameRow().forEach((card) => {
+  this.row.cards.forEach((card) => {
     if (card.getScore()) {
       lowestScore = minIgnoreFalsy(lowestScore, card.getScore());
     }
@@ -89,7 +89,7 @@ export function getLowestAvailableRowScore(this: Card): Score | null {
 
 export function getRowLastSeen(this: Card): Timestamp | null {
   let max: Timestamp | null = null;
-  this.getAllCardIdsWithSameRow().forEach((card) => {
+  this.row.cards.forEach((card) => {
     max = Math.max(max || 0, card.getLastSeen() || 0);
   });
   return max;
@@ -122,13 +122,12 @@ export function isNewCard(this: Card): boolean {
 }
 
 /**
- * Primarily used by the interface ({@link CardElement})
+ * Used by the interface ({@link CardElement})
  * to indicate a card being new.
  */
-export function isNewRowThatHasNotBeenSeenInSession(this: Card) {
-  return this.getAllCardIdsWithSameRow().forEach((card2) => {
-    return (
+export function isNewRowThatHasNotBeenSeenInSession(this: Card): boolean {
+  return this.row.cards.every(
+    (card2) =>
       card2.isNewCard() && !card2.getAsCardInSession()?.hasBeenSeenInSession()
-    );
-  });
+  );
 }

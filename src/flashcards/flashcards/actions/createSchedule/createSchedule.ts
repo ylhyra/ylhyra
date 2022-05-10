@@ -1,4 +1,3 @@
-import { printWord } from "flashcards/flashcards/actions/_functions";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Rating, Score } from "flashcards/flashcards/types";
@@ -84,9 +83,7 @@ export function createSchedule() {
       if (actualIntervalInDays / lastIntervalInDays! < 0.3) {
         const newDueInDays = lastIntervalInDays!;
         log(
-          `${printWord(
-            card.cardId
-          )} - given ${newDueInDays} instead of ${dueInDays}`
+          `${card.printWord()} - given ${newDueInDays} instead of ${dueInDays}`
         );
         dueInDays = newDueInDays;
       }

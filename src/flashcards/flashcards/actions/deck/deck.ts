@@ -28,7 +28,7 @@ export class Deck {
   }) {
     makeAutoObservable(this, {
       cards: computed({ keepAlive: true }),
-      dependencyGraph: computed({ keepAlive: true }),
+      getDependencyGraph: computed({ keepAlive: true }),
     });
     this.deckId = deckId;
     this.rows = {};
@@ -57,9 +57,7 @@ export class Deck {
     return flattenArray(values(this.rows).map((row) => row.cards));
   }
 
-  get dependencyGraph() {
-    return getDependencyGraph.bind(this)();
-  }
+  getDependencyGraph = getDependencyGraph;
 
   addRow = addRow;
 }

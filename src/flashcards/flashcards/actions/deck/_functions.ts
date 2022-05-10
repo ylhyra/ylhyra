@@ -16,6 +16,7 @@ import { Card } from "flashcards/flashcards/actions/card/card";
 /**
  * Called in user interface
  */
+
 export const newDeck = () => {
   const id = shortid.generate() as DeckId;
   getFlashcardsStore().decks[id] = new Deck({
