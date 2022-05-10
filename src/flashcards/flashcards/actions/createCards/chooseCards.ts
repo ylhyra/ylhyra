@@ -17,32 +17,37 @@ export const chooseCards = (options?: CreateCardsOptions): Card[] => {
    * chosenCards starts out as an array of nulls;
    * the slots will later be filled.
    */
-  let chosenCards: (Card | null | undefined)[] =
-    Array(CARDS_TO_CREATE).fill(null);
+  let chosenCards: (Card | null)[] = Array(CARDS_TO_CREATE).fill(null);
 
   /**
    * Helper function to add to chosenCards.
    * Manipulates chosenCards directly.
+   *
+   * The input is an array, this function takes the first item from that
+   * array and adds it to chosenCards at the first available slot.
    */
-  const addToChosenCards = (
-    cards: Card[],
+  const addToChosenCardsFrom = (
+    takeFirstItemFromArray: Card[],
     /** Only used for logging */
     description: string,
-    pos?: number
+    position?: number
   ) => {
-    if (!isEmpty(cards)) {
-      if (pos === undefined) {
-        pos = chosenCards.findIndex((j) => j === null);
-        if (pos < 0) {
-          pos = chosenCards.length;
+    if (!isEmpty(takeFirstItemFromArray)) {
+      if (position === undefined) {
+        /** Is there any slot left in chosenCards that is still null? */
+        position = chosenCards.findIndex((j) => j === null);
+        if (position < 0) {
+          position = chosenCards.length;
         }
       }
+      const card = takeFirstItemFromArray.shift()!;
       log(
-        `${description} card "${cards[0].printWord()}" added at position ${
-          pos + 1
-        }`
+        `${description} card`,
+        card.printWord,
+        "added at position",
+        position + 1
       );
-      chosenCards[pos] = cards.shift();
+      chosenCards[position] = card;
     }
   };
 
@@ -52,14 +57,6 @@ export const chooseCards = (options?: CreateCardsOptions): Card[] => {
 
   let totalOptions = overdueBad.length + overdueGood.length;
   let badCount = overdueBad.length;
-
-  // isDev &&
-  //   logDev({
-  //     overdueGood: { ...overdueGood },
-  //     overdueBad: { ...overdueBad },
-  //     newCards: { ...newCards },
-  //     notOverdue: { ...notOverdue },
-  //   });
 
   let newCardEvery = 2;
   if (badCount > 100) {
@@ -79,7 +76,7 @@ export const chooseCards = (options?: CreateCardsOptions): Card[] => {
     pos < CARDS_TO_CREATE && !isEmpty(newCards);
     pos += newCardEvery
   ) {
-    addToChosenCards(newCards, "New", pos);
+    addToChosenCardsFrom(newCards, "New", pos);
   }
 
   /**
@@ -91,8 +88,8 @@ export const chooseCards = (options?: CreateCardsOptions): Card[] => {
       Math.min(CARDS_TO_CREATE, totalOptions) && i < 1000;
     i++
   ) {
-    addToChosenCards(overdueGood, "Overdue good");
-    addToChosenCards(overdueBad, "Overdue bad");
+    addToChosenCardsFrom(overdueGood, "Overdue good");
+    addToChosenCardsFrom(overdueBad, "Overdue bad");
   }
 
   chosenCards = chosenCards.filter(Boolean);
