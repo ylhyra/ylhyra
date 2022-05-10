@@ -40,10 +40,7 @@ export function getNumberOfBadSessions(this: Card): number {
   return this.getScheduleForCard()?.numberOfBadSessions || 0;
 }
 
-export function getLastIntervalInDays(
-  this: Card,
-  id: CardId
-): Days | undefined {
+export function getLastIntervalInDays(this: Card): Days | undefined {
   return this.getScheduleForCard()?.lastIntervalInDays;
 }
 
@@ -65,11 +62,7 @@ export function isInSchedule(this: Card) {
   return this.cardId in getEntireSchedule();
 }
 
-export function setSchedule(
-  this: Card,
-  id: CardId,
-  data: Partial<ScheduleData>
-) {
+export function setSchedule(this: Card, data: Partial<ScheduleData>) {
   /* Round timestamps */
   ["due", "lastSeen", "lastBadTimestamp"].forEach((key) => {
     if (key in data) {
@@ -133,21 +126,17 @@ export function wasTermSeenMoreRecentlyThan(this: Card, time: Milliseconds) {
 }
 
 export function isNewCard(this: Card): boolean {
-  return !id.getScore();
+  return !this.getScore();
 }
 
 /**
  * Primarily used by the interface ({@link CardElement})
  * to indicate a card being new.
  */
-export function isNewTermThatHasNotBeenSeenInSession(
-  this: Card,
-  cardId: CardId
-) {
-  return cardId.getAllCardIdsWithSameTerm().forEach((cardId2) => {
+export function isNewTermThatHasNotBeenSeenInSession(this: Card) {
+  return this.getAllCardIdsWithSameTerm().forEach((card2) => {
     return (
-      cardId2.isNewCard() &&
-      !cardId2.getAsCardInSession()?.hasBeenSeenInSession()
+      card2.isNewCard() && !card2.getAsCardInSession()?.hasBeenSeenInSession()
     );
   });
 }

@@ -10,23 +10,19 @@ set -e
 #
 # To run:
 #   ./scripts/fixImports.sh
-# Or, to only edit changed files:
-#   ./scripts/fixImports.sh git
-# Or:
-#   ./scripts/fixImports.sh NameOfFolderInSrc
 
-if [ "$1" == "git" ]; then
-  files="$(git diff --name-only --diff-filter d | grep '\.tsx\?$' | xargs)"
-else
-  folder="src/$1"
-  echo 'Starting eslint'
-  files="$(eslint "$folder" --format unix  --rule "no-undef: error" |\
-    grep 'Error/no-undef' |\
-    awk -F  ":" '{print $1}' |\
-    sort -u)"
-  echo "$files"
-  echo "are the files"
-fi;
+#if [ "$1" == "git" ]; then
+#  files="$(git diff --name-only --diff-filter d | grep '\.tsx\?$' | xargs)"
+#else
+folder="src/flashcards/flashcards"
+echo 'Starting eslint'
+files="$(eslint "$folder" --format unix  --rule "no-undef: error" |\
+  grep 'Error/no-undef' |\
+  awk -F  ":" '{print $1}' |\
+  sort -u)"
+echo "$files"
+echo "are the files"
+#fi;
 
 
 
