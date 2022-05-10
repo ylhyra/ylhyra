@@ -6,7 +6,7 @@ import {
   checkForUndoOnKeyDown,
   isSessionUndoable,
   undoSession,
-} from "flashcards/flashcards/actions/session/undo";
+} from "flashcards/flashcards/actions/session/_functions/undo";
 import { CardElement } from "flashcards/flashcards/play/cardElement";
 import { ProgressBar } from "flashcards/flashcards/play/progressBar";
 import { DeckId } from "flashcards/flashcards/types";

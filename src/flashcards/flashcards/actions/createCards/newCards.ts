@@ -1,6 +1,6 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
-import { veryRecentlySeenSortedLast } from "flashcards/flashcards/actions/createCards/functions";
+import { veryRecentlySeenSortedLast } from "flashcards/flashcards/actions/createCards/_functions";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sortBy } from "underscore";
 
@@ -11,12 +11,13 @@ import { sortBy } from "underscore";
 export const getNewCards = (options?: CreateCardsOptions): Card[] => {
   const session = getSession();
 
-  let newCards = getCardsFromAllDecks().filter(
-    (card) => !card.isInSchedule() && card.isAllowed()
-  );
+  /** todo: this call is possibly expensive and could be merged with the oldCards call */
+  let newCards = getSession()
+    .getAllCardsThatCouldBeInSession()
+    .filter((card) => !card.isInSchedule() && card.isAllowed());
 
   /**
-   * TODO! Sorting based on simplicity
+   * TODO! Sorting
    */
 
   if (session.allowedCards && !options?.dontSortByallowedCards) {

@@ -10,6 +10,8 @@ import { customHistory } from "modules/router";
 import { values } from "modules/typescript/objectEntries";
 import shortid from "shortid";
 import _ from "underscore";
+import { flattenArray } from "modules/arrays/flattenArray";
+import { Card } from "flashcards/flashcards/actions/card/card";
 
 /**
  * Called in user interface
@@ -36,3 +38,7 @@ export function addRow(this: Deck, data?: Partial<RowData>): Row {
   this.rows[rowId] = row;
   return row;
 }
+
+export const getAllCardsFromDecks = (decks: Deck[]): Card[] => {
+  return flattenArray(decks.map((deck) => deck.cards));
+};

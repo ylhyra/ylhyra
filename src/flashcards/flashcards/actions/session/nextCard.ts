@@ -1,11 +1,11 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { createCards } from "flashcards/flashcards/actions/createCards";
-import { debugSession } from "flashcards/flashcards/actions/session/debugging";
+import { debugSession } from "flashcards/flashcards/actions/session/_functions/debugging";
 import {
   createCardsIfNoneAreRemaining,
   getRemainingTime,
-} from "flashcards/flashcards/actions/session/functions";
-import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/saveOngoingSessionInLocalStorage";
+} from "flashcards/flashcards/actions/session/_functions/functions";
+import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/_functions/saveOngoingSessionInLocalStorage";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { action } from "mobx";

@@ -37,13 +37,14 @@ import {
   getSiblingCards,
   getSiblingCardsInSession,
 } from "flashcards/flashcards/actions/card/cardSiblings";
-import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
+import { getAsCardInSession } from "flashcards/flashcards/actions/card/_functions";
 import { getDirectionFromCardId } from "flashcards/flashcards/actions/row/ids";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { saveCardSchedule } from "flashcards/flashcards/actions/userData/userDataSchedule";
 import { CardId, Direction } from "flashcards/flashcards/types";
+import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export class Card {
   row: Row;
@@ -119,27 +120,37 @@ export function isInSession(this: Card) {
  * to be added to the session.
  */
 export function isAllowed(this: Card): boolean {
-  /* Ignore cards that are already in the session */
-  if (this.isInSession()) return false;
+  return warnIfFunctionIsSlow(() => {
+    /* Ignore cards that are already in the session */
+    if (this.isInSession()) return false;
 
-  /* If allowedCards is on, only select allowed cards */
-  const { allowedCards } = getSession();
-  if (allowedCards && !allowedCards.includes(this.cardId)) return false;
+    /* If allowedCards is on, only select allowed cards */
+    const { allowedCards } = getSession();
+    if (allowedCards && !allowedCards.some((j) => j.cardId === this.cardId)) {
+      return false;
+    }
 
-  /* In case we're adding cards to an already ongoing session,
-     ignore cards that are similar to a card the user has just seen */
-  if (
-    getSession()
-      .cardHistory.slice(0, 3)
-      .some(
-        (card) =>
-          this.rowId === card.rowId || this.hasDependenciesInCommonWith(card)
-        // || isTextSimilarTo(id, card)
-      )
-  )
-    return false;
+    /**
+     * In case we're adding cards to an already ongoing session,
+     * ignore cards that are similar to a card the user has just seen.
+     *
+     * TODO!! This should not prevent these cards from being chosen,
+     * just give them a lower score!
+     */
+    if (
+      getSession()
+        .cardHistory.slice(0, 3)
+        .some(
+          (card) =>
+            this.rowId === card.rowId || this.hasDependenciesInCommonWith(card)
+          // || isTextSimilarTo(id, card)
+        )
+    ) {
+      return false;
+    }
 
-  return true;
+    return true;
+  });
 }
 
 export function wasSeenInSession(this: Card) {

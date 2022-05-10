@@ -6,7 +6,7 @@ import {
 import {
   sortCardsByScore,
   veryRecentlySeenSortedLast,
-} from "flashcards/flashcards/actions/createCards/functions";
+} from "flashcards/flashcards/actions/createCards/_functions";
 import { getNewCards } from "flashcards/flashcards/actions/createCards/newCards";
 import { oldCards } from "flashcards/flashcards/actions/createCards/oldCards";
 import { isEmpty } from "modules/isEmpty";

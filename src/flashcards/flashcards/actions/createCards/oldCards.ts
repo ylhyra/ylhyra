@@ -1,9 +1,9 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { getCardsInSchedule } from "flashcards/flashcards/actions/card/functions";
-import { sortBySortKey } from "flashcards/flashcards/actions/createCards/functions";
+import { sortBySortKey } from "flashcards/flashcards/actions/createCards/_functions";
 import { log } from "modules/log";
 import { shuffleLocally } from "modules/shuffleLocally";
 import { getTimeMemoized, hours, minutes } from "modules/time";
+import { getSession } from "flashcards/flashcards/actions/session/session";
 
 /**
  * Returns ALL cards that have previously been seen.
@@ -15,8 +15,9 @@ export const oldCards = () => {
   let notOverdueVeryBad: Card[] = [];
   let notOverdue: Card[] = [];
 
-  getCardsInSchedule()
-    .filter((card) => card.isAllowed())
+  getSession()
+    .getAllCardsThatCouldBeInSession()
+    .filter((card) => card.isInSchedule() && card.isAllowed())
     .forEach((card) => {
       /* Overdue */
       if (
