@@ -1,8 +1,3 @@
-import {
-  dependencyDepthOfCard,
-  hasDependenciesInCommonWith,
-  hasTheSameRowAs,
-} from "flashcards/flashcards/actions/card/cardDependencies";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types";
 
@@ -14,7 +9,7 @@ export function postponeRelatedCards(
 
   this.getOtherCardsInSession().forEach((card2: CardInSession) => {
     // Same row
-    if (hasTheSameRowAs(card1.cardId, card2.cardId)) {
+    if (card1.row.rowId === card2.row.rowId) {
       if (
         card1.history.includes(Rating.BAD) ||
         card2.history.includes(Rating.BAD)
@@ -40,11 +35,11 @@ export function postponeRelatedCards(
     }
 
     // Cards that directly rely on this card
-    else if (dependencyDepthOfCard(card2.cardId, card1.cardId) >= 1) {
-      let min = dependencyDepthOfCard(card2.cardId, card1.cardId) * 3;
+    else if (card2.dependencyDepthOfCard(card1) >= 1) {
+      let min = card2.dependencyDepthOfCard(card1) * 3;
       if (card1.history[0] === Rating.BAD) {
         min *= 2;
-        if (dependencyDepthOfCard(card2.cardId, card1.cardId) >= 2) {
+        if (card2.dependencyDepthOfCard(card1) >= 2) {
           card2.done = true;
         }
       }
@@ -57,7 +52,7 @@ export function postponeRelatedCards(
     // Cards that this card depends directly on
     else if (
       card1.history[0] === Rating.BAD &&
-      dependencyDepthOfCard(card1.cardId, card2.cardId) === 1 &&
+      card1.dependencyDepthOfCard(card2) === 1 &&
       // And other card is new
       ((!card2.isInSchedule() && !card2.hasBeenSeenInSession()) ||
         // Or other card is bad (includes some randomness)
@@ -73,7 +68,7 @@ export function postponeRelatedCards(
     }
 
     // Cards that share the same dependencies
-    else if (hasDependenciesInCommonWith(card1.cardId, card2.cardId)) {
+    else if (card1.hasDependenciesInCommonWith(card2)) {
       card2.showIn({ cannotBeShownBeforeInterval: 2 });
       // log(`"${printWord(card2.id)}" postponed`);
     }

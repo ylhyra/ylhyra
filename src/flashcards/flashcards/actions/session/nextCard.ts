@@ -1,13 +1,16 @@
-import {CardInSession} from "flashcards/flashcards/actions/cardInSession";
-import {createCards} from "flashcards/flashcards/actions/createCards";
-import {getRowIdFromCardId} from "flashcards/flashcards/actions/deck/compile/ids";
-import {debugSession} from "flashcards/flashcards/actions/session/debugging";
-import {createCardsIfNoneAreRemaining, getRemainingTime,} from "flashcards/flashcards/actions/session/functions";
-import {saveOngoingSessionInLocalStorage} from "flashcards/flashcards/actions/session/saveOngoingSessionInLocalStorage";
-import {getSession} from "flashcards/flashcards/actions/session/session";
-import {sessionDone} from "flashcards/flashcards/actions/session/sessionDone";
-import {action} from "mobx";
-import {log} from "modules/log";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { createCards } from "flashcards/flashcards/actions/createCards";
+import { getRowIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
+import { debugSession } from "flashcards/flashcards/actions/session/debugging";
+import {
+  createCardsIfNoneAreRemaining,
+  getRemainingTime,
+} from "flashcards/flashcards/actions/session/functions";
+import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/saveOngoingSessionInLocalStorage";
+import { getSession } from "flashcards/flashcards/actions/session/session";
+import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
+import { action } from "mobx";
+import { log } from "modules/log";
 import _ from "underscore";
 
 /**
@@ -50,7 +53,7 @@ export const nextCard = action((isRecursiveCall = false) => {
     i.getRanking()
   ) as CardInSession;
 
-  session.rowsSeen.add(getRowIdFromCardId(session.currentCard.cardId));
+  session.rowsSeen.add(session.currentCard.cardId.row.rowId);
 
   saveOngoingSessionInLocalStorage();
   debugSession();

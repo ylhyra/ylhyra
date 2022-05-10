@@ -2,7 +2,6 @@ import { getCardIdsFromAllDecks } from "flashcards/flashcards/actions/baseFlashc
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { getCardsInSchedule } from "flashcards/flashcards/actions/card/functions";
 import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
-import { getRowIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
 import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
 import { CardIds, Direction } from "flashcards/flashcards/types";
 import { isDev } from "modules/isDev";
@@ -48,7 +47,7 @@ export const studyNewRows = () => {
 };
 
 export const countRows = (ids: CardIds, round = true) => {
-  const i = rapidCountUnique(ids.map((id) => getRowIdFromCardId(id)));
+  const i = rapidCountUnique(ids.map((id) => id.row.rowId));
   if (round) {
     return roundToInterval(i, i > 200 ? 50 : 5);
   } else {

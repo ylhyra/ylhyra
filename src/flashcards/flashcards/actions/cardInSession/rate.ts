@@ -3,7 +3,6 @@ import {
   IntervalRelativeToCurrentCardBeingAtZero,
 } from "flashcards/flashcards/actions/cardInSession";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
-import { getDirection } from "flashcards/flashcards/actions/deck/compile/ids";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Rating } from "flashcards/flashcards/types";
@@ -15,19 +14,18 @@ import { Rating } from "flashcards/flashcards/types";
 export function rate(this: CardInSession, rating: Rating): void {
   const session = getSession();
 
-  const cardInSession: CardInSession = this;
-  const cardId = cardInSession.cardId;
-  const timesSeenBeforeInSession = cardInSession.history.length;
-  cardInSession.history.unshift(rating);
+  const card: CardInSession = this;
+  const timesSeenBeforeInSession = card.history.length;
+  card.history.unshift(rating);
   session.ratingHistory.unshift(rating);
-  session.cardHistory.unshift(cardInSession);
-  cardInSession.lastSeenAtCounter = session.counter;
-  const lastRating = cardInSession.history[1];
-  const nextLastRating = cardInSession.history[2];
+  session.cardHistory.unshift(card);
+  card.lastSeenAtCounter = session.counter;
+  const lastRating = card.history[1];
+  const nextLastRating = card.history[2];
   let interval: IntervalRelativeToCurrentCardBeingAtZero;
 
   if (rating === Rating.BAD) {
-    interval = cardId.getSessionsSeen() > 0 ? 4 : 3;
+    interval = card.getSessionsSeen() > 0 ? 4 : 3;
 
     /* Two bad ratings in a row */
     if (lastRating === Rating.BAD) {
@@ -47,27 +45,27 @@ export function rate(this: CardInSession, rating: Rating): void {
       interval = 8;
     }
 
-    cardInSession.done = false;
-    addRelatedCardsToSession(cardInSession);
+    card.done = false;
+    addRelatedCardsToSession(card);
   } else if (rating === Rating.GOOD) {
     interval = 200;
-    cardInSession.done = true;
+    card.done = true;
     if (lastRating === Rating.BAD) {
       interval = 5;
-      cardInSession.done = false;
+      card.done = false;
     } else if (nextLastRating === Rating.BAD) {
       interval = 10;
-    } else if (cardId.isBad() && timesSeenBeforeInSession === 0) {
+    } else if (card.isBad() && timesSeenBeforeInSession === 0) {
       interval = 12;
     }
   } else if (rating === Rating.EASY) {
     interval = 800;
-    cardInSession.done = true;
+    card.done = true;
   }
 
-  cardInSession.showIn({ interval: interval! });
-  cardInSession.postponeRelatedCards(interval!);
-  session.cardDirectionLog.unshift(getDirection(cardId));
+  card.showIn({ interval: interval! });
+  card.postponeRelatedCards(interval!);
+  session.cardDirectionLog.unshift(card.getDirection());
 
   // keepTrackOfEasiness({
   //   rating,

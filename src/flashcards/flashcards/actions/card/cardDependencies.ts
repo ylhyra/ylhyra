@@ -4,7 +4,6 @@ import {
   getCardIdsFromRowIds,
   getCardIdsShuffledIfSeen,
 } from "flashcards/flashcards/actions/card/row";
-import { getRowIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
 import { RowId, RowIds } from "flashcards/flashcards/actions/row/rowData.types";
 import {
   CardId,
@@ -15,7 +14,7 @@ import _ from "underscore";
 export function cardGetDependenciesAsRowIdToDepth(
   this: Card
 ): DependenciesForOneRowAsDependencyToDepth {
-  const rowId: RowId = getRowIdFromCardId(id);
+  const rowId: RowId = id.row.rowId;
   return rowGetDependenciesAsRowIdToDepth(rowId);
 }
 

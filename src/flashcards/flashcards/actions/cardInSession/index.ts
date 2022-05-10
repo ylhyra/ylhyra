@@ -3,7 +3,6 @@ import { getRanking } from "flashcards/flashcards/actions/cardInSession/getRanki
 import { postponeRelatedCards } from "flashcards/flashcards/actions/cardInSession/postponeRelatedCards";
 import { rate } from "flashcards/flashcards/actions/cardInSession/rate";
 import { showIn } from "flashcards/flashcards/actions/cardInSession/showIn";
-import { getRowIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
 import {
   getSession,
   Session,
@@ -59,7 +58,7 @@ export class CardInSession extends Card {
   }
 
   hasRowBeenSeenInSession() {
-    return getSession().rowsSeen.has(getRowIdFromCardId(this.cardId));
+    return getSession().rowsSeen.has(this.row.rowId);
   }
 
   getOtherCardsInSession(): CardInSession[] {

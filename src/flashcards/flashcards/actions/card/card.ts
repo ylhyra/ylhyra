@@ -1,5 +1,6 @@
 import { getLevel } from "flashcards/flashcards/actions/card/cardData";
 import {
+  dependencyDepthOfCard,
   getDependenciesAsArrayOfCards,
   getDependenciesAsCardIdToDepth,
   hasDependenciesInCommonWith,
@@ -37,6 +38,7 @@ import {
   getSiblingCardsInSession,
 } from "flashcards/flashcards/actions/card/cardSiblings";
 import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
+import { getDirection } from "flashcards/flashcards/actions/deck/compile/ids";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { getSession } from "flashcards/flashcards/actions/session/session";
@@ -52,6 +54,7 @@ export class Card {
     this.cardId = cardId;
   }
 
+  dependencyDepthOfCard = dependencyDepthOfCard;
   isInSession = isInSession;
   hasDependenciesInCommonWith = hasDependenciesInCommonWith;
   isAllowed = isAllowed;
@@ -89,6 +92,7 @@ export class Card {
   getScheduleForCard = getScheduleForCard;
   saveCardSchedule = saveCardSchedule;
   printWord = printWord;
+  getDirection = getDirection;
 }
 
 export function isInSession(this: Card) {
