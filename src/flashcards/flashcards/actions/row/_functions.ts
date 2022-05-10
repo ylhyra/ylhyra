@@ -1,24 +1,11 @@
-import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
 import { getDeckByIdRequired } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import { getPlaintextFromUnformattedVocabularyEntry } from "flashcards/flashcards/actions/deck/compile/format/format";
-import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { getPlaintextFromUnformattedVocabularyEntry } from "flashcards/flashcards/actions/format/format";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
-import { customHistory } from "modules/router";
 import { values } from "modules/typescript/objectEntries";
 import shortid from "shortid";
 import _ from "underscore";
-
-export const newDeck = () => {
-  const id = shortid.generate() as DeckId;
-  getFlashcardsStore().decks[id] = new Deck({
-    deckId: id,
-    settings: {},
-    rows: {},
-  });
-  customHistory.replace(`/flashcards/deck/${id}`);
-};
 
 export const addRow = (deckId: DeckId) => {
   const rowId = shortid.generate() as RowId;
@@ -33,7 +20,6 @@ export const addRow = (deckId: DeckId) => {
   );
   return rowId;
 };
-
 const getHighestRowNumber = (deckId: DeckId): number => {
   return (
     _.max(
@@ -41,7 +27,6 @@ const getHighestRowNumber = (deckId: DeckId): number => {
     ) || 0
   );
 };
-
 /**
  *
  */

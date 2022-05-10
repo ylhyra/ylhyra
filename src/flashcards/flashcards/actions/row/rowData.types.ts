@@ -4,7 +4,6 @@ import { Brand } from "ts-brand";
 
 export type RowId = Brand<string, "RowId">;
 export type RowIds = RowId[];
-export type RowIdToRowIds = { [id: RowId]: RowIds };
 
 /**
  * Raw user input describing flashcard

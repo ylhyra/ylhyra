@@ -70,10 +70,10 @@ export const calculateOverview = async () => {
           goalInput: 40,
           goalOutput: 0.8,
         }),
-        input_from: 0,
-        input_to: 1,
-        output_from: 0.2,
-        output_to: 1,
+        inputFrom: 0,
+        inputTo: 1,
+        outputFrom: 0.2,
+        outputTo: 1,
       });
     }
 

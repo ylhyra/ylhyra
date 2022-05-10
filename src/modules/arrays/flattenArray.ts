@@ -13,7 +13,13 @@ export type NotArray =
 /**
  * Flattens array deeply
  */
-export const flattenArray = (data: any[]): Array<any> => {
+export const flattenArray: {
+  /** Typing for thrice nested */
+  <T>(array: T[][][]): T[];
+  /** Typing for twice nested */
+  <T>(array: T[][]): T[];
+  (array: any[]): any[];
+} = (data: any[]) => {
   let out: Array<any> = [];
   data.forEach((item) =>
     Array.isArray(item)

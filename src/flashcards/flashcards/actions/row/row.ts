@@ -1,22 +1,15 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
-import {
-  shouldCreateBackToFront,
-  shouldCreateFrontToBack,
-} from "flashcards/flashcards/actions/deck/compile/functions";
-import {
-  createCardId,
-  createRowId,
-} from "flashcards/flashcards/actions/deck/compile/ids";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSettings.fields";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
-import { rowFields } from "flashcards/flashcards/actions/row/rowData.fields";
 import {
-  RowData,
-  RowId,
-} from "flashcards/flashcards/actions/row/rowData.types";
+  createCardId,
+  createRowId,
+} from "flashcards/flashcards/actions/row/ids";
+import { rowFields } from "flashcards/flashcards/actions/row/rowData.fields";
+import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { CardIds, Direction } from "flashcards/flashcards/types";
-import { computed, observable } from "mobx";
+import { computed, makeObservable, observable } from "mobx";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export class Row {
@@ -24,36 +17,38 @@ export class Row {
   @observable data: RowData;
 
   constructor(deck: Deck, data: RowData) {
+    makeObservable(this, {
+      data: observable,
+      shouldCreate: computed({ keepAlive: true }),
+      cardIds: computed({ keepAlive: true }),
+      compile: computed({ keepAlive: true }),
+      cards: computed({ keepAlive: true }),
+      getDependsOn: computed({ keepAlive: true }),
+      getAlternativeIds: computed({ keepAlive: true }),
+    });
+
     this.deck = deck;
     this.data = data;
-  }
-
-  toJSON() {
-    return this.data;
   }
 
   get rowId() {
     return this.data.rowId;
   }
 
-  @computed({ keepAlive: true })
   shouldCreate() {
     return this.data.front && this.data.back;
   }
 
-  @computed({ keepAlive: true })
   compile() {}
 
-  @computed({ keepAlive: true })
-  getRowId(): RowId {
-    return createRowId(this.deck.deckId, this.data.rowId);
-  }
-
-  @computed({ keepAlive: true })
-  getCardIds(): CardIds | [] {
+  get cardIds(): CardIds | [] {
     if (!this.shouldCreate()) return [];
     let cardIds: CardIds = [];
-    if (shouldCreateFrontToBack(this)) {
+    const directionSetting = this.getSetting("direction");
+    if (
+      directionSetting === "BOTH" ||
+      directionSetting === "ONLY_FRONT_TO_BACK"
+    ) {
       cardIds.push(
         createCardId(
           createRowId(this.deck.deckId, this.data.rowId),
@@ -61,7 +56,10 @@ export class Row {
         )
       );
     }
-    if (shouldCreateBackToFront(this)) {
+    if (
+      directionSetting === "BOTH" ||
+      directionSetting === "ONLY_BACK_TO_FRONT"
+    ) {
       cardIds.push(
         createCardId(
           createRowId(this.deck.deckId, this.data.rowId),
@@ -72,16 +70,13 @@ export class Row {
     return cardIds;
   }
 
-  @computed({ keepAlive: true })
-  getCards(): Card[] {
+  get cards(): Card[] {
     const row = this;
-    return this.getCardIds().map((cardId) => new Card(row, cardId));
+    return this.cardIds.map((cardId) => new Card(row, cardId));
   }
 
-  @computed({ keepAlive: true })
   getDependsOn() {}
 
-  @computed({ keepAlive: true })
   getAlternativeIds() {}
 
   /**
@@ -103,5 +98,9 @@ export class Row {
         deckSettingsFields.find((field) => field.name === key)?.defaultValue
       );
     }) as (DeckSettings & RowData)[T];
+  }
+
+  toJSON() {
+    return this.data;
   }
 }

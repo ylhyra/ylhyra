@@ -1,8 +1,7 @@
 import { Button } from "flashcards/app/elements/button";
 import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import { addRow } from "flashcards/flashcards/make/actions";
+import { addRow } from "flashcards/flashcards/actions/row/_functions";
 import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
-import { printDeckTitle } from "flashcards/flashcards/make/functions";
 import { addRowsIfMissing } from "flashcards/flashcards/make/import/actions";
 import { ImportFlashcards } from "flashcards/flashcards/make/import/import";
 import { EditRow } from "flashcards/flashcards/make/row";
@@ -19,7 +18,7 @@ export const FlashcardsEdit = observer(() => {
 
   return (
     <div>
-      <h1>{printDeckTitle(deck)}</h1>
+      <h1>{deck.title}</h1>
       <DeckSettingsElement deckId={deckId!} />
       <ImportFlashcards />
       <hr />

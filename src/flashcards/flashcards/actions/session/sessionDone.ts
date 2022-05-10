@@ -1,16 +1,14 @@
-import {createSchedule} from "flashcards/flashcards/actions/createSchedule/createSchedule";
-import {exitVocabularyScreen} from "flashcards/flashcards/actions/functions";
-import {
-  clearOngoingSessionInLocalStorage
-} from "flashcards/flashcards/actions/session/saveOngoingSessionInLocalStorage";
-import {getSession} from "flashcards/flashcards/actions/session/session";
-import {sync} from "flashcards/flashcards/actions/userData/sync";
-import {setUserDataKey} from "flashcards/flashcards/actions/userData/userData";
-import {SESSION_PREFIX} from "flashcards/flashcards/actions/userData/userDataSessions";
-import {action} from "mobx";
-import {log} from "modules/log";
-import {roundMsToSec, roundToInterval} from "modules/math";
-import {getTime} from "modules/time";
+import { exitVocabularyScreen } from "flashcards/flashcards/actions/_functions";
+import { createSchedule } from "flashcards/flashcards/actions/createSchedule/createSchedule";
+import { clearOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/saveOngoingSessionInLocalStorage";
+import { getSession } from "flashcards/flashcards/actions/session/session";
+import { sync } from "flashcards/flashcards/actions/userData/sync";
+import { setUserDataKey } from "flashcards/flashcards/actions/userData/userData";
+import { SESSION_PREFIX } from "flashcards/flashcards/actions/userData/userDataSessions";
+import { action } from "mobx";
+import { log } from "modules/log";
+import { roundMsToSec, roundToInterval } from "modules/math";
+import { getTime } from "modules/time";
 
 /**
  * Called either when the user exits

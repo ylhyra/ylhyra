@@ -37,7 +37,7 @@ export const getDeckByIdRequired = (id: DeckId | undefined): Deck => {
  */
 export const getCardIdsFromAllDecks = (): CardIds => {
   return flattenArray(
-    values(getFlashcardsStore().decks).map((deck) => deck.getCardIds())
+    values(getFlashcardsStore().decks).map((deck) => deck.cardIds)
   );
 };
 

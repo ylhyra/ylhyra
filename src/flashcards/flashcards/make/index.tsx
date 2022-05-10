@@ -1,7 +1,6 @@
 import { Button } from "flashcards/app/elements/button";
 import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
-import { newDeck } from "flashcards/flashcards/make/actions";
-import { printDeckTitle } from "flashcards/flashcards/make/functions";
+import { newDeck } from "flashcards/flashcards/actions/deck/_functions";
 import { observer } from "mobx-react-lite";
 import { entries } from "modules/typescript/objectEntries";
 import React from "react";
@@ -17,7 +16,7 @@ export const FlashcardsMake = observer(function () {
       <ul>
         {entries(decks).map(([deckId, deck]) => (
           <li key={deckId}>
-            {printDeckTitle(deck)} ({Object.keys(deck.rows).length} cards){" "}
+            {deck.title} ({Object.keys(deck.rows).length} cards){" "}
             <Link to={`/flashcards/deck/${deckId}`}>Edit</Link>{" "}
             <Link to={`/flashcards/play/${deckId}`}>Play</Link>
           </li>

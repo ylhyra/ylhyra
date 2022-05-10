@@ -1,5 +1,9 @@
 import { clamp, mapValueToRange } from "modules/math";
-import { getScore, getSessionsSeen, isInSchedule } from "ylhyra/vocabulary/app/actions/card/card_schedule";
+import {
+  getScore,
+  getSessionsSeen,
+  isInSchedule,
+} from "ylhyra/vocabulary/app/actions/card/card_schedule";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { CardIds } from "ylhyra/vocabulary/types";
 
@@ -16,10 +20,10 @@ export const PercentageKnown = (cardIds: CardIds) => {
           value:
             clamp(getSessionsSeen(id), 0, 10) +
             clamp((getSessionsSeen(id) - 10) / 3, 0, 10),
-          input_from: 0,
-          input_to: 20,
-          output_from: 0.1,
-          output_to: 0.85,
+          inputFrom: 0,
+          inputTo: 20,
+          outputFrom: 0.1,
+          outputTo: 0.85,
           clamp: true,
         });
       } else {
