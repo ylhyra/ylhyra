@@ -1,6 +1,6 @@
 import { Button } from "flashcards/app/elements/button";
 import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import { addRow } from "flashcards/flashcards/actions/row/_functions";
+import { addRow } from "flashcards/flashcards/actions/deck/_functions";
 import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
 import { addRowsIfMissing } from "flashcards/flashcards/make/import/actions";
 import { ImportFlashcards } from "flashcards/flashcards/make/import/import";
