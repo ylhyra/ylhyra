@@ -1,7 +1,7 @@
-import {Card} from "flashcards/flashcards/actions/card/card";
-import {CardInSession} from "flashcards/flashcards/actions/cardInSession";
-import {Rating} from "flashcards/flashcards/types/types";
-import {filterEmpty} from "modules/typescript/filterEmpty";
+import { Card } from "flashcards/flashcards/actions/card/card";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { Rating } from "flashcards/flashcards/types";
+import { filterEmpty } from "modules/typescript/filterEmpty";
 
 /**
  * Gets the other side of the card.

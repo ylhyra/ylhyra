@@ -6,7 +6,7 @@ import { printDeckTitle } from "flashcards/flashcards/make/functions";
 import { addRowsIfMissing } from "flashcards/flashcards/make/import/actions";
 import { ImportFlashcards } from "flashcards/flashcards/make/import/import";
 import { EditRow } from "flashcards/flashcards/make/row";
-import { DeckId } from "flashcards/flashcards/types/types";
+import { DeckId } from "flashcards/flashcards/types";
 import { observer } from "mobx-react-lite";
 import { values } from "modules/typescript/objectEntries";
 import React from "react";

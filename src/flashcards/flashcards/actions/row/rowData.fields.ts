@@ -1,4 +1,4 @@
-import { RowData } from "flashcards/flashcards/types/rowData";
+import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { FieldsSetup } from "modules/form";
 
 export const rowFields: FieldsSetup<RowData> = [

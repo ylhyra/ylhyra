@@ -8,11 +8,14 @@ import {
   createRowId,
 } from "flashcards/flashcards/actions/deck/compile/ids";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { deckSettingsFields } from "flashcards/flashcards/make/deckSettings";
-import { rowFields } from "flashcards/flashcards/make/rowFields";
-import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
-import { RowData, RowId } from "flashcards/flashcards/types/rowData";
-import { CardIds, Direction } from "flashcards/flashcards/types/types";
+import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSettings.fields";
+import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
+import { rowFields } from "flashcards/flashcards/actions/row/rowData.fields";
+import {
+  RowData,
+  RowId,
+} from "flashcards/flashcards/actions/row/rowData.types";
+import { CardIds, Direction } from "flashcards/flashcards/types";
 import { computed, observable } from "mobx";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 

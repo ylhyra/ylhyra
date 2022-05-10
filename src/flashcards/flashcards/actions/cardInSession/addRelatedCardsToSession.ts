@@ -1,11 +1,11 @@
-import {isInSession} from "flashcards/flashcards/actions/card/card";
-import {dependencyDepthOfCard} from "flashcards/flashcards/actions/card/cardDependencies";
-import {CardInSession} from "flashcards/flashcards/actions/cardInSession";
-import {printWord} from "flashcards/flashcards/actions/functions";
-import {loadCardsIntoSession} from "flashcards/flashcards/actions/session/loadCardsIntoSession";
-import {CardIds} from "flashcards/flashcards/types/types";
-import {log} from "modules/log";
-import {days} from "modules/time";
+import { isInSession } from "flashcards/flashcards/actions/card/card";
+import { dependencyDepthOfCard } from "flashcards/flashcards/actions/card/cardDependencies";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { printWord } from "flashcards/flashcards/actions/functions";
+import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
+import { CardIds } from "flashcards/flashcards/types";
+import { log } from "modules/log";
+import { days } from "modules/time";
 
 /**
  * If a cardInSession gets a bad rating, then we make sure

@@ -1,12 +1,12 @@
-import {getCardIdsFromAllDecks} from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import {Card} from "flashcards/flashcards/actions/card/card";
-import {getCardsInSchedule} from "flashcards/flashcards/actions/card/functions";
-import {CreateCardsOptions} from "flashcards/flashcards/actions/createCards";
-import {getRowIdFromCardId} from "flashcards/flashcards/actions/deck/compile/ids";
-import {getEntireSchedule} from "flashcards/flashcards/actions/userData/userDataStore";
-import {CardIds, Direction} from "flashcards/flashcards/types/types";
-import {isDev} from "modules/isDev";
-import {roundToInterval} from "modules/math";
+import { getCardIdsFromAllDecks } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
+import { Card } from "flashcards/flashcards/actions/card/card";
+import { getCardsInSchedule } from "flashcards/flashcards/actions/card/functions";
+import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
+import { getRowIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
+import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
+import { CardIds, Direction } from "flashcards/flashcards/types";
+import { isDev } from "modules/isDev";
+import { roundToInterval } from "modules/math";
 
 /**
  * Used for debugging (printing cards to the console)

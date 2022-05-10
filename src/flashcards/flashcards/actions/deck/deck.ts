@@ -1,9 +1,12 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { getDependencyGraph } from "flashcards/flashcards/actions/deck/compile/dependencies/dependencyGraph";
+import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
-import { RowData, RowId } from "flashcards/flashcards/types/rowData";
-import { CardIds, DeckId } from "flashcards/flashcards/types/types";
+import {
+  RowData,
+  RowId,
+} from "flashcards/flashcards/actions/row/rowData.types";
+import { CardIds, DeckId } from "flashcards/flashcards/types";
 import { computed, makeAutoObservable } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 import { entries, values } from "modules/typescript/objectEntries";

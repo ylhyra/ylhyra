@@ -9,7 +9,7 @@ import {
 } from "flashcards/flashcards/actions/session/undo";
 import { CardElement } from "flashcards/flashcards/play/cardElement";
 import { ProgressBar } from "flashcards/flashcards/play/progressBar";
-import { DeckId } from "flashcards/flashcards/types/types";
+import { DeckId } from "flashcards/flashcards/types";
 import { observer } from "mobx-react-lite";
 import React, { Component, useEffect } from "react";
 import { useParams } from "react-router-dom";

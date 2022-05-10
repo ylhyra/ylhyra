@@ -1,9 +1,9 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { RowId, RowIds } from "flashcards/flashcards/types/rowData";
+import { RowId, RowIds } from "flashcards/flashcards/actions/row/rowData.types";
 import {
   DependenciesForAllRowsAsRowIdToDependencyToDepth,
   DependenciesForOneRowAsDependencyToDepth,
-} from "flashcards/flashcards/types/types";
+} from "flashcards/flashcards/types";
 
 /**
  * Prevent ridiculously deep dependencies

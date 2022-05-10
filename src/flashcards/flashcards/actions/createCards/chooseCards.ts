@@ -9,7 +9,7 @@ import {
 import { getNewCards } from "flashcards/flashcards/actions/createCards/newCards";
 import { oldCards } from "flashcards/flashcards/actions/createCards/oldCards";
 import { printWord } from "flashcards/flashcards/actions/functions";
-import { CardIds } from "flashcards/flashcards/types/types";
+import { CardIds } from "flashcards/flashcards/types";
 import { isEmpty } from "modules/isEmpty";
 import { log } from "modules/log";
 

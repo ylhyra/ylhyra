@@ -1,5 +1,5 @@
-import { RowId } from "flashcards/flashcards/types/rowData";
-import { CardIds } from "flashcards/flashcards/types/types";
+import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
+import { CardIds } from "flashcards/flashcards/types";
 
 /**
  * @deprecated

@@ -1,6 +1,6 @@
 import { isInSession } from "flashcards/flashcards/actions/card/card";
 import { withDependencies } from "flashcards/flashcards/actions/functions/dependencies";
-import { CardIds } from "flashcards/flashcards/types/types";
+import { CardIds } from "flashcards/flashcards/types";
 import { isDev } from "modules/isDev";
 import { days, minutes } from "modules/time";
 

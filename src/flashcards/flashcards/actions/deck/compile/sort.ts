@@ -1,5 +1,5 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { RowIds } from "flashcards/flashcards/types/rowData";
+import { RowIds } from "flashcards/flashcards/actions/row/rowData.types";
 
 export const getSortedRowIds = (
   unprocessedDeck: Deck,

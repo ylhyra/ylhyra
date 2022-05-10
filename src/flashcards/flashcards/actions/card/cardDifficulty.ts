@@ -1,8 +1,6 @@
-import {Card} from "flashcards/flashcards/actions/card/card";
-import {
-  SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY
-} from "flashcards/flashcards/actions/createSchedule/createSchedule";
-import {Rating} from "flashcards/flashcards/types/types";
+import { Card } from "flashcards/flashcards/actions/card/card";
+import { SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY } from "flashcards/flashcards/actions/createSchedule/createSchedule";
+import { Rating } from "flashcards/flashcards/types";
 
 /**
  * Used by {@link oldCards} when classifying which already-seen

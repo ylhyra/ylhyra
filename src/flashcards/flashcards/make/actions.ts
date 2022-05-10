@@ -3,8 +3,8 @@ import { getDeckByIdRequired } from "flashcards/flashcards/actions/baseFlashcard
 import { getPlaintextFromUnformattedVocabularyEntry } from "flashcards/flashcards/actions/deck/compile/format/format";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { RowId } from "flashcards/flashcards/types/rowData";
-import { DeckId } from "flashcards/flashcards/types/types";
+import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
+import { DeckId } from "flashcards/flashcards/types";
 import { customHistory } from "modules/router";
 import { values } from "modules/typescript/objectEntries";
 import shortid from "shortid";

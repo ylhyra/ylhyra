@@ -1,6 +1,6 @@
 import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { CardIds, DeckId } from "flashcards/flashcards/types/types";
+import { CardIds, DeckId } from "flashcards/flashcards/types";
 import { action } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";

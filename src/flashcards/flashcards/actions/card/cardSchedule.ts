@@ -1,6 +1,6 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
-import { Rating, ScheduleData, Score } from "flashcards/flashcards/types/types";
+import { Rating, ScheduleData, Score } from "flashcards/flashcards/types";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
 import {
   Days,

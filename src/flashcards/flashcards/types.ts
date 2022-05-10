@@ -1,4 +1,4 @@
-import { RowId } from "flashcards/flashcards/types/rowData";
+import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
 import { Days, Timestamp } from "modules/time";
 import { Brand } from "ts-brand";
 

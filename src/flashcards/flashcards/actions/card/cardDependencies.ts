@@ -5,12 +5,12 @@ import {
   getCardIdsShuffledIfSeen,
 } from "flashcards/flashcards/actions/card/row";
 import { getRowIdFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
-import { RowId, RowIds } from "flashcards/flashcards/types/rowData";
+import { RowId, RowIds } from "flashcards/flashcards/actions/row/rowData.types";
 import {
   CardId,
   CardIds,
   DependenciesForOneRowAsDependencyToDepth,
-} from "flashcards/flashcards/types/types";
+} from "flashcards/flashcards/types";
 import _ from "underscore";
 
 export function cardGetDependenciesAsRowIdToDepth(

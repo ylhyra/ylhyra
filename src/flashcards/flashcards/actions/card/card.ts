@@ -41,7 +41,7 @@ import { printWord } from "flashcards/flashcards/actions/functions";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { saveCardSchedule } from "flashcards/flashcards/actions/userData/userDataSchedule";
-import { CardId } from "flashcards/flashcards/types/types";
+import { CardId } from "flashcards/flashcards/types";
 
 export class Card {
   row: Row;

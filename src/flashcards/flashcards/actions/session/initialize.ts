@@ -3,7 +3,7 @@ import { createCardsIfNoneAreRemaining } from "flashcards/flashcards/actions/ses
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
-import { DeckId } from "flashcards/flashcards/types/types";
+import { DeckId } from "flashcards/flashcards/types";
 import { action } from "mobx";
 
 export const initializeSession = action(

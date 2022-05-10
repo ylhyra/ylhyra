@@ -1,5 +1,8 @@
 import express, { Response, Router } from "express";
-import { UserData, UserDataRows } from "flashcards/flashcards/types/userData";
+import {
+  UserData,
+  UserDataRows,
+} from "flashcards/flashcards/actions/userData/userData.types";
 import stable_stringify from "json-stable-stringify";
 import removeNullKeys from "modules/removeNullKeys";
 import { msToS } from "modules/time";

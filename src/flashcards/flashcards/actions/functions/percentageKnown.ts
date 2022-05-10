@@ -1,6 +1,6 @@
 import { getCardIdsFromAllDecks } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
-import { CardIds } from "flashcards/flashcards/types/types";
+import { CardIds } from "flashcards/flashcards/types";
 import { clamp, mapValueToRange } from "modules/math";
 
 export const PercentageKnown = (cardIds: CardIds) => {

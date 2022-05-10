@@ -1,5 +1,5 @@
-import { DeckSettings } from "flashcards/flashcards/types/deckSettings";
-import { DirectionSettings } from "flashcards/flashcards/types/types";
+import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
+import { DirectionSettings } from "flashcards/flashcards/types";
 import { Brand } from "ts-brand";
 
 export type RowId = Brand<string, "RowId">;

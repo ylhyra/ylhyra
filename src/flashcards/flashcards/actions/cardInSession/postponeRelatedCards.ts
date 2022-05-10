@@ -4,7 +4,7 @@ import {
   hasTheSameRowAs,
 } from "flashcards/flashcards/actions/card/cardDependencies";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { Rating } from "flashcards/flashcards/types/types";
+import { Rating } from "flashcards/flashcards/types";
 
 export function postponeRelatedCards(
   this: CardInSession,

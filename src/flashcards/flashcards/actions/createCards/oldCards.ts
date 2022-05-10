@@ -1,9 +1,9 @@
-import {getCardsInSchedule} from "flashcards/flashcards/actions/card/functions";
-import {sortBySortKey} from "flashcards/flashcards/actions/createCards/functions";
-import {CardIds} from "flashcards/flashcards/types/types";
-import {log} from "modules/log";
-import {shuffleLocally} from "modules/shuffleLocally";
-import {getTimeMemoized, hours, minutes} from "modules/time";
+import { getCardsInSchedule } from "flashcards/flashcards/actions/card/functions";
+import { sortBySortKey } from "flashcards/flashcards/actions/createCards/functions";
+import { CardIds } from "flashcards/flashcards/types";
+import { log } from "modules/log";
+import { shuffleLocally } from "modules/shuffleLocally";
+import { getTimeMemoized, hours, minutes } from "modules/time";
 
 /**
  * Returns ALL cards that have previously been seen.

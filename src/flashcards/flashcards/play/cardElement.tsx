@@ -2,7 +2,7 @@ import { getCardData } from "flashcards/flashcards/actions/card/cardData";
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { getDirectionFromCardId } from "flashcards/flashcards/actions/deck/compile/ids";
 import { getSession } from "flashcards/flashcards/actions/session/session";
-import { Direction, Rating } from "flashcards/flashcards/types/types";
+import { Direction, Rating } from "flashcards/flashcards/types";
 import { observer } from "mobx-react";
 import { joinClassNames } from "modules/addCssClass";
 import { Jsx } from "modules/typescript/jsx";

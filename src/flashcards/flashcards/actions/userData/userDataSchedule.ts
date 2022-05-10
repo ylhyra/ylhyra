@@ -1,10 +1,10 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { setUserDataKey } from "flashcards/flashcards/actions/userData/userData";
+import { UserData } from "flashcards/flashcards/actions/userData/userData.types";
 import {
   getEntireSchedule,
   Schedule,
 } from "flashcards/flashcards/actions/userData/userDataStore";
-import { UserData } from "flashcards/flashcards/types/userData";
 
 export const getScheduleFromUserData = (userData: UserData): Schedule => {
   const schedule: Schedule = {};

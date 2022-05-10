@@ -1,6 +1,9 @@
-import {getSortedCardDependenciesAsCardIds} from "flashcards/flashcards/actions/card/cardDependencies";
-import {getCardIdsFromRowId, getRowIdsFromCardIds,} from "flashcards/flashcards/actions/card/row";
-import {CardIds} from "flashcards/flashcards/types/types";
+import { getSortedCardDependenciesAsCardIds } from "flashcards/flashcards/actions/card/cardDependencies";
+import {
+  getCardIdsFromRowId,
+  getRowIdsFromCardIds,
+} from "flashcards/flashcards/actions/card/row";
+import { CardIds } from "flashcards/flashcards/types";
 import _ from "underscore";
 
 /**

@@ -1,11 +1,11 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { RowId } from "flashcards/flashcards/types/rowData";
+import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
 import {
   CardIds,
   DeckId,
   Direction,
   Rating,
-} from "flashcards/flashcards/types/types";
+} from "flashcards/flashcards/types";
 import { makeObservable, observable } from "mobx";
 import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
 
