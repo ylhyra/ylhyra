@@ -12,24 +12,17 @@ import {filterEmpty} from "modules/typescript/filterEmpty";
  * Returning an array is therefore not necessary currently)
  */
 export function getSiblingCards(this: Card): CardIds {
-  return id.getAllCardIdsWithSameTerm((
+  return this.getAllCardIdsWithSameTerm((
     (siblingCardId) => siblingCardId !== id
   );
-}
-
-/**
- * Returns both sides of this term (including the input card)
- */
-export function getAllCardIdsWithSameTerm(this: Card): CardIds {
-  return getCardIdsFromTermId(getTermIdFromCardId(cardId));
 }
 
 export function getSiblingCardsInSession(
   this: Card,
   id: CardId
 ): CardInSession[] {
-  return id.getSiblingCards()
-    .filter((card) => isInSession(card))
+  return this.getSiblingCards()
+    // .filter((card) => card.isInSession())
     .map((card) => card.getAsCardInSession())
     .filter(filterEmpty);
 }
@@ -38,7 +31,7 @@ export function didAnySiblingCardsGetABadRatingInThisSession(
   this: Card,
   id: CardId
 ) {
-  return id.getSiblingCards(((siblingCardId) => {
-    return siblingCardId.getAsCardInSession()?.history.includes(Rating.BAD);
+  return this.getSiblingCards().forEach((siblingCard) => {
+    return siblingCard.getAsCardInSession()?.history.includes(Rating.BAD);
   });
 }

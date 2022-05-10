@@ -21,7 +21,7 @@ export function getAsCardInSession(
   this: Card,
   id: CardId
 ): CardInSession | undefined {
-  return getSession().cards?.find((card) => card.cardId === id);
+  return getSession().cards?.find((card) => card.cardId === this.cardId);
 }
 
 export const filterCardsThatExist = (cardIds: CardIds) => {

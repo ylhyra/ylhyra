@@ -1,10 +1,9 @@
-import {CardInSession} from "flashcards/flashcards/actions/cardInSession";
-import {printWord} from "flashcards/flashcards/actions/functions";
-import {getSession} from "flashcards/flashcards/actions/session/session";
-import {Rating, Score} from "flashcards/flashcards/types/types";
-import {log} from "modules/log";
-import {addSomeRandomness, average, clamp, toFixedFloat} from "modules/math";
-import {Days, daysFromNowToTimestamp, getTime, msToDays} from "modules/time";
+import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { getSession } from "flashcards/flashcards/actions/session/session";
+import { Rating, Score } from "flashcards/flashcards/types/types";
+import { log } from "modules/log";
+import { addSomeRandomness, average, clamp, toFixedFloat } from "modules/math";
+import { Days, daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
 
 export const SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY = 0.4;
 
@@ -27,15 +26,14 @@ export function createSchedule() {
 
   session.cards.forEach((card: CardInSession) => {
     let dueInDays: Days = 1;
-    const id = card.cardId;
-    const prevScore = id.getScore();
-    const sessionsSeen = id.getSessionsSeen();
+    const prevScore = card.getScore();
+    const sessionsSeen = card.getSessionsSeen();
     const isNew = !prevScore;
     const sessionHistory = card.history;
     if (sessionHistory.length === 0) return;
     const avgRating = average(sessionHistory);
-    const lastIntervalInDays = id.getLastIntervalInDays();
-    const lastSeen = id.getLastSeen();
+    const lastIntervalInDays = card.getLastIntervalInDays();
+    const lastSeen = card.getLastSeen();
     const badCount = sessionHistory.filter((i) => i === Rating.BAD).length;
     const anyBad = badCount > 0;
 
@@ -85,9 +83,7 @@ export function createSchedule() {
       if (actualIntervalInDays / lastIntervalInDays! < 0.3) {
         const newDueInDays = lastIntervalInDays!;
         log(
-          `${printWord(
-            card.cardId
-          )} - given ${newDueInDays} instead of ${dueInDays}`
+          `${card.printWord()} - given ${newDueInDays} instead of ${dueInDays}`
         );
         dueInDays = newDueInDays;
       }
@@ -100,19 +96,17 @@ export function createSchedule() {
      */
     if (
       score >= Rating.GOOD &&
-      id.didAnySiblingCardsGetABadRatingInThisSession()
+      card.didAnySiblingCardsGetABadRatingInThisSession()
     ) {
       dueInDays = Math.min(3, dueInDays);
       score =
         Rating.BAD + SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY;
       log(
-        `${printWord(
-          id
-        )} given a low score due to siblings having gotten a bad rating`
+        `${card.printWord()} given a low score due to siblings having gotten a bad rating`
       );
     }
 
-    card.setSchedule(, {
+    card.setSchedule({
       /** Randomly add or subtract up to 10% of the dueInDays just for some variety */
       due: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
       lastIntervalInDays: toFixedFloat(dueInDays, 1),
@@ -128,13 +122,14 @@ export function createSchedule() {
     });
 
     log(
-      printWord(id),
+      card.printWord(),
       `score: ${toFixedFloat(score, 2)}`,
       `days: ${toFixedFloat(dueInDays, 1)}`
     );
 
     /* Postpone siblings (i.e. the other side of the card */
-    id.getSiblingCards()
+    card
+      .getSiblingCards()
       /* Ignore cards that were seen in this session */
       .filter((siblingCard) => !siblingCard.wasSeenInSession())
       .forEach((siblingCard) => {
@@ -143,10 +138,10 @@ export function createSchedule() {
         const newDue = daysFromNowToTimestamp(Math.min(dueInDays * 0.8, 10));
         const actualDue = siblingCard.getDue();
         if (!actualDue || actualDue < newDue) {
-          siblingCard.setSchedule(, {
+          siblingCard.setSchedule({
             due: newDue,
           });
-          log(`${printWord(siblingCard)} postponed`);
+          log(`${siblingCard.printWord()} postponed`);
         }
       });
   });
