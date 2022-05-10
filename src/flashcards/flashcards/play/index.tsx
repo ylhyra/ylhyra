@@ -17,10 +17,10 @@ import { useParams } from "react-router-dom";
 export const FlashcardsPlay = observer(function () {
   let { deckId } = useParams<{ deckId: DeckId }>();
   const deck = getDeckById(deckId! as DeckId);
-  if (!deck || !deckId) return <div>No deck with that id.</div>;
+  if (!deck) return <div>No deck with that id.</div>;
 
   useEffect(() => {
-    void initializeSession({ deckId });
+    void initializeSession(deck);
   }, [deckId]);
 
   const session = getSession();

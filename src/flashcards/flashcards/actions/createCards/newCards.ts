@@ -19,12 +19,12 @@ export const getNewCards = (options?: CreateCardsOptions): Card[] => {
    * TODO! Sorting based on simplicity
    */
 
-  if (session.allowedIds && !options?.dontSortByAllowedIds) {
-    /* Sort in same order as allowedIds */
-    newCards = sortBy(newCards, (id) => session.allowedIds!.indexOf(id));
+  if (session.allowedCards && !options?.dontSortByallowedCards) {
+    /* Sort in same order as allowedCards */
+    newCards = sortBy(newCards, (id) => session.allowedCards!.indexOf(id));
   } else if (options?.skipOverTheEasiest) {
     // /*
-    //   If we are unable to create cards with a given allowedIds,
+    //   If we are unable to create cards with a given allowedCards,
     //   the user does not want to see "Hæ", so we skip over the beginning.
     // */
     // const lowest = clamp(getLowestBadCardSortKey() || Infinity, 50, 300);

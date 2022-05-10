@@ -14,13 +14,13 @@ export function printWord(this: Card): string | undefined {
 }
 
 export const studyParticularIds = async (
-  allowedIds: CardIds,
+  allowedCards: CardIds,
   options?: CreateCardsOptions
 ) => {
   throw new Error("Not implemented");
   // const session = getSession();
   // session.reset();
-  // session.allowedIds = allowedIds;
+  // session.allowedCards = allowedCards;
   // createCards(options);
   // initializeSession({ shouldReset: false });
   // goToUrl("/vocabulary/play");
@@ -38,7 +38,7 @@ export const studyNewRows = () => {
   // });
   // studyParticularIds(newRows, {
   //   skipDependencies: true,
-  //   dontSortByAllowedIds: true,
+  //   dontSortByallowedCards: true,
   // });
 };
 

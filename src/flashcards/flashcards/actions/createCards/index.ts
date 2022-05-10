@@ -1,5 +1,3 @@
-import { getCardById } from "flashcards/flashcards/actions/card/card";
-import { filterCardsThatExist } from "flashcards/flashcards/actions/card/functions";
 import { addBadDependencies } from "flashcards/flashcards/actions/createCards/addBadDependencies";
 import { chooseCards } from "flashcards/flashcards/actions/createCards/chooseCards";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
@@ -14,7 +12,7 @@ export type CreateCardsOptions = {
   skipOverTheEasiest?: boolean;
   /** Used by {@link loadCardsIntoSession} */
   insertImmediately?: boolean;
-  dontSortByAllowedIds?: boolean;
+  dontSortByallowedCards?: boolean;
 };
 
 /**
@@ -26,15 +24,10 @@ export const createCards = (options?: CreateCardsOptions): void => {
   warnIfFunctionIsSlow(() => {
     const session = getSession();
 
-    /* If all allowedIds are already in use, clear it */
-    if (
-      session.allowedIds &&
-      filterCardsThatExist(session.allowedIds).every((id) =>
-        getCardById(id).isInSession()
-      )
-    ) {
-      session.allowedIds = undefined;
-      logDev("allowedIds cleared");
+    /* If all allowedCards are already in use, clear it */
+    if (session.allowedCards?.every((card) => card.isInSession())) {
+      session.allowedCards = undefined;
+      logDev("allowedCards cleared");
     }
 
     /* Create cards */
@@ -47,11 +40,11 @@ export const createCards = (options?: CreateCardsOptions): void => {
     }
 
     /* Failed to generate cards, turn off allowed cards and try again */
-    if (chosenCards.length === 0 && session.allowedIds) {
+    if (chosenCards.length === 0 && session.allowedCards) {
       console.warn(
         `Failed to generate more cards using the allowed ones, switching to all cards.`
       );
-      session.allowedIds = undefined;
+      session.allowedCards = undefined;
       return createCards({ skipOverTheEasiest: true });
     }
 

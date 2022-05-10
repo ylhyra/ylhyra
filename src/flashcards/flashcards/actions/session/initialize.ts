@@ -1,34 +1,18 @@
-import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import { createCardsIfNoneAreRemaining } from "flashcards/flashcards/actions/session/functions";
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
-import { DeckId } from "flashcards/flashcards/types";
 import { action } from "mobx";
+import { createCards } from "flashcards/flashcards/actions/createCards";
 
-export const initializeSession = action(
-  ({ deckId }: { deckId: DeckId | undefined }) => {
-    const deck = getDeckById(deckId as DeckId);
-    if (!deck) throw new Error();
-    const session = getSession();
-    session.reset();
-
-    /* Temp */
-    session.allowedDeckIds = [deckId!];
-    // session.deck = compileDeck(deck);
-
-    createCardsIfNoneAreRemaining();
-    nextCard();
-    void syncIfNecessary();
-
-    // if (options.shouldReset !== false) {
-    //   session.reset();
-    // }
-    // session.checkIfCardsRemaining();
-    // session.nextCard();
-    // session.loadCardInInterface();
-  }
-);
+export const initializeSession = action((deck: Deck) => {
+  const session = getSession();
+  session.reset();
+  session.allowedDecks = [deck];
+  createCards();
+  nextCard();
+  void syncIfNecessary();
+});
 
 /* The constructor of the old Session file */
 // constructor(deck: Deck, init) {

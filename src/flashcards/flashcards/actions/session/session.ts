@@ -1,13 +1,11 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
-import {
-  CardIds,
-  DeckId,
-  Direction,
-  Rating,
-} from "flashcards/flashcards/types";
+import { Direction, Rating } from "flashcards/flashcards/types";
 import { makeObservable, observable } from "mobx";
 import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
+import { Card } from "flashcards/flashcards/actions/card/card";
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { NonEmptyArray } from "modules/typescript/arrays";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
@@ -20,8 +18,10 @@ export class Session {
   cards: CardInSession[] = [];
   currentCard?: CardInSession;
 
-  /** Can be undefined but not empty */
-  allowedIds: CardIds | undefined;
+  /** Limits session to specific decks */
+  allowedDecks: Deck[] = [];
+  /** Limit session to specific cards. */
+  allowedCards: NonEmptyArray<Card> | undefined;
 
   /** The most recent card is pushed to the front of this array */
   cardHistory: CardInSession[] = [];
@@ -57,9 +57,6 @@ export class Session {
   @observable userFacingError?: string;
   @observable isVolumeOn: boolean = true;
 
-  /** Temp */
-  allowedDeckIds: DeckId[] = [];
-
   constructor() {
     this.reset();
     makeObservable(this);
@@ -71,7 +68,8 @@ export class Session {
    * (the interface would otherwise be listening to an older object)
    */
   reset() {
-    this.allowedIds = undefined;
+    this.allowedDecks = [];
+    this.allowedCards = undefined;
     this.ratingHistory = [];
     this.cardHistory = [];
     // this.counter = 0;
@@ -85,7 +83,6 @@ export class Session {
     this.done = false;
     this.lastUndidAtCounter = 0;
     this.savedAt = undefined;
-    this.allowedDeckIds = [];
     this.userFacingError = undefined;
   }
 }
