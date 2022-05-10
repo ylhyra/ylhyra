@@ -9,5 +9,7 @@ export const addRowsIfMissing = action((text: string) => {
     const front = split[0];
     /** Join remaining to prevent data loss (since only two columns are currently supported */
     const back = split.slice(1).join("");
+
+    throw new Error("Not implemented");
   });
 });

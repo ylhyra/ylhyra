@@ -1,5 +1,4 @@
 import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
-import { getDeckByIdRequired } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
@@ -18,19 +17,17 @@ export const newDeck = () => {
   });
   customHistory.replace(`/flashcards/deck/${id}`);
 };
-export const addRow = (this: Deck) => {
+
+export function addRow(this: Deck): Row {
   const rowId = shortid.generate() as RowId;
-  this.rows[rowId] = new Row(getDeckByIdRequired(deckId), {
+  const row = new Row(this, {
     rowId,
     rowNumber: getHighestRowNumber(this) + 1,
   });
-  return rowId;
-};
+  this.rows[rowId] = row;
+  return row;
+}
 
 export const getHighestRowNumber = (deck: Deck): number => {
-  return (
-    _.max(
-      values(getDeckByIdRequired(deckId).rows).map((row) => row.data.rowNumber)
-    ) || 0
-  );
+  return _.max(values(deck.rows).map((row) => row.data.rowNumber)) || 0;
 };

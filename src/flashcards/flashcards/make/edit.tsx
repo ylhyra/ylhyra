@@ -1,6 +1,5 @@
 import { Button } from "flashcards/app/elements/button";
 import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import { addRow } from "flashcards/flashcards/actions/deck/_functions";
 import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
 import { addRowsIfMissing } from "flashcards/flashcards/make/import/actions";
 import { ImportFlashcards } from "flashcards/flashcards/make/import/import";
@@ -19,15 +18,15 @@ export const FlashcardsEdit = observer(() => {
   return (
     <div>
       <h1>{deck.title}</h1>
-      <DeckSettingsElement deckId={deckId!} />
+      <DeckSettingsElement deck={deck} />
       <ImportFlashcards />
       <hr />
-      <Button type="button" onClick={() => addRow(deckId!)}>
+      <Button type="button" onClick={() => deck.addRow()}>
         Add row
       </Button>
       <div>
         {values(deck.rows).map((row) => (
-          <EditRow key={row.data.rowId} row={row} />
+          <EditRow key={row.rowId} row={row} />
         ))}
       </div>
     </div>
