@@ -9,7 +9,7 @@ export const Login = () => {
   const { pathname } = useLocation();
   const isSignup = pathname === "/signup";
 
-  const { Form, getChangeHandlers, setValues } = new form({
+  const { Form, getChangeHandlers, setFormValues } = new form({
     onSubmit: login,
     values: {
       username: "",

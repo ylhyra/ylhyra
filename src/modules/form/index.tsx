@@ -15,7 +15,7 @@ export type FieldsSetup<TypeThisIsDescribing = void> = Array<
       /** If not passed, then by default uppercase first of name */
       label?: string;
       /** "Text" is default */
-      type?: "text" | "select" | "checkbox";
+      type?: "text" | "select" | "checkbox" | "textarea";
       value?: TypeThisIsDescribing[K];
       defaultValue?: TypeThisIsDescribing[K];
       description?: string;
@@ -31,13 +31,13 @@ export type FieldsSetup<TypeThisIsDescribing = void> = Array<
   }[keyof TypeThisIsDescribing]
 >;
 
-export class form<TypeThisIsDescribing = void> {
+export class form<TypeThisIsDescribing = Record<string, any>> {
   values: Record<string, any> = {};
   touched: Record<string, Boolean> = {};
   onSubmit: Function | undefined;
   fields?: FieldsSetup<any>;
   constructor(props: {
-    values: Record<string, any>;
+    values?: Record<string, any>;
     onSubmit?: Function;
     fields?: FieldsSetup<any>;
   }) {
@@ -50,11 +50,22 @@ export class form<TypeThisIsDescribing = void> {
     }
     makeAutoObservable(this);
   }
-  setValues(values: Record<string, any>) {
+  setFormValues(values: Record<string, any>) {
     this.values = values;
   }
+  getFormValues() {
+    console.log(this);
+    return this.values;
+  }
+  resetForm() {
+    this.values = {};
+  }
   handleChange = (fieldName: string, isCheckbox?: Boolean) => {
-    return (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    return (
+      event: React.ChangeEvent<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >
+    ) => {
       this.values[fieldName] =
         isCheckbox && "checked" in event.target
           ? event.target.checked
@@ -183,6 +194,18 @@ export class form<TypeThisIsDescribing = void> {
         />
       );
     }
+
+    if (field.type === "textarea") {
+      return (
+        <textarea
+          name={field.name}
+          value={value || ""}
+          {...this.getChangeHandlers(field.name)}
+        />
+      );
+    }
+
+    console.warn(`Unknown field type ${field.type}`);
 
     return null;
   });

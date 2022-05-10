@@ -13,7 +13,7 @@
 
 if echo "$1" | grep -q "\.tsx\?"; then
   # Add space before exports
-  perl -i -p0e 's/([^\n])\nexport/$1\n\nexport/g' /Users/egill/ylhyra/src/flashcards/flashcards/actions/deck/_functions.ts
+  perl -i -p0e 's/([^\n/])\nexport/$1\n\nexport/g' /Users/egill/ylhyra/src/flashcards/flashcards/actions/deck/_functions.ts
 
   if (eslint_d --rule "no-undef: error" "$1" | grep -q "no-undef"); then
     cat "$1" | npx import-js fix --overwrite "$1"

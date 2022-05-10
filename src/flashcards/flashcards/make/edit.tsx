@@ -19,7 +19,7 @@ export const FlashcardsEdit = observer(() => {
     <div>
       <h1>{deck.title}</h1>
       <DeckSettingsElement deck={deck} />
-      <ImportFlashcards />
+      <ImportFlashcards deck={deck} />
       <hr />
       <Button type="button" onClick={() => deck.addRow()}>
         Add row

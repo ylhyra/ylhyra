@@ -1,4 +1,5 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
+import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "flashcards/flashcards/actions/deck/_functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSettings.fields";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
@@ -109,6 +110,8 @@ export class Row {
   }
 
   toJSON() {
-    return this.data;
+    return removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(
+      this.data
+    );
   }
 }
