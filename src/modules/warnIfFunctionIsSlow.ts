@@ -57,6 +57,7 @@ export const warnIfFunctionIsSlow = <T extends () => any>(
 };
 
 export const printFunctionsThatTookTooMuchTimeInTheLastSecond = () => {
+  console.log(functionsAndTheirTotalTime);
   const maxTotalTimeMs = 30;
   _.sortBy(entries(functionsAndTheirTotalTime), (j) => j[1]).forEach(
     ([name, time]) => {

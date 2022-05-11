@@ -23,8 +23,11 @@ export const ImportFlashcards = ({ deck }: { deck: Deck }) => {
         <InputWithLabel name="input" />
         <Button
           type="button"
-          onClick={() => {
-            addRowsIfMissing(deck, _form.getFormValuesIgnoringDefaults().input);
+          onClick={async () => {
+            await addRowsIfMissing(
+              deck,
+              _form.getFormValuesIgnoringDefaults().input
+            );
             _form.resetForm();
           }}
         >
