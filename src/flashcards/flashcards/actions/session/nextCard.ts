@@ -18,7 +18,7 @@ import _ from "underscore";
  *
  * @param isRecursiveCall - Used to prevent infinite calls
  */
-export const nextCard = action((isRecursiveCall = false) => {
+export const nextCard = action(async (isRecursiveCall = false) => {
   const session = getSession();
 
   /**
@@ -34,10 +34,10 @@ export const nextCard = action((isRecursiveCall = false) => {
 
   if (session.cards.length === 0) {
     log("No cards");
-    createCards();
+    await createCards();
     /* Prevent infinite calls */
     if (!isRecursiveCall) {
-      nextCard(true);
+      await nextCard(true);
       return;
     } else {
       console.error("Failed to create cards");

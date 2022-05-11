@@ -41,8 +41,6 @@ export class CardElement extends Component {
     this.isKeyDown = false;
   };
   checkKey = (e: KeyboardEvent) => {
-    const session = getSession();
-
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (this.isKeyDown) return;
     const answered = this.state.isShowingBottomSide;

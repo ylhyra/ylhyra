@@ -1,5 +1,4 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "flashcards/flashcards/actions/deck/_functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSettings.fields";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
@@ -15,14 +14,17 @@ import {
   Direction,
 } from "flashcards/flashcards/types";
 import { computed, makeObservable, observable } from "mobx";
+import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
 import { keys } from "modules/typescript/objectEntries";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export class Row {
   deck: Deck;
-  @observable data: RowData;
+  data: RowData;
 
   constructor(deck: Deck, data: RowData) {
+    this.deck = deck;
+    this.data = data;
     makeObservable(this, {
       data: observable,
       shouldCreateCards: computed({ keepAlive: true }),
@@ -31,9 +33,6 @@ export class Row {
       dependsOn: computed({ keepAlive: true }),
       alternativeIds: computed({ keepAlive: true }),
     });
-
-    this.deck = deck;
-    this.data = data;
   }
 
   get rowId() {

@@ -3,17 +3,17 @@ import { DirectionSettings } from "flashcards/flashcards/types";
 /** Interface form is at {@link deckSettingsFields} */
 export type DeckSettings = Partial<{
   title: string;
-  topic?: string;
-  preset?:
+  topic: string;
+  preset:
     | "FOREIGN_LANGUAGE_PERSONAL_USE"
     | "FOREIGN_LANGUAGE_FOR_OTHERS"
     | "NONE";
   frontSideLanguage: string;
   backSideLanguage: string;
-  direction?: DirectionSettings;
-  sideToShowFirst?: "FRONT_SIDE" | "RANDOM";
-  automaticDependencies?: boolean;
-  automaticallyOccludeClashing?: boolean;
+  direction: DirectionSettings;
+  sideToShowFirst: "FRONT_SIDE" | "RANDOM";
+  automaticDependencies: boolean;
+  automaticallyOccludeClashing: boolean;
   schedulingGoal:
     | "MEMORIZE_PERFECTLY"
     | "MEMORIZE_WELL"
@@ -35,10 +35,6 @@ export type DeckSettings = Partial<{
    * this multiplier can be used to make certain decks more important
    * than others
    */
-  deckImportanceMultiplier?: number;
-  /**
-   * Choose between "Bad - Good" or "Bad - Good - Easy"
-   */
-  numberOfRatingButtons: 3 | 2;
-  formattingStyle?: undefined | "DICTIONARY";
+  deckImportanceMultiplier: number;
+  formattingStyle: undefined | "DICTIONARY";
 }>;

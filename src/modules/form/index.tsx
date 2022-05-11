@@ -53,8 +53,11 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
   setFormValues(values: Record<string, any>) {
     this.values = values;
   }
-  getFormValues() {
-    console.log(this);
+  getFormValuesIgnoringDefaults() {
+    return this.values;
+  }
+  getFormValuesWithDefaults() {
+    throw new Error("Not implemented");
     return this.values;
   }
   resetForm() {

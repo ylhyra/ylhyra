@@ -1,17 +1,17 @@
+import { createCards } from "flashcards/flashcards/actions/createCards";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
 import { action } from "mobx";
-import { createCards } from "flashcards/flashcards/actions/createCards";
 
-export const initializeSession = action((deck: Deck) => {
+export const initializeSession = action(async (decks: Deck[]) => {
   const session = getSession();
   session.reset();
-  session.allowedDecks = [deck];
-  createCards();
-  nextCard();
-  void syncIfNecessary();
+  session.allowedDecks = decks;
+  await createCards();
+  await nextCard();
+  syncIfNecessary();
 });
 
 /* The constructor of the old Session file */

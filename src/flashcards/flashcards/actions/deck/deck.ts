@@ -9,6 +9,7 @@ import {
 } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
 import { computed, makeAutoObservable, observable } from "mobx";
+import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
 import { flattenArray } from "modules/arrays/flattenArray";
 import { entries, values } from "modules/typescript/objectEntries";
 
@@ -43,13 +44,6 @@ export class Deck {
     return this.settings.title || "(untitled)";
   }
 
-  // /** @deprecated */
-  // cardIds: CardIds {
-  //   return flattenArray(
-  //     values(this.rows).map((row) => row.cardIds)
-  //   ) as CardIds;
-  // }
-
   // get cardIds(): CardIds {
   //   return flattenArray(values(this.rows).map((row) => row.cards)) as CardIds;
   // }
@@ -63,4 +57,12 @@ export class Deck {
   }
 
   addRow = addRow;
+
+  toJSON() {
+    return {
+      deckId: this.deckId,
+      settings: this.settings,
+      rows: applyFunctionToEachObjectValue(this.rows, (row) => row.toJSON()),
+    };
+  }
 }

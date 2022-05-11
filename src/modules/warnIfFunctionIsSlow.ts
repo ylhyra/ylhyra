@@ -37,18 +37,22 @@ let functionsAndTheirTotalTime: Record<string, Milliseconds> = {};
  * Sums up the time spent in each function (summing by each second).
  */
 export const warnIfFunctionIsSlow = <T extends () => any>(
-  fn: T
+  fn: T,
+  /** Must be passed if async function */
+  functionName?: string
 ): ReturnType<T> => {
   if (!isDev) return fn();
 
-  const functionName = new Error().stack?.split("\n")[2]?.split(" ")[5];
+  if (!functionName) {
+    functionName = new Error().stack?.split("\n")[2]?.split(" ")[5];
+  }
   const start: Milliseconds = performance.now();
   const functionOutput = fn();
   const time: Milliseconds = performance.now() - start;
   functionsAndTheirTotalTime[functionName!] =
     (functionsAndTheirTotalTime[functionName!] || 0) + time;
   timer && clearTimeout(timer);
-  setTimeout(printFunctionsThatTookTooMuchTimeInTheLastSecond, 1000);
+  timer = setTimeout(printFunctionsThatTookTooMuchTimeInTheLastSecond, 200);
   return functionOutput;
 };
 

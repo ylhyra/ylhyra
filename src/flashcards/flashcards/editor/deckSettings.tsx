@@ -1,5 +1,3 @@
-import { Button } from "flashcards/app/elements/button";
-import { saveFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSettings.fields";
 import { observer } from "mobx-react-lite";
@@ -16,9 +14,6 @@ export const DeckSettingsElement = observer(({ deck }: { deck: Deck }) => {
     <div>
       <Form>
         <AllFields />
-        <Button type="button" onClick={() => saveFlashcardsStore()}>
-          Save
-        </Button>
       </Form>
     </div>
   );

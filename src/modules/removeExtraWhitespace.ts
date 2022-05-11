@@ -13,7 +13,7 @@ export const removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues = <
   T extends Record<string, any>
 >(
   input: T
-): T => {
+): Partial<T> => {
   let out: Record<string, any> = {};
   keys(input).forEach((key) => {
     /** Remove null and undefined */

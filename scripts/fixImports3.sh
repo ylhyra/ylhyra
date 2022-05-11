@@ -17,5 +17,7 @@ if echo "$1" | grep -q "\.tsx\?"; then
 
   if (eslint_d --rule "no-undef: error" "$1" | grep -q "no-undef"); then
     cat "$1" | npx import-js fix --overwrite "$1"
+    prettified="$(cat "$1" | prettier "$1")"
+    echo "$prettified" >| "$1"
   fi;
 fi;

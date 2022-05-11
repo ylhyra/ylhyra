@@ -1,5 +1,5 @@
-import {DeckSettings} from "flashcards/flashcards/actions/deck/deckSettings.types";
-import {FieldsSetup} from "modules/form";
+import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
+import { FieldsSetup } from "modules/form";
 
 /** See type {@link DeckSettings} */
 export const deckSettingsFields: FieldsSetup<DeckSettings> = [
@@ -65,21 +65,5 @@ export const deckSettingsFields: FieldsSetup<DeckSettings> = [
     type: "checkbox",
     defaultValue: true,
     label: "Automatically give hints when two cards have the same prompt",
-  },
-  {
-    name: "numberOfRatingButtons",
-    label: "Number of rating buttons",
-    type: "select",
-    defaultValue: 3,
-    options: [
-      {
-        value: 3,
-        label: `Three buttons ("Bad", "Good", and "Easy")`,
-      },
-      {
-        value: 2,
-        label: `Two buttons ("Bad" and "Good")`,
-      },
-    ],
   },
 ];

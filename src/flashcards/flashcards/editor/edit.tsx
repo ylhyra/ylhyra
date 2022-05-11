@@ -1,14 +1,17 @@
 import { Button } from "flashcards/app/elements/button";
-import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
-import { DeckSettingsElement } from "flashcards/flashcards/make/deckSettings";
-import { addRowsIfMissing } from "flashcards/flashcards/make/import/actions";
-import { ImportFlashcards } from "flashcards/flashcards/make/import/import";
-import { EditRow } from "flashcards/flashcards/make/row";
+import {
+  getDeckById,
+  saveFlashcardsStore,
+} from "flashcards/flashcards/actions/baseFlashcardsStore/_functions";
+import { DeckSettingsElement } from "flashcards/flashcards/editor/deckSettings";
+import { addRowsIfMissing } from "flashcards/flashcards/editor/import/actions";
+import { ImportFlashcards } from "flashcards/flashcards/editor/import/import";
+import { EditRow } from "flashcards/flashcards/editor/row";
 import { DeckId } from "flashcards/flashcards/types";
 import { observer } from "mobx-react-lite";
 import { values } from "modules/typescript/objectEntries";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export const FlashcardsEdit = observer(() => {
   let { deckId } = useParams<{ deckId: DeckId }>();
@@ -18,9 +21,15 @@ export const FlashcardsEdit = observer(() => {
   return (
     <div>
       <h1>{deck.title}</h1>
+      <Button type="button" onClick={() => saveFlashcardsStore()}>
+        Save
+      </Button>
+      <Link to={`/flashcards/play/${deckId}`}>Play</Link>
       <DeckSettingsElement deck={deck} />
+      <hr />
       <ImportFlashcards deck={deck} />
       <hr />
+      <h3>Rows</h3>
       <Button type="button" onClick={() => deck.addRow()}>
         Add row
       </Button>

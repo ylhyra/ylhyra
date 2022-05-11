@@ -6,14 +6,14 @@ import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
 import { entries } from "modules/typescript/objectEntries";
 
 export const initializeFlashcardsStore = action(() => {
-  const decks = getFromLocalStorage("decks") || {};
-  entries(decks).forEach(([deckId, data]) => {
+  const savedFlashcardsStore = getFromLocalStorage("decks") || {};
+  entries(savedFlashcardsStore.decks).forEach(([deckId, data]) => {
     getFlashcardsStore().decks[deckId as DeckId] = new Deck(data);
   });
 });
 
 export const saveFlashcardsStore = () => {
-  saveInLocalStorage("decks", getFlashcardsStore().decks);
+  saveInLocalStorage("decks", getFlashcardsStore().toJSON());
 };
 
 export const getDeckById = (id: DeckId | undefined): Deck | undefined => {

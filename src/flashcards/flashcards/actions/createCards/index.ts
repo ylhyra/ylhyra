@@ -3,6 +3,7 @@ import { chooseCards } from "flashcards/flashcards/actions/createCards/chooseCar
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { log, logDev } from "modules/log";
+import { preventUiFromFreezing } from "modules/preventUiFromFreezing";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export const CARDS_TO_CREATE = 50;
@@ -19,9 +20,11 @@ export type CreateCardsOptions = {
  * Goes through the database of cards, finds relevant ones,
  * and then loads them into the session as {@link CardInSession}.
  */
-export const createCards = (options?: CreateCardsOptions): void => {
-  // await new Promise(resolve => setTimeout(resolve, 0));
-  warnIfFunctionIsSlow(() => {
+export const createCards = async (
+  options?: CreateCardsOptions
+): Promise<void> => {
+  await preventUiFromFreezing();
+  await warnIfFunctionIsSlow(async () => {
     const session = getSession();
 
     /* If all allowedCards are already in use, clear it */
@@ -45,9 +48,9 @@ export const createCards = (options?: CreateCardsOptions): void => {
         `Failed to generate more cards using the allowed ones, switching to all cards.`
       );
       session.allowedCards = undefined;
-      return createCards({ skipOverTheEasiest: true });
+      return await createCards({ skipOverTheEasiest: true });
     }
 
     loadCardsIntoSession(chosenCards, options);
-  });
+  }, "createCards");
 };

@@ -11,6 +11,8 @@ export const FlashcardsMake = observer(function () {
 
   return (
     <div>
+      <Link to={`/flashcards/play/all`}>Play all decks</Link>
+      <hr />
       Decks:
       <Button onClick={newDeck}>New deck</Button>
       <ul>

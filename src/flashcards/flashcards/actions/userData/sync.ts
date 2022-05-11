@@ -63,7 +63,7 @@ export const sync = async (options: any = {}): Promise<UserData> => {
   return userData;
 };
 
-export const syncIfNecessary = async () => {
+export const syncIfNecessary = () => {
   // TODO
   // const data = getFromLocalStorage("vocabulary-user-data");
   // /* Localstorage data has been updated in another tab, so we reload */
