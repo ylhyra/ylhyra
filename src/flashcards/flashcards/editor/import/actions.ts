@@ -23,7 +23,6 @@ export const addRowsIfMissing = action((deck: Deck, text: string) => {
       // deck.addRow({ front, back });
       rowsToAdd.push({ front, back });
     });
+    deck.addMultipleRows(rowsToAdd);
   }, "addRowsIfMissing");
-  deck.addMultipleRows(rowsToAdd);
-  deck.settings.title = "hahaha";
 });

@@ -8,8 +8,9 @@ import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export const initializeFlashcardsStore = action(() => {
   try {
-    const savedFlashcardsStore = getFromLocalStorage("decks") || {};
-    return warnIfFunctionIsSlow.wrap(() => {
+    const savedFlashcardsStore = getFromLocalStorage("decks");
+    if (!savedFlashcardsStore) return;
+    warnIfFunctionIsSlow.wrap(() => {
       entries(savedFlashcardsStore.decks).forEach(([deckId, data]) => {
         getFlashcardsStore().decks[deckId as DeckId] = new Deck(data);
       });

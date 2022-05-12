@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSettings.fields";
@@ -17,6 +16,7 @@ import {
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
 import { keys } from "modules/typescript/objectEntries";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
+import { computed, makeObservable, observable } from "mobx";
 
 export class Row {
   deck: Deck;
@@ -25,14 +25,14 @@ export class Row {
   constructor(deck: Deck, data: RowData) {
     this.deck = deck;
     this.data = data;
-    // makeObservable(this, {
-    //   data: observable,
-    //   shouldCreateCards: computed({ keepAlive: true }),
-    //   cardIds: computed({ keepAlive: true }),
-    //   cards: computed({ keepAlive: true }),
-    //   dependsOn: computed({ keepAlive: true }),
-    //   alternativeIds: computed({ keepAlive: true }),
-    // });
+    makeObservable(this, {
+      data: observable,
+      shouldCreateCards: computed({ keepAlive: true }),
+      cardIds: computed({ keepAlive: true }),
+      cards: computed({ keepAlive: true }),
+      dependsOn: computed({ keepAlive: true }),
+      alternativeIds: computed({ keepAlive: true }),
+    });
   }
 
   get rowId() {
@@ -108,9 +108,9 @@ export class Row {
     }) as (DeckSettings & RowData)[T];
   }
 
-  toJSON() {
+  toJSON(): RowData {
     return removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(
       this.data
-    );
+    ) as RowData;
   }
 }

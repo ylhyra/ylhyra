@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { isBrowser } from "modules/isBrowser";
 import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
 import { Card } from "flashcards/flashcards/actions/card/card";
@@ -23,8 +22,6 @@ export const newDeck = (): Deck => {
   const id = shortid.generate() as DeckId;
   const deck = new Deck({
     deckId: id,
-    settings: {},
-    rows: {},
   });
   getFlashcardsStore().decks[id] = deck;
   if (isBrowser) {
@@ -47,7 +44,7 @@ export function addMultipleRows(
   const baseId = shortid.generate();
   const highestRowNumber = _.max([
     0,
-    ...values(this.rows).map((row) => row.data.rowNumber),
+    ...this.rows.map((row) => row.data.rowNumber),
   ]);
   arrayOfRowData.forEach((rowData) => {
     const rowId = `${baseId}${i}` as RowId;
@@ -58,12 +55,12 @@ export function addMultipleRows(
         rowData || {}
       ),
     });
-    rows[rowId] = { rowId }; //row;
+    // rows[rowId] = row;
     rowsArray.push(row);
   });
-  this.rows = { ...this.rows, ...rows };
+  // this.rows = { ...this.rows, ...rows };
   // this.rows2 = { ...this.rows2, ...rows };
-  // this.rowsArray = this.rowsArray.concat(rowsArray);
+  this.rows = this.rows.concat(rowsArray);
   // return rows[0];
 }
 

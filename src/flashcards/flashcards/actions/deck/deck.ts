@@ -1,4 +1,5 @@
-import { makeObservable, observable } from "mobx";
+import { computed, makeObservable, observable } from "mobx";
+import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import {
   addMultipleRows,
@@ -7,43 +8,34 @@ import {
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { getDependencyGraph } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import {
-  RowData,
-  RowId,
-} from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
-import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
 import { flattenArray } from "modules/arrays/flattenArray";
-import { entries, values } from "modules/typescript/objectEntries";
 
 export class Deck {
   deckId: DeckId;
-  rows: Record<RowId, Row>;
-  rows2: Record<RowId, any> = {};
-  rowsArray: Row[] = [];
-  // @observable
+  rows: Row[] = [];
   settings: DeckSettings = {};
-
   constructor({
     deckId,
-    rows,
+    rowsDataArray,
     settings,
   }: {
     deckId: DeckId;
-    rows?: Record<RowId, RowData>;
+    rowsDataArray?: RowData[];
     settings?: DeckSettings;
   }) {
     this.deckId = deckId;
-    this.rows = {};
-    entries(rows || {}).forEach(([rowId, rowData]) => {
-      this.rows[rowId] = new Row(this, rowData);
-    });
+    if (rowsDataArray) {
+      this.rows = rowsDataArray.map((rowData) => {
+        return new Row(this, rowData);
+      });
+    }
     this.settings = settings || {};
     makeObservable(this, {
       settings: observable,
-      // rows: observable.shallow,
-      // cards: computed({ keepAlive: true }),
-      // dependencyGraph: computed({ keepAlive: true }),
+      rows: observable,
+      cards: computed({ keepAlive: true }),
+      dependencyGraph: computed({ keepAlive: true }),
     });
   }
 
@@ -56,7 +48,7 @@ export class Deck {
   // }
 
   get cards(): Card[] {
-    return flattenArray(values(this.rows).map((row) => row.cards));
+    return flattenArray(this.rows.map((row) => row.cards));
   }
 
   get dependencyGraph() {
@@ -70,7 +62,7 @@ export class Deck {
     return {
       deckId: this.deckId,
       settings: this.settings,
-      rows: applyFunctionToEachObjectValue(this.rows, (row) => row.toJSON()),
+      rows: this.rows.map((row) => row.toJSON()),
     };
   }
 }
