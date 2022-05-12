@@ -1,3 +1,4 @@
+import { isBrowser } from "modules/isBrowser";
 import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
@@ -17,14 +18,18 @@ import _ from "underscore";
 /**
  * Called in user interface
  */
-export const newDeck = () => {
+export const newDeck = (): Deck => {
   const id = shortid.generate() as DeckId;
-  getFlashcardsStore().decks[id] = new Deck({
+  const deck = new Deck({
     deckId: id,
     settings: {},
     rows: {},
   });
-  customHistory.replace(`/flashcards/deck/${id}`);
+  getFlashcardsStore().decks[id] = deck;
+  if (isBrowser) {
+    customHistory.replace(`/flashcards/deck/${id}`);
+  }
+  return deck;
 };
 
 export function addRow(this: Deck, data?: Partial<RowData>): Row {
