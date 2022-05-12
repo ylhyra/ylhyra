@@ -1,5 +1,3 @@
-import { computed, makeObservable, observable } from "mobx";
-import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import {
   addMultipleRows,
@@ -8,7 +6,9 @@ import {
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { getDependencyGraph } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
 import { Row } from "flashcards/flashcards/actions/row/row";
+import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
+import { computed, makeObservable, observable } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 
 export class Deck {
@@ -17,16 +17,16 @@ export class Deck {
   settings: DeckSettings = {};
   constructor({
     deckId,
-    rowsDataArray,
+    rows,
     settings,
   }: {
     deckId: DeckId;
-    rowsDataArray?: RowData[];
+    rows?: RowData[];
     settings?: DeckSettings;
   }) {
     this.deckId = deckId;
-    if (rowsDataArray) {
-      this.rows = rowsDataArray.map((rowData) => {
+    if (rows) {
+      this.rows = rows.map((rowData) => {
         return new Row(this, rowData);
       });
     }
