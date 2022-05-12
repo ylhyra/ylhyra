@@ -24,6 +24,6 @@ export const sortCardsByScore = (cards: Card[]) => {
   return sortBy(cards, (card) => card.getScore());
 };
 
-export const sortBySortKey = (cards: Card[], options?: any) => {
+export const sortBySortKey = (cards: Card[]) => {
   return sortBy(cards, (card) => card.getSortKey());
 };

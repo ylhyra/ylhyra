@@ -1,6 +1,5 @@
 import { addBadDependencies } from "flashcards/flashcards/actions/createCards/addBadDependencies";
 import { chooseCards } from "flashcards/flashcards/actions/createCards/chooseCards";
-import { chooseCards2Test } from "flashcards/flashcards/actions/createCards/chooseCards2";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { log, logDev } from "modules/log";
@@ -10,10 +9,10 @@ export const CARDS_TO_CREATE = 50;
 
 export type CreateCardsOptions = {
   skipDependencies?: boolean;
-  skipOverTheEasiest?: boolean;
+  // skipOverTheEasiest?: boolean;
   /** Used by {@link loadCardsIntoSession} */
   insertImmediately?: boolean;
-  dontSortByAllowedCards?: boolean;
+  // dontSortByAllowedCards?: boolean;
 };
 
 /**
@@ -45,12 +44,12 @@ export const createCards = (options?: CreateCardsOptions): void => {
         `Failed to generate more cards using the allowed ones, switching to all cards.`
       );
       session.allowedCards = undefined;
-      createCards({ skipOverTheEasiest: true });
+      createCards(options);
       return;
     }
 
     loadCardsIntoSession(chosenCards, options);
   }, "createCards");
 
-  chooseCards2Test();
+  // chooseCards2Test();
 };

@@ -136,7 +136,7 @@ export function createSchedule() {
         /* Postpone based on a portion of the main card's dueInDays,
            but never more than 10 days */
         const newDue = daysFromNowToTimestamp(Math.min(dueInDays * 0.8, 10));
-        const actualDue = siblingCard.getDue();
+        const actualDue = siblingCard.getDueAt();
         if (!actualDue || actualDue < newDue) {
           siblingCard.setSchedule({
             due: newDue,

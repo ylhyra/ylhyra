@@ -16,8 +16,13 @@ export function getScheduleForCard(
   return getEntireSchedule()[this.cardId];
 }
 
-export function getDue(this: Card): Timestamp | undefined {
+export function getDueAt(this: Card): Timestamp | undefined {
   return this.getScheduleForCard()?.due;
+}
+
+export function isOverdue(this: Card, timestamp: Timestamp): Boolean {
+  const dueAt = this.getDueAt();
+  return dueAt ? dueAt < timestamp : false;
 }
 
 /**

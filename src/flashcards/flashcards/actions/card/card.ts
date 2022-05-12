@@ -13,7 +13,7 @@ import {
   isTooEasy,
 } from "flashcards/flashcards/actions/card/cardDifficulty";
 import {
-  getDue,
+  getDueAt,
   getLastIntervalInDays,
   getLastSeen,
   getLowestAvailableRowScore,
@@ -25,6 +25,7 @@ import {
   isInSchedule,
   isNewCard,
   isNewRowThatHasNotBeenSeenInSession,
+  isOverdue,
   isUnseenRow,
   isUnseenSiblingOfANonGoodCard,
   setSchedule,
@@ -80,6 +81,7 @@ export class Card {
 
   /** @deprecated */
   getSortKey() {
+    console.warn("getSortKey is deprecated. Use getCardData instead.");
     throw new Error("Not implemented");
   }
 
@@ -94,7 +96,8 @@ export class Card {
   isBad = isBad;
   isFairlyBad = isFairlyBad;
   isBelowGood = isBelowGood;
-  getDue = getDue;
+  getDueAt = getDueAt;
+  isOverdue = isOverdue;
   getScore = getScore;
   getSessionsSeen = getSessionsSeen;
   getNumberOfBadSessions = getNumberOfBadSessions;

@@ -10,21 +10,25 @@ import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
  * Returns ALL cards that have previously been seen.
  * Called by {@link chooseCards}, which will choose a few cards from these.
  */
-export const oldCards = () => {
+export const classifyCards = () => {
   return warnIfFunctionIsSlow.wrap(() => {
     let overdueGood: Card[] = [];
     let overdueBad: Card[] = [];
     let notOverdueVeryBad: Card[] = [];
     let notOverdue: Card[] = [];
+    let newCards: Card[] = [];
 
     getSession()
       .getAllCardsThatCouldBeInSession()
-      .filter((card) => card.isInSchedule() && card.isAllowed())
+      .filter((card) => card.isAllowed())
       .forEach((card) => {
-        /* Overdue */
-        if (
-          card.getDue() &&
-          card.getDue()! < getTimeMemoized() + 16 * hours &&
+        if (!card.isInSchedule()) {
+          newCards.push(card);
+        }
+
+        // Overdue
+        else if (
+          card.isOverdue(getTimeMemoized() + 16 * hours) &&
           !card.isTooEasy() &&
           !card.wasRowVeryRecentlySeen()
         ) {
@@ -34,12 +38,13 @@ export const oldCards = () => {
             overdueGood.push(card);
           }
         }
+
         // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
         else if (
           card.isBad() &&
           (card.timeSinceRowWasSeen() || 0) > 20 * minutes
         ) {
-          notOverdueVeryBad.push(card);
+          return notOverdueVeryBad.push(card);
         } else {
           notOverdue.push(card);
         }
@@ -53,10 +58,30 @@ export const oldCards = () => {
 
     return {
       overdueBad: shuffleLocally(
+        /** what???? this concatenation may be wrong, should be interspersed instead */
         sortBySortKey(overdueBad.concat(notOverdueVeryBad))
       ),
       overdueGood: shuffleLocally(sortBySortKey(overdueGood)),
+      newCards: sortNewCards(newCards),
       notOverdue,
     };
   });
+};
+
+export const sortNewCards = (newCards: Card[]) => {
+  const session = getSession();
+  // if (session.allowedCards /*&& !options?.dontSortByAllowedCards*/) {
+  //   /* Sort in same order as allowedCards */
+  //   newCards = sortBy(newCards, (id) => session.allowedCards!.indexOf(id));
+  // } else if (options?.skipOverTheEasiest) {
+  //   // /*
+  //   //   If we are unable to create cards with a given allowedCards,
+  //   //   the user does not want to see "Hæ", so we skip over the beginning.
+  //   // */
+  //   // const lowest = clamp(getLowestBadCardSortKey() || Infinity, 50, 300);
+  //   // new_cards = sortBy(new_cards, (i) => i.getSortKeyAdjusted(lowest));
+  // }
+  console.warn("Sorting of new cards not implemented");
+  // return veryRecentlySeenSortedLast(newCards.slice(0, 200));
+  return newCards;
 };

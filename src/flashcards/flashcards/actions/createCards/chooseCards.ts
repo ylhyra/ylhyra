@@ -7,8 +7,7 @@ import {
   sortCardsByScore,
   veryRecentlySeenSortedLast,
 } from "flashcards/flashcards/actions/createCards/_functions";
-import { getNewCards } from "flashcards/flashcards/actions/createCards/newCards";
-import { oldCards } from "flashcards/flashcards/actions/createCards/oldCards";
+import { classifyCards } from "flashcards/flashcards/actions/createCards/classifyCards";
 import { isEmpty } from "modules/isEmpty";
 import { log } from "modules/log";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
@@ -53,9 +52,7 @@ export const chooseCards = (options?: CreateCardsOptions): Card[] => {
       }
     };
 
-    const { overdueBad, overdueGood, notOverdue } = oldCards();
-
-    const newCards = getNewCards(options);
+    const { overdueBad, overdueGood, notOverdue, newCards } = classifyCards();
 
     let totalOptions = overdueBad.length + overdueGood.length;
     let badCount = overdueBad.length;
