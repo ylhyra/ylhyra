@@ -7,12 +7,16 @@ import { entries } from "modules/typescript/objectEntries";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export const initializeFlashcardsStore = action(() => {
-  const savedFlashcardsStore = getFromLocalStorage("decks") || {};
-  return warnIfFunctionIsSlow.wrap(() => {
-    entries(savedFlashcardsStore.decks).forEach(([deckId, data]) => {
-      getFlashcardsStore().decks[deckId as DeckId] = new Deck(data);
-    });
-  }, "initializeFlashcardsStore");
+  try {
+    const savedFlashcardsStore = getFromLocalStorage("decks") || {};
+    return warnIfFunctionIsSlow.wrap(() => {
+      entries(savedFlashcardsStore.decks).forEach(([deckId, data]) => {
+        getFlashcardsStore().decks[deckId as DeckId] = new Deck(data);
+      });
+    }, "initializeFlashcardsStore");
+  } catch (e: unknown) {
+    console.error("Malformatted flashcards store data");
+  }
 });
 
 export const saveFlashcardsStore = () => {
