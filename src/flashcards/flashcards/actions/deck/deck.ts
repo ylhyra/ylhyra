@@ -19,6 +19,7 @@ import { entries, values } from "modules/typescript/objectEntries";
 export class Deck {
   deckId: DeckId;
   rows: Record<RowId, Row>;
+  rowsArray: Row[];
   settings: DeckSettings;
 
   constructor({
@@ -32,6 +33,7 @@ export class Deck {
   }) {
     this.deckId = deckId;
     this.rows = {};
+    this.rowsArray = [];
     entries(rows || {}).forEach(([rowId, rowData]) => {
       this.rows[rowId] = new Row(this, rowData);
     });

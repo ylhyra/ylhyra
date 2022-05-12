@@ -6,8 +6,6 @@ import { entries } from "modules/typescript/objectEntries";
 import React from "react";
 import { Link } from "react-router-dom";
 
-require("./tmp_test");
-
 export const FlashcardsMake = observer(function () {
   const { decks } = getFlashcardsStore();
 

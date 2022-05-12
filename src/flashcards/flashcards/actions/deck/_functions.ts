@@ -32,19 +32,8 @@ export const newDeck = (): Deck => {
   return deck;
 };
 
-export function addRow(this: Deck, data?: Partial<RowData>): Row {
-  const rowId = shortid.generate() as RowId;
-  const highestRowNumber = _.max([
-    0,
-    ...values(this.rows).map((row) => row.data.rowNumber),
-  ]);
-  const row = new Row(this, {
-    rowId,
-    rowNumber: highestRowNumber + 1,
-    ...removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(data || {}),
-  });
-  this.rows[rowId] = row;
-  return row;
+export function addRow(this: Deck, data: Partial<RowData> = {}): Row {
+  return this.addMultipleRows([data]);
 }
 
 export function addMultipleRows(
@@ -67,7 +56,10 @@ export function addMultipleRows(
         rowData || {}
       ),
     });
+    rows.push(row);
   });
+  this.rowsArray = this.rowsArray.concat(rows);
+  return rows[0];
 }
 
 export const getAllCardsFromDecks = (decks: Deck[]): Card[] => {

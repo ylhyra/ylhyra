@@ -120,7 +120,6 @@ export class Row {
   constructor(deck: Deck, data: RowData) {
     this.deck = deck;
     this.data = data;
-    console.warn("hehe");
     // makeObservable(this, {
     //   data: observable,
     //   shouldCreateCards: computed({ keepAlive: true }),

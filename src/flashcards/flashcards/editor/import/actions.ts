@@ -20,7 +20,8 @@ export const addRowsIfMissing = action((deck: Deck, text: string) => {
       const front = split[0];
       /** Join remaining just to prevent data loss (since only two columns are currently supported */
       const back = split.slice(1).join("");
-      deck.addRow({ front, back });
+      // deck.addRow({ front, back });
+      rowsToAdd.push({ front, back });
     });
   }, "addRowsIfMissing");
   deck.addMultipleRows(rowsToAdd);
