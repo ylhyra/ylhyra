@@ -24,7 +24,7 @@ export const createCards = async (
   options?: CreateCardsOptions
 ): Promise<void> => {
   await preventUiFromFreezing();
-  await warnIfFunctionIsSlow(async () => {
+  await warnIfFunctionIsSlow.wrap(async () => {
     const session = getSession();
 
     /* If all allowedCards are already in use, clear it */

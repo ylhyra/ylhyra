@@ -10,7 +10,7 @@ import { sortBy } from "underscore";
  * Called by {@link chooseCards}, which will choose a few cards from these.
  */
 export const getNewCards = (options?: CreateCardsOptions): Card[] => {
-  return warnIfFunctionIsSlow(() => {
+  return warnIfFunctionIsSlow.wrap(() => {
     const session = getSession();
 
     /** todo: this call is possibly expensive and could be merged with the oldCards call */

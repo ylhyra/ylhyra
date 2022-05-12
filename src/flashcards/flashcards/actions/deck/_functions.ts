@@ -42,6 +42,29 @@ export function addRow(this: Deck, data?: Partial<RowData>): Row {
   return row;
 }
 
+export function addMultipleRows(
+  this: Deck,
+  arrayOfRowData: Partial<RowData>[]
+) {
+  let rows: Row[] = [];
+  let i = 0;
+  const baseId = shortid.generate();
+  const highestRowNumber = _.max([
+    0,
+    ...values(this.rows).map((row) => row.data.rowNumber),
+  ]);
+  arrayOfRowData.forEach((rowData) => {
+    const rowId = `${baseId}${i}` as RowId;
+    const row = new Row(this, {
+      rowId,
+      rowNumber: highestRowNumber + 1 + i++,
+      ...removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(
+        rowData || {}
+      ),
+    });
+  });
+}
+
 export const getAllCardsFromDecks = (decks: Deck[]): Card[] => {
   return flattenArray(decks.map((deck) => deck.cards));
 };

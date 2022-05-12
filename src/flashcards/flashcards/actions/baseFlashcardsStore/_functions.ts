@@ -4,12 +4,15 @@ import { DeckId } from "flashcards/flashcards/types";
 import { action } from "mobx";
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
 import { entries } from "modules/typescript/objectEntries";
+import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export const initializeFlashcardsStore = action(() => {
   const savedFlashcardsStore = getFromLocalStorage("decks") || {};
-  entries(savedFlashcardsStore.decks).forEach(([deckId, data]) => {
-    getFlashcardsStore().decks[deckId as DeckId] = new Deck(data);
-  });
+  return warnIfFunctionIsSlow.wrap(() => {
+    entries(savedFlashcardsStore.decks).forEach(([deckId, data]) => {
+      getFlashcardsStore().decks[deckId as DeckId] = new Deck(data);
+    });
+  }, "initializeFlashcardsStore");
 });
 
 export const saveFlashcardsStore = () => {

@@ -3,7 +3,7 @@ import { isDev } from "modules/isDev";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export const addBadDependencies = (chosenCards: Card[]): Card[] => {
-  return warnIfFunctionIsSlow(() => {
+  return warnIfFunctionIsSlow.wrap(() => {
     console.warn("dependencies not implemented");
     return chosenCards;
 

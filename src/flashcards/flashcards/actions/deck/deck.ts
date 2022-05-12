@@ -1,5 +1,8 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { addRow } from "flashcards/flashcards/actions/deck/_functions";
+import {
+  addMultipleRows,
+  addRow,
+} from "flashcards/flashcards/actions/deck/_functions";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { getDependencyGraph } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
 import { Row } from "flashcards/flashcards/actions/row/row";
@@ -8,7 +11,7 @@ import {
   RowId,
 } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
-import { computed, makeAutoObservable, observable } from "mobx";
+import { computed, makeObservable, observable } from "mobx";
 import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
 import { flattenArray } from "modules/arrays/flattenArray";
 import { entries, values } from "modules/typescript/objectEntries";
@@ -33,8 +36,9 @@ export class Deck {
       this.rows[rowId] = new Row(this, rowData);
     });
     this.settings = settings || {};
-    makeAutoObservable(this, {
+    makeObservable(this, {
       settings: observable.deep,
+      // rows: observable.shallow,
       cards: computed({ keepAlive: true }),
       dependencyGraph: computed({ keepAlive: true }),
     });
@@ -57,6 +61,7 @@ export class Deck {
   }
 
   addRow = addRow;
+  addMultipleRows = addMultipleRows;
 
   toJSON() {
     return {

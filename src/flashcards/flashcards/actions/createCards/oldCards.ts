@@ -11,7 +11,7 @@ import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
  * Called by {@link chooseCards}, which will choose a few cards from these.
  */
 export const oldCards = () => {
-  return warnIfFunctionIsSlow(() => {
+  return warnIfFunctionIsSlow.wrap(() => {
     let overdueGood: Card[] = [];
     let overdueBad: Card[] = [];
     let notOverdueVeryBad: Card[] = [];

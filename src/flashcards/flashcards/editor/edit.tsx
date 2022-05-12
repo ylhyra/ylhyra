@@ -18,6 +18,7 @@ export const FlashcardsEdit = observer(() => {
   const deck = getDeckById(deckId! as DeckId);
   if (!deck) return <div>No deck with that id.</div>;
 
+  console.log("Interface rendered!");
   return (
     <div>
       <h1>{deck.title}</h1>

@@ -15,7 +15,7 @@ export function getDependencyGraph(
 ): DependenciesForAllRowsAsRowIdToDependencyToDepth {
   throw new Error("Not implemented");
 
-  // return warnIfFunctionIsSlow(() => {
+  // return warnIfFunctionIsSlow.wrap(() => {
   //   let output: DependenciesForAllRowsAsRowIdToDependencyToDepth = {};
   //
   //   const directDependencies = directDependenciesGraph(deck);

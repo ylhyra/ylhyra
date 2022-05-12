@@ -130,7 +130,7 @@ export function isInSession(this: Card) {
  * to be added to the session.
  */
 export function isAllowed(this: Card): boolean {
-  return warnIfFunctionIsSlow(() => {
+  return warnIfFunctionIsSlow.wrap(() => {
     /* Ignore cards that are already in the session */
     if (this.isInSession()) return false;
 

@@ -14,7 +14,7 @@ import { log } from "modules/log";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export const chooseCards = (options?: CreateCardsOptions): Card[] => {
-  return warnIfFunctionIsSlow(() => {
+  return warnIfFunctionIsSlow.wrap(() => {
     /**
      * chosenCards starts out as an array of nulls;
      * the slots will later be filled.

@@ -93,7 +93,7 @@ export class Row {
   getSetting<T extends keyof DeckSettings & keyof RowData>(
     key: T
   ): (DeckSettings & RowData)[T] {
-    return warnIfFunctionIsSlow(() => {
+    return warnIfFunctionIsSlow.wrap(() => {
       /* "!= null" tests for null and undefined */
       if (this.data[key] != null) {
         return this.data[key];
