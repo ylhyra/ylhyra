@@ -22,17 +22,15 @@ const development_plugins =
 
 module.exports = {
   presets: [
-    // [node_modules + "/@babel/preset-env"],
-    // [node_modules + "/@babel/preset-react"],
-    ["@babel/preset-env"],
-    ["@babel/preset-react"],
+    "@babel/preset-env",
+    "@babel/preset-react",
     "@babel/preset-typescript",
   ],
   plugins: [
-    // [node_modules + "/@babel/plugin-transform-runtime"],
-    ["@babel/plugin-transform-runtime"],
-    ["inline-json-import", {}],
     ["@babel/plugin-proposal-decorators", { legacy: true }],
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-transform-runtime",
+    // ["inline-json-import", {}],
     ...development_plugins,
   ],
 };

@@ -1,3 +1,4 @@
+import { makeObservable, observable } from "mobx";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import {
   addMultipleRows,
@@ -11,7 +12,6 @@ import {
   RowId,
 } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
-import { computed, makeObservable, observable } from "mobx";
 import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
 import { flattenArray } from "modules/arrays/flattenArray";
 import { entries, values } from "modules/typescript/objectEntries";
@@ -19,8 +19,10 @@ import { entries, values } from "modules/typescript/objectEntries";
 export class Deck {
   deckId: DeckId;
   rows: Record<RowId, Row>;
-  rowsArray: Row[];
-  settings: DeckSettings;
+  rows2: Record<RowId, any> = {};
+  rowsArray: Row[] = [];
+  // @observable
+  settings: DeckSettings = {};
 
   constructor({
     deckId,
@@ -33,16 +35,15 @@ export class Deck {
   }) {
     this.deckId = deckId;
     this.rows = {};
-    this.rowsArray = [];
     entries(rows || {}).forEach(([rowId, rowData]) => {
       this.rows[rowId] = new Row(this, rowData);
     });
     this.settings = settings || {};
     makeObservable(this, {
-      settings: observable.deep,
+      settings: observable,
       // rows: observable.shallow,
-      cards: computed({ keepAlive: true }),
-      dependencyGraph: computed({ keepAlive: true }),
+      // cards: computed({ keepAlive: true }),
+      // dependencyGraph: computed({ keepAlive: true }),
     });
   }
 

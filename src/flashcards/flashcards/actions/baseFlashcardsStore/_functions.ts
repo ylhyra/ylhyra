@@ -15,7 +15,8 @@ export const initializeFlashcardsStore = action(() => {
       });
     }, "initializeFlashcardsStore");
   } catch (e: unknown) {
-    console.error("Malformatted flashcards store data");
+    console.error(e);
+    console.error("Likely malformatted flashcards store data");
   }
 });
 

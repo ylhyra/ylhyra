@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isBrowser } from "modules/isBrowser";
 import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
 import { Card } from "flashcards/flashcards/actions/card/card";
@@ -32,7 +33,7 @@ export const newDeck = (): Deck => {
   return deck;
 };
 
-export function addRow(this: Deck, data: Partial<RowData> = {}): Row {
+export function addRow(this: Deck, data: Partial<RowData> = {}) {
   return this.addMultipleRows([data]);
 }
 
@@ -40,7 +41,8 @@ export function addMultipleRows(
   this: Deck,
   arrayOfRowData: Partial<RowData>[]
 ) {
-  let rows: Row[] = [];
+  let rows: Record<RowId, Row> = {};
+  let rowsArray: Row[] = [];
   let i = 0;
   const baseId = shortid.generate();
   const highestRowNumber = _.max([
@@ -56,10 +58,13 @@ export function addMultipleRows(
         rowData || {}
       ),
     });
-    rows.push(row);
+    rows[rowId] = { rowId }; //row;
+    rowsArray.push(row);
   });
-  this.rowsArray = this.rowsArray.concat(rows);
-  return rows[0];
+  this.rows = { ...this.rows, ...rows };
+  // this.rows2 = { ...this.rows2, ...rows };
+  // this.rowsArray = this.rowsArray.concat(rowsArray);
+  // return rows[0];
 }
 
 export const getAllCardsFromDecks = (decks: Deck[]): Card[] => {

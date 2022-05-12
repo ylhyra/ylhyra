@@ -1,7 +1,6 @@
 import { initializeFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/_functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckId } from "flashcards/flashcards/types";
-import { makeAutoObservable } from "mobx";
 import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
 
 export class flashcardsStore {
@@ -9,7 +8,9 @@ export class flashcardsStore {
   decks: Record<DeckId, Deck> = {};
 
   constructor() {
-    makeAutoObservable(this);
+    // makeObservable(this, {
+    //   decks: observable.shallow,
+    // });
   }
 
   toJSON() {

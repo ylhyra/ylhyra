@@ -22,7 +22,7 @@ export const FlashcardsEdit = observer(() => {
   useEffect(() => {
     setTimeout(() => {
       let data = "";
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 500; i++) {
         data += `test${i} = test${i}\n`;
       }
       const start = performance.now();
