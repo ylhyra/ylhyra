@@ -29,6 +29,10 @@ module.exports = {
     "@babel/preset-typescript",
   ],
   plugins: [
+    /**
+     * Test: Babel's helper functions are too slow
+     */
+    "transform-class",
     // [node_modules + "/@babel/plugin-transform-runtime"],
     ["@babel/plugin-transform-runtime"],
     ["inline-json-import", {}],
