@@ -74,6 +74,7 @@
     "express-slow-down": "^1.4.0",
     "express-useragent": "^1.0.15",
     "express-ws": "^4.0.0",
+    "fast-random": "^2.0.4",
     "file-extension": "^4.0.5",
     "fork-ts-checker-webpack-plugin": "^7.2.1",
     "formik": "^2.2.9",

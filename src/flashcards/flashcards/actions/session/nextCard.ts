@@ -10,6 +10,7 @@ import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { action } from "mobx";
 import { log } from "modules/log";
+import { clearTimeMemoized } from "modules/time";
 import _ from "underscore";
 
 /**
@@ -18,8 +19,9 @@ import _ from "underscore";
  *
  * @param isRecursiveCall - Used to prevent infinite calls
  */
-export const nextCard = action(async (isRecursiveCall = false) => {
+export const nextCard = action((isRecursiveCall = false) => {
   const session = getSession();
+  clearTimeMemoized();
 
   /**
    * The counter is updated here at the top since we have now moved to the
@@ -34,10 +36,10 @@ export const nextCard = action(async (isRecursiveCall = false) => {
 
   if (session.cards.length === 0) {
     log("No cards");
-    await createCards();
+    createCards();
     /* Prevent infinite calls */
     if (!isRecursiveCall) {
-      await nextCard(true);
+      nextCard(true);
       return;
     } else {
       console.error("Failed to create cards");

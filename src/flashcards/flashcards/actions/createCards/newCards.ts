@@ -21,8 +21,7 @@ export const getNewCards = (options?: CreateCardsOptions): Card[] => {
     /**
      * TODO! Sorting
      */
-
-    if (session.allowedCards && !options?.dontSortByallowedCards) {
+    if (session.allowedCards && !options?.dontSortByAllowedCards) {
       /* Sort in same order as allowedCards */
       newCards = sortBy(newCards, (id) => session.allowedCards!.indexOf(id));
     } else if (options?.skipOverTheEasiest) {

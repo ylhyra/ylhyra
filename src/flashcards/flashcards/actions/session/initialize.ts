@@ -9,8 +9,8 @@ export const initializeSession = action(async (decks: Deck[]) => {
   const session = getSession();
   session.reset();
   session.allowedDecks = decks;
-  await createCards();
-  await nextCard();
+  createCards();
+  nextCard();
   syncIfNecessary();
 });
 

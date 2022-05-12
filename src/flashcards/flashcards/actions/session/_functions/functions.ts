@@ -24,7 +24,7 @@ export const getRemainingTime = (): Milliseconds => {
   return session.remainingTime;
 };
 
-export const createCardsIfNoneAreRemaining = async (): Promise<void> => {
+export const createCardsIfNoneAreRemaining = (): void => {
   const session = getSession();
 
   const areThereNewCardsRemaining = session.cards?.some(
@@ -32,7 +32,7 @@ export const createCardsIfNoneAreRemaining = async (): Promise<void> => {
   );
   if (!areThereNewCardsRemaining) {
     log("No cards remaining");
-    await createCards();
+    createCards();
     log("New cards generated");
   }
 };

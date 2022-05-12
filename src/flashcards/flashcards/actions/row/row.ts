@@ -13,10 +13,10 @@ import {
   DependenciesForOneRowAsDependencyToDepth,
   Direction,
 } from "flashcards/flashcards/types";
+import { computed, makeObservable, observable } from "mobx";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
 import { keys } from "modules/typescript/objectEntries";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
-import { computed, makeObservable, observable } from "mobx";
 
 export class Row {
   deck: Deck;
@@ -28,7 +28,7 @@ export class Row {
     makeObservable(this, {
       data: observable,
       shouldCreateCards: computed({ keepAlive: true }),
-      cardIds: computed({ keepAlive: true }),
+      // cardIds: computed({ keepAlive: true }),
       cards: computed({ keepAlive: true }),
       dependsOn: computed({ keepAlive: true }),
       alternativeIds: computed({ keepAlive: true }),

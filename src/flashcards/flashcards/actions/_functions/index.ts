@@ -21,7 +21,7 @@ export const studyParticularIds = async (
   // const session = getSession();
   // session.reset();
   // session.allowedCards = allowedCards;
-  // await createCards(options);
+  // createCards(options);
   // initializeSession({ shouldReset: false });
   // goToUrl("/vocabulary/play");
 };
@@ -38,7 +38,7 @@ export const studyNewRows = () => {
   // });
   // studyParticularIds(newRows, {
   //   skipDependencies: true,
-  //   dontSortByallowedCards: true,
+  //   dontSortByAllowedCards: true,
   // });
 };
 
