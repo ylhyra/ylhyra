@@ -1,10 +1,11 @@
+import { isBrowser } from "modules/isBrowser";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { isDev } from "modules/isDev";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export const addBadDependencies = (chosenCards: Card[]): Card[] => {
   return warnIfFunctionIsSlow.wrap(() => {
-    console.warn("dependencies not implemented");
+    isBrowser && console.warn("dependencies not implemented");
     return chosenCards;
 
     // const after = withDependencies(chosenCards, { skipSiblings: true }).filter(

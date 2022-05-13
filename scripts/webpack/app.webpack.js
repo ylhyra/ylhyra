@@ -112,8 +112,7 @@ module.exports = {
       React: "react", // automatically import react where needed
     }),
     isProduction && new MiniCssExtractPlugin(),
-    // Tmp turn off hot module replacement
-    // !isProduction && new ReactRefreshWebpackPlugin(),
+    !isProduction && new ReactRefreshWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
       async: !isProduction,
       typescript: {

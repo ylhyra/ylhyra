@@ -27,7 +27,7 @@ export class Row {
     this.data = data;
     makeObservable(this, {
       data: observable,
-      shouldCreateCards: computed({ keepAlive: true }),
+      // shouldCreateCards: computed({ keepAlive: true }),
       // cardIds: computed({ keepAlive: true }),
       cards: computed({ keepAlive: true }),
       dependsOn: computed({ keepAlive: true }),

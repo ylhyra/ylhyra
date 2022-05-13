@@ -1,3 +1,4 @@
+import { isBrowser } from "modules/isBrowser";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { sortBySortKey } from "flashcards/flashcards/actions/createCards/_functions";
 import { getSession } from "flashcards/flashcards/actions/session/session";
@@ -81,7 +82,7 @@ export const sortNewCards = (newCards: Card[]) => {
   //   // const lowest = clamp(getLowestBadCardSortKey() || Infinity, 50, 300);
   //   // new_cards = sortBy(new_cards, (i) => i.getSortKeyAdjusted(lowest));
   // }
-  console.warn("Sorting of new cards not implemented");
+  isBrowser && console.warn("Sorting of new cards not implemented");
   // return veryRecentlySeenSortedLast(newCards.slice(0, 200));
   return newCards;
 };

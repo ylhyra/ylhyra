@@ -16,3 +16,8 @@ for (let i = 0; i < 1000; i++) {
 }
 addRowsIfMissing(deck, data);
 initializeSession([deck]);
+
+// let i = 0;
+// i = i + 2;
+
+// throw new Error("test");
