@@ -8,7 +8,7 @@ import fastRandom from "fast-random";
  *    const getRandomNumber = randomNumberGenerator(Date.now());
  *    getRandomNumber();
  */
-export const randomNumberGenerator = (seed: number): (() => number) => {
+export const randomNumberGenerator = (): (() => number) => {
   const x = fastRandom.seed(Date.now());
   return x.nextFloat;
 };
