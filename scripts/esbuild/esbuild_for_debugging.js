@@ -9,7 +9,7 @@ const { nodeExternalsPlugin } = require("esbuild-node-externals");
 const ignorePlugin = require("esbuild-plugin-ignore");
 
 esbuild.build({
-  entryPoints: ["src/flashcards/flashcards/debug.ts"],
+  entryPoints: ["src/flashcards/flashcards/actions/tmp_debug.ts"],
   nodePaths: ["src"],
   bundle: true,
   platform: "node",

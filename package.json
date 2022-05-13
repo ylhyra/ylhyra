@@ -46,7 +46,9 @@
     "flashcards_db": "npx prisma format && npx prisma db push && npx prisma generate",
     "start_f": "run-p dev:flaschards:**",
     "dev:flaschards:frontend": "export PROJECT=flashcards && npm run start",
-    "dev:flaschards:css": "npx tailwindcss -i src/flashcards/app/styles/index.pcss -o ./src/flashcards/app/styles/output.css --watch --postcss"
+    "dev:flaschards:css": "npx tailwindcss -i src/flashcards/app/styles/index.pcss -o ./src/flashcards/app/styles/output.css --watch --postcss",
+    "compile_for_debugging": "node scripts/esbuild/esbuild_for_debugging.js",
+    "flamegraph": "npm run compile_for_debugging && export DISABLE_LOGGING=1 && npx 0x build/ts/debug.js --output-dir=/tmp"
   },
   "proxy": "http://localhost:9123",
   "dependencies": {

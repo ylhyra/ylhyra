@@ -11,6 +11,7 @@
 // }
 
 import { BrowserHistory, createBrowserHistory } from "history";
+import { isBrowser } from "modules/isBrowser";
 import React, { useLayoutEffect, useState } from "react";
 import { BrowserRouterProps, Router } from "react-router-dom";
 
@@ -18,7 +19,7 @@ interface Props extends BrowserRouterProps {
   history: BrowserHistory;
 }
 
-export const customHistory = createBrowserHistory();
+export const customHistory = isBrowser ? createBrowserHistory() : null;
 
 export const CustomRouter = ({ basename, history, children }: Props) => {
   const [state, setState] = useState({
@@ -27,13 +28,17 @@ export const CustomRouter = ({ basename, history, children }: Props) => {
   });
   useLayoutEffect(() => history.listen(setState), [history]);
 
-  return (
-    <Router
-      navigator={customHistory}
-      location={state.location}
-      navigationType={state.action}
-      children={children}
-      basename={basename}
-    />
-  );
+  if (isBrowser) {
+    return (
+      <Router
+        navigator={customHistory!}
+        location={state.location}
+        navigationType={state.action}
+        children={children}
+        basename={basename}
+      />
+    );
+  } else {
+    return <>{children}</>;
+  }
 };
