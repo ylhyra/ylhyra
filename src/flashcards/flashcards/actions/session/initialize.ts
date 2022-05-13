@@ -5,7 +5,7 @@ import { getSession } from "flashcards/flashcards/actions/session/session";
 import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
 import { action } from "mobx";
 
-export const initializeSession = action(async (decks: Deck[]) => {
+export const initializeSession = action((decks: Deck[]) => {
   const session = getSession();
   session.reset();
   session.allowedDecks = decks;

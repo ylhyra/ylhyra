@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*.js", "src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["./build", "./node_modules", "**NOT_USED**"],
   "typeAcquisition": {
     "exclude": ["crc-32", "fast-safe-stringify"]
@@ -12,6 +12,7 @@
     "outDir": "build/ts",
     "esModuleInterop": true,
     "isolatedModules": false,
+    "sourceMap":  true,
     "skipLibCheck": true,
     "strict": true,
     "experimentalDecorators": true
