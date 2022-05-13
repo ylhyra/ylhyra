@@ -1,4 +1,3 @@
-import { isBrowser } from "modules/isBrowser";
 import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
@@ -9,9 +8,9 @@ import {
 } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
 import { flattenArray } from "modules/arrays/flattenArray";
+import { isBrowser } from "modules/isBrowser";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
 import { customHistory } from "modules/router";
-import { values } from "modules/typescript/objectEntries";
 import shortid from "shortid";
 import _ from "underscore";
 
@@ -64,6 +63,6 @@ export function addMultipleRows(
   // return rows[0];
 }
 
-export const getAllCardsFromDecks = (decks: Deck[]): Card[] => {
+export function getAllCardsFromDecks(decks: Deck[]): Card[] {
   return flattenArray(decks.map((deck) => deck.cards));
-};
+}

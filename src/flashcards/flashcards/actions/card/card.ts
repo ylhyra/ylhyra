@@ -44,7 +44,6 @@ import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { saveCardSchedule } from "flashcards/flashcards/actions/userData/userDataSchedule";
 import { CardId, Direction } from "flashcards/flashcards/types";
-import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export class Card {
   row: Row;
@@ -133,37 +132,35 @@ export function isInSession(this: Card) {
  * to be added to the session.
  */
 export function isAllowed(this: Card): boolean {
-  return warnIfFunctionIsSlow.wrap(() => {
-    /* Ignore cards that are already in the session */
-    if (this.isInSession()) return false;
+  /* Ignore cards that are already in the session */
+  if (this.isInSession()) return false;
 
-    /* If allowedCards is on, only select allowed cards */
-    const { allowedCards } = getSession();
-    if (allowedCards && this.isIn(allowedCards)) {
-      return false;
-    }
+  /* If allowedCards is on, only select allowed cards */
+  const { allowedCards } = getSession();
+  if (allowedCards && this.isIn(allowedCards)) {
+    return false;
+  }
 
-    /**
-     * In case we're adding cards to an already ongoing session,
-     * ignore cards that are similar to a card the user has just seen.
-     *
-     * TODO!! This should not prevent these cards from being chosen,
-     * just give them a lower score!
-     */
-    if (
-      getSession()
-        .cardHistory.slice(0, 3)
-        .some(
-          (card) =>
-            this.rowId === card.rowId || this.hasDependenciesInCommonWith(card)
-          // || isTextSimilarTo(id, card)
-        )
-    ) {
-      return false;
-    }
+  /**
+   * In case we're adding cards to an already ongoing session,
+   * ignore cards that are similar to a card the user has just seen.
+   *
+   * TODO!! This should not prevent these cards from being chosen,
+   * just give them a lower score!
+   */
+  if (
+    getSession()
+      .cardHistory.slice(0, 3)
+      .some(
+        (card) =>
+          this.rowId === card.rowId || this.hasDependenciesInCommonWith(card)
+        // || isTextSimilarTo(id, card)
+      )
+  ) {
+    return false;
+  }
 
-    return true;
-  });
+  return true;
 }
 
 export function wasSeenInSession(this: Card) {

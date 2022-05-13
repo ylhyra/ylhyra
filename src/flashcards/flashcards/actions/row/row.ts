@@ -16,7 +16,6 @@ import {
 import { computed, makeObservable, observable } from "mobx";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
 import { keys } from "modules/typescript/objectEntries";
-import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export class Row {
   deck: Deck;
@@ -93,19 +92,16 @@ export class Row {
   getSetting<T extends keyof DeckSettings & keyof RowData>(
     key: T
   ): (DeckSettings & RowData)[T] {
-    return warnIfFunctionIsSlow.wrap(() => {
-      /* "!= null" tests for null and undefined */
-      if (this.data[key] != null) {
-        return this.data[key];
-      }
-      if (this.deck.settings[key] != null) {
-        return this.deck.settings[key];
-      }
-      return (
-        rowFields.find((field) => field.name === key)?.defaultValue ??
-        deckSettingsFields.find((field) => field.name === key)?.defaultValue
-      );
-    }) as (DeckSettings & RowData)[T];
+    /* "!= null" tests for null and undefined */
+    if (this.data[key] != null) {
+      return this.data[key];
+    }
+    if (this.deck.settings[key] != null) {
+      return this.deck.settings[key] as (DeckSettings & RowData)[T];
+    }
+    return (rowFields.find((field) => field.name === key)?.defaultValue ??
+      deckSettingsFields.find((field) => field.name === key)
+        ?.defaultValue) as (DeckSettings & RowData)[T];
   }
 
   toJSON(): RowData {
