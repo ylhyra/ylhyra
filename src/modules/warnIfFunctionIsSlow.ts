@@ -6,6 +6,10 @@ import _ from "underscore";
 let functionStartedAt: Record<string, Timestamp> = {};
 let timer: NodeJS.Timeout;
 let functionsAndTheirTotalTime: Record<string, Milliseconds> = {};
+
+/**
+ * Note: Setting up this timer is slow, should not be used for functions called often.
+ */
 export const warnIfFunctionIsSlow = {
   start: (name?: string) => {
     if (!isDev) return;
@@ -14,7 +18,7 @@ export const warnIfFunctionIsSlow = {
     }
     functionStartedAt[name] = performance.now();
   },
-  end: (name?: string, maxMs: Milliseconds = 30) => {
+  end: (name?: string) => {
     if (!isDev) return;
     if (!name) {
       name = new Error().stack?.split("\n")[2]?.split(" ")[5]!;

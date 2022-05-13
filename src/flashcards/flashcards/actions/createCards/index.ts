@@ -2,7 +2,7 @@ import { addBadDependencies } from "flashcards/flashcards/actions/createCards/ad
 import { chooseCards } from "flashcards/flashcards/actions/createCards/chooseCards";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
 import { getSession } from "flashcards/flashcards/actions/session/session";
-import { log, logDev } from "modules/log";
+import { logBrowser, logDev } from "modules/log";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export const CARDS_TO_CREATE = 50;
@@ -31,7 +31,7 @@ export const createCards = (options?: CreateCardsOptions): void => {
 
     /* Create cards */
     let chosenCards = chooseCards(options);
-    log({ chosenCards });
+    logBrowser({ chosenCards });
 
     /* Add dependencies */
     if (!options?.skipDependencies) {

@@ -1,8 +1,9 @@
+import { isBrowser } from "modules/isBrowser";
 import { initializeFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/_functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckId } from "flashcards/flashcards/types";
-import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
 import { makeAutoObservable } from "mobx";
+import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
 
 export class flashcardsStore {
   // deckOrder = [];
@@ -29,5 +30,7 @@ export const getFlashcardsStore = (): flashcardsStore => store;
 
 initializeFlashcardsStore();
 
-// @ts-ignore
-window["getFlashcardsStore"] = getFlashcardsStore;
+if (isBrowser) {
+  // @ts-ignore
+  window["getFlashcardsStore"] = getFlashcardsStore;
+}
