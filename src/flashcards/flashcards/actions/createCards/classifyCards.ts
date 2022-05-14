@@ -1,14 +1,11 @@
-import { isBrowser } from "modules/isBrowser";
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { sortBySortKey } from "flashcards/flashcards/actions/createCards/_functions";
 import { getSession } from "flashcards/flashcards/actions/session/session";
-import { log } from "modules/log";
-import { shuffleLocally } from "modules/shuffleLocally";
+import { isBrowser } from "modules/isBrowser";
 import { getTimeMemoized, hours, minutes } from "modules/time";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 /**
- * Returns ALL cards that have previously been seen.
+ * Returns ALL cards allowed in the session.
  * Called by {@link chooseCards}, which will choose a few cards from these.
  */
 export const classifyCards = () => {
@@ -51,19 +48,26 @@ export const classifyCards = () => {
         }
       });
 
-    log({
-      "Overdue good": overdueGood.length,
-      "Overdue bad": overdueBad.length,
-      "Not overdue very bad": notOverdueVeryBad.length,
-    });
+    // log({
+    //   "Overdue good": overdueGood.length,
+    //   "Overdue bad": overdueBad.length,
+    //   "Not overdue very bad": notOverdueVeryBad.length,
+    // });
 
+    // return {
+    //   overdueBad: shuffleLocally(
+    //     /** what???? this concatenation may be wrong, should be interspersed instead */
+    //     sortBySortKey(overdueBad.concat(notOverdueVeryBad))
+    //   ),
+    //   overdueGood: shuffleLocally(sortBySortKey(overdueGood)),
+    //   newCards: sortNewCards(newCards),
+    //   notOverdue,
+    // };
     return {
-      overdueBad: shuffleLocally(
-        /** what???? this concatenation may be wrong, should be interspersed instead */
-        sortBySortKey(overdueBad.concat(notOverdueVeryBad))
-      ),
-      overdueGood: shuffleLocally(sortBySortKey(overdueGood)),
-      newCards: sortNewCards(newCards),
+      /** TODO: Verify */
+      overdueBad: overdueBad.concat(notOverdueVeryBad),
+      overdueGood,
+      newCards,
       notOverdue,
     };
   });

@@ -19,7 +19,9 @@ export type CreateCardsOptions = {
  * Goes through the database of cards, finds relevant ones,
  * and then loads them into the session as {@link CardInSession}.
  */
-export const createCards = (options?: CreateCardsOptions): void => {
+export const createCards = (
+  /** TODO: delete */ options?: CreateCardsOptions
+): void => {
   warnIfFunctionIsSlow.wrap(() => {
     const session = getSession();
 
@@ -30,7 +32,7 @@ export const createCards = (options?: CreateCardsOptions): void => {
     }
 
     /* Create cards */
-    let chosenCards = chooseCards(options);
+    let chosenCards = chooseCards();
     logBrowser({ chosenCards });
 
     /* Add dependencies */
@@ -50,6 +52,4 @@ export const createCards = (options?: CreateCardsOptions): void => {
 
     loadCardsIntoSession(chosenCards, options);
   }, "createCards");
-
-  // chooseCards2Test();
 };
