@@ -1,5 +1,3 @@
-import { printWord } from "flashcards/flashcards/actions/_functions";
-import { getAsCardInSession } from "flashcards/flashcards/actions/card/_functions";
 import { getLevel } from "flashcards/flashcards/actions/card/cardData";
 import {
   dependencyDepthOfCard,
@@ -38,6 +36,8 @@ import {
   getSiblingCards,
   getSiblingCardsInSession,
 } from "flashcards/flashcards/actions/card/cardSiblings";
+import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
+import { printWord } from "flashcards/flashcards/actions/functions";
 import { getDirectionFromCardId } from "flashcards/flashcards/actions/row/ids";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { getSession } from "flashcards/flashcards/actions/session/session";

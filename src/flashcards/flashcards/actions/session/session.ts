@@ -1,28 +1,13 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
-import { SessionTimer } from "flashcards/flashcards/actions/session/_functions/sessionTimer";
-import { Direction, Rating } from "flashcards/flashcards/types";
+import { SessionHistory } from "flashcards/flashcards/actions/session/functions/sessionHistory";
+import { SessionTimer } from "flashcards/flashcards/actions/session/functions/sessionTimer";
 import { makeObservable, observable } from "mobx";
-import { Timestamp } from "modules/time";
 import { NonEmptyArray } from "modules/typescript/arrays";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
-
-export class SessionHistory {
-  /** The most recent card is pushed to the front of this array */
-  cardHistory: CardInSession[] = [];
-  /** The most recent card is pushed to the front of this array */
-  cardDirectionLog: Direction[] = [];
-
-  /** Used by {@link getRanking} in order to prioritize seen cards */
-  rowsSeen = new Set<RowId>();
-  lastUndidAtCounter?: Session["counter"];
-  ratingHistory: Rating[] = [];
-  savedAt?: Timestamp;
-}
 
 /**
  * A session is the currently ongoing flashcard game.

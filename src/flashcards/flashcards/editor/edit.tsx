@@ -1,11 +1,10 @@
-import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { Button } from "flashcards/app/elements/button";
 import {
   getDeckById,
   saveFlashcardsStore,
-} from "flashcards/flashcards/actions/baseFlashcardsStore/_functions";
+} from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckSettingsElement } from "flashcards/flashcards/editor/deckSettings";
-import { addRowsIfMissing } from "flashcards/flashcards/editor/import/actions";
 import { ImportFlashcards } from "flashcards/flashcards/editor/import/import";
 import { EditRow } from "flashcards/flashcards/editor/row";
 import { DeckId } from "flashcards/flashcards/types";

@@ -1,9 +1,9 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
+import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import {
   addMultipleRows,
   addRow,
-} from "flashcards/flashcards/actions/deck/_functions";
-import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
+} from "flashcards/flashcards/actions/deck/functions";
 import { getDependencyGraph } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";

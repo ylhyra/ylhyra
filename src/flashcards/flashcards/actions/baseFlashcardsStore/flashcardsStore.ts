@@ -1,9 +1,9 @@
-import { isBrowser } from "modules/isBrowser";
-import { initializeFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/_functions";
+import { initializeFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckId } from "flashcards/flashcards/types";
 import { makeAutoObservable } from "mobx";
 import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
+import { isBrowser } from "modules/isBrowser";
 
 export class flashcardsStore {
   // deckOrder = [];

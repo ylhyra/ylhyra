@@ -1,11 +1,18 @@
-import { Row } from "flashcards/flashcards/actions/row/row";
+import { getPlaintextFromUnformattedVocabularyEntry } from "flashcards/flashcards/actions/format/format";
 
-export const shouldCreateFrontToBack = (row: Row) => {
-  const setting = row.getSetting("direction");
-  return setting === "BOTH" || setting === "ONLY_FRONT_TO_BACK";
-};
+/**
+ *
+ */
+export const getPossibleAlternativeIds = (input: string): string[] => {
+  if (!input) return [];
+  // if (Array.isArray(input)) {
+  //   return getPossibleAlternativeIds(
+  //     input.map(getPlaintextFromUnformattedVocabularyEntry).join(";")
+  //   );
+  // }
+  const original = getPlaintextFromUnformattedVocabularyEntry(input);
+  const lowercase = original.toLowerCase();
+  const withoutPeriodsOrQuestionMarks = lowercase.replace(/[.?!]+$/, "");
 
-export const shouldCreateBackToFront = (row: Row) => {
-  const setting = row.getSetting("direction");
-  return setting === "BOTH" || setting === "ONLY_BACK_TO_FRONT";
+  return [original, lowercase, withoutPeriodsOrQuestionMarks];
 };

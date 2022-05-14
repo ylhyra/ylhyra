@@ -4,11 +4,11 @@ import {
   CARDS_TO_CREATE,
   CreateCardsOptions,
 } from "flashcards/flashcards/actions/createCards";
+import { classifyCards } from "flashcards/flashcards/actions/createCards/classifyCards";
 import {
   sortCardsByScore,
   veryRecentlySeenSortedLast,
-} from "flashcards/flashcards/actions/createCards/_functions";
-import { classifyCards } from "flashcards/flashcards/actions/createCards/classifyCards";
+} from "flashcards/flashcards/actions/createCards/functions";
 import { isEmpty } from "modules/isEmpty";
 import { log } from "modules/log";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";

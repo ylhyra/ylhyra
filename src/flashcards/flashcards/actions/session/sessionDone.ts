@@ -1,6 +1,6 @@
-import { exitVocabularyScreen } from "flashcards/flashcards/actions/_functions";
 import { createSchedule } from "flashcards/flashcards/actions/createSchedule/createSchedule";
-import { clearOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/_functions/saveOngoingSessionInLocalStorage";
+import { exitVocabularyScreen } from "flashcards/flashcards/actions/functions";
+import { clearOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/functions/saveOngoingSessionInLocalStorage";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sync } from "flashcards/flashcards/actions/userData/sync";
 import { setUserDataKey } from "flashcards/flashcards/actions/userData/userData";
