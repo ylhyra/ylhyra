@@ -1,8 +1,10 @@
+import { getSession } from "flashcards/flashcards/actions/session/session";
 import {
   CardInSession,
   IntervalRelativeToCurrentCardBeingAtZero,
 } from "flashcards/flashcards/actions/cardInSession";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
+import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { Rating } from "flashcards/flashcards/types";
 
 /**
@@ -10,7 +12,7 @@ import { Rating } from "flashcards/flashcards/types";
  * the user is here rating how well he knew a card
  */
 export function rate(this: CardInSession, rating: Rating): void {
-  const session = this.session;
+  const session = getSession();
 
   const card: CardInSession = this;
   const timesSeenBeforeInSession = card.ratingHistory.length;
@@ -71,5 +73,5 @@ export function rate(this: CardInSession, rating: Rating): void {
   //   card,
   // });
 
-  session.nextCard();
+  nextCard();
 }

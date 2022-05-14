@@ -1,8 +1,8 @@
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { createCards } from "flashcards/flashcards/actions/createCards";
 import { debugSession } from "flashcards/flashcards/actions/session/functions/debugging";
 import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/functions/saveOngoingSessionInLocalStorage";
+import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { clearTimeMemoized } from "modules/time";
 import _ from "underscore";
@@ -10,6 +10,8 @@ import _ from "underscore";
 /**
  * Finds the next CardInSession (based on its {@link getRanking})
  * and then sets it as the session's currentCard.
+ *
+ * The reason this isn't a method of Session is that it was causing a circular dependency issue
  */
 export function nextCard() {
   const session = getSession();
