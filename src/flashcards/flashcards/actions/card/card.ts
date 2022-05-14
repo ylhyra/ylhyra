@@ -54,11 +54,6 @@ export class Card {
     this.cardId = cardId;
   }
 
-  /** @deprecated */
-  getCardData<T extends keyof RowData>(key: T): RowData[T] {
-    return this.row.data[key];
-  }
-
   get data() {
     return this.row.data;
   }
