@@ -13,7 +13,10 @@ import {
 export class SessionTimer {
   /** How long should a session last? */
   totalTime: Milliseconds;
-  /** Used to update the progress bar and to see when the time is up */
+  /**
+   * Used to update the progress bar and to see when the time is up.
+   * Only updated by
+   */
   remainingTime: Milliseconds;
   #remainingTimeLastUpdatedAt: Timestamp;
 
