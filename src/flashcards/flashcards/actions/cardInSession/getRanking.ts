@@ -52,7 +52,7 @@ export function getRanking(this: CardInSession) {
    * A bad cardInSession that is due exactly now has priority
    */
   if (
-    this.history[0] === Rating.BAD &&
+    this.ratingHistory[0] === Rating.BAD &&
     this.isDueExactlyNow() &&
     session.counter % 2 === 0 /* (But not always, to prevent staleness) */
   ) {

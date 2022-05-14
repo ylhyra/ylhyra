@@ -10,10 +10,10 @@ export const saveOngoingSessionInLocalStorage = () => {
   }
   let toSave = session.cards.map((card) => ({
     id: card.cardId,
-    history: card.history,
+    history: card.ratingHistory,
   }));
   saveInLocalStorage("vocabulary-session", {
-    remainingTime: session.remainingTime,
+    remainingTime: session.timer.remainingTime,
     savedAt: getTime(),
     cards: toSave,
   });

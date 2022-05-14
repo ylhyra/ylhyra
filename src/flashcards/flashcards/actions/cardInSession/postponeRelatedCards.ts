@@ -11,20 +11,20 @@ export function postponeRelatedCards(
     // Same row
     if (card1.rowId === card2.rowId) {
       if (
-        card1.history.includes(Rating.BAD) ||
-        card2.history.includes(Rating.BAD)
+        card1.ratingHistory.includes(Rating.BAD) ||
+        card2.ratingHistory.includes(Rating.BAD)
       ) {
         card2.done = false;
       } else {
         card2.done = true;
       }
 
-      if (card1.history[0] >= Rating.GOOD) {
+      if (card1.ratingHistory[0] >= Rating.GOOD) {
         card2.showIn({ minInterval: 8 });
-      } else if (card1.history[0] === Rating.BAD) {
+      } else if (card1.ratingHistory[0] === Rating.BAD) {
         if (
-          card1.history[1] === Rating.BAD &&
-          !(card2.history[0] >= Rating.GOOD)
+          card1.ratingHistory[1] === Rating.BAD &&
+          !(card2.ratingHistory[0] >= Rating.GOOD)
         ) {
           card1.showIn({ interval: card1interval + 1 });
           card2.showIn({ interval: card1interval });
@@ -37,7 +37,7 @@ export function postponeRelatedCards(
     // Cards that directly rely on this card
     else if (card2.dependencyDepthOfCard(card1) >= 1) {
       let min = card2.dependencyDepthOfCard(card1) * 3;
-      if (card1.history[0] === Rating.BAD) {
+      if (card1.ratingHistory[0] === Rating.BAD) {
         min *= 2;
         if (card2.dependencyDepthOfCard(card1) >= 2) {
           card2.done = true;
@@ -51,12 +51,12 @@ export function postponeRelatedCards(
 
     // Cards that this card depends directly on
     else if (
-      card1.history[0] === Rating.BAD &&
+      card1.ratingHistory[0] === Rating.BAD &&
       card1.dependencyDepthOfCard(card2) === 1 &&
       // And other card is new
       ((!card2.isInSchedule() && !card2.hasBeenSeenInSession()) ||
         // Or other card is bad (includes some randomness)
-        ((card2.isBad() || card2.history[0] === Rating.BAD) &&
+        ((card2.isBad() || card2.ratingHistory[0] === Rating.BAD) &&
           Math.random() > 0.5))
     ) {
       card1.showIn({ interval: 6 });

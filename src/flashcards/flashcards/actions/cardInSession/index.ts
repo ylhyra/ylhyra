@@ -15,7 +15,8 @@ import { Rating } from "flashcards/flashcards/types";
 export type IntervalRelativeToCurrentCardBeingAtZero = number;
 
 export class CardInSession extends Card {
-  history: Rating[] = [];
+  /** Rating history for the current session */
+  ratingHistory: Rating[] = [];
 
   /**
    * Queue position in relation to the session's counter
@@ -39,6 +40,7 @@ export class CardInSession extends Card {
 
   constructor(
     card: Card,
+    session: Session,
     {
       insertAtPosition,
       history,
@@ -49,13 +51,13 @@ export class CardInSession extends Card {
     }
   ) {
     super(card.row, card.cardId);
-    this.history = history || [];
+    this.ratingHistory = history || [];
     this.absoluteQueuePosition =
       (getSession().counter || 0) + (insertAtPosition || 0);
   }
 
   hasBeenSeenInSession() {
-    return this.history.length > 0;
+    return this.ratingHistory.length > 0;
   }
 
   hasRowBeenSeenInSession() {

@@ -12,7 +12,7 @@ export function addRelatedCardsToSession(currentCard: CardInSession) {
   let toAdd: Card[] = [];
 
   /* Bail for repeated failures ... */
-  if (currentCard.history.length > 1) return;
+  if (currentCard.ratingHistory.length > 1) return;
 
   currentCard.getDependenciesAsArrayOfCards().forEach((relatedCard): void => {
     /* Ignore cards already in session */

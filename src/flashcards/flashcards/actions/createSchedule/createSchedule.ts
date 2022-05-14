@@ -29,7 +29,7 @@ export function createSchedule() {
     const prevScore = card.getScore();
     const sessionsSeen = card.getSessionsSeen();
     const isNew = !prevScore;
-    const sessionHistory = card.history;
+    const sessionHistory = card.ratingHistory;
     if (sessionHistory.length === 0) return;
     const avgRating = average(sessionHistory);
     const lastIntervalInDays = card.getLastIntervalInDays();

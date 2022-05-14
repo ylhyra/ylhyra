@@ -33,22 +33,22 @@ export const sessionDone = action((options: any = {}): void => {
   // }
 });
 
-function getSecondsSpent() {
-  const session = getSession();
-  return Math.round(
-    (session.totalTime! - Math.max(0, session.remainingTime!)) / 1000
-  );
-}
-
+/**
+ * Records how much time the user spent so we can show an
+ * activity graph.
+ */
 export const saveSessionLog = () => {
   const session = getSession();
-  if (session.history.cardHistory.length > 0 && getSecondsSpent() > 10) {
+  if (
+    session.history.cardHistory.length > 0 &&
+    session.timer.getSecondsSpent() > 10
+  ) {
     const timestamp = roundMsToSec(session.history.savedAt || getTime());
     const timestampInSeconds = Math.round(timestamp / 1000);
     setUserDataKey(
       SESSION_PREFIX + timestampInSeconds.toString(),
       {
-        seconds_spent: roundToInterval(getSecondsSpent(), 10),
+        seconds_spent: roundToInterval(session.timer.getSecondsSpent(), 10),
         timestamp,
       },
       "session"

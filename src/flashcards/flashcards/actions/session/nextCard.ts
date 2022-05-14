@@ -7,7 +7,6 @@ import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { action } from "mobx";
 import { log } from "modules/log";
-import { clearTimeMemoized } from "modules/time";
 import _ from "underscore";
 
 /**
@@ -18,15 +17,14 @@ import _ from "underscore";
  */
 export const nextCard = action((isRecursiveCall = false) => {
   const session = getSession();
-  clearTimeMemoized();
 
   /**
    * The counter is updated here at the top since we have now moved to the
    * next slot and are trying to find a card to fill that slot.
    */
-  session.counter++;
+  session.increaseCounterAndClearCaches();
 
-  if (session.timer.getRemainingTime() === 0) {
+  if (session.timer.remainingTime === 0) {
     sessionDone();
     return;
   }

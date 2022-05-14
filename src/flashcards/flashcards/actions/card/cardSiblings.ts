@@ -26,6 +26,6 @@ export function didAnySiblingCardsGetABadRatingInThisSession(
   this: Card
 ): boolean {
   return this.getSiblingCards().some((siblingCard) => {
-    return siblingCard.getAsCardInSession()?.history.includes(Rating.BAD);
+    return siblingCard.getAsCardInSession()?.ratingHistory.includes(Rating.BAD);
   });
 }

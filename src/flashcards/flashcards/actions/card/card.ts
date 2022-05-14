@@ -164,7 +164,7 @@ export function isAllowed(this: Card): boolean {
 
 export function wasSeenInSession(this: Card) {
   const cardInSession = this.getAsCardInSession();
-  return cardInSession && cardInSession.history.length > 0;
+  return cardInSession && cardInSession.ratingHistory.length > 0;
 }
 
 export const getCardById = (id: CardId): Card => {

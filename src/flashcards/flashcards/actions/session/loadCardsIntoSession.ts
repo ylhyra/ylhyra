@@ -30,7 +30,7 @@ export function loadCardsIntoSession(
 
   cards.forEach((card, index) => {
     session.cards.push(
-      new CardInSession(card, {
+      new CardInSession(card, session, {
         insertAtPosition: insertAtPosition + index,
       })
     );

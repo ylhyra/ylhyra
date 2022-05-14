@@ -1,14 +1,10 @@
 import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
 import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import {
-  checkForUndoOnKeyDown,
-  isSessionUndoable,
-  undoSession,
-} from "flashcards/flashcards/actions/session/functions/undo";
 import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
+import { checkForUndoOnKeyDown } from "flashcards/flashcards/actions/session/sessionHistory";
 import { CardElement } from "flashcards/flashcards/play/cardElement";
 import { ProgressBar } from "flashcards/flashcards/play/progressBar";
 import { DeckId } from "flashcards/flashcards/types";
@@ -70,6 +66,7 @@ class FlashcardsPlayHeader extends Component {
     window.removeEventListener("keydown", checkForUndoOnKeyDown);
   }
   render() {
+    const session = getSession();
     return (
       <div id="vocabulary-header">
         <button className="link" onClick={() => sessionDone()}>
@@ -86,13 +83,13 @@ class FlashcardsPlayHeader extends Component {
         {/*>*/}
         {/*  Tutorial*/}
         {/*</button>*/}
-        {isSessionUndoable() && [
+        {session.history.isUndoable() && [
           <div key={1}>&nbsp;&nbsp;•&nbsp;&nbsp;</div>,
           <button
             key={2}
             className="link"
             onClick={() => {
-              undoSession();
+              session.history.undo();
             }}
           >
             Undo

@@ -15,13 +15,13 @@ export function rate(this: CardInSession, rating: Rating): void {
   const session = getSession();
 
   const card: CardInSession = this;
-  const timesSeenBeforeInSession = card.history.length;
-  card.history.unshift(rating);
+  const timesSeenBeforeInSession = card.ratingHistory.length;
+  card.ratingHistory.unshift(rating);
   session.history.ratingHistory.unshift(rating);
   session.history.cardHistory.unshift(card);
   card.lastSeenAtCounter = session.counter;
-  const lastRating = card.history[1];
-  const nextLastRating = card.history[2];
+  const lastRating = card.ratingHistory[1];
+  const nextLastRating = card.ratingHistory[2];
   let interval: IntervalRelativeToCurrentCardBeingAtZero;
 
   if (rating === Rating.BAD) {
