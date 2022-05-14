@@ -3,10 +3,7 @@ import { getRanking } from "flashcards/flashcards/actions/cardInSession/getRanki
 import { postponeRelatedCards } from "flashcards/flashcards/actions/cardInSession/postponeRelatedCards";
 import { rate } from "flashcards/flashcards/actions/cardInSession/rate";
 import { showIn } from "flashcards/flashcards/actions/cardInSession/showIn";
-import {
-  getSession,
-  Session,
-} from "flashcards/flashcards/actions/session/session";
+import { Session } from "flashcards/flashcards/actions/session/session";
 import { Rating } from "flashcards/flashcards/types";
 
 /**
@@ -15,6 +12,7 @@ import { Rating } from "flashcards/flashcards/types";
 export type IntervalRelativeToCurrentCardBeingAtZero = number;
 
 export class CardInSession extends Card {
+  session: Session;
   /** Rating history for the current session */
   ratingHistory: Rating[] = [];
 
@@ -26,7 +24,6 @@ export class CardInSession extends Card {
   absoluteQueuePosition: Session["counter"];
   /** Hard limit on when a card can be shown */
   cannotBeShownBefore?: Session["counter"];
-  lastSeenAtCounter?: Session["counter"];
 
   /**
    * A card is done if the user has said he knows it well.
@@ -51,9 +48,10 @@ export class CardInSession extends Card {
     }
   ) {
     super(card.row, card.cardId);
+    this.session = session;
     this.ratingHistory = history || [];
     this.absoluteQueuePosition =
-      (getSession().counter || 0) + (insertAtPosition || 0);
+      (session.counter || 0) + (insertAtPosition || 0);
   }
 
   hasBeenSeenInSession() {
@@ -61,11 +59,11 @@ export class CardInSession extends Card {
   }
 
   hasRowBeenSeenInSession() {
-    return getSession().history.rowsSeen.has(this.rowId);
+    return this.session.history.rowsSeen.has(this.rowId);
   }
 
   getOtherCardsInSession(): CardInSession[] {
-    return getSession().cards.filter((card) => !card.is(this));
+    return this.session.cards.filter((card) => !card.is(this));
   }
 
   /**
@@ -73,24 +71,24 @@ export class CardInSession extends Card {
    * Note: Multiple cards can have the same queue position
    */
   getQueuePosition(): IntervalRelativeToCurrentCardBeingAtZero {
-    return this.absoluteQueuePosition - getSession().counter;
+    return this.absoluteQueuePosition - this.session.counter;
   }
 
   setQueuePosition(interval: IntervalRelativeToCurrentCardBeingAtZero) {
-    this.absoluteQueuePosition = getSession().counter + interval;
+    this.absoluteQueuePosition = this.session.counter + interval;
   }
 
   setCannotBeShownBefore(interval: IntervalRelativeToCurrentCardBeingAtZero) {
     this.cannotBeShownBefore = Math.max(
       this.cannotBeShownBefore || 0,
-      getSession().counter + interval
+      this.session.counter + interval
     );
   }
 
   canBeShown(): boolean {
     return (
       !this.cannotBeShownBefore ||
-      this.cannotBeShownBefore <= getSession().counter
+      this.cannotBeShownBefore <= this.session.counter
     );
   }
 

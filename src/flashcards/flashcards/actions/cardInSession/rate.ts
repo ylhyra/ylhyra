@@ -3,8 +3,6 @@ import {
   IntervalRelativeToCurrentCardBeingAtZero,
 } from "flashcards/flashcards/actions/cardInSession";
 import { addRelatedCardsToSession } from "flashcards/flashcards/actions/cardInSession/addRelatedCardsToSession";
-import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Rating } from "flashcards/flashcards/types";
 
 /**
@@ -12,14 +10,15 @@ import { Rating } from "flashcards/flashcards/types";
  * the user is here rating how well he knew a card
  */
 export function rate(this: CardInSession, rating: Rating): void {
-  const session = getSession();
+  const session = this.session;
 
   const card: CardInSession = this;
   const timesSeenBeforeInSession = card.ratingHistory.length;
+
+  /** This is here so that {@link postponeRelatedCards} can use it */
   card.ratingHistory.unshift(rating);
-  session.history.ratingHistory.unshift(rating);
-  session.history.cardHistory.unshift(card);
-  card.lastSeenAtCounter = session.counter;
+  session.history.add(card, rating);
+
   const lastRating = card.ratingHistory[1];
   const nextLastRating = card.ratingHistory[2];
   let interval: IntervalRelativeToCurrentCardBeingAtZero;
@@ -65,7 +64,6 @@ export function rate(this: CardInSession, rating: Rating): void {
 
   card.showIn({ interval: interval! });
   card.postponeRelatedCards(interval!);
-  session.history.cardDirectionLog.unshift(card.direction);
 
   // keepTrackOfEasiness({
   //   rating,
@@ -73,5 +71,5 @@ export function rate(this: CardInSession, rating: Rating): void {
   //   card,
   // });
 
-  nextCard();
+  session.nextCard();
 }

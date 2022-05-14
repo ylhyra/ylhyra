@@ -1,4 +1,7 @@
-import {CardInSession, IntervalRelativeToCurrentCardBeingAtZero,} from "flashcards/flashcards/actions/cardInSession";
+import {
+  CardInSession,
+  IntervalRelativeToCurrentCardBeingAtZero,
+} from "flashcards/flashcards/actions/cardInSession";
 
 /**
  * Used to control the next time a card should be shown in this session.
@@ -28,7 +31,8 @@ export function showIn(
     /**
      * Hard requirement for when a card can be shown.
      * Rarely used since the above options automatically get a cannotBeShownBefore
-     * set. Mainly used to set a low limit (e.g. 2) for a distantly related card.
+     * set. Mainly used to set a low limit (e.g. 2) for a distantly related card
+     * but also to force cards that depend on a bad on come later.
      */
     cannotBeShownBeforeInterval?: IntervalRelativeToCurrentCardBeingAtZero;
   }

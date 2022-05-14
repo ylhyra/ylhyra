@@ -23,6 +23,13 @@ export class SessionHistory {
     this.session = session;
   }
 
+  add(cardInSession: CardInSession, rating: Rating) {
+    this.ratingHistory.unshift(rating);
+    this.cardHistory.unshift(cardInSession);
+    this.rowsSeen.add(cardInSession.rowId);
+    this.cardDirectionLog.unshift(cardInSession.direction);
+  }
+
   /**
    * Todo: Rework?
    */

@@ -1,10 +1,10 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { SessionHistory } from "flashcards/flashcards/actions/session/sessionHistory";
 import { SessionTimer } from "flashcards/flashcards/actions/session/sessionTimer";
-import { makeObservable, observable } from "mobx";
-import { clearTimeMemoized } from "modules/time";
+import { action, makeObservable, observable } from "mobx";
 import { NonEmptyArray } from "modules/typescript/arrays";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
@@ -64,13 +64,13 @@ export class Session {
     this.userFacingError = undefined;
   }
 
-  /**
-   * Called by {@link nextCard}
-   */
-  increaseCounterAndClearCaches() {
-    this.counter++;
-    clearTimeMemoized();
-    this.timer.updateRemainingTime();
+  @action nextCard = nextCard;
+
+  areThereNewCardsRemaining() {
+    return this.cards?.some(
+      (i: CardInSession) =>
+        !i.hasBeenSeenInSession() && !i.done && i.canBeShown()
+    );
   }
 }
 
