@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Card } from "flashcards/flashcards/actions/card/card";
 import {
   CARDS_TO_CREATE,
