@@ -38,12 +38,8 @@ export class Row {
     return this.data.rowId;
   }
 
-  get shouldCreateCards() {
-    return this.data.front && this.data.back;
-  }
-
   get cardIds(): CardIds | [] {
-    if (!this.shouldCreateCards) return [];
+    if (!this.data.front || !this.data.back) return [];
     let cardIds: CardIds = [];
     const directionSetting = this.getSetting("direction");
     if (
