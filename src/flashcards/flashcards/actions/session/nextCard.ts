@@ -1,8 +1,8 @@
+import { getSession } from "flashcards/flashcards/actions/session/session";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { createCards } from "flashcards/flashcards/actions/createCards";
 import { debugSession } from "flashcards/flashcards/actions/session/functions/debugging";
 import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/functions/saveOngoingSessionInLocalStorage";
-import { Session } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { clearTimeMemoized } from "modules/time";
 import _ from "underscore";
@@ -11,24 +11,26 @@ import _ from "underscore";
  * Finds the next CardInSession (based on its {@link getRanking})
  * and then sets it as the session's currentCard.
  */
-export function nextCard(this: Session) {
+export function nextCard() {
+  const session = getSession();
+
   /**
    * The counter is updated here at the top since we have now moved to the
    * next slot and are trying to find a card to fill that slot.
    */
-  this.counter++;
+  session.counter++;
   clearTimeMemoized();
-  this.timer.updateRemainingTime();
+  session.timer.updateRemainingTime();
 
-  if (this.timer.remainingTime === 0) {
+  if (session.timer.remainingTime === 0) {
     return sessionDone();
   }
 
-  if (!this.areThereNewCardsRemaining()) {
+  if (!session.areThereNewCardsRemaining()) {
     createCards();
   }
 
-  this.currentCard = _.min(this.cards, (card) =>
+  session.currentCard = _.min(session.cards, (card) =>
     card.getRanking()
   ) as CardInSession;
 

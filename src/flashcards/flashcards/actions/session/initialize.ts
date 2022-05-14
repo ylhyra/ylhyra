@@ -1,3 +1,4 @@
+import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { createCards } from "flashcards/flashcards/actions/createCards";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getSession } from "flashcards/flashcards/actions/session/session";
@@ -9,7 +10,7 @@ export const initializeSession = action((decks: Deck[]) => {
   session.reset();
   session.allowedDecks = decks;
   createCards();
-  session.nextCard();
+  nextCard();
   syncIfNecessary();
 });
 
