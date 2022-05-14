@@ -1,8 +1,4 @@
-import {
-  ApiConstantToMethodAndUrl,
-  ApiTypesInterface,
-  typedAxiosSetup,
-} from "modules/typedApi";
+import { ApiConstantToMethodAndUrl, ApiTypesInterface } from "modules/typedApi";
 
 export const apiUrls: ApiConstantToMethodAndUrl = {
   // API_MEETING_GET: ["get", "/api/meetings"],

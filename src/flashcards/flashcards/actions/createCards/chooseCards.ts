@@ -6,8 +6,8 @@ import {
   getSession,
   Session,
 } from "flashcards/flashcards/actions/session/session";
-import { randomNumberGenerator } from "modules/randomNumber";
 import { log } from "modules/log";
+import { randomNumberGenerator } from "modules/randomNumber";
 
 export const chooseCards = (): Card[] => {
   const session = getSession();

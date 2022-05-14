@@ -2,7 +2,7 @@ import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { isBrowser } from "modules/isBrowser";
-import { getTimeMemoized, hours, minutes } from "modules/time";
+import { minutes } from "modules/time";
 
 /**
  * Input is a deck in session.allowedDecks.
@@ -24,7 +24,7 @@ export const classifyCards = (deck: Deck) => {
 
       // Overdue
       else if (
-        card.isOverdue(getTimeMemoized() + 16 * hours) &&
+        card.isOverdue() &&
         // !card.isTooEasy() &&
         !card.wasRowVeryRecentlySeen()
       ) {

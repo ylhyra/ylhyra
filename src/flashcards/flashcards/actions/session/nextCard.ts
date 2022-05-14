@@ -11,7 +11,7 @@ import _ from "underscore";
  * Finds the next CardInSession (based on its {@link getRanking})
  * and then sets it as the session's currentCard.
  *
- * The reason this isn't a method of Session is that it was causing a circular dependency issue
+ * (The reason this isn't a method of Session is that it was causing a circular dependency issue)
  */
 export function nextCard() {
   const session = getSession();

@@ -1,4 +1,3 @@
-import { getLevel } from "flashcards/flashcards/actions/card/cardData";
 import {
   dependencyDepthOfCard,
   getDependenciesAsArrayOfCards,
@@ -8,7 +7,6 @@ import {
   isBad,
   isBelowGood,
   isFairlyBad,
-  isTooEasy,
 } from "flashcards/flashcards/actions/card/cardDifficulty";
 import {
   getDueAt,
@@ -77,10 +75,9 @@ export class Card {
     return this.cardId === card.cardId;
   }
 
-  /** @deprecated */
+  /** Todo */
   getSortKey() {
-    console.warn("getSortKey is deprecated. Use getCardData instead.");
-    throw new Error("Not implemented");
+    return -this.data.rowNumber;
   }
 
   dependencyDepthOfCard = dependencyDepthOfCard;
@@ -88,9 +85,7 @@ export class Card {
   hasDependenciesInCommonWith = hasDependenciesInCommonWith;
   isAllowed = isAllowed;
   wasSeenInSession = wasSeenInSession;
-  getLevel = getLevel;
   getDependenciesAsArrayOfCards = getDependenciesAsArrayOfCards;
-  isTooEasy = isTooEasy;
   isBad = isBad;
   isFairlyBad = isFairlyBad;
   isBelowGood = isBelowGood;

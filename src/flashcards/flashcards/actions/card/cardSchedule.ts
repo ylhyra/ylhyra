@@ -5,6 +5,7 @@ import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
 import {
   Days,
   getTimeMemoized,
+  hours,
   Milliseconds,
   minutes,
   Timestamp,
@@ -20,9 +21,13 @@ export function getDueAt(this: Card): Timestamp | undefined {
   return this.getScheduleForCard()?.due;
 }
 
-export function isOverdue(this: Card, timestamp: Timestamp): Boolean {
+/**
+ * We consider a card overdue if it's due date is less than 16 hours from now
+ */
+export function isOverdue(this: Card): Boolean {
+  const timestampToCompareTo = getTimeMemoized() + 16 * hours;
   const dueAt = this.getDueAt();
-  return dueAt ? dueAt < timestamp : false;
+  return dueAt ? dueAt < timestampToCompareTo : false;
 }
 
 /**

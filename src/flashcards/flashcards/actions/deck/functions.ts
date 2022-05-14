@@ -10,7 +10,7 @@ import { DeckId } from "flashcards/flashcards/types";
 import { flattenArray } from "modules/arrays/flattenArray";
 import { isBrowser } from "modules/isBrowser";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
-import { customHistory } from "modules/router";
+import { goToUrl } from "modules/router";
 import shortid from "shortid";
 import _ from "underscore";
 
@@ -24,7 +24,7 @@ export const newDeck = (): Deck => {
   });
   getFlashcardsStore().decks[id] = deck;
   if (isBrowser) {
-    customHistory.replace(`/flashcards/deck/${id}`);
+    goToUrl(`/flashcards/deck/${id}`);
   }
   return deck;
 };

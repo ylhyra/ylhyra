@@ -1,5 +1,5 @@
-import { isBrowser } from "modules/isBrowser";
 import { Card } from "flashcards/flashcards/actions/card/card";
+import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 

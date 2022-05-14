@@ -67,8 +67,7 @@ export class Session {
 
   areThereNewCardsRemaining() {
     return this.cards?.some(
-      (i: CardInSession) =>
-        !i.hasBeenSeenInSession() && !i.done && i.canBeShown()
+      (i: CardInSession) => !i.hasBeenSeenInSession() && !i.done && i.canBeShown
     );
   }
 }

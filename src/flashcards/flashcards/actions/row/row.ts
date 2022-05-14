@@ -14,9 +14,9 @@ import {
   Direction,
 } from "flashcards/flashcards/types";
 import { computed, makeObservable, observable } from "mobx";
+import { getDefaultValue } from "modules/form";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
 import { keys } from "modules/typescript/objectEntries";
-import { getDefaultValue } from "modules/form";
 
 export class Row {
   deck: Deck;

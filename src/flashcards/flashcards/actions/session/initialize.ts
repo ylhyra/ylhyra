@@ -1,6 +1,6 @@
-import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { createCards } from "flashcards/flashcards/actions/createCards";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
 import { action } from "mobx";

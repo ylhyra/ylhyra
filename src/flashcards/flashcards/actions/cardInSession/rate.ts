@@ -12,16 +12,11 @@ import { Rating } from "flashcards/flashcards/types";
  */
 export function rate(this: CardInSession, rating: Rating): void {
   const session = this.session;
-
   const card: CardInSession = this;
   const timesSeenBeforeInSession = card.ratingHistory.length;
 
-  /** This is here so that {@link postponeRelatedCards} can use it */
-  card.ratingHistory.unshift(rating);
-  session.history.add(card, rating);
-
-  const lastRating = card.ratingHistory[1];
-  const nextLastRating = card.ratingHistory[2];
+  const lastRating = card.lastRating;
+  const nextLastRating = card.nextLastRating;
   let interval: IntervalRelativeToCurrentCardBeingAtZero;
 
   if (rating === Rating.BAD) {
@@ -64,6 +59,10 @@ export function rate(this: CardInSession, rating: Rating): void {
   }
 
   card.showIn({ interval: interval! });
+
+  /** This must come before {@link postponeRelatedCards} */
+  card.ratingHistory.unshift(rating);
+  session.history.add(card, rating);
   card.postponeRelatedCards(interval!);
 
   // keepTrackOfEasiness({

@@ -18,8 +18,9 @@ export const debugSession = () => {
     console.table(
       cards.map((card) => ({
         Rank: Math.round(card.getRanking()),
-        Queue: card.absoluteQueuePosition - session.counter,
-        notShowBfr: (card.cannotBeShownBefore || 0) - session.counter,
+        Queue: card.queuePosition,
+        // notShowBfr:
+        //   (card.#cannotBeShownUntilRelativeToCounter || 0) - session.counter,
         seen: card.hasBeenSeenInSession() ? "SEEN" : "",
         word: card.printWord(),
         sortKey: card.getSortKey(),

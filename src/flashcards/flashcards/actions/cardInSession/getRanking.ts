@@ -20,7 +20,7 @@ export function getRanking(this: CardInSession) {
    * A card is overdue if its queue position is less than 0.
    * If the queue position is 0, the card is due now.
    */
-  let rank = this.getQueuePosition();
+  let rank = this.queuePosition;
 
   /**
    * Rows that haven't already been seen in this session
@@ -41,9 +41,9 @@ export function getRanking(this: CardInSession) {
 
   /**
    * Sees if there is a hard limit in place
-   * in {@link CardInSession.cannotBeShownBefore}
+   * in {@link CardInSession.#cannotBeShownUntilRelativeToCounter}
    */
-  if (!this.canBeShown()) {
+  if (!this.canBeShown) {
     rank += 10000;
   }
 
@@ -51,7 +51,7 @@ export function getRanking(this: CardInSession) {
    * A bad cardInSession that is due exactly now has priority
    */
   if (
-    this.ratingHistory[0] === Rating.BAD &&
+    this.lastRating === Rating.BAD &&
     this.isDueExactlyNow() &&
     session.counter % 2 === 0 /* (But not always, to prevent staleness) */
   ) {
