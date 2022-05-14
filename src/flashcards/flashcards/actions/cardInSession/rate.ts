@@ -17,8 +17,8 @@ export function rate(this: CardInSession, rating: Rating): void {
   const card: CardInSession = this;
   const timesSeenBeforeInSession = card.history.length;
   card.history.unshift(rating);
-  session.ratingHistory.unshift(rating);
-  session.cardHistory.unshift(card);
+  session.history.ratingHistory.unshift(rating);
+  session.history.cardHistory.unshift(card);
   card.lastSeenAtCounter = session.counter;
   const lastRating = card.history[1];
   const nextLastRating = card.history[2];
@@ -65,7 +65,7 @@ export function rate(this: CardInSession, rating: Rating): void {
 
   card.showIn({ interval: interval! });
   card.postponeRelatedCards(interval!);
-  session.cardDirectionLog.unshift(card.direction);
+  session.history.cardDirectionLog.unshift(card.direction);
 
   // keepTrackOfEasiness({
   //   rating,
@@ -74,7 +74,4 @@ export function rate(this: CardInSession, rating: Rating): void {
   // });
 
   nextCard();
-  if (!session.done) {
-    // session.loadCardInInterface();
-  }
 }

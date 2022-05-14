@@ -59,7 +59,7 @@ export class CardInSession extends Card {
   }
 
   hasRowBeenSeenInSession() {
-    return getSession().rowsSeen.has(this.rowId);
+    return getSession().history.rowsSeen.has(this.rowId);
   }
 
   getOtherCardsInSession(): CardInSession[] {

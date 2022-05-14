@@ -2,21 +2,34 @@ import { Card } from "flashcards/flashcards/actions/card/card";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
+import { SessionTimer } from "flashcards/flashcards/actions/session/_functions/sessionTimer";
 import { Direction, Rating } from "flashcards/flashcards/types";
 import { makeObservable, observable } from "mobx";
 import { Timestamp } from "modules/time";
 import { NonEmptyArray } from "modules/typescript/arrays";
-import { SessionTimer } from "flashcards/flashcards/actions/session/_functions/sessionTimer";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
+
+export class SessionHistory {
+  /** The most recent card is pushed to the front of this array */
+  cardHistory: CardInSession[] = [];
+  /** The most recent card is pushed to the front of this array */
+  cardDirectionLog: Direction[] = [];
+
+  /** Used by {@link getRanking} in order to prioritize seen cards */
+  rowsSeen = new Set<RowId>();
+  lastUndidAtCounter?: Session["counter"];
+  ratingHistory: Rating[] = [];
+  savedAt?: Timestamp;
+}
 
 /**
  * A session is the currently ongoing flashcard game.
  * There can only be one ongoing session at a time.
  */
 export class Session {
-  cards: CardInSession[] = [];
+  cards!: CardInSession[];
   currentCard?: CardInSession;
 
   /** Limits session to specific decks */
@@ -24,20 +37,7 @@ export class Session {
   /** Limit session to specific cards. */
   allowedCards: NonEmptyArray<Card> | undefined;
 
-  /** The most recent card is pushed to the front of this array */
-  cardHistory: CardInSession[] = [];
-  /** The most recent card is pushed to the front of this array */
-  cardDirectionLog: Direction[] = [];
-
-  /** Set by {@link sessionDone} so that {@link nextCard} can exit */
-  done: boolean = false;
-
-  /** Used by {@link getRanking} in order to prioritize seen cards */
-  rowsSeen = new Set<RowId>();
-  lastUndidAtCounter?: Session["counter"];
-  ratingHistory: Rating[] = [];
-  savedAt?: Timestamp;
-
+  history!: SessionHistory;
   timer!: SessionTimer;
 
   /**
@@ -51,6 +51,10 @@ export class Session {
    */
   @observable counter: number = 0;
   @observable userFacingError?: string;
+
+  /**
+   * Todo: Should be moved to user data store
+   */
   @observable isVolumeOn: boolean = true;
 
   constructor() {
@@ -67,16 +71,10 @@ export class Session {
     // this.counter = 0;
     this.allowedDecks = [];
     this.allowedCards = undefined;
-    this.ratingHistory = [];
-    this.cardHistory = [];
-    this.rowsSeen = new Set<RowId>();
-    this.cardDirectionLog = [];
     this.currentCard = undefined;
     this.cards = [];
     this.timer = new SessionTimer();
-    this.done = false;
-    this.lastUndidAtCounter = 0;
-    this.savedAt = undefined;
+    this.history = new SessionHistory();
     this.userFacingError = undefined;
   }
 }

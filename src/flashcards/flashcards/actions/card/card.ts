@@ -40,7 +40,6 @@ import {
 } from "flashcards/flashcards/actions/card/cardSiblings";
 import { getDirectionFromCardId } from "flashcards/flashcards/actions/row/ids";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { saveCardSchedule } from "flashcards/flashcards/actions/userData/userDataSchedule";
 import { CardId, Direction } from "flashcards/flashcards/types";
@@ -150,7 +149,7 @@ export function isAllowed(this: Card): boolean {
    */
   if (
     getSession()
-      .cardHistory.slice(0, 3)
+      .history.cardHistory.slice(0, 3)
       .some(
         (card) =>
           this.rowId === card.rowId || this.hasDependenciesInCommonWith(card)

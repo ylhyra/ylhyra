@@ -42,8 +42,8 @@ function getSecondsSpent() {
 
 export const saveSessionLog = () => {
   const session = getSession();
-  if (session.cardHistory.length > 0 && getSecondsSpent() > 10) {
-    const timestamp = roundMsToSec(session.savedAt || getTime());
+  if (session.history.cardHistory.length > 0 && getSecondsSpent() > 10) {
+    const timestamp = roundMsToSec(session.history.savedAt || getTime());
     const timestampInSeconds = Math.round(timestamp / 1000);
     setUserDataKey(
       SESSION_PREFIX + timestampInSeconds.toString(),

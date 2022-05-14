@@ -67,21 +67,23 @@ export function getRanking(this: CardInSession) {
    * Prevent cards all going in the same direction
    * from appearing right next to each other too often
    */
-  if (session.cardDirectionLog[0] === direction) {
+  if (session.history.cardDirectionLog[0] === direction) {
     rank += 0.4;
     /* Two in a row */
-    if (session.cardDirectionLog[1] === direction) {
+    if (session.history.cardDirectionLog[1] === direction) {
       if (this.hasBeenSeenInSession() || !this.isNewCard()) {
         rank += 5;
       }
 
       /* Three new cards in a row */
       if (
-        session.cardDirectionLog[2] === direction &&
+        session.history.cardDirectionLog[2] === direction &&
         // Only if a user says "Good" or "Easy" to all three previous
-        !session.ratingHistory.slice(0, 3).some((i) => i === Rating.BAD) &&
+        !session.history.ratingHistory
+          .slice(0, 3)
+          .some((i) => i === Rating.BAD) &&
         // And all of them were new cards
-        session.cardHistory
+        session.history.cardHistory
           .slice(0, 3)
           .every((i: CardInSession) => i.isNewCard())
       ) {

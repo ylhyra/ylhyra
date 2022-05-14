@@ -17,7 +17,7 @@ export const saveOngoingSessionInLocalStorage = () => {
     savedAt: getTime(),
     cards: toSave,
   });
-  session.savedAt = getTime();
+  session.history.savedAt = getTime();
 };
 
 export const clearOngoingSessionInLocalStorage = () => {
