@@ -194,15 +194,15 @@ export class CardElement extends Component {
     }
 
     let direction = card.direction;
-    let lemmas: Jsx = card.getCardData("lemmas");
+    let lemmas: Jsx = card.data.lemmas;
     // let note_regarding_english: Jsx = getCardData(id, "note_regarding_english");
     // let note: Jsx = getCardData(id, "note");
     // let literally: Jsx = getCardData(id, "literally");
     // let example_declension: Jsx = getCardData(id, "example_declension");
     // let pronunciation: Jsx = getCardData(id, "pronunciation");
     // let synonyms: Jsx = getCardData(id, "synonyms");
-    const front = card.getCardData("front");
-    const back = card.getCardData("back");
+    const front = card.data.front;
+    const back = card.data.back;
 
     /* Loading */
     if (!front || !back) {

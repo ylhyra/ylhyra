@@ -2,8 +2,9 @@ import { makeAutoObservable } from "mobx";
 import { observer } from "mobx-react-lite";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 import React from "react";
+import { rowFields } from "flashcards/flashcards/actions/row/rowData.fields";
 
-export type FieldsSetup<TypeThisIsDescribing = void> = Array<
+export type FieldsSetup<TypeThisIsDescribing = object> = Array<
   {
     /**
      * This is a mapped type that is immediately indexed,
@@ -213,3 +214,10 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
     return null;
   });
 }
+
+export const getDefaultValue = <T extends FieldsSetup<any>>(
+  input: T,
+  key: string
+) => {
+  return input.find((field) => field.name === key)?.defaultValue;
+};

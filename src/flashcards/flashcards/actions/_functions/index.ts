@@ -8,9 +8,9 @@ import { isDev } from "modules/isDev";
  */
 export function printWord(this: Card): string | undefined {
   if (!isDev) return;
-  return this.getCardData(
+  return this.data[
     this.direction === Direction.FRONT_TO_BACK ? "front" : "back"
-  );
+  ];
 }
 
 export const studyParticularIds = async (

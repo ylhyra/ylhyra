@@ -16,6 +16,7 @@ import {
 import { computed, makeObservable, observable } from "mobx";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
 import { keys } from "modules/typescript/objectEntries";
+import { getDefaultValue } from "modules/form";
 
 export class Row {
   deck: Deck;
@@ -95,9 +96,8 @@ export class Row {
     if (this.deck.settings[key] != null) {
       return this.deck.settings[key] as (DeckSettings & RowData)[T];
     }
-    return (rowFields.find((field) => field.name === key)?.defaultValue ??
-      deckSettingsFields.find((field) => field.name === key)
-        ?.defaultValue) as (DeckSettings & RowData)[T];
+    return (getDefaultValue(rowFields, key) ??
+      getDefaultValue(deckSettingsFields, key)) as (DeckSettings & RowData)[T];
   }
 
   toJSON(): RowData {
