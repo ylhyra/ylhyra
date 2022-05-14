@@ -9,6 +9,6 @@ import fastRandom from "fast-random";
  *    getRandomNumber();
  */
 export const randomNumberGenerator = (): (() => number) => {
-  const x = fastRandom.seed(Date.now());
+  const x = fastRandom(Date.now());
   return x.nextFloat;
 };

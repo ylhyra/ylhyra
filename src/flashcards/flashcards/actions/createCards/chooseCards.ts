@@ -7,10 +7,11 @@ import {
   Session,
 } from "flashcards/flashcards/actions/session/session";
 import { randomNumberGenerator } from "modules/randomNumber";
+import { log } from "modules/log";
 
 export const chooseCards = (): Card[] => {
   const session = getSession();
-  const chooseDeckAtRandom = getChooseDeckAtRandom(session);
+  // const chooseDeckAtRandom = getChooseDeckAtRandom(session);
   let chosenCards: Card[] = [];
 
   const classificationsForAllDecks = session.allowedDecks.map((deck) =>
@@ -50,12 +51,15 @@ export const chooseCards = (): Card[] => {
     const classification = classificationsForAllDecks[index];
 
     const card = classification.newCards.shift();
-    card && chosenCards.push(card);
+    if (!card) return;
+    chosenCards.push(card);
 
     // chosenCards = chosenCards.concat(
     //   classification.overdueBad.slice(0, 1),
     //   classification.overdueGood.slice(0, 1)
     // );
+
+    log(`New card "` + card.printWord() + `" added`);
   });
 
   return chosenCards;
