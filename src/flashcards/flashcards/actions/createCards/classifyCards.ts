@@ -1,72 +1,73 @@
-import { isBrowser } from "modules/isBrowser";
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { sortBySortKey } from "flashcards/flashcards/actions/createCards/_functions";
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getSession } from "flashcards/flashcards/actions/session/session";
-import { log } from "modules/log";
-import { shuffleLocally } from "modules/shuffleLocally";
+import { isBrowser } from "modules/isBrowser";
 import { getTimeMemoized, hours, minutes } from "modules/time";
-import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 /**
- * Returns ALL cards that have previously been seen.
+ * Input is a deck in session.allowedDecks.
  * Called by {@link chooseCards}, which will choose a few cards from these.
  */
-export const classifyCards = () => {
-  return warnIfFunctionIsSlow.wrap(() => {
-    let overdueGood: Card[] = [];
-    let overdueBad: Card[] = [];
-    let notOverdueVeryBad: Card[] = [];
-    let notOverdue: Card[] = [];
-    let newCards: Card[] = [];
+export const classifyCards = (deck: Deck) => {
+  let overdueGood: Card[] = [];
+  let overdueBad: Card[] = [];
+  let notOverdueVeryBad: Card[] = [];
+  let notOverdue: Card[] = [];
+  let newCards: Card[] = [];
 
-    getSession()
-      .getAllCardsThatCouldBeInSession()
-      .filter((card) => card.isAllowed())
-      .forEach((card) => {
-        if (!card.isInSchedule()) {
-          newCards.push(card);
-        }
+  deck.cards
+    .filter((card) => card.isAllowed())
+    .forEach((card) => {
+      if (!card.isInSchedule()) {
+        newCards.push(card);
+      }
 
-        // Overdue
-        else if (
-          card.isOverdue(getTimeMemoized() + 16 * hours) &&
-          !card.isTooEasy() &&
-          !card.wasRowVeryRecentlySeen()
-        ) {
-          if (card.isBelowGood() || card.isUnseenSiblingOfANonGoodCard()) {
-            overdueBad.push(card);
-          } else {
-            overdueGood.push(card);
-          }
-        }
-
-        // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
-        else if (
-          card.isBad() &&
-          (card.timeSinceRowWasSeen() || 0) > 20 * minutes
-        ) {
-          return notOverdueVeryBad.push(card);
+      // Overdue
+      else if (
+        card.isOverdue(getTimeMemoized() + 16 * hours) &&
+        // !card.isTooEasy() &&
+        !card.wasRowVeryRecentlySeen()
+      ) {
+        if (card.isBelowGood() || card.isUnseenSiblingOfANonGoodCard()) {
+          overdueBad.push(card);
         } else {
-          notOverdue.push(card);
+          overdueGood.push(card);
         }
-      });
+      }
 
-    log({
-      "Overdue good": overdueGood.length,
-      "Overdue bad": overdueBad.length,
-      "Not overdue very bad": notOverdueVeryBad.length,
+      // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
+      else if (
+        card.isBad() &&
+        (card.timeSinceRowWasSeen() || 0) > 20 * minutes
+      ) {
+        return notOverdueVeryBad.push(card);
+      } else {
+        notOverdue.push(card);
+      }
     });
 
-    return {
-      overdueBad: shuffleLocally(
-        /** what???? this concatenation may be wrong, should be interspersed instead */
-        sortBySortKey(overdueBad.concat(notOverdueVeryBad))
-      ),
-      overdueGood: shuffleLocally(sortBySortKey(overdueGood)),
-      newCards: sortNewCards(newCards),
-      notOverdue,
-    };
-  });
+  // log({
+  //   "Overdue good": overdueGood.length,
+  //   "Overdue bad": overdueBad.length,
+  //   "Not overdue very bad": notOverdueVeryBad.length,
+  // });
+
+  // return {
+  //   overdueBad: shuffleLocally(
+  //     /** what???? this concatenation may be wrong, should be interspersed instead */
+  //     sortBySortKey(overdueBad.concat(notOverdueVeryBad))
+  //   ),
+  //   overdueGood: shuffleLocally(sortBySortKey(overdueGood)),
+  //   newCards: sortNewCards(newCards),
+  //   notOverdue,
+  // };
+  return {
+    /** TODO: Verify */
+    overdueBad: overdueBad.concat(notOverdueVeryBad),
+    overdueGood,
+    newCards,
+    notOverdue,
+  };
 };
 
 export const sortNewCards = (newCards: Card[]) => {
