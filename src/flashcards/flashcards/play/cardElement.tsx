@@ -194,7 +194,7 @@ export class CardElement extends Component {
     }
 
     let direction = card.direction;
-    let lemmas: Jsx = card.data.lemmas;
+    // let lemmas: Jsx = card.data.lemmas;
     // let note_regarding_english: Jsx = getCardData(id, "note_regarding_english");
     // let note: Jsx = getCardData(id, "note");
     // let literally: Jsx = getCardData(id, "literally");

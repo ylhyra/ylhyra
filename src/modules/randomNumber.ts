@@ -1,14 +1,15 @@
 // @ts-ignore
 import fastRandom from "fast-random";
 
+const x = fastRandom();
+
 /**
- * Returns a function that when called returns a number between 0 and 1.
- *
- * Usage:
- *    const getRandomNumber = randomNumberGenerator(Date.now());
- *    getRandomNumber();
+ * Returns a number between 0 and 1.
  */
-export const randomNumberGenerator = (): (() => number) => {
-  const x = fastRandom(Date.now());
-  return x.nextFloat;
+export const getRandomNumberFast = (): number => {
+  return x.nextFloat();
+};
+
+export const seedRandomNumberGenerator = () => {
+  x.seed(Date.now());
 };

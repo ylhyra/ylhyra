@@ -33,7 +33,7 @@ router.post(
       res.send({
         user_id: req.session.user_id,
         rows: unsyncedFromServer || {},
-        lastSynced: new Date().getTime(),
+        lastSynced: Date.now(),
       });
     } catch (e) {
       if (e instanceof Error) {

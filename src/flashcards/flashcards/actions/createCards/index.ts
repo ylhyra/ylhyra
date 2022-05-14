@@ -5,8 +5,6 @@ import { getSession } from "flashcards/flashcards/actions/session/session";
 import { logBrowser, logDev } from "modules/log";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
-export const CARDS_TO_CREATE = 50;
-
 export type CreateCardsOptions = {
   skipDependencies?: boolean;
   // skipOverTheEasiest?: boolean;

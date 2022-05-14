@@ -6,6 +6,7 @@ import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { clearTimeMemoized } from "modules/time";
 import _ from "underscore";
+import { seedRandomNumberGenerator } from "modules/randomNumber";
 
 /**
  * Finds the next CardInSession (based on its {@link getRanking})
@@ -22,6 +23,7 @@ export function nextCard() {
    */
   session.counter++;
   clearTimeMemoized();
+  seedRandomNumberGenerator();
   session.timer.updateRemainingTime();
 
   if (session.timer.remainingTime === 0) {
@@ -30,6 +32,10 @@ export function nextCard() {
 
   if (!session.areThereNewCardsRemaining()) {
     createCards();
+  }
+
+  if (session.cards.length === 0) {
+    throw new Error("Failed to generate cards");
   }
 
   session.currentCard = _.min(session.cards, (card) =>
