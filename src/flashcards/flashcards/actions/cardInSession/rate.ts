@@ -1,4 +1,3 @@
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import {
   CardInSession,
   IntervalRelativeToCurrentCardBeingAtZero,
@@ -12,7 +11,7 @@ import { Rating } from "flashcards/flashcards/types";
  * the user is here rating how well he knew a card
  */
 export function rate(this: CardInSession, rating: Rating): void {
-  const session = getSession();
+  const session = this.session;
 
   const card: CardInSession = this;
   const timesSeenBeforeInSession = card.ratingHistory.length;

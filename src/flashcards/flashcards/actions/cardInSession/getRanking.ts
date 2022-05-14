@@ -1,4 +1,3 @@
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types";
 
@@ -13,7 +12,7 @@ import { Rating } from "flashcards/flashcards/types";
  * such as preferring overdue cards and prohibiting cards that are too recent.
  */
 export function getRanking(this: CardInSession) {
-  const session = getSession();
+  const session = this.session;
   const direction = this.direction;
 
   /**
