@@ -29,7 +29,7 @@ export const nextCard = action((isRecursiveCall = false) => {
    */
   session.counter++;
 
-  if (getRemainingTime() === 0) {
+  if (session.timer.getRemainingTime() === 0) {
     sessionDone();
     return;
   }

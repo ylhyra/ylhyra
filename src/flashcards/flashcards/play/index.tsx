@@ -49,7 +49,7 @@ export const FlashcardsPlay = observer(function () {
               <div className="vocabulary-card-outer-container">
                 <CardElement key={session.counter} />
               </div>
-              <ProgressBar />
+              <ProgressBar key={session.counter} />
             </>
           )}
         </div>

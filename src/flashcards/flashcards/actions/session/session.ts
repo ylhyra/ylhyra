@@ -4,8 +4,9 @@ import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
 import { Direction, Rating } from "flashcards/flashcards/types";
 import { makeObservable, observable } from "mobx";
-import { getTime, Milliseconds, minutes, Timestamp } from "modules/time";
+import { Timestamp } from "modules/time";
 import { NonEmptyArray } from "modules/typescript/arrays";
+import { SessionTimer } from "flashcards/flashcards/actions/session/_functions/sessionTimer";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
@@ -37,12 +38,7 @@ export class Session {
   ratingHistory: Rating[] = [];
   savedAt?: Timestamp;
 
-  /** How long should a session last? */
-  totalTime?: Milliseconds;
-  /** Used to update the progress bar and to see when the time is up */
-  remainingTime?: Milliseconds;
-  /** Used by {@link getRemainingTime} */
-  remainingTimeLastUpdatedAt?: Timestamp;
+  timer!: SessionTimer;
 
   /**
    * This counter increases for every new card the user sees.
@@ -68,18 +64,16 @@ export class Session {
    * (the interface would otherwise be listening to an older object)
    */
   reset() {
+    // this.counter = 0;
     this.allowedDecks = [];
     this.allowedCards = undefined;
     this.ratingHistory = [];
     this.cardHistory = [];
-    // this.counter = 0;
     this.rowsSeen = new Set<RowId>();
     this.cardDirectionLog = [];
     this.currentCard = undefined;
     this.cards = [];
-    this.totalTime = (EACH_SESSION_LASTS_X_MINUTES * minutes) as Milliseconds;
-    this.remainingTime = this.totalTime;
-    this.remainingTimeLastUpdatedAt = getTime();
+    this.timer = new SessionTimer();
     this.done = false;
     this.lastUndidAtCounter = 0;
     this.savedAt = undefined;

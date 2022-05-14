@@ -4,7 +4,8 @@ import React from "react";
 export const ProgressBar = () => {
   const session = getSession();
   const timeRemainingRatio =
-    (session.totalTime! - session.remainingTime!) / session.totalTime!;
+    (session.timer.totalTime - session.timer.remainingTime) /
+    session.timer.totalTime;
   return (
     <div className="vocabulary-progress">
       <div className="bar">
