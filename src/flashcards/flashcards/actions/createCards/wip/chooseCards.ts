@@ -3,7 +3,7 @@ import {
   CardClassification,
   ClassifyCardsHelper,
 } from "flashcards/flashcards/actions/createCards/wip/classifyCardsHelper";
-import { setupTestSession } from "flashcards/flashcards/actions/functions/testSetup";
+import { setupTestSession } from "flashcards/flashcards/actions/_testing/testSetup";
 import { Session } from "flashcards/flashcards/actions/session/session";
 import { log } from "modules/log";
 import { chooseDependingOnRelativeProbability } from "modules/probability";

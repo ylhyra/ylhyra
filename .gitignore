@@ -13,6 +13,7 @@ build/*
 .putout.json*
 .idea
 **/output.css
+*.scratch.ts
 
 # Accidentally compiled TypeScript code
 src/**/**/*.js
