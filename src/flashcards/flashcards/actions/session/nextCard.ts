@@ -4,9 +4,7 @@ import { debugSession } from "flashcards/flashcards/actions/session/functions/de
 import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/functions/saveOngoingSessionInLocalStorage";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
-import { clearTimeMemoized } from "modules/time";
 import _ from "underscore";
-import { seedRandomNumberGenerator } from "modules/randomNumber";
 
 /**
  * Finds the next CardInSession (based on its {@link getRanking})
@@ -22,9 +20,7 @@ export function nextCard() {
    * next slot and are trying to find a card to fill that slot.
    */
   session.counter++;
-  clearTimeMemoized();
-  seedRandomNumberGenerator();
-  session.timer.updateRemainingTime();
+  session.clearCaches();
 
   if (session.timer.remainingTime === 0) {
     return sessionDone();

@@ -1,15 +1,19 @@
 // @ts-ignore
 import fastRandom from "fast-random";
 
-const x = fastRandom();
+let instance: any;
+const getRandomNumberGenerator = () => {
+  return instance || (instance = fastRandom(Date.now()));
+};
 
 /**
+ * Fast random number generator.
  * Returns a number between 0 and 1.
  */
 export const getRandomNumberFast = (): number => {
-  return x.nextFloat();
+  return getRandomNumberGenerator().nextFloat();
 };
 
 export const seedRandomNumberGenerator = () => {
-  x.seed(Date.now());
+  getRandomNumberGenerator().seed(Date.now());
 };

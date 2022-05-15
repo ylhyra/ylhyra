@@ -5,6 +5,8 @@ import { SessionHistory } from "flashcards/flashcards/actions/session/sessionHis
 import { SessionTimer } from "flashcards/flashcards/actions/session/sessionTimer";
 import { makeObservable, observable } from "mobx";
 import { NonEmptyArray } from "modules/typescript/arrays";
+import { clearTimeMemoized } from "modules/time";
+import { seedRandomNumberGenerator } from "modules/randomNumber";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
@@ -17,10 +19,10 @@ export class Session {
   cards!: CardInSession[];
   currentCard?: CardInSession;
 
-  /** Limits session to specific decks */
-  allowedDecks: Deck[] = [];
-  /** Limit session to specific cards. */
-  allowedCards: NonEmptyArray<Card> | undefined;
+  /** Limits session to specific decks (required) */
+  allowedDecks!: Deck[];
+  /** Limit session to specific cards (optional) */
+  allowedCards?: NonEmptyArray<Card>;
 
   history!: SessionHistory;
   timer!: SessionTimer;
@@ -30,16 +32,14 @@ export class Session {
    * It is used for scheduling cards within the session,
    * e.g. "This card should be shown when the counter is at 8".
    *
-   * The counter value for the first card is "1".
+   * The counter value for the first card will be "1".
    *
    * The user interface relies on this value for refreshing.
    */
   @observable counter: number = 0;
+  /** Todo: Move elsewhere? */
   @observable userFacingError?: string;
-
-  /**
-   * Todo: Should be moved to user data store
-   */
+  /** Todo: Should be moved to user data store */
   @observable isVolumeOn: boolean = true;
 
   constructor() {
@@ -53,7 +53,6 @@ export class Session {
    * (the interface would otherwise be listening to an older object)
    */
   reset() {
-    // this.counter = 0;
     this.allowedDecks = [];
     this.allowedCards = undefined;
     this.currentCard = undefined;
@@ -66,13 +65,19 @@ export class Session {
   // @action nextCard = nextCard;
 
   areThereNewCardsRemaining() {
-    return this.cards?.some(
+    return this.cards.some(
       (i: CardInSession) => !i.hasBeenSeenInSession() && !i.done && i.canBeShown
     );
   }
+
+  clearCaches() {
+    this.timer.updateRemainingTime();
+    clearTimeMemoized();
+    seedRandomNumberGenerator();
+  }
 }
 
-let store: Session;
+let instance: Session;
 export const getSession = (): Session => {
-  return store || (store = new Session());
+  return instance || (instance = new Session());
 };

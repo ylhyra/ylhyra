@@ -11,9 +11,9 @@ import { minutes } from "modules/time";
 export const classifyCards = (deck: Deck) => {
   let overdueGood: Card[] = [];
   let overdueBad: Card[] = [];
-  let notOverdueVeryBad: Card[] = [];
   let notOverdue: Card[] = [];
   let newCards: Card[] = [];
+  // let notOverdueVeryBad: Card[] = [];
 
   deck.cards
     .filter((card) => card.isAllowed())
@@ -40,7 +40,7 @@ export const classifyCards = (deck: Deck) => {
         card.isBad() &&
         (card.timeSinceRowWasSeen() || 0) > 20 * minutes
       ) {
-        return notOverdueVeryBad.push(card);
+        return overdueBad.push(card);
       } else {
         notOverdue.push(card);
       }
@@ -62,8 +62,7 @@ export const classifyCards = (deck: Deck) => {
   //   notOverdue,
   // };
   return {
-    /** TODO: Verify */
-    overdueBad: overdueBad.concat(notOverdueVeryBad),
+    overdueBad,
     overdueGood,
     newCards,
     notOverdue,

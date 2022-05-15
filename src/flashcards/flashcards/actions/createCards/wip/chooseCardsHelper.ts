@@ -1,13 +1,10 @@
 import {
-  getSession,
-  Session,
-} from "flashcards/flashcards/actions/session/session";
+  setupTestSession
+} from 'flashcards/flashcards/actions/functions/testSetup';
+import { Session } from "flashcards/flashcards/actions/session/session";
 import { classifyCards } from "flashcards/flashcards/actions/createCards/classifyCards";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { getRandomNumberFast } from "modules/randomNumber";
-import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { DeckId } from "flashcards/flashcards/types";
-import { addRowsIfMissing } from "flashcards/flashcards/editor/import/actions";
 import { log } from "modules/log";
 
 export const CARDS_TO_CREATE = 50;
@@ -82,12 +79,13 @@ export class ChooseCardsHelper {
   getNewCard(): Card | undefined {
     const randomNumber = getRandomNumberFast();
 
-    const likelihoodOfChoosingEachDeck = this.classificationsForAllDecks.map(
-      (deck) => {
-        /** todo: change to total card length, and based on how often deck has been chosen thus far */
-        return deck.newCards.length;
-      }
-    );
+    const likelihoodOfChoosingEachDeck: number[] =
+      this.classificationsForAllDecks.map((deck) => {
+        if (deck.newCards.length === 0) return 0;
+        return 1;
+        // /** todo: change to total card length, and based on how often deck has been chosen thus far */
+        // return deck.newCards.length;
+      });
     const sumOfAllLikelihoods = likelihoodOfChoosingEachDeck.reduce(
       (a, b) => a + b
     );
@@ -103,14 +101,8 @@ export class ChooseCardsHelper {
   }
 }
 
-const deck = new Deck({ deckId: "1" as DeckId });
-let data = "";
-for (let i = 0; i < 1000; i++) {
-  data += `test${i} = test${i}\n`;
+if (process.env.quokka) {
+  const session = setupTestSession();
+  const out = new ChooseCardsHelper(session).run();
+  console.log(out);
 }
-addRowsIfMissing(deck, data);
-const session = getSession();
-session.reset();
-session.allowedDecks = [deck];
-const out = new ChooseCardsHelper(session).run();
-console.log(out);
