@@ -189,6 +189,9 @@ export class CardElement extends Component {
     const isVolumeOn = session.isVolumeOn;
     const answered = this.state.isShowingBottomSide;
     const card = session.currentCard;
+    if (session.counter === 0) {
+      return <div>Loading...</div>;
+    }
     if (!card) {
       return <div>Unable to create cards.</div>;
     }

@@ -104,7 +104,7 @@ export class ClassifyCardsHelper {
     /* Number between 0 and 1 */
     const cardsInThisDeckAsProportionOfAllCards =
       this.countAllCards / this.chooseCards.countAllCards;
-    const boostFactorBasedOnDeckSize = 5;
+    const boostFactorBasedOnDeckSize = 1;
     const boostBasedOnDeckSize =
       boostFactorBasedOnDeckSize * cardsInThisDeckAsProportionOfAllCards;
 
@@ -112,8 +112,8 @@ export class ClassifyCardsHelper {
      * Each deck starts out with an equal relative chance of "1".
      *
      * Taking deck size into account,
-     * a deck with 99 cards has a chance of 85% of being chosen now
-     * against a deck with 1 card has a relative chance of 15%
+     * a deck with 99 cards has a chance of 70% of being chosen now
+     * against a deck with 1 card that has a relative chance of 30%
      */
     return 1 + boostBasedOnDeckSize;
   }

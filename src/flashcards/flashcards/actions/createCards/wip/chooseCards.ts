@@ -8,7 +8,7 @@ import { Session } from "flashcards/flashcards/actions/session/session";
 import { log } from "modules/log";
 import { chooseDependingOnRelativeProbability } from "modules/probability";
 
-export const CARDS_TO_CREATE = 50;
+export const CARDS_TO_CREATE = 30;
 
 /**
  * Class to assist with randomly choosing from the allowed decks
