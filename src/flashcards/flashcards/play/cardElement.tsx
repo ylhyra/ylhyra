@@ -236,11 +236,12 @@ export class CardElement extends Component {
         `}
         onClick={() => this.cardClicked()}
       >
+        <div>{card.row.deck.settings.title}</div>
         <div
           className={`
           flashcard-top
           flashcard-prompt-${
-            direction === Direction.FRONT_TO_BACK ? "icelandic" : "english"
+            direction === Direction.FRONT_TO_BACK ? "front-side" : "back-side"
           }
         `}
         >
@@ -253,7 +254,7 @@ export class CardElement extends Component {
           className={`
           flashcard-bottom
           flashcard-prompt-${
-            direction !== Direction.FRONT_TO_BACK ? "icelandic" : "english"
+            direction !== Direction.FRONT_TO_BACK ? "front-side" : "back-side"
           }
         `}
         >

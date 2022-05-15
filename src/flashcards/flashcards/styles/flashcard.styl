@@ -1,12 +1,12 @@
 /*
   Flashcard
 */
-.flashcard 
+.flashcard
   display flex
   flex-direction column
   text-align center
   .flashcard-bottom,
-  .flashcard-top 
+  .flashcard-top
     flex 1
     padding 15px
     display flex
@@ -18,33 +18,33 @@
     transition background 0.3s ease
     word-spacing 1px
     &.flashcard-top
-      > div 
+      > div
         animation fadein 0.05s
-    &.flashcard-bottom 
-      > div 
+    &.flashcard-bottom
+      > div
         animation fadein 0.1s
       border-top 1px solid #ebebeb
       // transition: all 0.3s ease
-    &.flashcard-prompt-icelandic 
+    &.flashcard-prompt-front-side
       serif()
-    &.flashcard-prompt-english 
+    &.flashcard-prompt-back-side
       background rgba(#f7f7f7, 0.41)
       font-size 19px
-      + .card-notes 
+      + .card-notes
         background rgba(#f7f7f7, 0.41)
 
-  .flashcard-buttons 
+  .flashcard-buttons
     height 78px
-    @media (max-height: 450px) 
+    @media (max-height: 450px)
       height 48px
-    > div 
+    > div
       display flex
       height 100%
       // flex-direction: column
       flex 1
       // align-items: stretch
 
-    button 
+    button
       height auto
       flex 1
       border-radius 0
@@ -53,19 +53,19 @@
       font-weight 500
       cursor pointer
 
-    .button-bad 
+    .button-bad
       button(#5e0000, #ffe6e6, 1px)
       border-right-color rgba(#9fd142, 0.4)
       border-left none
-    .button-good 
+    .button-good
       button(#1fc484, #e6ffe8, 0px)
       border-right-color rgba(#9fd142, 0.4)
       border-left none
-    .button-easy 
+    .button-easy
       button(#004186, #e2f2f5, -1px)
       border-left none
       border-right none
-    .button-show-answer 
+    .button-show-answer
       button(#669eda, #e9f4f6, -1px)
       border-left none
       border-right none
