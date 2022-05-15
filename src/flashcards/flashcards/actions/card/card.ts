@@ -34,13 +34,17 @@ import {
   getSiblingCards,
   getSiblingCardsInSession,
 } from "flashcards/flashcards/actions/card/cardSiblings";
-import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
+import {
+  getAsCardInSession,
+  isInSession,
+  wasSeenInSession,
+} from "flashcards/flashcards/actions/card/functions";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { getDirectionFromCardId } from "flashcards/flashcards/actions/row/ids";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { saveCardSchedule } from "flashcards/flashcards/actions/userData/userDataSchedule";
 import { CardId, Direction } from "flashcards/flashcards/types";
+import { isAllowed } from "flashcards/flashcards/actions/card/cardIsAllowed";
 
 export class Card {
   row: Row;
@@ -67,10 +71,16 @@ export class Card {
     return getDirectionFromCardId(this.cardId);
   }
 
+  /**
+   * (Todo: Check if cards.includes(card) works instead)
+   */
   isIn(cards: Card[]) {
     return cards.some((card) => card.is(this));
   }
 
+  /**
+   * (Todo: May not be necessary as Card === Card also works...)
+   */
   is(card: Card) {
     return this.cardId === card.cardId;
   }
@@ -116,52 +126,3 @@ export class Card {
   saveCardSchedule = saveCardSchedule;
   printWord = printWord;
 }
-
-export function isInSession(this: Card) {
-  return this.isIn(getSession().cards);
-}
-
-/**
- * Whether a card is allowed to be chosen by {@link createCards}
- * to be added to the session.
- */
-export function isAllowed(this: Card): boolean {
-  /* Ignore cards that are already in the session */
-  if (this.isInSession()) return false;
-
-  /* If allowedCards is on, only select allowed cards */
-  const { allowedCards } = getSession();
-  if (allowedCards && this.isIn(allowedCards)) {
-    return false;
-  }
-
-  /**
-   * In case we're adding cards to an already ongoing session,
-   * ignore cards that are similar to a card the user has just seen.
-   *
-   * TODO!! This should not prevent these cards from being chosen,
-   * just give them a lower score!
-   */
-  if (
-    getSession()
-      .history.cardHistory.slice(0, 3)
-      .some(
-        (card) =>
-          this.rowId === card.rowId || this.hasDependenciesInCommonWith(card)
-        // || isTextSimilarTo(id, card)
-      )
-  ) {
-    return false;
-  }
-
-  return true;
-}
-
-export function wasSeenInSession(this: Card) {
-  const cardInSession = this.getAsCardInSession();
-  return cardInSession && cardInSession.ratingHistory.length > 0;
-}
-
-export const getCardById = (id: CardId): Card => {
-  throw new Error("Not implemented");
-};
