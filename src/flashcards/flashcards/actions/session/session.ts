@@ -4,9 +4,8 @@ import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { SessionHistory } from "flashcards/flashcards/actions/session/sessionHistory";
 import { SessionTimer } from "flashcards/flashcards/actions/session/sessionTimer";
 import { makeObservable, observable } from "mobx";
-import { NonEmptyArray } from "modules/typescript/arrays";
 import { clearTimeMemoized } from "modules/time";
-import { seedRandomNumberGenerator } from "modules/randomNumber";
+import { NonEmptyArray } from "modules/typescript/arrays";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
@@ -73,7 +72,6 @@ export class Session {
   clearCaches() {
     this.timer.updateRemainingTime();
     clearTimeMemoized();
-    seedRandomNumberGenerator();
   }
 }
 
