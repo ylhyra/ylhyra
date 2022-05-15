@@ -20,7 +20,7 @@ export class ChooseCards {
   constructor(session: Session) {
     this.session = session;
     this.classificationsForAllDecks = session.allowedDecks.map(
-      (deck) => new ClassifyCardsHelper(deck)
+      (deck) => new ClassifyCardsHelper(deck, this)
     );
   }
 
@@ -37,13 +37,13 @@ export class ChooseCards {
       ) {
         card = this.getCardOfType(CardClassification.NEW);
       } else {
-        card = this.getCardOfType(CardClassification.OLD);
+        card = this.getCardOfType(CardClassification.OVERDUE);
       }
       if (!card) continue;
       chosenCards.push(card);
       log(
-        `Card "${card.printWord()}" ` +
-          `from deck "${card.row.deck.title}" ` +
+        `Deck "${card.row.deck.title}" > ` +
+          `card "${card.printWord()}" ` +
           `added at position ${i + 1}`
       );
 
@@ -90,7 +90,7 @@ export class ChooseCards {
 
   get areOldCardsRemaining() {
     return this.classificationsForAllDecks.some((j) => {
-      return j.countCardsOfType(CardClassification.OLD) > 0;
+      return j.countCardsOfType(CardClassification.OVERDUE) > 0;
     });
   }
 
@@ -98,7 +98,7 @@ export class ChooseCards {
     const deck = chooseDependingOnRelativeProbability(
       this.classificationsForAllDecks,
       (deck) => {
-        return deck.getOddsOfBeingChosen(type);
+        return deck.getRelativeProbabilityOfThisDeckBeingChosen(type);
       }
     );
     if (deck) {

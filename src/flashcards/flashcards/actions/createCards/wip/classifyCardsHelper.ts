@@ -1,21 +1,30 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { classifyCards } from "flashcards/flashcards/actions/createCards/classifyCards";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { chooseDependingOnRelativeProbability } from "modules/probability";
+import { ChooseCards } from "./chooseCards";
 
 export enum CardClassification {
   NEW,
   /** Both overdueGood and overdueBad are included in this one */
-  OLD,
+  OVERDUE,
+}
+
+export enum OverdueClassification {
+  BAD,
+  GOOD,
 }
 
 export class ClassifyCardsHelper {
   deck: Deck;
+  chooseCards: ChooseCards;
   overdueGood: Card[];
   overdueBad: Card[];
   notOverdue: Card[];
   newCards: Card[];
-  constructor(deck: Deck) {
+  constructor(deck: Deck, chooseCards: ChooseCards) {
     this.deck = deck;
+    this.chooseCards = chooseCards;
     const classification = classifyCards(deck);
     this.overdueGood = classification.overdueGood;
     this.overdueBad = classification.overdueBad;
@@ -29,7 +38,7 @@ export class ClassifyCardsHelper {
   get countAllCards() {
     return (
       this.countCardsOfType(CardClassification.NEW) +
-      this.countCardsOfType(CardClassification.OLD)
+      this.countCardsOfType(CardClassification.OVERDUE)
     );
   }
 
@@ -37,8 +46,17 @@ export class ClassifyCardsHelper {
     switch (type) {
       case CardClassification.NEW:
         return this.newCards.length;
-      case CardClassification.OLD:
+      case CardClassification.OVERDUE:
         return this.overdueBad.length + this.overdueGood.length;
+    }
+  }
+
+  getCardsOfOverdueType(type: OverdueClassification) {
+    switch (type) {
+      case OverdueClassification.BAD:
+        return this.overdueBad;
+      case OverdueClassification.GOOD:
+        return this.overdueGood;
     }
   }
 
@@ -46,15 +64,57 @@ export class ClassifyCardsHelper {
     switch (type) {
       case CardClassification.NEW:
         return this.newCards.shift();
-      case CardClassification.OLD:
-        const likelihoodOfChoosingOverDueBad =
-          this.overdueBad.length > 0 ? 1 : 0;
-        return this.overdueBad[0] || this.overdueGood[0];
+      case CardClassification.OVERDUE:
+        return this.getOverdueCard();
     }
   }
 
-  getOddsOfBeingChosen(type: CardClassification): number {
-    if (deck.countCardsOfType(type) === 0) return 0;
-    return 1;
+  #lastOverdueCardTypeChosen: OverdueClassification | null = null;
+  /**
+   * There are two overdue card types: overdueGood and overdueBad.
+   * This function tries to alternate between them.
+   */
+  getOverdueCard() {
+    const overdueCardType: OverdueClassification | null =
+      chooseDependingOnRelativeProbability(
+        [OverdueClassification.BAD, OverdueClassification.GOOD],
+        (type: OverdueClassification) => {
+          if (this.getCardsOfOverdueType(type).length === 0) {
+            return 0;
+          }
+          /** Prefer to go back and forth between overdueGood and overdueBad */
+          if (this.#lastOverdueCardTypeChosen === type) {
+            return 0.01;
+          }
+          return 1;
+        }
+      );
+    if (!overdueCardType) {
+      throw new Error("No card of overdue type");
+    }
+    this.#lastOverdueCardTypeChosen = overdueCardType;
+    return this.getCardsOfOverdueType(overdueCardType).shift();
+  }
+
+  getRelativeProbabilityOfThisDeckBeingChosen(
+    type: CardClassification
+  ): number {
+    if (this.countCardsOfType(type) === 0) return 0;
+
+    /* Number between 0 and 1 */
+    const cardsInThisDeckAsProportionOfAllCards =
+      this.countAllCards / this.chooseCards.countAllCards;
+    const boostFactorBasedOnDeckSize = 5;
+    const boostBasedOnDeckSize =
+      boostFactorBasedOnDeckSize * cardsInThisDeckAsProportionOfAllCards;
+
+    /**
+     * Each deck starts out with an equal relative chance of "1".
+     *
+     * Taking deck size into account,
+     * a deck with 99 cards has a chance of 85% of being chosen now
+     * against a deck with 1 card has a relative chance of 15%
+     */
+    return 1 + boostBasedOnDeckSize;
   }
 }
