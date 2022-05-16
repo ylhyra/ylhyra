@@ -29,8 +29,6 @@ export class ChooseCardsFromDeck {
   notOverdue: Card[];
   newCards: Card[];
 
-  #lastOverdueCardTypeChosen: OverdueClassification | null = null;
-
   constructor(deck: Deck, chooseCards: ChooseCards) {
     this.deck = deck;
     this.chooseCards = chooseCards;
@@ -77,6 +75,8 @@ export class ChooseCardsFromDeck {
         return this.getOverdueCard();
     }
   }
+
+  #lastOverdueCardTypeChosen: OverdueClassification | null = null;
 
   /**
    * There are two overdue card types: overdueGood and overdueBad.
