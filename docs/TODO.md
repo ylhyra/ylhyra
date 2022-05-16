@@ -26,6 +26,7 @@
 * Run in Docker so that Windows users can contribute.
 * Audio synchronization must be put as a queued process.
 * [Project:Software work in progess/Útlit](https://ylhyra.is/Project:Software_work_in_progess/Útlit)
+* Skipta yfir í https://github.com/inikulin/parse5
 
 ### Efni
 

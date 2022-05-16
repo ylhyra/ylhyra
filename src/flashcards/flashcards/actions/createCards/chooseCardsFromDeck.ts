@@ -4,89 +4,75 @@ import { classifyCards } from "flashcards/flashcards/actions/createCards/classif
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { chooseDependingOnRelativeProbability } from "modules/probability";
 
-export enum CardClassification {
-  NEW,
-  /** Both overdueGood and overdueBad are included in this one */
-  OVERDUE,
-}
-
-export enum OverdueClassification {
-  BAD,
-  GOOD,
-}
-
 /**
- * Helper class used by {@link chooseCards} that is used
+ * Helper class used by {@link parentClass} that is used
  * to select the next card of a given type.
  */
 export class ChooseCardsFromDeck {
   deck: Deck;
-  /** The parent class that called this one */
-  chooseCards: ChooseCards;
+  parentClass: ChooseCards;
 
-  overdueGood: Card[];
-  overdueBad: Card[];
-  notOverdue: Card[];
-  newCards: Card[];
+  overdueGood!: Card[];
+  overdueBad!: Card[];
+  notOverdue!: Card[];
+  newCards!: Card[];
 
-  constructor(deck: Deck, chooseCards: ChooseCards) {
+  constructor(deck: Deck, parentClass: ChooseCards) {
     this.deck = deck;
-    this.chooseCards = chooseCards;
-    const classification = classifyCards(deck);
-    this.overdueGood = classification.overdueGood;
-    this.overdueBad = classification.overdueBad;
-    this.notOverdue = classification.notOverdue;
-    this.newCards = classification.newCards;
+    this.parentClass = parentClass;
+    Object.assign(this, classifyCards(deck));
+    // const classification = classifyCards(deck);
+    // this.overdueGood = classification.overdueGood;
+    // this.overdueBad = classification.overdueBad;
+    // this.notOverdue = classification.notOverdue;
+    // this.newCards = classification.newCards;
   }
 
   /**
    * Counts available cards EXCEPT non-overdue cards
    */
   get countAllCards() {
-    return (
-      this.countCardsOfType(CardClassification.NEW) +
-      this.countCardsOfType(CardClassification.OVERDUE)
-    );
+    return this.countCardsOfType("NEW") + this.countCardsOfType("OVERDUE");
   }
 
-  countCardsOfType(type: CardClassification) {
+  countCardsOfType(type: "NEW" | "OVERDUE") {
     switch (type) {
-      case CardClassification.NEW:
+      case "NEW":
         return this.newCards.length;
-      case CardClassification.OVERDUE:
+      case "OVERDUE":
         return this.overdueBad.length + this.overdueGood.length;
     }
   }
 
-  getCardsOfOverdueType(type: OverdueClassification) {
+  getCardsOfOverdueType(type: "OVERDUE_BAD" | "OVERDUE_GOOD") {
     switch (type) {
-      case OverdueClassification.BAD:
+      case "OVERDUE_BAD":
         return this.overdueBad;
-      case OverdueClassification.GOOD:
+      case "OVERDUE_GOOD":
         return this.overdueGood;
     }
   }
 
-  getCardOfType(type: CardClassification) {
+  getCardOfType(type: "NEW" | "OVERDUE") {
     switch (type) {
-      case CardClassification.NEW:
+      case "NEW":
         return this.newCards.shift();
-      case CardClassification.OVERDUE:
+      case "OVERDUE":
         return this.getOverdueCard();
     }
   }
 
-  #lastOverdueCardTypeChosen: OverdueClassification | null = null;
+  #lastOverdueCardTypeChosen: "OVERDUE_BAD" | "OVERDUE_GOOD" | null = null;
 
   /**
    * There are two overdue card types: overdueGood and overdueBad.
    * This function tries to alternate between them.
    */
   getOverdueCard() {
-    const overdueCardType: OverdueClassification | null =
+    const overdueCardType: "OVERDUE_BAD" | "OVERDUE_GOOD" | null =
       chooseDependingOnRelativeProbability(
-        [OverdueClassification.BAD, OverdueClassification.GOOD],
-        (type: OverdueClassification) => {
+        ["OVERDUE_BAD", "OVERDUE_GOOD"],
+        (type: "OVERDUE_BAD" | "OVERDUE_GOOD") => {
           if (this.getCardsOfOverdueType(type).length === 0) {
             return 0;
           }
@@ -107,14 +93,12 @@ export class ChooseCardsFromDeck {
   /**
    * Returns a real number between 0 and 2.
    */
-  getRelativeProbabilityOfThisDeckBeingChosen(
-    type: CardClassification
-  ): number {
+  getRelativeProbabilityOfThisDeckBeingChosen(type: "NEW" | "OVERDUE"): number {
     if (this.countCardsOfType(type) === 0) return 0;
 
     /* Number between 0 and 1 */
     const cardsInThisDeckAsProportionOfAllCards =
-      this.countAllCards / this.chooseCards.countAllCards;
+      this.countAllCards / this.parentClass.countAllCards;
     const boostFactorBasedOnDeckSize = 1;
     const boostBasedOnDeckSize =
       boostFactorBasedOnDeckSize * cardsInThisDeckAsProportionOfAllCards;

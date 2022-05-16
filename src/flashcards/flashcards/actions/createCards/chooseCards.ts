@@ -1,9 +1,6 @@
 import { setupTestSession } from "flashcards/flashcards/actions/_testing/testSetup";
 import { Card } from "flashcards/flashcards/actions/card/card";
-import {
-  CardClassification,
-  ChooseCardsFromDeck,
-} from "flashcards/flashcards/actions/createCards/chooseCardsFromDeck";
+import { ChooseCardsFromDeck } from "flashcards/flashcards/actions/createCards/chooseCardsFromDeck";
 import { Session } from "flashcards/flashcards/actions/session/session";
 import { log } from "modules/log";
 import { chooseDependingOnRelativeProbability } from "modules/probability";
@@ -29,16 +26,10 @@ export class ChooseCards {
     const cardsToCreate = Math.min(CARDS_TO_CREATE, this.countAllCards);
     const newCardEvery = this.newCardEvery;
     for (let i = 0; i < cardsToCreate; i++) {
-      const shouldBeNewCard = i % newCardEvery === 0;
-      let card;
-      if (
-        (shouldBeNewCard || !this.areOldCardsRemaining) &&
-        this.areNewCardsRemaining
-      ) {
-        card = this.getCardOfType(CardClassification.NEW);
-      } else {
-        card = this.getCardOfType(CardClassification.OVERDUE);
-      }
+      const shouldBeNewCard =
+        (i % newCardEvery === 0 || !this.areOldCardsRemaining) &&
+        this.areNewCardsRemaining;
+      const card = this.getCardOfType(shouldBeNewCard ? "NEW" : "OVERDUE");
       if (!card) continue;
       chosenCards.push(card);
       log(
@@ -95,17 +86,17 @@ export class ChooseCards {
 
   get areNewCardsRemaining() {
     return this.classificationsForAllDecks.some(
-      (j) => j.countCardsOfType(CardClassification.NEW) > 0
+      (j) => j.countCardsOfType("NEW") > 0
     );
   }
 
   get areOldCardsRemaining() {
     return this.classificationsForAllDecks.some((j) => {
-      return j.countCardsOfType(CardClassification.OVERDUE) > 0;
+      return j.countCardsOfType("OVERDUE") > 0;
     });
   }
 
-  getCardOfType(type: CardClassification): Card | undefined {
+  getCardOfType(type: "NEW" | "OVERDUE"): Card | undefined {
     const deck = chooseDependingOnRelativeProbability(
       this.classificationsForAllDecks,
       (deck) => {
