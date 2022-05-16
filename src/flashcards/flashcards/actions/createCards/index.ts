@@ -14,8 +14,8 @@ export type CreateCardsOptions = {
 };
 
 /**
- * Goes through the database of cards, finds relevant ones,
- * and then loads them into the session as {@link CardInSession}.
+ * Goes through the database of cards, finds relevant ones, and
+ * then loads them into the session as {@link CardInSession}.
  */
 export const createCards = (
   /** TODO: delete */ options?: CreateCardsOptions
