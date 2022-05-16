@@ -1,8 +1,8 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
+import { ChooseCards } from "flashcards/flashcards/actions/createCards/chooseCards";
 import { classifyCards } from "flashcards/flashcards/actions/createCards/classifyCards";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { chooseDependingOnRelativeProbability } from "modules/probability";
-import { ChooseCards } from "./chooseCards";
 
 export enum CardClassification {
   NEW,
@@ -15,13 +15,22 @@ export enum OverdueClassification {
   GOOD,
 }
 
-export class ClassifyCardsHelper {
+/**
+ * Helper class used by {@link chooseCards} that is used
+ * to select the next card of a given type.
+ */
+export class ChooseCardsFromDeck {
   deck: Deck;
+  /** The parent class that called this one */
   chooseCards: ChooseCards;
+
   overdueGood: Card[];
   overdueBad: Card[];
   notOverdue: Card[];
   newCards: Card[];
+
+  #lastOverdueCardTypeChosen: OverdueClassification | null = null;
+
   constructor(deck: Deck, chooseCards: ChooseCards) {
     this.deck = deck;
     this.chooseCards = chooseCards;
@@ -69,7 +78,6 @@ export class ClassifyCardsHelper {
     }
   }
 
-  #lastOverdueCardTypeChosen: OverdueClassification | null = null;
   /**
    * There are two overdue card types: overdueGood and overdueBad.
    * This function tries to alternate between them.
@@ -96,6 +104,9 @@ export class ClassifyCardsHelper {
     return this.getCardsOfOverdueType(overdueCardType).shift();
   }
 
+  /**
+   * Returns a real number between 0 and 2.
+   */
   getRelativeProbabilityOfThisDeckBeingChosen(
     type: CardClassification
   ): number {

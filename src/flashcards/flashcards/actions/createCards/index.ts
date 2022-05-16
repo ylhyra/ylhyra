@@ -1,5 +1,5 @@
 import { addBadDependencies } from "flashcards/flashcards/actions/createCards/addBadDependencies";
-import { ChooseCards } from "flashcards/flashcards/actions/createCards/wip/chooseCards";
+import { ChooseCards } from "flashcards/flashcards/actions/createCards/chooseCards";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { logBrowser, logDev } from "modules/log";
