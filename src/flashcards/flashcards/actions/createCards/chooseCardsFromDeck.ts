@@ -62,6 +62,19 @@ export class ChooseCardsFromDeck {
     }
   }
 
+  /**
+   * Deletes other cards belonging to the same row
+   * to prevent the other side being chosen on the next call
+   * (which would mess up our calculations regarding how often a new card should be chosen)
+   */
+  deleteCardsWithSameRow(card: Card) {
+    /** todo: refactor */
+    this.overdueGood = this.overdueGood.filter((c) => !c.is(card));
+    this.overdueBad = this.overdueBad.filter((c) => !c.is(card));
+    this.notOverdue = this.notOverdue.filter((c) => !c.is(card));
+    this.newCards = this.newCards.filter((c) => !c.is(card));
+  }
+
   #lastOverdueCardTypeChosen: "OVERDUE_BAD" | "OVERDUE_GOOD" | null = null;
 
   /**
