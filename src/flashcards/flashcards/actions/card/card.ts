@@ -72,17 +72,20 @@ export class Card {
   }
 
   /**
-   * (Todo: Check if cards.includes(card) works instead)
-   */
-  isIn(cards: Card[]) {
-    return cards.some((card) => card.is(this));
-  }
-
-  /**
-   * (Todo: May not be necessary as Card === Card also works...)
+   * Checks if two cards are the same card.
+   * (Used since Card === Card doesn't work if they are the same card
+   * just initialized at a different time, although that is currently
+   * never possible)
    */
   is(card: Card) {
     return this.cardId === card.cardId;
+  }
+
+  /**
+   * Checks if this card is in an array of cards
+   */
+  isIn(cards: Card[]) {
+    return cards.some((card) => card.is(this));
   }
 
   /** Todo */
