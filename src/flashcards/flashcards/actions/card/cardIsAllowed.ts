@@ -2,8 +2,8 @@ import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Card } from "flashcards/flashcards/actions/card/card";
 
 /**
- * Whether a card is allowed to be chosen by {@link createCards}
- * to be added to the session.
+ * Whether a card is allowed to be chosen by
+ * {@link createCards} to be added to the session.
  */
 export function isAllowed(this: Card): boolean {
   /* Ignore cards that are already in the session */
@@ -19,8 +19,8 @@ export function isAllowed(this: Card): boolean {
    * In case we're adding cards to an already ongoing session,
    * ignore cards that are similar to a card the user has just seen.
    *
-   * TODO!! This should not prevent these cards from being chosen,
-   * just give them a lower score!
+   * TODO!! This should not prevent these cards from
+   * being chosen, just give them a lower score!
    */
   if (
     getSession()

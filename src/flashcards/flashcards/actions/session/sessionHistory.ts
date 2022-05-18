@@ -30,9 +30,7 @@ export class SessionHistory {
     this.cardDirectionLog.unshift(cardInSession.direction);
   }
 
-  /**
-   * Todo: Rework?
-   */
+  /** Todo: Rework? */
   #lastUndidAtCounter?: Session["counter"];
   undo() {
     const cardInSession = this.cardHistory?.[0];

@@ -3,9 +3,7 @@ import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
 import { CardIds, Direction } from "flashcards/flashcards/types";
 import { isDev } from "modules/isDev";
 
-/**
- * Used for debugging (printing cards to the console)
- */
+/** Used for debugging (printing cards to the console) */
 export function printWord(this: Card): string | undefined {
   if (!isDev) return;
   return this.data[

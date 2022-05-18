@@ -84,7 +84,8 @@ export class Row {
   }
 
   /**
-   * Gets the row setting, falling back to the deck setting, falling back to defaults.
+   * Gets the row setting, falling back to the
+   * deck setting, falling back to defaults.
    */
   getSetting<T extends keyof DeckSettings & keyof RowData>(
     key: T

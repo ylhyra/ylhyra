@@ -1,20 +1,21 @@
 import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
 import { CardId, DeckId, Direction } from "flashcards/flashcards/types";
 
-/**
- * Can not be "-" due to shortId.generate() using it.
- */
+/** Can not be "-" due to shortId.generate() using it. */
 export const CARD_ID_SEPARATOR = ":";
 
 /**
  * A CardId encodes three parts:
- *    - The deckId
- *    - The rowId
- *    - The direction
+ *
+ * - The deckId
+ * - The rowId
+ * - The direction
+ *
  * This is done to make lookup easier.
  *
  * The output is thus:
- *    - "aaaaa:bbbbb:ccccc"
+ *
+ * - "aaaaa:bbbbb:ccccc"
  */
 export const createCardId = (
   deckId: DeckId,
@@ -34,6 +35,7 @@ export const createCardId = (
 
 /**
  * Direction is encoded in CardId
+ *
  * @deprecated
  */
 export function getDirectionFromCardId(cardId: CardId): Direction {

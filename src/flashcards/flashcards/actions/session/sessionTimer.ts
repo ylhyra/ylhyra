@@ -16,8 +16,8 @@ export class SessionTimer {
   /**
    * Used to update the progress bar and to see when the time is up.
    * Is 0 if there is no time remaining.
-   * Not updated unless updateRemainingTime() is called
-   * (done in {@link Session.increaseCounter})
+   * Not updated unless updateRemainingTime() is
+   * called (done in {@link Session.increaseCounter})
    */
   remainingTime: Milliseconds;
   #remainingTimeLastUpdatedAt: Timestamp;

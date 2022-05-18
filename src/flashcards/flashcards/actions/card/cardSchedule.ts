@@ -21,18 +21,14 @@ export function getDueAt(this: Card): Timestamp | undefined {
   return this.getScheduleForCard()?.due;
 }
 
-/**
- * We consider a card overdue if it's due date is less than 16 hours from now
- */
+/** We consider a card overdue if it's due date is less than 16 hours from now */
 export function isOverdue(this: Card): Boolean {
   const timestampToCompareTo = getTimeMemoized() + 16 * hours;
   const dueAt = this.getDueAt();
   return dueAt ? dueAt < timestampToCompareTo : false;
 }
 
-/**
- * @see Score
- */
+/** @see Score */
 export function getScore(this: Card): Score | undefined {
   return this.getScheduleForCard()?.score;
 }
@@ -60,8 +56,8 @@ export function isUnseenSiblingOfANonGoodCard(this: Card) {
 }
 
 /**
- * Note that a card may be in the schedule without having been seen
- * (it may just have been postponed instead).
+ * Note that a card may be in the schedule without having
+ * been seen (it may just have been postponed instead).
  */
 export function isInSchedule(this: Card) {
   return this.cardId in getEntireSchedule();
@@ -111,9 +107,7 @@ export function timeSinceRowWasSeen(this: Card): Milliseconds | null {
   return getTimeMemoized() - j;
 }
 
-/**
- * Whether a row was seen in the previous 45 minutes
- */
+/** Whether a row was seen in the previous 45 minutes */
 export function wasRowVeryRecentlySeen(this: Card) {
   return this.wasRowSeenMoreRecentlyThan(45 * minutes);
 }
@@ -131,10 +125,7 @@ export function isNewCard(this: Card): boolean {
   return !this.getScore();
 }
 
-/**
- * Used by the interface ({@link CardElement})
- * to indicate a card being new.
- */
+/** Used by the interface ({@link CardElement}) to indicate a card being new. */
 export function isNewRowThatHasNotBeenSeenInSession(this: Card): boolean {
   return this.row.cards.every(
     (card2) =>

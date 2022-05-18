@@ -1,9 +1,7 @@
 import { Html } from "inflection/tables/types";
 import { removeExtraWhitespace } from "modules/removeExtraWhitespace";
 
-/**
- * Strips the HTML from {@link formatVocabularyEntry}
- */
+/** Strips the HTML from {@link formatVocabularyEntry} */
 export const getPlaintextFromFormatted = (
   input: string | undefined
 ): string => {
@@ -23,9 +21,7 @@ export const getPlaintextFromFormatted = (
   );
 };
 
-/**
- * Todo: Prevent user HTML from being injected
- */
+/** Todo: Prevent user HTML from being injected */
 export const formatVocabularyEntry = (input: string): Html => {
   if (!input) return "";
 

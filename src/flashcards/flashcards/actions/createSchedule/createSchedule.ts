@@ -17,8 +17,9 @@ const GOOD_INITIAL_DUE_IN_DAYS = 5;
 /**
  * Long-row scheduling.
  * Calculates:
- *   - When a card should be shown again
- *   - Its score ({@see Score}).
+ *
+ * - When a card should be shown again
+ * - Its score ({@see Score}).
  */
 export function createSchedule() {
   const session = getSession();
@@ -41,6 +42,7 @@ export function createSchedule() {
 
     /**
      * SCORE
+     *
      * @see Score
      */
     if (isNew) {
@@ -91,8 +93,9 @@ export function createSchedule() {
 
     /**
      * If any sibling cards got a bad rating in this session, then:
-     *   - This card's score is set to  "1.4".
-     *   - It is scheduled to be shown no later than in three days.
+     *
+     * - This card's score is set to "1.4".
+     * - It is scheduled to be shown no later than in three days.
      */
     if (
       score >= Rating.GOOD &&
@@ -107,7 +110,10 @@ export function createSchedule() {
     }
 
     card.setSchedule({
-      /** Randomly add or subtract up to 10% of the dueInDays just for some variety */
+      /**
+       * Randomly add or subtract up to 10% of
+       * the dueInDays just for some variety
+       */
       due: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
       lastIntervalInDays: toFixedFloat(dueInDays, 1),
       score: toFixedFloat(score, 2),
