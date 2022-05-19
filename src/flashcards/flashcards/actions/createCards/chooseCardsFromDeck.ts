@@ -21,11 +21,6 @@ export class ChooseCardsFromDeck {
     this.deck = deck;
     this.parentClass = parentClass;
     Object.assign(this, classifyCards(deck));
-    // const classification = classifyCards(deck);
-    // this.overdueGood = classification.overdueGood;
-    // this.overdueBad = classification.overdueBad;
-    // this.notOverdue = classification.notOverdue;
-    // this.newCards = classification.newCards;
   }
 
   /** Counts available cards EXCEPT non-overdue cards */
@@ -52,12 +47,15 @@ export class ChooseCardsFromDeck {
   }
 
   getCardOfType(type: "NEW" | "OVERDUE") {
-    switch (type) {
-      case "NEW":
-        return this.newCards.shift();
-      case "OVERDUE":
-        return this.getOverdueCard();
+    let card: Card | undefined;
+    if (type === "NEW") {
+      card = this.newCards.shift();
+    } else if (type === "OVERDUE") {
+      card = this.getOverdueCard();
     }
+    if (!card) return;
+    this.deleteCardsWithSameRow(card);
+    return card;
   }
 
   /**
@@ -80,10 +78,10 @@ export class ChooseCardsFromDeck {
    * overdueBad. This function tries to alternate between them.
    */
   getOverdueCard() {
-    const overdueCardType: "OVERDUE_BAD" | "OVERDUE_GOOD" | null =
-      chooseDependingOnRelativeProbability(
+    const overdueCardType: "OVERDUE_BAD" | "OVERDUE_GOOD" = (() => {
+      return chooseDependingOnRelativeProbability(
         ["OVERDUE_BAD", "OVERDUE_GOOD"],
-        (type: "OVERDUE_BAD" | "OVERDUE_GOOD") => {
+        (type) => {
           if (this.getOverdueCardsOfType(type).length === 0) {
             return 0;
           }
@@ -94,9 +92,7 @@ export class ChooseCardsFromDeck {
           return 1;
         }
       );
-    if (!overdueCardType) {
-      throw new Error("No card of overdue type");
-    }
+    })()!;
     this.#lastOverdueCardTypeChosen = overdueCardType;
     return this.getOverdueCardsOfType(overdueCardType).shift();
   }
