@@ -3,7 +3,7 @@ import fs from "fs";
 // @ts-ignore
 import yaml from "js-yaml";
 import _ from "underscore";
-import { removeExtraWhitespace } from "ylhyra/app/app/functions/removeExtraWhitespace";
+import { removeExtraWhitespace } from "modules/removeExtraWhitespace";
 import { vocabularyRowTitles } from "ylhyra/vocabulary/vocabularyEditor/rowTitles";
 import { contentFolder } from "ylhyra/server/paths_directories";
 
