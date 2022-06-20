@@ -205,9 +205,6 @@
     "plugins": [
       "prettier-plugin-jsdoc"
     ],
-    "options": {
-      "jsdocSingleLineComment": false
-    }
   },
   "prisma": {
     "schema": "src/flashcards/database/schema.prisma"
