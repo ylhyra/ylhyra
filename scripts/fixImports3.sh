@@ -12,12 +12,16 @@
 # brew install pcregrep
 
 if echo "$1" | grep -q "\.tsx\?"; then
-  # Add space before exports
-  perl -i -p0e 's/([^\n/])\nexport/$1\n\nexport/g' "$1"
+  content = $(cat "$1")
+
+#  # Add space before exports
+#  perl -i -p0e 's/([^\n])\nexport/$1\n\nexport/g' "$1"
 
   if (eslint_d --rule "no-undef: error" "$1" | grep -q "no-undef"); then
-    cat "$1" | npx import-js fix --overwrite "$1"
-    prettified="$(cat "$1" | prettier "$1")"
-    echo "$prettified" >| "$1"
+#    importsFixed="$(cat "$1" | npx import-js fix "$1")"
+#    prettified="$(echo "$importsFixed" | prettier "$1")"
+#    if [ "$content" != "$prettified" ]; then
+#      echo "$prettified" > "$1"
+#    fi
   fi;
 fi;
