@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 // import { ReactMic } from "react-mic";
 import { connect, ConnectedProps } from "react-redux";
-import Sound from "react-sound";
+// import Sound from "react-sound";
 import { RootState } from "ylhyra/app/app/store";
 import { load } from "ylhyra/vocabulary/vocabularyEditor/actions/initialize";
 import {
@@ -29,9 +29,8 @@ class RecorderElement extends React.Component<{ word: string }> {
     blob: null,
     isKeyDown: null,
     /**
-     * The actual recording lags behind the user clicking,
-     * therefore we need to update the interface a few seconds
-     * after the click.
+     * The actual recording lags behind the user clicking, therefore
+     * we need to update the interface a few seconds after the click.
      */
     hasRecordingActuallyStarted: false,
   };
@@ -160,15 +159,15 @@ class RecorderElement extends React.Component<{ word: string }> {
         {/*  backgroundColor="#ffffff"*/}
         {/*/>*/}
 
-        {this.state.blob &&
-          this.state.blob.blobURL &&
-          !this.state.recording && (
-            <Sound
-              url={this.state.blob.blobURL}
-              playStatus={Sound.status.PLAYING}
-              loop={true}
-            />
-          )}
+        {/*{this.state.blob &&*/}
+        {/*  this.state.blob.blobURL &&*/}
+        {/*  !this.state.recording && (*/}
+        {/*    <Sound*/}
+        {/*      url={this.state.blob.blobURL}*/}
+        {/*      playStatus={Sound.status.PLAYING}*/}
+        {/*      loop={true}*/}
+        {/*    />*/}
+        {/*  )}*/}
       </div>
     );
   }

@@ -1,8 +1,6 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 
-/**
- * Todo: Limit to only the first few deps
- */
+/** Todo: Limit to only the first few deps */
 export function hasDependenciesInCommonWith(this: Card, card2: Card) {
   const deps1 = this.row.getDependenciesAsArrayOfRowIds();
   const deps2 = card2.row.getDependenciesAsArrayOfRowIds();

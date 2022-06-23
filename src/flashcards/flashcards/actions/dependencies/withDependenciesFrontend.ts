@@ -1,8 +1,8 @@
 import { CardIds } from "flashcards/flashcards/types";
 
 /**
- * Returns an array of cards with all
- * necessary dependencies of a card coming before it
+ * Returns an array of cards with all necessary
+ * dependencies of a card coming before it
  */
 export const withDependencies = (
   cardIds: CardIds,

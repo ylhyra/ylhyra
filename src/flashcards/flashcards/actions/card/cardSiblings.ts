@@ -5,8 +5,8 @@ import { filterEmpty } from "modules/typescript/filterEmpty";
 
 /**
  * Gets the other side of the card.
- * (Although currently there can only be two sides,
- * previous versions allowed many related cards to share a "row".
+ * (Although currently there can only be two sides, previous
+ * versions allowed many related cards to share a "row".
  * Returning an array is therefore not necessary currently)
  */
 export function getSiblingCards(this: Card): Card[] {

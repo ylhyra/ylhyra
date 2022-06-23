@@ -31,9 +31,8 @@ export type DeckSettings = Partial<{
   stringReplacements: [];
   automaticReplacementsToFindAlternativeId: [];
   /**
-   * When the user is playing from all decks at once,
-   * this multiplier can be used to make certain decks more important
-   * than others
+   * When the user is playing from all decks at once, this multiplier
+   * can be used to make certain decks more important than others
    */
   deckImportanceMultiplier: number;
   formattingStyle: undefined | "DICTIONARY";

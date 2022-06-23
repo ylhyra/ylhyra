@@ -15,8 +15,8 @@ export function loadCardsIntoSession(
 
   /**
    * Todo:
-   * getRanking() doesn't actually rely on the insert position as these are new cards,
-   * which are all moved back. So this may need some reconsidering.
+   * getRanking() doesn't actually rely on the insert position as these are
+   * new cards, which are all moved back. So this may need some reconsidering.
    */
   const insertAtPosition = 0;
   // if (!options.insertImmediately) {

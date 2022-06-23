@@ -4,11 +4,12 @@ import { Rating } from "flashcards/flashcards/types";
 /**
  * Returns a ranking for a given {@link CardInSession} indicating
  * how likely it is that it should be chosen as the next card:
- *   - A low ranking (close to zero) indicates that it should be chosen.
- *   - A high ranking indicates it should NOT be chosen.
  *
- * Each card has a queue position (see {@link getQueuePosition}),
- * but here we add or subtract to that value based on whether it is actually relevant,
+ * - A low ranking (close to zero) indicates that it should be chosen.
+ * - A high ranking indicates it should NOT be chosen.
+ *
+ * Each card has a queue position (see {@link getQueuePosition}), but here we
+ * add or subtract to that value based on whether it is actually relevant,
  * such as preferring overdue cards and prohibiting cards that are too recent.
  */
 export function getRanking(this: CardInSession) {
@@ -23,33 +24,28 @@ export function getRanking(this: CardInSession) {
   let rank = this.queuePosition;
 
   /**
-   * Rows that haven't already been seen in this session
-   * are moved back in the queue. They will only be shown
-   * if there are no overdue seen rows (non-overdue seen rows
-   * are moved back in the next step).
+   * Rows that haven't already been seen in this session are moved back
+   * in the queue. They will only be shown if there are no overdue seen
+   * rows (non-overdue seen rows are moved back in the next step).
    */
   if (!this.hasRowBeenSeenInSession()) {
     rank += 1000;
   }
 
-  /**
-   * Seen rows are not relevant if they are not overdue.
-   */
+  /** Seen rows are not relevant if they are not overdue. */
   if (this.hasRowBeenSeenInSession() && !this.isOverdueInCurrentSession()) {
     rank += 2000;
   }
 
   /**
-   * Sees if there is a hard limit in place
-   * in {@link CardInSession.#cannotBeShownUntilRelativeToCounter}
+   * Sees if there is a hard limit in place in
+   * {@link CardInSession.#cannotBeShownUntilRelativeToCounter}
    */
   if (!this.canBeShown) {
     rank += 10000;
   }
 
-  /**
-   * A bad cardInSession that is due exactly now has priority
-   */
+  /** A bad cardInSession that is due exactly now has priority */
   if (
     this.lastRating === Rating.BAD &&
     this.isDueExactlyNow() &&

@@ -6,9 +6,7 @@ import { showIn } from "flashcards/flashcards/actions/cardInSession/showIn";
 import { Session } from "flashcards/flashcards/actions/session/session";
 import { Rating } from "flashcards/flashcards/types";
 
-/**
- * An interval of "1" would mean that that card is shown next.
- */
+/** An interval of "1" would mean that that card is shown next. */
 export type IntervalRelativeToCurrentCardBeingAtZero = number;
 
 export class CardInSession extends Card {
@@ -66,12 +64,14 @@ export class CardInSession extends Card {
   }
 
   /**
-   * Internally stores info such as "This card should be shown when the counter is at 8"
+   * Internally stores info such as "This card
+   * should be shown when the counter is at 8"
    */
   #queuePositionRelativeToCounter: Session["counter"];
 
   /**
-   * A card is overdue to be shown again in this session if its queue position is less than 0.
+   * A card is overdue to be shown again in this
+   * session if its queue position is less than 0.
    * Note: Multiple cards can have the same queue position
    */
   get queuePosition(): IntervalRelativeToCurrentCardBeingAtZero {
@@ -94,9 +94,7 @@ export class CardInSession extends Card {
     return this.queuePosition === 0;
   }
 
-  /**
-   * Hard limit on when a card can be shown
-   */
+  /** Hard limit on when a card can be shown */
   #cannotBeShownUntilRelativeToCounter?: Session["counter"];
 
   get cannotBeShownUntil(): IntervalRelativeToCurrentCardBeingAtZero {

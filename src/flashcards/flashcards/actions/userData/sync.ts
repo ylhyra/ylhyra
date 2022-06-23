@@ -15,8 +15,10 @@ import { log } from "modules/log";
 
 /**
  * TODO:
- * - skrá notanda í gögn!
- * - tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
+ *
+ * - Skrá notanda í gögn!
+ * - Tékka hvort notandi sé enn skráður inn
+ *   og hvort sami notandi sé enn skráður inn
  */
 export const sync = async (options: any = {}): Promise<UserData> => {
   let userData: UserData;

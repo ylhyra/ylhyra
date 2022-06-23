@@ -13,7 +13,10 @@ export class CardElement extends Component {
     isShowingBottomSide?: boolean;
     /** Then he rates how well he knew it */
     chosenRating?: Rating;
-    /** Used to make UI show a slight lag between keyboard shortcuts and answering */
+    /**
+     * Used to make UI show a slight lag
+     * between keyboard shortcuts and answering
+     */
     clickingOnShowButton?: boolean;
   } = {};
   componentDidMount() {
@@ -84,9 +87,9 @@ export class CardElement extends Component {
     }
   };
   /**
-   * @param timeout – A timeout is used when using keyboard shortcuts
-   *    to add enough lag to the user interface for which button
-   *    the user is clicking to be noticeable
+   * @param timeout – A timeout is used when using keyboard
+   *   shortcuts to add enough lag to the user interface for
+   *   which button the user is clicking to be noticeable
    */
   cardClicked = (timeout?: NodeJS.Timeout) => {
     if (this.state.isShowingBottomSide) {
@@ -105,9 +108,7 @@ export class CardElement extends Component {
     }
     this.sound(true);
   };
-  /**
-   * {@link CardElement.cardClicked} is also invoked at the same time (I believe)
-   */
+  /** {@link CardElement.cardClicked} is also invoked at the same time (I believe) */
   ratingClicked = (
     rating: Rating,
     timeout?: NodeJS.Timeout | false,
@@ -349,9 +350,7 @@ export class CardElement extends Component {
   };
 }
 
-/**
- * Helper function around dangerouslySetInnerHTML
- */
+/** Helper function around dangerouslySetInnerHTML */
 const html = (text?: string): Jsx => {
   if (!text) return null;
   return <span dangerouslySetInnerHTML={{ __html: text }} />;

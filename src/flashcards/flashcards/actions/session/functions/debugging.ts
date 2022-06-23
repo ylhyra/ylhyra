@@ -4,8 +4,7 @@ import _ from "underscore";
 
 /**
  * Used to see all cards currently loaded in a session.
- * In your browser console, set:
- *    logging = true
+ * In your browser console, set `logging = true`
  * and every time a new card is loaded, a table will be printed.
  */
 export const debugSession = () => {

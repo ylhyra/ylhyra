@@ -5,9 +5,7 @@ import {
   DependenciesForOneRowAsDependencyToDepth,
 } from "flashcards/flashcards/types";
 
-/**
- * Prevent ridiculously deep dependencies
- */
+/** Prevent ridiculously deep dependencies */
 const MAX_DEPTH = 10;
 
 export function getDependencyGraph(
@@ -30,9 +28,7 @@ export function getDependencyGraph(
   // });
 }
 
-/**
- * A rowId to the rowIds it directly depends on
- */
+/** A rowId to the rowIds it directly depends on */
 export type DirectDependencies = Record<RowId, RowId[]>;
 export const directDependenciesGraph = (deck: Deck): DirectDependencies => {
   throw new Error("Not implemented");
@@ -52,9 +48,8 @@ export const directDependenciesGraph = (deck: Deck): DirectDependencies => {
 };
 
 /**
- * Recursively calculates dependencies
- * (if X depends on Y, and Y depends on Z,
- * then X depends on Y with depth 1 and on Z with depth 2)
+ * Recursively calculates dependencies (if X depends on Y, and Y
+ * depends on Z, then X depends on Y with depth 1 and on Z with depth 2)
  *
  * Todo: Remove recursive dependencies before?
  */

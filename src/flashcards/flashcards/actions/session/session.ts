@@ -28,8 +28,8 @@ export class Session {
 
   /**
    * This counter increases for every new card the user sees.
-   * It is used for scheduling cards within the session,
-   * e.g. "This card should be shown when the counter is at 8".
+   * It is used for scheduling cards within the session, e.g.
+   * "This card should be shown when the counter is at 8".
    *
    * The counter value for the first card will be "1".
    *
@@ -47,9 +47,9 @@ export class Session {
   }
 
   /**
-   * We have to reset instead of creating a new session object
-   * in order to allow MobX to listen to changes
-   * (the interface would otherwise be listening to an older object)
+   * We have to reset instead of creating a new session
+   * object in order to allow MobX to listen to changes (the
+   * interface would otherwise be listening to an older object)
    */
   reset() {
     this.allowedDecks = [];

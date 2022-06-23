@@ -73,17 +73,14 @@ export class Card {
 
   /**
    * Checks if two cards are the same card.
-   * (Used since Card === Card doesn't work if they are the same card
-   * just initialized at a different time, although that is currently
-   * never possible)
+   * (Used since Card === Card doesn't work if they are the same card just
+   * initialized at a different time, although that is currently never possible)
    */
   is(card: Card) {
     return this.cardId === card.cardId;
   }
 
-  /**
-   * Checks if this card is in an array of cards
-   */
+  /** Checks if this card is in an array of cards */
   isIn(cards: Card[]) {
     return cards.some((card) => card.is(this));
   }

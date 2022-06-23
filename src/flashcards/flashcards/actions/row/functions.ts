@@ -1,8 +1,5 @@
 import { getPlaintextFromUnformattedVocabularyEntry } from "flashcards/flashcards/actions/format/format";
 
-/**
- *
- */
 export const getPossibleAlternativeIds = (input: string): string[] => {
   if (!input) return [];
   // if (Array.isArray(input)) {

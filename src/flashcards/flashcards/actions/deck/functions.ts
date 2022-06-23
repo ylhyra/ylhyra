@@ -14,9 +14,7 @@ import { goToUrl } from "modules/router";
 import shortid from "shortid";
 import _ from "underscore";
 
-/**
- * Called in user interface
- */
+/** Called in user interface */
 export const newDeck = (): Deck => {
   const id = shortid.generate() as DeckId;
   const deck = new Deck({

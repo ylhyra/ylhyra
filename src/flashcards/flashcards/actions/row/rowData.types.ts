@@ -6,8 +6,7 @@ export type RowId = Brand<string, "RowId">;
 export type RowIds = RowId[];
 
 /**
- * Raw user input describing flashcard
- * See {@link rowFields} for more details.
+ * Raw user input describing flashcard See {@link rowFields} for more details.
  *
  * For the processed information, see
  * {@link ProcessedCardExtraInformation} (work in progress)
