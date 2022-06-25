@@ -27,25 +27,22 @@ export function newDeck(): Deck {
   return deck;
 }
 
-export function addRow(this: Deck, data: Partial<RowData> = {}) {
-  return this.addMultipleRows([data]);
+export function addRow(deck: Deck, data: Partial<RowData> = {}) {
+  return addRowsToDeck(deck, [data]);
 }
 
-export function addMultipleRows(
-  this: Deck,
-  arrayOfRowData: Partial<RowData>[]
-) {
+export function addRowsToDeck(deck: Deck, arrayOfRowData: Partial<RowData>[]) {
   let rows: Record<RowId, Row> = {};
   let rowsArray: Row[] = [];
   let i = 0;
   const baseId = shortid.generate();
   const highestRowNumber = _.max([
     0,
-    ...this.rows.map((row) => row.data.rowNumber),
+    ...deck.rows.map((row) => row.data.rowNumber),
   ]);
   arrayOfRowData.forEach((rowData) => {
     const rowId = `${baseId}${i}` as RowId;
-    const row = new Row(this, {
+    const row = new Row(deck, {
       rowId,
       rowNumber: highestRowNumber + 1 + i++,
       ...removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(
@@ -55,10 +52,8 @@ export function addMultipleRows(
     // rows[rowId] = row;
     rowsArray.push(row);
   });
-  // this.rows = { ...this.rows, ...rows };
-  // this.rows2 = { ...this.rows2, ...rows };
-  this.rows = this.rows.concat(rowsArray);
-  // return rows[0];
+  // deck.rows = { ...this.rows, ...rows };
+  deck.rows = deck.rows.concat(rowsArray);
 }
 
 export function getAllCardsFromDecks(decks: Deck[]): Card[] {

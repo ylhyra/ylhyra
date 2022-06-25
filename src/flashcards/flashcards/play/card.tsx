@@ -1,4 +1,5 @@
 import { getSession } from "flashcards/flashcards/actions/session/session";
+import { EditRow } from "flashcards/flashcards/editor/row";
 import { Direction, Rating } from "flashcards/flashcards/types";
 import { observer } from "mobx-react";
 import { joinClassNames } from "modules/addCssClass";
@@ -194,6 +195,7 @@ export class CardElement extends Component {
     const isVolumeOn = session.isVolumeOn;
     const answered = this.state.isShowingBottomSide;
     const card = session.currentCard;
+    const AnswerButton = this.AnswerButton;
 
     if (session.counter === 0) {
       return <div>Loading...</div>;
@@ -229,7 +231,9 @@ export class CardElement extends Component {
     // note = label("Note", note);
     // note_regarding_english = label("Note", note_regarding_english);
 
-    const AnswerButton = this.AnswerButton;
+    if (this.state.isEditing) {
+      return <EditRow row={card.row} />;
+    }
 
     return (
       <div

@@ -1,12 +1,11 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
-import {
-  addMultipleRows,
-  addRow,
-} from "flashcards/flashcards/actions/deck/functions";
 import { getDependencyGraph } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
+import {
+  RowData,
+  RowId,
+} from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
 import { computed, makeObservable, observable } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
@@ -35,6 +34,7 @@ export class Deck {
       settings: observable,
       rows: observable,
       cards: computed({ keepAlive: true }),
+      alternativeIds: computed({ keepAlive: true }),
       dependencyGraph: computed({ keepAlive: true }),
     });
   }
@@ -51,12 +51,19 @@ export class Deck {
     return flattenArray(this.rows.map((row) => row.cards));
   }
 
+  get alternativeIds(): Record<RowId, RowId> {
+    let out: Record<RowId, RowId> = {};
+    this.rows.forEach((row) => {
+      row.alternativeIds.forEach((alternativeId) => {
+        out[alternativeId] = row.rowId;
+      });
+    });
+    return out;
+  }
+
   get dependencyGraph() {
     return getDependencyGraph.bind(this)();
   }
-
-  addRow = addRow;
-  addMultipleRows = addMultipleRows;
 
   toJSON() {
     return {

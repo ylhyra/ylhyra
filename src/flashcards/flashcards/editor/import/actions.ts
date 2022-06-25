@@ -1,4 +1,5 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { addRowsToDeck } from "flashcards/flashcards/actions/deck/functions";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { action } from "mobx";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
@@ -14,21 +15,21 @@ export const addRowsIfMissing = action((deck: Deck, text: string) => {
     text.split(/\n/g).forEach((line) => {
       if (!line.trim()) return;
       /**
-       * Prefer splitting on tab, but fall back to
-       * other separators if a tab isn't in the string
+       * Prefer splitting on tab, but fall back to other
+       * separators if a tab isn't in the string
        */
       const splitOn =
         ["\t", "=", " - ", ": "].find((j) => line.indexOf(j) > 0) || "\t";
       const split = line.split(splitOn);
       const front = split[0];
       /**
-       * Join remaining just to prevent data loss
-       * (since only two columns are currently supported
+       * Join remaining just to prevent data loss (since
+       * only two columns are currently supported
        */
       const back = split.slice(1).join("");
       // deck.addRow({ front, back });
       rowsToAdd.push({ front, back });
     });
-    deck.addMultipleRows(rowsToAdd);
+    addRowsToDeck(deck, rowsToAdd);
   }, "addRowsIfMissing");
 });

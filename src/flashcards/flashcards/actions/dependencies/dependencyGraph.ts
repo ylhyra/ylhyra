@@ -4,6 +4,8 @@ import {
   DependenciesForAllRowsAsRowIdToDependencyToDepth,
   DependenciesForOneRowAsDependencyToDepth,
 } from "flashcards/flashcards/types";
+import { entries, keys } from "modules/typescript/objectEntries";
+import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 /** Prevent ridiculously deep dependencies */
 const MAX_DEPTH = 10;
@@ -11,40 +13,35 @@ const MAX_DEPTH = 10;
 export function getDependencyGraph(
   this: Deck
 ): DependenciesForAllRowsAsRowIdToDependencyToDepth {
-  throw new Error("Not implemented");
+  return warnIfFunctionIsSlow.wrap(() => {
+    let output: DependenciesForAllRowsAsRowIdToDependencyToDepth = {};
 
-  // return warnIfFunctionIsSlow.wrap(() => {
-  //   let output: DependenciesForAllRowsAsRowIdToDependencyToDepth = {};
-  //
-  //   const directDependencies = directDependenciesGraph(deck);
-  //
-  //   keys(directDependencies).forEach((rowId) => {
-  //     output[rowId] = dependencyToDepthForASingleRow(
-  //       directDependencies,
-  //       rowId
-  //     );
-  //   });
-  //   return output;
-  // });
+    const directDependencies = directDependenciesGraph(this);
+
+    keys(directDependencies).forEach((rowId) => {
+      output[rowId] = dependencyToDepthForASingleRow(directDependencies, rowId);
+    });
+    return output;
+  });
 }
 
 /** A rowId to the rowIds it directly depends on */
 export type DirectDependencies = Record<RowId, RowId[]>;
 export function directDependenciesGraph(deck: Deck): DirectDependencies {
   throw new Error("Not implemented");
-  // let directDependencies: DirectDependencies = {};
-  // entries(deck.dependenciesUnprocessed).forEach(
-  //   ([rowId, dependsOnSentences]) => {
-  //     dependsOnSentences.forEach((dependsOnSentence) => {
-  //       if (dependsOnSentence in deck.alternativeIds) {
-  //         directDependencies[rowId] = (
-  //           directDependencies[rowId] || []
-  //         ).concat(deck.alternativeIds[dependsOnSentence]);
-  //       }
-  //     });
-  //   }
-  // );
-  // return directDependencies;
+  let directDependencies: DirectDependencies = {};
+  entries(deck.dependenciesUnprocessed).forEach(
+    ([rowId, dependsOnSentences]) => {
+      dependsOnSentences.forEach((dependsOnSentence) => {
+        if (dependsOnSentence in deck.alternativeIds) {
+          directDependencies[rowId] = (directDependencies[rowId] || []).concat(
+            deck.alternativeIds[dependsOnSentence]
+          );
+        }
+      });
+    }
+  );
+  return directDependencies;
 }
 
 /**

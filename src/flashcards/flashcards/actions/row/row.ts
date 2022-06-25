@@ -79,7 +79,7 @@ export class Row {
     return keys(this.deck.dependencyGraph[this.rowId]);
   }
 
-  get alternativeIds() {
+  get alternativeIds(): RowIds {
     throw new Error("Not implemented");
   }
 
