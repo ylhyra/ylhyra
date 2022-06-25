@@ -55,8 +55,8 @@ export const FlashcardsPlay = observer(function () {
 });
 
 /**
- * Note: This is here since I haven't gotten around
- * to moving the eventListeners to React hooks above.
+ * Note: This is here since I haven't gotten around to
+ * moving the eventListeners to React hooks above.
  */
 class FlashcardsPlayHeader extends Component {
   componentDidMount = () => {

@@ -15,6 +15,8 @@ export function EditRow({ row }: { row: Row }) {
       <Form>
         <Input name="front" />
         <Input name="back" />
+
+        {/*<AllFields />*/}
       </Form>
     </div>
   );

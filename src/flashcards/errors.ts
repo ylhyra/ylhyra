@@ -5,5 +5,5 @@ export const errors = {
   LOGIN_FORM_USERNAME_DOES_NOT_EXIST: "LOGIN_FORM_USERNAME_DOES_NOT_EXIST",
   LOGIN_FORM_INCORRECT_PASSWORD: "LOGIN_FORM_INCORRECT_PASSWORD",
   ERROR_LOGIN_REQUIRED: "ERROR_LOGIN_REQUIRED",
-};
-export type t_Error = typeof errors[keyof typeof errors];
+} as const;
+export type ErrorEnum = typeof errors[keyof typeof errors];

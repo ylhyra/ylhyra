@@ -1,6 +1,6 @@
-import { t_Error } from "flashcards/errors";
+import { ErrorEnum } from "flashcards/errors";
 
-export function throwError(message: t_Error | null, status?: number) {
+export function throwError(message: ErrorEnum | null, status?: number) {
   // return res.status(status || 500).send({ error: message });
   throw { message, status };
 }

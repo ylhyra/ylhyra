@@ -14,8 +14,8 @@ export class CardElement extends Component {
     /** Then he rates how well he knew it */
     chosenRating?: Rating;
     /**
-     * Used to make UI show a slight lag
-     * between keyboard shortcuts and answering
+     * Used to make UI show a slight lag between
+     * keyboard shortcuts and answering
      */
     clickingOnShowButton?: boolean;
   } = {};
@@ -87,9 +87,8 @@ export class CardElement extends Component {
     }
   };
   /**
-   * @param timeout – A timeout is used when using keyboard
-   *   shortcuts to add enough lag to the user interface for
-   *   which button the user is clicking to be noticeable
+   * @param timeout – A timeout is used when using keyboard shortcuts to add enough lag to the
+   *   user interface for which button the user is clicking to be noticeable
    */
   cardClicked = (timeout?: NodeJS.Timeout) => {
     if (this.state.isShowingBottomSide) {
@@ -108,15 +107,18 @@ export class CardElement extends Component {
     }
     this.sound(true);
   };
-  /** {@link CardElement.cardClicked} is also invoked at the same time (I believe) */
+  /**
+   * {@link CardElement.cardClicked} is also
+   * invoked at the same time (I believe)
+   */
   ratingClicked = (
     rating: Rating,
     timeout?: NodeJS.Timeout | false,
     e?: MouseEvent
   ) => {
     /**
-     * TODO: The buttons below no longer send this event,
-     * check to see if stopping propogation is really necessary
+     * TODO: The buttons below no longer send this event, check
+     * to see if stopping propogation is really necessary
      */
     e?.stopPropagation();
     if (this.state.chosenRating) return;
@@ -190,6 +192,7 @@ export class CardElement extends Component {
     const isVolumeOn = session.isVolumeOn;
     const answered = this.state.isShowingBottomSide;
     const card = session.currentCard;
+
     if (session.counter === 0) {
       return <div>Loading...</div>;
     }

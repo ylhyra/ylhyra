@@ -2,14 +2,13 @@ import { makeAutoObservable } from "mobx";
 import { observer } from "mobx-react-lite";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 import React from "react";
-import { rowFields } from "flashcards/flashcards/actions/row/rowData.fields";
+import TextareaAutosize from "react-textarea-autosize";
 
 export type FieldsSetup<TypeThisIsDescribing = object> = Array<
   {
     /**
-     * This is a mapped type that is immediately indexed,
-     * in order to be able to use only the allowed values of a
-     * given interface.
+     * This is a mapped type that is immediately indexed, in order to
+     * be able to use only the allowed values of a given interface.
      */
     [K in keyof TypeThisIsDescribing]-?: {
       name: K;
@@ -95,9 +94,7 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
     return <form onSubmit={this.onSubmitInternal}>{props.children}</form>;
   };
 
-  /**
-   * Used to automatically print all fields with labels
-   */
+  /** Used to automatically print all fields with labels */
   AllFields: React.FC = () => {
     const InputWithLabel = this.InputWithLabelInternal;
     return (
@@ -109,9 +106,7 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
     );
   };
 
-  /**
-   * Used externally to print a single input just by its name
-   */
+  /** Used externally to print a single input just by its name */
   Input = ({ name }: { name: keyof TypeThisIsDescribing }) => {
     const field = this.fields?.find((j) => j.name === name);
     if (!field) throw new Error(`No field with name ${name}`);
@@ -119,9 +114,7 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
     return <InputInternal {...field} />;
   };
 
-  /**
-   * Used externally to print an input just by its name
-   */
+  /** Used externally to print an input just by its name */
   InputWithLabel = ({ name }: { name: keyof TypeThisIsDescribing }) => {
     const field = this.fields?.find((j) => j.name === name);
     if (!field) throw new Error(`No field with name ${name}`);
@@ -129,9 +122,7 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
     return <InputWithLabelInternal {...field} />;
   };
 
-  /**
-   * Used internally, a {@link FieldsSetup} object must be passed to it.
-   */
+  /** Used internally, a {@link FieldsSetup} object must be passed to it. */
   InputWithLabelInternal = (field: FieldsSetup<any>[number]) => {
     const label = field.label || uppercaseFirstLetter(field.name);
     const Input = this.InputInternal;
@@ -190,8 +181,9 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
 
     if (field.type === "text" || !field.type) {
       return (
-        <input
-          type="text"
+        // <input
+        //   type="text"
+        <TextareaAutosize
           name={field.name}
           value={value || ""}
           {...this.getChangeHandlers(field.name)}
@@ -201,7 +193,7 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
 
     if (field.type === "textarea") {
       return (
-        <textarea
+        <TextareaAutosize
           name={field.name}
           value={value || ""}
           {...this.getChangeHandlers(field.name)}

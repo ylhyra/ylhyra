@@ -1,11 +1,11 @@
-.vocabulary-card-outer-container 
+.vocabulary-card-outer-container
   flex 1
   display flex
   align-items center
   justify-content center
   flex-direction column
   // margin-bottom: 13px
-  .card-container 
+  .card-container
     flex 1
     margin auto
     width 100%
@@ -13,13 +13,13 @@
     max-width 400px
     display flex
     flex-direction column
-.vocabulary-card 
+.vocabulary-card
   // display: flex
   // flex-direction: row
   // background: #f4f4f4
   background white
   border-radius 7px
-  @media (max-width: 380px) 
+  @media (max-width: 380px)
     border-radius 0
   box-shadow 0 0 1px 0 rgba(black, 0.4), 0 2px 3px 0 rgba(black, 0.1)
   color black
@@ -31,21 +31,21 @@
   top 0
   z-index 100
   width 100%
-  // transition 
+  // transition
   //   background: 0.3s ease-in-out, border 0.2s ease, box-shadow 0.2s ease,
   //     left 0.5s ease-in-out, opacity 0.5s ease-in-out, top 0.5s ease-in-out,
   //     width 0.5s ease-in-out, z-index 0.5s ease-in-out
   // }
-  > div:first-child 
-    flex 1
-    display flex
-    flex-direction column
+  //> div:first-child
+  //  flex 1
+  //  display flex
+  //  flex-direction column
   &.not-answered,
-  &.has-sound 
+  &.has-sound
     cursor pointer
-    &:hover 
+    &:hover
       box-shadow 0 0 1px 0 rgba(black, 0.5), 0 1px 3px 0 rgba(black, 0.2)
-  // &.incorrect 
+  // &.incorrect
   //   box-shadow: 0 0 0 2px #f04949
   //   animation: shake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both
   //   transform: translate3d(black)
@@ -53,20 +53,20 @@
   //   perspective: 1000px
   //   background: #eeeeee
   // }
-  // &.correct 
+  // &.correct
   //   background: #f6f6f6
   //   box-shadow: 0 0 0 2px #a0e477
   // }
-  // @media (max-width: 520px) 
+  // @media (max-width: 520px)
   //   border-radius: 9px
   // }
-  // > * 
+  // > *
   //   opacity: 1
   //   transition: opacity 0.3s ease
   // }
-  &.new 
+  &.new
     border-top 2px solid #79f1c23d
-  > div 
+  > div
     padding 0
     border none
 @keyframes fadein {
@@ -96,7 +96,7 @@
     transform: translate(5px, 0px) rotate(0.5deg);
   }
 }
-.flex-center 
+.flex-center
   flex 1
   display flex
   flex-direction column
