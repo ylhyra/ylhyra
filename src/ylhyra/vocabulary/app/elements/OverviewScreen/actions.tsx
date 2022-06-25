@@ -13,16 +13,16 @@ import { getSessions } from "ylhyra/vocabulary/app/actions/userData/userDataSess
 const MIN_DAYS_TO_SHOW = 2.5 * 30;
 const MAX_DAYS_TO_SHOW = 365;
 
-export const clearOverview = () => {
+export function clearOverview() {
   store.dispatch({
     type: "LOAD_OVERVIEW",
     content: {
       loaded: false,
     },
   });
-};
+}
 
-export const calculateOverview = async () => {
+export async function calculateOverview() {
   if (!deck) return null;
 
   let secondsSpentTotal = 0;
@@ -111,11 +111,9 @@ export const calculateOverview = async () => {
       loaded: true,
     },
   });
-};
+}
 
-/**
- * The day starts at 04:00 local time
- */
+/** The day starts at 04:00 local time */
 const getTodayBeginsAtTimestamp = () => {
   const now = new Date();
 

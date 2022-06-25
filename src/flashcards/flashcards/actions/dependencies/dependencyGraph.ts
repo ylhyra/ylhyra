@@ -83,7 +83,7 @@ export const dependencyToDepthForASingleRow = (
  * as it sometimes skipped. Please verify that this is no longer necessary, I
  * think it is not since I created the directDependenciesGraph first now.
  */
-// export const temp = () => {
+// export function temp () {
 //   (Object.keys(deck!.rows) as RowIds).forEach((rowId: RowId) => {
 //     const deps: DependenciesForOneRowAsDependencyToDepth =
 //       dependencyToDepthForASingleRow(deck, rowId);

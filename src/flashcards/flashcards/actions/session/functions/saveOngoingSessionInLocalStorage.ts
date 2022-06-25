@@ -2,7 +2,7 @@ import { getSession } from "flashcards/flashcards/actions/session/session";
 import { saveInLocalStorage } from "modules/localStorage";
 import { getTime } from "modules/time";
 
-export const saveOngoingSessionInLocalStorage = () => {
+export function saveOngoingSessionInLocalStorage() {
   const session = getSession();
 
   if (!session.cards.some((i) => i.hasBeenSeenInSession())) {
@@ -18,8 +18,8 @@ export const saveOngoingSessionInLocalStorage = () => {
     cards: toSave,
   });
   session.history.savedAt = getTime();
-};
+}
 
-export const clearOngoingSessionInLocalStorage = () => {
+export function clearOngoingSessionInLocalStorage() {
   saveInLocalStorage("vocabulary-session", null);
-};
+}

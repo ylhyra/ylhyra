@@ -13,8 +13,10 @@ import { clearOverview } from "ylhyra/vocabulary/app/elements/OverviewScreen/act
 
 /**
  * TODO:
- * - skrá notanda í gögn!
- * - tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
+ *
+ * - Skrá notanda í gögn!
+ * - Tékka hvort notandi sé enn skráður inn
+ *   og hvort sami notandi sé enn skráður inn
  */
 export const sync = async (options: any = {}): Promise<UserData> => {
   let user_data: UserData;
@@ -65,7 +67,7 @@ export const sync = async (options: any = {}): Promise<UserData> => {
   return user_data;
 };
 
-export const syncIfNecessary = async () => {
+export async function syncIfNecessary() {
   if (!deck) return;
   // TODO
   // const data = getFromLocalStorage("vocabulary-user-data");
@@ -82,7 +84,7 @@ export const syncIfNecessary = async () => {
   //     await sync();
   //   }
   // }
-};
+}
 
 const getUnsynced = (
   obj: UserDataRows,

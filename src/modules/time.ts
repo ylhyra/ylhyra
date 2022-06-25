@@ -23,9 +23,9 @@ export const getTime = (): Timestamp => Date.now() as Timestamp;
 let timeMemoized: Timestamp | null;
 
 /** Used inside loops to avoid a time-consuming Date.now() call */
-export const getTimeMemoized = (): Timestamp => {
+export function getTimeMemoized(): Timestamp {
   return timeMemoized || (timeMemoized = getTime());
-};
+}
 export const clearTimeMemoized = () => (timeMemoized = null);
 
 export const daysToMs = (input: Days): Milliseconds =>

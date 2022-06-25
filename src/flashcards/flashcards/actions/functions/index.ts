@@ -12,10 +12,10 @@ export function printWord(this: Card): string | undefined {
   ];
 }
 
-export const studyParticularIds = async (
+export async function studyParticularIds(
   allowedCards: CardIds,
   options?: CreateCardsOptions
-) => {
+) {
   throw new Error("Not implemented");
   // const session = getSession();
   // session.reset();
@@ -23,9 +23,9 @@ export const studyParticularIds = async (
   // createCards(options);
   // initializeSession({ shouldReset: false });
   // goToUrl("/vocabulary/play");
-};
+}
 
-export const studyNewRows = () => {
+export function studyNewRows() {
   // const newRows: CardIds = [];
   // (Object.keys(getCardIdsFromAllDecks()) as CardIds).forEach((id) => {
   //   if (
@@ -39,7 +39,7 @@ export const studyNewRows = () => {
   //   skipDependencies: true,
   //   dontSortByAllowedCards: true,
   // });
-};
+}
 
 export function countRows(ids: CardIds, round = true) {
   throw new Error("Not implemented");
@@ -54,10 +54,10 @@ export function countRows(ids: CardIds, round = true) {
 /** Only used by {@link countRows} */
 export const rapidCountUnique = (i: any[]) => new Set(i).size;
 
-export const countRowsInSchedule = () => {
+export function countRowsInSchedule() {
   throw new Error("Not implemented");
   // return countRows(getCardsInSchedule());
-};
+}
 
 // if (isBrowser && isDev) {
 //   window["studyParticularWords"] = async (...words) => {
@@ -70,6 +70,6 @@ export const countRowsInSchedule = () => {
 //   window["studyParticularIds"] = studyParticularIds;
 // }
 
-export const exitVocabularyScreen = () => {
+export function exitVocabularyScreen() {
   goToUrl("/flashcards");
-};
+}

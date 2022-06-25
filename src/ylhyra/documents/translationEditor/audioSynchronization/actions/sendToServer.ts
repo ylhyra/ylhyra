@@ -9,10 +9,12 @@ import { AeneasAudioSyncOutput } from "ylhyra/documents/translationEditor/audioS
 // const TESTING_WITH_LOCALHOST = true
 
 /**
- * We use [Aeneas](https://github.com/readbeyond/aeneas/) to synchronize audio and text.
- * It returns a JSON array of text fragments as can be seen in the file "Synchronize/3_Flatten.js"
+ * We use [Aeneas](https://github.com/readbeyond/aeneas/)
+ * to synchronize audio and text.
+ * It returns a JSON array of text fragments as can be
+ * seen in the file "Synchronize/3_Flatten.js"
  */
-export const synchronize = async (filename: string) => {
+export async function synchronize(filename: string) {
   const { long_audio } = store.getState().editor;
   try {
     /*
@@ -42,4 +44,4 @@ export const synchronize = async (filename: string) => {
     notify("Could not synchronize audio");
     console.error(e);
   }
-};
+}

@@ -42,7 +42,7 @@ export const Database: {
 
 export const MAX_PER_PAGE = 20;
 
-export const refreshRows = () => {
+export function refreshRows() {
   if (Database.mode === "review_importance") {
     Database.rows = Database.rows.sort(
       (a, b) =>
@@ -76,7 +76,7 @@ export const refreshRows = () => {
   }
   selectRows();
   select(Database.selected_rows.length > 0 && Database.selected_rows[0].row_id);
-};
+}
 
 export function selectRows(noupdate?) {
   if (!isSearching) {
@@ -185,7 +185,7 @@ const updateInterface = () => {
   // });
 };
 
-export const save = async () => {
+export async function save() {
   if (Database.rows.length < 1) {
     throw new Error("No rows");
   }
@@ -197,9 +197,9 @@ export const save = async () => {
     deckName: getDeckName(),
   });
   log("Saved");
-};
+}
 
-export const findMissingDependencies = () => {
+export function findMissingDependencies() {
   let missing = [];
   Object.keys(Database.dependencies).forEach((from_term) => {
     Database.dependencies[from_term].forEach((to_term) => {
@@ -215,9 +215,9 @@ export const findMissingDependencies = () => {
   console.log("Missing " + missing.length + " dependencies");
   // console.log({ missing: missing /*.join("\n")*/ });
   console.log({ missingDependencies: missing.join("\n") });
-};
+}
 
-export const addEmpty = () => {
+export function addEmpty() {
   Database.rows.push({
     row_id: Database.maxID++ + 1,
     icelandic: (document.querySelector("[name=search]") as HTMLInputElement)
@@ -225,7 +225,7 @@ export const addEmpty = () => {
   });
   refreshRows();
   isSearching && reDoSearch?.();
-};
+}
 
 export function addRowsIfMissing(text) {
   let seen = [];

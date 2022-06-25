@@ -15,14 +15,14 @@ export function setSession(req: Request, userId: UserId, username: Username) {
   req.session!.usernameEncoded = encodeDataInHtml(username);
 }
 
-export const getUserIdFromUsername = async (username: Username) => {
+export async function getUserIdFromUsername(username: Username) {
   const user = await db.user.findUnique({
     where: { username },
     select: { userId: true, username: true },
   });
   if (!user) throw new Error("No user with that name");
   return user.userId;
-};
+}
 
 export function requireUserId(req: Request) {
   const userId = getUserId(req);

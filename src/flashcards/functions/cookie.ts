@@ -15,7 +15,7 @@ export function getCookie(name: string) {
   return null;
 }
 
-export const getUserFromCookie = (): UserProfile => {
+export function getUserFromCookie(): UserProfile {
   if (!isBrowser) return null;
   let cookie = getCookie(COOKIE_NAME);
   if (cookie) {
@@ -25,4 +25,4 @@ export const getUserFromCookie = (): UserProfile => {
     }
   }
   return null;
-};
+}

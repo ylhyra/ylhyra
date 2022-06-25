@@ -35,16 +35,16 @@ export function printWord(id: CardId | TermId | string) {
   }
 }
 
-export const studyParticularIds = async (allowed_ids: CardIds, options?) => {
+export async function studyParticularIds(allowed_ids: CardIds, options?) {
   const { session } = deck;
   session.reset();
   session.allowed_ids = allowed_ids;
   session.createCards(options);
   await session.initializeSession({ shouldReset: false });
   goToUrl("/vocabulary/play");
-};
+}
 
-export const studyNewTerms = () => {
+export function studyNewTerms() {
   const newTerms: CardIds = [];
   (Object.keys(deck!.cards) as CardIds).forEach((id) => {
     if (!(id in deck!.schedule) && isNewTerm(id)) {
@@ -55,7 +55,7 @@ export const studyNewTerms = () => {
     skip_dependencies: true,
     dont_sort_by_allowed_ids: true,
   });
-};
+}
 
 export function countTerms(ids: CardIds) {
   const i = rapidFlattenArrayAndCountUnique(ids.map((id) => getTermIds(id)));
@@ -73,10 +73,10 @@ export function rapidFlattenArrayAndCountUnique(arrOfArrs) {
   return s.size;
 }
 
-export const countTermsInSchedule = () => {
+export function countTermsInSchedule() {
   if (!deck) return null;
   return countTerms(getCardsInSchedule());
-};
+}
 
 if (isBrowser && isDev) {
   window["studyParticularWords"] = async (...words) => {
@@ -89,10 +89,10 @@ if (isBrowser && isDev) {
   window["studyParticularIds"] = studyParticularIds;
 }
 
-export const exitVocabularyScreen = async () => {
+export async function exitVocabularyScreen() {
   let url = window.location.pathname;
   if (url === "/vocabulary/play" || url === "/vocabulary/difficulty") {
     url = "/vocabulary";
   }
   goToUrl(url);
-};
+}

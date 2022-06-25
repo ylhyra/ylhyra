@@ -11,8 +11,8 @@ import { roundMsToSec, roundToInterval } from "modules/math";
 import { getTime } from "modules/time";
 
 /**
- * Called either when the user exits or when
- * no time is remaining (in {@link nextCard})
+ * Called either when the user exits or when no
+ * time is remaining (in {@link nextCard})
  */
 export const sessionDone = action((options: any = {}): void => {
   const session = getSession();
@@ -34,7 +34,7 @@ export const sessionDone = action((options: any = {}): void => {
 });
 
 /** Records how much time the user spent so we can show an activity graph. */
-export const saveSessionLog = () => {
+export function saveSessionLog() {
   const session = getSession();
   if (
     session.history.cardHistory.length > 0 &&
@@ -60,4 +60,4 @@ export const saveSessionLog = () => {
   } else {
     log("Not logged");
   }
-};
+}

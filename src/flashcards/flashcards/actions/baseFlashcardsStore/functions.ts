@@ -21,9 +21,9 @@ export const initializeFlashcardsStore = action(() => {
   }
 });
 
-export const saveFlashcardsStore = () => {
+export function saveFlashcardsStore() {
   saveInLocalStorage("decks", getFlashcardsStore().toJSON());
-};
+}
 
 export function getDeckById(id: DeckId | undefined): Deck | undefined {
   if (id && id in getFlashcardsStore().decks) {

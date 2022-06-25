@@ -13,6 +13,7 @@ import { FlattenedData } from "ylhyra/documents/types/types";
 
 /**
  * Enter a title and receive its contents with everything transcluded
+ *
  * @param title
  * @param depth - How deep in a transclusion chain are we?
  * @param shouldGetData - Load translation data as well?
@@ -55,9 +56,7 @@ export default async function Transclude(
   if (shouldGetData && header) {
     const associatedData = await getData(header);
 
-    /**
-     * @see DocumentationRegardingInlineDataInHtml
-     */
+    /** @see DocumentationRegardingInlineDataInHtml */
     if (associatedData) {
       output =
         `<span data-document-start="${
@@ -75,10 +74,11 @@ export default async function Transclude(
 
 /**
  * Enter the contents of a file and receive it back with everything transcluded
+ *
  * @param input - Raw markdown file contents
  * @param depth - How deep in a transclusion chain are we?
  */
-export const TranscludeFromText = async (input: string, depth: number) => {
+export async function TranscludeFromText(input: string, depth: number) {
   let output = "";
   input = input
     .replace(/{{{+/g, "&lbrace;&lbrace;&lbrace;")
@@ -127,7 +127,7 @@ export const TranscludeFromText = async (input: string, depth: number) => {
     output = await TranscludeFromText(output, depth + 1);
   }
   return output;
-};
+}
 
 /**
  * Get translation data stored in the "Data:" namespace.
@@ -147,12 +147,15 @@ const getData = async (
 
 /**
  * Documents automatically start with a:
- *   <span data-document-start="title" data-data="{@link FlattenedData}"></span>
+ * <span data-document-start="title" data-data="{@link FlattenedData}"></span>
  * and end with a:
- *   <span data-document-end="title"></span>
+ * <span data-document-end="title"></span>
  *
  * The purpose of this is twofold:
- *    1. To allow us to know where one document begins and ends in the case of transcluded documents.
- *    2. To be able to send translation data to the {@link compileWithTranslation} step.
+ *
+ * 1. To allow us to know where one document begins and ends in the case of
+ *    transcluded documents.
+ * 2. To be able to send translation data to the {@link compileWithTranslation}
+ *    step.
  */
 export const DocumentationRegardingInlineDataInHtml = "";

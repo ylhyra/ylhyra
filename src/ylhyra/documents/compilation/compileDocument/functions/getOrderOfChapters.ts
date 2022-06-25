@@ -12,12 +12,12 @@ let cachedOrderOfChapters: {
 };
 
 /**
- * Returns the order of the chapters in order,
- * to be able to link to Next & Previous chapters.
+ * Returns the order of the chapters in order, to
+ * be able to link to Next & Previous chapters.
  */
-export const getOrderOfChapters = async (): Promise<
+export async function getOrderOfChapters(): Promise<
   typeof cachedOrderOfChapters
-> => {
+> {
   if (cachedOrderOfChapters) return cachedOrderOfChapters;
   const { content } = await compileDocument("course");
   let currentUnit = 0;
@@ -53,4 +53,4 @@ export const getOrderOfChapters = async (): Promise<
     urls,
   };
   return cachedOrderOfChapters;
-};
+}

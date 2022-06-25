@@ -1,4 +1,4 @@
-export const automaticDependencies = () => {};
+export function automaticDependencies() {}
 
 // /* Automatic dependency graphs */
 //   const ignoredAutomaticWords = [

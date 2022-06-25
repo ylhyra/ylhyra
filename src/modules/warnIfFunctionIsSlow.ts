@@ -8,7 +8,8 @@ let timer: NodeJS.Timeout;
 let functionsAndTheirTotalTime: Record<string, Milliseconds> = {};
 
 /**
- * Note: Setting up this timer is slow, should not be used for functions called often.
+ * Note: Setting up this timer is slow, should
+ * not be used for functions called often.
  */
 export const warnIfFunctionIsSlow = {
   start: (name?: string) => {
@@ -45,7 +46,7 @@ export const warnIfFunctionIsSlow = {
   },
 };
 
-export const printFunctionsThatTookTooMuchTimeInTheLastSecond = () => {
+export function printFunctionsThatTookTooMuchTimeInTheLastSecond() {
   const maxTotalTimeMs = 10;
   _.sortBy(entries(functionsAndTheirTotalTime), (j) => j[1]).forEach(
     ([name, time]) => {
@@ -57,4 +58,4 @@ export const printFunctionsThatTookTooMuchTimeInTheLastSecond = () => {
     }
   );
   functionsAndTheirTotalTime = {};
-};
+}

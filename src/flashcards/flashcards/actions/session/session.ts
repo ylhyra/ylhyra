@@ -47,9 +47,9 @@ export class Session {
   }
 
   /**
-   * We have to reset instead of creating a new session
-   * object in order to allow MobX to listen to changes (the
-   * interface would otherwise be listening to an older object)
+   * We have to reset instead of creating a new session object
+   * in order to allow MobX to listen to changes (the interface
+   * would otherwise be listening to an older object)
    */
   reset() {
     this.allowedDecks = [];
@@ -76,6 +76,6 @@ export class Session {
 }
 
 let instance: Session;
-export const getSession = (): Session => {
+export function getSession(): Session {
   return instance || (instance = new Session());
-};
+}

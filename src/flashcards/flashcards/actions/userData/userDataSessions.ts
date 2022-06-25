@@ -2,7 +2,7 @@ import { getUserData } from "flashcards/flashcards/actions/userData/userDataStor
 
 export const SESSION_PREFIX = "s_";
 
-export const getSessions = (): any[] => {
+export function getSessions(): any[] {
   const sessions = [];
   Object.keys(getUserData().rows || {}).forEach((key) => {
     if (getUserData().rows[key].type === "session") {
@@ -10,9 +10,9 @@ export const getSessions = (): any[] => {
     }
   });
   return sessions;
-};
+}
 
-// export const getLastSessionTimestamp = () => {
+// export function getLastSessionTimestamp () {
 //   let max = 0;
 //   Object.keys(getUserData().rows || {}).forEach((key) => {
 //     if (getUserData().rows[key].type === "session") {

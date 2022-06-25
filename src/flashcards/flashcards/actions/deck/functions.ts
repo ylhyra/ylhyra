@@ -15,7 +15,7 @@ import shortid from "shortid";
 import _ from "underscore";
 
 /** Called in user interface */
-export const newDeck = (): Deck => {
+export function newDeck(): Deck {
   const id = shortid.generate() as DeckId;
   const deck = new Deck({
     deckId: id,
@@ -25,7 +25,7 @@ export const newDeck = (): Deck => {
     goToUrl(`/flashcards/deck/${id}`);
   }
   return deck;
-};
+}
 
 export function addRow(this: Deck, data: Partial<RowData> = {}) {
   return this.addMultipleRows([data]);

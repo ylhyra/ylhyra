@@ -1,15 +1,15 @@
 import axios from "ylhyra/app/app/axios";
 import store from "ylhyra/app/app/store";
+import { parseVocabularyFile } from "ylhyra/vocabulary/compiler/parseVocabularyFile";
+import { getDeckName } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import {
   Database,
   findMissingDependencies,
   refreshRows,
 } from "ylhyra/vocabulary/vocabularyEditor/actions/actions";
 import { setupSound } from "ylhyra/vocabulary/vocabularyEditor/actions/sound";
-import { getDeckName } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
-import { parseVocabularyFile } from "ylhyra/vocabulary/compiler/parseVocabularyFile";
 
-export const load = async () => {
+export async function load() {
   // window.skip_hash = true;
   console.log(getDeckName());
   let vocabulary = (
@@ -40,4 +40,4 @@ export const load = async () => {
 
   findMissingDependencies();
   refreshRows();
-};
+}

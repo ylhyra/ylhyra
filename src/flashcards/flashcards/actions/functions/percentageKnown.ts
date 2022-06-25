@@ -43,10 +43,10 @@ export function PercentageKnown(cards: Card[]) {
   return percentage;
 }
 
-export const PercentageKnownOverall = () => {
+export function PercentageKnownOverall() {
   throw new Error("Not implemented");
   // return PercentageKnown(Object.keys(getCardIdsFromAllDecks()) as CardIds);
-};
+}
 
 // if (isBrowser) {
 //   window.PercentageKnownOverall = PercentageKnownOverall;

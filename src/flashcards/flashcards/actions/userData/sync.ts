@@ -65,7 +65,7 @@ export const sync = async (options: any = {}): Promise<UserData> => {
   return userData;
 };
 
-export const syncIfNecessary = () => {
+export function syncIfNecessary() {
   // TODO
   // const data = getFromLocalStorage("vocabulary-user-data");
   // /* Localstorage data has been updated in another tab, so we reload */
@@ -81,7 +81,7 @@ export const syncIfNecessary = () => {
   //     await sync();
   //   }
   // }
-};
+}
 
 const getUnsynced = (
   obj: UserDataRows,

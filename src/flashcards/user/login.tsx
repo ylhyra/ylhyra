@@ -5,7 +5,7 @@ import { form } from "modules/form";
 import React from "react";
 import { useLocation } from "react-router";
 
-export const Login = () => {
+export function Login() {
   const { pathname } = useLocation();
   const isSignup = pathname === "/signup";
 
@@ -47,4 +47,4 @@ export const Login = () => {
       )}
     </Observer>
   );
-};
+}

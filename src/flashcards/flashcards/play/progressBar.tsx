@@ -1,7 +1,7 @@
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import React from "react";
 
-export const ProgressBar = () => {
+export function ProgressBar() {
   const session = getSession();
   const timeRemainingRatio =
     (session.timer.totalTime - session.timer.remainingTime) /
@@ -17,4 +17,4 @@ export const ProgressBar = () => {
       </div>
     </div>
   );
-};
+}

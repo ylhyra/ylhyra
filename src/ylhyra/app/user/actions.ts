@@ -4,12 +4,12 @@ import axios from "ylhyra/app/app/axios";
 import { getCookie } from "ylhyra/app/app/functions/cookie";
 import store from "ylhyra/app/app/store";
 import { goToUrl } from "ylhyra/app/router/actions/goToUrl";
+import { decodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";
 
 import { sync } from "ylhyra/vocabulary/app/actions/userData/sync";
 import { clearOverview } from "ylhyra/vocabulary/app/elements/OverviewScreen/actions";
-import { decodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";
 
-export const login = async (values) => {
+export async function login(values) {
   const response = (await axios.post("/api/user", values)).data;
   const { user_id, username, did_user_exist, error } = response;
   if (error) return error;
@@ -43,9 +43,9 @@ export const login = async (values) => {
     goToUrl("/vocabulary");
   }
   void clearOverview();
-};
+}
 
-export const logout = async () => {
+export async function logout() {
   await axios.post(`/api/user/logout`);
   deck?.reset();
   clearOverview();
@@ -54,17 +54,17 @@ export const logout = async () => {
     content: null,
   });
   goToUrl("/frontpage");
-};
+}
 
-export const initializeUser = () => {
+export function initializeUser() {
   updateUser();
-};
+}
 
 export type UserInfo = {
   user_id: Number;
   username: string;
 };
-export const getUserFromCookie = (): UserInfo | null => {
+export function getUserFromCookie(): UserInfo | null {
   if (!isBrowser) return null;
   let cookie = getCookie("y");
   if (cookie) {
@@ -79,19 +79,19 @@ export const getUserFromCookie = (): UserInfo | null => {
     }
   }
   return null;
-};
+}
 
-export const isUserLoggedIn = () => {
+export function isUserLoggedIn() {
   return getUserFromCookie() !== null;
-};
+}
 
-export const existsSchedule = () => {
+export function existsSchedule() {
   return getEntireSchedule() && Object.keys(getEntireSchedule()).length >= 6;
-};
+}
 
 /* Called on route changes */
 // TODO!! Should sync
-export const updateUser = () => {
+export function updateUser() {
   const user = getUserFromCookie();
   if (store.getState().user?.user_id !== user?.user_id) {
     store.dispatch({
@@ -99,4 +99,4 @@ export const updateUser = () => {
       content: user,
     });
   }
-};
+}

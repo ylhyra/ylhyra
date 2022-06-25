@@ -4,10 +4,10 @@ import _ from "underscore";
 
 /**
  * Used to see all cards currently loaded in a session.
- * In your browser console, set `logging = true`
- * and every time a new card is loaded, a table will be printed.
+ * In your browser console, set `logging = true` and every
+ * time a new card is loaded, a table will be printed.
  */
-export const debugSession = () => {
+export function debugSession() {
   const session = getSession();
   if (globalThis.logging) {
     /** Sort by ranking */
@@ -29,7 +29,7 @@ export const debugSession = () => {
       }))
     );
   }
-};
+}
 declare global {
   var logging: boolean;
 }

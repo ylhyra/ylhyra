@@ -2,7 +2,7 @@ import { deck } from "ylhyra/vocabulary/app/actions/deck";
 
 export const SESSION_PREFIX = "s_";
 
-export const getSessions = (): Array<any> => {
+export function getSessions(): Array<any> {
   const sessions = [];
   Object.keys(deck?.user_data?.rows || {}).forEach((key) => {
     if (deck!.user_data.rows[key].type === "session") {
@@ -10,9 +10,9 @@ export const getSessions = (): Array<any> => {
     }
   });
   return sessions;
-};
+}
 
-// export const getLastSessionTimestamp = () => {
+// export function getLastSessionTimestamp () {
 //   let max = 0;
 //   Object.keys(deck?.user_data?.rows || {}).forEach((key) => {
 //     if (deck!.user_data.rows[key].type === "session") {
