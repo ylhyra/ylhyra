@@ -1,6 +1,6 @@
 module.exports = {
   extends: ["react-app"],
-  plugins: ["@typescript-eslint", "import"],
+  plugins: ["@typescript-eslint/eslint-plugin", "import"],
   parser: "@typescript-eslint/parser",
   root: true,
   globals: {
