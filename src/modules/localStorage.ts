@@ -25,7 +25,7 @@ export function saveInLocalStorage(name: string, input: any) {
   localStorage.setItem(name, data);
 }
 
-export const getFromLocalStorage = (name: string): any => {
+export function getFromLocalStorage(name: string): any {
   if (!isBrowser) return;
   let data = localStorage.getItem(name);
   if (!data) return null;
@@ -39,4 +39,4 @@ export const getFromLocalStorage = (name: string): any => {
   } catch {
     return null;
   }
-};
+}

@@ -50,7 +50,7 @@ export function occludeMain(input: string) {
  *
  * @see DocumentationRegardingOcclusion
  */
-export const occludeThisText = (input: string): Html => {
+export function occludeThisText(input: string): Html {
   let text = input
     /* Ignore HTML */
     .split(/(<.+?>)/g)
@@ -66,4 +66,4 @@ export const occludeThisText = (input: string): Html => {
   text = c`<span class="occluded-outer-container">${text}</span>`;
 
   return text;
-};
+}

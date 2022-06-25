@@ -70,7 +70,7 @@ export const getHashForVocabulary = (
   return _hash(string);
 };
 
-export const getHashesFromCommaSeperated = (i: string[] | string): string[] => {
+export function getHashesFromCommaSeperated(i: string[] | string): string[] {
   if (!i) return [];
   if (Array.isArray(i)) {
     return i.map((i) => getHashForVocabulary(i));
@@ -79,4 +79,4 @@ export const getHashesFromCommaSeperated = (i: string[] | string): string[] => {
     .split(",")
     .map((i) => getHashForVocabulary(i))
     .filter(Boolean);
-};
+}

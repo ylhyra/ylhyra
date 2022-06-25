@@ -2,7 +2,7 @@
  * Returns the URL slug for a given title.
  * Can also be used to convert URLs to a consistent format.
  */
-export const formatUrl = (title: string): string => {
+export function formatUrl(title: string): string {
   if (!title) return "/";
   let [path, section] = title.split("#");
   path = path
@@ -18,10 +18,10 @@ export const formatUrl = (title: string): string => {
   path = "/" + path;
   section = getSectionId(section);
   return path + (section ? "#" + section : "");
-};
+}
 
 const sectionPrefix = "section-";
-export const getSectionId = (title: string): string => {
+export function getSectionId(title: string): string {
   if (!title || title.startsWith(sectionPrefix)) return title;
   return (
     sectionPrefix +
@@ -29,4 +29,4 @@ export const getSectionId = (title: string): string => {
       .replace(/%/g, "_")
       .replace(/([^a-z0-9_])/g, "_")
   );
-};
+}

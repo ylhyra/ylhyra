@@ -5,33 +5,35 @@ import {
 } from "inflection/tables/types";
 
 /**
- * Here we remove variants which are not of any relevance to a second language student.
+ * Here we remove variants which are not of
+ * any relevance to a second language student.
  * We remove:
- *   - Extremely obscure forms
- *   - Incorrect variants
+ *
+ * - Extremely obscure forms
+ * - Incorrect variants
  */
-export const discardUnnecessaryForms = (rows: Rows): Rows => {
+export function discardUnnecessaryForms(rows: Rows): Rows {
   return discardObscureForms(removeIncorrectVariants(rows));
-};
+}
 
 /**
- * Discard extremely obscure forms which are not relevant for a student
- * Removed are:
- *   - Infinitive past tense („Hún sagðist hefðu“). See https://bin.arnastofnun.is/korn/23
+ * Discard extremely obscure forms which are not
+ * relevant for a student Removed are:
+ *
+ * - Infinitive past tense („Hún sagðist hefðu“).
+ *   See https://bin.arnastofnun.is/korn/23
  */
-export const discardObscureForms = (rows: Rows): Rows => {
+export function discardObscureForms(rows: Rows): Rows {
   return rows.filter(
     (row) =>
       !["infinitive", "past tense"].every((i) =>
         row.inflectional_form_categories.includes(i)
       )
   );
-};
+}
 
-/**
- * Remove variants which are marked as being "incorrect" in standard Icelandic
- */
-export const removeIncorrectVariants = (rows: Rows): Rows => {
+/** Remove variants which are marked as being "incorrect" in standard Icelandic */
+export function removeIncorrectVariants(rows: Rows): Rows {
   return rows.filter((row) => {
     // console.log(row)
     // /* Note: Commented out as "hendi" is marked with this */
@@ -51,4 +53,4 @@ export const removeIncorrectVariants = (rows: Rows): Rows => {
     }
     return false;
   });
-};
+}

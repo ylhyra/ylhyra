@@ -1,6 +1,6 @@
 import { getPlaintextFromUnformattedVocabularyEntry } from "flashcards/flashcards/actions/format/format";
 
-export const getPossibleAlternativeIds = (input: string): string[] => {
+export function getPossibleAlternativeIds(input: string): string[] {
   if (!input) return [];
   // if (Array.isArray(input)) {
   //   return getPossibleAlternativeIds(
@@ -12,4 +12,4 @@ export const getPossibleAlternativeIds = (input: string): string[] => {
   const withoutPeriodsOrQuestionMarks = lowercase.replace(/[.?!]+$/, "");
 
   return [original, lowercase, withoutPeriodsOrQuestionMarks];
-};
+}

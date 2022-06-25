@@ -2,10 +2,11 @@ import shortid from "shortid";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 
 /**
- * Adds temporary ids to everything that doesn't already have one including text nodes.
+ * Adds temporary ids to everything that doesn't already have
+ * one including text nodes.
  * This makes it possible to mark these elements for deletion.
  */
-export const tempIds = (input1: HtmlAsJson): HtmlAsJson => {
+export function tempIds(input1: HtmlAsJson): HtmlAsJson {
   const seed: string = shortid.generate();
   let i = 0;
 
@@ -24,9 +25,9 @@ export const tempIds = (input1: HtmlAsJson): HtmlAsJson => {
   };
 
   return tempIdsInner(input1);
-};
+}
 
-export const removeTempIds = (input: HtmlAsJson): HtmlAsJson => {
+export function removeTempIds(input: HtmlAsJson): HtmlAsJson {
   if (!input) return input;
   let { attr, child } = input;
   let id: string | null = attr?.id || "";
@@ -46,4 +47,4 @@ export const removeTempIds = (input: HtmlAsJson): HtmlAsJson => {
     child: child?.map((e) => removeTempIds(e)),
     attr,
   };
-};
+}

@@ -24,17 +24,17 @@ export function endsInConsonant(string: string | undefined) {
   return !endsInVowel(string);
 }
 
-export const splitOnVowels = (string: string): string[] => {
+export function splitOnVowels(string: string): string[] {
   // if (typeof string !== 'string') throw new Error('splitOnVowelRegions expected string');
   return string.split(new RegExp(`(${vowellikeClusters}|[${vowels}])`, "ig"));
-};
+}
 
 /** @hasTests */
-export const splitOnVowelRegions = (string: string): string[] => {
+export function splitOnVowelRegions(string: string): string[] {
   if (typeof string !== "string")
     throw new Error("splitOnVowelRegions expected string");
   return string.split(new RegExp(`(${vowellikeClusters}|[${vowels}]+)`, "ig"));
-};
+}
 
 export function getVowelClusters(string: string | undefined) {
   // if (typeof string !== 'string') throw new Error('splitOnVowelRegions expected string');
@@ -74,9 +74,9 @@ const l = [
   ["Kjartan", "Kjartan"],
 ];
 
-export const removeVowellikeClusters = (string: string): string => {
+export function removeVowellikeClusters(string: string): string {
   return (
     string &&
     string.replace(new RegExp(`(${vowellikeClusters}|[${vowels}]+)`, "ig"), "")
   );
-};
+}

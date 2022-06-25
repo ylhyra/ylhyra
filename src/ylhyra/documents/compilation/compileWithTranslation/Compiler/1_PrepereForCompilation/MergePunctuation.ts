@@ -18,13 +18,13 @@ let removedIds: string[];
  * named `punctuationToAppendInsideWordContainer`, and the
  * punctuation is removed from the DOM.
  */
-export const MergePunctuation = (
+export function MergePunctuation(
   tree: HtmlAsJson,
   _translation: TranslationData
-): HtmlAsJson => {
+): HtmlAsJson {
   removedIds = [];
   return Traverse(tree);
-};
+}
 
 const Traverse = (
   input: HtmlAsJson,

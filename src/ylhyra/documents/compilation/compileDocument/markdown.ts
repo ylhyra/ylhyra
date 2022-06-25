@@ -1,15 +1,15 @@
 import marked from "marked";
 import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
+import { c } from "modules/noUndefinedInTemplateLiteral";
 // @ts-ignore
 import sass from "sass";
 import { html2json, json2html } from "ylhyra/app/app/functions/html2json";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
-import { processLinks } from "ylhyra/documents/compilation/links/processLinks.server";
 import typeset from "ylhyra/documents/compilation/compileDocument/functions/typeset";
 import Conversation from "ylhyra/documents/compilation/compileDocument/templates/Conversations";
 import { getTextFromJson } from "ylhyra/documents/compilation/compileWithTranslation/ExtractText/ExtractText";
 import { getSectionId } from "ylhyra/documents/compilation/links/format/formatUrl";
-import { c } from "modules/noUndefinedInTemplateLiteral";
+import { processLinks } from "ylhyra/documents/compilation/links/processLinks.server";
 
 /**
  * Here we convert Markdown text blocks to HTML.
@@ -71,8 +71,8 @@ const Traverse = (json: HtmlAsJson): HtmlAsJson => {
 };
 
 /**
- * Elements are temporarily substituted, the text is processed,
- * and then the elements are re-inserted.
+ * Elements are temporarily substituted, the text is
+ * processed, and then the elements are re-inserted.
  */
 const processArrayOfElements = (arr: HtmlAsJson[]): HtmlAsJson[] => {
   const substituted = arr
@@ -99,7 +99,7 @@ const processArrayOfElements = (arr: HtmlAsJson[]): HtmlAsJson[] => {
     });
 };
 
-export const processText = (input: string): string => {
+export function processText(input: string): string {
   input = removeUnwantedCharacters(input);
   input = processLinks(input /*links*/);
   input = input
@@ -165,4 +165,4 @@ export const processText = (input: string): string => {
   input = input.replace(/<p>([\s]+)?<\/p>/, "$1");
 
   return input;
-};
+}

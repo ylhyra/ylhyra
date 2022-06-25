@@ -1,24 +1,22 @@
-import React from "react";
-import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { Jsx } from "modules/typescript/jsx";
+import React from "react";
 import ReactDOMServer from "react-dom/server";
+import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { XmlForAeneas } from "ylhyra/documents/translationEditor/audioSynchronization/types";
 
 /**
  * Prepare an XML file for audio synchronization.
  * Only leaves id tags on sentences and words.
  */
-export const prepareXmlForAeneas = (input: HtmlAsJson): XmlForAeneas => {
+export function prepareXmlForAeneas(input: HtmlAsJson): XmlForAeneas {
   /** Render to string */
   let output = ReactDOMServer.renderToStaticMarkup(traverse(input));
   /** Add a newline after sentences (just for formatting reasons) */
   output = output.replace(/(<\/div>)/g, "</div>\n");
   return output;
-};
+}
 
-/**
- * Returns a JSX element
- */
+/** Returns a JSX element */
 export const traverse = (input: HtmlAsJson, index = 0): Jsx => {
   if (!input) return null;
   if (Array.isArray(input)) {

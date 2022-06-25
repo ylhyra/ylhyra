@@ -1,10 +1,10 @@
 import { sortedTags } from "inflection/tables/classification/classification";
-import { TreeItem, Row } from "inflection/tables/types";
+import { Row, TreeItem } from "inflection/tables/types";
 
-export const sortByClassification = (
+export function sortByClassification(
   a: TreeItem | Row,
   b: TreeItem | Row
-): number => {
+): number {
   /* Sort by single tag */
   if ("tag" in a && "tag" in b) {
     return sortedTags.indexOf(a.tag) - sortedTags.indexOf(b.tag);
@@ -32,4 +32,4 @@ export const sortByClassification = (
   }
 
   return 0;
-};
+}

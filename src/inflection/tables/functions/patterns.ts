@@ -8,13 +8,8 @@ const splittableRegexEndingsFromArray = (input: string[]) => {
   );
 };
 
-/**
- * Removes inflectional pattern and returns the rest
- */
-export const removeInflectionalPattern = (
-  input: string,
-  word: Word
-): string => {
+/** Removes inflectional pattern and returns the rest */
+export function removeInflectionalPattern(input: string, word: Word): string {
   // if (!input) return;
   let stripped = input;
 
@@ -86,7 +81,7 @@ export const removeInflectionalPattern = (
     stripped = input.replace(new RegExp(`(${ending})$`), "");
   }
   return stripped;
-};
+}
 
 /*
   Helper function for above noun arrays

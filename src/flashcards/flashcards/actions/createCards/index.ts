@@ -17,9 +17,9 @@ export type CreateCardsOptions = {
  * Goes through the database of cards, finds relevant ones, and
  * then loads them into the session as {@link CardInSession}.
  */
-export const createCards = (
+export function createCards(
   /** TODO: delete */ options?: CreateCardsOptions
-): void => {
+): void {
   warnIfFunctionIsSlow.wrap(() => {
     const session = getSession();
 
@@ -50,4 +50,4 @@ export const createCards = (
 
     loadCardsIntoSession(chosenCards, options);
   }, "createCards");
-};
+}

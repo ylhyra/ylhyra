@@ -1,10 +1,10 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { RowIds } from "flashcards/flashcards/actions/row/rowData.types";
 
-export const getSortedRowIds = (
+export function getSortedRowIds(
   unprocessedDeck: Deck,
   processedDeck: Deck
-): RowIds => {
+): RowIds {
   throw new Error("Not implemented");
   // let rowIds: RowIds = keys(processedDeck.rows).sort((rowId1, rowId2) => {
   // const a = unprocessedDeck.rows[getRowId(rowId1)];
@@ -42,4 +42,4 @@ export const getSortedRowIds = (
   // });
 
   // return rowIds;
-};
+}

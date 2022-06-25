@@ -1,9 +1,7 @@
 import { remove as remove_diacritics } from "diacritics";
 
-/**
- * Icelandic-specific diacritic removal
- */
-export const removeDiacritics = (string: string): string => {
+/** Icelandic-specific diacritic removal */
+export function removeDiacritics(string: string): string {
   if (!string) return string;
   return remove_diacritics(
     string
@@ -14,9 +12,9 @@ export const removeDiacritics = (string: string): string => {
       .replace(/ð/g, "d")
       .replace(/ö/g, "o")
   );
-};
+}
 
-export const removeNonLetters = (string: string): string => {
+export function removeNonLetters(string: string): string {
   if (!string) return string;
   return string.replace(/[^\p{Script=Latin}]/giu, "");
-};
+}

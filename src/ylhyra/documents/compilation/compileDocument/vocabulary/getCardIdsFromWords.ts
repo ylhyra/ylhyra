@@ -3,10 +3,10 @@ import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { getHashForVocabulary } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import { CardIds, TermId } from "ylhyra/vocabulary/types";
 
-export const getCardIdsFromWords = (
+export function getCardIdsFromWords(
   words: string[],
   returnMissing?: boolean
-): CardIds | string[] => {
+): CardIds | string[] {
   let missingWords: string[] = [];
   let cardIds: CardIds = [];
   words.forEach((word) => {
@@ -26,4 +26,4 @@ export const getCardIdsFromWords = (
     return missingWords;
   }
   return _.uniq(cardIds);
-};
+}

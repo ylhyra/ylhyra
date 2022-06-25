@@ -12,9 +12,9 @@ export function wasSeenInSession(this: Card) {
   return cardInSession && cardInSession.ratingHistory.length > 0;
 }
 
-export const getCardById = (id: CardId): Card => {
+export function getCardById(id: CardId): Card {
   throw new Error("Not implemented");
-};
+}
 
 export function isInSession(this: Card) {
   return this.isIn(getSession().cards);

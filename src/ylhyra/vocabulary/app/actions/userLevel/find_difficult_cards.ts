@@ -33,7 +33,7 @@ const whatIsDifficultForUser = {
   [USER_LEVEL_ADVANCED]: DIFFICULT_FOR_ADVANCED,
 };
 
-export const getCardDifficultyRelativeToUsersLevel = (id: CardId): number => {
+export function getCardDifficultyRelativeToUsersLevel(id: CardId): number {
   const cardCEFR = getCardCEFR(id);
   const userLevel = getUserLevel();
   const cardDifficulty = getDifficulty(id);
@@ -45,18 +45,18 @@ export const getCardDifficultyRelativeToUsersLevel = (id: CardId): number => {
   const cefrDelta = cardCEFR - userLevelToCEFR[userLevel];
   outputDifficulty += 0.1 * (5 + cefrDelta) * (cefrDelta >= 0 ? 10 : 1);
   return outputDifficulty;
-};
+}
 
-export const getRelativeCardImportance = (id: CardId): number => {
+export function getRelativeCardImportance(id: CardId): number {
   const cardImportance = getImportance(id);
   const importanceRelativeToNormal = cardImportance - NORMAL_IMPORTANCE;
 
   /* Todo: Finish */
   return 0;
-};
+}
 
 /* If unseen (?) */
 
-// export const getSortingBasedOnUserLevel = (id: CardId): number => {
+// export function getSortingBasedOnUserLevel (id: CardId): number {
 //   // getUserLevel();
 // };

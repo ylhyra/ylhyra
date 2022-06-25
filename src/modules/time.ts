@@ -22,9 +22,7 @@ export const getTime = (): Timestamp => Date.now() as Timestamp;
 
 let timeMemoized: Timestamp | null;
 
-/**
- * Used inside loops to avoid a time-consuming Date.now() call
- */
+/** Used inside loops to avoid a time-consuming Date.now() call */
 export const getTimeMemoized = (): Timestamp => {
   return timeMemoized || (timeMemoized = getTime());
 };
@@ -48,10 +46,8 @@ export const roundMsToHour = (input: Milliseconds): Milliseconds =>
 export const roundMsToMinute = (input: Milliseconds): Milliseconds =>
   roundToInterval(input, minute);
 
-/**
- * @hasTests
- */
-export const prettyPrintDaysMinutesHours = (input: Milliseconds): string => {
+/** @hasTests */
+export function prettyPrintDaysMinutesHours(input: Milliseconds): string {
   let out = [];
 
   const _days = input / days;
@@ -73,4 +69,4 @@ export const prettyPrintDaysMinutesHours = (input: Milliseconds): string => {
   }
 
   return out.slice(0, 2).join(", ");
-};
+}

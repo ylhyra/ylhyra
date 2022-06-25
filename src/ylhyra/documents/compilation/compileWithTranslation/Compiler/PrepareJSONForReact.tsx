@@ -10,7 +10,7 @@ import inlineStyle2Json from "ylhyra/app/app/functions/inline-style-2-json";
  * - Converts certain HTML attributes to React attributes
  * - Opens external links in new window
  */
-export const PrepareJSONForReact = (json: HtmlAsJson): HtmlAsJson => {
+export function PrepareJSONForReact(json: HtmlAsJson): HtmlAsJson {
   // if (!json) return null;
   let { node, tag, attr, child, text } = json;
   if (attr?.id === null) {
@@ -18,8 +18,8 @@ export const PrepareJSONForReact = (json: HtmlAsJson): HtmlAsJson => {
   }
   if (node === "element" || node === "root") {
     /**
-     * Attribute values in {@link HtmlAsJson} can be arrays
-     * Here we merge them together with spaces
+     * Attribute values in {@link HtmlAsJson} can be
+     * arrays Here we merge them together with spaces
      */
     let attrConverted: any = {};
     for (const property of Object.keys(attr || {})) {
@@ -74,4 +74,4 @@ export const PrepareJSONForReact = (json: HtmlAsJson): HtmlAsJson => {
   } else {
     return {};
   }
-};
+}

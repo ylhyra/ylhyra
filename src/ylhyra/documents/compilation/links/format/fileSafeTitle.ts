@@ -1,6 +1,6 @@
 import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 
-export const fileSafeTitle = (title: string): string => {
+export function fileSafeTitle(title: string): string {
   return (
     formatUrl(title)
       .replace(/(\/)/g, "_")
@@ -9,4 +9,4 @@ export const fileSafeTitle = (title: string): string => {
       .replace(/_+/g, "_")
       .replace(/[()]/g, "") || "frontpage"
   );
-};
+}

@@ -8,23 +8,23 @@ import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { BAD } from "ylhyra/vocabulary/app/constants";
 import { CardId, CardIds } from "ylhyra/vocabulary/types";
 
-export const getSiblingCards = (id: CardId): CardIds => {
+export function getSiblingCards(id: CardId): CardIds {
   // return (this.siblingCardIds);
   return getAllCardIdsWithSameTerm(id).filter(
     (sibling_cardId) => sibling_cardId !== id
   );
-};
+}
 
-export const getSiblingCardsInSession = (id: CardId): Array<CardInSession> => {
+export function getSiblingCardsInSession(id: CardId): Array<CardInSession> {
   return getSiblingCards(id)
     .filter((card) => isInSession(card))
     .map((card) => getAsCardInSession(card))
     .filter(filterEmpty);
-};
+}
 
-export const getAsCardInSession = (id: CardId): CardInSession | undefined => {
+export function getAsCardInSession(id: CardId): CardInSession | undefined {
   return deck?.session.cards?.find((card) => card.id === id);
-};
+}
 
 export function didAnySiblingCardsGetABadRatingInThisSession(id: CardId) {
   return getSiblingCards(id).some((sibling_cardId) => {
@@ -32,7 +32,7 @@ export function didAnySiblingCardsGetABadRatingInThisSession(id: CardId) {
   });
 }
 
-export const getAllCardIdsWithSameTerm = (id: CardId): CardIds => {
+export function getAllCardIdsWithSameTerm(id: CardId): CardIds {
   // return memoize(id, "getAllCardIdsWithSameTerm", () => {
   let out: CardIds = [];
   getTermIds(id).forEach((term) => {
@@ -40,4 +40,4 @@ export const getAllCardIdsWithSameTerm = (id: CardId): CardIds => {
   });
   return _.uniq(out);
   // });
-};
+}

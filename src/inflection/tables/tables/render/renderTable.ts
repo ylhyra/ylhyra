@@ -17,16 +17,14 @@ import {
 import Word from "inflection/tables/word";
 import { removeHtmlWhitespace } from "modules/removeHtmlWhitespace";
 
-/**
- * Converts description of table structure into a table.
- */
-export const renderTable = (
+/** Converts description of table structure into a table. */
+export function renderTable(
   input: Word | TreeItem | TreeItems,
   original_word: Word,
   structure: StructureOptions,
   highlight?: InflectionalCategoryList,
   options?: RenderCellOptions
-): Html => {
+): Html {
   const { column_names, row_names } = structure;
   let word: Word;
   if (input instanceof Word) {
@@ -63,13 +61,13 @@ export const renderTable = (
     table.push(row);
   });
   return removeHtmlWhitespace(tableHtml(table, highlight, options));
-};
+}
 
-export const tableHtml = (
+export function tableHtml(
   tableStructure: TableStructure,
   highlight?: InflectionalCategoryList,
   options?: RenderCellOptions
-): Html => {
+): Html {
   return `
     <table class="table">
       <tbody>
@@ -81,7 +79,7 @@ export const tableHtml = (
       </tbody>
     </table>
   `;
-};
+}
 
 const renderRow = (
   tableStructure: TableStructure,

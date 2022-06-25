@@ -11,15 +11,15 @@ export function getCardIdsFromTermIds(termIds: TermIds) {
   );
 }
 
-export const getTermIdsFromCardIds = (ids: CardIds): TermIds => {
+export function getTermIdsFromCardIds(ids: CardIds): TermIds {
   return uniq(flatten(ids.map((id) => getTermIds(id))));
-};
+}
 
 /** Used for testing */
-export const getCardIdByText = (text: string): CardId => {
+export function getCardIdByText(text: string): CardId {
   const id = (getHashForVocabulary(text) + "_is") as CardId;
   // const id = deck?.cards[(getHashForVocabulary(text) + "_is") as CardId]?.id;
   if (!(id in deck!.cards))
     throw new Error(`No card found with text "${text}", id would be ${id}`);
   return id;
-};
+}

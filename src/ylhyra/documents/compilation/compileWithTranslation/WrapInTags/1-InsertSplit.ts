@@ -29,28 +29,28 @@ export default function (
         child: child?.map((x) => insertTemporarySplitMarker(x)),
       };
     } else if (node === "text") {
-      /**
-        Split text into individual characters
-      */
+      /** Split text into individual characters */
       return {
         ...i,
         text: text
           ?.split("")
           .map((character) => {
             /**
-              Surrounding spaces and characters like soft hyphens
-              may have been stripped away.
-              Here we just return characters until we see the one we are looking for.
-            */
+             * Surrounding spaces and characters like soft
+             * hyphens may have been stripped away.
+             * Here we just return characters until we see
+             * the one we are looking for.
+             */
             if (character !== array[currentIndex][locationInString]) {
               return character;
             }
 
             /**
-              When we have finished looping through each character in the current array string
-              we insert a delimiter, here the text "{{SPLIT HERE}}".
-              (Assumes empty strings have been filtered out)
-            */
+             * When we have finished looping through each character
+             * in the current array string we insert a delimiter,
+             * here the text "{{SPLIT HERE}}".
+             * (Assumes empty strings have been filtered out)
+             */
             if (
               locationInString + character.length ===
                 array[currentIndex].length &&
@@ -79,9 +79,9 @@ export default function (
   return html;
 }
 
-export const getTextFromTokenized = (
+export function getTextFromTokenized(
   t: ArrayOfEitherTokenizedSentencesOrWords[number]
-): string => {
+): string {
   if (Array.isArray(t)) {
     return t.map(getTextFromTokenized).join("");
   }
@@ -89,4 +89,4 @@ export const getTextFromTokenized = (
     return t.text;
   }
   return t;
-};
+}

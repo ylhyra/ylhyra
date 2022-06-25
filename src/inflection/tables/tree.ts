@@ -5,7 +5,7 @@ import { Branch, Rows, Tree, TreeItem } from "inflection/tables/types";
  * Turns rows into nested tree, with each leaf containing a
  * collection of items that have the same classification
  */
-export const tree = (rows: Rows): Tree => {
+export function tree(rows: Rows): Tree {
   let output: Tree = {
     BIN_id: rows[0]?.BIN_id,
     base_word: rows[0]?.base_word,
@@ -36,7 +36,7 @@ export const tree = (rows: Rows): Tree => {
   }
 
   return traverseAndSort(output) as Tree;
-};
+}
 
 /**
  * Sort tree based on the list `sorted_tags` array

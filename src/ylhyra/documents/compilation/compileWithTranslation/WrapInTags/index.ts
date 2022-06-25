@@ -16,27 +16,23 @@ import {
 /**
  * Merges tokenization and HTML to produce <sentence/> and <word/> tags
  *
- * ---
- *
- * We split up Words and Sentences based on raw text, not based on HTML structure.
+ * We split up Words and Sentences based on raw text, not based on HTML
+ * structure.
  *
  * The purpose of these functions is to turn this HTML:
- *   <b>Blabla bla! <i>Bla</i></b> bla bla.
+ * <b>Blabla bla! <i>Bla</i></b> bla bla.
  * Into:
- *   <sentence>
- *     <b>Blabla bla!</b>
- *   </sentence>
- *   <sentence>
- *     <b><i>Bla</i></b> bla bla.
- *   </sentence>
+ * <sentence> <b>Blabla bla!</b> </sentence> <sentence> <b><i>Bla</i></b>
+ * bla bla.
+ * </sentence>
  *
  * That is to say, it breaks out of HTML tags at the correct spots in
  * order to encapsulate the text into <sentence/> tags.
  */
-export const WrapInTags = (
+export function WrapInTags(
   json: HtmlAsJson,
   tokenized: DocumentTitleToTokenizedParagraphsWithIds
-): HtmlAsJson => {
+): HtmlAsJson {
   /** By flattening, we can keep track of multiple transcluded documents. */
   let tokenizedFlattened: TokenizedFlattenedForWrapInTags = [];
   for (const documentTitle of Object.keys(tokenized)) {
@@ -68,11 +64,9 @@ export const WrapInTags = (
   wrapped = removeDocumentStartTags(wrapped);
 
   return wrapped;
-};
+}
 
-/**
- * Extract sentences from paragraph
- */
+/** Extract sentences from paragraph */
 const WrapSentences = (
   paragraph_HTML: HtmlAsJson[],
   sentences: TokenizedParagraph["sentences"]
@@ -126,6 +120,7 @@ const WrapInTags2 = (
 
 /**
  * Removes the "data-document-start" span tags
+ *
  * @see DocumentationRegardingInlineDataInHtml
  */
 const removeDocumentStartTags = (input: HtmlAsJson): HtmlAsJson => {

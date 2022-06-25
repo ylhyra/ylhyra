@@ -5,7 +5,7 @@ import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
 import { links } from "ylhyra/documents/compilation/links/loadLinks.server";
 import { LinkDataWithUrl } from "ylhyra/documents/compilation/links/types";
 
-export const getValuesForUrl = (url: string): Partial<LinkDataWithUrl> => {
+export function getValuesForUrl(url: string): Partial<LinkDataWithUrl> {
   if (!url && url !== "") return {};
   url = formatUrl(url);
   let values = links[url];
@@ -34,4 +34,4 @@ export const getValuesForUrl = (url: string): Partial<LinkDataWithUrl> => {
   } else {
     return {};
   }
-};
+}

@@ -3,9 +3,9 @@ import {
   FlattenedData,
 } from "ylhyra/documents/types/types";
 
-export const flattenData = (
+export function flattenData(
   input: DocumentTitleToFlattenedData
-): FlattenedData => {
+): FlattenedData {
   let output: FlattenedData = {
     translation: {
       definitions: {},
@@ -20,7 +20,7 @@ export const flattenData = (
   }
 
   return output;
-};
+}
 
 const mergeFlattenedData = (
   first: FlattenedData,

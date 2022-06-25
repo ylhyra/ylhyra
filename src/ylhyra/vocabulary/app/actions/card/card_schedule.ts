@@ -16,17 +16,17 @@ import { saveScheduleForCardId } from "ylhyra/vocabulary/app/actions/userData/us
 import { GOOD } from "ylhyra/vocabulary/app/constants";
 import { CardId, ScheduleData } from "ylhyra/vocabulary/types";
 
-export const getSchedule = (id: CardId): Partial<ScheduleData> | undefined => {
+export function getSchedule(id: CardId): Partial<ScheduleData> | undefined {
   if (!deck) {
     console.error("Deck not initialized");
     return;
   }
   return deck!.schedule[id];
-};
+}
 
-export const getDue = (id: CardId): Timestamp | undefined => {
+export function getDue(id: CardId): Timestamp | undefined {
   return getSchedule(id)?.due;
-};
+}
 
 export function getScore(id: CardId) {
   return getSchedule(id)?.score;
@@ -111,11 +111,11 @@ export function getTermLastSeen(id: CardId) {
   // });
 }
 
-export const timeSinceTermWasSeen = (id: CardId): Milliseconds | null => {
+export function timeSinceTermWasSeen(id: CardId): Milliseconds | null {
   let j = getTermLastSeen(id);
   if (!j) return null;
   return getTimeMemoized() - j;
-};
+}
 
 export function wasTermVeryRecentlySeen(id: CardId) {
   return wasTermSeenMoreRecentlyThan(id, 45 * minutes);

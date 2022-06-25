@@ -9,12 +9,12 @@ import {
 
 export const wordRegex = /[A-zÀ-ÿ0-9]/;
 
-export const CreateIDs = (
+export function CreateIDs(
   documentTitle: string,
   paragraphs: Array<
     TokenizedParagraphs[number] | RawTokenizedParagraphs[number]
   >
-): TokenizedParagraphs => {
+): TokenizedParagraphs {
   const seed = hash(shortid.generate() + "" + documentTitle).slice(0, 4);
   let i = 0;
   const makeID = () => {
@@ -64,11 +64,11 @@ export const CreateIDs = (
       }),
     };
   });
-};
+}
 
-export const getTextFromTokenized = (
+export function getTextFromTokenized(
   t: TokenizedSentence | TokenizedWord | string[] | string
-): string => {
+): string {
   if (Array.isArray(t)) {
     return t.map(getTextFromTokenized).join("");
   }
@@ -76,4 +76,4 @@ export const getTextFromTokenized = (
     return t.text;
   }
   return t;
-};
+}

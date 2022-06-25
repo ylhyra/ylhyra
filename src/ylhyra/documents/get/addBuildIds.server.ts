@@ -16,7 +16,7 @@ const js_hash = fileHash(path.resolve(buildFolder, `./app/ylhyra.main.js`));
 const voc_hash = fileHash(
   path.resolve(buildFolder, `./vocabulary/vocabulary_database.json`)
 );
-export const addBuildIds = (data: Html): Html => {
+export function addBuildIds(data: Html): Html {
   return data
     .replace('ylhyra.main.js"', `ylhyra.main.js?v=${js_hash}"`)
     .replace('app/main.css"', `app/main.css?v=${css_hash}"`)
@@ -24,4 +24,4 @@ export const addBuildIds = (data: Html): Html => {
       'meta name="vocabulary_id" content=""',
       `meta name="vocabulary_id" content="${voc_hash}"`
     );
-};
+}

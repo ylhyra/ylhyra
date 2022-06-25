@@ -15,9 +15,7 @@ export function getPlaintextFromUnformattedVocabularyEntry(
 }
 
 /** Strips the HTML from {@link formatVocabularyEntry} */
-export const getPlaintextFromFormatted = (
-  input: string | undefined
-): string => {
+export function getPlaintextFromFormatted(input: string | undefined): string {
   if (!input) {
     console.error("Missing plaintext!");
     return "";
@@ -32,7 +30,7 @@ export const getPlaintextFromFormatted = (
       .replace(/  +/g, " ")
       .replace(/†/g, "")
   );
-};
+}
 
 /**
  * In {@link formatVocabularyEntry}, the Icelandic side of a word can

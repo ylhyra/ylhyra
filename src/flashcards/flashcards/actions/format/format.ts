@@ -2,9 +2,7 @@ import { Html } from "inflection/tables/types";
 import { removeExtraWhitespace } from "modules/removeExtraWhitespace";
 
 /** Strips the HTML from {@link formatVocabularyEntry} */
-export const getPlaintextFromFormatted = (
-  input: string | undefined
-): string => {
+export function getPlaintextFromFormatted(input: string | undefined): string {
   if (!input) {
     console.error("Missing plaintext!");
     return "";
@@ -19,10 +17,10 @@ export const getPlaintextFromFormatted = (
     // .replace(/  +/g, " ")
     // .replace(/†/g, "")
   );
-};
+}
 
 /** Todo: Prevent user HTML from being injected */
-export const formatVocabularyEntry = (input: string): Html => {
+export function formatVocabularyEntry(input: string): Html {
   if (!input) return "";
 
   input = input
@@ -56,7 +54,7 @@ export const formatVocabularyEntry = (input: string): Html => {
   }
 
   return input;
-};
+}
 
 export function getPlaintextFromUnformattedVocabularyEntry(
   input: string | undefined
@@ -65,7 +63,7 @@ export function getPlaintextFromUnformattedVocabularyEntry(
   return getPlaintextFromFormatted(formatVocabularyEntry(input));
 }
 
-export const fancyFormat = (input: string): Html => {
+export function fancyFormat(input: string): Html {
   return (
     input
       // Curly quotes
@@ -78,4 +76,4 @@ export const fancyFormat = (input: string): Html => {
       // Spacing around "/"
       .replace(/ \/ /g, `\u2006<span class="darkgray">/</span>\u2006`)
   );
-};
+}

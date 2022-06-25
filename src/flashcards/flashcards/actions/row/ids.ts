@@ -17,13 +17,13 @@ export const CARD_ID_SEPARATOR = ":";
  *
  * - "aaaaa:bbbbb:ccccc"
  */
-export const createCardId = (
+export function createCardId(
   deckId: DeckId,
   rowId: RowId,
   direction: Direction
-): CardId => {
+): CardId {
   return `${deckId}${CARD_ID_SEPARATOR}${rowId}${CARD_ID_SEPARATOR}${direction}` as CardId;
-};
+}
 
 // export function getDeckId(this: Card | RowId): DeckId {
 //   return id.split(CARD_ID_SEPARATOR)[0] as DeckId;

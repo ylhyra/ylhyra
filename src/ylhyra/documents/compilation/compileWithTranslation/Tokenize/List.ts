@@ -1,8 +1,8 @@
 import { TokenizedParagraphs } from "ylhyra/documents/types/various";
 
-export const getArrayOfAllWordIDs = (
+export function getArrayOfAllWordIDs(
   paragraphs: TokenizedParagraphs
-): string[] => {
+): string[] {
   let arrayOfAllWordIDs: string[] = [];
 
   paragraphs &&
@@ -21,4 +21,4 @@ export const getArrayOfAllWordIDs = (
   }
 
   return arrayOfAllWordIDs;
-};
+}

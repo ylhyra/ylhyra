@@ -1,52 +1,46 @@
-/**
- * Processes the description list
- */
+/** Processes the description list */
 
+import {
+  Description,
+  descriptions,
+} from "inflection/tables/classification/descriptionsList";
 import {
   GrammaticalCategory,
   GrammaticalTag,
   GrammaticalTagOrVariantNumber,
   InflectionalCategoryList,
 } from "inflection/tables/types";
-import {
-  Description,
-  descriptions,
-} from "inflection/tables/classification/descriptionsList";
 
 /**
- * Object containing "name => array of tags", used for getting arrays later on, such as types['gender']
+ * Object containing "name => array of tags", used for
+ * getting arrays later on, such as types['gender']
  */
 let grammaticalCategories: Partial<
   Record<GrammaticalCategory, GrammaticalTag[]>
 > = {};
 
-export const getOrderedGrammaticalCategories = (
+export function getOrderedGrammaticalCategories(
   grammaticalCategory: GrammaticalCategory
-): GrammaticalTag[] => {
+): GrammaticalTag[] {
   if (!(grammaticalCategory in grammaticalCategories)) {
     throw new Error(`Grammatical category ${grammaticalCategory} not found`);
   }
   return grammaticalCategories[grammaticalCategory]!;
-};
+}
 
-/**
- * Abbreviations. Object on form {'nf': 'nominative'}
- */
+/** Abbreviations. Object on form {'nf': 'nominative'} */
 let shortcuts: Record<string, GrammaticalTag> = {};
 
-/**
- * Icelandic shortcuts used in the BÍN database
- */
+/** Icelandic shortcuts used in the BÍN database */
 let shortcutsUsedInBin: Record<string, GrammaticalTag> = {};
 
 /**
- * Sorted single-userLevel array of tags, used for sorting rows when constructing the tree
+ * Sorted single-userLevel array of tags, used
+ * for sorting rows when constructing the tree
  */
 let sortedTags: InflectionalCategoryList = [];
 
-/**
- * Reverses `descriptions` to turn it into a searchable object
- */
+/** Reverses `descriptions` to turn it into a searchable object */
 let titleToDescription: Record<GrammaticalTag, Description> = {};
 
 descriptions.forEach((description) => {
@@ -96,9 +90,7 @@ const categoryAliases: Partial<
   });
 });
 
-/**
- * Returns a full English canonical grammatical tag title
- */
+/** Returns a full English canonical grammatical tag title */
 export const getCanonicalGrammaticalTag = (
   tag: GrammaticalTagOrVariantNumber,
   strict: Boolean = true
@@ -115,15 +107,15 @@ export const getCanonicalGrammaticalTag = (
   return output;
 };
 
-export const getDescriptionFromGrammaticalTag = (
+export function getDescriptionFromGrammaticalTag(
   tag: GrammaticalTagOrVariantNumber,
   strict?: Boolean
-): Description | null => {
+): Description | null {
   tag = getCanonicalGrammaticalTag(tag, strict);
   return tag
     ? titleToDescription[getCanonicalGrammaticalTag(tag, strict)]
     : null;
-};
+}
 
 export { shortcuts };
 export { sortedTags };

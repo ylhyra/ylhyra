@@ -2,14 +2,14 @@ import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { RowIds } from "flashcards/flashcards/actions/row/rowData.types";
 
 /**
- * Returns an array of card ids sorted in such a way that
- * dependencies (cards that the user must have studied before
- * seeing a card) always come before the card that depends on it.
+ * Returns an array of card ids sorted in such a way that dependencies
+ * (cards that the user must have studied before seeing a card) always
+ * come before the card that depends on it.
  */
-export const sortDependenciesBeforeCardsThatDependOnThem = (
+export function sortDependenciesBeforeCardsThatDependOnThem(
   deck: Deck,
   rowIds: RowIds
-): RowIds => {
+): RowIds {
   throw new Error("Not implemented");
   // let returns: CardIds = [];
   // let rowIds: RowIds = [];
@@ -57,4 +57,4 @@ export const sortDependenciesBeforeCardsThatDependOnThem = (
   // });
   // const out = _.uniq(returns).filter((cardId) => cardId in deck!.cards);
   // return out;
-};
+}

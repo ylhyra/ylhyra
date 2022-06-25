@@ -2,10 +2,10 @@ import _ from "underscore";
 import { getLowercaseStringForAudioKey } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import { VocabularyFileSoundEntry } from "ylhyra/vocabulary/types";
 
-export const getSounds = (
+export function getSounds(
   sentences: string[] | undefined,
   soundLowercase: VocabularyFileSoundEntry[]
-): string[] | null => {
+): string[] | null {
   if (!sentences) return null;
   let output: string[] = [];
   sentences.forEach((i) => {
@@ -17,4 +17,4 @@ export const getSounds = (
   });
   if (output.length === 0) return null;
   return output;
-};
+}

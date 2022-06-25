@@ -6,9 +6,9 @@ import { UserId, Username } from "flashcards/user/types";
 import { StatusCodes } from "http-status-codes";
 import { encodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";
 
-export const getUserId = (req: Request): UserId | undefined => {
+export function getUserId(req: Request): UserId | undefined {
   return req.session!.userId;
-};
+}
 
 export function setSession(req: Request, userId: UserId, username: Username) {
   req.session!.userId = userId;

@@ -5,10 +5,10 @@ import { getCardIdsFromTermId } from "ylhyra/vocabulary/app/actions/card/term";
 import { CardIds } from "ylhyra/vocabulary/types";
 
 /**
- * Returns an array of cards with all
- * necessary dependencies of a card coming before it
+ * Returns an array of cards with all necessary
+ * dependencies of a card coming before it
  */
-export const withDependencies = (cardIds, options?): CardIds => {
+export function withDependencies(cardIds, options?): CardIds {
   let out: CardIds = [];
   getTermIdsFromCardIds(cardIds).forEach((termId) => {
     let k = getSortedCardDependenciesAsCardIds(termId);
@@ -25,4 +25,4 @@ export const withDependencies = (cardIds, options?): CardIds => {
     out = out.concat(k);
   });
   return _.uniq(out);
-};
+}

@@ -13,22 +13,23 @@ import {
  * Turns BÍN's classifications into English
  *
  * The following attributes of the input object are taken into consideration:
- * - word_categories
- * - grammatical_tag
+ *
+ * - Word_categories
+ * - Grammatical_tag
  * - BIN_domain
  *
  * Returns the inputted object with the following keys removed:
- * - word_categories
- * - grammatical_tag
- * And the following keys added:
- * - word_categories - An array of values that
- *     apply to all the forms of the word (a noun, adjective...)
- * - inflectional_form_categories - An array of
- *     values that only apply to certain forms of the word (plurality, case...)
+ *
+ * - Word_categories
+ * - Grammatical_tag And the following keys added:
+ * - Word_categories - An array of values that apply to all the forms of the
+ *   word (a noun, adjective...)
+ * - Inflectional_form_categories - An array of values that only apply to
+ *   certain forms of the word (plurality, case...)
  *
  * @hasTests
  */
-export const classify = (input: RowFromDatabase): Row => {
+export function classify(input: RowFromDatabase): Row {
   let { word_categories, grammatical_tag, BIN_domain, ...rest } = input;
   if (!word_categories && !grammatical_tag) {
     throw new Error("Malformed input from database");
@@ -120,11 +121,9 @@ export const classify = (input: RowFromDatabase): Row => {
     variant_number,
     ...rest,
   };
-};
+}
 
-/**
- * Overrides the tags in "classification.js" during the BIN initialization step
- */
+/** Overrides the tags in "classification.js" during the BIN initialization step */
 const BIN_overrides: {
   word_overrides: Record<string, string>;
   inflection_form_overrides: Record<string, string>;
@@ -173,8 +172,8 @@ const grammaticalTagsUsedInBinRegex = (() => {
 })();
 
 /**
- * We are only interested in knowing whether a word is a name or not
- * See https://bin.arnastofnun.is/ordafordi/hlutiBIN/
+ * We are only interested in knowing whether a word is a name
+ * or not See https://bin.arnastofnun.is/ordafordi/hlutiBIN/
  */
 export const relevant_BIN_domains: Record<string, string> = {
   ism: "human name",

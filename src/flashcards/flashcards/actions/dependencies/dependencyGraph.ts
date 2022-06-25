@@ -30,7 +30,7 @@ export function getDependencyGraph(
 
 /** A rowId to the rowIds it directly depends on */
 export type DirectDependencies = Record<RowId, RowId[]>;
-export const directDependenciesGraph = (deck: Deck): DirectDependencies => {
+export function directDependenciesGraph(deck: Deck): DirectDependencies {
   throw new Error("Not implemented");
   // let directDependencies: DirectDependencies = {};
   // entries(deck.dependenciesUnprocessed).forEach(
@@ -45,7 +45,7 @@ export const directDependenciesGraph = (deck: Deck): DirectDependencies => {
   //   }
   // );
   // return directDependencies;
-};
+}
 
 /**
  * Recursively calculates dependencies (if X depends on Y, and Y depends

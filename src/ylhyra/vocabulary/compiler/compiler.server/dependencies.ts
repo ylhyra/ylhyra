@@ -11,14 +11,14 @@ import {
 } from "ylhyra/vocabulary/types";
 
 /**
- * Returns an array of card ids sorted in such a way that
- * dependencies (cards that the user must have studied before
- * seeing a card) always come before the card that depends on it.
+ * Returns an array of card ids sorted in such a way that dependencies
+ * (cards that the user must have studied before seeing a card) always
+ * come before the card that depends on it.
  */
-export const sortDependenciesBeforeCardsThatDependOnThem = (
+export function sortDependenciesBeforeCardsThatDependOnThem(
   deck: DeckDatabaseInCompilationStep,
   cardIds: CardIds
-): CardIds => {
+): CardIds {
   let returns: CardIds = [];
   let termIds: TermIds = [];
   let cardIdToDepth: CardIdToDependencyDepth = {};
@@ -65,11 +65,9 @@ export const sortDependenciesBeforeCardsThatDependOnThem = (
   });
   const out = _.uniq(returns).filter((cardId) => cardId in deck!.cards);
   return out;
-};
+}
 
-/**
- * Returns an object on the form { [key]: [depth] }
- */
+/** Returns an object on the form { [key]: [depth] } */
 export const createDependencyChainBackend = (
   deck: DeckDatabaseInCompilationStep,
   fromTerm: TermId,

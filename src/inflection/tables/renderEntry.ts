@@ -6,22 +6,17 @@ import {
 } from "inflection/tables/classification/classification";
 import { sortByClassification } from "inflection/tables/classification/sortByClassification";
 import link from "inflection/tables/link";
-import { InflectionalCategoryListOrNestedList } from "inflection/tables/types";
 import {
   GrammaticalCategory,
   Html,
   InflectionalCategoryList,
+  InflectionalCategoryListOrNestedList,
   Rows,
 } from "inflection/tables/types";
 import Word from "inflection/tables/word";
 
-/**
- * Main entry point, renders the entire entry with headers and license footer.
- */
-export const renderEntry = (
-  rows: Rows,
-  options: TableOptionsFromUser
-): Html => {
+/** Main entry point, renders the entire entry with headers and license footer. */
+export function renderEntry(rows: Rows, options: TableOptionsFromUser): Html {
   let options_column_names =
     options && (options["columns"] || options.column_names);
   let options_row_names = options && (options.rows || options.row_names);
@@ -29,7 +24,7 @@ export const renderEntry = (
 
   let table;
 
-  /** Single table  */
+  /** Single table */
   if (
     options.give_me ||
     options_column_names ||
@@ -92,7 +87,7 @@ export const renderEntry = (
       </div>
     </div>
   `;
-};
+}
 
 const getRowOrColumnSettingsFromUserInput = (
   string: string | undefined

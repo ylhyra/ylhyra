@@ -3,7 +3,7 @@ import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
-export const addBadDependencies = (chosenCards: Card[]): Card[] => {
+export function addBadDependencies(chosenCards: Card[]): Card[] {
   return warnIfFunctionIsSlow.wrap(() => {
     isBrowser && console.warn("dependencies not implemented");
     return chosenCards;
@@ -34,4 +34,4 @@ export const addBadDependencies = (chosenCards: Card[]): Card[] => {
     }
     // return after;
   });
-};
+}

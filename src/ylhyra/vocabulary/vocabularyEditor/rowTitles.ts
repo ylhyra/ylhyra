@@ -94,11 +94,11 @@ export const vocabularyRowStructureAsObject = vocabularyRowStructure.reduce(
 export const vocabularyRowTitles = Object.keys(vocabularyRowStructureAsObject);
 export type VocabularyRowTitles = keyof typeof vocabularyRowTitles;
 
-export const formatRowName = (i: string): string => {
+export function formatRowName(i: string): string {
   if (!i) return "";
   return (
     uppercaseFirstLetter(i)
       // @ts-ignore
       .replaceAll("_", " ")
   );
-};
+}

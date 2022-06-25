@@ -6,12 +6,10 @@ import {
 } from "ylhyra/documents/types/types";
 
 /**
- * Data is stored in inline data tags,
- * see {@link DocumentationRegardingInlineDataInHtml}
+ * Data is stored in inline data tags, see
+ * {@link DocumentationRegardingInlineDataInHtml}
  */
-export const ExtractData = (
-  input: HtmlAsJson
-): DocumentTitleToFlattenedData => {
+export function ExtractData(input: HtmlAsJson): DocumentTitleToFlattenedData {
   let output: DocumentTitleToFlattenedData = {};
   const getNewTitle = new newTitle();
   Traverse(input, ({ documentTitle, data }) => {
@@ -19,7 +17,7 @@ export const ExtractData = (
     output[title] = data;
   });
   return output;
-};
+}
 
 const Traverse = (
   input: HtmlAsJson,
@@ -54,9 +52,7 @@ const Traverse = (
   }
 };
 
-/**
- * Prevent clashes if the same document is transcluded twice
- */
+/** Prevent clashes if the same document is transcluded twice */
 export class newTitle {
   index = 0;
   array: string[] = [];

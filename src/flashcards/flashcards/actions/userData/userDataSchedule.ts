@@ -6,7 +6,7 @@ import {
   Schedule,
 } from "flashcards/flashcards/actions/userData/userDataStore";
 
-export const getScheduleFromUserData = (userData: UserData): Schedule => {
+export function getScheduleFromUserData(userData: UserData): Schedule {
   const schedule: Schedule = {};
   Object.keys(userData?.rows || {}).forEach((key) => {
     if (userData.rows[key].type === "schedule") {
@@ -14,7 +14,7 @@ export const getScheduleFromUserData = (userData: UserData): Schedule => {
     }
   });
   return schedule;
-};
+}
 
 export function saveCardSchedule(this: Card) {
   setUserDataKey(this.cardId, getEntireSchedule()[this.cardId], "schedule");

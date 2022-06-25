@@ -45,19 +45,20 @@ import { VocabularyFileEntry } from "ylhyra/vocabulary/types";
  * (explanation)
  *
  * `
+ *
  * - Bold: '''bold'''
  * - Italics: '''italics'''
  * - There are also various smaller replacements being done such as {{kvk}} ->
  *   <sup>(feminine)</sup>.
  */
-export const formatVocabularyEntry = (
+export function formatVocabularyEntry(
   input:
     | VocabularyFileEntry["icelandic"]
     | VocabularyFileEntry["english"]
     | VocabularyFileEntry["note"]
     | VocabularyFileEntry["pronunciation"]
     | undefined
-): Html => {
+): Html {
   if (!input) return "";
   if (typeof input !== "string") {
     // @ts-ignore
@@ -168,7 +169,7 @@ export const formatVocabularyEntry = (
   );
 
   return input;
-};
+}
 
 /**
  * UNUSED Was used to automatically make inflections such
