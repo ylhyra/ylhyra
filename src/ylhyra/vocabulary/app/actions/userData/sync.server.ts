@@ -1,12 +1,12 @@
 import express, { Router } from "express";
 import stable_stringify from "json-stable-stringify";
-import { msToS } from "modules/time";
 import removeNullKeys from "modules/removeNullKeys";
-import { UserDataRows } from "ylhyra/vocabulary/app/actions/userData/userData";
+import { msToS } from "modules/time";
 import { staticCached } from "ylhyra/server/caching";
 import query from "ylhyra/server/database";
 import sql from "ylhyra/server/database/functions/SQL-template-literal";
 import { getBaseDir } from "ylhyra/server/paths_directories";
+import { UserDataRows } from "ylhyra/vocabulary/app/actions/userData/userData";
 
 const router = Router();
 
@@ -129,11 +129,11 @@ const saveUserData = (req: express.Request, userDataRows: UserDataRows) => {
 
 export default router;
 
-export const delete_test_data = () => {
-  return sql`
-    DELETE FROM user_data 
-      JOIN users ON user_data.user_id = users.id
-      WHERE username LIKE 'test_%;
-    DELETE FROM users WHERE username LIKE 'test_%';
-  `;
-};
+// export const delete_test_data = () => {
+//   return sql`
+//     DELETE FROM user_data
+//       JOIN users ON user_data.user_id = users.id
+//       WHERE username LIKE 'test_%;
+//     DELETE FROM users WHERE username LIKE 'test_%';
+//   `;
+// };

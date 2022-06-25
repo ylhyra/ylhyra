@@ -9,6 +9,7 @@ import React, { Component } from "react";
 export class CardElement extends Component {
   isKeyDown: boolean = false;
   state: {
+    isEditing?: boolean;
     /** First the user clicks the card to show the other side */
     isShowingBottomSide?: boolean;
     /** Then he rates how well he knew it */
@@ -87,8 +88,9 @@ export class CardElement extends Component {
     }
   };
   /**
-   * @param timeout – A timeout is used when using keyboard shortcuts to add enough lag to the
-   *   user interface for which button the user is clicking to be noticeable
+   * @param timeout – A timeout is used when using keyboard
+   *   shortcuts to add enough lag to the user interface for
+   *   which button the user is clicking to be noticeable
    */
   cardClicked = (timeout?: NodeJS.Timeout) => {
     if (this.state.isShowingBottomSide) {
@@ -118,7 +120,7 @@ export class CardElement extends Component {
   ) => {
     /**
      * TODO: The buttons below no longer send this event, check
-     * to see if stopping propogation is really necessary
+     * to see if stopping propagation is really necessary
      */
     e?.stopPropagation();
     if (this.state.chosenRating) return;
@@ -240,7 +242,21 @@ export class CardElement extends Component {
         `}
         onClick={() => this.cardClicked()}
       >
-        <div>{card.row.deck.settings.title}</div>
+        <div>
+          <div>{card.row.deck.settings.title}</div>
+          <button className="btn">Ignore this item</button>
+          <button className="btn">Ignore this side</button>
+          <button
+            className="btn"
+            onClick={() => {
+              this.setState({
+                isEditing: true,
+              });
+            }}
+          >
+            Edit
+          </button>
+        </div>
         <div
           className={`
           flashcard-top
@@ -382,8 +398,3 @@ const label = (name: string, value: string) => {
     </div>
   );
 };
-
-// export const CardElement = observer(
-//
-//
-//   _CardElement)

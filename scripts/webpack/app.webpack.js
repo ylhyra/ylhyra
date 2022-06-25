@@ -1,5 +1,4 @@
 const webpack = require("webpack");
-const resolve = require("./resolve");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -10,8 +9,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV === "production";
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const path = require("path");
 
-let project = {};
+const resolve = (input) => path.resolve(process.env.PWD, input);
+
+let project;
 if (process.env.PROJECT === "flashcards") {
   project = {
     entry: "./src/flashcards/app/app.tsx",
@@ -90,7 +92,8 @@ module.exports = {
     static: {
       directory: resolve("src/ylhyra/app/app/public"),
     },
-    hot: false,
+    // hot: false,
+    hot: true,
     proxy: {
       "/api": "http://localhost:9123",
     },

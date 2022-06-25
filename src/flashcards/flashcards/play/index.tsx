@@ -5,7 +5,7 @@ import { initializeSession } from "flashcards/flashcards/actions/session/initial
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { checkForUndoOnKeyDown } from "flashcards/flashcards/actions/session/sessionHistory";
-import { CardElement } from "flashcards/flashcards/play/cardElement";
+import { CardElement } from "flashcards/flashcards/play/card";
 import { ProgressBar } from "flashcards/flashcards/play/progressBar";
 import { DeckId } from "flashcards/flashcards/types";
 import { observer } from "mobx-react-lite";
