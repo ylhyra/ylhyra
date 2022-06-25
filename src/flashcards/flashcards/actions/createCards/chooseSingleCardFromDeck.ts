@@ -5,10 +5,10 @@ import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { chooseDependingOnRelativeProbability } from "modules/probability";
 
 /**
- * Helper class used by {@link parentClass} that is
+ * Helper class used by {@link ChooseCards} that is
  * used to select the next card of a given type.
  */
-export class ChooseCardsFromDeck {
+export class ChooseSingleCardFromDeck {
   deck: Deck;
   parentClass: ChooseCards;
 

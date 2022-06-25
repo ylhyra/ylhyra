@@ -6,18 +6,8 @@ import {
 import stable_stringify from "json-stable-stringify";
 import removeNullKeys from "modules/removeNullKeys";
 import { msToS } from "modules/time";
-import { staticCached } from "ylhyra/server/caching";
-import query from "ylhyra/server/database";
-import sql from "ylhyra/server/database/functions/SQL-template-literal";
-import { getBaseDir } from "ylhyra/server/paths_directories";
 
 const router = Router();
-
-/* Download vocabulary database file */
-router.use(
-  "/api/vocabulary/",
-  staticCached(getBaseDir() + "/build/vocabulary")
-);
 
 /* Sync user data */
 router.post(

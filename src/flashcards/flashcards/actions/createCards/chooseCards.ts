@@ -1,6 +1,6 @@
 import { setupTestSession } from "flashcards/flashcards/actions/_testing/testSetup";
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { ChooseCardsFromDeck } from "flashcards/flashcards/actions/createCards/chooseCardsFromDeck";
+import { ChooseSingleCardFromDeck } from "flashcards/flashcards/actions/createCards/chooseSingleCardFromDeck";
 import { Session } from "flashcards/flashcards/actions/session/session";
 import { log } from "modules/log";
 import { chooseDependingOnRelativeProbability } from "modules/probability";
@@ -11,12 +11,12 @@ export const CARDS_TO_CREATE = 30;
 /** Class to assist with randomly choosing from the allowed decks */
 export class ChooseCards {
   session: Session;
-  classificationsForAllDecks: ChooseCardsFromDeck[];
+  classificationsForAllDecks: ChooseSingleCardFromDeck[];
 
   constructor(session: Session) {
     this.session = session;
     this.classificationsForAllDecks = session.allowedDecks.map(
-      (deck) => new ChooseCardsFromDeck(deck, this)
+      (deck) => new ChooseSingleCardFromDeck(deck, this)
     );
   }
 
