@@ -1,7 +1,15 @@
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
-import { getTimeMemoized, Milliseconds, minutes, Timestamp } from "modules/time";
+import {
+  getTimeMemoized,
+  Milliseconds,
+  minutes,
+  Timestamp,
+} from "modules/time";
 import { getTermIds } from "ylhyra/vocabulary/app/actions/card/card_data";
-import { getAllCardIdsWithSameTerm, getAsCardInSession } from "ylhyra/vocabulary/app/actions/card/card_siblings";
+import {
+  getAllCardIdsWithSameTerm,
+  getAsCardInSession,
+} from "ylhyra/vocabulary/app/actions/card/card_siblings";
 import { getCardIdsFromTermId } from "ylhyra/vocabulary/app/actions/card/term";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { saveScheduleForCardId } from "ylhyra/vocabulary/app/actions/userData/userDataSchedule";
@@ -20,45 +28,45 @@ export const getDue = (id: CardId): Timestamp | undefined => {
   return getSchedule(id)?.due;
 };
 
-export const getScore = (id: CardId) => {
+export function getScore(id: CardId) {
   return getSchedule(id)?.score;
-};
+}
 
-export const getSessionsSeen = (id: CardId) => {
+export function getSessionsSeen(id: CardId) {
   return getSchedule(id)?.sessions_seen || 0;
-};
+}
 
-export const getNumberOfBadSessions = (id: CardId) => {
+export function getNumberOfBadSessions(id: CardId) {
   return getSchedule(id)?.number_of_bad_sessions || 0;
-};
+}
 
-export const getLastIntervalInDays = (id: CardId) => {
+export function getLastIntervalInDays(id: CardId) {
   return getSchedule(id)?.last_interval_in_days;
-};
+}
 
-export const getLastSeen = (id: CardId) => {
+export function getLastSeen(id: CardId) {
   return getSchedule(id)?.last_seen;
-};
+}
 
-export const isUnseenCard = (id: CardId) => {
+export function isUnseenCard(id: CardId) {
   return !getScore(id);
-};
+}
 
-export const isUnseenSiblingOfANonGoodCard = (id: CardId) => {
+export function isUnseenSiblingOfANonGoodCard(id: CardId) {
   if (!isUnseenCard(id)) return false;
   const l = getLowestAvailableTermScore(id);
   return l && l < GOOD;
-};
+}
 
-export const isInSchedule = (id: CardId) => {
+export function isInSchedule(id: CardId) {
   if (!deck) {
     console.error("Deck not initialized");
     return;
   }
   return id in deck!.schedule;
-};
+}
 
-export const setSchedule = (id: CardId, data: Partial<ScheduleData>) => {
+export function setSchedule(id: CardId, data: Partial<ScheduleData>) {
   if (!deck) {
     console.error("Deck not initialized");
     return;
@@ -77,13 +85,13 @@ export const setSchedule = (id: CardId, data: Partial<ScheduleData>) => {
     ...data,
   };
   saveScheduleForCardId(id);
-};
+}
 
-export const isUnseenTerm = (id: CardId) => {
+export function isUnseenTerm(id: CardId) {
   return !getTermLastSeen(id);
-};
+}
 
-export const getLowestAvailableTermScore = (id: CardId) => {
+export function getLowestAvailableTermScore(id: CardId) {
   let lowest: number | null = null;
   getAllCardIdsWithSameTerm(id).forEach((card) => {
     if (getScore(card)) {
@@ -91,9 +99,9 @@ export const getLowestAvailableTermScore = (id: CardId) => {
     }
   });
   return lowest;
-};
+}
 
-export const getTermLastSeen = (id: CardId) => {
+export function getTermLastSeen(id: CardId) {
   // return memoize(id, "getTermLastSeen", () => {
   let max = 0;
   getAllCardIdsWithSameTerm(id).forEach((card) => {
@@ -101,7 +109,7 @@ export const getTermLastSeen = (id: CardId) => {
   });
   return max;
   // });
-};
+}
 
 export const timeSinceTermWasSeen = (id: CardId): Milliseconds | null => {
   let j = getTermLastSeen(id);
@@ -109,20 +117,20 @@ export const timeSinceTermWasSeen = (id: CardId): Milliseconds | null => {
   return getTimeMemoized() - j;
 };
 
-export const wasTermVeryRecentlySeen = (id: CardId) => {
+export function wasTermVeryRecentlySeen(id: CardId) {
   return wasTermSeenMoreRecentlyThan(id, 45 * minutes);
-};
+}
 
-export const wasTermSeenMoreRecentlyThan = (id: CardId, time: Timestamp) => {
+export function wasTermSeenMoreRecentlyThan(id: CardId, time: Timestamp) {
   const i = timeSinceTermWasSeen(id);
   return i && i < time;
-};
+}
 
-export const isNewCard = (id: CardId) => {
+export function isNewCard(id: CardId) {
   return !isInSchedule(id);
-};
+}
 
-export const isNewTerm = (id: CardId) => {
+export function isNewTerm(id: CardId) {
   // There exists at least one term
   return getTermIds(id).some((term) =>
     // Where every cardInSession is new
@@ -131,4 +139,4 @@ export const isNewTerm = (id: CardId) => {
         !isInSchedule(id) && !getAsCardInSession(id)?.hasBeenSeenInSession()
     )
   );
-};
+}

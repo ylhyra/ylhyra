@@ -2,7 +2,7 @@ import { Card } from "flashcards/flashcards/actions/card/card";
 import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
 import { clamp, mapValueToRange } from "modules/math";
 
-export const PercentageKnown = (cards: Card[]) => {
+export function PercentageKnown(cards: Card[]) {
   if (!getEntireSchedule()) return 0;
   let done = 0;
   let remaining = 0;
@@ -41,7 +41,7 @@ export const PercentageKnown = (cards: Card[]) => {
     percentage = (ratio * 100).toFixed(2);
   }
   return percentage;
-};
+}
 
 export const PercentageKnownOverall = () => {
   throw new Error("Not implemented");

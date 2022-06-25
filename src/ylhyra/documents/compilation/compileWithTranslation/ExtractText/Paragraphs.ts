@@ -1,8 +1,8 @@
 /**
-- Groups paragraphs together
-- Then sends these grouped paragraphs to the inputted "paragraphCallback".
-- Returns a JSON tree of the entire document.
-*/
+ * - Groups paragraphs together
+ * - Then sends these grouped paragraphs to the inputted "paragraphCallback".
+ * - Returns a JSON tree of the entire document.
+ */
 import lastInArray from "modules/arrays/lastInArray";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";
 import { newTitle } from "ylhyra/documents/compilation/compileWithTranslation/ExtractData";
@@ -11,14 +11,17 @@ import { newTitle } from "ylhyra/documents/compilation/compileWithTranslation/Ex
 let documents: string[] = [];
 
 /**
-  - Finds paragraphs of text.
-  - Groups sequences of text and inline elements together.
-  - This allows us to split sentences without giving a thought about how HTML tags affect it.
-  - Block elements make us switch to a new paragraph.
-
-  Note:
-  - WrapInTags relies on returns, while ExtractText does not
-*/
+ * - Finds paragraphs of text.
+ *
+ *   - Groups sequences of text and inline elements together.
+ *   - This allows us to split sentences without giving a
+ *       thought about how HTML tags affect it.
+ *   - Block elements make us switch to a new paragraph.
+ *
+ * Note:
+ *
+ *   - WrapInTags relies on returns, while ExtractText does not
+ */
 const groupParagraphs = ({
   input,
   getNewTitle,
@@ -138,7 +141,7 @@ export const fnShouldTranslate = (
   return isTranslating;
 };
 
-export const isInlineElement = (tag: string | undefined) => {
+export function isInlineElement(tag: string | undefined) {
   if (!tag || typeof tag !== "string") {
     return false;
   }
@@ -167,10 +170,10 @@ export const isInlineElement = (tag: string | undefined) => {
     "sub",
     "sup",
   ].includes(tag.toLowerCase());
-};
+}
 
 /* Block elements to skip */
-export const shouldSkip = ({ tag, attr }: HtmlAsJson) => {
+export function shouldSkip({ tag, attr }: HtmlAsJson) {
   if (!tag) {
     return false;
   }
@@ -178,6 +181,6 @@ export const shouldSkip = ({ tag, attr }: HtmlAsJson) => {
     return true;
   }
   return ["script", "style", "head" /* 'sup'*/].includes(tag.toLowerCase());
-};
+}
 
 export default groupParagraphs;

@@ -6,11 +6,11 @@
 let updatedIds: { [key: string]: string } = {};
 let previousIds: { [key: string]: string } = {};
 
-export const updateId = (from: string, to: string) => {
+export function updateId(from: string, to: string) {
   updatedIds[from] = to;
   previousIds[to] = from;
   return to;
-};
+}
 
 // Recursive lookup
 export const getUpdatedId = (id: string, depth = 0): string => {
@@ -20,9 +20,9 @@ export const getUpdatedId = (id: string, depth = 0): string => {
   return id;
 };
 
-export const getPreviousId = (id: string) => {
+export function getPreviousId(id: string) {
   return previousIds[id];
-};
+}
 
 export const resetIds = () => {
   updatedIds = {};

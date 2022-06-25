@@ -8,7 +8,7 @@ import {
 
 export let isSearching = false;
 export let reDoSearch;
-export const search = (e) => {
+export function search(e) {
   select(null);
   reDoSearch = () => {
     search(e);
@@ -40,7 +40,7 @@ export const search = (e) => {
       .sort((a, b) => a.icelandic?.length - b.icelandic?.length);
   }
   selectRows(true);
-};
+}
 
 export const turnOffSearch = () => {
   isSearching = false;

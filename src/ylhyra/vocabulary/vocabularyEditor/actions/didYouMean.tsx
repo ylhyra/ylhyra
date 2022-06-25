@@ -8,7 +8,7 @@ import {
 } from "ylhyra/vocabulary/vocabularyEditor/actions/actions";
 
 let memoizedSuggestions: any = {};
-export const didYouMeanSuggestions = (is, input_row_id) => {
+export function didYouMeanSuggestions(is, input_row_id) {
   if (memoizedSuggestions.row_id === input_row_id) {
     return memoizedSuggestions.value;
   }
@@ -116,4 +116,4 @@ export const didYouMeanSuggestions = (is, input_row_id) => {
   const returns = <div className="small gray">Did you mean: {u}</div>;
   memoizedSuggestions = { row_id: input_row_id, value: returns };
   return returns;
-};
+}

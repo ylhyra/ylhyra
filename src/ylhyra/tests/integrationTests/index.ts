@@ -37,32 +37,32 @@ export default async (only_run) => {
   !only_run && console.log("%cAll tests good!", "font-size: x-large");
 };
 
-export const shouldEqual = (first, second) => {
+export function shouldEqual(first, second) {
   if (first !== second) {
     throw new Error(`NOT EQUAL: Received ${first} and ${second}`);
   }
-};
+}
 
-export const assert = (i, ...description) => {
+export function assert(i, ...description) {
   if (!i) {
     // log(description);
     throw new Error(description);
   }
-};
+}
 
-export const notNull = (...vals) => {
+export function notNull(...vals) {
   vals.forEach((val) => {
     if (!(val && val !== "0")) {
       throw new Error("Received a null");
     }
   });
-};
+}
 
-export const wait = (ms) => {
+export function wait(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms || 20);
   });
-};
+}
 
 // const isDeckInitialized = async () => {
 //   if (!deck) {

@@ -155,9 +155,9 @@ export default (
   );
 };
 
-export const cleanInput = (input: string) => {
+export function cleanInput(input: string) {
   return input?.toLowerCase().replace(/[^a-zA-ZÀ-ÿ0-9]/g, "");
-};
+}
 
 export const without_special_characters = (string: string) => {
   return WITHOUT_SPECIAL_CHARACTERS_MARKER + removeDiacritics(string);
@@ -172,16 +172,16 @@ export const with_spelling_errors = (string: string) => {
   ); // Remove two in a row
 };
 
-export const phonetic = (string: string) => {
+export function phonetic(string: string) {
   return (PHONETIC_MARKER +
     phoneticHash(
       removeTemporaryMarkers(without_special_characters(string))
     )) as string;
-};
+}
 
-export const removeTemporaryMarkers = (input: string) => {
+export function removeTemporaryMarkers(input: string) {
   return input
     .replace(WITHOUT_SPECIAL_CHARACTERS_MARKER, "")
     .replace(WITH_SPELLING_ERROR_MARKER, "")
     .replace(PHONETIC_MARKER, "");
-};
+}

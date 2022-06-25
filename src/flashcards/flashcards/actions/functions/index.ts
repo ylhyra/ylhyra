@@ -41,7 +41,7 @@ export const studyNewRows = () => {
   // });
 };
 
-export const countRows = (ids: CardIds, round = true) => {
+export function countRows(ids: CardIds, round = true) {
   throw new Error("Not implemented");
   // const i = rapidCountUnique(ids.map((id) => id.rowId));
   // if (round) {
@@ -49,7 +49,7 @@ export const countRows = (ids: CardIds, round = true) => {
   // } else {
   //   return i;
   // }
-};
+}
 
 /** Only used by {@link countRows} */
 export const rapidCountUnique = (i: any[]) => new Set(i).size;

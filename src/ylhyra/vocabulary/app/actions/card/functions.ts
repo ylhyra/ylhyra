@@ -5,19 +5,17 @@ import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { getHashForVocabulary } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import { CardId, CardIds, TermIds } from "ylhyra/vocabulary/types";
 
-export const getCardIdsFromTermIds = (termIds: TermIds) => {
+export function getCardIdsFromTermIds(termIds: TermIds) {
   return uniq(
     flatten(termIds.map((t) => getCardIdsFromTermId(t)).filter(Boolean))
   );
-};
+}
 
 export const getTermIdsFromCardIds = (ids: CardIds): TermIds => {
   return uniq(flatten(ids.map((id) => getTermIds(id))));
 };
 
-/**
- * Used for testing
- */
+/** Used for testing */
 export const getCardIdByText = (text: string): CardId => {
   const id = (getHashForVocabulary(text) + "_is") as CardId;
   // const id = deck?.cards[(getHashForVocabulary(text) + "_is") as CardId]?.id;

@@ -11,9 +11,9 @@ const CLIENT_SIDE_RENDERING_IN_DEVELOPMENT_MODE = true && isDev;
 
 let cache: { [url: string]: PrerenderedDataSavedInPage } = {};
 let expectedUrl: string | null = null;
-export const abortLoadingOtherUrls = (url: string) => {
+export function abortLoadingOtherUrls(url: string) {
   expectedUrl = url;
-};
+}
 
 export function cachePrerenderedData(
   pathname: string,
@@ -24,9 +24,7 @@ export function cachePrerenderedData(
   }
 }
 
-/**
- * Load content from server, or serve cached.
- */
+/** Load content from server, or serve cached. */
 export function loadContent({
   pathname,
   section,
@@ -71,9 +69,7 @@ export function loadContent({
   }
 }
 
-/**
- * Apply the loaded data and set up page
- */
+/** Apply the loaded data and set up page */
 export function setContent({
   pathname,
   section,

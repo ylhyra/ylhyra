@@ -16,7 +16,7 @@ import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocab
 import { getHashForVocabulary } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 import { CardId, CardIds, TermId, TermIds } from "ylhyra/vocabulary/types";
 
-export const printWord = (id: CardId | TermId | string) => {
+export function printWord(id: CardId | TermId | string) {
   if (!isDev) return;
   if (id in deck!.cards) {
     return getPlaintextFromFormatted(
@@ -33,7 +33,7 @@ export const printWord = (id: CardId | TermId | string) => {
   } else {
     log(`No id ${id}`);
   }
-};
+}
 
 export const studyParticularIds = async (allowed_ids: CardIds, options?) => {
   const { session } = deck;
@@ -57,13 +57,13 @@ export const studyNewTerms = () => {
   });
 };
 
-export const countTerms = (ids: CardIds) => {
+export function countTerms(ids: CardIds) {
   const i = rapidFlattenArrayAndCountUnique(ids.map((id) => getTermIds(id)));
   return roundToInterval(i, i > 200 ? 50 : 5);
-};
+}
 
 export const rapidCountUnique = (i) => new Set(i).size;
-export const rapidFlattenArrayAndCountUnique = (arrOfArrs) => {
+export function rapidFlattenArrayAndCountUnique(arrOfArrs) {
   let s = new Set();
   arrOfArrs.forEach((arr) => {
     arr.forEach((i) => {
@@ -71,7 +71,7 @@ export const rapidFlattenArrayAndCountUnique = (arrOfArrs) => {
     });
   });
   return s.size;
-};
+}
 
 export const countTermsInSchedule = () => {
   if (!deck) return null;

@@ -8,7 +8,7 @@ import {
 } from "flashcards/flashcards/actions/userData/userDataStore";
 import { saveInLocalStorage } from "modules/localStorage";
 
-// export const getUserDataForKey = (key: string) => {
+// export function getUserDataForKey (key: string) {
 //   return getUserData().rows?.[key]?.value || null;
 // };
 

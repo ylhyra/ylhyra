@@ -1,12 +1,10 @@
-/**
- * Various work-in-progress snippets
- */
+/** Various work-in-progress snippets */
 
 // /*
 //   TEMPORARY SOLUTION
 //   A very crude solution for finding which audio sections should be played
 // */
-// export const readAlongMessage = (message, audioId) => {
+// export function readAlongMessage (message, audioId) {
 //   if (!message) return;
 //   const ids = message.match(/ id=".+?"/g).map((i) => i.match(/id="(.+?)"/)[1]);
 //   // console.log(message)
@@ -41,7 +39,7 @@
  */
 // let time_shift = 0 // +0.050
 
-/******** Stuff in development: ********/
+/** Stuff in development: ******* */
 
 /*
   // Highlight adjacent words

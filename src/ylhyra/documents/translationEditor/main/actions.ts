@@ -5,12 +5,12 @@ import axios from "ylhyra/app/app/axios";
 import { notify } from "ylhyra/app/app/error";
 import store from "ylhyra/app/app/store";
 
-export const openEditor = (page) => {
+export function openEditor(page) {
   store.dispatch({
     type: "OPEN_EDITOR",
     page,
   });
-};
+}
 
 export const closeEditor = () => {
   if (!store.getState().editor.isSaved) {

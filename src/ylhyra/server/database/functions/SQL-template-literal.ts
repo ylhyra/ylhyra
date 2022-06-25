@@ -34,7 +34,7 @@ export default (strings, ...values) =>
 //     .join('')
 // }
 //
-// // export const dontEscape = (input) => {
+// // export function dontEscape (input) {
 // //   return {
 // //     dontEscape: true,
 // //     input: input,

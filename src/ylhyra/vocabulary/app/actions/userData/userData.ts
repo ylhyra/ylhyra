@@ -17,9 +17,9 @@ export type UserDataRows = {
   };
 };
 
-export const getUserData = (key: string) => {
+export function getUserData(key: string) {
   return deck?.user_data?.rows?.[key]?.value || null;
-};
+}
 
 export const setUserData = (
   key: string,

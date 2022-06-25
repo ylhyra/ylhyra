@@ -1,5 +1,6 @@
 import { AnyAction } from "redux";
-export const data = (state = {}, action: AnyAction) => {
+
+export function data(state = {}, action: AnyAction) {
   switch (action.type) {
     case "INITIALIZE_WITH_TOKENIZED_AND_DATA":
       return action.data || state;
@@ -7,4 +8,4 @@ export const data = (state = {}, action: AnyAction) => {
     default:
       return state;
   }
-};
+}

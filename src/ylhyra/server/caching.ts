@@ -9,7 +9,7 @@ import {
   seconds,
 } from "modules/time";
 
-export const cacheControl = (res, type) => {
+export function cacheControl(res, type) {
   // if (isDev) return;
   let directives = {
     "stale-if-error": 365 * days,
@@ -41,12 +41,12 @@ export const cacheControl = (res, type) => {
     }
   });
   res.set("Cache-Control", output.join(", "));
-};
+}
 
-export const staticCached = (path) => {
+export function staticCached(path) {
   return express.static(path, {
     setHeaders: (res) => {
       cacheControl(res, "immutable");
     },
   });
-};
+}

@@ -8,8 +8,9 @@ export const getCardsInSchedule = (): CardIds => {
 };
 
 /**
- * Data that is shared across all sibling cards was moved in {@link simplifyDeck}
- * to be stored in the term instead, for de-duplication purposes.
+ * Data that is shared across all sibling cards was moved in
+ * {@link simplifyDeck} to be stored in the term instead, for
+ * de-duplication purposes.
  *
  * That is extremely confusing, though, and should be rethought!
  */
@@ -38,35 +39,35 @@ export const getCardData: {
  * "From" is encoded as the final part of the CardId, e.g. asdf_is or asdf_en.
  * "From" was deleted in the {@link simplifyDeck} step to reduce size.
  */
-export const getFrom = (id: CardId) => {
+export function getFrom(id: CardId) {
   return id.slice(-2) as "is" | "en";
-};
+}
 
-export const getId = (id: CardId) => {
+export function getId(id: CardId) {
   return id; // getCardData(id, "id");
-};
+}
 
-export const getLevel = (id: CardId) => {
+export function getLevel(id: CardId) {
   return getCardData(id, "level");
-};
+}
 
 export const getCardCEFR = getLevel;
 
-export const getImportance = (cardId: CardId) => {
+export function getImportance(cardId: CardId) {
   return getCardData(cardId, "importance");
-};
+}
 
-export const getDifficulty = (cardId: CardId) => {
+export function getDifficulty(cardId: CardId) {
   return getCardData(cardId, "difficulty");
-};
+}
 
-export const getSound = (cardId: CardId) => {
+export function getSound(cardId: CardId) {
   return getCardData(cardId, "sound");
-};
+}
 
-export const getTermIds = (cardId: CardId) => {
+export function getTermIds(cardId: CardId) {
   return getCardData(cardId, "terms")!;
-};
+}
 
 export const getSortKey = (
   cardId: CardId,

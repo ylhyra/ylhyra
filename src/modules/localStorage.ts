@@ -4,7 +4,7 @@ import { isBrowser } from "modules/isBrowser";
 const compressed_keys = [];
 
 /* Helper functions to stringify in local storage */
-export const saveInLocalStorage = (name: string, input: any) => {
+export function saveInLocalStorage(name: string, input: any) {
   /** Strip MobX proxies */
   input = toJS(input);
   if (!isBrowser) return;
@@ -23,7 +23,7 @@ export const saveInLocalStorage = (name: string, input: any) => {
   // }
 
   localStorage.setItem(name, data);
-};
+}
 
 export const getFromLocalStorage = (name: string): any => {
   if (!isBrowser) return;

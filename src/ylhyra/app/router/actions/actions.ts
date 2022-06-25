@@ -5,9 +5,7 @@ import { cachePrerenderedData } from "ylhyra/app/router/actions/load";
 import { PrerenderedDataSavedInPage } from "ylhyra/app/types";
 import { existsSchedule, isUserLoggedIn } from "ylhyra/app/user/actions";
 
-/**
- * Listen to `popstate` events to be able to navigate back
- */
+/** Listen to `popstate` events to be able to navigate back */
 let hasUrlEverChanged = false;
 export const urlHasChanged = () => (hasUrlEverChanged = true);
 if (isBrowser) {
@@ -51,7 +49,7 @@ export const getFrontpageURL = () => {
 };
 
 let isIndexed: Boolean;
-export const setIndexing = (shouldIndex: Boolean | undefined) => {
+export function setIndexing(shouldIndex: Boolean | undefined) {
   if (!isBrowser) return;
   if (isIndexed !== Boolean(shouldIndex)) {
     document
@@ -59,4 +57,4 @@ export const setIndexing = (shouldIndex: Boolean | undefined) => {
       ?.setAttribute("content", shouldIndex ? "index" : "noindex");
   }
   isIndexed = Boolean(shouldIndex);
-};
+}

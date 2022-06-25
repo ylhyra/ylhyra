@@ -2,7 +2,7 @@
  * Renders title for the <title> element.
  * Turns "Foo: Bar" into "Bar • Foo"
  */
-export const renderTitle = (input: string | undefined) => {
+export function renderTitle(input: string | undefined) {
   const defaultTitle = "Ylhýra – Learn Icelandic";
   if (!input) return defaultTitle;
   return (
@@ -12,4 +12,4 @@ export const renderTitle = (input: string | undefined) => {
       // .filter((i) => !/^\d+$/.test(i))
       .join("\u2006•\u2006")
   );
-};
+}

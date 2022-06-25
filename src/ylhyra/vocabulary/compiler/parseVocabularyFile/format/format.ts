@@ -6,49 +6,49 @@ import { VocabularyFileEntry } from "ylhyra/vocabulary/types";
 
 /**
  * This function formats
- *   - the Icelandic and English sides of the vocabulary card
- *   - notes and pronunciations etc.
- * and returns an HTML string.
+ *
+ * - The Icelandic and English sides of the vocabulary card
+ * - Notes and pronunciations etc.
+ *   and returns an HTML string.
  *
  * The sides have to follow a specific format:
- *   - Example input: "incorrect; wrong;; stupid"
- *   - No commas are allowed. Commas must be substituted with the character `∆`.
- *     This is to prevent accidental confusion of commas and entry separators.
- *   - The minor separator is `;`. It is used to show meanings as being very related,
- *     in our example it shows "incorrect" and "wrong" together.
- *   - The major separator is `;;`. It is used to show meanings that are very distinct,
- *     in our example it shows "incorrect" and "stupid" as being distinct.
- *   - The formatted output will be:
- *         ```
- *         1. incorrect, wrong
- *         2. stupid
- *         ```
- *      with the comma there being grayed out.
+ *
+ * - Example input: "incorrect; wrong;; stupid"
+ * - No commas are allowed. Commas must be substituted with the character `∆`.
+ *   This is to prevent accidental confusion of commas and entry separators.
+ * - The minor separator is `;`. It is used to show meanings as being very
+ *   related, in our example it shows "incorrect" and "wrong" together.
+ * - The major separator is `;;`. It is used to show meanings that are very
+ *   distinct, in our example it shows "incorrect" and "stupid" as being distinct.
+ * - The formatted output will be:
+ *   ` 1. incorrect, wrong
+ *
+ *   2. stupid
+ *
+ *   ` with the comma there being grayed out.
  *
  * There are also very specific custom formatting and shorthand options:
  *
- *   - Highlighting which part of a word is the "þú" part (e.g. in "farðu").
- *     {@see DocumentationRegardingThuMerging}
- *   - Occlusion.
- *     {@see DocumentationRegardingOcclusion}
- *   - Formatting text as gray:
- *        - {{gray|bla bla}}
- *        - `^orð`
- *        - `_orð_`
- *     This is used to show parentheses and such in gray.
- *     Todo: Limit syntax.
- *   - Inline notes.
- *        The input
- *          "blabla (n: explanation)"
- *        becomes
- *          ```
- *          blabla
- *          (explanation)
- *          ```
- *    - Bold: '''bold'''
- *    - Italics: '''italics'''
- *    - There are also various smaller replacements being done
- *      such as {{kvk}} -> <sup>(feminine)</sup>.
+ * - Highlighting which part of a word is the "þú" part (e.g. in "farðu").
+ *   {@see DocumentationRegardingThuMerging}
+ * - Occlusion.
+ *   {@see DocumentationRegardingOcclusion}
+ * - Formatting text as gray:
+ *
+ *   - {{gray|bla bla}}
+ *   - `^orð`
+ *   - `_orð_` This is used to show parentheses and such in gray.
+ *       Todo: Limit syntax.
+ * - Inline notes.
+ *   The input "blabla (n: explanation)" becomes ` blabla
+ *
+ *   (explanation)
+ *
+ *   `
+ * - Bold: '''bold'''
+ * - Italics: '''italics'''
+ * - There are also various smaller replacements being done such as {{kvk}} ->
+ *   <sup>(feminine)</sup>.
  */
 export const formatVocabularyEntry = (
   input:
@@ -105,9 +105,8 @@ export const formatVocabularyEntry = (
     .replace(/''(.+?)''/g, "<i>$1</i>")
 
     /**
-     * Occlusion, {@see DocumentationRegardingOcclusion}
-     * Here, items between "*"s are occluded
-     * and items after a single "*" are occluded.
+     * Occlusion, {@see DocumentationRegardingOcclusion} Here, items between
+     * "_"s are occluded and items after a single "_" are occluded.
      */
     .replace(
       /( )?\*([^*;$!.,<>"=]+)\*?( )?/g,
@@ -115,9 +114,7 @@ export const formatVocabularyEntry = (
         return occlude(c`${space_before}${text}${space_after}`);
       }
     )
-    /**
-     * Here, letters in the same word after "%" are occluded
-     */
+    /** Here, letters in the same word after "%" are occluded */
     .replace(/[%]([^ .!?;:<>"=]+)/g, (x: string, text: string) => {
       return occlude(text);
     })
@@ -174,10 +171,9 @@ export const formatVocabularyEntry = (
 };
 
 /**
- * UNUSED
- * Was used to automatically make inflections such as "hér eru" gray,
- * but there were too many exceptions such as "til vinstri",
- * which isn't an inflection.
+ * UNUSED Was used to automatically make inflections such
+ * as "hér eru" gray, but there were too many exceptions
+ * such as "til vinstri", which isn't an inflection.
  */
 export const formatPrefixes = (
   first: string | undefined,
@@ -192,11 +188,11 @@ export const formatPrefixes = (
   // return first;
 };
 
-export const formatLemmas = (input: string | undefined) => {
+export function formatLemmas(input: string | undefined) {
   if (!input) return "";
   input = formatVocabularyEntry(input)
     .replace(/%/g, "")
     .replace(/,/g, `<span class="separator">,</span>`)
     .replace(/(\(.+?\))/g, `<span class="gray">$1</span>`);
   return input;
-};
+}

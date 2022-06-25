@@ -18,9 +18,9 @@ const store = new userDataStore();
 export const getUserDataStore = (): userDataStore => store;
 export const getEntireSchedule = (): Schedule => getUserDataStore().schedule;
 export const getUserData = (): UserData => getUserDataStore().userData;
-export const setUserData = (input: UserData) => {
+export function setUserData(input: UserData) {
   store.userData = input;
-};
-export const setEntireSchedule = (input: Schedule) => {
+}
+export function setEntireSchedule(input: Schedule) {
   throw new Error("Not implemented");
-};
+}

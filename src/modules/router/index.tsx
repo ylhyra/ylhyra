@@ -21,12 +21,12 @@ interface Props extends BrowserRouterProps {
 
 export const customHistory = isBrowser ? createBrowserHistory() : null;
 
-export const goToUrl = (url: string) => {
+export function goToUrl(url: string) {
   if (!customHistory) return;
   customHistory.replace(url);
-};
+}
 
-export const CustomRouter = ({ basename, history, children }: Props) => {
+export function CustomRouter({ basename, history, children }: Props) {
   const [state, setState] = useState({
     action: history.action,
     location: history.location,
@@ -46,4 +46,4 @@ export const CustomRouter = ({ basename, history, children }: Props) => {
   } else {
     return <>{children}</>;
   }
-};
+}

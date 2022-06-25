@@ -11,21 +11,21 @@ import { c } from "modules/noUndefinedInTemplateLiteral";
  *
  * - Between asterisks:
  *   "b_la bla_" becomes "b[la bla]".
- * - After a single asterisk. This is used to
- *   occlude the entire remainder of the sentence.
+ * - After a single asterisk. This is used to occlude the entire remainder
+ *   of the sentence.
  *   "b*la bla" becomes "b[la bla]".
- * - After a single percentage mark. This is used to
- *   occlude only the remainder of the current word.
+ * - After a single percentage mark. This is used to occlude only the
+ *   remainder of the current word.
  *   "b%la bla" becomes "b[la] bla".
  */
 export const DocumentationRegardingOcclusion = "";
 
-export const occludeMain = (input: string) => {
+export function occludeMain(input: string) {
   return (
     input
       /**
-       * Occlusion, {@see DocumentationRegardingOcclusion} Here, items
-       * between "_"s are occluded and items after a single "_" are occluded.
+       * Occlusion, {@see DocumentationRegardingOcclusion} Here, items between
+       * "_"s are occluded and items after a single "_" are occluded.
        */
       .replace(
         /( )?\*([^*;$!.,<>"=]+)\*?( )?/g,
@@ -43,7 +43,7 @@ export const occludeMain = (input: string) => {
         return occludeThisText(text);
       })
   );
-};
+}
 
 /**
  * The input is the part that is to be occluded.

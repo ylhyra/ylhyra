@@ -2,8 +2,8 @@ import { sortByClassification } from "inflection/tables/classification/sortByCla
 import { Branch, Rows, Tree, TreeItem } from "inflection/tables/types";
 
 /**
- * Turns rows into nested tree, with each leaf containing
- * a collection of items that have the same classification
+ * Turns rows into nested tree, with each leaf containing a
+ * collection of items that have the same classification
  */
 export const tree = (rows: Rows): Tree => {
   let output: Tree = {
@@ -39,7 +39,8 @@ export const tree = (rows: Rows): Tree => {
 };
 
 /**
- * Sort tree based on the list `sorted_tags` array in ./classification/BIN_classification.js
+ * Sort tree based on the list `sorted_tags` array
+ * in ./classification/BIN_classification.js
  */
 const traverseAndSort = (input: Tree | TreeItem): Tree | TreeItem => {
   if (input.values) {
@@ -54,6 +55,6 @@ const traverseAndSort = (input: Tree | TreeItem): Tree | TreeItem => {
   }
 };
 
-export const isNumber = (input: string | number) => {
+export function isNumber(input: string | number) {
   return typeof input === "number"; //|| /^\d+$/.test(input + "");
-};
+}

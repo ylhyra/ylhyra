@@ -4,13 +4,13 @@ import { getSortKey } from "ylhyra/vocabulary/app/actions/card/card_data";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { withDependencies } from "ylhyra/vocabulary/app/actions/functions/dependencies";
 import {
-  Database,
-  save,
-} from "ylhyra/vocabulary/vocabularyEditor/actions/actions";
-import {
   getDeckName,
   getLowercaseStringForAudioKey,
 } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
+import {
+  Database,
+  save,
+} from "ylhyra/vocabulary/vocabularyEditor/actions/actions";
 
 let missing_sound = [];
 let current_word_recording = 0;
@@ -75,7 +75,7 @@ export const getNextWordToRecord = () => {
   });
 };
 
-export const saveSound = ({ word, filename }) => {
+export function saveSound({ word, filename }) {
   console.log(filename);
   Database.sound.push({
     recording_of: word,
@@ -85,4 +85,4 @@ export const saveSound = ({ word, filename }) => {
     date: new Date().toISOString().substring(0, 10),
   });
   save();
-};
+}

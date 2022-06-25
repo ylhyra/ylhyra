@@ -3,9 +3,9 @@ import { logShown } from "ylhyra/documents/renderDocument/textInteractions/Reset
 /*
   Hightlight sentence
 */
-export const highlightSentence = (id) => {
+export function highlightSentence(id) {
   const element = document.getElementById(id);
   if (!element) return;
   element.classList.add("highlighted");
   logShown(id);
-};
+}

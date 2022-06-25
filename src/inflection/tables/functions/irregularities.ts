@@ -6,9 +6,6 @@ import {
 } from "inflection/tables/functions/vowels";
 import Word from "inflection/tables/word";
 
-/**
- *
- */
 export function findIrregularities(this: Word) {
   let word = this;
   let wordHasUmlaut: Boolean = false;
@@ -124,7 +121,7 @@ export function findIrregularities(this: Word) {
 }
 
 /**
- * elda -> elti is not irregular.
+ * Elda -> elti is not irregular.
  * We need some way to ignore the dropped "d".
  *
  * TODO: This is a hack.
@@ -181,11 +178,11 @@ const ignoreConsonantsThatMayDisappear = (input: string) => {
 //   }
 // }
 
-export const isHighlyIrregular = (word: Word) => {
+export function isHighlyIrregular(word: Word) {
   if (word.is("noun")) {
     return isHighlyIrregularNouns.some((i) => i.endsWith(word.getBaseWord()));
   }
-};
+}
 const isHighlyIrregularNouns = [
   /* Masculine */
   "bróðir",

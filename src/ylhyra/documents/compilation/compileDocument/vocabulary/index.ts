@@ -1,4 +1,6 @@
 import _ from "underscore";
+import { getCardIdsFromWords } from "ylhyra/documents/compilation/compileDocument/vocabulary/getCardIdsFromWords";
+import { initializeDeckFromFile } from "ylhyra/documents/compilation/compileDocument/vocabulary/initializeDeckFromFile";
 import {
   getCardIdsFromTermIds,
   getTermIdsFromCardIds,
@@ -6,11 +8,9 @@ import {
 
 import { printWord } from "ylhyra/vocabulary/app/actions/functions";
 import { withDependencies } from "ylhyra/vocabulary/app/actions/functions/dependencies";
-import { getCardIdsFromWords } from "ylhyra/documents/compilation/compileDocument/vocabulary/getCardIdsFromWords";
-import { initializeDeckFromFile } from "ylhyra/documents/compilation/compileDocument/vocabulary/initializeDeckFromFile";
 import { CardIds } from "ylhyra/vocabulary/types";
 
-export const parseVocabularyList = (vocabulary_list) => {
+export function parseVocabularyList(vocabulary_list) {
   if (!vocabulary_list) return;
   if (!deck) initializeDeckFromFile();
   const cardIds = getCardIdsFromWords(vocabulary_list).filter(
@@ -47,4 +47,4 @@ export const parseVocabularyList = (vocabulary_list) => {
   //   out.missing = missing;
   // }
   return out;
-};
+}

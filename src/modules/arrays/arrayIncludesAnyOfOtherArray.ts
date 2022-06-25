@@ -1,4 +1,4 @@
-export const arrayIncludesAnyOfOtherArray = (haystack: any[], arr: any[]) => {
+export function arrayIncludesAnyOfOtherArray(haystack: any[], arr: any[]) {
   if (!arr) return false;
   if (typeof arr === "string") {
     arr = [arr];
@@ -6,4 +6,4 @@ export const arrayIncludesAnyOfOtherArray = (haystack: any[], arr: any[]) => {
   return arr.some((v) => {
     return haystack.indexOf(v) >= 0;
   });
-};
+}

@@ -8,7 +8,7 @@ import { minutes } from "modules/time";
  * Input is a deck in session.allowedDecks.
  * Called by {@link chooseCards}, which will choose a few cards from these.
  */
-export const classifyCards = (deck: Deck) => {
+export function classifyCards(deck: Deck) {
   let overdueGood: Card[] = [];
   let overdueBad: Card[] = [];
   let notOverdue: Card[] = [];
@@ -67,9 +67,9 @@ export const classifyCards = (deck: Deck) => {
     newCards,
     notOverdue,
   };
-};
+}
 
-export const sortNewCards = (newCards: Card[]) => {
+export function sortNewCards(newCards: Card[]) {
   const session = getSession();
   // if (session.allowedCards /*&& !options?.dontSortByAllowedCards*/) {
   //   /* Sort in same order as allowedCards */
@@ -85,4 +85,4 @@ export const sortNewCards = (newCards: Card[]) => {
   isBrowser && console.warn("Sorting of new cards not implemented");
   // return veryRecentlySeenSortedLast(newCards.slice(0, 200));
   return newCards;
-};
+}

@@ -28,11 +28,11 @@ export const getUserIdFromUsername = async (username: Username) => {
   return user.userId;
 };
 
-export const requireUserId = (req: Request) => {
+export function requireUserId(req: Request) {
   const userId = getUserId(req);
   if (userId) {
     return userId;
   } else {
     throwError(errors.ERROR_LOGIN_REQUIRED, StatusCodes.FORBIDDEN);
   }
-};
+}

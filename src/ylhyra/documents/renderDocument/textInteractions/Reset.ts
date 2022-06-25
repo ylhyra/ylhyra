@@ -2,9 +2,9 @@ import store from "ylhyra/app/app/store";
 import AudioClip from "ylhyra/documents/renderDocument/audio/audioWithoutInterface";
 
 var shownElements = [];
-export const logShown = (id) => {
+export function logShown(id) {
   shownElements.push(id);
-};
+}
 
 /*
   Reset

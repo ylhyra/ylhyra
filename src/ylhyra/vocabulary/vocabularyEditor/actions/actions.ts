@@ -78,7 +78,7 @@ export const refreshRows = () => {
   select(Database.selected_rows.length > 0 && Database.selected_rows[0].row_id);
 };
 
-export const selectRows = (noupdate?) => {
+export function selectRows(noupdate?) {
   if (!isSearching) {
     Database.selected_rows = Database.rows
       // .filter((i) => i.row_id > 1600 || i.userLevel <= 3 || !i.userLevel)
@@ -96,9 +96,9 @@ export const selectRows = (noupdate?) => {
     type: "LOAD_VOCABULARY_MAKER_DATA",
     content: Database.selected_rows,
   });
-};
+}
 
-export const select = (id) => {
+export function select(id) {
   if (id) {
     store.dispatch({
       type: "VOCABULARY_MAKER_SELECT",
@@ -118,9 +118,9 @@ export const select = (id) => {
       content: null,
     });
   }
-};
+}
 
-export const selectNext = (row_id) => {
+export function selectNext(row_id) {
   const x =
     Database.selected_rows[
       Database.selected_rows.findIndex((j) => j.row_id === row_id) + 1
@@ -131,7 +131,7 @@ export const selectNext = (row_id) => {
     turnOffSearch();
     refreshRows();
   }
-};
+}
 
 export const delete_row = (row_id) => {
   selectNext(row_id);
@@ -154,7 +154,7 @@ export const ignore_for_now = (row_id, message?) => {
   save();
 };
 
-export const submit = (vals, gotonext = true) => {
+export function submit(vals, gotonext = true) {
   vals = formatVocabularyData(vals);
   Database.rows[Database.rows.findIndex((j) => j.row_id === vals.row_id)] = {
     ...vals,
@@ -166,16 +166,16 @@ export const submit = (vals, gotonext = true) => {
     selectNext(vals.row_id);
     save();
   }
-};
+}
 
-export const formatVocabularyData = (vals) => {
+export function formatVocabularyData(vals) {
   Object.keys(vocabularyRowStructureAsObject).forEach((row_name) => {
     if (vocabularyRowStructureAsObject[row_name].isNumber && vals[row_name]) {
       vals[row_name] = parseInt(vals[row_name]);
     }
   });
   return vals;
-};
+}
 
 const updateInterface = () => {
   selectRows();
@@ -227,7 +227,7 @@ export const addEmpty = () => {
   isSearching && reDoSearch?.();
 };
 
-export const addRowsIfMissing = (text) => {
+export function addRowsIfMissing(text) {
   let seen = [];
   let prompt_level = !getDeckName() ? window.prompt("Level:") : null;
   text.split(/\n/g).forEach((row) => {
@@ -263,7 +263,7 @@ export const addRowsIfMissing = (text) => {
   // console.log(rows);
   save();
   refreshRows();
-};
+}
 
 if (isBrowser) {
   window["addRowsIfMissing"] = addRowsIfMissing;
@@ -272,12 +272,12 @@ if (isBrowser) {
   // window.rows = () => rows;
 }
 
-export const changeMode = (e) => {
+export function changeMode(e) {
   const value = e.target.value;
   Database.mode = value;
   refreshRows();
   // if (value === "review_importance") {
   // }
-};
+}
 
 const booleanCompare = (a: any, b: any) => (a ? 1 : 0) - (b ? 1 : 0);

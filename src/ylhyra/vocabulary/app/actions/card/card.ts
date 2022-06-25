@@ -5,11 +5,11 @@ import {
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { CardId, CardIds } from "ylhyra/vocabulary/types";
 
-export const isInSession = (id: CardId) => {
+export function isInSession(id: CardId) {
   return deck!.session.cards.some((i) => i.getId() === id);
-};
+}
 
-export const isAllowed = (id: CardId) => {
+export function isAllowed(id: CardId) {
   const { allowed_ids } = deck!.session;
   return (
     /* Ignore cards that are already in the session */
@@ -25,18 +25,18 @@ export const isAllowed = (id: CardId) => {
       // || isTextSimilarTo(id, card)
     )
   );
-};
+}
 
-export const doesCardExist = (id: CardId) => {
+export function doesCardExist(id: CardId) {
   return id in deck!.cards;
-};
+}
 
-export const filterCardsThatExist = (ids: CardIds) => {
+export function filterCardsThatExist(ids: CardIds) {
   return ids.filter(doesCardExist);
-};
+}
 
-export const wasSeenInSession = (id) => {
+export function wasSeenInSession(id) {
   return (
     deck!.session.cards.find((card) => card.getId() === id)?.history.length > 0
   );
-};
+}

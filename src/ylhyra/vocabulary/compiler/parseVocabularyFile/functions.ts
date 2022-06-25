@@ -23,24 +23,23 @@ export const getDeckName = () => {
   return "";
 };
 
-export const getLowercaseStringForAudioKey = (i: string) => {
+export function getLowercaseStringForAudioKey(i: string) {
   return getPlaintextFromUnformattedVocabularyEntry(i)
     .replace(/[.]+$/, "")
     .toLowerCase();
-};
+}
 
 /**
- * Gives a stable hash for a given word or sentence
- * which is then used as the card's {@link TermId}.
+ * Gives a stable hash for a given word or sentence which is
+ * then used as the card's {@link TermId}.
  *
- * Important: The output of this function has to be
- * the same as for previous versions.
+ * Important: The output of this function has to be the same
+ * as for previous versions.
  *
- * @param input -
- *   Typically an Icelandic string (front side of card).
- *   Lemmas and depends_on are also passed into this function.
+ * @param input - Typically an Icelandic string (front side of card).
+ *       Lemmas and depends_on are also passed into this function.
  * @param options
- * @returns string - which is the baseFlashcardsStore of {@link TermId}
+ * @returns String - which is the baseFlashcardsStore of {@link TermId}
  * @hasTests
  */
 export const getHashForVocabulary = (
@@ -57,7 +56,10 @@ export const getHashForVocabulary = (
     .replace(/[.?!]+$/, "")
     .toLowerCase();
   if (!string) return "";
-  /** Todo: This has to be removed from here, but it is used to find missing entries */
+  /**
+   * Todo: This has to be removed from here,
+   * but it is used to find missing entries
+   */
   if (
     options?.skip_hash ||
     (isBrowser &&

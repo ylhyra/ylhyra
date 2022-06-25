@@ -4,7 +4,7 @@ import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { form } from "modules/form";
 import React from "react";
 
-export const EditRow = ({ row }: { row: Row }) => {
+export function EditRow({ row }: { row: Row }) {
   const { Form, AllFields, Input } = new form<RowData>({
     values: row.data,
     fields: rowFields,
@@ -27,4 +27,4 @@ export const EditRow = ({ row }: { row: Row }) => {
   //     </div>
   //   </div>
   // );
-};
+}

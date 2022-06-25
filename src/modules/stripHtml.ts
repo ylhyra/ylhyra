@@ -1,4 +1,4 @@
-export const stripHtml = (string: string) => {
+export function stripHtml(string: string) {
   return (
     string &&
     string
@@ -7,4 +7,4 @@ export const stripHtml = (string: string) => {
       .replace(/\s+/g, " ")
       .trim()
   );
-};
+}

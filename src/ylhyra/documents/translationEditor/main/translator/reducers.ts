@@ -4,7 +4,7 @@ import { omit, uniq } from "underscore";
 import { wordsHash } from "ylhyra/documents/translationEditor/main/translator/actions";
 import { TranslationData, WordDefinition } from "ylhyra/documents/types/types";
 
-export const selected = (state: string[] = [], action: AnyAction) => {
+export function selected(state: string[] = [], action: AnyAction) {
   switch (action.type) {
     case "SELECT_WORD":
       // Eru mörg orð í þessu vali?
@@ -29,7 +29,7 @@ export const selected = (state: string[] = [], action: AnyAction) => {
     default:
       return state;
   }
-};
+}
 
 const emptyTranslationData: TranslationData = {
   sentences: {},

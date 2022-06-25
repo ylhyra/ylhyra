@@ -26,11 +26,11 @@ export const getAsCardInSession = (id: CardId): CardInSession | undefined => {
   return deck?.session.cards?.find((card) => card.id === id);
 };
 
-export const didAnySiblingCardsGetABadRatingInThisSession = (id: CardId) => {
+export function didAnySiblingCardsGetABadRatingInThisSession(id: CardId) {
   return getSiblingCards(id).some((sibling_cardId) => {
     return getAsCardInSession(sibling_cardId)?.history.includes(BAD);
   });
-};
+}
 
 export const getAllCardIdsWithSameTerm = (id: CardId): CardIds => {
   // return memoize(id, "getAllCardIdsWithSameTerm", () => {

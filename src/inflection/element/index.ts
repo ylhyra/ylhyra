@@ -4,10 +4,11 @@ import { renderEntry } from "inflection/tables/renderEntry";
 
 /**
  * Element displayed in Ylhýra's frontend.
+ *
  * @param id - BÍN id
  * @param parameters - Parameters passed as a URL query string
  */
-export const inflectionElement = (id: BIN_id, parameters: string) => {
+export function inflectionElement(id: BIN_id, parameters: string) {
   return new Promise((resolve) => {
     let params: TableOptionsFromUser = {};
     parameters.replace(
@@ -31,4 +32,4 @@ export const inflectionElement = (id: BIN_id, parameters: string) => {
       );
     });
   });
-};
+}

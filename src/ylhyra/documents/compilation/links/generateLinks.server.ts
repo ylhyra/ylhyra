@@ -4,15 +4,17 @@ import { readContentFile } from "ylhyra/documents/compilation/compileDocument/fu
 import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";
 import { fileSafeTitle } from "ylhyra/documents/compilation/links/format/fileSafeTitle";
 import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
-import { FullFilePath, LinkData } from "ylhyra/documents/compilation/links/types";
+import {
+  FullFilePath,
+  LinkData,
+} from "ylhyra/documents/compilation/links/types";
 import { contentFolder } from "ylhyra/server/paths_directories";
 
 const links: { [key: string]: Partial<LinkData> } = {};
 
 /**
  * Generates `links.json` that maps URLs to files.
- * Run with:
- * > npm run links
+ * Run with:> Npm run links
  */
 const run = async () => {
   const files = getFilesRecursivelySync(contentFolder);
@@ -48,9 +50,7 @@ const run = async () => {
       links[url].shouldBeIndexed = true;
     }
 
-    /**
-     * Process redirects
-     */
+    /** Process redirects */
     header.redirects &&
       header.redirects.forEach((redirect) => {
         if (!redirect) {
@@ -92,20 +92,20 @@ const run = async () => {
   process.exit();
 };
 
-export const shouldBeCreated = (filepath: FullFilePath, header: HeaderData) => {
+export function shouldBeCreated(filepath: FullFilePath, header: HeaderData) {
   return (
     !/^(Data|File|Text|Template):/.test(header.title) &&
     !/\/(drafts?|test|newsletter)\//i.test(filepath) &&
     header.status !== "draft"
   );
-};
+}
 
-export const shouldBeIndexed = (filepath: FullFilePath, header: HeaderData) => {
+export function shouldBeIndexed(filepath: FullFilePath, header: HeaderData) {
   return (
     shouldBeCreated(filepath, header) &&
     header.index !== "no" &&
     !filepath.includes("/project/")
   );
-};
+}
 
 run();

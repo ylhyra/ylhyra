@@ -5,7 +5,7 @@ import { decodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/f
 
 export const COOKIE_NAME = "s";
 
-export const getCookie = (name: string) => {
+export function getCookie(name: string) {
   const j = name + "=";
   const ca = document.cookie.split(";");
   for (let c of ca) {
@@ -13,7 +13,7 @@ export const getCookie = (name: string) => {
     if (c.indexOf(j) === 0) return c.substring(j.length, c.length);
   }
   return null;
-};
+}
 
 export const getUserFromCookie = (): UserProfile => {
   if (!isBrowser) return null;

@@ -4,7 +4,7 @@ import { addRowsIfMissing } from "flashcards/flashcards/editor/import/actions";
 import { form } from "modules/form";
 import React from "react";
 
-export const ImportFlashcards = ({ deck }: { deck: Deck }) => {
+export function ImportFlashcards({ deck }: { deck: Deck }) {
   const _form = new form({
     fields: [
       {
@@ -36,4 +36,4 @@ export const ImportFlashcards = ({ deck }: { deck: Deck }) => {
       </Form>
     </div>
   );
-};
+}

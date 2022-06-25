@@ -7,7 +7,7 @@ import {
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 import { CardIds } from "ylhyra/vocabulary/types";
 
-export const PercentageKnown = (cardIds: CardIds) => {
+export function PercentageKnown(cardIds: CardIds) {
   if (!deck?.schedule) return 0;
   let done = 0;
   let remaining = 0;
@@ -46,7 +46,7 @@ export const PercentageKnown = (cardIds: CardIds) => {
     percentage = (ratio * 100).toFixed(2);
   }
   return percentage;
-};
+}
 
 export const PercentageKnownOverall = () => {
   if (!deck) return 0;

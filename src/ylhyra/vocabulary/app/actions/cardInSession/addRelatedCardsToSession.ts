@@ -19,10 +19,10 @@ import { printWord } from "ylhyra/vocabulary/app/actions/functions";
 import { CardIds } from "ylhyra/vocabulary/types";
 
 /**
- * If a cardInSession gets a bad rating, then we make sure
- * to add very related cards to the session.
+ * If a cardInSession gets a bad rating, then we make
+ * sure to add very related cards to the session.
  */
-export const addRelatedCardsToSession = (card: CardInSession) => {
+export function addRelatedCardsToSession(card: CardInSession) {
   const id = card.getId();
   let to_add: CardIds = [];
 
@@ -61,4 +61,4 @@ export const addRelatedCardsToSession = (card: CardInSession) => {
   card.session.loadCardsIntoSession(to_add, {
     insertImmediately: true,
   });
-};
+}

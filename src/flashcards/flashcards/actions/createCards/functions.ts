@@ -1,17 +1,17 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { sortBy } from "underscore";
 
-export const oldestFirst = (cards: Card[]) => {
+export function oldestFirst(cards: Card[]) {
   return sortBy(cards, (card) => card.getRowLastSeen());
-};
+}
 
-// export const newestFirst = (ids: Card[]) => {
+// export function newestFirst (ids: Card[]) {
 //   return oldestFirst(ids).reverse();
 // };
 
-export const veryRecentlySeenSortedLast = (cards: Card[]) => {
+export function veryRecentlySeenSortedLast(cards: Card[]) {
   return sortBy(cards, (card) => card.wasRowVeryRecentlySeen());
-};
+}
 
 // const wasRowVeryRecentlySeen2_temp = (id, time) => {
 //   return [id, ...deck!.cards_temp[id].siblingCardIds].some((sibling_id) => {
@@ -20,10 +20,10 @@ export const veryRecentlySeenSortedLast = (cards: Card[]) => {
 //   });
 // };
 
-export const sortCardsByScore = (cards: Card[]) => {
+export function sortCardsByScore(cards: Card[]) {
   return sortBy(cards, (card) => card.getScore());
-};
+}
 
-export const sortBySortKey = (cards: Card[]) => {
+export function sortBySortKey(cards: Card[]) {
   return sortBy(cards, (card) => card.getSortKey());
-};
+}

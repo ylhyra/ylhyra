@@ -1,9 +1,9 @@
 import { keys } from "modules/typescript/objectEntries";
 
-export const removeExtraWhitespace = (input: string) => {
+export function removeExtraWhitespace(input: string) {
   if (!input) return "";
   return input.replace(/[\s]+/g, " ").trim();
-};
+}
 
 /**
  * Used to simplify certain objects that contain user-input data.

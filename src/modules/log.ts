@@ -2,10 +2,8 @@ import { toJS } from "mobx";
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 
-/**
- * Helper functions for debugging
- */
-export const log = (...items: any[]) => {
+/** Helper functions for debugging */
+export function log(...items: any[]) {
   if (process.env.JEST_WORKER_ID || process.env.DISABLE_LOGGING) return;
   items.forEach((item) => {
     if (typeof item === "string" && isBrowser) {
@@ -14,18 +12,16 @@ export const log = (...items: any[]) => {
       console.log(toJS(item));
     }
   });
-};
-export const logBrowser = (...items: any[]) => {
+}
+export function logBrowser(...items: any[]) {
   if (isBrowser) {
     log(...items);
   }
-};
+}
 
-/**
- * Log only in development mode
- */
-export const logDev = (...items: any[]) => {
+/** Log only in development mode */
+export function logDev(...items: any[]) {
   if (isDev) {
     log(...items);
   }
-};
+}

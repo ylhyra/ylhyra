@@ -1,8 +1,7 @@
-import { appUrls } from "ylhyra/app/router/appUrls";
-import { getValuesForUrl } from "ylhyra/documents/compilation/links/getValuesForUrl.server";
 import { formatUrl } from "ylhyra/documents/compilation/links/format/formatUrl";
+import { getValuesForUrl } from "ylhyra/documents/compilation/links/getValuesForUrl.server";
 
-export const processLinks = (input: string) => {
+export function processLinks(input: string) {
   return (
     input
       /* Internal links */
@@ -48,4 +47,4 @@ export const processLinks = (input: string) => {
         }
       )
   );
-};
+}

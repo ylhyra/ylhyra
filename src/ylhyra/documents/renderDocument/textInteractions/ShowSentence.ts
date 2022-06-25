@@ -1,12 +1,12 @@
-import { logShown } from "ylhyra/documents/renderDocument/textInteractions/Reset";
 import { readAlongSingleSentence } from "ylhyra/documents/renderDocument/audio/readAlong/readAlong";
 import { getScrollingElement } from "ylhyra/documents/renderDocument/audio/readAlong/scroll/getScrollingElement";
+import { logShown } from "ylhyra/documents/renderDocument/textInteractions/Reset";
 
 /*
   Show sentence
 */
 
-export const showSentence = (id) => {
+export function showSentence(id) {
   document.body.classList?.add("sentence-shown");
   const relative = document.getElementById("content").getBoundingClientRect();
   readAlongSingleSentence(id);
@@ -68,4 +68,4 @@ export const showSentence = (id) => {
     left: ${sentenceOverlayDimensions.left}px;
     width: ${sentenceOverlayDimensions.width}px;
   `;
-};
+}

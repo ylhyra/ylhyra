@@ -16,10 +16,10 @@ import {
 } from "ylhyra/vocabulary/types";
 
 /**
- * - Data that is shared across all sibling cards is moved to be stored in the
- *     term instead, {@see getCardData}
+ * - Data that is shared across all sibling cards is moved
+ *   to be stored in the term instead, {@see getCardData}
  */
-export const simplifyDeck = (deck: DeckDatabaseInCompilationStep) => {
+export function simplifyDeck(deck: DeckDatabaseInCompilationStep) {
   let cardIds: CardIds = (Object.keys(deck!.cards) as CardIds)
     .map((key) => {
       return deck!.cards[key]!;
@@ -76,8 +76,8 @@ export const simplifyDeck = (deck: DeckDatabaseInCompilationStep) => {
   let terms: Terms = {};
   let cards: CardsInCompilationStep = {};
   /**
-   * Move all items that are shared between all of a term's cards to the term
-   * (this was done to limit the size of the deck)
+   * Move all items that are shared between all of a term's cards
+   * to the term (this was done to limit the size of the deck)
    */
   (Object.keys(deck!.terms) as TermIds).forEach((term_id) => {
     const term = deck!.terms[term_id];
@@ -133,11 +133,11 @@ export const simplifyDeck = (deck: DeckDatabaseInCompilationStep) => {
     terms,
     cards,
   };
-};
+}
 
 /**
- * A completely unnecessary function that is just used to make the JSON output file
- * have the entries in the correct order.
+ * A completely unnecessary function that is just used to make
+ * the JSON output file have the entries in the correct order.
  */
 function sortObjectChildrenBasedOnTheirParameter<
   T extends Record<string, Record<string, any>>

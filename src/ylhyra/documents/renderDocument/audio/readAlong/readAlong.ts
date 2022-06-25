@@ -1,9 +1,9 @@
+import { addClass, removeClass } from "modules/addCssClass";
 import { Seconds } from "modules/time";
 import store from "ylhyra/app/app/store";
-import { FlattenedData } from "ylhyra/documents/types/types";
 import scrollIntoView from "ylhyra/documents/renderDocument/audio/readAlong/scroll/scrollIntoView";
 import { LongAudioSyncData } from "ylhyra/documents/translationEditor/audioSynchronization/types";
-import { addClass, removeClass } from "modules/addCssClass";
+import { FlattenedData } from "ylhyra/documents/types/types";
 
 let audioIdToSyncData: { [id: string]: LongAudioSyncData[] } = {};
 let sentenceIdToTimestamps: {
@@ -54,7 +54,7 @@ export const clearReadAlongSetup = () => {
   currentFilename = null;
 };
 
-export const readAlongSetup = (data: Partial<FlattenedData> | undefined) => {
+export function readAlongSetup(data: Partial<FlattenedData> | undefined) {
   if (!data || !data.long_audio) {
     return clearReadAlongSetup();
   }
@@ -77,12 +77,12 @@ export const readAlongSetup = (data: Partial<FlattenedData> | undefined) => {
       }
     }
   }
-};
+}
 
 /**
  * Find elements that should be shown at the current time.
- * We find the index in the LongAudioSyncData[] list in
- * order to be able to easily go to the next element.
+ * We find the index in the LongAudioSyncData[] list in order
+ * to be able to easily go to the next element.
  */
 const findElementIndexFromTime = (time: Seconds) => {
   return audioIdToSyncData[currentFilename!].findIndex(({ begin, end }) => {
@@ -127,10 +127,8 @@ const showElementsByIndex = (
   previous = current;
 };
 
-/**
- * Play audio for a single sentence
- */
-export const readAlongSingleSentence = (id: string) => {
+/** Play audio for a single sentence */
+export function readAlongSingleSentence(id: string) {
   if (sentenceIdToTimestamps[id]) {
     store.dispatch({
       type: "PLAY_SENTENCE",
@@ -139,4 +137,4 @@ export const readAlongSingleSentence = (id: string) => {
       end: sentenceIdToTimestamps[id].end,
     });
   }
-};
+}

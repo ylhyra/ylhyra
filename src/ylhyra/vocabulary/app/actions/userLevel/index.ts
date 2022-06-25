@@ -10,11 +10,11 @@ import {
   USER_LEVEL_NOVICE,
 } from "ylhyra/vocabulary/app/constants";
 
-export const setUserLevel = (val) => {
+export function setUserLevel(val) {
   setUserData("level", val);
   /* Currently only used to refresh the interface, does not store any data */
   store.dispatch({ type: "SET_USER_LEVEL", content: val });
-};
+}
 
 export const getUserLevel = () => {
   const val = getUserData("level");

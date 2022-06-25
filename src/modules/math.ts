@@ -1,9 +1,9 @@
 import { Milliseconds, seconds } from "modules/time";
 
-export const average = (arr: number[] = []) => {
+export function average(arr: number[] = []) {
   if (arr.length === 0) return 0;
   return arr.reduce((a, b) => a + b, 0) / arr.length;
-};
+}
 
 export const clamp = (input: number, min: number, max: number): number => {
   return minIgnoreUndef(maxIgnoreUndef(input, min), max)!;
@@ -32,60 +32,52 @@ export const mapValueToRange = ({
   return output;
 };
 
-export const minIgnoreFalsy = (...values: any[]) => {
+export function minIgnoreFalsy(...values: any[]) {
   return minIgnoreUndef(...values.filter(Boolean));
-};
+}
 
-export const maxIgnoreFalsy = (...values: any[]) => {
+export function maxIgnoreFalsy(...values: any[]) {
   return maxIgnoreUndef(...values.filter(Boolean));
-};
+}
 
-export const minIgnoreUndef = (...values: (number | undefined | null)[]) => {
+export function minIgnoreUndef(...values: (number | undefined | null)[]) {
   const j = Math.min(
     ...(values.filter((i) => i !== undefined && i !== null) as number[])
   );
   return j !== Infinity ? j : null;
-};
+}
 
-export const maxIgnoreUndef = (...values: (number | undefined | null)[]) => {
+export function maxIgnoreUndef(...values: (number | undefined | null)[]) {
   const j = Math.max(
     ...(values.filter((i) => i !== undefined && i !== null) as number[])
   );
   return j !== -Infinity ? j : null;
-};
+}
 
-/**
- * Randomly adds or subtracts up to 10% of the input
- */
-export const addSomeRandomness = (input: number, amount = 0.1) => {
+/** Randomly adds or subtracts up to 10% of the input */
+export function addSomeRandomness(input: number, amount = 0.1) {
   return input + input * amount * (Math.random() - 0.5) * 2;
-};
+}
 
-export const roundToInterval = (v: number, roundBy: number) => {
+export function roundToInterval(v: number, roundBy: number) {
   return Math.round(v / roundBy) * roundBy;
-};
+}
 
-export const roundMsToSec = (v: Milliseconds) => {
+export function roundMsToSec(v: Milliseconds) {
   return roundToInterval(v, seconds);
-};
+}
 
-/**
- * @hasTests
- */
+/** @hasTests */
 export const roundMsTo100Sec = (v: Milliseconds) => {
   return roundToInterval(v, 100 * seconds);
 };
 
-/**
- * @hasTests
- */
-export const toFixedFloat = (input: number, f: number) => {
+/** @hasTests */
+export function toFixedFloat(input: number, f: number) {
   return parseFloat(input.toFixed(f));
-};
+}
 
-/**
- * A simple `(x / (x + a))` curve, where `a` is small
- */
+/** A simple `(x / (x + a))` curve, where `a` is small */
 export const mapZeroToInfinityToZeroToOne = ({
   input,
   goalInput,

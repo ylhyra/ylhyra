@@ -110,11 +110,11 @@ export const updateSentence =
     });
   };
 
-export const deleteWord = (id: string) => {
+export function deleteWord(id: string) {
   return {
     type: "DELETE_WORD",
     id,
   };
-};
+}
 
 export const wordsHash = (ids: string[]) => hash(ids.join(""));

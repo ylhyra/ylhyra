@@ -50,7 +50,7 @@ export class SessionHistory {
   }
 }
 
-export const checkForUndoOnKeyDown = (e: KeyboardEvent) => {
+export function checkForUndoOnKeyDown(e: KeyboardEvent) {
   const session = getSession();
   if (
     e.keyCode === 90 &&
@@ -61,4 +61,4 @@ export const checkForUndoOnKeyDown = (e: KeyboardEvent) => {
     e.preventDefault();
     session.history.undo();
   }
-};
+}

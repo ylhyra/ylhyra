@@ -7,7 +7,7 @@ const lowerAlpha = "abcdefghijklmnopqrstuv";
 /*
  * Nested refs must use <ref1><ref2>bla bla </ref2></ref1>
  */
-export const References = (content: string, header: HeaderData) => {
+export function References(content: string, header: HeaderData) {
   let references: { [id: string]: { type: "ref" | "note"; content: string } } =
     {};
   let orderOfReferenceIds: string[] = [];
@@ -36,9 +36,7 @@ export const References = (content: string, header: HeaderData) => {
     });
   };
 
-  /**
-   * Returns the names for displaying "[1]" ang "[a]"
-   */
+  /** Returns the names for displaying "[1]" ang "[a]" */
   const printReferenceName = (id: string) => {
     id = id.toString();
     const l = references[id];
@@ -111,13 +109,11 @@ export const References = (content: string, header: HeaderData) => {
     reflist = `<div class="references">${reflist}</div>`;
   }
 
-  /**
-   * Stored here in order to print the references in HeaderAndFooter.ts
-   */
+  /** Stored here in order to print the references in HeaderAndFooter.ts */
   header.reflist = reflist;
 
   return {
     content,
     header,
   };
-};
+}
