@@ -2,6 +2,7 @@ import { Card } from "flashcards/flashcards/actions/card/card";
 import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
 import { CardIds, Direction } from "flashcards/flashcards/types";
 import { isDev } from "modules/isDev";
+import { goToUrl } from "modules/router";
 
 /** Used for debugging (printing cards to the console) */
 export function printWord(this: Card): string | undefined {
@@ -70,5 +71,5 @@ export const countRowsInSchedule = () => {
 // }
 
 export const exitVocabularyScreen = () => {
-  throw new Error("Not implemented");
+  goToUrl("/flashcards");
 };

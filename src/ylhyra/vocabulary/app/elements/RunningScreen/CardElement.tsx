@@ -1,9 +1,9 @@
+import { withPlural } from "modules/simplePlural";
 import { Jsx } from "modules/typescript/jsx";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withPlural } from "modules/simplePlural";
 import store from "ylhyra/app/app/store";
-import AudioClip from "ylhyra/documents/renderDocument/audio/audioWithoutInterface.NOT_USED";
+import AudioClip from "ylhyra/documents/renderDocument/audio/audioWithoutInterface";
 import { getProcessedImageUrl } from "ylhyra/server/paths_urls";
 import {
   getCardData,
@@ -19,7 +19,7 @@ import { getPlaintextFromFormatted } from "ylhyra/vocabulary/compiler/parseVocab
 import { getDeckName } from "ylhyra/vocabulary/compiler/parseVocabularyFile/functions";
 
 class CardElement extends Component<{ vocabulary: VocabularyReducer }> {
-  isKeyDown: boolean;
+  isKeyDown: boolean = false;
   state: {
     answer?: rating;
     clickingOnShowButton?: boolean;

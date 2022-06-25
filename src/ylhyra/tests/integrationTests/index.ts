@@ -9,13 +9,13 @@ const logger = window.logToPuppeteer || console.log;
 /* Main test runner */
 export default async (only_run) => {
   const toRun = {
-    ...require("ylhyra/tests/integrationTests/vocabulary/articles.test")
-      .default,
-    ...require("ylhyra/tests/integrationTests/vocabulary/easiness.test")
-      .default,
-    ...require("ylhyra/tests/integrationTests/vocabulary/session_logging.test")
-      .default,
-    ...require("ylhyra/tests/integrationTests/vocabulary/sync.test").default,
+    // ...require("ylhyra/tests/integrationTests/vocabulary/articles.test")
+    //   .default,
+    // ...require("ylhyra/tests/integrationTests/vocabulary/easiness.test")
+    //   .default,
+    // ...require("ylhyra/tests/integrationTests/vocabulary/session_logging.test")
+    //   .default,
+    // ...require("ylhyra/tests/integrationTests/vocabulary/sync.test").default,
   };
   await forEachAsync(_.shuffle(Object.keys(toRun)), async (key) => {
     await new Promise(async (resolve) => {

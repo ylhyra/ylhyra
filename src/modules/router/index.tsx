@@ -23,7 +23,7 @@ export const customHistory = isBrowser ? createBrowserHistory() : null;
 
 export const goToUrl = (url: string) => {
   if (!customHistory) return;
-  goToUrl(url);
+  customHistory.replace(url);
 };
 
 export const CustomRouter = ({ basename, history, children }: Props) => {
