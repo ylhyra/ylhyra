@@ -22,12 +22,12 @@ export const Pool = ({
 
 export type QueryValuesParameter = any[];
 // export type QueryResultsParameter = Array<Scalar> | Array<Array<Scalar>>;
-export const Query = (
+export function Query(
   query: string,
   secondParameter: QueryValuesParameter | queryCallback,
   thirdParameter: queryCallback | undefined,
   pool: ReturnType<typeof Pool>
-) => {
+) {
   pool.getConnection((err, connection) => {
     if (err) {
       console.error(err);
@@ -58,4 +58,4 @@ export const Query = (
       connection.query(query, callbackInterceptor);
     }
   });
-};
+}

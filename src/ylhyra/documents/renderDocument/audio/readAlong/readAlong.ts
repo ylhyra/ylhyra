@@ -18,11 +18,11 @@ let previous: LongAudioSyncData | null;
 let timer: NodeJS.Timeout;
 let currentFilename: string | null;
 
-export const readAlong = (
+export function readAlong(
   audio: HTMLAudioElement,
   type: "play" | "pause",
   filename: string
-) => {
+) {
   currentFilename = filename;
   if (!audioIdToSyncData[currentFilename]) return;
 
@@ -46,7 +46,7 @@ export const readAlong = (
     /* Pause */
     timer && clearTimeout(timer);
   }
-};
+}
 
 export const clearReadAlongSetup = () => {
   audioIdToSyncData = {};

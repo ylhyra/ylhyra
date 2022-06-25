@@ -10,14 +10,10 @@ export const getUserId = (req: Request): UserId | undefined => {
   return req.session!.userId;
 };
 
-export const setSession = (
-  req: Request,
-  userId: UserId,
-  username: Username
-) => {
+export function setSession(req: Request, userId: UserId, username: Username) {
   req.session!.userId = userId;
   req.session!.usernameEncoded = encodeDataInHtml(username);
-};
+}
 
 export const getUserIdFromUsername = async (username: Username) => {
   const user = await db.user.findUnique({

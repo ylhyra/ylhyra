@@ -12,11 +12,11 @@ import { saveInLocalStorage } from "modules/localStorage";
 //   return getUserData().rows?.[key]?.value || null;
 // };
 
-export const setUserDataKey = (
+export function setUserDataKey(
   key: string,
   value: any,
   type?: UserDataRows[string]["type"]
-) => {
+) {
   throw new Error("Not implemented");
 
   if (key.length > 20) {
@@ -31,7 +31,7 @@ export const setUserDataKey = (
     type,
   };
   saveUserDataInLocalStorage();
-};
+}
 
 let timer: NodeJS.Timeout;
 export const saveUserDataInLocalStorage = (

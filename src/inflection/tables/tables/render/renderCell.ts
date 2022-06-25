@@ -1,12 +1,12 @@
-import Word from "inflection/tables/word";
 import { RenderCellOptions } from "inflection/tables/tables/types";
 import { InflectionalCategoryList } from "inflection/tables/types";
+import Word from "inflection/tables/word";
 
-export const renderCell = (
+export function renderCell(
   word: Word,
   highlight?: InflectionalCategoryList,
   options?: RenderCellOptions
-) => {
+) {
   /** If there is no highlight option passed, then all cells are "highlighted" */
   const shouldHighlight =
     highlight && highlight.length > 0 ? word.is(...highlight) : true;
@@ -16,7 +16,8 @@ export const renderCell = (
     return '<td colSpan="2">–</td>';
   }
   /**
-   * Make sure only variants of the same are passed on, in case multiple were accidentally passed on
+   * Make sure only variants of the same are passed on,
+   * in case multiple were accidentally passed on
    */
   if (word.rows.length > 1) {
     word = word.getFirstAndItsVariants();
@@ -43,4 +44,4 @@ export const renderCell = (
       }</b><span class="gray">${word.getHelperWordsAfter()}</span>
     </td>
   `;
-};
+}

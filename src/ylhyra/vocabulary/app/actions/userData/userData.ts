@@ -21,11 +21,11 @@ export function getUserData(key: string) {
   return deck?.user_data?.rows?.[key]?.value || null;
 }
 
-export const setUserData = (
+export function setUserData(
   key: string,
   value: any,
   type?: UserDataRows[string]["type"]
-) => {
+) {
   if (key.length > 20) {
     throw new Error("Max key length is 20");
   }
@@ -38,7 +38,7 @@ export const setUserData = (
     type,
   };
   saveUserDataInLocalStorage();
-};
+}
 
 let timer: NodeJS.Timeout;
 export const saveUserDataInLocalStorage = (

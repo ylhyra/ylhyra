@@ -5,15 +5,13 @@ import { flattenArray } from "modules/arrays/flattenArray";
 import { c } from "modules/noUndefinedInTemplateLiteral";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 
-/**
- * Renders <th/> labels, i.e. the row and column names
- */
-export const renderLabelCell = (
+/** Renders <th/> labels, i.e. the row and column names */
+export function renderLabelCell(
   tableStructure: TableStructure,
   cell: CellStructure,
   row_index: number,
   column_index: number
-) => {
+) {
   let isCellToTheLeftEmpty =
     tableStructure[row_index][column_index - 1] === null;
   let isCellAboveEmpty =
@@ -33,4 +31,4 @@ export const renderLabelCell = (
   const label = flatListOfGrammaticalTags.map((u) => link(u)).join(", ");
 
   return c`<th colSpan="2" class="${cssClass}">${label}</th>`;
-};
+}

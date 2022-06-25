@@ -23,9 +23,9 @@ import { VocabularyFileEntry } from "ylhyra/vocabulary/types";
  * - The formatted output will be:
  *   ` 1. incorrect, wrong
  *
- *   2. stupid
+ *   2. Stupid
  *
- *   ` with the comma there being grayed out.
+ * ` with the comma there being grayed out.
  *
  * There are also very specific custom formatting and shorthand options:
  *
@@ -42,9 +42,9 @@ import { VocabularyFileEntry } from "ylhyra/vocabulary/types";
  * - Inline notes.
  *   The input "blabla (n: explanation)" becomes ` blabla
  *
- *   (explanation)
+ * (explanation)
  *
- *   `
+ * `
  * - Bold: '''bold'''
  * - Italics: '''italics'''
  * - There are also various smaller replacements being done such as {{kvk}} ->
@@ -175,10 +175,10 @@ export const formatVocabularyEntry = (
  * as "hér eru" gray, but there were too many exceptions
  * such as "til vinstri", which isn't an inflection.
  */
-export const formatPrefixes = (
+export function formatPrefixes(
   first: string | undefined,
   second: string | undefined
-) => {
+) {
   // return first;
   // if (!first || !second) return first;
   // const re = /(^| - )(hér eru?|um|frá|til|here is|here are|about|from|to)( )/g;
@@ -186,7 +186,7 @@ export const formatPrefixes = (
   //   // return first.replace(re, `$1{{prefix|$2}}$3`);
   // }
   // return first;
-};
+}
 
 export function formatLemmas(input: string | undefined) {
   if (!input) return "";

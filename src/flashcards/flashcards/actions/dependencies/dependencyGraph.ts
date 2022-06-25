@@ -48,8 +48,8 @@ export const directDependenciesGraph = (deck: Deck): DirectDependencies => {
 };
 
 /**
- * Recursively calculates dependencies (if X depends on Y, and Y
- * depends on Z, then X depends on Y with depth 1 and on Z with depth 2)
+ * Recursively calculates dependencies (if X depends on Y, and Y depends
+ * on Z, then X depends on Y with depth 1 and on Z with depth 2)
  *
  * Todo: Remove recursive dependencies before?
  */
@@ -80,8 +80,8 @@ export const dependencyToDepthForASingleRow = (
 /**
  * Todo:
  * In this previous version, it was necessary to clean up the dependency graph
- * as it sometimes skipped. Please verify that this is no longer necessary,
- * I think it is not since I created the directDependenciesGraph first now.
+ * as it sometimes skipped. Please verify that this is no longer necessary, I
+ * think it is not since I created the directDependenciesGraph first now.
  */
 // export const temp = () => {
 //   (Object.keys(deck!.rows) as RowIds).forEach((rowId: RowId) => {
@@ -111,13 +111,13 @@ export const dependencyToDepthForASingleRow = (
 
 // import _ from "underscore";
 //
-// export const addValuesToADependencyGraph = (
+// export function addValuesToADependencyGraph (
 //   input: Record<string, string[]>,
 //   /** These will become keys */
 //   first: string[],
 //   /** These will become values for each of the above keys */
 //   second: string[]
-// ) => {
+// ) {
 //   if (!second || second.length === 0) return;
 //   first.forEach((key) => {
 //     input[key] = _.uniq([...(input[key] || []), ...second]).filter(

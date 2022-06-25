@@ -16,9 +16,9 @@ if (isBrowser) {
   });
 }
 
-export const initializeRouter = (
+export function initializeRouter(
   prerenderData: PrerenderedDataSavedInPage | null
-) => {
+) {
   // @ts-ignore
   if (window["is404"]) {
     return set404();
@@ -32,7 +32,7 @@ export const initializeRouter = (
   goToUrl(url, {
     isInitializing: true,
   });
-};
+}
 
 export const set404 = () => {
   store.dispatch({

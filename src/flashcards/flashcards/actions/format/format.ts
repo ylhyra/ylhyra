@@ -58,12 +58,12 @@ export const formatVocabularyEntry = (input: string): Html => {
   return input;
 };
 
-export const getPlaintextFromUnformattedVocabularyEntry = (
+export function getPlaintextFromUnformattedVocabularyEntry(
   input: string | undefined
-) => {
+) {
   if (!input) return "";
   return getPlaintextFromFormatted(formatVocabularyEntry(input));
-};
+}
 
 export const fancyFormat = (input: string): Html => {
   return (

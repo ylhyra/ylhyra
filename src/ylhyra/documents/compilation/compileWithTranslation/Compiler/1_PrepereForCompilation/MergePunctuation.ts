@@ -7,13 +7,16 @@ import { TranslationData } from "ylhyra/documents/types/types";
 let removedIds: string[];
 
 /**
- * Punctuation that follows this word has to be included in the word's
- * container. This is done for two reasons:
- *   - It is necessary for properly displaying inline translations, which sometimes take up a lot of space.
- *   - It prevents line breaks before punctuation.
+ * Punctuation that follows this word has to be included in the
+ * word's container. This is done for two reasons:
  *
- * Here that punctuation is stored in a new attribute for words named
- * `punctuationToAppendInsideWordContainer`, and the punctuation is removed from the DOM.
+ * - It is necessary for properly displaying inline translations,
+ *   which sometimes take up a lot of space.
+ * - It prevents line breaks before punctuation.
+ *
+ * Here that punctuation is stored in a new attribute for words
+ * named `punctuationToAppendInsideWordContainer`, and the
+ * punctuation is removed from the DOM.
  */
 export const MergePunctuation = (
   tree: HtmlAsJson,
@@ -57,10 +60,10 @@ const Traverse = (
   return input;
 };
 
-export const findAdjacentPunctuation = (
+export function findAdjacentPunctuation(
   siblings: HtmlAsJson[],
   startId: string
-) => {
+) {
   let listening = false;
   let returnString = "";
   siblings.forEach((element) => {
@@ -80,4 +83,4 @@ export const findAdjacentPunctuation = (
     }
   });
   return returnString;
-};
+}
