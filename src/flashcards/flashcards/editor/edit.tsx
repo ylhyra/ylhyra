@@ -4,6 +4,7 @@ import {
   saveFlashcardsStore,
 } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { addRow } from "flashcards/flashcards/actions/deck/functions";
 import { DeckSettingsElement } from "flashcards/flashcards/editor/deckSettings";
 import { ImportFlashcards } from "flashcards/flashcards/editor/import/import";
 import { EditRow } from "flashcards/flashcards/editor/row";
@@ -29,7 +30,7 @@ export const FlashcardsEdit = observer(() => {
       <ImportFlashcards deck={deck} />
       <hr />
       <h3>Rows</h3>
-      <Button type="button" onClick={() => deck.addRow()}>
+      <Button type="button" onClick={() => addRow(deck)}>
         Add row
       </Button>
       <div>

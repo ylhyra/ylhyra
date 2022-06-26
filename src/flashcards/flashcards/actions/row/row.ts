@@ -13,26 +13,25 @@ import {
   DependenciesForOneRowAsDependencyToDepth,
   Direction,
 } from "flashcards/flashcards/types";
-import { computed, makeObservable, observable } from "mobx";
+import { computed, observable } from "mobx";
 import { getDefaultValue } from "modules/form";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
 import { keys } from "modules/typescript/objectEntries";
 
 export class Row {
   deck: Deck;
-  data: RowData;
+  @observable data: RowData;
 
   constructor(deck: Deck, data: RowData) {
     this.deck = deck;
     this.data = data;
-    makeObservable(this, {
-      data: observable,
-      // shouldCreateCards: computed({ keepAlive: true }),
-      // cardIds: computed({ keepAlive: true }),
-      cards: computed({ keepAlive: true }),
-      dependsOn: computed({ keepAlive: true }),
-      alternativeIds: computed({ keepAlive: true }),
-    });
+    // makeObservable(this, {
+    //   data: observable,
+    //   // cardIds: computed({ keepAlive: true }),
+    //   cards: computed({ keepAlive: true }),
+    //   dependsOn: computed({ keepAlive: true }),
+    //   redirects: computed({ keepAlive: true }),
+    // });
   }
 
   get rowId() {
@@ -62,11 +61,13 @@ export class Row {
     return cardIds;
   }
 
+  @computed({ keepAlive: true })
   get cards(): Card[] {
     const row = this;
     return this.cardIds.map((cardId) => new Card(row, cardId));
   }
 
+  @computed({ keepAlive: true })
   get dependsOn() {
     throw new Error("Not implemented");
   }
@@ -79,8 +80,15 @@ export class Row {
     return keys(this.deck.dependencyGraph[this.rowId]);
   }
 
-  get alternativeIds(): RowIds {
-    throw new Error("Not implemented");
+  /** Incoming redirects (strings that point to this row) */
+  @computed({ keepAlive: true })
+  get redirects(): string[] {
+    if (this.data.front) {
+      // Todo: Incomplete
+      return [this.data.front];
+    } else {
+      return [];
+    }
   }
 
   /**

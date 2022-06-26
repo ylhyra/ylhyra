@@ -54,7 +54,7 @@ export class Deck {
   get alternativeIds(): Record<RowId, RowId> {
     let out: Record<RowId, RowId> = {};
     this.rows.forEach((row) => {
-      row.alternativeIds.forEach((alternativeId) => {
+      row.redirects.forEach((alternativeId) => {
         out[alternativeId] = row.rowId;
       });
     });
