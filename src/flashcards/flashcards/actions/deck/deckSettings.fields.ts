@@ -1,7 +1,6 @@
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { FieldsSetup } from "modules/form";
 
-/** See type {@link DeckSettings} */
 export const deckSettingsFields: FieldsSetup<DeckSettings> = [
   {
     name: "title",

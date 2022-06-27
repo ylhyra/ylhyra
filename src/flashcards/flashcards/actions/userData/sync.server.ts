@@ -9,7 +9,7 @@ const router = Router();
 /* Sync user data */
 router.post(
   "/api/vocabulary/sync",
-  async (req, res: Response<UserData | { error: string }>) => {
+  (req, res: Response<UserData | { error: string }>) => {
     if (!req.session?.user_id) {
       return res.status(401).send({ error: "ERROR_NOT_LOGGED_IN" });
     }

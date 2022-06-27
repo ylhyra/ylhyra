@@ -1,7 +1,5 @@
 import isEmpty from "is-empty-object";
 
-const exists = (input) => {
+export default (input: any) => {
   return input !== null && input && !isEmpty(input);
 };
-
-export default exists;

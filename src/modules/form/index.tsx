@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { isObservable, makeObservable, observable } from "mobx";
 import { observer } from "mobx-react-lite";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 import React from "react";
@@ -36,11 +36,13 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
   touched: Record<string, Boolean> = {};
   onSubmit: Function | undefined;
   fields?: FieldsSetup<any>;
-  constructor(props: {
-    values?: Record<string, any>;
-    onSubmit?: Function;
-    fields?: FieldsSetup<any>;
-  }) {
+  constructor(
+    public props: {
+      values?: Record<string, any>;
+      onSubmit?: Function;
+      fields?: FieldsSetup<any>;
+    }
+  ) {
     this.values = props.values || {};
     if (props.onSubmit) {
       this.onSubmit = props.onSubmit;
@@ -48,7 +50,14 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
     if (props.fields) {
       this.fields = props.fields;
     }
-    makeAutoObservable(this);
+    if (!isObservable(this.values)) {
+      if (props.values) {
+        console.warn("Values given to form are not observable.");
+      }
+      makeObservable(this, {
+        values: observable,
+      });
+    }
   }
   setFormValues(values: Record<string, any>) {
     this.values = values;
@@ -109,7 +118,7 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
   /** Used externally to print a single input just by its name */
   Input = ({ name }: { name: keyof TypeThisIsDescribing }) => {
     const field = this.fields?.find((j) => j.name === name);
-    if (!field) throw new Error(`No field with name ${name}`);
+    if (!field) throw new Error(`No field with name ${String(name)}`);
     const InputInternal = this.InputInternal;
     return <InputInternal {...field} />;
   };
@@ -117,7 +126,7 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
   /** Used externally to print an input just by its name */
   InputWithLabel = ({ name }: { name: keyof TypeThisIsDescribing }) => {
     const field = this.fields?.find((j) => j.name === name);
-    if (!field) throw new Error(`No field with name ${name}`);
+    if (!field) throw new Error(`No field with name ${String(name)}`);
     const InputWithLabelInternal = this.InputWithLabelInternal;
     return <InputWithLabelInternal {...field} />;
   };

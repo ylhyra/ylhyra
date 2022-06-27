@@ -1,6 +1,6 @@
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { getSession } from "flashcards/flashcards/actions/session/session";
-import { EditRow } from "flashcards/flashcards/editor/row";
+import { EditCard } from "flashcards/flashcards/play/editCard";
 import { Direction, Rating } from "flashcards/flashcards/types";
 import { observer } from "mobx-react";
 import { joinClassNames } from "modules/addCssClass";
@@ -47,6 +47,7 @@ export class CardElement extends Component {
     this.isKeyDown = false;
   };
   checkKey = (e: KeyboardEvent) => {
+    if (this.state.isEditing) return;
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (this.isKeyDown) return;
     const answered = this.state.isShowingBottomSide;
@@ -233,7 +234,21 @@ export class CardElement extends Component {
     // note_regarding_english = label("Note", note_regarding_english);
 
     if (this.state.isEditing) {
-      return <EditRow row={card.row} />;
+      return (
+        <div
+          className={`
+                vocabulary-card
+                flashcard
+              `}
+        >
+          <EditCard
+            row={card.row}
+            done={() => {
+              this.setState({ isEditing: false });
+            }}
+          />
+        </div>
+      );
     }
 
     return (
