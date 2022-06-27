@@ -1,8 +1,8 @@
 import {
-  getUserData,
+  getUserDataStore,
   UserData,
   UserDataRows,
-} from "flashcards/flashcards/actions/userData/userDataStore";
+} from "flashcards/flashcards/actions/userData/userData";
 import { isUserLoggedIn } from "flashcards/user/actions";
 import axios2 from "modules/axios2";
 import { getFromLocalStorage } from "modules/localStorage";
@@ -18,8 +18,8 @@ import { log } from "modules/log";
 export const sync = async (options: any = {}): Promise<UserData> => {
   let userData: UserData;
 
-  if (Object.keys(getUserData().data || {}).length > 0) {
-    userData = getUserData();
+  if (Object.keys(getUserDataStore().data || {}).length > 0) {
+    userData = getUserDataStore();
   } else {
     userData = getFromLocalStorage("vocabulary-user-data") || {};
   }

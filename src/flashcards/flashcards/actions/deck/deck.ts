@@ -31,7 +31,7 @@ export class Deck {
       settings: observable,
       rows: observable,
       cards: computed({ keepAlive: true }),
-      alternativeIds: computed({ keepAlive: true }),
+      // alternativeIds: computed({ keepAlive: true }),
       dependencyGraph: computed({ keepAlive: true }),
     });
   }

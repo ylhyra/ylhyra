@@ -1,5 +1,6 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
+import { getUserDataStore } from "flashcards/flashcards/actions/userData/userData";
 import { Rating, ScheduleData, Score } from "flashcards/flashcards/types";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
 import {
@@ -31,10 +32,10 @@ export function isUnseenSiblingOfANonGoodCard(card1: Card) {
  */
 export function isInSchedule(card1: Card) {
   // TODO!!!!
-  return card1.cardId in getEntireSchedule();
+  return card1.cardId in getUserDataStore().schedule;
 }
 
-export function setSchedule(card1: Card, data: Partial<ScheduleData>) {
+export function setSchedule(card1: Card, data: ScheduleData) {
   /* Round timestamps */
   ["due", "lastSeen", "lastBadTimestamp"].forEach((key) => {
     if (key in data) {
@@ -43,10 +44,10 @@ export function setSchedule(card1: Card, data: Partial<ScheduleData>) {
     }
   });
 
-  getEntireSchedule()[card1.cardId] = {
-    ...(getEntireSchedule()[card1.cardId] || {}),
+  getUserDataStore().set(card1.cardId, {
+    ...(card1.schedule || {}),
     ...data,
-  };
+  });
 
   throw new Error("Not implemented");
 }

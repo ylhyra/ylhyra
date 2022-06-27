@@ -1,5 +1,5 @@
-import axios2 from "modules/axios2";
 import { Request, Router } from "express";
+import axios2 from "modules/axios2";
 import { EmptyObjectIfNull } from "modules/typescript/emptyObject";
 import { TypedResponse } from "modules/typescript/express";
 
@@ -14,17 +14,16 @@ export interface ApiConstantToMethodAndUrl {
 }
 
 /**
- *
  * @example
- * typedAxios<ApiTypes>('CONSTANT', ApiConstantToMethodAndUrl)
+ *   typedAxios<ApiTypesInterface>("CONSTANT", ApiConstantToMethodAndUrl);
  */
 export async function typedAxiosSetup<
-  Types extends ApiTypes,
-  Constant extends keyof ApiTypes
+  Types extends ApiTypesInterface,
+  Constant extends keyof ApiTypesInterface
 >(
   constant: Constant,
-  data?: EmptyObjectIfNull<ApiTypes[Constant]["request"]>
-): Promise<EmptyObjectIfNull<ApiTypes[Constant]["response"]>> {
+  data?: EmptyObjectIfNull<ApiTypesInterface[Constant]["request"]>
+): Promise<EmptyObjectIfNull<ApiTypesInterface[Constant]["response"]>> {
   const method = apiUrls[constant as keyof typeof apiUrls][0];
   const url = apiUrls[constant as keyof typeof apiUrls][1];
   let postData2;
@@ -34,17 +33,22 @@ export async function typedAxiosSetup<
     postData2 = data;
   }
   return await axios2[method]<
-    EmptyObjectIfNull<ApiTypes[Constant]["request"]>,
-    EmptyObjectIfNull<ApiTypes[Constant]["response"]>
+    EmptyObjectIfNull<ApiTypesInterface[Constant]["request"]>,
+    EmptyObjectIfNull<ApiTypesInterface[Constant]["response"]>
   >(url, postData2);
 }
 
-export function typedRouterSetup<T extends keyof ApiTypes>(
+export function typedRouterSetup<T extends keyof ApiTypesInterface>(
   router: Router,
   constant: T,
   callback: (
-    req: Request<{}, {}, EmptyObjectIfNull<ApiTypes[T]["request"]>, {}>,
-    res: TypedResponse<EmptyObjectIfNull<ApiTypes[T]["response"]>>
+    req: Request<
+      {},
+      {},
+      EmptyObjectIfNull<ApiTypesInterface[T]["request"]>,
+      {}
+    >,
+    res: TypedResponse<EmptyObjectIfNull<ApiTypesInterface[T]["response"]>>
   ) => void
 ): void {
   const method = apiUrls[constant as keyof typeof apiUrls][0];

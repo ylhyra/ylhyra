@@ -3,12 +3,12 @@ import { exitVocabularyScreen } from "flashcards/flashcards/actions/functions";
 import { clearOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/functions/saveOngoingSessionInLocalStorage";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sync } from "flashcards/flashcards/actions/userData/sync";
-import { setUserDataKey } from "flashcards/flashcards/actions/userData/userData";
-import { SESSION_PREFIX } from "flashcards/flashcards/actions/userData/userDataSessions";
+import { getUserDataStore } from "flashcards/flashcards/actions/userData/userData";
 import { action } from "mobx";
 import { log } from "modules/log";
 import { roundMsToSec, roundToInterval } from "modules/math";
 import { getTime } from "modules/time";
+import shortid from "shortid";
 
 /**
  * Called either when the user exits or when no
@@ -41,22 +41,14 @@ export function saveSessionLog() {
     session.timer.getSecondsSpent() > 10
   ) {
     const timestamp = roundMsToSec(session.history.savedAt || getTime());
-    const timestampInSeconds = Math.round(timestamp / 1000);
-    setUserDataKey(
-      SESSION_PREFIX + timestampInSeconds.toString(),
+    getUserDataStore().set(
+      shortid.generate(),
       {
-        seconds_spent: roundToInterval(session.timer.getSecondsSpent(), 10),
+        secondsSpent: roundToInterval(session.timer.getSecondsSpent(), 10),
         timestamp,
       },
       "session"
     );
-
-    // Analytics.log({
-    //   type: "vocabulary",
-    //   page_name: window.location.pathname,
-    //   seconds: roundToInterval(session.getSecondsSpent(), 10),
-    //   timestamp,
-    // });
   } else {
     log("Not logged");
   }

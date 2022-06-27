@@ -1,6 +1,6 @@
 import { getDirectionFromCardId } from "flashcards/flashcards/actions/row/ids";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { getUserData } from "flashcards/flashcards/actions/userData/userDataStore";
+import { getUserDataStore } from "flashcards/flashcards/actions/userData/userData";
 import {
   CardId,
   Direction,
@@ -49,7 +49,7 @@ export class Card {
   }
 
   get schedule(): ScheduleData | undefined {
-    return getUserData().data[this.cardId] as any as ScheduleData;
+    return getUserDataStore().data[this.cardId] as any as ScheduleData;
   }
 
   get dueAt(): Timestamp | undefined {

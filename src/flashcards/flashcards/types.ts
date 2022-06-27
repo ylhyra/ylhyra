@@ -85,7 +85,7 @@ export type DependenciesForOneRowAsDependencyToDepth = Record<RowId, number>;
 /** @deprecated */
 export type CardIdToDependencyDepth = Record<CardId, number>;
 
-export interface ScheduleData {
+export type ScheduleData = Partial<{
   dueAt: Timestamp;
   lastIntervalInDays: Days /** Previously last_interval_in_days */;
   score: number;
@@ -95,7 +95,7 @@ export interface ScheduleData {
   /* Í VINNSLU */
   lastBadTimestamp: Timestamp;
   numberOfBadSessions: number;
-}
+}>;
 
 /** Used for dependencies and such to redirect text to an id. */
 export type RawText = Brand<string, "RawText">;

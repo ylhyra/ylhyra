@@ -1,9 +1,9 @@
 import { CardId, ScheduleData } from "flashcards/flashcards/types";
 import { computed, makeAutoObservable } from "mobx";
 import { saveInLocalStorage } from "modules/localStorage";
-import { Timestamp } from "modules/time";
+import { Seconds, Timestamp } from "modules/time";
 
-export type Schedule = Record<CardId, Partial<ScheduleData>>;
+export type Schedule = Record<CardId, ScheduleData>;
 
 export interface UserData {
   data: UserDataRows;
@@ -15,16 +15,19 @@ export interface UserData {
 export type UserDataRows = Record<
   string,
   | {
-      value: string;
       type: undefined;
-    }
-  | {
       value: string;
-      type: "session";
     }
   | {
-      value: ScheduleData;
+      type: "session";
+      value: {
+        secondsSpent: Seconds;
+        timestamp: Timestamp;
+      };
+    }
+  | {
       type: "schedule";
+      value: ScheduleData;
     }
 >;
 
@@ -53,23 +56,23 @@ export class UserDataStore implements UserData {
     saveInLocalStorage("vocabulary-user-data", this);
   }
 
-  // @computed
-  // get schedule(): Schedule {
-  //   const schedule: Schedule = {};
-  //   for (const key of Object.keys(this.data)) {
-  //     if (this.data[key].type === "schedule") {
-  //       schedule[key as CardId] = this.data[key].value as ScheduleData;
-  //     }
-  //   }
-  //   return schedule;
-  // }
+  @computed
+  get schedule(): Schedule {
+    const schedule: Schedule = {};
+    for (const key of Object.keys(this.data)) {
+      if (this.data[key].type === "schedule") {
+        schedule[key as CardId] = this.data[key].value as ScheduleData;
+      }
+    }
+    return schedule;
+  }
 
   @computed
   get sessions(): any[] {
     const sessions = [];
     for (const key of Object.keys(this.data)) {
       if (this.data[key].type === "session") {
-        sessions.push(getUserData().data[key].value);
+        sessions.push(getUserDataStore().data[key].value);
       }
     }
     return sessions;
@@ -77,4 +80,4 @@ export class UserDataStore implements UserData {
 }
 
 const store = new UserDataStore();
-export const getUserData = (): UserDataStore => store;
+export const getUserDataStore = (): UserDataStore => store;
