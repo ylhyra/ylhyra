@@ -1,16 +1,10 @@
 import {
-  UserData,
-  UserDataRows,
-} from "flashcards/flashcards/actions/userData/userData.types";
-import {
   getUserData,
   setUserData,
+  UserData,
+  UserDataRows,
 } from "flashcards/flashcards/actions/userData/userDataStore";
 import { saveInLocalStorage } from "modules/localStorage";
-
-// export function getUserDataForKey (key: string) {
-//   return getUserData().rows?.[key]?.value || null;
-// };
 
 export function setUserDataKey(
   key: string,
@@ -56,7 +50,3 @@ export const saveUserDataInLocalStorage = (
     saveInLocalStorage("vocabulary-user-data", toSave);
   }, 1000);
 };
-
-// if (isBrowser) {
-//   window["getUserData"] = getUserData;
-// }

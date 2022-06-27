@@ -2,7 +2,7 @@ import express, { Response, Router } from "express";
 import {
   UserData,
   UserDataRows,
-} from "flashcards/flashcards/actions/userData/userData.types";
+} from "flashcards/flashcards/actions/userData/userDataStore";
 
 const router = Router();
 
