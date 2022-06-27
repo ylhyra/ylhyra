@@ -8,12 +8,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 mobxConfigure({
-  // enforceActions: "never",
-  enforceActions: "always",
-  computedRequiresReaction: true,
-  reactionRequiresObservable: true,
-  observableRequiresReaction: true,
-  disableErrorBoundaries: true,
+  enforceActions: "never",
 });
 
 ReactDOM.render(

@@ -14,6 +14,8 @@ import React, { Component, useEffect } from "react";
 
 export const FlashcardsPlay = observer(({ deckId }: { deckId: DeckId }) => {
   let decks: Deck[];
+
+  console.log(deckId);
   if (deckId === "all") {
     decks = values(getFlashcardsStore().decks);
   } else {
