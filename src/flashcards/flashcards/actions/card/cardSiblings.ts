@@ -1,3 +1,4 @@
+import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types";
@@ -15,9 +16,9 @@ export function getSiblingCards(this: Card): Card[] {
 
 export function getSiblingCardsInSession(this: Card): CardInSession[] {
   return (
-    this.getSiblingCards()
-      // .filter((card) => card.isInSession())
-      .map((card) => card.getAsCardInSession())
+    getSiblingCards(this)
+      // .filter((card) => isInSession(card,))
+      .map((card) => getAsCardInSession(card))
       .filter(filterEmpty)
   );
 }
@@ -25,7 +26,7 @@ export function getSiblingCardsInSession(this: Card): CardInSession[] {
 export function didAnySiblingCardsGetABadRatingInThisSession(
   this: Card
 ): boolean {
-  return this.getSiblingCards().some((siblingCard) => {
-    return siblingCard.getAsCardInSession()?.ratingHistory.includes(Rating.BAD);
+  return getSiblingCards(this).some((siblingCard) => {
+    return getAsCardInSession(siblingCard)?.ratingHistory.includes(Rating.BAD);
   });
 }

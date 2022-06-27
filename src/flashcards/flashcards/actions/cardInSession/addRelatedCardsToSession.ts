@@ -1,3 +1,15 @@
+import { getDependenciesAsArrayOfCards } from "flashcards/flashcards/actions/card/cardDependencies";
+import { isInSession } from "flashcards/flashcards/actions/card/functions";
+import {
+  isUnseenRow,
+  timeSinceRowWasSeen,
+  wasRowVeryRecentlySeen,
+} from "flashcards/flashcards/actions/card/cardSchedule";
+import {
+  isBad,
+  isFairlyBad,
+} from "flashcards/flashcards/actions/card/cardDifficulty";
+import { printWord } from "flashcards/flashcards/actions/functions";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
@@ -14,9 +26,9 @@ export function addRelatedCardsToSession(currentCard: CardInSession) {
   /* Bail for repeated failures ... */
   if (currentCard.ratingHistory.length > 1) return;
 
-  currentCard.getDependenciesAsArrayOfCards().forEach((relatedCard): void => {
+  getDependenciesAsArrayOfCards(currentCard).forEach((relatedCard): void => {
     /* Ignore cards already in session */
-    if (relatedCard.isInSession()) return;
+    if (isInSession(relatedCard)) return;
 
     /* Add cards with the same row */
     if (currentCard.dependencyDepthOfCard(relatedCard) === 0) {
@@ -27,19 +39,19 @@ export function addRelatedCardsToSession(currentCard: CardInSession) {
     /* Ignore cyclical dependencies */
     if (relatedCard.dependencyDepthOfCard(currentCard) > 0) return;
 
-    if (relatedCard.wasRowVeryRecentlySeen()) return;
+    if (wasRowVeryRecentlySeen(relatedCard)) return;
 
     /* Add cards that this row directly depends on */
     if (
       currentCard.dependencyDepthOfCard(relatedCard) === 1 &&
       /* Unseen or unknown cards */
-      (relatedCard.isUnseenRow() ||
-        relatedCard.isBad() ||
-        (relatedCard.isFairlyBad() &&
-          relatedCard.timeSinceRowWasSeen()! > 5 * days &&
+      (isUnseenRow(relatedCard) ||
+        isBad(relatedCard) ||
+        (isFairlyBad(relatedCard) &&
+          timeSinceRowWasSeen(relatedCard)! > 5 * days &&
           Math.random() > 0.7))
     ) {
-      log(`Direct dependency "${relatedCard.printWord()}" added`);
+      log(`Direct dependency "${printWord(relatedCard)}" added`);
       toAdd.push(relatedCard);
     }
   });

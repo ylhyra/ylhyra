@@ -1,3 +1,7 @@
+import { didAnySiblingCardsGetABadRatingInThisSession } from "flashcards/flashcards/actions/card/cardSiblings";
+import { setSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
+import { printWord } from "flashcards/flashcards/actions/functions";
+import { wasSeenInSession } from "flashcards/flashcards/actions/card/functions";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Rating, Score } from "flashcards/flashcards/types";
@@ -85,7 +89,7 @@ export function createSchedule() {
       if (actualIntervalInDays / lastIntervalInDays! < 0.3) {
         const newDueInDays = lastIntervalInDays!;
         log(
-          `${card.printWord()} - given ${newDueInDays} instead of ${dueInDays}`
+          `${printWord(card)} - given ${newDueInDays} instead of ${dueInDays}`
         );
         dueInDays = newDueInDays;
       }
@@ -99,17 +103,19 @@ export function createSchedule() {
      */
     if (
       score >= Rating.GOOD &&
-      card.didAnySiblingCardsGetABadRatingInThisSession()
+      didAnySiblingCardsGetABadRatingInThisSession(card)
     ) {
       dueInDays = Math.min(3, dueInDays);
       score =
         Rating.BAD + SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY;
       log(
-        `${card.printWord()} given a low score due to siblings having gotten a bad rating`
+        `${printWord(
+          card
+        )} given a low score due to siblings having gotten a bad rating`
       );
     }
 
-    card.setSchedule({
+    setSchedule(card, {
       /**
        * Randomly add or subtract up to 10% of
        * the dueInDays just for some variety
@@ -128,7 +134,7 @@ export function createSchedule() {
     });
 
     log(
-      card.printWord(),
+      printWord(card),
       `score: ${toFixedFloat(score, 2)}`,
       `days: ${toFixedFloat(dueInDays, 1)}`
     );
@@ -137,17 +143,17 @@ export function createSchedule() {
     card
       .getSiblingCards()
       /* Ignore cards that were seen in this session */
-      .filter((siblingCard) => !siblingCard.wasSeenInSession())
+      .filter((siblingCard) => !wasSeenInSession(siblingCard))
       .forEach((siblingCard) => {
         /* Postpone based on a portion of the main card's dueInDays,
            but never more than 10 days */
         const newDue = daysFromNowToTimestamp(Math.min(dueInDays * 0.8, 10));
         const actualDue = siblingCard.dueAt;
         if (!actualDue || actualDue < newDue) {
-          siblingCard.setSchedule({
+          setSchedule(siblingCard, {
             due: newDue,
           });
-          log(`${siblingCard.printWord()} postponed`);
+          log(`${printWord(siblingCard)} postponed`);
         }
       });
   });

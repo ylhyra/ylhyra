@@ -30,7 +30,7 @@ export function studyNewRows() {
   // (Object.keys(getCardIdsFromAllDecks()) as CardIds).forEach((id) => {
   //   if (
   //     !(id in getEntireSchedule()) &&
-  //     id.isNewRowThatHasNotBeenSeenInSession()
+  //     isNewRowThatHasNotBeenSeenInSession(id,)
   //   ) {
   //     newRows.push(id);
   //   }

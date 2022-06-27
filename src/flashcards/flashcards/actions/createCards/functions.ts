@@ -1,8 +1,12 @@
+import {
+  getRowLastSeen,
+  wasRowVeryRecentlySeen,
+} from "flashcards/flashcards/actions/card/cardSchedule";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { sortBy } from "underscore";
 
 export function oldestFirst(cards: Card[]) {
-  return sortBy(cards, (card) => card.getRowLastSeen());
+  return sortBy(cards, (card) => getRowLastSeen(card));
 }
 
 // export function newestFirst (ids: Card[]) {
@@ -10,7 +14,7 @@ export function oldestFirst(cards: Card[]) {
 // };
 
 export function veryRecentlySeenSortedLast(cards: Card[]) {
-  return sortBy(cards, (card) => card.wasRowVeryRecentlySeen());
+  return sortBy(cards, (card) => wasRowVeryRecentlySeen(card));
 }
 
 // const wasRowVeryRecentlySeen2_temp = (id, time) => {

@@ -1,3 +1,4 @@
+import { printWord } from "flashcards/flashcards/actions/functions";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import _ from "underscore";
@@ -21,7 +22,7 @@ export function debugSession() {
         // notShowBfr:
         //   (card.#cannotBeShownUntilRelativeToCounter || 0) - session.counter,
         seen: card.hasBeenSeenInSession() ? "SEEN" : "",
-        word: card.printWord(),
+        word: printWord(card),
         sortKey: card.getSortKey(),
         // schdl: getEntireSchedule()[i.id]
         //   ? new Date(i.lastSeen)

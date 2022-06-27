@@ -1,3 +1,4 @@
+import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
 import { clamp, mapValueToRange } from "modules/math";
@@ -7,7 +8,7 @@ export function PercentageKnown(cards: Card[]) {
   let done = 0;
   let remaining = 0;
   cards.forEach((card) => {
-    if (card.isInSchedule()) {
+    if (isInSchedule(card)) {
       let score = card.score || 2;
       let toAdd;
       if (score < 1.9) {

@@ -1,3 +1,4 @@
+import { isInSession } from "flashcards/flashcards/actions/card/functions";
 import { addBadDependencies } from "flashcards/flashcards/actions/createCards/addBadDependencies";
 import { ChooseCards } from "flashcards/flashcards/actions/createCards/chooseCards";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
@@ -24,7 +25,7 @@ export function createCards(
     const session = getSession();
 
     /* If all allowedCards are already in use, clear it */
-    if (session.allowedCards?.every((card) => card.isInSession())) {
+    if (session.allowedCards?.every((card) => isInSession(card))) {
       session.allowedCards = undefined;
       logDev("allowedCards cleared");
     }

@@ -1,3 +1,4 @@
+import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import {
   CardInSession,
   IntervalRelativeToCurrentCardBeingAtZero,
@@ -50,7 +51,7 @@ export function rate(this: CardInSession, rating: Rating): void {
       card.done = false;
     } else if (nextLastRating === Rating.BAD) {
       interval = 10;
-    } else if (card.isBad() && timesSeenBeforeInSession === 0) {
+    } else if (isBad(card) && timesSeenBeforeInSession === 0) {
       interval = 12;
     }
   } else if (rating === Rating.EASY) {
@@ -67,7 +68,7 @@ export function rate(this: CardInSession, rating: Rating): void {
 
   // keepTrackOfEasiness({
   //   rating,
-  //   isANewCard: !id.isInSchedule() && timesSeenBeforeInSession === 0,
+  //   isANewCard: !isInSchedule(id,) && timesSeenBeforeInSession === 0,
   //   card,
   // });
 

@@ -1,3 +1,4 @@
+import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { EditRow } from "flashcards/flashcards/editor/row";
 import { Direction, Rating } from "flashcards/flashcards/types";
@@ -242,7 +243,7 @@ export class CardElement extends Component {
           flashcard
           ${answered ? "answered" : "not-answered"}
           ${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}
-          ${card.isNewRowThatHasNotBeenSeenInSession() ? "new" : ""}
+          ${isNewRowThatHasNotBeenSeenInSession(card) ? "new" : ""}
         `}
         onClick={() => this.cardClicked()}
       >

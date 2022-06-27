@@ -1,3 +1,15 @@
+import { isAllowed } from "flashcards/flashcards/actions/card/cardIsAllowed";
+import {
+  isInSchedule,
+  isOverdue,
+  isUnseenSiblingOfANonGoodCard,
+  timeSinceRowWasSeen,
+  wasRowVeryRecentlySeen,
+} from "flashcards/flashcards/actions/card/cardSchedule";
+import {
+  isBad,
+  isBelowGood,
+} from "flashcards/flashcards/actions/card/cardDifficulty";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getSession } from "flashcards/flashcards/actions/session/session";
@@ -16,19 +28,19 @@ export function classifyCards(deck: Deck) {
   // let notOverdueVeryBad: Card[] = [];
 
   deck.cards
-    .filter((card) => card.isAllowed())
+    .filter((card) => isAllowed(card))
     .forEach((card) => {
-      if (!card.isInSchedule()) {
+      if (!isInSchedule(card)) {
         newCards.push(card);
       }
 
       // Overdue
       else if (
-        card.isOverdue() &&
+        isOverdue(card) &&
         // !card.isTooEasy() &&
-        !card.wasRowVeryRecentlySeen()
+        !wasRowVeryRecentlySeen(card)
       ) {
-        if (card.isBelowGood() || card.isUnseenSiblingOfANonGoodCard()) {
+        if (isBelowGood(card) || isUnseenSiblingOfANonGoodCard(card)) {
           overdueBad.push(card);
         } else {
           overdueGood.push(card);
@@ -36,10 +48,7 @@ export function classifyCards(deck: Deck) {
       }
 
       // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
-      else if (
-        card.isBad() &&
-        (card.timeSinceRowWasSeen() || 0) > 20 * minutes
-      ) {
+      else if (isBad(card) && (timeSinceRowWasSeen(card) || 0) > 20 * minutes) {
         return overdueBad.push(card);
       } else {
         notOverdue.push(card);

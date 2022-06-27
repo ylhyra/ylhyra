@@ -1,3 +1,4 @@
+import { printWord } from "flashcards/flashcards/actions/functions";
 import { setupTestSession } from "flashcards/flashcards/actions/_testing/testSetup";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { ChooseSingleCardFromDeck } from "flashcards/flashcards/actions/createCards/chooseSingleCardFromDeck";
@@ -33,7 +34,7 @@ export class ChooseCards {
       chosenCards.push(card);
       log(
         `Deck "${card.row.deck.title}" > ` +
-          `card "${card.printWord()}" ` +
+          `card "${printWord(card)}" ` +
           `added at position ${i + 1}`
       );
 

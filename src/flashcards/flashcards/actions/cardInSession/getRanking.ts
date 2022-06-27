@@ -1,16 +1,17 @@
+import { isNewCard } from "flashcards/flashcards/actions/card/cardSchedule";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types";
 
 /**
- * Returns a ranking for a given {@link CardInSession} indicating
- * how likely it is that it should be chosen as the next card:
+ * Returns a ranking for a given {@link CardInSession} indicating how likely it
+ * is that it should be chosen as the next card:
  *
  * - A low ranking (close to zero) indicates that it should be chosen.
  * - A high ranking indicates it should NOT be chosen.
  *
  * Each card has a queue position (see {@link getQueuePosition}), but here we
- * add or subtract to that value based on whether it is actually relevant,
- * such as preferring overdue cards and prohibiting cards that are too recent.
+ * add or subtract to that value based on whether it is actually relevant, such
+ * as preferring overdue cards and prohibiting cards that are too recent.
  */
 export function getRanking(this: CardInSession) {
   const session = this.session;
@@ -59,14 +60,14 @@ export function getRanking(this: CardInSession) {
   }
 
   /**
-   * Prevent cards all going in the same direction
-   * from appearing right next to each other too often
+   * Prevent cards all going in the same direction from
+   * appearing right next to each other too often
    */
   if (session.history.cardDirectionLog[0] === direction) {
     rank += 0.4;
     /* Two in a row */
     if (session.history.cardDirectionLog[1] === direction) {
-      if (this.hasBeenSeenInSession() || !this.isNewCard()) {
+      if (this.hasBeenSeenInSession() || !isNewCard(this)) {
         rank += 5;
       }
 
@@ -80,7 +81,7 @@ export function getRanking(this: CardInSession) {
         // And all of them were new cards
         session.history.cardHistory
           .slice(0, 3)
-          .every((i: CardInSession) => i.isNewCard())
+          .every((i: CardInSession) => isNewCard(i))
       ) {
         rank += 2000;
       }
@@ -100,7 +101,7 @@ export function getRanking(this: CardInSession) {
   //   ) {
   //     q += 20;
   //     // Prevent English from showing up for unknown cards
-  //     if (from === "en" || id.isNewCard()) {
+  //     if (from === "en" || isNewCard(id,)) {
   //       q += 20;
   //     }
   //   }

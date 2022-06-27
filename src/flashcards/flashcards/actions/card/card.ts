@@ -1,36 +1,3 @@
-import { getDependenciesAsArrayOfCards } from "flashcards/flashcards/actions/card/cardDependencies";
-import {
-  isBad,
-  isBelowGood,
-  isFairlyBad,
-} from "flashcards/flashcards/actions/card/cardDifficulty";
-import { isAllowed } from "flashcards/flashcards/actions/card/cardIsAllowed";
-import {
-  getDueAt,
-  getLowestAvailableRowScore,
-  getRowLastSeen,
-  isInSchedule,
-  isNewCard,
-  isNewRowThatHasNotBeenSeenInSession,
-  isOverdue,
-  isUnseenRow,
-  isUnseenSiblingOfANonGoodCard,
-  setSchedule,
-  timeSinceRowWasSeen,
-  wasRowSeenMoreRecentlyThan,
-  wasRowVeryRecentlySeen,
-} from "flashcards/flashcards/actions/card/cardSchedule";
-import {
-  didAnySiblingCardsGetABadRatingInThisSession,
-  getSiblingCards,
-  getSiblingCardsInSession,
-} from "flashcards/flashcards/actions/card/cardSiblings";
-import {
-  getAsCardInSession,
-  isInSession,
-  wasSeenInSession,
-} from "flashcards/flashcards/actions/card/functions";
-import { printWord } from "flashcards/flashcards/actions/functions";
 import { getDirectionFromCardId } from "flashcards/flashcards/actions/row/ids";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { getUserData } from "flashcards/flashcards/actions/userData/userDataStore";
@@ -114,31 +81,4 @@ export class Card {
   getSortKey() {
     return -this.data.rowNumber;
   }
-
-  isInSession = isInSession;
-  isAllowed = isAllowed;
-  wasSeenInSession = wasSeenInSession;
-  getDependenciesAsArrayOfCards = getDependenciesAsArrayOfCards;
-  isBad = isBad;
-  isFairlyBad = isFairlyBad;
-  isBelowGood = isBelowGood;
-  getDueAt = getDueAt;
-  isOverdue = isOverdue;
-  isUnseenSiblingOfANonGoodCard = isUnseenSiblingOfANonGoodCard;
-  isInSchedule = isInSchedule;
-  setSchedule = setSchedule;
-  isUnseenRow = isUnseenRow;
-  getLowestAvailableRowScore = getLowestAvailableRowScore;
-  getRowLastSeen = getRowLastSeen;
-  timeSinceRowWasSeen = timeSinceRowWasSeen;
-  wasRowVeryRecentlySeen = wasRowVeryRecentlySeen;
-  wasRowSeenMoreRecentlyThan = wasRowSeenMoreRecentlyThan;
-  isNewCard = isNewCard;
-  isNewRowThatHasNotBeenSeenInSession = isNewRowThatHasNotBeenSeenInSession;
-  getSiblingCards = getSiblingCards;
-  getSiblingCardsInSession = getSiblingCardsInSession;
-  didAnySiblingCardsGetABadRatingInThisSession =
-    didAnySiblingCardsGetABadRatingInThisSession;
-  getAsCardInSession = getAsCardInSession;
-  printWord = printWord;
 }
