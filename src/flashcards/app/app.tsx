@@ -1,27 +1,26 @@
 import { Layout } from "flashcards/app/layout/layout";
 import { Routes } from "flashcards/app/routes";
-import { store, StoreContext } from "flashcards/app/store";
 import "flashcards/app/styles/output.css";
 import "flashcards/flashcards/styles/index.styl";
 
 import { configure as mobxConfigure } from "mobx";
-import { customHistory, CustomRouter } from "modules/router";
 import React from "react";
 import ReactDOM from "react-dom";
 
 mobxConfigure({
-  enforceActions: "never",
+  // enforceActions: "never",
+  enforceActions: "always",
+  computedRequiresReaction: true,
+  reactionRequiresObservable: true,
+  observableRequiresReaction: true,
+  disableErrorBoundaries: true,
 });
 
 ReactDOM.render(
   <React.StrictMode>
-    <StoreContext.Provider value={store}>
-      <CustomRouter history={customHistory!}>
-        <Layout>
-          <Routes />
-        </Layout>
-      </CustomRouter>
-    </StoreContext.Provider>
+    <Layout>
+      <Routes />
+    </Layout>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -1,8 +1,8 @@
 import { StoreContext } from "flashcards/app/store";
 import { logout } from "flashcards/user/actions";
 import { observer } from "mobx-react-lite";
+import { NavLink } from "modules/router";
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
 
 export const Header = observer(() => {
   const store = useContext(StoreContext);

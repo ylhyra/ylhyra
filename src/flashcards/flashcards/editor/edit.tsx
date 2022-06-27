@@ -10,11 +10,10 @@ import { ImportFlashcards } from "flashcards/flashcards/editor/import/import";
 import { EditRow } from "flashcards/flashcards/editor/row";
 import { DeckId } from "flashcards/flashcards/types";
 import { observer } from "mobx-react-lite";
+import { Link } from "modules/router";
 import React from "react";
-import { Link, useParams } from "react-router-dom";
 
-export const FlashcardsEdit = observer(() => {
-  let { deckId } = useParams<{ deckId: DeckId }>();
+export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
   const deck = getDeckById(deckId! as DeckId);
   if (!deck) return <div>No deck with that id.</div>;
 

@@ -11,10 +11,8 @@ import { DeckId } from "flashcards/flashcards/types";
 import { observer } from "mobx-react-lite";
 import { values } from "modules/typescript/objectEntries";
 import React, { Component, useEffect } from "react";
-import { useParams } from "react-router-dom";
 
-export const FlashcardsPlay = observer(function () {
-  let { deckId } = useParams<{ deckId: DeckId }>();
+export const FlashcardsPlay = observer(({ deckId }: { deckId: DeckId }) => {
   let decks: Deck[];
   if (deckId === "all") {
     decks = values(getFlashcardsStore().decks);

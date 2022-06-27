@@ -1,10 +1,9 @@
 import { Button } from "flashcards/app/elements/button";
 import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
 import { newDeck } from "flashcards/flashcards/actions/deck/functions";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
+import { Link } from "modules/router";
 import { entries } from "modules/typescript/objectEntries";
-import React from "react";
-import { Link } from "react-router-dom";
 
 export const FlashcardsMake = observer(function () {
   const { decks } = getFlashcardsStore();

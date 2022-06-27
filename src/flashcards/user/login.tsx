@@ -1,12 +1,12 @@
 import { login } from "flashcards/user/actions";
 import type { LoginRequest } from "flashcards/user/login.server";
-import { Observer } from "mobx-react-lite";
+import { observer } from "mobx-react-lite";
 import { form } from "modules/form";
+import { history } from "modules/router";
 import React from "react";
-import { useLocation } from "react-router";
 
-export function Login() {
-  const { pathname } = useLocation();
+export const Login = observer(() => {
+  const pathname = history?.location.pathname;
   const isSignup = pathname === "/signup";
 
   const { Form, getChangeHandlers, setFormValues } = new form({
@@ -20,31 +20,27 @@ export function Login() {
   });
 
   return (
-    <Observer>
-      {() => (
-        <Form>
-          <label>
-            Username:
-            <input
-              type="text"
-              className="input"
-              {...getChangeHandlers("username")}
-            />
-          </label>
-          <label>
-            Password:
-            <input
-              type="password"
-              className="input"
-              {...getChangeHandlers("password")}
-            />
-          </label>
+    <Form>
+      <label>
+        Username:
+        <input
+          type="text"
+          className="input"
+          {...getChangeHandlers("username")}
+        />
+      </label>
+      <label>
+        Password:
+        <input
+          type="password"
+          className="input"
+          {...getChangeHandlers("password")}
+        />
+      </label>
 
-          <button type="submit" className="btn">
-            {isSignup ? "Sign up" : "Login"}
-          </button>
-        </Form>
-      )}
-    </Observer>
+      <button type="submit" className="btn">
+        {isSignup ? "Sign up" : "Login"}
+      </button>
+    </Form>
   );
-}
+});
