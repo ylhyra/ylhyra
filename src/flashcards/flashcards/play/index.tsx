@@ -12,9 +12,10 @@ import { observer } from "mobx-react-lite";
 import { values } from "modules/typescript/objectEntries";
 import React, { Component, useEffect } from "react";
 
-export const FlashcardsPlay = observer(({ deckId }: { deckId: DeckId }) => {
+export const FlashcardsPlay = observer((params) => {
+  console.log(params);
   let decks: Deck[];
-
+  let deckId = "1";
   console.log(deckId);
   if (deckId === "all") {
     decks = values(getFlashcardsStore().decks);

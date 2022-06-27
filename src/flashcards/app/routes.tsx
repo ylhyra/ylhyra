@@ -4,7 +4,7 @@ import { FlashcardsEdit } from "flashcards/flashcards/editor/edit";
 import { FlashcardsPlay } from "flashcards/flashcards/play";
 import { observer } from "mobx-react";
 import { history } from "modules/router";
-import { Switch } from "react-history-switch";
+import UrlPattern from "url-pattern";
 
 export const Routes = observer(() => {
   let items = [
@@ -25,5 +25,16 @@ export const Routes = observer(() => {
       component: FlashcardsPlay,
     },
   ];
-  return <Switch history={history!} items={items} />;
+
+  for (const item of items) {
+    const match = new UrlPattern(item.path).match(history!.location.pathname);
+    console.log(match);
+    console.log(history!.location.pathname);
+    console.log(item.path);
+    if (match) {
+      return item.component(match);
+    }
+  }
+
+  return <div>Not found</div>;
 });

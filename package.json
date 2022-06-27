@@ -103,7 +103,6 @@
     "react": "^17.0.2",
     "react-attr-converter": "^0.3.1",
     "react-dom": "^17.0.2",
-    "react-history-switch": "^1.0.1",
     "react-redux": "^7.2.4",
     "react-router-dom": "^6.3.0",
     "react-textarea-autosize": "^8.3.4",
@@ -124,6 +123,7 @@
     "ts-migrate": "^0.1.28",
     "twitter": "^1.7.1",
     "underscore": "^1.13.1",
+    "url-pattern": "^1.0.3",
     "webpack-node-externals": "^3.0.0",
     "xml2js": "^0.4.23",
     "xregexp": "^5.0.2"
