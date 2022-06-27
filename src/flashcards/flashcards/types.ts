@@ -54,13 +54,13 @@ export enum Rating {
 
 /**
  * A number between 1 (Bad) and 4 (Excellent).
- * If a card was rated as bad, its score will be set to
- * "1" regardless of how often it has been seen before.
+ * If a card was rated as bad, its score will be set to "1" regardless of how
+ * often it has been seen before.
  * A new card rated as good will have a score of "2".
  * A new card rated as easy will have a score of "3".
  *
- * Any time a card is later rated as good or easy, its score will be
- * incremented by {@link SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY}.
+ * Any time a card is later rated as good or easy, its score will be incremented
+ * by {@link SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY}.
  *
  * Score is calculated by {@link createSchedule}.
  * See also the related enum {@link Rating}
@@ -86,7 +86,7 @@ export type DependenciesForOneRowAsDependencyToDepth = Record<RowId, number>;
 export type CardIdToDependencyDepth = Record<CardId, number>;
 
 export interface ScheduleData {
-  due: Timestamp;
+  dueAt: Timestamp;
   lastIntervalInDays: Days /** Previously last_interval_in_days */;
   score: number;
   lastSeen: Timestamp;

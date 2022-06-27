@@ -1,8 +1,11 @@
-import { didAnySiblingCardsGetABadRatingInThisSession } from "flashcards/flashcards/actions/card/cardSiblings";
 import { setSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
-import { printWord } from "flashcards/flashcards/actions/functions";
+import {
+  didAnySiblingCardsGetABadRatingInThisSession,
+  getSiblingCards,
+} from "flashcards/flashcards/actions/card/cardSiblings";
 import { wasSeenInSession } from "flashcards/flashcards/actions/card/functions";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { printWord } from "flashcards/flashcards/actions/functions";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Rating, Score } from "flashcards/flashcards/types";
 import { log } from "modules/log";
@@ -120,7 +123,7 @@ export function createSchedule() {
        * Randomly add or subtract up to 10% of
        * the dueInDays just for some variety
        */
-      due: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
+      dueAt: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
       lastIntervalInDays: toFixedFloat(dueInDays, 1),
       score: toFixedFloat(score, 2),
       lastSeen: getTime(),
@@ -140,8 +143,8 @@ export function createSchedule() {
     );
 
     /* Postpone siblings (i.e. the other side of the card */
-    card
-      .getSiblingCards()
+
+    getSiblingCards(card)
       /* Ignore cards that were seen in this session */
       .filter((siblingCard) => !wasSeenInSession(siblingCard))
       .forEach((siblingCard) => {
@@ -151,7 +154,7 @@ export function createSchedule() {
         const actualDue = siblingCard.dueAt;
         if (!actualDue || actualDue < newDue) {
           setSchedule(siblingCard, {
-            due: newDue,
+            dueAt: newDue,
           });
           log(`${printWord(siblingCard)} postponed`);
         }

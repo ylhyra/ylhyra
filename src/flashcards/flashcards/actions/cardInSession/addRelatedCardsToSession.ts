@@ -1,17 +1,20 @@
-import { getDependenciesAsArrayOfCards } from "flashcards/flashcards/actions/card/cardDependencies";
-import { isInSession } from "flashcards/flashcards/actions/card/functions";
+import {
+  dependencyDepthOfCard,
+  getDependenciesAsArrayOfCards,
+} from "flashcards/flashcards/actions/card/cardDependencies";
+import { Card } from "flashcards/flashcards/actions/card/card";
+import {
+  isBad,
+  isFairlyBad,
+} from "flashcards/flashcards/actions/card/cardDifficulty";
 import {
   isUnseenRow,
   timeSinceRowWasSeen,
   wasRowVeryRecentlySeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
-import {
-  isBad,
-  isFairlyBad,
-} from "flashcards/flashcards/actions/card/cardDifficulty";
-import { printWord } from "flashcards/flashcards/actions/functions";
-import { Card } from "flashcards/flashcards/actions/card/card";
+import { isInSession } from "flashcards/flashcards/actions/card/functions";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { printWord } from "flashcards/flashcards/actions/functions";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
 import { log } from "modules/log";
 import { days } from "modules/time";
@@ -31,19 +34,19 @@ export function addRelatedCardsToSession(currentCard: CardInSession) {
     if (isInSession(relatedCard)) return;
 
     /* Add cards with the same row */
-    if (currentCard.dependencyDepthOfCard(relatedCard) === 0) {
+    if (dependencyDepthOfCard(currentCard, relatedCard) === 0) {
       toAdd.push(relatedCard);
       return;
     }
 
     /* Ignore cyclical dependencies */
-    if (relatedCard.dependencyDepthOfCard(currentCard) > 0) return;
+    if (dependencyDepthOfCard(relatedCard, currentCard) > 0) return;
 
     if (wasRowVeryRecentlySeen(relatedCard)) return;
 
     /* Add cards that this row directly depends on */
     if (
-      currentCard.dependencyDepthOfCard(relatedCard) === 1 &&
+      dependencyDepthOfCard(currentCard, relatedCard) === 1 &&
       /* Unseen or unknown cards */
       (isUnseenRow(relatedCard) ||
         isBad(relatedCard) ||

@@ -1,3 +1,4 @@
+import { getLowestAvailableRowScore } from "flashcards/flashcards/actions/card/cardSchedule";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY } from "flashcards/flashcards/actions/createSchedule/createSchedule";
 import { Rating } from "flashcards/flashcards/types";
@@ -33,6 +34,6 @@ export function isFairlyBad(card1: Card) {
   );
 }
 export function isBelowGood(card1: Card) {
-  const score = card1.score || card1.getLowestAvailableRowScore();
+  const score = card1.score || getLowestAvailableRowScore(card1);
   return score && score < Rating.GOOD;
 }

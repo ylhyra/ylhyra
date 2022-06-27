@@ -1,18 +1,19 @@
-import { isInSession } from "flashcards/flashcards/actions/card/functions";
 import { Card } from "flashcards/flashcards/actions/card/card";
+import { hasDependenciesInCommonWith } from "flashcards/flashcards/actions/card/cardDependencies";
+import { isInSession } from "flashcards/flashcards/actions/card/functions";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 
 /**
  * Whether a card is allowed to be chosen by {@link createCards}
  * to be added to the session.
  */
-export function isAllowed(this: Card): boolean {
+export function isAllowed(card1: Card): boolean {
   /* Ignore cards that are already in the session */
-  if (isInSession(this)) return false;
+  if (isInSession(card1)) return false;
 
   /* If allowedCards is on, only select allowed cards */
   const { allowedCards } = getSession();
-  if (allowedCards && this.isIn(allowedCards)) {
+  if (allowedCards && card1.isIn(allowedCards)) {
     return false;
   }
 
@@ -28,7 +29,7 @@ export function isAllowed(this: Card): boolean {
       .history.cardHistory.slice(0, 3)
       .some(
         (card) =>
-          this.rowId === card.rowId || this.hasDependenciesInCommonWith(card)
+          card1.rowId === card.rowId || hasDependenciesInCommonWith(card1, card)
         // || isTextSimilarTo(id, card)
       )
   ) {

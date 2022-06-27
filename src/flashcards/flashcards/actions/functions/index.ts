@@ -5,10 +5,10 @@ import { isDev } from "modules/isDev";
 import { goToUrl } from "modules/router";
 
 /** Used for debugging (printing cards to the console) */
-export function printWord(this: Card): string | undefined {
+export function printWord(card1: Card): string | undefined {
   if (!isDev) return;
-  return this.data[
-    this.direction === Direction.FRONT_TO_BACK ? "front" : "back"
+  return card1.data[
+    card1.direction === Direction.FRONT_TO_BACK ? "front" : "back"
   ];
 }
 

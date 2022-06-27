@@ -1,5 +1,5 @@
-import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
 import { Card } from "flashcards/flashcards/actions/card/card";
+import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types";
 import { filterEmpty } from "modules/typescript/filterEmpty";
@@ -10,13 +10,13 @@ import { filterEmpty } from "modules/typescript/filterEmpty";
  * versions allowed many related cards to share a "row".
  * Returning an array is therefore not necessary currently)
  */
-export function getSiblingCards(this: Card): Card[] {
-  return this.row.cards.filter((siblingCard) => !siblingCard.is(this));
+export function getSiblingCards(card1: Card): Card[] {
+  return card1.row.cards.filter((siblingCard) => !siblingCard.is(card1));
 }
 
-export function getSiblingCardsInSession(this: Card): CardInSession[] {
+export function getSiblingCardsInSession(card1: Card): CardInSession[] {
   return (
-    getSiblingCards(this)
+    getSiblingCards(card1)
       // .filter((card) => isInSession(card,))
       .map((card) => getAsCardInSession(card))
       .filter(filterEmpty)
@@ -24,9 +24,9 @@ export function getSiblingCardsInSession(this: Card): CardInSession[] {
 }
 
 export function didAnySiblingCardsGetABadRatingInThisSession(
-  this: Card
+  card1: Card
 ): boolean {
-  return getSiblingCards(this).some((siblingCard) => {
+  return getSiblingCards(card1).some((siblingCard) => {
     return getAsCardInSession(siblingCard)?.ratingHistory.includes(Rating.BAD);
   });
 }

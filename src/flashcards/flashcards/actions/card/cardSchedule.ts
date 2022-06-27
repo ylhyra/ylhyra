@@ -1,5 +1,5 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDataStore";
+import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
 import { Rating, ScheduleData, Score } from "flashcards/flashcards/types";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
 import {
@@ -29,11 +29,12 @@ export function isUnseenSiblingOfANonGoodCard(card1: Card) {
  * Note that a card may be in the schedule without having
  * been seen (it may just have been postponed instead).
  */
-export function isInSchedule(this: Card) {
-  return this.cardId in getEntireSchedule();
+export function isInSchedule(card1: Card) {
+  // TODO!!!!
+  return card1.cardId in getEntireSchedule();
 }
 
-export function setSchedule(this: Card, data: Partial<ScheduleData>) {
+export function setSchedule(card1: Card, data: Partial<ScheduleData>) {
   /* Round timestamps */
   ["due", "lastSeen", "lastBadTimestamp"].forEach((key) => {
     if (key in data) {
@@ -42,11 +43,12 @@ export function setSchedule(this: Card, data: Partial<ScheduleData>) {
     }
   });
 
-  getEntireSchedule()[this.cardId] = {
-    ...(getEntireSchedule()[this.cardId] || {}),
+  getEntireSchedule()[card1.cardId] = {
+    ...(getEntireSchedule()[card1.cardId] || {}),
     ...data,
   };
-  this.saveCardSchedule();
+
+  throw new Error("Not implemented");
 }
 
 export function isUnseenRow(card1: Card) {
@@ -84,7 +86,7 @@ export function wasRowVeryRecentlySeen(card1: Card) {
 
 /**
  * Input is a time span but not a timestamp,
- * e.g. "was this seen in the last day?".
+ * e.g. "was card1 seen in the last day?".
  */
 export function wasRowSeenMoreRecentlyThan(card1: Card, time: Milliseconds) {
   const i = timeSinceRowWasSeen(card1);
@@ -101,6 +103,6 @@ export function isNewCard(card1: Card): boolean {
 export function isNewRowThatHasNotBeenSeenInSession(card1: Card): boolean {
   return card1.row.cards.every(
     (card2) =>
-      isNewCard(card2) && !card2.getAsCardInSession()?.hasBeenSeenInSession()
+      isNewCard(card2) && !getAsCardInSession(card2)?.hasBeenSeenInSession()
   );
 }

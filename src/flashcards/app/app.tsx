@@ -16,7 +16,7 @@ mobxConfigure({
 ReactDOM.render(
   <React.StrictMode>
     <StoreContext.Provider value={store}>
-      <CustomRouter history={customHistory}>
+      <CustomRouter history={customHistory!}>
         <Layout>
           <Routes />
         </Layout>

@@ -53,7 +53,7 @@ export class Card {
   }
 
   get dueAt(): Timestamp | undefined {
-    return this.schedule?.due;
+    return this.schedule?.dueAt;
   }
 
   /** @see Score */

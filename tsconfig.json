@@ -11,12 +11,10 @@
     "module": "commonjs",
     "outDir": "build/ts",
     "esModuleInterop": true,
-    "isolatedModules": false,
-    "sourceMap":  true,
+    "isolatedModules": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "experimentalDecorators": true
-  },
-  "compileOnSave": true
+  }
 }
