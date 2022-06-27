@@ -15,7 +15,7 @@ import { log } from "modules/log";
  * - Tékka hvort notandi sé enn skráður inn
  *   og hvort sami notandi sé enn skráður inn
  */
-export const sync = async (options: any = {}): Promise<UserData> => {
+export const sync = async (options: any = {}): Promise<void> => {
   let userData: UserData;
 
   if (Object.keys(getUserDataStore().data || {}).length > 0) {
@@ -28,13 +28,14 @@ export const sync = async (options: any = {}): Promise<UserData> => {
 
   const { lastSynced } = userData;
 
-  if (!options.isInitializing) {
-    saveUserDataInLocalStorage({ rows });
-  }
+  // if (!options.isInitializing) {
+  //   saveUserDataInLocalStorage({ rows });
+  // }
 
   if (!isUserLoggedIn()) {
     log(`Not synced to server as user isn't logged in`);
-    return userData;
+    // Todo??
+    return;
   }
 
   const unsynced = getUnsynced(rows, options);
@@ -44,20 +45,12 @@ export const sync = async (options: any = {}): Promise<UserData> => {
     lastSynced: lastSynced || 0,
   })) as UserData;
 
-  // /* Force recalculation of overview screen */
-  // if (response.rows.length > 0) clearOverview();
-
   rows = mergeResponse(rows, response.data);
 
-  userData = {
-    data: rows,
-    lastSynced: response.lastSynced,
-  };
-  saveUserDataInLocalStorage(userData, { assignToDeck: true });
-  setEntireSchedule(getScheduleFromUserData(userData));
+  getUserDataStore().data = rows;
+  getUserDataStore().lastSynced = response.lastSynced;
+  getUserDataStore().needsSyncing.clear();
   log("Data synced");
-
-  return userData;
 };
 
 export function syncIfNecessary() {
@@ -85,8 +78,9 @@ const getUnsynced = (
   if (!obj) return {};
   const { syncEverything } = options;
   let toSave: UserDataRows = {};
+
   Object.keys(obj).forEach((key) => {
-    if (obj[key].needsSyncing || syncEverything) {
+    if (getUserDataStore().needsSyncing.has(key) || syncEverything) {
       toSave[key] = obj[key];
     }
   });
@@ -97,9 +91,6 @@ const mergeResponse = (
   local: UserDataRows,
   server: UserDataRows
 ): UserDataRows => {
-  Object.keys(local).forEach((key) => {
-    delete local[key].needsSyncing;
-  });
   Object.keys(server).forEach((key) => {
     local[key] = server[key];
   });
