@@ -24,7 +24,7 @@ export function debugSession() {
         word: card.printWord(),
         sortKey: card.getSortKey(),
         // schdl: getEntireSchedule()[i.id]
-        //   ? new Date(i.getLastSeen())
+        //   ? new Date(i.lastSeen)
         //   : "",
       }))
     );

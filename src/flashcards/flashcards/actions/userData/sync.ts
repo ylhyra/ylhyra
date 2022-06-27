@@ -1,8 +1,5 @@
-import { saveUserDataInLocalStorage } from "flashcards/flashcards/actions/userData/userData";
-import { getScheduleFromUserData } from "flashcards/flashcards/actions/userData/userDataSchedule";
 import {
   getUserData,
-  setEntireSchedule,
   UserData,
   UserDataRows,
 } from "flashcards/flashcards/actions/userData/userDataStore";
@@ -21,13 +18,13 @@ import { log } from "modules/log";
 export const sync = async (options: any = {}): Promise<UserData> => {
   let userData: UserData;
 
-  if (Object.keys(getUserData().rows || {}).length > 0) {
+  if (Object.keys(getUserData().data || {}).length > 0) {
     userData = getUserData();
   } else {
     userData = getFromLocalStorage("vocabulary-user-data") || {};
   }
 
-  let rows: UserDataRows = userData.rows || {};
+  let rows: UserDataRows = userData.data || {};
 
   const { lastSynced } = userData;
 
@@ -50,10 +47,10 @@ export const sync = async (options: any = {}): Promise<UserData> => {
   // /* Force recalculation of overview screen */
   // if (response.rows.length > 0) clearOverview();
 
-  rows = mergeResponse(rows, response.rows);
+  rows = mergeResponse(rows, response.data);
 
   userData = {
-    rows,
+    data: rows,
     lastSynced: response.lastSynced,
   };
   saveUserDataInLocalStorage(userData, { assignToDeck: true });

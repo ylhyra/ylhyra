@@ -1,23 +1,14 @@
-import {
-  dependencyDepthOfCard,
-  getDependenciesAsArrayOfCards,
-  hasDependenciesInCommonWith,
-} from "flashcards/flashcards/actions/card/cardDependencies";
+import { getDependenciesAsArrayOfCards } from "flashcards/flashcards/actions/card/cardDependencies";
 import {
   isBad,
   isBelowGood,
   isFairlyBad,
 } from "flashcards/flashcards/actions/card/cardDifficulty";
+import { isAllowed } from "flashcards/flashcards/actions/card/cardIsAllowed";
 import {
   getDueAt,
-  getLastIntervalInDays,
-  getLastSeen,
   getLowestAvailableRowScore,
-  getNumberOfBadSessions,
   getRowLastSeen,
-  getScheduleForCard,
-  getScore,
-  getSessionsSeen,
   isInSchedule,
   isNewCard,
   isNewRowThatHasNotBeenSeenInSession,
@@ -42,9 +33,14 @@ import {
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { getDirectionFromCardId } from "flashcards/flashcards/actions/row/ids";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { saveCardSchedule } from "flashcards/flashcards/actions/userData/userDataSchedule";
-import { CardId, Direction } from "flashcards/flashcards/types";
-import { isAllowed } from "flashcards/flashcards/actions/card/cardIsAllowed";
+import { getUserData } from "flashcards/flashcards/actions/userData/userDataStore";
+import {
+  CardId,
+  Direction,
+  ScheduleData,
+  Score,
+} from "flashcards/flashcards/types";
+import { Days, Timestamp } from "modules/time";
 
 export class Card {
   row: Row;
@@ -85,14 +81,41 @@ export class Card {
     return cards.some((card) => card.is(this));
   }
 
+  get schedule(): ScheduleData | undefined {
+    return getUserData().data[this.cardId] as any as ScheduleData;
+  }
+
+  get dueAt(): Timestamp | undefined {
+    return this.schedule?.due;
+  }
+
+  /** @see Score */
+  get score(): Score | undefined {
+    return this.schedule?.score;
+  }
+
+  get sessionsSeen(): number {
+    return this.schedule?.sessionsSeen || 0;
+  }
+
+  get numberOfBadSessions(): number {
+    return this.schedule?.numberOfBadSessions || 0;
+  }
+
+  get lastIntervalInDays(): Days | undefined {
+    return this.schedule?.lastIntervalInDays;
+  }
+
+  get lastSeen(): Timestamp | undefined {
+    return this.schedule?.lastSeen;
+  }
+
   /** Todo */
   getSortKey() {
     return -this.data.rowNumber;
   }
 
-  dependencyDepthOfCard = dependencyDepthOfCard;
   isInSession = isInSession;
-  hasDependenciesInCommonWith = hasDependenciesInCommonWith;
   isAllowed = isAllowed;
   wasSeenInSession = wasSeenInSession;
   getDependenciesAsArrayOfCards = getDependenciesAsArrayOfCards;
@@ -101,11 +124,6 @@ export class Card {
   isBelowGood = isBelowGood;
   getDueAt = getDueAt;
   isOverdue = isOverdue;
-  getScore = getScore;
-  getSessionsSeen = getSessionsSeen;
-  getNumberOfBadSessions = getNumberOfBadSessions;
-  getLastIntervalInDays = getLastIntervalInDays;
-  getLastSeen = getLastSeen;
   isUnseenSiblingOfANonGoodCard = isUnseenSiblingOfANonGoodCard;
   isInSchedule = isInSchedule;
   setSchedule = setSchedule;
@@ -122,7 +140,5 @@ export class Card {
   didAnySiblingCardsGetABadRatingInThisSession =
     didAnySiblingCardsGetABadRatingInThisSession;
   getAsCardInSession = getAsCardInSession;
-  getScheduleForCard = getScheduleForCard;
-  saveCardSchedule = saveCardSchedule;
   printWord = printWord;
 }

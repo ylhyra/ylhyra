@@ -27,14 +27,14 @@ export function createSchedule() {
 
   session.cards.forEach((card: CardInSession) => {
     let dueInDays: Days = 1;
-    const prevScore = card.getScore();
-    const sessionsSeen = card.getSessionsSeen();
+    const prevScore = card.score;
+    const sessionsSeen = card.sessionsSeen;
     const isNew = !prevScore;
     const sessionHistory = card.ratingHistory;
     if (sessionHistory.length === 0) return;
     const avgRating = average(sessionHistory);
-    const lastIntervalInDays = card.getLastIntervalInDays();
-    const lastSeen = card.getLastSeen();
+    const lastIntervalInDays = card.lastIntervalInDays;
+    const lastSeen = card.lastSeen;
     const badCount = sessionHistory.filter((i) => i === Rating.BAD).length;
     const anyBad = badCount > 0;
 
@@ -122,7 +122,7 @@ export function createSchedule() {
       ...(anyBad
         ? {
             lastBadTimestamp: getTime(),
-            numberOfBadSessions: card.getNumberOfBadSessions() + 1,
+            numberOfBadSessions: card.numberOfBadSessions + 1,
           }
         : {}),
     });
@@ -142,7 +142,7 @@ export function createSchedule() {
         /* Postpone based on a portion of the main card's dueInDays,
            but never more than 10 days */
         const newDue = daysFromNowToTimestamp(Math.min(dueInDays * 0.8, 10));
-        const actualDue = siblingCard.getDueAt();
+        const actualDue = siblingCard.dueAt;
         if (!actualDue || actualDue < newDue) {
           siblingCard.setSchedule({
             due: newDue,

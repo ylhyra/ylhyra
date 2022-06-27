@@ -21,7 +21,7 @@ export function veryRecentlySeenSortedLast(cards: Card[]) {
 // };
 
 export function sortCardsByScore(cards: Card[]) {
-  return sortBy(cards, (card) => card.getScore());
+  return sortBy(cards, (card) => card.score);
 }
 
 export function sortBySortKey(cards: Card[]) {

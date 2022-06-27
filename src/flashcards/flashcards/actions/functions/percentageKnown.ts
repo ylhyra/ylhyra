@@ -8,13 +8,13 @@ export function PercentageKnown(cards: Card[]) {
   let remaining = 0;
   cards.forEach((card) => {
     if (card.isInSchedule()) {
-      let score = card.getScore() || 2;
+      let score = card.score || 2;
       let toAdd;
       if (score < 1.9) {
         toAdd = mapValueToRange({
           value:
-            clamp(card.getSessionsSeen(), 0, 10) +
-            clamp((card.getSessionsSeen() - 10) / 3, 0, 10),
+            clamp(card.sessionsSeen, 0, 10) +
+            clamp((card.sessionsSeen - 10) / 3, 0, 10),
           inputFrom: 0,
           inputTo: 20,
           outputFrom: 0.1,

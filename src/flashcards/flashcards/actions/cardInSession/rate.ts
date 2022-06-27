@@ -20,7 +20,7 @@ export function rate(this: CardInSession, rating: Rating): void {
   let interval: IntervalRelativeToCurrentCardBeingAtZero;
 
   if (rating === Rating.BAD) {
-    interval = card.getSessionsSeen() > 0 ? 4 : 3;
+    interval = card.sessionsSeen > 0 ? 4 : 3;
 
     /* Two bad ratings in a row */
     if (lastRating === Rating.BAD) {

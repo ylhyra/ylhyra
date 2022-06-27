@@ -3,7 +3,6 @@ import { getEntireSchedule } from "flashcards/flashcards/actions/userData/userDa
 import { Rating, ScheduleData, Score } from "flashcards/flashcards/types";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
 import {
-  Days,
   getTimeMemoized,
   hours,
   Milliseconds,
@@ -11,47 +10,18 @@ import {
   Timestamp,
 } from "modules/time";
 
-export function getScheduleForCard(
-  this: Card
-): Partial<ScheduleData> | undefined {
-  return getEntireSchedule()[this.cardId];
-}
-
-export function getDueAt(this: Card): Timestamp | undefined {
-  return this.getScheduleForCard()?.due;
-}
-
-/** We consider a card overdue if it's due date is less than 16 hours from now */
-export function isOverdue(this: Card): Boolean {
+/**
+ * We consider a card overdue if it's due date is less than 16 hours from now
+ */
+export function isOverdue(card1: Card): Boolean {
   const timestampToCompareTo = getTimeMemoized() + 16 * hours;
-  const dueAt = this.getDueAt();
+  const dueAt = card1.dueAt;
   return dueAt ? dueAt < timestampToCompareTo : false;
 }
 
-/** @see Score */
-export function getScore(this: Card): Score | undefined {
-  return this.getScheduleForCard()?.score;
-}
-
-export function getSessionsSeen(this: Card): number {
-  return this.getScheduleForCard()?.sessionsSeen || 0;
-}
-
-export function getNumberOfBadSessions(this: Card): number {
-  return this.getScheduleForCard()?.numberOfBadSessions || 0;
-}
-
-export function getLastIntervalInDays(this: Card): Days | undefined {
-  return this.getScheduleForCard()?.lastIntervalInDays;
-}
-
-export function getLastSeen(this: Card): Timestamp | undefined {
-  return this.getScheduleForCard()?.lastSeen;
-}
-
-export function isUnseenSiblingOfANonGoodCard(this: Card) {
-  if (!this.isNewCard()) return false;
-  const lowest = this.getLowestAvailableRowScore();
+export function isUnseenSiblingOfANonGoodCard(card1: Card) {
+  if (!isNewCard(card1)) return false;
+  const lowest = getLowestAvailableRowScore(card1);
   return lowest && lowest < Rating.GOOD;
 }
 
@@ -79,56 +49,58 @@ export function setSchedule(this: Card, data: Partial<ScheduleData>) {
   this.saveCardSchedule();
 }
 
-export function isUnseenRow(this: Card) {
-  return !this.getRowLastSeen();
+export function isUnseenRow(card1: Card) {
+  return !getRowLastSeen(card1);
 }
 
-export function getLowestAvailableRowScore(this: Card): Score | null {
+export function getLowestAvailableRowScore(card1: Card): Score | null {
   let lowestScore: Score | null = null;
-  this.row.cards.forEach((card) => {
-    if (card.getScore()) {
-      lowestScore = minIgnoreFalsy(lowestScore, card.getScore());
+  card1.row.cards.forEach((card) => {
+    if (card.score) {
+      lowestScore = minIgnoreFalsy(lowestScore, card.score);
     }
   });
   return lowestScore;
 }
 
-export function getRowLastSeen(this: Card): Timestamp | null {
+export function getRowLastSeen(card1: Card): Timestamp | null {
   let max: Timestamp | null = null;
-  this.row.cards.forEach((card) => {
-    max = Math.max(max || 0, card.getLastSeen() || 0);
+  card1.row.cards.forEach((card) => {
+    max = Math.max(max || 0, card.lastSeen || 0);
   });
   return max;
 }
 
-export function timeSinceRowWasSeen(this: Card): Milliseconds | null {
-  let j = this.getRowLastSeen();
+export function timeSinceRowWasSeen(card1: Card): Milliseconds | null {
+  let j = getRowLastSeen(card1);
   if (!j) return null;
   return getTimeMemoized() - j;
 }
 
 /** Whether a row was seen in the previous 45 minutes */
-export function wasRowVeryRecentlySeen(this: Card) {
-  return this.wasRowSeenMoreRecentlyThan(45 * minutes);
+export function wasRowVeryRecentlySeen(card1: Card) {
+  return wasRowSeenMoreRecentlyThan(card1, 45 * minutes);
 }
 
 /**
  * Input is a time span but not a timestamp,
  * e.g. "was this seen in the last day?".
  */
-export function wasRowSeenMoreRecentlyThan(this: Card, time: Milliseconds) {
-  const i = this.timeSinceRowWasSeen();
+export function wasRowSeenMoreRecentlyThan(card1: Card, time: Milliseconds) {
+  const i = timeSinceRowWasSeen(card1);
   return i && i < time;
 }
 
-export function isNewCard(this: Card): boolean {
-  return !this.getScore();
+export function isNewCard(card1: Card): boolean {
+  return !card1.score;
 }
 
-/** Used by the interface ({@link CardElement}) to indicate a card being new. */
-export function isNewRowThatHasNotBeenSeenInSession(this: Card): boolean {
-  return this.row.cards.every(
+/**
+ * Used by the interface ({@link CardElement}) to indicate a card being new.
+ */
+export function isNewRowThatHasNotBeenSeenInSession(card1: Card): boolean {
+  return card1.row.cards.every(
     (card2) =>
-      card2.isNewCard() && !card2.getAsCardInSession()?.hasBeenSeenInSession()
+      isNewCard(card2) && !card2.getAsCardInSession()?.hasBeenSeenInSession()
   );
 }
