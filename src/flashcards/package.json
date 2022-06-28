@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "run-p start:**",
-    "server": "npx -y esbuild-runner ./server.ts",
+    "server": "node ./../../scripts/esbuild/esbuild.js --entry=src/flashcards/server.ts ",
     "dev:flaschards:frontend": "export PROJECT=flashcards && npm run start",
     "dev:flaschards:css": "npx tailwindcss -i src/flashcards/app/styles/index.pcss -o ./src/flashcards/app/styles/output.css --watch --postcss",
     "flashcards_db": "npx prisma format && npx prisma db push && npx prisma generate"
