@@ -10,9 +10,7 @@ export type NotArray =
 //   length?: never;
 // };
 
-/**
- * Flattens array deeply
- */
+/** Flattens array deeply */
 export function flattenArray(data: any[]) {
   let out: Array<any> = [];
   data.forEach((item) =>

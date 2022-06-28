@@ -12,7 +12,7 @@ export const FlashcardsMake = observer(function () {
     <div>
       <Link to={`/flashcards/play/all`}>Play all decks</Link>
       <hr />
-      Decks2:
+      Decks:
       <Button onClick={newDeck}>New deck</Button>
       <ul>
         {entries(decks).map(([deckId, deck]) => (

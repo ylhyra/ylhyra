@@ -1,5 +1,5 @@
 const esbuild = require("esbuild");
-// const { nodeExternalsPlugin } = require("esbuild-node-externals");
+const { nodeExternalsPlugin } = require("esbuild-node-externals");
 const ignorePlugin = require("esbuild-plugin-ignore");
 const argv = require("minimist")(process.argv.slice(2));
 
@@ -10,10 +10,8 @@ esbuild.build({
   platform: "node",
   outfile: argv.out || "build/server/ylhyra_server.js",
   sourcemap: true,
-  external: ["./node_modules/*"],
-
   plugins: [
-    // nodeExternalsPlugin(),
+    nodeExternalsPlugin(),
     ignorePlugin([
       {
         resourceRegExp: /.styl$/,

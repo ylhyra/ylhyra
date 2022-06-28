@@ -1,17 +1,14 @@
 import "dotenv/config";
 import type { Request, Response } from "express";
 import express from "express";
+import * as core from "express-serve-static-core";
 import argvFactory from "minimist";
 import { isDev } from "modules/isDev";
-import * as core from "express-serve-static-core";
 import { years } from "modules/time";
-import "modules/server/types";
 
 const argv = argvFactory(process.argv.slice(2));
 
-/**
- * Server setup boilerplate
- */
+/** Server setup boilerplate */
 export const expressServer = ({
   cookieName,
   port,

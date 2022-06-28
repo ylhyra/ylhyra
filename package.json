@@ -44,7 +44,13 @@
     "start_test_server": "export SERVER_PORT=9999 && node build/server/ylhyra_server.js",
     "inflection_styles": "stylus --include src/inflection/styles/ < src/inflection/styles/index.styl > build//inflection_styles.css --compress",
     "compile_for_debugging": "node scripts/esbuild/esbuild_for_debugging.js",
-    "flamegraph": "npm run compile_for_debugging && export DISABLE_LOGGING=1 && node ./../0x/cmd.js --tree-debug  --output-dir=/tmp/flamegraph -- node build/ts/debug.js"
+    "flamegraph": "npm run compile_for_debugging && export DISABLE_LOGGING=1 && node ./../0x/cmd.js --tree-debug  --output-dir=/tmp/flamegraph -- node build/ts/debug.js",
+    "fl:start": "run-p fl:dev:**",
+    "fl:server": "node scripts/esbuild/esbuild.js --entry=src/flashcards/server.ts --out=build/server/flaschards.js",
+    "fl:dev:frontend": "export PROJECT=flashcards && npm run start",
+    "fl:dev:css": "npx tailwindcss -i src/flashcards/app/styles/index.pcss -o ./src/flashcards/app/styles/output.css --watch --postcss",
+    "fl:dev:server": "export NODE_ENV=development && nodemon --exec 'npm run fl:server && node build/server/flaschards.js' --watch src/flashcards/**/*.server.ts",
+    "fl:db": "npx prisma format && npx prisma db push && npx prisma generate"
   },
   "proxy": "http://localhost:9123",
   "dependencies": {

@@ -29,7 +29,7 @@ import {
   Leafs,
   Rows,
 } from "inflection/tables/types";
-import flattenArray from "modules/arrays/flattenArray";
+import { flattenArray } from "modules/arrays/flattenArray";
 
 import { filterEmpty } from "modules/typescript/filterEmpty";
 
@@ -107,8 +107,9 @@ class Word {
   // }
 
   /**
-   * We find irregularities at the beginning in order to prevent expensive
-   * recalculation. Todo: This could perhaps just be cached instead of precalculated.
+   * We find irregularities at the beginning in order to
+   * prevent expensive recalculation. Todo: This could
+   * perhaps just be cached instead of precalculated.
    */
   setup() {
     this.findIrregularities();
@@ -205,9 +206,7 @@ class Word {
     );
   }
 
-  /**
-   * Used in string table generation
-   */
+  /** Used in string table generation */
   getMostRelevantSibling(...args: InflectionalCategoryListOrNestedList): Word {
     if (!args) return this;
     const values = flattenArray(args) as InflectionalCategoryList;
@@ -265,9 +264,7 @@ class Word {
     return new Word([], this);
   }
 
-  /**
-   * Returns all that meet *any* of the input values
-   */
+  /** Returns all that meet _any_ of the input values */
   getMeetingAny(...args: InflectionalCategoryListOrNestedList): Word {
     if (!args) return this;
     const values = flattenArray(args) as InflectionalCategoryList;
@@ -404,9 +401,8 @@ class Word {
   }
 
   /**
-   * Five values are inputted, a value is returned
-   * based on the subject type of the verb
-   * Used when generating helper words
+   * Five values are inputted, a value is returned based on the
+   * subject type of the verb Used when generating helper words
    *
    * Input is an array with 5 values.
    */
@@ -439,7 +435,9 @@ class Word {
   /**
    * Used to render the word to a string outside of a table.
    * If in a table, the function renderCell() is used.
-   * @param shouldMatchWhichWord - Used by the supine in the making of principal parts
+   *
+   * @param shouldMatchWhichWord - Used by the supine in the
+   *   making of principal parts
    */
   renderWithHelperWords(shouldMatchWhichWord?: Word): Html {
     let output =
