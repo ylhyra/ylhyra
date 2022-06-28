@@ -5,6 +5,27 @@ import {
 } from "flashcards/flashcards/actions/userData/userData";
 
 const router = Router();
+router.get(
+  "/api/vocabulary/sync",
+  (req, res: Response<UserData | { error: string }>) => {
+    return res.sendStatus(200);
+    // try {
+    //   const unsyncedFromServer = await serverGetUserData(req);
+    //   const unsyncedFromUser = req.body.unsynced;
+    //   await saveUserData(req, unsyncedFromUser);
+    //   res.send({
+    //     user_id: req.session.user_id,
+    //     rows: unsyncedFromServer || {},
+    //     lastSynced: Date.now(),
+    //   });
+    // } catch (e) {
+    //   if (e instanceof Error) {
+    //     res.status(400).send({ error: e.toString() });
+    //     console.error(e);
+    //   }
+    // }
+  }
+);
 
 /* Sync user data */
 router.post(

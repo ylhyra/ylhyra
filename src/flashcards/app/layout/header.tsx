@@ -1,12 +1,10 @@
-import { StoreContext } from "flashcards/app/store";
 import { logout } from "flashcards/user/actions";
+import { getUserStore } from "flashcards/user/store";
 import { observer } from "mobx-react-lite";
 import { NavLink } from "modules/router";
-import { useContext } from "react";
 
 export const Header = observer(() => {
-  const store = useContext(StoreContext);
-  const { user } = store.userStore;
+  const { user } = getUserStore();
 
   return (
     <header className="bg-gray-100 text-xs">

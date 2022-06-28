@@ -1,7 +1,6 @@
-import { printWord } from "flashcards/flashcards/actions/functions";
-import { setupTestSession } from "flashcards/flashcards/actions/_testing/testSetup";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { ChooseSingleCardFromDeck } from "flashcards/flashcards/actions/createCards/chooseSingleCardFromDeck";
+import { printWord } from "flashcards/flashcards/actions/functions";
 import { Session } from "flashcards/flashcards/actions/session/session";
 import { log } from "modules/log";
 import { chooseDependingOnRelativeProbability } from "modules/probability";
@@ -109,8 +108,8 @@ export class ChooseCards {
   }
 }
 
-if (process.env.quokka) {
-  const session = setupTestSession();
-  const out = new ChooseCards(session).run();
-  console.log(out);
-}
+// if (process.env.quokka) {
+//   const session = setupTestSession();
+//   const out = new ChooseCards(session).run();
+//   console.log(out);
+// }

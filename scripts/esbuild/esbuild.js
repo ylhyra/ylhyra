@@ -1,4 +1,4 @@
-/* eslint-disable */
+// /* eslint-disable */
 const esbuild = require("esbuild");
 const { nodeExternalsPlugin } = require("esbuild-node-externals");
 const ignorePlugin = require("esbuild-plugin-ignore");
@@ -8,7 +8,6 @@ esbuild.build({
   nodePaths: ["src"],
   bundle: true,
   platform: "node",
-  // loader: { ".js": "jsx" },
   outfile: "build/server/ylhyra_server.js",
   sourcemap: true,
   plugins: [

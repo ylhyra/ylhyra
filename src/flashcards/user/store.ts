@@ -14,3 +14,8 @@ export class userStore {
     this.user = null;
   };
 }
+
+const s = new userStore();
+export function getUserStore() {
+  return s;
+}

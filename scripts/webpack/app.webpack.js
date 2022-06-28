@@ -82,7 +82,7 @@ module.exports = {
   },
   resolve: {
     modules: ["./src", "node_modules"],
-    extensions: [".js", ".ts", ".tsx"],
+    extensions: [".ts", ".tsx", ".js"],
   },
   devServer: {
     port: 3000,
@@ -92,7 +92,6 @@ module.exports = {
     static: {
       directory: resolve("src/ylhyra/app/app/public"),
     },
-    // hot: false,
     hot: true,
     proxy: {
       "/api": "http://localhost:9123",

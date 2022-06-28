@@ -1,19 +1,40 @@
-import { BrowserHistory, createBrowserHistory } from "history";
+import { createBrowserHistory, History } from "history";
 import { createObservableHistory } from "mobx-observable-history";
+import { observer } from "mobx-react";
 import { isBrowser } from "modules/isBrowser";
+import React, { Component } from "react";
 
 export const history = isBrowser
-  ? (createObservableHistory(createBrowserHistory()) as any as BrowserHistory)
+  ? (createObservableHistory(createBrowserHistory()) as unknown as History)
   : null;
 
 export function goToUrl(url: string) {
   if (!history) return;
-  history.replace(url);
+  history.push(url);
 }
 
-export function NavLink({ to: url, ...props }: any) {
-  return <a href={url} {...props} />;
-}
-export function Link({ to: url, ...props }: any) {
-  return <a href={url} {...props} />;
+export const NavLink = observer((props: any) => {
+  if (history?.location.pathname === props.to) {
+    return <b {...props} />;
+  } else {
+    return <Link {...props} />;
+  }
+});
+
+export class Link extends Component<{
+  to: string;
+  id?: string;
+  className?: string;
+  children?: any;
+}> {
+  onClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.altKey || e.metaKey || e.ctrlKey) return;
+    e.preventDefault();
+    goToUrl(this.props.to);
+  };
+  render() {
+    let { to, ...props } = this.props;
+
+    return <a {...props} href={to} onClick={this.onClick} />;
+  }
 }

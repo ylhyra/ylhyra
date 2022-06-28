@@ -28,11 +28,8 @@ export const Routes = observer(() => {
 
   for (const item of items) {
     const match = new UrlPattern(item.path).match(history!.location.pathname);
-    console.log(match);
-    console.log(history!.location.pathname);
-    console.log(item.path);
     if (match) {
-      return item.component(match);
+      return <item.component {...match} />;
     }
   }
 

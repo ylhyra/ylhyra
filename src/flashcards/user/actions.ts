@@ -1,6 +1,6 @@
-import { store } from "flashcards/app/store";
 import { getUserFromCookie } from "flashcards/functions/cookie";
 import type { LoginRequest, LoginResponse } from "flashcards/user/login.server";
+import { getUserStore } from "flashcards/user/store";
 import axios2 from "modules/axios2";
 import { goToUrl } from "modules/router";
 
@@ -9,7 +9,7 @@ export async function login(values: LoginRequest) {
 
   const { userId, username } = response;
 
-  store.userStore.load({
+  getUserStore().load({
     username,
     userId,
   });
@@ -18,7 +18,7 @@ export async function login(values: LoginRequest) {
 
 export async function logout() {
   await axios2.post("/api/logout");
-  store.userStore.logout();
+  getUserStore().logout();
   goToUrl("/");
 }
 
