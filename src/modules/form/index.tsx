@@ -32,17 +32,22 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
   values: Record<string, any> = {};
   touched: Record<string, Boolean> = {};
   onSubmit: Function | undefined;
+  onChange: Function | undefined;
   fields?: FieldsSetup<any>;
   constructor(
     public props: {
       values?: Record<string, any>;
       onSubmit?: Function;
+      onChange?: Function;
       fields?: FieldsSetup<any>;
     }
   ) {
     this.values = props.values || {};
     if (props.onSubmit) {
       this.onSubmit = props.onSubmit;
+    }
+    if (props.onChange) {
+      this.onChange = props.onChange;
     }
     if (props.fields) {
       this.fields = props.fields;
@@ -79,6 +84,7 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
         isCheckbox && "checked" in event.target
           ? event.target.checked
           : event.target.value;
+      this.onChange?.(this.values);
     };
   };
   handleBlur = (fieldName: string) => () => {

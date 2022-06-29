@@ -1,8 +1,5 @@
 import { Button } from "flashcards/app/elements/button";
-import {
-  getDeckById,
-  saveFlashcardsStore,
-} from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
+import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { addRow } from "flashcards/flashcards/actions/deck/functions";
 import { DeckSettingsElement } from "flashcards/flashcards/editor/deckSettings";
@@ -20,9 +17,6 @@ export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
   return (
     <div>
       <h1>{deck.title}</h1>
-      <Button type="button" onClick={() => saveFlashcardsStore()}>
-        Save
-      </Button>
       <Link to={`/flashcards/play/${deckId}`}>Play</Link>
       <DeckSettingsElement deck={deck} />
       <hr />

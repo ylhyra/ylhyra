@@ -34,6 +34,13 @@ export class Deck {
       // alternativeIds: computed({ keepAlive: true }),
       dependencyGraph: computed({ keepAlive: true }),
     });
+
+    // reaction(
+    //   () => this.settings.title,
+    //   () => {
+    //     saveFlashcardsStore();
+    //   }
+    // );
   }
 
   get title() {

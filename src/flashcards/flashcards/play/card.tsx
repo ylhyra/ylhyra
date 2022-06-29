@@ -260,7 +260,6 @@ export class CardElement extends Component {
           ${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}
           ${isNewRowThatHasNotBeenSeenInSession(card) ? "new" : ""}
         `}
-        onClick={() => this.cardClicked()}
       >
         <div>
           <div>{card.row.deck.settings.title}</div>
@@ -278,6 +277,7 @@ export class CardElement extends Component {
           </button>
         </div>
         <div
+          onClick={() => this.cardClicked()}
           className={`
           flashcard-top
           flashcard-prompt-${
@@ -291,6 +291,7 @@ export class CardElement extends Component {
           </div>
         </div>
         <div
+          onClick={() => this.cardClicked()}
           className={`
           flashcard-bottom
           flashcard-prompt-${
