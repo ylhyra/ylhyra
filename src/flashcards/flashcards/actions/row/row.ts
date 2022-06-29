@@ -74,11 +74,11 @@ export class Row {
   }
 
   get dependencies(): DependenciesForOneRowAsDependencyToDepth {
-    return this.deck.dependencyGraph[this.rowId];
+    return this.deck.dependencyGraph[this.rowId] || {};
   }
 
   getDependenciesAsArrayOfRowIds(): RowIds {
-    return keys(this.deck.dependencyGraph[this.rowId]);
+    return keys(this.dependencies);
   }
 
   /** Incoming redirects (strings that point to this row) */

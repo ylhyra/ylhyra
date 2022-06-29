@@ -3,7 +3,10 @@ import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.ty
 import { getDependencyGraph } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
-import { DeckId } from "flashcards/flashcards/types";
+import {
+  DeckId,
+  DependenciesForAllRowsAsRowIdToDependencyToDepth,
+} from "flashcards/flashcards/types";
 import { computed, makeObservable, observable } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 
@@ -65,7 +68,7 @@ export class Deck {
   //   return out;
   // }
 
-  get dependencyGraph() {
+  get dependencyGraph(): DependenciesForAllRowsAsRowIdToDependencyToDepth {
     return getDependencyGraph.bind(this)();
   }
 

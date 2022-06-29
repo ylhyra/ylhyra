@@ -273,13 +273,11 @@ export class CardElement extends Component {
         </div>
         <div
           onClick={() => this.cardClicked()}
-          className={`
-          cursor-pointer
-          flashcard-top
-          flashcard-prompt-${
+          className={classNames(
+            "flashcard-prompt",
+            "flashcard-top",
             direction === Direction.FRONT_TO_BACK ? "front-side" : "back-side"
-          }
-        `}
+          )}
         >
           {/*{getSound(cardId) && <div className="has-audio-icon" />}*/}
           <div>
@@ -288,13 +286,11 @@ export class CardElement extends Component {
         </div>
         <div
           onClick={() => this.cardClicked()}
-          className={`
-          cursor-pointer
-          flashcard-bottom
-          flashcard-prompt-${
+          className={classNames(
+            "flashcard-prompt",
+            "flashcard-bottom",
             direction !== Direction.FRONT_TO_BACK ? "front-side" : "back-side"
-          }
-        `}
+          )}
         >
           {(answered ||
             /"occluded/.test(

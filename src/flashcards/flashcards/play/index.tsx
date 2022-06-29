@@ -40,7 +40,7 @@ export const FlashcardsPlay = observer(({ deckId }: { deckId: string }) => {
             </div>
           ) : (
             <>
-              <div className="vocabulary-card-outer-container">
+              <div className="flashcard-outer-container">
                 <CardElement key={session.counter} />
               </div>
               <ProgressBar key={session.counter} />

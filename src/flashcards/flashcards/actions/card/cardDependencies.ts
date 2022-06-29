@@ -12,7 +12,8 @@ export function dependencyDepthOfCard(card1: Card, card2: Card): number {
 }
 
 export function getDependenciesAsArrayOfCards(card1: Card): Card[] {
-  throw new Error("Not implemented");
+  return [];
+  // throw new Error("Not implemented");
   // return getCardIdsFromRowIds(
   //   Object.keys(cardGetDependenciesAsRowIdToDepth(cardId)) as RowIds
   // ).filter((siblingCard) => siblingCard.cardId !== card1.cardId);

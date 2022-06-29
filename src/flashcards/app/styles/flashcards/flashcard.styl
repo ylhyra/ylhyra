@@ -1,13 +1,39 @@
-/*
-  Flashcard
-*/
+.flashcard-outer-container
+  flex 1
+  display flex
+  align-items center
+  justify-content center
+  flex-direction column
 
 .flashcard
+  background white
+  border-radius 7px
+  @media (max-width: 380px)
+    border-radius 0
+  box-shadow 0 0 1px 0 rgba(black, 0.4), 0 2px 3px 0 rgba(black, 0.1)
+  color black
+  height 100%
+  margin auto
+  overflow hidden
+  flex 1
+  top 0
+  z-index 100
+  width 100%
+  &.not-answered
+  &.has-sound
+    .flashcard-prompt
+      cursor pointer
+    &:hover
+      box-shadow 0 0 1px 0 rgba(black, 0.5), 0 1px 3px 0 rgba(black, 0.2)
+  &.new
+    border-top 2px solid #79f1c23d
+  > div
+    padding 0
+    border none
   display flex
   flex-direction column
   text-align center
-  .flashcard-bottom
-  .flashcard-top
+  .flashcard-prompt
     flex 1
     padding 15px
     display flex
@@ -17,7 +43,6 @@
     font-size 20px
     text-shadow 1px 1px 1px rgba(white, 0.2)
     transition background 0.3s ease
-    word-spacing 1px
     &.flashcard-top
       > div
         animation fadein 0.05s
@@ -25,9 +50,9 @@
       > div
         animation fadein 0.1s
       border-top 1px solid #ebebeb
-    &.flashcard-prompt-front-side
+    &.front-side
       serif()
-    &.flashcard-prompt-back-side
+    &.back-side
       background rgba(#f7f7f7, 0.41)
       font-size 19px
       + .card-notes

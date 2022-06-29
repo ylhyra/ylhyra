@@ -7,7 +7,8 @@ const MAX_DEPTH = 10;
 export function getDependencyGraph(
   this: Deck
 ): DependenciesForAllRowsAsRowIdToDependencyToDepth {
-  throw new Error("Not implemented");
+  return {};
+  // throw new Error("Not implemented");
   // return warnIfFunctionIsSlow.wrap(() => {
   //   let output: DependenciesForAllRowsAsRowIdToDependencyToDepth = {};
   //
