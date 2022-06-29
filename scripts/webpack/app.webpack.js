@@ -92,7 +92,7 @@ module.exports = {
     static: {
       directory: resolve("src/ylhyra/app/app/public"),
     },
-    hot: true,
+    hot: false,
     proxy: {
       "/api": "http://localhost:9123",
     },

@@ -32,7 +32,7 @@ export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
       <Button type="button" onClick={() => addRow(deck)}>
         Add row
       </Button>
-      <div>
+      <div className="editor-rows">
         <Rows deck={deck} />
       </div>
     </div>

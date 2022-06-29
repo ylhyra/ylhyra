@@ -29,6 +29,14 @@ export type DeckSettings = Partial<{
     | "PRIORITIZE_FIRST_SEEN"
     | "PRIORITIZE_RECENTLY_SEEN";
   stringReplacements: [];
+  sorting:
+    | "RANDOM"
+    | "OLDEST"
+    | "NEWEST"
+    | "OLDEST_SEEN"
+    | "NEWEST_SEEN"
+    | "EASIEST"
+    | "HARDEST";
   automaticReplacementsToFindAlternativeId: [];
   /**
    * When the user is playing from all decks at once, this multiplier

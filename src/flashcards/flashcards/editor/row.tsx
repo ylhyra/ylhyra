@@ -12,12 +12,14 @@ export function EditRow({ row }: { row: Row }) {
 
   return (
     <div key={row.data.rowId}>
-      <Form>
+      <div>
         <Input name="front" />
+      </div>
+      <div>
         <Input name="back" />
+      </div>
 
-        {/*<AllFields />*/}
-      </Form>
+      {/*<AllFields />*/}
     </div>
   );
 

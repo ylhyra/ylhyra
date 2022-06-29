@@ -23,10 +23,7 @@ export type FieldsSetup<TypeThisIsDescribing = object> = Array<
         value: TypeThisIsDescribing[K];
         label: string;
       }>;
-      onlyShowIf?: {
-        key: keyof TypeThisIsDescribing;
-        is: any;
-      };
+      onlyShowIf?: (arg0: TypeThisIsDescribing) => boolean;
     };
   }[keyof TypeThisIsDescribing]
 >;
@@ -192,7 +189,8 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
       return (
         // <input
         //   type="text"
-        <TextareaAutosize
+        // <TextareaAutosize
+        <textarea
           name={field.name}
           value={value || ""}
           {...this.getChangeHandlers(field.name)}

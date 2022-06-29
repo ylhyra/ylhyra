@@ -47,10 +47,41 @@ export const deckSettingsFields: FieldsSetup<DeckSettings> = [
         label: "Either side (random)",
       },
     ],
-    onlyShowIf: {
-      key: "preset",
-      is: "FOREIGN_LANGUAGE_PERSONAL_USE",
-    },
+    onlyShowIf: (vals) => vals.preset === "FOREIGN_LANGUAGE_PERSONAL_USE",
+  },
+  {
+    name: "sorting",
+    type: "select",
+    options: [
+      {
+        value: "RANDOM",
+        label: "Prioritize oldest cards (when they were added)",
+      },
+      {
+        value: "OLDEST",
+        label: "Prioritize oldest cards (when they were added)",
+      },
+      {
+        value: "NEWEST",
+        label: "Prioritize newest cards (when they were added)",
+      },
+      {
+        value: "OLDEST_SEEN",
+        label: "Prioritize oldest cards (when you first saw them)",
+      },
+      {
+        value: "NEWEST_SEEN",
+        label: "Prioritize newest cards (when you last saw them)",
+      },
+      {
+        value: "EASIEST",
+        label: "Prioritize easiest cards",
+      },
+      {
+        value: "HARDEST",
+        label: "Prioritize most difficult cards",
+      },
+    ],
   },
   {
     name: "automaticDependencies",
