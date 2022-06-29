@@ -36,6 +36,8 @@ export class UserDataStore implements UserData {
   userId?: string;
   lastSynced?: Timestamp;
   needsSyncing = new Set();
+
+  isVolumeOn: boolean = true;
   constructor() {
     makeAutoObservable(this);
   }

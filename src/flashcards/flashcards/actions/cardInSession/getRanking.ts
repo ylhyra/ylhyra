@@ -3,15 +3,16 @@ import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types";
 
 /**
- * Returns a ranking for a given {@link CardInSession} indicating how likely it
- * is that it should be chosen as the next card:
+ * Returns a ranking for a given {@link CardInSession} indicating how likely
+ * it is that it should be chosen as the next card:
  *
  * - A low ranking (close to zero) indicates that it should be chosen.
  * - A high ranking indicates it should NOT be chosen.
  *
- * Each card has a queue position (see {@link getQueuePosition}), but here we
- * add or subtract to that value based on whether it is actually relevant, such
- * as preferring overdue cards and prohibiting cards that are too recent.
+ * Each card has a queue position (see {@link CardInSession#queuePosition}),
+ * but here we add or subtract to that value based on whether it is actually
+ * relevant, such as preferring overdue cards and prohibiting cards that
+ * are too recent.
  */
 export function getRanking(this: CardInSession) {
   const session = this.session;

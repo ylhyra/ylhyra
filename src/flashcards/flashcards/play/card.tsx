@@ -1,5 +1,6 @@
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { getSession } from "flashcards/flashcards/actions/session/session";
+import { getUserDataStore } from "flashcards/flashcards/actions/userData/userData";
 import { EditCard } from "flashcards/flashcards/play/editCard";
 import { Direction, Rating } from "flashcards/flashcards/types";
 import { observer } from "mobx-react";
@@ -194,10 +195,9 @@ export class CardElement extends Component {
   };
   render() {
     const session = getSession();
-    const isVolumeOn = session.isVolumeOn;
+    const isVolumeOn = getUserDataStore().isVolumeOn;
     const answered = this.state.isShowingBottomSide;
     const card = session.currentCard;
-    const AnswerButton = this.AnswerButton;
 
     if (session.counter === 0) {
       return <div>Loading...</div>;
@@ -337,17 +337,17 @@ export class CardElement extends Component {
             </div>
           ) : (
             <div>
-              <AnswerButton
+              <this.AnswerButton
                 className="button-bad"
                 label="Bad"
                 rating={Rating.BAD}
               />
-              <AnswerButton
+              <this.AnswerButton
                 className="button-good"
                 label="Good"
                 rating={Rating.GOOD}
               />
-              <AnswerButton
+              <this.AnswerButton
                 className="button-easy"
                 label="Easy"
                 rating={Rating.EASY}

@@ -10,7 +10,11 @@ import { Rating } from "flashcards/flashcards/types";
 export type IntervalRelativeToCurrentCardBeingAtZero = number;
 
 export class CardInSession extends Card {
-  session: Session;
+  /**
+   * Rating history for the current session.
+   * New ratings are added to the START of this array.
+   */
+  ratingHistory: Rating[] = [];
 
   /**
    * A card is done if the user has said he knows it well.
@@ -18,9 +22,18 @@ export class CardInSession extends Card {
    */
   done?: boolean;
 
+  /**
+   * Internally stores info such as "This card
+   * should be shown when the counter is at 8"
+   */
+  #queuePositionRelativeToCounter: Session["counter"];
+
+  /** Hard limit on when a card can be shown */
+  #cannotBeShownUntilRelativeToCounter?: Session["counter"];
+
   constructor(
     card: Card,
-    session: Session,
+    public session: Session,
     {
       insertAtPosition,
       history,
@@ -36,12 +49,6 @@ export class CardInSession extends Card {
     this.#queuePositionRelativeToCounter =
       (session.counter || 0) + (insertAtPosition || 0);
   }
-
-  /**
-   * Rating history for the current session.
-   * New ratings are added to the START of this array.
-   */
-  ratingHistory: Rating[] = [];
 
   get lastRating() {
     return this.ratingHistory[0];
@@ -64,15 +71,9 @@ export class CardInSession extends Card {
   }
 
   /**
-   * Internally stores info such as "This card
-   * should be shown when the counter is at 8"
-   */
-  #queuePositionRelativeToCounter: Session["counter"];
-
-  /**
-   * A card is overdue to be shown again in this
-   * session if its queue position is less than 0.
-   * Note: Multiple cards can have the same queue position
+   * A card is overdue to be shown again in this session if
+   * its queue position is less than 0.
+   * Note that multiple cards can have the same queue position
    */
   get queuePosition(): IntervalRelativeToCurrentCardBeingAtZero {
     return this.#queuePositionRelativeToCounter - this.session.counter;
@@ -93,9 +94,6 @@ export class CardInSession extends Card {
   isDueExactlyNow() {
     return this.queuePosition === 0;
   }
-
-  /** Hard limit on when a card can be shown */
-  #cannotBeShownUntilRelativeToCounter?: Session["counter"];
 
   get cannotBeShownUntil(): IntervalRelativeToCurrentCardBeingAtZero {
     return (

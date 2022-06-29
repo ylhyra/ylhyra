@@ -4,7 +4,6 @@ import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { SessionHistory } from "flashcards/flashcards/actions/session/sessionHistory";
 import { SessionTimer } from "flashcards/flashcards/actions/session/sessionTimer";
 import { makeObservable, observable } from "mobx";
-import { clearTimeMemoized } from "modules/time";
 import { NonEmptyArray } from "modules/typescript/arrays";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
@@ -36,10 +35,9 @@ export class Session {
    * The user interface relies on this value for refreshing.
    */
   @observable counter: number = 0;
-  /** Todo: Move elsewhere? */
+
+  /** Todo: Move elsewhere */
   @observable userFacingError?: string;
-  /** Todo: Should be moved to user data store */
-  @observable isVolumeOn: boolean = true;
 
   constructor() {
     this.reset();
@@ -61,17 +59,10 @@ export class Session {
     this.userFacingError = undefined;
   }
 
-  // @action nextCard = nextCard;
-
   areThereNewCardsRemaining() {
     return this.cards.some(
       (i: CardInSession) => !i.hasBeenSeenInSession() && !i.done && i.canBeShown
     );
-  }
-
-  clearCaches() {
-    this.timer.updateRemainingTime();
-    clearTimeMemoized();
   }
 }
 

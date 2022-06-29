@@ -1,5 +1,5 @@
-import { printWord } from "flashcards/flashcards/actions/functions";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
+import { printWord } from "flashcards/flashcards/actions/functions";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import _ from "underscore";
 
