@@ -3,7 +3,7 @@ import { getSession } from "flashcards/flashcards/actions/session/session";
 import { EditCard } from "flashcards/flashcards/play/editCard";
 import { Direction, Rating } from "flashcards/flashcards/types";
 import { observer } from "mobx-react";
-import { joinClassNames } from "modules/addCssClass";
+import { classNames } from "modules/addCssClass";
 import { Jsx } from "modules/typescript/jsx";
 import React, { Component } from "react";
 
@@ -235,12 +235,7 @@ export class CardElement extends Component {
 
     if (this.state.isEditing) {
       return (
-        <div
-          className={`
-                vocabulary-card
-                flashcard
-              `}
-        >
+        <div className={classNames("vocabulary-card", "flashcard")}>
           <EditCard
             row={card.row}
             done={() => {
@@ -253,13 +248,13 @@ export class CardElement extends Component {
 
     return (
       <div
-        className={`
-          vocabulary-card
-          flashcard
-          ${answered ? "answered" : "not-answered"}
-          ${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}
-          ${isNewRowThatHasNotBeenSeenInSession(card) ? "new" : ""}
-        `}
+        className={classNames(
+          "vocabulary-card",
+          "flashcard",
+          answered ? "answered" : "not-answered",
+          // "${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}",
+          isNewRowThatHasNotBeenSeenInSession(card) && "new"
+        )}
       >
         <div>
           <div>{card.row.deck.settings.title}</div>
@@ -279,6 +274,7 @@ export class CardElement extends Component {
         <div
           onClick={() => this.cardClicked()}
           className={`
+          cursor-pointer
           flashcard-top
           flashcard-prompt-${
             direction === Direction.FRONT_TO_BACK ? "front-side" : "back-side"
@@ -293,6 +289,7 @@ export class CardElement extends Component {
         <div
           onClick={() => this.cardClicked()}
           className={`
+          cursor-pointer
           flashcard-bottom
           flashcard-prompt-${
             direction !== Direction.FRONT_TO_BACK ? "front-side" : "back-side"
@@ -377,7 +374,7 @@ export class CardElement extends Component {
     return (
       <button
         type="button"
-        className={joinClassNames(
+        className={classNames(
           className,
           "nostyle",
           this.state.chosenRating === rating ? "selected" : ""

@@ -15,6 +15,6 @@ export function removeClass(ids: string | string[], cssClass = "audio") {
   });
 }
 
-export function joinClassNames(...input: string[]) {
+export function classNames(...input: (string | false)[]) {
   return input.filter(Boolean).join(" ");
 }

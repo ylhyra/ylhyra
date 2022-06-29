@@ -1,11 +1,12 @@
 /*
   Flashcard
 */
+
 .flashcard
   display flex
   flex-direction column
   text-align center
-  .flashcard-bottom,
+  .flashcard-bottom
   .flashcard-top
     flex 1
     padding 15px
@@ -24,7 +25,6 @@
       > div
         animation fadein 0.1s
       border-top 1px solid #ebebeb
-      // transition: all 0.3s ease
     &.flashcard-prompt-front-side
       serif()
     &.flashcard-prompt-back-side
@@ -32,7 +32,6 @@
       font-size 19px
       + .card-notes
         background rgba(#f7f7f7, 0.41)
-
   .flashcard-buttons
     height 78px
     @media (max-height: 450px)
@@ -40,10 +39,7 @@
     > div
       display flex
       height 100%
-      // flex-direction: column
       flex 1
-      // align-items: stretch
-
     button
       height auto
       flex 1
@@ -52,7 +48,6 @@
       background none
       font-weight 500
       cursor pointer
-
     .button-bad
       button(#5e0000, #ffe6e6, 1px)
       border-right-color rgba(#9fd142, 0.4)
