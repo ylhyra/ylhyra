@@ -2,6 +2,7 @@ import { Frontpage } from "flashcards/app/frontpage";
 import { FlashcardsMake } from "flashcards/flashcards";
 import { FlashcardsEdit } from "flashcards/flashcards/editor/edit";
 import { FlashcardsPlay } from "flashcards/flashcards/play";
+import { Login } from "flashcards/user/login";
 import { observer } from "mobx-react";
 import { history } from "modules/router";
 import UrlPattern from "url-pattern";
@@ -11,6 +12,10 @@ export const Routes = observer(() => {
     {
       path: "/",
       component: Frontpage,
+    },
+    {
+      path: "/login",
+      component: Login,
     },
     {
       path: "/flashcards",

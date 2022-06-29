@@ -50,6 +50,7 @@ export class ChooseCards {
      */
     if (chosenCards.length === 0) {
       throw new Error("Not implemented");
+      // TODO: What if deck is empty
       // chosenCards = veryRecentlySeenSortedLast(sortCardsByScore(notOverdue));
       // console.error("No cards generated. Falling back to all cards.");
     }
