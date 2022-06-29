@@ -8,8 +8,8 @@ export type RowIds = RowId[];
 /**
  * Raw user input describing flashcard See {@link rowFields} for more details.
  *
- * For the processed information, see
- * {@link ProcessedCardExtraInformation} (work in progress)
+ * For the processed information, see {@link ProcessedCardExtraInformation}
+ * (work in progress)
  */
 export type RowData = {
   /** Random string */
@@ -23,6 +23,7 @@ export type RowData = {
   automaticallyDependOnThis?: boolean;
   lemmas?: string;
   sideToShowFirst?: DeckSettings["sideToShowFirst"];
+  deleted?: boolean;
   // /**
   //  * Comma seperated list of entries that the user
   //  * has to have studied prior to seeing this card

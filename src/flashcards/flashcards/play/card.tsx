@@ -1,4 +1,5 @@
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
+import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { getUserDataStore } from "flashcards/flashcards/actions/userData/userData";
 import { EditCard } from "flashcards/flashcards/play/editCard";
@@ -235,7 +236,7 @@ export class CardElement extends Component {
 
     if (this.state.isEditing) {
       return (
-        <div className={classNames("vocabulary-card", "flashcard")}>
+        <div className={classNames("flashcard")}>
           <EditCard
             row={card.row}
             done={() => {
@@ -249,7 +250,6 @@ export class CardElement extends Component {
     return (
       <div
         className={classNames(
-          "vocabulary-card",
           "flashcard",
           answered ? "answered" : "not-answered",
           // "${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}",
@@ -258,8 +258,27 @@ export class CardElement extends Component {
       >
         <div>
           <div>{card.row.deck.settings.title}</div>
-          <button className="btn">Ignore this item</button>
-          <button className="btn">Ignore this side</button>
+          <button
+            className="btn"
+            onClick={() => {
+              card.row.data.deleted = true;
+              session.cards = session.cards.filter((c) => c.row !== card.row);
+              nextCard();
+            }}
+          >
+            Ignore this item
+          </button>
+          <button
+            className="btn"
+            onClick={() => {
+              throw new Error("Not implemented");
+              // card.row.data.direction = true;
+              session.cards = session.cards.filter((c) => c !== card);
+              nextCard();
+            }}
+          >
+            Ignore this side
+          </button>
           <button
             className="btn"
             onClick={() => {
