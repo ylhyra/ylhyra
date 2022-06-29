@@ -48,7 +48,7 @@
     "fl:start": "run-p fl:dev:**",
     "fl:server": "node scripts/esbuild/esbuild.js --entry=src/flashcards/server.ts --out=build/server/flaschards.js",
     "fl:dev:frontend": "export PROJECT=flashcards && npm run start",
-    "fl:dev:css": "npx tailwindcss -i src/flashcards/app/styles/index.pcss -o ./src/flashcards/app/styles/output.css --watch --postcss",
+    "fl:dev:css": "npx tailwindcss -i src/flashcards/app/styles/tailwind/index.pcss -o ./src/flashcards/app/styles/tailwind/output.css --watch --postcss",
     "fl:dev:server": "export NODE_ENV=development && nodemon --exec 'npm run fl:server && node build/server/flaschards.js' --watch src/flashcards/**/*.server.ts",
     "fl:db": "npx prisma format && npx prisma db push && npx prisma generate"
   },
