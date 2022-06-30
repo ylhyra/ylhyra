@@ -24,17 +24,16 @@ export type RowData = {
   lemmas?: string;
   sideToShowFirst?: DeckSettings["sideToShowFirst"];
   deleted?: boolean;
-  // /**
-  //  * Comma seperated list of entries that the user
-  //  * has to have studied prior to seeing this card
-  //  */
-  // "depends_on": string;
-  // /**
-  //  * Comma seperated list of strings that "redirect" here,
-  //  * i.e. other entries can add this string to their
-  //  * "depends_on" and it will depend on this entry.
-  //  */
-  // "alternative_id": string;
+  /**
+   * Comma seperated list of entries that the user
+   * has to have studied prior to seeing this card
+   */
+  dependsOn: string;
+  /**
+   * Comma seperated list of strings that "redirect" here, i.e. other entries
+   * can add this string to their "depends_on" and it will depend on this entry.
+   */
+  alternativeId: string;
   // "level": LevelsEnum;
   // "importance": ImportanceEnum;
   // "difficulty": DifficultyEnum;

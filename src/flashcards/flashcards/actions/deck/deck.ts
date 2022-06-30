@@ -2,7 +2,10 @@ import { Card } from "flashcards/flashcards/actions/card/card";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { getDependencyGraph } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
+import {
+  RowData,
+  RowId,
+} from "flashcards/flashcards/actions/row/rowData.types";
 import {
   DeckId,
   DependenciesForAllRowsAsRowIdToDependencyToDepth,
@@ -58,15 +61,15 @@ export class Deck {
     return flattenArray(this.rows.map((row) => row.cards));
   }
 
-  // get alternativeIds(): Record<RowId, RowId> {
-  //   let out: Record<RowId, RowId> = {};
-  //   this.rows.forEach((row) => {
-  //     row.redirects.forEach((alternativeId) => {
-  //       out[alternativeId] = row.rowId;
-  //     });
-  //   });
-  //   return out;
-  // }
+  get rowRedirects(): Record<string, RowId> {
+    let out: Record<string, RowId> = {};
+    this.rows.forEach((row) => {
+      row.redirects.forEach((alternativeId) => {
+        out[alternativeId] = row.rowId;
+      });
+    });
+    return out;
+  }
 
   get dependencyGraph(): DependenciesForAllRowsAsRowIdToDependencyToDepth {
     return getDependencyGraph.bind(this)();

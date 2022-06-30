@@ -8,7 +8,6 @@ import { Direction, Rating } from "flashcards/flashcards/types";
 import { Timestamp } from "modules/time";
 
 export class SessionHistory {
-  session: Session;
   /** The most recent card is pushed to the front of this array */
   cardHistory: CardInSession[] = [];
   /** The most recent card is pushed to the front of this array */
@@ -19,9 +18,10 @@ export class SessionHistory {
   ratingHistory: Rating[] = [];
   savedAt?: Timestamp;
 
-  constructor(session: Session) {
-    this.session = session;
-  }
+  /** Todo: Rework? */
+  #lastUndidAtCounter?: Session["counter"];
+
+  constructor(public session: Session) {}
 
   add(cardInSession: CardInSession, rating: Rating) {
     this.ratingHistory.unshift(rating);
@@ -30,8 +30,6 @@ export class SessionHistory {
     this.cardDirectionLog.unshift(cardInSession.direction);
   }
 
-  /** Todo: Rework? */
-  #lastUndidAtCounter?: Session["counter"];
   undo() {
     const cardInSession = this.cardHistory?.[0];
     if (!cardInSession) return;
@@ -43,9 +41,9 @@ export class SessionHistory {
 
   isUndoable() {
     return (
-      this.cardHistory && this.cardHistory.length > 0
-      // &&
-      // this.lastUndidAtCounter !== session.counter
+      this.cardHistory &&
+      this.cardHistory.length > 0 &&
+      this.#lastUndidAtCounter !== this.session.counter
     );
   }
 }

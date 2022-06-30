@@ -9,17 +9,12 @@ import { chooseDependingOnRelativeProbability } from "modules/probability";
  * used to select the next card of a given type.
  */
 export class ChooseSingleCardFromDeck {
-  deck: Deck;
-  parentClass: ChooseCards;
-
   overdueGood!: Card[];
   overdueBad!: Card[];
   notOverdue!: Card[];
   newCards!: Card[];
 
-  constructor(deck: Deck, parentClass: ChooseCards) {
-    this.deck = deck;
-    this.parentClass = parentClass;
+  constructor(public deck: Deck, public parentClass: ChooseCards) {
     Object.assign(this, classifyCards(deck));
   }
 
@@ -60,8 +55,8 @@ export class ChooseSingleCardFromDeck {
 
   /**
    * Deletes other cards belonging to the same row to prevent the
-   * other side being chosen on the next call (which would mess up
-   * our calculations regarding how often a new card should be chosen)
+   * other side being chosen on the next call (which would mess up our
+   * calculations regarding how often a new card should be chosen)
    */
   deleteCardsWithSameRow(card: Card) {
     /** Todo: refactor */
@@ -74,8 +69,8 @@ export class ChooseSingleCardFromDeck {
   #lastOverdueCardTypeChosen: "OVERDUE_BAD" | "OVERDUE_GOOD" | null = null;
 
   /**
-   * There are two overdue card types: overdueGood and
-   * overdueBad. This function tries to alternate between them.
+   * There are two overdue card types: overdueGood and overdueBad.
+   * This function tries to alternate between them.
    */
   getOverdueCard() {
     const overdueCardType: "OVERDUE_BAD" | "OVERDUE_GOOD" = (() => {
@@ -85,7 +80,9 @@ export class ChooseSingleCardFromDeck {
           if (this.getOverdueCardsOfType(type).length === 0) {
             return 0;
           }
-          /** Prefer to go back and forth between overdueGood and overdueBad */
+          /**
+           * Prefer to go back and forth between overdueGood and overdueBad
+           */
           if (this.#lastOverdueCardTypeChosen === type) {
             return 0.01;
           }
@@ -98,13 +95,13 @@ export class ChooseSingleCardFromDeck {
   }
 
   /**
-   * Probability of this deck being chosen when compared to the other decks
-   * in {@link Session.allowedDecks}. Returns a real number between 0 and 2.
+   * Probability of this deck being chosen when compared to the other decks in
+   * {@link Session.allowedDecks}. Returns a real number between 0 and 2.
    */
   getRelativeProbabilityOfThisDeckBeingChosen(type: "NEW" | "OVERDUE"): number {
     /**
-     * If there aren't any cards of this type in this
-     * deck, there is no chance of the deck being chosen.
+     * If there aren't any cards of this type in this deck,
+     * there is no chance of the deck being chosen.
      */
     if (this.countCardsOfType(type) === 0) return 0;
 
@@ -118,9 +115,9 @@ export class ChooseSingleCardFromDeck {
     /**
      * Each deck starts out with an equal relative chance of "1".
      *
-     * Taking deck size into account, a deck with 99 cards
-     * has a chance of 70% of being chosen now against a
-     * deck with 1 card that has a relative chance of 30%
+     * Taking deck size into account, a deck with 99 cards has
+     * a chance of 70% of being chosen now against a deck with 1
+     * card that has a relative chance of 30%
      */
     return 1 + boostBasedOnDeckSize;
   }

@@ -4,10 +4,7 @@ import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSetti
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { createCardId } from "flashcards/flashcards/actions/row/ids";
 import { rowFields } from "flashcards/flashcards/actions/row/rowData.fields";
-import {
-  RowData,
-  RowIds,
-} from "flashcards/flashcards/actions/row/rowData.types";
+import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import {
   CardIds,
   DependenciesForOneRowAsDependencyToDepth,
@@ -16,14 +13,11 @@ import {
 import { computed, makeObservable, observable } from "mobx";
 import { getDefaultValue } from "modules/form";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
-import { keys } from "modules/typescript/objectEntries";
 
 export class Row {
-  deck: Deck;
   @observable data: RowData;
 
-  constructor(deck: Deck, data: RowData) {
-    this.deck = deck;
+  constructor(public deck: Deck, data: RowData) {
     this.data = data;
     makeObservable(this);
     // makeObservable(this, {
@@ -69,27 +63,26 @@ export class Row {
   }
 
   @computed({ keepAlive: true })
-  get dependsOn() {
-    throw new Error("Not implemented");
+  get dependsOn(): string[] {
+    // TODO: Incomplete, needs comma splitting
+    return [this.data.dependsOn].filter(Boolean) as string[];
   }
 
   get dependencies(): DependenciesForOneRowAsDependencyToDepth {
     return this.deck.dependencyGraph[this.rowId] || {};
   }
 
-  getDependenciesAsArrayOfRowIds(): RowIds {
-    return keys(this.dependencies);
-  }
+  // getDependenciesAsArrayOfRowIds(): RowIds {
+  //   return keys(this.dependencies);
+  // }
 
   /** Incoming redirects (strings that point to this row) */
   @computed({ keepAlive: true })
   get redirects(): string[] {
-    if (this.data.front) {
-      // Todo: Incomplete
-      return [this.data.front];
-    } else {
-      return [];
-    }
+    // TODO: Incomplete, needs comma splitting
+    return [this.data.front, this.data.alternativeId].filter(
+      Boolean
+    ) as string[];
   }
 
   /**

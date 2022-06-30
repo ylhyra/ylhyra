@@ -10,13 +10,7 @@ import {
 import { Days, Timestamp } from "modules/time";
 
 export class Card {
-  row: Row;
-  cardId: CardId;
-
-  constructor(row: Row, cardId: CardId) {
-    this.row = row;
-    this.cardId = cardId;
-  }
+  constructor(public row: Row, public cardId: CardId) {}
 
   get data() {
     return this.row.data;

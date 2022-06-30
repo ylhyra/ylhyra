@@ -271,8 +271,14 @@ export class CardElement extends Component {
           <button
             className="btn"
             onClick={() => {
-              throw new Error("Not implemented");
-              // card.row.data.direction = true;
+              if (card.row.data.direction !== "BOTH") {
+                card.row.data.direction =
+                  card.direction === Direction.FRONT_TO_BACK
+                    ? "ONLY_BACK_TO_FRONT"
+                    : "ONLY_FRONT_TO_BACK";
+              } else {
+                card.row.data.deleted = true;
+              }
               session.cards = session.cards.filter((c) => c !== card);
               nextCard();
             }}
@@ -407,21 +413,6 @@ const html = (text?: string): Jsx => {
   if (!text) return null;
   return <span dangerouslySetInnerHTML={{ __html: text }} />;
 };
-
-// const getFontSize = (text, lang) => {
-//   if (!text) return null;
-//   let size = 20;
-//   /*if (text.length > 70) {
-//     size -= 5;
-//   } else if (text.length > 50) {
-//     size -= 4;
-//   } else */ if (text.length > 40) {
-//     size -= 3;
-//   } else if (text.length > 25) {
-//     size -= 2;
-//   }
-//   return size - (lang === Direction.BACK_TO_FRONT ? 1 : 0);
-// };
 
 const label = (name: string, value: string) => {
   if (!value) return null;

@@ -35,7 +35,9 @@ export class UserDataStore implements UserData {
   data: UserDataRows = {};
   userId?: string;
   lastSynced?: Timestamp;
-  needsSyncing = new Set();
+
+  /** A list of which keys in the data need syncing */
+  needsSyncing = new Set<keyof UserDataRows>();
 
   isVolumeOn: boolean = true;
   constructor() {

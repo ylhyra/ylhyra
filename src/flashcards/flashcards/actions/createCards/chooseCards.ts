@@ -10,11 +10,9 @@ export const CARDS_TO_CREATE = 30;
 
 /** Class to assist with randomly choosing from the allowed decks */
 export class ChooseCards {
-  session: Session;
   classificationsForAllDecks: ChooseSingleCardFromDeck[];
 
-  constructor(session: Session) {
-    this.session = session;
+  constructor(public session: Session) {
     this.classificationsForAllDecks = session.allowedDecks.map(
       (deck) => new ChooseSingleCardFromDeck(deck, this)
     );

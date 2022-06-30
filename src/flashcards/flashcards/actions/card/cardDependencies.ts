@@ -2,9 +2,10 @@ import { Card } from "flashcards/flashcards/actions/card/card";
 
 /** Todo: Limit to only the first few deps */
 export function hasDependenciesInCommonWith(card1: Card, card2: Card) {
-  const deps1 = card1.row.getDependenciesAsArrayOfRowIds();
-  const deps2 = card2.row.getDependenciesAsArrayOfRowIds();
-  return deps1.some((rowId) => deps2.includes(rowId));
+  return false;
+  // const deps1 = card1.row.getDependenciesAsArrayOfRowIds();
+  // const deps2 = card2.row.getDependenciesAsArrayOfRowIds();
+  // return deps1.some((rowId) => deps2.includes(rowId));
 }
 
 export function dependencyDepthOfCard(card1: Card, card2: Card): number {
