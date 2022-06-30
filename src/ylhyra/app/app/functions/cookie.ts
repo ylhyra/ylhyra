@@ -1,3 +1,4 @@
+// @ts-nocheck
 export function setCookie(name, value, days, options) {
   var expires = "";
   if (days) {

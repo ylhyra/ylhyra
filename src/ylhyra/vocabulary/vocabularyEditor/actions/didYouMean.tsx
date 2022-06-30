@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { compareTwoStrings } from "string-similarity";
 import _ from "underscore";

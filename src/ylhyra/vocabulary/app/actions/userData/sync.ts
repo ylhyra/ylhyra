@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getFromLocalStorage } from "modules/localStorage";
 import { log } from "modules/log";
 import axios from "ylhyra/app/app/axios";

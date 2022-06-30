@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getFrom } from "ylhyra/vocabulary/app/actions/card/card_data";
 import { isBad } from "ylhyra/vocabulary/app/actions/card/card_difficulty";
 import { getSessionsSeen } from "ylhyra/vocabulary/app/actions/card/card_schedule";

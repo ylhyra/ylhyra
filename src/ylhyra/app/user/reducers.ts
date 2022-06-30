@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { UserInfo } from "ylhyra/app/user/actions";
 
 export const user = (state: UserInfo | null = null, action): UserInfo => {

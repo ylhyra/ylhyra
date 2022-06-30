@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { turnOffDemonstration } from "ylhyra/app/elements/frontpage/demo";
 import { highlightSentence } from "ylhyra/documents/renderDocument/textInteractions/HighlightSentence";
 import ResetTooltips from "ylhyra/documents/renderDocument/textInteractions/Reset";

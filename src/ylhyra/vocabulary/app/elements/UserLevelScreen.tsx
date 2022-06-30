@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { deck } from "ylhyra/vocabulary/app/actions/deck";

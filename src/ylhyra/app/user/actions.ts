@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isBrowser } from "modules/isBrowser";
 import { log } from "modules/log";
 import axios from "ylhyra/app/app/axios";

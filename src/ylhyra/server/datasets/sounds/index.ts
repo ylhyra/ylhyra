@@ -1,3 +1,4 @@
+// @ts-nocheck
 import query from "ylhyra/server/database";
 
 export default (input) => {

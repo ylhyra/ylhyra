@@ -1,3 +1,4 @@
+// @ts-nocheck
 import axios from "ylhyra/app/app/axios";
 import store from "ylhyra/app/app/store";
 import { parseVocabularyFile } from "ylhyra/vocabulary/compiler/parseVocabularyFile";

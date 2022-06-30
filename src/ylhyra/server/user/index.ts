@@ -1,3 +1,4 @@
+// @ts-nocheck
 import argon2 from "argon2";
 import { Router } from "express";
 import request from "request";

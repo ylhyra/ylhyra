@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { c } from "modules/noUndefinedInTemplateLiteral";
 import { getOrderOfChapters } from "ylhyra/documents/compilation/compileDocument/functions/getOrderOfChapters";
 import { HeaderData } from "ylhyra/documents/compilation/compileDocument/types";

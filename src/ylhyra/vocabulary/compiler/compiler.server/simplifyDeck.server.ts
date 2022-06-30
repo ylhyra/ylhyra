@@ -1,3 +1,4 @@
+// @ts-nocheck
 import stable_stringify from "json-stable-stringify";
 import _ from "underscore";
 import { printWord } from "ylhyra/vocabulary/app/actions/functions";

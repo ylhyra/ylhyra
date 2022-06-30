@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { Component } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";

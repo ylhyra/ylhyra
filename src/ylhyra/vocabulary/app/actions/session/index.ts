@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { saveInLocalStorage } from "modules/localStorage";
 import { log } from "modules/log";
 import { roundMsToSec, roundToInterval } from "modules/math";

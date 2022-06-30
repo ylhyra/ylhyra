@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { studyParticularIds } from "ylhyra/vocabulary/app/actions/functions";

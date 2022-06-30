@@ -1,3 +1,4 @@
+// @ts-nocheck
 const addDash = (attr) => {
   while (attr.indexOf("-") > 0) {
     // - is in the attribute name, but is not the first character either

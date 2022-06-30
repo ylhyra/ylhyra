@@ -1,3 +1,4 @@
+// @ts-nocheck
 import _ from "underscore";
 import { getSortedCardDependenciesAsCardIds } from "ylhyra/vocabulary/app/actions/card/card_dependencies";
 import { getTermIdsFromCardIds } from "ylhyra/vocabulary/app/actions/card/functions";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isDev } from "modules/isDev";
 import reset from "ylhyra/documents/renderDocument/textInteractions/Reset";
 import showWord from "ylhyra/documents/renderDocument/textInteractions/ShowWord";

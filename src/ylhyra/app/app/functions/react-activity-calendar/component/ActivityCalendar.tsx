@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Day as WeekDay } from "date-fns";
 import format from "date-fns/format";

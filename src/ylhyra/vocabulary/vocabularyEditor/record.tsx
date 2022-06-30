@@ -1,3 +1,4 @@
+// @ts-nocheck
 import axios from "axios";
 import React from "react";
 // import { ReactMic } from "react-mic";

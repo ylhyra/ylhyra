@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { logShown } from "ylhyra/documents/renderDocument/textInteractions/Reset";
 import FindAGoodPositionForTooltip from "ylhyra/documents/renderDocument/textInteractions/TooltipPosition";
 import AudioClip from "ylhyra/documents/renderDocument/audio/audioWithoutInterface";

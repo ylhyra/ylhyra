@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { notify } from "ylhyra/app/app/error";
 import store from "ylhyra/app/app/store";

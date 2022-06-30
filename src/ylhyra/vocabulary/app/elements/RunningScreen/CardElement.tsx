@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { withPlural } from "modules/simplePlural";
 import { Jsx } from "modules/typescript/jsx";
 import React, { Component } from "react";

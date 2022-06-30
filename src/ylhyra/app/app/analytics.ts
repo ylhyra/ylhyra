@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
   Tracks time spent on page
 */

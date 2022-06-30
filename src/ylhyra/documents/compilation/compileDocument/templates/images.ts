@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { exec } from "child_process";
 import fs from "fs";
 import { createDirectoryIfMissing } from "modules/createDirectoryIfMissing";

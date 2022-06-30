@@ -1,3 +1,4 @@
+// @ts-nocheck
 import marked from "marked";
 import removeUnwantedCharacters from "modules/languageProcessing/removeUnwantedCharacters";
 import { c } from "modules/noUndefinedInTemplateLiteral";

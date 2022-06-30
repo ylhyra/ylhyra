@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Day as WeekDay } from "date-fns";
 import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
 import eachDayOfInterval from "date-fns/eachDayOfInterval";

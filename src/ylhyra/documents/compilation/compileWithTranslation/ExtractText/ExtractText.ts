@@ -1,3 +1,4 @@
+// @ts-nocheck
 // @ts-ignore
 import emoji_strip from "emoji-strip";
 import hash from "modules/hash";

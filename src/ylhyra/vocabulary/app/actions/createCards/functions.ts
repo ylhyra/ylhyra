@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { sortBy } from "underscore";
 import { getSortKey } from "ylhyra/vocabulary/app/actions/card/card_data";
 import {

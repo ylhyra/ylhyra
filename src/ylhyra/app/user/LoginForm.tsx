@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { withPlural } from "modules/simplePlural";
 import React from "react";

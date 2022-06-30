@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { logShown } from "ylhyra/documents/renderDocument/textInteractions/Reset";
 
 /*

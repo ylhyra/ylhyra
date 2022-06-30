@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Crawler } from "es6-crawler-detect";
 import { Router } from "express";
 

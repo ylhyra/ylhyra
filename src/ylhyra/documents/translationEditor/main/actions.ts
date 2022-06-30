@@ -1,3 +1,4 @@
+// @ts-nocheck
 import stable_stringify from "json-stable-stringify";
 import { isBrowser } from "modules/isBrowser";
 import { isProd } from "modules/isDev";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { log } from "modules/log";
 import { addSomeRandomness, average, clamp, toFixedFloat } from "modules/math";
 import { daysFromNowToTimestamp, getTime, msToDays } from "modules/time";

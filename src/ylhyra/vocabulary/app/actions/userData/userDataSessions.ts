@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { deck } from "ylhyra/vocabulary/app/actions/deck";
 
 export const SESSION_PREFIX = "s_";

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const padding = {
   left: 2,
   top: 2,

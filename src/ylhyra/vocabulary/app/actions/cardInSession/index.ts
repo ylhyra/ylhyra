@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getRanking } from "ylhyra/vocabulary/app/actions/cardInSession/getRanking";
 import { postponeRelatedCards } from "ylhyra/vocabulary/app/actions/cardInSession/postponeRelatedCards";
 import { rate } from "ylhyra/vocabulary/app/actions/cardInSession/rate";

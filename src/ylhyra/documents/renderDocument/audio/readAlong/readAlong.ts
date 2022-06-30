@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { addClass, removeClass } from "modules/addCssClass";
 import { Seconds } from "modules/time";
 import store from "ylhyra/app/app/store";

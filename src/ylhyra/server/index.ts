@@ -1,3 +1,4 @@
+// @ts-nocheck
 // import 'source-map-support/register'
 import { exec } from "child_process";
 import "core-js/stable";

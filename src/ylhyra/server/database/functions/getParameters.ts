@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
   TODO: Remove - Rarely used
 */

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 import { log } from "modules/log";

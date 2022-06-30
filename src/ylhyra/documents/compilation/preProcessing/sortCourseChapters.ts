@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { renameSync } from "modules/renameSync";
 import { getOrderOfChapters } from "ylhyra/documents/compilation/compileDocument/functions/getOrderOfChapters";
 import { getValuesForUrl } from "ylhyra/documents/compilation/links/getValuesForUrl.server";

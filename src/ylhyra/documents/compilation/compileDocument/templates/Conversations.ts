@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { c } from "modules/noUndefinedInTemplateLiteral";
 import { json2html } from "ylhyra/app/app/functions/html2json";
 import { HtmlAsJson } from "ylhyra/app/app/functions/html2json/types";

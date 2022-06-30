@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Twitter from "twitter";
 
 var client = new Twitter({

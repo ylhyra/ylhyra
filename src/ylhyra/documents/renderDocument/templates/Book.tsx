@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import Audio from "ylhyra/documents/renderDocument/audio/audioPlayer";
 import Spacer from "ylhyra/documents/renderDocument/templates/Spacer";

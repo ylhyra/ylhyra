@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Router } from "express";
 import fs from "fs";
 // @ts-ignore

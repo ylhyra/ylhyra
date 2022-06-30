@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { log } from "modules/log";
 import { days } from "modules/time";
 import { isInSession } from "ylhyra/vocabulary/app/actions/card/card";

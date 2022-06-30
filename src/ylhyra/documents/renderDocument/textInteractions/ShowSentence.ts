@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { readAlongSingleSentence } from "ylhyra/documents/renderDocument/audio/readAlong/readAlong";
 import { getScrollingElement } from "ylhyra/documents/renderDocument/audio/readAlong/scroll/getScrollingElement";
 import { logShown } from "ylhyra/documents/renderDocument/textInteractions/Reset";

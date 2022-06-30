@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { log } from "modules/log";
 import React, { Component } from "react";
 import { connect } from "react-redux";

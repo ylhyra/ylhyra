@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { getPlaintextFromUnformattedVocabularyEntry } from "ylhyra/vocabulary/compiler/parseVocabularyFile/format/functions";
 import {

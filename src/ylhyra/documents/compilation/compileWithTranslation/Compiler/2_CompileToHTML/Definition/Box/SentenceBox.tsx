@@ -1,3 +1,4 @@
+// @ts-nocheck
 import exists from "modules/exists";
 import React from "react";
 import { ItalicsAndBold } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/functions";

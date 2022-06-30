@@ -1,3 +1,4 @@
+// @ts-nocheck
 import fs from "fs";
 import { c } from "modules/noUndefinedInTemplateLiteral";
 import path from "path";

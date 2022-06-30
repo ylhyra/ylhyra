@@ -1,3 +1,4 @@
+// @ts-nocheck
 import store from "ylhyra/app/app/store";
 import {
   getUserData,

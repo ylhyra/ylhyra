@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isBrowser } from "modules/isBrowser";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";

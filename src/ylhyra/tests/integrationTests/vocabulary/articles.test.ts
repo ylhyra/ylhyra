@@ -1,3 +1,4 @@
+// @ts-nocheck
 import _ from "underscore";
 import { assert } from "ylhyra/tests/integrationTests/index";
 
