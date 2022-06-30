@@ -1,3 +1,4 @@
+// @ts-nocheck
 // /*
 //   Note: This file currently relies on being a submodule of Ylhýra.
 // */

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
 
   Generates an index for fuzzy search

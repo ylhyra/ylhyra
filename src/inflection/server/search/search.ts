@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
   Finds exact matches.
   For fuzzy matches, see ./autocomplete.js

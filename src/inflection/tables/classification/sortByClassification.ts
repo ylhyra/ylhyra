@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { sortedTags } from "inflection/tables/classification/classification";
 import { Row, TreeItem } from "inflection/tables/types";
 
