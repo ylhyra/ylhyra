@@ -80,7 +80,7 @@
  * HTMLtoDOM(htmlString, document.body);
  */
 
-(function () {
+export function htmlparser() {
   // Regular Expressions for parsing tags and attributes
   var startTag =
       /^<([-A-Za-z0-9_:]+)((?:\s+[a-zA-Z_:][-a-zA-Z0-9_:.]*(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/,
@@ -373,4 +373,4 @@
     for (var i = 0; i < items.length; i++) obj[items[i]] = true;
     return obj;
   }
-})();
+}

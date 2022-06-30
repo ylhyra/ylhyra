@@ -2,7 +2,7 @@
 /*
   TODO: Remove - Rarely used
 */
-function getParameters(input) {
+export function getParameters(input) {
   let parameters = [];
   let values = [];
   for (var key of Object.keys(input)) {
@@ -16,4 +16,3 @@ function getParameters(input) {
     values,
   };
 }
-module.exports = getParameters;

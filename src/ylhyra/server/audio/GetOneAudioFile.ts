@@ -12,3 +12,4 @@
 //   res.send({ file });
 // });
 // export default router;
+export {}

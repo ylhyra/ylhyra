@@ -122,3 +122,7 @@ export class ChooseSingleCardFromDeck {
     return 1 + boostBasedOnDeckSize;
   }
 }
+
+export function selectFromArrayMinAndPop<T>(arr: T[]): T | undefined {
+  newCardSorting;
+}

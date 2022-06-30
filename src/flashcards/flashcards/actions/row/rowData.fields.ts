@@ -51,7 +51,7 @@ export const rowFields: FieldsSetup<RowData> = [
   },
   {
     name: "automaticDependencies",
-    label: "Automatic find which cards this card depends on",
+    label: "Automatically find which cards this card depends on",
     defaultValue: true,
     type: "checkbox",
   },
@@ -60,6 +60,7 @@ export const rowFields: FieldsSetup<RowData> = [
     label: "Allow cards to automatically depend on this",
     defaultValue: true,
     type: "checkbox",
+    onlyShowIf: (data) => data.automaticDependencies === true,
   },
   { name: "lemmas", label: "Lemmas" },
 ];

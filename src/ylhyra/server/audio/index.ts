@@ -28,3 +28,4 @@
 //
 //   callback({ type: "SOUND", pronunciation, sound });
 // };
+export {}

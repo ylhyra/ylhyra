@@ -28,12 +28,12 @@ export type RowData = {
    * Comma seperated list of entries that the user
    * has to have studied prior to seeing this card
    */
-  dependsOn: string;
+  dependsOn?: string;
   /**
    * Comma seperated list of strings that "redirect" here, i.e. other entries
    * can add this string to their "depends_on" and it will depend on this entry.
    */
-  alternativeId: string;
+  alternativeId?: string;
   // "level": LevelsEnum;
   // "importance": ImportanceEnum;
   // "difficulty": DifficultyEnum;
