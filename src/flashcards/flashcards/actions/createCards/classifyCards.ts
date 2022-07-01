@@ -1,3 +1,8 @@
+import { Card } from "flashcards/flashcards/actions/card/card";
+import {
+  isBad,
+  isBelowGood,
+} from "flashcards/flashcards/actions/card/cardDifficulty";
 import { isAllowed } from "flashcards/flashcards/actions/card/cardIsAllowed";
 import {
   isInSchedule,
@@ -6,15 +11,14 @@ import {
   timeSinceRowWasSeen,
   wasRowVeryRecentlySeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
-import {
-  isBad,
-  isBelowGood,
-} from "flashcards/flashcards/actions/card/cardDifficulty";
-import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { isBrowser } from "modules/isBrowser";
+import { shuffleLocally } from "modules/shuffleLocally";
 import { minutes } from "modules/time";
+import { sortBy } from "underscore";
+// @ts-ignore
+import xorshift from "xorshift";
 
 /**
  * Input is a deck in session.allowedDecks.
@@ -25,7 +29,6 @@ export function classifyCards(deck: Deck) {
   let overdueBad: Card[] = [];
   let notOverdue: Card[] = [];
   let newCards: Card[] = [];
-  // let notOverdueVeryBad: Card[] = [];
 
   deck.cards
     .filter((card) => isAllowed(card))
@@ -55,30 +58,48 @@ export function classifyCards(deck: Deck) {
       }
     });
 
-  // log({
-  //   "Overdue good": overdueGood.length,
-  //   "Overdue bad": overdueBad.length,
-  //   "Not overdue very bad": notOverdueVeryBad.length,
-  // });
-
-  // return {
-  //   overdueBad: shuffleLocally(
-  //     /** what???? this concatenation may be wrong, should be interspersed instead */
-  //     sortBySortKey(overdueBad.concat(notOverdueVeryBad))
-  //   ),
-  //   overdueGood: shuffleLocally(sortBySortKey(overdueGood)),
-  //   newCards: sortNewCards(newCards),
-  //   notOverdue,
-  // };
   return {
-    overdueBad,
-    overdueGood,
-    newCards,
+    overdueBad: sortOverdueCards(overdueBad, deck),
+    overdueGood: sortOverdueCards(overdueGood, deck),
+    newCards: sortNewCards(newCards, deck),
     notOverdue,
   };
 }
 
-export function sortNewCards(newCards: Card[]) {
+export function sortOverdueCards(cards: Card[], deck: Deck): Card[] {
+  let output: Card[] = [];
+
+  // for(let i=0; i<10&&i<cards.length; i++) {
+  //
+  // }
+  return shuffleLocally(
+    sortBy(cards, (card) => {
+      switch (deck.settings.sorting) {
+        case "RANDOM":
+          /**
+           * A "random" number that will be stable as
+           * it is generated from the row number
+           */
+          return xorshift.constructor(card.row.data.rowNumber).random();
+        case "OLDEST_SEEN":
+          throw new Error("Not implemented");
+        case "NEWEST_SEEN":
+          throw new Error("Not implemented");
+        case "OLDEST":
+          // TODO: Record date added?
+          return card.row.data.rowNumber;
+        case "NEWEST":
+          return -card.row.data.rowNumber;
+        case "EASIEST":
+          throw new Error("Not implemented");
+        case "HARDEST":
+          throw new Error("Not implemented");
+      }
+    })
+  );
+}
+
+export function sortNewCards(newCards: Card[], deck: Deck): Card[] {
   const session = getSession();
   // if (session.allowedCards /*&& !options?.dontSortByAllowedCards*/) {
   //   /* Sort in same order as allowedCards */

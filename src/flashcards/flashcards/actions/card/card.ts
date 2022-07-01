@@ -70,9 +70,4 @@ export class Card {
   get lastSeen(): Timestamp | undefined {
     return this.schedule?.lastSeen;
   }
-
-  /** Todo */
-  getSortKey() {
-    return -this.data.rowNumber;
-  }
 }

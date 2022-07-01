@@ -1,8 +1,8 @@
+import { Card } from "flashcards/flashcards/actions/card/card";
 import {
   getRowLastSeen,
   wasRowVeryRecentlySeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
-import { Card } from "flashcards/flashcards/actions/card/card";
 import { sortBy } from "underscore";
 
 export function oldestFirst(cards: Card[]) {
@@ -26,8 +26,4 @@ export function veryRecentlySeenSortedLast(cards: Card[]) {
 
 export function sortCardsByScore(cards: Card[]) {
   return sortBy(cards, (card) => card.score);
-}
-
-export function sortBySortKey(cards: Card[]) {
-  return sortBy(cards, (card) => card.getSortKey());
 }

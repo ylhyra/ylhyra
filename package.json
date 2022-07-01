@@ -127,6 +127,7 @@
     "url-pattern": "^1.0.3",
     "webpack-node-externals": "^3.0.0",
     "xml2js": "^0.4.23",
+    "xorshift": "^1.2.0",
     "xregexp": "^5.0.2"
   },
   "devDependencies": {

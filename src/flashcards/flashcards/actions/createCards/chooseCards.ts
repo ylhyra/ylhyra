@@ -1,20 +1,19 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { ChooseSingleCardFromDeck } from "flashcards/flashcards/actions/createCards/chooseSingleCardFromDeck";
+import { ClassifiedCardsInDeck } from "flashcards/flashcards/actions/createCards/classifiedCardsInDeck";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import { Session } from "flashcards/flashcards/actions/session/session";
 import { log } from "modules/log";
 import { chooseDependingOnRelativeProbability } from "modules/probability";
-import { shuffleLocally } from "modules/shuffleLocally";
 
 export const CARDS_TO_CREATE = 30;
 
 /** Class to assist with randomly choosing from the allowed decks */
 export class ChooseCards {
-  classificationsForAllDecks: ChooseSingleCardFromDeck[];
+  classifiedDecks: ClassifiedCardsInDeck[];
 
   constructor(public session: Session) {
-    this.classificationsForAllDecks = session.allowedDecks.map(
-      (deck) => new ChooseSingleCardFromDeck(deck, this)
+    this.classifiedDecks = session.allowedDecks.map(
+      (deck) => new ClassifiedCardsInDeck(deck, this)
     );
   }
 
@@ -34,12 +33,6 @@ export class ChooseCards {
           `card "${printWord(card)}" ` +
           `added at position ${i + 1}`
       );
-
-      // const deck = chooseDeckAtRandom();
-      // const card = deck.chooseCard();
-      // if (card) {
-      //   chosenCards.push(card);
-      // }
     }
 
     /**
@@ -53,11 +46,11 @@ export class ChooseCards {
       // console.error("No cards generated. Falling back to all cards.");
     }
 
-    return shuffleLocally(chosenCards);
+    return chosenCards;
   }
 
   get countAllCards() {
-    return this.classificationsForAllDecks.reduce(
+    return this.classifiedDecks.reduce(
       (acc, curr) => acc + curr.countAllCards,
       0
     );
@@ -65,7 +58,7 @@ export class ChooseCards {
 
   /** Interval of new cards */
   get newCardEvery() {
-    const badCount = this.classificationsForAllDecks.reduce(
+    const badCount = this.classifiedDecks.reduce(
       (acc, curr) => acc + curr.overdueBad.length,
       0
     );
@@ -81,20 +74,18 @@ export class ChooseCards {
   }
 
   get areNewCardsRemaining() {
-    return this.classificationsForAllDecks.some(
-      (j) => j.countCardsOfType("NEW") > 0
-    );
+    return this.classifiedDecks.some((j) => j.countCardsOfType("NEW") > 0);
   }
 
   get areOldCardsRemaining() {
-    return this.classificationsForAllDecks.some((j) => {
+    return this.classifiedDecks.some((j) => {
       return j.countCardsOfType("OVERDUE") > 0;
     });
   }
 
   getCardOfType(type: "NEW" | "OVERDUE"): Card | undefined {
     const deck = chooseDependingOnRelativeProbability(
-      this.classificationsForAllDecks,
+      this.classifiedDecks,
       (deck) => {
         return deck.getRelativeProbabilityOfThisDeckBeingChosen(type);
       }

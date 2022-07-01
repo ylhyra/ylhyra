@@ -8,7 +8,7 @@ import { chooseDependingOnRelativeProbability } from "modules/probability";
  * Helper class used by {@link ChooseCards} that is
  * used to select the next card of a given type.
  */
-export class ChooseSingleCardFromDeck {
+export class ClassifiedCardsInDeck {
   overdueGood!: Card[];
   overdueBad!: Card[];
   notOverdue!: Card[];
