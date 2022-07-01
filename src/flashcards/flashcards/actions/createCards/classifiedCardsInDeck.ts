@@ -123,6 +123,6 @@ export class ClassifiedCardsInDeck {
   }
 }
 
-export function selectFromArrayMinAndPop<T>(arr: T[]): T | undefined {
-  newCardSorting;
-}
+// export function selectFromArrayMinAndPop<T>(arr: T[]): T | undefined {
+//   newCardSorting;
+// }
