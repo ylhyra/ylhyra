@@ -1,9 +1,9 @@
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/session";
-import { getUserDataStore } from "flashcards/flashcards/actions/userData/userData";
 import { EditCard } from "flashcards/flashcards/play/editCard";
 import { Direction, Rating } from "flashcards/flashcards/types";
+import { getUserDataStore } from "flashcards/user/userData/userData";
 import { observer } from "mobx-react";
 import { classNames } from "modules/addCssClass";
 import { Jsx } from "modules/typescript/jsx";

@@ -4,7 +4,7 @@ import { Router } from "express";
 import { db } from "flashcards/database/database.server";
 import { errors } from "flashcards/errors";
 import { throwError } from "flashcards/functions/sendError.server";
-import { setSession } from "flashcards/user/user.server";
+import { setSession } from "flashcards/user/login/user.server";
 import { StatusCodes } from "http-status-codes";
 
 const router = Router();

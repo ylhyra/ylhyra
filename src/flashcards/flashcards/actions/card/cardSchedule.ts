@@ -1,7 +1,7 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
-import { getUserDataStore } from "flashcards/flashcards/actions/userData/userData";
 import { Rating, ScheduleData, Score } from "flashcards/flashcards/types";
+import { getUserDataStore } from "flashcards/user/userData/userData";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
 import {
   getTimeMemoized,

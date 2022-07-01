@@ -1,9 +1,9 @@
+import { isUserLoggedIn } from "flashcards/user/login/actions";
 import {
   getUserDataStore,
   UserData,
   UserDataRows,
-} from "flashcards/flashcards/actions/userData/userData";
-import { isUserLoggedIn } from "flashcards/user/actions";
+} from "flashcards/user/userData/userData";
 import axios2 from "modules/axios2";
 import { getFromLocalStorage } from "modules/localStorage";
 import { log } from "modules/log";

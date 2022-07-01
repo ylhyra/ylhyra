@@ -1,12 +1,12 @@
 import { getDirectionFromCardId } from "flashcards/flashcards/actions/row/ids";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { getUserDataStore } from "flashcards/flashcards/actions/userData/userData";
 import {
   CardId,
   Direction,
   ScheduleData,
   Score,
 } from "flashcards/flashcards/types";
+import { getUserDataStore } from "flashcards/user/userData/userData";
 import { Days, Timestamp } from "modules/time";
 
 export class Card {

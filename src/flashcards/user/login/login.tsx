@@ -1,5 +1,5 @@
-import { login } from "flashcards/user/actions";
-import type { LoginRequest } from "flashcards/user/login.server";
+import { login } from "flashcards/user/login/actions";
+import type { LoginRequest } from "flashcards/user/login/login.server";
 import { observer } from "mobx-react-lite";
 import { form } from "modules/form";
 import { history } from "modules/router";

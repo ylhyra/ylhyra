@@ -1,7 +1,7 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/session";
-import { syncIfNecessary } from "flashcards/flashcards/actions/userData/sync";
+import { syncIfNecessary } from "flashcards/user/userData/sync";
 import { action } from "mobx";
 
 export const initializeSession = action((decks: Deck[]) => {

@@ -5,7 +5,7 @@ expressServer({
   cookieName: "flashcards",
   port: 9123,
   use: [
-    require("flashcards/user/login.server"),
-    require("flashcards/flashcards/actions/userData/sync.server"),
+    require("flashcards/user/login/login.server"),
+    require("flashcards/user/userData/sync.server"),
   ],
 });

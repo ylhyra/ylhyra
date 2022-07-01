@@ -1,5 +1,8 @@
 import { getUserFromCookie } from "flashcards/functions/cookie";
-import type { LoginRequest, LoginResponse } from "flashcards/user/login.server";
+import type {
+  LoginRequest,
+  LoginResponse,
+} from "flashcards/user/login/login.server";
 import { getUserStore } from "flashcards/user/store";
 import axios2 from "modules/axios2";
 import { goToUrl } from "modules/router";

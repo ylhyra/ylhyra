@@ -1,8 +1,5 @@
 import express, { Response, Router } from "express";
-import {
-  UserData,
-  UserDataRows,
-} from "flashcards/flashcards/actions/userData/userData";
+import { UserData, UserDataRows } from "flashcards/user/userData/userData";
 
 const router = Router();
 router.get(

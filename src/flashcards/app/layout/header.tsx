@@ -1,4 +1,4 @@
-import { logout } from "flashcards/user/actions";
+import { logout } from "flashcards/user/login/actions";
 import { getUserStore } from "flashcards/user/store";
 import { observer } from "mobx-react-lite";
 import { NavLink } from "modules/router";
