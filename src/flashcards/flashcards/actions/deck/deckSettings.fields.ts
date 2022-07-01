@@ -50,7 +50,7 @@ export const deckSettingsFields: FieldsSetup<DeckSettings> = [
     onlyShowIf: (vals) => vals.preset === "FOREIGN_LANGUAGE_PERSONAL_USE",
   },
   {
-    name: "newCardSorting",
+    name: "newCardPrioritization",
     label: "How to choose new cards to show you",
     type: "select",
     options: [
@@ -77,7 +77,7 @@ export const deckSettingsFields: FieldsSetup<DeckSettings> = [
     ],
   },
   {
-    name: "sorting",
+    name: "oldCardPrioritization",
     label: "How to choose cards that you've already seen",
     type: "select",
     options: [

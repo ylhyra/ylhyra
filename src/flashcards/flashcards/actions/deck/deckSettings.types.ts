@@ -29,15 +29,11 @@ export type DeckSettings = Partial<{
     | "PRIORITIZE_FIRST_SEEN"
     | "PRIORITIZE_RECENTLY_SEEN";
   stringReplacements: [];
-  newCardSorting: "RANDOM" | "OLDEST" | "NEWEST" | "EASIEST" | "HARDEST";
-  sorting:
-    | "RANDOM"
-    | "OLDEST"
-    | "NEWEST"
+  newCardPrioritization: "RANDOM" | "OLDEST" | "NEWEST" | "EASIEST" | "HARDEST";
+  oldCardPrioritization:
+    | DeckSettings["newCardPrioritization"]
     | "OLDEST_SEEN"
-    | "NEWEST_SEEN"
-    | "EASIEST"
-    | "HARDEST";
+    | "NEWEST_SEEN";
   automaticReplacementsToFindAlternativeId: [];
   /**
    * When the user is playing from all decks at once, this multiplier

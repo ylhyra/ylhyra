@@ -59,14 +59,18 @@ export function classifyCards(deck: Deck) {
     });
 
   return {
-    overdueBad: sortOverdueCards(overdueBad, deck),
-    overdueGood: sortOverdueCards(overdueGood, deck),
-    newCards: sortNewCards(newCards, deck),
+    overdueBad: sortCards(overdueBad, deck, "OLD"),
+    overdueGood: sortCards(overdueGood, deck, "OLD"),
+    newCards: sortCards(newCards, deck, "NEW"),
     notOverdue,
   };
 }
 
-export function sortOverdueCards(cards: Card[], deck: Deck): Card[] {
+export function sortCards(
+  cards: Card[],
+  deck: Deck,
+  type: "NEW" | "OLD"
+): Card[] {
   let output: Card[] = [];
 
   // for(let i=0; i<10&&i<cards.length; i++) {
@@ -74,17 +78,17 @@ export function sortOverdueCards(cards: Card[], deck: Deck): Card[] {
   // }
   return shuffleLocally(
     sortBy(cards, (card) => {
-      switch (deck.settings.sorting) {
+      switch (
+        type === "NEW"
+          ? deck.settings.newCardPrioritization
+          : deck.settings.oldCardPrioritization
+      ) {
         case "RANDOM":
           /**
            * A "random" number that will be stable as
            * it is generated from the row number
            */
           return xorshift.constructor(card.row.data.rowNumber).random();
-        case "OLDEST_SEEN":
-          throw new Error("Not implemented");
-        case "NEWEST_SEEN":
-          throw new Error("Not implemented");
         case "OLDEST":
           // TODO: Record date added?
           return card.row.data.rowNumber;
@@ -93,6 +97,10 @@ export function sortOverdueCards(cards: Card[], deck: Deck): Card[] {
         case "EASIEST":
           throw new Error("Not implemented");
         case "HARDEST":
+          throw new Error("Not implemented");
+        case "OLDEST_SEEN":
+          throw new Error("Not implemented");
+        case "NEWEST_SEEN":
           throw new Error("Not implemented");
       }
     })
