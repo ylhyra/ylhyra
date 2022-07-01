@@ -23,7 +23,6 @@ export function debugSession() {
         //   (card.#cannotBeShownUntilRelativeToCounter || 0) - session.counter,
         seen: card.hasBeenSeenInSession() ? "SEEN" : "",
         word: printWord(card),
-        sortKey: card.getSortKey(),
         // schdl: getEntireSchedule()[i.id]
         //   ? new Date(i.lastSeen)
         //   : "",
