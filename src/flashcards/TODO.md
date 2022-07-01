@@ -1,0 +1,1 @@
+- persistent storage https://developer.mozilla.org/en-US/docs/Web/API/StorageManager/persist#browser_compatibility

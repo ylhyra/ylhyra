@@ -8,20 +8,21 @@ datasource db {
 }
 
 model User {
-  userId    String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  username  String   @unique
+  userId    String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  username  String     @unique
   password  String
+  UserData  UserData[]
 }
 
 model UserData {
-  id        Int      @id @default(cuid())
+  id        String   @id @default(cuid())
   user      User     @relation(fields: [userId], references: [userId])
   userId    String
-  type      String   @db.VarChar(10)
-  key       String   @db.VarChar(20)
-  value     String   @db.Text
+  type      String //@db.VarChar(10)
+  key       String //@db.VarChar(20)
+  value     String //@db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
