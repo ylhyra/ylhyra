@@ -14,3 +14,14 @@ model User {
   username  String   @unique
   password  String
 }
+
+model UserData {
+  id        Int      @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [userId])
+  userId    String
+  type      String   @db.VarChar(10)
+  key       String   @db.VarChar(20)
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
