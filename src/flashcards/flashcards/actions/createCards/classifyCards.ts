@@ -15,8 +15,8 @@ import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { isBrowser } from "modules/isBrowser";
 import { shuffleLocally } from "modules/shuffleLocally";
+import { sortByMultiple } from "modules/sortByMultiple";
 import { minutes } from "modules/time";
-import { sortBy } from "underscore";
 // @ts-ignore
 import xorshift from "xorshift";
 
@@ -73,38 +73,41 @@ export function sortCards(
 ): Card[] {
   let output: Card[] = [];
 
-  // for(let i=0; i<10&&i<cards.length; i++) {
-  //
-  // }
-  return shuffleLocally(
-    sortBy(cards, (card) => {
-      switch (
-        type === "NEW"
-          ? deck.settings.newCardPrioritization
-          : deck.settings.oldCardPrioritization
-      ) {
-        case "RANDOM":
-          /**
-           * A "random" number that will be stable as
-           * it is generated from the row number
-           */
-          return xorshift.constructor(card.row.data.rowNumber).random();
-        case "OLDEST":
-          // TODO: Record date added?
-          return card.row.data.rowNumber;
-        case "NEWEST":
-          return -card.row.data.rowNumber;
-        case "EASIEST":
-          throw new Error("Not implemented");
-        case "HARDEST":
-          throw new Error("Not implemented");
-        case "OLDEST_SEEN":
-          throw new Error("Not implemented");
-        case "NEWEST_SEEN":
-          throw new Error("Not implemented");
-      }
-    })
-  );
+  let sortByFunctions: Array<(arg0: Card) => number> = [];
+
+  switch (
+    type === "NEW"
+      ? deck.settings.newCardPrioritization
+      : deck.settings.oldCardPrioritization
+  ) {
+    case "RANDOM":
+      /**
+       * A "random" number that will be stable as
+       * it is generated from the row number
+       */
+      sortByFunctions.push((card) =>
+        xorshift.constructor(card.row.data.rowNumber).random()
+      );
+      break;
+    case "OLDEST":
+      // Todo: Find creation date
+      sortByFunctions.push((card) => card.row.data.rowNumber);
+      break;
+    case "NEWEST":
+      // Todo: Find creation date
+      sortByFunctions.push((card) => -card.row.data.rowNumber);
+      break;
+    case "EASIEST":
+      throw new Error("Not implemented");
+    case "HARDEST":
+      throw new Error("Not implemented");
+    case "OLDEST_SEEN":
+      throw new Error("Not implemented");
+    case "NEWEST_SEEN":
+      throw new Error("Not implemented");
+  }
+
+  return shuffleLocally(sortByMultiple(cards, ...sortByFunctions));
 }
 
 export function sortNewCards(newCards: Card[], deck: Deck): Card[] {
