@@ -7,6 +7,7 @@ import {
   RowId,
 } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
+import { action } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 import { isBrowser } from "modules/isBrowser";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
@@ -14,7 +15,6 @@ import { goToUrl } from "modules/router";
 import shortid from "shortid";
 import _ from "underscore";
 
-/** Called in user interface */
 export function newDeck(): Deck {
   const id = shortid.generate() as DeckId;
   const deck = new Deck({
@@ -26,6 +26,13 @@ export function newDeck(): Deck {
   }
   return deck;
 }
+
+export const deleteDeck = action((deck: Deck) => {
+  if (window.confirm("Are you sure you want to delete this deck?")) {
+    delete getFlashcardsStore().decks[deck.deckId];
+    goToUrl("/flashcards");
+  }
+});
 
 export function addRow(deck: Deck, data: Partial<RowData> = {}) {
   return addRowsToDeck(deck, [data]);

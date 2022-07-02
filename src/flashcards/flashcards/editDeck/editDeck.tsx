@@ -2,7 +2,10 @@ import { Button } from "flashcards/app/elements/button";
 import { getTitle } from "flashcards/app/functions";
 import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { addRow } from "flashcards/flashcards/actions/deck/functions";
+import {
+  addRow,
+  deleteDeck,
+} from "flashcards/flashcards/actions/deck/functions";
 import { DeckSettingsElement } from "flashcards/flashcards/editDeck/deckSettings";
 import { ImportFlashcards } from "flashcards/flashcards/editDeck/import/import";
 import { EditRow } from "flashcards/flashcards/editDeck/row";
@@ -40,6 +43,9 @@ export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
         <div className="editor-rows">
           <Rows deck={deck} />
         </div>
+        <button className="btn" onClick={() => deleteDeck(deck)}>
+          Delete
+        </button>
       </div>
     </>
   );
