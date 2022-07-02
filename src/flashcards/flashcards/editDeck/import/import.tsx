@@ -1,6 +1,6 @@
 import { Button } from "flashcards/app/elements/button";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { addRowsIfMissing } from "flashcards/flashcards/editor/import/actions";
+import { addRowsIfMissing } from "flashcards/flashcards/editDeck/import/actions";
 import { form } from "modules/form";
 import React from "react";
 

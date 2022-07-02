@@ -3,9 +3,9 @@ import { getTitle } from "flashcards/app/functions";
 import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { addRow } from "flashcards/flashcards/actions/deck/functions";
-import { DeckSettingsElement } from "flashcards/flashcards/editor/deckSettings";
-import { ImportFlashcards } from "flashcards/flashcards/editor/import/import";
-import { EditRow } from "flashcards/flashcards/editor/row";
+import { DeckSettingsElement } from "flashcards/flashcards/editDeck/deckSettings";
+import { ImportFlashcards } from "flashcards/flashcards/editDeck/import/import";
+import { EditRow } from "flashcards/flashcards/editDeck/row";
 import { DeckId } from "flashcards/flashcards/types";
 import { observer } from "mobx-react-lite";
 import { Link } from "modules/router";
@@ -23,7 +23,12 @@ export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
       </Helmet>
       <div>
         <h1>{deck.title}</h1>
-        <Link to={`/flashcards/play/${deckId}`}>Play</Link>
+        <div className="flex justify-center">
+          <Link to={`/flashcards/play/${deckId}`} className="btn px-4 py-2">
+            Play
+          </Link>
+        </div>
+
         <DeckSettingsElement deck={deck} />
         <hr />
         <ImportFlashcards deck={deck} />

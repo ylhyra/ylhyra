@@ -193,10 +193,10 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
 
     if (field.type === "text" || !field.type) {
       return (
-        // <input
-        //   type="text"
-        // <TextareaAutosize
-        <textarea
+        <input
+          type="text"
+          // <TextareaAutosize
+          // <textarea
           name={field.name}
           value={value || ""}
           {...this.getChangeHandlers(field.name)}

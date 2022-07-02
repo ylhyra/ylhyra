@@ -1,10 +1,10 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { DeckId } from "flashcards/flashcards/types";
-import { addRowsIfMissing } from "flashcards/flashcards/editor/import/actions";
 import {
   getSession,
   Session,
 } from "flashcards/flashcards/actions/session/session";
+import { addRowsIfMissing } from "flashcards/flashcards/editDeck/import/actions";
+import { DeckId } from "flashcards/flashcards/types";
 
 export const setupTestSession = (numOfDecks = 1): Session => {
   let decks = [];

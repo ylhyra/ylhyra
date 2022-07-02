@@ -1,5 +1,5 @@
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { EditRow } from "flashcards/flashcards/editor/row";
+import { EditRow } from "flashcards/flashcards/editDeck/row";
 import React from "react";
 
 export function EditCard({ row, done }: { row: Row; done: () => void }) {
