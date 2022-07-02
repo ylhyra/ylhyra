@@ -181,6 +181,7 @@
     "postcss-import": "^14.1.0",
     "prettier": "^2.7.1",
     "prettier-plugin-jsdoc": "^0.3.38",
+    "prettier-plugin-prisma": "^3.14.0",
     "prisma": "^4.0.0",
     "react-refresh": "^0.10.0",
     "style-loader": "^3.2.1",
@@ -210,7 +211,8 @@
   "prettier": {
     "quoteProps": "consistent",
     "plugins": [
-      "prettier-plugin-jsdoc"
+      "prettier-plugin-jsdoc",
+      "prettier-plugin-prisma"
     ]
   },
   "prisma": {
