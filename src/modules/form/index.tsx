@@ -1,5 +1,5 @@
 import { isObservable, makeObservable, observable } from "mobx";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 import React from "react";
 import TextareaAutosize from "react-textarea-autosize";

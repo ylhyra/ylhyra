@@ -1,7 +1,7 @@
 import { saveFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSettings.fields";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { form } from "modules/form";
 import React from "react";
 

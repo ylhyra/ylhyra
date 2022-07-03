@@ -1,6 +1,6 @@
 import { login } from "flashcards/user/login/actions";
 import type { LoginRequest } from "flashcards/user/login/login.server";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { form } from "modules/form";
 import { history } from "modules/router";
 import React from "react";

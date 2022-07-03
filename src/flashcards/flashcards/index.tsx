@@ -6,7 +6,7 @@ import { observer } from "mobx-react";
 import { Link } from "modules/router";
 import { entries } from "modules/typescript/objectEntries";
 import React from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 export const FlashcardsMake = observer(function () {
   const { decks } = getFlashcardsStore();

@@ -5,21 +5,22 @@ import "flashcards/app/styles/index.styl";
 import "flashcards/app/styles/tailwind/output.css";
 import { configure as mobxConfigure } from "mobx";
 import React from "react";
-import ReactDOM from "react-dom";
-import { Helmet } from "react-helmet";
+import { createRoot } from "react-dom/client";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 mobxConfigure({
   enforceActions: "never",
 });
 
-ReactDOM.render(
+createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Helmet>
-      <title>{getTitle()}</title>
-    </Helmet>
-    <Layout>
-      <Routes />
-    </Layout>
-  </React.StrictMode>,
-  document.getElementById("root")
+    <HelmetProvider>
+      <Helmet>
+        <title>{getTitle()}</title>
+      </Helmet>
+      <Layout>
+        <Routes />
+      </Layout>
+    </HelmetProvider>
+  </React.StrictMode>
 );

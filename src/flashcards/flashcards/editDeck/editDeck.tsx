@@ -10,10 +10,10 @@ import { DeckSettingsElement } from "flashcards/flashcards/editDeck/deckSettings
 import { ImportFlashcards } from "flashcards/flashcards/editDeck/import/import";
 import { EditRow } from "flashcards/flashcards/editDeck/row";
 import { DeckId } from "flashcards/flashcards/types";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { Link } from "modules/router";
 import React from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
   const deck = getDeckById(deckId! as DeckId);

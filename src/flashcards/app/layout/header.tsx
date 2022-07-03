@@ -1,6 +1,6 @@
 import { logout } from "flashcards/user/login/actions";
 import { getUserStore } from "flashcards/user/store";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { NavLink } from "modules/router";
 
 export const Header = observer(() => {

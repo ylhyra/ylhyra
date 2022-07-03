@@ -8,7 +8,7 @@ import { checkForUndoOnKeyDown } from "flashcards/flashcards/actions/session/ses
 import { CardElement } from "flashcards/flashcards/play/card";
 import { ProgressBar } from "flashcards/flashcards/play/progressBar";
 import { DeckId } from "flashcards/flashcards/types";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { values } from "modules/typescript/objectEntries";
 import React, { Component, useEffect } from "react";
 
