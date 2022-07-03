@@ -27,6 +27,7 @@ export function newDeck(): Deck {
   return deck;
 }
 
+// Todo: Undoable
 export const deleteDeck = action((deck: Deck) => {
   if (window.confirm("Are you sure you want to delete this deck?")) {
     delete getFlashcardsStore().decks[deck.deckId];

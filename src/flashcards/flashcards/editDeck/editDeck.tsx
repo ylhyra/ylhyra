@@ -43,8 +43,8 @@ export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
         <div className="editor-rows">
           <Rows deck={deck} />
         </div>
-        <button className="btn" onClick={() => deleteDeck(deck)}>
-          Delete
+        <button className="btn btn-gray" onClick={() => deleteDeck(deck)}>
+          Delete deck
         </button>
       </div>
     </>
