@@ -86,7 +86,7 @@ export function sortCards(
        * it is generated from the row number
        */
       sortByFunctions.push((card) =>
-        xorshift.constructor(card.row.data.rowNumber).random()
+        xorshift.constructor([card.row.data.rowNumber, 0, 0, 0]).random()
       );
       break;
     case "OLDEST":
