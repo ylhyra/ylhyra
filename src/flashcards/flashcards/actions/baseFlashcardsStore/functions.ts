@@ -3,6 +3,7 @@ import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckId } from "flashcards/flashcards/types";
 import { action } from "mobx";
 import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
+import { logDev } from "modules/log";
 import { entries } from "modules/typescript/objectEntries";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
@@ -22,11 +23,6 @@ export const initializeFlashcardsStore = action(() => {
 });
 
 export function saveFlashcardsStore() {
+  logDev("Flashcards store saved");
   saveInLocalStorage("decks", getFlashcardsStore().toJSON());
-}
-
-export function getDeckById(id: DeckId | undefined): Deck | undefined {
-  if (id && id in getFlashcardsStore().decks) {
-    return getFlashcardsStore().decks[id];
-  }
 }

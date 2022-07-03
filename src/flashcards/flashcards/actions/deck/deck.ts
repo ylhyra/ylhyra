@@ -1,3 +1,4 @@
+import { saveFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { getDependencyGraph } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
@@ -10,43 +11,36 @@ import {
   DeckId,
   DependenciesForAllRowsAsRowIdToDependencyToDepth,
 } from "flashcards/flashcards/types";
-import { computed, makeObservable, observable } from "mobx";
+import { computed, makeObservable, observable, reaction } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 
 export class Deck {
   deckId: DeckId;
-  rows: Row[] = [];
-  settings: DeckSettings = {};
+  @observable rows: Row[] = [];
+  @observable settings: DeckSettings = {};
   constructor({
     deckId,
-    rows,
     settings,
+    rows,
   }: {
     deckId: DeckId;
-    rows?: RowData[];
     settings?: DeckSettings;
+    rows?: RowData[];
   }) {
     this.deckId = deckId;
+    this.settings = settings || {};
     if (rows) {
       this.rows = rows.map((rowData) => {
         return new Row(this, rowData);
       });
     }
-    this.settings = settings || {};
-    makeObservable(this, {
-      settings: observable,
-      rows: observable,
-      cards: computed({ keepAlive: true }),
-      // alternativeIds: computed({ keepAlive: true }),
-      dependencyGraph: computed({ keepAlive: true }),
-    });
+    makeObservable(this);
 
-    // reaction(
-    //   () => this.settings.title,
-    //   () => {
-    //     saveFlashcardsStore();
-    //   }
-    // );
+    /* Auto save */
+    reaction(
+      () => [Object.keys(this.rows), Object.entries(this.settings)],
+      saveFlashcardsStore
+    );
   }
 
   get title() {
@@ -57,6 +51,7 @@ export class Deck {
   //   return flattenArray(values(this.rows).map((row) => row.cards)) as CardIds;
   // }
 
+  @computed({ keepAlive: true })
   get cards(): Card[] {
     return flattenArray(this.rows.map((row) => row.cards));
   }
@@ -71,6 +66,7 @@ export class Deck {
     return out;
   }
 
+  @computed({ keepAlive: true })
   get dependencyGraph(): DependenciesForAllRowsAsRowIdToDependencyToDepth {
     return getDependencyGraph.bind(this)();
   }

@@ -67,3 +67,9 @@ export function addRowsToDeck(deck: Deck, arrayOfRowData: Partial<RowData>[]) {
 export function getAllCardsFromDecks(decks: Deck[]): Card[] {
   return flattenArray(decks.map((deck) => deck.cards));
 }
+
+export function getDeckById(id: DeckId | undefined): Deck | undefined {
+  if (id && id in getFlashcardsStore().decks) {
+    return getFlashcardsStore().decks[id];
+  }
+}

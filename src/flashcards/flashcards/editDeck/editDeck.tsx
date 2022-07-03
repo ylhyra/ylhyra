@@ -1,10 +1,10 @@
 import { Button } from "flashcards/app/elements/button";
 import { getTitle } from "flashcards/app/functions";
-import { getDeckById } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import {
   addRow,
   deleteDeck,
+  getDeckById,
 } from "flashcards/flashcards/actions/deck/functions";
 import { DeckSettingsElement } from "flashcards/flashcards/editDeck/deckSettings";
 import { ImportFlashcards } from "flashcards/flashcards/editDeck/import/import";

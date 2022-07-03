@@ -1,11 +1,11 @@
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { rowFields } from "flashcards/flashcards/actions/row/rowData.fields";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
-import { form } from "modules/form";
+import { FormHelper } from "modules/form";
 import React from "react";
 
 export function EditRow({ row }: { row: Row }) {
-  const { Form, AllFields, Input } = new form<RowData>({
+  const { Form, AllFields, Input } = new FormHelper<RowData>({
     values: row.data,
     fields: rowFields,
     // onChange: () => {

@@ -1,3 +1,4 @@
+import { saveFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSettings.fields";
@@ -10,7 +11,7 @@ import {
   DependenciesForOneRowAsDependencyToDepth,
   Direction,
 } from "flashcards/flashcards/types";
-import { computed, makeObservable, observable } from "mobx";
+import { computed, makeObservable, observable, reaction } from "mobx";
 import { getDefaultValue } from "modules/form";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
 
@@ -20,13 +21,9 @@ export class Row {
   constructor(public deck: Deck, data: RowData) {
     this.data = data;
     makeObservable(this);
-    // makeObservable(this, {
-    //   data: observable,
-    //   // cardIds: computed({ keepAlive: true }),
-    //   cards: computed({ keepAlive: true }),
-    //   dependsOn: computed({ keepAlive: true }),
-    //   redirects: computed({ keepAlive: true }),
-    // });
+
+    /* Auto save */
+    reaction(() => Object.entries(this.data), saveFlashcardsStore);
   }
 
   get rowId() {

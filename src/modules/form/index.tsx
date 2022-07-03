@@ -22,13 +22,14 @@ export type FieldsSetup<TypeThisIsDescribing = object> = Array<
       options?: Array<{
         value: TypeThisIsDescribing[K];
         label: string;
+        description?: string;
       }>;
       onlyShowIf?: (arg0: TypeThisIsDescribing) => boolean;
     };
   }[keyof TypeThisIsDescribing]
 >;
 
-export class form<TypeThisIsDescribing = Record<string, any>> {
+export class FormHelper<TypeThisIsDescribing = Record<string, any>> {
   values: Record<string, any> = {};
   touched: Record<string, Boolean> = {};
   onSubmit: Function | undefined;
@@ -108,11 +109,10 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
 
   /** Used to automatically print all fields with labels */
   AllFields: React.FC = () => {
-    const InputWithLabel = this.InputWithLabelInternal;
     return (
       <div>
         {this.fields?.map((field, index) => (
-          <InputWithLabel {...field} key={index} />
+          <this.InputWithLabelInternal {...field} key={index} />
         ))}
       </div>
     );
@@ -122,40 +122,47 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
   Input = ({ name }: { name: keyof TypeThisIsDescribing }) => {
     const field = this.fields?.find((j) => j.name === name);
     if (!field) throw new Error(`No field with name ${String(name)}`);
-    const InputInternal = this.InputInternal;
-    return <InputInternal {...field} />;
+    return <this.InputInternal {...field} />;
   };
 
   /** Used externally to print an input just by its name */
   InputWithLabel = ({ name }: { name: keyof TypeThisIsDescribing }) => {
     const field = this.fields?.find((j) => j.name === name);
     if (!field) throw new Error(`No field with name ${String(name)}`);
-    const InputWithLabelInternal = this.InputWithLabelInternal;
-    return <InputWithLabelInternal {...field} />;
+    return <this.InputWithLabelInternal {...field} />;
+  };
+
+  shouldShowField = (field: FieldsSetup<any>[number]) => {
+    return field.onlyShowIf ? field.onlyShowIf(this.values) : true;
   };
 
   /** Used internally, a {@link FieldsSetup} object must be passed to it. */
-  InputWithLabelInternal = (field: FieldsSetup<any>[number]) => {
+  InputWithLabelInternal = observer((field: FieldsSetup<any>[number]) => {
+    if (!this.shouldShowField(field)) return null;
     const label = field.label || uppercaseFirstLetter(field.name);
-    const Input = this.InputInternal;
+    const description = (
+      <div className="text-xs text-gray-400">{field.description}</div>
+    );
     return (
       <>
         {field.type === "checkbox" ? (
           <label>
-            <Input {...field} /> {label}
+            <this.InputInternal {...field} /> <b>{label}</b> {description}
           </label>
         ) : (
           <label>
-            <div>{label}:</div>
             <div>
-              <Input {...field} />
+              <b>{label}:</b>
+            </div>
+            {description}
+            <div>
+              <this.InputInternal {...field} />
             </div>
           </label>
         )}
-        <div className="text-sm text-gray-400">{field.description}</div>
       </>
     );
-  };
+  });
 
   /**
    * Used internally, a {@link FieldsSetup} object must be passed to it.
@@ -184,7 +191,7 @@ export class form<TypeThisIsDescribing = Record<string, any>> {
         >
           {field.options?.map((option) => (
             <option value={option.value} key={option.value}>
-              {option.label}
+              {option.label} {option.description && <>- {option.description}</>}
             </option>
           ))}
         </select>

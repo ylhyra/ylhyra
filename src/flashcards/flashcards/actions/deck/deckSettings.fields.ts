@@ -36,27 +36,34 @@ export const deckSettingsFields: FieldsSetup<DeckSettings> = [
   {
     name: "sideToShowFirst",
     label: "Side to show first",
+    description: "Which side should be shown first when seeing a new card",
     type: "select",
     options: [
+      {
+        value: "RANDOM",
+        label: "Either side (random)",
+      },
       {
         value: "FRONT_SIDE",
         label: "Front side",
       },
       {
-        value: "RANDOM",
-        label: "Either side (random)",
+        value: "BACK_SIDE",
+        label: "Back side",
       },
     ],
-    onlyShowIf: (vals) => vals.preset === "FOREIGN_LANGUAGE_PERSONAL_USE",
+    onlyShowIf: (vals) => {
+      return vals.direction === "BOTH";
+    },
   },
   {
     name: "newCardPrioritization",
-    label: "How to choose new cards to show you",
+    label: "Prioritization of new cards",
     type: "select",
     options: [
       {
         value: "RANDOM",
-        label: "Random",
+        label: "Choose new cards at random",
       },
       {
         value: "OLDEST",
@@ -78,7 +85,7 @@ export const deckSettingsFields: FieldsSetup<DeckSettings> = [
   },
   {
     name: "oldCardPrioritization",
-    label: "How to choose cards that you've already seen",
+    label: "Prioritization of seen cards",
     type: "select",
     options: [
       {
@@ -111,17 +118,17 @@ export const deckSettingsFields: FieldsSetup<DeckSettings> = [
       },
     ],
   },
-  {
-    name: "automaticDependencies",
-    type: "checkbox",
-    defaultValue: true,
-    label: "Automatic dependencies",
-    description: "Only recommended for languages",
-  },
-  {
-    name: "automaticallyOccludeClashing",
-    type: "checkbox",
-    defaultValue: true,
-    label: "Automatically give hints when two cards have the same prompt",
-  },
+  // {
+  //   name: "automaticDependencies",
+  //   type: "checkbox",
+  //   defaultValue: true,
+  //   label: "Automatic dependencies",
+  //   description: "Only recommended for languages",
+  // },
+  // {
+  //   name: "automaticallyOccludeClashing",
+  //   type: "checkbox",
+  //   defaultValue: true,
+  //   label: "Automatically give hints when two cards have the same prompt",
+  // },
 ];

@@ -1,19 +1,20 @@
-import { initializeFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
+import {
+  initializeFlashcardsStore,
+  saveFlashcardsStore,
+} from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckId } from "flashcards/flashcards/types";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
 import { isBrowser } from "modules/isBrowser";
 
 export class flashcardsStore {
-  // deckOrder = [];
   decks: Record<DeckId, Deck> = {};
 
   constructor() {
     makeAutoObservable(this);
-    // makeObservable(this, {
-    //   decks: observable.shallow,
-    // });
+
+    reaction(() => Object.keys(this.decks), saveFlashcardsStore);
   }
 
   toJSON() {

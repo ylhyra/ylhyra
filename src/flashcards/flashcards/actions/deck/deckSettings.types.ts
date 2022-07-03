@@ -11,7 +11,7 @@ export type DeckSettings = Partial<{
   frontSideLanguage: string;
   backSideLanguage: string;
   direction: DirectionSettings;
-  sideToShowFirst: "FRONT_SIDE" | "RANDOM";
+  sideToShowFirst: "FRONT_SIDE" | "BACK_SIDE" | "RANDOM";
   automaticDependencies: boolean;
   automaticallyOccludeClashing: boolean;
   schedulingGoal:

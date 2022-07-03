@@ -1,7 +1,7 @@
 import { login } from "flashcards/user/login/actions";
 import type { LoginRequest } from "flashcards/user/login/login.server";
 import { observer } from "mobx-react";
-import { form } from "modules/form";
+import { FormHelper } from "modules/form";
 import { history } from "modules/router";
 import React from "react";
 
@@ -9,7 +9,7 @@ export const Login = observer(() => {
   const pathname = history?.location.pathname;
   const isSignup = pathname === "/signup";
 
-  const { Form, getChangeHandlers, setFormValues } = new form({
+  const { Form, getChangeHandlers, setFormValues } = new FormHelper({
     onSubmit: login,
     values: {
       username: "",

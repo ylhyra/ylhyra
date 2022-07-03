@@ -1,11 +1,11 @@
 import { Button } from "flashcards/app/elements/button";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { addRowsIfMissing } from "flashcards/flashcards/editDeck/import/actions";
-import { form } from "modules/form";
+import { FormHelper } from "modules/form";
 import React from "react";
 
 export function ImportFlashcards({ deck }: { deck: Deck }) {
-  const _form = new form({
+  const _form = new FormHelper({
     fields: [
       {
         name: "input",

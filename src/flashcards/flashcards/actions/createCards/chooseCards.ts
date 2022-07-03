@@ -40,7 +40,6 @@ export class ChooseCards {
      * return cards that are not overdue.
      */
     if (chosenCards.length === 0) {
-      throw new Error("Not implemented");
       // TODO: What if deck is empty
       // chosenCards = veryRecentlySeenSortedLast(sortCardsByScore(notOverdue));
       // console.error("No cards generated. Falling back to all cards.");
