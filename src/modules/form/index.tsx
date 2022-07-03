@@ -1,7 +1,7 @@
 import { isObservable, makeObservable, observable } from "mobx";
 import { observer } from "mobx-react";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
 export type FieldsSetup<TypeThisIsDescribing = object> = Array<
@@ -103,7 +103,7 @@ export class FormHelper<TypeThisIsDescribing = Record<string, any>> {
       this.onSubmit(this.values);
     }
   };
-  Form: React.FC = (props) => {
+  Form: React.FC<PropsWithChildren<{}>> = (props) => {
     return <form onSubmit={this.onSubmitInternal}>{props.children}</form>;
   };
 

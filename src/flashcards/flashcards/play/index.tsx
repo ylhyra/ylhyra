@@ -1,10 +1,10 @@
-import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getDeckById } from "flashcards/flashcards/actions/deck/functions";
 import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { checkForUndoOnKeyDown } from "flashcards/flashcards/actions/session/sessionHistory";
+import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
 import { CardElement } from "flashcards/flashcards/play/card";
 import { ProgressBar } from "flashcards/flashcards/play/progressBar";
 import { DeckId } from "flashcards/flashcards/types";

@@ -1,4 +1,3 @@
-import { getFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/flashcardsStore";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { Row } from "flashcards/flashcards/actions/row/row";
@@ -6,6 +5,7 @@ import {
   RowData,
   RowId,
 } from "flashcards/flashcards/actions/row/rowData.types";
+import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
 import { DeckId } from "flashcards/flashcards/types";
 import { action } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";

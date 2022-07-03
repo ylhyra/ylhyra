@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, PropsWithChildren } from "react";
 
-class Collapse extends Component {
+class Collapse extends Component<PropsWithChildren> {
   state = {
     open: false,
   };

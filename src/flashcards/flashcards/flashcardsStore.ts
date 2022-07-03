@@ -1,7 +1,6 @@
-
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckId } from "flashcards/flashcards/types";
-import { initializeFlashcardsStore, saveFlashcardsStore } from "flashcards/sync/initialize";
+import { initialize, saveFlashcardsStore } from "flashcards/sync/initialize";
 import { makeAutoObservable, reaction } from "mobx";
 import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
 import { isBrowser } from "modules/isBrowser";
@@ -27,10 +26,8 @@ export class flashcardsStore {
   }
 }
 
-const store = new flashcardsStore();
-export const getFlashcardsStore = (): flashcardsStore => store;
-
-initializeFlashcardsStore();
+const _store = new flashcardsStore();
+export const getFlashcardsStore = (): flashcardsStore => _store;
 
 if (isBrowser) {
   // @ts-ignore

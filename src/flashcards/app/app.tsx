@@ -3,6 +3,7 @@ import { Layout } from "flashcards/app/layout/layout";
 import { Routes } from "flashcards/app/routes";
 import "flashcards/app/styles/index.styl";
 import "flashcards/app/styles/tailwind/output.css";
+import { initialize } from "flashcards/sync/initialize";
 import { configure as mobxConfigure } from "mobx";
 import React from "react";
 import { createRoot } from "react-dom/client";
@@ -12,7 +13,7 @@ mobxConfigure({
   enforceActions: "never",
 });
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("root") as Element).render(
   <React.StrictMode>
     <HelmetProvider>
       <Helmet>
@@ -24,3 +25,5 @@ createRoot(document.getElementById("root")).render(
     </HelmetProvider>
   </React.StrictMode>
 );
+
+initialize();

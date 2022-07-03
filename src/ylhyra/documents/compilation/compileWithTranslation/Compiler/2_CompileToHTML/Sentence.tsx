@@ -1,5 +1,5 @@
 import exists from "modules/exists";
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { SentenceBox } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/SentenceBox";
 import { FlattenedData } from "ylhyra/documents/types/types";
 
@@ -17,7 +17,7 @@ import { FlattenedData } from "ylhyra/documents/types/types";
 export class SentenceContainer extends React.Component<{
   id: string;
   data: FlattenedData | undefined;
-}> {
+} & PropsWithChildren> {
   render() {
     const { id, data } = this.props;
     const definition = data?.translation.sentences[id];

@@ -1,6 +1,6 @@
 // import GetSound from 'documents/Parse/Compiler/2_CompileToHTML/Sound'
 import exists from "modules/exists";
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import _ from "underscore";
 import { getUpdatedId } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/1_PrepereForCompilation/UpdateID";
 import { WordBox } from "ylhyra/documents/compilation/compileWithTranslation/Compiler/2_CompileToHTML/Definition/Box/WordBox";
@@ -24,7 +24,7 @@ export class WordContainer extends React.Component<{
   /** @see MergePunctuation */
   punctuationToAppendInsideWordContainer?: string;
   data: FlattenedData | undefined;
-}> {
+} & PropsWithChildren> {
   render() {
     const { id, data, punctuationToAppendInsideWordContainer } = this.props;
     const definition: WordDefinition | undefined =

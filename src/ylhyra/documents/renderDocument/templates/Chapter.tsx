@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PropsWithChildren } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "ylhyra/app/app/store";
 import Link from "ylhyra/app/router/Link";
@@ -11,7 +11,7 @@ class X extends Component<
     data: string;
     chapterUrl: string;
     showWords: Boolean;
-  }
+  } & PropsWithChildren
 > {
   render() {
     // if (!this.props.vocabulary.deck) return null;

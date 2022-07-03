@@ -34,7 +34,6 @@ export const sync = async (options: any = {}): Promise<void> => {
 
   if (!isUserLoggedIn()) {
     log(`Not synced to server as user isn't logged in`);
-    // Todo??
     return;
   }
 

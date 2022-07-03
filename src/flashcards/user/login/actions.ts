@@ -37,7 +37,7 @@ export function existsSchedule() {
 // TODO!! Should sync
 export function updateUser() {
   // const user = getUserFromCookie();
-  // if (store.getState().user?.user_id !== user?.user_id) {
+  // if (store.getState().user?.userId !== user?.userId) {
   //   store.dispatch({
   //     type: "LOAD_USER",
   //     content: user,

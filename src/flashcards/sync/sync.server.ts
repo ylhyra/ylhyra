@@ -11,7 +11,7 @@ router.get(
     //   const unsyncedFromUser = req.body.unsynced;
     //   await saveUserData(req, unsyncedFromUser);
     //   res.send({
-    //     user_id: req.session.user_id,
+    //     userId: req.session.userId,
     //     rows: unsyncedFromServer || {},
     //     lastSynced: Date.now(),
     //   });
@@ -28,7 +28,7 @@ router.get(
 router.post(
   "/api/vocabulary/sync",
   (req, res: Response<UserData | { error: string }>) => {
-    if (!req.session?.user_id) {
+    if (!req.session?.userId) {
       return res.status(401).send({ error: "ERROR_NOT_LOGGED_IN" });
     }
     return res.sendStatus(200);
@@ -37,7 +37,7 @@ router.post(
     //   const unsyncedFromUser = req.body.unsynced;
     //   await saveUserData(req, unsyncedFromUser);
     //   res.send({
-    //     user_id: req.session.user_id,
+    //     userId: req.session.userId,
     //     rows: unsyncedFromServer || {},
     //     lastSynced: Date.now(),
     //   });
@@ -63,11 +63,11 @@ const serverGetUserData = (
   //       FROM userData a
   //       INNER JOIN (
   //         SELECT max(id) id, \`key\` FROM userData
-  //           WHERE user_id = ${req.session!.user_id}
+  //           WHERE userId = ${req.session!.userId}
   //           GROUP BY \`key\`
   //       ) b
   //       ON a.id = b.id
-  //       WHERE user_id = ${req.session!.user_id}
+  //       WHERE userId = ${req.session!.userId}
   //       AND created_at > FROM_UNIXTIME(${msToS(req.body.lastSynced) || 0})
   //     `,
   //     (err, results) => {
@@ -120,7 +120,7 @@ const saveUserData = (req: express.Request, userDataRows: UserDataRows) => {
   //       }
   //       return sql`
   //         INSERT INTO userData SET
-  //           user_id = ${req.session!.user_id},
+  //           userId = ${req.session!.userId},
   //           type = ${userDataRows[key].type},
   //           \`key\` = ${key},
   //           value = ${value}

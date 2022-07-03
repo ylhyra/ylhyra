@@ -1,6 +1,6 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
-class Hide extends React.Component {
+class Hide extends React.Component<PropsWithChildren> {
   state = {
     open: false,
   };
