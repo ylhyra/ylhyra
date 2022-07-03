@@ -1,4 +1,3 @@
-import { saveFlashcardsStore } from "flashcards/flashcards/actions/baseFlashcardsStore/functions";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSettings.fields";
@@ -11,6 +10,7 @@ import {
   DependenciesForOneRowAsDependencyToDepth,
   Direction,
 } from "flashcards/flashcards/types";
+import { saveFlashcardsStore } from "flashcards/sync/initialize";
 import { computed, makeObservable, observable, reaction } from "mobx";
 import { getDefaultValue } from "modules/form";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";

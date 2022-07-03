@@ -1,9 +1,9 @@
 import argon2 from "argon2";
 import type { Request, Response } from "express";
 import { Router } from "express";
+import { throwError } from "flashcards/app/functions/sendError.server";
 import { db } from "flashcards/database/database.server";
 import { errors } from "flashcards/errors";
-import { throwError } from "flashcards/functions/sendError.server";
 import { setSession } from "flashcards/user/login/user.server";
 import { StatusCodes } from "http-status-codes";
 

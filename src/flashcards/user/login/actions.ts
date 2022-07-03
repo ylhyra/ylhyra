@@ -1,4 +1,4 @@
-import { getUserFromCookie } from "flashcards/functions/cookie";
+import { getUserFromCookie } from "flashcards/app/functions/cookie";
 import type {
   LoginRequest,
   LoginResponse,

@@ -1,7 +1,7 @@
 import type { Request } from "express";
+import { throwError } from "flashcards/app/functions/sendError.server";
 import { db } from "flashcards/database/database.server";
 import { errors } from "flashcards/errors";
-import { throwError } from "flashcards/functions/sendError.server";
 import { UserId, Username } from "flashcards/user/types";
 import { StatusCodes } from "http-status-codes";
 import { encodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";
