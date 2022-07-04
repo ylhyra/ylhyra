@@ -39,9 +39,9 @@ class UserDataStore {
 
 class UserDataValue {
   constructor(
-    public key: string,
+    public key: string | "userSettings" | "deckOrder",
     public value: any,
-    public type?: "schedule" | "session" | null,
+    public type?: "schedule" | "sessionLog" | "row" | "deck" | null,
     public needsSyncing?: boolean
   ) {
     makeObservable(this, {
