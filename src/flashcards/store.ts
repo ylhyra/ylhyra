@@ -6,16 +6,6 @@ import { UserSettings } from "flashcards/user/userSettings.types";
 import { makeObservable, observable, reaction } from "mobx";
 import { Seconds, Timestamp } from "modules/time";
 
-// export type SYNC_STORE = Record<
-//   string,
-//   {
-//     type: "deck";
-//     data: DeckSettings;
-//   }
-// >;
-//
-// const keyValueStore = {};
-
 /**
  * Key-value store that makes syncing and local storage easier
  * by wrapping each value in a {@link UserDataValue}.
@@ -31,7 +21,9 @@ class UserDataStore {
       values: observable.shallow,
     });
   }
-  set(key: string, value: any, type?: UserDataValue["type"]) {}
+  set(key: string, value: any, type?: UserDataValue["type"]) {
+    this.values[key] = new UserDataValue(key, value, type);
+  }
   get(key: string) {
     return this.values[key]?.value;
   }
@@ -39,9 +31,9 @@ class UserDataStore {
 
 class UserDataValue {
   constructor(
-    public key: string | "userSettings" | "deckOrder",
+    public key: string,
     public value: any,
-    public type?: "schedule" | "sessionLog" | "row" | "deck" | null,
+    public type?: "deck" | "row" | "schedule" | "sessionLog" | null,
     public needsSyncing?: boolean
   ) {
     makeObservable(this, {
