@@ -2,8 +2,8 @@ import { createSchedule } from "flashcards/flashcards/actions/createSchedule/cre
 import { exitVocabularyScreen } from "flashcards/flashcards/actions/functions";
 import { clearOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/functions/saveOngoingSessionInLocalStorage";
 import { getSession } from "flashcards/flashcards/actions/session/session";
+import { store } from "flashcards/store";
 import { sync } from "flashcards/sync/sync";
-import { getUserDataStore } from "flashcards/user/userData/userData";
 import { action } from "mobx";
 import { log } from "modules/log";
 import { roundMsToSec, roundToInterval } from "modules/math";
@@ -41,14 +41,10 @@ export function saveSessionLog() {
     session.timer.getSecondsSpent() > 10
   ) {
     const timestamp = roundMsToSec(session.history.savedAt || getTime());
-    getUserDataStore().set(
-      shortid.generate(),
-      {
-        secondsSpent: roundToInterval(session.timer.getSecondsSpent(), 10),
-        timestamp,
-      },
-      "session"
-    );
+    store.sessions[shortid.generate()] = {
+      secondsSpent: roundToInterval(session.timer.getSecondsSpent(), 10),
+      timestamp,
+    };
   } else {
     log("Not logged");
   }

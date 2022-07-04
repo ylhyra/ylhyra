@@ -1,7 +1,7 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
 import { Rating, ScheduleData, Score } from "flashcards/flashcards/types";
-import { getUserDataStore } from "flashcards/user/userData/userData";
+import { store } from "flashcards/store";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
 import {
   getTimeMemoized,
@@ -32,7 +32,8 @@ export function isUnseenSiblingOfANonGoodCard(card1: Card) {
  */
 export function isInSchedule(card1: Card) {
   // TODO!!!!
-  return card1.cardId in getUserDataStore().schedule;
+  return false;
+  // return card1.cardId in getUserDataStore().schedule;
 }
 
 export function setSchedule(card1: Card, data: ScheduleData) {
@@ -44,10 +45,10 @@ export function setSchedule(card1: Card, data: ScheduleData) {
     }
   });
 
-  getUserDataStore().set(card1.cardId, {
+  store.schedule[card1.cardId] = {
     ...(card1.schedule || {}),
     ...data,
-  });
+  };
 
   throw new Error("Not implemented");
 }

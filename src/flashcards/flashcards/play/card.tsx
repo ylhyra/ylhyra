@@ -3,7 +3,7 @@ import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { EditCard } from "flashcards/flashcards/play/editCard";
 import { Direction, Rating } from "flashcards/flashcards/types";
-import { getUserDataStore } from "flashcards/user/userData/userData";
+import { store } from "flashcards/store";
 import { observer } from "mobx-react";
 import { classNames } from "modules/addCssClass";
 import { Jsx } from "modules/typescript/jsx";
@@ -196,7 +196,7 @@ export class CardElement extends Component {
   };
   render() {
     const session = getSession();
-    const isVolumeOn = getUserDataStore().isVolumeOn;
+    const isVolumeOn = store.volume;
     const answered = this.state.isShowingBottomSide;
     const card = session.currentCard;
 

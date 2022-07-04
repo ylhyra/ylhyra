@@ -1,4 +1,4 @@
-import { UserSettings } from "flashcards/user/userData/userSettings.types";
+import { UserSettings } from "flashcards/user/userSettings.types";
 import { FieldsSetup } from "modules/form";
 
 export const userSettingsFields: FieldsSetup<UserSettings> = [

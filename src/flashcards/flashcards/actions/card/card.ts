@@ -6,7 +6,7 @@ import {
   ScheduleData,
   Score,
 } from "flashcards/flashcards/types";
-import { getUserDataStore } from "flashcards/user/userData/userData";
+import { store } from "flashcards/store";
 import { Days, Timestamp } from "modules/time";
 
 export class Card {
@@ -43,7 +43,7 @@ export class Card {
   }
 
   get schedule(): ScheduleData | undefined {
-    return getUserDataStore().data[this.cardId] as any as ScheduleData;
+    return store.schedule[this.cardId];
   }
 
   get dueAt(): Timestamp | undefined {

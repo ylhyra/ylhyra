@@ -1,10 +1,10 @@
+import { store } from "flashcards/store";
 import { logout } from "flashcards/user/login/actions";
-import { getUserStore } from "flashcards/user/store";
 import { observer } from "mobx-react";
 import { NavLink } from "modules/router";
 
 export const Header = observer(() => {
-  const { user } = getUserStore();
+  const { user } = store;
 
   return (
     <header className="bg-gray-100 text-xs">
