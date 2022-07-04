@@ -5,7 +5,7 @@
 # Settings:
 #    Program: $ProjectFileDir$/scripts/fixImports3.sh
 #    Args: $FilePathRelativeToProjectRoot$
-#    Working directory: $ProjectFileDir$
+#    Working directory: $ProjectPath$
 
 # npm i -g import-js
 # npm install -g eslint_d
@@ -18,11 +18,7 @@ if echo "$1" | grep -q "\.tsx\?"; then
 #  perl -i -p0e 's/([^\n])\nexport/$1\n\nexport/g' "$1"
 
   if (eslint_d --rule "no-undef: error" "$1" | grep -q "no-undef"); then
-    npx import-js fix  --overwrite "$1"
-#    importsFixed="$(cat "$1" | npx import-js fix "$1")"
-#    prettified="$(echo "$importsFixed" | prettier "$1")"
-#    if [ "$content" != "$prettified" ]; then
-#      echo "$prettified" > "$1"
-#    fi
+    # Necessary due to TTY-detection in import-js
+    cat "$1" | npx import-js fix --overwrite "$1"
   fi;
 fi;

@@ -4,8 +4,52 @@ import { saveStore } from "flashcards/sync/initialize";
 import { UserId, Username } from "flashcards/user/types";
 import { UserSettings } from "flashcards/user/userSettings.types";
 import { makeObservable, observable, reaction } from "mobx";
-import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
 import { Seconds, Timestamp } from "modules/time";
+
+// export type SYNC_STORE = Record<
+//   string,
+//   {
+//     type: "deck";
+//     data: DeckSettings;
+//   }
+// >;
+//
+// const keyValueStore = {};
+
+/**
+ * Key-value store that makes syncing and local storage easier
+ * by wrapping each value in a {@link UserDataValue}.
+ */
+class UserDataStore {
+  lastSynced?: Timestamp;
+  userId?: string;
+  values: {
+    [keys: string]: UserDataValue;
+  } = {};
+  set(key: string, value: any, type?: UserDataValue["type"]) {}
+  get(key: string) {
+    return this.values[key]?.value;
+  }
+}
+
+class UserDataValue {
+  constructor(
+    public key: string,
+    public value: any,
+    public type?: "schedule" | "session" | null,
+    public needsSyncing?: boolean
+  ) {
+    makeObservable(this, {
+      value: observable,
+    });
+    reaction(
+      () => this.value,
+      () => {
+        this.needsSyncing = true;
+      }
+    );
+  }
+}
 
 class Store {
   @observable user: {
@@ -23,21 +67,11 @@ class Store {
       timestamp: Timestamp;
     }
   > = {};
-  lastSynced?: Timestamp;
-  needsSyncing = new Set<string>();
   /** Separate from settings since user may not wish to sync this */
   @observable volume: boolean = true;
   constructor() {
     makeObservable(this);
     reaction(() => [Object.keys(this.decks), this.deckOrder], saveStore);
-  }
-
-  toJSON() {
-    return {
-      decks: applyFunctionToEachObjectValue(this.decks, (deck) =>
-        deck.toJSON()
-      ),
-    };
   }
 }
 

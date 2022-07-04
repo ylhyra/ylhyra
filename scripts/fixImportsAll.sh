@@ -29,8 +29,9 @@ echo "are the files"
 echo 'Starting importjs'
 for file in $files
 do
-  npx import-js fix --overwrite "$file"
-  npx prettier "$file" --write
+  # Necessary due to TTY-detection in import-js
+  cat "$file" | npx import-js fix --overwrite "$file"
+  #  npx prettier "$file" --write
 done
 
 #cd src
