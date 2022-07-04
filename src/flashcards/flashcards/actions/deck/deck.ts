@@ -10,7 +10,7 @@ import {
   DeckId,
   DependenciesForAllRowsAsRowIdToDependencyToDepth,
 } from "flashcards/flashcards/types";
-import { saveFlashcardsStore } from "flashcards/sync/initialize";
+import { saveStore } from "flashcards/sync/initialize";
 import { computed, makeObservable, observable, reaction } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 
@@ -39,7 +39,7 @@ export class Deck {
     /* Auto save */
     reaction(
       () => [Object.keys(this.rows), Object.entries(this.settings)],
-      saveFlashcardsStore
+      saveStore
     );
   }
 

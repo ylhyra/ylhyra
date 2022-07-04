@@ -1,11 +1,13 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { CardId, DeckId, ScheduleData } from "flashcards/flashcards/types";
+import { saveStore } from "flashcards/sync/initialize";
 import { UserId, Username } from "flashcards/user/types";
 import { UserSettings } from "flashcards/user/userSettings.types";
-import { makeObservable, observable } from "mobx";
+import { makeObservable, observable, reaction } from "mobx";
+import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
 import { Seconds, Timestamp } from "modules/time";
 
-export class Store {
+class Store {
   @observable user: {
     userId: UserId;
     username: Username;
@@ -14,7 +16,7 @@ export class Store {
   @observable decks: Record<DeckId, Deck> = {};
   @observable deckOrder: DeckId[] = [];
   @observable schedule: Record<CardId, ScheduleData> = {};
-  @observable sessions: Record<
+  @observable sessionLog: Record<
     string,
     {
       secondsSpent: Seconds;
@@ -27,6 +29,15 @@ export class Store {
   @observable volume: boolean = true;
   constructor() {
     makeObservable(this);
+    reaction(() => [Object.keys(this.decks), this.deckOrder], saveStore);
+  }
+
+  toJSON() {
+    return {
+      decks: applyFunctionToEachObjectValue(this.decks, (deck) =>
+        deck.toJSON()
+      ),
+    };
   }
 }
 

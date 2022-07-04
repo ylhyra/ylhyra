@@ -4,9 +4,10 @@ import { observer } from "mobx-react";
 import { isBrowser } from "modules/isBrowser";
 import React, { Component } from "react";
 
-export const history = isBrowser
+/** Will be null in a server-side context */
+export const history: History = isBrowser
   ? (createObservableHistory(createBrowserHistory()) as unknown as History)
-  : null;
+  : (null as any as History);
 
 export function goToUrl(url: string) {
   if (!history) return;

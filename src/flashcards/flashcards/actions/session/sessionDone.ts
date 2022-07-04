@@ -41,7 +41,7 @@ export function saveSessionLog() {
     session.timer.getSecondsSpent() > 10
   ) {
     const timestamp = roundMsToSec(session.history.savedAt || getTime());
-    store.sessions[shortid.generate()] = {
+    store.sessionLog[shortid.generate()] = {
       secondsSpent: roundToInterval(session.timer.getSecondsSpent(), 10),
       timestamp,
     };

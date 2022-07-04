@@ -1,8 +1,8 @@
+import { store } from "flashcards/store";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getDeckById } from "flashcards/flashcards/actions/deck/functions";
 import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
 import { getSession } from "flashcards/flashcards/actions/session/session";
-import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
 import { CardElement } from "flashcards/flashcards/play/card";
 import { FlashcardsPlayHeader } from "flashcards/flashcards/play/header";
 import { ProgressBar } from "flashcards/flashcards/play/progressBar";
@@ -13,7 +13,7 @@ import React, { useEffect } from "react";
 export const FlashcardsPlay = ({ deckId }: { deckId: string }) => {
   let decks: Deck[];
   if (deckId === "all") {
-    decks = values(getFlashcardsStore().decks);
+    decks = values(store.decks);
   } else {
     const deck = getDeckById(deckId as DeckId);
     if (!deck) {

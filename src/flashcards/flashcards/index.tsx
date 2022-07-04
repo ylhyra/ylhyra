@@ -1,7 +1,7 @@
+import { store } from "flashcards/store";
 import { Button } from "flashcards/app/elements/button";
 import { getTitle } from "flashcards/app/functions";
 import { newDeck } from "flashcards/flashcards/actions/deck/functions";
-import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
 import { observer } from "mobx-react";
 import { Link } from "modules/router";
 import { entries } from "modules/typescript/objectEntries";
@@ -9,7 +9,7 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 
 export const FlashcardsMake = observer(function () {
-  const { decks } = getFlashcardsStore();
+  const { decks } = store;
 
   return (
     <>

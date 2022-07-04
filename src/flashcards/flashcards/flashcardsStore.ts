@@ -1,6 +1,6 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckId } from "flashcards/flashcards/types";
-import { saveFlashcardsStore } from "flashcards/sync/initialize";
+import { saveStore } from "flashcards/sync/initialize";
 import { makeAutoObservable, reaction } from "mobx";
 import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
 import { isBrowser } from "modules/isBrowser";
@@ -10,7 +10,7 @@ export class FlashcardsStore {
 
   constructor() {
     makeAutoObservable(this);
-    reaction(() => Object.keys(this.decks), saveFlashcardsStore);
+    reaction(() => Object.keys(this.decks), saveStore);
   }
 
   toJSON() {

@@ -1,12 +1,12 @@
+import { Direction, Rating } from "flashcards/flashcards/types";
+import { EditCard } from "flashcards/flashcards/play/editCard";
+import { Jsx } from "modules/typescript/jsx";
+import { classNames } from "modules/addCssClass";
+import { getSession } from "flashcards/flashcards/actions/session/session";
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
-import { getSession } from "flashcards/flashcards/actions/session/session";
-import { EditCard } from "flashcards/flashcards/play/editCard";
-import { Direction, Rating } from "flashcards/flashcards/types";
-import { store } from "flashcards/store";
 import { observer } from "mobx-react";
-import { classNames } from "modules/addCssClass";
-import { Jsx } from "modules/typescript/jsx";
+import { store } from "flashcards/store";
 import React, { Component } from "react";
 
 @observer

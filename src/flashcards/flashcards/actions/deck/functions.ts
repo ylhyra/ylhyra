@@ -1,3 +1,4 @@
+import { store } from "flashcards/store";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { Row } from "flashcards/flashcards/actions/row/row";
@@ -5,7 +6,6 @@ import {
   RowData,
   RowId,
 } from "flashcards/flashcards/actions/row/rowData.types";
-import { getFlashcardsStore } from "flashcards/flashcards/flashcardsStore";
 import { DeckId } from "flashcards/flashcards/types";
 import { action } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
@@ -20,7 +20,7 @@ export function newDeck(): Deck {
   const deck = new Deck({
     deckId: id,
   });
-  getFlashcardsStore().decks[id] = deck;
+  store.decks[id] = deck;
   if (isBrowser) {
     goToUrl(`/flashcards/deck/${id}`);
   }
@@ -30,7 +30,7 @@ export function newDeck(): Deck {
 // Todo: Undoable
 export const deleteDeck = action((deck: Deck) => {
   if (window.confirm("Are you sure you want to delete this deck?")) {
-    delete getFlashcardsStore().decks[deck.deckId];
+    delete store.decks[deck.deckId];
     goToUrl("/flashcards");
   }
 });
@@ -69,7 +69,7 @@ export function getAllCardsFromDecks(decks: Deck[]): Card[] {
 }
 
 export function getDeckById(id: DeckId | undefined): Deck | undefined {
-  if (id && id in getFlashcardsStore().decks) {
-    return getFlashcardsStore().decks[id];
+  if (id && id in store.decks) {
+    return store.decks[id];
   }
 }

@@ -10,7 +10,7 @@ import {
   DependenciesForOneRowAsDependencyToDepth,
   Direction,
 } from "flashcards/flashcards/types";
-import { saveFlashcardsStore } from "flashcards/sync/initialize";
+import { saveStore } from "flashcards/sync/initialize";
 import { computed, makeObservable, observable, reaction } from "mobx";
 import { getDefaultValue } from "modules/form";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
@@ -23,7 +23,7 @@ export class Row {
     makeObservable(this);
 
     /* Auto save */
-    reaction(() => Object.entries(this.data), saveFlashcardsStore);
+    reaction(() => Object.entries(this.data), saveStore);
   }
 
   get rowId() {
