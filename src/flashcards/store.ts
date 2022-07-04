@@ -56,7 +56,7 @@ class UserDataValue {
   }
 }
 
-class Store {
+export class Store {
   @observable user: {
     userId: UserId;
     username: Username;
@@ -68,12 +68,14 @@ class Store {
   @observable sessionLog: Record<
     string,
     {
+      deckId?: DeckId;
       secondsSpent: Seconds;
       timestamp: Timestamp;
     }
   > = {};
   /** Separate from settings since user may not wish to sync this */
   @observable volume: boolean = true;
+  lastSynced?: Timestamp;
   constructor() {
     makeObservable(this);
     reaction(() => [Object.keys(this.decks), this.deckOrder], saveStore);
