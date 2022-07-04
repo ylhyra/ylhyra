@@ -26,6 +26,11 @@ class UserDataStore {
   values: {
     [keys: string]: UserDataValue;
   } = {};
+  constructor() {
+    makeObservable(this, {
+      values: observable.shallow,
+    });
+  }
   set(key: string, value: any, type?: UserDataValue["type"]) {}
   get(key: string) {
     return this.values[key]?.value;

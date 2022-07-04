@@ -1,10 +1,8 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckId } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
-import { action, toJS } from "mobx";
-import { applyFunctionToEachObjectValue } from "modules/applyFunctionToEachObjectValue";
-import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
-import { logDev } from "modules/log";
+import { action } from "mobx";
+import { getFromLocalStorage } from "modules/localStorage";
 import { entries } from "modules/typescript/objectEntries";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
@@ -27,18 +25,18 @@ export const initialize = action(() => {
 
 export function saveStore() {
   if (!initialized) return;
-  logDev("Flashcards store saved");
-
-  let toSave = toJS({
-    user: store.user,
-    userSettings: store.userSettings,
-    decks: applyFunctionToEachObjectValue(store.decks, (deck) => deck.toJSON()),
-    deckOrder: store.deckOrder,
-    schedule: store.schedule,
-    sessionLog: store.sessionLog,
-    lastSynced: store.lastSynced,
-    needsSyncing: store.needsSyncing,
-  });
-
-  saveInLocalStorage("decks", toSave);
+  // logDev("Flashcards store saved");
+  //
+  // let toSave = toJS({
+  //   user: store.user,
+  //   userSettings: store.userSettings,
+  //   decks: applyFunctionToEachObjectValue(store.decks, (deck) => deck.toJSON()),
+  //   deckOrder: store.deckOrder,
+  //   schedule: store.schedule,
+  //   sessionLog: store.sessionLog,
+  //   lastSynced: store.lastSynced,
+  //   needsSyncing: store.needsSyncing,
+  // });
+  //
+  // saveInLocalStorage("decks", toSave);
 }
