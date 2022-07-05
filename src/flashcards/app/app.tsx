@@ -10,7 +10,7 @@ import { createRoot } from "react-dom/client";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
 mobxConfigure({
-  enforceActions: "never",
+  // enforceActions: "never",
 });
 
 createRoot(document.getElementById("root") as Element).render(
