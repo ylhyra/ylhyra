@@ -13,10 +13,9 @@ import { computed, makeObservable, observable, reaction } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 
 export class Deck {
-  deckId: DeckId;
   @observable rows: Row[] = [];
   @observable settings: DeckSettings = {};
-  constructor(deckId: DeckId, settings?: DeckSettings) {
+  constructor(public deckId: DeckId, settings?: DeckSettings) {
     this.deckId = deckId;
     this.settings = syncedValue("deck", deckId, settings || {});
     // if (rows) {

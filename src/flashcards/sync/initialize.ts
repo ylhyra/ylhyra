@@ -48,35 +48,14 @@ export const initialize = action(() => {
       "volume",
     ];
     for (const key of basicStoreKeys) {
-      const value = userDataStore.valuesByType[key]?.value;
+      const value = userDataStore.values[key]?.value;
       if (value) {
         // @ts-ignore
         store[key] = value;
       }
     }
 
-    // for (const [key, _value] of entries(storage)) {
-    //   const { type, value } = _value;
-    //   if (type === "deck") {
-    //     // const rows = entries(storage).filter(
-    //     //   ([key, _value]) =>
-    //     //     _value.type === "row" && _value.deckId === value.deckId,
-    //     // );
-    //     store.decks[value.id] = value;
-    //     console.log(value);
-    //   }
-    // }
-
-    // const savedFlashcardsStore = getFromLocalStorage("decks");
-    // if (!savedFlashcardsStore) return;
-    // warnIfFunctionIsSlow.wrap(() => {
-    //   entries(savedFlashcardsStore.decks).forEach(([deckId, data]) => {
-    //     store.decks[deckId as DeckId] = new Deck(data);
-    //   });
-    // }, "initializeFlashcardsStore");
-    // setTimeout(() => (initialized = true), 0);
-
-    saveStore();
+    // TODO UserDataStore.lastSynced
   } catch (e) {
     console.error(e);
     console.error("Likely malformed flashcards store data");
@@ -87,13 +66,6 @@ export function saveStore() {
   if (!initialized) return;
   logDev("Flashcards store saved");
 
-  // const basicValues: (keyof Store)[] = [
-  //   "user",
-  //   "userSettings",
-  //   "deckOrder",
-  //   "lastSynced",
-  //   "volume",
-  // ];
   // const records: (keyof Store)[] = [
   //   "decks",
   //   "schedule",

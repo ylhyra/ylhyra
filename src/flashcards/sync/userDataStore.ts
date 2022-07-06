@@ -10,9 +10,16 @@ import { saveInLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
 
 export const FLASHCARDS_LOCALSTORAGE_PREFIX = "f:";
+export const ALREADY_IN_USER_STORE = "__ALREADY_IN_USER_STORE";
+export const storeKeysToSave: Readonly<(keyof Store)[]> = [
+  "user",
+  "userSettings",
+  "deckOrder",
+  "volume",
+] as const;
 
 export type UserDataStoreTypes =
-  | keyof Store
+  | typeof storeKeysToSave[number]
   | "deck"
   | "row"
   | "schedule"
@@ -28,7 +35,6 @@ export class UserDataStore {
   values: {
     [keys: string]: UserDataValue;
   } = {};
-  // needsSyncing?: boolean;
   valuesByType: {
     [key in UserDataStoreTypes]?: Record<string, UserDataValue>;
   } = {};
@@ -87,14 +93,20 @@ export class UserDataValue {
       throw new Error("UserDataValue: Value must be an observable");
     }
     if (!isInitializing) this.save();
-    reaction(() => Object.entries(this.value), this.save);
+    value[ALREADY_IN_USER_STORE] = true;
+    reaction(
+      () => Object.entries(this.value),
+      () => {
+        this.save();
+      },
+    );
   }
   save() {
-    // sync()
     this.needsSyncing = true;
     saveInLocalStorage(FLASHCARDS_LOCALSTORAGE_PREFIX + this.key, {
       type: this.type,
       value: this.value,
+      needsSyncing: this.needsSyncing,
     });
   }
 }
@@ -104,12 +116,9 @@ export function syncedValue<T extends object>(
   key: string,
   value: T,
 ): T {
+  if (ALREADY_IN_USER_STORE in value) return value;
   const obs = isObservable(value) ? value : observable.object(value);
   userDataStore.set(key, obs, type);
-
-  // // tmp
-  // saveInLocalStorage(key, value);
-
   return obs;
 }
 
