@@ -1,6 +1,6 @@
 module.exports = {
   extends: ["react-app"],
-  plugins: ["@typescript-eslint/eslint-plugin", "import"],
+  plugins: ["@typescript-eslint/eslint-plugin", "import", "mobx"],
   parser: "@typescript-eslint/parser",
   root: true,
   globals: {
@@ -44,11 +44,14 @@ module.exports = {
         "no-invalid-this": "off",
         "@typescript-eslint/no-invalid-this": ["warn"],
         "@typescript-eslint/prefer-for-of": "warn",
+
+        "mobx/missing-make-observable": "error",
+        "mobx/missing-observer": "warn",
       },
     },
     /**
-     * Prevent Flashcards from importing from Ylhýra for now to prevent
-     * accidental clashes.
+     * Prevent Flashcards from importing from Ylhýra
+     * for now to prevent accidental clashes.
      */
     {
       files: ["src/flashcards/**/*.ts", "src/flashcards/**/*.tsx"],
