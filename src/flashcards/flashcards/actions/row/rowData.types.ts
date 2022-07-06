@@ -1,5 +1,5 @@
+import { DeckId, DirectionSettings } from 'flashcards/flashcards/types';
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
-import { DirectionSettings } from "flashcards/flashcards/types";
 import { Brand } from "ts-brand";
 
 export type RowId = Brand<string, "RowId">;
@@ -12,6 +12,7 @@ export type RowIds = RowId[];
  * (work in progress)
  */
 export type RowData = {
+  deckId: DeckId;
   /** Random string */
   rowId: RowId;
   /** Index of this row in the deck */

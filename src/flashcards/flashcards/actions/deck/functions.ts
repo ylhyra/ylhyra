@@ -1,4 +1,3 @@
-import { store } from "flashcards/store";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { Row } from "flashcards/flashcards/actions/row/row";
@@ -7,6 +6,7 @@ import {
   RowId,
 } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
+import { store } from "flashcards/store";
 import { action } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 import { isBrowser } from "modules/isBrowser";
@@ -51,10 +51,11 @@ export function addRowsToDeck(deck: Deck, arrayOfRowData: Partial<RowData>[]) {
   arrayOfRowData.forEach((rowData) => {
     const rowId = `${baseId}${i}` as RowId;
     const row = new Row(deck, {
+      deckId: deck.deckId,
       rowId,
       rowNumber: highestRowNumber + 1 + i++,
       ...removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(
-        rowData || {}
+        rowData || {},
       ),
     });
     // rows[rowId] = row;

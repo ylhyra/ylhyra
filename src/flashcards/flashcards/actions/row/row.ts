@@ -10,8 +10,8 @@ import {
   DependenciesForOneRowAsDependencyToDepth,
   Direction,
 } from "flashcards/flashcards/types";
-import { saveStore } from "flashcards/sync/initialize";
-import { computed, makeObservable, observable, reaction } from "mobx";
+import { syncedValue } from "flashcards/sync/valueStore";
+import { computed, makeObservable, observable } from "mobx";
 import { getDefaultValue } from "modules/form";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
 
@@ -19,11 +19,12 @@ export class Row {
   @observable data: RowData;
 
   constructor(public deck: Deck, data: RowData) {
-    this.data = data;
+    // this.data = syncedValue(data.rowId, data);
+    this.data = syncedValue(data.rowId, { ...data, deckId: deck.deckId });
     makeObservable(this);
 
-    /* Auto save */
-    reaction(() => Object.entries(this.data), saveStore);
+    // /* Auto save */
+    // reaction(() => Object.entries(this.data), saveStore);
   }
 
   get rowId() {
@@ -39,7 +40,11 @@ export class Row {
       directionSetting === "ONLY_FRONT_TO_BACK"
     ) {
       cardIds.push(
-        createCardId(this.deck.deckId, this.data.rowId, Direction.FRONT_TO_BACK)
+        createCardId(
+          this.deck.deckId,
+          this.data.rowId,
+          Direction.FRONT_TO_BACK,
+        ),
       );
     }
     if (
@@ -47,7 +52,11 @@ export class Row {
       directionSetting === "ONLY_BACK_TO_FRONT"
     ) {
       cardIds.push(
-        createCardId(this.deck.deckId, this.data.rowId, Direction.BACK_TO_FRONT)
+        createCardId(
+          this.deck.deckId,
+          this.data.rowId,
+          Direction.BACK_TO_FRONT,
+        ),
       );
     }
     return cardIds;
@@ -78,7 +87,7 @@ export class Row {
   get redirects(): string[] {
     // TODO: Incomplete, needs comma splitting
     return [this.data.front, this.data.alternativeId].filter(
-      Boolean
+      Boolean,
     ) as string[];
   }
 
@@ -87,7 +96,7 @@ export class Row {
    * deck setting, falling back to defaults.
    */
   getSetting<T extends keyof DeckSettings & keyof RowData>(
-    key: T
+    key: T,
   ): (DeckSettings & RowData)[T] {
     /* "!= null" tests for null and undefined */
     if (this.data[key] != null) {
@@ -102,7 +111,7 @@ export class Row {
 
   toJSON(): RowData {
     return removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(
-      this.data
+      this.data,
     ) as RowData;
   }
 }

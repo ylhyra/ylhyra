@@ -11,6 +11,7 @@ import {
   DependenciesForAllRowsAsRowIdToDependencyToDepth,
 } from "flashcards/flashcards/types";
 import { saveStore } from "flashcards/sync/initialize";
+import { syncedValue } from "flashcards/sync/valueStore";
 import { computed, makeObservable, observable, reaction } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 
@@ -28,7 +29,7 @@ export class Deck {
     rows?: RowData[];
   }) {
     this.deckId = deckId;
-    this.settings = settings || {};
+    this.settings = syncedValue(deckId, settings || {});
     if (rows) {
       this.rows = rows.map((rowData) => {
         return new Row(this, rowData);
@@ -39,7 +40,7 @@ export class Deck {
     /* Auto save */
     reaction(
       () => [Object.keys(this.rows), Object.entries(this.settings)],
-      saveStore
+      saveStore,
     );
   }
 

@@ -18,6 +18,8 @@ export const initialize = action(() => {
       });
     }, "initializeFlashcardsStore");
     setTimeout(() => (initialized = true), 0);
+
+    saveStore();
   } catch (e) {
     console.error(e);
     console.error("Likely malformed flashcards store data");

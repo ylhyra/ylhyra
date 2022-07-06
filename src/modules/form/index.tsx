@@ -1,4 +1,4 @@
-import { isObservable, makeObservable, observable } from "mobx";
+import { action, isObservable, makeObservable, observable } from 'mobx';
 import { observer } from "mobx-react";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 import React, { PropsWithChildren } from "react";
@@ -76,17 +76,19 @@ export class FormHelper<TypeThisIsDescribing = Record<string, any>> {
     this.values = {};
   }
   handleChange = (fieldName: string, isCheckbox?: Boolean) => {
-    return (
-      event: React.ChangeEvent<
-        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-      >
-    ) => {
-      this.values[fieldName] =
-        isCheckbox && "checked" in event.target
-          ? event.target.checked
-          : event.target.value;
-      this.onChange?.(this.values);
-    };
+    return action(
+      (
+        event: React.ChangeEvent<
+          HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+        >
+      ) => {
+        this.values[fieldName] =
+          isCheckbox && "checked" in event.target
+            ? event.target.checked
+            : event.target.value;
+        this.onChange?.(this.values);
+      }
+    );
   };
   handleBlur = (fieldName: string) => () => {
     this.touched[fieldName] = true;
