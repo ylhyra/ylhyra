@@ -1,11 +1,13 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
+import { Row } from "flashcards/flashcards/actions/row/row";
+import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
-import { store } from "flashcards/store";
+import { Store, store } from "flashcards/store";
 import {
   FLASHCARDS_LOCALSTORAGE_PREFIX,
   userDataStore,
-} from "flashcards/sync/valueStore";
+} from "flashcards/sync/userDataStore";
 import { action, observable } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
 import { logDev } from "modules/log";
@@ -13,7 +15,6 @@ import { logDev } from "modules/log";
 export let initialized = false;
 export const initialize = action(() => {
   try {
-    const storage: Record<string, any> = {};
     Object.keys(localStorage).forEach((key) => {
       if (!key.startsWith(FLASHCARDS_LOCALSTORAGE_PREFIX)) return;
       const { type, value } = getFromLocalStorage(key);
@@ -25,11 +26,33 @@ export const initialize = action(() => {
       );
     });
 
-    for (const key in userDataStore.valuesByType.deck) {
-      store.decks[key as DeckId] = new Deck({
-        deckId: key as DeckId,
-        settings: userDataStore.valuesByType.deck[key].value as DeckSettings,
-      });
+    for (const deckId in userDataStore.valuesByType.deck) {
+      store.decks[deckId as DeckId] = new Deck(
+        deckId as DeckId,
+        userDataStore.valuesByType.deck[deckId].value as DeckSettings,
+      );
+    }
+
+    for (const rowId in userDataStore.valuesByType.row) {
+      const rowData = userDataStore.valuesByType.row[rowId].value as RowData;
+      const deck = store.decks[rowData.deckId];
+      if (deck) {
+        deck.rows.push(new Row(deck, rowData));
+      }
+    }
+
+    const basicStoreKeys: (keyof Store)[] = [
+      "user",
+      "userSettings",
+      "deckOrder",
+      "volume",
+    ];
+    for (const key of basicStoreKeys) {
+      const value = userDataStore.valuesByType[key]?.value;
+      if (value) {
+        // @ts-ignore
+        store[key] = value;
+      }
     }
 
     // for (const [key, _value] of entries(storage)) {

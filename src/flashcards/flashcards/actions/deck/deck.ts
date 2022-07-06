@@ -8,7 +8,7 @@ import {
   DependenciesForAllRowsAsRowIdToDependencyToDepth,
 } from "flashcards/flashcards/types";
 import { saveStore } from "flashcards/sync/initialize";
-import { syncedValue } from "flashcards/sync/valueStore";
+import { syncedValue } from "flashcards/sync/userDataStore";
 import { computed, makeObservable, observable, reaction } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 

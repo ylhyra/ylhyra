@@ -10,7 +10,7 @@ import {
   DependenciesForOneRowAsDependencyToDepth,
   Direction,
 } from "flashcards/flashcards/types";
-import { syncedValue } from "flashcards/sync/valueStore";
+import { syncedValue } from "flashcards/sync/userDataStore";
 import { computed, makeObservable, observable } from "mobx";
 import { getDefaultValue } from "modules/form";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";

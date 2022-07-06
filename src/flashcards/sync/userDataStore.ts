@@ -1,3 +1,4 @@
+import { Store } from "flashcards/store";
 import {
   isObservable,
   makeAutoObservable,
@@ -10,7 +11,12 @@ import { Timestamp } from "modules/time";
 
 export const FLASHCARDS_LOCALSTORAGE_PREFIX = "f:";
 
-export type UserDataStoreTypes = "deck" | "row" | "schedule" | "sessionLog";
+export type UserDataStoreTypes =
+  | keyof Store
+  | "deck"
+  | "row"
+  | "schedule"
+  | "sessionLog";
 
 /**
  * Key-value store that makes syncing and local storage easier
@@ -28,19 +34,28 @@ export class UserDataStore {
   } = {};
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      valuesByType: observable.shallow,
+    });
   }
 
   set(
     key: string,
     value: any,
-    type?: UserDataValue["type"],
+    type: UserDataStoreTypes,
     isInitializingFromLocalStorage = false,
   ) {
     if (key in this.values) {
       Object.assign(this.values[key].value, value);
+
+      // temp testing
+      setTimeout(() => {
+        if (!this.values[key].needsSyncing) {
+          throw new Error("Failed to mark item as needing to sync");
+        }
+      }, 10);
     } else {
-      this.values[key] = new UserDataValue(key, value, this, false, type);
+      this.values[key] = new UserDataValue(key, value, type, false, false);
     }
     if (type) {
       if (!(type in this.valuesByType)) {
@@ -61,11 +76,13 @@ export class UserDataValue {
   constructor(
     public key: string,
     public value: any,
-    public parentClass: UserDataStore,
-    isInitializing?: boolean,
-    public type?: UserDataStoreTypes | null,
-    public needsSyncing?: boolean,
+    public type: UserDataStoreTypes,
+    public needsSyncing: boolean = true,
+    isInitializing: boolean,
   ) {
+    if (typeof key !== "string") {
+      throw new Error("Key must be a string");
+    }
     if (!isObservable(value)) {
       throw new Error("UserDataValue: Value must be an observable");
     }
