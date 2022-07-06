@@ -16,10 +16,9 @@ export class Deck {
   deckId: DeckId;
   @observable rows: Row[] = [];
   @observable settings: DeckSettings = {};
-  constructor(input: { deckId: DeckId; settings: DeckSettings }) {
-    const { deckId, settings } = syncedValue("deck", input.deckId, input);
+  constructor(deckId: DeckId, settings?: DeckSettings) {
     this.deckId = deckId;
-    this.settings = settings;
+    this.settings = syncedValue("deck", deckId, settings || {});
     // if (rows) {
     //   this.rows = rows.map((rowData) => {
     //     return new Row(this, rowData);

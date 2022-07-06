@@ -17,10 +17,7 @@ import _ from "underscore";
 
 export function newDeck(): Deck {
   const id = shortid.generate() as DeckId;
-  const deck = new Deck({
-    deckId: id,
-    settings: {},
-  });
+  const deck = new Deck(id);
   store.decks[id] = deck;
   if (isBrowser) {
     goToUrl(`/flashcards/deck/${id}`);
