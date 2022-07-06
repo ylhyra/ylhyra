@@ -1,4 +1,3 @@
-import { DeckId } from "flashcards/flashcards/types";
 import {
   isObservable,
   makeAutoObservable,
@@ -11,6 +10,8 @@ import { Timestamp } from "modules/time";
 
 export const FLASHCARDS_LOCALSTORAGE_PREFIX = "f:";
 
+export type UserDataStoreTypes = "deck" | "row" | "schedule" | "sessionLog";
+
 /**
  * Key-value store that makes syncing and local storage easier
  * by wrapping each value in a {@link UserDataValue}.
@@ -22,9 +23,9 @@ export class UserDataStore {
     [keys: string]: UserDataValue;
   } = {};
   // needsSyncing?: boolean;
-  valuesByType: Record<UserDataValue["type"], Record<string, UserDataValue>> =
-    {};
-  deckData: Record<DeckId, UserDataValue> = {};
+  valuesByType: {
+    [key in UserDataStoreTypes]?: Record<string, UserDataValue>;
+  } = {};
 
   constructor() {
     makeAutoObservable(this);
@@ -41,8 +42,11 @@ export class UserDataStore {
     } else {
       this.values[key] = new UserDataValue(key, value, this, false, type);
     }
-    if (type === "deck") {
-      this.deckData[key as DeckId] = this.values[key];
+    if (type) {
+      if (!(type in this.valuesByType)) {
+        this.valuesByType[type] = {};
+      }
+      this.valuesByType[type]![key] = this.values[key];
     }
   }
 
@@ -59,7 +63,7 @@ export class UserDataValue {
     public value: any,
     public parentClass: UserDataStore,
     isInitializing?: boolean,
-    public type?: "deck" | "row" | "schedule" | "sessionLog" | null,
+    public type?: UserDataStoreTypes | null,
     public needsSyncing?: boolean,
   ) {
     if (!isObservable(value)) {

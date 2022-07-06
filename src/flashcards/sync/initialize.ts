@@ -25,10 +25,10 @@ export const initialize = action(() => {
       );
     });
 
-    for (const key in userDataStore.deckData) {
+    for (const key in userDataStore.valuesByType.deck) {
       store.decks[key as DeckId] = new Deck({
         deckId: key as DeckId,
-        settings: userDataStore.deckData[key as DeckId].value as DeckSettings,
+        settings: userDataStore.valuesByType.deck[key].value as DeckSettings,
       });
     }
 
