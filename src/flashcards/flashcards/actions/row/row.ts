@@ -20,7 +20,10 @@ export class Row {
 
   constructor(public deck: Deck, data: RowData) {
     // this.data = syncedValue(data.rowId, data);
-    this.data = syncedValue(data.rowId, { ...data, deckId: deck.deckId });
+    this.data = syncedValue("row", data.rowId, {
+      ...data,
+      deckId: deck.deckId,
+    });
     makeObservable(this);
 
     // /* Auto save */

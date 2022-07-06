@@ -1,6 +1,10 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckId } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
+import {
+  FLASHCARDS_LOCALSTORAGE_PREFIX,
+  userDataStore,
+} from "flashcards/sync/valueStore";
 import { action } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
 import { logDev } from "modules/log";
@@ -10,6 +14,28 @@ import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 export let initialized = false;
 export const initialize = action(() => {
   try {
+    const storage: Record<string, any> = {};
+    Object.keys(localStorage).forEach((key) => {
+      if (!key.startsWith(FLASHCARDS_LOCALSTORAGE_PREFIX)) return;
+      const { type, value } = getFromLocalStorage(key);
+      userDataStore.set(
+        key.slice(FLASHCARDS_LOCALSTORAGE_PREFIX.length),
+        value,
+        type,
+      );
+    });
+
+    for (const [key, _value] of entries(storage)) {
+      const { type, value } = _value;
+      if (type === "deck") {
+        // const rows = entries(storage).filter(
+        //   ([key, _value]) =>
+        //     _value.type === "row" && _value.deckId === value.deckId,
+        // );
+        store.decks[value.id] = value;
+      }
+    }
+
     const savedFlashcardsStore = getFromLocalStorage("decks");
     if (!savedFlashcardsStore) return;
     warnIfFunctionIsSlow.wrap(() => {

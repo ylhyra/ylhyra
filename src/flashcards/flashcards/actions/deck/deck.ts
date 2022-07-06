@@ -29,7 +29,7 @@ export class Deck {
     rows?: RowData[];
   }) {
     this.deckId = deckId;
-    this.settings = syncedValue(deckId, settings || {});
+    this.settings = syncedValue("deck", deckId, settings || {});
     if (rows) {
       this.rows = rows.map((rowData) => {
         return new Row(this, rowData);

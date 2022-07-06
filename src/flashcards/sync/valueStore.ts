@@ -2,7 +2,7 @@ import { isObservable, makeObservable, observable, reaction, toJS } from "mobx";
 import { saveInLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
 
-const FLASHCARDS_LOCALSTORAGE_PREFIX = "f:";
+export const FLASHCARDS_LOCALSTORAGE_PREFIX = "f:";
 
 /**
  * Key-value store that makes syncing and local storage easier
@@ -23,14 +23,11 @@ export class UserDataStore {
   }
 
   set(key: string, value: any, type?: UserDataValue["type"]) {
-    const isInitializing = false;
-    this.values[key] = new UserDataValue(
-      key,
-      value,
-      this,
-      isInitializing,
-      type,
-    );
+    if (key in this.values) {
+      Object.assign(this.values[key].value, value);
+    } else {
+      this.values[key] = new UserDataValue(key, value, this, false, type);
+    }
   }
 
   get(key: string) {
@@ -58,13 +55,20 @@ export class UserDataValue {
   save() {
     // sync()
     this.needsSyncing = true;
-    saveInLocalStorage(FLASHCARDS_LOCALSTORAGE_PREFIX + this.key, this.value);
+    saveInLocalStorage(FLASHCARDS_LOCALSTORAGE_PREFIX + this.key, {
+      type: this.type,
+      value: this.value,
+    });
   }
 }
 
-export function syncedValue<T extends object>(key: string, value: T): T {
+export function syncedValue<T extends object>(
+  type: UserDataValue["type"],
+  key: string,
+  value: T,
+): T {
   const obs = isObservable(value) ? value : observable.object(value);
-  userDataStore.set(key, obs);
+  userDataStore.set(key, obs, type);
 
   // // tmp
   // saveInLocalStorage(key, value);
