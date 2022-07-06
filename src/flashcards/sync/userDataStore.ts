@@ -1,4 +1,5 @@
 import { Store } from "flashcards/store";
+import { waitAndSync } from "flashcards/sync/sync";
 import {
   isObservable,
   makeAutoObservable,
@@ -50,18 +51,29 @@ export class UserDataStore {
     value: any,
     type: UserDataStoreTypes,
     isInitializingFromLocalStorage = false,
+    needsSyncing = true,
   ) {
     if (key in this.values) {
       Object.assign(this.values[key].value, value);
+      // We need some way to override the reaction
+      if (!needsSyncing) {
+        this.values[key].needsSyncing = false;
+      }
 
-      // temp testing
-      setTimeout(() => {
-        if (!this.values[key].needsSyncing) {
-          throw new Error("Failed to mark item as needing to sync");
-        }
-      }, 10);
+      // // temp testing
+      // setTimeout(() => {
+      //   if (!this.values[key].needsSyncing) {
+      //     throw new Error("Failed to mark item as needing to sync");
+      //   }
+      // }, 10);
     } else {
-      this.values[key] = new UserDataValue(key, value, type, false, false);
+      this.values[key] = new UserDataValue(
+        key,
+        value,
+        type,
+        needsSyncing,
+        false,
+      );
     }
     if (type) {
       if (!(type in this.valuesByType)) {
@@ -92,17 +104,18 @@ export class UserDataValue {
     if (!isObservable(value)) {
       throw new Error("UserDataValue: Value must be an observable");
     }
-    if (!isInitializing) this.save();
+    if (!isInitializing) this.saveInLocalStorage();
     value[ALREADY_IN_USER_STORE] = true;
     reaction(
       () => Object.entries(this.value),
       () => {
-        this.save();
+        this.needsSyncing = true;
+        this.saveInLocalStorage();
+        waitAndSync();
       },
     );
   }
-  save() {
-    this.needsSyncing = true;
+  saveInLocalStorage() {
     saveInLocalStorage(FLASHCARDS_LOCALSTORAGE_PREFIX + this.key, {
       type: this.type,
       value: this.value,

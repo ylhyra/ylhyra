@@ -7,85 +7,53 @@
 //  * - Tékka hvort notandi sé enn skráður inn
 //  *   og hvort sami notandi sé enn skráður inn
 //  */
+import { UserDataStore, userDataStore } from "flashcards/sync/userDataStore";
+import { isUserLoggedIn } from "flashcards/user/login/actions";
+import axios2 from "modules/axios2";
+import { log } from "modules/log";
+import { Timestamp } from "modules/time";
+
 export const sync = async (options: any = {}): Promise<void> => {
-  //   // let userData: UserData;
-  //   //
-  //   // if (Object.keys(getUserDataStore().data || {}).length > 0) {
-  //   //   userData = getUserDataStore();
-  //   // } else {
-  //   //   userData = getFromLocalStorage("vocabulary-user-data") || {};
-  //   // }
-  //   //
-  //   // let rows: UserDataRows = userData.data || {};
-  //   //
-  //   // const { lastSynced } = userData;
-  //   //
-  //   // // if (!options.isInitializing) {
-  //   // //   saveUserDataInLocalStorage({ rows });
-  //   // // }
-  //   //
-  //   // if (!isUserLoggedIn()) {
-  //   //   log(`Not synced to server as user isn't logged in`);
-  //   //   return;
-  //   // }
-  //   //
-  //   // const unsynced = getUnsynced(rows, options);
-  //   //
-  //   // const response = (await axios2.post(`/api/vocabulary/sync`, {
-  //   //   unsynced,
-  //   //   lastSynced: lastSynced || 0,
-  //   // })) as UserData;
-  //   //
-  //   // rows = mergeResponse(rows, response.data);
-  //   //
-  //   // getUserDataStore().data = rows;
-  //   // getUserDataStore().lastSynced = response.lastSynced;
-  //   // getUserDataStore().needsSyncing.clear();
-  //   // log("Data synced");
-  // };
-  //
-  // export function syncIfNecessary() {
-  //   // TODO
-  //   // const data = getFromLocalStorage("vocabulary-user-data");
-  //   // /* Localstorage data has been updated in another tab, so we reload */
-  //   // if (data) {
-  //   //   if (data.lastSaved > deck!.lastSaved) {
-  //   //     saveUserDataInLocalStorage(data, { assignToDeck: true });
-  //   //   }
-  //   // }
-  //   // if (isUserLoggedIn()) {
-  //   //   /* Sync if more than 10 minutes since sync */
-  //   //   if (now() > deck!.lastSynced + 10 * 60 * 1000) {
-  //   //     // TODO
-  //   //     await sync();
-  //   //   }
-  //   // }
+  const unsynced: InstanceType<typeof UserDataStore>["values"] = {};
+  for (const key in userDataStore.values) {
+    if (userDataStore.values[key].needsSyncing) {
+      unsynced[key] = userDataStore.values[key];
+    }
+  }
+  const { lastSynced } = userDataStore;
+  if (!isUserLoggedIn()) {
+    log(`Not synced to server as user isn't logged in`);
+    return;
+  }
+
+  const response = (await axios2.post(`/api/vocabulary/sync`, {
+    unsynced,
+    lastSynced: lastSynced || 0,
+  })) as InstanceType<typeof UserDataStore>["values"];
+
+  for (const key in response) {
+    userDataStore.set(
+      key,
+      response[key].value,
+      response[key].type,
+      false,
+      true,
+    );
+  }
+
+  for (const key in unsynced) {
+    unsynced[key].needsSyncing = false;
+  }
+  // hmm
+  userDataStore.lastSynced = response.lastSynced as any as Timestamp;
+
+  log("Data synced");
 };
-//
-// const getUnsynced = (
-//   obj: UserDataRows,
-//   options: { syncEverything?: boolean } = {}
-// ): UserDataRows => {
-//   throw new Error("");
-//   // if (!obj) return {};
-//   // const { syncEverything } = options;
-//   // let toSave: UserDataRows = {};
-//   //
-//   // Object.keys(obj).forEach((key) => {
-//   //   if (getUserDataStore().needsSyncing.has(key) || syncEverything) {
-//   //     toSave[key] = obj[key];
-//   //   }
-//   // });
-//   // return toSave;
-// };
-//
-// const mergeResponse = (
-//   local: UserDataRows,
-//   server: UserDataRows
-// ): UserDataRows => {
-//   Object.keys(server).forEach((key) => {
-//     local[key] = server[key];
-//   });
-//   return local;
-// };
-export {};
+
+let timer: NodeJS.Timeout;
+export function waitAndSync() {
+  timer && clearTimeout(timer);
+  timer = setTimeout(() => {
+    void sync();
+  }, 1000 * 10);
+}

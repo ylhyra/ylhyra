@@ -3,9 +3,10 @@ import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.ty
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
-import { Store, store } from "flashcards/store";
+import { store } from "flashcards/store";
 import {
   FLASHCARDS_LOCALSTORAGE_PREFIX,
+  storeKeysToSave,
   userDataStore,
 } from "flashcards/sync/userDataStore";
 import { action, observable } from "mobx";
@@ -41,13 +42,7 @@ export const initialize = action(() => {
       }
     }
 
-    const basicStoreKeys: (keyof Store)[] = [
-      "user",
-      "userSettings",
-      "deckOrder",
-      "volume",
-    ];
-    for (const key of basicStoreKeys) {
+    for (const key of storeKeysToSave) {
       const value = userDataStore.values[key]?.value;
       if (value) {
         // @ts-ignore
