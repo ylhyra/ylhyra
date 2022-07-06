@@ -9,7 +9,7 @@ import { DeckId } from "flashcards/flashcards/types";
 export const setupTestSession = (numOfDecks = 1): Session => {
   let decks = [];
   for (let i = 0; i < numOfDecks; i++) {
-    const deck = new Deck({ deckId: i.toString() as DeckId, settings: {} });
+    const deck = new Deck(i.toString() as DeckId);
     let data = "";
     for (let i = 0; i < 1000; i++) {
       data += `test${i} = test${i}\n`;
