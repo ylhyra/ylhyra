@@ -1,4 +1,11 @@
-import { isObservable, makeObservable, observable, reaction, toJS } from "mobx";
+import { DeckId } from "flashcards/flashcards/types";
+import {
+  isObservable,
+  makeAutoObservable,
+  observable,
+  reaction,
+  toJS,
+} from "mobx";
 import { saveInLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
 
@@ -15,18 +22,27 @@ export class UserDataStore {
     [keys: string]: UserDataValue;
   } = {};
   // needsSyncing?: boolean;
+  valuesByType: Record<UserDataValue["type"], Record<string, UserDataValue>> =
+    {};
+  deckData: Record<DeckId, UserDataValue> = {};
 
   constructor() {
-    makeObservable(this, {
-      values: observable.shallow,
-    });
+    makeAutoObservable(this);
   }
 
-  set(key: string, value: any, type?: UserDataValue["type"]) {
+  set(
+    key: string,
+    value: any,
+    type?: UserDataValue["type"],
+    isInitializingFromLocalStorage = false,
+  ) {
     if (key in this.values) {
       Object.assign(this.values[key].value, value);
     } else {
       this.values[key] = new UserDataValue(key, value, this, false, type);
+    }
+    if (type === "deck") {
+      this.deckData[key as DeckId] = this.values[key];
     }
   }
 

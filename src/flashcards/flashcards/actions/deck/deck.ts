@@ -2,10 +2,7 @@ import { Card } from "flashcards/flashcards/actions/card/card";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { getDependencyGraph } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import {
-  RowData,
-  RowId,
-} from "flashcards/flashcards/actions/row/rowData.types";
+import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
 import {
   DeckId,
   DependenciesForAllRowsAsRowIdToDependencyToDepth,
@@ -19,22 +16,15 @@ export class Deck {
   deckId: DeckId;
   @observable rows: Row[] = [];
   @observable settings: DeckSettings = {};
-  constructor({
-    deckId,
-    settings,
-    rows,
-  }: {
-    deckId: DeckId;
-    settings?: DeckSettings;
-    rows?: RowData[];
-  }) {
+  constructor(input: { deckId: DeckId; settings: DeckSettings }) {
+    const { deckId, settings } = syncedValue("deck", input.deckId, input);
     this.deckId = deckId;
-    this.settings = syncedValue("deck", deckId, settings || {});
-    if (rows) {
-      this.rows = rows.map((rowData) => {
-        return new Row(this, rowData);
-      });
-    }
+    this.settings = settings;
+    // if (rows) {
+    //   this.rows = rows.map((rowData) => {
+    //     return new Row(this, rowData);
+    //   });
+    // }
     makeObservable(this);
 
     /* Auto save */

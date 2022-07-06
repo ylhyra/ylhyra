@@ -1,15 +1,14 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { DeckId } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
 import {
   FLASHCARDS_LOCALSTORAGE_PREFIX,
   userDataStore,
 } from "flashcards/sync/valueStore";
-import { action } from "mobx";
+import { action, observable } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
 import { logDev } from "modules/log";
-import { entries } from "modules/typescript/objectEntries";
-import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
 export let initialized = false;
 export const initialize = action(() => {
@@ -20,30 +19,39 @@ export const initialize = action(() => {
       const { type, value } = getFromLocalStorage(key);
       userDataStore.set(
         key.slice(FLASHCARDS_LOCALSTORAGE_PREFIX.length),
-        value,
+        observable(value),
         type,
+        true,
       );
     });
 
-    for (const [key, _value] of entries(storage)) {
-      const { type, value } = _value;
-      if (type === "deck") {
-        // const rows = entries(storage).filter(
-        //   ([key, _value]) =>
-        //     _value.type === "row" && _value.deckId === value.deckId,
-        // );
-        store.decks[value.id] = value;
-      }
+    for (const key in userDataStore.deckData) {
+      store.decks[key as DeckId] = new Deck({
+        deckId: key as DeckId,
+        settings: userDataStore.deckData[key as DeckId].value as DeckSettings,
+      });
     }
 
-    const savedFlashcardsStore = getFromLocalStorage("decks");
-    if (!savedFlashcardsStore) return;
-    warnIfFunctionIsSlow.wrap(() => {
-      entries(savedFlashcardsStore.decks).forEach(([deckId, data]) => {
-        store.decks[deckId as DeckId] = new Deck(data);
-      });
-    }, "initializeFlashcardsStore");
-    setTimeout(() => (initialized = true), 0);
+    // for (const [key, _value] of entries(storage)) {
+    //   const { type, value } = _value;
+    //   if (type === "deck") {
+    //     // const rows = entries(storage).filter(
+    //     //   ([key, _value]) =>
+    //     //     _value.type === "row" && _value.deckId === value.deckId,
+    //     // );
+    //     store.decks[value.id] = value;
+    //     console.log(value);
+    //   }
+    // }
+
+    // const savedFlashcardsStore = getFromLocalStorage("decks");
+    // if (!savedFlashcardsStore) return;
+    // warnIfFunctionIsSlow.wrap(() => {
+    //   entries(savedFlashcardsStore.decks).forEach(([deckId, data]) => {
+    //     store.decks[deckId as DeckId] = new Deck(data);
+    //   });
+    // }, "initializeFlashcardsStore");
+    // setTimeout(() => (initialized = true), 0);
 
     saveStore();
   } catch (e) {
