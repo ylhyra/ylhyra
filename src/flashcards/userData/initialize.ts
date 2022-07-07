@@ -5,6 +5,7 @@ import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
 import { getUserDataValueFromLocalStorage } from "flashcards/userData/localStorage";
+import { sync } from "flashcards/userData/sync";
 import {
   storeKeysToSave,
   userDataStore,
@@ -24,6 +25,7 @@ export const initialize = action(() => {
     // TODO UserDataStore.lastSynced
 
     applyChangesToMainStore();
+    void sync();
   } catch (e) {
     console.error(e);
     console.error("Likely malformed flashcards store data");

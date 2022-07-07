@@ -7,9 +7,6 @@ import removeNullKeys from "modules/removeNullKeys";
 
 const router = Router();
 
-// export type SyncRequest= {}
-// export type SyncResponse= {}
-
 /* Sync user data */
 router.post(
   "/api/vocabulary/sync",
@@ -55,8 +52,10 @@ const getUserDataFromDatabase = async (
     ) b
     ON a.id = b.id
     WHERE userId = ${req.session!.userId}
-    AND createdAt > (${req.body.lastSynced || 0})
+    AND updatedAt > (${req.body.lastSynced || 0})
   `;
+
+  console.log({ lastSynced: req.body.lastSynced, results });
   let out: SyncedUserDataStore["values"] = {};
   (results as any).forEach(
     ({
