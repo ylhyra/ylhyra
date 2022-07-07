@@ -1,36 +1,31 @@
 import express, { Request, Response } from "express";
-import withLicense from "inflection/server/views/license";
+import Get_by_id from "inflection/server/search/getById";
+import Search from "inflection/server/search/search";
 import {
   FuzzySearchOutputObject,
   FuzzySearchReturns,
-  MainSearchParameters,
   WebsiteSearch,
 } from "inflection/server/types";
 import layout from "inflection/server/views/layout";
 import { renderEntry } from "inflection/tables/renderEntry";
-import { tree } from "inflection/tables/tree";
 import { cacheControl } from "ylhyra/server/caching";
-import Get_by_id from "inflection/server/search/getById";
-import Search from "inflection/server/search/search";
 
 const router = express.Router();
 
-/**
- * Website
- */
+/** Website */
 router.get(
   ["/robots.txt", "/favicon.ico", "/sitemap.xml"],
   (req: Request, res: Response) => {
     cacheControl(res, "immutable");
 
     res.send("");
-  }
+  },
 );
 router.get(
   ["/", "/:id(\\d+)/", "/:word?/:id(\\d+)?"],
   (
     req: Request<{ id?: number; word: string }, {}, {}, WebsiteSearch>,
-    res: Response
+    res: Response,
   ) => {
     cacheControl(res, "cached_html");
     const id = req.query.id || req.params.id;
@@ -49,7 +44,7 @@ router.get(
               // @ts-ignore
               e && e?.message
             }</small>`,
-        })
+        }),
       );
     };
 
@@ -65,7 +60,7 @@ router.get(
                   rows === null
                     ? "Internal network error. Try reloading."
                     : "No matches",
-              })
+              }),
             );
           }
           try {
@@ -77,7 +72,7 @@ router.get(
                 results: renderEntry(rows, req.query),
                 id,
                 embed,
-              })
+              }),
             );
           } catch (e) {
             sendError(e);
@@ -105,7 +100,7 @@ router.get(
                       results === "Error"
                         ? "Error, try reloading"
                         : "No matches",
-                  })
+                  }),
                 );
               }
 
@@ -149,7 +144,7 @@ router.get(
                     did_you_mean_in_footer: did_you_mean_string,
                     id: rows[0].BIN_id,
                     embed,
-                  })
+                  }),
                 );
               } else {
                 /*
@@ -161,13 +156,13 @@ router.get(
                     string: word,
                     results: output + did_you_mean_string,
                     embed,
-                  })
+                  }),
                 );
               }
             } catch (e) {
               sendError(e);
             }
-          }
+          },
         );
       } else {
         res.send(layout({}));
@@ -175,12 +170,13 @@ router.get(
     } catch (e) {
       res.status(400).send(
         // @ts-ignore
-        `There was an error. <br><small>The message was ${e.message}</small>`
+        `There was an error. <br><small>The message was ${e.message}</small>`,
       );
     }
-  }
+  },
 );
 
+// eslint-disable-next-line import/no-default-export
 export default router;
 
 const renderItemOnSearchPage = (i: FuzzySearchOutputObject) => `

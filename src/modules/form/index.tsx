@@ -77,19 +77,19 @@ export class FormHelper<TypeThisIsDescribing = Record<string, any>> {
     this.values = {};
   }
   handleChange = (fieldName: string, isCheckbox?: Boolean) => {
-    return action(
-      (
-        event: React.ChangeEvent<
-          HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-        >,
-      ) => {
+    return (
+      event: React.ChangeEvent<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >,
+    ) => {
+      action(() => {
         this.values[fieldName] =
           isCheckbox && "checked" in event.target
             ? event.target.checked
             : event.target.value;
         this.onChange?.(this.values);
-      },
-    );
+      })();
+    };
   };
   handleBlur = (fieldName: string) => () => {
     this.touched[fieldName] = true;

@@ -1,6 +1,6 @@
 import type { Request } from "express";
 import { throwError } from "flashcards/app/functions/sendError.server";
-import { db } from "flashcards/database/database.server";
+import { prisma } from "flashcards/database/database.server";
 import { errors } from "flashcards/errors";
 import { UserId, Username } from "flashcards/user/types";
 import { StatusCodes } from "http-status-codes";
@@ -16,7 +16,7 @@ export function setSession(req: Request, userId: UserId, username: Username) {
 }
 
 export async function getUserIdFromUsername(username: Username) {
-  const user = await db.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: { username },
     select: { userId: true, username: true },
   });

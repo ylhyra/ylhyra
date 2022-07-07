@@ -1,12 +1,11 @@
 import express, { Request, Response } from "express";
+import Get_by_id from "inflection/server/search/getById";
+import Search from "inflection/server/search/search";
+import { MainSearchParameters } from "inflection/server/types";
 import withLicense from "inflection/server/views/license";
-import { MainSearchParameters, WebsiteSearch } from "inflection/server/types";
-import layout from "inflection/server/views/layout";
 import { renderEntry } from "inflection/tables/renderEntry";
 import { tree } from "inflection/tables/tree";
 import { cacheControl } from "ylhyra/server/caching";
-import Get_by_id from "inflection/server/search/getById";
-import Search from "inflection/server/search/search";
 
 const router = express.Router();
 
@@ -24,7 +23,7 @@ router.get(
         { word: search, fuzzy, return_rows_if_only_one_match },
         (results) => {
           res.json({ results });
-        }
+        },
       );
     } else if (id) {
       Get_by_id(id, (rows) => {
@@ -51,7 +50,7 @@ router.get(
               .send(
                 `There was an error. <br><small>The message was ${
                   (e as Error).message
-                }</small>`
+                }</small>`,
               );
           } else {
             res.status(400).send({
@@ -66,7 +65,8 @@ router.get(
       return res.status(400).send({ error: "Parameters needed" });
       // return res.sendFile(path.resolve(__dirname, `./../docs/README.md`))
     }
-  }
+  },
 );
 
+// eslint-disable-next-line import/no-default-export
 export default router;

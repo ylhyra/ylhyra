@@ -7,6 +7,6 @@ expressServer({
   port: 9123,
   use: [
     require("flashcards/user/login/login.server"),
-    require("flashcards/sync/sync.server"),
+    require("flashcards/userData/sync.server"),
   ],
 });

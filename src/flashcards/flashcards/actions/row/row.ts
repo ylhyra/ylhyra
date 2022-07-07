@@ -10,8 +10,8 @@ import {
   DependenciesForOneRowAsDependencyToDepth,
   Direction,
 } from "flashcards/flashcards/types";
-import { syncedValue } from "flashcards/sync/userDataStore";
-import { computed, makeObservable, observable, reaction } from "mobx";
+import { syncedValue } from "flashcards/userData/userDataValue";
+import { computed, makeObservable, observable } from "mobx";
 import { getDefaultValue } from "modules/form";
 import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
 
@@ -19,17 +19,8 @@ export class Row {
   @observable data: RowData;
 
   constructor(public deck: Deck, data: RowData) {
-    // this.data = syncedValue(data.rowId, data);
     this.data = syncedValue("row", data.rowId, data);
     makeObservable(this);
-
-    // /* Auto save */
-    reaction(
-      () => Object.entries(this.data),
-      () => {
-        console.log("reaction");
-      },
-    );
   }
 
   get rowId() {

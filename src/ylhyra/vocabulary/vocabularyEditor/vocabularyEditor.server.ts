@@ -78,4 +78,5 @@ router.post("/api/vocabulary_maker", (req, res) => {
   // );
 });
 
+// eslint-disable-next-line import/no-default-export
 export default router;

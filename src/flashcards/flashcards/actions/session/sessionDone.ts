@@ -3,7 +3,7 @@ import { exitVocabularyScreen } from "flashcards/flashcards/actions/functions";
 import { clearOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/functions/saveOngoingSessionInLocalStorage";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { store } from "flashcards/store";
-import { sync } from "flashcards/sync/sync";
+import { sync } from "flashcards/userData/sync";
 import { action } from "mobx";
 import { log } from "modules/log";
 import { roundMsToSec, roundToInterval } from "modules/math";

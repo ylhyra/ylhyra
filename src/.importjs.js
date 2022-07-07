@@ -24,5 +24,6 @@ module.exports = {
       "toJS",
       "spy",
     ],
+    express: ["Router", "Request", "Response"],
   },
 };

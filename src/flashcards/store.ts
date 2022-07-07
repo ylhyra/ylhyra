@@ -6,7 +6,12 @@ import { UserSettings } from "flashcards/user/userSettings.types";
 import { makeAutoObservable } from "mobx";
 import { Seconds, Timestamp } from "modules/time";
 
-console.log(getUserFromCookie());
+export type SessionLogData = {
+  deckId?: DeckId;
+  secondsSpent: Seconds;
+  timestamp: Timestamp;
+};
+
 export class Store {
   user: {
     userId: UserId;
@@ -16,14 +21,7 @@ export class Store {
   decks: Record<DeckId, Deck> = {};
   deckOrder: DeckId[] = [];
   schedule: Record<CardId, ScheduleData> = {};
-  sessionLog: Record<
-    string,
-    {
-      deckId?: DeckId;
-      secondsSpent: Seconds;
-      timestamp: Timestamp;
-    }
-  > = {};
+  sessionLog: Record<string, SessionLogData> = {};
   /** Separate from settings since user may not wish to sync this */
   volume: boolean = true;
   constructor() {

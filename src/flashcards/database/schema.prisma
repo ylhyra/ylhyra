@@ -24,6 +24,7 @@ model User {
   Settings  Settings[]
   Schedule  Schedule[]
 
+  UserData UserData[]
   @@index([email])
 }
 
@@ -68,6 +69,19 @@ model Schedule {
 }
 
 model Settings {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [userId])
+  userId    String
+  type      String? //@db.VarChar(10)
+  key       String //@db.VarChar(20)
+  value     String //@db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model UserData {
   id        String   @id @default(cuid())
   user      User     @relation(fields: [userId], references: [userId])
   userId    String

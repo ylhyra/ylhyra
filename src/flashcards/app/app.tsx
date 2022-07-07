@@ -3,7 +3,7 @@ import { Layout } from "flashcards/app/layout/layout";
 import { Routes } from "flashcards/app/routes";
 import "flashcards/app/styles/index.styl";
 import "flashcards/app/styles/tailwind/output.css";
-import { initialize } from "flashcards/sync/initialize";
+import { initialize } from "flashcards/userData/initialize";
 import { configure as mobxConfigure } from "mobx";
 import React from "react";
 import { createRoot } from "react-dom/client";
@@ -23,7 +23,7 @@ createRoot(document.getElementById("root") as Element).render(
         <Routes />
       </Layout>
     </HelmetProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 initialize();

@@ -2,7 +2,7 @@ import argon2 from "argon2";
 import type { Request, Response } from "express";
 import { Router } from "express";
 import { throwError } from "flashcards/app/functions/sendError.server";
-import { db } from "flashcards/database/database.server";
+import { prisma } from "flashcards/database/database.server";
 import { errors } from "flashcards/errors";
 import { setSession } from "flashcards/user/login/user.server";
 import { StatusCodes } from "http-status-codes";
@@ -51,7 +51,7 @@ class Login {
   }
 
   login = async () => {
-    const user = await db.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { username: this.username },
       select: { userId: true, username: true, password: true },
     });
@@ -72,7 +72,7 @@ class Login {
   };
 
   checkIfUserExists = async () => {
-    const user = await db.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { username: this.username },
       select: { userId: true, username: true, password: true },
     });
@@ -83,7 +83,7 @@ class Login {
 
   createUser = async () => {
     await this.checkIfUserExists();
-    const user = await db.user.create({
+    const user = await prisma.user.create({
       data: {
         username: this.username,
         password: await argon2.hash(this.password),
@@ -110,4 +110,5 @@ router.post("/api/logout", (req, res) => {
   return res.sendStatus(200);
 });
 
+// eslint-disable-next-line import/no-default-export
 export default router;
