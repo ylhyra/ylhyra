@@ -10,9 +10,6 @@ import {
 } from "flashcards/userData/userDataStore";
 import { isObservable, observable, reaction } from "mobx";
 
-/** Prefix to prevent possible clashes in localStorage */
-export const FLASHCARDS_LOCALSTORAGE_PREFIX = "f:";
-
 /**
  * The types of data which are stored as {@link UserDataValue}
  * and the values they represent.
@@ -26,19 +23,32 @@ export type UserDataValueTypes = {
   deckOrder: InstanceType<typeof Store>["deckOrder"];
 };
 
+export interface IUserDataValue<
+  K extends keyof UserDataValueTypes = keyof UserDataValueTypes,
+> {
+  type: K;
+  key: string;
+  value: UserDataValueTypes[K];
+  needsSyncing?: boolean;
+  updatedAt?: number;
+}
+
 /**
  * A wrapper around all values that will be synced to
  * localstorage and to the server.
  * Will observe changes in these values and save them.
  */
-export class UserDataValue<K extends keyof UserDataValueTypes> {
+export class UserDataValue<K extends keyof UserDataValueTypes = any>
+  implements IUserDataValue<K>
+{
   constructor(
     public type: K,
     public key: string,
     public value: UserDataValueTypes[K],
     public needsSyncing: boolean = true,
+    public updatedAt: number,
     isInitializing: boolean,
-    public parentClass: UserDataStore,
+    parentClass: UserDataStore,
   ) {
     if (typeof key !== "string") {
       console.warn({ key, value });
@@ -59,18 +69,20 @@ export class UserDataValue<K extends keyof UserDataValueTypes> {
       () => {
         if (!parentClass.isSyncing) {
           this.needsSyncing = true;
+          this.updatedAt = Date.now();
           saveUserDataValueInLocalStorage(this);
           syncDebounced();
         }
       },
     );
   }
-  getValues() {
+  getValues(): IUserDataValue<K> {
     return {
       key: this.key,
       value: this.value,
       type: this.type,
       needsSyncing: this.needsSyncing,
+      updatedAt: this.updatedAt,
     };
   }
 }

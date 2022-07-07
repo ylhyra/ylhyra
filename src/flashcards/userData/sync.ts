@@ -3,7 +3,7 @@ import {
   SyncedUserDataStore,
   userDataStore,
 } from "flashcards/userData/userDataStore";
-import { UserDataValue } from "flashcards/userData/userDataValue";
+import { IUserDataValue } from "flashcards/userData/userDataValue";
 import { action } from "mobx";
 import axios2 from "modules/axios2";
 import { log } from "modules/log";
@@ -19,10 +19,7 @@ import { Timestamp } from "modules/time";
 export const sync = action(async (): Promise<void> => {
   userDataStore.isSyncing = true;
 
-  const unsynced: Record<
-    string,
-    ReturnType<InstanceType<typeof UserDataValue>["getValues"]>
-  > = {};
+  const unsynced: Record<string, IUserDataValue> = {};
   for (const key in userDataStore.values) {
     if (userDataStore.values[key].needsSyncing) {
       unsynced[key] = userDataStore.values[key].getValues();

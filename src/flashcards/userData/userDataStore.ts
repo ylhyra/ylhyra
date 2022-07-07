@@ -1,5 +1,6 @@
 import { Store } from "flashcards/store";
 import {
+  IUserDataValue,
   UserDataValue,
   UserDataValueTypes,
 } from "flashcards/userData/userDataValue";
@@ -17,11 +18,7 @@ export type SyncedUserDataStore = {
   userId: string;
   lastSynced: Timestamp;
   values: {
-    [keys: string]: {
-      key: InstanceType<typeof UserDataValue>["key"];
-      value: InstanceType<typeof UserDataValue>["value"];
-      type: InstanceType<typeof UserDataValue>["type"];
-    };
+    [keys: string]: IUserDataValue;
   };
 };
 
@@ -33,7 +30,7 @@ export class UserDataStore {
   lastSynced?: Timestamp;
   userId?: string;
   values: {
-    [keys: string]: UserDataValue<any>;
+    [keys: string]: UserDataValue;
   } = {};
   valuesByType: {
     [K in keyof UserDataValueTypes]?: Record<string, UserDataValue<K>>;
@@ -52,15 +49,12 @@ export class UserDataStore {
     type,
     isInitializingFromLocalStorage = false,
     needsSyncing = true,
-  }: {
-    key: string;
-    value: any;
-    type: keyof UserDataValueTypes;
+  }: IUserDataValue & {
     isInitializingFromLocalStorage?: boolean;
-    needsSyncing?: boolean;
   }) {
     if (key in this.values) {
       Object.assign(this.values[key].value, value);
+      //Todo, fix updatedAt
       if (!needsSyncing) {
         this.values[key].needsSyncing = false;
       }
@@ -70,7 +64,8 @@ export class UserDataStore {
         key,
         value,
         needsSyncing,
-        false,
+        Date.now(),
+        isInitializingFromLocalStorage,
         this,
       );
     }

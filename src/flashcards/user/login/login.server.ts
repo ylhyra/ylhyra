@@ -1,6 +1,5 @@
 import argon2 from "argon2";
-import type { Request, Response } from "express";
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import { throwError } from "flashcards/app/functions/sendError.server";
 import { prisma } from "flashcards/database/database.server";
 import { errors } from "flashcards/errors";
