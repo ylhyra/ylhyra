@@ -3,7 +3,7 @@ import { isBrowser } from "modules/isBrowser";
 // eslint-disable-next-line no-restricted-imports
 import { decodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";
 
-export const COOKIE_NAME = "s";
+export const COOKIE_NAME = "f";
 
 export function getCookie(name: string) {
   const j = name + "=";

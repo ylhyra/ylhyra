@@ -21,109 +21,88 @@ export type LoginResponse = {
   username: string;
 };
 
-router.post("/api/login", async (req: Request<{}, {}, LoginRequest>, res) => {
-  const username = req.body.username?.trim().replace(/\s+/g, " ");
-  const email = req.body.email?.trim();
-  const { password, isLoginOrSignup } = req.body;
-
-  if (!username) {
-    return throwError(
-      errors.LOGIN_FORM_USERNAME_REQUIRED,
-      StatusCodes.BAD_REQUEST
-    );
-  }
-  if (!password) {
-    return throwError(
-      errors.LOGIN_FORM_PASSWORD_REQUIRED,
-      StatusCodes.BAD_REQUEST
-    );
-  }
-
-  if (isLoginOrSignup === "login") {
-    await login({ username, password, req, res });
-  } else if (isLoginOrSignup === "signup") {
-    await createUser({ email, username, password, req, res });
-  } else {
-    res.send({ error: "Missing parameter `isLoginOrSignup`" });
-  }
+router.post("/api/login", (req: Request<{}, {}, LoginRequest>, res) => {
+  new Login(req, res);
 });
 
-const login = async ({
-  username,
-  password,
-  req,
-  res,
-}: {
-  username: string;
-  password: string;
-  req: Request;
-  res: Response;
-}) => {
-  const user = await db.user.findUnique({
-    where: { username: username },
-    select: { userId: true, username: true, password: true },
-  });
-
-  if (!user) {
-    throwError(
-      errors.LOGIN_FORM_USERNAME_DOES_NOT_EXIST,
-      StatusCodes.UNAUTHORIZED
-    );
-  } else if (!(await argon2.verify(user.password, password))) {
-    throwError(errors.LOGIN_FORM_INCORRECT_PASSWORD, StatusCodes.UNAUTHORIZED);
-  } else {
-    loginSuccessful(req, res, user);
-  }
-};
-
-export const checkIfUserExists = async ({
-  email,
-  username,
-  res,
-}: {
+class Login {
   username: string;
   email?: string;
-  res: Response;
-}) => {
-  const user = await db.user.findUnique({
-    where: { username: username },
-    select: { userId: true, username: true, password: true },
-  });
-  if (user) {
-    throwError(errors.LOGIN_FORM_USERNAME_EXISTS, StatusCodes.CONFLICT);
-  }
-};
-
-const createUser = async ({
-  username,
-  email,
-  password,
-  req,
-  res,
-}: {
-  username: string;
   password: string;
-  email?: string;
-  req: Request;
-  res: Response;
-}) => {
-  await checkIfUserExists({ email, username, res });
-  const user = await db.user.create({
-    data: { username, password: await argon2.hash(password) },
-  });
-  // TODO Error handling
-  if (user) {
-    loginSuccessful(req, res, user);
-  } else {
-    throwError(null, StatusCodes.INTERNAL_SERVER_ERROR);
-  }
-};
+  isLoginOrSignup: string;
 
-const loginSuccessful = (req: Request, res: Response, user: LoginResponse) => {
-  const { userId, username } = user;
-  setSession(req, userId, username);
-  return res.send({ userId, username });
-};
+  constructor(public req: Request<{}, {}, LoginRequest>, public res: Response) {
+    this.username = req.body.username?.trim().replace(/\s+/g, " ");
+    this.email = req.body.email?.trim();
+    this.password = req.body.password;
+    this.isLoginOrSignup = req.body.isLoginOrSignup;
+
+    if (!this.username) {
+      throwError(errors.LOGIN_FORM_USERNAME_REQUIRED, StatusCodes.BAD_REQUEST);
+    } else if (!this.password) {
+      throwError(errors.LOGIN_FORM_PASSWORD_REQUIRED, StatusCodes.BAD_REQUEST);
+    } else if (this.isLoginOrSignup === "login") {
+      void this.login();
+    } else if (this.isLoginOrSignup === "signup") {
+      void this.createUser();
+    } else {
+      res.send({ error: "Missing parameter `isLoginOrSignup`" });
+    }
+  }
+
+  login = async () => {
+    const user = await db.user.findUnique({
+      where: { username: this.username },
+      select: { userId: true, username: true, password: true },
+    });
+
+    if (!user) {
+      throwError(
+        errors.LOGIN_FORM_USERNAME_DOES_NOT_EXIST,
+        StatusCodes.UNAUTHORIZED,
+      );
+    } else if (!(await argon2.verify(user.password, this.password))) {
+      throwError(
+        errors.LOGIN_FORM_INCORRECT_PASSWORD,
+        StatusCodes.UNAUTHORIZED,
+      );
+    } else {
+      this.loginSuccessful(user);
+    }
+  };
+
+  checkIfUserExists = async () => {
+    const user = await db.user.findUnique({
+      where: { username: this.username },
+      select: { userId: true, username: true, password: true },
+    });
+    if (user) {
+      throwError(errors.LOGIN_FORM_USERNAME_EXISTS, StatusCodes.CONFLICT);
+    }
+  };
+
+  createUser = async () => {
+    await this.checkIfUserExists();
+    const user = await db.user.create({
+      data: {
+        username: this.username,
+        password: await argon2.hash(this.password),
+      },
+    });
+    // TODO Error handling
+    if (user) {
+      this.loginSuccessful(user);
+    } else {
+      throwError(null, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  };
+
+  loginSuccessful = (user: LoginResponse) => {
+    const { userId, username } = user;
+    setSession(this.req, userId, username);
+    return this.res.send({ userId, username });
+  };
+}
 
 router.post("/api/logout", (req, res) => {
   req.session!.userId = null;

@@ -15,7 +15,7 @@ export async function login(values: LoginRequest) {
 
   action(() => {
     store.user = { userId, username };
-    goToUrl("/overview");
+    goToUrl("/");
   })();
 }
 

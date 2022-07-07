@@ -1,3 +1,4 @@
+import { getUserFromCookie } from "flashcards/app/functions/cookie";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { CardId, DeckId, ScheduleData } from "flashcards/flashcards/types";
 import { UserId, Username } from "flashcards/user/types";
@@ -5,11 +6,12 @@ import { UserSettings } from "flashcards/user/userSettings.types";
 import { makeAutoObservable } from "mobx";
 import { Seconds, Timestamp } from "modules/time";
 
+console.log(getUserFromCookie());
 export class Store {
   user: {
     userId: UserId;
     username: Username;
-  } | null = null;
+  } | null = getUserFromCookie();
   userSettings: UserSettings = {};
   decks: Record<DeckId, Deck> = {};
   deckOrder: DeckId[] = [];

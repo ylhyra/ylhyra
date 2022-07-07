@@ -1,19 +1,17 @@
-// import { UserDataRows } from "flashcards/user/userData/userData";
-//
-// /**
-//  * TODO:
-//  *
-//  * - Skrá notanda í gögn!
-//  * - Tékka hvort notandi sé enn skráður inn
-//  *   og hvort sami notandi sé enn skráður inn
-//  */
 import { UserDataStore, userDataStore } from "flashcards/sync/userDataStore";
 import { isUserLoggedIn } from "flashcards/user/login/actions";
 import axios2 from "modules/axios2";
 import { log } from "modules/log";
 import { Timestamp } from "modules/time";
 
-export const sync = async (options: any = {}): Promise<void> => {
+/**
+ * TODO:
+ *
+ * - Skrá notanda í gögn!
+ * - Tékka hvort notandi sé enn skráður inn
+ *   og hvort sami notandi sé enn skráður inn
+ */
+export const sync = async (): Promise<void> => {
   const unsynced: InstanceType<typeof UserDataStore>["values"] = {};
   for (const key in userDataStore.values) {
     if (userDataStore.values[key].needsSyncing) {
@@ -55,5 +53,5 @@ export function waitAndSync() {
   timer && clearTimeout(timer);
   timer = setTimeout(() => {
     void sync();
-  }, 1000 * 10);
+  }, 1000 * 1);
 }

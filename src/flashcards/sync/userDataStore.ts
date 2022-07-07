@@ -13,7 +13,7 @@ import { Timestamp } from "modules/time";
 export const FLASHCARDS_LOCALSTORAGE_PREFIX = "f:";
 export const ALREADY_IN_USER_STORE = "__ALREADY_IN_USER_STORE";
 export const storeKeysToSave: Readonly<(keyof Store)[]> = [
-  "user",
+  // "user",
   "userSettings",
   "deckOrder",
   "volume",

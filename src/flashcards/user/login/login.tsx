@@ -6,8 +6,7 @@ import { history } from "modules/router";
 import React from "react";
 
 export const Login = observer(() => {
-  const pathname = history?.location.pathname;
-  const isSignup = pathname === "/signup";
+  const isSignup = history?.location.pathname === "/signup";
 
   const { Form, getChangeHandlers, setFormValues } = new FormHelper({
     onSubmit: login,
@@ -17,6 +16,7 @@ export const Login = observer(() => {
       password: "",
       isLoginOrSignup: isSignup ? "signup" : "login",
     } as LoginRequest,
+    usesExternalStore: false,
   });
 
   return (

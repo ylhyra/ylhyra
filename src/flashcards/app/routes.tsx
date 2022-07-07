@@ -4,7 +4,7 @@ import { FlashcardsEdit } from "flashcards/flashcards/editDeck/editDeck";
 import { FlashcardsPlay } from "flashcards/flashcards/play";
 import { Login } from "flashcards/user/login/login";
 import { observer } from "mobx-react";
-import { goToUrl, history } from "modules/router";
+import { history } from "modules/router";
 import UrlPattern from "url-pattern";
 
 export const Routes = observer(() => {
@@ -21,6 +21,10 @@ export const Routes = observer(() => {
     },
     {
       path: "/login",
+      component: Login,
+    },
+    {
+      path: "/signup",
       component: Login,
     },
     {

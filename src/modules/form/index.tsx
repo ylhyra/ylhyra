@@ -1,4 +1,4 @@
-import { action, isObservable, makeObservable, observable } from 'mobx';
+import { action, isObservable, makeObservable, observable } from "mobx";
 import { observer } from "mobx-react";
 import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 import React, { PropsWithChildren } from "react";
@@ -41,7 +41,8 @@ export class FormHelper<TypeThisIsDescribing = Record<string, any>> {
       onSubmit?: Function;
       onChange?: Function;
       fields?: FieldsSetup<any>;
-    }
+      usesExternalStore?: boolean;
+    },
   ) {
     this.values = props.values || {};
     if (props.onSubmit) {
@@ -53,7 +54,7 @@ export class FormHelper<TypeThisIsDescribing = Record<string, any>> {
     if (props.fields) {
       this.fields = props.fields;
     }
-    if (!isObservable(this.values)) {
+    if (props.usesExternalStore !== false && !isObservable(this.values)) {
       if (props.values) {
         console.warn("Values given to form are not observable.");
       }
@@ -80,14 +81,14 @@ export class FormHelper<TypeThisIsDescribing = Record<string, any>> {
       (
         event: React.ChangeEvent<
           HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-        >
+        >,
       ) => {
         this.values[fieldName] =
           isCheckbox && "checked" in event.target
             ? event.target.checked
             : event.target.value;
         this.onChange?.(this.values);
-      }
+      },
     );
   };
   handleBlur = (fieldName: string) => () => {
@@ -231,7 +232,7 @@ export class FormHelper<TypeThisIsDescribing = Record<string, any>> {
 
 export const getDefaultValue = <T extends FieldsSetup<any>>(
   input: T,
-  key: string
+  key: string,
 ) => {
   return input.find((field) => field.name === key)?.defaultValue;
 };
