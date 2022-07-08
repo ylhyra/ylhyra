@@ -5,6 +5,7 @@ import {
   UserDataValueTypes,
 } from "flashcards/userData/userDataValue";
 import { makeAutoObservable, observable, toJS } from "mobx";
+import { getFromLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
 import { Optional } from "utility-types";
 
@@ -28,7 +29,7 @@ export type SyncedUserDataStore = {
  * by wrapping each value in a {@link UserDataValue}.
  */
 export class UserDataStore {
-  lastSynced?: Timestamp;
+  lastSynced: Timestamp = getFromLocalStorage("lastSynced") || 0;
   userId?: string;
   values: {
     [keys: string]: UserDataValue;

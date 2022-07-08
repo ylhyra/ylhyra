@@ -6,8 +6,8 @@ import {
 import { IUserDataValue } from "flashcards/userData/userDataValue";
 import { action } from "mobx";
 import axios2 from "modules/axios2";
+import { saveInLocalStorage } from "modules/localStorage";
 import { log } from "modules/log";
-import { Timestamp } from "modules/time";
 
 /**
  * TODO:
@@ -34,6 +34,7 @@ export const sync = action(async (): Promise<void> => {
   const response = (await axios2.post(`/api/vocabulary/sync`, {
     unsynced,
     lastSynced: lastSynced || 0,
+    // TODO: USER!
   })) as SyncedUserDataStore;
 
   for (const key in response.values) {
@@ -47,8 +48,9 @@ export const sync = action(async (): Promise<void> => {
   for (const key in unsynced) {
     unsynced[key].needsSyncing = false;
   }
-  // hmm
-  userDataStore.lastSynced = response.lastSynced as any as Timestamp;
+
+  userDataStore.lastSynced = response.lastSynced;
+  saveInLocalStorage("lastSynced", response.lastSynced);
 
   log("Data synced");
   setTimeout(() => {
