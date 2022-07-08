@@ -29,8 +29,8 @@ export interface IUserDataValue<
   type: K;
   key: string;
   value: UserDataValueTypes[K];
+  updatedAt: number;
   needsSyncing?: boolean;
-  updatedAt?: number;
 }
 
 /**

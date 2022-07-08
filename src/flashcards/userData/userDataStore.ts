@@ -6,6 +6,7 @@ import {
 } from "flashcards/userData/userDataValue";
 import { makeAutoObservable, observable, toJS } from "mobx";
 import { Timestamp } from "modules/time";
+import { Optional } from "utility-types";
 
 export const storeKeysToSave: Readonly<(keyof Store)[]> = [
   // user ?!
@@ -49,7 +50,7 @@ export class UserDataStore {
     type,
     isInitializingFromLocalStorage = false,
     needsSyncing = true,
-  }: IUserDataValue & {
+  }: Optional<IUserDataValue, "updatedAt"> & {
     isInitializingFromLocalStorage?: boolean;
   }) {
     if (key in this.values) {

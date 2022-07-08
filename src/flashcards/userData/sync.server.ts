@@ -55,7 +55,7 @@ const getUserDataFromDatabase = async (
     ) b
     ON a.id = b.id
     WHERE userId = ${req.session!.userId}
-    AND createdAt > (${req.body.lastSynced || 0})
+    AND updatedAt > (${req.body.lastSynced || 0})
   `;
   let out: SyncedUserDataStore["values"] = {};
   (results as any).forEach(
@@ -94,6 +94,11 @@ const saveUserDataInDatabase = async (req: express.Request) => {
     ) {
       throw new Error("Malformed data sent to server");
     }
+
+    const updatedAt = values[key].updatedAt
+      ? Math.min(values[key].updatedAt!, Date.now())
+      : Date.now();
+
     // TODO: Update instead?
     return prisma.userData.create({
       data: {
@@ -101,6 +106,7 @@ const saveUserDataInDatabase = async (req: express.Request) => {
         key,
         value: stable_stringify(removeNullKeys(values[key].value)),
         type: values[key].type,
+        updatedAt: new Date(updatedAt),
       },
     });
   });
