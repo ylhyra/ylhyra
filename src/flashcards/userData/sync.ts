@@ -1,4 +1,5 @@
 import { isUserLoggedIn } from "flashcards/user/login/actions";
+import { applyChangesToMainStore } from "flashcards/userData/initialize";
 import {
   SyncedUserDataStore,
   userDataStore,
@@ -51,6 +52,10 @@ export const sync = action(async (): Promise<void> => {
 
   userDataStore.lastSynced = response.lastSynced;
   saveInLocalStorage("lastSynced", response.lastSynced);
+
+  if (Object.keys(unsynced).length > 0) {
+    applyChangesToMainStore();
+  }
 
   log("Data synced");
   setTimeout(() => {

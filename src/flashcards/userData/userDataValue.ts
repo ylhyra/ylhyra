@@ -92,11 +92,15 @@ export function syncedValue<T extends object>(
   key: string,
   value: T,
 ): T {
-  const obs = isObservable(value) ? value : observable.object(value);
-  userDataStore.set({
-    key,
-    value: obs,
-    type,
-  });
-  return obs;
+  if (key in userDataStore.values) {
+    return userDataStore.values[key].value;
+  } else {
+    const obs = isObservable(value) ? value : observable.object(value);
+    userDataStore.set({
+      key,
+      value: obs,
+      type,
+    });
+    return obs;
+  }
 }

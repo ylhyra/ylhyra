@@ -22,8 +22,6 @@ export class Store {
   deckOrder: DeckId[] = [];
   schedule: Record<CardId, ScheduleData> = {};
   sessionLog: Record<string, SessionLogData> = {};
-  /** Separate from settings since user may not wish to sync this */
-  volume: boolean = true;
   constructor() {
     makeAutoObservable(this);
     // reaction(() => [Object.keys(this.decks), this.deckOrder], saveStore);

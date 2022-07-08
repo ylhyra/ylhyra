@@ -1,12 +1,11 @@
-import { Direction, Rating } from "flashcards/flashcards/types";
-import { EditCard } from "flashcards/flashcards/play/editCard";
-import { Jsx } from "modules/typescript/jsx";
-import { classNames } from "modules/addCssClass";
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
+import { getSession } from "flashcards/flashcards/actions/session/session";
+import { EditCard } from "flashcards/flashcards/play/editCard";
+import { Direction, Rating } from "flashcards/flashcards/types";
 import { observer } from "mobx-react";
-import { store } from "flashcards/store";
+import { classNames } from "modules/addCssClass";
+import { Jsx } from "modules/typescript/jsx";
 import React, { Component } from "react";
 
 @observer
@@ -81,7 +80,7 @@ export class CardElement extends Component {
       e.preventDefault();
     } else if (
       [51 /* Three */, 76 /* L */, 68 /* D */, 39 /* Right */].includes(
-        e.keyCode
+        e.keyCode,
       )
     ) {
       if (answered) {
@@ -121,7 +120,7 @@ export class CardElement extends Component {
   ratingClicked = (
     rating: Rating,
     timeout?: NodeJS.Timeout | false,
-    e?: MouseEvent
+    e?: MouseEvent,
   ) => {
     /**
      * TODO: The buttons below no longer send this event, check
@@ -196,7 +195,7 @@ export class CardElement extends Component {
   };
   render() {
     const session = getSession();
-    const isVolumeOn = store.volume;
+    // const isVolumeOn = store.volume;
     const answered = this.state.isShowingBottomSide;
     const card = session.currentCard;
 
@@ -253,7 +252,7 @@ export class CardElement extends Component {
           "flashcard",
           answered ? "answered" : "not-answered",
           // "${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}",
-          isNewRowThatHasNotBeenSeenInSession(card) && "new"
+          isNewRowThatHasNotBeenSeenInSession(card) && "new",
         )}
       >
         <div>
@@ -301,7 +300,7 @@ export class CardElement extends Component {
           className={classNames(
             "flashcard-prompt",
             "flashcard-top",
-            direction === Direction.FRONT_TO_BACK ? "front-side" : "back-side"
+            direction === Direction.FRONT_TO_BACK ? "front-side" : "back-side",
           )}
         >
           {/*{getSound(cardId) && <div className="has-audio-icon" />}*/}
@@ -314,12 +313,12 @@ export class CardElement extends Component {
           className={classNames(
             "flashcard-prompt",
             "flashcard-bottom",
-            direction !== Direction.FRONT_TO_BACK ? "front-side" : "back-side"
+            direction !== Direction.FRONT_TO_BACK ? "front-side" : "back-side",
           )}
         >
           {(answered ||
             /"occluded/.test(
-              direction !== Direction.FRONT_TO_BACK ? front : back
+              direction !== Direction.FRONT_TO_BACK ? front : back,
             )) && (
             <div>
               {html(direction !== Direction.FRONT_TO_BACK ? front : back)}
@@ -398,7 +397,7 @@ export class CardElement extends Component {
         className={classNames(
           className,
           "nostyle",
-          this.state.chosenRating === rating ? "selected" : ""
+          this.state.chosenRating === rating ? "selected" : "",
         )}
         onClick={() => this.ratingClicked(rating, false)}
       >
