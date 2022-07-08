@@ -63,15 +63,18 @@ const getUserDataFromDatabase = async (
       key,
       value,
       type,
+      updatedAt,
     }: {
       key: string;
       value: string; //SyncedUserDataStore["values"][string]["value"];
       type: SyncedUserDataStore["values"][string]["type"];
+      updatedAt: number;
     }) => {
       out[key] = {
         key,
         value: JSON.parse(value),
         type,
+        updatedAt,
       };
     },
   );
