@@ -90,19 +90,30 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
   }
 }
 
-export function syncedValue<T extends object>(
-  type: keyof UserDataValueTypes,
-  key: string,
-  value: T,
-): T {
+export function syncedValue<T extends object | any[]>({
+  key,
+  value,
+  type,
+  defaultValue,
+}: {
+  key: string;
+  value?: T;
+  type?: keyof UserDataValueTypes;
+  defaultValue?: T;
+}): T {
   if (key in userDataStore.values) {
     return userDataStore.values[key].value;
   } else {
-    const obs = isObservable(value) ? value : observable.object(value);
+    const value2 = (value || defaultValue) as T;
+    const obs = isObservable(value2) ? value2 : observable(value2);
+    if (!type) {
+      type = key as keyof UserDataValueTypes;
+    }
     userDataStore.set({
       key,
       value: obs,
       type,
+      isInitializing: Boolean(defaultValue),
     });
     return obs;
   }

@@ -11,7 +11,7 @@ export const initialize = action(() => {
     Object.keys(localStorage).forEach((_key) => {
       const values = getUserDataValueFromLocalStorage(_key);
       if (!values) return;
-      userDataStore.set({ ...values, isInitializingFromLocalStorage: true });
+      userDataStore.set({ ...values, isInitializing: true });
     });
 
     // TODO UserDataStore.lastSynced

@@ -15,7 +15,11 @@ export class Deck {
   @observable rows: Row[] = [];
   @observable settings: DeckSettings = {};
   constructor(public deckId: DeckId, settings?: DeckSettings) {
-    this.settings = syncedValue("deck", deckId, settings || {});
+    this.settings = syncedValue({
+      type: "deck",
+      key: deckId,
+      value: settings || {},
+    });
     makeObservable(this);
   }
 

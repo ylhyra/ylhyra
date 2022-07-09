@@ -7,7 +7,6 @@ import {
 import { makeAutoObservable, observable, toJS } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
-import { Optional } from "utility-types";
 
 export const storeKeysToSave: Readonly<(keyof Store)[]> = [
   // user ?!
@@ -49,10 +48,10 @@ export class UserDataStore {
     key,
     value,
     type,
-    isInitializingFromLocalStorage = false,
     needsSyncing = true,
-  }: Optional<IUserDataValue, "updatedAt"> & {
-    isInitializingFromLocalStorage?: boolean;
+    isInitializing = false,
+  }: IUserDataValue & {
+    isInitializing?: boolean;
   }) {
     if (key in this.values) {
       Object.assign(this.values[key].value, value);
@@ -66,7 +65,7 @@ export class UserDataStore {
         key,
         value,
         needsSyncing,
-        isInitializingFromLocalStorage,
+        isInitializing,
         this,
       );
     }
