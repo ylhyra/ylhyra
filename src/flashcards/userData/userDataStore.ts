@@ -13,7 +13,6 @@ export const storeKeysToSave: Readonly<(keyof Store)[]> = [
   // user ?!
   "userSettings",
   "deckOrder",
-  // "volume", // TODO: This is a primitive!
 ] as const;
 
 export type SyncedUserDataStore = {
@@ -29,6 +28,7 @@ export type SyncedUserDataStore = {
  * by wrapping each value in a {@link UserDataValue}.
  */
 export class UserDataStore {
+  /** This value always comes from the server */
   lastSynced: Timestamp = getFromLocalStorage("lastSynced") || 0;
   userId?: string;
   values: {
@@ -66,7 +66,6 @@ export class UserDataStore {
         key,
         value,
         needsSyncing,
-        Date.now(),
         isInitializingFromLocalStorage,
         this,
       );

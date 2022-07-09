@@ -38,7 +38,7 @@ router.post(
 
 const getUserDataFromDatabase = async (
   req: Request,
-) /*: Promise<UserDataRows>*/ => {
+): Promise<SyncedUserDataStore["values"]> => {
   const results = await prisma.$queryRaw`
     SELECT
       a.key,
@@ -55,7 +55,7 @@ const getUserDataFromDatabase = async (
     AND updatedAt > (${req.body.lastSynced || 0})
   `;
 
-  console.log({ lastSynced: req.body.lastSynced, results });
+  // console.log({ lastSynced: req.body.lastSynced, results });
   let out: SyncedUserDataStore["values"] = {};
   (results as any).forEach(
     ({
@@ -73,7 +73,7 @@ const getUserDataFromDatabase = async (
         key,
         value: JSON.parse(value),
         type,
-        updatedAt,
+        // updatedAt,
       };
     },
   );
@@ -97,9 +97,9 @@ const saveUserDataInDatabase = async (req: express.Request) => {
       throw new Error("Malformed data sent to server");
     }
 
-    const updatedAt = values[key].updatedAt
-      ? Math.min(values[key].updatedAt!, Date.now())
-      : Date.now();
+    // const updatedAt = values[key].updatedAt
+    //   ? Math.min(values[key].updatedAt!, Date.now())
+    //   : Date.now();
 
     // TODO: Update instead?
     return prisma.userData.create({
@@ -108,7 +108,7 @@ const saveUserDataInDatabase = async (req: express.Request) => {
         key,
         value: stable_stringify(removeNullKeys(values[key].value)),
         type: values[key].type,
-        updatedAt: new Date(updatedAt),
+        // updatedAt: new Date(updatedAt),
       },
     });
   });

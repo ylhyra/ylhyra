@@ -29,8 +29,9 @@ export interface IUserDataValue<
   type: K;
   key: string;
   value: UserDataValueTypes[K];
-  updatedAt: number;
   needsSyncing?: boolean;
+  /** @deprecated */
+  updatedAt?: number;
 }
 
 /**
@@ -46,7 +47,7 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     public key: string,
     public value: UserDataValueTypes[K],
     public needsSyncing: boolean = true,
-    public updatedAt: number,
+    // public updatedAt: number,
     isInitializing: boolean,
     parentClass: UserDataStore,
   ) {
@@ -64,12 +65,14 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     if (!isInitializing) {
       saveUserDataValueInLocalStorage(this);
     }
+
+    /** Sync whenever the value changes */
     reaction(
       () => Object.entries(this.value),
       () => {
         if (!parentClass.isSyncing) {
           this.needsSyncing = true;
-          this.updatedAt = Date.now();
+          // this.updatedAt = Date.now();
           saveUserDataValueInLocalStorage(this);
           syncDebounced();
         }
@@ -82,7 +85,7 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
       value: this.value,
       type: this.type,
       needsSyncing: this.needsSyncing,
-      updatedAt: this.updatedAt,
+      // updatedAt: this.updatedAt,
     };
   }
 }

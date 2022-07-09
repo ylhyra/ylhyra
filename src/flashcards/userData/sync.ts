@@ -1,5 +1,6 @@
 import { isUserLoggedIn } from "flashcards/user/login/actions";
-import { applyChangesToMainStore } from "flashcards/userData/initialize";
+import { applyChangesToMainStore } from "flashcards/userData/applyChangesToMainStore";
+import { saveUserDataValueInLocalStorage } from "flashcards/userData/localStorage";
 import {
   SyncedUserDataStore,
   userDataStore,
@@ -43,17 +44,20 @@ export const sync = action(async (): Promise<void> => {
       key,
       value: response.values[key].value,
       type: response.values[key].type,
+      // updatedAt: response.values[key].updatedAt,
+      needsSyncing: false,
     });
   }
 
   for (const key in unsynced) {
-    unsynced[key].needsSyncing = false;
+    userDataStore.values[key].needsSyncing = false;
+    saveUserDataValueInLocalStorage(userDataStore.values[key]);
   }
 
   userDataStore.lastSynced = response.lastSynced;
   saveInLocalStorage("lastSynced", response.lastSynced);
 
-  if (Object.keys(unsynced).length > 0) {
+  if (Object.keys(response.values).length > 0) {
     applyChangesToMainStore();
   }
 
