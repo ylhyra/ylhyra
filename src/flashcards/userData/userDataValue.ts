@@ -47,7 +47,6 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     public key: string,
     public value: UserDataValueTypes[K],
     public needsSyncing: boolean = true,
-    // public updatedAt: number,
     isInitializing: boolean,
     parentClass: UserDataStore,
   ) {
@@ -118,3 +117,15 @@ export function syncedValue<T extends object | any[]>({
     return obs;
   }
 }
+
+export const makeSynced = (obj: Record<string, any>) => {
+  for (const key of Reflect.ownKeys(obj)) {
+    if (typeof key !== "string") continue;
+    const value: unknown = obj[key];
+    if (value instanceof Map) {
+    } else if (Array.isArray(value)) {
+    } else if (typeof value === "object") {
+      Reflect.set(obj, key, syncedValue({ key, value: obj[key] }));
+    }
+  }
+};
