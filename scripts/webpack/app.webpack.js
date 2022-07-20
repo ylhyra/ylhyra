@@ -1,5 +1,4 @@
 const webpack = require("webpack");
-const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -26,7 +25,7 @@ if (process.env.PROJECT === "flashcards") {
     envs: {
       REACT_APP_PWYW: JSON.stringify(process.env.REACT_APP_PWYW),
       REACT_APP_PP_CLIENT_ID: JSON.stringify(
-        process.env.REACT_APP_PP_CLIENT_ID
+        process.env.REACT_APP_PP_CLIENT_ID,
       ),
       REACT_APP_MERCHANT_ID: JSON.stringify(process.env.REACT_APP_MERCHANT_ID),
     },
@@ -114,7 +113,6 @@ module.exports = {
       React: "react", // automatically import react where needed
     }),
     isProduction && new MiniCssExtractPlugin(),
-    !isProduction && new ReactRefreshWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
       async: !isProduction,
       typescript: {
