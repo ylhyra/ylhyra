@@ -4,10 +4,7 @@ import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
-import {
-  storeKeysToSave,
-  userDataStore,
-} from "flashcards/userData/userDataStore";
+import { userDataStore } from "flashcards/userData/userDataStore";
 import { action } from "mobx";
 
 /**
@@ -19,26 +16,29 @@ import { action } from "mobx";
 export const applyChangesToMainStore = action(() => {
   for (const deckId in userDataStore.valuesByType.deck) {
     if (!(deckId in store.decks)) {
-      store.decks[deckId as DeckId] = new Deck(
+      store.decks.set(
         deckId as DeckId,
-        userDataStore.valuesByType.deck[deckId].value as DeckSettings,
+        new Deck(
+          deckId as DeckId,
+          userDataStore.valuesByType.deck[deckId].value as DeckSettings,
+        ),
       );
     }
   }
 
   for (const rowId in userDataStore.valuesByType.row) {
     const rowData = userDataStore.valuesByType.row[rowId].value as RowData;
-    const deck = store.decks[rowData.deckId];
+    const deck = store.decks.get(rowData.deckId);
     if (deck && !deck.rows.some((r) => r.rowId === rowId)) {
       deck.rows.push(new Row(deck, rowData));
     }
   }
 
-  for (const key of storeKeysToSave) {
-    const value = userDataStore.values[key]?.value;
-    if (value) {
-      // @ts-ignore
-      store[key] = value;
-    }
-  }
+  // for (const key of storeKeysToSave) {
+  //   const value = userDataStore.values.get(key)?.value;
+  //   if (value) {
+  //     // @ts-ignore
+  //     store[key] = value;
+  //   }
+  // }
 });

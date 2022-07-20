@@ -45,10 +45,10 @@ export function setSchedule(card1: Card, data: ScheduleData) {
     }
   });
 
-  store.schedule[card1.cardId] = {
+  store.schedule.set(card1.cardId, {
     ...(card1.schedule || {}),
     ...data,
-  };
+  });
 
   throw new Error("Not implemented");
 }
@@ -105,6 +105,6 @@ export function isNewCard(card1: Card): boolean {
 export function isNewRowThatHasNotBeenSeenInSession(card1: Card): boolean {
   return card1.row.cards.every(
     (card2) =>
-      isNewCard(card2) && !getAsCardInSession(card2)?.hasBeenSeenInSession()
+      isNewCard(card2) && !getAsCardInSession(card2)?.hasBeenSeenInSession(),
   );
 }

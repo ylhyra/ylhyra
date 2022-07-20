@@ -41,10 +41,10 @@ export function saveSessionLog() {
     session.timer.getSecondsSpent() > 10
   ) {
     const timestamp = roundMsToSec(session.history.savedAt || getTime());
-    store.sessionLog[shortid.generate()] = {
+    store.sessionLog.set(shortid.generate(), {
       secondsSpent: roundToInterval(session.timer.getSecondsSpent(), 10),
       timestamp,
-    };
+    });
   } else {
     log("Not logged");
   }

@@ -1,4 +1,3 @@
-import { store } from "flashcards/store";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getDeckById } from "flashcards/flashcards/actions/deck/functions";
 import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
@@ -7,13 +6,13 @@ import { CardElement } from "flashcards/flashcards/play/card";
 import { FlashcardsPlayHeader } from "flashcards/flashcards/play/header";
 import { ProgressBar } from "flashcards/flashcards/play/progressBar";
 import { DeckId } from "flashcards/flashcards/types";
-import { values } from "modules/typescript/objectEntries";
+import { store } from "flashcards/store";
 import React, { useEffect } from "react";
 
 export const FlashcardsPlay = ({ deckId }: { deckId: string }) => {
   let decks: Deck[];
   if (deckId === "all") {
-    decks = values(store.decks);
+    decks = [...store.decks.values()];
   } else {
     const deck = getDeckById(deckId as DeckId);
     if (!deck) {

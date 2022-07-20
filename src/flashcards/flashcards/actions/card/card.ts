@@ -43,7 +43,7 @@ export class Card {
   }
 
   get schedule(): ScheduleData | undefined {
-    return store.schedule[this.cardId];
+    return store.schedule.get(this.cardId);
   }
 
   get dueAt(): Timestamp | undefined {

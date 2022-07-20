@@ -7,19 +7,23 @@ import {
   DeckId,
   DependenciesForAllRowsAsRowIdToDependencyToDepth,
 } from "flashcards/flashcards/types";
+import { userDataStore } from "flashcards/userData/userDataStore";
 import { syncedValue } from "flashcards/userData/userDataValue";
 import { computed, makeObservable, observable } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 
 export class Deck {
+  /** @deprecated */
   @observable rows: Row[] = [];
-  @observable settings: DeckSettings = {};
+  @observable rowsMap: Map<RowId, Row[]>;
+  @observable settings: DeckSettings;
   constructor(public deckId: DeckId, settings?: DeckSettings) {
     this.settings = syncedValue({
       type: "deck",
       key: deckId,
       value: settings || {},
     });
+    this.rowsMap = userDataStore.observingMap("row", { deckId });
     makeObservable(this);
   }
 

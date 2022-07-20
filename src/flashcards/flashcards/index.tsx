@@ -1,10 +1,9 @@
-import { store } from "flashcards/store";
 import { Button } from "flashcards/app/elements/button";
 import { getTitle } from "flashcards/app/functions";
 import { newDeck } from "flashcards/flashcards/actions/deck/functions";
+import { store } from "flashcards/store";
 import { observer } from "mobx-react";
 import { Link } from "modules/router";
-import { entries } from "modules/typescript/objectEntries";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 
@@ -24,7 +23,7 @@ export const FlashcardsMake = observer(function () {
         </div>
         <hr />
         <ul>
-          {entries(decks).map(([deckId, deck]) => (
+          {[...decks.entries()].map(([deckId, deck]) => (
             <li key={deckId} className="flex hover:bg-gray-200">
               <Link to={`/flashcards/deck/${deckId}`} className="flex-1 p-1">
                 <b>{deck.title}</b>{" "}

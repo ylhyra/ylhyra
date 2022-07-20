@@ -1,10 +1,10 @@
 import { Store } from "flashcards/store";
 import {
-  IUserDataValue,
   UserDataValue,
+  UserDataValueData,
   UserDataValueTypes,
 } from "flashcards/userData/userDataValue";
-import { makeAutoObservable, observable, toJS } from "mobx";
+import { makeAutoObservable, observable, reaction, toJS } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
 
@@ -18,7 +18,7 @@ export type SyncedUserDataStore = {
   userId: string;
   lastSynced: Timestamp;
   values: {
-    [keys: string]: IUserDataValue;
+    [keys: string]: UserDataValueData;
   };
 };
 
@@ -30,17 +30,19 @@ export class UserDataStore {
   /** This value always comes from the server */
   lastSynced: Timestamp = getFromLocalStorage("lastSynced") || 0;
   userId?: string;
-  values: {
-    [keys: string]: UserDataValue;
-  } = {};
+  values: Map<string, UserDataValue> = new Map();
+
+  /** @deprecated */
   valuesByType: {
     [K in keyof UserDataValueTypes]?: Record<string, UserDataValue<K>>;
   } = {};
+
   isSyncing = false;
 
   constructor() {
     makeAutoObservable(this, {
-      valuesByType: observable.shallow,
+      values: observable.shallow,
+      // valuesByType: observable.shallow,
     });
   }
 
@@ -50,35 +52,84 @@ export class UserDataStore {
     type,
     needsSyncing = true,
     isInitializing = false,
-  }: IUserDataValue & {
+  }: UserDataValueData & {
     isInitializing?: boolean;
-  }) {
-    if (key in this.values) {
-      Object.assign(this.values[key].value, value);
-      //Todo, fix updatedAt
-      if (!needsSyncing) {
-        this.values[key].needsSyncing = false;
+  }): UserDataValue {
+    if (this.values.has(key)) {
+      if (!isInitializing) {
+        Object.assign(this.values.get(key)!.value, value);
       }
     } else {
-      this.values[key] = new UserDataValue(
-        type,
+      this.values.set(
         key,
-        value,
-        needsSyncing,
-        isInitializing,
-        this,
+        new UserDataValue(type, key, value, needsSyncing, isInitializing, this),
       );
     }
-    if (type) {
-      if (!(type in this.valuesByType)) {
-        this.valuesByType[type] = {};
-      }
-      this.valuesByType[type]![key] = this.values[key];
-    }
+
+    return this.values.get(key)!;
+    // if (type) {
+    //   if (!(type in this.valuesByType)) {
+    //     this.valuesByType[type] = {};
+    //   }
+    //   this.valuesByType[type]![key] = this.values[key];
+    // }
   }
+
+  // Todo: only reacts to additions
+  observingMap = <T extends Map<any, any>>(
+    type: keyof UserDataValueTypes,
+    predicate?: Record<string, any>,
+  ): T => {
+    const map = new Map();
+
+    reaction(
+      () => this.values,
+      (values, previousValues) => {
+        for (const key of values.keys()) {
+          if (!previousValues.has(key)) {
+            if (values.get(key)!.type === type) {
+              map.set(key, values.get(key)!.value);
+            }
+          }
+        }
+      },
+    );
+
+    return map as T;
+  };
 }
 
 export const userDataStore = new UserDataStore();
 
 // @ts-ignore
 window["userDataStore"] = () => toJS(userDataStore);
+
+/**
+ * Syncs the properties of the main store {@link Store}.
+ * Must be called before makeAutoObservable
+ */
+export const syncFields = (obj: Record<string, any>, keys?: string[]) => {
+  for (const key of keys || Reflect.ownKeys(obj)) {
+    if (typeof key !== "string") continue;
+    const value: unknown = Reflect.get(obj, key);
+    if (!value) continue;
+    if (value instanceof Map) {
+      Reflect.set(
+        obj,
+        key,
+        userDataStore.observingMap(key as keyof UserDataValueTypes),
+      );
+    } else if (Array.isArray(value) || typeof value === "object") {
+      Reflect.set(
+        obj,
+        key,
+        userDataStore.set({
+          key,
+          value,
+          type: key as keyof UserDataValueTypes,
+          isInitializing: true,
+        }),
+      );
+    }
+  }
+};

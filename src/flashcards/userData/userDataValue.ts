@@ -23,15 +23,14 @@ export type UserDataValueTypes = {
   deckOrder: InstanceType<typeof Store>["deckOrder"];
 };
 
-export interface IUserDataValue<
+export interface UserDataValueData<
   K extends keyof UserDataValueTypes = keyof UserDataValueTypes,
 > {
   type: K;
   key: string;
   value: UserDataValueTypes[K];
   needsSyncing?: boolean;
-  /** @deprecated */
-  updatedAt?: number;
+  // updatedAt?: number;
 }
 
 /**
@@ -40,7 +39,7 @@ export interface IUserDataValue<
  * Will observe changes in these values and save them.
  */
 export class UserDataValue<K extends keyof UserDataValueTypes = any>
-  implements IUserDataValue<K>
+  implements UserDataValueData<K>
 {
   constructor(
     public type: K,
@@ -78,7 +77,7 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
       },
     );
   }
-  getValues(): IUserDataValue<K> {
+  getValues(): UserDataValueData<K> {
     return {
       key: this.key,
       value: this.value,
@@ -100,8 +99,9 @@ export function syncedValue<T extends object | any[]>({
   type?: keyof UserDataValueTypes;
   defaultValue?: T;
 }): T {
+  throw new Error("");
   if (key in userDataStore.values) {
-    return userDataStore.values[key].value;
+    // return userDataStore.values[key].value;
   } else {
     const value2 = (value || defaultValue) as T;
     const obs = isObservable(value2) ? value2 : observable(value2);
@@ -117,15 +117,3 @@ export function syncedValue<T extends object | any[]>({
     return obs;
   }
 }
-
-export const makeSynced = (obj: Record<string, any>) => {
-  for (const key of Reflect.ownKeys(obj)) {
-    if (typeof key !== "string") continue;
-    const value: unknown = obj[key];
-    if (value instanceof Map) {
-    } else if (Array.isArray(value)) {
-    } else if (typeof value === "object") {
-      Reflect.set(obj, key, syncedValue({ key, value: obj[key] }));
-    }
-  }
-};

@@ -46,9 +46,9 @@ module.exports = {
             loader: "babel-loader",
             options: require(resolve("babel.config.js")),
           },
-          {
-            loader: "webpack-module-hot-accept",
-          },
+          // {
+          //   loader: "webpack-module-hot-accept",
+          // },
         ],
       },
 
@@ -129,10 +129,7 @@ module.exports = {
       },
       issue: {
         include: [{ file: "**/src/flashcards/**/*.{ts,tsx}" }],
-        exclude: [
-          // /** TEMP */
-          // { file: "**/src/flashcards/flashcards/actions/**" },
-        ],
+        exclude: [],
       },
     }),
     new HtmlWebpackPlugin({ inject: true }),

@@ -18,7 +18,7 @@ import _ from "underscore";
 export function newDeck(): Deck {
   const id = shortid.generate() as DeckId;
   const deck = new Deck(id);
-  store.decks[id] = deck;
+  store.decks.set(id, deck);
   if (isBrowser) {
     goToUrl(`/flashcards/deck/${id}`);
   }
@@ -28,7 +28,7 @@ export function newDeck(): Deck {
 // Todo: Undoable
 export const deleteDeck = action((deck: Deck) => {
   if (window.confirm("Are you sure you want to delete this deck?")) {
-    delete store.decks[deck.deckId];
+    store.decks.delete(deck.deckId);
     goToUrl("/flashcards");
   }
 });
@@ -69,6 +69,6 @@ export function getAllCardsFromDecks(decks: Deck[]): Card[] {
 
 export function getDeckById(id: DeckId | undefined): Deck | undefined {
   if (id && id in store.decks) {
-    return store.decks[id];
+    return store.decks.get(id);
   }
 }
