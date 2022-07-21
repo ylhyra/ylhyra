@@ -56,9 +56,7 @@ export class UserDataStore {
     isInitializing?: boolean;
   }): UserDataValue["value"] {
     if (this.values.has(key)) {
-      // if (!isInitializing) {
       Object.assign(this.values.get(key)!.value, value);
-      // }
     } else {
       this.values.set(
         key,
@@ -82,18 +80,10 @@ export class UserDataStore {
         console.log("Reacted to this.values");
         console.log(change);
         if (change.type === "add") {
-          map.set(change.name, change.newValue);
+          if (change.newValue.type === type) {
+            map.set(change.name, change.newValue);
+          }
         }
-
-        // const keys = [...keysIterator];
-        // const previousKeys = [...previousKeysIterator];
-        // for (const key of keys) {
-        //   if (!previousKeys.includes(key)) {
-        //     if (this.values.get(key)!.type === type) {
-        //       map.set(key, this.values.get(key)!.value);
-        //     }
-        //   }
-        // }
       }),
     );
 
@@ -105,14 +95,6 @@ export class UserDataStore {
         if (change.type === "add") {
           this.set({ key: change.name, value: change.newValue, type });
         }
-
-        // const keys = [...keysIterator];
-        // const previousKeys = [...previousKeysIterator];
-        // for (const key of keys) {
-        //   if (!previousKeys.includes(key)) {
-        //     this.set({ key: key, value: map.get(key)!.value, type });
-        //   }
-        // }
       }),
     );
 
@@ -140,10 +122,10 @@ export const makeSynced = <T extends Store | Deck | Row>(obj: T) => {
 
   if (obj instanceof Store) {
     // obj.userSettings = userDataStore.
-    // obj.decks = userDataStore.
     // obj.deckOrder = userDataStore.
+    // obj.decks = userDataStore.observingMap("decks");
     obj.schedule = userDataStore.observingMap("schedule");
-    // obj.sessionLog = userDataStore.
+    obj.sessionLog = userDataStore.observingMap("sessionLog");
   } else if (obj instanceof Deck) {
   } else if (obj instanceof Row) {
   }
