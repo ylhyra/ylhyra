@@ -1,3 +1,5 @@
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { Row } from "flashcards/flashcards/actions/row/row";
 import { Store } from "flashcards/store";
 import {
   UserDataValue,
@@ -108,28 +110,30 @@ window["userDataStore"] = () => toJS(userDataStore);
  * Syncs the properties of the main store {@link Store}.
  * Must be called before makeAutoObservable
  */
-export const syncFields = (obj: Record<string, any>, keys?: string[]) => {
-  for (const key of keys || Reflect.ownKeys(obj)) {
-    if (typeof key !== "string") continue;
-    const value: unknown = Reflect.get(obj, key);
-    if (!value) continue;
-    if (value instanceof Map) {
-      Reflect.set(
-        obj,
-        key,
-        userDataStore.observingMap(key as keyof UserDataValueTypes),
-      );
-    } else if (Array.isArray(value) || typeof value === "object") {
-      Reflect.set(
-        obj,
-        key,
-        userDataStore.set({
-          key,
-          value,
-          type: key as keyof UserDataValueTypes,
-          isInitializing: true,
-        }),
-      );
-    }
-  }
+export const makeSynced = <T extends Store | Deck | Row>(obj: T) => {
+  let keys: keyof T[];
+
+  // for (const key of keys || Reflect.ownKeys(obj)) {
+  //   if (typeof key !== "string") continue;
+  //   const value: unknown = Reflect.get(obj, key);
+  //   if (!value) continue;
+  //   if (value instanceof Map) {
+  //     Reflect.set(
+  //       obj,
+  //       key,
+  //       userDataStore.observingMap(key as keyof UserDataValueTypes),
+  //     );
+  //   } else if (Array.isArray(value) || typeof value === "object") {
+  //     Reflect.set(
+  //       obj,
+  //       key,
+  //       userDataStore.set({
+  //         key,
+  //         value,
+  //         type: key as keyof UserDataValueTypes,
+  //         isInitializing: true,
+  //       }),
+  //     );
+  //   }
+  // }
 };
