@@ -4,10 +4,7 @@ import { ScheduleData } from "flashcards/flashcards/types";
 import { SessionLogData, Store } from "flashcards/store";
 import { saveUserDataValueInLocalStorage } from "flashcards/userData/localStorage";
 import { syncDebounced } from "flashcards/userData/sync";
-import {
-  UserDataStore,
-  userDataStore,
-} from "flashcards/userData/userDataStore";
+import { UserDataStore } from "flashcards/userData/userDataStore";
 import { isObservable, observable, reaction } from "mobx";
 
 /**
@@ -67,14 +64,13 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     /** Sync whenever the value changes */
     reaction(
       () => Object.entries(this.value),
-      () => {
-        if (!parentClass.isSyncing) {
+      () =>
+        parentClass.preventRecursiveReactions(() => {
           this.needsSyncing = true;
           // this.updatedAt = Date.now();
           saveUserDataValueInLocalStorage(this);
           syncDebounced();
-        }
-      },
+        }),
     );
   }
   getValues(): UserDataValueData<K> {
@@ -85,35 +81,5 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
       needsSyncing: this.needsSyncing,
       // updatedAt: this.updatedAt,
     };
-  }
-}
-
-export function syncedValue<T extends object | any[]>({
-  key,
-  value,
-  type,
-  defaultValue,
-}: {
-  key: string;
-  value?: T;
-  type?: keyof UserDataValueTypes;
-  defaultValue?: T;
-}): T {
-  throw new Error("");
-  if (key in userDataStore.values) {
-    // return userDataStore.values[key].value;
-  } else {
-    const value2 = (value || defaultValue) as T;
-    const obs = isObservable(value2) ? value2 : observable(value2);
-    if (!type) {
-      type = key as keyof UserDataValueTypes;
-    }
-    userDataStore.set({
-      key,
-      value: obs,
-      type,
-      isInitializing: Boolean(defaultValue),
-    });
-    return obs;
   }
 }

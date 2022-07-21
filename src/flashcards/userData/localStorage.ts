@@ -6,7 +6,6 @@ export const FLASHCARDS_LOCALSTORAGE_PREFIX = "f:";
 
 export function saveUserDataValueInLocalStorage(obj: UserDataValue) {
   saveInLocalStorage(FLASHCARDS_LOCALSTORAGE_PREFIX + obj.key, {
-    // key: obj.key,
     type: obj.type,
     value: obj.value,
     needsSyncing: obj.needsSyncing,

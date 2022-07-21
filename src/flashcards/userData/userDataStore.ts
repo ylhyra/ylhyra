@@ -6,7 +6,7 @@ import {
   UserDataValueData,
   UserDataValueTypes,
 } from "flashcards/userData/userDataValue";
-import { makeAutoObservable, observable, reaction, toJS } from "mobx";
+import { makeObservable, observable, reaction, runInAction, toJS } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
 
@@ -34,17 +34,15 @@ export class UserDataStore {
   userId?: string;
   values: Map<string, UserDataValue> = new Map();
 
-  /** @deprecated */
-  valuesByType: {
-    [K in keyof UserDataValueTypes]?: Record<string, UserDataValue<K>>;
-  } = {};
-
-  isSyncing = false;
+  /**
+   * During initialization, reactions should not
+   * run, as it would cause an infinite loop.
+   */
+  #shouldReact = true;
 
   constructor() {
-    makeAutoObservable(this, {
+    makeObservable(this, {
       values: observable.shallow,
-      // valuesByType: observable.shallow,
     });
   }
 
@@ -56,11 +54,11 @@ export class UserDataStore {
     isInitializing = false,
   }: UserDataValueData & {
     isInitializing?: boolean;
-  }): UserDataValue {
+  }): UserDataValue["value"] {
     if (this.values.has(key)) {
-      if (!isInitializing) {
-        Object.assign(this.values.get(key)!.value, value);
-      }
+      // if (!isInitializing) {
+      Object.assign(this.values.get(key)!.value, value);
+      // }
     } else {
       this.values.set(
         key,
@@ -68,13 +66,7 @@ export class UserDataStore {
       );
     }
 
-    return this.values.get(key)!;
-    // if (type) {
-    //   if (!(type in this.valuesByType)) {
-    //     this.valuesByType[type] = {};
-    //   }
-    //   this.valuesByType[type]![key] = this.values[key];
-    // }
+    return this.values.get(key)!.value;
   }
 
   // Todo: only reacts to additions
@@ -82,36 +74,75 @@ export class UserDataStore {
     type: keyof UserDataValueTypes,
     predicate?: Record<string, any>,
   ): T => {
-    const map = new Map();
+    const map = observable.map(new Map(), { deep: false });
 
+    /** React to changes in the key-value store */
     reaction(
-      () => this.values,
-      (values, previousValues) => {
-        for (const key of values.keys()) {
-          if (!previousValues.has(key)) {
-            if (values.get(key)!.type === type) {
-              map.set(key, values.get(key)!.value);
+      () => this.values.keys(),
+      (keysIterator, previousKeysIterator) =>
+        this.preventRecursiveReactions(() => {
+          const keys = [...keysIterator];
+          const previousKeys = [...previousKeysIterator];
+          console.log("Reacted to this.values");
+          for (const key of keys) {
+            if (!previousKeys.includes(key)) {
+              if (this.values.get(key)!.type === type) {
+                map.set(key, this.values.get(key)!.value);
+              }
             }
           }
-        }
-      },
+        }),
     );
 
-    return map as T;
+    /** React to changes in this map */
+    reaction(
+      () => map.keys(),
+      (keysIterator, previousKeysIterator) =>
+        this.preventRecursiveReactions(() => {
+          const keys = [...keysIterator];
+          const previousKeys = [...previousKeysIterator];
+          console.log("Reacted to changes in map");
+          for (const key of keys) {
+            if (!previousKeys.includes(key)) {
+              this.set({ key: key, value: map.get(key)!.value, type });
+            }
+          }
+        }),
+    );
+
+    return map as unknown as T;
+  };
+
+  preventRecursiveReactions = (func: Function) => {
+    if (!this.#shouldReact) return;
+    this.#shouldReact = false;
+    runInAction(() => func());
+    setTimeout(() => {
+      this.#shouldReact = true;
+    }, 0);
   };
 }
 
 export const userDataStore = new UserDataStore();
 
 // @ts-ignore
-window["userDataStore"] = () => toJS(userDataStore);
+window["userDataStore"] = userDataStore;
+// @ts-ignore
+window["userDataStoreJs"] = () => toJS(userDataStore);
 
-/**
- * Syncs the properties of the main store {@link Store}.
- * Must be called before makeAutoObservable
- */
+/** Must be called before makeAutoObservable */
 export const makeSynced = <T extends Store | Deck | Row>(obj: T) => {
   let keys: keyof T[];
+
+  if (obj instanceof Store) {
+    // obj.userSettings = userDataStore.
+    // obj.decks = userDataStore.
+    // obj.deckOrder = userDataStore.
+    obj.schedule = userDataStore.observingMap("schedule");
+    // obj.sessionLog = userDataStore.
+  } else if (obj instanceof Deck) {
+  } else if (obj instanceof Row) {
+  }
 
   // for (const key of keys || Reflect.ownKeys(obj)) {
   //   if (typeof key !== "string") continue;

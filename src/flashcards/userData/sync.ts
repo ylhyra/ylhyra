@@ -1,5 +1,14 @@
-import { userDataStore } from "flashcards/userData/userDataStore";
+import { isUserLoggedIn } from "flashcards/user/login/actions";
+import { saveUserDataValueInLocalStorage } from "flashcards/userData/localStorage";
+import {
+  SyncedUserDataStore,
+  userDataStore,
+} from "flashcards/userData/userDataStore";
+import { UserDataValueData } from "flashcards/userData/userDataValue";
 import { action } from "mobx";
+import axios2 from "modules/axios2";
+import { saveInLocalStorage } from "modules/localStorage";
+import { log } from "modules/log";
 
 /**
  * TODO:
@@ -9,52 +18,42 @@ import { action } from "mobx";
  *   og hvort sami notandi sé enn skráður inn
  */
 export const sync = action(async (): Promise<void> => {
-  userDataStore.isSyncing = true;
+  if (!isUserLoggedIn()) {
+    log(`Not synced to server as user isn't logged in`);
+    return;
+  }
 
-  // const unsynced: Record<string, UserDataValueData> = {};
-  // for (const key in userDataStore.values) {
-  //   if (userDataStore.values[key].needsSyncing) {
-  //     unsynced[key] = userDataStore.values[key].getValues();
-  //   }
-  // }
-  // const { lastSynced } = userDataStore;
-  // if (!isUserLoggedIn()) {
-  //   log(`Not synced to server as user isn't logged in`);
-  //   return;
-  // }
-  //
-  // const response = (await axios2.post(`/api/vocabulary/sync`, {
-  //   unsynced,
-  //   lastSynced: lastSynced || 0,
-  //   // TODO: USER!
-  // })) as SyncedUserDataStore;
-  //
-  // for (const key in response.values) {
-  //   userDataStore.set({
-  //     key,
-  //     value: response.values[key].value,
-  //     type: response.values[key].type,
-  //     // updatedAt: response.values[key].updatedAt,
-  //     needsSyncing: false,
-  //   });
-  // }
-  //
-  // for (const key in unsynced) {
-  //   userDataStore.values[key].needsSyncing = false;
-  //   saveUserDataValueInLocalStorage(userDataStore.values[key]);
-  // }
-  //
-  // userDataStore.lastSynced = response.lastSynced;
-  // saveInLocalStorage("lastSynced", response.lastSynced);
-  //
-  // if (Object.keys(response.values).length > 0) {
-  //   applyChangesToMainStore();
-  // }
-  //
-  // log("Data synced");
-  // setTimeout(() => {
-  //   userDataStore.isSyncing = false;
-  // }, 0);
+  const unsynced: Record<string, UserDataValueData> = {};
+  for (const key in userDataStore.values.keys()) {
+    if (userDataStore.values.get(key)!.needsSyncing) {
+      unsynced[key] = userDataStore.values.get(key)!.getValues();
+    }
+  }
+
+  const response = (await axios2.post(`/api/vocabulary/sync`, {
+    unsynced,
+    lastSynced: userDataStore.lastSynced || 0,
+    // TODO: USER!
+  })) as SyncedUserDataStore;
+
+  for (const key in response.values) {
+    userDataStore.set({
+      key,
+      value: response.values[key].value,
+      type: response.values[key].type,
+      needsSyncing: false,
+    });
+  }
+
+  for (const key in unsynced) {
+    userDataStore.values.get(key)!.needsSyncing = false;
+    saveUserDataValueInLocalStorage(userDataStore.values.get(key)!);
+  }
+
+  userDataStore.lastSynced = response.lastSynced;
+  saveInLocalStorage("lastSynced", response.lastSynced);
+
+  log("Data synced");
 });
 
 let timer: NodeJS.Timeout;

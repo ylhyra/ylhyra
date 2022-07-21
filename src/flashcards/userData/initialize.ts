@@ -1,4 +1,3 @@
-import { applyChangesToMainStore } from "flashcards/userData/applyChangesToMainStore";
 import { getUserDataValueFromLocalStorage } from "flashcards/userData/localStorage";
 import { sync } from "flashcards/userData/sync";
 import { userDataStore } from "flashcards/userData/userDataStore";
@@ -16,7 +15,6 @@ export const initialize = action(() => {
 
     // TODO UserDataStore.lastSynced
 
-    applyChangesToMainStore();
     void sync();
   } catch (e) {
     console.error(e);
