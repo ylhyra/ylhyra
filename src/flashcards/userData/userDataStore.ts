@@ -6,7 +6,7 @@ import {
   UserDataValueData,
   UserDataValueTypes,
 } from "flashcards/userData/userDataValue";
-import { makeObservable, observable, reaction, runInAction, toJS } from "mobx";
+import { makeObservable, observable, observe, toJS } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
 
@@ -77,37 +77,43 @@ export class UserDataStore {
     const map = observable.map(new Map(), { deep: false });
 
     /** React to changes in the key-value store */
-    reaction(
-      () => this.values.keys(),
-      (keysIterator, previousKeysIterator) =>
-        this.preventRecursiveReactions(() => {
-          const keys = [...keysIterator];
-          const previousKeys = [...previousKeysIterator];
-          console.log("Reacted to this.values");
-          for (const key of keys) {
-            if (!previousKeys.includes(key)) {
-              if (this.values.get(key)!.type === type) {
-                map.set(key, this.values.get(key)!.value);
-              }
-            }
-          }
-        }),
+    observe(this.values, (change) =>
+      this.preventRecursiveReactions(() => {
+        console.log("Reacted to this.values");
+        console.log(change);
+        if (change.type === "add") {
+          map.set(change.name, change.newValue);
+        }
+
+        // const keys = [...keysIterator];
+        // const previousKeys = [...previousKeysIterator];
+        // for (const key of keys) {
+        //   if (!previousKeys.includes(key)) {
+        //     if (this.values.get(key)!.type === type) {
+        //       map.set(key, this.values.get(key)!.value);
+        //     }
+        //   }
+        // }
+      }),
     );
 
     /** React to changes in this map */
-    reaction(
-      () => map.keys(),
-      (keysIterator, previousKeysIterator) =>
-        this.preventRecursiveReactions(() => {
-          const keys = [...keysIterator];
-          const previousKeys = [...previousKeysIterator];
-          console.log("Reacted to changes in map");
-          for (const key of keys) {
-            if (!previousKeys.includes(key)) {
-              this.set({ key: key, value: map.get(key)!.value, type });
-            }
-          }
-        }),
+    observe(map, (change) =>
+      this.preventRecursiveReactions(() => {
+        console.log("Reacted to changes in map");
+        console.log(change);
+        if (change.type === "add") {
+          this.set({ key: change.name, value: change.newValue, type });
+        }
+
+        // const keys = [...keysIterator];
+        // const previousKeys = [...previousKeysIterator];
+        // for (const key of keys) {
+        //   if (!previousKeys.includes(key)) {
+        //     this.set({ key: key, value: map.get(key)!.value, type });
+        //   }
+        // }
+      }),
     );
 
     return map as unknown as T;
@@ -116,10 +122,8 @@ export class UserDataStore {
   preventRecursiveReactions = (func: Function) => {
     if (!this.#shouldReact) return;
     this.#shouldReact = false;
-    runInAction(() => func());
-    setTimeout(() => {
-      this.#shouldReact = true;
-    }, 0);
+    func();
+    this.#shouldReact = true;
   };
 }
 
