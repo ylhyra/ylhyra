@@ -22,13 +22,6 @@ if (process.env.PROJECT === "flashcards") {
   project = {
     entry: "./src/ylhyra/app/index.tsx",
     filename: "ylhyra.[name].js",
-    envs: {
-      REACT_APP_PWYW: JSON.stringify(process.env.REACT_APP_PWYW),
-      REACT_APP_PP_CLIENT_ID: JSON.stringify(
-        process.env.REACT_APP_PP_CLIENT_ID,
-      ),
-      REACT_APP_MERCHANT_ID: JSON.stringify(process.env.REACT_APP_MERCHANT_ID),
-    },
   };
 }
 
@@ -138,6 +131,7 @@ module.exports = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         ...(project.envs || {}),
       },
+      "__REACT_DEVTOOLS_GLOBAL_HOOK__": "({ isDisabled: true })",
     }),
   ].filter(Boolean),
   optimization: {

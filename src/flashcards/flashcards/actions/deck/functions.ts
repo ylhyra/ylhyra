@@ -7,6 +7,7 @@ import {
 } from "flashcards/flashcards/actions/row/rowData.types";
 import { DeckId } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
+import { userDataStore } from "flashcards/userData/userDataStore";
 import { action } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 import { isBrowser } from "modules/isBrowser";
@@ -15,14 +16,20 @@ import { goToUrl } from "modules/router";
 import shortid from "shortid";
 import _ from "underscore";
 
-export function newDeck(): Deck {
+export function newDeck() {
   const id = shortid.generate() as DeckId;
-  const deck = new Deck(id);
-  store.decks.set(id, deck);
+
+  userDataStore.set({
+    type: "deck",
+    key: id,
+    value: {},
+  });
+
+  // const deck = new Deck(id);
+  // store.decks.set(id, deck);
   if (isBrowser) {
     goToUrl(`/flashcards/deck/${id}`);
   }
-  return deck;
 }
 
 // Todo: Undoable

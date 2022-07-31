@@ -84,6 +84,7 @@ export class UserDataStore {
           const keys = [...keysIterator];
           const previousKeys = [...previousKeysIterator];
           console.log("Reacted to this.values");
+          console.log({ keys, previousKeys });
           for (const key of keys) {
             if (!previousKeys.includes(key)) {
               if (this.values.get(key)!.type === type) {
@@ -132,11 +133,12 @@ window["userDataStoreJs"] = () => toJS(userDataStore);
 
 /** Must be called before makeAutoObservable */
 export const makeSynced = <T extends Store | Deck | Row>(obj: T) => {
-  let keys: keyof T[];
+  // let keys: keyof T[];
 
   if (obj instanceof Store) {
     // obj.userSettings = userDataStore.
-    // obj.decks = userDataStore.
+    obj.schedule = userDataStore.observingMap("deck");
+
     // obj.deckOrder = userDataStore.
     obj.schedule = userDataStore.observingMap("schedule");
     // obj.sessionLog = userDataStore.
