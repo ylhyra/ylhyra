@@ -1,20 +1,15 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { Row } from "flashcards/flashcards/actions/row/row";
+import { DeckId } from "flashcards/flashcards/types";
 import { Store } from "flashcards/store";
 import {
   UserDataValue,
   UserDataValueData,
   UserDataValueTypes,
 } from "flashcards/userData/userDataValue";
-import { makeObservable, observable, observe, toJS } from "mobx";
+import { action, makeObservable, observable, observe, toJS } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
-
-export const storeKeysToSave: Readonly<(keyof Store)[]> = [
-  // user ?!
-  "userSettings",
-  "deckOrder",
-] as const;
 
 export type SyncedUserDataStore = {
   userId: string;
@@ -39,6 +34,7 @@ export class UserDataStore {
    * run, as it would cause an infinite loop.
    */
   #shouldReact = true;
+  shouldSync = true;
 
   constructor() {
     makeObservable(this, {
@@ -46,29 +42,33 @@ export class UserDataStore {
     });
   }
 
-  set({
-    key,
-    value,
-    type,
-    needsSyncing = true,
-    isInitializing = false,
-  }: UserDataValueData & {
-    isInitializing?: boolean;
-  }): UserDataValue["value"] {
-    if (this.values.has(key)) {
-      Object.assign(this.values.get(key)!.value, value);
+  set(
+    input: UserDataValueData & {
+      isInitializing?: boolean;
+      obj?: Deck | Row;
+    },
+  ): UserDataValue["value"] {
+    if (this.values.has(input.key)) {
+      Object.assign(this.values.get(input.key)!.value, input.value);
     } else {
       this.values.set(
-        key,
-        new UserDataValue(type, key, value, needsSyncing, isInitializing, this),
+        input.key,
+        new UserDataValue(
+          input.type,
+          input.key,
+          input.value,
+          input.needsSyncing,
+          input.isInitializing,
+          input.obj,
+        ),
       );
     }
 
-    return this.values.get(key)!.value;
+    return this.values.get(input.key)!.value;
   }
 
   // Todo: only reacts to additions
-  observingMap = <T extends Map<any, any>>(
+  syncChangesToMap = <T extends Map<any, any>>(
     type: keyof UserDataValueTypes,
     predicate?: Record<string, any>,
   ): T => {
@@ -76,23 +76,35 @@ export class UserDataStore {
 
     /** React to changes in the key-value store */
     observe(this.values, (change) =>
-      this.preventRecursiveReactions(() => {
-        console.log("Reacted to this.values");
-        console.log(change);
-        if (change.type === "add") {
-          if (change.newValue.type === type) {
-            map.set(change.name, change.newValue);
+      this.preventRecursiveReactions(
+        action(() => {
+          if (change.type === "add") {
+            if (change.newValue.type === type) {
+              console.log("Reacted to this.values");
+              console.log(change);
+              let obj = change.newValue.obj;
+              if (!obj) {
+                if (type === "deck") {
+                  obj = new Deck(
+                    change.newValue.key as DeckId,
+                    change.newValue.value,
+                  );
+                }
+                change.newValue.obj = obj;
+              }
+              map.set(change.name, obj);
+            }
           }
-        }
-      }),
+        }),
+      ),
     );
 
     /** React to changes in this map */
     observe(map, (change) =>
       this.preventRecursiveReactions(() => {
-        console.log("Reacted to changes in map");
-        console.log(change);
         if (change.type === "add") {
+          console.log("Reacted to changes in map");
+          console.log(change);
           this.set({ key: change.name, value: change.newValue, type });
         }
       }),
@@ -123,10 +135,17 @@ export const makeSynced = <T extends Store | Deck | Row>(obj: T) => {
   if (obj instanceof Store) {
     // obj.userSettings = userDataStore.
     // obj.deckOrder = userDataStore.
-    // obj.decks = userDataStore.observingMap("decks");
-    obj.schedule = userDataStore.observingMap("schedule");
-    obj.sessionLog = userDataStore.observingMap("sessionLog");
+    obj.decks = userDataStore.syncChangesToMap("deck");
+    obj.schedule = userDataStore.syncChangesToMap("schedule");
+    obj.sessionLog = userDataStore.syncChangesToMap("sessionLog");
   } else if (obj instanceof Deck) {
+    obj.rows = userDataStore.syncChangesToMap("row");
+    obj.settings = userDataStore.set({
+      type: "deck",
+      key: obj.deckId,
+      value: obj.settings,
+      obj,
+    });
   } else if (obj instanceof Row) {
   }
 

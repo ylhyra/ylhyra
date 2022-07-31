@@ -12,19 +12,10 @@ import { computed, makeObservable, observable } from "mobx";
 import { flattenArray } from "modules/arrays/flattenArray";
 
 export class Deck {
-  /** @deprecated */
-  @observable rows: Row[] = [];
-  @observable rowsMap: Map<RowId, Row[]>;
+  @observable rows!: Map<RowId, Row>;
   @observable settings: DeckSettings;
   constructor(public deckId: DeckId, settings?: DeckSettings) {
-    // this.settings = syncedValue({
-    //   type: "deck",
-    //   key: deckId,
-    //   value: settings || {},
-    // });
-    // this.rowsMap = userDataStore.observingMap("row", { deckId });
     this.settings = settings || {};
-    this.rowsMap = new Map();
     makeSynced(this);
     makeObservable(this);
   }
@@ -33,35 +24,31 @@ export class Deck {
     return this.settings.title || "(untitled)";
   }
 
-  // get cardIds(): CardIds {
-  //   return flattenArray(values(this.rows).map((row) => row.cards)) as CardIds;
-  // }
-
   @computed({ keepAlive: true })
   get cards(): Card[] {
-    return flattenArray(this.rows.map((row) => row.cards));
+    return flattenArray([...this.rows.values()].map((row) => row.cards));
   }
 
   get rowRedirects(): Record<string, RowId> {
     let out: Record<string, RowId> = {};
-    this.rows.forEach((row) => {
+    for (let row of this.rows.values()) {
       row.redirects.forEach((alternativeId) => {
         out[alternativeId] = row.rowId;
       });
-    });
+    }
     return out;
+  }
+
+  /** Used when editing rows */
+  get rowsAsArray(): Row[] {
+    console.log("rowsAsArray called");
+    return [...this.rows.values()].sort(
+      (a, b) => a.data.rowNumber - b.data.rowNumber,
+    );
   }
 
   @computed({ keepAlive: true })
   get dependencyGraph(): DependenciesForAllRowsAsRowIdToDependencyToDepth {
     return getDependencyGraph.bind(this)();
-  }
-
-  toJSON() {
-    return {
-      deckId: this.deckId,
-      settings: this.settings,
-      rows: this.rows.map((row) => row.toJSON()),
-    };
   }
 }

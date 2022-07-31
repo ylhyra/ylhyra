@@ -28,7 +28,7 @@ export const FlashcardsMake = observer(function () {
               <Link to={`/flashcards/deck/${deckId}`} className="flex-1 p-1">
                 <b>{deck.title}</b>{" "}
                 <span className="text-sm text-gray-600">
-                  ({deck.rows.length} cards)
+                  ({deck.rows.size} cards)
                 </span>{" "}
               </Link>
               <div className="p-1">

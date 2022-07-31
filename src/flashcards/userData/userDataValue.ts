@@ -1,10 +1,12 @@
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
+import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { ScheduleData } from "flashcards/flashcards/types";
 import { SessionLogData, Store } from "flashcards/store";
 import { saveUserDataValueInLocalStorage } from "flashcards/userData/localStorage";
 import { syncDebounced } from "flashcards/userData/sync";
-import { UserDataStore } from "flashcards/userData/userDataStore";
+import { userDataStore } from "flashcards/userData/userDataStore";
 import { isObservable, observable, reaction } from "mobx";
 
 /**
@@ -43,8 +45,8 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     public key: string,
     public value: UserDataValueTypes[K],
     public needsSyncing: boolean = true,
-    isInitializing: boolean,
-    parentClass: UserDataStore,
+    isInitializing: boolean | undefined,
+    public obj?: Deck | Row,
   ) {
     if (typeof key !== "string") {
       console.warn({ key, value });
@@ -64,13 +66,14 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     /** Sync whenever the value changes */
     reaction(
       () => Object.entries(this.value),
-      () =>
-        parentClass.preventRecursiveReactions(() => {
+      () => {
+        if (!userDataStore.shouldSync) return;
+        userDataStore.preventRecursiveReactions(() => {
           this.needsSyncing = true;
-          // this.updatedAt = Date.now();
           saveUserDataValueInLocalStorage(this);
           syncDebounced();
-        }),
+        });
+      },
     );
   }
   getValues(): UserDataValueData<K> {

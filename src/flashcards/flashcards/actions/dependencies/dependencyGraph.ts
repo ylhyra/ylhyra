@@ -11,7 +11,7 @@ import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 const MAX_DEPTH = 10;
 
 export function getDependencyGraph(
-  this: Deck
+  this: Deck,
 ): DependenciesForAllRowsAsRowIdToDependencyToDepth {
   return warnIfFunctionIsSlow.wrap(() => {
     let output: DependenciesForAllRowsAsRowIdToDependencyToDepth = {};
@@ -30,11 +30,11 @@ export function getDependencyGraph(
 export type DirectDependencies = Record<RowId, RowId[]>;
 export function getDirectDependencies(
   deck: Deck,
-  rowRedirects: Record<string, RowId>
+  rowRedirects: Record<string, RowId>,
 ): DirectDependencies {
   let directDependencies: DirectDependencies = {};
 
-  for (const row of deck.rows) {
+  for (const row of deck.rows.values()) {
     for (const dependency of row.dependsOn) {
       if (dependency in rowRedirects) {
         directDependencies[row.rowId] = (
@@ -58,7 +58,7 @@ export const dependencyToDepthForASingleRow = (
   fromRowId: RowId,
   alreadySeenDirectParents: RowIds = [],
   output: DependenciesForOneRowAsDependencyToDepth = {},
-  depth = 1
+  depth = 1,
 ): DependenciesForOneRowAsDependencyToDepth => {
   if (depth > MAX_DEPTH) return output;
   directDependencies[fromRowId].forEach((toRowId) => {
@@ -71,7 +71,7 @@ export const dependencyToDepthForASingleRow = (
       /* Deep copy in order to only watch direct parents */
       [...alreadySeenDirectParents, toRowId],
       output,
-      depth + 1
+      depth + 1,
     );
   });
   return output;
