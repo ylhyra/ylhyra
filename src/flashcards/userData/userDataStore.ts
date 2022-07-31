@@ -6,7 +6,7 @@ import {
   UserDataValueData,
   UserDataValueTypes,
 } from "flashcards/userData/userDataValue";
-import { makeObservable, observable, reaction, runInAction, toJS } from "mobx";
+import { makeObservable, observable, observe, toJS } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
 
@@ -56,9 +56,7 @@ export class UserDataStore {
     isInitializing?: boolean;
   }): UserDataValue["value"] {
     if (this.values.has(key)) {
-      // if (!isInitializing) {
       Object.assign(this.values.get(key)!.value, value);
-      // }
     } else {
       this.values.set(
         key,
@@ -77,38 +75,27 @@ export class UserDataStore {
     const map = observable.map(new Map(), { deep: false });
 
     /** React to changes in the key-value store */
-    reaction(
-      () => this.values.keys(),
-      (keysIterator, previousKeysIterator) =>
-        this.preventRecursiveReactions(() => {
-          const keys = [...keysIterator];
-          const previousKeys = [...previousKeysIterator];
-          console.log("Reacted to this.values");
-          console.log({ keys, previousKeys });
-          for (const key of keys) {
-            if (!previousKeys.includes(key)) {
-              if (this.values.get(key)!.type === type) {
-                map.set(key, this.values.get(key)!.value);
-              }
-            }
+    observe(this.values, (change) =>
+      this.preventRecursiveReactions(() => {
+        console.log("Reacted to this.values");
+        console.log(change);
+        if (change.type === "add") {
+          if (change.newValue.type === type) {
+            map.set(change.name, change.newValue);
           }
-        }),
+        }
+      }),
     );
 
     /** React to changes in this map */
-    reaction(
-      () => map.keys(),
-      (keysIterator, previousKeysIterator) =>
-        this.preventRecursiveReactions(() => {
-          const keys = [...keysIterator];
-          const previousKeys = [...previousKeysIterator];
-          console.log("Reacted to changes in map");
-          for (const key of keys) {
-            if (!previousKeys.includes(key)) {
-              this.set({ key: key, value: map.get(key)!.value, type });
-            }
-          }
-        }),
+    observe(map, (change) =>
+      this.preventRecursiveReactions(() => {
+        console.log("Reacted to changes in map");
+        console.log(change);
+        if (change.type === "add") {
+          this.set({ key: change.name, value: change.newValue, type });
+        }
+      }),
     );
 
     return map as unknown as T;
@@ -117,10 +104,8 @@ export class UserDataStore {
   preventRecursiveReactions = (func: Function) => {
     if (!this.#shouldReact) return;
     this.#shouldReact = false;
-    runInAction(() => func());
-    setTimeout(() => {
-      this.#shouldReact = true;
-    }, 0);
+    func();
+    this.#shouldReact = true;
   };
 }
 
@@ -133,15 +118,14 @@ window["userDataStoreJs"] = () => toJS(userDataStore);
 
 /** Must be called before makeAutoObservable */
 export const makeSynced = <T extends Store | Deck | Row>(obj: T) => {
-  // let keys: keyof T[];
+  let keys: keyof T[];
 
   if (obj instanceof Store) {
     // obj.userSettings = userDataStore.
-    obj.schedule = userDataStore.observingMap("deck");
-
     // obj.deckOrder = userDataStore.
+    // obj.decks = userDataStore.observingMap("decks");
     obj.schedule = userDataStore.observingMap("schedule");
-    // obj.sessionLog = userDataStore.
+    obj.sessionLog = userDataStore.observingMap("sessionLog");
   } else if (obj instanceof Deck) {
   } else if (obj instanceof Row) {
   }
