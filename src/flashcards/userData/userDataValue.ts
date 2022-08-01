@@ -68,11 +68,9 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
       () => Object.entries(this.value),
       () => {
         if (!userDataStore.shouldSync) return;
-        userDataStore.preventRecursiveReactions(() => {
-          this.needsSyncing = true;
-          saveUserDataValueInLocalStorage(this);
-          syncDebounced();
-        });
+        this.needsSyncing = true;
+        saveUserDataValueInLocalStorage(this);
+        syncDebounced();
       },
     );
   }

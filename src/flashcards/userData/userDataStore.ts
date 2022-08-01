@@ -5,7 +5,6 @@ import { Store } from "flashcards/store";
 import {
   UserDataValue,
   UserDataValueData,
-  UserDataValueTypes,
 } from "flashcards/userData/userDataValue";
 import { action, makeObservable, observable, observe, toJS } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
@@ -28,12 +27,6 @@ export class UserDataStore {
   lastSynced: Timestamp = getFromLocalStorage("lastSynced") || 0;
   userId?: string;
   values: Map<string, UserDataValue> = new Map();
-
-  /**
-   * During initialization, reactions should not
-   * run, as it would cause an infinite loop.
-   */
-  #shouldReact = true;
   shouldSync = true;
 
   constructor() {
@@ -68,56 +61,38 @@ export class UserDataStore {
   }
 
   // Todo: only reacts to additions
-  syncChangesToMap = <T extends Map<any, any>>(
-    type: keyof UserDataValueTypes,
-    predicate?: Record<string, any>,
+  derivedMap = <T extends Map<any, any>>(
+    predicate: (value: UserDataValue) => boolean,
   ): T => {
     const map = observable.map(new Map(), { deep: false });
 
+    for (let value of this.values.values()) {
+      updateMap(value);
+    }
+
     /** React to changes in the key-value store */
     observe(this.values, (change) =>
-      this.preventRecursiveReactions(
-        action(() => {
-          if (change.type === "add") {
-            if (change.newValue.type === type) {
-              console.log("Reacted to this.values");
-              console.log(change);
-              let obj = change.newValue.obj;
-              if (!obj) {
-                if (type === "deck") {
-                  obj = new Deck(
-                    change.newValue.key as DeckId,
-                    change.newValue.value,
-                  );
-                }
-                change.newValue.obj = obj;
-              }
-              map.set(change.name, obj);
-            }
-          }
-        }),
-      ),
-    );
-
-    /** React to changes in this map */
-    observe(map, (change) =>
-      this.preventRecursiveReactions(() => {
+      action(() => {
         if (change.type === "add") {
-          console.log("Reacted to changes in map");
-          console.log(change);
-          this.set({ key: change.name, value: change.newValue, type });
+          if (predicate(change.newValue)) {
+            // updateMap(change.newValue);
+          }
         }
       }),
     );
 
-    return map as unknown as T;
-  };
+    function updateMap(value: UserDataValue) {
+      let obj = value.obj;
+      if (!obj) {
+        if (value.type === "deck") {
+          obj = new Deck(value.key as DeckId, value.value);
+        }
+        value.obj = obj;
+      }
+      map.set(value.key, obj);
+    }
 
-  preventRecursiveReactions = (func: Function) => {
-    if (!this.#shouldReact) return;
-    this.#shouldReact = false;
-    func();
-    this.#shouldReact = true;
+    return map as unknown as T;
   };
 }
 
@@ -135,11 +110,18 @@ export const makeSynced = <T extends Store | Deck | Row>(obj: T) => {
   if (obj instanceof Store) {
     // obj.userSettings = userDataStore.
     // obj.deckOrder = userDataStore.
-    obj.decks = userDataStore.syncChangesToMap("deck");
-    obj.schedule = userDataStore.syncChangesToMap("schedule");
-    obj.sessionLog = userDataStore.syncChangesToMap("sessionLog");
+    obj.decks = userDataStore.derivedMap((value) => value.key === "deck");
+    obj.schedule = userDataStore.derivedMap(
+      (value) => value.key === "schedule",
+    );
+    obj.sessionLog = userDataStore.derivedMap(
+      (value) => value.key === "sessionLog",
+    );
   } else if (obj instanceof Deck) {
-    obj.rows = userDataStore.syncChangesToMap("row");
+    obj.rows = userDataStore.derivedMap(
+      (value) => value.type === "row",
+      // TODO: deckid
+    );
     obj.settings = userDataStore.set({
       type: "deck",
       key: obj.deckId,
@@ -148,28 +130,4 @@ export const makeSynced = <T extends Store | Deck | Row>(obj: T) => {
     });
   } else if (obj instanceof Row) {
   }
-
-  // for (const key of keys || Reflect.ownKeys(obj)) {
-  //   if (typeof key !== "string") continue;
-  //   const value: unknown = Reflect.get(obj, key);
-  //   if (!value) continue;
-  //   if (value instanceof Map) {
-  //     Reflect.set(
-  //       obj,
-  //       key,
-  //       userDataStore.observingMap(key as keyof UserDataValueTypes),
-  //     );
-  //   } else if (Array.isArray(value) || typeof value === "object") {
-  //     Reflect.set(
-  //       obj,
-  //       key,
-  //       userDataStore.set({
-  //         key,
-  //         value,
-  //         type: key as keyof UserDataValueTypes,
-  //         isInitializing: true,
-  //       }),
-  //     );
-  //   }
-  // }
 };
