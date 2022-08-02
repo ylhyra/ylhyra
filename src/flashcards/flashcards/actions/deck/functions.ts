@@ -18,9 +18,8 @@ import _ from "underscore";
 export function newDeck(): Deck {
   const id = shortid.generate() as DeckId;
   const deck = new Deck(id);
-  // store.decks.set(id, deck);
   if (isBrowser) {
-    // goToUrl(`/flashcards/deck/${id}`);
+    goToUrl(`/flashcards/deck/${id}`);
   }
   return deck;
 }

@@ -42,6 +42,7 @@ export class Deck {
   /** Used when editing rows */
   get rowsAsArray(): Row[] {
     console.log("rowsAsArray called");
+    return [];
     return [...this.rows.values()].sort(
       (a, b) => a.data.rowNumber - b.data.rowNumber,
     );

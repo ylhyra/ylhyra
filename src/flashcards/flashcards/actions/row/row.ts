@@ -19,7 +19,6 @@ export class Row {
   @observable data: RowData;
 
   constructor(public deck: Deck, data: RowData) {
-    // this.data = syncedValue({ type: "row", key: data.rowId, value: data });
     this.data = data;
     makeSynced(this);
     makeObservable(this);

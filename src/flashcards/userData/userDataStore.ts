@@ -23,7 +23,10 @@ export type SyncedUserDataStore = {
  * by wrapping each value in a {@link UserDataValue}.
  */
 export class UserDataStore {
-  /** This value always comes from the server */
+  /**
+   * This value always comes from the server, and
+   * it is not compared with the user's clock
+   */
   lastSynced: Timestamp = getFromLocalStorage("lastSynced") || 0;
   userId?: string;
   values: Map<string, UserDataValue> = new Map();
@@ -71,15 +74,15 @@ export class UserDataStore {
     }
 
     /** React to changes in the key-value store */
-    observe(this.values, (change) =>
+    observe(this.values, (change) => {
       action(() => {
         if (change.type === "add") {
           if (predicate(change.newValue)) {
-            // updateMap(change.newValue);
+            updateMap(change.newValue);
           }
         }
-      }),
-    );
+      })();
+    });
 
     function updateMap(value: UserDataValue) {
       let obj = value.obj;
@@ -110,7 +113,7 @@ export const makeSynced = <T extends Store | Deck | Row>(obj: T) => {
   if (obj instanceof Store) {
     // obj.userSettings = userDataStore.
     // obj.deckOrder = userDataStore.
-    obj.decks = userDataStore.derivedMap((value) => value.key === "deck");
+    obj.decks = userDataStore.derivedMap((value) => value.type === "deck");
     obj.schedule = userDataStore.derivedMap(
       (value) => value.key === "schedule",
     );
@@ -119,8 +122,9 @@ export const makeSynced = <T extends Store | Deck | Row>(obj: T) => {
     );
   } else if (obj instanceof Deck) {
     obj.rows = userDataStore.derivedMap(
-      (value) => value.type === "row",
-      // TODO: deckid
+      (value) =>
+        value.type === "row" &&
+        (value as UserDataValue<"row">).value.deckId === obj.deckId,
     );
     obj.settings = userDataStore.set({
       type: "deck",

@@ -5,7 +5,7 @@ import { getFromLocalStorage, saveInLocalStorage } from "modules/localStorage";
 export const FLASHCARDS_LOCALSTORAGE_PREFIX = "f:";
 
 export function saveUserDataValueInLocalStorage(obj: UserDataValue) {
-  // return; // TEMP
+  return; // TEMP
   saveInLocalStorage(FLASHCARDS_LOCALSTORAGE_PREFIX + obj.key, {
     type: obj.type,
     value: obj.value,
