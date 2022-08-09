@@ -21,8 +21,8 @@ import { minutes } from "modules/time";
 import xorshift from "xorshift";
 
 /**
- * Input is a deck in session.allowedDecks.
- * Called by {@link chooseCards}, which will choose a few cards from these.
+ * Input is a deck in session.allowedDecks. Called by {@link chooseCards}, which
+ * will choose a few cards from these.
  */
 export function classifyCards(deck: Deck) {
   let overdueGood: Card[] = [];
@@ -69,7 +69,7 @@ export function classifyCards(deck: Deck) {
 export function sortCards(
   cards: Card[],
   deck: Deck,
-  type: "NEW" | "OLD"
+  type: "NEW" | "OLD",
 ): Card[] {
   let output: Card[] = [];
 
@@ -81,12 +81,9 @@ export function sortCards(
       : deck.settings.oldCardPrioritization
   ) {
     case "RANDOM":
-      /**
-       * A "random" number that will be stable as
-       * it is generated from the row number
-       */
+      /** A "random" number that will be stable as it is generated from the row number */
       sortByFunctions.push((card) =>
-        xorshift.constructor([card.row.data.rowNumber, 0, 0, 0]).random()
+        xorshift.constructor([card.row.data.rowNumber, 0, 0, 0]).random(),
       );
       break;
     case "OLDEST":

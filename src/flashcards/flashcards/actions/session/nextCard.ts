@@ -10,18 +10,18 @@ import { clearTimeMemoized } from "modules/time";
 import _ from "underscore";
 
 /**
- * Finds the next CardInSession (based on its {@link getRanking})
- * and then sets it as the session's currentCard.
+ * Finds the next CardInSession (based on its {@link getRanking}) and then sets
+ * it as the session's currentCard.
  *
- * (The reason this isn't a method of Session is that it was
- * causing a circular dependency issue)
+ * (The reason this isn't a method of Session is that it was causing a circular
+ * dependency issue)
  */
 export const nextCard = action(() => {
   const session = getSession();
 
   /**
-   * The counter is updated here at the top since we have now moved to
-   * the next slot and are trying to find a card to fill that slot.
+   * The counter is updated here at the top since we have now moved to the next
+   * slot and are trying to find a card to fill that slot.
    */
   session.counter++;
   session.timer.updateRemainingTime();
@@ -36,11 +36,12 @@ export const nextCard = action(() => {
   }
 
   if (session.cards.length === 0) {
-    throw new Error("Failed to generate cards");
+    session.userFacingError = "Failed to generate cards";
+    return;
   }
 
   session.currentCard = _.min(session.cards, (card) =>
-    card.getRanking()
+    card.getRanking(),
   ) as CardInSession;
 
   saveOngoingSessionInLocalStorage();
