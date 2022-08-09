@@ -1,6 +1,4 @@
-import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
-import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { ScheduleData } from "flashcards/flashcards/types";
 import { SessionLogData, Store } from "flashcards/store";
@@ -10,8 +8,8 @@ import { userDataStore } from "flashcards/userData/userDataStore";
 import { isObservable, observable, reaction } from "mobx";
 
 /**
- * The types of data which are stored as {@link UserDataValue}
- * and the values they represent.
+ * The types of data which are stored as {@link UserDataValue} and the values
+ * they represent.
  */
 export type UserDataValueTypes = {
   deck: DeckSettings;
@@ -33,9 +31,8 @@ export interface UserDataValueData<
 }
 
 /**
- * A wrapper around all values that will be synced to
- * localstorage and to the server.
- * Will observe changes in these values and save them.
+ * A wrapper around all values that will be synced to localstorage and to the
+ * server. Will observe changes in these values and save them.
  */
 export class UserDataValue<K extends keyof UserDataValueTypes = any>
   implements UserDataValueData<K>
@@ -45,8 +42,7 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     public key: string,
     public value: UserDataValueTypes[K],
     public needsSyncing: boolean = true,
-    isInitializing: boolean | undefined,
-    public obj?: Deck | Row,
+    saveImmediately: boolean,
   ) {
     if (typeof key !== "string") {
       console.warn({ key, value });
@@ -59,7 +55,7 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     if (!isObservable(value)) {
       this.value = observable(value);
     }
-    if (!isInitializing) {
+    if (saveImmediately) {
       saveUserDataValueInLocalStorage(this);
     }
 
@@ -74,6 +70,7 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
       },
     );
   }
+
   getValues(): UserDataValueData<K> {
     return {
       key: this.key,

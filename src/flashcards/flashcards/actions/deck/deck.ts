@@ -1,3 +1,4 @@
+import { computed, makeObservable, observable } from "mobx";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { getDependencyGraph } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
@@ -7,16 +8,26 @@ import {
   DeckId,
   DependenciesForAllRowsAsRowIdToDependencyToDepth,
 } from "flashcards/flashcards/types";
-import { makeSynced } from "flashcards/userData/userDataStore";
-import { computed, makeObservable, observable } from "mobx";
+import { userDataStore } from "flashcards/userData/userDataStore";
 import { flattenArray } from "modules/arrays/flattenArray";
+import { UserDataValue } from "../../../userData/userDataValue";
 
 export class Deck {
   @observable rows!: Map<RowId, Row>;
   @observable settings: DeckSettings;
   constructor(public deckId: DeckId, settings?: DeckSettings) {
     this.settings = settings || {};
-    makeSynced(this);
+    this.rows = userDataStore.derivedMap(
+      (value) =>
+        value.type === "row" &&
+        (value as UserDataValue<"row">).value.deckId === this.deckId,
+    );
+    this.settings = userDataStore.set({
+      type: "deck",
+      key: this.deckId,
+      value: this.settings,
+      obj: this,
+    });
     makeObservable(this);
   }
 
@@ -42,7 +53,6 @@ export class Deck {
   /** Used when editing rows */
   get rowsAsArray(): Row[] {
     console.log("rowsAsArray called");
-    return [];
     return [...this.rows.values()].sort(
       (a, b) => a.data.rowNumber - b.data.rowNumber,
     );

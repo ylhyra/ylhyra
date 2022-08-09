@@ -10,17 +10,20 @@ import {
   DependenciesForOneRowAsDependencyToDepth,
   Direction,
 } from "flashcards/flashcards/types";
-import { makeSynced } from "flashcards/userData/userDataStore";
 import { computed, makeObservable, observable } from "mobx";
 import { getDefaultValue } from "modules/form";
-import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "modules/removeExtraWhitespace";
 
 export class Row {
   @observable data: RowData;
 
   constructor(public deck: Deck, data: RowData) {
     this.data = data;
-    makeSynced(this);
+    //   userDataStore.set({
+    //   type: "row",
+    //   key: this.rowId,
+    //   value: data,
+    //   obj: this,
+    // });
     makeObservable(this);
   }
 
@@ -88,10 +91,7 @@ export class Row {
     ) as string[];
   }
 
-  /**
-   * Gets the row setting, falling back to the
-   * deck setting, falling back to defaults.
-   */
+  /** Gets the row setting, falling back to the deck setting, falling back to defaults. */
   getSetting<T extends keyof DeckSettings & keyof RowData>(
     key: T,
   ): (DeckSettings & RowData)[T] {
@@ -104,11 +104,5 @@ export class Row {
     }
     return (getDefaultValue(rowFields, key) ??
       getDefaultValue(deckSettingsFields, key)) as (DeckSettings & RowData)[T];
-  }
-
-  toJSON(): RowData {
-    return removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(
-      this.data,
-    ) as RowData;
   }
 }

@@ -1,10 +1,9 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { DeckId } from "flashcards/flashcards/types";
-import { Store } from "flashcards/store";
 import {
   UserDataValue,
   UserDataValueData,
+  UserDataValueTypes,
 } from "flashcards/userData/userDataValue";
 import { action, makeObservable, observable, observe, toJS } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
@@ -19,14 +18,11 @@ export type SyncedUserDataStore = {
 };
 
 /**
- * Key-value store that makes syncing and local storage easier
- * by wrapping each value in a {@link UserDataValue}.
+ * Key-value store that makes syncing and local storage easier by wrapping each
+ * value in a {@link UserDataValue}.
  */
 export class UserDataStore {
-  /**
-   * This value always comes from the server, and
-   * it is not compared with the user's clock
-   */
+  /** This value always comes from the server, and it is not compared with the user's clock */
   lastSynced: Timestamp = getFromLocalStorage("lastSynced") || 0;
   userId?: string;
   values: Map<string, UserDataValue> = new Map();
@@ -38,12 +34,12 @@ export class UserDataStore {
     });
   }
 
-  set(
-    input: UserDataValueData & {
+  set<K extends keyof UserDataValueTypes = keyof UserDataValueTypes>(
+    input: UserDataValueData<K> & {
       isInitializing?: boolean;
       obj?: Deck | Row;
     },
-  ): UserDataValue["value"] {
+  ): UserDataValue<K>["value"] {
     if (this.values.has(input.key)) {
       Object.assign(this.values.get(input.key)!.value, input.value);
     } else {
@@ -70,7 +66,9 @@ export class UserDataStore {
     const map = observable.map(new Map(), { deep: false });
 
     for (let value of this.values.values()) {
-      updateMap(value);
+      if (predicate(value)) {
+        updateMap(value);
+      }
     }
 
     /** React to changes in the key-value store */
@@ -85,14 +83,7 @@ export class UserDataStore {
     });
 
     function updateMap(value: UserDataValue) {
-      let obj = value.obj;
-      if (!obj) {
-        if (value.type === "deck") {
-          obj = new Deck(value.key as DeckId, value.value);
-        }
-        value.obj = obj;
-      }
-      map.set(value.key, obj);
+      map.set(value.key, value.obj);
     }
 
     return map as unknown as T;
@@ -105,33 +96,3 @@ export const userDataStore = new UserDataStore();
 window["userDataStore"] = userDataStore;
 // @ts-ignore
 window["userDataStoreJs"] = () => toJS(userDataStore);
-
-/** Must be called before makeAutoObservable */
-export const makeSynced = <T extends Store | Deck | Row>(obj: T) => {
-  let keys: keyof T[];
-
-  if (obj instanceof Store) {
-    // obj.userSettings = userDataStore.
-    // obj.deckOrder = userDataStore.
-    obj.decks = userDataStore.derivedMap((value) => value.type === "deck");
-    obj.schedule = userDataStore.derivedMap(
-      (value) => value.key === "schedule",
-    );
-    obj.sessionLog = userDataStore.derivedMap(
-      (value) => value.key === "sessionLog",
-    );
-  } else if (obj instanceof Deck) {
-    obj.rows = userDataStore.derivedMap(
-      (value) =>
-        value.type === "row" &&
-        (value as UserDataValue<"row">).value.deckId === obj.deckId,
-    );
-    obj.settings = userDataStore.set({
-      type: "deck",
-      key: obj.deckId,
-      value: obj.settings,
-      obj,
-    });
-  } else if (obj instanceof Row) {
-  }
-};
