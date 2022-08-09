@@ -77,7 +77,6 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
       value: this.value,
       type: this.type,
       needsSyncing: this.needsSyncing,
-      // updatedAt: this.updatedAt,
     };
   }
 }

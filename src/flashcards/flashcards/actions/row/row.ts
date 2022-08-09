@@ -24,6 +24,7 @@ export class Row {
     //   value: data,
     //   obj: this,
     // });
+    deck.rows.set(this.rowId, this);
     makeObservable(this);
   }
 

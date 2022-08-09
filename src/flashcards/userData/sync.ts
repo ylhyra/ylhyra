@@ -14,8 +14,7 @@ import { log } from "modules/log";
  * TODO:
  *
  * - Skrá notanda í gögn!
- * - Tékka hvort notandi sé enn skráður inn
- *   og hvort sami notandi sé enn skráður inn
+ * - Tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
  */
 export const sync = action(async (): Promise<void> => {
   if (!isUserLoggedIn()) {
@@ -61,5 +60,5 @@ export function syncDebounced() {
   timer && clearTimeout(timer);
   timer = setTimeout(() => {
     void sync();
-  }, 1000 * 1);
+  }, 1000 * 4);
 }

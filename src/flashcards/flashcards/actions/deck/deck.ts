@@ -8,26 +8,21 @@ import {
   DeckId,
   DependenciesForAllRowsAsRowIdToDependencyToDepth,
 } from "flashcards/flashcards/types";
-import { userDataStore } from "flashcards/userData/userDataStore";
 import { flattenArray } from "modules/arrays/flattenArray";
-import { UserDataValue } from "../../../userData/userDataValue";
+import { store } from "../../../store";
 
 export class Deck {
-  @observable rows!: Map<RowId, Row>;
+  @observable rows: Map<RowId, Row> = new Map();
   @observable settings: DeckSettings;
   constructor(public deckId: DeckId, settings?: DeckSettings) {
     this.settings = settings || {};
-    this.rows = userDataStore.derivedMap(
-      (value) =>
-        value.type === "row" &&
-        (value as UserDataValue<"row">).value.deckId === this.deckId,
-    );
-    this.settings = userDataStore.set({
-      type: "deck",
-      key: this.deckId,
-      value: this.settings,
-      obj: this,
-    });
+    // this.settings = userDataStore.set({
+    //   type: "deck",
+    //   key: this.deckId,
+    //   value: this.settings,
+    //   obj: this,
+    // });
+    store.decks.set(deckId, this);
     makeObservable(this);
   }
 

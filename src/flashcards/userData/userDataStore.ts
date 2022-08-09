@@ -5,7 +5,7 @@ import {
   UserDataValueData,
   UserDataValueTypes,
 } from "flashcards/userData/userDataValue";
-import { action, makeObservable, observable, observe, toJS } from "mobx";
+import { makeObservable, observable, toJS } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
 
@@ -39,7 +39,7 @@ export class UserDataStore {
       isInitializing?: boolean;
       obj?: Deck | Row;
     },
-  ): UserDataValue<K>["value"] {
+  ): UserDataValue<K> {
     if (this.values.has(input.key)) {
       Object.assign(this.values.get(input.key)!.value, input.value);
     } else {
@@ -50,44 +50,43 @@ export class UserDataStore {
           input.key,
           input.value,
           input.needsSyncing,
-          input.isInitializing,
-          input.obj,
+          !input.isInitializing,
         ),
       );
     }
 
-    return this.values.get(input.key)!.value;
+    return this.values.get(input.key)!;
   }
 
-  // Todo: only reacts to additions
-  derivedMap = <T extends Map<any, any>>(
-    predicate: (value: UserDataValue) => boolean,
-  ): T => {
-    const map = observable.map(new Map(), { deep: false });
-
-    for (let value of this.values.values()) {
-      if (predicate(value)) {
-        updateMap(value);
-      }
-    }
-
-    /** React to changes in the key-value store */
-    observe(this.values, (change) => {
-      action(() => {
-        if (change.type === "add") {
-          if (predicate(change.newValue)) {
-            updateMap(change.newValue);
-          }
-        }
-      })();
-    });
-
-    function updateMap(value: UserDataValue) {
-      map.set(value.key, value.obj);
-    }
-
-    return map as unknown as T;
-  };
+  // // Todo: only reacts to additions
+  // derivedMap = <T extends Map<any, any>>(
+  //   predicate: (value: UserDataValue) => boolean,
+  // ): T => {
+  //   const map = observable.map(new Map(), { deep: false });
+  //
+  //   for (let value of this.values.values()) {
+  //     if (predicate(value)) {
+  //       updateMap(value);
+  //     }
+  //   }
+  //
+  //   /** React to changes in the key-value store */
+  //   observe(this.values, (change) => {
+  //     action(() => {
+  //       if (change.type === "add") {
+  //         if (predicate(change.newValue)) {
+  //           updateMap(change.newValue);
+  //         }
+  //       }
+  //     })();
+  //   });
+  //
+  //   function updateMap(value: UserDataValue) {
+  //     map.set(value.key, value.obj);
+  //   }
+  //
+  //   return map as unknown as T;
+  // };
 }
 
 export const userDataStore = new UserDataStore();

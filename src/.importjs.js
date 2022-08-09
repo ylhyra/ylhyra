@@ -12,7 +12,8 @@ module.exports = {
   logLevel: "debug",
   sortImports: false,
   namedExports: {
-    mobx: [
+    "flashcards/store": ["store"],
+    "mobx": [
       "action",
       "autorun",
       "computed",
@@ -24,6 +25,6 @@ module.exports = {
       "toJS",
       "spy",
     ],
-    express: ["Router", "Request", "Response"],
+    "express": ["Router", "Request", "Response"],
   },
 };

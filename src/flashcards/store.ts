@@ -3,7 +3,6 @@ import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { CardId, DeckId, ScheduleData } from "flashcards/flashcards/types";
 import { UserId, Username } from "flashcards/user/types";
 import { UserSettings } from "flashcards/user/userSettings.types";
-import { userDataStore } from "flashcards/userData/userDataStore";
 import { makeAutoObservable } from "mobx";
 import { Seconds, Timestamp } from "modules/time";
 
@@ -24,13 +23,6 @@ export class Store {
   schedule: Map<CardId, ScheduleData> = new Map();
   sessionLog: Map<string, SessionLogData> = new Map();
   constructor() {
-    this.decks = userDataStore.derivedMap((value) => value.type === "deck");
-    this.schedule = userDataStore.derivedMap(
-      (value) => value.key === "schedule",
-    );
-    this.sessionLog = userDataStore.derivedMap(
-      (value) => value.key === "sessionLog",
-    );
     makeAutoObservable(this);
   }
 }
