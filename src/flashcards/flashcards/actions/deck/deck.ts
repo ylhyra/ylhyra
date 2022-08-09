@@ -14,14 +14,8 @@ import { store } from "../../../store";
 export class Deck {
   @observable rows: Map<RowId, Row> = new Map();
   @observable settings: DeckSettings;
-  constructor(public deckId: DeckId, settings?: DeckSettings) {
-    this.settings = settings || {};
-    // this.settings = userDataStore.set({
-    //   type: "deck",
-    //   key: this.deckId,
-    //   value: this.settings,
-    //   obj: this,
-    // });
+  constructor(public deckId: DeckId, settings: DeckSettings) {
+    this.settings = settings;
     store.decks.set(deckId, this);
     makeObservable(this);
   }

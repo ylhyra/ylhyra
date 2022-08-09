@@ -4,11 +4,15 @@ import {
   SyncedUserDataStore,
   userDataStore,
 } from "flashcards/userData/userDataStore";
-import { UserDataValueData } from "flashcards/userData/userDataValue";
+import {
+  UserDataValueData,
+  UserDataValue,
+} from "flashcards/userData/userDataValue";
 import { action } from "mobx";
 import axios2 from "modules/axios2";
 import { saveInLocalStorage } from "modules/localStorage";
 import { log } from "modules/log";
+import { applyChangesToMainStore } from "./initialize";
 
 /**
  * TODO:
@@ -35,14 +39,20 @@ export const sync = action(async (): Promise<void> => {
     // TODO: USER!
   })) as SyncedUserDataStore;
 
+  let valuesToApplyToMainStore: UserDataValue[] = [];
   for (const key in response.values) {
-    userDataStore.set({
+    const alreadyInMainStore = userDataStore.values.has(key);
+    const value = userDataStore.set({
       key,
       value: response.values[key].value,
       type: response.values[key].type,
       needsSyncing: false,
     });
+    if (!alreadyInMainStore) {
+      valuesToApplyToMainStore.push(value);
+    }
   }
+  applyChangesToMainStore(valuesToApplyToMainStore);
 
   for (const key in unsynced) {
     userDataStore.values.get(key)!.needsSyncing = false;

@@ -18,12 +18,6 @@ export class Row {
 
   constructor(public deck: Deck, data: RowData) {
     this.data = data;
-    //   userDataStore.set({
-    //   type: "row",
-    //   key: this.rowId,
-    //   value: data,
-    //   obj: this,
-    // });
     deck.rows.set(this.rowId, this);
     makeObservable(this);
   }

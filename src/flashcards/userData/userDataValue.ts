@@ -17,7 +17,7 @@ export type UserDataValueTypes = {
   schedule: ScheduleData;
   sessionLog: SessionLogData;
   userSettings: InstanceType<typeof Store>["userSettings"];
-  deckOrder: InstanceType<typeof Store>["deckOrder"];
+  // deckOrder: InstanceType<typeof Store>["deckOrder"];
 };
 
 export interface UserDataValueData<
@@ -27,7 +27,6 @@ export interface UserDataValueData<
   key: string;
   value: UserDataValueTypes[K];
   needsSyncing?: boolean;
-  // updatedAt?: number;
 }
 
 /**
