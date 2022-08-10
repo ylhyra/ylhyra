@@ -1,5 +1,6 @@
 import { Html } from "inflection/tables/types";
 import { removeExtraWhitespace } from "modules/removeExtraWhitespace";
+import { formatOcclusion } from "./occlude";
 
 /** Strips the HTML from {@link formatVocabularyEntry} */
 export function getPlaintextFromFormatted(input: string | undefined): string {
@@ -12,7 +13,7 @@ export function getPlaintextFromFormatted(input: string | undefined): string {
       // .replace(/<span class="separator">,<\/span>/g, ";")
       // .replace(/<span class="separator">;<\/span>/g, ";;")
       // .replace(/<\/li><li>/g, ";; ")
-      .replace(/<.+?>/g, "")
+      .replace(/<.+?>/g, ""),
     // .replace(/[—–]/g, "-")
     // .replace(/  +/g, " ")
     // .replace(/†/g, "")
@@ -20,7 +21,7 @@ export function getPlaintextFromFormatted(input: string | undefined): string {
 }
 
 /** Todo: Prevent user HTML from being injected */
-export function formatVocabularyEntry(input: string): Html {
+export function formatVocabularyEntry(input?: string): Html {
   if (!input) return "";
 
   input = input
@@ -44,6 +45,8 @@ export function formatVocabularyEntry(input: string): Html {
   //     .join("")}</ol>`;
   // }
 
+  input = formatOcclusion(input);
+
   if (/{{/.test(input!)) {
     console.warn(`Unprocessed template: ${input!.match(/({{.+?}})/)?.[1]}`);
   }
@@ -57,7 +60,7 @@ export function formatVocabularyEntry(input: string): Html {
 }
 
 export function getPlaintextFromUnformattedVocabularyEntry(
-  input: string | undefined
+  input: string | undefined,
 ) {
   if (!input) return "";
   return getPlaintextFromFormatted(formatVocabularyEntry(input));
@@ -69,7 +72,7 @@ export function fancyFormat(input: string): Html {
       // Curly quotes
       .replace(
         /"([^"]*)"/g,
-        `<span class="darkgray">“</span>$1<span class="darkgray">”</span>`
+        `<span class="darkgray">“</span>$1<span class="darkgray">”</span>`,
       )
       // Spacing around pluses
       .replace(/ \+ /g, `\u2006<span class="darkgray">+</span>\u2006`)

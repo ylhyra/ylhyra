@@ -30,9 +30,7 @@ export function isUnseenSiblingOfANonGoodCard(card1: Card) {
  * have been postponed instead).
  */
 export function isInSchedule(card1: Card) {
-  // TODO!!!!
-  return false;
-  // return card1.cardId in getUserDataStore().schedule;
+  return store.schedule.has(card1.cardId);
 }
 
 export function setSchedule(card1: Card, data: ScheduleData) {
@@ -55,8 +53,6 @@ export function setSchedule(card1: Card, data: ScheduleData) {
       },
     }).value,
   );
-
-  throw new Error("Not implemented");
 }
 
 export function isUnseenRow(card1: Card) {

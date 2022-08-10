@@ -20,11 +20,10 @@ module.exports = {
       "makeAutoObservable",
       "makeObservable",
       "observable",
-      "observer",
-      "Observer",
       "toJS",
       "spy",
     ],
+    "mobx-react": ["observer", "Observer"],
     "express": ["Router", "Request", "Response"],
   },
 };

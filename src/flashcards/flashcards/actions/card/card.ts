@@ -8,6 +8,8 @@ import {
 } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
 import { Days, Timestamp } from "modules/time";
+import { Html } from "../../../../inflection/tables/types";
+import { formatVocabularyEntry } from "../format/format";
 
 export class Card {
   constructor(public row: Row, public cardId: CardId) {}
@@ -29,9 +31,9 @@ export class Card {
   }
 
   /**
-   * Checks if two cards are the same card.
-   * (Used since Card === Card doesn't work if they are the same card just
-   * initialized at a different time, although that is currently never possible)
+   * Checks if two cards are the same card. (Used since Card === Card doesn't
+   * work if they are the same card just initialized at a different time,
+   * although that is currently never possible)
    */
   is(card: Card) {
     return this.cardId === card.cardId;
@@ -69,5 +71,13 @@ export class Card {
 
   get lastSeen(): Timestamp | undefined {
     return this.schedule?.lastSeen;
+  }
+
+  get frontFormatted(): Html {
+    return formatVocabularyEntry(this.data.front);
+  }
+
+  get backFormatted(): Html {
+    return formatVocabularyEntry(this.data.back);
   }
 }

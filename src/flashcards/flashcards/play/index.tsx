@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react';
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getDeckById } from "flashcards/flashcards/actions/deck/functions";
 import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
@@ -9,7 +10,7 @@ import { DeckId } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
 import React, { useEffect } from "react";
 
-export const FlashcardsPlay = ({ deckId }: { deckId: string }) => {
+export const FlashcardsPlay = observer(({ deckId }: { deckId: string }) => {
   let decks: Deck[];
   if (deckId === "all") {
     decks = [...store.decks.values()];
@@ -47,4 +48,4 @@ export const FlashcardsPlay = ({ deckId }: { deckId: string }) => {
       </div>
     </div>
   );
-};
+});

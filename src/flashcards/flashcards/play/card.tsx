@@ -17,10 +17,7 @@ export class CardElement extends Component {
     isShowingBottomSide?: boolean;
     /** Then he rates how well he knew it */
     chosenRating?: Rating;
-    /**
-     * Used to make UI show a slight lag between
-     * keyboard shortcuts and answering
-     */
+    /** Used to make UI show a slight lag between keyboard shortcuts and answering */
     clickingOnShowButton?: boolean;
   } = {};
   componentDidMount() {
@@ -92,9 +89,9 @@ export class CardElement extends Component {
     }
   };
   /**
-   * @param timeout – A timeout is used when using keyboard
-   *   shortcuts to add enough lag to the user interface for
-   *   which button the user is clicking to be noticeable
+   * @param timeout – A timeout is used when using keyboard shortcuts to add
+   *   enough lag to the user interface for which button the user is clicking to
+   *   be noticeable
    */
   cardClicked = (timeout?: NodeJS.Timeout) => {
     if (this.state.isShowingBottomSide) {
@@ -113,18 +110,15 @@ export class CardElement extends Component {
     }
     this.sound(true);
   };
-  /**
-   * {@link CardElement.cardClicked} is also
-   * invoked at the same time (I believe)
-   */
+  /** {@link CardElement.cardClicked} is also invoked at the same time (I believe) */
   ratingClicked = (
     rating: Rating,
     timeout?: NodeJS.Timeout | false,
     e?: MouseEvent,
   ) => {
     /**
-     * TODO: The buttons below no longer send this event, check
-     * to see if stopping propagation is really necessary
+     * TODO: The buttons below no longer send this event, check to see if
+     * stopping propagation is really necessary
      */
     e?.stopPropagation();
     if (this.state.chosenRating) return;
@@ -214,8 +208,8 @@ export class CardElement extends Component {
     // let example_declension: Jsx = getCardData(id, "example_declension");
     // let pronunciation: Jsx = getCardData(id, "pronunciation");
     // let synonyms: Jsx = getCardData(id, "synonyms");
-    const front = card.data.front;
-    const back = card.data.back;
+    const front = card.frontFormatted;
+    const back = card.backFormatted;
 
     /* Loading */
     if (!front || !back) {
@@ -349,6 +343,7 @@ export class CardElement extends Component {
             <div>
               <button
                 type="button"
+                onClick={() => this.cardClicked()}
                 className={`
                   not-answered
                   button-show-answer
