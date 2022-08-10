@@ -20,7 +20,6 @@ export class Store {
   } | null = getUserFromCookie();
   userSettings: UserSettings = {};
   decks: Map<DeckId, Deck> = new Map();
-  // deckOrder: DeckId[] = [];
   schedule: Map<CardId, ScheduleData> = new Map();
   sessionLog: Map<string, SessionLogData> = new Map();
   constructor() {
@@ -33,7 +32,10 @@ export class Store {
   }
 }
 
-export const store = new Store();
+export let store = new Store();
+export function clearStore() {
+  store = new Store();
+}
 
 // @ts-ignore
 window["store"] = store;

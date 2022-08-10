@@ -1,3 +1,4 @@
+import { action } from "mobx";
 import { isUserLoggedIn } from "flashcards/user/login/actions";
 import { saveUserDataValueInLocalStorage } from "flashcards/userData/localStorage";
 import {
@@ -8,7 +9,6 @@ import {
   UserDataValueData,
   UserDataValue,
 } from "flashcards/userData/userDataValue";
-import { action } from "mobx";
 import axios2 from "modules/axios2";
 import { saveInLocalStorage } from "modules/localStorage";
 import { log } from "modules/log";
@@ -27,9 +27,9 @@ export const sync = action(async (): Promise<void> => {
   }
 
   const unsynced: Record<string, UserDataValueData> = {};
-  for (const key in userDataStore.values.keys()) {
-    if (userDataStore.values.get(key)!.needsSyncing) {
-      unsynced[key] = userDataStore.values.get(key)!.getValues();
+  for (const [key, value] of userDataStore.values) {
+    if (value.needsSyncing) {
+      unsynced[key] = value.getValues();
     }
   }
 

@@ -25,6 +25,7 @@ model User {
   Schedule  Schedule[]
 
   UserData UserData[]
+
   @@index([email])
 }
 

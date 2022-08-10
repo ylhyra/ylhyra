@@ -89,7 +89,10 @@ export class UserDataStore {
   // };
 }
 
-export const userDataStore = new UserDataStore();
+export let userDataStore = new UserDataStore();
+export function clearUserDataStore() {
+  userDataStore = new UserDataStore();
+}
 
 // @ts-ignore
 window["userDataStore"] = userDataStore;

@@ -30,7 +30,7 @@ export const expressServer = ({
       secure: false,
       httpOnly: false,
       maxAge: 5 * years,
-    })
+    }),
   );
   app.enable("strict routing");
 
@@ -48,6 +48,7 @@ export const expressServer = ({
     app.use("/", module.default);
   }
 
+  /** Catch errors. Note: Does not catch async errors */
   app.use((err: any, req: Request, res: Response, next: any) => {
     if (err instanceof Error) {
       res.set("Content-Type", "text/txt");

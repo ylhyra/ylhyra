@@ -23,9 +23,12 @@ export const FlashcardsMake = observer(function () {
         </div>
         <hr />
         <ul>
-          {[...decks.entries()].map(([deckId, deck]) => (
-            <li key={deckId} className="flex hover:bg-gray-200">
-              <Link to={`/flashcards/deck/${deckId}`} className="flex-1 p-1">
+          {[...decks.values()].map((deck) => (
+            <li key={deck.deckId} className="flex hover:bg-gray-200">
+              <Link
+                to={`/flashcards/deck/${deck.deckId}`}
+                className="flex-1 p-1"
+              >
                 <b>{deck.title}</b>{" "}
                 <span className="text-sm text-gray-600">
                   ({deck.rows.size} cards)
@@ -33,12 +36,12 @@ export const FlashcardsMake = observer(function () {
               </Link>
               <div className="p-1">
                 <Link
-                  to={`/flashcards/deck/${deckId}`}
+                  to={`/flashcards/deck/${deck.deckId}`}
                   className="btn btn-gray"
                 >
                   Add
                 </Link>{" "}
-                <Link to={`/flashcards/play/${deckId}`} className="btn">
+                <Link to={`/flashcards/play/${deck.deckId}`} className="btn">
                   Play
                 </Link>
               </div>

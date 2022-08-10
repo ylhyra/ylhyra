@@ -26,3 +26,15 @@ export function getUserDataValueFromLocalStorage(_key: string) {
   }
   return { key, type, value, needsSyncing };
 }
+
+export function clearLocalStorage() {
+  Object.keys(localStorage).forEach((_key) => {
+    if (
+      _key.startsWith(FLASHCARDS_LOCALSTORAGE_PREFIX) ||
+      _key === "lastSynced"
+    ) {
+      localStorage.removeItem(_key);
+    }
+    localStorage.removeItem(_key);
+  });
+}

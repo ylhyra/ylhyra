@@ -1,5 +1,5 @@
 import type { Request } from "express";
-import { throwError } from "flashcards/app/functions/sendError.server";
+import { sendError } from "flashcards/app/functions/sendError.server";
 import { prisma } from "flashcards/database/database.server";
 import { errors } from "flashcards/errors";
 import { UserId, Username } from "flashcards/user/types";
@@ -29,6 +29,6 @@ export function requireUserId(req: Request) {
   if (userId) {
     return userId;
   } else {
-    throwError(errors.ERROR_LOGIN_REQUIRED, StatusCodes.FORBIDDEN);
+    sendError(errors.ERROR_LOGIN_REQUIRED, StatusCodes.FORBIDDEN);
   }
 }

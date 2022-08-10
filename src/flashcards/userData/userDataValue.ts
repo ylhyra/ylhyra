@@ -1,3 +1,5 @@
+import { isObservable, observable, reaction, toJS } from "mobx";
+import { isEmpty } from "modules/isEmpty";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { ScheduleData } from "flashcards/flashcards/types";
@@ -5,7 +7,6 @@ import { SessionLogData, Store } from "flashcards/store";
 import { saveUserDataValueInLocalStorage } from "flashcards/userData/localStorage";
 import { syncDebounced } from "flashcards/userData/sync";
 import { userDataStore } from "flashcards/userData/userDataStore";
-import { isObservable, observable, reaction } from "mobx";
 
 /**
  * The types of data which are stored as {@link UserDataValue} and the values
@@ -41,7 +42,7 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     public key: string,
     public value: UserDataValueTypes[K],
     public needsSyncing: boolean = true,
-    saveImmediately: boolean,
+    saveImmediately: boolean = true,
   ) {
     if (typeof key !== "string") {
       console.warn({ key, value });
@@ -54,7 +55,7 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     if (!isObservable(value)) {
       this.value = observable(value);
     }
-    if (saveImmediately) {
+    if (saveImmediately && !isEmpty(value)) {
       saveUserDataValueInLocalStorage(this);
     }
 
@@ -73,7 +74,7 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
   getValues(): UserDataValueData<K> {
     return {
       key: this.key,
-      value: this.value,
+      value: toJS(this.value),
       type: this.type,
       needsSyncing: this.needsSyncing,
     };

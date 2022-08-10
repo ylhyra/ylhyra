@@ -1,5 +1,5 @@
 import { getUserFromCookie } from "flashcards/app/functions/cookie";
-import { store } from "flashcards/store";
+import { store, clearStore } from "flashcards/store";
 import type {
   LoginRequest,
   LoginResponse,
@@ -7,6 +7,8 @@ import type {
 import { action } from "mobx";
 import axios2 from "modules/axios2";
 import { goToUrl } from "modules/router";
+import { clearLocalStorage } from "../../userData/localStorage";
+import { clearUserDataStore } from "../../userData/userDataStore";
 
 export async function login(values: LoginRequest) {
   const response = (await axios2.post("/api/login", values)) as LoginResponse;
@@ -22,7 +24,9 @@ export async function login(values: LoginRequest) {
 export const logout = async () => {
   await axios2.post("/api/logout");
   action(() => {
-    store.user = null;
+    clearLocalStorage();
+    clearStore();
+    clearUserDataStore();
     goToUrl("/");
   })();
 };
