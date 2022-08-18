@@ -2,9 +2,9 @@ import { getDirectionFromCardId } from "flashcards/flashcards/actions/row/ids";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import {
   CardId,
-  Direction,
   ScheduleData,
   Score,
+  Direction,
 } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
 import { Days, Timestamp } from "modules/time";
@@ -20,6 +20,10 @@ export class Card {
 
   get rowId() {
     return this.row.rowId;
+  }
+
+  get isIgnored() {
+    return this.data.deleted;
   }
 
   get deck() {

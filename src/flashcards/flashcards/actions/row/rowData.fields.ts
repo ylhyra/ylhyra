@@ -30,25 +30,25 @@ export const rowFields: FieldsSetup<RowData> = [
       },
     ],
   },
-  {
-    name: "sideToShowFirst",
-    label: "Side to show first",
-    type: "select",
-    options: [
-      {
-        value: "FRONT_SIDE",
-        label: "Front side",
-      },
-      {
-        value: "RANDOM",
-        label: "Either side (random)",
-      },
-    ],
-    // onlyShowIf: {
-    //   key: "preset",
-    //   is: "FOREIGN_LANGUAGE_PERSONAL_USE",
-    // },
-  },
+  // {
+  //   name: "sideToShowFirst",
+  //   label: "Side to show first",
+  //   type: "select",
+  //   options: [
+  //     {
+  //       value: "FRONT_SIDE",
+  //       label: "Front side",
+  //     },
+  //     {
+  //       value: "RANDOM",
+  //       label: "Either side (random)",
+  //     },
+  //   ],
+  //   // onlyShowIf: {
+  //   //   key: "preset",
+  //   //   is: "FOREIGN_LANGUAGE_PERSONAL_USE",
+  //   // },
+  // },
   {
     name: "automaticDependencies",
     label: "Automatically find which cards this card depends on",

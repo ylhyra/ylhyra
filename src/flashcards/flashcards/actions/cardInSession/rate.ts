@@ -8,8 +8,8 @@ import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { Rating } from "flashcards/flashcards/types";
 
 /**
- * Called from the user interface in {@link CardElement},
- * the user is here rating how well he knew a card
+ * Called from the user interface in {@link CardElement}, the user is here rating
+ * how well he knew a card
  */
 export function rate(this: CardInSession, rating: Rating): void {
   const session = this.session;
@@ -21,20 +21,7 @@ export function rate(this: CardInSession, rating: Rating): void {
   let interval: IntervalRelativeToCurrentCardBeingAtZero;
 
   if (rating === Rating.BAD) {
-    interval = card.sessionsSeen > 0 ? 4 : 3;
-
-    /* Two bad ratings in a row */
-    if (lastRating === Rating.BAD) {
-      interval = 3;
-      // Three bad ratings in a row always get an interval of 2
-      if (nextLastRating === Rating.BAD) {
-        interval = 2;
-      }
-      // But two bad ratings in a row also occasionally get an interval of 2
-      else if (Math.random() < 0.2) {
-        interval = 2;
-      }
-    }
+    interval = Math.random() < 0.8 ? 2 : 3;
 
     /* User is getting annoyed */
     if (timesSeenBeforeInSession >= 6 && timesSeenBeforeInSession % 2 === 0) {

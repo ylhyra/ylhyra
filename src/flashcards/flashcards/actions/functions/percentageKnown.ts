@@ -2,11 +2,12 @@ import { Card } from "flashcards/flashcards/actions/card/card";
 import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
 import { clamp, mapValueToRange } from "modules/math";
 
-export function PercentageKnown(cards: Card[]) {
+export function percentageKnown(cards: Card[]) {
   // if (!getEntireSchedule()) return 0;
   let done = 0;
   let remaining = 0;
   cards.forEach((card) => {
+    if (card.isIgnored) return;
     if (isInSchedule(card)) {
       let score = card.score || 2;
       let toAdd;
@@ -41,6 +42,21 @@ export function PercentageKnown(cards: Card[]) {
     percentage = (ratio * 100).toFixed(2);
   }
   return percentage;
+}
+
+export function percentageSeen(cards: Card[]) {
+  let seen = 0;
+  let unseen = 0;
+  cards.forEach((card) => {
+    if (isInSchedule(card)) {
+      seen++;
+    } else {
+      unseen++;
+    }
+  });
+
+  if (unseen === 0) return 0;
+  return ((seen / (seen + unseen)) * 100).toFixed(2);
 }
 
 export function PercentageKnownOverall() {

@@ -11,21 +11,15 @@ export type IntervalRelativeToCurrentCardBeingAtZero = number;
 
 export class CardInSession extends Card {
   /**
-   * Rating history for the current session.
-   * New ratings are added to the START of this array.
+   * Rating history for the current session. New ratings are added to the START
+   * of this array.
    */
   ratingHistory: Rating[] = [];
 
-  /**
-   * A card is done if the user has said he knows it well.
-   * Set by {@link rate}.
-   */
+  /** A card is done if the user has said he knows it well. Set by {@link rate}. */
   done?: boolean;
 
-  /**
-   * Internally stores info such as "This card
-   * should be shown when the counter is at 8"
-   */
+  /** Internally stores info such as "This card should be shown when the counter is at 8" */
   #queuePositionRelativeToCounter: Session["counter"];
 
   /** Hard limit on when a card can be shown */
@@ -41,7 +35,7 @@ export class CardInSession extends Card {
       insertAtPosition?: number;
       /** Used for initializing again from a saved state */
       history?: Rating[];
-    }
+    },
   ) {
     super(card.row, card.cardId);
     this.session = session;
@@ -71,9 +65,8 @@ export class CardInSession extends Card {
   }
 
   /**
-   * A card is overdue to be shown again in this session if
-   * its queue position is less than 0.
-   * Note that multiple cards can have the same queue position
+   * A card is overdue to be shown again in this session if its queue position
+   * is less than 0. Note that multiple cards can have the same queue position
    */
   get queuePosition(): IntervalRelativeToCurrentCardBeingAtZero {
     return this.#queuePositionRelativeToCounter - this.session.counter;
@@ -81,14 +74,6 @@ export class CardInSession extends Card {
 
   set queuePosition(interval: IntervalRelativeToCurrentCardBeingAtZero) {
     this.#queuePositionRelativeToCounter = this.session.counter + interval;
-  }
-
-  /**
-   * Whether the card is overdue to be shown in this session
-   * (note: not the same as being overdue in the schedule)
-   */
-  isOverdueInCurrentSession() {
-    return this.queuePosition < 0;
   }
 
   isDueExactlyNow() {
@@ -104,7 +89,7 @@ export class CardInSession extends Card {
   set cannotBeShownUntil(interval: IntervalRelativeToCurrentCardBeingAtZero) {
     this.#cannotBeShownUntilRelativeToCounter = Math.max(
       this.#cannotBeShownUntilRelativeToCounter || 0,
-      this.session.counter + interval
+      this.session.counter + interval,
     );
   }
 

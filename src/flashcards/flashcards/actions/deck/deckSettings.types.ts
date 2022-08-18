@@ -1,4 +1,4 @@
-import { DirectionSettings } from "flashcards/flashcards/types";
+import { DirectionSettings, Direction } from "flashcards/flashcards/types";
 
 /** Interface form is at {@link deckSettingsFields} */
 export type DeckSettings = Partial<{
@@ -11,7 +11,7 @@ export type DeckSettings = Partial<{
   frontSideLanguage: string;
   backSideLanguage: string;
   direction: DirectionSettings;
-  sideToShowFirst: "FRONT_SIDE" | "BACK_SIDE" | "RANDOM";
+  sideToShowFirst: Direction | "RANDOM";
   automaticDependencies: boolean;
   automaticallyOccludeClashing: boolean;
   schedulingGoal:
@@ -36,8 +36,8 @@ export type DeckSettings = Partial<{
     | "NEWEST_SEEN";
   automaticReplacementsToFindAlternativeId: [];
   /**
-   * When the user is playing from all decks at once, this multiplier
-   * can be used to make certain decks more important than others
+   * When the user is playing from all decks at once, this multiplier can be
+   * used to make certain decks more important than others
    */
   deckImportanceMultiplier: number;
   formattingStyle: undefined | "DICTIONARY";

@@ -6,6 +6,10 @@ import { observer } from "mobx-react";
 import { Link } from "modules/router";
 import React from "react";
 import { Helmet } from "react-helmet-async";
+import {
+  percentageKnown,
+  percentageSeen,
+} from "./actions/functions/percentageKnown";
 
 export const FlashcardsMake = observer(function () {
   const { decks } = store;
@@ -31,7 +35,9 @@ export const FlashcardsMake = observer(function () {
               >
                 <b>{deck.title}</b>{" "}
                 <span className="text-sm text-gray-600">
-                  ({deck.rows.size} cards)
+                  {/*TODO: Ignore deleted cards*/}({deck.rows.size} cards){" "}
+                  {percentageKnown(deck.cards)}% known{" "}
+                  {percentageSeen(deck.cards)}% seen
                 </span>{" "}
               </Link>
               <div className="p-1">

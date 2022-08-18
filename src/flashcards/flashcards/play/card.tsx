@@ -7,6 +7,7 @@ import { observer } from "mobx-react";
 import { classNames } from "modules/addCssClass";
 import { Jsx } from "modules/typescript/jsx";
 import React, { Component } from "react";
+import { getPlaintextFromFormatted } from "../actions/format/format";
 
 @observer
 export class CardElement extends Component {
@@ -150,42 +151,55 @@ export class CardElement extends Component {
     // } else {
     //   AudioClip.pause();
     // }
-    // if (process.env.NODE_ENV === "development") {
-    //   if (!getSound(id)) {
-    //     // window["utter"] && window["utter"].cancel();
-    //     window.speechSynthesis.cancel();
-    //
-    //     let utter = new SpeechSynthesisUtterance();
-    //     // window["utter"] = utter;
-    //
-    //     const is = getCardData(id, "is_formatted");
-    //     const en = getCardData(id, "en_formatted");
-    //     let lang = getFrom(id) === Direction.FRONT_TO_BACK ? Direction.FRONT_TO_BACK : Direction.BACK_TO_FRONT;
-    //     if (answered) {
-    //       lang = getFrom(id) !== Direction.FRONT_TO_BACK ? Direction.FRONT_TO_BACK : Direction.BACK_TO_FRONT;
-    //     }
-    //
-    //     if (lang === Direction.FRONT_TO_BACK) {
-    //       switch (getDeckName()) {
-    //         case "_de":
-    //           utter.lang = "de-DE";
-    //           break;
-    //         case "_es":
-    //           utter.lang = "es-ES";
-    //           break;
-    //         default:
-    //           utter.lang = "en-US";
-    //       }
-    //     } else {
-    //       utter.lang = "is-IS";
-    //     }
-    //
-    //     utter.text = getPlaintextFromFormatted(lang === Direction.FRONT_TO_BACK ? is : en);
-    //     utter.volume = 0.5;
-    //     utter.rate = 0.9;
-    //     window.speechSynthesis.speak(utter);
-    //   }
-    // }
+    // if (!getSound(id)) {
+    // window["utter"] && window["utter"].cancel();
+    window.speechSynthesis.cancel();
+
+    let utter = new SpeechSynthesisUtterance();
+    // window["utter"] = utter;
+
+    const session = getSession();
+    const card = session.currentCard;
+    if (!card) return;
+    const front = card.frontFormatted;
+
+    if (card.direction === Direction.FRONT_TO_BACK || answered) {
+      // const is = getCardData(id, "is_formatted");
+      // const en = getCardData(id, "en_formatted");
+      // let lang =
+      //   getFrom(id) === Direction.FRONT_TO_BACK
+      //     ? Direction.FRONT_TO_BACK
+      //     : Direction.BACK_TO_FRONT;
+      // if (answered) {
+      //   lang =
+      //     getFrom(id) !== Direction.FRONT_TO_BACK
+      //       ? Direction.FRONT_TO_BACK
+      //       : Direction.BACK_TO_FRONT;
+      // }
+
+      utter.lang = "fr-FR";
+
+      // if (lang === Direction.FRONT_TO_BACK) {
+      //   switch (getDeckName()) {
+      //     case "_de":
+      //       utter.lang = "de-DE";
+      //       break;
+      //     case "_es":
+      //       utter.lang = "es-ES";
+      //       break;
+      //     default:
+      //       utter.lang = "en-US";
+      //   }
+      // } else {
+      //   utter.lang = "is-IS";
+      // }
+
+      utter.text = getPlaintextFromFormatted(front);
+      // utter.volume = 0.5;
+      utter.rate = 0.7;
+      window.speechSynthesis.speak(utter);
+      // }
+    }
   };
   render() {
     const session = getSession();

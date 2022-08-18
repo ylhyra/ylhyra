@@ -14,7 +14,7 @@ export function printWord(card1: Card): string | undefined {
 
 export async function studyParticularIds(
   allowedCards: CardIds,
-  options?: CreateCardsOptions
+  options?: CreateCardsOptions,
 ) {
   throw new Error("Not implemented");
   // const session = getSession();

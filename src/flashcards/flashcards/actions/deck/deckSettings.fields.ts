@@ -1,5 +1,6 @@
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { FieldsSetup } from "modules/form";
+import { Direction } from "../../types";
 
 export const deckSettingsFields: FieldsSetup<DeckSettings> = [
   {
@@ -44,11 +45,11 @@ export const deckSettingsFields: FieldsSetup<DeckSettings> = [
         label: "Either side (random)",
       },
       {
-        value: "FRONT_SIDE",
+        value: Direction.FRONT_TO_BACK,
         label: "Front side",
       },
       {
-        value: "BACK_SIDE",
+        value: Direction.BACK_TO_FRONT,
         label: "Back side",
       },
     ],

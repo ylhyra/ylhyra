@@ -4,6 +4,11 @@ import { CardId, DeckId, Direction } from "flashcards/flashcards/types";
 /** Can not be "-" due to shortId.generate() using it. */
 export const CARD_ID_SEPARATOR = ":";
 
+enum DirectionEncoded {
+  FRONT_TO_BACK = "1",
+  BACK_TO_FRONT = "2",
+}
+
 /**
  * A CardId encodes three parts:
  *
@@ -20,9 +25,9 @@ export const CARD_ID_SEPARATOR = ":";
 export function createCardId(
   deckId: DeckId,
   rowId: RowId,
-  direction: Direction
+  direction: Direction,
 ): CardId {
-  return `${deckId}${CARD_ID_SEPARATOR}${rowId}${CARD_ID_SEPARATOR}${direction}` as CardId;
+  return `${deckId}${CARD_ID_SEPARATOR}${rowId}${CARD_ID_SEPARATOR}${DirectionEncoded[direction]}` as CardId;
 }
 
 // export function getDeckId(this: Card | RowId): DeckId {
@@ -39,5 +44,10 @@ export function createCardId(
  * @deprecated
  */
 export function getDirectionFromCardId(cardId: CardId): Direction {
-  return cardId.split(CARD_ID_SEPARATOR)[2] as Direction;
+  const d = cardId.split(CARD_ID_SEPARATOR)[2];
+  if (d === DirectionEncoded.FRONT_TO_BACK) {
+    return Direction.FRONT_TO_BACK;
+  } else {
+    return Direction.BACK_TO_FRONT;
+  }
 }

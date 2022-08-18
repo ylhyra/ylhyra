@@ -4,7 +4,7 @@ import {
   getSession,
   Session,
 } from "flashcards/flashcards/actions/session/session";
-import { Direction, Rating } from "flashcards/flashcards/types";
+import { Rating, Direction } from "flashcards/flashcards/types";
 import { Timestamp } from "modules/time";
 
 export class SessionHistory {

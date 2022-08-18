@@ -8,8 +8,8 @@ export type DirectionSettings =
   | "ONLY_BACK_TO_FRONT";
 
 export enum Direction {
-  FRONT_TO_BACK = "1",
-  BACK_TO_FRONT = "2",
+  FRONT_TO_BACK = "FRONT_TO_BACK",
+  BACK_TO_FRONT = "BACK_TO_FRONT",
 }
 
 // export type ProcessedDeck = {
@@ -53,17 +53,15 @@ export enum Rating {
 }
 
 /**
- * A number between 1 (Bad) and 4 (Excellent).
- * If a card was rated as bad, its score will be set to "1" regardless of how
- * often it has been seen before.
- * A new card rated as good will have a score of "2".
- * A new card rated as easy will have a score of "3".
+ * A number between 1 (Bad) and 4 (Excellent). If a card was rated as bad, its
+ * score will be set to "1" regardless of how often it has been seen before. A
+ * new card rated as good will have a score of "2". A new card rated as easy
+ * will have a score of "3".
  *
  * Any time a card is later rated as good or easy, its score will be incremented
  * by {@link SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY}.
  *
- * Score is calculated by {@link createSchedule}.
- * See also the related enum {@link Rating}
+ * Score is calculated by {@link createSchedule}. See also the related enum {@link Rating}
  */
 export type Score = number;
 

@@ -1,4 +1,4 @@
-import { observer } from 'mobx-react';
+import { observer } from "mobx-react";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getDeckById } from "flashcards/flashcards/actions/deck/functions";
 import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
@@ -39,7 +39,7 @@ export const FlashcardsPlay = observer(({ deckId }: { deckId: string }) => {
           ) : (
             <>
               <div className="flashcard-outer-container">
-                <CardElement key={session.counter} />
+                {session.currentCard && <CardElement key={session.counter} />}
               </div>
               <ProgressBar key={session.counter} />
             </>

@@ -3,39 +3,37 @@ import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types";
 
 /**
- * Returns a ranking for a given {@link CardInSession} indicating how likely
- * it is that it should be chosen as the next card:
+ * Returns a ranking for a given {@link CardInSession} indicating how likely it
+ * is that it should be chosen as the next card:
  *
  * - A low ranking (close to zero) indicates that it should be chosen.
  * - A high ranking indicates it should NOT be chosen.
  *
- * Each card has a queue position (see {@link CardInSession#queuePosition}),
- * but here we add or subtract to that value based on whether it is actually
- * relevant, such as preferring overdue cards and prohibiting cards that
- * are too recent.
+ * Each card has a queue position (see {@link CardInSession#queuePosition}), but
+ * here we add or subtract to that value based on whether it is actually
+ * relevant, such as preferring overdue cards and prohibiting cards that are too recent.
  */
 export function getRanking(this: CardInSession) {
   const session = this.session;
   const direction = this.direction;
 
   /**
-   * Starts out as the card's queue position.
-   * A card is overdue if its queue position is less than 0.
-   * If the queue position is 0, the card is due now.
+   * Starts out as the card's queue position. A card is overdue if its queue
+   * position is less than 0. If the queue position is 0, the card is due now.
    */
   let rank = this.queuePosition;
 
   /**
-   * Rows that haven't already been seen in this session are moved back
-   * in the queue. They will only be shown if there are no overdue seen
-   * rows (non-overdue seen rows are moved back in the next step).
+   * Rows that haven't already been seen in this session are moved back in the
+   * queue. They will only be shown if there are no overdue seen rows
+   * (non-overdue seen rows are moved back in the next step).
    */
   if (!this.hasRowBeenSeenInSession()) {
     rank += 1000;
   }
 
   /** Seen rows are not relevant if they are not overdue. */
-  if (this.hasRowBeenSeenInSession() && !this.isOverdueInCurrentSession()) {
+  if (this.hasRowBeenSeenInSession() && this.queuePosition > 0) {
     rank += 2000;
   }
 
@@ -60,9 +58,18 @@ export function getRanking(this: CardInSession) {
     rank += 7000;
   }
 
+  /** Choose which side to show first */
+  if (
+    isNewCard(this) &&
+    this.row.getSetting("sideToShowFirst") !== "RANDOM" &&
+    this.row.getSetting("sideToShowFirst") !== this.direction
+  ) {
+    rank += 100;
+  }
+
   /**
-   * Prevent cards all going in the same direction from
-   * appearing right next to each other too often
+   * Prevent cards all going in the same direction from appearing right next to
+   * each other too often
    */
   if (session.history.cardDirectionLog[0] === direction) {
     rank += 0.4;
