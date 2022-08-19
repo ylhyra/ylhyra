@@ -5,8 +5,8 @@ import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { chooseDependingOnRelativeProbability } from "modules/probability";
 
 /**
- * Helper class used by {@link ChooseCards} that is
- * used to select the next card of a given type.
+ * Helper class used by {@link ChooseCards} that is used to select the next card
+ * of a given type.
  */
 export class ClassifiedCardsInDeck {
   overdueGood!: Card[];
@@ -48,29 +48,30 @@ export class ClassifiedCardsInDeck {
     } else if (type === "OVERDUE") {
       card = this.getOverdueCard();
     }
+
     if (!card) return;
     this.deleteCardsWithSameRow(card);
     return card;
   }
 
   /**
-   * Deletes other cards belonging to the same row to prevent the
-   * other side being chosen on the next call (which would mess up our
-   * calculations regarding how often a new card should be chosen)
+   * Deletes other cards belonging to the same row to prevent the other side
+   * being chosen on the next call (which would mess up our calculations
+   * regarding how often a new card should be chosen)
    */
   deleteCardsWithSameRow(card: Card) {
-    /** Todo: refactor */
-    this.overdueGood = this.overdueGood.filter((c) => !c.is(card));
-    this.overdueBad = this.overdueBad.filter((c) => !c.is(card));
-    this.notOverdue = this.notOverdue.filter((c) => !c.is(card));
-    this.newCards = this.newCards.filter((c) => !c.is(card));
+    /** TODO: refactor */
+    this.overdueGood = this.overdueGood.filter((c) => c.rowId !== card.rowId);
+    this.overdueBad = this.overdueBad.filter((c) => c.rowId !== card.rowId);
+    this.notOverdue = this.notOverdue.filter((c) => c.rowId !== card.rowId);
+    this.newCards = this.newCards.filter((c) => c.rowId !== card.rowId);
   }
 
   #lastOverdueCardTypeChosen: "OVERDUE_BAD" | "OVERDUE_GOOD" | null = null;
 
   /**
-   * There are two overdue card types: overdueGood and overdueBad.
-   * This function tries to alternate between them.
+   * There are two overdue card types: overdueGood and overdueBad. This function
+   * tries to alternate between them.
    */
   getOverdueCard() {
     const overdueCardType: "OVERDUE_BAD" | "OVERDUE_GOOD" = (() => {
@@ -80,14 +81,12 @@ export class ClassifiedCardsInDeck {
           if (this.getOverdueCardsOfType(type).length === 0) {
             return 0;
           }
-          /**
-           * Prefer to go back and forth between overdueGood and overdueBad
-           */
+          /** Prefer to go back and forth between overdueGood and overdueBad */
           if (this.#lastOverdueCardTypeChosen === type) {
             return 0.01;
           }
           return 1;
-        }
+        },
       );
     })()!;
     this.#lastOverdueCardTypeChosen = overdueCardType;
@@ -100,8 +99,8 @@ export class ClassifiedCardsInDeck {
    */
   getRelativeProbabilityOfThisDeckBeingChosen(type: "NEW" | "OVERDUE"): number {
     /**
-     * If there aren't any cards of this type in this deck,
-     * there is no chance of the deck being chosen.
+     * If there aren't any cards of this type in this deck, there is no chance
+     * of the deck being chosen.
      */
     if (this.countCardsOfType(type) === 0) return 0;
 
@@ -115,9 +114,8 @@ export class ClassifiedCardsInDeck {
     /**
      * Each deck starts out with an equal relative chance of "1".
      *
-     * Taking deck size into account, a deck with 99 cards has
-     * a chance of 70% of being chosen now against a deck with 1
-     * card that has a relative chance of 30%
+     * Taking deck size into account, a deck with 99 cards has a chance of 70%
+     * of being chosen now against a deck with 1 card that has a relative chance of 30%
      */
     return 1 + boostBasedOnDeckSize;
   }

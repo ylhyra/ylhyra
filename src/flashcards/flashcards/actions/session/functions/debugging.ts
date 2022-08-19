@@ -11,6 +11,7 @@ globalThis.logging = true;
  */
 export function debugSession() {
   const session = getSession();
+  console.groupCollapsed("See ranking");
   if (globalThis.logging) {
     /** Sort by ranking */
     const cards: CardInSession[] = _.sortBy(session.cards, (card) =>
@@ -21,14 +22,13 @@ export function debugSession() {
         Rank: Math.round(card.getRanking()),
         Queue: card.queuePosition,
         cannotBeShownUntil: card.cannotBeShownUntil,
-        seen: card.hasBeenSeenInSession() ? "SEEN" : "",
         word: printWord(card),
-        // schdl: getEntireSchedule()[i.id]
-        //   ? new Date(i.lastSeen)
-        //   : "",
+        schdl: card.dueAt ? new Date(card.dueAt) : null,
+        seen: card.hasBeenSeenInSession() ? "SEEN" : null,
       })),
     );
   }
+  console.groupEnd();
 }
 declare global {
   var logging: boolean;

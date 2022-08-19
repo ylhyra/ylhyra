@@ -14,7 +14,6 @@ import {
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { isBrowser } from "modules/isBrowser";
-import { shuffleLocally } from "modules/shuffleLocally";
 import { sortByMultiple } from "modules/sortByMultiple";
 import { minutes } from "modules/time";
 // @ts-ignore
@@ -104,7 +103,7 @@ export function sortCards(
       throw new Error("Not implemented");
   }
 
-  return shuffleLocally(sortByMultiple(cards, ...sortByFunctions));
+  return /*shuffleLocally*/ sortByMultiple(cards, ...sortByFunctions);
 }
 
 export function sortNewCards(newCards: Card[], deck: Deck): Card[] {

@@ -30,6 +30,11 @@ export class CardElement extends Component {
     window.removeEventListener("keydown", this.checkKey);
     window.addEventListener("keyup", this.keyUp);
   }
+  componentDidUpdate() {
+    // void texLinebreakDOM(document.querySelectorAll(".flashcard-prompt > div"), {
+    //   align: "left",
+    // });
+  }
   // componentDidUpdate(prevProps?: Props) {
   //   const prevCounter = prevProps.session.counter;
   //   const counter = session.counter;

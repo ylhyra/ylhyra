@@ -55,10 +55,6 @@ export function setSchedule(card1: Card, data: ScheduleData) {
   );
 }
 
-export function isUnseenRow(card1: Card) {
-  return !getRowLastSeen(card1);
-}
-
 export function getLowestAvailableRowScore(card1: Card): Score | null {
   let lowestScore: Score | null = null;
   card1.row.cards.forEach((card) => {
@@ -92,6 +88,10 @@ export function wasRowVeryRecentlySeen(card1: Card) {
 export function wasRowSeenMoreRecentlyThan(card1: Card, time: Milliseconds) {
   const i = timeSinceRowWasSeen(card1);
   return i && i < time;
+}
+
+export function isNewRow(card1: Card): boolean {
+  return !getRowLastSeen(card1);
 }
 
 export function isNewCard(card1: Card): boolean {

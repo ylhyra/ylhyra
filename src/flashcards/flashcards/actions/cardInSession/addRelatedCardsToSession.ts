@@ -8,7 +8,7 @@ import {
   isFairlyBad,
 } from "flashcards/flashcards/actions/card/cardDifficulty";
 import {
-  isUnseenRow,
+  isNewRow,
   timeSinceRowWasSeen,
   wasRowVeryRecentlySeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
@@ -20,8 +20,8 @@ import { log } from "modules/log";
 import { days } from "modules/time";
 
 /**
- * If a cardInSession gets a bad rating, then we make
- * sure to add very related cards to the session.
+ * If a cardInSession gets a bad rating, then we make sure to add very related
+ * cards to the session.
  */
 export function addRelatedCardsToSession(currentCard: CardInSession) {
   let toAdd: Card[] = [];
@@ -48,7 +48,7 @@ export function addRelatedCardsToSession(currentCard: CardInSession) {
     if (
       dependencyDepthOfCard(currentCard, relatedCard) === 1 &&
       /* Unseen or unknown cards */
-      (isUnseenRow(relatedCard) ||
+      (isNewRow(relatedCard) ||
         isBad(relatedCard) ||
         (isFairlyBad(relatedCard) &&
           timeSinceRowWasSeen(relatedCard)! > 5 * days &&
@@ -60,8 +60,8 @@ export function addRelatedCardsToSession(currentCard: CardInSession) {
   });
 
   /**
-   * Todo: insertImmediately doesn't actually do anything
-   * in regards to getRanking as these are new cards
+   * Todo: insertImmediately doesn't actually do anything in regards to
+   * getRanking as these are new cards
    */
   loadCardsIntoSession(toAdd, {
     insertImmediately: true,
