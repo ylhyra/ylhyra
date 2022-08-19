@@ -45,13 +45,16 @@ export function getRanking(this: CardInSession) {
     rank += 10000;
   }
 
-  /** A bad cardInSession that is due exactly now has priority */
+  /** Prioritize cards whose last rating was bad */
   if (
     this.lastRating === Rating.BAD &&
-    this.isDueExactlyNow() &&
-    session.counter % 2 === 0 /* (But not always, to prevent staleness) */
+    session.counter % 4 !== 0 /* (But not always, to prevent staleness) */
   ) {
-    rank -= 50;
+    rank -= 100;
+    /** Give priority to a card that is due exactly now */
+    if (this.isDueExactlyNow()) {
+      rank -= 50;
+    }
   }
 
   if (this.done) {

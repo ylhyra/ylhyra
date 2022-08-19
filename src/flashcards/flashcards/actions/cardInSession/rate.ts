@@ -21,10 +21,14 @@ export function rate(this: CardInSession, rating: Rating): void {
   let interval: IntervalRelativeToCurrentCardBeingAtZero;
 
   if (rating === Rating.BAD) {
-    interval = Math.random() < 0.8 ? 2 : 3;
+    interval = Math.random() < 0.6 ? 2 : 3;
+
+    if (lastRating >= Rating.GOOD) {
+      interval += 2;
+    }
 
     /* User is getting annoyed */
-    if (timesSeenBeforeInSession >= 6 && timesSeenBeforeInSession % 2 === 0) {
+    if (timesSeenBeforeInSession >= 6 && Math.random() < 0.2) {
       interval = 8;
     }
 
