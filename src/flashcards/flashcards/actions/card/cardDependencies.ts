@@ -13,7 +13,10 @@ export function dependencyDepthOfCard(card1: Card, card2: Card): number {
 }
 
 export function getDependenciesAsArrayOfCards(card1: Card): Card[] {
-  return [];
+  /* TODO */
+  return card1.row.cards.filter(
+    (siblingCard) => siblingCard.cardId !== card1.cardId,
+  );
   // throw new Error("Not implemented");
   // return getCardIdsFromRowIds(
   //   Object.keys(cardGetDependenciesAsRowIdToDepth(cardId)) as RowIds

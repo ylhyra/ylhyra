@@ -60,6 +60,10 @@ export class CardInSession extends Card {
     return this.session.history.rowsSeen.has(this.rowId);
   }
 
+  get thisAndSiblingCardsInSession(): CardInSession[] {
+    return this.session.cards.filter((card) => card.rowId === this.rowId);
+  }
+
   getOtherCardsInSession(): CardInSession[] {
     return this.session.cards.filter((card) => !card.is(this));
   }

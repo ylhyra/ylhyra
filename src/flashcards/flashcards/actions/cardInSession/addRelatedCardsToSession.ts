@@ -34,7 +34,11 @@ export function addRelatedCardsToSession(currentCard: CardInSession) {
     if (isInSession(relatedCard)) return;
 
     /* Add cards with the same row */
-    if (dependencyDepthOfCard(currentCard, relatedCard) === 0) {
+    if (
+      /** TODO: TEMP */
+      true ||
+      dependencyDepthOfCard(currentCard, relatedCard) === 0
+    ) {
       toAdd.push(relatedCard);
       return;
     }
