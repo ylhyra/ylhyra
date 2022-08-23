@@ -18,8 +18,8 @@ export function percentageKnown(cards: Card[]) {
             clamp((card.sessionsSeen - 10) / 3, 0, 10),
           inputFrom: 0,
           inputTo: 20,
-          outputFrom: 0.1,
-          outputTo: 0.85,
+          outputFrom: 0.05,
+          outputTo: 0.6,
           clamp: true,
         });
       } else {

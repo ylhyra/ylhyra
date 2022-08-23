@@ -22,8 +22,7 @@ const BAD_INITIAL_DUE_IN_DAYS = 1.3;
 const GOOD_INITIAL_DUE_IN_DAYS = 5;
 
 /**
- * Long-row scheduling.
- * Calculates:
+ * Long-row scheduling. Calculates:
  *
  * - When a card should be shown again
  * - Its score ({@see Score}).
@@ -32,6 +31,7 @@ export function createSchedule() {
   const session = getSession();
   if (!session.cards?.some((i) => i.hasBeenSeenInSession())) return;
 
+  console.groupCollapsed("See schedule");
   session.cards.forEach((card: CardInSession) => {
     let dueInDays: Days = 1;
     const prevScore = card.score;
@@ -65,7 +65,7 @@ export function createSchedule() {
         score = clamp(
           score + SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY,
           Rating.BAD,
-          Rating.EASY + 1
+          Rating.EASY + 1,
         );
       }
     }
@@ -92,7 +92,7 @@ export function createSchedule() {
       if (actualIntervalInDays / lastIntervalInDays! < 0.3) {
         const newDueInDays = lastIntervalInDays!;
         log(
-          `${printWord(card)} - given ${newDueInDays} instead of ${dueInDays}`
+          `${printWord(card)} - given ${newDueInDays} instead of ${dueInDays}`,
         );
         dueInDays = newDueInDays;
       }
@@ -113,16 +113,13 @@ export function createSchedule() {
         Rating.BAD + SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY;
       log(
         `${printWord(
-          card
-        )} given a low score due to siblings having gotten a bad rating`
+          card,
+        )} given a low score due to siblings having gotten a bad rating`,
       );
     }
 
     setSchedule(card, {
-      /**
-       * Randomly add or subtract up to 10% of
-       * the dueInDays just for some variety
-       */
+      /** Randomly add or subtract up to 10% of the dueInDays just for some variety */
       dueAt: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
       lastIntervalInDays: toFixedFloat(dueInDays, 1),
       score: toFixedFloat(score, 2),
@@ -139,7 +136,7 @@ export function createSchedule() {
     log(
       printWord(card),
       `score: ${toFixedFloat(score, 2)}`,
-      `days: ${toFixedFloat(dueInDays, 1)}`
+      `days: ${toFixedFloat(dueInDays, 1)}`,
     );
 
     /* Postpone siblings (i.e. the other side of the card */
@@ -161,5 +158,5 @@ export function createSchedule() {
       });
   });
 
-  log("Schedule made");
+  console.groupEnd();
 }
