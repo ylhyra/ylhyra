@@ -140,6 +140,7 @@ export class CardElement extends Component {
     }
   };
   sound = (answered?: Boolean) => {
+    window.speechSynthesis.cancel();
     // const { volume } = this.props.vocabulary;
     // const card = props.session.currentCard;
     // if (!card) return;
@@ -157,11 +158,8 @@ export class CardElement extends Component {
     //   AudioClip.pause();
     // }
     // if (!getSound(id)) {
-    // window["utter"] && window["utter"].cancel();
-    window.speechSynthesis.cancel();
 
-    let utter = new SpeechSynthesisUtterance();
-    // window["utter"] = utter;
+    const utter = new SpeechSynthesisUtterance();
 
     const session = getSession();
     const card = session.currentCard;
@@ -169,41 +167,12 @@ export class CardElement extends Component {
     const front = card.frontFormatted;
 
     if (card.direction === Direction.FRONT_TO_BACK || answered) {
-      // const is = getCardData(id, "is_formatted");
-      // const en = getCardData(id, "en_formatted");
-      // let lang =
-      //   getFrom(id) === Direction.FRONT_TO_BACK
-      //     ? Direction.FRONT_TO_BACK
-      //     : Direction.BACK_TO_FRONT;
-      // if (answered) {
-      //   lang =
-      //     getFrom(id) !== Direction.FRONT_TO_BACK
-      //       ? Direction.FRONT_TO_BACK
-      //       : Direction.BACK_TO_FRONT;
-      // }
-
-      utter.lang = "fr-FR";
-
-      // if (lang === Direction.FRONT_TO_BACK) {
-      //   switch (getDeckName()) {
-      //     case "_de":
-      //       utter.lang = "de-DE";
-      //       break;
-      //     case "_es":
-      //       utter.lang = "es-ES";
-      //       break;
-      //     default:
-      //       utter.lang = "en-US";
-      //   }
-      // } else {
-      //   utter.lang = "is-IS";
-      // }
-
-      utter.text = getPlaintextFromFormatted(front);
-      // utter.volume = 0.5;
-      utter.rate = 0.7;
-      window.speechSynthesis.speak(utter);
-      // }
+      if (card.row.getSetting("frontSideLanguage")) {
+        utter.lang = card.row.getSetting("frontSideLanguage")!;
+        utter.text = getPlaintextFromFormatted(front);
+        utter.rate = 0.7;
+        window.speechSynthesis.speak(utter);
+      }
     }
   };
   render() {
