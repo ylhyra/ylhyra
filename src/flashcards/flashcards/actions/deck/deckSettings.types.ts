@@ -9,7 +9,9 @@ export type DeckSettings = Partial<{
     | "FOREIGN_LANGUAGE_FOR_OTHERS"
     | "NONE";
   frontSideLanguage: string;
+  frontSideSpeechSynthesis: boolean;
   backSideLanguage: string;
+  backSideSpeechSynthesis: boolean;
   direction: DirectionSettings;
   sideToShowFirst: Direction | "RANDOM";
   automaticDependencies: boolean;

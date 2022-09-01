@@ -6,119 +6,51 @@ import { Direction, Rating } from "flashcards/flashcards/types";
 import { observer } from "mobx-react";
 import { classNames } from "modules/addCssClass";
 import { Jsx } from "modules/typescript/jsx";
-import React, { Component } from "react";
-import { getPlaintextFromFormatted } from "../actions/format/format";
+import React, { useState } from "react";
+import { getPlaintextFromFormatted } from "flashcards/flashcards/actions/format/format";
+import { useKeyboardListener } from "flashcards/flashcards/play/functions";
+import { makeAutoObservable } from "mobx";
 
-@observer
-export class CardElement extends Component {
-  isKeyDown: boolean = false;
-  state: {
-    isEditing?: boolean;
-    /** First the user clicks the card to show the other side */
-    isShowingBottomSide?: boolean;
-    /** Then he rates how well he knew it */
-    chosenRating?: Rating;
-    /** Used to make UI show a slight lag between keyboard shortcuts and answering */
-    clickingOnShowButton?: boolean;
-  } = {};
-  componentDidMount() {
-    this.sound();
-    window.addEventListener("keydown", this.checkKey);
-    window.addEventListener("keyup", this.keyUp);
+export class CardUI {
+  isEditing?: boolean;
+  /** First the user clicks the card to show the other side */
+  isShowingBottomSide?: boolean;
+  /** Then he rates how well he knew it */
+  chosenRating?: Rating;
+  /** Used to make UI show a slight lag between keyboard shortcuts and answering */
+  clickingOnShowButton?: boolean;
+
+  constructor() {
+    makeAutoObservable(this);
   }
-  componentWillUnmount() {
-    window.removeEventListener("keydown", this.checkKey);
-    window.addEventListener("keyup", this.keyUp);
-  }
-  componentDidUpdate() {
-    // void texLinebreakDOM(document.querySelectorAll(".flashcard-prompt > div"), {
-    //   align: "left",
-    // });
-  }
-  // componentDidUpdate(prevProps?: Props) {
-  //   const prevCounter = prevProps.session.counter;
-  //   const counter = session.counter;
-  //   const prevCard = prevProps?.vocabulary.card;
-  //   if (!prevProps || card.counter !== prevCard.counter) {
-  //     this.setState({
-  //       answer: null,
-  //       clickingOnShowButton: null,
-  //     });
-  //     this.sound();
-  //   }
-  // }
-  keyUp = () => {
-    this.isKeyDown = false;
-  };
-  checkKey = (e: KeyboardEvent) => {
-    if (this.state.isEditing) return;
-    if (e.metaKey || e.ctrlKey || e.altKey) return;
-    if (this.isKeyDown) return;
-    const answered = this.state.isShowingBottomSide;
-    this.isKeyDown = true;
-    if (e.keyCode === 32 /* Space */ || e.keyCode === 13 /* Enter */) {
-      if (answered) {
-        this.ratingClicked(Rating.GOOD);
-      } else {
-        this.cardClicked();
-      }
-      e.preventDefault();
-    } else if (
-      [49 /* One */, 74 /* J */, 65 /* A */, 37 /* Left */].includes(e.keyCode)
-    ) {
-      if (answered) {
-        this.ratingClicked(Rating.BAD);
-      } else {
-        this.cardClicked();
-      }
-      e.preventDefault();
-    } else if (
-      [50 /* Two */, 75 /* K */, 83 /* S */, 40 /* Down */].includes(e.keyCode)
-    ) {
-      if (answered) {
-        this.ratingClicked(Rating.GOOD);
-      } else {
-        this.cardClicked();
-      }
-      e.preventDefault();
-    } else if (
-      [51 /* Three */, 76 /* L */, 68 /* D */, 39 /* Right */].includes(
-        e.keyCode,
-      )
-    ) {
-      if (answered) {
-        this.ratingClicked(Rating.EASY);
-      } else {
-        this.cardClicked();
-      }
-      e.preventDefault();
-    }
-  };
+
   /**
    * @param timeout – A timeout is used when using keyboard shortcuts to add
    *   enough lag to the user interface for which button the user is clicking to
    *   be noticeable
+   *
+   *   TODO: timeout never used
    */
   cardClicked = (timeout?: NodeJS.Timeout) => {
-    if (this.state.isShowingBottomSide) {
+    if (this.isShowingBottomSide) {
       this.sound(true);
-      return;
-    }
-    if (timeout) {
-      this.setState({
-        clickingOnShowButton: true,
-      });
-      setTimeout(() => {
-        this.setState({ isShowingBottomSide: true });
-      }, 50);
     } else {
-      this.setState({ isShowingBottomSide: true });
+      if (timeout) {
+        this.clickingOnShowButton = true;
+        setTimeout(() => {
+          this.isShowingBottomSide = true;
+        }, 50);
+      } else {
+        this.isShowingBottomSide = true;
+      }
+      this.sound(true);
     }
-    this.sound(true);
   };
+
   /** {@link CardElement.cardClicked} is also invoked at the same time (I believe) */
   ratingClicked = (
     rating: Rating,
+    // todo: used??
     timeout?: NodeJS.Timeout | false,
     e?: MouseEvent,
   ) => {
@@ -127,13 +59,11 @@ export class CardElement extends Component {
      * stopping propagation is really necessary
      */
     e?.stopPropagation();
-    if (this.state.chosenRating) return;
+    if (this.chosenRating) return;
     if (timeout === false) {
       getSession().currentCard?.rate(rating);
     } else {
-      this.setState({
-        answer: rating,
-      });
+      // this. answer=rating
       setTimeout(() => {
         getSession().currentCard?.rate(rating);
       }, 100);
@@ -141,28 +71,9 @@ export class CardElement extends Component {
   };
   sound = (answered?: Boolean) => {
     window.speechSynthesis.cancel();
-    // const { volume } = this.props.vocabulary;
-    // const card = props.session.currentCard;
-    // if (!card) return;
-    // const id = card.getId();
-    //
-    // if (volume && getSound(id) && (getFrom(id) === Direction.FRONT_TO_BACK || answered)) {
-    //   try {
-    //     AudioClip.play(
-    //       getSound(id).map((s) => getProcessedImageUrl(s + ".mp3", true))
-    //     );
-    //   } catch (e) {
-    //     console.warn(e);
-    //   }
-    // } else {
-    //   AudioClip.pause();
-    // }
-    // if (!getSound(id)) {
-
     const utter = new SpeechSynthesisUtterance();
 
-    const session = getSession();
-    const card = session.currentCard;
+    const card = getSession().currentCard;
     if (!card) return;
     const front = card.frontFormatted;
 
@@ -175,220 +86,195 @@ export class CardElement extends Component {
       }
     }
   };
-  render() {
-    const session = getSession();
-    // const isVolumeOn = store.volume;
-    const answered = this.state.isShowingBottomSide;
-    const card = session.currentCard;
+}
 
-    if (session.counter === 0) {
-      return <div>Loading...</div>;
-    }
-    if (!card) {
-      return <div>Unable to create cards.</div>;
-    }
+export const CardElement = observer(() => {
+  useKeyboardListener();
+  const [ui] = useState(() => new CardUI());
 
-    let direction = card.direction;
-    // let lemmas: Jsx = card.data.lemmas;
-    // let note_regarding_english: Jsx = getCardData(id, "note_regarding_english");
-    // let note: Jsx = getCardData(id, "note");
-    // let literally: Jsx = getCardData(id, "literally");
-    // let example_declension: Jsx = getCardData(id, "example_declension");
-    // let pronunciation: Jsx = getCardData(id, "pronunciation");
-    // let synonyms: Jsx = getCardData(id, "synonyms");
-    const front = card.frontFormatted;
-    const back = card.backFormatted;
+  // void texLinebreakDOM(document.querySelectorAll(".flashcard-prompt > div"), {
+  //   align: "left",
+  // });
 
-    /* Loading */
-    if (!front || !back) {
-      return null;
-    }
+  const session = getSession();
+  // const isVolumeOn = store.volume;
+  const answered = ui.isShowingBottomSide;
+  const card = session.currentCard;
 
-    // literally = label("Literally", literally);
-    // synonyms = label(withPlural(/,/.test(synonyms), "Synonym"), synonyms);
-    // lemmas = label(withPlural(/,/.test(lemmas), "Dictionary form"), lemmas);
-    // example_declension = label("Example declension", example_declension);
-    // pronunciation = label(
-    //   "Pronounced",
-    //   pronunciation && `<i>${pronunciation}</i>`
-    // );
-    // note = label("Note", note);
-    // note_regarding_english = label("Note", note_regarding_english);
+  if (session.counter === 0) {
+    return <div>Loading...</div>;
+  }
+  if (!card) {
+    return <div>Unable to create cards.</div>;
+  }
 
-    if (this.state.isEditing) {
-      return (
-        <div className={classNames("flashcard")}>
-          <EditCard
-            row={card.row}
-            done={() => {
-              this.setState({ isEditing: false });
-            }}
-          />
-        </div>
-      );
-    }
+  let direction = card.direction;
+  const front = card.frontFormatted;
+  const back = card.backFormatted;
 
+  /* Loading */
+  if (!front || !back) {
+    return null;
+  }
+
+  if (ui.isEditing) {
     return (
-      <div
-        className={classNames(
-          "flashcard",
-          answered ? "answered" : "not-answered",
-          // "${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}",
-          isNewRowThatHasNotBeenSeenInSession(card) && "new",
-        )}
-      >
-        <div>
-          <div>{card.row.deck.settings.title}</div>
-          <button
-            className="btn"
-            onClick={() => {
-              card.row.data.deleted = true;
-              session.cards = session.cards.filter((c) => c.row !== card.row);
-              nextCard();
-            }}
-          >
-            Ignore this item
-          </button>
-          <button
-            className="btn"
-            onClick={() => {
-              if (card.row.data.direction !== "BOTH") {
-                card.row.data.direction =
-                  card.direction === Direction.FRONT_TO_BACK
-                    ? "ONLY_BACK_TO_FRONT"
-                    : "ONLY_FRONT_TO_BACK";
-              } else {
-                card.row.data.deleted = true;
-              }
-              session.cards = session.cards.filter((c) => c !== card);
-              nextCard();
-            }}
-          >
-            Ignore this side
-          </button>
-          <button
-            className="btn"
-            onClick={() => {
-              this.setState({
-                isEditing: true,
-              });
-            }}
-          >
-            Edit
-          </button>
-        </div>
-        <div
-          onClick={() => this.cardClicked()}
-          className={classNames(
-            "flashcard-prompt",
-            "flashcard-top",
-            direction === Direction.FRONT_TO_BACK ? "front-side" : "back-side",
-          )}
-        >
-          {/*{getSound(cardId) && <div className="has-audio-icon" />}*/}
-          <div>
-            {html(direction === Direction.FRONT_TO_BACK ? front : back)}
-          </div>
-        </div>
-        <div
-          onClick={() => this.cardClicked()}
-          className={classNames(
-            "flashcard-prompt",
-            "flashcard-bottom",
-            direction !== Direction.FRONT_TO_BACK ? "front-side" : "back-side",
-          )}
-        >
-          {(answered ||
-            /"occluded/.test(
-              direction !== Direction.FRONT_TO_BACK ? front : back,
-            )) && (
-            <div>
-              {html(direction !== Direction.FRONT_TO_BACK ? front : back)}
-            </div>
-          )}
-        </div>
-        <div className="card-notes">
-          <div className="card-notes-inner">
-            {/*<div*/}
-            {/*  className={*/}
-            {/*    direction === Direction.BACK_TO_FRONT ? "" : "show-after-answer"*/}
-            {/*  }*/}
-            {/*>*/}
-            {/*  {note_regarding_english}*/}
-            {/*</div>*/}
-            {/*<div className="show-after-answer">*/}
-            {/*  {note}*/}
-            {/*  {literally}*/}
-            {/*  {lemmas}*/}
-            {/*  {example_declension}*/}
-            {/*  {synonyms}*/}
-            {/*  {pronunciation}*/}
-            {/*</div>*/}
-          </div>
-        </div>
-        <div className="flashcard-buttons">
-          {!answered ? (
-            <div>
-              <button
-                type="button"
-                onClick={() => this.cardClicked()}
-                className={`
-                  not-answered
-                  button-show-answer
-                  nostyle
-                  ${this.state.clickingOnShowButton ? "selected" : ""}
-                `}
-              >
-                Click to show answer
-              </button>
-            </div>
-          ) : (
-            <div>
-              <this.AnswerButton
-                className="button-bad"
-                label="Bad"
-                rating={Rating.BAD}
-              />
-              <this.AnswerButton
-                className="button-good"
-                label="Good"
-                rating={Rating.GOOD}
-              />
-              <this.AnswerButton
-                className="button-easy"
-                label="Easy"
-                rating={Rating.EASY}
-              />
-            </div>
-          )}
-        </div>
+      <div className={classNames("flashcard")}>
+        <EditCard
+          row={card.row}
+          done={() => {
+            ui.setState({ isEditing: false });
+          }}
+        />
       </div>
     );
   }
-  AnswerButton = ({
-    className,
-    label,
-    rating,
-  }: {
-    className: string;
-    label: string;
-    rating: Rating;
-  }) => {
-    return (
-      <button
-        type="button"
+
+  return (
+    <div
+      className={classNames(
+        "flashcard",
+        answered ? "answered" : "not-answered",
+        // "${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}",
+        isNewRowThatHasNotBeenSeenInSession(card) && "new",
+      )}
+    >
+      <div>
+        <div>{card.row.deck.settings.title}</div>
+        <button
+          className="btn"
+          onClick={() => {
+            card.row.data.deleted = true;
+            session.cards = session.cards.filter((c) => c.row !== card.row);
+            nextCard();
+          }}
+        >
+          Ignore this item
+        </button>
+        <button
+          className="btn"
+          onClick={() => {
+            if (card.row.data.direction !== "BOTH") {
+              card.row.data.direction =
+                card.direction === Direction.FRONT_TO_BACK
+                  ? "ONLY_BACK_TO_FRONT"
+                  : "ONLY_FRONT_TO_BACK";
+            } else {
+              card.row.data.deleted = true;
+            }
+            session.cards = session.cards.filter((c) => c !== card);
+            nextCard();
+          }}
+        >
+          Ignore this side
+        </button>
+        <button
+          className="btn"
+          onClick={() => {
+            ui.setState({
+              isEditing: true,
+            });
+          }}
+        >
+          Edit
+        </button>
+      </div>
+      <div
+        onClick={() => ui.cardClicked()}
         className={classNames(
-          className,
-          "nostyle",
-          this.state.chosenRating === rating ? "selected" : "",
+          "flashcard-prompt",
+          "flashcard-top",
+          direction === Direction.FRONT_TO_BACK ? "front-side" : "back-side",
         )}
-        onClick={() => this.ratingClicked(rating, false)}
       >
-        {label}
-      </button>
-    );
-  };
-}
+        {/*{getSound(cardId) && <div className="has-audio-icon" />}*/}
+        <div>{html(direction === Direction.FRONT_TO_BACK ? front : back)}</div>
+      </div>
+      <div
+        onClick={() => ui.cardClicked()}
+        className={classNames(
+          "flashcard-prompt",
+          "flashcard-bottom",
+          direction !== Direction.FRONT_TO_BACK ? "front-side" : "back-side",
+        )}
+      >
+        {(answered ||
+          /"occluded/.test(
+            direction !== Direction.FRONT_TO_BACK ? front : back,
+          )) && (
+          <div>
+            {html(direction !== Direction.FRONT_TO_BACK ? front : back)}
+          </div>
+        )}
+      </div>
+      <div className="flashcard-buttons">
+        {!answered ? (
+          <div>
+            <button
+              type="button"
+              onClick={() => ui.cardClicked()}
+              className={`
+                not-answered
+                button-show-answer
+                nostyle
+                ${ui.clickingOnShowButton ? "selected" : ""}
+              `}
+            >
+              Click to show answer
+            </button>
+          </div>
+        ) : (
+          <div>
+            <AnswerButton
+              className="button-bad"
+              label="Bad"
+              rating={Rating.BAD}
+              ui={ui}
+            />
+            <AnswerButton
+              className="button-good"
+              label="Good"
+              rating={Rating.GOOD}
+              ui={ui}
+            />
+            <AnswerButton
+              className="button-easy"
+              label="Easy"
+              rating={Rating.EASY}
+              ui={ui}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+});
+
+const AnswerButton = ({
+  className,
+  label,
+  rating,
+  ui,
+}: {
+  className: string;
+  label: string;
+  rating: Rating;
+  ui: CardUI;
+}) => {
+  return (
+    <button
+      type="button"
+      className={classNames(
+        className,
+        "nostyle",
+        ui.chosenRating === rating ? "selected" : "",
+      )}
+      onClick={() => ui.ratingClicked(rating, false)}
+    >
+      {label}
+    </button>
+  );
+};
 
 /** Helper function around dangerouslySetInnerHTML */
 const html = (text?: string): Jsx => {

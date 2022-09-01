@@ -11,8 +11,24 @@ export const deckSettingsFields: FieldsSetup<DeckSettings> = [
     label: "Language of the front side (the side being studied)",
   },
   {
+    name: "frontSideSpeechSynthesis",
+    label: "Use speech synthesis for the front side",
+    type: "checkbox",
+    onlyShowIf: (vals) => {
+      return Boolean(vals.frontSideLanguage);
+    },
+  },
+  {
     name: "backSideLanguage",
     label: "Language of the back side (the side containing the explanations)",
+  },
+  {
+    name: "backSideSpeechSynthesis",
+    label: "Use speech synthesis for the back side",
+    type: "checkbox",
+    onlyShowIf: (vals) => {
+      return Boolean(vals.backSideLanguage);
+    },
   },
   {
     name: "direction",

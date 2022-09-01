@@ -22,6 +22,9 @@ export class Store {
   decks: Map<DeckId, Deck> = new Map();
   schedule: Map<CardId, ScheduleData> = new Map();
   sessionLog: Map<string, SessionLogData> = new Map();
+  // ui: {
+  //   card: new CardUI();
+  // }
   constructor() {
     this.userSettings = userDataStore.set({
       type: "userSettings",

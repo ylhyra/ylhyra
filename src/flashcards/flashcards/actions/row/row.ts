@@ -87,8 +87,8 @@ export class Row {
   }
 
   /** Gets the row setting, falling back to the deck setting, falling back to defaults. */
-  getSetting<T extends keyof DeckSettings>(key: T): DeckSettings[T];
   getSetting<T extends keyof RowData>(key: T): RowData[T];
+  getSetting<T extends keyof DeckSettings>(key: T): DeckSettings[T];
   getSetting<T extends keyof DeckSettings & keyof RowData>(
     key: T,
   ): (DeckSettings & RowData)[T] {
