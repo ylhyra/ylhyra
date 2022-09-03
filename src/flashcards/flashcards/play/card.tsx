@@ -6,7 +6,7 @@ import { Direction, Rating } from "flashcards/flashcards/types";
 import { observer } from "mobx-react";
 import { classNames } from "modules/addCssClass";
 import { Jsx } from "modules/typescript/jsx";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getPlaintextFromFormatted } from "flashcards/flashcards/actions/format/format";
 import { useKeyboardListener } from "flashcards/flashcards/play/functions";
 import { makeAutoObservable } from "mobx";
@@ -25,17 +25,13 @@ export class CardUI {
   }
 
   /**
-   * @param timeout – A timeout is used when using keyboard shortcuts to add
+   * @param useTimeout – A timeout is used when using keyboard shortcuts to add
    *   enough lag to the user interface for which button the user is clicking to
    *   be noticeable
-   *
-   *   TODO: timeout never used
    */
-  cardClicked = (timeout?: NodeJS.Timeout) => {
-    if (this.isShowingBottomSide) {
-      this.sound(true);
-    } else {
-      if (timeout) {
+  cardClicked = (useTimeout?: boolean) => {
+    if (!this.isShowingBottomSide) {
+      if (useTimeout) {
         this.clickingOnShowButton = true;
         setTimeout(() => {
           this.isShowingBottomSide = true;
@@ -43,33 +39,27 @@ export class CardUI {
       } else {
         this.isShowingBottomSide = true;
       }
-      this.sound(true);
     }
+    this.sound();
   };
 
   /** {@link CardElement.cardClicked} is also invoked at the same time (I believe) */
-  ratingClicked = (
-    rating: Rating,
-    // todo: used??
-    timeout?: NodeJS.Timeout | false,
-    e?: MouseEvent,
-  ) => {
-    /**
-     * TODO: The buttons below no longer send this event, check to see if
-     * stopping propagation is really necessary
-     */
-    e?.stopPropagation();
+  ratingClicked = (rating: Rating, useTimeout?: boolean) => {
+    if (this.isShowingBottomSide) {
+      return this.cardClicked(useTimeout);
+    }
     if (this.chosenRating) return;
-    if (timeout === false) {
+    if (useTimeout === false) {
       getSession().currentCard?.rate(rating);
     } else {
-      // this. answer=rating
+      this.chosenRating = rating;
       setTimeout(() => {
         getSession().currentCard?.rate(rating);
       }, 100);
     }
   };
-  sound = (answered?: Boolean) => {
+
+  sound = () => {
     window.speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance();
 
@@ -77,8 +67,16 @@ export class CardUI {
     if (!card) return;
     const front = card.frontFormatted;
 
-    if (card.direction === Direction.FRONT_TO_BACK || answered) {
-      if (card.row.getSetting("frontSideLanguage")) {
+    // TODO: back side
+
+    if (
+      card.direction === Direction.FRONT_TO_BACK ||
+      this.isShowingBottomSide
+    ) {
+      if (
+        card.row.getSetting("frontSideSpeechSynthesis") &&
+        card.row.getSetting("frontSideLanguage")
+      ) {
         utter.lang = card.row.getSetting("frontSideLanguage")!;
         utter.text = getPlaintextFromFormatted(front);
         utter.rate = 0.7;
@@ -89,8 +87,9 @@ export class CardUI {
 }
 
 export const CardElement = observer(() => {
-  useKeyboardListener();
   const [ui] = useState(() => new CardUI());
+  useKeyboardListener(ui);
+  useEffect(() => ui.sound(), []);
 
   // void texLinebreakDOM(document.querySelectorAll(".flashcard-prompt > div"), {
   //   align: "left",
@@ -123,7 +122,7 @@ export const CardElement = observer(() => {
         <EditCard
           row={card.row}
           done={() => {
-            ui.setState({ isEditing: false });
+            ui.isEditing = false;
           }}
         />
       </div>
@@ -171,9 +170,7 @@ export const CardElement = observer(() => {
         <button
           className="btn"
           onClick={() => {
-            ui.setState({
-              isEditing: true,
-            });
+            ui.isEditing = true;
           }}
         >
           Edit
