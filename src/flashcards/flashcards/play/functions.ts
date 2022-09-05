@@ -1,6 +1,7 @@
 import { Rating } from "flashcards/flashcards/types";
 import { useEffect } from "react";
 import { CardUI } from "flashcards/flashcards/play/card";
+import { checkForUndoOnKeyDown } from "flashcards/flashcards/actions/session/sessionHistory";
 
 export const useKeyboardListener = (cardUi: CardUI) => {
   let isKeyDown: boolean = false;
@@ -46,9 +47,11 @@ export const useKeyboardListener = (cardUi: CardUI) => {
   useEffect(() => {
     window.addEventListener("keydown", checkKey);
     window.addEventListener("keyup", keyUp);
+    window.addEventListener("keydown", checkForUndoOnKeyDown);
     return () => {
       window.removeEventListener("keydown", checkKey);
       window.addEventListener("keyup", keyUp);
+      window.removeEventListener("keydown", checkForUndoOnKeyDown);
     };
   }, []);
 };

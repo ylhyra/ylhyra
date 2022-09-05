@@ -84,4 +84,13 @@ export class Card {
   get backFormatted(): Html {
     return formatVocabularyEntry(this.data.back);
   }
+
+  get hasSound() {
+    return (
+      (this.row.getSetting("frontSideSpeechSynthesis") &&
+        this.row.getSetting("frontSideLanguage")) ||
+      (this.row.getSetting("backSideSpeechSynthesis") &&
+        this.row.getSetting("backSideLanguage"))
+    );
+  }
 }

@@ -92,7 +92,6 @@ export class Row {
   getSetting<T extends keyof DeckSettings & keyof RowData>(
     key: T,
   ): (DeckSettings & RowData)[T] {
-    /* "!= null" tests for null and undefined */
     if (this.data[key] != null) {
       return this.data[key];
     }
@@ -102,4 +101,18 @@ export class Row {
     return (getDefaultValue(rowFields, key) ??
       getDefaultValue(deckSettingsFields, key)) as (DeckSettings & RowData)[T];
   }
+}
+
+export function getSetting<T extends keyof DeckSettings & keyof RowData>(
+  item: Card | Row | Deck | null,
+  key: T,
+): (DeckSettings & RowData)[T] {
+  if (this.data[key] != null) {
+    return this.data[key];
+  }
+  if (this.deck.settings[key] != null) {
+    return this.deck.settings[key] as (DeckSettings & RowData)[T];
+  }
+  return (getDefaultValue(rowFields, key) ??
+    getDefaultValue(deckSettingsFields, key)) as (DeckSettings & RowData)[T];
 }

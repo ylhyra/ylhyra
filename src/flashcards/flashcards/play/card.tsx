@@ -97,7 +97,6 @@ export const CardElement = observer(() => {
 
   const session = getSession();
   // const isVolumeOn = store.volume;
-  const answered = ui.isShowingBottomSide;
   const card = session.currentCard;
 
   if (session.counter === 0) {
@@ -133,7 +132,7 @@ export const CardElement = observer(() => {
     <div
       className={classNames(
         "flashcard",
-        answered ? "answered" : "not-answered",
+        ui.isShowingBottomSide ? "answered" : "not-answered",
         // "${"" /*getSound(cardId) && volume ? "has-sound" : ""*/}",
         isNewRowThatHasNotBeenSeenInSession(card) && "new",
       )}
@@ -195,7 +194,7 @@ export const CardElement = observer(() => {
           direction !== Direction.FRONT_TO_BACK ? "front-side" : "back-side",
         )}
       >
-        {(answered ||
+        {(ui.isShowingBottomSide ||
           /"occluded/.test(
             direction !== Direction.FRONT_TO_BACK ? front : back,
           )) && (
@@ -205,7 +204,7 @@ export const CardElement = observer(() => {
         )}
       </div>
       <div className="flashcard-buttons">
-        {!answered ? (
+        {!ui.isShowingBottomSide ? (
           <div>
             <button
               type="button"

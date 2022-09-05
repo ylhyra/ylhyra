@@ -18,4 +18,9 @@ export const userSettingsFields: FieldsSetup<UserSettings> = [
       },
     ],
   },
+  {
+    name: "volume",
+    type: "checkbox",
+    defaultValue: true,
+  },
 ];
