@@ -9,7 +9,7 @@ import { Jsx } from "modules/typescript/jsx";
 import React, { useState, useEffect } from "react";
 import { getPlaintextFromFormatted } from "flashcards/flashcards/actions/format/format";
 import { useKeyboardListener } from "flashcards/flashcards/play/functions";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, action } from "mobx";
 
 export class CardUI {
   isEditing?: boolean;
@@ -33,30 +33,37 @@ export class CardUI {
     if (!this.isShowingBottomSide) {
       if (useTimeout) {
         this.clickingOnShowButton = true;
-        setTimeout(() => {
-          this.isShowingBottomSide = true;
-        }, 50);
+        setTimeout(
+          action(() => {
+            this.isShowingBottomSide = true;
+            this.sound();
+          }),
+          50,
+        );
       } else {
         this.isShowingBottomSide = true;
+        this.sound();
       }
+    } else {
+      this.sound();
     }
-    this.sound();
   };
 
   /** {@link CardElement.cardClicked} is also invoked at the same time (I believe) */
   ratingClicked = (rating: Rating, useTimeout?: boolean) => {
-    if (this.isShowingBottomSide) {
+    if (!this.isShowingBottomSide) {
+      // todo: do always?
       return this.cardClicked(useTimeout);
     }
     if (this.chosenRating) return;
-    if (useTimeout === false) {
+    // if (useTimeout === false) {
+    //   getSession().currentCard?.rate(rating);
+    // } else {
+    this.chosenRating = rating;
+    setTimeout(() => {
       getSession().currentCard?.rate(rating);
-    } else {
-      this.chosenRating = rating;
-      setTimeout(() => {
-        getSession().currentCard?.rate(rating);
-      }, 100);
-    }
+    }, 100);
+    // }
   };
 
   sound = () => {
