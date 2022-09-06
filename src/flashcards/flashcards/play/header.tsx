@@ -3,6 +3,8 @@ import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import React from "react";
 import { observer } from "mobx-react";
 import { store } from "flashcards/store";
+import { getUserSetting } from "flashcards/flashcards/actions/row/row";
+import { action } from "mobx";
 
 export const FlashcardsPlayHeader = observer(() => {
   const session = getSession();
@@ -11,17 +13,6 @@ export const FlashcardsPlayHeader = observer(() => {
       <button className="btn btn-gray" onClick={() => sessionDone()}>
         Quit
       </button>
-      <div>&nbsp;&nbsp;•&nbsp;&nbsp;</div>
-      {/*<button*/}
-      {/*  className="link"*/}
-      {/*  onClick={() => {*/}
-      {/*    goToUrl("/vocabulary/tutorial", {*/}
-      {/*      dontChangeUrl: true,*/}
-      {/*    });*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  Tutorial*/}
-      {/*</button>*/}
       {session.history.isUndoable() && [
         <div key={1}>&nbsp;&nbsp;•&nbsp;&nbsp;</div>,
         <button
@@ -38,11 +29,11 @@ export const FlashcardsPlayHeader = observer(() => {
       {session?.cards.some((card) => card.hasSound) && (
         <button
           className="link"
-          onClick={() => {
-            store.userSettings.volume = !store.userSettings.volume;
-          }}
+          onClick={action(() => {
+            store.userSettings.volume = !getUserSetting("volume");
+          })}
         >
-          Audio: <b>{store.userSettings.volume ? "On" : "Off"}</b>
+          Audio: <b>{getUserSetting("volume") ? "On" : "Off"}</b>
         </button>
       )}
     </div>

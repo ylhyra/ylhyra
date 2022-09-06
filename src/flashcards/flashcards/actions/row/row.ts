@@ -12,6 +12,9 @@ import {
 } from "flashcards/flashcards/types";
 import { computed, makeObservable, observable } from "mobx";
 import { getDefaultValue } from "modules/form";
+import { UserSettings } from "flashcards/user/userSettings.types";
+import { userSettingsFields } from "flashcards/user/userSettings.fields";
+import { store } from "flashcards/store";
 
 export class Row {
   @observable data: RowData;
@@ -103,16 +106,8 @@ export class Row {
   }
 }
 
-export function getSetting<T extends keyof DeckSettings & keyof RowData>(
-  item: Card | Row | Deck | null,
+export function getUserSetting<T extends keyof UserSettings>(
   key: T,
-): (DeckSettings & RowData)[T] {
-  if (this.data[key] != null) {
-    return this.data[key];
-  }
-  if (this.deck.settings[key] != null) {
-    return this.deck.settings[key] as (DeckSettings & RowData)[T];
-  }
-  return (getDefaultValue(rowFields, key) ??
-    getDefaultValue(deckSettingsFields, key)) as (DeckSettings & RowData)[T];
+): UserSettings[T] {
+  return store.userSettings[key] ?? getDefaultValue(userSettingsFields, key);
 }
