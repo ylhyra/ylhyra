@@ -2,6 +2,7 @@ import { DirectionSettings, Direction } from "flashcards/flashcards/types";
 
 /** Interface form is at {@link deckSettingsFields} */
 export type DeckSettings = Partial<{
+  deleted: boolean;
   title: string;
   topic: string;
   preset:

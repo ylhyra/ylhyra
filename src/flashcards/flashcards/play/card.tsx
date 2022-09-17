@@ -1,3 +1,4 @@
+import { isDev } from 'modules/isDev';
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/session";
@@ -10,6 +11,7 @@ import React, { useState, useEffect } from "react";
 import { getPlaintextFromFormatted } from "flashcards/flashcards/actions/format/format";
 import { useKeyboardListener } from "flashcards/flashcards/play/functions";
 import { makeAutoObservable, action } from "mobx";
+import { getUserSetting } from "flashcards/flashcards/actions/row/row";
 
 export class CardUI {
   isEditing?: boolean;
@@ -51,24 +53,24 @@ export class CardUI {
 
   /** {@link CardElement.cardClicked} is also invoked at the same time (I believe) */
   ratingClicked = (rating: Rating, useTimeout?: boolean) => {
-    if (!this.isShowingBottomSide) {
-      // todo: do always?
-      return this.cardClicked(useTimeout);
+    if (!(rating && this.isShowingBottomSide)) {
+      this.cardClicked(useTimeout);
     }
-    if (this.chosenRating) return;
-    // if (useTimeout === false) {
-    //   getSession().currentCard?.rate(rating);
-    // } else {
+    if (this.chosenRating || !this.isShowingBottomSide) return;
     this.chosenRating = rating;
-    setTimeout(() => {
-      getSession().currentCard?.rate(rating);
-    }, 100);
-    // }
+    setTimeout(
+      () => {
+        getSession().currentCard?.rate(rating);
+      },
+      useTimeout ? 100 : 0,
+    );
   };
 
   sound = () => {
     window.speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance();
+
+    if (!getUserSetting("volume")) return;
 
     const card = getSession().currentCard;
     if (!card) return;
@@ -87,6 +89,7 @@ export class CardUI {
         utter.lang = card.row.getSetting("frontSideLanguage")!;
         utter.text = getPlaintextFromFormatted(front);
         utter.rate = 0.7;
+        utter.volume = isDev ? 0.2 : 0.5;
         window.speechSynthesis.speak(utter);
       }
     }
@@ -210,6 +213,7 @@ export const CardElement = observer(() => {
           </div>
         )}
       </div>
+      {ui.isShowingBottomSide && <div>{card.row.data.lemmas}</div>}
       <div className="flashcard-buttons">
         {!ui.isShowingBottomSide ? (
           <div>

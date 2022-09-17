@@ -27,32 +27,34 @@ export const FlashcardsMake = observer(function () {
         </div>
         <hr />
         <ul>
-          {[...decks.values()].map((deck) => (
-            <li key={deck.deckId} className="flex hover:bg-gray-200">
-              <Link
-                to={`/flashcards/deck/${deck.deckId}`}
-                className="flex-1 p-1"
-              >
-                <b>{deck.title}</b>{" "}
-                <span className="text-sm text-gray-600">
-                  {/*TODO: Ignore deleted cards*/}({deck.rows.size} cards){" "}
-                  {percentageKnown(deck.cards)}% known{" "}
-                  {percentageSeen(deck.cards)}% seen
-                </span>{" "}
-              </Link>
-              <div className="p-1">
+          {[...decks.values()]
+            .filter((deck) => !deck.settings.deleted)
+            .map((deck) => (
+              <li key={deck.deckId} className="flex hover:bg-gray-200">
                 <Link
                   to={`/flashcards/deck/${deck.deckId}`}
-                  className="btn btn-gray"
+                  className="flex-1 p-1"
                 >
-                  Add
-                </Link>{" "}
-                <Link to={`/flashcards/play/${deck.deckId}`} className="btn">
-                  Play
+                  <b>{deck.title}</b>{" "}
+                  <span className="text-sm text-gray-600">
+                    {/*TODO: Ignore deleted cards*/}({deck.rows.size} cards){" "}
+                    {percentageKnown(deck.cards)}% known{" "}
+                    {percentageSeen(deck.cards)}% seen
+                  </span>{" "}
                 </Link>
-              </div>
-            </li>
-          ))}
+                <div className="p-1">
+                  <Link
+                    to={`/flashcards/deck/${deck.deckId}`}
+                    className="btn btn-gray"
+                  >
+                    Add
+                  </Link>{" "}
+                  <Link to={`/flashcards/play/${deck.deckId}`} className="btn">
+                    Play
+                  </Link>
+                </div>
+              </li>
+            ))}
         </ul>
         {Object.keys(decks).length === 0 && <div>No decks.</div>}
       </div>

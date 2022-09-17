@@ -54,7 +54,7 @@ export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
 export const Rows = observer(({ deck }: { deck: Deck }) => {
   return (
     <>
-      {deck.rowsAsArray.slice(0, 20).map((row) => (
+      {deck.rowsAsArray.map((row) => (
         <EditRow key={row.rowId} row={row} />
       ))}
     </>

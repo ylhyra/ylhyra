@@ -22,7 +22,7 @@ export function EditRow({ row }: { row: Row }) {
         <Input name="back" />
       </div>
 
-      {/*<AllFields />*/}
+      <AllFields />
     </div>
   );
 

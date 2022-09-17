@@ -98,8 +98,6 @@ export class ChooseCards {
     );
     if (deck) {
       return deck.getCardOfType(type);
-    } else {
-      throw new Error("getCardOfType failed");
     }
   }
 }

@@ -48,6 +48,7 @@ export function percentageSeen(cards: Card[]) {
   let seen = 0;
   let unseen = 0;
   cards.forEach((card) => {
+    if (card.isIgnored) return;
     if (isInSchedule(card)) {
       seen++;
     } else {
@@ -55,7 +56,7 @@ export function percentageSeen(cards: Card[]) {
     }
   });
 
-  if (unseen === 0) return 0;
+  if (seen === 0) return 0;
   return ((seen / (seen + unseen)) * 100).toFixed(2);
 }
 

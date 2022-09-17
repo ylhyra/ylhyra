@@ -19,13 +19,15 @@ export const addRowsIfMissing = action((deck: Deck, text: string) => {
         ["\t", "=", " - ", ": "].find((j) => line.indexOf(j) > 0) || "\t";
       const split = line.split(splitOn);
       const front = split[0];
-      /**
-       * Join remaining just to prevent data loss (since only two columns are
-       * currently supported
-       */
-      const back = split.slice(1).join("");
+      // /**
+      //  * Join remaining just to prevent data loss (since only two columns are
+      //  * currently supported
+      //  */
+      // const back = split.slice(1).join("");
+      const back = split[1];
+      const lemmas = split[2];
       // deck.addRow({ front, back });
-      rowsToAdd.push({ front, back });
+      rowsToAdd.push({ front, back, direction: "ONLY_BACK_TO_FRONT", lemmas });
     });
     addRowsToDeck(deck, rowsToAdd);
   }, "addRowsIfMissing");

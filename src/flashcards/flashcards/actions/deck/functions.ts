@@ -33,7 +33,7 @@ export function newDeck(): Deck {
 // Todo: Undoable
 export const deleteDeck = action((deck: Deck) => {
   if (window.confirm("Are you sure you want to delete this deck?")) {
-    store.decks.delete(deck.deckId);
+    deck.settings.deleted = true;
     goToUrl("/flashcards");
   }
 });
