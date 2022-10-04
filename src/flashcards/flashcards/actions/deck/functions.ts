@@ -17,17 +17,19 @@ import shortid from "shortid";
 import _ from "underscore";
 
 export function newDeck(): Deck {
-  const deckId = shortid.generate() as DeckId;
-  const settings = userDataStore.set({
-    type: "deck",
-    key: deckId,
-    value: {},
-  }).value;
-  const deck = new Deck(deckId, settings);
-  if (isBrowser) {
-    goToUrl(`/flashcards/deck/${deckId}`);
-  }
-  return deck;
+  return action(() => {
+    const deckId = shortid.generate() as DeckId;
+    const settings = userDataStore.set({
+      type: "deck",
+      key: deckId,
+      value: {},
+    }).value;
+    const deck = new Deck(deckId, settings);
+    if (isBrowser) {
+      goToUrl(`/flashcards/deck/${deckId}`);
+    }
+    return deck;
+  })();
 }
 
 // Todo: Undoable
@@ -43,29 +45,31 @@ export function addRow(deck: Deck, data: Partial<RowData> = {}) {
 }
 
 export function addRowsToDeck(deck: Deck, arrayOfRowData: Partial<RowData>[]) {
-  let i = 0;
-  const baseId = shortid.generate();
-  const highestRowNumber = _.max([
-    0,
-    ...[...deck.rows.values()].map((row) => row.data.rowNumber),
-  ]);
-  arrayOfRowData.forEach((rowData) => {
-    const rowId = `${baseId}${i}` as RowId;
-    let value: RowData = {
-      deckId: deck.deckId,
-      rowId,
-      rowNumber: highestRowNumber + 1 + i++,
-      ...removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(
-        rowData || {},
-      ),
-    };
-    value = userDataStore.set({
-      type: "row",
-      key: rowId,
-      value,
-    }).value;
-    new Row(deck, value);
-  });
+  return action(() => {
+    let i = 0;
+    const baseId = shortid.generate();
+    const highestRowNumber = _.max([
+      0,
+      ...[...deck.rows.values()].map((row) => row.data.rowNumber),
+    ]);
+    arrayOfRowData.forEach((rowData) => {
+      const rowId = `${baseId}${i}` as RowId;
+      let value: RowData = {
+        deckId: deck.deckId,
+        rowId,
+        rowNumber: highestRowNumber + 1 + i++,
+        ...removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(
+          rowData || {},
+        ),
+      };
+      value = userDataStore.set({
+        type: "row",
+        key: rowId,
+        value,
+      }).value;
+      new Row(deck, value);
+    });
+  })();
 }
 
 export function getAllCardsFromDecks(decks: Deck[]): Card[] {
