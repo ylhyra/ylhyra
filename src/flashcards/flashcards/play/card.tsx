@@ -1,4 +1,4 @@
-import { isDev } from 'modules/isDev';
+import { isDev } from "modules/isDev";
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
 import { getSession } from "flashcards/flashcards/actions/session/session";
@@ -12,6 +12,7 @@ import { getPlaintextFromFormatted } from "flashcards/flashcards/actions/format/
 import { useKeyboardListener } from "flashcards/flashcards/play/functions";
 import { makeAutoObservable, action } from "mobx";
 import { getUserSetting } from "flashcards/flashcards/actions/row/row";
+import { texLinebreakDOM } from "tex-linebreak2";
 
 export class CardUI {
   isEditing?: boolean;
@@ -19,7 +20,9 @@ export class CardUI {
   isShowingBottomSide?: boolean;
   /** Then he rates how well he knew it */
   chosenRating?: Rating;
-  /** Used to make UI show a slight lag between keyboard shortcuts and answering */
+  /**
+   * Used to make UI show a slight lag between keyboard shortcuts and answering
+   */
   clickingOnShowButton?: boolean;
 
   constructor() {
@@ -51,7 +54,6 @@ export class CardUI {
     }
   };
 
-  /** {@link CardElement.cardClicked} is also invoked at the same time (I believe) */
   ratingClicked = (rating: Rating, useTimeout?: boolean) => {
     if (!(rating && this.isShowingBottomSide)) {
       this.cardClicked(useTimeout);
@@ -101,9 +103,14 @@ export const CardElement = observer(() => {
   useKeyboardListener(ui);
   useEffect(() => ui.sound(), []);
 
-  // void texLinebreakDOM(document.querySelectorAll(".flashcard-prompt > div"), {
-  //   align: "left",
-  // });
+  useEffect(() => {
+    void texLinebreakDOM(document.querySelectorAll(".flashcard-prompt > div"), {
+      align: "center",
+      infiniteGlueStretchAsRatioOfWidth: 0,
+      justify: false,
+    });
+    /* TODO!! Cleanup */
+  });
 
   const session = getSession();
   // const isVolumeOn = store.volume;
@@ -116,26 +123,22 @@ export const CardElement = observer(() => {
     return <div>Unable to create cards.</div>;
   }
 
-  let direction = card.direction;
-  const front = card.frontFormatted;
-  const back = card.backFormatted;
-
-  /* Loading */
-  if (!front || !back) {
-    return null;
-  }
-
   if (ui.isEditing) {
     return (
       <div className={classNames("flashcard")}>
         <EditCard
           row={card.row}
-          done={() => {
+          done={action(() => {
             ui.isEditing = false;
-          }}
+          })}
         />
       </div>
     );
+  }
+
+  /* Loading */
+  if (!card.frontFormatted || !card.backFormatted) {
+    return null;
   }
 
   return (
@@ -178,9 +181,9 @@ export const CardElement = observer(() => {
         </button>
         <button
           className="btn"
-          onClick={() => {
+          onClick={action(() => {
             ui.isEditing = true;
-          }}
+          })}
         >
           Edit
         </button>
@@ -190,26 +193,42 @@ export const CardElement = observer(() => {
         className={classNames(
           "flashcard-prompt",
           "flashcard-top",
-          direction === Direction.FRONT_TO_BACK ? "front-side" : "back-side",
+          card.direction === Direction.FRONT_TO_BACK
+            ? "front-side"
+            : "back-side",
         )}
       >
         {/*{getSound(cardId) && <div className="has-audio-icon" />}*/}
-        <div>{html(direction === Direction.FRONT_TO_BACK ? front : back)}</div>
+        <div>
+          {html(
+            card.direction === Direction.FRONT_TO_BACK
+              ? card.frontFormatted
+              : card.backFormatted,
+          )}
+        </div>
       </div>
       <div
         onClick={() => ui.cardClicked()}
         className={classNames(
           "flashcard-prompt",
           "flashcard-bottom",
-          direction !== Direction.FRONT_TO_BACK ? "front-side" : "back-side",
+          card.direction !== Direction.FRONT_TO_BACK
+            ? "front-side"
+            : "back-side",
         )}
       >
         {(ui.isShowingBottomSide ||
           /"occluded/.test(
-            direction !== Direction.FRONT_TO_BACK ? front : back,
+            card.direction !== Direction.FRONT_TO_BACK
+              ? card.frontFormatted
+              : card.backFormatted,
           )) && (
           <div>
-            {html(direction !== Direction.FRONT_TO_BACK ? front : back)}
+            {html(
+              card.direction !== Direction.FRONT_TO_BACK
+                ? card.frontFormatted
+                : card.backFormatted,
+            )}
           </div>
         )}
       </div>

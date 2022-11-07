@@ -1,4 +1,4 @@
-import { action } from "mobx";
+import { action, toJS } from "mobx";
 import { CardId, DeckId } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
@@ -45,6 +45,9 @@ export function applyChangesToMainStore(values: UserDataValue[]) {
         if (deck) {
           new Row(deck, value.value);
         } else {
+          console.log(value.value.deckId);
+          console.log(toJS(store.decks));
+
           throw new Error("Deck not initialized for row!");
         }
         break;

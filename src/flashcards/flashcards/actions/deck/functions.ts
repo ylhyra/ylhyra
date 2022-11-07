@@ -26,7 +26,7 @@ export function newDeck(): Deck {
     }).value;
     const deck = new Deck(deckId, settings);
     if (isBrowser) {
-      goToUrl(`/flashcards/deck/${deckId}`);
+      goToUrl(`/flashcards/${deckId}`);
     }
     return deck;
   })();
@@ -61,6 +61,7 @@ export function addRowsToDeck(deck: Deck, arrayOfRowData: Partial<RowData>[]) {
         ...removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(
           rowData || {},
         ),
+        createdAt: new Date().toISOString(),
       };
       value = userDataStore.set({
         type: "row",

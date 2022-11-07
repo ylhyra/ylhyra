@@ -1,5 +1,4 @@
 import { isObservable, observable, reaction, toJS } from "mobx";
-import { isEmpty } from "modules/isEmpty";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { ScheduleData } from "flashcards/flashcards/types";
@@ -55,7 +54,7 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     if (!isObservable(value)) {
       this.value = observable(value);
     }
-    if (saveImmediately && !isEmpty(value)) {
+    if (saveImmediately) {
       saveUserDataValueInLocalStorage(this);
     }
 

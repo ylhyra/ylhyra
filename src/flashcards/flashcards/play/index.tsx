@@ -41,7 +41,7 @@ export const FlashcardsPlay = observer(({ deckId }: { deckId: string }) => {
               <div className="flashcard-outer-container">
                 {session.currentCard && <CardElement key={session.counter} />}
               </div>
-              <ProgressBar key={session.counter} />
+              <ProgressBar />
             </>
           )}
         </div>

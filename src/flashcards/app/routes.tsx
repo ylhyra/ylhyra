@@ -32,11 +32,11 @@ export const Routes = observer(() => {
       component: FlashcardsMake,
     },
     {
-      path: "/flashcards/deck/:deckId",
+      path: "/flashcards/:deckId",
       component: FlashcardsEdit,
     },
     {
-      path: "/flashcards/play/:deckId",
+      path: "/flashcards/:deckId/play",
       component: FlashcardsPlay,
     },
   ];

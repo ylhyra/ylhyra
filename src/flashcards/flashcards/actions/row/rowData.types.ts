@@ -1,4 +1,4 @@
-import { DeckId, DirectionSettings } from 'flashcards/flashcards/types';
+import { DeckId, DirectionSettings } from "flashcards/flashcards/types";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
 import { Brand } from "ts-brand";
 
@@ -26,8 +26,8 @@ export type RowData = {
   sideToShowFirst?: DeckSettings["sideToShowFirst"];
   deleted?: boolean;
   /**
-   * Comma seperated list of entries that the user
-   * has to have studied prior to seeing this card
+   * Comma seperated list of entries that the user has to have studied prior to
+   * seeing this card
    */
   dependsOn?: string;
   /**
@@ -64,16 +64,10 @@ export type RowData = {
   //
   // /* Not currently used */
   // "categories": string;
-  // /* Not currently used */
-  // "grammar_tags": string;
-  //
-  // "athugasemd_til_min": string;
-  // "fix": string;
-  // "eyða": string;
-  // "should_teach": "yes" | "no";
-  // "should_split": "yes" | "no";
   // /** TODO: Not currently used, the intended purpose was to indicate when items were very related (such as just teaching different inflections) in order to allow the user to skip over items that he'd recently seen */
   // "this is a minor variation of"?: string;
   // /** ISO date */
   // "lastSeen"?: string;
+  createdAt: string;
+  updatedAt?: string;
 };

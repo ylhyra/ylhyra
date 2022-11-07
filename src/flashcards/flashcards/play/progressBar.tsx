@@ -1,7 +1,8 @@
+import { observer } from "mobx-react";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import React from "react";
 
-export function ProgressBar() {
+export const ProgressBar = observer(() => {
   const session = getSession();
   const timeRemainingRatio =
     (session.timer.totalTime - session.timer.remainingTime) /
@@ -17,4 +18,4 @@ export function ProgressBar() {
       </div>
     </div>
   );
-}
+});

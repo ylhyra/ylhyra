@@ -20,11 +20,11 @@ export const FlashcardsMake = observer(function () {
         <title>{getTitle("Decks")}</title>
       </Helmet>
       <div>
-        <div className="flex justify-center">
-          <Link to={`/flashcards/play/all`} className="btn p-4 ">
-            Play all decks
-          </Link>
-        </div>
+        {/*<div className="flex justify-center">*/}
+        {/*  <Link to={`/flashcards/play/all`} className="btn p-4 ">*/}
+        {/*    Play all decks*/}
+        {/*  </Link>*/}
+        {/*</div>*/}
         <hr />
         <ul>
           {[...decks.values()]
@@ -32,7 +32,7 @@ export const FlashcardsMake = observer(function () {
             .map((deck) => (
               <li key={deck.deckId} className="flex hover:bg-gray-200">
                 <Link
-                  to={`/flashcards/deck/${deck.deckId}`}
+                  to={`/flashcards/${deck.deckId}/play`}
                   className="flex-1 p-1"
                 >
                   <b>{deck.title}</b>{" "}
@@ -44,13 +44,10 @@ export const FlashcardsMake = observer(function () {
                 </Link>
                 <div className="p-1">
                   <Link
-                    to={`/flashcards/deck/${deck.deckId}`}
+                    to={`/flashcards/${deck.deckId}`}
                     className="btn btn-gray"
                   >
-                    Add
-                  </Link>{" "}
-                  <Link to={`/flashcards/play/${deck.deckId}`} className="btn">
-                    Play
+                    Edit
                   </Link>
                 </div>
               </li>

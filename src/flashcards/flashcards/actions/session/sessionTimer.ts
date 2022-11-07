@@ -1,3 +1,4 @@
+import { observable, makeObservable } from "mobx";
 import {
   EACH_SESSION_LASTS_X_MINUTES,
   MAX_SECONDS_TO_COUNT_PER_ITEM,
@@ -16,16 +17,17 @@ export class SessionTimer {
   /**
    * Used to update the progress bar and to see when the time is up.
    * Is 0 if there is no time remaining.
-   * Not updated unless updateRemainingTime() is
-   * called (done in {@link Session.increaseCounter})
+   * Not updated unless updateRemainingTime() is called (done in
+   * {@link Session.increaseCounter})
    */
-  remainingTime: Milliseconds;
+  @observable remainingTime: Milliseconds;
   #remainingTimeLastUpdatedAt: Timestamp;
 
   constructor() {
     this.totalTime = (EACH_SESSION_LASTS_X_MINUTES * minutes) as Milliseconds;
     this.remainingTime = this.totalTime;
     this.#remainingTimeLastUpdatedAt = getTime();
+    makeObservable(this);
   }
 
   /**
@@ -35,7 +37,7 @@ export class SessionTimer {
   updateRemainingTime() {
     const diff = Math.min(
       MAX_SECONDS_TO_COUNT_PER_ITEM * seconds,
-      getTime() - (this.#remainingTimeLastUpdatedAt || 0)
+      getTime() - (this.#remainingTimeLastUpdatedAt || 0),
     );
     /** Cannot be negative */
     this.remainingTime = Math.max(0, (this.remainingTime || 0) - diff);
@@ -44,7 +46,7 @@ export class SessionTimer {
 
   getSecondsSpent() {
     return Math.round(
-      (this.totalTime - Math.max(0, this.remainingTime)) / 1000
+      (this.totalTime - Math.max(0, this.remainingTime)) / 1000,
     );
   }
 }

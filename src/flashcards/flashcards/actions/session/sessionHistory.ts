@@ -6,6 +6,7 @@ import {
 } from "flashcards/flashcards/actions/session/session";
 import { Rating, Direction } from "flashcards/flashcards/types";
 import { Timestamp } from "modules/time";
+import { makeAutoObservable } from "mobx";
 
 export class SessionHistory {
   /** The most recent card is pushed to the front of this array */
@@ -21,7 +22,9 @@ export class SessionHistory {
   /** Todo: Rework? */
   #lastUndidAtCounter?: Session["counter"];
 
-  constructor(public session: Session) {}
+  constructor(public session: Session) {
+    makeAutoObservable(this);
+  }
 
   add(cardInSession: CardInSession, rating: Rating) {
     this.ratingHistory.unshift(rating);
@@ -37,6 +40,7 @@ export class SessionHistory {
     this.session.currentCard = cardInSession;
     this.cardHistory!.shift();
     this.#lastUndidAtCounter = this.session.counter;
+    this.session.counter++;
   }
 
   isUndoable() {
