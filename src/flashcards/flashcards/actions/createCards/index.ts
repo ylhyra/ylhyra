@@ -1,10 +1,10 @@
 import { isInSession } from "flashcards/flashcards/actions/card/functions";
-import { addBadDependencies } from "flashcards/flashcards/actions/createCards/addBadDependencies";
 import { ChooseCards } from "flashcards/flashcards/actions/createCards/chooseCards";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { logDev } from "modules/log";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
+import { addBadDependencies } from "flashcards/flashcards/actions/dependencies/withDependencies";
 
 export type CreateCardsOptions = {
   skipDependencies?: boolean;

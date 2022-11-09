@@ -40,6 +40,7 @@ export class Deck {
   }
 
   /** Used when editing rows */
+  /** @deprecated */
   get rowsAsArray(): Row[] {
     console.log("rowsAsArray called");
     return [...this.rows.values()].sort(
