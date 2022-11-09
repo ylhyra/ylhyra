@@ -12,7 +12,6 @@ import { getPlaintextFromFormatted } from "flashcards/flashcards/actions/format/
 import { useKeyboardListener } from "flashcards/flashcards/play/functions";
 import { makeAutoObservable, action } from "mobx";
 import { getUserSetting } from "flashcards/flashcards/actions/row/row";
-import { texLinebreakDOM } from "tex-linebreak2";
 
 export class CardUI {
   isEditing?: boolean;
@@ -103,14 +102,14 @@ export const CardElement = observer(() => {
   useKeyboardListener(ui);
   useEffect(() => ui.sound(), []);
 
-  useEffect(() => {
-    void texLinebreakDOM(document.querySelectorAll(".flashcard-prompt > div"), {
-      align: "center",
-      infiniteGlueStretchAsRatioOfWidth: 0,
-      justify: false,
-    });
-    /* TODO!! Cleanup */
-  });
+  // useEffect(() => {
+  //   void texLinebreakDOM(document.querySelectorAll(".flashcard-prompt > div"), {
+  //     align: "center",
+  //     infiniteGlueStretchAsRatioOfWidth: 0,
+  //     justify: false,
+  //   });
+  //   /* TODO!! Cleanup */
+  // });
 
   const session = getSession();
   // const isVolumeOn = store.volume;

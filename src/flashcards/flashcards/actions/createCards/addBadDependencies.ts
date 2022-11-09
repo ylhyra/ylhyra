@@ -1,21 +1,28 @@
+import {
+  isBad,
+  isFairlyBad,
+} from "flashcards/flashcards/actions/card/cardDifficulty";
+import { wasRowSeenMoreRecentlyThan } from "flashcards/flashcards/actions/card/cardSchedule";
+import { days, minutes } from "modules/time";
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { isBrowser } from "modules/isBrowser";
 import { isDev } from "modules/isDev";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
+import { withDependencies } from "../dependencies/withDependencies";
+import { isInSession } from "../card/functions";
 
 export function addBadDependencies(chosenCards: Card[]): Card[] {
   return warnIfFunctionIsSlow.wrap(() => {
-    isBrowser && console.warn("dependencies not implemented");
-    return chosenCards;
-
-    // const after = withDependencies(chosenCards, { skipSiblings: true }).filter(
-    //   (cardId) =>
-    //     !isInSession(cardId) &&
-    //     /* Keep in those already chosen */
-    //     (chosenCards.includes(cardId) ||
-    //       (isBad(cardId,) && wasRowSeenMoreRecentlyThan(cardId,45 * minutes)) ||
-    //       (isFairlyBad(cardId,) && wasRowSeenMoreRecentlyThan(cardId,2 * days)))
-    // );
+    const after = withDependencies(
+      chosenCards,
+      // { skipSiblings: true }
+    ).filter(
+      (card) =>
+        !isInSession(card) &&
+        /* Keep in those already chosen */
+        (card.isIn(chosenCards) ||
+          (isBad(card) && wasRowSeenMoreRecentlyThan(card, 45 * minutes)) ||
+          (isFairlyBad(card) && wasRowSeenMoreRecentlyThan(card, 2 * days))),
+    );
 
     if (isDev) {
       // if (after.length !== chosen_cards.length) {
@@ -32,6 +39,6 @@ export function addBadDependencies(chosenCards: Card[]): Card[] {
       //   );
       // }
     }
-    // return after;
+    return after;
   });
 }

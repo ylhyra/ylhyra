@@ -7,8 +7,8 @@ import TextareaAutosize from "react-textarea-autosize";
 export type FieldsSetup<TypeThisIsDescribing = object> = Array<
   {
     /**
-     * This is a mapped type that is immediately indexed, in order to
-     * be able to use only the allowed values of a given interface.
+     * This is a mapped type that is immediately indexed, in order to be able to
+     * use only the allowed values of a given interface.
      */
     [K in keyof TypeThisIsDescribing]-?: {
       name: K;
@@ -205,8 +205,9 @@ export class FormHelper<TypeThisIsDescribing = Record<string, any>> {
       return (
         // <input
         //   type="text"
-        <TextareaAutosize
-          // <textarea
+        // Note: Performance bottleneck
+        // <TextareaAutosize
+        <textarea
           name={field.name}
           value={value || ""}
           {...this.getChangeHandlers(field.name)}

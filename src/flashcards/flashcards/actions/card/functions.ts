@@ -7,8 +7,8 @@ export function getAsCardInSession(card1: Card): CardInSession | undefined {
   return getSession().cards?.find((card) => card.is(card1));
 }
 
-export function wasSeenInSession(card1: Card) {
-  const cardInSession = getAsCardInSession(card1);
+export function wasSeenInSession(card: Card) {
+  const cardInSession = getAsCardInSession(card);
   return cardInSession && cardInSession.ratingHistory.length > 0;
 }
 
