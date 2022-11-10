@@ -1,4 +1,4 @@
-import { Card } from "flashcards/flashcards/actions/card/card";
+import { Card, Cards } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSettings.fields";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
@@ -8,7 +8,7 @@ import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
 import { CardIds, Direction } from "flashcards/flashcards/types";
 import { computed, makeObservable, observable } from "mobx";
 import { getDefaultValue } from "modules/form";
-import { Dependencies } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
+import { Dependencies } from "flashcards/flashcards/actions/dependencies/dependencies";
 
 export class Row {
   @observable data: RowData;
@@ -55,9 +55,8 @@ export class Row {
   }
 
   @computed({ keepAlive: true })
-  get cards(): Card[] {
-    const row = this;
-    return this.cardIds.map((cardId) => new Card(row, cardId));
+  get cards(): Cards {
+    return new Cards(this.cardIds.map((cardId) => new Card(this, cardId)));
   }
 
   @computed({ keepAlive: true })

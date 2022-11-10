@@ -14,16 +14,16 @@ mobxConfigure({
 });
 
 createRoot(document.getElementById("root") as Element).render(
-  <React.StrictMode>
-    <HelmetProvider>
-      <Helmet>
-        <title>{getTitle()}</title>
-      </Helmet>
-      <Layout>
-        <Routes />
-      </Layout>
-    </HelmetProvider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <HelmetProvider>
+    <Helmet>
+      <title>{getTitle()}</title>
+    </Helmet>
+    <Layout>
+      <Routes />
+    </Layout>
+  </HelmetProvider>,
+  // </React.StrictMode>,
 );
 
 initialize();

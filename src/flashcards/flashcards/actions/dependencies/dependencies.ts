@@ -20,12 +20,13 @@ export class Dependencies {
     return rows;
   }
 
+  // @computed({ keepAlive: true })
   dependenciesWithDepth(): Map<Row, number> {
     const output = new Map<Row, number>();
 
     function addDependencies(
       row: Row,
-      depth: number = 1,
+      depth: number = 0,
       alreadySeenDirectParents: Row[] = [],
     ) {
       /* Deep copy in order to only watch direct parents */

@@ -11,6 +11,17 @@ import { Days, Timestamp } from "modules/time";
 import { Html } from "../../../../inflection/tables/types";
 import { formatVocabularyEntry } from "../format/format";
 
+export class Cards extends Array<Card> {
+  constructor(cards?: Card[]) {
+    if (cards) super(...cards);
+    else super();
+  }
+  add(card: Card) {
+    if (!this.includes(card)) this.push(card);
+    return this;
+  }
+}
+
 export class Card {
   constructor(public row: Row, public cardId: CardId) {}
 
