@@ -5,16 +5,10 @@ import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.ty
 import { createCardId } from "flashcards/flashcards/actions/row/ids";
 import { rowFields } from "flashcards/flashcards/actions/row/rowData.fields";
 import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
-import {
-  CardIds,
-  DependenciesForOneRowAsDependencyToDepth,
-  Direction,
-} from "flashcards/flashcards/types";
+import { CardIds, Direction } from "flashcards/flashcards/types";
 import { computed, makeObservable, observable } from "mobx";
 import { getDefaultValue } from "modules/form";
-import { UserSettings } from "flashcards/user/userSettings.types";
-import { userSettingsFields } from "flashcards/user/userSettings.fields";
-import { store } from "flashcards/store";
+import { Dependencies } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
 
 export class Row {
   @observable data: RowData;
@@ -67,18 +61,9 @@ export class Row {
   }
 
   @computed({ keepAlive: true })
-  get dependsOn(): string[] {
-    // TODO: Incomplete, needs comma splitting
-    return [this.data.dependsOn].filter(Boolean) as string[];
+  get dependencies(): Dependencies {
+    return new Dependencies(this);
   }
-
-  get dependencies(): DependenciesForOneRowAsDependencyToDepth {
-    return this.deck.dependencyGraph[this.rowId] || {};
-  }
-
-  // getDependenciesAsArrayOfRowIds(): RowIds {
-  //   return keys(this.dependencies);
-  // }
 
   /** Incoming redirects (strings that point to this row) */
   @computed({ keepAlive: true })
@@ -89,7 +74,10 @@ export class Row {
     ) as string[];
   }
 
-  /** Gets the row setting, falling back to the deck setting, falling back to defaults. */
+  /**
+   * Gets the row setting, falling back to the deck setting, falling back to
+   * defaults.
+   */
   getSetting<T extends keyof RowData>(key: T): RowData[T];
   getSetting<T extends keyof DeckSettings>(key: T): DeckSettings[T];
   getSetting<T extends keyof DeckSettings & keyof RowData>(
@@ -104,10 +92,4 @@ export class Row {
     return (getDefaultValue(rowFields, key) ??
       getDefaultValue(deckSettingsFields, key)) as (DeckSettings & RowData)[T];
   }
-}
-
-export function getUserSetting<T extends keyof UserSettings>(
-  key: T,
-): UserSettings[T] {
-  return store.userSettings[key] ?? getDefaultValue(userSettingsFields, key);
 }

@@ -3,8 +3,8 @@ import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import React from "react";
 import { observer } from "mobx-react";
 import { store } from "flashcards/store";
-import { getUserSetting } from "flashcards/flashcards/actions/row/row";
 import { action } from "mobx";
+import { getUserSetting } from "flashcards/user/userSettings.fields";
 
 export const FlashcardsPlayHeader = observer(() => {
   const session = getSession();

@@ -11,7 +11,7 @@ import React, { useState, useEffect } from "react";
 import { getPlaintextFromFormatted } from "flashcards/flashcards/actions/format/format";
 import { useKeyboardListener } from "flashcards/flashcards/play/functions";
 import { makeAutoObservable, action } from "mobx";
-import { getUserSetting } from "flashcards/flashcards/actions/row/row";
+import { getUserSetting } from "../../user/userSettings.fields";
 
 export class CardUI {
   isEditing?: boolean;

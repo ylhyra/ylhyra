@@ -1,78 +1,45 @@
-import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { RowId, RowIds } from "flashcards/flashcards/actions/row/rowData.types";
-import {
-  DependenciesForAllRowsAsRowIdToDependencyToDepth,
-  DependenciesForOneRowAsDependencyToDepth,
-} from "flashcards/flashcards/types";
-import { keys } from "modules/typescript/objectEntries";
-import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
+import { computed, makeObservable } from "mobx";
+import { Row } from "flashcards/flashcards/actions/row/row";
 
-/** Prevent ridiculously deep dependencies */
-const MAX_DEPTH = 10;
-
-export function getDependencyGraph(
-  this: Deck,
-): DependenciesForAllRowsAsRowIdToDependencyToDepth {
-  return warnIfFunctionIsSlow.wrap(() => {
-    let output: DependenciesForAllRowsAsRowIdToDependencyToDepth = {};
-
-    const rowRedirects = this.rowRedirects;
-    const directDependencies = getDirectDependencies(this, rowRedirects);
-
-    keys(directDependencies).forEach((rowId) => {
-      output[rowId] = dependencyToDepthForASingleRow(directDependencies, rowId);
-    });
-    return output;
-  });
-}
-
-/** A rowId to the rowIds it directly depends on */
-export type DirectDependencies = Record<RowId, RowId[]>;
-export function getDirectDependencies(
-  deck: Deck,
-  rowRedirects: Record<string, RowId>,
-): DirectDependencies {
-  let directDependencies: DirectDependencies = {};
-
-  for (const row of deck.rows.values()) {
-    for (const dependency of row.dependsOn) {
-      if (dependency in rowRedirects) {
-        directDependencies[row.rowId] = (
-          directDependencies[row.rowId] || []
-        ).concat(rowRedirects[dependency]);
-      }
-    }
+export class Dependencies {
+  constructor(public row: Row) {
+    makeObservable(this);
   }
 
-  return directDependencies;
-}
+  @computed({ keepAlive: true })
+  directDependencies(): Set<Row> {
+    const dependsOnStrings = [this.row.data.dependsOn].filter(
+      Boolean,
+    ) as string[];
+    let rows = new Set<Row>();
+    for (const string of dependsOnStrings) {
+      if (string in this.row.deck.redirectsToRow) {
+        rows.add(this.row.deck.redirectsToRow[string]);
+      }
+    }
+    return rows;
+  }
 
-/**
- * Recursively calculates dependencies (if X depends on Y, and Y depends
- * on Z, then X depends on Y with depth 1 and on Z with depth 2)
- *
- * Todo: Remove recursive dependencies before?
- */
-export const dependencyToDepthForASingleRow = (
-  directDependencies: DirectDependencies,
-  fromRowId: RowId,
-  alreadySeenDirectParents: RowIds = [],
-  output: DependenciesForOneRowAsDependencyToDepth = {},
-  depth = 1,
-): DependenciesForOneRowAsDependencyToDepth => {
-  if (depth > MAX_DEPTH) return output;
-  directDependencies[fromRowId].forEach((toRowId) => {
-    if (alreadySeenDirectParents.includes(toRowId)) return;
+  dependenciesWithDepth(): Map<Row, number> {
+    const output = new Map<Row, number>();
 
-    output[toRowId] = Math.max(output[toRowId] || 0, depth);
-    dependencyToDepthForASingleRow(
-      directDependencies,
-      toRowId,
+    function addDependencies(
+      row: Row,
+      depth: number = 1,
+      alreadySeenDirectParents: Row[] = [],
+    ) {
       /* Deep copy in order to only watch direct parents */
-      [...alreadySeenDirectParents, toRowId],
-      output,
-      depth + 1,
-    );
-  });
-  return output;
-};
+      alreadySeenDirectParents = [...alreadySeenDirectParents, row];
+      for (const dependency of row.dependencies.directDependencies()) {
+        if (alreadySeenDirectParents.includes(dependency)) continue;
+        if (!output.has(dependency) || output.get(dependency)! < depth) {
+          output.set(dependency, depth + 1);
+          addDependencies(dependency, depth + 1, alreadySeenDirectParents);
+        }
+      }
+    }
+    addDependencies(this.row);
+
+    return output;
+  }
+}

@@ -1,13 +1,9 @@
+import { DeckId } from "flashcards/flashcards/types";
 import { computed, makeObservable, observable } from "mobx";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
-import { getDependencyGraph } from "flashcards/flashcards/actions/dependencies/dependencyGraph";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
-import {
-  DeckId,
-  DependenciesForAllRowsAsRowIdToDependencyToDepth,
-} from "flashcards/flashcards/types";
 import { flattenArray } from "modules/arrays/flattenArray";
 import { store } from "../../../store";
 
@@ -29,11 +25,12 @@ export class Deck {
     return flattenArray([...this.rows.values()].map((row) => row.cards));
   }
 
-  get rowRedirects(): Record<string, RowId> {
-    let out: Record<string, RowId> = {};
+  /* TODO!!! Support multiple redirects */
+  get redirectsToRow(): Record<string, Row> {
+    let out: Record<string, Row> = {};
     for (let row of this.rows.values()) {
       row.redirects.forEach((alternativeId) => {
-        out[alternativeId] = row.rowId;
+        out[alternativeId] = row;
       });
     }
     return out;
@@ -46,10 +43,5 @@ export class Deck {
     return [...this.rows.values()].sort(
       (a, b) => a.data.rowNumber - b.data.rowNumber,
     );
-  }
-
-  @computed({ keepAlive: true })
-  get dependencyGraph(): DependenciesForAllRowsAsRowIdToDependencyToDepth {
-    return getDependencyGraph.bind(this)();
   }
 }

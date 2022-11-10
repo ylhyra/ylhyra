@@ -1,5 +1,6 @@
 import { UserSettings } from "flashcards/user/userSettings.types";
-import { FieldsSetup } from "modules/form";
+import { FieldsSetup, getDefaultValue } from "modules/form";
+import { store } from "../store";
 
 export const userSettingsFields: FieldsSetup<UserSettings> = [
   {
@@ -24,3 +25,9 @@ export const userSettingsFields: FieldsSetup<UserSettings> = [
     defaultValue: true,
   },
 ];
+
+export function getUserSetting<T extends keyof UserSettings>(
+  key: T,
+): UserSettings[T] {
+  return store.userSettings[key] ?? getDefaultValue(userSettingsFields, key);
+}
