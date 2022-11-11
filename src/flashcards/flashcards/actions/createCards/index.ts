@@ -4,13 +4,13 @@ import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/load
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { logDev } from "modules/log";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
-import { addBadDependencies } from "flashcards/flashcards/actions/dependencies/withDependencies";
+import { withDependencies } from "flashcards/flashcards/actions/dependencies/withDependencies";
 
 export type CreateCardsOptions = {
   skipDependencies?: boolean;
   // skipOverTheEasiest?: boolean;
-  /** Used by {@link loadCardsIntoSession} */
-  insertImmediately?: boolean;
+  // /** Used by {@link loadCardsIntoSession} */
+  // insertImmediately?: boolean;
   // dontSortByAllowedCards?: boolean;
 };
 
@@ -35,7 +35,7 @@ export function createCards(
 
     /* Add dependencies */
     if (!options?.skipDependencies) {
-      chosenCards = addBadDependencies(chosenCards);
+      chosenCards = withDependencies(chosenCards, { addOnlyBad: true });
     }
 
     /* Failed to generate cards, turn off allowed cards and try again */
@@ -48,6 +48,6 @@ export function createCards(
       return;
     }
 
-    loadCardsIntoSession(chosenCards, options);
+    loadCardsIntoSession(chosenCards);
   }, "createCards");
 }

@@ -1,8 +1,10 @@
-import { Card, Cards } from "../card/card";
+import { Card, Cards } from "flashcards/flashcards/actions/card/card";
 
 /**
  * Returns an array of cards with all necessary dependencies of a card coming
  * before it
+ *
+ * TODO: Finish
  */
 export const withDependencies = (
   cards: Card[],
@@ -10,7 +12,7 @@ export const withDependencies = (
 ): Card[] => {
   let out = new Cards();
   for (const card of cards) {
-    [...card.row.dependencies.dependenciesWithDepth().entries()]
+    [...card.row.dependencies.dependenciesWithDepth.entries()]
       .sort((a, b) => a[1] - b[1])
       .map(([row, depth]) => row)
       .forEach((row) => {
@@ -26,5 +28,5 @@ export const withDependencies = (
         });
       });
   }
-  return [];
+  return out;
 };

@@ -7,7 +7,7 @@ export class Dependencies {
   }
 
   @computed({ keepAlive: true })
-  directDependencies(): Set<Row> {
+  get directDependencies(): Set<Row> {
     const dependsOnStrings = [this.row.data.dependsOn].filter(
       Boolean,
     ) as string[];
@@ -20,9 +20,9 @@ export class Dependencies {
     return rows;
   }
 
-  // @computed({ keepAlive: true })
-  dependenciesWithDepth(): Map<Row, number> {
-    const output = new Map<Row, number>();
+  @computed({ keepAlive: true })
+  get dependenciesWithDepth(): Map<Row, number> {
+    const output = new Map<Row, number>([[this.row, 0]]);
 
     function addDependencies(
       row: Row,
@@ -31,7 +31,7 @@ export class Dependencies {
     ) {
       /* Deep copy in order to only watch direct parents */
       alreadySeenDirectParents = [...alreadySeenDirectParents, row];
-      for (const dependency of row.dependencies.directDependencies()) {
+      for (const dependency of row.dependencies.directDependencies) {
         if (alreadySeenDirectParents.includes(dependency)) continue;
         if (!output.has(dependency) || output.get(dependency)! < depth) {
           output.set(dependency, depth + 1);

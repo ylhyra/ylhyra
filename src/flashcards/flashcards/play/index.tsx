@@ -39,7 +39,13 @@ export const FlashcardsPlay = observer(({ deckId }: { deckId: string }) => {
           ) : (
             <>
               <div className="flashcard-outer-container">
-                {session.currentCard && <CardElement key={session.counter} />}
+                {session.currentCard ? (
+                  <CardElement key={session.counter} />
+                ) : (
+                  <div id="error-message">
+                    <div>Could not generate card!</div>
+                  </div>
+                )}
               </div>
               <ProgressBar />
             </>

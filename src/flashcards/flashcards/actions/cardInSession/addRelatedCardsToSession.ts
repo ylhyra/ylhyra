@@ -34,11 +34,7 @@ export function addRelatedCardsToSession(currentCard: CardInSession) {
     if (isInSession(relatedCard)) return;
 
     /* Add cards with the same row */
-    if (
-      /** TODO: TEMP */
-      true ||
-      dependencyDepthOfCard(currentCard, relatedCard) === 0
-    ) {
+    if (dependencyDepthOfCard(currentCard, relatedCard) === 0) {
       toAdd.push(relatedCard);
       return;
     }
@@ -67,7 +63,5 @@ export function addRelatedCardsToSession(currentCard: CardInSession) {
    * Todo: insertImmediately doesn't actually do anything in regards to
    * getRanking as these are new cards
    */
-  loadCardsIntoSession(toAdd, {
-    insertImmediately: true,
-  });
+  loadCardsIntoSession(toAdd);
 }

@@ -15,7 +15,7 @@ export const EACH_SESSION_LASTS_X_MINUTES = 3;
  */
 export class Session {
   cards!: CardInSession[];
-  currentCard?: CardInSession;
+  @observable currentCard?: CardInSession;
 
   /** Limits session to specific decks (required) */
   allowedDecks!: Deck[];
@@ -45,9 +45,9 @@ export class Session {
   }
 
   /**
-   * We have to reset instead of creating a new session object
-   * in order to allow MobX to listen to changes (the interface
-   * would otherwise be listening to an older object)
+   * We have to reset instead of creating a new session object in order to allow
+   * MobX to listen to changes (the interface would otherwise be listening to an
+   * older object)
    */
   reset() {
     this.allowedDecks = [];
@@ -61,7 +61,8 @@ export class Session {
 
   areThereNewCardsRemaining() {
     return this.cards.some(
-      (i: CardInSession) => !i.hasBeenSeenInSession() && !i.done && i.canBeShown
+      (i: CardInSession) =>
+        !i.hasBeenSeenInSession() && !i.done && i.canBeShown,
     );
   }
 }
