@@ -47,7 +47,8 @@ export const FlashcardsPlay = observer(({ deckId }: { deckId: string }) => {
                   </div>
                 )}
               </div>
-              <ProgressBar />
+              {/*Todo: Key should not be needed*/}
+              <ProgressBar key={session.counter} />
             </>
           )}
         </div>
