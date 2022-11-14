@@ -15,6 +15,9 @@ import { Link } from "modules/router";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 
+import ReactDataSheet from "react-datasheet";
+import "react-datasheet/lib/react-datasheet.css";
+
 export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
   const deck = getDeckById(deckId! as DeckId);
   if (!deck) return <div>No deck with that id.</div>;
@@ -51,7 +54,46 @@ export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
   );
 });
 
+export interface GridElement extends ReactDataSheet.Cell<GridElement, number> {
+  value: string | undefined;
+  name: string;
+}
+
 export const Rows = observer(({ deck }: { deck: Deck }) => {
+  const grid: GridElement[][] = deck.rowsAsArray.map((row) => {
+    return [
+      { value: row.data.front, name: "front" },
+      { value: row.data.back, name: "back" },
+    ];
+  });
+  return (
+    <ReactDataSheet
+      data={grid}
+      valueRenderer={(cell) => cell.value}
+      // @ts-ignore
+      sheetRenderer={(props) => (
+        <table>
+          <thead>
+            <tr>
+              {grid[0].map((col) => (
+                <th>{col.name}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>{props.children}</tbody>
+        </table>
+      )}
+      onCellsChanged={(changes) => {
+        // const grid = state.grid.map(row => [...row]);
+        // changes.forEach(({ cell, row, col, value }) => {
+        //   grid[row][col] = { ...grid[row][col], value };
+        // });
+        // this.setState({ grid });
+      }}
+      overflow="wrap"
+    />
+  );
+
   return (
     <>
       {deck.rowsAsArray.map((row) => (
