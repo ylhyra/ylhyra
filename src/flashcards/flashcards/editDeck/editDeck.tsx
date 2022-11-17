@@ -16,7 +16,6 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 
 import ReactDataSheet from "react-datasheet";
-import "react-datasheet/lib/react-datasheet.css";
 
 export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
   const deck = getDeckById(deckId! as DeckId);
@@ -72,11 +71,12 @@ export const Rows = observer(({ deck }: { deck: Deck }) => {
       valueRenderer={(cell) => cell.value}
       // @ts-ignore
       sheetRenderer={(props) => (
-        <table>
+        <table className="data-grid">
           <thead>
             <tr>
+              {/*todo:*/}
               {grid[0].map((col) => (
-                <th>{col.name}</th>
+                <th key={col.name}>{col.name}</th>
               ))}
             </tr>
           </thead>

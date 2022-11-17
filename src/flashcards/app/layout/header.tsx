@@ -34,10 +34,12 @@ export const Header = observer(() => {
                 <NavLink to="/signup">Sign up</NavLink>
               </li>
               <li>
-                <NavLink to="/login">Login</NavLink>
+                <NavLink to="/login">Log in</NavLink>
               </li>
             </ul>
           )}
+
+          {/*<NavLink to="/settings">Settings</NavLink>*/}
         </div>
       </div>
     </header>
