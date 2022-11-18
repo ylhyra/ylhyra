@@ -1,3 +1,4 @@
+import { store } from 'flashcards/store';
 import { isInSession } from "flashcards/flashcards/actions/card/functions";
 import { ChooseCards } from "flashcards/flashcards/actions/createCards/chooseCards";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";

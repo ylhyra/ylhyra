@@ -1,3 +1,4 @@
+import { store } from 'flashcards/store';
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { hasDependenciesInCommonWith } from "flashcards/flashcards/actions/card/cardDependencies";
 import { isInSession } from "flashcards/flashcards/actions/card/functions";

@@ -1,3 +1,4 @@
+import { store } from 'flashcards/store';
 import { saveInLocalStorage } from "modules/localStorage";
 import { getTime } from "modules/time";
 

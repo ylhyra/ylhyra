@@ -1,3 +1,4 @@
+import { store } from 'flashcards/store';
 import { isDev } from "modules/isDev";
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";

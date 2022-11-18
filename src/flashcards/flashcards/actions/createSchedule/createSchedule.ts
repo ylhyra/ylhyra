@@ -1,3 +1,4 @@
+import { store } from 'flashcards/store';
 import { setSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
 import {
   didAnySiblingCardsGetABadRatingInThisSession,

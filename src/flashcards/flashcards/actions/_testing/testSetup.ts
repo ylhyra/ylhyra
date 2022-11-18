@@ -1,3 +1,4 @@
+import { store } from 'flashcards/store';
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { Session } from "flashcards/flashcards/actions/session/session";
 import { addRowsIfMissing } from "flashcards/flashcards/editDeck/import/actions";

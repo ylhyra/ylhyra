@@ -1,3 +1,4 @@
+import { store } from 'flashcards/store';
 import { observer } from "mobx-react";
 import React from "react";
 

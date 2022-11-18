@@ -1,5 +1,5 @@
+import { store } from 'flashcards/store';
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { getRanking } from "flashcards/flashcards/actions/cardInSession/getRanking";
 import { createCards } from "flashcards/flashcards/actions/createCards";
 import { debugSession } from "flashcards/flashcards/actions/session/functions/debugging";
 import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/functions/saveOngoingSessionInLocalStorage";
