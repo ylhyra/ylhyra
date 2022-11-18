@@ -1,7 +1,6 @@
 import { createSchedule } from "flashcards/flashcards/actions/createSchedule/createSchedule";
 import { exitVocabularyScreen } from "flashcards/flashcards/actions/functions";
 import { clearOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/functions/saveOngoingSessionInLocalStorage";
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { store } from "flashcards/store";
 import { sync } from "flashcards/userData/sync";
 import { action } from "mobx";
@@ -11,9 +10,12 @@ import { getTime } from "modules/time";
 import shortid from "shortid";
 import { userDataStore } from "../../../userData/userDataStore";
 
-/** Called either when the user exits or when no time is remaining (in {@link nextCard}) */
+/**
+ * Called either when the user exits or when no time is remaining (in
+ * {@link nextCard})
+ */
 export const sessionDone = action((options: any = {}): void => {
-  const session = getSession();
+  const session = store.session;
 
   createSchedule();
   clearOngoingSessionInLocalStorage();
@@ -33,7 +35,7 @@ export const sessionDone = action((options: any = {}): void => {
 
 /** Records how much time the user spent so we can show an activity graph. */
 export function saveSessionLog() {
-  const session = getSession();
+  const session = store.session;
   if (
     session.history.cardHistory.length > 0 &&
     session.timer.getSecondsSpent() > 10

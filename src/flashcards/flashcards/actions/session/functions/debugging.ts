@@ -1,5 +1,4 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import _ from "underscore";
 
@@ -7,10 +6,11 @@ globalThis.logging = true;
 
 /**
  * Used to see all cards currently loaded in a session. In your browser console,
- * set `logging = true` and every time a new card is loaded, a table will be printed.
+ * set `logging = true` and every time a new card is loaded, a table will be
+ * printed.
  */
 export function debugSession() {
-  const session = getSession();
+  const session = store.session;
   console.groupCollapsed("See ranking");
   if (globalThis.logging) {
     /** Sort by ranking */

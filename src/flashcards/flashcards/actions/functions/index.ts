@@ -1,5 +1,4 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { CreateCardsOptions } from "flashcards/flashcards/actions/createCards";
 import { CardIds, Direction } from "flashcards/flashcards/types";
 import { isDev } from "modules/isDev";
 import { goToUrl } from "modules/router";
@@ -12,12 +11,9 @@ export function printWord(card1: Card): string | undefined {
   ];
 }
 
-export async function studyParticularIds(
-  allowedCards: CardIds,
-  options?: CreateCardsOptions,
-) {
+export async function studyParticularIds(allowedCards: CardIds) {
   throw new Error("Not implemented");
-  // const session = getSession();
+  // const session = store.session;
   // session.reset();
   // session.allowedCards = allowedCards;
   // createCards(options);

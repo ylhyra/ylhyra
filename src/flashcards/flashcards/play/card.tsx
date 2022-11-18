@@ -1,7 +1,6 @@
 import { isDev } from "modules/isDev";
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { EditCard } from "flashcards/flashcards/play/editCard";
 import { Direction, Rating } from "flashcards/flashcards/types";
 import { observer } from "mobx-react";
@@ -61,7 +60,7 @@ export class CardUI {
     this.chosenRating = rating;
     setTimeout(
       () => {
-        getSession().currentCard?.rate(rating);
+        store.session.currentCard?.rate(rating);
       },
       useTimeout ? 100 : 0,
     );
@@ -73,7 +72,7 @@ export class CardUI {
 
     if (!getUserSetting("volume")) return;
 
-    const card = getSession().currentCard;
+    const card = store.session.currentCard;
     if (!card) return;
     const front = card.frontFormatted;
 
@@ -111,7 +110,7 @@ export const CardElement = observer(() => {
   //   /* TODO!! Cleanup */
   // });
 
-  const session = getSession();
+  const session = store.session;
   // const isVolumeOn = store.volume;
   const card = session.currentCard;
 

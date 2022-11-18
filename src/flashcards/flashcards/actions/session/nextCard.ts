@@ -3,7 +3,6 @@ import { getRanking } from "flashcards/flashcards/actions/cardInSession/getRanki
 import { createCards } from "flashcards/flashcards/actions/createCards";
 import { debugSession } from "flashcards/flashcards/actions/session/functions/debugging";
 import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/functions/saveOngoingSessionInLocalStorage";
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { action } from "mobx";
 import { clearTimeMemoized } from "modules/time";
@@ -17,7 +16,7 @@ import _ from "underscore";
  * dependency issue)
  */
 export const nextCard = action(() => {
-  const session = getSession();
+  const session = store.session;
 
   /**
    * The counter is updated here at the top since we have now moved to the next

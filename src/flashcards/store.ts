@@ -6,6 +6,7 @@ import { UserId, Username } from "flashcards/user/types";
 import { UserSettings } from "flashcards/user/userSettings.types";
 import { makeAutoObservable } from "mobx";
 import { Seconds, Timestamp } from "modules/time";
+import { Session } from "flashcards/flashcards/actions/session/session";
 
 export type SessionLogData = {
   deckId?: DeckId;
@@ -22,6 +23,7 @@ export class Store {
   decks: Map<DeckId, Deck> = new Map();
   schedule: Map<CardId, ScheduleData> = new Map();
   sessionLog: Map<string, SessionLogData> = new Map();
+  session = new Session();
   // ui: {
   //   card: new CardUI();
   // }

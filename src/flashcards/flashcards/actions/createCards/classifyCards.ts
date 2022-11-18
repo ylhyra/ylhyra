@@ -12,7 +12,6 @@ import {
   wasRowVeryRecentlySeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { isBrowser } from "modules/isBrowser";
 import { sortByMultiple } from "modules/sortByMultiple";
 import { minutes } from "modules/time";
@@ -80,7 +79,10 @@ export function sortCards(
       : deck.settings.oldCardPrioritization
   ) {
     case "RANDOM":
-      /** A "random" number that will be stable as it is generated from the row number */
+      /**
+       * A "random" number that will be stable as it is generated from the row
+       * number
+       */
       sortByFunctions.push((card) =>
         xorshift.constructor([card.row.data.rowNumber, 0, 0, 0]).random(),
       );
@@ -107,7 +109,7 @@ export function sortCards(
 }
 
 export function sortNewCards(newCards: Card[], deck: Deck): Card[] {
-  const session = getSession();
+  const session = store.session;
   // if (session.allowedCards /*&& !options?.dontSortByAllowedCards*/) {
   //   /* Sort in same order as allowedCards */
   //   newCards = sortBy(newCards, (id) => session.allowedCards!.indexOf(id));

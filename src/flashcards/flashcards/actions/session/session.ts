@@ -66,8 +66,3 @@ export class Session {
     );
   }
 }
-
-let instance: Session;
-export function getSession(): Session {
-  return instance || (instance = new Session());
-}

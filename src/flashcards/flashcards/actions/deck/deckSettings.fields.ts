@@ -148,4 +148,8 @@ export const deckSettingsFields: FieldsSetup<DeckSettings> = [
   //   defaultValue: true,
   //   label: "Automatically give hints when two cards have the same prompt",
   // },
+  {
+    name: "newCardRate",
+    defaultValue: 1,
+  },
 ];

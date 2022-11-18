@@ -6,7 +6,6 @@ import {
 import { wasSeenInSession } from "flashcards/flashcards/actions/card/functions";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { printWord } from "flashcards/flashcards/actions/functions";
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { Rating, Score } from "flashcards/flashcards/types";
 import { log } from "modules/log";
 import { addSomeRandomness, average, clamp, toFixedFloat } from "modules/math";
@@ -28,7 +27,7 @@ const GOOD_INITIAL_DUE_IN_DAYS = 5;
  * - Its score ({@see Score}).
  */
 export function createSchedule() {
-  const session = getSession();
+  const session = store.session;
   if (!session.cards?.some((i) => i.hasBeenSeenInSession())) return;
 
   console.groupCollapsed("See schedule");
@@ -119,7 +118,10 @@ export function createSchedule() {
     }
 
     setSchedule(card, {
-      /** Randomly add or subtract up to 10% of the dueInDays just for some variety */
+      /**
+       * Randomly add or subtract up to 10% of the dueInDays just for some
+       * variety
+       */
       dueAt: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
       lastIntervalInDays: toFixedFloat(dueInDays, 1),
       score: toFixedFloat(score, 2),

@@ -1,8 +1,5 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import {
-  getSession,
-  Session,
-} from "flashcards/flashcards/actions/session/session";
+import { Session } from "flashcards/flashcards/actions/session/session";
 import { addRowsIfMissing } from "flashcards/flashcards/editDeck/import/actions";
 import { DeckId } from "flashcards/flashcards/types";
 
@@ -17,7 +14,7 @@ export const setupTestSession = (numOfDecks = 1): Session => {
     addRowsIfMissing(deck, data);
     decks.push(deck);
   }
-  const session = getSession();
+  const session = store.session;
   session.reset();
   session.allowedDecks = decks;
   return session;

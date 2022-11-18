@@ -1,7 +1,6 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { hasDependenciesInCommonWith } from "flashcards/flashcards/actions/card/cardDependencies";
 import { isInSession } from "flashcards/flashcards/actions/card/functions";
-import { getSession } from "flashcards/flashcards/actions/session/session";
 
 /**
  * Whether a card is allowed to be chosen by {@link createCards} to be added to
@@ -14,7 +13,7 @@ export function isAllowed(card: Card): boolean {
   if (isInSession(card)) return false;
 
   /* If allowedCards is on, only select allowed cards */
-  const { allowedCards } = getSession();
+  const { allowedCards } = store.session;
   if (allowedCards && card.isIn(allowedCards)) {
     return false;
   }
@@ -27,13 +26,11 @@ export function isAllowed(card: Card): boolean {
    * them a lower score!
    */
   if (
-    getSession()
-      .history.cardHistory.slice(0, 3)
-      .some(
-        (card) =>
-          card.rowId === card.rowId || hasDependenciesInCommonWith(card, card),
-        // || isTextSimilarTo(id, card)
-      )
+    store.session.history.cardHistory.slice(0, 3).some(
+      (card) =>
+        card.rowId === card.rowId || hasDependenciesInCommonWith(card, card),
+      // || isTextSimilarTo(id, card)
+    )
   ) {
     return false;
   }

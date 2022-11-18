@@ -1,9 +1,8 @@
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { saveInLocalStorage } from "modules/localStorage";
 import { getTime } from "modules/time";
 
 export function saveOngoingSessionInLocalStorage() {
-  const session = getSession();
+  const session = store.session;
 
   if (!session.cards.some((i) => i.hasBeenSeenInSession())) {
     return;

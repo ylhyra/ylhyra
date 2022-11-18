@@ -1,4 +1,3 @@
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import React from "react";
 import { observer } from "mobx-react";
@@ -7,7 +6,7 @@ import { action } from "mobx";
 import { getUserSetting } from "flashcards/user/userSettings.fields";
 
 export const FlashcardsPlayHeader = observer(() => {
-  const session = getSession();
+  const session = store.session;
   return (
     <div id="vocabulary-header">
       <button className="btn btn-gray" onClick={() => sessionDone()}>

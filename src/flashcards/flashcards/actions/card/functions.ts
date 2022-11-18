@@ -1,10 +1,9 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { getSession } from "flashcards/flashcards/actions/session/session";
 import { CardId } from "flashcards/flashcards/types";
 
 export function getAsCardInSession(card1: Card): CardInSession | undefined {
-  return getSession().cards?.find((card) => card.is(card1));
+  return store.session.cards?.find((card) => card.is(card1));
 }
 
 export function wasSeenInSession(card: Card) {
@@ -17,5 +16,5 @@ export function getCardById(id: CardId): Card {
 }
 
 export function isInSession(card1: Card) {
-  return card1.isIn(getSession().cards);
+  return card1.isIn(store.session.cards);
 }

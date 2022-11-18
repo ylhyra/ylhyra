@@ -1,9 +1,6 @@
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
-import {
-  getSession,
-  Session,
-} from "flashcards/flashcards/actions/session/session";
+import { Session } from "flashcards/flashcards/actions/session/session";
 import { Rating, Direction } from "flashcards/flashcards/types";
 import { Timestamp } from "modules/time";
 import { makeAutoObservable } from "mobx";
@@ -53,7 +50,7 @@ export class SessionHistory {
 }
 
 export function checkForUndoOnKeyDown(e: KeyboardEvent) {
-  const session = getSession();
+  const session = store.session;
   if (
     e.keyCode === 90 &&
     (e.ctrlKey || e.metaKey) &&
