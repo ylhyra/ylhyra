@@ -1,10 +1,11 @@
+import { computed, makeObservable, observable } from "mobx";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { SessionHistory } from "flashcards/flashcards/actions/session/sessionHistory";
 import { SessionTimer } from "flashcards/flashcards/actions/session/sessionTimer";
-import { makeObservable, observable } from "mobx";
 import { NonEmptyArray } from "modules/typescript/arrays";
+import { ClassifiedCards } from "flashcards/flashcards/actions/createCards/classifyCards";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
@@ -17,8 +18,8 @@ export class Session {
   cards!: CardInSession[];
   @observable currentCard?: CardInSession;
 
-  /** Limits session to specific decks (required) */
-  allowedDecks!: Deck[];
+  /** Limits session to specific deck (required) */
+  chosenDeck?: Deck;
   /** Limit session to specific cards (optional) */
   allowedCards?: NonEmptyArray<Card>;
 
@@ -39,6 +40,9 @@ export class Session {
   /** Todo: Move elsewhere */
   @observable userFacingError?: string;
 
+  /** work in progress... */
+  @observable continueEvenIfAllCardsAreSeen: boolean = false;
+
   constructor() {
     this.reset();
     makeObservable(this);
@@ -50,19 +54,22 @@ export class Session {
    * older object)
    */
   reset() {
-    this.allowedDecks = [];
+    this.chosenDeck = undefined;
     this.allowedCards = undefined;
     this.currentCard = undefined;
     this.cards = [];
-    this.timer = new SessionTimer();
+    this.timer = new SessionTimer(this);
     this.history = new SessionHistory(this);
     this.userFacingError = undefined;
   }
 
-  areThereNewCardsRemaining() {
+  @computed get classifiedCards(): ClassifiedCards {
+    return new ClassifiedCards(this.chosenDeck!);
+  }
+
+  areThereUnseenCardsRemaining() {
     return this.cards.some(
-      (i: CardInSession) =>
-        !i.hasBeenSeenInSession() && !i.done && i.canBeShown,
+      (i: CardInSession) => !i.hasBeenSeenInSession && !i.done && i.canBeShown,
     );
   }
 }

@@ -11,12 +11,11 @@ import { getDefaultValue } from "modules/form";
 import { Dependencies } from "flashcards/flashcards/actions/dependencies/dependencies";
 
 export class Row {
-  @observable data: RowData;
-
-  constructor(public deck: Deck, data: RowData) {
-    this.data = data;
+  constructor(public deck: Deck, public data: RowData) {
     deck.rows.set(this.rowId, this);
-    makeObservable(this);
+    makeObservable(this, {
+      data: observable,
+    });
   }
 
   get rowId() {

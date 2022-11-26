@@ -12,7 +12,9 @@ import {
 } from "modules/time";
 import { userDataStore } from "../../../userData/userDataStore";
 
-/** We consider a card overdue if it's due date is less than 16 hours from now */
+/**
+ * We consider a card overdue if it's due date is less than 16 hours from now
+ */
 export function isOverdue(card1: Card): Boolean {
   const timestampToCompareTo = getTimeMemoized() + 16 * hours;
   const dueAt = card1.dueAt;
@@ -84,7 +86,10 @@ export function wasRowVeryRecentlySeen(card1: Card) {
   return wasRowSeenMoreRecentlyThan(card1, 45 * minutes);
 }
 
-/** Input is a time span but not a timestamp, e.g. "was card1 seen in the last day?". */
+/**
+ * Input is a time span but not a timestamp, e.g. "was card1 seen in the last
+ * day?".
+ */
 export function wasRowSeenMoreRecentlyThan(card1: Card, time: Milliseconds) {
   const i = timeSinceRowWasSeen(card1);
   return i && i < time;
@@ -98,10 +103,12 @@ export function isNewCard(card1: Card): boolean {
   return !card1.score;
 }
 
-/** Used by the interface ({@link CardElement}) to indicate a card being new. */
+/**
+ * Used by the interface ({@link CardElement}) to indicate a card being new.
+ */
 export function isNewRowThatHasNotBeenSeenInSession(card1: Card): boolean {
   return card1.row.cards.every(
     (card2) =>
-      isNewCard(card2) && !getAsCardInSession(card2)?.hasBeenSeenInSession(),
+      isNewCard(card2) && !getAsCardInSession(card2)?.hasBeenSeenInSession,
   );
 }

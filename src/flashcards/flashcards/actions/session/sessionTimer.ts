@@ -1,7 +1,8 @@
-import { observable, makeObservable } from "mobx";
+import { makeObservable, observable } from "mobx";
 import {
   EACH_SESSION_LASTS_X_MINUTES,
   MAX_SECONDS_TO_COUNT_PER_ITEM,
+  Session,
 } from "flashcards/flashcards/actions/session/session";
 import {
   getTime,
@@ -17,17 +18,24 @@ export class SessionTimer {
   /**
    * Used to update the progress bar and to see when the time is up.
    * Is 0 if there is no time remaining.
-   * Not updated unless updateRemainingTime() is called (done in
-   * {@link Session.increaseCounter})
+   * Not updated unless updateRemainingTime() is called
    */
   @observable remainingTime: Milliseconds;
   #remainingTimeLastUpdatedAt: Timestamp;
 
-  constructor() {
+  constructor(public session: Session) {
     this.totalTime = (EACH_SESSION_LASTS_X_MINUTES * minutes) as Milliseconds;
     this.remainingTime = this.totalTime;
     this.#remainingTimeLastUpdatedAt = getTime();
     makeObservable(this);
+    // reaction(
+    //   () => {
+    //     session.counter;
+    //   },
+    //   () => {
+    //     this.updateRemainingTime();
+    //   },
+    // );
   }
 
   /**

@@ -1,4 +1,4 @@
-import { store } from 'flashcards/store';
+import { store } from "flashcards/store";
 import { setSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
 import {
   didAnySiblingCardsGetABadRatingInThisSession,
@@ -29,7 +29,7 @@ const GOOD_INITIAL_DUE_IN_DAYS = 5;
  */
 export function createSchedule() {
   const session = store.session;
-  if (!session.cards?.some((i) => i.hasBeenSeenInSession())) return;
+  if (!session.cards?.some((i) => i.hasBeenSeenInSession)) return;
 
   console.groupCollapsed("See schedule");
   session.cards.forEach((card: CardInSession) => {

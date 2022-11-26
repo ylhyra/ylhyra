@@ -1,3 +1,4 @@
+import { Chapter } from "flashcards/flashcards/actions/chapter/chapter";
 import { DeckId } from "flashcards/flashcards/types";
 import { computed, makeObservable, observable } from "mobx";
 import { Card } from "flashcards/flashcards/actions/card/card";
@@ -10,6 +11,8 @@ import { store } from "../../../store";
 export class Deck {
   @observable rows: Map<RowId, Row> = new Map();
   @observable settings: DeckSettings;
+  @observable chapters: Chapter[] = [];
+
   constructor(public deckId: DeckId, settings: DeckSettings) {
     this.settings = settings;
     store.decks.set(deckId, this);

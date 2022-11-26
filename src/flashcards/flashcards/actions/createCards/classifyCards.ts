@@ -1,4 +1,4 @@
-import { store } from 'flashcards/store';
+import { store } from "flashcards/store";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import {
   isBad,
@@ -23,46 +23,43 @@ import xorshift from "xorshift";
  * Input is a deck in session.allowedDecks. Called by {@link chooseCards}, which
  * will choose a few cards from these.
  */
-export function classifyCards(deck: Deck) {
-  let overdueGood: Card[] = [];
-  let overdueBad: Card[] = [];
-  let notOverdue: Card[] = [];
-  let newCards: Card[] = [];
-
-  deck.cards
-    .filter((card) => isAllowed(card))
-    .forEach((card) => {
-      if (!isInSchedule(card)) {
-        newCards.push(card);
-      }
-
-      // Overdue
-      else if (
-        isOverdue(card) &&
-        // !card.isTooEasy() &&
-        !wasRowVeryRecentlySeen(card)
-      ) {
-        if (isBelowGood(card) || isUnseenSiblingOfANonGoodCard(card)) {
-          overdueBad.push(card);
-        } else {
-          overdueGood.push(card);
+export class ClassifiedCards {
+  overdueGood: Card[] = [];
+  overdueBad: Card[] = [];
+  notOverdue: Card[] = [];
+  newCards: Card[] = [];
+  constructor(deck: Deck) {
+    deck.cards
+      .filter((card) => isAllowed(card))
+      .forEach((card) => {
+        if (!isInSchedule(card)) {
+          this.newCards.push(card);
         }
-      }
 
-      // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
-      else if (isBad(card) && (timeSinceRowWasSeen(card) || 0) > 20 * minutes) {
-        return overdueBad.push(card);
-      } else {
-        notOverdue.push(card);
-      }
-    });
+        // Overdue
+        else if (isOverdue(card) && !wasRowVeryRecentlySeen(card)) {
+          if (isBelowGood(card) || isUnseenSiblingOfANonGoodCard(card)) {
+            this.overdueBad.push(card);
+          } else {
+            this.overdueGood.push(card);
+          }
+        }
 
-  return {
-    overdueBad: sortCards(overdueBad, deck, "OLD"),
-    overdueGood: sortCards(overdueGood, deck, "OLD"),
-    newCards: sortCards(newCards, deck, "NEW"),
-    notOverdue,
-  };
+        // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
+        else if (
+          isBad(card) &&
+          (timeSinceRowWasSeen(card) || 0) > 20 * minutes
+        ) {
+          return this.overdueBad.push(card);
+        } else {
+          this.notOverdue.push(card);
+        }
+      });
+
+    this.overdueBad = sortCards(this.overdueBad, deck, "OLD");
+    this.overdueGood = sortCards(this.overdueGood, deck, "OLD");
+    this.newCards = sortCards(this.newCards, deck, "NEW");
+  }
 }
 
 export function sortCards(

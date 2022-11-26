@@ -1,11 +1,11 @@
-import { store } from 'flashcards/store';
+import { store } from "flashcards/store";
 import { saveInLocalStorage } from "modules/localStorage";
 import { getTime } from "modules/time";
 
 export function saveOngoingSessionInLocalStorage() {
   const session = store.session;
 
-  if (!session.cards.some((i) => i.hasBeenSeenInSession())) {
+  if (!session.cards.some((i) => i.hasBeenSeenInSession)) {
     return;
   }
   let toSave = session.cards.map((card) => ({

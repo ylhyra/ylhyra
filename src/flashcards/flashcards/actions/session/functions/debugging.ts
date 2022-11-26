@@ -1,4 +1,4 @@
-import { store } from 'flashcards/store';
+import { store } from "flashcards/store";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import _ from "underscore";
@@ -25,7 +25,7 @@ export function debugSession() {
         cannotBeShownUntil: card.cannotBeShownUntil,
         word: printWord(card),
         schdl: card.dueAt ? new Date(card.dueAt) : null,
-        seen: card.hasBeenSeenInSession() ? "SEEN" : null,
+        seen: card.hasBeenSeenInSession ? "SEEN" : null,
       })),
     );
   }

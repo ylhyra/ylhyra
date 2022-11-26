@@ -1,5 +1,4 @@
 import { observer } from "mobx-react";
-import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getDeckById } from "flashcards/flashcards/actions/deck/functions";
 import { initializeSession } from "flashcards/flashcards/actions/session/initialize";
 import { CardElement } from "flashcards/flashcards/play/card";
@@ -10,19 +9,13 @@ import { store } from "flashcards/store";
 import React, { useEffect } from "react";
 
 export const FlashcardsPlay = observer(({ deckId }: { deckId: string }) => {
-  let decks: Deck[];
-  if (deckId === "all") {
-    decks = [...store.decks.values()];
-  } else {
-    const deck = getDeckById(deckId as DeckId);
-    if (!deck) {
-      return <div>No deck with that id.</div>;
-    }
-    decks = [deck];
+  const deck = getDeckById(deckId as DeckId);
+  if (!deck) {
+    return <div>No deck with that id.</div>;
   }
 
   useEffect(() => {
-    void initializeSession(decks);
+    void initializeSession(deck);
   }, [deckId]);
 
   const session = store.session;

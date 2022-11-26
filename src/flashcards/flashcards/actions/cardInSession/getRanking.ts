@@ -11,7 +11,8 @@ import { Rating } from "flashcards/flashcards/types";
  *
  * Each card has a queue position (see {@link CardInSession#queuePosition}), but
  * here we add or subtract to that value based on whether it is actually
- * relevant, such as preferring overdue cards and prohibiting cards that are too recent.
+ * relevant, such as preferring overdue cards and prohibiting cards that are too
+ * recent.
  */
 export function getRanking(this: CardInSession) {
   const session = this.session;
@@ -86,7 +87,7 @@ export function getRanking(this: CardInSession) {
       session.history.cardDirectionLog.length > 1 &&
       session.history.cardDirectionLog[1] === direction
     ) {
-      if (this.hasBeenSeenInSession() || !isNewCard(this)) {
+      if (this.hasBeenSeenInSession || !isNewCard(this)) {
         rank += 5;
       }
 

@@ -10,7 +10,7 @@ import { Rating } from "flashcards/flashcards/types";
 
 export function postponeRelatedCards(
   this: CardInSession,
-  card1interval: number
+  card1interval: number,
 ) {
   const card1: CardInSession = this;
 
@@ -61,7 +61,7 @@ export function postponeRelatedCards(
       card1.lastRating === Rating.BAD &&
       dependencyDepthOfCard(card1, card2) === 1 &&
       // And other card is new
-      ((!isInSchedule(card2) && !card2.hasBeenSeenInSession()) ||
+      ((!isInSchedule(card2) && !card2.hasBeenSeenInSession) ||
         // Or other card is bad (includes some randomness)
         ((isBad(card2) || card2.lastRating === Rating.BAD) &&
           Math.random() > 0.5))

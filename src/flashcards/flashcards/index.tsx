@@ -10,6 +10,7 @@ import {
   percentageKnown,
   percentageSeen,
 } from "./actions/functions/percentageKnown";
+import { newChapter } from "flashcards/flashcards/actions/chapter/chapter";
 
 export const FlashcardsMake = observer(function () {
   const { decks } = store;
@@ -30,25 +31,35 @@ export const FlashcardsMake = observer(function () {
           {[...decks.values()]
             .filter((deck) => !deck.settings.deleted)
             .map((deck) => (
-              <li key={deck.deckId} className="flex hover:bg-gray-200">
-                <Link
-                  to={`/flashcards/${deck.deckId}/play`}
-                  className="flex-1 p-1"
-                >
-                  <b>{deck.title}</b>{" "}
-                  <span className="text-sm text-gray-600">
-                    {/*TODO: Ignore deleted cards*/}({deck.rows.size} cards){" "}
-                    {percentageKnown(deck.cards)}% known{" "}
-                    {percentageSeen(deck.cards)}% seen
-                  </span>{" "}
-                </Link>
-                <div className="p-1">
+              <li key={deck.deckId}>
+                <div className="flex hover:bg-gray-200">
                   <Link
-                    to={`/flashcards/${deck.deckId}`}
-                    className="btn btn-gray"
+                    to={`/flashcards/${deck.deckId}/play`}
+                    className="flex-1 p-1"
                   >
-                    Edit
+                    <b>{deck.title}</b>{" "}
+                    <span className="text-sm text-gray-600">
+                      {/*TODO: Ignore deleted cards*/}({deck.rows.size} cards){" "}
+                      {percentageKnown(deck.cards)}% known{" "}
+                      {percentageSeen(deck.cards)}% seen
+                    </span>{" "}
                   </Link>
+                  <div className="p-1">
+                    <Link
+                      to={`/flashcards/${deck.deckId}`}
+                      className="btn btn-gray"
+                    >
+                      Edit
+                    </Link>
+                  </div>
+                </div>
+                <div>
+                  <ul>
+                    {deck.chapters.map((chapter) => (
+                      <li key={1}>CHAPTER</li>
+                    ))}
+                  </ul>
+                  <button onClick={() => newChapter(deck)}>New chapter</button>
                 </div>
               </li>
             ))}
