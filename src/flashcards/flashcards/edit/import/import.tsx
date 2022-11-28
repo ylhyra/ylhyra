@@ -1,6 +1,6 @@
 import { Button } from "flashcards/app/elements/button";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { addRowsIfMissing } from "flashcards/flashcards/editDeck/import/actions";
+import { addRowsIfMissing } from "flashcards/flashcards/edit/import/actions";
 import { FormHelper } from "modules/form";
 import React from "react";
 
@@ -26,7 +26,7 @@ export function ImportFlashcards({ deck }: { deck: Deck }) {
           onClick={async () => {
             await addRowsIfMissing(
               deck,
-              _form.getFormValuesIgnoringDefaults().input
+              _form.getFormValuesIgnoringDefaults().input,
             );
             _form.resetForm();
           }}

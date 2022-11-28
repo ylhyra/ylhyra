@@ -1,4 +1,4 @@
-import { ImportFlashcards } from "flashcards/flashcards/editDeck/import/import";
+import { ImportFlashcards } from "flashcards/flashcards/edit/import/import";
 import { Button } from "flashcards/app/elements/button";
 import { getTitle } from "flashcards/app/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
@@ -7,8 +7,8 @@ import {
   deleteDeck,
   getDeckById,
 } from "flashcards/flashcards/actions/deck/functions";
-import { DeckSettingsElement } from "flashcards/flashcards/editDeck/deckSettings";
-import { EditRow } from "flashcards/flashcards/editDeck/row";
+import { DeckSettingsElement } from "flashcards/flashcards/edit/deckSettings";
+import { EditRow } from "flashcards/flashcards/edit/row";
 import { DeckId } from "flashcards/flashcards/types";
 import { observer } from "mobx-react";
 import { Link } from "modules/router";

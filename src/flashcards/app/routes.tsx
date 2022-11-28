@@ -1,6 +1,6 @@
 import { Frontpage } from "flashcards/app/frontpage";
 import { FlashcardsMake } from "flashcards/flashcards";
-import { FlashcardsEdit } from "flashcards/flashcards/editDeck/editDeck";
+import { FlashcardsEdit } from "flashcards/flashcards/edit/editDeck";
 import { FlashcardsPlay } from "flashcards/flashcards/play";
 import { Login } from "flashcards/user/login/login";
 import { observer } from "mobx-react";
