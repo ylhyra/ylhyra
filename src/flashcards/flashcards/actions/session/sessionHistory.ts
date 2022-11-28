@@ -1,6 +1,6 @@
-import { store } from 'flashcards/store';
+import { store } from "flashcards/store";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
+import { RowId } from "flashcards/flashcards/actions/row/rowData";
 import { Session } from "flashcards/flashcards/actions/session/session";
 import { Rating, Direction } from "flashcards/flashcards/types";
 import { Timestamp } from "modules/time";

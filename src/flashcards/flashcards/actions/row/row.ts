@@ -1,10 +1,11 @@
 import { Card, Cards } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { deckSettingsFields } from "flashcards/flashcards/actions/deck/deckSettings.fields";
-import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
+import {
+  DeckData,
+  deckDataFields,
+} from "flashcards/flashcards/actions/deck/deckData";
 import { createCardId } from "flashcards/flashcards/actions/row/ids";
-import { rowFields } from "flashcards/flashcards/actions/row/rowData.fields";
-import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
+import { RowData, rowFields } from "flashcards/flashcards/actions/row/rowData";
 import { CardIds, Direction } from "flashcards/flashcards/types";
 import { computed, makeObservable, observable } from "mobx";
 import { getDefaultValue } from "modules/form";
@@ -77,17 +78,17 @@ export class Row {
    * defaults.
    */
   getSetting<T extends keyof RowData>(key: T): RowData[T];
-  getSetting<T extends keyof DeckSettings>(key: T): DeckSettings[T];
-  getSetting<T extends keyof DeckSettings & keyof RowData>(
+  getSetting<T extends keyof DeckData>(key: T): DeckData[T];
+  getSetting<T extends keyof DeckData & keyof RowData>(
     key: T,
-  ): (DeckSettings & RowData)[T] {
+  ): (DeckData & RowData)[T] {
     if (this.data[key] != null) {
       return this.data[key];
     }
     if (this.deck.settings[key] != null) {
-      return this.deck.settings[key] as (DeckSettings & RowData)[T];
+      return this.deck.settings[key] as (DeckData & RowData)[T];
     }
     return (getDefaultValue(rowFields, key) ??
-      getDefaultValue(deckSettingsFields, key)) as (DeckSettings & RowData)[T];
+      getDefaultValue(deckDataFields, key)) as (DeckData & RowData)[T];
   }
 }

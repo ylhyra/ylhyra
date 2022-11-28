@@ -1,29 +1,31 @@
 import { DeckId, DirectionSettings } from "flashcards/flashcards/types";
-import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
+import { DeckData } from "flashcards/flashcards/actions/deck/deckData";
 import { Brand } from "ts-brand";
+import { FieldsSetup } from "modules/form";
 
 export type RowId = Brand<string, "RowId">;
 export type RowIds = RowId[];
 
 /**
- * Raw user input describing flashcard See {@link rowFields} for more details.
+ * Raw user input describing a flashcard. See {@link rowFields} for more
+ * details.
  *
  * For the processed information, see {@link ProcessedCardExtraInformation}
  * (work in progress)
  */
-export type RowData = {
-  deckId: DeckId;
+export class RowData {
+  deckId!: DeckId;
   /** Random string */
-  rowId: RowId;
+  rowId!: RowId;
   /** Index of this row in the deck */
-  rowNumber: number;
+  rowNumber!: number;
   front?: string;
   back?: string;
   direction?: DirectionSettings;
   automaticDependencies?: boolean;
   automaticallyDependOnThis?: boolean;
   lemmas?: string;
-  sideToShowFirst?: DeckSettings["sideToShowFirst"];
+  sideToShowFirst?: DeckData["sideToShowFirst"];
   deleted?: boolean;
   /**
    * Comma seperated list of entries that the user has to have studied prior to
@@ -68,6 +70,70 @@ export type RowData = {
   // "this is a minor variation of"?: string;
   // /** ISO date */
   // "lastSeen"?: string;
-  createdAt: string;
+  createdAt!: string;
   updatedAt?: string;
-};
+}
+
+export const rowFields: FieldsSetup<RowData> = [
+  {
+    name: "front",
+    label: "Front side",
+  },
+  {
+    name: "back",
+    label: "Back side",
+  },
+  {
+    name: "direction",
+    label: "Which side to show as prompt",
+    type: "select",
+    defaultValue: "BOTH",
+    options: [
+      {
+        value: "BOTH",
+        label: "Both sides can be shown as prompts",
+      },
+      {
+        value: "ONLY_FRONT_TO_BACK",
+        label: "Only use front side as a prompt",
+      },
+      {
+        value: "ONLY_BACK_TO_FRONT",
+        label: "Only use back side as a prompt",
+      },
+    ],
+  },
+  // {
+  //   name: "sideToShowFirst",
+  //   label: "Side to show first",
+  //   type: "select",
+  //   options: [
+  //     {
+  //       value: "FRONT_SIDE",
+  //       label: "Front side",
+  //     },
+  //     {
+  //       value: "RANDOM",
+  //       label: "Either side (random)",
+  //     },
+  //   ],
+  //   // onlyShowIf: {
+  //   //   key: "preset",
+  //   //   is: "FOREIGN_LANGUAGE_PERSONAL_USE",
+  //   // },
+  // },
+  {
+    name: "automaticDependencies",
+    label: "Automatically find which cards this card depends on",
+    defaultValue: true,
+    type: "checkbox",
+  },
+  {
+    name: "automaticallyDependOnThis",
+    label: "Allow cards to automatically depend on this",
+    defaultValue: true,
+    type: "checkbox",
+    onlyShowIf: (data) => data.automaticDependencies === true,
+  },
+  { name: "lemmas", label: "Lemmas" },
+];

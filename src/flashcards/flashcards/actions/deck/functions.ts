@@ -2,10 +2,7 @@ import { userDataStore } from "flashcards/userData/userDataStore";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import {
-  RowData,
-  RowId,
-} from "flashcards/flashcards/actions/row/rowData.types";
+import { RowData, RowId } from "flashcards/flashcards/actions/row/rowData";
 import { DeckId } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
 import { action } from "mobx";

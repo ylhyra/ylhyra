@@ -1,9 +1,9 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { RowIds } from "flashcards/flashcards/actions/row/rowData.types";
+import { RowIds } from "flashcards/flashcards/actions/row/rowData";
 
 export function getSortedRowIds(
   unprocessedDeck: Deck,
-  processedDeck: Deck
+  processedDeck: Deck,
 ): RowIds {
   throw new Error("Not implemented");
   // let rowIds: RowIds = keys(processedDeck.rows).sort((rowId1, rowId2) => {

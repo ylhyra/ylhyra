@@ -1,4 +1,4 @@
-import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
+import { RowId } from "flashcards/flashcards/actions/row/rowData";
 import { Days, Timestamp } from "modules/time";
 import { Brand } from "ts-brand";
 
@@ -61,7 +61,8 @@ export enum Rating {
  * Any time a card is later rated as good or easy, its score will be incremented
  * by {@link SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY}.
  *
- * Score is calculated by {@link createSchedule}. See also the related enum {@link Rating}
+ * Score is calculated by {@link createSchedule}. See also the related enum
+ * {@link Rating}
  */
 export type Score = number;
 

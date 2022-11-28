@@ -1,6 +1,6 @@
 import { isObservable, observable, reaction, toJS } from "mobx";
-import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
-import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
+import { DeckData } from "flashcards/flashcards/actions/deck/deckData";
+import { RowData } from "flashcards/flashcards/actions/row/rowData";
 import { ScheduleData } from "flashcards/flashcards/types";
 import { SessionLogData, Store } from "flashcards/store";
 import { saveUserDataValueInLocalStorage } from "flashcards/userData/localStorage";
@@ -12,7 +12,7 @@ import { userDataStore } from "flashcards/userData/userDataStore";
  * they represent.
  */
 export type UserDataValueTypes = {
-  deck: DeckSettings;
+  deck: DeckData;
   row: RowData;
   schedule: ScheduleData;
   sessionLog: SessionLogData;

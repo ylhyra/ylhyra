@@ -1,10 +1,12 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { addRowsToDeck } from "flashcards/flashcards/actions/deck/functions";
-import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
+import { RowData } from "flashcards/flashcards/actions/row/rowData";
 import { action } from "mobx";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
 
-/** Each line in import will become a row. Sides can be separated by tab or "=". */
+/**
+ * Each line in import will become a row. Sides can be separated by tab or "=".
+ */
 export const addRowsIfMissing = action((deck: Deck, text: string) => {
   if (!text) return;
   let rowsToAdd: Partial<RowData>[] = [];

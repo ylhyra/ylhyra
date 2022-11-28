@@ -1,6 +1,5 @@
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { rowFields } from "flashcards/flashcards/actions/row/rowData.fields";
-import { RowData } from "flashcards/flashcards/actions/row/rowData.types";
+import { RowData, rowFields } from "flashcards/flashcards/actions/row/rowData";
 import { FormHelper } from "modules/form";
 import React from "react";
 

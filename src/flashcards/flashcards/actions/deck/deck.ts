@@ -2,18 +2,18 @@ import { Chapter } from "flashcards/flashcards/actions/chapter/chapter";
 import { DeckId } from "flashcards/flashcards/types";
 import { computed, makeObservable, observable } from "mobx";
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { DeckSettings } from "flashcards/flashcards/actions/deck/deckSettings.types";
+import { DeckData } from "flashcards/flashcards/actions/deck/deckData";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
+import { RowId } from "flashcards/flashcards/actions/row/rowData";
 import { flattenArray } from "modules/arrays/flattenArray";
 import { store } from "../../../store";
 
 export class Deck {
   @observable rows: Map<RowId, Row> = new Map();
-  @observable settings: DeckSettings;
+  @observable settings: DeckData;
   @observable chapters: Chapter[] = [];
 
-  constructor(public deckId: DeckId, settings: DeckSettings) {
+  constructor(public deckId: DeckId, settings: DeckData) {
     this.settings = settings;
     store.decks.set(deckId, this);
     makeObservable(this);
