@@ -5,7 +5,6 @@ import { ScheduleData } from "flashcards/flashcards/types";
 import { SessionLogData, Store } from "flashcards/store";
 import { saveUserDataValueInLocalStorage } from "flashcards/userData/localStorage";
 import { syncDebounced } from "flashcards/userData/sync";
-import { userDataStore } from "flashcards/userData/userDataStore";
 
 /**
  * The types of data which are stored as {@link UserDataValue} and the values
@@ -63,7 +62,7 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     reaction(
       () => Object.entries(this.value),
       () => {
-        if (!userDataStore.shouldSync) return;
+        // if (!userDataStore.shouldSync) return;
         this.needsSyncing = true;
         saveUserDataValueInLocalStorage(this);
         syncDebounced();

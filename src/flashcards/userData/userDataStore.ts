@@ -1,16 +1,14 @@
-import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { Row } from "flashcards/flashcards/actions/row/row";
 import {
   UserDataValue,
   UserDataValueData,
   UserDataValueTypes,
 } from "flashcards/userData/userDataValue";
-import { makeObservable, observable, toJS } from "mobx";
+import { toJS } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
 
-export type SyncedUserDataStore = {
-  userId: string;
+export type UserDataStoreOnServer = {
+  userId?: string;
   lastSynced: Timestamp;
   values: {
     [keys: string]: UserDataValueData;
@@ -22,26 +20,22 @@ export type SyncedUserDataStore = {
  * value in a {@link UserDataValue}.
  */
 export class UserDataStore {
-  /**
-   * This value always comes from the server, and it is not compared with the
-   * user's clock
-   */
+  /** This value always comes from the server, and it is not compared with the user's clock */
   lastSynced: Timestamp = getFromLocalStorage("lastSynced") || 0;
   userId?: string;
   values: Map<string, UserDataValue> = new Map();
-  shouldSync = true;
 
   constructor() {
-    makeObservable(this, {
-      values: observable.shallow,
-    });
+    // makeObservable(this, {
+    //   // remove?
+    //   values: observable.shallow,
+    // });
   }
 
   /** @deprecated */
   set<K extends keyof UserDataValueTypes = keyof UserDataValueTypes>(
     input: UserDataValueData<K> & {
       isInitializing?: boolean;
-      obj?: Deck | Row;
     },
   ): UserDataValue<K> {
     if (this.values.has(input.key)) {
@@ -91,6 +85,31 @@ export class UserDataStore {
   //
   //   return map as unknown as T;
   // };
+}
+
+export function syncedValue<
+  K extends keyof UserDataValueTypes = keyof UserDataValueTypes,
+>(
+  input: UserDataValueData<K> & {
+    isInitializing?: boolean;
+  },
+): UserDataValue<K>["value"] {
+  if (userDataStore.values.has(input.key)) {
+    Object.assign(userDataStore.values.get(input.key)!.value, input.value);
+  } else {
+    userDataStore.values.set(
+      input.key,
+      new UserDataValue(
+        input.type,
+        input.key,
+        input.value,
+        input.needsSyncing,
+        !input.isInitializing,
+      ),
+    );
+  }
+
+  return userDataStore.values.get(input.key)!.value;
 }
 
 export let userDataStore = new UserDataStore();

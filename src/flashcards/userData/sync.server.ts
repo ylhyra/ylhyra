@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import express, { Router } from "express";
 import { prisma } from "flashcards/database/database.server";
-import { SyncedUserDataStore } from "flashcards/userData/userDataStore";
+import { UserDataStoreOnServer } from "flashcards/userData/userDataStore";
 import stable_stringify from "json-stable-stringify";
 import removeNullKeys from "modules/removeNullKeys";
 
@@ -11,8 +11,8 @@ const router = Router();
 router.post(
   "/api/vocabulary/sync",
   async (
-    req: Request<{}, {}, SyncedUserDataStore>,
-    res: Response<SyncedUserDataStore | { error: string }>,
+    req: Request<{}, {}, UserDataStoreOnServer>,
+    res: Response<UserDataStoreOnServer | { error: string }>,
   ) => {
     // TODO: Verify same as user who sent
     if (!req.session?.userId) {
@@ -38,7 +38,7 @@ router.post(
 
 const getUserDataFromDatabase = async (
   req: Request,
-): Promise<SyncedUserDataStore["values"]> => {
+): Promise<UserDataStoreOnServer["values"]> => {
   const results = await prisma.$queryRaw`
     SELECT
       a.key,
@@ -56,7 +56,7 @@ const getUserDataFromDatabase = async (
   `;
 
   // console.log({ lastSynced: req.body.lastSynced, results });
-  let out: SyncedUserDataStore["values"] = {};
+  let out: UserDataStoreOnServer["values"] = {};
   (results as any).forEach(
     ({
       key,
@@ -66,7 +66,7 @@ const getUserDataFromDatabase = async (
     }: {
       key: string;
       value: string; //SyncedUserDataStore["values"][string]["value"];
-      type: SyncedUserDataStore["values"][string]["type"];
+      type: UserDataStoreOnServer["values"][string]["type"];
       updatedAt: number;
     }) => {
       out[key] = {
@@ -81,7 +81,7 @@ const getUserDataFromDatabase = async (
 };
 
 const saveUserDataInDatabase = async (req: express.Request) => {
-  const values: SyncedUserDataStore["values"] = req.body.unsynced;
+  const values: UserDataStoreOnServer["values"] = req.body.unsynced;
   if (Object.keys(values).length === 0) {
     return;
   } else if (Object.keys(values).length > 30_000) {

@@ -2,7 +2,7 @@ import { action } from "mobx";
 import { isUserLoggedIn } from "flashcards/user/login/actions";
 import { saveUserDataValueInLocalStorage } from "flashcards/userData/localStorage";
 import {
-  SyncedUserDataStore,
+  UserDataStoreOnServer,
   userDataStore,
 } from "flashcards/userData/userDataStore";
 import {
@@ -18,8 +18,7 @@ import { applyChangesToMainStore } from "./initialize";
  * TODO:
  *
  * - Skrá notanda í gögn!
- * - Tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður
- *   inn
+ * - Tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
  */
 export const sync = action(async (): Promise<void> => {
   if (!isUserLoggedIn()) {
@@ -38,7 +37,7 @@ export const sync = action(async (): Promise<void> => {
     unsynced,
     lastSynced: userDataStore.lastSynced || 0,
     // TODO: USER!
-  })) as SyncedUserDataStore;
+  })) as UserDataStoreOnServer;
 
   let valuesToApplyToMainStore: UserDataValue[] = [];
   for (const key in response.values) {
