@@ -18,7 +18,8 @@ import { applyChangesToMainStore } from "./initialize";
  * TODO:
  *
  * - Skrá notanda í gögn!
- * - Tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
+ * - Tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður
+ *   inn
  */
 export const sync = action(async (): Promise<void> => {
   if (!isUserLoggedIn()) {
@@ -43,7 +44,7 @@ export const sync = action(async (): Promise<void> => {
   for (const key in response.values) {
     const alreadyInMainStore = userDataStore.values.has(key);
     const value = userDataStore.set({
-      key,
+      key: key,
       value: response.values[key].value,
       type: response.values[key].type,
       needsSyncing: false,

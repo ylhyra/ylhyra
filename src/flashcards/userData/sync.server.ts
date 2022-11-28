@@ -70,7 +70,7 @@ const getUserDataFromDatabase = async (
       updatedAt: number;
     }) => {
       out[key] = {
-        key,
+        key: key,
         value: JSON.parse(value),
         type,
         // updatedAt,

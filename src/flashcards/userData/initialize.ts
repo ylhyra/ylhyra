@@ -1,22 +1,31 @@
-import { action, toJS } from "mobx";
+import { action } from "mobx";
 import { CardId, DeckId } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import { getUserDataValueFromLocalStorage } from "flashcards/userData/localStorage";
+import { FLASHCARDS_LOCALSTORAGE_PREFIX } from "flashcards/userData/localStorage";
 import { sync } from "flashcards/userData/sync";
 import { userDataStore } from "flashcards/userData/userDataStore";
-import { UserDataValue } from "./userDataValue";
+import { UserDataValue, UserDataValueData } from "./userDataValue";
+import { getFromLocalStorage } from "modules/localStorage";
 
 export const initialize = action(() => {
   try {
     let values: UserDataValue[] = [];
 
     /** Load data from localStorage into {@link userDataStore} */
-    Object.keys(localStorage).forEach((_key) => {
-      const value = getUserDataValueFromLocalStorage(_key);
+    Object.keys(localStorage).forEach((key) => {
+      if (!key.startsWith(FLASHCARDS_LOCALSTORAGE_PREFIX)) return null;
+      const value = getFromLocalStorage<UserDataValueData>(key);
       if (!value) return;
-      values.push(userDataStore.set({ ...value, isInitializing: true }));
+
+      values.push(
+        userDataStore.set({
+          ...value,
+          isInitializing: true,
+          key: key.slice(FLASHCARDS_LOCALSTORAGE_PREFIX.length),
+        }),
+      );
     });
 
     // TODO UserDataStore.lastSynced
@@ -45,9 +54,6 @@ export function applyChangesToMainStore(values: UserDataValue[]) {
         if (deck) {
           new Row(deck, value.value);
         } else {
-          console.log(value.value.deckId);
-          console.log(toJS(store.decks));
-
           throw new Error("Deck not initialized for row!");
         }
         break;

@@ -10,11 +10,9 @@ import { store } from "../../../store";
 
 export class Deck {
   @observable rows: Map<RowId, Row> = new Map();
-  @observable settings: DeckData;
   @observable chapters: Chapter[] = [];
 
-  constructor(public deckId: DeckId, settings: DeckData) {
-    this.settings = settings;
+  constructor(public deckId: DeckId, public settings: DeckData) {
     store.decks.set(deckId, this);
     makeObservable(this);
   }

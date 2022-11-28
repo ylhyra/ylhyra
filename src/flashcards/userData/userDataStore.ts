@@ -22,7 +22,10 @@ export type SyncedUserDataStore = {
  * value in a {@link UserDataValue}.
  */
 export class UserDataStore {
-  /** This value always comes from the server, and it is not compared with the user's clock */
+  /**
+   * This value always comes from the server, and it is not compared with the
+   * user's clock
+   */
   lastSynced: Timestamp = getFromLocalStorage("lastSynced") || 0;
   userId?: string;
   values: Map<string, UserDataValue> = new Map();
@@ -34,6 +37,7 @@ export class UserDataStore {
     });
   }
 
+  /** @deprecated */
   set<K extends keyof UserDataValueTypes = keyof UserDataValueTypes>(
     input: UserDataValueData<K> & {
       isInitializing?: boolean;

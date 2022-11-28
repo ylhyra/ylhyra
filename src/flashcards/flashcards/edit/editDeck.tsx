@@ -1,3 +1,4 @@
+import { Row } from "flashcards/flashcards/actions/row/row";
 import { ImportFlashcards } from "flashcards/flashcards/edit/import/import";
 import { Button } from "flashcards/app/elements/button";
 import { getTitle } from "flashcards/app/functions";
@@ -14,8 +15,9 @@ import { observer } from "mobx-react";
 import { Link } from "modules/router";
 import React from "react";
 import { Helmet } from "react-helmet-async";
-
 import ReactDataSheet from "react-datasheet";
+import { deckDataFields } from "flashcards/flashcards/actions/deck/deckData";
+import { rowFields } from "flashcards/flashcards/actions/row/rowData";
 
 export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
   const deck = getDeckById(deckId! as DeckId);
@@ -54,28 +56,36 @@ export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
 });
 
 export interface GridElement extends ReactDataSheet.Cell<GridElement, number> {
-  value: string | undefined;
   name: string;
+  row: Row;
 }
 
 export const Rows = observer(({ deck }: { deck: Deck }) => {
+  // @ts-ignore
   const grid: GridElement[][] = deck.rowsAsArray.map((row) => {
-    return [
-      { value: row.data.front, name: "front" },
-      { value: row.data.back, name: "back" },
-    ];
+    console.log(row);
+    return rowFields.map((field) => {
+      return {
+        name: field.name,
+        row,
+        // todo
+        // @ts-ignore
+        value: row.data[field.name],
+      };
+    });
   });
   return (
     <ReactDataSheet
       data={grid}
-      valueRenderer={(cell) => cell.value}
+      // @ts-ignore
+      valueRenderer={(cell) => cell.row.data[cell.name]}
       // @ts-ignore
       sheetRenderer={(props) => (
         <table className="data-grid">
           <thead>
             <tr>
               {/*todo:*/}
-              {grid[0].map((col) => (
+              {deckDataFields.map((col) => (
                 <th key={col.name}>{col.name}</th>
               ))}
             </tr>
@@ -84,11 +94,10 @@ export const Rows = observer(({ deck }: { deck: Deck }) => {
         </table>
       )}
       onCellsChanged={(changes) => {
-        // const grid = state.grid.map(row => [...row]);
-        // changes.forEach(({ cell, row, col, value }) => {
-        //   grid[row][col] = { ...grid[row][col], value };
-        // });
-        // this.setState({ grid });
+        changes.forEach(({ cell, row, col, value }) => {
+          // @ts-ignore
+          cell!.row.data[cell!.name] = value;
+        });
       }}
       overflow="wrap"
     />

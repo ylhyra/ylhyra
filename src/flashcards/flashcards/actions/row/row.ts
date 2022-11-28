@@ -7,16 +7,15 @@ import {
 import { createCardId } from "flashcards/flashcards/actions/row/ids";
 import { RowData, rowFields } from "flashcards/flashcards/actions/row/rowData";
 import { CardIds, Direction } from "flashcards/flashcards/types";
-import { computed, makeObservable, observable } from "mobx";
+import { computed, makeObservable } from "mobx";
 import { getDefaultValue } from "modules/form";
 import { Dependencies } from "flashcards/flashcards/actions/dependencies/dependencies";
 
 export class Row {
   constructor(public deck: Deck, public data: RowData) {
+    // Todo: Generalize
     deck.rows.set(this.rowId, this);
-    makeObservable(this, {
-      data: observable,
-    });
+    makeObservable(this);
   }
 
   get rowId() {

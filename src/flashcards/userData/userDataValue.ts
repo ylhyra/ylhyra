@@ -24,6 +24,7 @@ export interface UserDataValueData<
   K extends keyof UserDataValueTypes = keyof UserDataValueTypes,
 > {
   type: K;
+  // Id
   key: string;
   value: UserDataValueTypes[K];
   needsSyncing?: boolean;
@@ -44,11 +45,11 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     saveImmediately: boolean = true,
   ) {
     if (typeof key !== "string") {
-      console.warn({ key, value });
+      console.warn({ id: key, value });
       throw new Error("Key must be a string");
     }
     if (!type) {
-      console.warn({ key, value });
+      console.warn({ id: key, value });
       throw new Error("Type required");
     }
     if (!isObservable(value)) {
@@ -70,6 +71,7 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     );
   }
 
+  // todo: can be simplified
   getValues(): UserDataValueData<K> {
     return {
       key: this.key,
@@ -79,3 +81,5 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     };
   }
 }
+
+export function makeSynced(input: RowData) {}

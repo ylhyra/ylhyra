@@ -72,6 +72,12 @@ export class RowData {
   // "lastSeen"?: string;
   createdAt!: string;
   updatedAt?: string;
+
+  // constructor(data: RowData) {
+  //   Object.assign(this, data);
+  //   makeAutoObservable(this);
+  //   makeSynced(this);
+  // }
 }
 
 export const rowFields: FieldsSetup<RowData> = [

@@ -25,8 +25,10 @@ export function saveInLocalStorage(name: string, input: any) {
   localStorage.setItem(name, data);
 }
 
-export function getFromLocalStorage(name: string): any {
-  if (!isBrowser) return;
+export function getFromLocalStorage<T extends any = any>(
+  name: string,
+): T | null {
+  if (!isBrowser) return null;
   let data = localStorage.getItem(name);
   if (!data) return null;
 
