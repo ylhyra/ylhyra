@@ -87,31 +87,6 @@ export class UserDataStore {
   // };
 }
 
-export function syncedValue<
-  K extends keyof UserDataValueTypes = keyof UserDataValueTypes,
->(
-  input: UserDataValueData<K> & {
-    isInitializing?: boolean;
-  },
-): UserDataValue<K>["value"] {
-  if (userDataStore.values.has(input.key)) {
-    Object.assign(userDataStore.values.get(input.key)!.value, input.value);
-  } else {
-    userDataStore.values.set(
-      input.key,
-      new UserDataValue(
-        input.type,
-        input.key,
-        input.value,
-        input.needsSyncing,
-        !input.isInitializing,
-      ),
-    );
-  }
-
-  return userDataStore.values.get(input.key)!.value;
-}
-
 export let userDataStore = new UserDataStore();
 export function clearUserDataStore() {
   userDataStore = new UserDataStore();
