@@ -1,6 +1,6 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
-import { Rating, ScheduleData, Score } from "flashcards/flashcards/types";
+import { Rating, Score } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
 import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
 import {
@@ -10,7 +10,7 @@ import {
   minutes,
   Timestamp,
 } from "modules/time";
-import { userDataStore } from "../../../userData/userDataStore";
+import { ScheduleData } from "flashcards/flashcards/actions/session/schedule";
 
 /**
  * We consider a card overdue if it's due date is less than 16 hours from now
@@ -44,17 +44,11 @@ export function setSchedule(card1: Card, data: ScheduleData) {
     }
   });
 
-  store.schedule.set(
-    card1.cardId,
-    userDataStore.set({
-      type: "schedule",
-      key: card1.cardId,
-      value: {
-        ...(card1.schedule || {}),
-        ...data,
-      },
-    }).value,
-  );
+  new ScheduleData({
+    ...(card1.schedule || {}),
+    ...data,
+    cardId: card1.cardId,
+  });
 }
 
 export function getLowestAvailableRowScore(card1: Card): Score | null {

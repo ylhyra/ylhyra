@@ -1,5 +1,4 @@
 import { RowId } from "flashcards/flashcards/actions/row/rowData";
-import { Days, Timestamp } from "modules/time";
 import { Brand } from "ts-brand";
 
 export type DirectionSettings =
@@ -83,18 +82,6 @@ export type DependenciesForAllRowsAsRowIdToDependencyToDepth = Record<
 export type DependenciesForOneRowAsDependencyToDepth = Record<RowId, number>;
 /** @deprecated */
 export type CardIdToDependencyDepth = Record<CardId, number>;
-
-export type ScheduleData = Partial<{
-  dueAt: Timestamp;
-  lastIntervalInDays: Days /** Previously last_interval_in_days */;
-  score: number;
-  lastSeen: Timestamp;
-  sessionsSeen: number;
-
-  /* Í VINNSLU */
-  lastBadTimestamp: Timestamp;
-  numberOfBadSessions: number;
-}>;
 
 /** Used for dependencies and such to redirect text to an id. */
 export type RawText = Brand<string, "RawText">;

@@ -5,7 +5,7 @@ import React from "react";
 
 export function EditRow({ row }: { row: Row }) {
   const { Form, AllFields, Input } = new FormHelper<RowData>({
-    values: row.data,
+    values: row,
     fields: rowFields,
     // onChange: () => {
     //   saveFlashcardsStore();
@@ -13,7 +13,7 @@ export function EditRow({ row }: { row: Row }) {
   });
 
   return (
-    <div key={row.data.rowId}>
+    <div key={row.rowId}>
       <div>
         <Input name="front" />
       </div>

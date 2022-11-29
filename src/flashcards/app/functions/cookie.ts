@@ -1,4 +1,4 @@
-import { UserProfile } from "flashcards/user/types";
+import { UserCookie } from "flashcards/user/types";
 import { isBrowser } from "modules/isBrowser";
 // eslint-disable-next-line no-restricted-imports
 import { decodeDataInHtml } from "ylhyra/documents/compilation/compileDocument/functions/functions";
@@ -15,7 +15,7 @@ export function getCookie(name: string) {
   return null;
 }
 
-export function getUserFromCookie(): UserProfile {
+export function getUserFromCookie(): UserCookie {
   if (!isBrowser) return null;
   let cookie = getCookie(COOKIE_NAME);
   if (cookie) {

@@ -10,20 +10,18 @@ import { CardIds, Direction } from "flashcards/flashcards/types";
 import { computed, makeObservable } from "mobx";
 import { getDefaultValue } from "modules/form";
 import { Dependencies } from "flashcards/flashcards/actions/dependencies/dependencies";
+import { SyncedData } from "flashcards/userData/userDataValue";
 
-export class Row {
-  constructor(public deck: Deck, public data: RowData) {
-    // Todo: Generalize
-    deck.rows.set(this.rowId, this);
+export class Row extends RowData {
+  constructor(public deck: Deck, data: Omit<RowData, keyof SyncedData>) {
+    super(data);
+    // // Todo: Generalize
+    // deck.rows.set(this.rowId, this);
     makeObservable(this);
   }
 
-  get rowId() {
-    return this.data.rowId;
-  }
-
   get cardIds(): CardIds | [] {
-    if (!this.data.front || !this.data.back) return [];
+    if (!this.front || !this.back) return [];
     let cardIds: CardIds = [];
     const directionSetting = this.getSetting("direction");
     if (
@@ -31,11 +29,7 @@ export class Row {
       directionSetting === "ONLY_FRONT_TO_BACK"
     ) {
       cardIds.push(
-        createCardId(
-          this.deck.deckId,
-          this.data.rowId,
-          Direction.FRONT_TO_BACK,
-        ),
+        createCardId(this.deck.deckId, this.rowId, Direction.FRONT_TO_BACK),
       );
     }
     if (
@@ -43,11 +37,7 @@ export class Row {
       directionSetting === "ONLY_BACK_TO_FRONT"
     ) {
       cardIds.push(
-        createCardId(
-          this.deck.deckId,
-          this.data.rowId,
-          Direction.BACK_TO_FRONT,
-        ),
+        createCardId(this.deck.deckId, this.rowId, Direction.BACK_TO_FRONT),
       );
     }
     return cardIds;
@@ -67,9 +57,7 @@ export class Row {
   @computed({ keepAlive: true })
   get redirects(): string[] {
     // TODO: Incomplete, needs comma splitting
-    return [this.data.front, this.data.alternativeId].filter(
-      Boolean,
-    ) as string[];
+    return [this.front, this.alternativeId].filter(Boolean) as string[];
   }
 
   /**
@@ -81,8 +69,8 @@ export class Row {
   getSetting<T extends keyof DeckData & keyof RowData>(
     key: T,
   ): (DeckData & RowData)[T] {
-    if (this.data[key] != null) {
-      return this.data[key];
+    if (this[key] != null) {
+      return this[key];
     }
     if (this.deck.settings[key] != null) {
       return this.deck.settings[key] as (DeckData & RowData)[T];

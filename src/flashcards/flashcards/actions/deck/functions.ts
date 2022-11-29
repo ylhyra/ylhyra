@@ -1,4 +1,3 @@
-import { userDataStore } from "flashcards/userData/userDataStore";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { Row } from "flashcards/flashcards/actions/row/row";
@@ -16,12 +15,7 @@ import _ from "underscore";
 export function newDeck(): Deck {
   return action(() => {
     const deckId = shortid.generate() as DeckId;
-    const settings = userDataStore.set({
-      type: "deck",
-      key: deckId,
-      value: {},
-    }).value;
-    const deck = new Deck(deckId, settings);
+    const deck = new Deck({ deckId });
     if (isBrowser) {
       goToUrl(`/flashcards/${deckId}`);
     }
@@ -47,25 +41,17 @@ export function addRowsToDeck(deck: Deck, arrayOfRowData: Partial<RowData>[]) {
     const baseId = shortid.generate();
     const highestRowNumber = _.max([
       0,
-      ...[...deck.rows.values()].map((row) => row.data.rowNumber),
+      ...[...deck.rows.values()].map((row) => row.rowNumber),
     ]);
     arrayOfRowData.forEach((rowData) => {
-      const rowId = `${baseId}${i}` as RowId;
-      let value: RowData = {
+      new Row(deck, {
         deckId: deck.deckId,
-        rowId,
+        rowId: `${baseId}${i}` as RowId,
         rowNumber: highestRowNumber + 1 + i++,
         ...removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(
           rowData || {},
         ),
-        createdAt: new Date().toISOString(),
-      };
-      value = userDataStore.set({
-        type: "row",
-        key: rowId,
-        value,
-      }).value;
-      new Row(deck, value);
+      });
     });
   })();
 }

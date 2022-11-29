@@ -8,9 +8,7 @@ export class Dependencies {
 
   @computed({ keepAlive: true })
   get directDependencies(): Set<Row> {
-    const dependsOnStrings = [this.row.data.dependsOn].filter(
-      Boolean,
-    ) as string[];
+    const dependsOnStrings = [this.row.dependsOn].filter(Boolean) as string[];
     let rows = new Set<Row>();
     for (const string of dependsOnStrings) {
       if (string in this.row.deck.redirectsToRow) {

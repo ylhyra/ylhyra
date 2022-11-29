@@ -1,25 +1,24 @@
 import { Chapter } from "flashcards/flashcards/actions/chapter/chapter";
-import { DeckId } from "flashcards/flashcards/types";
-import { computed, makeObservable, observable } from "mobx";
+import { computed, observable } from "mobx";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { DeckData } from "flashcards/flashcards/actions/deck/deckData";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { RowId } from "flashcards/flashcards/actions/row/rowData";
 import { flattenArray } from "modules/arrays/flattenArray";
-import { store } from "../../../store";
 
-export class Deck {
+export class Deck extends DeckData {
   @observable rows: Map<RowId, Row> = new Map();
   @observable chapters: Chapter[] = [];
 
-  constructor(public deckId: DeckId, public settings: DeckData) {
-    store.decks.set(deckId, this);
-    makeObservable(this);
-  }
+  // constructor(data: Omit<DeckData, keyof SyncedData>) {
+  //   super(data);
+  //   // store.decks.set(deckId, this);
+  //   // makeObservable(this);
+  // }
 
-  get title() {
-    return this.settings.title || "(untitled)";
-  }
+  // get title() {
+  //   return this.settings.title || "(untitled)";
+  // }
 
   @computed({ keepAlive: true })
   get cards(): Card[] {
@@ -41,8 +40,6 @@ export class Deck {
   /** @deprecated */
   get rowsAsArray(): Row[] {
     console.log("rowsAsArray called");
-    return [...this.rows.values()].sort(
-      (a, b) => a.data.rowNumber - b.data.rowNumber,
-    );
+    return [...this.rows.values()].sort((a, b) => a.rowNumber - b.rowNumber);
   }
 }

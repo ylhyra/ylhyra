@@ -1,52 +1,70 @@
-import { DirectionSettings, Direction } from "flashcards/flashcards/types";
+import {
+  DirectionSettings,
+  Direction,
+  DeckId,
+} from "flashcards/flashcards/types";
 import { FieldsSetup } from "modules/form";
+import { SyncedData } from "flashcards/userData/userDataValue";
+import { makeAutoObservable } from "mobx";
 
 /** Interface form is at {@link deckDataFields} */
-export type DeckData = Partial<{
-  deleted: boolean;
-  title: string;
-  topic: string;
-  preset:
+export class DeckData extends SyncedData {
+  deckId!: DeckId;
+  deleted?: boolean;
+  title?: string;
+  topic?: string;
+  preset?:
     | "FOREIGN_LANGUAGE_PERSONAL_USE"
     | "FOREIGN_LANGUAGE_FOR_OTHERS"
     | "NONE";
-  frontSideLanguage: string;
-  frontSideSpeechSynthesis: boolean;
-  backSideLanguage: string;
-  backSideSpeechSynthesis: boolean;
-  direction: DirectionSettings;
-  sideToShowFirst: Direction | "RANDOM";
-  automaticDependencies: boolean;
-  automaticallyOccludeClashing: boolean;
-  schedulingGoal:
+  frontSideLanguage?: string;
+  frontSideSpeechSynthesis?: boolean;
+  backSideLanguage?: string;
+  backSideSpeechSynthesis?: boolean;
+  direction?: DirectionSettings;
+  sideToShowFirst?: Direction | "RANDOM";
+  automaticDependencies?: boolean;
+  automaticallyOccludeClashing?: boolean;
+  schedulingGoal?:
     | "MEMORIZE_PERFECTLY"
     | "MEMORIZE_WELL"
     | "SEE_MANY_CARDS"
     | "CRAM";
-  schedulingNewCardsPrioritization:
+  schedulingNewCardsPrioritization?:
     | "PRIORITIZE_LOWER_RANK"
     | "PRIORITIZE_IMPORTANCE"
     | "PRIORITIZE_RECENTLY_ADDED";
-  schedulingSeenCardsPrioritization:
+  schedulingSeenCardsPrioritization?:
     | "PRIORITIZE_LOWER_RANK"
     | "PRIORITIZE_IMPORTANCE"
     | "PRIORITIZE_FIRST_SEEN"
     | "PRIORITIZE_RECENTLY_SEEN";
-  stringReplacements: [];
-  newCardPrioritization: "RANDOM" | "OLDEST" | "NEWEST" | "EASIEST" | "HARDEST";
-  oldCardPrioritization:
+  stringReplacements?: [];
+  newCardPrioritization?:
+    | "RANDOM"
+    | "OLDEST"
+    | "NEWEST"
+    | "EASIEST"
+    | "HARDEST";
+  oldCardPrioritization?:
     | DeckData["newCardPrioritization"]
     | "OLDEST_SEEN"
     | "NEWEST_SEEN";
-  automaticReplacementsToFindAlternativeId: [];
+  automaticReplacementsToFindAlternativeId?: [];
   /**
    * When the user is playing from all decks at once, this multiplier can be
    * used to make certain decks more important than others
    */
-  deckImportanceMultiplier: number;
-  formattingStyle: undefined | "DICTIONARY";
-  newCardRate: number;
-}>;
+  deckImportanceMultiplier?: number;
+  formattingStyle?: undefined | "DICTIONARY";
+  newCardRate?: number;
+
+  constructor(data: Omit<DeckData, keyof SyncedData>) {
+    super({ type: "deck", key: data.deckId, ...data });
+    // Object.assign(this, data);
+    makeAutoObservable(this);
+  }
+}
 
 export const deckDataFields: FieldsSetup<DeckData> = [
   {

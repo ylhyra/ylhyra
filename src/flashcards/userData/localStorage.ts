@@ -1,10 +1,10 @@
-import { UserDataValue } from "flashcards/userData/userDataValue";
+import { SyncedData } from "flashcards/userData/userDataValue";
 import { saveInLocalStorage } from "modules/localStorage";
 
 /** Prefix to prevent possible clashes in localStorage */
 export const FLASHCARDS_LOCALSTORAGE_PREFIX = "f:";
 
-export function saveUserDataValueInLocalStorage(obj: UserDataValue) {
+export function saveUserDataValueInLocalStorage(obj: SyncedData) {
   saveInLocalStorage(FLASHCARDS_LOCALSTORAGE_PREFIX + obj.key, {
     type: obj.type,
     value: obj.value,

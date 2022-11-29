@@ -1,7 +1,9 @@
+import { makeAutoObservable } from "mobx";
 import { DeckId, DirectionSettings } from "flashcards/flashcards/types";
 import { DeckData } from "flashcards/flashcards/actions/deck/deckData";
 import { Brand } from "ts-brand";
 import { FieldsSetup } from "modules/form";
+import { SyncedData } from "flashcards/userData/userDataValue";
 
 export type RowId = Brand<string, "RowId">;
 export type RowIds = RowId[];
@@ -13,7 +15,7 @@ export type RowIds = RowId[];
  * For the processed information, see {@link ProcessedCardExtraInformation}
  * (work in progress)
  */
-export class RowData {
+export class RowData extends SyncedData {
   deckId!: DeckId;
   /** Random string */
   rowId!: RowId;
@@ -70,14 +72,12 @@ export class RowData {
   // "this is a minor variation of"?: string;
   // /** ISO date */
   // "lastSeen"?: string;
-  createdAt!: string;
-  updatedAt?: string;
 
-  // constructor(data: RowData) {
-  //   Object.assign(this, data);
-  //   makeAutoObservable(this);
-  //   makeSynced(this);
-  // }
+  constructor(data: Omit<RowData, keyof SyncedData>) {
+    super({ type: "row", key: data.rowId });
+    Object.assign(this, data);
+    makeAutoObservable(this);
+  }
 }
 
 export const rowFields: FieldsSetup<RowData> = [

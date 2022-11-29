@@ -50,5 +50,5 @@ export const nextCard = action(() => {
 export function getNextUnseenCard() {
   const session = store.session;
 
-  loadCardsIntoSession([session.classifiedCards!.newCards[0]]);
+  loadCardsIntoSession([session.classifiedCards!.newCards[0]].filter(Boolean));
 }

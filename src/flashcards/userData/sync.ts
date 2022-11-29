@@ -7,7 +7,7 @@ import {
 } from "flashcards/userData/userDataStore";
 import {
   UserDataValueData,
-  UserDataValue,
+  SyncedData,
 } from "flashcards/userData/userDataValue";
 import axios2 from "modules/axios2";
 import { saveInLocalStorage } from "modules/localStorage";
@@ -18,7 +18,8 @@ import { applyChangesToMainStore } from "./initialize";
  * TODO:
  *
  * - Skrá notanda í gögn!
- * - Tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður inn
+ * - Tékka hvort notandi sé enn skráður inn og hvort sami notandi sé enn skráður
+ *   inn
  */
 export const sync = action(async (): Promise<void> => {
   if (!isUserLoggedIn()) {
@@ -39,7 +40,7 @@ export const sync = action(async (): Promise<void> => {
     // TODO: USER!
   })) as UserDataStoreOnServer;
 
-  let valuesToApplyToMainStore: UserDataValue[] = [];
+  let valuesToApplyToMainStore: SyncedData[] = [];
   for (const key in response.values) {
     const alreadyInMainStore = userDataStore.values.has(key);
     const value = userDataStore.set({

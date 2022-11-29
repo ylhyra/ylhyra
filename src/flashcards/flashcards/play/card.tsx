@@ -1,4 +1,4 @@
-import { store } from 'flashcards/store';
+import { store } from "flashcards/store";
 import { isDev } from "modules/isDev";
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
@@ -231,7 +231,7 @@ export const CardElement = observer(() => {
           </div>
         )}
       </div>
-      {ui.isShowingBottomSide && <div>{card.row.data.lemmas}</div>}
+      {ui.isShowingBottomSide && <div>{card.row.lemmas}</div>}
       <div className="flashcard-buttons">
         {!ui.isShowingBottomSide ? (
           <div>

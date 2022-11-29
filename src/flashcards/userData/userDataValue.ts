@@ -1,58 +1,50 @@
-import { isObservable, observable, reaction, toJS } from "mobx";
-import { DeckData } from "flashcards/flashcards/actions/deck/deckData";
-import { RowData } from "flashcards/flashcards/actions/row/rowData";
-import { ScheduleData } from "flashcards/flashcards/types";
-import { SessionLogData, Store } from "flashcards/store";
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { Row } from "flashcards/flashcards/actions/row/row";
+import { reaction } from "mobx";
 import { saveUserDataValueInLocalStorage } from "flashcards/userData/localStorage";
 import { syncDebounced } from "flashcards/userData/sync";
+import { Required } from "utility-types";
+import { UserSettings } from "flashcards/user/userSettings.types";
+import {
+  ScheduleData,
+  SessionLogData,
+} from "flashcards/flashcards/actions/session/schedule";
 
 /**
- * The types of data which are stored as {@link UserDataValue} and the values
- * they represent.
+ * The types of data which are stored as {@link SyncedData} and the values they
+ * represent.
  */
-export type UserDataValueTypes = {
-  deck: DeckData;
-  row: RowData;
-  schedule: ScheduleData;
-  sessionLog: SessionLogData;
-  userSettings: InstanceType<typeof Store>["userSettings"];
+export const syncedDataTypesToObjects = {
+  deck: Deck,
+  row: Row,
+  schedule: ScheduleData,
+  sessionLog: SessionLogData,
+  userSettings: UserSettings,
   // deckOrder: InstanceType<typeof Store>["deckOrder"];
 };
-
-export interface UserDataValueData<
-  K extends keyof UserDataValueTypes = keyof UserDataValueTypes,
-> {
-  type: K;
-  // Id
-  key: string;
-  value: UserDataValueTypes[K];
-  needsSyncing?: boolean;
-}
 
 /**
  * A wrapper around all values that will be synced to localstorage and to the
  * server. Will observe changes in these values and save them.
  */
-export class UserDataValue<K extends keyof UserDataValueTypes = any>
-  implements UserDataValueData<K>
-{
-  constructor(
-    public type: K,
-    public key: string,
-    public value: UserDataValueTypes[K],
-    public needsSyncing: boolean = true,
-    saveImmediately: boolean = true,
-  ) {
-    if (typeof key !== "string") {
-      console.warn({ id: key, value });
+export class SyncedData {
+  type!: keyof typeof syncedDataTypesToObjects;
+  key!: string;
+  needsSyncing: boolean = true;
+  createdAt!: string;
+  updatedAt?: string;
+  constructor(input: Required<Partial<SyncedData>, "type" | "key">) {
+    Object.assign(this, input);
+
+    if (!this.createdAt) {
+      this.createdAt = new Date().toISOString();
+    }
+
+    if (typeof this.key !== "string") {
       throw new Error("Key must be a string");
     }
-    if (!type) {
-      console.warn({ id: key, value });
+    if (!this.type) {
       throw new Error("Type required");
-    }
-    if (!isObservable(value)) {
-      this.value = observable(value);
     }
     if (saveImmediately) {
       saveUserDataValueInLocalStorage(this);
@@ -62,23 +54,10 @@ export class UserDataValue<K extends keyof UserDataValueTypes = any>
     reaction(
       () => Object.entries(this.value),
       () => {
-        // if (!userDataStore.shouldSync) return;
         this.needsSyncing = true;
         saveUserDataValueInLocalStorage(this);
         syncDebounced();
       },
     );
   }
-
-  // todo: can be simplified
-  getValues(): UserDataValueData<K> {
-    return {
-      key: this.key,
-      value: toJS(this.value),
-      type: this.type,
-      needsSyncing: this.needsSyncing,
-    };
-  }
 }
-
-export function makeSynced(input: RowData) {}

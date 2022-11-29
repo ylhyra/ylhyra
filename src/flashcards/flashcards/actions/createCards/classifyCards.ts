@@ -82,16 +82,16 @@ export function sortCards(
        * number
        */
       sortByFunctions.push((card) =>
-        xorshift.constructor([card.row.data.rowNumber, 0, 0, 0]).random(),
+        xorshift.constructor([card.row.rowNumber, 0, 0, 0]).random(),
       );
       break;
     case "OLDEST":
       // Todo: Find creation date
-      sortByFunctions.push((card) => card.row.data.rowNumber);
+      sortByFunctions.push((card) => card.row.rowNumber);
       break;
     case "NEWEST":
       // Todo: Find creation date
-      sortByFunctions.push((card) => -card.row.data.rowNumber);
+      sortByFunctions.push((card) => -card.row.rowNumber);
       break;
     case "EASIEST":
       throw new Error("Not implemented");

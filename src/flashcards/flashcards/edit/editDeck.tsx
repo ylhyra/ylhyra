@@ -70,7 +70,7 @@ export const Rows = observer(({ deck }: { deck: Deck }) => {
         row,
         // todo
         // @ts-ignore
-        value: row.data[field.name],
+        value: row[field.name],
       };
     });
   });

@@ -2,7 +2,6 @@ import { getDirectionFromCardId } from "flashcards/flashcards/actions/row/ids";
 import { Row } from "flashcards/flashcards/actions/row/row";
 import {
   CardId,
-  ScheduleData,
   Score,
   Direction,
 } from "flashcards/flashcards/types";
@@ -10,6 +9,7 @@ import { store } from "flashcards/store";
 import { Days, Timestamp } from "modules/time";
 import { Html } from "../../../../inflection/tables/types";
 import { formatVocabularyEntry } from "../format/format";
+import { ScheduleData } from "flashcards/flashcards/actions/session/schedule";
 
 export class Cards extends Array<Card> {
   constructor(cards?: Card[]) {
@@ -26,7 +26,7 @@ export class Card {
   constructor(public row: Row, public cardId: CardId) {}
 
   get data() {
-    return this.row.data;
+    return this.row.;
   }
 
   get rowId() {
