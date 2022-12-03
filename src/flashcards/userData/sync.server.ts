@@ -1,9 +1,10 @@
 import type { Request, Response } from "express";
 import express, { Router } from "express";
 import { prisma } from "flashcards/database/database.server";
-import { UserDataStoreOnServer } from "flashcards/userData/userDataStore";
+import { UserDataStore } from "flashcards/userData/userDataStore";
 import stable_stringify from "json-stable-stringify";
 import removeNullKeys from "modules/removeNullKeys";
+import { OnlyProperties } from "modules/typescript/various";
 
 const router = Router();
 
@@ -11,8 +12,8 @@ const router = Router();
 router.post(
   "/api/vocabulary/sync",
   async (
-    req: Request<{}, {}, UserDataStoreOnServer>,
-    res: Response<UserDataStoreOnServer | { error: string }>,
+    req: Request<{}, {}, OnlyProperties<UserDataStore>>,
+    res: Response<OnlyProperties<UserDataStore> | { error: string }>,
   ) => {
     // TODO: Verify same as user who sent
     if (!req.session?.userId) {
@@ -38,7 +39,7 @@ router.post(
 
 const getUserDataFromDatabase = async (
   req: Request,
-): Promise<UserDataStoreOnServer["values"]> => {
+): Promise<UserDataStore["values"]> => {
   const results = await prisma.$queryRaw`
     SELECT
       a.key,
@@ -56,7 +57,7 @@ const getUserDataFromDatabase = async (
   `;
 
   // console.log({ lastSynced: req.body.lastSynced, results });
-  let out: UserDataStoreOnServer["values"] = {};
+  let out: UserDataStore["values"] = {};
   (results as any).forEach(
     ({
       key,
@@ -66,7 +67,7 @@ const getUserDataFromDatabase = async (
     }: {
       key: string;
       value: string; //SyncedUserDataStore["values"][string]["value"];
-      type: UserDataStoreOnServer["values"][string]["type"];
+      type: UserDataStore["values"][string]["type"];
       updatedAt: number;
     }) => {
       out[key] = {
@@ -81,7 +82,7 @@ const getUserDataFromDatabase = async (
 };
 
 const saveUserDataInDatabase = async (req: express.Request) => {
-  const values: UserDataStoreOnServer["values"] = req.body.unsynced;
+  const values: UserDataStore["values"] = req.body.unsynced;
   if (Object.keys(values).length === 0) {
     return;
   } else if (Object.keys(values).length > 30_000) {
@@ -90,10 +91,7 @@ const saveUserDataInDatabase = async (req: express.Request) => {
   }
 
   const queries = Object.keys(values).map((key) => {
-    if (
-      typeof values[key].type !== "string" ||
-      typeof values[key].value !== "object"
-    ) {
+    if (typeof values[key].type !== "string") {
       throw new Error("Malformed data sent to server");
     }
 

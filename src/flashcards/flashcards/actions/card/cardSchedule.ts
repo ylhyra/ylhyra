@@ -11,6 +11,7 @@ import {
   Timestamp,
 } from "modules/time";
 import { ScheduleData } from "flashcards/flashcards/actions/session/schedule";
+import { SyncedData } from "flashcards/userData/userDataValue";
 
 /**
  * We consider a card overdue if it's due date is less than 16 hours from now
@@ -35,7 +36,10 @@ export function isInSchedule(card1: Card) {
   return store.schedule.has(card1.cardId);
 }
 
-export function setSchedule(card1: Card, data: ScheduleData) {
+export function setSchedule(
+  card1: Card,
+  data: Omit<ScheduleData, keyof SyncedData | "cardId">,
+) {
   /* Round timestamps */
   ["due", "lastSeen", "lastBadTimestamp"].forEach((key) => {
     if (key in data) {

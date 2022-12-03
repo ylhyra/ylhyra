@@ -6,7 +6,7 @@ import { deckDataFields } from "flashcards/flashcards/actions/deck/deckData";
 
 export const DeckSettingsElement = observer(({ deck }: { deck: Deck }) => {
   const { Form, AllFields } = new FormHelper({
-    values: deck.settings,
+    values: deck,
     fields: deckDataFields,
   });
 

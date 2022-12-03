@@ -6,7 +6,7 @@ import { goToUrl } from "modules/router";
 /** Used for debugging (printing cards to the console) */
 export function printWord(card1: Card): string | undefined {
   if (!isDev) return;
-  return card1.data[
+  return card1.row[
     card1.direction === Direction.FRONT_TO_BACK ? "front" : "back"
   ];
 }

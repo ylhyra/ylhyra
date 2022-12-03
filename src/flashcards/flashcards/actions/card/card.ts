@@ -1,10 +1,6 @@
 import { getDirectionFromCardId } from "flashcards/flashcards/actions/row/ids";
 import { Row } from "flashcards/flashcards/actions/row/row";
-import {
-  CardId,
-  Score,
-  Direction,
-} from "flashcards/flashcards/types";
+import { CardId, Score, Direction } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
 import { Days, Timestamp } from "modules/time";
 import { Html } from "../../../../inflection/tables/types";
@@ -25,16 +21,12 @@ export class Cards extends Array<Card> {
 export class Card {
   constructor(public row: Row, public cardId: CardId) {}
 
-  get data() {
-    return this.row.;
-  }
-
   get rowId() {
     return this.row.rowId;
   }
 
   get isIgnored() {
-    return this.data.deleted;
+    return this.row.deleted;
   }
 
   get deck() {
@@ -89,11 +81,11 @@ export class Card {
   }
 
   get frontFormatted(): Html {
-    return formatVocabularyEntry(this.data.front);
+    return formatVocabularyEntry(this.row.front);
   }
 
   get backFormatted(): Html {
-    return formatVocabularyEntry(this.data.back);
+    return formatVocabularyEntry(this.row.back);
   }
 
   get hasSound() {

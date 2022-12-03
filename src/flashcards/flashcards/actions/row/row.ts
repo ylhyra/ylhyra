@@ -72,8 +72,8 @@ export class Row extends RowData {
     if (this[key] != null) {
       return this[key];
     }
-    if (this.deck.settings[key] != null) {
-      return this.deck.settings[key] as (DeckData & RowData)[T];
+    if (this.deck[key] != null) {
+      return this.deck[key] as (DeckData & RowData)[T];
     }
     return (getDefaultValue(rowFields, key) ??
       getDefaultValue(deckDataFields, key)) as (DeckData & RowData)[T];

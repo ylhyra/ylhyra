@@ -2,7 +2,7 @@ import { action } from "mobx";
 import { isUserLoggedIn } from "flashcards/user/login/actions";
 import { saveUserDataValueInLocalStorage } from "flashcards/userData/localStorage";
 import {
-  UserDataStoreOnServer,
+  UserDataStore,
   userDataStore,
 } from "flashcards/userData/userDataStore";
 import {
@@ -38,7 +38,7 @@ export const sync = action(async (): Promise<void> => {
     unsynced,
     lastSynced: userDataStore.lastSynced || 0,
     // TODO: USER!
-  })) as UserDataStoreOnServer;
+  })) as UserDataStore;
 
   let valuesToApplyToMainStore: SyncedData[] = [];
   for (const key in response.values) {

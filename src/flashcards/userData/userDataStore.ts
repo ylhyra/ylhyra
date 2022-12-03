@@ -1,18 +1,7 @@
-import {
-  SyncedData,
-  UserDataValueData,
-} from "flashcards/userData/userDataValue";
+import { SyncedData } from "flashcards/userData/userDataValue";
 import { toJS } from "mobx";
 import { getFromLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
-
-export type UserDataStoreOnServer = {
-  userId?: string;
-  lastSynced: Timestamp;
-  values: {
-    [keys: string]: UserDataValueData;
-  };
-};
 
 /**
  * Key-value store that makes syncing and local storage easier by wrapping each
@@ -28,10 +17,10 @@ export class UserDataStore {
   values: Record<string, SyncedData> = {};
 
   set<K extends SyncedData>(input: K, options: { isInitializing: boolean }) {
-    if (userDataStore.values[input.key]) {
-      Object.assign(userDataStore.values[input.key], input);
+    if (this.values[input.key]) {
+      Object.assign(this.values[input.key], input);
     } else {
-      userDataStore.values[input.key] = input;
+      this.values[input.key] = input;
     }
   }
 }

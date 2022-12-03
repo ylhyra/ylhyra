@@ -29,7 +29,7 @@ export const FlashcardsMake = observer(function () {
         <hr />
         <ul>
           {[...decks.values()]
-            .filter((deck) => !deck.settings.deleted)
+            .filter((deck) => !deck.deleted)
             .map((deck) => (
               <li key={deck.deckId}>
                 <div className="flex hover:bg-gray-200">

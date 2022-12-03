@@ -7,14 +7,12 @@ import { getFromLocalStorage } from "modules/localStorage";
 
 export const initialize = action(() => {
   try {
-    let values: SyncedData[] = [];
-
     /** Load data from localStorage into {@link userDataStore} */
     Object.keys(localStorage).forEach((key) => {
       if (!key.startsWith(FLASHCARDS_LOCALSTORAGE_PREFIX)) return null;
-      const value = getFromLocalStorage<SyncedData>(key);
-      if (!value) return;
-      initializeObject(value);
+      const data = getFromLocalStorage<SyncedData>(key);
+      if (!data) return;
+      initializeObject(data);
 
       // values.push(
       //   userDataStore.set({

@@ -7,10 +7,10 @@ import { CardId, DeckId } from "flashcards/flashcards/types";
 export class ScheduleData extends SyncedData {
   cardId!: CardId;
   dueAt!: Timestamp;
-  lastIntervalInDays!: Days;
+  lastIntervalInDays?: Days;
   score?: number;
-  lastSeen!: Timestamp;
-  sessionsSeen!: number;
+  lastSeen?: Timestamp;
+  sessionsSeen?: number;
 
   /* Í VINNSLU */
   lastBadTimestamp?: Timestamp;

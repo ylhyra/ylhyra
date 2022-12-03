@@ -1,15 +1,15 @@
 import { SyncedData } from "flashcards/userData/userDataValue";
 import { saveInLocalStorage } from "modules/localStorage";
+import { onlyProperties } from "modules/typescript/various";
 
 /** Prefix to prevent possible clashes in localStorage */
 export const FLASHCARDS_LOCALSTORAGE_PREFIX = "f:";
 
 export function saveUserDataValueInLocalStorage(obj: SyncedData) {
-  saveInLocalStorage(FLASHCARDS_LOCALSTORAGE_PREFIX + obj.key, {
-    type: obj.type,
-    value: obj.value,
-    needsSyncing: obj.needsSyncing,
-  });
+  saveInLocalStorage(
+    FLASHCARDS_LOCALSTORAGE_PREFIX + obj.key,
+    onlyProperties(obj),
+  );
 }
 
 export function clearLocalStorage() {

@@ -26,7 +26,7 @@ export function newDeck(): Deck {
 // Todo: Undoable
 export const deleteDeck = action((deck: Deck) => {
   if (window.confirm("Are you sure you want to delete this deck?")) {
-    deck.settings.deleted = true;
+    deck.deleted = true;
     goToUrl("/flashcards");
   }
 });

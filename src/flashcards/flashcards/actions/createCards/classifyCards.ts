@@ -72,9 +72,7 @@ export function sortCards(
   let sortByFunctions: Array<(arg0: Card) => number> = [];
 
   switch (
-    type === "NEW"
-      ? deck.settings.newCardPrioritization
-      : deck.settings.oldCardPrioritization
+    type === "NEW" ? deck.newCardPrioritization : deck.oldCardPrioritization
   ) {
     case "RANDOM":
       /**

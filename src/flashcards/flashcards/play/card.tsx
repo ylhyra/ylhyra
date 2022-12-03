@@ -150,11 +150,11 @@ export const CardElement = observer(() => {
       )}
     >
       <div>
-        <div>{card.row.deck.settings.title}</div>
+        <div>{card.row.deck.title || "(untitled)"}</div>
         <button
           className="btn"
           onClick={() => {
-            card.row.data.deleted = true;
+            card.row.deleted = true;
             session.cards = session.cards.filter((c) => c.row !== card.row);
             nextCard();
           }}
@@ -164,13 +164,13 @@ export const CardElement = observer(() => {
         <button
           className="btn"
           onClick={() => {
-            if (card.row.data.direction !== "BOTH") {
-              card.row.data.direction =
+            if (card.row.direction !== "BOTH") {
+              card.row.direction =
                 card.direction === Direction.FRONT_TO_BACK
                   ? "ONLY_BACK_TO_FRONT"
                   : "ONLY_FRONT_TO_BACK";
             } else {
-              card.row.data.deleted = true;
+              card.row.deleted = true;
             }
             session.cards = session.cards.filter((c) => c !== card);
             nextCard();

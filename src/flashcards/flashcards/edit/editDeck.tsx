@@ -1,7 +1,6 @@
 import { Row } from "flashcards/flashcards/actions/row/row";
 import { ImportFlashcards } from "flashcards/flashcards/edit/import/import";
 import { Button } from "flashcards/app/elements/button";
-import { getTitle } from "flashcards/app/functions";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import {
   addRow,
@@ -26,7 +25,7 @@ export const FlashcardsEdit = observer(({ deckId }: { deckId: DeckId }) => {
   return (
     <>
       <Helmet>
-        <title>{getTitle(deck.title)}</title>
+        <title>{deck.title || "(untitled)"}</title>
       </Helmet>
       <div>
         <h1>{deck.title}</h1>
@@ -78,7 +77,7 @@ export const Rows = observer(({ deck }: { deck: Deck }) => {
     <ReactDataSheet
       data={grid}
       // @ts-ignore
-      valueRenderer={(cell) => cell.row.data[cell.name]}
+      valueRenderer={(cell) => cell.row[cell.name]}
       // @ts-ignore
       sheetRenderer={(props) => (
         <table className="data-grid">
@@ -96,7 +95,7 @@ export const Rows = observer(({ deck }: { deck: Deck }) => {
       onCellsChanged={(changes) => {
         changes.forEach(({ cell, row, col, value }) => {
           // @ts-ignore
-          cell!.row.data[cell!.name] = value;
+          cell!.row[cell!.name] = value;
         });
       }}
       overflow="wrap"
