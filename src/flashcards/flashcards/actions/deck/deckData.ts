@@ -5,7 +5,7 @@ import {
 } from "flashcards/flashcards/types";
 import { FieldsSetup } from "modules/form";
 import { SyncedData } from "flashcards/userData/syncedData";
-import { makeAutoObservable } from "mobx";
+import { makeObservable } from "mobx";
 
 /** Interface form is at {@link deckDataFields} */
 export class DeckData extends SyncedData {
@@ -62,7 +62,7 @@ export class DeckData extends SyncedData {
   constructor(data: Omit<DeckData, keyof SyncedData>) {
     super({ type: "deck", key: data.deckId, ...data });
     // Object.assign(this, data);
-    makeAutoObservable(this);
+    makeObservable(this);
   }
 }
 

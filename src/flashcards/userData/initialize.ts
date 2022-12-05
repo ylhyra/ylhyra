@@ -4,13 +4,6 @@ import { sync } from "flashcards/userData/sync";
 import { userDataStore } from "flashcards/userData/userDataStore";
 import { SyncedData } from "flashcards/userData/syncedData";
 import { getFromLocalStorage } from "modules/localStorage";
-import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { Row } from "flashcards/flashcards/actions/row/row";
-import {
-  ScheduleData,
-  SessionLogData,
-} from "flashcards/flashcards/actions/session/schedule";
-import { UserSettings } from "flashcards/user/userSettings.types";
 
 export const initialize = action(() => {
   try {
@@ -31,30 +24,25 @@ export const initialize = action(() => {
   }
 });
 
-// // @ts-ignore
-// window["userDataStore"] = userDataStore;
-// // @ts-ignore
-// window["userDataStoreJs"] = () => toJS(userDataStore);
-/**
- * The types of data which are stored as {@link SyncedData} and the values they
- * represent.
- */
-export const syncedDataTypesToObjects = {
-  deck: Deck,
-  row: Row,
-  schedule: ScheduleData,
-  sessionLog: SessionLogData,
-  userSettings: UserSettings,
-  // deckOrder: InstanceType<typeof Store>["deckOrder"];
-};
-
 export function initializeObject(input: SyncedData) {
   if (input.key in userDataStore.values) {
     // Todo: Reaction is still active
     Object.assign(userDataStore.values[input.key], input);
   } else {
+    /**
+     * The types of data which are stored as {@link SyncedData} and the values
+     * they represent.
+     */
+    const syncedDataTypesToObjects = {
+      // deck: Deck,
+      // row: Row,
+      // schedule: ScheduleData,
+      // sessionLog: SessionLogData,
+      // userSettings: UserSettings,
+    };
+
     // @ts-ignore
-    const obj = new syncedDataTypesToObjects[input.type](input);
+    const obj = new (syncedDataTypesToObjects[input.type](input))();
     userDataStore.save(obj);
   }
 }
