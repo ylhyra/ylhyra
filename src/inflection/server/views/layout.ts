@@ -60,6 +60,10 @@ ${
 <main id="${id ? "content" : ""}">
   ${results || ""}
 </main>
+
+${
+  !embed
+    ? `
 <footer>
 
 ${
@@ -76,6 +80,7 @@ ${
     : ""
 }
 
+
 <div class="license">
 
 Data is from the <em><a href="https://bin.arnastofnun.is/DMII/LTdata/k-format/" rel="nofollow">Database of Modern Icelandic Inflection</a></em> (DMII),
@@ -84,6 +89,7 @@ or <em>Beygingarlýsing íslensks nútímamáls</em> (BÍN), by the Árni Magnú
 
 ${did_you_mean_in_footer ? did_you_mean_in_footer : ""}
 
+
 <div class="contact">
 <a href="https://ylhyra.is/Project:Inflections" class="gray name"><b>Ylhýra</b></a> •
 <a href="mailto:ylhyra@ylhyra.is">Report errors</a> •
@@ -91,6 +97,9 @@ ${did_you_mean_in_footer ? did_you_mean_in_footer : ""}
 </div>
 
 </footer>
+`
+    : ""
+}
 
 <script type="text/javascript">
 document.getElementById("s").select();

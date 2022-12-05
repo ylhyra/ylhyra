@@ -43,8 +43,8 @@ let count = 0;
 var lr = new LineByLineReader(
   path.resolve(
     getBaseDir(),
-    `./src/inflection/server/server-with-database/database/${CSV_FILE_NAME}`
-  )
+    `./src/inflection/server/database/${CSV_FILE_NAME}`,
+  ),
 );
 lr.on("error", (err) => {
   console.error(err);
@@ -67,12 +67,12 @@ lr.on("line", (line) => {
     // inputs = inputs.filter(input => input.score >= 3)
 
     const values = flattenArray(
-      inputs.map((input) => [input.text, word, input.score])
+      inputs.map((input) => [input.text, word, input.score]),
     );
     query(
       `DELETE FROM autocomplete WHERE output = ${escape(word)};` +
         `INSERT INTO autocomplete SET input = ?, output = ?, score = ?;`.repeat(
-          inputs.length
+          inputs.length,
         ),
       values,
       (err, results) => {
@@ -83,13 +83,13 @@ lr.on("line", (line) => {
           count++;
           if (count % 100 === 1) {
             process.stdout.write(
-              `\x1Bc\r${((count / CSV_FILE_LINES) * 100).toFixed(1)}% ${word}`
+              `\x1Bc\r${((count / CSV_FILE_LINES) * 100).toFixed(1)}% ${word}`,
             );
           }
 
           lr.resume();
         }
-      }
+      },
     );
   }
 });
@@ -132,7 +132,7 @@ const UniqueByMaxScore = (inputs) => {
   return sorted
     .filter(
       (word, index) =>
-        index === texts.indexOf(removeTemporaryMarkers(word.text))
+        index === texts.indexOf(removeTemporaryMarkers(word.text)),
     )
     .map((word) => ({
       text: word.text,

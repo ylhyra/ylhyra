@@ -13,7 +13,7 @@ const router = express.Router();
   API
 */
 router.get(
-  "/api/inflections?",
+  "/api/inflection",
   (req: Request<{}, {}, {}, MainSearchParameters>, res: Response) => {
     cacheControl(res, "cached_html");
     res.setHeader("X-Robots-Tag", "noindex");

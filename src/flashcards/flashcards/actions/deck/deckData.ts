@@ -4,7 +4,7 @@ import {
   DeckId,
 } from "flashcards/flashcards/types";
 import { FieldsSetup } from "modules/form";
-import { SyncedData } from "flashcards/userData/userDataValue";
+import { SyncedData } from "flashcards/userData/syncedData";
 import { makeAutoObservable } from "mobx";
 
 /** Interface form is at {@link deckDataFields} */

@@ -3,7 +3,7 @@ import { DeckId, DirectionSettings } from "flashcards/flashcards/types";
 import { DeckData } from "flashcards/flashcards/actions/deck/deckData";
 import { Brand } from "ts-brand";
 import { FieldsSetup } from "modules/form";
-import { SyncedData } from "flashcards/userData/userDataValue";
+import { SyncedData } from "flashcards/userData/syncedData";
 
 export type RowId = Brand<string, "RowId">;
 export type RowIds = RowId[];

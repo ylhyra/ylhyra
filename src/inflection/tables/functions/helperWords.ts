@@ -4,11 +4,13 @@ import Word from "inflection/tables/word";
 
 /**
  * Text shown before value
- * @param shouldMatchWhichWord - Used by the supine in the making of principal parts
+ *
+ * @param shouldMatchWhichWord - Used by the supine in the making of principal
+ *   parts
  */
 export function getHelperWordsBefore(
   this: Word,
-  shouldMatchWhichWord?: Word
+  shouldMatchWhichWord?: Word,
 ): Html {
   let text = "";
   /* Nouns et al. */
@@ -62,7 +64,7 @@ export function getHelperWordsBefore(
           "mig hefur",
           "mér hefur",
           "mín hefur",
-          "það hefur"
+          "það hefur",
         );
       } else {
         text = "ég hef";
@@ -92,7 +94,7 @@ export function getHelperWordsBefore(
           "hana",
           "henni",
           "hennar",
-          "það"
+          "það",
         );
       }
     }
@@ -103,7 +105,7 @@ export function getHelperWordsBefore(
           "okkur",
           "okkur",
           "okkur",
-          "það"
+          "það",
         );
       }
       if (this.is("2nd person")) {
@@ -112,7 +114,7 @@ export function getHelperWordsBefore(
           "ykkur",
           "ykkur",
           "ykkur",
-          "það"
+          "það",
         );
       }
       if (this.is("3rd person")) {
@@ -123,43 +125,41 @@ export function getHelperWordsBefore(
   return text;
 }
 
-/**
- * Text shown after value
- */
+/** Text shown after value */
 export function getHelperWordsAfter(this: Word): Html {
   let text = "";
   let addSpace = true;
 
   /* Nouns */
   if (this.is("noun", "with definite article")) {
-    if (this.is("singular")) {
-      if (this.is("nominative")) {
-        text = this.dependingOnGender("minn", "mín", "mitt");
-      }
-      if (this.is("accusative")) {
-        text = this.dependingOnGender("minn", "mína", "mitt");
-      }
-      if (this.is("dative")) {
-        text = this.dependingOnGender("mínum", "minni", "mínu");
-      }
-      if (this.is("genitive")) {
-        text = this.dependingOnGender("míns", "minnar", "míns");
-      }
-    } else if (this.is("plural")) {
-      if (this.is("nominative")) {
-        text = this.dependingOnGender("mínir", "mínar", "mín");
-      }
-      if (this.is("accusative")) {
-        text = this.dependingOnGender("mína", "mínar", "mín");
-      }
-      if (this.is("dative")) {
-        text = this.dependingOnGender("mínum", "mínum", "mínum");
-      }
-      if (this.is("genitive")) {
-        text = this.dependingOnGender("minna", "minna", "minna");
-      }
-    }
-    text = link("helper words for the article", text);
+    // if (this.is("singular")) {
+    //   if (this.is("nominative")) {
+    //     text = this.dependingOnGender("minn", "mín", "mitt");
+    //   }
+    //   if (this.is("accusative")) {
+    //     text = this.dependingOnGender("minn", "mína", "mitt");
+    //   }
+    //   if (this.is("dative")) {
+    //     text = this.dependingOnGender("mínum", "minni", "mínu");
+    //   }
+    //   if (this.is("genitive")) {
+    //     text = this.dependingOnGender("míns", "minnar", "míns");
+    //   }
+    // } else if (this.is("plural")) {
+    //   if (this.is("nominative")) {
+    //     text = this.dependingOnGender("mínir", "mínar", "mín");
+    //   }
+    //   if (this.is("accusative")) {
+    //     text = this.dependingOnGender("mína", "mínar", "mín");
+    //   }
+    //   if (this.is("dative")) {
+    //     text = this.dependingOnGender("mínum", "mínum", "mínum");
+    //   }
+    //   if (this.is("genitive")) {
+    //     text = this.dependingOnGender("minna", "minna", "minna");
+    //   }
+    // }
+    // text = link("helper words for the article", text);
   } else if (this.isAny("adjective", "past participle", "article")) {
     /* Adjectives & past participle */
     if (!this.is("weak declension") /*&& !this.is('article')*/) {

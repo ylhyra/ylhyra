@@ -69,12 +69,14 @@ const getUserDataFromDatabase = async (
       value: string; //SyncedUserDataStore["values"][string]["value"];
       type: UserDataStore["values"][string]["type"];
       updatedAt: number;
+      createdAt: number;
     }) => {
       out[key] = {
-        key: key,
-        value: JSON.parse(value),
+        key,
         type,
+        ...JSON.parse(value),
         // updatedAt,
+        // createdAt
       };
     },
   );
@@ -104,8 +106,10 @@ const saveUserDataInDatabase = async (req: express.Request) => {
       data: {
         userId: req.session!.userId as string,
         key,
-        value: stable_stringify(removeNullKeys(values[key].value)),
+        // TODO: Remove duplicate keys
+        value: stable_stringify(removeNullKeys(values[key])),
         type: values[key].type,
+        // TODO
         // updatedAt: new Date(updatedAt),
       },
     });

@@ -42,7 +42,7 @@ app.use(
     secure: false,
     httpOnly: false,
     maxAge: 5 * 365 * 24 * 60 * 60 * 1000, // 5 years
-  })
+  }),
 );
 app.enable("strict routing");
 
@@ -79,7 +79,7 @@ ylhyraApp.use("/", require("ylhyra/server/audio/recorder").default);
 ylhyraApp.use(
   "/",
   require("ylhyra/documents/translationEditor/main/saveTranslationData.server")
-    .default
+    .default,
 );
 ylhyraApp.use("/", require("ylhyra/server/analytics").default);
 ylhyraApp.use("/", require("ylhyra/server/analytics/overview").default);
@@ -88,11 +88,11 @@ ylhyraApp.use("/", require("ylhyra/server/user").default);
 ylhyraApp.use("/", require("ylhyra/server/user/pay").default);
 ylhyraApp.use(
   "/",
-  require("ylhyra/vocabulary/app/actions/userData/sync.server").default
+  require("ylhyra/vocabulary/app/actions/userData/sync.server").default,
 );
 ylhyraApp.use(
   "/",
-  require("ylhyra/vocabulary/vocabularyEditor/vocabularyEditor.server").default
+  require("ylhyra/vocabulary/vocabularyEditor/vocabularyEditor.server").default,
 );
 ylhyraApp.use("/", require("ylhyra/documents/get/getContent.server").default);
 
@@ -101,12 +101,13 @@ inflections_app.use(cors({ origin: "*" }));
 inflections_app.set("json spaces", 2);
 inflections_app.use(
   "/inflection_styles.css",
-  staticCached(path.join(getBaseDir(), "/build/inflection_styles.css"))
+  staticCached(path.join(getBaseDir(), "/build/inflection_styles.css")),
 );
 inflections_app.use("/", require("inflection/server/routes/api").default);
 inflections_app.use("/", require("inflection/server/routes/website").default);
 app.use((req, res, next) => {
   if (
+    process.env.inflections ||
     /inflections\./.exec(req.headers.host || "") ||
     /\/api\/inflection/.exec(req.originalUrl)
   ) {
@@ -160,7 +161,7 @@ process.on("SIGINT", function () {
 process.on("uncaughtException", (err) => {
   if (isDev) {
     exec(
-      `terminal-notifier -group 'ylhyra' -title '⚠️' -message 'Server has crashed'`
+      `terminal-notifier -group 'ylhyra' -title '⚠️' -message 'Server has crashed'`,
     );
   }
   console.error(err);

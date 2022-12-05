@@ -11,24 +11,11 @@ export type Tree = Pick<
   values: TreeItems;
 };
 
-export type TreeItem = Partial<Branch & Leaf>;
+export type TreeItem = Partial<Branch & Row>;
 export type Branch = {
   tag: GrammaticalTag;
   values: TreeItems;
 };
-// export type Leaf = Pick<
-//   Row,
-//   | "inflectional_form_categories"
-//   | "word_categories"
-//   | "inflectional_form"
-//   | "should_be_taught"
-//   | "correctness_grade_of_inflectional_form"
-//   | "register_of_inflectional_form"
-//   | "formattedOutput"
-//   | "variant_number"
-//   >;
-export type Leaf = Row;
-export type Leafs = Leaf[];
 export type TreeItems = TreeItem[];
 
 /** 1 is the main variant, 2 is the secondary variant, etc. */
@@ -38,7 +25,10 @@ export const PRIMARY_VARIANT_NUMBER = 1;
 export enum CorrectnessGrade {
   /** The word can be used in any context and any style or register. */
   Default = 1,
-  /** The word is not universally accepted, at least not in the most formal of registers. */
+  /**
+   * The word is not universally accepted, at least not in the most formal of
+   * registers.
+   */
   Used = 2,
   /** Not accepted. */
   Not_accepted = 3,
@@ -49,9 +39,9 @@ export enum CorrectnessGrade {
 }
 
 /**
- * Rows from database (as processed in ImportToDatabase.ts)
- * See https://bin.arnastofnun.is/DMII/LTdata/k-format/
- * */
+ * Rows from database (as processed in ImportToDatabase.ts) See
+ * https://bin.arnastofnun.is/DMII/LTdata/k-format/
+ */
 export type RowFromDatabase = {
   base_word: string;
   BIN_id: BIN_id;
@@ -70,7 +60,9 @@ export type RowFromDatabase = {
   various_feature_markers: string;
   alternative_entry: string;
 
-  /** Database search: What term of this Word matched the user's search input? */
+  /**
+   * Database search: What term of this Word matched the user's search input?
+   */
   matched_term: string;
   /** Database search: Exact match? */
   word_has_perfect_match: Boolean;
@@ -78,15 +70,24 @@ export type RowFromDatabase = {
   variant_matched: Boolean;
 };
 
-/**  Raw list of rows with classifications from ./classification/BIN_classification.js */
+/**
+ * Raw list of rows with classifications
+ * from ./classification/BIN_classification.js
+ */
 export type Row = Omit<
   RowFromDatabase,
   "word_categories" | "grammatical_tag"
 > & {
-  /** Categories from classification.ts that apply to the entire word (noun, adjective) */
+  /**
+   * Categories from classification.ts that apply to the entire word (noun,
+   * adjective)
+   */
   word_categories: GrammaticalTag[];
 
-  /** Categories from classification.ts that apply only to the given inflection form (nominative, dative) */
+  /**
+   * Categories from classification.ts that apply only to the given inflection
+   * form (nominative, dative)
+   */
   inflectional_form_categories: InflectionalCategoryList;
 
   /** Cached formatted output with umlauts highlighted */

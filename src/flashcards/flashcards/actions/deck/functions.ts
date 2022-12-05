@@ -11,11 +11,13 @@ import { removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues } from "mod
 import { goToUrl } from "modules/router";
 import shortid from "shortid";
 import _ from "underscore";
+import { userDataStore } from "flashcards/userData/userDataStore";
 
 export function newDeck(): Deck {
   return action(() => {
     const deckId = shortid.generate() as DeckId;
     const deck = new Deck({ deckId });
+    userDataStore.save(deck);
     if (isBrowser) {
       goToUrl(`/flashcards/${deckId}`);
     }
@@ -44,14 +46,15 @@ export function addRowsToDeck(deck: Deck, arrayOfRowData: Partial<RowData>[]) {
       ...[...deck.rows.values()].map((row) => row.rowNumber),
     ]);
     arrayOfRowData.forEach((rowData) => {
-      new Row(deck, {
-        deckId: deck.deckId,
+      const row = new Row(deck, {
         rowId: `${baseId}${i}` as RowId,
+        deckId: deck.deckId,
         rowNumber: highestRowNumber + 1 + i++,
         ...removeExtraWhitespaceFromObjectValuesAndDropUndefinedValues(
           rowData || {},
         ),
       });
+      userDataStore.save(row);
     });
   })();
 }

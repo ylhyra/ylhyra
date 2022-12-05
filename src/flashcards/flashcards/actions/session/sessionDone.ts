@@ -9,6 +9,7 @@ import { roundMsToSec, roundToInterval } from "modules/math";
 import { getTime } from "modules/time";
 import shortid from "shortid";
 import { SessionLogData } from "flashcards/flashcards/actions/session/schedule";
+import { userDataStore } from "flashcards/userData/userDataStore";
 
 /**
  * Called either when the user exits or when no time is remaining (in
@@ -43,11 +44,12 @@ export function saveSessionLog() {
     const timestamp = roundMsToSec(session.history.savedAt || getTime());
     const id = shortid.generate();
 
-    new SessionLogData({
+    const sessionLogData = new SessionLogData({
       key: id,
       secondsSpent: roundToInterval(session.timer.getSecondsSpent(), 10),
       timestamp,
     });
+    userDataStore.save(sessionLogData);
   } else {
     log("Not logged");
   }

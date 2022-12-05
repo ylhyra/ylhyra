@@ -1,4 +1,4 @@
-import { SyncedData } from "flashcards/userData/userDataValue";
+import { SyncedData } from "flashcards/userData/syncedData";
 import { Timestamp, Days, Seconds } from "modules/time";
 import { makeAutoObservable } from "mobx";
 import { CardId, DeckId } from "flashcards/flashcards/types";

@@ -5,14 +5,11 @@ import {
   UserDataStore,
   userDataStore,
 } from "flashcards/userData/userDataStore";
-import {
-  UserDataValueData,
-  SyncedData,
-} from "flashcards/userData/userDataValue";
+import { SyncedData } from "flashcards/userData/syncedData";
 import axios2 from "modules/axios2";
 import { saveInLocalStorage } from "modules/localStorage";
 import { log } from "modules/log";
-import { applyChangesToMainStore } from "./initialize";
+import { initializeObject } from "./initialize";
 
 /**
  * TODO:
@@ -27,10 +24,11 @@ export const sync = action(async (): Promise<void> => {
     return;
   }
 
-  const unsynced: Record<string, UserDataValueData> = {};
-  for (const [key, value] of userDataStore.values) {
+  const unsynced: Record<string, SyncedData> = {};
+  for (const key in userDataStore.values) {
+    const value = userDataStore.values[key];
     if (value.needsSyncing) {
-      unsynced[key] = value.getValues();
+      unsynced[key] = value;
     }
   }
 
@@ -40,24 +38,13 @@ export const sync = action(async (): Promise<void> => {
     // TODO: USER!
   })) as UserDataStore;
 
-  let valuesToApplyToMainStore: SyncedData[] = [];
   for (const key in response.values) {
-    const alreadyInMainStore = userDataStore.values.has(key);
-    const value = userDataStore.set({
-      key: key,
-      value: response.values[key].value,
-      type: response.values[key].type,
-      needsSyncing: false,
-    });
-    if (!alreadyInMainStore) {
-      valuesToApplyToMainStore.push(value);
-    }
+    initializeObject(response.values[key]);
   }
-  applyChangesToMainStore(valuesToApplyToMainStore);
 
   for (const key in unsynced) {
-    userDataStore.values.get(key)!.needsSyncing = false;
-    saveUserDataValueInLocalStorage(userDataStore.values.get(key)!);
+    userDataStore.values[key].needsSyncing = false;
+    saveUserDataValueInLocalStorage(userDataStore.values[key]);
   }
 
   userDataStore.lastSynced = response.lastSynced;

@@ -19,7 +19,7 @@ console.log("running");
 var lr = new LineByLineReader(
   path.resolve(
     getBaseDir(),
-    `./src/inflection/server/server-with-database/database/${CSV_FILE_NAME}`
+    `./src/inflection/server/database/${CSV_FILE_NAME}`
   )
 );
 lr.on("error", (err) => {

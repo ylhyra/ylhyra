@@ -11,7 +11,8 @@ import {
   Timestamp,
 } from "modules/time";
 import { ScheduleData } from "flashcards/flashcards/actions/session/schedule";
-import { SyncedData } from "flashcards/userData/userDataValue";
+import { SyncedData } from "flashcards/userData/syncedData";
+import { userDataStore } from "flashcards/userData/userDataStore";
 
 /**
  * We consider a card overdue if it's due date is less than 16 hours from now
@@ -48,11 +49,12 @@ export function setSchedule(
     }
   });
 
-  new ScheduleData({
+  const scheduleData = new ScheduleData({
     ...(card1.schedule || {}),
     ...data,
     cardId: card1.cardId,
   });
+  userDataStore.save(scheduleData);
 }
 
 export function getLowestAvailableRowScore(card1: Card): Score | null {

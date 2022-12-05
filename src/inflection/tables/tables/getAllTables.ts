@@ -3,10 +3,9 @@ import { wordFromTree } from "inflection/tables/helperFunctions/wordFromTree";
 import link from "inflection/tables/link";
 import { isNumber } from "inflection/tables/tree";
 import {
-  Branch,
   Html,
-  Leaf,
-  Leafs,
+  Row,
+  Rows,
   Tree,
   TreeItem,
   TreeItems,
@@ -16,16 +15,12 @@ import { uppercaseFirstLetter } from "modules/uppercaseFirstLetter";
 import { renderTableWrapperForSmallScreens as renderTable } from "inflection/tables/tables/render/renderTableWrapper";
 import { renderCell } from "inflection/tables/tables/render/renderCell";
 
-/**
- * Prints all tables for a given word
- */
+/** Prints all tables for a given word */
 export default function getTables(this: Word): Html {
   return traverseTree(this.getTree(), this);
 }
 
-/**
- * Recursively goes through the tree from ./tree.js and prints all tables
- */
+/** Recursively goes through the tree from ./tree.js and prints all tables */
 const traverseTree = (branch: Tree | TreeItem, original_word: Word): Html => {
   let table: string | null = null;
   const word = wordFromTree(branch, original_word);
@@ -112,24 +107,19 @@ const traverseTree = (branch: Tree | TreeItem, original_word: Word): Html => {
 
   let output = table;
   if (!output) {
-    /**
-     * Go deeper
-     */
+    /** Go deeper */
     if (branch.values && !leafOnlyContainsVariants(branch.values)) {
       output = branch.values
         .map((i) => traverseTree(i, original_word))
         .join("");
     } else {
-      /**
-       * No table was created above,
-       * generate a simple field
-       */
-      let rows = (branch.values as Leafs) || [
+      /** No table was created above, generate a simple field */
+      let rows = (branch.values as Rows) || [
         /* For supine of "geta" */
-        branch as Leaf,
+        branch as Row,
       ];
       output = `<table class="table not-center"><tbody><tr>${renderCell(
-        new Word(rows, original_word)
+        new Word(rows, original_word),
       )}</tr></tbody></table>`;
     }
   }
@@ -145,8 +135,8 @@ const traverseTree = (branch: Tree | TreeItem, original_word: Word): Html => {
 };
 
 /**
- * If a leaf only contains a single form and its variants,
- * we want to be able to group them together.
+ * If a leaf only contains a single form and its variants, we want to be able to
+ * group them together.
  * Created to handle the supine of "geta".
  */
 const leafOnlyContainsVariants = (array: TreeItems) => {
@@ -160,7 +150,7 @@ const leafOnlyContainsVariants = (array: TreeItems) => {
         /* -1 to remove variant number*/
         row.inflectional_form_categories.length - 1 &&
       match.every(
-        (value, index) => value === row.inflectional_form_categories?.[index]
-      )
+        (value, index) => value === row.inflectional_form_categories?.[index],
+      ),
   );
 };

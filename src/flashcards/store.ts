@@ -12,7 +12,7 @@ import {
 
 export class Store {
   user: UserCookie = getUserFromCookie();
-  userSettings: UserSettings = {};
+  userSettings: UserSettings = new UserSettings();
   decks: Map<DeckId, Deck> = new Map();
   schedule: Map<CardId, ScheduleData> = new Map();
   sessionLog: Map<string, SessionLogData> = new Map();

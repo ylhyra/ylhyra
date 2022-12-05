@@ -50,7 +50,7 @@ export function classify(input: RowFromDatabase): Row {
   /* Adjectives: Arrange plurality before gender */
   grammatical_tag = grammatical_tag.replace(
     /(KK|KVK|HK)-(NF|ÞF|ÞGF|EF)(ET|FT)/i,
-    "$3-$1-$2"
+    "$3-$1-$2",
   );
   /* Nouns: Arrange plurality before case */
   grammatical_tag = grammatical_tag.replace(/(NF|ÞF|ÞGF|EF)(ET|FT)/i, "$2-$1");
@@ -64,12 +64,12 @@ export function classify(input: RowFromDatabase): Row {
         // inflectional_form_categories.push(tag)
       } else if (get_label_for_BIN_inflection_form(tag)) {
         inflectional_form_categories.push(
-          get_label_for_BIN_inflection_form(tag)
+          get_label_for_BIN_inflection_form(tag),
         );
       } else {
         if (process.env.NODE_ENV === "development") {
           console.error(
-            `Unknown tag in BIN_classification.js: ${tag}. Full tag is ${grammatical_tag}`
+            `Unknown tag in BIN_classification.js: ${tag}. Full tag is ${grammatical_tag}`,
           );
         }
       }
@@ -109,9 +109,11 @@ export function classify(input: RowFromDatabase): Row {
   }
   if (typeof rest.correctness_grade_of_inflectional_form === "string") {
     rest.correctness_grade_of_inflectional_form = parseInt(
-      rest.correctness_grade_of_inflectional_form
+      rest.correctness_grade_of_inflectional_form,
     );
   }
+
+  rest.should_be_taught = Boolean(rest.should_be_taught);
 
   return {
     word_categories: word_categories_output,
@@ -123,7 +125,9 @@ export function classify(input: RowFromDatabase): Row {
   };
 }
 
-/** Overrides the tags in "classification.js" during the BIN initialization step */
+/**
+ * Overrides the tags in "classification.js" during the BIN initialization step
+ */
 const BIN_overrides: {
   word_overrides: Record<string, string>;
   inflection_form_overrides: Record<string, string>;
@@ -172,8 +176,8 @@ const grammaticalTagsUsedInBinRegex = (() => {
 })();
 
 /**
- * We are only interested in knowing whether a word is a name
- * or not See https://bin.arnastofnun.is/ordafordi/hlutiBIN/
+ * We are only interested in knowing whether a word is a name or not See
+ * https://bin.arnastofnun.is/ordafordi/hlutiBIN/
  */
 export const relevant_BIN_domains: Record<string, string> = {
   ism: "human name",

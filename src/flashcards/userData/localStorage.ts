@@ -1,4 +1,4 @@
-import { SyncedData } from "flashcards/userData/userDataValue";
+import { SyncedData } from "flashcards/userData/syncedData";
 import { saveInLocalStorage } from "modules/localStorage";
 import { onlyProperties } from "modules/typescript/various";
 

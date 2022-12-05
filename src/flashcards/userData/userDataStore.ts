@@ -1,5 +1,4 @@
-import { SyncedData } from "flashcards/userData/userDataValue";
-import { toJS } from "mobx";
+import { SyncedData } from "flashcards/userData/syncedData";
 import { getFromLocalStorage } from "modules/localStorage";
 import { Timestamp } from "modules/time";
 
@@ -14,23 +13,15 @@ export class UserDataStore {
    */
   lastSynced: Timestamp = getFromLocalStorage("lastSynced") || 0;
   userId?: string;
-  values: Record<string, SyncedData> = {};
+  values: Record<SyncedData["key"], SyncedData> = {};
 
-  set<K extends SyncedData>(input: K, options: { isInitializing: boolean }) {
-    if (this.values[input.key]) {
-      Object.assign(this.values[input.key], input);
-    } else {
-      this.values[input.key] = input;
-    }
+  save(input: SyncedData) {
+    this.values[input.key] = input;
   }
 }
 
+// @ts-ignore
 export let userDataStore = new UserDataStore();
 export function clearUserDataStore() {
   userDataStore = new UserDataStore();
 }
-
-// @ts-ignore
-window["userDataStore"] = userDataStore;
-// @ts-ignore
-window["userDataStoreJs"] = () => toJS(userDataStore);

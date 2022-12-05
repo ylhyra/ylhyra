@@ -2,8 +2,15 @@ import { action } from "mobx";
 import { FLASHCARDS_LOCALSTORAGE_PREFIX } from "flashcards/userData/localStorage";
 import { sync } from "flashcards/userData/sync";
 import { userDataStore } from "flashcards/userData/userDataStore";
-import { SyncedData, syncedDataTypesToObjects } from "./userDataValue";
+import { SyncedData } from "flashcards/userData/syncedData";
 import { getFromLocalStorage } from "modules/localStorage";
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
+import { Row } from "flashcards/flashcards/actions/row/row";
+import {
+  ScheduleData,
+  SessionLogData,
+} from "flashcards/flashcards/actions/session/schedule";
+import { UserSettings } from "flashcards/user/userSettings.types";
 
 export const initialize = action(() => {
   try {
@@ -13,19 +20,9 @@ export const initialize = action(() => {
       const data = getFromLocalStorage<SyncedData>(key);
       if (!data) return;
       initializeObject(data);
-
-      // values.push(
-      //   userDataStore.set({
-      //     ...value,
-      //     isInitializing: true,
-      //     key: key.slice(FLASHCARDS_LOCALSTORAGE_PREFIX.length),
-      //   }),
-      // );
     });
 
     // TODO UserDataStore.lastSynced
-
-    // applyChangesToMainStore(values);
 
     void sync();
   } catch (e) {
@@ -34,9 +31,32 @@ export const initialize = action(() => {
   }
 });
 
+// // @ts-ignore
+// window["userDataStore"] = userDataStore;
+// // @ts-ignore
+// window["userDataStoreJs"] = () => toJS(userDataStore);
+/**
+ * The types of data which are stored as {@link SyncedData} and the values they
+ * represent.
+ */
+export const syncedDataTypesToObjects = {
+  deck: Deck,
+  row: Row,
+  schedule: ScheduleData,
+  sessionLog: SessionLogData,
+  userSettings: UserSettings,
+  // deckOrder: InstanceType<typeof Store>["deckOrder"];
+};
+
 export function initializeObject(input: SyncedData) {
-  // @ts-ignore
-  new syncedDataTypesToObjects[input.type](input);
+  if (input.key in userDataStore.values) {
+    // Todo: Reaction is still active
+    Object.assign(userDataStore.values[input.key], input);
+  } else {
+    // @ts-ignore
+    const obj = new syncedDataTypesToObjects[input.type](input);
+    userDataStore.save(obj);
+  }
 }
 
 // export function applyChangesToMainStore(values: SyncedData[]) {

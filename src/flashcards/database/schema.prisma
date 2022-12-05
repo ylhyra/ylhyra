@@ -19,67 +19,9 @@ model User {
   username  String     @unique
   password  String
   email     String?
-  Decks     Deck[]
-  Rows      Row[]
-  Settings  Settings[]
-  Schedule  Schedule[]
-
-  UserData UserData[]
+  UserData  UserData[]
 
   @@index([email])
-}
-
-model Deck {
-  deckId    String   @id @default(cuid())
-  author    User     @relation(fields: [authorId], references: [userId])
-  authorId  String
-  isPublic  Boolean  @default(false)
-  data      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Row       Row[]
-
-  @@index([authorId, isPublic])
-}
-
-model Row {
-  rowId     String     @id @default(cuid())
-  deck      Deck       @relation(fields: [deckId], references: [deckId])
-  deckId    String
-  author    User       @relation(fields: [authorId], references: [userId])
-  authorId  String
-  data      String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  Schedule  Schedule[]
-
-  @@index([deckId, authorId])
-}
-
-model Schedule {
-  id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [userId])
-  userId    String
-  row       Row      @relation(fields: [rowId], references: [rowId])
-  rowId     String
-  value     String //@db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId, rowId])
-}
-
-model Settings {
-  id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [userId])
-  userId    String
-  type      String? //@db.VarChar(10)
-  key       String //@db.VarChar(20)
-  value     String //@db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId])
 }
 
 model UserData {

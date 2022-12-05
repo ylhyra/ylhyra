@@ -26,7 +26,6 @@ import {
   Html,
   InflectionalCategoryList,
   InflectionalCategoryListOrNestedList,
-  Leafs,
   Rows,
 } from "inflection/tables/types";
 import { flattenArray } from "modules/arrays/flattenArray";
@@ -62,10 +61,10 @@ class Word {
   findIrregularities = findIrregularities;
   getSnippet = getSnippet;
 
-  constructor(rows: Rows | Leafs = [], original?: Word) {
+  constructor(rows: Rows | Rows = [], original?: Word) {
     if (!Array.isArray(rows) && rows !== undefined) {
       throw new Error(
-        `Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`
+        `Class "Word" expected parameter "rows" to be an array or undefined, got ${typeof rows}`,
       );
     }
 
@@ -107,9 +106,9 @@ class Word {
   // }
 
   /**
-   * We find irregularities at the beginning in order to
-   * prevent expensive recalculation. Todo: This could
-   * perhaps just be cached instead of precalculated.
+   * We find irregularities at the beginning in order to prevent expensive
+   * recalculation. Todo: This could perhaps just be cached instead of
+   * precalculated.
    */
   setup() {
     this.findIrregularities();
@@ -121,7 +120,7 @@ class Word {
 
   getURL() {
     return `https://inflections.ylhyra.is/${encodeURIComponent(
-      this.getBaseWord()
+      this.getBaseWord(),
     )}/${this.getId()}`;
   }
 
@@ -160,8 +159,8 @@ class Word {
         this.rows.length > 0 &&
         this.rows.every((row) =>
           row.inflectional_form_categories.includes(
-            getCanonicalGrammaticalTag(value)
-          )
+            getCanonicalGrammaticalTag(value),
+          ),
         )
       );
     });
@@ -182,8 +181,8 @@ class Word {
         this.rows.length > 0 &&
         this.rows.every((row) =>
           row.inflectional_form_categories.includes(
-            getCanonicalGrammaticalTag(value)
-          )
+            getCanonicalGrammaticalTag(value),
+          ),
         )
       );
     });
@@ -197,12 +196,12 @@ class Word {
         values.filter(Boolean).every(
           (value) =>
             row.inflectional_form_categories.includes(
-              getCanonicalGrammaticalTag(value)
-            )
+              getCanonicalGrammaticalTag(value),
+            ),
           // || row.word_categories.includes(value) // Should not be needed
-        )
+        ),
       ),
-      this
+      this,
     );
   }
 
@@ -211,12 +210,12 @@ class Word {
     if (!args) return this;
     const values = flattenArray(args) as InflectionalCategoryList;
     let valuesCategories = values.map(
-      (v) => getDescriptionFromGrammaticalTag(v)?.category
+      (v) => getDescriptionFromGrammaticalTag(v)?.category,
     );
     let tryToMatchAsManyAsPossible: InflectionalCategoryList = [];
     this.getClassificationOfFirstRow().forEach((tag) => {
       let relevantTypeIndex = valuesCategories.findIndex(
-        (v) => v === getDescriptionFromGrammaticalTag(tag)?.category
+        (v) => v === getDescriptionFromGrammaticalTag(tag)?.category,
       );
       if (relevantTypeIndex >= 0) {
         tryToMatchAsManyAsPossible.push(values[relevantTypeIndex]);
@@ -275,11 +274,11 @@ class Word {
           .filter(Boolean)
           .some((value) =>
             row.inflectional_form_categories.includes(
-              getCanonicalGrammaticalTag(value)
-            )
-          )
+              getCanonicalGrammaticalTag(value),
+            ),
+          ),
       ),
-      this
+      this,
     );
   }
 
@@ -301,10 +300,10 @@ class Word {
         (row) =>
           match.length === row.inflectional_form_categories.length - 1 && // -1 to remove number
           match.every(
-            (value, index) => value === row.inflectional_form_categories[index]
-          )
+            (value, index) => value === row.inflectional_form_categories[index],
+          ),
       ),
-      this
+      this,
     );
   }
 
@@ -353,17 +352,17 @@ class Word {
           .every(
             (value) =>
               !row.inflectional_form_categories.includes(
-                getCanonicalGrammaticalTag(value)
-              )
-          )
+                getCanonicalGrammaticalTag(value),
+              ),
+          ),
       ),
-      this
+      this,
     );
   }
 
   /**
-   * Used to ask "which case does this word have?"
-   * E.g. getType('case') returns 'nominative'
+   * Used to ask "which case does this word have?" E.g. getType('case') returns
+   * 'nominative'
    */
   getType(grammaticalCategory: GrammaticalCategory): GrammaticalTag {
     const classification = [
@@ -376,7 +375,7 @@ class Word {
       throw new Error(`No grammatical category named ${grammaticalCategory}`);
     }
     return classification.find((i) =>
-      relevantTypes!.includes(i as GrammaticalTag)
+      relevantTypes!.includes(i as GrammaticalTag),
     ) as GrammaticalTag;
   }
 
@@ -388,21 +387,21 @@ class Word {
   }
 
   /**
-   * Three values are inputted, a value is returned
-   * based on the gender of the word.
+   * Three values are inputted, a value is returned based on the gender of the
+   * word.
    * Used when generating helper words
    */
   dependingOnGender(...values: [masculine: any, feminine: any, neuter: any]) {
     return values[
       ["masculine", "feminine", "neuter"].indexOf(
-        this.getType("gender") as string
+        this.getType("gender") as string,
       )
     ];
   }
 
   /**
-   * Five values are inputted, a value is returned based on the
-   * subject type of the verb Used when generating helper words
+   * Five values are inputted, a value is returned based on the subject type of
+   * the verb Used when generating helper words
    *
    * Input is an array with 5 values.
    */
@@ -412,7 +411,7 @@ class Word {
       impersonalAccusative: any,
       impersonalDative: any,
       impersonalGenitive: any,
-      dummySubject: any
+      dummySubject: any,
     ]
   ) {
     if (this.is("impersonal with accusative subject")) {
@@ -436,8 +435,8 @@ class Word {
    * Used to render the word to a string outside of a table.
    * If in a table, the function renderCell() is used.
    *
-   * @param shouldMatchWhichWord - Used by the supine in the
-   *   making of principal parts
+   * @param shouldMatchWhichWord - Used by the supine in the making of principal
+   *   parts
    */
   renderWithHelperWords(shouldMatchWhichWord?: Word): Html {
     let output =
