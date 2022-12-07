@@ -1,7 +1,7 @@
 import { SyncedData } from "flashcards/userData/syncedData";
 import { Timestamp, Days, Seconds } from "modules/time";
-import { makeAutoObservable } from "mobx";
 import { CardId, DeckId } from "flashcards/flashcards/types";
+import { makeAutoObservableAll } from "modules/typescript/properties";
 
 // todo: move to cardSchedule.ts?
 export class ScheduleData extends SyncedData {
@@ -18,7 +18,7 @@ export class ScheduleData extends SyncedData {
 
   constructor(data: Omit<ScheduleData, keyof SyncedData>) {
     super({ type: "schedule", key: data.cardId, ...data });
-    makeAutoObservable(this);
+    makeAutoObservableAll(this);
   }
 }
 

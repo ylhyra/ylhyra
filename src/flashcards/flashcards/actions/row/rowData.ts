@@ -11,9 +11,6 @@ export type RowIds = RowId[];
 /**
  * Raw user input describing a flashcard. See {@link rowFields} for more
  * details.
- *
- * For the processed information, see {@link ProcessedCardExtraInformation}
- * (work in progress)
  */
 export class RowData extends SyncedData {
   deckId!: DeckId;

@@ -26,10 +26,6 @@ export enum Direction {
 //   // dependencyList: Record<RowId, RowId[]>;
 // };
 
-export type ProcessedCardExtraInformation = {
-  isSentence: boolean;
-};
-
 export enum ImportanceEnum {
   VERY_UNIMPORTANT = 1,
   UNIMPORTANT = 2,

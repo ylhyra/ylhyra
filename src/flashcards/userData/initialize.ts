@@ -4,6 +4,12 @@ import { sync } from "flashcards/userData/sync";
 import { userDataStore } from "flashcards/userData/userDataStore";
 import { SyncedData } from "flashcards/userData/syncedData";
 import { getFromLocalStorage } from "modules/localStorage";
+import { Row } from "flashcards/flashcards/actions/row/row";
+import {
+  ScheduleData,
+  SessionLogData,
+} from "flashcards/flashcards/actions/session/schedule";
+import { Deck } from "flashcards/flashcards/actions/deck/deck";
 
 export const initialize = action(() => {
   try {
@@ -34,10 +40,10 @@ export function initializeObject(input: SyncedData) {
      * they represent.
      */
     const syncedDataTypesToObjects = {
-      // deck: Deck,
-      // row: Row,
-      // schedule: ScheduleData,
-      // sessionLog: SessionLogData,
+      deck: Deck,
+      row: Row,
+      schedule: ScheduleData,
+      sessionLog: SessionLogData,
       // userSettings: UserSettings,
     };
 

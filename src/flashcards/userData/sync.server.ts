@@ -4,7 +4,7 @@ import { prisma } from "flashcards/database/database.server";
 import { UserDataStore } from "flashcards/userData/userDataStore";
 import stable_stringify from "json-stable-stringify";
 import removeNullKeys from "modules/removeNullKeys";
-import { OnlyProperties } from "modules/typescript/various";
+import { OnlyProperties } from "modules/typescript/properties";
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import { SyncedData } from "flashcards/userData/syncedData";
 import { saveInLocalStorage } from "modules/localStorage";
-import { onlyProperties } from "modules/typescript/various";
+import { onlyProperties } from "modules/typescript/properties";
 
 /** Prefix to prevent possible clashes in localStorage */
 export const FLASHCARDS_LOCALSTORAGE_PREFIX = "f:";

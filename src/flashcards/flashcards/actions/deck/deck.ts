@@ -10,6 +10,8 @@ import {
   DirectionSettings,
   Direction,
 } from "flashcards/flashcards/types";
+import { SyncedData } from "flashcards/userData/syncedData";
+import { makeAutoObservableAll } from "modules/typescript/properties";
 
 export class Deck extends DeckData {
   deckId!: DeckId;
@@ -65,11 +67,11 @@ export class Deck extends DeckData {
   @observable rows: Map<RowId, Row> = new Map();
   @observable chapters: Chapter[] = [];
 
-  // constructor(data: Omit<DeckData, keyof SyncedData>) {
-  //   super(data);
-  //   // store.decks.set(deckId, this);
-  //   // makeObservable(this);
-  // }
+  constructor(data: Omit<DeckData, keyof SyncedData>) {
+    super(data);
+    // store.decks.set(deckId, this);
+    makeAutoObservableAll(this);
+  }
 
   // get title() {
   //   return this.settings.title || "(untitled)";

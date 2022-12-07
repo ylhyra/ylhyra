@@ -1,5 +1,5 @@
 import { SyncedData } from "flashcards/userData/syncedData";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservableAll } from "modules/typescript/properties";
 
 /** Interface form is at {@link userSettingsFields} */
 export class UserSettings extends SyncedData {
@@ -8,6 +8,7 @@ export class UserSettings extends SyncedData {
 
   constructor() {
     super({ type: "userSettings", key: "userSettings" });
-    makeAutoObservable(this);
+
+    makeAutoObservableAll(this);
   }
 }
