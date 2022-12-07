@@ -11,6 +11,7 @@ import {
   percentageSeen,
 } from "./actions/functions/percentageKnown";
 import { newChapter } from "flashcards/flashcards/actions/chapter/chapter";
+import { ActivityCalendar } from "flashcards/flashcards/overview/ActivityCalendar";
 
 export const FlashcardsMake = observer(function () {
   const { decks } = store;
@@ -26,6 +27,7 @@ export const FlashcardsMake = observer(function () {
         {/*    Play all decks*/}
         {/*  </Link>*/}
         {/*</div>*/}
+        <ActivityCalendar />
         <hr />
         <ul>
           {[...decks.values()]

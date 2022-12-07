@@ -8,8 +8,8 @@ import parseISO from "date-fns/parseISO";
 import { minutes, prettyPrintDaysMinutesHours } from "modules/time";
 import React, { CSSProperties, FunctionComponent, ReactNode } from "react";
 import color from "tinycolor2";
-import "ylhyra/app/app/functions/react-activity-calendar/component/styles.css";
-import { Day, Labels, Theme } from "ylhyra/app/app/functions/react-activity-calendar/types";
+import "modules/react-activity-calendar/component/styles.css";
+import { Day, Labels, Theme } from "modules/react-activity-calendar/types";
 import {
   DEFAULT_LABELS,
   DEFAULT_WEEKDAY_LABELS,
@@ -19,8 +19,8 @@ import {
   getTheme,
   groupByWeeks,
   MIN_DISTANCE_MONTH_LABELS,
-  NAMESPACE
-} from "ylhyra/app/app/functions/react-activity-calendar/util";
+  NAMESPACE,
+} from "modules/react-activity-calendar/util";
 
 const textColor = "#464646";
 const baseColor = color("#2d81ff");
@@ -32,84 +32,58 @@ type CalendarData = Array<Day>;
 export interface Props {
   /**
    * List of calendar entries. Every `Day` object requires an ISO 8601 `date`
-   * property in the format `yyyy-MM-dd`, a `count` property with the amount
-   * of tracked data and finally a `userLevel` property in the range `0 - 4` to
+   * property in the format `yyyy-MM-dd`, a `count` property with the amount of
+   * tracked data and finally a `userLevel` property in the range `0 - 4` to
    * specify activity intensity.
    *
    * Example object:
    *
    * ```json
    * {
-   *   date: "2021-02-20",
-   *   count: 16,
-   *   userLevel: 3
+   *   "date": "2021-02-20",
+   *   "count": 16,
+   *   "userLevel": 3
    * }
    * ```
    */
   data: CalendarData;
-  /**
-   * Margin between blocks in pixels.
-   */
+  /** Margin between blocks in pixels. */
   blockMargin?: number;
-  /**
-   * Border radius of blocks in pixels.
-   */
+  /** Border radius of blocks in pixels. */
   blockRadius?: number;
-  /**
-   * Block size in pixels.
-   */
+  /** Block size in pixels. */
   blockSize?: number;
-  /**
-   * Pass `<ReactTooltip html />` as child to show tooltips.
-   */
+  /** Pass `<ReactTooltip html />` as child to show tooltips. */
   children?: ReactNode;
   /**
-   * Base color to compute graph intensity hues (darkest color). Any valid CSS color is accepted
+   * Base color to compute graph intensity hues (darkest color). Any valid CSS
+   * color is accepted
    */
   color?: string;
-  /**
-   * A date-fns/format compatible date string used in tooltips.
-   */
+  /** A date-fns/format compatible date string used in tooltips. */
   dateFormat?: string;
-  /**
-   * Font size for text in pixels.
-   */
+  /** Font size for text in pixels. */
   fontSize?: number;
-  /**
-   * Toggle to hide color legend below calendar.
-   */
+  /** Toggle to hide color legend below calendar. */
   hideColorLegend?: boolean;
-  /**
-   * Toggle to hide month labels above calendar.
-   */
+  /** Toggle to hide month labels above calendar. */
   hideMonthLabels?: boolean;
-  /**
-   * Toggle to hide total count below calendar.
-   */
+  /** Toggle to hide total count below calendar. */
   hideTotalCount?: boolean;
   /**
-   * Localization strings for all calendar labels. `totalCount` supports the placeholders `{{count}}` and `{{year}}`:
+   * Localization strings for all calendar labels. `totalCount` supports the
+   * placeholders `{{count}}` and `{{year}}`:
    */
   labels?: Labels;
-  /**
-   * Toggle for loading state. `data` property will be ignored if set.
-   */
+  /** Toggle for loading state. `data` property will be ignored if set. */
   loading?: boolean;
-  /**
-   * Toggle to show weekday labels left to the calendar.
-   */
+  /** Toggle to show weekday labels left to the calendar. */
   showWeekdayLabels?: boolean;
-  /**
-   * Style object to pass to component container.
-   */
+  /** Style object to pass to component container. */
   style?: CSSProperties;
-  /**
-   * An object specifying all theme colors explicitly`.
-   */
+  /** An object specifying all theme colors explicitly`. */
   theme?: Theme;
-  /**
-   * Index of day to be used as start of week. 0 represents Sunday.
-   */
+  /** Index of day to be used as start of week. 0 represents Sunday. */
   weekStart?: WeekDay;
 }
 
@@ -161,7 +135,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
       return `${date}: Not played`;
     }
     return `${date}: ${prettyPrintDaysMinutesHours(
-      contribution.count * minutes
+      contribution.count * minutes,
     )}`;
   }
 
@@ -229,7 +203,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
                     {text}
                   </text>
                 );
-              }
+              },
             )}
           </g>
         )}
@@ -276,7 +250,7 @@ const ActivityCalendar: FunctionComponent<Props> = ({
               <title>{getTooltipMessage(day)}</title>
             </rect>
           );
-        })
+        }),
       )
       .map((week, x) => (
         <g

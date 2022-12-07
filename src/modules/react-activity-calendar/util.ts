@@ -9,11 +9,7 @@ import nextDay from "date-fns/nextDay";
 import parseISO from "date-fns/parseISO";
 import subWeeks from "date-fns/subWeeks";
 import color, { ColorInput } from "tinycolor2";
-import {
-  Day,
-  Theme,
-  Weeks,
-} from "ylhyra/app/app/functions/react-activity-calendar/types";
+import { Day, Theme, Weeks } from "modules/react-activity-calendar/types";
 
 export const NAMESPACE = "react-activity-calendar";
 export const MIN_DISTANCE_MONTH_LABELS = 2;
@@ -28,7 +24,7 @@ interface Label {
 
 export function groupByWeeks(
   days: Array<Day>,
-  weekStart: WeekDay = 0 // 0 = Sunday
+  weekStart: WeekDay = 0, // 0 = Sunday
 ): Weeks {
   if (days.length === 0) {
     return [];
@@ -49,7 +45,7 @@ export function groupByWeeks(
   // because the first date might not be desired week day.
   const paddedDays = [
     ...Array(differenceInCalendarDays(firstDate, firstCalendarDate)).fill(
-      undefined
+      undefined,
     ),
     ...normalizedDays,
   ];
@@ -57,7 +53,7 @@ export function groupByWeeks(
   return Array(Math.ceil(paddedDays.length / 7))
     .fill(undefined)
     .map((_, calendarWeek) =>
-      paddedDays.slice(calendarWeek * 7, calendarWeek * 7 + 7)
+      paddedDays.slice(calendarWeek * 7, calendarWeek * 7 + 7),
     );
 }
 
@@ -87,7 +83,7 @@ function normalizeCalendarDays(days: Array<Day>): Array<Day> {
 
 export function getMonthLabels(
   weeks: Weeks,
-  monthNames: Array<string> = DEFAULT_MONTH_LABELS
+  monthNames: Array<string> = DEFAULT_MONTH_LABELS,
 ): Array<Label> {
   return weeks
     .reduce<Array<Label>>((labels, week, index) => {
