@@ -16,7 +16,6 @@ import { userDataStore } from "../../../userData/userDataStore";
  */
 export const sessionDone = action((options: any = {}): void => {
   const session = store.session;
-
   createSchedule();
   clearOngoingSessionInLocalStorage();
   if (!options.isInitializing) {
@@ -37,8 +36,9 @@ export const sessionDone = action((options: any = {}): void => {
 export function saveSessionLog() {
   const session = store.session;
   if (
-    session.history.cardHistory.length > 0 &&
-    session.timer.getSecondsSpent() > 10
+    session.history.cardHistory.length > 0
+    // &&
+    // session.timer.getSecondsSpent() > 10
   ) {
     const timestamp = roundMsToSec(session.history.savedAt || getTime());
     const id = shortid.generate();

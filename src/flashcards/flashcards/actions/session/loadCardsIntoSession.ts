@@ -1,4 +1,4 @@
-import { store } from 'flashcards/store';
+import { store } from "flashcards/store";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 
@@ -10,10 +10,12 @@ export function loadCardsIntoSession(cards: Card[]) {
   const session = store.session;
 
   cards.forEach((card, index) => {
-    session.cards.push(
-      new CardInSession(card, session, {
-        insertAtPosition: index,
-      }),
-    );
+    if (card) {
+      session.cards.push(
+        new CardInSession(card, session, {
+          insertAtPosition: index,
+        }),
+      );
+    }
   });
 }

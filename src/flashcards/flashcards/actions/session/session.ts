@@ -1,11 +1,11 @@
-import { computed, makeObservable, observable } from "mobx";
+import { makeObservable, observable } from "mobx";
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { SessionHistory } from "flashcards/flashcards/actions/session/sessionHistory";
 import { SessionTimer } from "flashcards/flashcards/actions/session/sessionTimer";
 import { NonEmptyArray } from "modules/typescript/arrays";
-import { ClassifiedCards } from "flashcards/flashcards/actions/createCards/classifyCards";
+import { CardChooser } from "flashcards/flashcards/actions/createCards/cardChooser";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
@@ -25,6 +25,7 @@ export class Session {
 
   history!: SessionHistory;
   timer!: SessionTimer;
+  cardChooser?: CardChooser;
 
   /**
    * This counter increases for every new card the user sees.
@@ -61,10 +62,7 @@ export class Session {
     this.timer = new SessionTimer(this);
     this.history = new SessionHistory(this);
     this.userFacingError = undefined;
-  }
-
-  @computed get classifiedCards(): ClassifiedCards {
-    return new ClassifiedCards(this.chosenDeck!);
+    this.cardChooser = undefined;
   }
 
   areThereUnseenCardsRemaining() {
