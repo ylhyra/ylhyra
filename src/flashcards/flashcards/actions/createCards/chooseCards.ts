@@ -26,8 +26,7 @@ export class ChooseCards {
     console.groupCollapsed("See chosen cards");
     for (let i = 0; i < cardsToCreate; i++) {
       const shouldBeNewCard =
-        (i % newCardEvery === Math.round(newCardEvery * 0.75) ||
-          !this.areOldCardsRemaining) &&
+        (i % newCardEvery === 0 || !this.areOldCardsRemaining) &&
         this.areNewCardsRemaining;
       const card = this.getCardOfType(shouldBeNewCard ? "NEW" : "OVERDUE");
       if (!card) continue;
@@ -59,6 +58,7 @@ export class ChooseCards {
 
   /** Interval of new cards */
   get newCardEvery() {
+    return 2;
     const badCount = this.classifiedDecks.reduce(
       (acc, curr) => acc + curr.overdueBad.length,
       0,

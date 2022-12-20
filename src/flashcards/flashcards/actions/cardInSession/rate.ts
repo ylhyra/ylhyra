@@ -1,4 +1,3 @@
-import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import {
   CardInSession,
   IntervalRelativeToCurrentCardBeingAtZero,
@@ -21,7 +20,7 @@ export function rate(this: CardInSession, rating: Rating): void {
   let interval: IntervalRelativeToCurrentCardBeingAtZero;
 
   if (rating === Rating.BAD) {
-    interval = Math.random() < 0.6 ? 2 : 3;
+    interval = Math.random() < 0.5 ? 3 : 4;
 
     if (lastRating >= Rating.GOOD) {
       interval += 2;
@@ -38,13 +37,14 @@ export function rate(this: CardInSession, rating: Rating): void {
     interval = 200;
     card.done = true;
     if (lastRating === Rating.BAD) {
-      interval = 5;
+      interval = Math.random() < 0.5 ? 5 : 8;
       card.done = false;
     } else if (nextLastRating === Rating.BAD) {
-      interval = 10;
-    } else if (isBad(card) && timesSeenBeforeInSession === 0) {
       interval = 12;
     }
+    // else if (isBad(card) && timesSeenBeforeInSession === 0) {
+    //   interval = 12;
+    // }
   } else if (rating === Rating.EASY) {
     interval = 800;
     card.done = true;

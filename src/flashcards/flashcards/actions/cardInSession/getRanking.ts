@@ -63,14 +63,15 @@ export function getRanking(this: CardInSession) {
     rank += 7000;
   }
 
-  /** Choose which side to show first */
-  if (
-    isNewCard(this) &&
-    this.row.getSetting("sideToShowFirst") !== "RANDOM" &&
-    this.row.getSetting("sideToShowFirst") !== this.direction
-  ) {
-    rank += 100;
-  }
+  // /** Choose which side to show first */
+  // TODO: Incorrectly gives +100 to all new cards
+  // if (
+  //   isNewCard(this) &&
+  //   this.row.getSetting("sideToShowFirst") !== "RANDOM" &&
+  //   this.row.getSetting("sideToShowFirst") !== this.direction
+  // ) {
+  //   rank += 100;
+  // }
 
   /**
    * Prevent cards all going in the same direction from appearing right next to
