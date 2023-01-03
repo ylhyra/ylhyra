@@ -74,6 +74,7 @@ export class ClassifiedCardsInDeck {
    * tries to alternate between them.
    */
   getOverdueCard() {
+    console.log("hahaha");
     const overdueCardType: "OVERDUE_BAD" | "OVERDUE_GOOD" = (() => {
       return chooseDependingOnRelativeProbability(
         ["OVERDUE_BAD", "OVERDUE_GOOD"],

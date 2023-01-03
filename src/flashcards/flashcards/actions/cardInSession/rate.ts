@@ -14,25 +14,33 @@ export function rate(this: CardInSession, rating: Rating): void {
   const session = this.session;
   const card: CardInSession = this;
   const timesSeenBeforeInSession = card.ratingHistory.length;
+  // const timesRowSeenBeforeInSession = getSiblingCardsInSession(card)
+  //   .map((c) => c.ratingHistory.length)
+  //   .reduce((a, b) => a + b, 0);
 
   const lastRating = card.lastRating;
   const nextLastRating = card.nextLastRating;
   let interval: IntervalRelativeToCurrentCardBeingAtZero;
 
   if (rating === Rating.BAD) {
-    interval = Math.random() < 0.5 ? 3 : 4;
+    interval = 3;
+    if (Math.random() < 0.5) interval = 4;
+    else if (Math.random() < 0.2) interval = 5;
 
     if (lastRating >= Rating.GOOD) {
       interval += 2;
     }
 
-    /* User is getting annoyed */
-    if (timesSeenBeforeInSession >= 6 && Math.random() < 0.2) {
-      interval = 8;
-    }
-
     card.done = false;
     addRelatedCardsToSession(card);
+
+    /* User is not managing to learn this word in this session,
+       so just stop showing it for now */
+    if (timesSeenBeforeInSession >= 6) {
+      card.done = true;
+      console.warn("Card seen many times, not showing it again this session");
+    }
+    console.log({ timesSeenBeforeInSession });
   } else if (rating === Rating.GOOD) {
     interval = 200;
     card.done = true;

@@ -1,23 +1,17 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
-import {
-  isBad,
-  isBelowGood,
-} from "flashcards/flashcards/actions/card/cardDifficulty";
+import { isBelowGood } from "flashcards/flashcards/actions/card/cardDifficulty";
 import { isAllowed } from "flashcards/flashcards/actions/card/cardIsAllowed";
 import {
   isInSchedule,
   isOverdue,
   isUnseenSiblingOfANonGoodCard,
-  timeSinceRowWasSeen,
   wasRowVeryRecentlySeen,
 } from "flashcards/flashcards/actions/card/cardSchedule";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { getSession } from "flashcards/flashcards/actions/session/session";
 import { isBrowser } from "modules/isBrowser";
 import { sortByMultiple } from "modules/sortByMultiple";
-import { minutes } from "modules/time";
-// @ts-ignore
-import xorshift from "xorshift";
+import murmur32 from "murmur-32";
 
 /**
  * Input is a deck in session.allowedDecks. Called by {@link chooseCards}, which
@@ -49,10 +43,11 @@ export function classifyCards(deck: Deck) {
         }
       }
 
-      // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
-      else if (isBad(card) && (timeSinceRowWasSeen(card) || 0) > 20 * minutes) {
-        return overdueBad.push(card);
-      } else {
+      // // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
+      // else if (isBad(card) && (timeSinceRowWasSeen(card) || 0) > 20 * minutes) {
+      //   return overdueBad.push(card);
+      // }
+      else {
         notOverdue.push(card);
       }
     });
@@ -81,9 +76,10 @@ export function sortCards(
   ) {
     case "RANDOM":
       /** A "random" number that will be stable as it is generated from the row number */
-      sortByFunctions.push((card) =>
-        xorshift.constructor([card.row.data.rowNumber, 0, 0, 0]).random(),
-      );
+      sortByFunctions.push((card) => {
+        const x = new Uint8Array(murmur32(card.row.data.rowNumber.toString()));
+        return x[0] + x[1] * 256 + x[2] * 256 * 256 + x[3] * 256 * 256 * 256;
+      });
       break;
     case "OLDEST":
       // Todo: Find creation date

@@ -8,6 +8,7 @@ import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { action } from "mobx";
 import { clearTimeMemoized } from "modules/time";
 import _ from "underscore";
+import { getRowLastSeen } from "flashcards/flashcards/actions/card/cardSchedule";
 
 /**
  * Finds the next CardInSession (based on its {@link getRanking}) and then sets
@@ -43,6 +44,10 @@ export const nextCard = action(() => {
   session.currentCard = _.min(session.cards, (card) =>
     card.getRanking(),
   ) as CardInSession;
+
+  // @ts-ignore
+  console.log(new Date(getRowLastSeen(session.currentCard)));
+  console.log(session.currentCard);
 
   saveOngoingSessionInLocalStorage();
   debugSession();
