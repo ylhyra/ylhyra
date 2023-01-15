@@ -244,6 +244,7 @@ export const CardElement = observer(() => {
         )}
       </div>
       {ui.isShowingBottomSide && <div>{card.row.data.lemmas}</div>}
+      {ui.isShowingBottomSide && <div>{card.row.data.note}</div>}
       <div className="flashcard-buttons">
         {!ui.isShowingBottomSide ? (
           <div>

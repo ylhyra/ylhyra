@@ -42,13 +42,15 @@ export function rate(this: CardInSession, rating: Rating): void {
     }
     console.log({ timesSeenBeforeInSession });
   } else if (rating === Rating.GOOD) {
-    interval = 200;
-    card.done = true;
     if (lastRating === Rating.BAD) {
       interval = Math.random() < 0.5 ? 5 : 8;
       card.done = false;
     } else if (nextLastRating === Rating.BAD) {
-      interval = 12;
+      interval = Math.random() < 0.5 ? 15 : 30;
+      card.done = true;
+    } else {
+      interval = 200;
+      card.done = true;
     }
     // else if (isBad(card) && timesSeenBeforeInSession === 0) {
     //   interval = 12;

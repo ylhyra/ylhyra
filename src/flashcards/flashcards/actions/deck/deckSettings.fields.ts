@@ -135,6 +135,11 @@ export const deckSettingsFields: FieldsSetup<DeckSettings> = [
       },
     ],
   },
+  {
+    name: "frequencyOfNewCards",
+    defaultValue: 1,
+    label: "Frequency of new cards",
+  },
   // {
   //   name: "automaticDependencies",
   //   type: "checkbox",

@@ -62,5 +62,8 @@ export const rowFields: FieldsSetup<RowData> = [
     type: "checkbox",
     onlyShowIf: (data) => data.automaticDependencies === true,
   },
+  {
+    name: "note",
+  },
   { name: "lemmas", label: "Lemmas" },
 ];

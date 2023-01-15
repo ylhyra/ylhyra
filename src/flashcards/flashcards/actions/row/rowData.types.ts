@@ -8,8 +8,8 @@ export type RowIds = RowId[];
 /**
  * Raw user input describing flashcard See {@link rowFields} for more details.
  *
- * For the processed information, see {@link ProcessedCardExtraInformation}
- * (work in progress)
+ * For the processed information, see {@link ProcessedCardExtraInformation} (work
+ * in progress)
  */
 export type RowData = {
   deckId: DeckId;
@@ -49,8 +49,8 @@ export type RowData = {
   //  */
   // "related_items": string;
   //
-  // /** Shown in the interface at the bottom of the card */
-  // "note": string;
+  /** Shown in the interface at the bottom of the card */
+  note?: string;
   // /** Shown in the interface at the bottom of the card ONLY when the English side has been shown */
   // "note_regarding_english": string;
   // /** Shown in the interface at the bottom of the card */

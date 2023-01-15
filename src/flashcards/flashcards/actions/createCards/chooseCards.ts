@@ -58,6 +58,9 @@ export class ChooseCards {
 
   /** Interval of new cards */
   get newCardEvery() {
+    if (this.session.allowedDecks[0]?.settings.frequencyOfNewCards == 0) {
+      return 0;
+    }
     return 2;
     const badCount = this.classifiedDecks.reduce(
       (acc, curr) => acc + curr.overdueBad.length,

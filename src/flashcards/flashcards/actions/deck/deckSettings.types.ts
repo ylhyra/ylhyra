@@ -44,4 +44,6 @@ export type DeckSettings = Partial<{
    */
   deckImportanceMultiplier: number;
   formattingStyle: undefined | "DICTIONARY";
+
+  frequencyOfNewCards: number;
 }>;

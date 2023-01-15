@@ -26,12 +26,17 @@ export const addRowsIfMissing = action((deck: Deck, text: string) => {
       // const back = split.slice(1).join("");
       const back = split[1];
       const lemmas = split[2];
+      const note = split[3];
       // deck.addRow({ front, back });
       rowsToAdd.push({
         front,
         back,
-        direction: /^\p{Lu}/u.test(front) ? "ONLY_BACK_TO_FRONT" : undefined,
+        direction:
+          deck.settings.title === "Franska" && /^\p{Lu}/u.test(front)
+            ? "ONLY_BACK_TO_FRONT"
+            : undefined,
         lemmas,
+        note,
       });
     });
     addRowsToDeck(deck, rowsToAdd);
