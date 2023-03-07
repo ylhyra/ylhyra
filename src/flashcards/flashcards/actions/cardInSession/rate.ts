@@ -1,4 +1,3 @@
-import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import {
   CardInSession,
   IntervalRelativeToCurrentCardBeingAtZero,
@@ -38,7 +37,6 @@ export function rate(this: CardInSession, rating: Rating): void {
       card.done = true;
       console.warn("Card seen many times, not showing it again this session");
     }
-    console.log({ timesSeenBeforeInSession });
   } else if (rating === Rating.GOOD) {
     if (lastRating === Rating.BAD) {
       interval = Math.random() < 0.5 ? 5 : 8;

@@ -15,10 +15,10 @@ import { Days, daysFromNowToTimestamp, getTime, msToDays } from "modules/time";
 export const SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY = 0.4;
 
 /** Multiplies the last dueInDays by this factor. */
-const GOOD_MULTIPLIER = 2.5;
-const EASY_MULTIPLIER = 7;
+const GOOD_MULTIPLIER = 2;
+const EASY_MULTIPLIER = 4;
 
-const BAD_INITIAL_DUE_IN_DAYS = 1.3;
+const BAD_INITIAL_DUE_IN_DAYS = 0.5;
 const GOOD_INITIAL_DUE_IN_DAYS = 5;
 
 /**
@@ -32,6 +32,12 @@ export function createSchedule() {
   if (!session.cards?.some((i) => i.hasBeenSeenInSession)) return;
 
   console.group("Schedule");
+  let debugData: {
+    rowId: string;
+    word: string;
+    score: number;
+    dueInDays: number;
+  }[] = [];
   session.cards.forEach((card: CardInSession) => {
     let dueInDays: Days = 1;
     const prevScore = card.score;
@@ -40,23 +46,19 @@ export function createSchedule() {
     const sessionHistory = card.ratingHistory;
     if (sessionHistory.length === 0) return;
     const avgRating = average(sessionHistory);
-    const lastIntervalInDays = card.lastIntervalInDays;
+    const lastIntervalInDays = card.lastIntervalInDays || 0;
     const lastSeen = card.lastSeen;
     const badCount = sessionHistory.filter((i) => i === Rating.BAD).length;
     const anyBad = badCount > 0;
 
     let score: Score = prevScore || avgRating;
 
-    /**
-     * SCORE
-     *
-     * @see Score
-     */
+    /** Calculate score */
     if (isNew) {
       if (anyBad) {
         score = Rating.BAD;
       } else {
-        score = avgRating; //- 0.05;
+        score = avgRating;
       }
     } else {
       if (anyBad) {
@@ -70,7 +72,7 @@ export function createSchedule() {
       }
     }
 
-    /* SCHEDULE */
+    /** Calculate dueInDays */
     if (anyBad) {
       dueInDays = BAD_INITIAL_DUE_IN_DAYS;
     } else if (isNew) {
@@ -82,27 +84,31 @@ export function createSchedule() {
     } else {
       const multiplier =
         avgRating === Rating.EASY ? EASY_MULTIPLIER : GOOD_MULTIPLIER;
-      dueInDays = (lastIntervalInDays || 1) * multiplier;
-
-      /*
-        If we showed the item far in advance of the scheduled due date,
-        then we give the user the same interval as last time
-      */
+      /** If we showed the item far in advance of the scheduled due date */
       const actualIntervalInDays = msToDays(getTime() - lastSeen!);
-      if (actualIntervalInDays / lastIntervalInDays! < 0.3) {
-        const newDueInDays = lastIntervalInDays!;
-        log(
-          `${printWord(card)} - given ${newDueInDays} instead of ${dueInDays}`,
+      if (actualIntervalInDays < lastIntervalInDays) {
+        dueInDays = (lastIntervalInDays || 1) * multiplier;
+      } else {
+        dueInDays = Math.max(
+          actualIntervalInDays * multiplier,
+          lastIntervalInDays,
         );
-        dueInDays = newDueInDays;
+
+        log(
+          `${printWord(card)} - given ${dueInDays} instead of ${
+            (lastIntervalInDays || 1) * multiplier
+          }`,
+        );
       }
     }
 
     /**
-     * If any sibling cards got a bad rating in this session, then:
+     * If any sibling cards got a bad rating in _this_ session, then:
      *
      * - This card's score is set to "1.4".
      * - It is scheduled to be shown no later than in three days.
+     *
+     * TODO: DOESN'T SEEM TO ACTUALLY WORK!!!
      */
     if (
       score >= Rating.GOOD &&
@@ -119,10 +125,7 @@ export function createSchedule() {
     }
 
     setSchedule(card, {
-      /**
-       * Randomly add or subtract up to 10% of the dueInDays just for some
-       * variety
-       */
+      /** Randomly add or subtract up to 10% of the dueInDays just for some variety */
       dueAt: daysFromNowToTimestamp(addSomeRandomness(dueInDays)),
       lastIntervalInDays: toFixedFloat(dueInDays, 1),
       score: toFixedFloat(score, 2),
@@ -136,14 +139,14 @@ export function createSchedule() {
         : {}),
     });
 
-    log(
-      printWord(card),
-      `score: ${toFixedFloat(score, 2)}`,
-      `days: ${toFixedFloat(dueInDays, 1)}`,
-    );
+    debugData.push({
+      rowId: card.rowId,
+      word: printWord(card)!,
+      score: toFixedFloat(score, 2),
+      dueInDays: toFixedFloat(dueInDays, 1),
+    });
 
     /* Postpone siblings (i.e. the other side of the card */
-
     getSiblingCards(card)
       /* Ignore cards that were seen in this session */
       .filter((siblingCard) => !wasSeenInSession(siblingCard))
@@ -160,6 +163,6 @@ export function createSchedule() {
         }
       });
   });
-
+  console.table(debugData.sort((a, b) => a.rowId.localeCompare(b.rowId)));
   console.groupEnd();
 }

@@ -51,7 +51,7 @@ export const nextCard = action(() => {
   }
 
   const chosenCard = _.min(
-    session.cards.filter((card) => !card.done),
+    session.cards.filter((card) => !card.done && card.canBeShown),
     (card) => card.getRanking(),
   );
 

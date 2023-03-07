@@ -16,8 +16,7 @@ import { Rating } from "flashcards/flashcards/types";
  *
  * Each card has a queue position (see {@link CardInSession#queuePosition}), but
  * here we add or subtract to that value based on whether it is actually
- * relevant, such as preferring overdue cards and prohibiting cards that are too
- * recent.
+ * relevant, such as preferring overdue cards and prohibiting cards that are too recent.
  *
  * There are four categories of cards which are initially loaded into the
  * session: overdue good, overdue bad, new, and not overdue. At each step, one
@@ -70,11 +69,8 @@ export function getRanking(this: CardInSession) {
         rank += 300;
       }
     } else {
-      /**
-       * Not overdue: Showing these is last resort when no other cards are
-       * available
-       */
-      rank += 100.0;
+      /** Not overdue: Showing these is last resort when no other cards are available */
+      rank += 10_000;
     }
   }
 
@@ -83,13 +79,13 @@ export function getRanking(this: CardInSession) {
     rank += 2000;
   }
 
-  /**
-   * Sees if there is a hard limit in place in
-   * {@link CardInSession.#cannotBeShownUntilRelativeToCounter}
-   */
-  if (!this.canBeShown) {
-    rank += 10.0;
-  }
+  // /**
+  //  * Sees if there is a hard limit in place in
+  //  * {@link CardInSession.#cannotBeShownUntilRelativeToCounter}
+  //  */
+  // if (!this.canBeShown) {
+  //   rank += 100_000;
+  // }
 
   /** Prioritize cards whose last rating was bad */
   if (
