@@ -9,6 +9,7 @@ import { Helmet } from "react-helmet-async";
 import {
   percentageKnown,
   percentageSeen,
+  countNumberOfRows,
 } from "./actions/functions/percentageKnown";
 import { newChapter } from "flashcards/flashcards/actions/chapter/chapter";
 import { ActivityCalendar } from "flashcards/flashcards/overview/ActivityCalendar";
@@ -41,9 +42,12 @@ export const FlashcardsMake = observer(function () {
                   >
                     <b>{deck.title}</b>{" "}
                     <span className="text-sm text-gray-600">
-                      {/*TODO: Ignore deleted cards*/}({deck.rows.size} cards){" "}
-                      {percentageKnown(deck.cards)}% known{" "}
-                      {percentageSeen(deck.cards)}% seen
+                    ({countNumberOfRows(deck.rows)} cards){" "}
+                    {Math.floor(
+                      (percentageKnown(deck.cards) / 100) *
+                        countNumberOfRows(deck.rows),
+                    )}{" "}
+                    known, {percentageSeen(deck.cards)}% seen
                     </span>{" "}
                   </Link>
                   <div className="p-1">

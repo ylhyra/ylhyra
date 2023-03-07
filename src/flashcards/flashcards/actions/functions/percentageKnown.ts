@@ -3,10 +3,12 @@ import {
   isNewRow,
   isInSchedule,
 } from "flashcards/flashcards/actions/card/cardSchedule";
-import { mapValueToRange } from "modules/math";
+import { Row } from "flashcards/flashcards/actions/row/row";
 import { Rating } from "flashcards/flashcards/types";
+import { mapValueToRange } from "modules/math";
+import { RowId } from "flashcards/flashcards/actions/row/rowData";
 
-export function percentageKnown(cards: Card[]) {
+export function percentageKnown(cards: Card[]): number {
   // if (!getEntireSchedule()) return 0;
   let done = 0;
   let remaining = 0;
@@ -41,7 +43,7 @@ export function percentageKnown(cards: Card[]) {
     percentage = Math.ceil(ratio * 100);
     if (percentage === 100 && done !== remaining) percentage = 99;
   } else {
-    percentage = (ratio * 100).toFixed(2);
+    percentage = Number((ratio * 100).toFixed(2));
   }
   return percentage;
 }
@@ -51,7 +53,7 @@ export function percentageSeen(cards: Card[]) {
   let unseen = 0;
   cards.forEach((card) => {
     if (card.isIgnored) return;
-    if (isNewRow(card)) {
+    if (isInSchedule(card)) {
       seen++;
     } else {
       unseen++;
@@ -70,3 +72,7 @@ export function PercentageKnownOverall() {
 // if (isBrowser) {
 //   window.PercentageKnownOverall = PercentageKnownOverall;
 // }
+
+export function countNumberOfRows(rows: Map<RowId, Row>) {
+  return [...rows.values()].filter((row) => !row.data.deleted).length;
+}

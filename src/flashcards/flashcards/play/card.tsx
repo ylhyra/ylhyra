@@ -19,9 +19,7 @@ export class CardUI {
   isShowingBottomSide?: boolean;
   /** Then he rates how well he knew it */
   chosenRating?: Rating;
-  /**
-   * Used to make UI show a slight lag between keyboard shortcuts and answering
-   */
+  /** Used to make UI show a slight lag between keyboard shortcuts and answering */
   clickingOnShowButton?: boolean;
 
   constructor() {
@@ -76,12 +74,17 @@ export class CardUI {
     const card = store.session.currentCard;
     if (!card) return;
     const front = card.frontFormatted;
+    const back = card.backFormatted;
 
     // TODO: back side
 
     if (
-      card.direction === Direction.FRONT_TO_BACK ||
-      this.isShowingBottomSide
+      (card.direction === Direction.FRONT_TO_BACK &&
+        !this.isShowingBottomSide) ||
+      (this.isShowingBottomSide &&
+        card.direction === Direction.BACK_TO_FRONT) ||
+      (this.isShowingBottomSide &&
+        !card.row.getSetting("backSideSpeechSynthesis"))
     ) {
       if (
         card.row.getSetting("frontSideSpeechSynthesis") &&
@@ -93,6 +96,15 @@ export class CardUI {
         utter.volume = isDev ? 0.2 : 0.5;
         window.speechSynthesis.speak(utter);
       }
+    } else if (
+      card.row.getSetting("backSideSpeechSynthesis") &&
+      card.row.getSetting("backSideLanguage")
+    ) {
+      utter.lang = card.row.getSetting("backSideLanguage")!;
+      utter.text = getPlaintextFromFormatted(back);
+      utter.rate = 0.7;
+      utter.volume = isDev ? 0.2 : 0.5;
+      window.speechSynthesis.speak(utter);
     }
   };
 }
@@ -232,6 +244,7 @@ export const CardElement = observer(() => {
         )}
       </div>
       {ui.isShowingBottomSide && <div>{card.row.data.lemmas}</div>}
+      {ui.isShowingBottomSide && <div>{card.row.data.note}</div>}
       <div className="flashcard-buttons">
         {!ui.isShowingBottomSide ? (
           <div>

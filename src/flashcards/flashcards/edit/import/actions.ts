@@ -1,12 +1,10 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { addRowsToDeck } from "flashcards/flashcards/actions/deck/functions";
-import { RowData } from "flashcards/flashcards/actions/row/rowData";
 import { action } from "mobx";
 import { warnIfFunctionIsSlow } from "modules/warnIfFunctionIsSlow";
+import { RowData } from "flashcards/flashcards/actions/row/rowData";
 
-/**
- * Each line in import will become a row. Sides can be separated by tab or "=".
- */
+/** Each line in import will become a row. Sides can be separated by tab or "=". */
 export const addRowsIfMissing = action((deck: Deck, text: string) => {
   if (!text) return;
   let rowsToAdd: Partial<RowData>[] = [];
@@ -28,12 +26,17 @@ export const addRowsIfMissing = action((deck: Deck, text: string) => {
       // const back = split.slice(1).join("");
       const back = split[1];
       const lemmas = split[2];
+      const note = split[3];
       // deck.addRow({ front, back });
       rowsToAdd.push({
         front,
         back,
-        // direction: "ONLY_BACK_TO_FRONT",
+        direction:
+          deck.settings.title === "Franska" && /^\p{Lu}/u.test(front)
+            ? "ONLY_BACK_TO_FRONT"
+            : undefined,
         lemmas,
+        note,
       });
     });
     addRowsToDeck(deck, rowsToAdd);

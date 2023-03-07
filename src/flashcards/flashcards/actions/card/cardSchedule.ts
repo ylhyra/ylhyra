@@ -2,7 +2,7 @@ import { Card } from "flashcards/flashcards/actions/card/card";
 import { getAsCardInSession } from "flashcards/flashcards/actions/card/functions";
 import { Rating, ScheduleData, Score } from "flashcards/flashcards/types";
 import { store } from "flashcards/store";
-import { minIgnoreFalsy, roundMsTo100Sec } from "modules/math";
+import { minIgnoreFalsy } from "modules/math";
 import {
   getTimeMemoized,
   hours,
@@ -49,13 +49,13 @@ export function isUnseenSiblingOfANonGoodCard(card1: Card) {
 }
 
 export function setSchedule(card1: Card, data: ScheduleData) {
-  /* Round timestamps */
-  ["due", "lastSeen", "lastBadTimestamp"].forEach((key) => {
-    if (key in data) {
-      // @ts-ignore
-      data[key] = roundMsTo100Sec(data[key]);
-    }
-  });
+  // /* Round timestamps */
+  // ["due", "lastSeen", "lastBadTimestamp"].forEach((key) => {
+  //   if (key in data) {
+  //     // @ts-ignore
+  //     data[key] = roundMsTo100Sec(data[key]);
+  //   }
+  // });
 
   store.schedule.set(
     card1.cardId,

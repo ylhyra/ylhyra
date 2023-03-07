@@ -1,3 +1,4 @@
+import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import {
   CardInSession,
   IntervalRelativeToCurrentCardBeingAtZero,
@@ -20,31 +21,35 @@ export function rate(this: CardInSession, rating: Rating): void {
   let interval: IntervalRelativeToCurrentCardBeingAtZero;
 
   if (rating === Rating.BAD) {
-    interval = Math.random() < 0.5 ? 3 : 4;
+    interval = 3;
+    if (Math.random() < 0.5) interval = 4;
+    else if (Math.random() < 0.2) interval = 5;
 
     if (lastRating >= Rating.GOOD) {
       interval += 2;
     }
 
-    /* User is getting annoyed */
-    if (timesSeenBeforeInSession >= 6 && Math.random() < 0.2) {
-      interval = 8;
-    }
-
     card.done = false;
     addRelatedCardsToSession(card);
+
+    /* User is not managing to learn this word in this session,
+       so just stop showing it for now */
+    if (timesSeenBeforeInSession >= 6) {
+      card.done = true;
+      console.warn("Card seen many times, not showing it again this session");
+    }
+    console.log({ timesSeenBeforeInSession });
   } else if (rating === Rating.GOOD) {
-    interval = 200;
-    card.done = true;
     if (lastRating === Rating.BAD) {
       interval = Math.random() < 0.5 ? 5 : 8;
       card.done = false;
     } else if (nextLastRating === Rating.BAD) {
-      interval = 12;
+      interval = Math.random() < 0.5 ? 15 : 30;
+      card.done = true;
+    } else {
+      interval = 200;
+      card.done = true;
     }
-    // else if (isBad(card) && timesSeenBeforeInSession === 0) {
-    //   interval = 12;
-    // }
   } else if (rating === Rating.EASY) {
     interval = 800;
     card.done = true;

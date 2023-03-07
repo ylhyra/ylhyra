@@ -46,6 +46,7 @@ export type DeckData = Partial<{
   deckImportanceMultiplier: number;
   formattingStyle: undefined | "DICTIONARY";
   newCardRate: number;
+  frequencyOfNewCards: number;
 }>;
 
 export const deckDataFields: FieldsSetup<DeckData> = [
@@ -182,6 +183,11 @@ export const deckDataFields: FieldsSetup<DeckData> = [
         label: "Prioritize most difficult cards",
       },
     ],
+  },
+  {
+    name: "frequencyOfNewCards",
+    defaultValue: 1,
+    label: "Frequency of new cards",
   },
   // {
   //   name: "automaticDependencies",
