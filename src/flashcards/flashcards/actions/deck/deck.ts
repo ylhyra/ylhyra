@@ -22,7 +22,9 @@ export class Deck {
 
   @computed({ keepAlive: true })
   get cards(): Card[] {
-    return flattenArray([...this.rows.values()].map((row) => row.cards));
+    return flattenArray([...this.rows.values()].map((row) => row.cards)).filter(
+      (card) => !card.isIgnored,
+    );
   }
 
   /* TODO!!! Support multiple redirects */

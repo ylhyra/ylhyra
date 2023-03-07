@@ -1,8 +1,11 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
-import { clamp, mapValueToRange } from "modules/math";
+import { mapValueToRange } from "modules/math";
+import { RowId } from "flashcards/flashcards/actions/row/rowData.types";
+import { Row } from "flashcards/flashcards/actions/row/row";
+import { Rating } from "flashcards/flashcards/types";
 
-export function percentageKnown(cards: Card[]) {
+export function percentageKnown(cards: Card[]): number {
   // if (!getEntireSchedule()) return 0;
   let done = 0;
   let remaining = 0;
@@ -11,15 +14,13 @@ export function percentageKnown(cards: Card[]) {
     if (isInSchedule(card)) {
       let score = card.score || 2;
       let toAdd;
-      if (score < 1.9) {
+      if (score < Rating.GOOD) {
         toAdd = mapValueToRange({
-          value:
-            clamp(card.sessionsSeen, 0, 10) +
-            clamp((card.sessionsSeen - 10) / 3, 0, 10),
-          inputFrom: 0,
-          inputTo: 20,
+          value: score,
+          inputFrom: Rating.BAD,
+          inputTo: Rating.GOOD,
           outputFrom: 0.05,
-          outputTo: 0.6,
+          outputTo: 0.9,
           clamp: true,
         });
       } else {
@@ -39,7 +40,7 @@ export function percentageKnown(cards: Card[]) {
     percentage = Math.ceil(ratio * 100);
     if (percentage === 100 && done !== remaining) percentage = 99;
   } else {
-    percentage = (ratio * 100).toFixed(2);
+    percentage = Number((ratio * 100).toFixed(2));
   }
   return percentage;
 }
@@ -68,3 +69,7 @@ export function PercentageKnownOverall() {
 // if (isBrowser) {
 //   window.PercentageKnownOverall = PercentageKnownOverall;
 // }
+
+export function countNumberOfRows(rows: Map<RowId, Row>) {
+  return [...rows.values()].filter((row) => !row.data.deleted).length;
+}
