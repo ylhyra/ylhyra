@@ -1,25 +1,70 @@
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
-import { ClassifiedCards } from "flashcards/flashcards/actions/createCards/classifyCards";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
 import { Card } from "flashcards/flashcards/actions/card/card";
+import { isAllowed } from "flashcards/flashcards/actions/card/cardIsAllowed";
+import {
+  isInSchedule,
+  isOverdue,
+  wasRowVeryRecentlySeen,
+  isUnseenSiblingOfANonGoodCard,
+  timeSinceRowWasSeen,
+} from "flashcards/flashcards/actions/card/cardSchedule";
+import {
+  isBelowGood,
+  isBad,
+} from "flashcards/flashcards/actions/card/cardDifficulty";
+import { minutes } from "modules/time";
+import { sortCards } from "flashcards/flashcards/actions/createCards/functions";
 
-/** Class to assist with randomly choosing from the allowed decks */
 export class CardChooser {
-  classifiedCards: ClassifiedCards;
   counter = 0;
 
+  overdueGood: Card[] = [];
+  overdueBad: Card[] = [];
+  notOverdue: Card[] = [];
+  newCards: Card[] = [];
+
   constructor(deck: Deck) {
-    this.classifiedCards = new ClassifiedCards(deck);
+    deck.cards
+      .filter((card) => isAllowed(card))
+      .forEach((card) => {
+        if (!isInSchedule(card)) {
+          this.newCards.push(card);
+        }
+
+        // Overdue
+        else if (isOverdue(card) && !wasRowVeryRecentlySeen(card)) {
+          if (isBelowGood(card) || isUnseenSiblingOfANonGoodCard(card)) {
+            this.overdueBad.push(card);
+          } else {
+            this.overdueGood.push(card);
+          }
+        }
+
+        // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
+        else if (
+          isBad(card) &&
+          (timeSinceRowWasSeen(card) || 0) > 20 * minutes
+        ) {
+          return this.overdueBad.push(card);
+        } else {
+          this.notOverdue.push(card);
+        }
+      });
+
+    this.overdueBad = sortCards(this.overdueBad, deck, "OLD");
+    this.overdueGood = sortCards(this.overdueGood, deck, "OLD");
+    this.newCards = sortCards(this.newCards, deck, "NEW");
   }
 
   /** Chooses a card to add to the current session */
   run() {
     let card: Card;
     //TODO!
-    if (this.classifiedCards.newCards.length > 0 && this.counter % 3 === 0) {
-      card = this.classifiedCards.newCards.shift()!;
+    if (this.newCards.length > 0 && this.counter % 3 === 0) {
+      card = this.newCards.shift()!;
     } else {
-      card = this.classifiedCards.overdueGood.shift()!;
+      card = this.overdueGood.shift()!;
     }
     loadCardsIntoSession([card]);
   }

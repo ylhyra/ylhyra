@@ -29,6 +29,12 @@ export const nextCard = action(() => {
     return sessionDone();
   }
 
+  // /* If all allowedCards are already in use, clear it */
+  // if (session.allowedCards?.every((card) => isInSession(card))) {
+  //   session.allowedCards = undefined;
+  //   logDev("allowedCards cleared");
+  // }
+
   if (!session.areThereUnseenCardsRemaining()) {
     session.cardChooser!.run();
   }

@@ -11,7 +11,7 @@
     "module": "commonjs",
     "outDir": "build/ts",
     "esModuleInterop": true,
-    "isolatedModules": true,
+//    "isolatedModules": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,

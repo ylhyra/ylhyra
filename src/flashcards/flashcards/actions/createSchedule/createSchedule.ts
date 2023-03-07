@@ -31,7 +31,7 @@ export function createSchedule() {
   const session = store.session;
   if (!session.cards?.some((i) => i.hasBeenSeenInSession)) return;
 
-  console.groupCollapsed("See schedule");
+  console.group("Schedule");
   session.cards.forEach((card: CardInSession) => {
     let dueInDays: Days = 1;
     const prevScore = card.score;

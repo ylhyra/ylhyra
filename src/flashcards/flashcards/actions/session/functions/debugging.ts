@@ -3,6 +3,10 @@ import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { printWord } from "flashcards/flashcards/actions/functions";
 import _ from "underscore";
 
+declare global {
+  var logging: boolean;
+}
+/** Set `window.logging = true` to enable logging */
 globalThis.logging = true;
 
 /**
@@ -12,7 +16,7 @@ globalThis.logging = true;
  */
 export function debugSession() {
   const session = store.session;
-  console.groupCollapsed("See ranking");
+  console.group("Ranking");
   if (globalThis.logging) {
     /** Sort by ranking */
     const cards: CardInSession[] = _.sortBy(session.cards, (card) =>
@@ -30,7 +34,4 @@ export function debugSession() {
     );
   }
   console.groupEnd();
-}
-declare global {
-  var logging: boolean;
 }

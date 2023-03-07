@@ -123,6 +123,7 @@ export const deckDataFields: FieldsSetup<DeckData> = [
     name: "newCardPrioritization",
     label: "Prioritization of new cards",
     type: "select",
+    defaultValue: "RANDOM",
     options: [
       {
         value: "RANDOM",
@@ -150,6 +151,7 @@ export const deckDataFields: FieldsSetup<DeckData> = [
     name: "oldCardPrioritization",
     label: "Prioritization of seen cards",
     type: "select",
+    defaultValue: "RANDOM",
     options: [
       {
         value: "RANDOM",
