@@ -28,7 +28,7 @@ export function isOverdue(card1: Card): Boolean {
  * (overdue bad) cards.
  */
 export function isOverdueGood(card: Card): Boolean {
-  return isOverdue(card) && !wasRowVeryRecentlySeen(card);
+  return isOverdue(card) && !wasRowVeryRecentlySeen(card) && !isBelowGood(card);
 }
 
 export function isOverdueBad(card: Card): Boolean {
@@ -111,14 +111,6 @@ export function isNewRow(card1: Card): boolean {
 
 export function isNewCard(card1: Card): boolean {
   return !card1.score;
-}
-
-/**
- * Note that a card may be in the schedule without having been seen (it may just
- * have been postponed instead).
- */
-export function isInSchedule(card1: Card) {
-  return store.schedule.has(card1.cardId);
 }
 
 /** Used by the interface ({@link CardElement}) to indicate a card being new. */

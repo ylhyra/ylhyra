@@ -62,6 +62,8 @@ export const nextCard = action(() => {
       session.addedCardLog.unshift("OVERDUE_GOOD");
     } else if (isOverdueBad(chosenCard)) {
       session.addedCardLog.unshift("OVERDUE_BAD");
+    } else {
+      console.warn("Switched to non-overdue!!!");
     }
 
     session.currentCard = chosenCard;

@@ -8,8 +8,8 @@ import {
 } from "flashcards/flashcards/actions/card/cardSchedule";
 import {
   sortCards,
-  veryRecentlySeenSortedLast,
-  sortCardsByScore,
+  recentlySeenSortedLast,
+  sortCardsByDueDate,
 } from "flashcards/flashcards/actions/createCards/functions";
 import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/loadCardsIntoSession";
 
@@ -17,8 +17,7 @@ import { loadCardsIntoSession } from "flashcards/flashcards/actions/session/load
  * We want several categories of cards to be available to the ranking algorithm,
  * but we have to have sorted each category of cards first.
  *
- * Only the relative order of cards within each category matters to the ranking
- * algorithm.
+ * Only the relative order of cards within each category matters to the ranking algorithm.
  *
  * The reason only a subset of cards are loaded is to allow us to use server-
  * side loading later on.
@@ -46,10 +45,31 @@ export const categorizeCardsAndLoadIntoSession = (deck: Deck) => {
   overdueBad = sortCards(overdueBad, deck).slice(0, 50);
   overdueGood = sortCards(overdueGood, deck).slice(0, 50);
   newCards = sortCards(newCards, deck, true).slice(0, 50);
-  notOverdue = veryRecentlySeenSortedLast(sortCardsByScore(notOverdue)).slice(
+  notOverdue = recentlySeenSortedLast(sortCardsByDueDate(notOverdue)).slice(
     0,
     50,
   );
+
+  console.log({
+    overdueBad,
+    overdueGood,
+    newCards,
+    notOverdue,
+  });
+
+  // console.table(
+  //   notOverdue
+  //     // .sort((a, b) => {
+  //     //   return a.dueAt! - b.dueAt!;
+  //     // })
+  //     .map((c) => {
+  //       return {
+  //         front: printWord(c),
+  //         dueAt: new Date(c.dueAt!).toUTCString(),
+  //         score: c.score,
+  //       };
+  //     }),
+  // );
 
   loadCardsIntoSession([
     ...overdueBad,

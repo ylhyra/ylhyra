@@ -11,12 +11,11 @@ globalThis.logging = true;
 
 /**
  * Used to see all cards currently loaded in a session. In your browser console,
- * set `logging = true` and every time a new card is loaded, a table will be
- * printed.
+ * set `logging = true` and every time a new card is loaded, a table will be printed.
  */
 export function debugSession() {
   const session = store.session;
-  console.group("Ranking");
+  console.groupCollapsed("See ranking");
   if (globalThis.logging) {
     /** Sort by ranking */
     const cards: CardInSession[] = _.sortBy(session.cards, (card) =>

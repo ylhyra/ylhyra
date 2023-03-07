@@ -1,13 +1,14 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
 import {
   getRowLastSeen,
-  wasRowVeryRecentlySeen,
+  wasRowSeenMoreRecentlyThan,
 } from "flashcards/flashcards/actions/card/cardSchedule";
 import { sortBy } from "underscore";
 import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { sortByMultiple } from "modules/sortByMultiple";
 // @ts-ignore
 import murmurhash from "murmurhash";
+import { day } from "modules/time";
 
 export function oldestFirst(cards: Card[]) {
   return sortBy(cards, (card) => getRowLastSeen(card));
@@ -17,8 +18,10 @@ export function oldestFirst(cards: Card[]) {
 //   return oldestFirst(ids).reverse();
 // };
 
-export function veryRecentlySeenSortedLast(cards: Card[]) {
-  return sortBy(cards, (card) => wasRowVeryRecentlySeen(card));
+export function recentlySeenSortedLast(cards: Card[], time = 1 * day) {
+  return sortBy(cards, (card) => {
+    return wasRowSeenMoreRecentlyThan(card, time);
+  });
 }
 
 // const wasRowVeryRecentlySeen2_temp = (id, time) => {
@@ -30,6 +33,10 @@ export function veryRecentlySeenSortedLast(cards: Card[]) {
 
 export function sortCardsByScore(cards: Card[]) {
   return sortBy(cards, (card) => card.score);
+}
+
+export function sortCardsByDueDate(cards: Card[]) {
+  return sortBy(cards, (card) => card.dueAt);
 }
 
 export function sortCards(cards: Card[], deck: Deck, areNew?: boolean): Card[] {
