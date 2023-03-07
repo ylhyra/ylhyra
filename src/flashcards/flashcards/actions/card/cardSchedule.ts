@@ -16,9 +16,7 @@ import {
   isBad,
 } from "flashcards/flashcards/actions/card/cardDifficulty";
 
-/**
- * We consider a card overdue if it's due date is less than 12 hours from now
- */
+/** We consider a card overdue if it's due date is less than 12 hours from now */
 export function isOverdue(card1: Card): Boolean {
   const dueAt = card1.dueAt;
   return dueAt ? dueAt < getTimeMemoized() + 12 * hours : false;
@@ -101,10 +99,7 @@ export function wasRowVeryRecentlySeen(card1: Card) {
   return wasRowSeenMoreRecentlyThan(card1, 45 * minutes);
 }
 
-/**
- * Input is a time span but not a timestamp, e.g. "was card1 seen in the last
- * day?".
- */
+/** Input is a time span but not a timestamp, e.g. "was card1 seen in the last day?". */
 export function wasRowSeenMoreRecentlyThan(card1: Card, time: Milliseconds) {
   const i = timeSinceRowWasSeen(card1);
   return i && i < time;
@@ -119,8 +114,14 @@ export function isNewCard(card1: Card): boolean {
 }
 
 /**
- * Used by the interface ({@link CardElement}) to indicate a card being new.
+ * Note that a card may be in the schedule without having been seen (it may just
+ * have been postponed instead).
  */
+export function isInSchedule(card1: Card) {
+  return store.schedule.has(card1.cardId);
+}
+
+/** Used by the interface ({@link CardElement}) to indicate a card being new. */
 export function isNewRowThatHasNotBeenSeenInSession(card1: Card): boolean {
   return card1.row.cards.every(
     (card2) =>

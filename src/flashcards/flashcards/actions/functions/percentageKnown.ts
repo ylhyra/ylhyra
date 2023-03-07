@@ -1,6 +1,10 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { isNewRow } from "flashcards/flashcards/actions/card/cardSchedule";
-import { clamp, mapValueToRange } from "modules/math";
+import {
+  isNewRow,
+  isInSchedule,
+} from "flashcards/flashcards/actions/card/cardSchedule";
+import { mapValueToRange } from "modules/math";
+import { Rating } from "flashcards/flashcards/types";
 
 export function percentageKnown(cards: Card[]) {
   // if (!getEntireSchedule()) return 0;
@@ -8,18 +12,16 @@ export function percentageKnown(cards: Card[]) {
   let remaining = 0;
   cards.forEach((card) => {
     if (card.isIgnored) return;
-    if (isNewRow(card)) {
+    if (isInSchedule(card)) {
       let score = card.score || 2;
       let toAdd;
-      if (score < 1.9) {
+      if (score < Rating.GOOD) {
         toAdd = mapValueToRange({
-          value:
-            clamp(card.sessionsSeen, 0, 10) +
-            clamp((card.sessionsSeen - 10) / 3, 0, 10),
-          inputFrom: 0,
-          inputTo: 20,
+          value: score,
+          inputFrom: Rating.BAD,
+          inputTo: Rating.GOOD,
           outputFrom: 0.05,
-          outputTo: 0.6,
+          outputTo: 0.9,
           clamp: true,
         });
       } else {
