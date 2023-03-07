@@ -37,6 +37,7 @@ export const nextCard = action(() => {
 
   if (!session.areThereUnseenCardsRemaining()) {
     session.cardChooser!.run();
+  } else {
   }
 
   if (session.cards.length === 0) {

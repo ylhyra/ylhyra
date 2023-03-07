@@ -93,6 +93,7 @@ module.exports = {
         errors: true,
         warnings: false,
       },
+      logging: "warn",
     },
   },
   entry: project.entry,
