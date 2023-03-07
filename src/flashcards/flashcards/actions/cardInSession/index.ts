@@ -18,6 +18,7 @@ export class CardInSession extends Card {
 
   /**
    * A card is done if the user has said he knows it well. Set by {@link rate}.
+   * A done card cannot be shown in the same session.
    */
   done?: boolean;
 

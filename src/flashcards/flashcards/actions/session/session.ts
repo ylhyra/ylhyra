@@ -36,11 +36,16 @@ export class Session {
    */
   @observable counter: number = 0;
 
+  /**
+   * Reverse list of a description of the cards that were "added" to be shown,
+   * i.e. ignoring cards that are being shown again.
+   */
+  addedCardLog: ("NEW" | "OVERDUE_BAD" | "OVERDUE_GOOD")[] = [];
+
   /** Todo: Move elsewhere */
   @observable userFacingError?: string;
 
-  /** work in progress... */
-  @observable continueEvenIfAllCardsAreSeen: boolean = false;
+  // @observable continueEvenIfAllCardsAreSeen: boolean = false;
 
   constructor() {
     this.reset();
@@ -60,6 +65,7 @@ export class Session {
     this.timer = new SessionTimer(this);
     this.history = new SessionHistory(this);
     this.userFacingError = undefined;
+    this.addedCardLog = [];
   }
 
   areThereUnseenCardsRemaining() {

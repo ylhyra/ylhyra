@@ -7,6 +7,11 @@ import { action } from "mobx";
 import { clearTimeMemoized } from "modules/time";
 import _ from "underscore";
 import { categorizeCardsAndLoadIntoSession } from "flashcards/flashcards/actions/createCards/cardChooser";
+import {
+  isNewRow,
+  isOverdueGood,
+  isOverdueBad,
+} from "flashcards/flashcards/actions/card/cardSchedule";
 
 /**
  * Finds the next CardInSession (based on its {@link getRanking}) and then sets
@@ -45,9 +50,25 @@ export const nextCard = action(() => {
     return;
   }
 
-  session.currentCard = _.min(session.cards, (card) =>
-    card.getRanking(),
-  ) as CardInSession;
+  const chosenCard = _.min(
+    session.cards.filter((card) => !card.done),
+    (card) => card.getRanking(),
+  );
+
+  if (chosenCard instanceof CardInSession) {
+    if (isNewRow(chosenCard)) {
+      session.addedCardLog.unshift("NEW");
+    } else if (isOverdueGood(chosenCard)) {
+      session.addedCardLog.unshift("OVERDUE_GOOD");
+    } else if (isOverdueBad(chosenCard)) {
+      session.addedCardLog.unshift("OVERDUE_BAD");
+    }
+
+    session.currentCard = chosenCard;
+  } else {
+    console.error("No cards! Ending session");
+    return sessionDone();
+  }
 
   saveOngoingSessionInLocalStorage();
   debugSession();

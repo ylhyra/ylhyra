@@ -32,7 +32,7 @@ export const categorizeCardsAndLoadIntoSession = (deck: Deck) => {
   deck.cards
     .filter((card) => isAllowed(card))
     .forEach((card) => {
-      if (!isNewRow(card)) {
+      if (isNewRow(card)) {
         newCards.push(card);
       } else if (isOverdueGood(card)) {
         overdueGood.push(card);

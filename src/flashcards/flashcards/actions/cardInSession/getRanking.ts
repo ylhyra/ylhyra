@@ -1,4 +1,9 @@
-import { isNewCard } from "flashcards/flashcards/actions/card/cardSchedule";
+import {
+  isNewCard,
+  isNewRow,
+  isOverdueGood,
+  isOverdueBad,
+} from "flashcards/flashcards/actions/card/cardSchedule";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
 import { Rating } from "flashcards/flashcards/types";
 
@@ -13,14 +18,19 @@ import { Rating } from "flashcards/flashcards/types";
  * here we add or subtract to that value based on whether it is actually
  * relevant, such as preferring overdue cards and prohibiting cards that are too
  * recent.
+ *
+ * There are four categories of cards which are initially loaded into the
+ * session: overdue good, overdue bad, new, and not overdue. At each step, one
+ * category may be preferred over another.
  */
 export function getRanking(this: CardInSession) {
   const session = this.session;
   const direction = this.direction;
 
   /**
-   * Starts out as the card's queue position. A card is overdue if its queue
-   * position is less than 0. If the queue position is 0, the card is due now.
+   * Starts out as the card's queue position. A card is overdue (in this
+   * session) if its queue position is less than 0. If the queue position is 0,
+   * the card is due now.
    */
   let rank = this.queuePosition;
 
@@ -31,6 +41,41 @@ export function getRanking(this: CardInSession) {
    */
   if (!this.hasRowBeenSeenInSession()) {
     rank += 1000;
+
+    const wasOverdueGoodChosenMoreRecentlyThanOverdueBad = (() => {
+      const i1 = session.addedCardLog.findIndex(
+        (type) => type === "OVERDUE_GOOD",
+      );
+      const i2 = session.addedCardLog.findIndex(
+        (type) => type === "OVERDUE_BAD",
+      );
+      if (i1 < 0 || i2 < 0) {
+        return false;
+      } else {
+        return i1 < i2;
+      }
+    })();
+
+    if (isNewRow(this)) {
+      if (session.addedCardLog.length % 3 === 1) {
+        rank -= 500;
+      }
+    } else if (isOverdueGood(this)) {
+      /** Try to alternate between choosing overdue good and overdue bad */
+      if (wasOverdueGoodChosenMoreRecentlyThanOverdueBad) {
+        rank += 300;
+      }
+    } else if (isOverdueBad(this)) {
+      if (!wasOverdueGoodChosenMoreRecentlyThanOverdueBad) {
+        rank += 300;
+      }
+    } else {
+      /**
+       * Not overdue: Showing these is last resort when no other cards are
+       * available
+       */
+      rank += 100.0;
+    }
   }
 
   /** Seen rows are not relevant if they are not overdue. */
@@ -43,7 +88,7 @@ export function getRanking(this: CardInSession) {
    * {@link CardInSession.#cannotBeShownUntilRelativeToCounter}
    */
   if (!this.canBeShown) {
-    rank += 10000;
+    rank += 10.0;
   }
 
   /** Prioritize cards whose last rating was bad */
@@ -58,10 +103,6 @@ export function getRanking(this: CardInSession) {
     if (this.thisAndSiblingCardsInSession.some((c) => c.isDueExactlyNow())) {
       rank -= 50;
     }
-  }
-
-  if (this.done) {
-    rank += 7000;
   }
 
   // /** Choose which side to show first */
