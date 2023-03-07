@@ -48,7 +48,7 @@ export function saveSessionLog() {
         type: "sessionLog",
         key: id,
         value: {
-          secondsSpent: roundToInterval(session.timer.getSecondsSpent(), 10),
+          secondsSpent: roundToInterval(session.timer.getSecondsSpent(), 1),
           timestamp,
         },
       }).value,

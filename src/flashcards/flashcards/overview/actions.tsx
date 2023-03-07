@@ -26,15 +26,17 @@ export class ActivityCalendarOverview {
     /* Get timestamp for the last 04:00 */
     let todayBeginsAtTimestamp = getTodayBeginsAtTimestamp();
 
-    [...store.sessionLog.entries()].forEach((session) => {
+    [...store.sessionLog.values()].forEach((sessionLogData) => {
       /* Today is 0 days ago */
       const daysAgo =
-        Math.ceil((todayBeginsAtTimestamp - session.timestamp) / days + 1) - 1;
+        Math.ceil(
+          (todayBeginsAtTimestamp - sessionLogData.timestamp) / days + 1,
+        ) - 1;
       daysAgoToSecondsSpent[daysAgo] =
-        (daysAgoToSecondsSpent[daysAgo] || 0) + session.seconds_spent;
-      secondsSpentTotal += session.seconds_spent;
+        (daysAgoToSecondsSpent[daysAgo] || 0) + sessionLogData.secondsSpent;
+      secondsSpentTotal += sessionLogData.secondsSpent;
       if (daysAgo <= 6) {
-        secondsSpentThisWeek += session.seconds_spent;
+        secondsSpentThisWeek += sessionLogData.secondsSpent;
       }
     });
 
