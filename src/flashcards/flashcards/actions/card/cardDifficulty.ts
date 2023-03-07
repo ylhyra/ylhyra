@@ -35,7 +35,7 @@ export function isFairlyBad(card1: Card) {
   );
 }
 
-export function isBelowGood(card1: Card) {
+export function isBelowGood(card1: Card): Boolean {
   const score = card1.score || getLowestAvailableRowScore(card1);
-  return score && score < Rating.GOOD;
+  return Boolean(score && score < Rating.GOOD);
 }

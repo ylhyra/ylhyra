@@ -6,6 +6,7 @@ import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { action } from "mobx";
 import { clearTimeMemoized } from "modules/time";
 import _ from "underscore";
+import { categorizeCardsAndLoadIntoSession } from "flashcards/flashcards/actions/createCards/cardChooser";
 
 /**
  * Finds the next CardInSession (based on its {@link getRanking}) and then sets
@@ -36,8 +37,7 @@ export const nextCard = action(() => {
   // }
 
   if (!session.areThereUnseenCardsRemaining()) {
-    session.cardChooser!.run();
-  } else {
+    categorizeCardsAndLoadIntoSession(session.chosenDeck!);
   }
 
   if (session.cards.length === 0) {

@@ -1,5 +1,5 @@
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
+import { isNewRow } from "flashcards/flashcards/actions/card/cardSchedule";
 import { clamp, mapValueToRange } from "modules/math";
 
 export function percentageKnown(cards: Card[]) {
@@ -8,7 +8,7 @@ export function percentageKnown(cards: Card[]) {
   let remaining = 0;
   cards.forEach((card) => {
     if (card.isIgnored) return;
-    if (isInSchedule(card)) {
+    if (isNewRow(card)) {
       let score = card.score || 2;
       let toAdd;
       if (score < 1.9) {
@@ -49,7 +49,7 @@ export function percentageSeen(cards: Card[]) {
   let unseen = 0;
   cards.forEach((card) => {
     if (card.isIgnored) return;
-    if (isInSchedule(card)) {
+    if (isNewRow(card)) {
       seen++;
     } else {
       unseen++;

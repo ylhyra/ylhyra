@@ -2,7 +2,7 @@ import {
   dependencyDepthOfCard,
   hasDependenciesInCommonWith,
 } from "flashcards/flashcards/actions/card/cardDependencies";
-import { isInSchedule } from "flashcards/flashcards/actions/card/cardSchedule";
+import { isNewRow } from "flashcards/flashcards/actions/card/cardSchedule";
 import { isBad } from "flashcards/flashcards/actions/card/cardDifficulty";
 import { getSiblingCardsInSession } from "flashcards/flashcards/actions/card/cardSiblings";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
@@ -61,7 +61,7 @@ export function postponeRelatedCards(
       card1.lastRating === Rating.BAD &&
       dependencyDepthOfCard(card1, card2) === 1 &&
       // And other card is new
-      ((!isInSchedule(card2) && !card2.hasBeenSeenInSession) ||
+      ((!isNewRow(card2) && !card2.hasBeenSeenInSession) ||
         // Or other card is bad (includes some randomness)
         ((isBad(card2) || card2.lastRating === Rating.BAD) &&
           Math.random() > 0.5))

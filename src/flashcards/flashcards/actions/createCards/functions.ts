@@ -32,17 +32,11 @@ export function sortCardsByScore(cards: Card[]) {
   return sortBy(cards, (card) => card.score);
 }
 
-export function sortCards(
-  cards: Card[],
-  deck: Deck,
-  type: "NEW" | "OLD",
-): Card[] {
-  let output: Card[] = [];
-
+export function sortCards(cards: Card[], deck: Deck, areNew?: boolean): Card[] {
   let sortByFunctions: Array<(arg0: Card) => number> = [];
 
   switch (
-    type === "NEW"
+    areNew
       ? deck.getSetting("newCardPrioritization")
       : deck.getSetting("oldCardPrioritization")
   ) {

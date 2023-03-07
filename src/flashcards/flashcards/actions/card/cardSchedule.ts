@@ -11,28 +11,43 @@ import {
   Timestamp,
 } from "modules/time";
 import { userDataStore } from "../../../userData/userDataStore";
+import {
+  isBelowGood,
+  isBad,
+} from "flashcards/flashcards/actions/card/cardDifficulty";
 
 /**
- * We consider a card overdue if it's due date is less than 16 hours from now
+ * We consider a card overdue if it's due date is less than 12 hours from now
  */
 export function isOverdue(card1: Card): Boolean {
-  const timestampToCompareTo = getTimeMemoized() + 16 * hours;
   const dueAt = card1.dueAt;
-  return dueAt ? dueAt < timestampToCompareTo : false;
+  return dueAt ? dueAt < getTimeMemoized() + 12 * hours : false;
+}
+
+/**
+ * "Overdue good" and "overdue bad" are labels used by the ranking algorithm to
+ * be able to alternate between showing easy (overdue good) and difficult
+ * (overdue bad) cards.
+ */
+export function isOverdueGood(card: Card): Boolean {
+  return isOverdue(card) && !wasRowVeryRecentlySeen(card);
+}
+
+export function isOverdueBad(card: Card): Boolean {
+  return (
+    isOverdue(card) &&
+    !wasRowVeryRecentlySeen(card) &&
+    (isBelowGood(card) ||
+      isUnseenSiblingOfANonGoodCard(card) ||
+      // Very bad cards seen more than 20 minutes ago are also added to the overdue pile
+      (isBad(card) && wasRowSeenMoreRecentlyThan(card, 20 * minutes)))
+  );
 }
 
 export function isUnseenSiblingOfANonGoodCard(card1: Card) {
   if (!isNewCard(card1)) return false;
   const lowest = getLowestAvailableRowScore(card1);
   return lowest && lowest < Rating.GOOD;
-}
-
-/**
- * Note that a card may be in the schedule without having been seen (it may just
- * have been postponed instead).
- */
-export function isInSchedule(card1: Card) {
-  return store.schedule.has(card1.cardId);
 }
 
 export function setSchedule(card1: Card, data: ScheduleData) {

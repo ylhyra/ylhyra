@@ -5,7 +5,6 @@ import { Deck } from "flashcards/flashcards/actions/deck/deck";
 import { SessionHistory } from "flashcards/flashcards/actions/session/sessionHistory";
 import { SessionTimer } from "flashcards/flashcards/actions/session/sessionTimer";
 import { NonEmptyArray } from "modules/typescript/arrays";
-import { CardChooser } from "flashcards/flashcards/actions/createCards/cardChooser";
 
 export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
@@ -25,7 +24,6 @@ export class Session {
 
   history!: SessionHistory;
   timer!: SessionTimer;
-  cardChooser?: CardChooser;
 
   /**
    * This counter increases for every new card the user sees.
@@ -62,7 +60,6 @@ export class Session {
     this.timer = new SessionTimer(this);
     this.history = new SessionHistory(this);
     this.userFacingError = undefined;
-    this.cardChooser = undefined;
   }
 
   areThereUnseenCardsRemaining() {
