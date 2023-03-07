@@ -18,8 +18,9 @@ export function debugSession() {
   console.groupCollapsed("See ranking");
   if (globalThis.logging) {
     /** Sort by ranking */
-    const cards: CardInSession[] = _.sortBy(session.cards, (card) =>
-      card.getRanking(),
+    const cards: CardInSession[] = _.sortBy(
+      session.cards.filter((card) => card.canBeShown),
+      (card) => card.getRanking(),
     );
     console.table(
       cards.map((card) => ({

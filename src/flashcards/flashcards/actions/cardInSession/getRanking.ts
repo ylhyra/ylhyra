@@ -74,10 +74,10 @@ export function getRanking(this: CardInSession) {
     }
   }
 
-  /** Seen rows are not relevant if they are not overdue. */
-  if (this.hasRowBeenSeenInSession() && this.queuePosition > 0) {
-    rank += 2000;
-  }
+  // /** Seen rows are not relevant if they are not overdue. */
+  // if (this.hasRowBeenSeenInSession() && this.queuePosition > 0) {
+  //   rank += 100_000;
+  // }
 
   // /**
   //  * Sees if there is a hard limit in place in

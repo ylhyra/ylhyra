@@ -16,10 +16,10 @@ import {
   isBad,
 } from "flashcards/flashcards/actions/card/cardDifficulty";
 
-/** We consider a card overdue if it's due date is less than 12 hours from now */
+/** We consider a card overdue if it's due date is less than 6 hours from now */
 export function isOverdue(card1: Card): Boolean {
   const dueAt = card1.dueAt;
-  return dueAt ? dueAt < getTimeMemoized() + 12 * hours : false;
+  return dueAt ? dueAt < getTimeMemoized() + 6 * hours : false;
 }
 
 /**

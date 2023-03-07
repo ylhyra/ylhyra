@@ -43,6 +43,7 @@ export const nextCard = action(() => {
 
   if (!session.areThereUnseenCardsRemaining()) {
     categorizeCardsAndLoadIntoSession(session.chosenDeck!);
+    console.warn("New cards loaded");
   }
 
   if (session.cards.length === 0) {
@@ -51,7 +52,7 @@ export const nextCard = action(() => {
   }
 
   const chosenCard = _.min(
-    session.cards.filter((card) => !card.done && card.canBeShown),
+    session.cards.filter((card) => card.canBeShown),
     (card) => card.getRanking(),
   );
 

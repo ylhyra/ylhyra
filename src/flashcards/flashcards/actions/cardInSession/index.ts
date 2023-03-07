@@ -17,15 +17,12 @@ export class CardInSession extends Card {
   ratingHistory: Rating[] = [];
 
   /**
-   * A card is done if the user has said he knows it well. Set by {@link rate}.
-   * A done card cannot be shown in the same session.
+   * A card is done if the user has said he knows it well. Set by {@link rate}. A
+   * done card cannot be shown in the same session.
    */
   done?: boolean;
 
-  /**
-   * Internally stores info such as "This card should be shown when the counter
-   * is at 8"
-   */
+  /** Internally stores info such as "This card should be shown when the counter is at 8" */
   #queuePositionRelativeToCounter: Session["counter"];
 
   /** Hard limit on when a card can be shown */
@@ -104,7 +101,12 @@ export class CardInSession extends Card {
   }
 
   get canBeShown(): boolean {
-    return this.cannotBeShownUntil <= 0;
+    return (
+      this.cannotBeShownUntil <= 0 &&
+      !this.done &&
+      // Testing
+      !(this.hasRowBeenSeenInSession() && this.queuePosition > 0)
+    );
   }
 
   getRanking = getRanking;
