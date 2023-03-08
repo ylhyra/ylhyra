@@ -53,3 +53,6 @@ export function saveSessionLog() {
     log("Not logged");
   }
 }
+
+// @ts-ignore
+window.sessionDone = sessionDone;

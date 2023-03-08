@@ -31,5 +31,6 @@ export function showIn(
   }
   if (minInterval) {
     this.queuePosition = Math.max(this.queuePosition, minInterval);
+    this.cannotBeShownUntil = minInterval;
   }
 }

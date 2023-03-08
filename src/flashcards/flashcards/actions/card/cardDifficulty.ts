@@ -4,24 +4,10 @@ import { SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY } from "flashcar
 import { Rating } from "flashcards/flashcards/types";
 
 /**
- * Used by {@link oldCards} when classifying which already-seen cards should be
- * chosen.
- *
- * TODO: card1 needs to be reworked, it currently only checks whether it has
- * been seen once and was then given an easy rating.
- */
-export function isTooEasy(card1: Card) {
-  const score = card1.score;
-  return score && score >= Rating.EASY && card1.sessionsSeen === 1;
-}
-
-/**
- * Used by {@link oldCards} when classifying which already-seen cards should be
- * chosen.
+ * Used by {@link oldCards} when classifying which already-seen cards should be chosen.
  *
  * A card will have score of "1" (Rating.BAD) if it was rated as bad the last
- * time it was seen.
- * See {@link Score}.
+ * time it was seen. See {@link Score}.
  */
 export function isBad(card1: Card) {
   return card1.score === Rating.BAD;

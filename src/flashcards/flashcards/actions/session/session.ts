@@ -10,8 +10,8 @@ export const MAX_SECONDS_TO_COUNT_PER_ITEM = 10;
 export const EACH_SESSION_LASTS_X_MINUTES = 3;
 
 /**
- * A session is the currently ongoing flashcard game.
- * There can only be one ongoing session at a time.
+ * A session is the currently ongoing flashcard game. There can only be one
+ * ongoing session at a time.
  */
 export class Session {
   cards!: CardInSession[];
@@ -26,9 +26,9 @@ export class Session {
   timer!: SessionTimer;
 
   /**
-   * This counter increases for every new card the user sees.
-   * It is used for scheduling cards within the session, e.g.
-   * "This card should be shown when the counter is at 8".
+   * This counter increases for every new card the user sees. It is used for
+   * scheduling cards within the session, e.g. "This card should be shown when
+   * the counter is at 8".
    *
    * The counter value for the first card will be "1".
    *

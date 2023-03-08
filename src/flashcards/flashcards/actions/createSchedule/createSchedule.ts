@@ -16,7 +16,6 @@ export const SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY = 0.4;
 
 /** Multiplies the last dueInDays by this factor. */
 const GOOD_MULTIPLIER = 2;
-const EASY_MULTIPLIER = 4;
 
 const BAD_INITIAL_DUE_IN_DAYS = 0.5;
 const GOOD_INITIAL_DUE_IN_DAYS = 5;
@@ -67,7 +66,7 @@ export function createSchedule() {
         score = clamp(
           score + SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY,
           Rating.BAD,
-          Rating.EASY + 1,
+          4,
         );
       }
     }
@@ -75,30 +74,28 @@ export function createSchedule() {
     /** Calculate dueInDays */
     if (anyBad) {
       dueInDays = BAD_INITIAL_DUE_IN_DAYS;
-    } else if (isNew) {
-      if (avgRating === Rating.EASY) {
-        dueInDays = 40;
-      } else if (avgRating === Rating.GOOD) {
-        dueInDays = GOOD_INITIAL_DUE_IN_DAYS;
-      }
     } else {
-      const multiplier =
-        avgRating === Rating.EASY ? EASY_MULTIPLIER : GOOD_MULTIPLIER;
-      /** If we showed the item far in advance of the scheduled due date */
-      const actualIntervalInDays = msToDays(getTime() - lastSeen!);
-      if (actualIntervalInDays < lastIntervalInDays) {
-        dueInDays = Math.max(
-          actualIntervalInDays * multiplier,
-          lastIntervalInDays,
-        );
-
-        log(
-          `${printWord(card)} - given ${dueInDays} instead of ${
-            (lastIntervalInDays || 1) * multiplier
-          }`,
-        );
+      /** Good */
+      if (isNew) {
+        dueInDays = GOOD_INITIAL_DUE_IN_DAYS;
       } else {
-        dueInDays = (lastIntervalInDays || 1) * multiplier;
+        const multiplier = GOOD_MULTIPLIER;
+        /** If we showed the item far in advance of the scheduled due date */
+        const actualIntervalInDays = msToDays(getTime() - lastSeen!);
+        if (actualIntervalInDays < lastIntervalInDays) {
+          dueInDays = Math.max(
+            actualIntervalInDays * multiplier,
+            lastIntervalInDays,
+          );
+
+          log(
+            `${printWord(card)} - given ${dueInDays} instead of ${
+              (lastIntervalInDays || 1) * multiplier
+            }`,
+          );
+        } else {
+          dueInDays = (lastIntervalInDays || 1) * multiplier;
+        }
       }
     }
 

@@ -1,4 +1,4 @@
-import { store } from 'flashcards/store';
+import { store } from "flashcards/store";
 import { isDev } from "modules/isDev";
 import { isNewRowThatHasNotBeenSeenInSession } from "flashcards/flashcards/actions/card/cardSchedule";
 import { nextCard } from "flashcards/flashcards/actions/session/nextCard";
@@ -273,12 +273,6 @@ export const CardElement = observer(() => {
               className="button-good"
               label="Good"
               rating={Rating.GOOD}
-              ui={ui}
-            />
-            <AnswerButton
-              className="button-easy"
-              label="Easy"
-              rating={Rating.EASY}
               ui={ui}
             />
           </div>

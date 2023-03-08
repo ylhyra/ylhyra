@@ -16,6 +16,20 @@ export function startNextDeck() {
     )
     .sort((a, b) => a.lastSession - b.lastSession)[0];
 
+  // currentDeck = store.session.chosenDeck;
+  // console.log(
+  //   [...store.decks.values()]
+  //     // Only show decks where there are some overdue or new cards
+  //     .filter(
+  //       (deck) =>
+  //         !deck.settings.deleted &&
+  //         deck !== currentDeck &&
+  //         deck.getSetting("includeInAutomaticDeckSwitching") &&
+  //         deck.hasCardsToShow,
+  //     )
+  //     .sort((a, b) => a.lastSession - b.lastSession),
+  // );
+
   if (!nextDeck || !currentDeck.hasCardsToShow) {
     store.session.reset();
     void exitVocabularyScreen();

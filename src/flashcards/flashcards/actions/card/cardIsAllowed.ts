@@ -1,6 +1,5 @@
-import { store } from 'flashcards/store';
+import { store } from "flashcards/store";
 import { Card } from "flashcards/flashcards/actions/card/card";
-import { hasDependenciesInCommonWith } from "flashcards/flashcards/actions/card/cardDependencies";
 import { isInSession } from "flashcards/flashcards/actions/card/functions";
 
 /**
@@ -19,22 +18,22 @@ export function isAllowed(card: Card): boolean {
     return false;
   }
 
-  /**
-   * In case we're adding cards to an already ongoing session, ignore cards that
-   * are similar to a card the user has just seen.
-   *
-   * TODO!! This should not prevent these cards from being chosen, just give
-   * them a lower score!
-   */
-  if (
-    store.session.history.cardHistory.slice(0, 3).some(
-      (card) =>
-        card.rowId === card.rowId || hasDependenciesInCommonWith(card, card),
-      // || isTextSimilarTo(id, card)
-    )
-  ) {
-    return false;
-  }
+  // /**
+  //  * In case we're adding cards to an already ongoing session, ignore cards that
+  //  * are similar to a card the user has just seen.
+  //  *
+  //  * TODO!! This should not prevent these cards from being chosen, just give
+  //  * them a lower score!
+  //  */
+  // if (
+  //   store.session.history.cardHistory.slice(0, 3).some(
+  //     (card) =>
+  //       card.rowId === card.rowId || hasDependenciesInCommonWith(card, card),
+  //     // || isTextSimilarTo(id, card)
+  //   )
+  // ) {
+  //   return false;
+  // }
 
   return true;
 }

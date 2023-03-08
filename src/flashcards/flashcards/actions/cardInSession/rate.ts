@@ -31,8 +31,10 @@ export function rate(this: CardInSession, rating: Rating): void {
     card.done = false;
     addRelatedCardsToSession(card);
 
-    /* User is not managing to learn this word in this session,
-       so just stop showing it for now */
+    /**
+     * User is not managing to learn this word in this session, so just stop
+     * showing it for now
+     */
     if (timesSeenBeforeInSession >= 6) {
       card.done = true;
       console.warn("Card seen many times, not showing it again this session");
@@ -48,9 +50,6 @@ export function rate(this: CardInSession, rating: Rating): void {
       interval = 200;
       card.done = true;
     }
-  } else if (rating === Rating.EASY) {
-    interval = 800;
-    card.done = true;
   }
 
   card.showIn({ interval: interval! });

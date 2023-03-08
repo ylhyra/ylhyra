@@ -1,6 +1,6 @@
 import { store } from "flashcards/store";
 import { CardInSession } from "flashcards/flashcards/actions/cardInSession";
-import { debugSession } from "flashcards/flashcards/actions/session/functions/debugging";
+import { debugCardRanking } from "flashcards/flashcards/actions/session/functions/debugging";
 import { saveOngoingSessionInLocalStorage } from "flashcards/flashcards/actions/session/functions/saveOngoingSessionInLocalStorage";
 import { sessionDone } from "flashcards/flashcards/actions/session/sessionDone";
 import { action } from "mobx";
@@ -55,6 +55,7 @@ export const nextCard = action(() => {
     session.cards.filter((card) => card.canBeShown),
     (card) => card.getRanking(),
   );
+  debugCardRanking();
 
   if (chosenCard instanceof CardInSession) {
     if (isNewRow(chosenCard)) {
@@ -74,5 +75,4 @@ export const nextCard = action(() => {
   }
 
   saveOngoingSessionInLocalStorage();
-  debugSession();
 });

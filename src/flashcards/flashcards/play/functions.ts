@@ -18,19 +18,15 @@ export const useKeyboardListener = (cardUi: CardUI) => {
 
       Digit1: Rating.BAD,
       Digit2: Rating.GOOD,
-      Digit3: Rating.EASY,
 
       KeyJ: Rating.BAD,
       KeyK: Rating.GOOD,
-      KeyL: Rating.EASY,
 
       KeyA: Rating.BAD,
       KeyS: Rating.GOOD,
-      KeyD: Rating.EASY,
 
       ArrowLeft: Rating.BAD,
       ArrowDown: Rating.GOOD,
-      ArrowRight: Rating.EASY,
     };
 
     if (e.code in keyToResponse) {
