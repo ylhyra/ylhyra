@@ -87,8 +87,6 @@ export function createSchedule() {
       /** If we showed the item far in advance of the scheduled due date */
       const actualIntervalInDays = msToDays(getTime() - lastSeen!);
       if (actualIntervalInDays < lastIntervalInDays) {
-        dueInDays = (lastIntervalInDays || 1) * multiplier;
-      } else {
         dueInDays = Math.max(
           actualIntervalInDays * multiplier,
           lastIntervalInDays,
@@ -99,24 +97,27 @@ export function createSchedule() {
             (lastIntervalInDays || 1) * multiplier
           }`,
         );
+      } else {
+        dueInDays = (lastIntervalInDays || 1) * multiplier;
       }
     }
 
     /**
-     * If any sibling cards got a bad rating in _this_ session, then:
-     *
-     * - This card's score is set to "1.4".
-     * - It is scheduled to be shown no later than in three days.
-     *
-     * TODO: DOESN'T SEEM TO ACTUALLY WORK!!!
+     * If any sibling cards got a bad rating in _this_ session, then it gets the
+     * same score and due-in-days as last time.
      */
     if (
-      score >= Rating.GOOD &&
+      avgRating >= Rating.GOOD &&
       didAnySiblingCardsGetABadRatingInThisSession(card)
     ) {
-      dueInDays = Math.min(3, dueInDays);
-      score =
-        Rating.BAD + SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY;
+      if (isNew) {
+        dueInDays = Math.min(3, dueInDays);
+        score =
+          Rating.BAD + SCORE_IS_INCREMENTED_BY_HOW_MUCH_IF_RATED_GOOD_OR_EASY;
+      } else {
+        dueInDays = lastIntervalInDays;
+        score = prevScore;
+      }
       log(
         `${printWord(
           card,

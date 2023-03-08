@@ -9,27 +9,23 @@ import { roundMsToSec, roundToInterval } from "modules/math";
 import { getTime } from "modules/time";
 import shortid from "shortid";
 import { userDataStore } from "../../../userData/userDataStore";
+import { startNextDeck } from "flashcards/flashcards/actions/session/functions/startNextDeck";
 
-/**
- * Called either when the user exits or when no time is remaining (in
- * {@link nextCard})
- */
-export const sessionDone = action((options: any = {}): void => {
+/** Called either when the user exits or when no time is remaining (in {@link nextCard}) */
+export const sessionDone = action((options?: { restart?: boolean }): void => {
   const session = store.session;
   createSchedule();
   clearOngoingSessionInLocalStorage();
-  if (!options.isInitializing) {
-    void exitVocabularyScreen();
-  }
   saveSessionLog();
   void sync();
   // clearOverview();
-  session.reset();
 
-  // if (process.env.NODE_ENV === "development" && getDeckName()) {
-  //   goToUrl("/vocabulary/play");
-  //   initializeSession();
-  // }
+  if (options?.restart) {
+    startNextDeck();
+  } else {
+    session.reset();
+    void exitVocabularyScreen();
+  }
 });
 
 /** Records how much time the user spent so we can show an activity graph. */

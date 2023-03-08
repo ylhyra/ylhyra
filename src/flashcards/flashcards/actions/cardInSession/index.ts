@@ -25,9 +25,6 @@ export class CardInSession extends Card {
   /** Internally stores info such as "This card should be shown when the counter is at 8" */
   #queuePositionRelativeToCounter: Session["counter"];
 
-  /** Hard limit on when a card can be shown */
-  #cannotBeShownUntilRelativeToCounter?: Session["counter"];
-
   constructor(
     card: Card,
     public session: Session,
@@ -87,25 +84,9 @@ export class CardInSession extends Card {
     return this.queuePosition === 0;
   }
 
-  get cannotBeShownUntil(): IntervalRelativeToCurrentCardBeingAtZero {
-    return (
-      (this.#cannotBeShownUntilRelativeToCounter || 0) - this.session.counter
-    );
-  }
-
-  set cannotBeShownUntil(interval: IntervalRelativeToCurrentCardBeingAtZero) {
-    this.#cannotBeShownUntilRelativeToCounter = Math.max(
-      this.#cannotBeShownUntilRelativeToCounter || 0,
-      this.session.counter + interval,
-    );
-  }
-
   get canBeShown(): boolean {
     return (
-      this.cannotBeShownUntil <= 0 &&
-      !this.done &&
-      // Testing
-      !(this.hasRowBeenSeenInSession() && this.queuePosition > 0)
+      !this.done && !(this.hasRowBeenSeenInSession() && this.queuePosition > 0)
     );
   }
 

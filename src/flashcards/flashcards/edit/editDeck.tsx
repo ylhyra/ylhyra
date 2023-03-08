@@ -63,7 +63,6 @@ export interface GridElement extends ReactDataSheet.Cell<GridElement, number> {
 export const Rows = observer(({ deck }: { deck: Deck }) => {
   // @ts-ignore
   const grid: GridElement[][] = deck.rowsAsArray.map((row) => {
-    console.log(row);
     return rowFields.map((field) => {
       return {
         name: field.name,

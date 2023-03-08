@@ -11,6 +11,13 @@ import { RowId } from "flashcards/flashcards/actions/row/rowData";
 import { flattenArray } from "modules/arrays/flattenArray";
 import { store } from "../../../store";
 import { getDefaultValue } from "modules/form";
+import { Milliseconds } from "modules/time";
+import _ from "underscore";
+import { isAllowed } from "flashcards/flashcards/actions/card/cardIsAllowed";
+import {
+  isOverdue,
+  isNewRow,
+} from "flashcards/flashcards/actions/card/cardSchedule";
 
 export class Deck {
   @observable rows: Map<RowId, Row> = new Map();
@@ -57,5 +64,15 @@ export class Deck {
       return this.settings[key];
     }
     return getDefaultValue(deckDataFields, key);
+  }
+
+  get lastSession(): Milliseconds {
+    return _.max(this.cards.map((c) => c.lastSeen || 0));
+  }
+
+  get hasCardsToShow(): boolean {
+    return this.cards.some(
+      (c) => isAllowed(c) && (isOverdue(c) || isNewRow(c)),
+    );
   }
 }

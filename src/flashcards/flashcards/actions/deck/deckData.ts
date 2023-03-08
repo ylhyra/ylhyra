@@ -47,6 +47,7 @@ export type DeckData = Partial<{
   formattingStyle: undefined | "DICTIONARY";
   newCardRate: number;
   frequencyOfNewCards: number;
+  includeInAutomaticDeckSwitching: boolean;
 }>;
 
 export const deckDataFields: FieldsSetup<DeckData> = [
@@ -205,5 +206,10 @@ export const deckDataFields: FieldsSetup<DeckData> = [
   {
     name: "newCardRate",
     defaultValue: 1,
+  },
+  {
+    name: "includeInAutomaticDeckSwitching",
+    defaultValue: true,
+    type: "checkbox",
   },
 ];

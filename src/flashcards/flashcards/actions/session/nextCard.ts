@@ -32,7 +32,7 @@ export const nextCard = action(() => {
   clearTimeMemoized();
 
   if (session.timer.remainingTime === 0) {
-    return sessionDone();
+    return sessionDone({ restart: true });
   }
 
   // /* If all allowedCards are already in use, clear it */
@@ -70,7 +70,7 @@ export const nextCard = action(() => {
     session.currentCard = chosenCard;
   } else {
     console.error("No cards! Ending session");
-    return sessionDone();
+    return sessionDone({ restart: true });
   }
 
   saveOngoingSessionInLocalStorage();

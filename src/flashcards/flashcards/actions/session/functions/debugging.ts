@@ -26,7 +26,6 @@ export function debugSession() {
       cards.map((card) => ({
         Rank: Math.round(card.getRanking()),
         Queue: card.queuePosition,
-        cannotBeShownUntil: card.cannotBeShownUntil,
         word: printWord(card),
         schdl: card.dueAt ? new Date(card.dueAt) : null,
         seen: card.hasBeenSeenInSession ? "SEEN" : null,

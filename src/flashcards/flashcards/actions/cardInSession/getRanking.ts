@@ -61,12 +61,12 @@ export function getRanking(this: CardInSession) {
       }
     } else if (isOverdueGood(this)) {
       /** Try to alternate between choosing overdue good and overdue bad */
-      if (wasOverdueGoodChosenMoreRecentlyThanOverdueBad) {
-        rank += 300;
+      if (!wasOverdueGoodChosenMoreRecentlyThanOverdueBad) {
+        rank -= 300;
       }
     } else if (isOverdueBad(this)) {
-      if (!wasOverdueGoodChosenMoreRecentlyThanOverdueBad) {
-        rank += 300;
+      if (wasOverdueGoodChosenMoreRecentlyThanOverdueBad) {
+        rank -= 300;
       }
     } else {
       /** Not overdue: Showing these is last resort when no other cards are available */
