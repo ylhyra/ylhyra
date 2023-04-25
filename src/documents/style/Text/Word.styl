@@ -1,37 +1,38 @@
-.word-container 
+.word-container
   position relative
   -webkit-tap-highlight-color transparent
   -webkit-backface-visibility hidden
-  .word 
+  .word
     padding 2px 3px
     margin -3px -4px
     border 1px solid transparent
     border-radius 2px
     z-index 1000
-    &.hover 
+    &.hover
       background-color rgba(#b3daff, 0.45)
       border-color rgba(#84a3bf, 0.6)
       color black
-      .conversation .me & 
+      .conversation .me &
         background #dbebfa
         border-color #b1cfeb
-    &.audioPlaying 
+    &.audioPlaying
       color #006dc7
-      .conversation .me & 
+      .conversation .me &
         color white
-.word-container 
-  &.difficult 
+.word-container
+  &.difficult
     color #919191
   &.has-inline-translation
-    //display: inline-block
-    //position: relative;
-    display: inline-flex;
-    flex-direction: column-reverse;
-    .word
-      line-height 1
-    .inline_translation
-      line-height 1.1
-      margin-top -4px
+    display: inline-block
+    position: relative;
+  //  //display: inline-flex;
+  //  //flex-direction: column-reverse;
+  //  //.word
+  //  //  line-height 1
+  //  .inline_translation
+  //    //line-height 1.1
+  //    //margin-top -4px
+  //    display none
 
       //width 100%
       //text-align: left;
@@ -47,10 +48,10 @@
   //   background: rgba(#ff0000, 0.05)
   // }
 
-body.sentence-shown 
-  .difficult 
+body.sentence-shown
+  .difficult
     color inherit !important
-  .inline_translation 
+  .inline_translation
     display none
 
 

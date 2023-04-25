@@ -1,21 +1,25 @@
-import React, { Component, Suspense } from "react";
+import React, { Component, Suspense, useEffect } from "react";
 import NotFound from "documents/templates/404";
 import { connect } from "react-redux";
 import Render from "documents/render";
 import { isDev } from "app/app/functions/isDev";
 import { isBrowser } from "app/app/functions/isBrowser";
+import { fix_inline_translations } from "documents/read/inline_translations/InlineTranslations";
 
 const RenderEditor = React.lazy(() => import("maker/editor"));
 
 /**
  * Renders data loaded from server
  */
-class Content extends Component {
-  render() {
-    if (this.props.route.data === "404") return <NotFound />;
-    const parsed = this.props.route.data?.parsed || this.props.prerender;
+const Content = ({prerender, route}) => {
+    if (route.data === "404") return <NotFound />;
+    const parsed = route.data?.parsed || prerender;
 
-    if (!parsed) return <Loading key={this.props.route.pathname} />;
+    if (!parsed) return <Loading key={route.pathname} />;
+
+    useEffect(()=>{
+      fix_inline_translations();
+    })
 
     // import(
     //   /* webpackChunkName: "editor" */
@@ -31,7 +35,6 @@ class Content extends Component {
     } else {
       return Render({ json: parsed });
     }
-  }
 }
 export default /*React.memo*/ connect((state) => ({
   route: state.route,
