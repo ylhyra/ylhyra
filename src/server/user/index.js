@@ -3,9 +3,9 @@ import sql from "server/database/functions/SQL-template-literal";
 import request from "request";
 import { EncodeDataInHTML } from "documents/compile/functions/functions";
 import argon2 from "argon2";
+import { authenticate_user } from "server/user/authenticate";
 
 const argon_hash = argon2.hash;
-const argon_verify = argon2.verify;
 const router = require("express").Router();
 const speedLimit = require("express-slow-down")({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -31,52 +31,39 @@ router.post("/user", speedLimit, rateLimit, async (req, res) => {
   }
 
   captcha(captcha_token, res, async () => {
-    let user_id, user, did_user_exist;
-    if (type === "login") {
-      user = await get_user({ username, password, res });
-      username = user.username;
-      user_id = user.id;
-      did_user_exist = true;
-    } else if (type === "signup") {
-      /* Check if username is valid */
-      if (/@/.test(username)) {
-        return res.send({ error: "ERROR_INVALID_USERNAME" });
+    try {
+      let user_id, did_user_exist;
+      if (type === "login") {
+        const authentication = await authenticate_user({ username, password });
+        if (authentication.error) {
+          return res.send({ error: authentication.error });
+        }
+
+        username = authentication.user.username;
+        user_id = authentication.user.id;
+        did_user_exist = true;
+      } else if (type === "signup") {
+        /* Check if username is valid */
+        if (/@/.test(username)) {
+          return res.send({ error: "ERROR_INVALID_USERNAME" });
+        }
+
+        /* Check if username or email already exists */
+        const error = await check_if_user_exists({ email, username });
+        if (error) return res.send({ error });
+
+        user_id = await create_user({ email, username, password, res });
       }
 
-      /* Check if username or email already exists */
-      const error = await check_if_user_exists({ email, username });
-      if (error) return res.send({ error });
-
-      user_id = await create_user({ email, username, password, res });
+      req.session.user_id = user_id;
+      req.session.username_encoded = EncodeDataInHTML(username, true);
+      return res.send({ user_id, username, did_user_exist });
+    } catch (error) {
+      console.error(error);
+      if (!res.headersSent) return res.sendStatus(500);
     }
-
-    req.session.user_id = user_id;
-    req.session.username_encoded = EncodeDataInHTML(username, true);
-    return res.send({ user_id, username, did_user_exist });
   });
 });
-
-const get_user = async ({ username, password, res }) => {
-  return new Promise((resolve) => {
-    query(
-      sql`SELECT * FROM users WHERE
-      username = ${username} OR
-      email = ${username}
-    `,
-      (err, results) => {
-        if (results.length > 0) {
-          const row = results[0];
-          if (!argon_verify(row.password, password)) {
-            return res.send({ error: "ERROR_INCORRECT_PASSWORD" });
-          }
-          resolve(row);
-        } else {
-          return res.send({ error: "ERROR_USERNAME_DOES_NOT_EXIST" });
-        }
-      }
-    );
-  });
-};
 
 /*
   Returns "ERROR_USERNAME_EXISTS" or "ERROR_EMAIL_ALREADY_IN_USE"
