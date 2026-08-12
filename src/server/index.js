@@ -14,7 +14,7 @@ import {
   ylhyra_content_files,
 } from "server/paths_backend";
 import requestIp from "request-ip";
-import query from "server/database";
+import query, { assertDatabaseConfiguration } from "server/database";
 import { isDev } from "app/app/functions/isDev";
 import { staticCached } from "server/caching";
 
@@ -22,6 +22,14 @@ require("source-map-support").install();
 require("dotenv").config({ path: "./../.env" });
 
 const argv = argvFactory(process.argv.slice(2));
+const isOfflineCommand = [
+  "generate-links",
+  "sitemap",
+  "sort_course_chapters",
+  "prerender",
+  "import-vocabulary",
+  "generate-sentences",
+].some((command) => argv[command]);
 
 const app = express();
 require("express-ws")(app);
@@ -53,11 +61,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// TODO Þetta er til bráðabirgða og á að gerast í gagnagrunninum sjálfum, t.d. með "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
-query(`SET sql_mode = ''`, () => {});
-setTimeout(() => {
+if (!isOfflineCommand) {
+  assertDatabaseConfiguration();
+  // TODO Þetta er til bráðabirgða og á að gerast í gagnagrunninum sjálfum, t.d. með "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
   query(`SET sql_mode = ''`, () => {});
-}, 30 * 1000);
+  setTimeout(() => {
+    query(`SET sql_mode = ''`, () => {});
+  }, 30 * 1000);
+}
 
 const mainapp = express();
 mainapp.use(processed_image_url, staticCached(image_output_folder));
