@@ -47,7 +47,7 @@ export default Preserve;
   Input: Two arrays of only IDs & text.
   Ouput: Map of new IDs to preserved IDs
 */
-const DiffAndPreserveIDs = (first, second) => {
+export const DiffAndPreserveIDs = (first, second) => {
   let ids = {};
   let first_index = 0;
   let second_index = 0;
@@ -88,16 +88,27 @@ const DiffAndPreserveIDs = (first, second) => {
     ) {
       const removed = diff[part_index];
       const added = diff[part_index + 1];
-      let remaining_possible_added_values = added.value;
+      /*
+        Keep each candidate's index in the original added block. Mutating
+        `added.value` made the second fuzzy match look up the first new ID,
+        which could move a sentence translation and audio alignment to its
+        preceding sentence when two adjacent sentences were edited.
+      */
+      const remaining_possible_added_values = added.value.map(
+        (value, originalIndex) => ({ value, originalIndex })
+      );
       removed.value.forEach((removed_value, removed_index) => {
         if (remaining_possible_added_values.length < 1) return;
         const { bestMatch, bestMatchIndex } = findBestMatch(
           removed_value,
-          remaining_possible_added_values
+          remaining_possible_added_values.map(({ value }) => value)
         );
         if (bestMatch.rating < 0.3) return;
         const removed_id = unmatched_ids[`${part_index}_${removed_index}`];
-        const added_id = unmatched_ids[`${part_index + 1}_${bestMatchIndex}`];
+        const { originalIndex } =
+          remaining_possible_added_values[bestMatchIndex];
+        const added_id =
+          unmatched_ids[`${part_index + 1}_${originalIndex}`];
         ids[added_id] = removed_id;
         remaining_possible_added_values.splice(bestMatchIndex, 1);
       });

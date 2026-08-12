@@ -2,6 +2,8 @@
 
 require("app/app/functions/html2json/lib/Pure-JavaScript-HTML5-Parser/htmlparser.js");
 
+const HTMLParser = /** @type {any} */ (globalThis).HTMLParser;
+
 import error from "app/app/error";
 
 var debug = function () {};

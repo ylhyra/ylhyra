@@ -1,4 +1,5 @@
 /*eslint-disable */
+// @ts-nocheck -- legacy third-party parser exposed through a global below
 /*
  * HTML5 Parser By Sam Blowes
  *
@@ -113,7 +114,7 @@
   // Special Elements (can contain anything)
   var special = makeMap("script,style");
 
-  var HTMLParser = (this.HTMLParser = function (html, handler) {
+  var HTMLParser = (globalThis.HTMLParser = function (html, handler) {
     var index,
       chars,
       match,
@@ -248,7 +249,7 @@
     }
   });
 
-  this.HTMLtoXML = function (html) {
+  globalThis.HTMLtoXML = function (html) {
     var results = "";
 
     HTMLParser(html, {
@@ -273,7 +274,7 @@
     return results;
   };
 
-  this.HTMLtoDOM = function (html, doc) {
+  globalThis.HTMLtoDOM = function (html, doc) {
     // There can be only one of these elements
     var one = makeMap("html,head,body,title");
 

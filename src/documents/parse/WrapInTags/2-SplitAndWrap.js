@@ -91,6 +91,20 @@ export default function (
       returns = "";
     }
 
+    /*
+      A visual line break is inline sentence content, but it is not part of
+      the word that follows it. Keep it inside the sentence wrapper while
+      moving it outside the word wrapper.
+    */
+    let break_at_beginning = "";
+    let break_at_end = "";
+    if (elementName === "word") {
+      break_at_beginning = returns.match(/^(?:<br\s*\/>)+/i)?.[0] || "";
+      returns = returns.slice(break_at_beginning.length);
+      break_at_end = returns.match(/(?:<br\s*\/>)$/i)?.[0] || "";
+      returns = returns.slice(0, returns.length - break_at_end.length);
+    }
+
     // Move spaces to around any tags (shows up if surrounded by <em/> tags)
     returns = returns.replace(/(<[^<>/]+>) /g, " $1");
     returns = returns.replace(/ (<\/[^<>/]+>)/g, "$1 ");
@@ -106,11 +120,13 @@ export default function (
       Wrap in <sentence/> and <word/> tags
     */
     return (
+      break_at_beginning +
       space_at_beginning +
       `<${elementName} id="${id}" data-${elementName}-id="${id}">` +
       content +
       `</${elementName}>` +
-      space_at_end
+      space_at_end +
+      break_at_end
     );
   });
   // console.log('\n\n~~~~~~~~~~~~~~~~~~~~~~~~\n')

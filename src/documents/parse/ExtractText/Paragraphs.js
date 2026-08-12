@@ -23,7 +23,7 @@ let documents = [];
 const GroupParagraphs = ({
   input,
   paragraphFunction,
-  isTranslating,
+  isTranslating = false,
   getNewTitle,
 }) => {
   // console.log(JSON.stringify(input))
@@ -77,7 +77,7 @@ const GroupParagraphs = ({
         returns = [
           ...returns,
           ...(isTranslating
-            ? paragraphFunction(group, documents.last) || []
+            ? paragraphFunction(group, documents[documents.length - 1]) || []
             : group),
           GroupParagraphs({
             input: element,
@@ -98,7 +98,7 @@ const GroupParagraphs = ({
       child: [
         ...returns,
         ...(isTranslating
-          ? paragraphFunction(group, documents.last) || []
+          ? paragraphFunction(group, documents[documents.length - 1]) || []
           : group),
       ],
     };
@@ -159,6 +159,7 @@ export const isInlineElement = (tag) => {
     "bdo",
     "map",
     "object",
+    "br",
     "q",
     "sub",
     "sup",
