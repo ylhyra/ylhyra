@@ -36,7 +36,7 @@ export const PercentageKnown = (card_ids) => {
   let percentage;
   if (card_ids.length < 200) {
     percentage = Math.ceil(ratio * 100);
-    if (percentage === 100 && done !== remaining) percentage = 99;
+    if (percentage === 100 && remaining > 0) percentage = 99;
   } else {
     percentage = (ratio * 100).toFixed(2);
   }
